@@ -1,0 +1,508 @@
+@import "./variable.scss";
+
+.main-dashboard {
+  height: 100%;
+  overflow: auto;
+  position: relative;
+
+  .summary-information {
+    margin-top: 42px;
+    margin-bottom: 42px;
+    display: grid;
+    grid-gap: 24px;
+
+    .summary-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 36px 40px;
+      background: #ffffff;
+      border: 0.5px solid #f2f2f2;
+      box-sizing: border-box;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+      border-radius: 11px;
+
+      p {
+        font-family: Noto Serif JP;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 38px;
+        line-height: 140%;
+      }
+
+      div {
+        display: flex;
+        align-items: center;
+        margin-top: 8px;
+
+        img {
+          margin-right: 11px;
+        }
+
+        span {
+          white-space: nowrap;
+          font-family: Source Sans Pro;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 16px;
+          line-height: 130%;
+        }
+      }
+    }
+  }
+
+  .upcoming-appointments,
+  .past-lessons {
+    margin-top: 42px;
+    height: auto;
+  }
+}
+
+.upcoming-appointments,
+// .student-list-appointments-wrapper,
+.student-subscriptions-wrapper,
+.past-lessons,
+// .student-dashboard,
+.student-list,
+.manage-appointments,
+.appointment-calendar,
+.group-lessons-layout,
+.favourite-tutors-layout,
+.schedule-lesson-layout,
+.packages-layout,
+.submit-request-layout,
+.admin-main-layout,
+.tutor-list-layout,
+.student-list-layout,
+.availability-layout,
+.payment-page-layout,
+.view-messages {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+// Responsive Style
+@media screen and (max-width: 600px) {
+  .summary-information {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media screen and (min-width: 601px) {
+  .summary-information {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.student-dashboard {
+  .sub-title {
+    font-family: Noto Serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 22px;
+    margin-top: 16px;
+    margin-bottom: 28.87px;
+    &:not(:first-child) {
+      margin-top: 41px;
+    }
+  }
+  .schdule-lesson-select {
+    display: flex;
+    gap: 17px;
+    margin-top: 29px;
+
+    @media screen and (max-width: 600px) {
+      flex-direction: column;
+    }
+    .page-card {
+      background: #ffffff;
+      border: 0.5px solid #f2f2f2;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+      border-radius: 16px;
+      padding: 31px 57px 26px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      div {
+        position: relative;
+      }
+      p {
+        font-family: Noto Serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+      label {
+        position: absolute;
+        font-family: Source Sans Pro;
+        font-style: italic;
+        font-weight: bold;
+        font-size: 20px;
+        color: white;
+        white-space: nowrap;
+        left: 50%;
+        top: 48px;
+        transform: translate(-50%, -50%);
+      }
+      img {
+        margin-bottom: 31px;
+      }
+      .enter-btn {
+        color: white;
+        background-color: $color-magenta;
+        border-radius: 9px;
+        border: none;
+        padding: 13px 18px;
+        font-family: Source Sans Pro;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 18px;
+        width: 220px;
+        text-align: center;
+        text-decoration: none;
+      }
+    }
+  }
+  .lesson-feedback-wrapper {
+    background: #ffffff;
+    border: 0.5px solid #f2f2f2;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+    border-radius: 16px;
+    padding: 28px 53px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 36px;
+    .image {
+      padding-right: 53px;
+      border-right: 0.7px solid #efefef;
+    }
+    p {
+      font-family: Source Sans Pro;
+      font-style: normal;
+      font-weight: 300;
+      font-size: 14px;
+    }
+    .btn-feedback {
+      background: $color-magenta;
+      border-radius: 9px;
+      font-family: Source Sans Pro;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 15px;
+      color: #ffffff;
+      padding: 15px 26px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 51px;
+      width: 130px;
+      flex: 0 0 130px;
+      gap: 11px;
+      &:active {
+        opacity: 0.5;
+      }
+    }
+    @media screen and (max-width: 600px) {
+      flex-direction: column;
+      .image {
+        border: none;
+        border-bottom: 0.7px solid #efefef;
+        padding: 0;
+      }
+      .btn-feedback {
+        flex: 0 0 51px;
+      }
+    }
+  }
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 21px;
+    .card {
+      background: #ffffff;
+      border: 0.5px solid #f2f2f2;
+      box-sizing: border-box;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+      border-radius: 16px;
+      width: 202px;
+      padding: 30px 20px 20px;
+      text-align: center;
+      .checked {
+        width: 59px;
+        height: 59px;
+        margin-bottom: 10px;
+      }
+      .title {
+        display: inline-block;
+        box-sizing: border-box;
+        margin-bottom: 8px;
+        font-family: Source Sans Pro;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 130%;
+      }
+      .duration {
+        font-family: Source Sans Pro;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        color: #000000;
+        margin-bottom: 17px;
+      }
+      .start_date {
+        font-family: Source Sans Pro;
+        font-style: italic;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 18px;
+        color: #b2b2b2;
+        margin-bottom: 6px;
+      }
+      .topic-level {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        div {
+          display: flex;
+          flex-direction: column;
+          gap: 7px;
+          span:first-child {
+            font-family: Source Sans Pro;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 12px;
+            text-transform: uppercase;
+          }
+          span:last-child {
+            font-family: Source Sans Pro;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+          }
+        }
+        .divider {
+          width: 0;
+          height: 32px;
+          border-left: 0.5px solid #e1e1e1;
+        }
+      }
+      .tutor {
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 0.5px solid #e1e1e1;
+        padding-top: 15px;
+
+        & > div:first-child {
+          font-family: Source Sans Pro;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 12px;
+          line-height: 15px;
+          color: $color-darker-grey;
+          text-align: left;
+          margin-bottom: 5px;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          & > span:last-child {
+            font-family: Source Sans Pro;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 18px;
+            color: black;
+            text-decoration: underline;
+          }
+        }
+        img,
+        .no-avatar {
+          width: 29px;
+          height: 29px;
+          border-radius: 50%;
+          padding: 0;
+        }
+        .no-avatar {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid #b2b2b2;
+          span {
+            font-family: Source Sans Pro;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 15px;
+            line-height: 15px;
+            color: #b2b2b2;
+          }
+        }
+      }
+      .btn-write-review {
+        background: #60b2cc;
+        border-radius: 9px;
+        margin: auto;
+        font-family: Source Sans Pro;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 15px;
+        color: #ffffff;
+        padding: 15px 26px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 51px;
+        width: 100%;
+        margin-top: 20px;
+        gap: 11px;
+        &:active {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}
+.submit-request-layout {
+  & > p {
+    font-family: Source Sans Pro;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    margin-top: 14px;
+    margin-bottom: 28px;
+  }
+  .form-wrapper {
+    background: #ffffff;
+    border: 0.5px solid #f2f2f2;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+    border-radius: 16px;
+    padding: 24px 26px 19px;
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+      label {
+        margin-bottom: 14px;
+      }
+      input,
+      textarea {
+        background: #fdfdfd;
+        border: 0.5px solid #f2f2f2;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+        border-radius: 5px;
+        padding: 21px 36px;
+        color: black;
+        font-family: Source Sans Pro;
+        font-style: italic;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 20px;
+        &::placeholder {
+          color: black;
+          font-family: Source Sans Pro;
+          font-style: italic;
+          font-weight: 300;
+          font-size: 16px;
+          line-height: 30px;
+        }
+      }
+      .drag-drop {
+        position: relative;
+        height: 157px;
+        border: 1.1px dashed #c4c4c4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #b2b2b2;
+        cursor: pointer;
+        input {
+          opacity: 0;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          left: 0;
+          top: 0;
+        }
+        span:first-of-type {
+          font-family: Source Sans Pro;
+          font-style: normal;
+          font-weight: 300;
+          font-size: 14px;
+          line-height: 130%;
+        }
+        span:nth-of-type(2) {
+          font-family: Source Sans Pro;
+          font-style: normal;
+          font-weight: 300;
+          font-size: 12px;
+          line-height: 130%;
+        }
+        span:last-of-type {
+          font-family: Source Sans Pro;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          border-bottom: 0.7px solid #c4c4c4;
+          line-height: 130%;
+          strong {
+            padding-bottom: 5px;
+          }
+        }
+      }
+    }
+    .file-info-submit {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      & > div:first-child {
+        display: flex;
+        flex-direction: column;
+        span {
+          font-family: Source Sans Pro;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 12px;
+          line-height: 130%;
+          color: #42413d;
+        }
+      }
+      .btn-submit {
+        background: $color-magenta;
+        border-radius: 9px;
+        font-family: Source Sans Pro;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 15px;
+        color: #ffffff;
+        padding: 15px 26px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 51px;
+        width: 127px;
+        gap: 11px;
+        &:active {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}

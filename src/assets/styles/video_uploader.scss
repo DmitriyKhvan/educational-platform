@@ -1,0 +1,76 @@
+@import "./variable.scss";
+
+.upload-video {
+  margin-top: 23px;
+  p {
+    text-align: center;
+    a {
+      font-family: Source Sans Pro;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 130%;
+      text-align: center;
+      &:visited,
+      &:active {
+        color: black;
+      }
+    }
+  }
+  .btn {
+    white-space: nowrap;
+    margin: 30px auto 36px;
+    background: $color-magenta;
+    font-family: Source Sans Pro;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    box-shadow: 0px 0px 15px rgba(106, 28, 234, 0.1);
+    border-radius: 9px;
+    width: 100px;
+    color: #ffffff;
+    cursor: pointer;
+    min-width: 74px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:active {
+      opacity: 0.5;
+    }
+  }
+  .drag-drop {
+    position: relative;
+    height: 157px;
+    border: 1.1px dashed #c4c4c4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #b2b2b2;
+    cursor: pointer;
+    input {
+      opacity: 0;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+    }
+    span:first-child {
+      font-family: Source Sans Pro;
+      font-style: normal;
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 130%;
+    }
+    span:last-child {
+      font-family: Source Sans Pro;
+      font-style: normal;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 130%;
+    }
+  }
+}
