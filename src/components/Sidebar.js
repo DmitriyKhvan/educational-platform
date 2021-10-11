@@ -1,42 +1,47 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, Link, useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout } from '../actions/auth'
-import Icon1 from '../assets/images/sidebar/icon1.svg'
-import Icon2 from '../assets/images/sidebar/icon2.svg'
-import Icon3 from '../assets/images/sidebar/icon3.svg'
+import Icon1 from '../assets/images/sidebar/purple_dashboard_icon.svg'
+import Icon2 from '../assets/images/sidebar/purple_lesson_icon.svg'
 import Icon4 from '../assets/images/sidebar/icon4.svg'
-import Icon5 from '../assets/images/sidebar/icon5.svg'
-import Icon9 from '../assets/images/sidebar/icon9.svg'
-import Icon10 from '../assets/images/sidebar/icon10.svg'
-import Icon11 from '../assets/images/sidebar/icon11.svg'
+import Icon5 from '../assets/images/sidebar/purple_message_icon.svg'
+import Icon9 from '../assets/images/sidebar/purple_tutor_icon.svg'
+import Icon11 from '../assets/images/sidebar/purple_subscription_icon.svg'
 import Icon12 from '../assets/images/sidebar/icon12.svg'
-import Icon13 from '../assets/images/sidebar/icon13.svg'
-import Icon14 from '../assets/images/sidebar/icon14.svg'
-import Icon15 from '../assets/images/sidebar/icon15.svg'
 import Icon16 from '../assets/images/sidebar/icon16.svg'
 import Icon17 from '../assets/images/sidebar/icon17.svg'
 import Icon18 from '../assets/images/sidebar/icon18.svg'
 import Icon19 from '../assets/images/sidebar/icon19.svg'
-import ActiveIcon1 from '../assets/images/sidebar/active1.svg'
-import ActiveIcon2 from '../assets/images/sidebar/active2.svg'
-import ActiveIcon3 from '../assets/images/sidebar/active3.svg'
+
+import ActiveIcon1 from '../assets/images/sidebar/white_dashboard_icon.svg'
+import ActiveIcon2 from '../assets/images/sidebar/white_lesson_icon.svg'
 import ActiveIcon4 from '../assets/images/sidebar/active4.svg'
-import ActiveIcon5 from '../assets/images/sidebar/active5.svg'
-import ActiveIcon9 from '../assets/images/sidebar/active9.svg'
-import ActiveIcon10 from '../assets/images/sidebar/active10.svg'
-import ActiveIcon11 from '../assets/images/sidebar/active11.svg'
+import ActiveIcon5 from '../assets/images/sidebar/white_message_icon.svg'
+import ActiveIcon9 from '../assets/images/sidebar/white_tutor_icon.svg'
+import ActiveIcon11 from '../assets/images/sidebar/white_subscription_icon.svg'
 import ActiveIcon12 from '../assets/images/sidebar/active12.svg'
-import ActiveIcon13 from '../assets/images/sidebar/active13.svg'
-import ActiveIcon14 from '../assets/images/sidebar/active14.svg'
-import ActiveIcon15 from '../assets/images/sidebar/active15.svg'
 import ActiveIcon16 from '../assets/images/sidebar/active16.svg'
 import ActiveIcon17 from '../assets/images/sidebar/active17.svg'
 import ActiveIcon18 from '../assets/images/sidebar/active18.svg'
 import ActiveIcon19 from '../assets/images/sidebar/active19.svg'
 import CloseIcon from '../assets/images/close.svg'
 import LogoutImg from '../assets/images/logout_icon.svg'
-import { useTranslation } from 'react-i18next'
+import Logo from '../assets/images/logo.png'
+
+import whiteClassMaterialIcon from '../assets/images/sidebar/white_class_material_icon.svg'
+import purpleClassMaterialIcon from '../assets/images/sidebar/purple_class_material_icon.svg'
+
+import whiteHomeworklIcon from '../assets/images/sidebar/white_homework_icon.svg'
+import purpleHomeworklIcon from '../assets/images/sidebar/purple_homework_icon.svg'
+
+import whiteSupportlIcon from '../assets/images/sidebar/white_support_icon.svg'
+import purpleSupportlIcon from '../assets/images/sidebar/purple_support_icon.svg'
+import whiteFeedbacklIcon from '../assets/images/sidebar/white_feedback_icon.svg'
+import purpleFeedbacklIcon from '../assets/images/sidebar/purple_feedback_icon.svg'
+import whiteRewardlIcon from '../assets/images/sidebar/white_reward_icon.svg'
+import purpleRewardlIcon from '../assets/images/sidebar/purple_reward_icon.svg'
 
 const tutorNavLinks = [
   {
@@ -88,7 +93,7 @@ const tutorNavLinks = [
 
 const studentNavLinks = [
   {
-    label: 'manage_lessons',
+    label: 'dashboard',
     link: '/student/manage-lessons',
     icon: Icon1,
     activeIcon: ActiveIcon1
@@ -99,7 +104,12 @@ const studentNavLinks = [
     icon: Icon2,
     activeIcon: ActiveIcon2
   },
-  // { label: 'past_lessons', link: '/student/past-lessons', icon: Icon3, activeIcon: ActiveIcon3 },
+  {
+    label: 'class_materials',
+    link: '/student/class-materials',
+    icon: purpleClassMaterialIcon,
+    activeIcon: whiteClassMaterialIcon
+  },
   {
     label: 'messages',
     link: '/messages',
@@ -112,17 +122,37 @@ const studentNavLinks = [
     icon: Icon9,
     activeIcon: ActiveIcon9
   },
-  // { label: 'class_materials', link: '/student/class-materials', icon: Icon10, activeIcon: ActiveIcon10 },
+  // {
+  //   label: 'sidebar_homework_title',
+  //   link: '/',
+  //   icon: purpleHomeworklIcon,
+  //   activeIcon: whiteHomeworklIcon
+  // },
   {
     label: 'packages',
     link: '/student/packages',
     icon: Icon11,
     activeIcon: ActiveIcon11
+  },
+  { divider: true },
+  {
+    label: 'support',
+    link: '/support',
+    icon: purpleSupportlIcon,
+    activeIcon: whiteSupportlIcon
+  },
+  {
+    label: 'feedback',
+    link: '/feedback',
+    icon: purpleFeedbacklIcon,
+    activeIcon: whiteFeedbacklIcon
+  },
+  {
+    label: 'faq',
+    link: '/faq',
+    icon: purpleRewardlIcon,
+    activeIcon: whiteRewardlIcon
   }
-  // { divider: true },
-  // { label: 'support', link: '/support', icon: Icon13, activeIcon: ActiveIcon13 },
-  // { label: 'feedback', link: '/feedback', icon: Icon14, activeIcon: ActiveIcon14 },
-  // { label: 'faq', link: '/faq', icon: Icon15, activeIcon: ActiveIcon15 }
 ]
 
 const adminNavLinks = [
@@ -155,7 +185,7 @@ const adminNavLinks = [
 const Sidebar = () => {
   let location = useLocation()
   const history = useHistory()
-  const [t, i18n] = useTranslation('translation')
+  const [t] = useTranslation('translation')
   const dispatch = useDispatch()
   const isShowSidebar = useSelector(state => state.settings.isShowSidebar)
   const user = useSelector(state => state.users.user)
@@ -200,8 +230,7 @@ const Sidebar = () => {
   return (
     <>
       <div className="side-bar desktop-version">
-        <h4 className="main-title">{t('navigation')}</h4>
-        <div className="divider" />
+        <img src={Logo} className="sidebar-logo" alt="" />
         <div className="link-list">
           {navLinks &&
             navLinks.map((item, index) =>

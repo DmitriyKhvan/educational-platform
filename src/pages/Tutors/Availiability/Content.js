@@ -573,7 +573,7 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
             {t('pst_available_tutoring_slots')}
           </p>
           <p>
-            <strong>{t('est_tutors')}</strong>{' '}
+            <strong>{t('debate')}</strong>{' '}
             {t('est_available_tutoring_slots')}
           </p>
           <br />

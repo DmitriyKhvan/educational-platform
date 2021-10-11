@@ -1,4 +1,34 @@
-@import "./variable.scss";
+@import './variable.scss';
+@import url(http://fonts.googleapis.com/css?family=Inter,100,200,300,400,500,600,700,800,900);
+
+.weekly-schedule-subtitle {
+  margin: 0px 0px 30px 0px;
+}
+
+.grey-border {
+  border: 0.5px solid $color-darker-grey !important;
+}
+
+.enter-btn {
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
+  border-radius: 5px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #261a45;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  text-decoration: none;
+  margin: 5px 10px;
+  flex-wrap: nowrap;
+}
 
 .main-dashboard {
   height: 100%;
@@ -96,7 +126,90 @@
   }
 }
 
+.weekly-schedule {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 30px;
+  line-height: 36px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.6px;
+  color: #000000;
+  margin: 10px 0px;
+}
+
+.medium-card {
+  width: 500px;
+}
+
+.outer {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+
+.inner {
+  margin: auto;
+}
+
+.max-cta-card {
+  height: 235px;
+}
+
+.page-card {
+  border: 0.5px solid #f2f2f2;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+  border-radius: 16px;
+  padding: 31px 57px 26px;
+  display: flex;
+  // align-items: center;
+  flex-direction: column;
+  // width: 100%;
+  div {
+    position: relative;
+  }
+  .vertical-align-text {
+    padding: 50px 10px;
+  }
+  .vertical-align-card {
+    padding: 25px 10px;
+  }
+  // p {
+  //   font-family: Noto Serif;
+  //   font-style: normal;
+  //   font-weight: 500;
+  //   font-size: 16px;
+  //   margin-bottom: 20px;
+  //   color: white;
+  // }
+
+  .title {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: -0.6px;
+  }
+  label {
+    position: absolute;
+    font-family: Source Sans Pro;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+    white-space: nowrap;
+    left: 50%;
+    top: 48px;
+    transform: translate(-50%, -50%);
+  }
+  img {
+    margin-bottom: 31px;
+  }
+}
 .student-dashboard {
+  border: 1px solid rgba(0, 0, 0, 0.1);
   .sub-title {
     font-family: Noto Serif;
     font-style: normal;
@@ -109,6 +222,57 @@
       margin-top: 41px;
     }
   }
+  .small-card {
+    width: 300px;
+  }
+  .page-card {
+    border: 0.5px solid #f2f2f2;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+    border-radius: 16px;
+    padding: 31px 57px 26px;
+    display: flex;
+    // align-items: center;
+    flex-direction: column;
+    // width: 100%;
+    div {
+      position: relative;
+    }
+    .vertical-align-text {
+      padding: 50px 10px;
+    }
+    p {
+      font-family: Noto Serif;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .title {
+      font-family: Inter;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 30px;
+      line-height: 36px;
+      letter-spacing: -0.6px;
+    }
+    label {
+      position: absolute;
+      font-family: Source Sans Pro;
+      font-style: italic;
+      font-weight: bold;
+      font-size: 20px;
+      color: white;
+      white-space: nowrap;
+      left: 50%;
+      top: 48px;
+      transform: translate(-50%, -50%);
+    }
+    img {
+      margin-bottom: 31px;
+    }
+  }
   .schdule-lesson-select {
     display: flex;
     gap: 17px;
@@ -117,18 +281,31 @@
     @media screen and (max-width: 600px) {
       flex-direction: column;
     }
+    .yellow {
+      background: #fdc30f;
+    }
+    .large-card {
+      width: 750px;
+      // height: 200px;
+    }
+    .small-card {
+      width: 350px;
+      margin-right: 25px;
+    }
     .page-card {
-      background: #ffffff;
       border: 0.5px solid #f2f2f2;
       box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
       border-radius: 16px;
-      padding: 31px 57px 26px;
+      padding: 25px;
       display: flex;
-      align-items: center;
+      // align-items: center;
       flex-direction: column;
-      width: 100%;
+      // width: 100%;
       div {
         position: relative;
+      }
+      .vertical-align-text {
+        padding: 50px 10px;
       }
       p {
         font-family: Noto Serif;
@@ -136,6 +313,16 @@
         font-weight: 500;
         font-size: 16px;
         margin-bottom: 20px;
+        color: white;
+      }
+
+      .title {
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 30px;
+        line-height: 36px;
+        letter-spacing: -0.6px;
       }
       label {
         position: absolute;
@@ -153,19 +340,37 @@
         margin-bottom: 31px;
       }
       .enter-btn {
-        color: white;
-        background-color: $color-magenta;
-        border-radius: 9px;
-        border: none;
-        padding: 13px 18px;
-        font-family: Source Sans Pro;
+        background: #ffffff;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
+        border-radius: 5px;
+        font-family: Inter;
         font-style: normal;
         font-weight: 600;
-        font-size: 14px;
+        font-size: 15px;
         line-height: 18px;
-        width: 220px;
-        text-align: center;
+        letter-spacing: -0.2px;
+        color: #261a45;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
         text-decoration: none;
+        margin: 5px 10px;
+        flex-wrap: nowrap;
+        // color: white;
+        // background-color: $color-magenta;
+        // border-radius: 9px;
+        // border: none;
+        // padding: 13px 18px;
+        // font-family: Source Sans Pro;
+        // font-style: normal;
+        // font-weight: 600;
+        // font-size: 14px;
+        // line-height: 18px;
+        // width: 220px;
+        // text-align: center;
+        // text-decoration: none;
       }
     }
   }

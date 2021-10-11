@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Navbar from './Navbar'
 import Sidebar from './Sidebar'
-import Footer from './Footer'
 import '../assets/styles/layout.scss'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
@@ -12,7 +11,6 @@ import { setNotification } from '../actions/notification'
 const Layout = ({ children, fluid }) => {
   const isShowSidebar = useSelector(state => state.settings.isShowSidebar)
   const stripe = loadStripe(process.env.REACT_APP_STRIPE_KEY)
-
   const authed = useSelector(state => state.auth.authenticated)
   const user = useSelector(state => state.users.user)
   const [socket, setSocket] = useState(null)
@@ -47,13 +45,15 @@ const Layout = ({ children, fluid }) => {
   return (
     <Elements stripe={stripe}>
       <div className="default-layout">
-        <Navbar />
         <div className={`content ${fluid ? 'fluid' : ''}`}>
           {isShowSidebar && <div className="mobile-fade-background" />}
           <Sidebar />
-          <div className="children-page">{children}</div>
+          <div className="children-page">
+            <Navbar />
+            <div className="">{children}</div>
+          </div>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </Elements>
   )

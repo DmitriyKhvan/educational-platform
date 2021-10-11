@@ -73,6 +73,7 @@ const Dropdown = ({
                             ? item.activeIcon
                             : item.icon
                         }
+                        
                         alt=""
                       />
                     </span>

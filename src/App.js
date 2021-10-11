@@ -71,7 +71,7 @@ function PrivateRoute({ component: Component, ...rest }) {
             to={{
               pathname: '/',
               state: { from: history.location.pathname }
-            }}
+            }} 
           />
         )
       }

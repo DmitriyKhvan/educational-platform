@@ -1,4 +1,4 @@
-@import "./variable.scss";
+@import './variable.scss';
 
 .default-layout {
   position: relative;
@@ -11,6 +11,7 @@
   z-index: 3000;
   background-color: $color-white;
   height: 80px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   .logo a img {
     width: 113px;
   }
@@ -52,14 +53,12 @@
       font-weight: 600;
       font-size: 14px;
       line-height: 18px;
-      font-family: "Source Sans Pro", sans-serif;
+      font-family: 'Source Sans Pro', sans-serif;
       text-transform: uppercase;
       text-decoration: none;
       color: #000;
     }
-  }
 
-  .right-part {
     input {
       background: $color-bg-grey2;
       box-shadow: 0px 6px 15px rgba(106, 28, 234, 0.02);
@@ -67,21 +66,48 @@
       box-sizing: border-box;
       border-radius: 5px;
       padding: 10px 0 10px 17px;
-      margin-right: 25px;
-      min-width: 259px;
+      margin: 0px 25px 0px 25px;
+      min-width: 350px;
       outline: none;
-      height: 33.39px;
+      height: 40px;
       &::placeholder {
-        font-family: Source Sans Pro;
-        font-style: italic;
+        font-family: Inter;
+        font-style: normal;
         font-weight: 300;
-        font-size: 12px;
+        font-size: 20px;
         line-height: 15px;
         display: flex;
         align-items: center;
         color: $color-black;
+        opacity: 0.3;
       }
     }
+
+  }
+
+  .right-part {
+    // input {
+    //   background: $color-bg-grey2;
+    //   box-shadow: 0px 6px 15px rgba(106, 28, 234, 0.02);
+    //   border: 0.5px solid #f2f2f2;
+    //   box-sizing: border-box;
+    //   border-radius: 5px;
+    //   padding: 10px 0 10px 17px;
+    //   margin-right: 25px;
+    //   min-width: 259px;
+    //   outline: none;
+    //   height: 33.39px;
+    //   &::placeholder {
+    //     font-family: Source Sans Pro;
+    //     font-style: italic;
+    //     font-weight: 300;
+    //     font-size: 12px;
+    //     line-height: 15px;
+    //     display: flex;
+    //     align-items: center;
+    //     color: $color-black;
+    //   }
+    // }
 
     .settings {
       margin-right: 10px;
@@ -134,7 +160,7 @@
       border: 0.5px solid #f2f2f2;
       box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.005);
       &:before {
-        content: "";
+        content: '';
         position: absolute;
         top: -20px;
         right: 20px;
@@ -142,7 +168,7 @@
         border-color: transparent #f2f2f2 #f2f2f2 transparent;
       }
       &:after {
-        content: "";
+        content: '';
         position: absolute;
         top: -18px;
         right: 21px;
@@ -188,7 +214,7 @@
       max-height: 300px;
       overflow: auto;
       &:before {
-        content: "";
+        content: '';
         position: absolute;
         top: -20px;
         right: 20px;
@@ -196,7 +222,7 @@
         border-color: transparent #f2f2f2 #f2f2f2 transparent;
       }
       &:after {
-        content: "";
+        content: '';
         position: absolute;
         top: -18px;
         right: 21px;
@@ -263,25 +289,32 @@
     overflow: auto;
   }
   @media screen and (min-width: 901px) {
+    .children-wrapper {
+      padding: 39.31px 39px 57px 43px;
+    }
     display: flex;
-    height: 85vh;
+    // height: 85vh;
     .children-page {
       width: calc(100% - 300px);
-      padding: 39.31px 39px 57px 43px;
+      // padding: 39.31px 39px 57px 43px;
     }
   }
 
   @media screen and (max-width: 900px) {
-    .children-page {
+    .children-wrapper {
       padding: 25px;
     }
   }
 
   // Sidebar Style
   .side-bar {
-    background: $color-bg-grey2;
+    // background: $color-bg-grey2;
     width: 297px;
     padding: 39px 40px 39px 30px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
 
     .main-title {
       padding-left: 10px;
@@ -330,7 +363,8 @@
         margin-bottom: 10px;
 
         &:hover {
-          background-color: white;
+          // background-color: white;
+          // color: black !important;
           box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
         }
 
@@ -343,7 +377,7 @@
 
           div {
             width: 16px;
-            margin-right: 15px;
+            margin: 0px 15px 0px 15px;
             display: flex;
 
             img {
@@ -360,19 +394,21 @@
           }
 
           span {
-            font-family: Source Sans Pro;
+            font-family: Inter;
             font-style: normal;
-            font-weight: 300;
-            font-size: 14px;
+            font-weight: 600;
+            font-size: 15px;
             line-height: 18px;
+            letter-spacing: -0.2px;
             color: black;
+            margin: 5px;
           }
         }
 
         &.active {
           a {
             span {
-              font-weight: 400;
+              color: white;
             }
           }
         }

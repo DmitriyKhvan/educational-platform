@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
+import moment from 'moment'
 import Layout from '../../components/Layout'
 import '../../assets/styles/student.scss'
 import ImgApproved from '../../assets/images/approved.svg'
 import ImgNotApproved from '../../assets/images/not_approved.svg'
 import Loader from 'react-loader-spinner'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
-
+import placeholderAvatar from '../../assets/images/placeholder_avatar.png'
 import format from 'date-fns/format'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import { ModalCancelLesson } from '../../components/ModalCancelLesson'
@@ -19,16 +19,18 @@ import {
   getAbbrName
 } from '../../constants/global'
 import { getAppointments } from '../../actions/appointment'
-import ImgGroup from '../../assets/images/group.svg'
-import ImgTutor from '../../assets/images/tutor.svg'
-import ImgCalendar from '../../assets/images/dashboard-calendar.svg'
-import ImgMessage from '../../assets/images/dashboard-message.svg'
-import ImgPackages from '../../assets/images/dashboard-packages.svg'
+import ImgCalendar from '../../assets/images/calendar_icon.svg'
+import emptyCalendar from '../../assets/images/calendar_icon_main.svg'
+import pastIcon from '../../assets/images/past_icon.svg'
+import smileIcon from '../../assets/images/smile_icon.svg'
 import AppointmentApi from '../../api/AppointmentApi'
 import NotificationManager from '../../components/NotificationManager.js'
 import FavouriteIcon from '../../components/FavouriteIcon'
 import ModalFeedback from './ModalFeedback'
-
+import CTACard from '../../components/student-dashboard/CTACard'
+import ScheduleCard from '../../components/student-dashboard/ScheduleCard'
+import whiteSubscriptionIcon from '../../assets/images/white_subscription_icon.svg'
+import whiteBookingIcon from '../../assets/images/white_book_trial_icon.svg'
 /**
  * Constants
  */
@@ -56,17 +58,17 @@ const customStyles = {
 const StudentListAppointments = () => {
   const { complete_appoint_id } = useParams()
 
-  const [t, i18n] = useTranslation('translation')
+  const [t] = useTranslation('translation')
   const [selectedOption, setSelectedOption] = useState(options[0])
   const [selectedLesson, setSelectedLesson] = useState(false)
-  const [cancelIndex, setCancelIndex] = useState(-1)
-  const [favourite, setFavourite] = useState(false)
+  const [, setCancelIndex] = useState(-1)
   const appointments = useSelector(state => state.appointment.list)
-  const loading = useSelector(state => state.appointment.loading)
   const user = useSelector(state => state.users.user)
-
+  const state = useSelector(state => state)
+  console.log({ state })
+  console.log(JSON.stringify(appointments, null, 2))
+  console.log({ user })
   const [completedAppointment, setCompleteAppointment] = useState(null)
-
   const history = useHistory()
 
   const onDismiss = () => setCompleteAppointment(null)
@@ -81,6 +83,21 @@ const StudentListAppointments = () => {
 
     setSelectedLesson(false)
   }
+
+  const callToAction = [
+    {
+      icon: whiteBookingIcon,
+      title: t('book_trial'),
+      subtitle: t('book_trial_subtitle'),
+      color: 'light-blue'
+    },
+    {
+      icon: whiteSubscriptionIcon,
+      title: t('purchase_subscription'),
+      subtitle: t('purchase_subscription_subtitle'),
+      color: 'pink'
+    }
+  ]
 
   const onComplete = apt => {
     setCompleteAppointment({
@@ -267,148 +284,168 @@ const StudentListAppointments = () => {
   return (
     <Layout>
       <div className="scroll-layout">
-        <div className="student-dashboard">
-          <h4 className="main-title">{t('main_dashboard')}</h4>
-          <div className="divider" />
-
-          <p className="sub-title">{t('schedule_lesson')}</p>
-          <div className="schdule-lesson-select">
-            <div className="page-card">
-              <img src={ImgTutor} alt="" />
-              <p>{t('one_on_one_lesson')}</p>
-              <a href="/student/schedule-lesson/select" className="enter-btn">
-                {t('schedule_1_on_1_lesson')}
-              </a>
-            </div>
-            <div className="page-card">
-              <img src={ImgGroup} alt="" />
-              <p>{t('group_lesson')}</p>
-              <a
-                href="/student/schedule-lesson/group-select"
-                className="enter-btn"
-              >
-                {t('schedule_group_lesson')}
-              </a>
-            </div>
-          </div>
-          {/* <p className="sub-title">Lesson Feedback</p>
-            <div className="lesson-feedback-wrapper">
-              <div className="image">
-                <img src={ImgFeedback} alt="" />
-              </div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesq
-                sit amet feugiat sem. Duis sit amet augue a quam tincidunt euism
-                id vitae justo. Ut non leo vitae libero pellentesque dignissim. </p>
-              <div className="btn-feedback">Give Feedback</div>
-            </div> */}
-          {/* <ModalWriteReview selectedLesson={selectedLesson} onDismiss={onDismiss} /> */}
-        </div>
-
-        <div className="student-list-appointments-wrapper">
-          <h4 className="main-title">{t('appointments')}</h4>
-          <div className="divider" />
-
-          <p className="sub-title">{t('manage_lessons')}</p>
-          <div className="filter">
-            <div>
-              {/* <p>{t('show_only')}</p>
-                <Checkbox label={t('lessons_led_by_favourite_tutors')} onChange={() => setFavourite(!favourite)} checked={favourite} /> */}
-              {t(selectedOption.value)} {t('details')}
-            </div>
-            <div>
-              <p>
-                {t('showing_n_upcoming', {
-                  n: appointments ? appointments.length : 0
-                })}
+        {appointments.length >= 0 ? (
+          <div className="flex-container">
+            <div className="student-dashboard flex-left children-wrapper">
+              <h4 className="welcome-message">
+                {t('student_dashboard_welcome', { name: user.first_name })}
+              </h4>
+              <p className="welcome-subtitle">
+                {t('student_dashboard_subtitle')}
               </p>
-              <Select
-                value={selectedOption}
-                onChange={handleChange}
-                options={options}
-                styles={customStyles}
-                placeholder={t('placeholder_sortby')}
-                classNamePrefix="custom-select"
-                className="custom-select"
-                name="sortBy"
-                rules={{ required: 'Please select an option' }}
-                getOptionValue={option => option.value}
-                getOptionLabel={option => option.label}
-              />
+              <div className="schdule-lesson-select pt-3">
+                <div className="page-card purple large-card py-5">
+                  <div className="row">
+                    <div className="col-2 ms-3">
+                      <img
+                        src={ImgCalendar}
+                        alt=""
+                        className="img-fluid large-card-icon"
+                      />
+                    </div>
+                    <div className="col-8">
+                      <p className="title mt-1">{t('schedule_card')}</p>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-6">
+                      <a
+                        href="/student/schedule-lesson/select"
+                        className="enter-btn"
+                      >
+                        {t('schedule_1_on_1_lesson')}
+                      </a>
+                    </div>
+                    <div className="col-6">
+                      <a
+                        href="/student/schedule-lesson/group-select"
+                        className="enter-btn"
+                      >
+                        {t('schedule_group_lesson')}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h1 className="pt-5">Already had a lesson?</h1>
+              <div className="flex-container schdule-lesson-select">
+                <div className="page-card pink small-card">
+                  <div className="row ms-1">
+                    <div className="col-4 mt-3 ps-3">
+                      <img
+                        src={smileIcon}
+                        alt=""
+                        className="img-fluid small-card-icon-feedback"
+                      />
+                    </div>
+                    <div className="col-7 mt-2">
+                      <h3 className="text-white">
+                        {t('student_dashboard_feedback')}
+                      </h3>
+                    </div>
+                  </div>
+                  <div className="flex-container ps-2">
+                    <div>
+                      <a
+                        href="/student/schedule-lesson/select"
+                        className="enter-btn"
+                      >
+                        {t('student_dashboard_submit_feedback_btn')}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div className="page-card light-blue small-card">
+                  <div className="row ms-1 mt-3">
+                    <div className="col-4 ps-3">
+                      <img
+                        src={pastIcon}
+                        alt=""
+                        className="img-fluid small-card-icon-progress"
+                      />
+                    </div>
+                    <div className="col-8">
+                      <h3 className="text-white">
+                        {t('student_dashboard_progress')}
+                      </h3>
+                    </div>
+                  </div>
+                  <div className="flex-container ps-2">
+                    <div>
+                      <a
+                        href="/student/schedule-lesson/select"
+                        className="enter-btn"
+                      >
+                        {t('student_dashboard_view_progress_btn')}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div className="cards">
-            {loading ? (
-              <Loader
-                className="align-center"
-                type="Audio"
-                color="#00BFFF"
-                height={50}
-                width={50}
-              />
-            ) : (
-              <>
-                {appointments && appointments.length > 0 ? (
-                  <>
-                    {appointments &&
-                      appointments.map((apt, index) => {
-                        return renderCard(apt, index)
-                      })}
-                  </>
-                ) : (
-                  <span className="no-data">{t('no_data')}</span>
-                )}
-              </>
-            )}
-          </div>
-
-          <div className="divider" />
-          <p className="sub-title">{t('dashboard_guide')}</p>
-          <div className="dashboard-cards">
-            <div className="card">
-              <div className="main">
-                <div className="content">
-                  <img src={ImgCalendar} alt="" />
-                  <p>{t('appointment_calendar')}</p>
+            <div className="student-list-appointments-wrapper flex-right children-wrapper">
+              <h4 className="weekly-schedule">{t('weekly_schedule')}</h4>
+              <h4 className="text-purple weekly-schedule-subtitle">
+                {t('student_dashboard_total_lessons', {
+                  total_lessons: appointments.length,
+                  t: appointments.length > 1 ? 's' : ''
+                })}
+              </h4>
+              <div className="flex-container">
+                <div>
+                  <Link
+                    to="/student/schedule-lesson/select"
+                    className="enter-btn"
+                  >
+                    {t('student_dashboard_edit_schedule')}
+                  </Link>
+                </div>
+                <div>
+                  <Link to="/student/lesson-calendar" className="enter-btn">
+                    {t('student_dashboard_view_all_lessons')}
+                  </Link>
                 </div>
               </div>
-              <Link to="/student/lesson-calendar" className="btn">
-                {t('show_lesson_calendar')}
-              </Link>
-            </div>
-            {/* <div className="card">
-              <div className="main">
-                <div className="content">
-                  <img src={ImgClassMaterial} alt="" />
-                  <p>Class Material</p>
-                </div>
-              </div>
-              <Link to="/student/class-materials" className="btn">Open Class Material</Link>
-            </div> */}
-            <div className="card">
-              <div className="main">
-                <div className="content">
-                  <img src={ImgMessage} alt="" />
-                  <p>Message</p>
-                </div>
-              </div>
-              <Link to="/messages" className="btn">
-                {t('write_message_tutor')}
-              </Link>
-            </div>
-            <div className="card">
-              <div className="main">
-                <div className="content">
-                  <img src={ImgPackages} alt="" />
-                  <p>{t('packages')}</p>
-                </div>
-              </div>
-              <Link to="/student/packages" className="btn">
-                {t('open_packages')}
-              </Link>
+              {appointments.map((x, i) => {
+                const date = moment(x.start_at).unix()
+                const endEpoch = date + x.duration * 60
+                const startTime = moment.unix(date).format('LT')
+                const endTime = moment.unix(endEpoch).format('LT')
+                return (
+                  <ScheduleCard
+                    lesson={x.lesson.description}
+                    startTime={startTime}
+                    endTime={endTime}
+                    zoomlink={x.zoomlink}
+                  />
+                )
+              })}
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="d-flex flex-column min-vh-80 justify-content-center align-items-center">
+            <img src={emptyCalendar} alt="" className="img-fluid" />
+            <div>
+              <h1>{t('student_dashboard_no_lessons')}</h1>
+            </div>
+            <h3 className="mt-0">
+              {t('student_dashboard_no_lessons_subtitle')}
+            </h3>
+            <div className="row container justify-content-center mt-5">
+              {callToAction.map(x => (
+                <div className="col-4">
+                  <CTACard
+                    icon={x.icon}
+                    title={x.title}
+                    subtitle={x.subtitle}
+                    color={x.color}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
       {selectedLesson && (
         <ModalCancelLesson

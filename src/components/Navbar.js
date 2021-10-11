@@ -29,7 +29,7 @@ const Navbar = () => {
   const isShowSidebar = useSelector(state => state.settings.isShowSidebar)
   const user = useSelector(state => state.users.user)
   const notifications = useSelector(state => state.notification.list)
-
+  console.log({ user })
   const user_role = user.roles && user.roles[0].role_name
   const [language, setLanguage] = useState(
     parseInt(getItemToLocalStorage('language', 1))
@@ -72,29 +72,17 @@ const Navbar = () => {
     <div className="nav-bar">
       <div className="desktop-version">
         <div className="left-part">
-          <div className="logo">
+          {/* <div className="logo">
             <Link to={'/dashboard'}>
               <img src={Logo} alt="" />
             </Link>
-          </div>
-          <Link to="/dashboard" className="page-title">
-            {t('user_role_dashboard', { user_role: user_role })}
-          </Link>
+          </div> */}
+          {/* <Link to="/dashboard" className="page-title"> */}
+          {/* {t('user_role_dashboard', { user_role: user_role })} */}
+          {/* </Link> */}
+          <input type="text" placeholder={t('placeholder_search_here')} />
         </div>
         <div className="right-part">
-          <input type="text" placeholder={t('placeholder_search_here')} />
-          <Dropdown
-            className="language"
-            icon={language === 1 ? FlagUsa : FlagKorea}
-            items={[
-              {
-                label: t('korean'),
-                icon: FlagKorea,
-                onClick: onChangeLanguage
-              },
-              { label: t('english'), icon: FlagUsa, onClick: onChangeLanguage }
-            ]}
-          />
           <Dropdown
             className="settings"
             icon={IconUser}
@@ -109,6 +97,23 @@ const Navbar = () => {
               { label: t('logout'), icon: LogoutImg, onClick: handleLogout }
             ]}
           />
+          {/* <h5 className="me-2">{user.first_name}</h5> */}
+          <Dropdown
+            className="language"
+            icon={language === 1 ? FlagUsa : FlagKorea}
+            items={[
+              {
+                label: t('korean'),
+                icon: FlagKorea,
+                onClick: onChangeLanguage
+              },
+              { label: t('english'), icon: FlagUsa, onClick: onChangeLanguage }
+            ]}
+          />
+          {/* <h5 className="me-2">
+            {language === 1 ? t('english') : t('korean')}
+          </h5> */}
+
           <Dropdown
             className="settings"
             icon={IconNotification}
