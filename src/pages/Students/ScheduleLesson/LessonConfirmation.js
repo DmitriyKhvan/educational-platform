@@ -21,8 +21,6 @@ const LessonConfirmation = ({ tutor, time, lesson, onBack, onContinue }) => {
   const [checkStates, setCheckStates] = useState([false, false, false])
   const [isConfirmModal, setIsConfirmModal] = useState(false)
 
-  console.log('Time:', time)
-
   const history = useHistory()
 
   useEffect(() => {}, [dispatch])

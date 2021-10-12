@@ -29,7 +29,6 @@ const Navbar = () => {
   const isShowSidebar = useSelector(state => state.settings.isShowSidebar)
   const user = useSelector(state => state.users.user)
   const notifications = useSelector(state => state.notification.list)
-  console.log({ user })
   const user_role = user.roles && user.roles[0].role_name
   const [language, setLanguage] = useState(
     parseInt(getItemToLocalStorage('language', 1))

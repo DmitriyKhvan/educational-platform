@@ -65,9 +65,6 @@ const StudentListAppointments = () => {
   const appointments = useSelector(state => state.appointment.list)
   const user = useSelector(state => state.users.user)
   const state = useSelector(state => state)
-  console.log({ state })
-  console.log(JSON.stringify(appointments, null, 2))
-  console.log({ user })
   const [completedAppointment, setCompleteAppointment] = useState(null)
   const history = useHistory()
 

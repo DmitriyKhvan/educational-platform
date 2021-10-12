@@ -55,7 +55,6 @@ const ModalFeedback = ({ visible, onDismiss, group, user }) => {
   }, [student, group])
 
   const handleChange = (option, stateName) => {
-    console.log('handleChange', option, stateName)
     if (stateName === 'lesson_topic') {
       setFormData({
         ...formData,

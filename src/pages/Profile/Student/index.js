@@ -200,7 +200,6 @@ const StudentProfile = ({ user, update, isAdmin }) => {
   )
 
   const handleChange = (option, stateName) => {
-    console.log('HandleChange:', option, stateName)
     const name = stateName.name
     if (name === 'lang_level' || name === 'level') {
       setSelectedLanguageLevel(option)

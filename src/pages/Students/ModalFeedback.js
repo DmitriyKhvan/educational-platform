@@ -54,7 +54,6 @@ const ModalFeedback = ({ visible, onDismiss, appointment }) => {
     }
   }, [tutor, setTutorReviewData])
 
-  console.log(tutorReviewData)
 
   const onSubmit = async () => {
     await StudentApi.setTutorAttendance(appointment.id, { attendance })
