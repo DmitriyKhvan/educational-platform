@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next'
 
 const Login = () => {
   const history = useHistory()
-  const [t, i18n] = useTranslation('translation')
+  const [t] = useTranslation('translation')
   const dispatch = useDispatch()
 
   const [formData, setFormData] = useState({
@@ -69,7 +69,8 @@ const Login = () => {
   }
 
   const validateEmail = email => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(email)
   }
 
@@ -97,6 +98,7 @@ const Login = () => {
       history.push('/')
     } else {
       if (error) {
+        console.log(error)
         NotificationManager.error(t('login_failed'), t)
         history.push('/')
       }
@@ -106,12 +108,17 @@ const Login = () => {
   return (
     <AuthLayout>
       <div className="auth-login">
-        <h4>{t('login')}</h4>
+        <div className="text-center">
+          <h1 className="title text-center">{t('login')}</h1>
+        </div>
         <div className="form-section">
-          <div className="form-item">
+          <div className="mb-3">
             <div className="form-item-inner">
-              <label htmlFor="email">{t('email')}</label>
+              <label htmlFor="email" className="form-label">
+                <strong>{t('email')}</strong>
+              </label>
               <input
+                className="form-control"
                 type="email"
                 id="email"
                 name="email"
@@ -123,10 +130,13 @@ const Login = () => {
               <p className="error-msg">{formDataError.email}</p>
             )}
           </div>
-          <div className="form-item">
+          <div className="mb-3">
             <div className="form-item-inner">
-              <label htmlFor="password">{t('password')}</label>
+              <label htmlFor="password" className="form-label">
+                <strong>{t('password')}</strong>
+              </label>
               <input
+                className="form-control"
                 type="password"
                 id="password"
                 name="password"
@@ -138,19 +148,29 @@ const Login = () => {
               <p className="error-msg">{formDataError.password}</p>
             )}
           </div>
+          <div className="mb-3">
+            <Link to="/forgot-password" className="forgot-password">
+              Forgot Password?
+            </Link>
+          </div>
+
           {error && <p className="system-error-msg">{error}</p>}
-          <div className="submit-action">
-            <button className="auth-button" onClick={handleLogin}>
+          <div className="d-grid gap-2">
+            <button
+              className="btn btn-primary btn-lg p-3"
+              onClick={handleLogin}
+            >
               {loading ? (
                 <ClipLoader loading={loading} size={20} color="white" />
               ) : (
-                t('login')
+                t('sign_in')
               )}
             </button>
           </div>
-          <p>
-            {t('not_registered')} <a href="/signup">{t('signup')}</a> /{' '}
-            <Link to="/forgot-password">Forgot Password</Link>
+          <p className="mt-5">
+            <a href="/signup" className="forgot-password">
+              {t('not_registered')}
+            </a>
           </p>
         </div>
       </div>

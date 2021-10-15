@@ -2,7 +2,6 @@ import React from 'react'
 import '../assets/styles/auth.scss'
 import Logo from '../assets/images/auth-logo.svg'
 import Butterfly from '../assets/images/butterfly.svg'
-import Footer from './Footer'
 
 const AuthLayout = ({ children }) => {
   return (
@@ -16,7 +15,6 @@ const AuthLayout = ({ children }) => {
       <div className="butterfly">
         <img src={Butterfly} alt="" />
       </div>
-      <Footer />
     </div>
   )
 }

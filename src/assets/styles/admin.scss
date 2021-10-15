@@ -749,26 +749,26 @@
     }
   }
 }
-.btn {
-  background: $color-magenta;
-  border-radius: 9px;
-  font-family: Source Sans Pro;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 15px;
-  color: #ffffff;
-  padding: 15px 26px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 44px;
-  width: 100px;
-  &:active {
-    opacity: 0.5;
-  }
-}
+// .btn {
+//   background: $color-magenta;
+//   border-radius: 9px;
+//   font-family: Source Sans Pro;
+//   font-style: normal;
+//   font-weight: 600;
+//   font-size: 12px;
+//   line-height: 15px;
+//   color: #ffffff;
+//   padding: 15px 26px;
+//   cursor: pointer;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   height: 44px;
+//   width: 100px;
+//   &:active {
+//     opacity: 0.5;
+//   }
+// }
 
 .create-lesson {
   .modal-content {

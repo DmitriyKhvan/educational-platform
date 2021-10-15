@@ -328,7 +328,7 @@ const StudentListAppointments = () => {
               <div className="flex-container schdule-lesson-select">
                 <div className="page-card pink small-card">
                   <div className="row ms-1">
-                    <div className="col-4 mt-3 ps-3">
+                    <div className="col-4 mt-3 ps-3 me-2">
                       <img
                         src={smileIcon}
                         alt=""
@@ -354,14 +354,14 @@ const StudentListAppointments = () => {
                 </div>
                 <div className="page-card light-blue small-card">
                   <div className="row ms-1 mt-3">
-                    <div className="col-4 ps-3">
+                    <div className="col-4 ps-3 me-2">
                       <img
                         src={pastIcon}
                         alt=""
                         className="img-fluid small-card-icon-progress"
                       />
                     </div>
-                    <div className="col-8">
+                    <div className="col-6">
                       <h3 className="text-white">
                         {t('student_dashboard_progress')}
                       </h3>
