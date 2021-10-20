@@ -13,7 +13,7 @@ import ImgTutor from '../../assets/images/tutor.svg'
 
 const Signup = () => {
   const history = useHistory()
-  const [t, i18n] = useTranslation('translation')
+  const [t] = useTranslation('translation')
   const dispatch = useDispatch()
 
   const [formData, setFormData] = useState({
@@ -49,6 +49,9 @@ const Signup = () => {
   }, [])
 
   const loading = useSelector(state => state.auth.loading)
+  const [activateTutor, setActivateTutor] = useState(false)
+  const [activateStudent, setActivateStudent] = useState(false)
+
   const [systemError, setSystemError] = useState('')
   const errorMessage = {
     first_name: {
@@ -140,7 +143,8 @@ const Signup = () => {
   }
 
   const validateEmail = email => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(email)
   }
 
@@ -205,23 +209,22 @@ const Signup = () => {
 
   return (
     <AuthLayout>
-      {formData['user_role'] === '' ? (
-        <div className="auth-welcome">
-          <h4>{t('welcome_to_naonow')}</h4>
+      {!formData.user_role ? (
+        <div className="auth-login">
+          <p className="title text-center m-3">{t('student_or_tutor')}</p>
           <div className="welcome-body">
-            <p className="question">{t('are_you_student_or_tutor')}</p>
             <div className="role-select">
               <div className="role-card">
                 <img src={ImgStudent} alt="" />
                 <p className="description">{t('ima_student')}</p>
-                <a href="/signup?role=student" className="enter-btn">
+                <a href="/signup?role=student" className="enter-btn btn btn-primary btn-lg">
                   {t('enter_student')}
                 </a>
               </div>
               <div className="role-card">
                 <img src={ImgTutor} alt="" />
                 <p className="description">{t('ima_tutor')}</p>
-                <a href="/signup?role=tutor" className="enter-btn">
+                <a href="/signup?role=tutor" className="enter-btn btn btn-primary btn-lg">
                   {t('enter_tutor')}
                 </a>
               </div>
@@ -229,45 +232,52 @@ const Signup = () => {
           </div>
         </div>
       ) : (
-        <div className="auth-signup">
-          <h4>{t('signup')}</h4>
-          <div className="form-section">
-            <div className="name-input">
-              <div className="form-item">
-                <div className="form-item-inner">
-                  <label htmlFor="first_name">{t('first_name')}</label>
-                  <input
-                    type="text"
-                    id="first_name"
-                    name="first_name"
-                    value={formData.first_name}
-                    onChange={e => onChange(e.target.value, 'first_name')}
-                  />
-                </div>
-                {formDataError.first_name && (
-                  <p className="error-msg">{formDataError.first_name}</p>
-                )}
-              </div>
-              <div className="form-item">
-                <div className="form-item-inner">
-                  <label htmlFor="last_name">{t('last_name')}</label>
-                  <input
-                    type="text"
-                    id="last_name"
-                    name="last_name"
-                    value={formData.last_name}
-                    onChange={e => onChange(e.target.value, 'last_name')}
-                  />
-                </div>
-                {formDataError.last_name && (
-                  <p className="error-msg">{formDataError.last_name}</p>
-                )}
-              </div>
-            </div>
-            <div className="form-item">
+        <div className="auth-login">
+          <p className="title text-center m-3">{t('welcome_to_naonow')}</p>
+          <div className="form-section pt-2">
+            <div className="mb-3">
               <div className="form-item-inner">
-                <label htmlFor="email">{t('email')}</label>
+                <label htmlFor="first_name" className="form-label">
+                  <strong>{t('first_name')}</strong>
+                </label>
                 <input
+                  className="form-control"
+                  type="text"
+                  id="first_name"
+                  name="first_name"
+                  value={formData.first_name}
+                  onChange={e => onChange(e.target.value, 'first_name')}
+                />
+              </div>
+              {formDataError.first_name && (
+                <p className="error-msg">{formDataError.first_name}</p>
+              )}
+            </div>
+            <div className="mb-3">
+              <div className="form-item-inner">
+                <label htmlFor="last_name" className="form-label">
+                  <strong>{t('last_name')}</strong>
+                </label>
+                <input
+                  className="form-control"
+                  type="text"
+                  id="last_name"
+                  name="last_name"
+                  value={formData.last_name}
+                  onChange={e => onChange(e.target.value, 'last_name')}
+                />
+              </div>
+              {formDataError.last_name && (
+                <p className="error-msg">{formDataError.last_name}</p>
+              )}
+            </div>
+            <div className="mb-3">
+              <div className="form-item-inner">
+                <label htmlFor="email" className="form-label">
+                  <strong>{t('email')}</strong>
+                </label>
+                <input
+                  className="form-control"
                   type="email"
                   id="email"
                   name="email"
@@ -279,10 +289,13 @@ const Signup = () => {
                 <p className="error-msg">{formDataError.email}</p>
               )}
             </div>
-            <div className="form-item">
+            <div className="mb-3">
               <div className="form-item-inner">
-                <label htmlFor="phone_number">{t('phone_number')}</label>
+                <label htmlFor="phone_number" className="form-label">
+                  <strong>{t('phone_number')}</strong>
+                </label>
                 <PhoneInput
+                  className="form-control"
                   specialLabel={t('phone_number')}
                   country={'us'}
                   value={formData.phone_number}
@@ -297,10 +310,13 @@ const Signup = () => {
                 <p className="error-msg">{formDataError.phone_number}</p>
               )}
             </div>
-            <div className="form-item">
+            <div className="mb-3">
               <div className="form-item-inner">
-                <label htmlFor="password">{t('password')}</label>
+                <label htmlFor="password" className="form-label">
+                  <strong>{t('password')}</strong>
+                </label>
                 <input
+                  className="form-control"
                   type="password"
                   id="password"
                   name="password"
@@ -312,12 +328,13 @@ const Signup = () => {
                 <p className="error-msg">{formDataError.password}</p>
               )}
             </div>
-            <div className="form-item">
+            <div className="mb-3">
               <div className="form-item-inner">
-                <label htmlFor="confirm_password">
-                  {t('confirm_password')}
+                <label htmlFor="confirm_password" className="form-label">
+                  <strong>{t('confirm_password')}</strong>
                 </label>
                 <input
+                  className="form-control"
                   type="password"
                   id="confirm_password"
                   name="confirm_password"
@@ -330,8 +347,11 @@ const Signup = () => {
               )}
             </div>
             {systemError && <p className="system-error-msg">{systemError}</p>}
-            <div className="submit-action">
-              <button className="auth-button" onClick={() => handleSignup()}>
+            <div className="d-grid gap-2 pt-4">
+              <button
+                className="btn btn-primary btn-lg p-3"
+                onClick={handleSignup}
+              >
                 {loading ? (
                   <ClipLoader loading={loading} size={20} color="white" />
                 ) : (
@@ -339,8 +359,11 @@ const Signup = () => {
                 )}
               </button>
             </div>
-            <p>
-              {t('already_have_account')} <a href="/">{t('login')}</a>
+            <p className="mt-5">
+              {t('already_have_account')}{' '}
+              <a href="/" className="forgot-password">
+                {t('sign_in')}
+              </a>
             </p>
           </div>
         </div>

@@ -216,12 +216,18 @@
         flex-direction: column;
         width: 334px;
         .description {
-          font-family: Source Sans Pro;
+          font-family: Inter;
           font-style: normal;
-          font-weight: 300;
-          font-size: 14px;
-          line-height: 130%;
-          margin: 23px auto;
+          font-weight: normal;
+          font-size: 15px;
+          line-height: 20px;
+          /* or 133% */
+
+          letter-spacing: -0.6px;
+
+          /* Light Gray */
+
+          color: #646481;
         }
         .enter-btn {
           color: white;

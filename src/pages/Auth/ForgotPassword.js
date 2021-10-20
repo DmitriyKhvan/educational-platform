@@ -86,7 +86,7 @@ const ForgotPassword = () => {
             </button>
           </div>
           <p className="mt-5">
-            {t('already_have_account')}{" "}
+            {t('already_have_account')}{' '}
             <a href="/" className="forgot-password">
               {t('sign_in')}
             </a>

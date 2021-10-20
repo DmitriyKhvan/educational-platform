@@ -276,12 +276,9 @@
   "feedback": "Feedback",
   "feedback_complete": "Feedback Complete",
   "support": "Support",
-  "welcome_to_naonow": "Welcome to Nao Now",
   "are_you_student_or_tutor": "Are you a student or tutor?",
   "ima_student": "I'm an enthusiastic student who wants to learn English.",
   "ima_tutor": "I'm a reliable tutor who wants to teach English.",
-  "enter_student": " Enter as a student",
-  "enter_tutor": "Enter as a tutor",
   "step_n_m": "Step {{n}}/{{m}}",
   "selected_tutor": "Selected Tutor",
   "lesson_time_detail": "Lesson Time & Detail",
@@ -534,5 +531,9 @@
   "new_password": "Enter New Password",
   "confirm_new_password": "Confirm New Password",
   "confirm_password_error": "Please make sure your passwords match.",
-  "password": "Password"
+  "password": "Password",
+  "student_or_tutor": "How are you planning to use Nao Now?",
+  "welcome_to_naonow": "Welcome to Nao Now",
+  "enter_student": " Continue as a student",
+  "enter_tutor": "Continue as a tutor"
 }
