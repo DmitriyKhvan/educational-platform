@@ -9,6 +9,16 @@
   border: 0.5px solid $color-darker-grey !important;
 }
 
+.schedule-card-col {
+  flex: 0 0 auto;
+}
+
+@media screen and (min-width: 1500px) {
+  .schedule-card-col {
+    flex: 0 0 auto;
+    width: auto;
+  }
+}
 .enter-btn {
   background: #ffffff;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);

@@ -32,8 +32,8 @@ const ScheduleCard = ({ index, lesson, startTime, endTime, zoomlink }) => {
           </div>
         </div>
       </div>
-      <div className="row p-0">
-        <div className="col-3">
+      <div className="row">
+        <div className="schedule-card-col">
           <a
             href="/student/schedule-lesson/select"
             className={`enter-btn ${
@@ -43,7 +43,7 @@ const ScheduleCard = ({ index, lesson, startTime, endTime, zoomlink }) => {
             {t('cancel')}
           </a>
         </div>
-        <div className="col-4">
+        <div className="schedule-card-col">
           <a
             href="/student/schedule-lesson/select"
             className={`enter-btn ${
@@ -53,7 +53,7 @@ const ScheduleCard = ({ index, lesson, startTime, endTime, zoomlink }) => {
             {t('reschedule')}
           </a>
         </div>
-        <div className="col-5 ps-1 pe-1">
+        <div className="schedule-card-col">
           <a
             href={zoomlink.url}
             target="_blank"
