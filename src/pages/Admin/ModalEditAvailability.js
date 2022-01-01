@@ -18,9 +18,9 @@ const ModalEditAvailability = ({ user, onDismiss, visible }) => {
       user={user}
       onDismiss={onDismiss}
     >
-      <div className="scroll-layout">
+      <div className='scroll-layout'>
         <UserHeader user={user} onAction={onDismiss} />
-        <div className="availability-layout">
+        <div className='availability-layout'>
           <AvailabilityView isAdmin={true} user_id={user.id} />
         </div>
       </div>

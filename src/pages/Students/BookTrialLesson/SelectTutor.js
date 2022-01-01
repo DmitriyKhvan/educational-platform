@@ -334,15 +334,15 @@ const SelectTutor = props => {
   }
 
   return (
-    <div className="select-tutor">
-      <h4 className="main-title">{t('choose_available_tutors')}</h4>
-      <div className="divider" />
-      <div className="scroll-layout">
-        <div className="filter">
+    <div className='select-tutor'>
+      <h4 className='main-title'>{t('choose_available_tutors')}</h4>
+      <div className='divider' />
+      <div className='scroll-layout'>
+        <div className='filter'>
           <div>
             {/* <p>{t('placeholder_sortby')}</p> */}
-            <div className="btn-step-back" onClick={props.onBack}>
-              <img src={ImgArrowBack} alt="" />
+            <div className='btn-step-back' onClick={props.onBack}>
+              <img src={ImgArrowBack} alt='' />
               <span>{t('step_back')}</span>
             </div>
             <Select
@@ -351,9 +351,9 @@ const SelectTutor = props => {
               options={genderAll}
               styles={customStyles}
               placeholder={t('gender')}
-              classNamePrefix="custom-select"
-              className="custom-select"
-              name="gender"
+              classNamePrefix='custom-select'
+              className='custom-select'
+              name='gender'
               getOptionValue={option => option.value}
               getOptionLabel={option => option.label}
             />
@@ -363,9 +363,9 @@ const SelectTutor = props => {
               options={majors}
               styles={customStyles}
               placeholder={t('major')}
-              classNamePrefix="custom-select"
-              className="custom-select"
-              name="major"
+              classNamePrefix='custom-select'
+              className='custom-select'
+              name='major'
               getOptionValue={option => option.value}
               getOptionLabel={option => option.label}
             />
@@ -377,7 +377,7 @@ const SelectTutor = props => {
           </div>
           <p>{t('show_all_available_tutors', { tutors: 14 })}</p>
         </div>
-        <div className="tutors-wrapper">
+        <div className='tutors-wrapper'>
           {filterTutors.map((tutor, index) => (
             <TutorCard
               key={`tutorcard-${index}`}
@@ -388,7 +388,7 @@ const SelectTutor = props => {
             />
           ))}
         </div>
-        <div className="btn-continue" onClick={onContinue}>
+        <div className='btn-continue' onClick={onContinue}>
           {t('continue')}
         </div>
       </div>

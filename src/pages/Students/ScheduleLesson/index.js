@@ -1,107 +1,62 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Layout from '../../../components/Layout'
-import '../../../assets/styles/tutor.scss'
-import Loader from 'react-loader-spinner'
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
-import NotificationManager from '../../../components/NotificationManager.js'
-import { createAppointment } from '../../../actions/appointment'
-import { useTranslation } from 'react-i18next'
-import ImgClock from '../../../assets/images/clock.svg'
-import ImgTutor from '../../../assets/images/tutor.svg'
-import { Link } from 'react-router-dom'
+import LessonConfirmation from './LessonConfirmation'
+import ScheduleSelector from './ScheduleSelector'
+import SelectLesson from './SelectLesson'
+import SelectTutorCards from './SelectTutorCards'
 import { getPlanStatus } from '../../../actions/subscription'
+import { getTutorList } from '../../../actions/tutor'
+
+import '../../../assets/styles/tutor.scss'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
 const ScheduleLesson = () => {
   const dispatch = useDispatch()
-  const [t, i18n] = useTranslation('translation')
-
-  const planStatus = useSelector(state => state.students.planStatus)
-  const loading = useSelector(state => state.students.loading)
-
+  const [clicked, setClicked] = useState(null)
+  const [selectedPlan, setSelectedPlan] = useState({})
+  const [schedule, setSchedule] = useState()
+  const [tabIndex, setTabIndex] = useState(0)
+  const [selectTutor, setSelectTutor] = useState()
+  const tutors = useSelector(state => state.tutor.list)
   useEffect(() => {
     dispatch(getPlanStatus())
-  }, [dispatch])
+    dispatch(getTutorList(schedule))
+  }, [dispatch, schedule])
 
   return (
-    <Layout>
-      <div className="schedule-lesson-layout">
-        <h4 className="main-title">{t('schedule_lesson')}</h4>
-        <div className="divider" />
-        <div className="scroll-layout">
-          <div className="select-first-criteria">
-            <div className="or">{t('or')}</div>
-            <div className="criteria-select-box">
-              <div className="img">
-                <img src={ImgClock} alt="" />
-              </div>
-              <Link
-                className="btn"
-                to={{
-                  pathname: '/student/schedule-lesson',
-                  state: { timeFirst: true }
-                }}
-              >
-                {t('select_time_first')}
-              </Link>
-            </div>
-            <div className="criteria-select-box">
-              <div className="img">
-                <img src={ImgTutor} alt="" />
-              </div>
-              <Link
-                className="btn"
-                to={{
-                  pathname: '/student/schedule-lesson',
-                  state: { tutorFirst: true }
-                }}
-              >
-                {t('select_tutor_first')}
-              </Link>
-            </div>
-          </div>
-          <p className="sub-title">{t('lessons_left')}</p>
-          {loading ? (
-            <Loader
-              className="align-center"
-              type="Audio"
-              color="#00BFFF"
-              height={50}
-              width={50}
-            />
-          ) : planStatus.length === 0 ? (
-            <span className="no-data">{t('you_have_no_subscription')}</span>
-          ) : (
-            <>
-              <div className="lesson-brief-wraper">
-                <p>{t('lesson_summary')}</p>
-                <div>
-                  {planStatus.map((lesson, index) => (
-                    <div key={`lesson-${index}`} className="lesson">
-                      <div>
-                        <p className="class">{lesson.lesson_type}</p>
-                        <p className="type">({lesson.group_type})</p>
-                      </div>
-                      <div className="duration-box">
-                        <span className={`duration d-${lesson.duration}m`}>
-                          {lesson.duration}m
-                        </span>
-                        <span className={`remains d-${lesson.duration}m`}>
-                          {lesson.total_lessons - lesson.lessons}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
-          <Link to="/student/packages" className="btn">
-            + {t('buy_another_plan')}
-          </Link>
-        </div>
-      </div>
-    </Layout>
+    <React.Fragment>
+      {tabIndex === 0 ? (
+        <SelectLesson
+          setSelectedPlan={setSelectedPlan}
+          setTabIndex={setTabIndex}
+          clicked={clicked}
+          setClicked={setClicked}
+        />
+      ) : tabIndex === 1 ? (
+        <ScheduleSelector
+          setTabIndex={setTabIndex}
+          duration={selectedPlan.duration}
+          setSchedule={setSchedule}
+          schedule={schedule}
+        />
+      ) : tabIndex === 2 ? (
+        <SelectTutorCards
+          tutors={tutors}
+          tabIndex={tabIndex}
+          setTabIndex={setTabIndex}
+          setSelectTutor={setSelectTutor}
+        />
+      ) : (
+        tabIndex === 3 && (
+          <LessonConfirmation
+            plan={selectedPlan}
+            time={schedule}
+            tutor={selectTutor}
+            setTabIndex={setTabIndex}
+          />
+        )
+      )}
+    </React.Fragment>
   )
 }
 

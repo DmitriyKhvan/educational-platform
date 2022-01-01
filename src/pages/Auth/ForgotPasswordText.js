@@ -5,7 +5,7 @@ const ForgotPasswordText = () => {
   const [t, i18n] = useTranslation('translation')
   return (
     <AuthLayout>
-      <div className="auth-sent-email">
+      <div className='auth-sent-email'>
         <h4>{t('please_check_email')}</h4>
         <p>{t('sent_reset_password_link')}</p>
       </div>

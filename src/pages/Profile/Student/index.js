@@ -102,7 +102,7 @@ const StudentProfile = ({ user, update, isAdmin }) => {
       dataKey: 'student',
       width: 20,
       render: (text, record) => (
-        <div className="with-avatar">
+        <div className='with-avatar'>
           <Avatar
             avatar={record.img}
             name={getAvatarName(record.first_name, record.last_name)}
@@ -137,7 +137,7 @@ const StudentProfile = ({ user, update, isAdmin }) => {
       width: 20,
       render: (item, record) => {
         return (
-          <div className="actions">
+          <div className='actions'>
             {record.seat_count === 1 && (
               <a
                 onClick={() => {
@@ -161,7 +161,7 @@ const StudentProfile = ({ user, update, isAdmin }) => {
       dataKey: 'completed',
       width: 20,
       render: (item, record) => (
-        <div className="actions">
+        <div className='actions'>
           {record.completed ? (
             <span>{t('finished')}</span>
           ) : (
@@ -253,10 +253,10 @@ const StudentProfile = ({ user, update, isAdmin }) => {
   }, [update])
 
   return (
-    <div className="profile-inner-wrapper">
+    <div className='profile-inner-wrapper'>
       {!isSubscriptionModal && (
         <>
-          <div className="form-section">
+          <div className='form-section'>
             {renderFormField(
               'interests',
               t('interests'),
@@ -266,14 +266,14 @@ const StudentProfile = ({ user, update, isAdmin }) => {
               'textfield'
             )}
 
-            <p className="section-title">
+            <p className='section-title'>
               {t('enrolled_in_following_courses')}
             </p>
-            <div className="courses">
+            <div className='courses'>
               {courses.map((course, index) => (
-                <div className="course" key={`course-${index}`}>
+                <div className='course' key={`course-${index}`}>
                   <label>{t(course.label)}</label>
-                  <div className="options">
+                  <div className='options'>
                     {course.options.map((opt, idx) => {
                       const key = course_options[opt].value + course.value
                       return (
@@ -289,17 +289,17 @@ const StudentProfile = ({ user, update, isAdmin }) => {
                 </div>
               ))}
             </div>
-            <Link to="/student/packages" className="btn-see-pricing-options">
+            <Link to='/student/packages' className='btn-see-pricing-options'>
               {t('see_pricing_options')}
             </Link>
 
-            <p className="section-title">{t('your_level_achieved')}</p>
-            <div className="achivement-wrapper">
-              <div className="achivements">
+            <p className='section-title'>{t('your_level_achieved')}</p>
+            <div className='achivement-wrapper'>
+              <div className='achivements'>
                 {student_info &&
                   numbers
                     .slice(0, student_info.level ? student_info.level : 1)
-                    .map(index => <img src={ImgCup} alt="" />)}
+                    .map(index => <img src={ImgCup} alt='' />)}
               </div>
               {isAdmin ? (
                 renderSelect(
@@ -317,18 +317,18 @@ const StudentProfile = ({ user, update, isAdmin }) => {
                   handleChange
                 )
               ) : (
-                <div className="level">
+                <div className='level'>
                   {t('level_n', {
                     n: student_info.level ? student_info.level : 1
                   })}
                 </div>
               )}
-              <div className="congrat">{t('congratulations')}</div>
+              <div className='congrat'>{t('congratulations')}</div>
               {/* <div className="congrat-detail">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec bibendum velit orci, vel placerat metus egestas vulputate. Sed a libero non metus sollicitudin tristique. Cras nec arcu porttitor, accumsan quam ut, vestibulum lacus. In ut dignissim leo, in euismod erat. Vivamus suscipit leo odio, vel convallis felis ornare quis.
             </div> */}
-              <div className="btn-download">
-                <img src={ImgArrow} alt="" />
+              <div className='btn-download'>
+                <img src={ImgArrow} alt='' />
                 <span>{t('download_certificate_pdf')}</span>
               </div>
             </div>
@@ -340,35 +340,35 @@ const StudentProfile = ({ user, update, isAdmin }) => {
               <div className="btn-edit-subscription" onClick={() => setIsSubscriptionModal(true)}>Edit Subscription</div>
             </div> */}
 
-                <p className="section-title">{t('upcoming_lessons')}</p>
+                <p className='section-title'>{t('upcoming_lessons')}</p>
                 {appointments_loading ? (
                   <Loader
-                    className="align-center"
-                    type="Audio"
-                    color="#00BFFF"
+                    className='align-center'
+                    type='Audio'
+                    color='#00BFFF'
                     height={50}
                     width={50}
                   />
                 ) : (
                   <CustomTable
-                    className="full-height"
+                    className='full-height'
                     data={upcomingLessons}
                     columns={columns_upcoming}
                   />
                 )}
 
-                <p className="section-title">{t('past_lessons')}</p>
+                <p className='section-title'>{t('past_lessons')}</p>
                 {appointments_loading ? (
                   <Loader
-                    className="align-center"
-                    type="Audio"
-                    color="#00BFFF"
+                    className='align-center'
+                    type='Audio'
+                    color='#00BFFF'
                     height={50}
                     width={50}
                   />
                 ) : (
                   <CustomTable
-                    className="full-height"
+                    className='full-height'
                     data={pastLessons}
                     columns={columns_past}
                   />

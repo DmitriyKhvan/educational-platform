@@ -43,24 +43,24 @@ const StudentProfile = props => {
 
   return (
     <Layout>
-      <div className="student-list">
-        <div className="page-header">
-          <h4 className="main-title">{t('student_profile')}</h4>
+      <div className='student-list'>
+        <div className='page-header'>
+          <h4 className='main-title'>{t('student_profile')}</h4>
         </div>
-        <div className="divider" />
-        <div className="scroll-layout">
+        <div className='divider' />
+        <div className='scroll-layout'>
           {!student.user ? (
             <Loader
-              className="align-center"
-              type="Audio"
-              color="#00BFFF"
+              className='align-center'
+              type='Audio'
+              color='#00BFFF'
               height={50}
               width={50}
             />
           ) : (
             <>
-              <div className="tutor-student-profile">
-                <div className="avatar">
+              <div className='tutor-student-profile'>
+                <div className='avatar'>
                   <Avatar
                     avatar={student.user.avatar}
                     name={getAvatarName(
@@ -69,19 +69,19 @@ const StudentProfile = props => {
                     )}
                   />
                 </div>
-                <div className="info">
+                <div className='info'>
                   <div>
-                    <p className="name">{`${student.user.first_name} ${student.user.last_name}`}</p>
-                    <p className="level">{t('intermediate_level')}</p>
-                    <p className="since">Since July 2018</p>
+                    <p className='name'>{`${student.user.first_name} ${student.user.last_name}`}</p>
+                    <p className='level'>{t('intermediate_level')}</p>
+                    <p className='since'>Since July 2018</p>
                     <div>
-                      <div className="contact">
-                        <p className="other">{student.user.phone_number}</p>
-                        <p className="other">{student.user.email}</p>
+                      <div className='contact'>
+                        <p className='other'>{student.user.phone_number}</p>
+                        <p className='other'>{student.user.email}</p>
                       </div>
-                      <div className="address">
-                        <p className="other">154 W Market St,</p>
-                        <p className="other">Long Beach, NY, 11561</p>
+                      <div className='address'>
+                        <p className='other'>154 W Market St,</p>
+                        <p className='other'>Long Beach, NY, 11561</p>
                       </div>
                     </div>
                   </div>
@@ -97,33 +97,33 @@ const StudentProfile = props => {
                   </div>
                 </div>
               </div>
-              <div className="m-t-48">
+              <div className='m-t-48'>
                 <Lessons
                   appointments={appointments}
                   title={t('upcoming_lessons')}
-                  status="upcoming"
+                  status='upcoming'
                 />
               </div>
-              <div className="m-t-48"></div>
+              <div className='m-t-48'></div>
               <Lessons
                 appointments={appointments}
                 title={t('past_lessons')}
-                status="past"
+                status='past'
               />
 
-              <p className="section-title">{t('level_certificate')}</p>
-              <div className="achivement-wrapper">
-                <div className="achivements">
-                  <img src={ImgCup} alt="" />
-                  <img src={ImgCup} alt="" />
-                  <img src={ImgCup} alt="" />
+              <p className='section-title'>{t('level_certificate')}</p>
+              <div className='achivement-wrapper'>
+                <div className='achivements'>
+                  <img src={ImgCup} alt='' />
+                  <img src={ImgCup} alt='' />
+                  <img src={ImgCup} alt='' />
                 </div>
               </div>
               {appointments && appointments.loading && (
                 <Loader
-                  className="align-center"
-                  type="Audio"
-                  color="#00BFFF"
+                  className='align-center'
+                  type='Audio'
+                  color='#00BFFF'
                   height={50}
                   width={50}
                 />

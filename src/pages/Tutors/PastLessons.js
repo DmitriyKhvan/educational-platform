@@ -40,18 +40,18 @@ const PastLessons = () => {
 
   return (
     <Layout>
-      <div className="student-list">
+      <div className='student-list'>
         <Lessons
           appointments={appointments}
           title={t('past_lessons')}
-          status="past"
+          status='past'
           onAction={onSelectStudent}
         />
         {appointments && appointments.loading && (
           <Loader
-            className="align-center"
-            type="Audio"
-            color="#00BFFF"
+            className='align-center'
+            type='Audio'
+            color='#00BFFF'
             height={50}
             width={50}
           />

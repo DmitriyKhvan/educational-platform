@@ -54,8 +54,8 @@ const BookTrialLesson = () => {
 
   return (
     <Layout>
-      <div className="make-appointment-layout">
-        <div className="tab-bar">
+      <div className='make-appointment-layout'>
+        <div className='tab-bar'>
           {tabs.map((tab, index) => (
             <div
               key={`tab-${index}`}

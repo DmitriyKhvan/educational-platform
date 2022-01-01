@@ -27,9 +27,9 @@ const FavouriteIcon = ({ isFavourite, tutor_id }) => {
 
   return (
     <img
-      className="heart"
+      className='heart'
       src={isLike ? ImgHeartOn : ImgHeartOff}
-      alt=""
+      alt=''
       onClick={onClick}
     />
   )

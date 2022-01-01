@@ -55,11 +55,11 @@ const TimeSelect = ({ visible, onCancel, setTimeSelectData }) => {
   }
   return (
     <Modal
-      className="time-select-wrapper"
+      className='time-select-wrapper'
       visible={visible}
       onCancel={onCancel}
     >
-      <div className="body">
+      <div className='body'>
         <div>
           <style>{selectedDateStyle}</style>
           <DayPicker
@@ -67,10 +67,10 @@ const TimeSelect = ({ visible, onCancel, setTimeSelectData }) => {
             modifiers={{ highlighted: selectedDate }}
           />
         </div>
-        <div className="right">
-          <div className="start-at">
+        <div className='right'>
+          <div className='start-at'>
             <p>{t('time')}</p>
-            <div className="times">
+            <div className='times'>
               {times.map((time, index) => (
                 <span
                   key={index}
@@ -82,9 +82,9 @@ const TimeSelect = ({ visible, onCancel, setTimeSelectData }) => {
               ))}
             </div>
           </div>
-          <div className="lesson-length">
+          <div className='lesson-length'>
             <p>{t('lesson_length')}</p>
-            <div className="durations">
+            <div className='durations'>
               {durations.map((duration, index) => (
                 <span
                   key={index}
@@ -100,12 +100,12 @@ const TimeSelect = ({ visible, onCancel, setTimeSelectData }) => {
           </div>
         </div>
       </div>
-      <p className="selected-time mobile">
+      <p className='selected-time mobile'>
         {selectedDate.toLocaleDateString() + ' ' + selectedTime}
       </p>
-      <div className="footer">
+      <div className='footer'>
         <div
-          className="btn outlined"
+          className='btn outlined'
           onClick={() => {
             setSelectedDate(new Date())
             setSelectedTime('00:00 AM')
@@ -114,11 +114,11 @@ const TimeSelect = ({ visible, onCancel, setTimeSelectData }) => {
         >
           {t('clear')}
         </div>
-        <p className="selected-time desktop">
+        <p className='selected-time desktop'>
           {selectedDate.toLocaleDateString() + ' ' + selectedTime}
         </p>
         <div
-          className="btn"
+          className='btn'
           onClick={() => {
             let start_at = new Date(
               `${selectedDate.toLocaleDateString()} ${selectedTime}`

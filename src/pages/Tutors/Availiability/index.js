@@ -8,10 +8,10 @@ export const AvailiabilityLayout = () => {
 
   return (
     <Layout>
-      <div className="availability-layout">
-        <div className="scroll-layout">
-          <h4 className="main-title">{t('my_availability')}</h4>
-          <div className="scroll-layout">
+      <div className='availability-layout'>
+        <div className='scroll-layout'>
+          <h4 className='main-title'>{t('my_availability')}</h4>
+          <div className='scroll-layout'>
             <AvailabilityView />
           </div>
         </div>

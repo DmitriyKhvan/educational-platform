@@ -1,3 +1,4 @@
+/* eslint-disable import/first */
 import React from 'react'
 import {
   Route,
@@ -11,7 +12,6 @@ import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 
 import './assets/styles/global.scss'
-
 // Authentication Path
 import Login from './pages/Auth/Login'
 import Signup from './pages/Auth/Signup'
@@ -36,7 +36,7 @@ import { PaymentLayout } from './pages/Tutors/Payment'
 
 // Student Path
 import StudentCalendar from './pages/Students/Calendar'
-import StudentMakeAppointments from './pages/Students/ScheduleLesson/ScheduleLessonSteps'
+// import StudentMakeAppointments from './pages/Students/ScheduleLesson/ScheduleLessonSteps'
 import ProfileLayout from './pages/Profile'
 import StudentListAppointments from './pages/Students/ListAppointments'
 import GroupLessons from './pages/Students/GroupLessons'
@@ -57,6 +57,8 @@ import Main from './pages/Admin/Main'
 
 const store = configureStore({})
 
+require('react-big-calendar/lib/css/react-big-calendar.css')
+
 function PrivateRoute({ component: Component, ...rest }) {
   const authed = useSelector(state => state.auth.authenticated)
   const history = useHistory()
@@ -71,7 +73,7 @@ function PrivateRoute({ component: Component, ...rest }) {
             to={{
               pathname: '/',
               state: { from: history.location.pathname }
-            }} 
+            }}
           />
         )
       }
@@ -97,113 +99,113 @@ function App() {
     <Provider store={store}>
       <Router>
         <ReactNotification />
-        <div className="App">
-          <PrivateRoute path="/admin/main" component={Main} />
-          <PrivateRoute path="/admin/tutor-list" component={TutorList} />
-          <PrivateRoute path="/admin/student-list" component={StudentList} />
+        <div className='App'>
+          <PrivateRoute path='/admin/main' component={Main} />
+          <PrivateRoute path='/admin/tutor-list' component={TutorList} />
+          <PrivateRoute path='/admin/student-list' component={StudentList} />
           <PrivateRoute
-            path="/admin/schedule-new-lesson"
+            path='/admin/schedule-new-lesson'
             component={ScheduleLessonSteps}
           />
           <PrivateRoute
-            path="/admin/lesson-calendar"
+            path='/admin/lesson-calendar'
             component={TutorCalendar}
           />
 
-          <PublicRoute exact path="/" component={Login} />
-          <PublicRoute path="/login" component={Login} />
-          <PublicRoute path="/signup" component={Signup} />
-          <PublicRoute path="/forgot-password" component={ForgotPassword} />
+          <PublicRoute exact path='/' component={Login} />
+          <PublicRoute path='/login' component={Login} />
+          <PublicRoute path='/signup' component={Signup} />
+          <PublicRoute path='/forgot-password' component={ForgotPassword} />
           <PublicRoute
-            path="/forgot-password-guide"
+            path='/forgot-password-guide'
             component={ForgotPasswordText}
           />
-          <PublicRoute path="/reset-password" component={ResetPassword} />
-          <PublicRoute path="/verify-email" component={VerifyEmail} />
-          <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
+          <PublicRoute path='/reset-password' component={ResetPassword} />
+          <PublicRoute path='/verify-email' component={VerifyEmail} />
+          <PublicRoute path='/email-verify-guide' component={EmailVerifyText} />
 
-          <PrivateRoute path="/dashboard" component={Dashboard} />
+          <PrivateRoute path='/dashboard' component={Dashboard} />
 
           <PrivateRoute
-            path="/student/lesson-complete/:complete_appoint_id"
+            path='/student/lesson-complete/:complete_appoint_id'
             component={StudentListAppointments}
           />
           <PrivateRoute
-            path="/student/manage-lessons"
+            path='/student/manage-lessons'
             component={StudentListAppointments}
           />
           <PrivateRoute
-            path="/student/schedule-lesson/select"
+            path='/student/schedule-lesson/select'
             component={ScheduleLesson}
           />
           <PrivateRoute
-            path="/student/schedule-lesson/group-select"
+            path='/student/schedule-lesson/group-select'
             component={GroupScheduleLesson}
           />
           <PrivateRoute
             exact
-            path="/student/schedule-lesson"
+            path='/student/schedule-lesson'
             component={ScheduleLessonSteps}
           />
           <PrivateRoute
             exact
-            path="/student/appointments"
+            path='/student/appointments'
             component={StudentListAppointments}
           />
-          <PrivateRoute path="/student/packages" component={Packages} />
+          <PrivateRoute path='/student/packages' component={Packages} />
           <PrivateRoute
-            path="/student/lesson-calendar"
+            path='/student/lesson-calendar'
             component={StudentCalendar}
           />
-          <PrivateRoute path="/student/profile" component={ProfileLayout} />
+          <PrivateRoute path='/student/profile' component={ProfileLayout} />
           <PrivateRoute
-            path="/student/group-lessons"
+            path='/student/group-lessons'
             component={GroupLessons}
           />
           <PrivateRoute
-            path="/student/favorite-tutors"
+            path='/student/favorite-tutors'
             component={FavouriteTutors}
           />
           <PrivateRoute
-            path="/student/class-materials"
+            path='/student/class-materials'
             component={ClassMaterials}
           />
           <PrivateRoute
-            path="/student/book-trial-lesson"
+            path='/student/book-trial-lesson'
             component={BookTrialLesson}
           />
-          <PrivateRoute path="/faq" component={FAQ} />
-          <PrivateRoute path="/support" component={Support} />
-          <PrivateRoute path="/feedback" component={Feedback} />
-          <PrivateRoute path="/submit-request" component={SubmitRequest} />
+          <PrivateRoute path='/faq' component={FAQ} />
+          <PrivateRoute path='/support' component={Support} />
+          <PrivateRoute path='/feedback' component={Feedback} />
+          <PrivateRoute path='/submit-request' component={SubmitRequest} />
 
-          <PrivateRoute path="/approve-requests" component={ApproveRequest} />
+          <PrivateRoute path='/approve-requests' component={ApproveRequest} />
           <PrivateRoute
-            path="/tutor/manage-appointments"
+            path='/tutor/manage-appointments'
             component={Dashboard}
           />
           <PrivateRoute
-            path="/tutor/appointments-calendar"
+            path='/tutor/appointments-calendar'
             component={TutorCalendar}
           />
           <PrivateRoute
-            path="/tutor/past-lessons"
+            path='/tutor/past-lessons'
             component={TutorPastLessons}
           />
           <PrivateRoute
-            path="/tutor/availability"
+            path='/tutor/availability'
             component={AvailabilityLayout}
           />
-          <PrivateRoute path="/tutor/payment-page" component={PaymentLayout} />
+          <PrivateRoute path='/tutor/payment-page' component={PaymentLayout} />
           <PrivateRoute
             exact
-            path="/tutor/students"
+            path='/tutor/students'
             component={TutorStudentList}
           />
-          <PrivateRoute path="/tutor/students/:id" component={StudentProfile} />
-          <PrivateRoute path="/tutor/profile" component={ProfileLayout} />
+          <PrivateRoute path='/tutor/students/:id' component={StudentProfile} />
+          <PrivateRoute path='/tutor/profile' component={ProfileLayout} />
 
-          <PrivateRoute path="/messages" component={Messages} />
+          <PrivateRoute path='/messages' component={Messages} />
         </div>
       </Router>
     </Provider>

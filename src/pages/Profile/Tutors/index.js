@@ -161,7 +161,7 @@ const TutorProfile = ({ user, update, isAdmin, setDisabled }) => {
       dataKey: 'student',
       width: 20,
       render: (text, record) => (
-        <div className="with-avatar">
+        <div className='with-avatar'>
           <Avatar
             avatar={record.img}
             name={getAvatarName(record.first_name, record.last_name)}
@@ -185,7 +185,7 @@ const TutorProfile = ({ user, update, isAdmin, setDisabled }) => {
       title: t('lesson_topic'),
       dataKey: 'lessonType',
       width: 20,
-      render: item => <p className="lesson-type">{item}</p>
+      render: item => <p className='lesson-type'>{item}</p>
     }
   ]
 
@@ -197,7 +197,7 @@ const TutorProfile = ({ user, update, isAdmin, setDisabled }) => {
       width: 20,
       render: (item, record) => {
         return (
-          <div className="actions">
+          <div className='actions'>
             <a
               onClick={() => {
                 setSelectedLesson(record)
@@ -219,7 +219,7 @@ const TutorProfile = ({ user, update, isAdmin, setDisabled }) => {
       dataKey: 'completed',
       width: 20,
       render: (item, record) => (
-        <div className="actions">
+        <div className='actions'>
           {record.completed ? (
             <span>{t('finished')}</span>
           ) : (
@@ -285,8 +285,8 @@ const TutorProfile = ({ user, update, isAdmin, setDisabled }) => {
   }
 
   return (
-    <div className="profile-inner-wrapper">
-      <div className="form-section">
+    <div className='profile-inner-wrapper'>
+      <div className='form-section'>
         {renderFormField(
           'major',
           t('major'),
@@ -315,11 +315,11 @@ const TutorProfile = ({ user, update, isAdmin, setDisabled }) => {
           formDataError
         )}
 
-        <p className="section-title">{t('introduce_yourself')}</p>
-        <div className="introduce-wrapper">
+        <p className='section-title'>{t('introduce_yourself')}</p>
+        <div className='introduce-wrapper'>
           {formData['video_url'] !== null && (
-            <div className="uploaded">
-              <img src={ImgChecked} alt="" />
+            <div className='uploaded'>
+              <img src={ImgChecked} alt='' />
               <p>{t('video_uploaded')}</p>
             </div>
           )}
@@ -329,7 +329,7 @@ const TutorProfile = ({ user, update, isAdmin, setDisabled }) => {
               (formData['video_url'] === null ? '' : 'has-video')
             }
           >
-            <div className="show-hide" onClick={() => setCollapsed(!collapsed)}>
+            <div className='show-hide' onClick={() => setCollapsed(!collapsed)}>
               <p>
                 {t(
                   collapsed
@@ -337,27 +337,27 @@ const TutorProfile = ({ user, update, isAdmin, setDisabled }) => {
                     : 'hide_video_instructions'
                 )}
               </p>
-              <img src={collapsed ? ImgExtend : ImgCollapse} alt="" />
+              <img src={collapsed ? ImgExtend : ImgCollapse} alt='' />
             </div>
             {(!collapsed || formData['video_url'] === null) && (
               <>
-                <div className="description">
+                <div className='description'>
                   {t('intro_video_description')}{' '}
                   <strong>{t('intro_required')}</strong>
                 </div>
-                <div className="sub-title">{t('helpful_tips')}</div>
-                <div className="steps">
+                <div className='sub-title'>{t('helpful_tips')}</div>
+                <div className='steps'>
                   {introsteps.map((intro, index) => (
                     <>
                       <div key={index}>
                         <span>{index + 1}</span>
                         <span>{t(intro)}</span>
                       </div>
-                      {index < 3 && <div className="divider" />}
+                      {index < 3 && <div className='divider' />}
                     </>
                   ))}
                 </div>
-                <p className="see-intro-video">
+                <p className='see-intro-video'>
                   {t('see_intro_video_example')}
                 </p>
               </>
@@ -365,7 +365,7 @@ const TutorProfile = ({ user, update, isAdmin, setDisabled }) => {
           </div>
           {formData['video_url'] === null && (
             <UploadVideo
-              id="upload-video-input"
+              id='upload-video-input'
               url={formData['video_url']}
               file={file}
               setFile={setFile}
@@ -374,7 +374,7 @@ const TutorProfile = ({ user, update, isAdmin, setDisabled }) => {
           )}
           {formData['video_url'] !== null && (
             <div
-              className="uploaded-video"
+              className='uploaded-video'
               onClick={() => setFormData({ ...formData, video_url: null })}
             >
               {console.log('formData["video_url"]:', formData['video_url'])}
@@ -385,7 +385,7 @@ const TutorProfile = ({ user, update, isAdmin, setDisabled }) => {
                 onLoaded={() => console.log('Onloaded')}
               />
               {/* <Vimeo videoId="560885959" autoplay={true} /> */}
-              <div className="btn-change-bio">{t('change_bio')}</div>
+              <div className='btn-change-bio'>{t('change_bio')}</div>
             </div>
           )}
         </div>
@@ -393,36 +393,36 @@ const TutorProfile = ({ user, update, isAdmin, setDisabled }) => {
 
       {isAdmin && (
         <>
-          <p className="section-title">Upcoming Lessons</p>
+          <p className='section-title'>Upcoming Lessons</p>
           {appointments_loading ? (
             <Loader
-              className="align-center"
-              type="Audio"
-              color="#00BFFF"
+              className='align-center'
+              type='Audio'
+              color='#00BFFF'
               height={50}
               width={50}
             />
           ) : (
             <CustomTable
-              className="full-height"
+              className='full-height'
               data={upcomingLessons}
               columns={columns_upcoming}
             />
           )}
           {/* <div className="btn-schedule-new-lesson">+ Add Lesson Time Slots</div> */}
 
-          <p className="section-title">Past Lessons</p>
+          <p className='section-title'>Past Lessons</p>
           {appointments_loading ? (
             <Loader
-              className="align-center"
-              type="Audio"
-              color="#00BFFF"
+              className='align-center'
+              type='Audio'
+              color='#00BFFF'
               height={50}
               width={50}
             />
           ) : (
             <CustomTable
-              className="full-height"
+              className='full-height'
               data={pastLessons}
               columns={columns_past}
             />

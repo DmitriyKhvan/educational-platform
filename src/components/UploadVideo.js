@@ -69,22 +69,22 @@ const UploadVideo = ({ url, file, setFile, id, progress }) => {
   }
 
   return (
-    <div className="upload-video">
+    <div className='upload-video'>
       <div>
         <div
-          className="btn"
+          className='btn'
           onClick={() => document.getElementById('upload-video-input').click()}
         >
           Upload
         </div>
       </div>
-      <div className="drag-drop">
+      <div className='drag-drop'>
         <input
-          type="file"
+          type='file'
           ref={ref}
           id={id}
-          className="drag-drop"
-          accept="video/*"
+          className='drag-drop'
+          accept='video/*'
           onDrop={e => handleDrop(e)}
           onDragEnter={e => handleDragEnter(e)}
           onDragOver={e => handleDragOver(e)}

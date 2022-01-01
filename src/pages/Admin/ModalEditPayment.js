@@ -31,20 +31,20 @@ export const EditPaymentModal = ({
 
   return (
     <Modal
-      className="edit-payment-modal"
+      className='edit-payment-modal'
       visible={visible}
       onCancel={onDismiss}
     >
-      <div className="title">{t('edit_standard_payment')}</div>
-      <div className="class-types">
+      <div className='title'>{t('edit_standard_payment')}</div>
+      <div className='class-types'>
         {prices.map((price, idx) => {
           return (
             <div key={idx}>
               <p>{`${price.type} (${price.duration} mins)`}</p>
-              <div className="price">
+              <div className='price'>
                 <p>$</p>
                 <input
-                  type="number"
+                  type='number'
                   value={price.rate}
                   onChange={e => onChange(e.target.value, idx)}
                 />
@@ -53,7 +53,7 @@ export const EditPaymentModal = ({
           )
         })}
       </div>
-      <div className="btn-save" onClick={() => onSave(prices)}>
+      <div className='btn-save' onClick={() => onSave(prices)}>
         {t('save')}
       </div>
     </Modal>

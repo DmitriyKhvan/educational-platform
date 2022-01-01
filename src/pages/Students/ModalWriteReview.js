@@ -34,29 +34,29 @@ const ModalWriteReview = ({ visible, onDismiss }) => {
 
   return (
     <Modal
-      className="modal-write-review"
+      className='modal-write-review'
       visible={visible}
       onCancel={onDismiss}
     >
-      <p className="title">{t('write_a_review')}</p>
-      <div className="tutor-info">
+      <p className='title'>{t('write_a_review')}</p>
+      <div className='tutor-info'>
         <div>
           <Avatar avatar={tutor.avatar} />
-          <div className="basic-info">
-            <div className="name-heart">
+          <div className='basic-info'>
+            <div className='name-heart'>
               <p>{getAbbrName(tutor.first_name, tutor.last_name)}</p>
               <FavouriteIcon isFavourite={tutor.favorite} tutor_id={tutor.id} />
             </div>
-            <div className="ratings">
+            <div className='ratings'>
               <Stars points={tutor.points} />
               <span>({t('overall_ratings')})</span>
             </div>
-            <p className="major">{tutor.major}</p>
+            <p className='major'>{tutor.major}</p>
           </div>
         </div>
-        <div className="btn outlined">{t('see_profile')}</div>
+        <div className='btn outlined'>{t('see_profile')}</div>
       </div>
-      <p className="p-write-review">
+      <p className='p-write-review'>
         {t('write_review_tutor', { name: 'Sirena' })}
       </p>
       {renderFormField(
@@ -68,21 +68,21 @@ const ModalWriteReview = ({ visible, onDismiss }) => {
         'textfield',
         t('your_review_goes_here')
       )}
-      <div className="footer">
+      <div className='footer'>
         <div>
           <span>{t('elevate_your_tutor')}</span>
-          <div className="stars">
+          <div className='stars'>
             {[0, 1, 2, 3, 4].map((value, index) => (
               <img
                 key={`img-${index}`}
                 src={starIndex >= index ? ImgStarFill : ImgStarOutline}
-                alt=""
+                alt=''
                 onClick={() => setStarIndex(index)}
               />
             ))}
           </div>
         </div>
-        <div className="btn">{t('submit')}</div>
+        <div className='btn'>{t('submit')}</div>
       </div>
     </Modal>
   )

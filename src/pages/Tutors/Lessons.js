@@ -58,7 +58,7 @@ const Lessons = ({
       dataKey: 'student',
       width: 30,
       render: (text, record) => (
-        <div className="with-avatar">
+        <div className='with-avatar'>
           <Avatar
             avatar={record.img}
             name={getAvatarName(record.first_name, record.last_name)}
@@ -71,7 +71,7 @@ const Lessons = ({
       title: t('lesson'),
       dataKey: 'lessonType',
       width: 30,
-      render: (text, record) => <p className="lesson-type">{text}</p>
+      render: (text, record) => <p className='lesson-type'>{text}</p>
     },
     // {
     //   title: t('lesson_number'),
@@ -91,9 +91,9 @@ const Lessons = ({
       dataKey: 'completed',
       width: 20,
       render: (item, record) => (
-        <div className="actions">
+        <div className='actions'>
           {record.completed ? (
-            <a onClick={() => onComplete(record)} className="edit">
+            <a onClick={() => onComplete(record)} className='edit'>
               {t('edit')}
             </a>
           ) : (
@@ -109,7 +109,7 @@ const Lessons = ({
     dataKey: 'actions',
     width: 20,
     render: (item, record) => (
-      <div className="actions">
+      <div className='actions'>
         {onAction ? (
           <a onClick={() => onAction(record, status)}>{t('view_detail')}</a>
         ) : (
@@ -132,9 +132,9 @@ const Lessons = ({
       dataKey: 'feedback',
       width: 20,
       render: (item, record) => (
-        <div className="actions">
+        <div className='actions'>
           {record.feedbacks.length > 0 ? (
-            <a className="given-feedback">{t('feedback_complete')}</a>
+            <a className='given-feedback'>{t('feedback_complete')}</a>
           ) : (
             <a onClick={() => onFeedback(record)}>{t('feedback')}</a>
           )}
@@ -169,8 +169,8 @@ const Lessons = ({
 
   return (
     <>
-      <div className="page-header">
-        <h4 className="main-title">{title}</h4>
+      <div className='page-header'>
+        <h4 className='main-title'>{title}</h4>
         <Select
           value={selectedOption}
           onChange={handleChange}
@@ -179,18 +179,18 @@ const Lessons = ({
             label: t(opt.label)
           }))}
           styles={customStyles}
-          placeholder="Sort By"
-          classNamePrefix="custom-select"
-          className="custom-select"
-          name="sortBy"
+          placeholder='Sort By'
+          classNamePrefix='custom-select'
+          className='custom-select'
+          name='sortBy'
           rules={{ required: 'Please select an option' }}
           getOptionValue={option => option.value}
           getOptionLabel={option => option.label}
         />
       </div>
-      <div className="divider" />
+      <div className='divider' />
       {appointments && !appointments.loading && (
-        <CustomTable data={students} columns={columns} type="student" />
+        <CustomTable data={students} columns={columns} type='student' />
       )}
     </>
   )

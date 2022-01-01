@@ -15,33 +15,33 @@ import FavouriteIcon from '../../components/FavouriteIcon'
 const FavoriateTutor = props => {
   const { tutor, onSelect, t } = props
   return (
-    <div className="favorite-tutor-card">
-      <div className="info">
+    <div className='favorite-tutor-card'>
+      <div className='info'>
         <Avatar avatar={tutor.avatar} />
-        <div className="detail">
+        <div className='detail'>
           <p>
             {tutor.first_name} {tutor.last_name}
             <FavouriteIcon isFavourite={true} tutor_id={tutor.id} />
           </p>
           <Stars points={tutor.average_review} />
-          <p className="university">{tutor.university}</p>
-          <p className="location">{tutor.location}</p>
-          <p className="major">{tutor.major}</p>
+          <p className='university'>{tutor.university}</p>
+          <p className='location'>{tutor.location}</p>
+          <p className='major'>{tutor.major}</p>
         </div>
       </div>
-      <div className="right">
-        <div className="divider" />
-        <div className="intro-video">
+      <div className='right'>
+        <div className='divider' />
+        <div className='intro-video'>
           <iframe
-            className="vimeo"
-            width="258"
-            height="144"
+            className='vimeo'
+            width='258'
+            height='144'
             src={tutor.video_url}
-            frameBorder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            frameBorder='0'
+            allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
           ></iframe>
         </div>
-        <div className="btn" onClick={onSelect}>
+        <div className='btn' onClick={onSelect}>
           {t('see_profile')}
         </div>
       </div>
@@ -68,11 +68,11 @@ const FavouriteTutors = () => {
 
   return (
     <Layout>
-      <div className="favourite-tutors-layout">
-        <h4 className="main-title">{t('favorite_tutors')}</h4>
-        <div className="divider" />
-        <div className="scroll-layout">
-          <div className="tutors-wrapper">
+      <div className='favourite-tutors-layout'>
+        <h4 className='main-title'>{t('favorite_tutors')}</h4>
+        <div className='divider' />
+        <div className='scroll-layout'>
+          <div className='tutors-wrapper'>
             {favoriteTutors &&
               favoriteTutors.map(tutor => (
                 <FavoriateTutor
@@ -93,12 +93,12 @@ const FavouriteTutors = () => {
         />
       )}
       {loading && (
-        <div className="loading">
-          <div className="trans-bg" />
+        <div className='loading'>
+          <div className='trans-bg' />
           <Loader
-            className="align-center"
-            type="Audio"
-            color="#00BFFF"
+            className='align-center'
+            type='Audio'
+            color='#00BFFF'
             height={50}
             width={50}
           />

@@ -99,8 +99,8 @@ const ModalDateLesson = ({
             dataKey: 'actions',
             width: 40,
             render: (_, record) => (
-              <div className="actions">
-                <a href={record.zoomInfo} target="_blank" rel="noreferrer">
+              <div className='actions'>
+                <a href={record.zoomInfo} target='_blank' rel='noreferrer'>
                   {t('join_lesson')}
                 </a>
               </div>
@@ -116,17 +116,17 @@ const ModalDateLesson = ({
               dataKey: 'actions',
               width: 40,
               render: (_, record) => (
-                <div className="actions">
+                <div className='actions'>
                   <a
                     onClick={() => {
                       setSelectedLesson(record)
                       setVisibleCancel(true)
                     }}
-                    className="outlined"
+                    className='outlined'
                   >
                     {t('cancel_lesson')}
                   </a>
-                  <a href={record.zoomInfo} target="_blank" rel="noreferrer">
+                  <a href={record.zoomInfo} target='_blank' rel='noreferrer'>
                     {t('join_lesson')}
                   </a>
                 </div>
@@ -202,23 +202,23 @@ const ModalDateLesson = ({
 
   return (
     <>
-      <Modal className="user-info-modal" visible={visible} onCancel={onDismiss}>
-        <div className="scroll-layout">
-          <div className="edit-student-lesson-wrapper">
-            <div className="pick-date">
-              <div className="icon" onClick={prevMonth}>
-                <img src={LeftArrow} alt="" />
+      <Modal className='user-info-modal' visible={visible} onCancel={onDismiss}>
+        <div className='scroll-layout'>
+          <div className='edit-student-lesson-wrapper'>
+            <div className='pick-date'>
+              <div className='icon' onClick={prevMonth}>
+                <img src={LeftArrow} alt='' />
               </div>
-              <div className="column col-center">
+              <div className='column col-center'>
                 <span>{format(currentDate, 'eeee, do MMMM yyyy')}</span>
               </div>
-              <div className="icon" onClick={nextMonth}>
-                <img src={RightArrow} alt="" />
+              <div className='icon' onClick={nextMonth}>
+                <img src={RightArrow} alt='' />
               </div>
             </div>
-            <p className="sub-title">Scheduled Lessons ({lessons.length})</p>
+            <p className='sub-title'>Scheduled Lessons ({lessons.length})</p>
             <CustomTable
-              className="full-height"
+              className='full-height'
               data={lessons}
               columns={columns}
               enableSeeAll={false}

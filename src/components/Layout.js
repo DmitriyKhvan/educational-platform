@@ -44,13 +44,13 @@ const Layout = ({ children, fluid }) => {
 
   return (
     <Elements stripe={stripe}>
-      <div className="default-layout">
+      <div className='default-layout'>
         <div className={`content ${fluid ? 'fluid' : ''}`}>
-          {isShowSidebar && <div className="mobile-fade-background" />}
+          {isShowSidebar && <div className='mobile-fade-background' />}
           <Sidebar />
-          <div className="children-page">
+          <div className='children-page'>
             <Navbar />
-            <div className="">{children}</div>
+            <div className=''>{children}</div>
           </div>
         </div>
         {/* <Footer /> */}

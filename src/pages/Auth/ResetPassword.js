@@ -66,56 +66,56 @@ const ResetPassword = () => {
 
   return (
     <AuthLayout>
-      <div className="auth-login">
-        <p className="title text-center mb-3">{t('reset_password')}</p>
-        <div className="form-section">
-          <div className="mb-3">
-            <div className="form-item-inner">
-              <label htmlFor="password" className="form-label">
+      <div className='auth-login'>
+        <p className='title text-center mb-3'>{t('reset_password')}</p>
+        <div className='form-section'>
+          <div className='mb-3'>
+            <div className='form-item-inner'>
+              <label htmlFor='password' className='form-label'>
                 <strong>{t('new_password')}</strong>
               </label>
               <input
-                className="form-control"
-                type="password"
-                id="password"
-                name="password"
+                className='form-control'
+                type='password'
+                id='password'
+                name='password'
                 value={password}
                 onChange={onChange}
               />
             </div>
           </div>
 
-          <div className="form-item-inner">
-            <label htmlFor="confirmPassword" className="form-label">
+          <div className='form-item-inner'>
+            <label htmlFor='confirmPassword' className='form-label'>
               <strong>{t('confirm_new_password')}</strong>
             </label>
             <input
-              className="form-control"
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
+              className='form-control'
+              type='password'
+              id='confirmPassword'
+              name='confirmPassword'
               value={confirmPassword}
               onChange={onChange}
             />
           </div>
-          {error && <p className="error-msg">{error}</p>}
-          {errorMsg && <p className="system-error-msg">{errorMsg}</p>}
+          {error && <p className='error-msg'>{error}</p>}
+          {errorMsg && <p className='system-error-msg'>{errorMsg}</p>}
 
-          <div className="d-grid gap-2 pt-4">
+          <div className='d-grid gap-2 pt-4'>
             <button
-              className="btn btn-primary btn-lg p-3"
+              className='btn btn-primary btn-lg p-3'
               onClick={handleResetPassword}
             >
               {loading ? (
-                <ClipLoader loading={loading} size={20} color="white" />
+                <ClipLoader loading={loading} size={20} color='white' />
               ) : (
                 t('reset_password')
               )}
             </button>
           </div>
-          <p className="mt-5">
+          <p className='mt-5'>
             {t('already_have_account')}{' '}
-            <a href="/" className="forgot-password">
+            <a href='/' className='forgot-password'>
               {t('sign_in')}
             </a>
           </p>

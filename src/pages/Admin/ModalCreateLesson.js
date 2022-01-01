@@ -238,18 +238,18 @@ const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
   }, [])
 
   return (
-    <Modal visible={visible} className="create-lesson" onCancel={onClose}>
-      <div className="title">{t('create_lesson')}</div>
+    <Modal visible={visible} className='create-lesson' onCancel={onClose}>
+      <div className='title'>{t('create_lesson')}</div>
       {loading > 0 ? (
         <Loader
-          className="align-center"
-          type="Audio"
-          color="#00BFFF"
+          className='align-center'
+          type='Audio'
+          color='#00BFFF'
           height={50}
           width={50}
         />
       ) : (
-        <div className="form-section">
+        <div className='form-section'>
           {renderSelect(
             'lesson_type',
             t('lesson_type'),
@@ -306,10 +306,10 @@ const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
             formDataError.duration
           )}
 
-          <div className="form-row">
-            <div className="form-item">
+          <div className='form-row'>
+            <div className='form-item'>
               <div
-                className="recurrence"
+                className='recurrence'
                 onChange={event => {
                   setIsRecurrence(event.target.value)
                 }}
@@ -318,8 +318,8 @@ const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
                   <input
                     value={'onetime'}
                     checked={isRecurrence === 'onetime'}
-                    type="radio"
-                    name="recurrence"
+                    type='radio'
+                    name='recurrence'
                   />
                   One Time
                 </label>
@@ -327,8 +327,8 @@ const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
                   <input
                     value={'recurrence'}
                     checked={isRecurrence === 'recurrence'}
-                    type="radio"
-                    name="recurrence"
+                    type='radio'
+                    name='recurrence'
                   />
                   Recurrence
                 </label>
@@ -390,7 +390,7 @@ const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
             )}
         </div>
       )}
-      <button className="btn-save" onClick={onSave} disabled={loading > 0}>
+      <button className='btn-save' onClick={onSave} disabled={loading > 0}>
         {t('create_lesson')}
       </button>
     </Modal>

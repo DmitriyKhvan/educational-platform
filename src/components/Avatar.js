@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import AvatarPreset1 from '../assets/images/avatars/001.svg'
 import AvatarPreset2 from '../assets/images/avatars/002.svg'
 import AvatarPreset3 from '../assets/images/avatars/003.svg'
@@ -27,8 +26,8 @@ export const Avatar = ({ avatar, name }) => {
         avatar.indexOf('preset_') > -1 ? (
           <img
             src={avatarPresets[parseInt(avatar.slice(7))]}
-            alt=""
-            className="user-avatar preset"
+            alt=''
+            className='user-avatar preset'
           />
         ) : (
           <img
@@ -36,12 +35,12 @@ export const Avatar = ({ avatar, name }) => {
               `${process.env.REACT_APP_SERVER_URL}/users/get-avatar?file_name=` +
               avatar
             }
-            alt=""
-            className="user-avatar"
+            alt=''
+            className='user-avatar'
           />
         )
       ) : (
-        <div className="no-avatar">
+        <div className='no-avatar'>
           <span>{name}</span>
         </div>
       )}

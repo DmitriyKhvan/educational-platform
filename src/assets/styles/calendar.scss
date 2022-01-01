@@ -1,3 +1,197 @@
+.rbc-row-content {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.rbc-date-cell {
+  text-align: center !important;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 48px;
+  align-items: center;
+  letter-spacing: -0.6px;
+}
+
+.rbc-event {
+  background-color: #6133af !important;
+  font-family: Inter;
+  font-style: normal;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: -0.2px;
+}
+
+.rbc-header {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600 !important;
+  font-size: 17px !important;
+  line-height: 21px;
+  align-items: center;
+  text-align: center !important;
+  letter-spacing: -0.6px;
+  color: #261a45;
+  padding-top: 0.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+.rbc-month-view > .rbc-month-header > .rbc-header {
+  padding-bottom: 0.5rem !important;
+}
+
+.rbc-time-column {
+  text-align: center !important;
+}
+
+.rbc-timeslot-group {
+  align-items: center !important;
+  min-height: 90px !important;
+}
+
+.rbc-toolbar-label {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 48px;
+  letter-spacing: -1px;
+  /* Dark Purple */
+  color: #261a45;
+}
+
+.rbc-day-slot .rbc-event,
+.rbc-day-slot .rbc-background-event {
+  border: 1px solid #261a45 !important;
+}
+
+.rbc-today > a > span {
+  color: #6133af !important;
+}
+
+.rbc-current-time-indicator {
+  background-color: #261a45 !important;
+}
+
+.rbc-current {
+  color: #261a45 !important;
+}
+
+.rbc-event-continues-after {
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+}
+
+.rbc-event-content {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.6px;
+  color: #ffffff;
+}
+
+.rbc-events-container > .rbc-event > .rbc-event-label {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -1px;
+  color: #ebe4ff;
+}
+
+.example {
+  font-size: 14px;
+  padding: 0 40px;
+  min-height: calc(100vh - 100px);
+  min-height: max-content;
+  height: calc(100vh - 100px);
+  width: 100%;
+  margin: auto;
+
+  &,
+  & > * {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rbc-calendar {
+    flex: 1;
+    min-height: 580px;
+  }
+}
+
+.td-lesson {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #646481;
+}
+
+.td-topic-level {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #646481;
+}
+
+.td-datetime {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.2px;
+  color: #646481;
+}
+
+.td-tutor {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #6133af;
+}
+
+.td-button {
+  padding-top: 1.25rem !important;
+}
+
+.td-item {
+  padding-top: 1rem !important;
+}
+
+.td-datetime-border {
+  background: #ffffff;
+  /* Border Gray */
+  height: 40px;
+  border: 1px solid #dedee1;
+  box-sizing: border-box;
+  border-radius: 8.125px;
+}
+
+.btn-tutor-feedback-disabled {
+  color: #261a45;
+  border-color: #dedee1;
+}
+
 .calendar {
   display: block;
   position: relative;

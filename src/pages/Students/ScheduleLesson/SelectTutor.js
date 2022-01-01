@@ -119,15 +119,15 @@ const SelectTutor = ({ selectedTime, onBack, onContinue, isTimeFirst }) => {
   }
 
   return (
-    <div className="select-tutor">
-      <h4 className="main-title">{t('choose_available_tutors')}</h4>
-      <div className="divider" />
-      <div className="scroll-layout">
-        <div className="filter">
+    <div className='select-tutor'>
+      <h4 className='main-title'>{t('choose_available_tutors')}</h4>
+      <div className='divider' />
+      <div className='scroll-layout'>
+        <div className='filter'>
           <div>
             {/* <p>{t('placeholder_sortby')}</p> */}
-            <div className="btn-step-back" onClick={onBack}>
-              <img src={ImgArrowBack} alt="" />
+            <div className='btn-step-back' onClick={onBack}>
+              <img src={ImgArrowBack} alt='' />
               <span>{t('step_back')}</span>
             </div>
             <Select
@@ -136,9 +136,9 @@ const SelectTutor = ({ selectedTime, onBack, onContinue, isTimeFirst }) => {
               options={genderAll}
               styles={customStyles}
               placeholder={t('gender')}
-              classNamePrefix="custom-select"
-              className="custom-select"
-              name="gender"
+              classNamePrefix='custom-select'
+              className='custom-select'
+              name='gender'
               getOptionValue={option => option.value}
               getOptionLabel={option => option.label}
             />
@@ -148,9 +148,9 @@ const SelectTutor = ({ selectedTime, onBack, onContinue, isTimeFirst }) => {
               options={majors}
               styles={customStyles}
               placeholder={t('major')}
-              classNamePrefix="custom-select"
-              className="custom-select"
-              name="major"
+              classNamePrefix='custom-select'
+              className='custom-select'
+              name='major'
               getOptionValue={option => option.value}
               getOptionLabel={option => option.label}
             />
@@ -166,12 +166,12 @@ const SelectTutor = ({ selectedTime, onBack, onContinue, isTimeFirst }) => {
             })}
           </p>
         </div>
-        <div className="tutors-wrapper">
+        <div className='tutors-wrapper'>
           {loading1 || loading2 ? (
             <Loader
-              className="align-center"
-              type="Audio"
-              color="#00BFFF"
+              className='align-center'
+              type='Audio'
+              color='#00BFFF'
               height={50}
               width={50}
             />
@@ -189,7 +189,7 @@ const SelectTutor = ({ selectedTime, onBack, onContinue, isTimeFirst }) => {
             </>
           )}
         </div>
-        <div className="btn-continue" onClick={onClickContinue}>
+        <div className='btn-continue' onClick={onClickContinue}>
           {t('continue')}
         </div>
       </div>

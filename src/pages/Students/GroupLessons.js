@@ -106,7 +106,7 @@ const GroupLessons = () => {
       dataKey: 'lesson',
       width: 15,
       render: (text, record) => (
-        <p className="lesson-type">{record.lesson.type}</p>
+        <p className='lesson-type'>{record.lesson.type}</p>
       )
     },
     {
@@ -146,7 +146,7 @@ const GroupLessons = () => {
       dataKey: 'tutor',
       width: 20,
       render: (text, record) => (
-        <div className="with-avatar">
+        <div className='with-avatar'>
           <Avatar avatar={record?.tutor?.user?.avatar} />
           <p>
             {record?.tutor?.user?.first_name} {record?.tutor?.user?.last_name}
@@ -159,19 +159,19 @@ const GroupLessons = () => {
       dataKey: 'actions',
       width: 20,
       render: (text, record) => (
-        <div className="actions">
-          <a className="outlined btn-see-details">{t('see_details')}</a>
+        <div className='actions'>
+          <a className='outlined btn-see-details'>{t('see_details')}</a>
           {/* <a className="btn-enroll" onClick={() => onBook(record)}>{t('enroll')}</a> */}
           {!record.completed ? (
             record.students.find(s => s?.id === user?.student_profile?.id) ? (
-              <a className="btn-joined">{t('joined')}</a>
+              <a className='btn-joined'>{t('joined')}</a>
             ) : (
-              <a className="btn-enroll" onClick={() => onBook(record)}>
+              <a className='btn-enroll' onClick={() => onBook(record)}>
                 {t('enroll')}
               </a>
             )
           ) : (
-            <a className="btn-completed">{t('completed')}</a>
+            <a className='btn-completed'>{t('completed')}</a>
           )}
         </div>
       )
@@ -188,23 +188,23 @@ const GroupLessons = () => {
 
   return (
     <Layout>
-      <div className="group-lessons-layout">
-        <h4 className="main-title">{t('group_lesson')}</h4>
-        <div className="divider" />
+      <div className='group-lessons-layout'>
+        <h4 className='main-title'>{t('group_lesson')}</h4>
+        <div className='divider' />
 
-        <div className="calendar-header">
-          <div className="icon" onClick={prevMonth}>
-            <img src={LeftArrow} alt="" />
+        <div className='calendar-header'>
+          <div className='icon' onClick={prevMonth}>
+            <img src={LeftArrow} alt='' />
           </div>
-          <div className="column col-center">
+          <div className='column col-center'>
             <span>{format(currentDate, 'MMM yyyy')}</span>
           </div>
-          <div className="icon" onClick={nextMonth}>
-            <img src={RightArrow} alt="" />
+          <div className='icon' onClick={nextMonth}>
+            <img src={RightArrow} alt='' />
           </div>
         </div>
 
-        <div className="filter">
+        <div className='filter'>
           <div>
             {/* <p>{t('placeholder_sortby')}</p>
             <Select
@@ -250,7 +250,7 @@ const GroupLessons = () => {
             })}
           </p>
         </div>
-        <div className="scroll-layout">
+        <div className='scroll-layout'>
           {appointments && (
             <CustomTable columns={columns} data={appointments} />
           )}

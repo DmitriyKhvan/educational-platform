@@ -81,45 +81,45 @@ const Main = () => {
 
   return (
     <Layout>
-      <div className="admin-main-layout">
-        <div className="page-header">
-          <h4 className="main-title">{t('tutor_list')}</h4>
+      <div className='admin-main-layout'>
+        <div className='page-header'>
+          <h4 className='main-title'>{t('tutor_list')}</h4>
         </div>
-        <div className="divider" />
+        <div className='divider' />
 
-        <div className="scroll-layout">
-          <p className="sub-title">{t('edit_tutor_student_details')}</p>
-          <div className="list-page-select">
-            <div className="page-card">
-              <img src={ImgStudent} alt="" />
-              <a href="/admin/tutor-list" className="enter-btn">
+        <div className='scroll-layout'>
+          <p className='sub-title'>{t('edit_tutor_student_details')}</p>
+          <div className='list-page-select'>
+            <div className='page-card'>
+              <img src={ImgStudent} alt='' />
+              <a href='/admin/tutor-list' className='enter-btn'>
                 {t('goto_tutor_list')}
               </a>
             </div>
-            <div className="page-card">
-              <img src={ImgTutor} alt="" />
-              <a href="/admin/student-list" className="enter-btn">
+            <div className='page-card'>
+              <img src={ImgTutor} alt='' />
+              <a href='/admin/student-list' className='enter-btn'>
                 {t('goto_student_list')}
               </a>
             </div>
           </div>
 
-          <p className="sub-title">{t('manage_classes')}</p>
-          <div className="manage-classes-wrapper">
-            <div className="class-card">
-              <p className="title">{t('change_student_class')}</p>
-              <div className="search-row">
+          <p className='sub-title'>{t('manage_classes')}</p>
+          <div className='manage-classes-wrapper'>
+            <div className='class-card'>
+              <p className='title'>{t('change_student_class')}</p>
+              <div className='search-row'>
                 <div>{t('find_student')}</div>
                 <div>
                   <input
-                    type="text"
+                    type='text'
                     value={studentName}
                     onChange={e => setStudentName(e.target.value)}
                     placeholder={t('search_student')}
                     onClick={() => setShowSutdents(!showStudents)}
                   />
                   {showStudents && (
-                    <div className="popup">
+                    <div className='popup'>
                       {students
                         .filter(
                           student =>
@@ -154,8 +154,8 @@ const Main = () => {
                 </div>
               </div>
               <a
-                href="#"
-                className="enter-btn right"
+                href='#'
+                className='enter-btn right'
                 onClick={() => {
                   if (selectedStudent) {
                     setVisibleStudentLessonModal(true)
@@ -166,20 +166,20 @@ const Main = () => {
                 {t('open_details')}
               </a>
             </div>
-            <div className="class-card">
-              <p className="title">{t('change_student_class')}</p>
-              <div className="search-row">
+            <div className='class-card'>
+              <p className='title'>{t('change_student_class')}</p>
+              <div className='search-row'>
                 <div>{t('find_tutor')}</div>
                 <div>
                   <input
-                    type="text"
+                    type='text'
                     value={tutorName}
                     onChange={e => setTutorName(e.target.value)}
                     placeholder={t('search_tutor')}
                     onClick={() => setShowTutors(!showTutors)}
                   />
                   {showTutors && (
-                    <div className="popup">
+                    <div className='popup'>
                       {tutors
                         .filter(
                           tutor =>
@@ -214,8 +214,8 @@ const Main = () => {
                 </div>
               </div>
               <a
-                href="#"
-                className="enter-btn right"
+                href='#'
+                className='enter-btn right'
                 onClick={() => {
                   if (selectedTutor) {
                     setVisibleTutorLessonModal(true)
@@ -228,22 +228,22 @@ const Main = () => {
             </div>
           </div>
 
-          <p className="sub-title">{t('tutor_time_availability')}</p>
-          <div className="manage-classes-wrapper">
-            <div className="class-card">
-              <p className="title">{t('tutor_time_availability')}</p>
-              <div className="search-row">
+          <p className='sub-title'>{t('tutor_time_availability')}</p>
+          <div className='manage-classes-wrapper'>
+            <div className='class-card'>
+              <p className='title'>{t('tutor_time_availability')}</p>
+              <div className='search-row'>
                 <span />
                 <div>
                   <input
-                    type="text"
+                    type='text'
                     value={tutorName1}
                     onChange={e => setTutorName1(e.target.value)}
                     placeholder={t('search_tutor')}
                     onClick={() => setShowTutors1(!showTutors1)}
                   />
                   {showTutors1 && (
-                    <div className="popup">
+                    <div className='popup'>
                       {tutors
                         .filter(
                           tutor =>
@@ -278,8 +278,8 @@ const Main = () => {
                 </div>
               </div>
               <a
-                href="#"
-                className="enter-btn"
+                href='#'
+                className='enter-btn'
                 onClick={() => {
                   setVisibleProfileModal(true)
                   setSelectedUser(selectedTutor1)
@@ -290,27 +290,27 @@ const Main = () => {
             </div>
           </div>
 
-          <p className="sub-title">{t('standard_tutor_payments')}</p>
-          <div className="manage-classes-wrapper">
+          <p className='sub-title'>{t('standard_tutor_payments')}</p>
+          <div className='manage-classes-wrapper'>
             {tutorRates.map((rate, idx) => {
               return (
-                <div className="class-card" key={idx}>
-                  <p className="title">{`${rate.type} LESSON (${rate.duration} mins)`}</p>
-                  <p className="amount">$ {rate.rate}</p>
+                <div className='class-card' key={idx}>
+                  <p className='title'>{`${rate.type} LESSON (${rate.duration} mins)`}</p>
+                  <p className='amount'>$ {rate.rate}</p>
                 </div>
               )
             })}
           </div>
-          <div className="edit-payment">
+          <div className='edit-payment'>
             <div
-              href="#"
-              className="enter-btn width-126"
+              href='#'
+              className='enter-btn width-126'
               onClick={() => setVisibleEditPaymentModal(true)}
             >
               {t('edit_payment')}
             </div>
             <p>
-              <img src={ImgInfo} alt="" /> {t('set_individual_tutor_payment')}
+              <img src={ImgInfo} alt='' /> {t('set_individual_tutor_payment')}
             </p>
           </div>
           {/* <p className="sub-title">{t('sales_discounts')}</p>
@@ -365,7 +365,7 @@ const Main = () => {
           visible={visibleProfileModal}
           onDismiss={() => setVisibleProfileModal(false)}
         >
-          <div className="scroll-layout">
+          <div className='scroll-layout'>
             <Profile user={user} isAdmin={true} />
           </div>
         </ModalUserInfo>

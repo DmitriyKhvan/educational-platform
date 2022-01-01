@@ -227,8 +227,8 @@ export const PackagesView = () => {
 
   return (
     <>
-      <p className="sub-title">1) {t('choose_course')}</p>
-      <div className="course-wrapper">
+      <p className='sub-title'>1) {t('choose_course')}</p>
+      <div className='course-wrapper'>
         {courses.map((course, index) => (
           <div
             key={`course-${index}`}
@@ -240,28 +240,28 @@ export const PackagesView = () => {
         ))}
       </div>
 
-      <p className="sub-title">{t('credit_card_details')}</p>
-      <div className="card-info">
-        <label htmlFor="card_number" className="card-label">
+      <p className='sub-title'>{t('credit_card_details')}</p>
+      <div className='card-info'>
+        <label htmlFor='card_number' className='card-label'>
           {t('card_number')}
         </label>
-        <CardNumberElement id="card_number" />
-        <div className="exp_cvc">
+        <CardNumberElement id='card_number' />
+        <div className='exp_cvc'>
           <div>
-            <label htmlFor="card_expire" className="card-label">
+            <label htmlFor='card_expire' className='card-label'>
               {t('expiration_date')}
             </label>
-            <CardExpiryElement id="card_expire" />
+            <CardExpiryElement id='card_expire' />
           </div>
           <div>
-            <label htmlFor="card_cvc" className="card-label">
+            <label htmlFor='card_cvc' className='card-label'>
               {t('cvc')}
             </label>
-            <CardCvcElement id="card_cvc" />
+            <CardCvcElement id='card_cvc' />
           </div>
         </div>
         <button
-          className="btn"
+          className='btn'
           onClick={onSaveCreditCard}
           disabled={!stripe || !elements}
         >
@@ -269,8 +269,8 @@ export const PackagesView = () => {
         </button>
       </div>
 
-      <p className="sub-title">2) {t('your_plan')}</p>
-      <div className="plan-wrapper">
+      <p className='sub-title'>2) {t('your_plan')}</p>
+      <div className='plan-wrapper'>
         <div>
           <MultipleToggle
             label={t('class_duration')}
@@ -291,7 +291,7 @@ export const PackagesView = () => {
             defaultActiveIndex={currencyIndex}
           />
         </div>
-        {subDurations.length > 0 && <p className="divider" />}
+        {subDurations.length > 0 && <p className='divider' />}
         {subDurations.length > 0 && (
           <div>
             <MultipleToggle
@@ -306,16 +306,16 @@ export const PackagesView = () => {
       </div>
       {loadingSubscriptions || loading || localloading ? (
         <Loader
-          className="align-center"
-          type="Audio"
-          color="#00BFFF"
+          className='align-center'
+          type='Audio'
+          color='#00BFFF'
           height={50}
           width={50}
         />
       ) : (
         <>
           {classTypeIndex === 1 && (
-            <div className="group">
+            <div className='group'>
               <Checkbox
                 label={t('have_discount_code')}
                 onChange={onChangeHasDiscount}
@@ -323,7 +323,7 @@ export const PackagesView = () => {
               />
             </div>
           )}
-          <p className="selected-plan-detail">
+          <p className='selected-plan-detail'>
             Showing our{' '}
             <strong>
               {class_durations[durationIndex].replace('min', ' mins')}{' '}
@@ -334,7 +334,7 @@ export const PackagesView = () => {
               : ''}{' '}
             :
           </p>
-          <div className="subscription-wrapper">
+          <div className='subscription-wrapper'>
             <NewSubscription
               currency={currencyIndex}
               plans={subscriptions}
@@ -357,9 +357,9 @@ export const Packages = () => {
   const [t, i18n] = useTranslation('translation')
   return (
     <Layout>
-      <div className="packages-layout">
-        <h4 className="main-title">{t('purchase_package')}</h4>
-        <div className="scroll-layout">
+      <div className='packages-layout'>
+        <h4 className='main-title'>{t('purchase_package')}</h4>
+        <div className='scroll-layout'>
           <PackagesView />
         </div>
       </div>

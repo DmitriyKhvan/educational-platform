@@ -50,7 +50,7 @@ const TutorList = () => {
       dataKey: 'name',
       width: 20,
       render: (text, record) => (
-        <div className="with-avatar">
+        <div className='with-avatar'>
           <Avatar
             avatar={record.avatar}
             name={getAvatarName(record.first_name, record.last_name)}
@@ -85,11 +85,11 @@ const TutorList = () => {
       dataKey: 'actions',
       width: 10,
       render: (item, record) => (
-        <div className="actions">
-          <a href="#" onClick={() => setSelectedUser(record)}>
+        <div className='actions'>
+          <a href='#' onClick={() => setSelectedUser(record)}>
             {t('view_profile')}
           </a>
-          <a href="#" onClick={() => setDeleteForUser(record)}>
+          <a href='#' onClick={() => setDeleteForUser(record)}>
             {t('delete')}
           </a>
         </div>
@@ -169,13 +169,13 @@ const TutorList = () => {
 
   return (
     <Layout>
-      <div className="tutor-list-layout">
-        <div className="page-header">
-          <h4 className="main-title">{t('tutor_list')}</h4>
-          <div className="controls">
-            <div className="search">
+      <div className='tutor-list-layout'>
+        <div className='page-header'>
+          <h4 className='main-title'>{t('tutor_list')}</h4>
+          <div className='controls'>
+            <div className='search'>
               <input
-                type="text"
+                type='text'
                 placeholder={t('search_tutor')}
                 value={subname}
                 onChange={e => {
@@ -190,9 +190,9 @@ const TutorList = () => {
               options={options.map(opt => ({ ...opt, label: t(opt.label) }))}
               styles={customStyles}
               placeholder={t('placeholder_sortby')}
-              classNamePrefix="custom-select"
-              className="custom-select"
-              name="sortBy"
+              classNamePrefix='custom-select'
+              className='custom-select'
+              name='sortBy'
               rules={{ required: t('error_select_an_option') }}
               getOptionValue={option => option.value}
               getOptionLabel={option => option.label}
@@ -200,17 +200,17 @@ const TutorList = () => {
             />
           </div>
         </div>
-        <div className="divider" />
-        <div className="scroll-layout">
+        <div className='divider' />
+        <div className='scroll-layout'>
           {tutors.length > 0 && (
             <CustomTable data={tutors} columns={columns} enableSeeAll={false} />
           )}
           {loading && (
-            <div className="text-align-center">
+            <div className='text-align-center'>
               <Loader
-                className="align-center"
-                type="Audio"
-                color="#00BFFF"
+                className='align-center'
+                type='Audio'
+                color='#00BFFF'
                 height={50}
                 width={50}
               />
@@ -218,7 +218,7 @@ const TutorList = () => {
           )}
           {hasmore && !loading && (
             <div
-              className="see-more-all-btn"
+              className='see-more-all-btn'
               onClick={() => {
                 setOffset(offset + limit)
               }}
@@ -230,14 +230,14 @@ const TutorList = () => {
       </div>
       {isShowModal && (
         <ModalUserInfo
-          title="Tutor Profile"
+          title='Tutor Profile'
           visible={isShowModal}
           onDismiss={() => {
             setIsShowModal(false)
             setSelectedUser(null)
           }}
         >
-          <div className="scroll-layout">
+          <div className='scroll-layout'>
             <Profile user={user} isAdmin={true} />
           </div>
         </ModalUserInfo>
@@ -248,7 +248,7 @@ const TutorList = () => {
         onCancel={() => {
           setDeleteForUser(null)
         }}
-        description="delete_tutor"
+        description='delete_tutor'
       />
     </Layout>
   )

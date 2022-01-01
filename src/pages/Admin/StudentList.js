@@ -45,7 +45,7 @@ const StudentList = () => {
       dataKey: 'name',
       width: 20,
       render: (text, record) => (
-        <div className="with-avatar">
+        <div className='with-avatar'>
           <Avatar
             avatar={record.avatar}
             name={getAvatarName(record.first_name, record.last_name)}
@@ -82,7 +82,7 @@ const StudentList = () => {
       dataKey: 'actions',
       width: 10,
       render: (item, record) => (
-        <div className="actions">
+        <div className='actions'>
           <a onClick={() => setSelectedUser(record)}>{t('view_profile')}</a>
           <a onClick={() => setDeleteForUser(record)}>{t('delete')}</a>
         </div>
@@ -158,13 +158,13 @@ const StudentList = () => {
 
   return (
     <Layout>
-      <div className="student-list-layout">
-        <div className="page-header">
-          <h4 className="main-title">{t('student_list')}</h4>
-          <div className="controls">
-            <div className="search">
+      <div className='student-list-layout'>
+        <div className='page-header'>
+          <h4 className='main-title'>{t('student_list')}</h4>
+          <div className='controls'>
+            <div className='search'>
               <input
-                type="text"
+                type='text'
                 placeholder={t('search_student')}
                 onChange={event => {
                   setSubname(event.target.value)
@@ -178,9 +178,9 @@ const StudentList = () => {
               options={options.map(opt => ({ ...opt, label: t(opt.label) }))}
               styles={customStyles}
               placeholder={t('placeholder_sortby')}
-              classNamePrefix="custom-select"
-              className="custom-select"
-              name="sortBy"
+              classNamePrefix='custom-select'
+              className='custom-select'
+              name='sortBy'
               rules={{ required: t('error_select_an_option') }}
               getOptionValue={option => option.value}
               getOptionLabel={option => option.label}
@@ -188,8 +188,8 @@ const StudentList = () => {
             />
           </div>
         </div>
-        <div className="divider" />
-        <div className="scroll-layout">
+        <div className='divider' />
+        <div className='scroll-layout'>
           {students.length > 0 && (
             <CustomTable
               data={students}
@@ -198,11 +198,11 @@ const StudentList = () => {
             />
           )}
           {loading && (
-            <div className="text-align-center">
+            <div className='text-align-center'>
               <Loader
-                className="align-center"
-                type="Audio"
-                color="#00BFFF"
+                className='align-center'
+                type='Audio'
+                color='#00BFFF'
                 height={50}
                 width={50}
               />
@@ -210,7 +210,7 @@ const StudentList = () => {
           )}
           {hasmore && !loading && (
             <div
-              className="see-more-all-btn"
+              className='see-more-all-btn'
               onClick={() => {
                 setOffset(offset + limit)
               }}
@@ -229,7 +229,7 @@ const StudentList = () => {
             setSelectedUser(null)
           }}
         >
-          <div className="scroll-layout">
+          <div className='scroll-layout'>
             <Profile user={user} isAdmin={true} />
           </div>
         </ModalUserInfo>
@@ -238,7 +238,7 @@ const StudentList = () => {
         visible={!!deleteForUser}
         onSuccess={deleteUser}
         onCancel={() => setDeleteForUser(null)}
-        description="delete_student"
+        description='delete_student'
       />
     </Layout>
   )

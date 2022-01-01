@@ -150,27 +150,27 @@ const ModalLesson = ({
         user={student}
         onDismiss={onDismiss}
       >
-        <div className="scroll-layout">
-          <div className="edit-student-lesson-wrapper">
+        <div className='scroll-layout'>
+          <div className='edit-student-lesson-wrapper'>
             <UserHeader user={student} onAction={goToStudentProfile} />
-            <p className="sub-title">
+            <p className='sub-title'>
               {student.first_name}'s{' '}
               {status === 'past' ? t('past_lessons') : t('upcoming_lessons')}{' '}
               {`{${filtered.length}}`}
             </p>
             {loading ? (
-              <div className="flex justify-content-center align-items-center">
+              <div className='flex justify-content-center align-items-center'>
                 <Loader
-                  className="align-center"
-                  type="Audio"
-                  color="#00BFFF"
+                  className='align-center'
+                  type='Audio'
+                  color='#00BFFF'
                   height={50}
                   width={50}
                 />
               </div>
             ) : (
               <CustomTable
-                className="full-height"
+                className='full-height'
                 data={filtered}
                 columns={columns}
                 enableSeeAll={false}

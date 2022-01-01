@@ -72,7 +72,7 @@ const ModalEditStudentLesson = ({
       dataKey: 'actions',
       width: 40,
       render: (item, record) => (
-        <div className="actions">
+        <div className='actions'>
           <a
             onClick={() => {
               setAction('assign')
@@ -94,7 +94,7 @@ const ModalEditStudentLesson = ({
               setAction('delete')
               setLesson(record)
             }}
-            className="outlined"
+            className='outlined'
           >
             {t('delete')}
           </a>
@@ -162,43 +162,43 @@ const ModalEditStudentLesson = ({
         visible={visible}
         onDismiss={onDismiss}
       >
-        <div className="scroll-layout">
+        <div className='scroll-layout'>
           {appointment_loading ? (
             <Loader
-              className="align-center"
-              type="Audio"
-              color="#00BFFF"
+              className='align-center'
+              type='Audio'
+              color='#00BFFF'
               height={50}
               width={50}
             />
           ) : (
-            <div className="edit-student-lesson-wrapper">
+            <div className='edit-student-lesson-wrapper'>
               <UserHeader
                 user={student.user}
                 onAction={onGoToProfile ? onGoToProfile : onDismiss}
               />
-              <div className="pick-date">
-                <div className="icon" onClick={prevMonth}>
-                  <img src={LeftArrow} alt="" />
+              <div className='pick-date'>
+                <div className='icon' onClick={prevMonth}>
+                  <img src={LeftArrow} alt='' />
                 </div>
-                <div className="column col-center">
+                <div className='column col-center'>
                   <span>{format(currentDate, 'eeee, do MMMM yyyy')}</span>
                 </div>
-                <div className="icon" onClick={nextMonth}>
-                  <img src={RightArrow} alt="" />
+                <div className='icon' onClick={nextMonth}>
+                  <img src={RightArrow} alt='' />
                 </div>
               </div>
-              <p className="sub-title">
+              <p className='sub-title'>
                 {t('scheduled_lessons', { lessons: 3 })}
               </p>
               <CustomTable
-                className="full-height"
+                className='full-height'
                 data={filterLessons}
                 columns={columns_upcoming}
                 enableSeeAll={false}
               />
               <Link
-                className="btn-schedule-new-lesson"
+                className='btn-schedule-new-lesson'
                 to={{
                   pathname: '/admin/schedule-new-lesson',
                   state: { studentId: student.id }

@@ -254,21 +254,21 @@ const Messages = () => {
   return (
     <Layout>
       <span>{String.fromCharCode('&#9733')}</span>
-      <div className="view-messages">
-        <div className="header-title">
-          <h4 className="main-title">{t('view_messages')}</h4>
+      <div className='view-messages'>
+        <div className='header-title'>
+          <h4 className='main-title'>{t('view_messages')}</h4>
           <p>
             {t('talk_with_directly', {
               person: isTutor ? t('student') : t('tutor')
             })}
           </p>
         </div>
-        <div className="divider" />
-        <div className="messages-window">
+        <div className='divider' />
+        <div className='messages-window'>
           {(!receivers || (receivers && receivers.length === 0)) && (
-            <span className="no-chat-history">{t('no_chat_history')}</span>
+            <span className='no-chat-history'>{t('no_chat_history')}</span>
           )}
-          <div className="message-receivers">
+          <div className='message-receivers'>
             {receivers &&
               receivers.length > 0 &&
               receivers.map((receiver, index) => (
@@ -280,26 +280,26 @@ const Messages = () => {
                   onClick={() => selectReceiver(receiver.id)}
                   key={receiver.id}
                 >
-                  <div className="message-inner">
+                  <div className='message-inner'>
                     <Avatar avatar={receiver.image} name={receiver.abbrName} />
                     <p>{receiver.name}</p>
                     {!!receiver.unread && (
-                      <span className="badge">{receiver.unread}</span>
+                      <span className='badge'>{receiver.unread}</span>
                     )}
                   </div>
                 </div>
               ))}
           </div>
           {currentReceiver && (
-            <div className="message-content">
-              <div className="message-content-header">
+            <div className='message-content'>
+              <div className='message-content-header'>
                 <p>
                   {t('between_you_and_person', { name: currentReceiver.name })}
                 </p>
               </div>
-              <div className="messages">
-                <div className="load-prev-messages">
-                  <a href="#" onClick={loadMessage}>
+              <div className='messages'>
+                <div className='load-prev-messages'>
+                  <a href='#' onClick={loadMessage}>
                     {t('load_messages')}
                   </a>
                 </div>
@@ -311,27 +311,27 @@ const Messages = () => {
                       }`}
                       key={`message-item-${index}`}
                     >
-                      <div className="user-image">
+                      <div className='user-image'>
                         <Avatar
                           avatar={message.image}
                           name={message.abbrName}
                         />
                       </div>
-                      <div className="message-text">
+                      <div className='message-text'>
                         <p>{message.message}</p>
                       </div>
                     </div>
                   ))}
               </div>
-              <div className="message-input submit-action">
-                <div className="user-image">
+              <div className='message-input submit-action'>
+                <div className='user-image'>
                   <Avatar
                     avatar={user.avatar}
                     name={getAvatarName(user.first_name, user.last_name)}
                   />
                 </div>
                 <input
-                  type="text"
+                  type='text'
                   disabled={loadingPrevMsgs || !socket}
                   placeholder={t('type_your_message')}
                   value={text}
@@ -341,18 +341,18 @@ const Messages = () => {
                   }}
                 />
               </div>
-              <div className="btn-container">
-                <button className="send-message" onClick={sendMessage}>
+              <div className='btn-container'>
+                <button className='send-message' onClick={sendMessage}>
                   {t('send_message')}
                 </button>
               </div>
               {loadingPrevMsgs && (
-                <div className="loading">
-                  <div className="trans-bg" />
+                <div className='loading'>
+                  <div className='trans-bg' />
                   <Loader
-                    className="align-center"
-                    type="Audio"
-                    color="#00BFFF"
+                    className='align-center'
+                    type='Audio'
+                    color='#00BFFF'
                     height={50}
                     width={50}
                   />

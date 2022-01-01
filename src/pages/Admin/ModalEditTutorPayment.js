@@ -17,10 +17,10 @@ const ModalEditTutorPayment = ({ user, onDismiss, visible }) => {
       user={user}
       onDismiss={onDismiss}
     >
-      <div className="scroll-layout">
+      <div className='scroll-layout'>
         <UserHeader user={user} onAction={onDismiss} />
-        <div className="payment-page-layout">
-          <div className="scroll-layout">
+        <div className='payment-page-layout'>
+          <div className='scroll-layout'>
             <PaymentPage tutor={user.tutor_profile} />
           </div>
         </div>

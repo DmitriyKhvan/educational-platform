@@ -37,7 +37,7 @@ const Students = ({ students, title, sort, setSort }) => {
       dataKey: 'studentName',
       width: 30,
       render: (text, record) => (
-        <div className="with-avatar">
+        <div className='with-avatar'>
           <Avatar
             avatar={record.img}
             name={getAvatarName(record.first_name, record.last_name)}
@@ -66,7 +66,7 @@ const Students = ({ students, title, sort, setSort }) => {
       dataKey: 'actions',
       width: 10,
       render: (item, record) => (
-        <div className="actions">
+        <div className='actions'>
           <Link
             to={{
               pathname: `/tutor/students/${record.id}`,
@@ -105,25 +105,25 @@ const Students = ({ students, title, sort, setSort }) => {
 
   return (
     <>
-      <div className="page-header">
-        <h4 className="main-title">{title}</h4>
+      <div className='page-header'>
+        <h4 className='main-title'>{title}</h4>
         <Select
           value={sort}
           onChange={handleChange}
           options={options.map(opt => ({ ...opt, label: t(opt.label) }))}
           styles={customStyles}
-          placeholder="Sort By"
-          classNamePrefix="custom-select"
-          className="custom-select"
-          name="sortBy"
+          placeholder='Sort By'
+          classNamePrefix='custom-select'
+          className='custom-select'
+          name='sortBy'
           rules={{ required: t('error_select_an_option') }}
           getOptionValue={option => option.value}
           getOptionLabel={option => option.label}
         />
       </div>
-      <div className="divider" />
+      <div className='divider' />
       {students && (
-        <CustomTable data={students} columns={columns} type="student" />
+        <CustomTable data={students} columns={columns} type='student' />
       )}
     </>
   )

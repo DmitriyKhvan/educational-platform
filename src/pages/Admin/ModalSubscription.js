@@ -17,10 +17,10 @@ const ModalSubscription = ({ user, onDismiss, visible }) => {
       user={user}
       onDismiss={onDismiss}
     >
-      <div className="scroll-layout">
-        <div className="packages-layout">
+      <div className='scroll-layout'>
+        <div className='packages-layout'>
           <UserHeader user={user} onAction={onDismiss} />
-          <div className="availability-layout">
+          <div className='availability-layout'>
             <PackagesView user_id={user.id} />
           </div>
         </div>

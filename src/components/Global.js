@@ -26,9 +26,9 @@ export const renderFormField = (
   type = 'text',
   placeholder
 ) => (
-  <div className="form-row">
-    <div className="form-item">
-      <div className="form-item-inner">
+  <div className='form-row'>
+    <div className='form-item'>
+      <div className='form-item-inner'>
         <label htmlFor={key}>{label}</label>
         {type === 'textfield' ? (
           <textarea
@@ -52,7 +52,7 @@ export const renderFormField = (
         )}
       </div>
       {formDataError && formDataError[key] && (
-        <p className="error-msg">{formDataError[key] || ''}</p>
+        <p className='error-msg'>{formDataError[key] || ''}</p>
       )}
     </div>
   </div>
@@ -70,9 +70,9 @@ export const renderSelect = (
   disabled = false,
   isMulti = false
 ) => (
-  <div className="form-row">
-    <div className="form-item">
-      <div className="form-item-inner">
+  <div className='form-row'>
+    <div className='form-item'>
+      <div className='form-item-inner'>
         <label htmlFor={key}>{label}</label>
         <Select
           isMulti={isMulti}
@@ -82,24 +82,24 @@ export const renderSelect = (
           options={options}
           styles={customStyles}
           placeholder={placeholder}
-          classNamePrefix="form-select"
-          className="form-select"
+          classNamePrefix='form-select'
+          className='form-select'
           name={key}
           rules={rules}
           getOptionValue={option => option.value}
           getOptionLabel={option => option.label}
         />
       </div>
-      {errorMsg && <p className="error-msg">{errorMsg}</p>}
+      {errorMsg && <p className='error-msg'>{errorMsg}</p>}
     </div>
   </div>
 )
 
 export const renderPhonenumber = (onChange, formData, errorMsg, label) => (
-  <div className="form-row">
-    <div className="form-item">
-      <div className="form-item-inner">
-        <label htmlFor="email">{label}</label>
+  <div className='form-row'>
+    <div className='form-item'>
+      <div className='form-item-inner'>
+        <label htmlFor='email'>{label}</label>
         <PhoneInput
           specialLabel={label}
           country={'us'}
@@ -111,7 +111,7 @@ export const renderPhonenumber = (onChange, formData, errorMsg, label) => (
           }}
         />
       </div>
-      {errorMsg && <p className="error-msg">{errorMsg}</p>}
+      {errorMsg && <p className='error-msg'>{errorMsg}</p>}
     </div>
   </div>
 )

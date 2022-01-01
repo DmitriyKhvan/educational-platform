@@ -31,7 +31,7 @@ const StudentList = () => {
 
   return (
     <Layout>
-      <div className="student-list">
+      <div className='student-list'>
         <Students
           students={students}
           title={t('student_list')}
@@ -40,9 +40,9 @@ const StudentList = () => {
         />
         {loading && (
           <Loader
-            className="align-center"
-            type="Audio"
-            color="#00BFFF"
+            className='align-center'
+            type='Audio'
+            color='#00BFFF'
             height={50}
             width={50}
           />

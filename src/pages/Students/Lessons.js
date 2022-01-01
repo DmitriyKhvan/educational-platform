@@ -120,7 +120,7 @@ const Lessons = () => {
       dataKey: 'actions',
       width: 10,
       render: item => (
-        <div className="actions">
+        <div className='actions'>
           <a>{t('view_detail')}</a>
         </div>
       )
@@ -132,29 +132,29 @@ const Lessons = () => {
   }
   return (
     <Layout>
-      <div className="past-lessons">
-        <div className="page-header">
-          <h4 className="main-title">{t('my_lessons')}</h4>
+      <div className='past-lessons'>
+        <div className='page-header'>
+          <h4 className='main-title'>{t('my_lessons')}</h4>
           <Select
             value={selectedOption}
             onChange={handleChange}
             options={options}
             styles={customStyles}
             placeholder={t('placeholder_sortby')}
-            classNamePrefix="custom-select"
-            className="custom-select"
-            name="sortBy"
+            classNamePrefix='custom-select'
+            className='custom-select'
+            name='sortBy'
             rules={{ required: 'Please select an option' }}
             getOptionValue={option => option.value}
             getOptionLabel={option => option.label}
           />
         </div>
-        <div className="divider" />
-        <div className="scroll-layout">
+        <div className='divider' />
+        <div className='scroll-layout'>
           <CustomTable
             columns={columns}
             data={myLessons}
-            className="full-height"
+            className='full-height'
           />
         </div>
       </div>

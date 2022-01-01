@@ -89,10 +89,10 @@ const TutorDashboard = () => {
   }
 
   return (
-    <div className="main-dashboard">
-      <h4 className="main-title">{t('main_dashboard')}</h4>
-      <div className="divider" />
-      <div className="summary-information">
+    <div className='main-dashboard'>
+      <h4 className='main-title'>{t('main_dashboard')}</h4>
+      <div className='divider' />
+      <div className='summary-information'>
         <SummaryCard
           text={t('upcoming_appointments')}
           icon={CalendarIcon}
@@ -112,20 +112,20 @@ const TutorDashboard = () => {
       <Lessons
         appointments={appointments}
         title={t('upcoming_lessons')}
-        status="upcoming"
+        status='upcoming'
         onAction={onSelectStudent}
       />
       <Lessons
         appointments={appointments}
         title={t('past_lessons')}
-        status="past"
+        status='past'
         onAction={onSelectStudent}
         onComplete={onCompleteLesson}
         onFeedback={onFeedback}
       />
       {visible && (
         <ModalLesson
-          title="Student Lesson History"
+          title='Student Lesson History'
           visible={visible}
           student={selectedStudent}
           onDismiss={onDismiss}
@@ -154,9 +154,9 @@ const TutorDashboard = () => {
       />
       {appointments && appointments.loading && (
         <Loader
-          className="align-center"
-          type="Audio"
-          color="#00BFFF"
+          className='align-center'
+          type='Audio'
+          color='#00BFFF'
           height={50}
           width={50}
         />

@@ -155,20 +155,20 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
     <div className={`profile-image ${isAdmin ? 'admin' : ''}`}>
       {user?.avatar ? (
         <div
-          className="avatar-section"
+          className='avatar-section'
           onMouseEnter={() => setEditAvatar(true)}
           onMouseLeave={() => setEditAvatar(false)}
         >
           <Avatar avatar={user.avatar} />
-          <div className="edit-avatar" onClick={() => showModal()}>
+          <div className='edit-avatar' onClick={() => showModal()}>
             <span>{t('edit_avatar')}</span>
           </div>
         </div>
       ) : (
-        <div className="">
-          <div className="default-avatar">
-            <div className="upload-image" onClick={() => showModal()}>
-              <img src={UploadIcon} alt="" />
+        <div className=''>
+          <div className='default-avatar'>
+            <div className='upload-image' onClick={() => showModal()}>
+              <img src={UploadIcon} alt='' />
             </div>
           </div>
         </div>
@@ -180,23 +180,23 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
   )
 
   return (
-    <div className="profile-inner-wrapper">
+    <div className='profile-inner-wrapper'>
       {!isShowAvailability && (
         <>
           {renderProfileImage()}
           {isAdmin && isTutor && (
             <div
-              className="btn-edit-availability"
+              className='btn-edit-availability'
               onClick={() => setIsShowAvailability(true)}
             >
               Edit Availability
             </div>
           )}
-          <div className="form-section">
+          <div className='form-section'>
             {/* {renderFormField('username', t('username'), handleChange, formData, formDataError)}
         {renderFormField('password', t('password'), handleChange, formData, formDataError, 'password')} */}
-            <p className="section-title">{t('contact_details')}</p>
-            <div className="flex align-items-center gap-24">
+            <p className='section-title'>{t('contact_details')}</p>
+            <div className='flex align-items-center gap-24'>
               {renderFormField(
                 'first_name',
                 t('first_name'),
@@ -219,7 +219,7 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
               formData,
               formDataError
             )}
-            <div className="flex align-items-center gap-24">
+            <div className='flex align-items-center gap-24'>
               {renderSelect(
                 'gender',
                 t('gender'),
@@ -245,7 +245,7 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
                 true
               )}
             </div>
-            <div className="flex align-items-center gap-24">
+            <div className='flex align-items-center gap-24'>
               {renderFormField(
                 'email',
                 t('email'),

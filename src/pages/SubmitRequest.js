@@ -72,17 +72,17 @@ const SubmitRequest = () => {
 
   return (
     <Layout>
-      <div className="submit-request-layout">
-        <h4 className="main-title">{t('submit_request')}</h4>
-        <div className="divider" />
+      <div className='submit-request-layout'>
+        <h4 className='main-title'>{t('submit_request')}</h4>
+        <div className='divider' />
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer et
           justo metus. Nunc luctus justo quis lectus finibus scelerisque.
           Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
           posuere cubilia curae.
         </p>
-        <div className="form-wrapper">
-          <div className="form-row">
+        <div className='form-wrapper'>
+          <div className='form-row'>
             <label>{t('subject')}</label>
             <input
               value={subject}
@@ -90,7 +90,7 @@ const SubmitRequest = () => {
               placeholder={t('subject_your_question_request')}
             />
           </div>
-          <div className="form-row">
+          <div className='form-row'>
             <label>{t('description')}</label>
             <textarea
               value={description}
@@ -98,15 +98,15 @@ const SubmitRequest = () => {
               placeholder={t('description_your_question')}
             />
           </div>
-          <div className="form-row">
+          <div className='form-row'>
             <label>{t('attachments')}</label>
-            <div className="drag-drop">
+            <div className='drag-drop'>
               <input
-                type="file"
+                type='file'
                 ref={ref}
                 id={'submit_request_attachment'}
-                className="drag-drop"
-                accept="video/*"
+                className='drag-drop'
+                accept='video/*'
                 onDrop={e => handleDrop(e)}
                 onDragEnter={e => handleDragEnter(e)}
                 onDragOver={e => handleDragOver(e)}
@@ -129,12 +129,12 @@ const SubmitRequest = () => {
               )}
             </div>
           </div>
-          <div className="file-info-submit">
+          <div className='file-info-submit'>
             <div>
               <span>{t('maximum_size')}</span>
               <span>{t('file_size_4mb')}</span>
             </div>
-            <div className="btn-submit">{t('send')}</div>
+            <div className='btn-submit'>{t('send')}</div>
           </div>
         </div>
       </div>

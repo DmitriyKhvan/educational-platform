@@ -13,18 +13,18 @@ const ModalBirthdayDiscount = ({ visible, start_at, onDismiss }) => {
 
   return (
     <Modal
-      className="modal-birthday-discount"
+      className='modal-birthday-discount'
       visible={visible}
       onCancel={onDismiss}
     >
-      <img src={ImgBalloon} alt="" />
-      <h4 className="thankyou">{t('happy_birthday', { name: 'John' })}</h4>
+      <img src={ImgBalloon} alt='' />
+      <h4 className='thankyou'>{t('happy_birthday', { name: 'John' })}</h4>
       <p>{t('prepared_birthday_surprise')}</p>
       <p>{t('buy_lesson_25')}</p>
       <p>{t('use_discount_now')}</p>
-      <div className="footer">
+      <div className='footer'>
         <span>Okg7Nqbw</span>
-        <span className="btn">{t('use_discount')}</span>
+        <span className='btn'>{t('use_discount')}</span>
       </div>
     </Modal>
   )

@@ -1,66 +1,119 @@
 import React, { useEffect, useState } from 'react'
-import '../../../assets/styles/dashboard.scss'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import ImgArrowBack from '../../../assets/images/arrow_back.svg'
-import { Checkbox } from '../../../components/Checkbox'
-import { Avatar } from '../../../components/Avatar'
-import Stars from '../../../components/Stars'
 import { format } from 'date-fns'
-import { getAbbrName, getAvatarName } from '../../../constants/global'
-import { createAppointment } from '../../../actions/appointment'
-import ModalConfirmLesson from './ModalConfirmLesson'
+import moment from 'moment'
+import {
+  createAppointment,
+  getAppointments
+} from '../../../actions/appointment'
 import ActionTypes from '../../../constants/actionTypes'
 import NotificationManager from '../../../components/NotificationManager'
-import FavouriteIcon from '../../../components/FavouriteIcon'
-import { useHistory } from 'react-router-dom'
+import Layout from '../../../components/Layout'
+import LessonCardComponent from './LessonCard'
+import ScheduleCard from './ScheduleCard'
+import TutorImageRow from './TutorImageRow'
+import ScheduleCardComponent from '../../../components/student-dashboard/ScheduleCard'
 
-const LessonConfirmation = ({ tutor, time, lesson, onBack, onContinue }) => {
+const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
   const dispatch = useDispatch()
-  const [t, i18n] = useTranslation('translation')
-  const [checkStates, setCheckStates] = useState([false, false, false])
-  const [isConfirmModal, setIsConfirmModal] = useState(false)
-
-  const history = useHistory()
+  const [t] = useTranslation('translation')
+  const [repeat, setRepeat] = useState({})
+  const [cancel, setCancel] = useState({})
+  const user = useSelector(state => state.users.user)
+  const [isChecked, setIsChecked] = useState(false)
+  const [newAppointment, setNewAppointment] = useState({})
+  const [isConfirmed, setIsConfirmed] = useState(false)
+  const [date, setDate] = useState()
 
   useEffect(() => {}, [dispatch])
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
-  const onChangeChecked = index => {
-    let checked = [...checkStates]
-    checked[index] = !checked[index]
-    if (checked[index]) checked[1 - index] = false
-    setCheckStates(checked)
+  const formattedTime = new Date(time)
+  let data = {
+    lesson_id: plan.lesson_id,
+    tutor_id: tutor.id,
+    duration: plan.duration,
+    start_at: format(formattedTime, "yyyy-MM-dd'T'HH:mm:ss"),
+    cancel_action: 'assign_new_tutor'
+  }
+  if (user.student_profile.id) {
+    data = { ...data, student_id: user.student_profile.id }
   }
 
-  const CancelReasonBox = ({ label, index, checked, onChange }) => {
-    return (
-      <div className={`cancel-reason ${checked ? 'active' : ''}`}>
-        <div>
-          <Checkbox
-            checked={checked}
-            onChange={() => onChange(index)}
-            label={label}
-          />
-        </div>
-      </div>
-    )
-  }
-
-  const onClickConfirm = async () => {
-    const studentId = history.location.state && history.location.state.studentId
-
-    let data = {
-      lesson_id: lesson.lesson_id,
-      tutor_id: tutor.id,
-      duration: lesson.duration,
-      start_at: format(time, "yyyy-MM-dd'T'HH:mm:ss"),
-      cancel_action: 'assign_new_tutor' // assign_new_tutor | refund, default is assign_new_tutor
+  const fetchAppointments = async () => {
+    const queryObj = {
+      student_id: user.student_profile.id,
+      from: new Date().toISOString()
     }
+    return await dispatch(getAppointments(queryObj))
+  }
 
-    if (studentId) data = { ...data, studentId }
+  const weekArr = Array.apply(null, Array(7)).map((_, i) =>
+    moment(i, 'e')
+      .startOf('week')
+      .isoWeekday(i + 1)
+      .format('ddd')
+  )
+
+  const checkboxEvent = ({ target }) => {
+    const id = parseInt(target.value)
+    if (id <= 4) {
+      if (id === repeat.value) {
+        setRepeat({})
+      } else {
+        setRepeat({ data: target.id, value: id })
+      }
+    } else if (id > 4) {
+      if (id === cancel.value) {
+        setCancel({})
+        setIsChecked(false)
+      } else {
+        setCancel({ data: target.id, value: id })
+        setIsChecked(true)
+      }
+    }
+  }
+
+  const repeatingLessonArr = [
+    {
+      data: t('every_week'),
+      value: 1
+    },
+    {
+      data: t('every_two_weeks'),
+      value: 2
+    },
+    {
+      data: t('dont_repeat'),
+      value: 3
+    },
+    {
+      data: t('custom'),
+      value: 4
+    }
+  ]
+
+  const cancellationArr = [
+    { data: t('assign_new_tutor'), value: 5 },
+    { data: t('choose_new_tutor'), value: 6 },
+    { data: t('return_lesson_credit'), value: 7 }
+  ]
+
+  const confirmLesson = async () => {
     const res = await dispatch(createAppointment(data))
     if (res.type === ActionTypes.CREATE_APPOINTMENT_INFO.SUCCESS) {
-      setIsConfirmModal(true)
+      const { payload } = await fetchAppointments()
+      const newAppt = payload.filter(x => x.id === res.payload.groups[0].id)[0]
+      if (newAppt) {
+        setDate(moment(newAppt.start_at).unix())
+        setNewAppointment(newAppt)
+        setIsConfirmed(true)
+        window.scrollTo(0, 0)
+      }
     } else {
       if (res.payload.error.messages && res.payload.error.messages.length) {
         NotificationManager.error(
@@ -76,90 +129,162 @@ const LessonConfirmation = ({ tutor, time, lesson, onBack, onContinue }) => {
   }
 
   return (
-    <div className="overview-confirmation">
-      <h4 className="main-title">{t('overview_confirmation')}</h4>
-      <div className="btn-step-back" onClick={onBack}>
-        <img src={ImgArrowBack} alt="" />
-        <span>{t('step_back')}</span>
-      </div>
-      <div className="divider" />
-      <div className="lesson-detail">
-        <div>
-          <p>{t('selected_tutor')}</p>
-          <span />
-          <p>{t('lesson_time_detail')}</p>
-        </div>
-        <div>
-          <div className="info">
-            <Avatar
-              avatar={tutor.avatar}
-              name={getAvatarName(tutor.first_name, tutor.last_name)}
-            />
-            <div className="detail">
-              <p>
-                {getAbbrName(tutor.first_name, tutor.last_name)}
-                <FavouriteIcon
-                  isFavourite={tutor.favorite}
-                  tutor_id={tutor.id}
-                />
-              </p>
-              <Stars points={tutor.points} />
-              <p className="university">{tutor.university}</p>
-              <p className="location">{tutor.location}</p>
-              <p className="major">{tutor.major}</p>
-            </div>
-          </div>
-          <div className="divider" />
-          <div className="lesson-time-detail">
-            <p className="date-time">
-              {format(time, 'MMM dd')}, <strong>{format(time, 'hh:mm')}</strong>{' '}
-              {format(time, 'aa')}
-            </p>
-            <p className="day">{format(time, 'EEEE')}</p>
-            <div className="lesson-info">
-              <div className="duration-label">{lesson.duration}m</div>
-              <p>{lesson.course}</p>
-              <div className="duration-graph">
-                <p>Time Duration</p>
-                <div className="graph">
-                  <span className="start-at" />
-                  <span className="gray" />
-                  <span className="end-at" />
-                </div>
-                <div className="hours">
-                  <p>{format(time, 'hh:mm')}</p>
-                  <p>{format(time, 'hh:mm')}</p>
-                </div>
+    <Layout>
+      <div className='scroll-layout'>
+        <div className='flex-container'>
+          <div className='children-wrapper flex-left'>
+            <h1 className='title my-2'>{t('confirmation')}</h1>
+            <p className='welcome-subtitle'>{t('confirmation_subtitle')}</p>
+            <div className='row'>
+              <div className='col-auto'>
+                <button
+                  className='enter-btn btn-dash-return'
+                  onClick={() => setTabIndex(0)}
+                >
+                  {t('edit_lesson')}
+                </button>
+              </div>
+              <div className='col-auto'>
+                <button
+                  className='enter-btn btn-dash-return'
+                  onClick={() => setTabIndex(1)}
+                >
+                  {t('edit_schedule')}
+                </button>
+              </div>
+              <div className='col-auto'>
+                <button
+                  className='enter-btn btn-dash-return'
+                  onClick={() => setTabIndex(2)}
+                >
+                  {t('edit_tutor')}
+                </button>
               </div>
             </div>
+
+            <p className='welcome-subtitle pt-4'>{t('lesson_topic')}</p>
+            <div className='row container ps-2'>
+              <LessonCardComponent
+                lesson={plan.lesson_type}
+                duration={plan.duration}
+                remaining={plan.total_lessons}
+              />
+            </div>
+            <p className='welcome-subtitle pt-4'>{t('date_and_time')}</p>
+            <div className='row container ps-2'>
+              <ScheduleCard time={time} duration={plan.duration} />{' '}
+            </div>
+            <p className='welcome-subtitle pt-4'>{t('tutor')}</p>
+            <div className='row ps-2'>
+              <TutorImageRow tutor={tutor} />
+            </div>
+            {/* <p className='welcome-subtitle pt-4'>{t('repeating_lesson')}</p>
+            <div className='row container ps-2'>
+              {repeatingLessonArr.map(x => (
+                <div className='col-auto schedule-lesson-border ms-1 px-2 form-check-wrapper py-2'>
+                  <div class='form-check'>
+                    <input
+                      class='form-check-input'
+                      type='checkbox'
+                      value={x.value}
+                      id={x.data}
+                      onChange={checkboxEvent}
+                      checked={x.value === repeat?.value ? true : false}
+                    />
+                    <label class='form-check-label' htmlFor={x.data}>
+                      {x.data}
+                    </label>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className='row container ps-2'>
+            {repeat.value === 4
+              ? weekArr.map(x => (
+                  <div className='col-auto schedule-lesson-border ms-1 px-2 form-check-wrapper py-2'>
+                    <div class='form-check'>
+                      <input
+                        class='form-check-input'
+                        type='checkbox'
+                        value={x}
+                        id={x}
+                        onChange={checkboxEvent}
+                      />
+                      <label class='form-check-label' htmlFor={x}>
+                        {x}
+                      </label>
+                    </div>
+                  </div>
+                ))
+              : ''}
+          </div> */}
+            <p className='welcome-subtitle pt-4'>{t('tutor_cancellation')}</p>
+            <div className='row container ps-2'>
+              {cancellationArr.map((x, i) => (
+                <div
+                  className='col-auto schedule-lesson-border ms-1 px-2 form-check-wrapper py-2'
+                  key={i}
+                >
+                  <div class='form-check'>
+                    <input
+                      class='form-check-input'
+                      type='checkbox'
+                      value={x.value}
+                      id={x.data}
+                      onChange={checkboxEvent}
+                      checked={x.value === cancel?.value ? true : false}
+                    />
+                    <label class='form-check-label' htmlFor={x.data}>
+                      {x.data}
+                    </label>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div class='d-grid gap-2 pt-3'>
+              <button
+                class='btn btn-primary text-white'
+                disabled={!isChecked}
+                onClick={confirmLesson}
+              >
+                {t('confirm_lesson')}
+              </button>
+            </div>
+          </div>
+          <div className='availability-wrapper flex-right student-list-appointments-wrapper'>
+            {isConfirmed ? (
+              <React.Fragment>
+                <h4 className='weekly-schedule'>{t('lesson_confirmation')}</h4>
+                <h4 className='text-purple weekly-schedule-subtitle'>
+                  {t('lesson_confirmation_subtitle')}
+                </h4>
+                <div className='flex-container'>
+                  <div>
+                    <Link to='/student/manage-lessons' className='enter-btn'>
+                      {t('dashboard')}
+                    </Link>
+                  </div>
+                  <div>
+                    <Link to='/student/lesson-calendar' className='enter-btn'>
+                      {t('student_dashboard_view_all_lessons')}
+                    </Link>
+                  </div>
+                </div>
+                <ScheduleCardComponent
+                  index={0}
+                  lesson={newAppointment.lesson.description}
+                  zoomlink={newAppointment.zoomlink}
+                  date={date}
+                  data={newAppointment}
+                />
+              </React.Fragment>
+            ) : (
+              ''
+            )}
           </div>
         </div>
       </div>
-      <p className="cancel-reason-label">{t('know_tutor_lesson_cancel')}</p>
-      <div className="cancel-reasons-wrapper">
-        <CancelReasonBox
-          label={t('assign_another_tutor')}
-          index={0}
-          onChange={onChangeChecked}
-          checked={checkStates[0]}
-        />
-        {/* <CancelReasonBox label={t('know_another_time_tutor')} index={1} onChange={onChangeChecked} checked={checkStates[1]} /> */}
-        <CancelReasonBox
-          label={t('refund_coupon')}
-          index={2}
-          onChange={onChangeChecked}
-          checked={checkStates[2]}
-        />
-      </div>
-      <div className="btn-confirm" onClick={onClickConfirm}>
-        {t('confirm_lesson')}
-      </div>
-      <ModalConfirmLesson
-        visible={isConfirmModal}
-        start_at={time}
-        onDismiss={() => setIsConfirmModal(false)}
-      />
-    </div>
+    </Layout>
   )
 }
 

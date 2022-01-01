@@ -90,15 +90,15 @@ const Calendar = () => {
   const header = () => {
     const dateFormat = 'MMM yyyy'
     return (
-      <div className="calendar-header">
-        <div className="icon" onClick={prevMonth}>
-          <img src={LeftArrow} alt="" />
+      <div className='calendar-header'>
+        <div className='icon' onClick={prevMonth}>
+          <img src={LeftArrow} alt='' />
         </div>
-        <div className="column col-center">
+        <div className='column col-center'>
           <span>{format(currentDate, dateFormat)}</span>
         </div>
-        <div className="icon" onClick={nextMonth}>
-          <img src={RightArrow} alt="" />
+        <div className='icon' onClick={nextMonth}>
+          <img src={RightArrow} alt='' />
         </div>
       </div>
     )
@@ -110,12 +110,12 @@ const Calendar = () => {
     let startDate = startOfWeek(currentDate)
     for (let i = 0; i < 7; i++) {
       days.push(
-        <div className="column col-center" key={i}>
+        <div className='column col-center' key={i}>
           {t(format(addDays(startDate, i), dateFormat).toLowerCase())}
         </div>
       )
     }
-    return <div className="days row">{days}</div>
+    return <div className='days row'>{days}</div>
   }
 
   const cells = () => {
@@ -169,8 +169,8 @@ const Calendar = () => {
             onClick={() => onDateClick(cloneDay, hasEvent)}
           >
             <div>
-              <span className="number">{formattedDate}</span>
-              {hasEvent && <span className="divider" />}
+              <span className='number'>{formattedDate}</span>
+              {hasEvent && <span className='divider' />}
               {hasEvent && (
                 <span>
                   {eventDates[date].length}{' '}
@@ -184,7 +184,7 @@ const Calendar = () => {
       }
 
       rows.push(
-        <div className="row" key={day}>
+        <div className='row' key={day}>
           {' '}
           {days}{' '}
         </div>
@@ -192,7 +192,7 @@ const Calendar = () => {
       days = []
     }
 
-    return <div className="body">{rows}</div>
+    return <div className='body'>{rows}</div>
   }
 
   const nextMonth = () => {
@@ -217,15 +217,15 @@ const Calendar = () => {
 
   return (
     <Layout>
-      <div className="appointment-calendar">
+      <div className='appointment-calendar'>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div>
-            <h4 className="main-title">{t('appointment_calendar')}</h4>
-            <div className="divider" />
+            <h4 className='main-title'>{t('appointment_calendar')}</h4>
+            <div className='divider' />
           </div>
           {user && user.roles && user.roles[0].role_name === 'admin' && (
             <div
-              className="btn-save"
+              className='btn-save'
               onClick={() => {
                 setIsShowAddLessonModal(true)
               }}
@@ -234,23 +234,23 @@ const Calendar = () => {
             </div>
           )}
         </div>
-        <div className="scroll-layout">
-          <div className="calendar">
+        <div className='scroll-layout'>
+          <div className='calendar'>
             {header()}
             {days()}
             {cells()}
           </div>
-          <div className="help">
+          <div className='help'>
             <div>
-              <img src={CurrentDateIcon} alt="" />
+              <img src={CurrentDateIcon} alt='' />
               {t('current_date')}
             </div>
             <div>
-              <img src={PastLessonIcon} alt="" />
+              <img src={PastLessonIcon} alt='' />
               {t('past_lesson_s')}
             </div>
             <div>
-              <img src={UpLessonIcon} alt="" />
+              <img src={UpLessonIcon} alt='' />
               {t('upcoming_lesson_s')}
             </div>
           </div>

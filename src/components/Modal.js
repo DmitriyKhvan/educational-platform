@@ -4,10 +4,10 @@ const Modal = props => {
   return (
     <>
       {props.visible && (
-        <div className="modal">
+        <div className='modal'>
           <div className={props.className}>
-            <div className="modal-content">
-              <span className="close" onClick={props.onCancel}>
+            <div className='modal-content'>
+              <span className='close' onClick={props.onCancel}>
                 &times;
               </span>
               {props.children}

@@ -289,16 +289,16 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
   const AddNewSlotModal = () => {
     return (
       <Modal
-        className="add-new-slot active"
+        className='add-new-slot active'
         visible={isAddSlotModal}
         onCancel={() => setIsAddSlotModal(false)}
       >
-        <div className="title">
+        <div className='title'>
           <span>{t('from')}</span>
           <span>-</span>
           <span>{t('to')}</span>
         </div>
-        <div className="labels">
+        <div className='labels'>
           <div>
             <span>{t('hours')}</span>
             <span>{t('mins')}</span>
@@ -308,7 +308,7 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
             <span>{t('mins')}</span>
           </div>
         </div>
-        <div className="counters">
+        <div className='counters'>
           <div>
             <Counter
               min={0}
@@ -338,23 +338,23 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
             />
           </div>
         </div>
-        <div className="toggles">
+        <div className='toggles'>
           <Toggle
             on={{ label: 'AM', value: 'AM' }}
             off={{ label: 'PM', value: 'PM' }}
-            className="timer"
+            className='timer'
             onUpdate={value => onChangeTime('ampm', value, 0)}
             initValue={pickedTimes[0].ampm}
           />
           <Toggle
             on={{ label: 'AM', value: 'AM' }}
             off={{ label: 'PM', value: 'PM' }}
-            className="timer"
+            className='timer'
             onUpdate={value => onChangeTime('ampm', value, 1)}
             initValue={pickedTimes[1].ampm}
           />
         </div>
-        <div className="btn" onClick={onAddSlot}>
+        <div className='btn' onClick={onAddSlot}>
           {t('confirm')}
         </div>
       </Modal>
@@ -364,28 +364,28 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
   const AddExceptionDayModal = () => {
     return (
       <Modal
-        className="add-new-exception-day active"
+        className='add-new-exception-day active'
         visible={isAddExceptionDayModal}
         onCancel={() => setIsAddExceptionDayModal(false)}
       >
-        <div className="title">
+        <div className='title'>
           <span>Set an Exception Day</span>
         </div>
 
-        <div className="inner-content">
-          <div className="select-date">
+        <div className='inner-content'>
+          <div className='select-date'>
             <p>1) Select Date</p>
             <DayPicker selectedDays={pickedDate} onDayClick={handleDayClick} />
           </div>
-          <div className="select-time">
+          <div className='select-time'>
             <p>2) Select Time</p>
-            <div className="inner-content">
-              <div className="title">
+            <div className='inner-content'>
+              <div className='title'>
                 <span>{t('from')}</span>
                 <span>-</span>
                 <span>{t('to')}</span>
               </div>
-              <div className="labels">
+              <div className='labels'>
                 <div>
                   <span>{t('hours')}</span>
                   <span>{t('mins')}</span>
@@ -395,7 +395,7 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
                   <span>{t('mins')}</span>
                 </div>
               </div>
-              <div className="counters">
+              <div className='counters'>
                 <div>
                   <Counter
                     min={0}
@@ -425,36 +425,36 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
                   />
                 </div>
               </div>
-              <div className="toggles">
+              <div className='toggles'>
                 <Toggle
                   on={{ label: 'AM', value: 'AM' }}
                   off={{ label: 'PM', value: 'PM' }}
-                  className="timer"
+                  className='timer'
                   onUpdate={value => onChangeTime('ampm', value, 0)}
                   initValue={pickedTimes[0].ampm}
                 />
                 <Toggle
                   on={{ label: 'AM', value: 'AM' }}
                   off={{ label: 'PM', value: 'PM' }}
-                  className="timer"
+                  className='timer'
                   onUpdate={value => onChangeTime('ampm', value, 1)}
                   initValue={pickedTimes[1].ampm}
                 />
               </div>
             </div>
-            <p className="or">OR</p>
-            <div className="take-off">
+            <p className='or'>OR</p>
+            <div className='take-off'>
               <Checkbox
                 checked={isTakeDayOff}
                 onChange={() => {
                   setIsTakeOff(!isTakeDayOff)
                 }}
-                label="Take Day Off"
+                label='Take Day Off'
               />
             </div>
           </div>
         </div>
-        <div className="btn" onClick={onAddExceptionDay}>
+        <div className='btn' onClick={onAddExceptionDay}>
           {t('confirm')}
         </div>
       </Modal>
@@ -463,11 +463,11 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
 
   const Slot = ({ slot, index, DAY }) => {
     return (
-      <div className="slot" key={slot[0]}>
+      <div className='slot' key={slot[0]}>
         <span>{formatAMPM(slot.from)}</span>
         <span>-</span>
         <span>{formatAMPM(slot.to)}</span>
-        <div className="action">
+        <div className='action'>
           <span
             onClick={() => {
               setEditIndex(index)
@@ -489,9 +489,9 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
           >
             {t('edit')}
           </span>
-          <span className="divider" />
+          <span className='divider' />
           <span
-            className="close"
+            className='close'
             onClick={() => onRemoteSlot(t(DAY), index)}
           ></span>
         </div>
@@ -502,11 +502,11 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
   const ExceptionDate = ({ exception, index }) => {
     return (
       <div
-        className="exception-day-slot"
+        className='exception-day-slot'
         key={`exception - day - slot - ${index}`}
       >
         <div>{exception.date}</div>
-        <div className="divider" />
+        <div className='divider' />
         <div>
           {!exception.from ? (
             <span>not tutoring</span>
@@ -515,7 +515,7 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
               <span>{formatAMPM(exception.from)}</span>
               <span>-</span>
               <span>{formatAMPM(exception.to)}</span>
-              <div className="action">
+              <div className='action'>
                 <span
                   onClick={() => {
                     setEditIndex(index)
@@ -538,9 +538,9 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
                 >
                   {t('edit')}
                 </span>
-                <span className="divider" />
+                <span className='divider' />
                 <span
-                  className="close"
+                  className='close'
                   onClick={() => onRemoteExceptionDate(index)}
                 ></span>
               </div>
@@ -552,9 +552,9 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
   }
 
   return (
-    <div className="inner-wrapper">
+    <div className='inner-wrapper'>
       <Toggle
-        className="available-status"
+        className='available-status'
         on={{ label: t('available'), value: true }}
         off={{ label: t('not_available'), value: false }}
         isAvailability={true}
@@ -563,7 +563,7 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
       />
 
       {!isAdmin && (
-        <div className="notes">
+        <div className='notes'>
           <p>
             <strong>{t('note')}</strong> {t('student_time_kst_request_lessons')}
           </p>
@@ -573,8 +573,7 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
             {t('pst_available_tutoring_slots')}
           </p>
           <p>
-            <strong>{t('debate')}</strong>{' '}
-            {t('est_available_tutoring_slots')}
+            <strong>{t('debate')}</strong> {t('est_available_tutoring_slots')}
           </p>
           <br />
           <p>{t('open_8hours_availability')}</p>
@@ -584,24 +583,24 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
 
       {formData.checked && (
         <>
-          <p className="section-title">{t('availability_schedule')}</p>
-          <div className="availabilties-wrapper">
-            <div className="header">
+          <p className='section-title'>{t('availability_schedule')}</p>
+          <div className='availabilties-wrapper'>
+            <div className='header'>
               {DAYS.map(day => (
                 <div>
                   <span key={`${day}`}>{t(day)}</span>
                 </div>
               ))}
             </div>
-            <div className="body">
+            <div className='body'>
               {DAYS.map(DAY => (
-                <div className="column">
+                <div className='column'>
                   {getAvailability(t(DAY))?.slots.map((slot, index) => (
                     <Slot slot={slot} index={index} DAY={DAY} />
                   ))}
-                  <div className="add-new-slot">
+                  <div className='add-new-slot'>
                     <div
-                      className="btn"
+                      className='btn'
                       onClick={() => {
                         setEditIndex(-1)
                         setChoosenDay(t(DAY))
@@ -628,15 +627,15 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
             </div>
           </div>
 
-          <p className="section-title">{t('exception_days')}</p>
-          <p className="exception-days-notes">{t('exception_days_note')}</p>
-          <div className="exception-days-wrapper">
+          <p className='section-title'>{t('exception_days')}</p>
+          <p className='exception-days-notes'>{t('exception_days_note')}</p>
+          <div className='exception-days-wrapper'>
             {exceptions.map((exception, index) => (
               <ExceptionDate exception={exception} index={index} />
             ))}
-            <div className="add-new-exception">
+            <div className='add-new-exception'>
               <div
-                className="btn"
+                className='btn'
                 onClick={() => {
                   setEditIndex(-1)
                   setIsAddExceptionDayModal(true)
@@ -660,8 +659,8 @@ export const AvailabilityView = ({ isAdmin, user_id }) => {
           </div>
         </>
       )}
-      <div className="availability-footer">
-        <div className="btn-update" onClick={() => updateProfile()}>
+      <div className='availability-footer'>
+        <div className='btn-update' onClick={() => updateProfile()}>
           {t('save_changes')}
         </div>
       </div>

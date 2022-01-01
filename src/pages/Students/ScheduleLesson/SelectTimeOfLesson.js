@@ -273,29 +273,29 @@ const SelectTimeOfLesson = ({
   }
 
   return (
-    <div className="select-time-of-lesson">
-      <h4 className="main-title">{t('select_lesson_time')}</h4>
-      <div className="btn-step-back" onClick={onBack}>
-        <img src={ImgArrowBack} alt="" />
+    <div className='select-time-of-lesson'>
+      <h4 className='main-title'>{t('select_lesson_time')}</h4>
+      <div className='btn-step-back' onClick={onBack}>
+        <img src={ImgArrowBack} alt='' />
         <span>{t('step_back')}</span>
       </div>
-      <div className="divider" />
-      <div className="week">
-        <div className="icon" onClick={prevMonth}>
-          <img src={LeftArrow} alt="" />
+      <div className='divider' />
+      <div className='week'>
+        <div className='icon' onClick={prevMonth}>
+          <img src={LeftArrow} alt='' />
         </div>
-        <div className="column col-center">
+        <div className='column col-center'>
           <span>
             {format(startDate, 'MMMM dd yyyy')} -{' '}
             {format(endDate, 'MMMM dd yyyy')}
           </span>
         </div>
-        <div className="icon" onClick={nextMonth}>
-          <img src={RightArrow} alt="" />
+        <div className='icon' onClick={nextMonth}>
+          <img src={RightArrow} alt='' />
         </div>
       </div>
-      <div className="calendar-wrapper">
-        <div className="days">
+      <div className='calendar-wrapper'>
+        <div className='days'>
           {DAYS.map((day, index) => {
             let date = new Date(startDate)
             date = addDays(date, index)
@@ -307,31 +307,31 @@ const SelectTimeOfLesson = ({
             )
           })}
         </div>
-        <div className="choose-by-month">
+        <div className='choose-by-month'>
           <div>
             <Checkbox
-              label="AM"
+              label='AM'
               checked={isAM === true}
               onChange={onChangeAMPM}
             />
             <span />
             <Checkbox
-              label="PM"
+              label='PM'
               checked={isAM !== true}
               onChange={onChangeAMPM}
             />
           </div>
           <div>
-            <img src={Icon2} alt="" />
+            <img src={Icon2} alt='' />
             <Select
               value={monthOption}
               onChange={onChangeMonth}
               options={optionMonths}
               styles={customStyles}
               placeholder={t('month')}
-              classNamePrefix="custom-select"
-              className="custom-select"
-              name="month"
+              classNamePrefix='custom-select'
+              className='custom-select'
+              name='month'
               getOptionValue={option => option.value}
               getOptionLabel={option => option.label}
             />
@@ -341,18 +341,18 @@ const SelectTimeOfLesson = ({
               options={optionYears}
               styles={customStyles}
               placeholder={t('month')}
-              classNamePrefix="custom-select"
-              className="custom-select"
-              name="year"
+              classNamePrefix='custom-select'
+              className='custom-select'
+              name='year'
               getOptionValue={option => option.value}
               getOptionLabel={option => option.label}
             />
           </div>
         </div>
         {availableHours && (
-          <div className="hours">
+          <div className='hours'>
             {[0, 1, 2, 3, 4, 5, 6].map((date, dateIndex) => (
-              <div key={`date_${dateIndex}`} className="col">
+              <div key={`date_${dateIndex}`} className='col'>
                 {hours.map((hour, hourIndex) => {
                   let isavaiable = availableHours[date].includes(
                     isAM ? hour : hour + 24
@@ -388,17 +388,17 @@ const SelectTimeOfLesson = ({
           </div>
         )}
       </div>
-      <div className="btn-continue" onClick={() => onClickContinue()}>
+      <div className='btn-continue' onClick={() => onClickContinue()}>
         {t('continue')}
       </div>
 
       {loading && (
-        <div className="loading">
-          <div className="trans-bg" />
+        <div className='loading'>
+          <div className='trans-bg' />
           <Loader
-            className="align-center"
-            type="Audio"
-            color="#00BFFF"
+            className='align-center'
+            type='Audio'
+            color='#00BFFF'
             height={50}
             width={50}
           />

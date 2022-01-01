@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 import SelectLessonType from './SelectLessonType'
 import SelectTimeOfLesson from './SelectTimeOfLesson'
 import SelectTutor from './SelectTutor'
-import LessonConfirmation from './LessonConfirmation'
+import LessonConfirmation from './LessonConfirmationDeprecated'
 import { useHistory } from 'react-router'
 import ModalConfirmLesson from './ModalConfirmLesson'
 

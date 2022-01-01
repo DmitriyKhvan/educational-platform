@@ -1,43 +1,50 @@
+/* eslint-disable no-loop-func */
 import React, { useEffect, useState } from 'react'
-import Layout from '../../components/Layout'
-import {
-  startOfMonth,
-  endOfMonth,
-  startOfWeek,
-  endOfWeek,
-  isSameMonth,
-  isSameDay,
-  addDays,
-  addMonths,
-  subMonths,
-  parseISO,
-  addMinutes
-} from 'date-fns'
-import { format, utcToZonedTime } from 'date-fns-tz'
-import '../../assets/styles/calendar.scss'
-import LeftArrow from '../../assets/images/left-arrow.svg'
-import RightArrow from '../../assets/images/right-arrow.svg'
-import CurrentDateIcon from '../../assets/images/currentdate.svg'
-import UpLessonIcon from '../../assets/images/upcominglessons.svg'
-import PastLessonIcon from '../../assets/images/pastlessons.svg'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
+import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
+import Modal from 'react-modal'
+import * as moment from 'moment'
+import { format, utcToZonedTime } from 'date-fns-tz'
+import * as dates from '../../utils/dates'
+import CalendarModal from '../../components/CalendarModal'
+import Layout from '../../components/Layout'
+import '../../assets/styles/calendar.scss'
 import { getAppointments } from '../../actions/appointment'
 import { getUserInfo } from '../../actions/user'
-import ModalDateLesson from '../../components/ModalDateLesson'
 import { getStudent } from '../../actions/students'
 
 const Calendar = () => {
-  const [showEventsModal, setShowEventsModal] = useState(false)
-  const [currentDate, setCurrentDate] = useState(new Date())
-  const [selectedDate, setSelectedDate] = useState(null)
-  const [t, i18n] = useTranslation('translation')
+  const [t] = useTranslation('translation')
   const user = useSelector(state => state.users.user)
   const student = useSelector(state => state.students.student_info)
   const loading = useSelector(state => state.appointment.loading)
   const appointments = useSelector(state => state.appointment.list)
   const [eventDates, setEventDates] = useState([])
+  const [events, setEvents] = useState([])
+  const [tabluarData, setTabularData] = useState([])
+  const [calendarEvent, setCalendarEvent] = useState({})
   const dispatch = useDispatch()
+  const [isOpen, setIsOpen] = useState(false)
+  const [isCalendar, setIsCalendar] = useState(false)
+  const closeModal = () => {
+    setCalendarEvent({})
+    setIsOpen(false)
+  }
+
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      zIndex: 9999,
+      background: 'none',
+      border: 'none'
+    }
+  }
 
   useEffect(() => {
     if (!user) {
@@ -71,163 +78,265 @@ const Calendar = () => {
     }
   }, [appointments])
 
-  const header = () => {
-    const dateFormat = 'MMM yyyy'
+  useEffect(() => {
+    const newEvents = []
+    if (eventDates) {
+      const eventKeys = Object.keys(eventDates)
+      eventKeys.forEach(key => {
+        for (const eventDate of eventDates[key]) {
+          const date = moment(eventDate.start_at).unix()
+          const endEpoch = date + eventDate.duration * 60
+          const start_at = moment.unix(date).format('LLLL')
+          const end_at = moment.unix(endEpoch).format('LLLL')
+          const iterateEvents = {
+            zoomLink: eventDate.zoomlink,
+            lesson: eventDate.lesson,
+            start_at,
+            end_at,
+            type: eventDate.type,
+            tutor: eventDate.tutor,
+            student: eventDate.students,
+            eventDate
+          }
+
+          newEvents.push(iterateEvents)
+        }
+      })
+      setEvents(newEvents)
+    }
+    getAllData()
+  }, [eventDates])
+
+  const getAllData = () => {
+    const tablularEventData = []
+    const eventKeys = Object.keys(eventDates)
+    eventKeys.forEach(key => {
+      for (const eventDate of eventDates[key]) {
+        const date = moment(eventDate.start_at).unix()
+        const endEpoch = date + eventDate.duration * 60
+        const tutor = eventDate.tutor
+          ? eventDate.tutor.user.first_name +
+            ' ' +
+            eventDate.tutor.user.last_name.charAt(0).toUpperCase() +
+            '.'
+          : ''
+        const tableRow = {
+          lesson:
+            eventDate.lesson.type.charAt(0).toUpperCase() +
+            eventDate.lesson.type.slice(1),
+          topic: eventDate.lesson.description,
+          level: eventDate.students[0].level,
+          dateTime: {
+            startTime: moment.unix(date).format('LT'),
+            endTime: moment.unix(endEpoch).format('LT'),
+            date: moment.unix(date).format('ddd, MMM D')
+          },
+          onClick: {
+            date
+          },
+          tutor,
+          tutorFeedback: eventDate.students[0].feedbacks
+        }
+        tablularEventData.push(tableRow)
+      }
+    })
+    setTabularData(tablularEventData)
+  }
+
+  const onClickPastLessons = e => {
+    setIsCalendar(false)
+    const today = moment().unix()
+    const pastData = []
+    for (const pastDataArr of tabluarData) {
+      if (moment(pastDataArr.onClick.date).isBefore(today)) {
+        pastData.push(pastDataArr)
+      }
+    }
+    setTabularData(pastData)
+  }
+
+  const onClickAllLessons = e => {
+    setIsCalendar(false)
+    getAllData()
+  }
+
+  const onCalendarClick = e => {
+    setIsCalendar(true)
+  }
+
+  const localizer = momentLocalizer(moment)
+  const allViews = ['month', 'week', 'day']
+  const formats = {
+    dateFormat: 'D',
+    weekdayFormat: 'dddd',
+    dayFormat: 'dddd D',
+    timeGutterFormat: 'hA'
+  }
+
+  const onSelectEvent = async e => {
+    const startDate = moment(e.start).format('MM/DD/YYYY')
+    const today = moment().format('MM/DD/YYYY')
+    if (moment(startDate).isAfter(today)) {
+      setCalendarEvent(e)
+      setIsOpen(true)
+    }
+  }
+
+  const calendarEvents = []
+  events.forEach((_, index) => {
+    calendarEvents.push({
+      id: index,
+      title:
+        events[index].lesson.type.charAt(0).toUpperCase() +
+        events[index].lesson.type.slice(1),
+      start: new Date(events[index].start_at),
+      end: new Date(events[index].end_at),
+      resource: events[index]
+    })
+  })
+  const CustomModal = () => {
+    const [selectedEvent] = calendarEvents.filter(
+      x => x.id === calendarEvent.id
+    )
+    const startTime = moment(selectedEvent.resource.start_at).format('LT')
+    const endTime = moment(selectedEvent.resource.end_at).format('LT')
     return (
-      <div className="calendar-header">
-        <div className="icon" onClick={prevMonth}>
-          <img src={LeftArrow} alt="" />
-        </div>
-        <div className="column col-center">
-          <span>{format(currentDate, dateFormat)}</span>
-        </div>
-        <div className="icon" onClick={nextMonth}>
-          <img src={RightArrow} alt="" />
-        </div>
+      <div style={{ zIndex: 9999 }} className='container'>
+        <Modal
+          isOpen={isOpen}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel='Example Modal'
+        >
+          <CalendarModal
+            lesson={selectedEvent.title}
+            startTime={startTime}
+            endTime={endTime}
+            zoomlink={selectedEvent.resource.zoomLink}
+            time={selectedEvent.resource.start_at}
+            data={selectedEvent}
+          />
+        </Modal>
       </div>
     )
   }
 
-  const days = () => {
-    const dateFormat = 'eee'
-    const days = []
-    let startDate = startOfWeek(currentDate)
-    for (let i = 0; i < 7; i++) {
-      days.push(
-        <div className="column col-center" key={i}>
-          {t(format(addDays(startDate, i), dateFormat).toLowerCase())}
-        </div>
-      )
-    }
-    return <div className="days row">{days}</div>
-  }
-
-  const cells = () => {
-    const monthStart = startOfMonth(currentDate)
-    const monthEnd = endOfMonth(monthStart)
-    const startDate = startOfWeek(monthStart)
-    const endDate = endOfWeek(monthEnd)
-    const dateFormat = 'd'
-    const rows = []
-    let today = new Date()
-    let days = []
-    let day = startDate
-    let formattedDate = ''
-
-    while (day <= endDate) {
-      for (let i = 0; i < 7; i++) {
-        formattedDate = format(day, dateFormat)
-
-        // const cloneDay = format(day, 'yyyy-MM-dd');
-        const cloneDay = day
-
-        let date = format(day, 'yyyy-MM-dd')
-
-        let hasEvent = Object.keys(eventDates).find(item =>
-          isSameDay(day, parseISO(item))
-        )
-        const isPast = day < today
-
-        days.push(
-          <div
-            className={`column cell ${
-              !isSameMonth(day, monthStart)
-                ? 'disabled'
-                : isSameDay(day, today)
-                ? 'today'
-                : ''
-            } ${
-              hasEvent
-                ? day < currentDate
-                  ? 'past-lessons-day'
-                  : 'upcoming-lessons-day'
-                : 'no-event'
-            }`}
-            key={day}
-            onClick={() => onDateClick(cloneDay, hasEvent)}
-          >
-            <div>
-              <span className="number">{formattedDate}</span>
-              {hasEvent && <span className="divider" />}
-              {hasEvent && (
-                <span>
-                  {eventDates[date].length}{' '}
-                  {isPast ? t('past_lessons') : t('upcoming_lessons')}
-                </span>
-              )}
-            </div>
-          </div>
-        )
-        day = addDays(day, 1)
-      }
-
-      rows.push(
-        <div className="row" key={day}>
-          {' '}
-          {days}{' '}
-        </div>
-      )
-      days = []
-    }
-
-    return <div className="body">{rows}</div>
-  }
-
-  const nextMonth = () => {
-    setCurrentDate(addMonths(currentDate, 1))
-  }
-
-  const prevMonth = () => {
-    setCurrentDate(subMonths(currentDate, 1))
-  }
-
-  const onDateClick = (day, hasEvent) => {
-    setSelectedDate(format(day, 'yyyy-MM-dd'))
-
-    if (hasEvent) {
-      setShowEventsModal(true)
-    }
-  }
+  const tableHead = [
+    'Lesson',
+    'Topic',
+    'Level',
+    'Date and Time',
+    'Tutor',
+    'Tutor Feedback'
+  ]
 
   return (
     <Layout>
-      <div className="appointment-calendar">
-        <h4 className="main-title">{t('appointment_calendar')}</h4>
-        <div className="divider" />
-        <div className="scroll-layout">
-          <div className="calendar">
-            {header()}
-            {days()}
-            {cells()}
+      <div className='children-wrapper'>
+        <div className='appointment-calendar container-fluid'>
+          <h1 className='title m-0 pb-4'>{t('appointment_calendar')}</h1>
+          <div className='row container-fluid m-0 p-0'>
+            <div className='col-auto'>
+              <div class='btn-group' role='group'>
+                <button
+                  type='button'
+                  class='btn grey-border'
+                  onClick={onClickAllLessons}
+                >
+                  <h5>{t('all_lessons')}</h5>
+                </button>
+                <button
+                  type='button'
+                  class='btn grey-border'
+                  onClick={onClickPastLessons}
+                >
+                  <h5>{t('past_lessons')}</h5>
+                </button>
+              </div>
+            </div>
+            <div className='ps-3 col-auto'>
+              <button
+                type='button'
+                class='btn grey-border'
+                onClick={onCalendarClick}
+              >
+                <h5>{t('calendar_view')}</h5>
+              </button>
+            </div>
           </div>
-          <div className="help">
-            <div>
-              <img src={CurrentDateIcon} alt="" />
-              {t('current_date')}
-            </div>
-            <div>
-              <img src={PastLessonIcon} alt="" />
-              {t('past_lesson_s')}
-            </div>
-            {/* <div><img src={UpLessonNotConfirmIcon} alt="" />{t('upcoming_lessons_not_confirmed')}</div> */}
-            <div>
-              <img src={UpLessonIcon} alt="" />
-              {t('upcoming_lesson_s')}
-            </div>
+          <div className='scroll-layout'>
+            {!isCalendar && (
+              <table className='table mt-5'>
+                <thead>
+                  <tr>
+                    {tableHead.map(x => (
+                      <th scope='col'>{x}</th>
+                    ))}
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {tabluarData.map(x => (
+                    <tr className='tr-center'>
+                      <td className='td-item'>
+                        <p className='td-lesson'>{x.lesson}</p>
+                      </td>
+                      <td className='td-item'>
+                        <p className='td-topic-level'>{x.topic}</p>
+                      </td>
+                      <td className='td-item'>
+                        <p className='td-topic-level'>Level {x.level || 0}</p>
+                      </td>
+                      <td>
+                        <p className='td-datetime td-datetime-border ps-3'>
+                          {x.dateTime.date} {x.dateTime.startTime} {'→ '}
+                          {x.dateTime.endTime}
+                        </p>
+                      </td>
+                      <td className='td-item'>
+                        <p className='td-tutor'>{x.tutor}</p>
+                      </td>
+                      <td className='td-button'>
+                        <button
+                          className={`btn ${
+                            x.tutorFeedback.length
+                              ? 'btn-primary'
+                              : 'btn-tutor-feedback-disabled'
+                          }`}
+                        >
+                          Feedback
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+            {isCalendar && (
+              <div className='example mt-4 px-0'>
+                <BigCalendar
+                  popup={true}
+                  formats={formats}
+                  events={calendarEvents}
+                  localizer={localizer}
+                  onSelectEvent={onSelectEvent}
+                  max={dates.add(
+                    dates.endOf(new Date(2015, 17, 1), 'day'),
+                    -1,
+                    'hours'
+                  )}
+                  views={allViews}
+                  showMultiDayTimes
+                  // defaultDate={new Date(2015, 3, 1)}
+                  startAccessor='start'
+                  endAccessor='end'
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
-
-      {showEventsModal && (
-        <ModalDateLesson
-          date={selectedDate}
-          visible={showEventsModal}
-          onDismiss={() => setShowEventsModal(false)}
-          lessonData={eventDates[selectedDate]}
-          user={user}
-          onChangeDate={onDateClick}
-        />
-      )}
+      {isOpen && <CustomModal />}
     </Layout>
   )
 }

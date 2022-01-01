@@ -14,7 +14,7 @@ const MultipleToggle = ({ label, items, defaultActiveIndex, onChange }) => {
   }
 
   return (
-    <div className="multiple-toggle">
+    <div className='multiple-toggle'>
       {label && <label>{label}</label>}
       <div>
         {items.map((item, index) => (

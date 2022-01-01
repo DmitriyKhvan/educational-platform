@@ -89,42 +89,42 @@ const UploadImageModal = props => {
   }
 
   return (
-    <div className="custom-upload-modal modal">
-      <div className="modal-content">
-        <div className="title-header">
-          <h4 className="main-title">{t('upload_an_avatar')}</h4>
-          <img src={CloseIcon} alt="" onClick={props.hideModal} />
+    <div className='custom-upload-modal modal'>
+      <div className='modal-content'>
+        <div className='title-header'>
+          <h4 className='main-title'>{t('upload_an_avatar')}</h4>
+          <img src={CloseIcon} alt='' onClick={props.hideModal} />
         </div>
-        <div className="divider" />
-        <div className="image-uploader-wrapper">
+        <div className='divider' />
+        <div className='image-uploader-wrapper'>
           <div className={dragOver ? 'display-box drag-over' : 'display-box'}>
-            <div className="icon-text-box">
-              <div className="upload-text">
+            <div className='icon-text-box'>
+              <div className='upload-text'>
                 {file ? (
                   <div>
                     <h4>{file.name}</h4>
                   </div>
                 ) : (
-                  <div className="main-text">
-                    <p className="drop">{t('drop_an_image_here')}</p>
-                    <p className="or">{t('or')}</p>
-                    <p className="browser">{t('browse_for_an_image')}</p>
+                  <div className='main-text'>
+                    <p className='drop'>{t('drop_an_image_here')}</p>
+                    <p className='or'>{t('or')}</p>
+                    <p className='browser'>{t('browse_for_an_image')}</p>
                   </div>
                 )}
               </div>
               {errorNotification ? (
-                <div className="error-notification">
+                <div className='error-notification'>
                   <p>{errorNotification}</p>
                 </div>
               ) : null}
             </div>
             <div>
               <input
-                type="file"
+                type='file'
                 ref={ref}
-                id="upload-image-input"
-                className="upload-image-input"
-                accept="image/*"
+                id='upload-image-input'
+                className='upload-image-input'
+                accept='image/*'
                 onDrop={e => handleDrop(e)}
                 onDragEnter={e => handleDragEnter(e)}
                 onDragOver={e => handleDragOver(e)}
@@ -134,9 +134,9 @@ const UploadImageModal = props => {
             </div>
           </div>
         </div>
-        <div className="choose-from-presets">
+        <div className='choose-from-presets'>
           <p>{t('choose_from_preset')}</p>
-          <div className="presets">
+          <div className='presets'>
             {[0, 1, 2, 3, 4, 5, 6, 7, 8].map(index => (
               <div
                 key={`presets-${index}`}
@@ -148,16 +148,16 @@ const UploadImageModal = props => {
             ))}
           </div>
         </div>
-        <div className="actions">
+        <div className='actions'>
           <p>
-            {t('ideal_image_size')} <img src={SmileIcon} alt="" /> 200x200px,
+            {t('ideal_image_size')} <img src={SmileIcon} alt='' /> 200x200px,
             png/jpeg
           </p>
-          <div className="button-groups">
-            <button className="submit-btn" onClick={e => handleUploadImage(e)}>
+          <div className='button-groups'>
+            <button className='submit-btn' onClick={e => handleUploadImage(e)}>
               {t('confirm')}
             </button>
-            <button className="cancel-btn" onClick={props.hideModal}>
+            <button className='cancel-btn' onClick={props.hideModal}>
               {t('cancel')}
             </button>
           </div>

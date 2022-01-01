@@ -35,12 +35,12 @@ const ProfileLayout = ({ user_id }) => {
   return (
     <Layout fluid={true}>
       {isTutor !== null && (
-        <h4 className="main-title">
+        <h4 className='main-title'>
           {isTutor ? t('tutor_profile') : t('student_profile')}
         </h4>
       )}
-      <div className="divider" />
-      <div className="scroll-layout">{user && <Profile user={user} />}</div>
+      <div className='divider' />
+      <div className='scroll-layout'>{user && <Profile user={user} />}</div>
     </Layout>
   )
 }

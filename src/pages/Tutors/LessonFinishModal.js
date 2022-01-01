@@ -113,30 +113,30 @@ const LessonFinishModal = ({ visible, onDismiss, group, user }) => {
 
   return (
     <Modal
-      className="modal-write-review"
+      className='modal-write-review'
       visible={visible}
       onCancel={onDismiss}
     >
-      <p className="title">{t('after_lesson')}</p>
-      <div className="student-info">
-        <div className="student-avatar">
+      <p className='title'>{t('after_lesson')}</p>
+      <div className='student-info'>
+        <div className='student-avatar'>
           <Avatar avatar={student?.user?.avatar} />
-          <div className="student-basic-info">
-            <p className="student-name">
+          <div className='student-basic-info'>
+            <p className='student-name'>
               {' '}
               {student?.user?.first_name} {student?.user?.last_name}{' '}
             </p>
-            <div className="student-level">
+            <div className='student-level'>
               <img src={CupImage} width={10} height={10} />{' '}
               <span>{t('level_n', { n: student?.level || 0 })}</span>
             </div>
-            <p className="student-county"> {student?.user?.country} </p>
+            <p className='student-county'> {student?.user?.country} </p>
           </div>
         </div>
-        <div className="lesson-details-view">
-          <div className="lesson-details-item">
-            <p className="student-label">{t('lesson_date')}</p>
-            <p className="student-value">{group?.lessonDate}</p>
+        <div className='lesson-details-view'>
+          <div className='lesson-details-item'>
+            <p className='student-label'>{t('lesson_date')}</p>
+            <p className='student-value'>{group?.lessonDate}</p>
           </div>
           {/* <div className="lesson-details-item">
             <p className="student-label">{t('lesson_number')}</p>
@@ -144,10 +144,10 @@ const LessonFinishModal = ({ visible, onDismiss, group, user }) => {
           </div> */}
         </div>
       </div>
-      <p className="description">{t('fill_items_below')}</p>
+      <p className='description'>{t('fill_items_below')}</p>
 
-      <p className="p-write-review">1) {t('student_attendance')}</p>
-      <div className="feedback-content">
+      <p className='p-write-review'>1) {t('student_attendance')}</p>
+      <div className='feedback-content'>
         {student_attendance.map((opt, idx) => (
           <Checkbox
             key={`checkbox-${idx}`}
@@ -163,10 +163,10 @@ const LessonFinishModal = ({ visible, onDismiss, group, user }) => {
         ))}
       </div>
 
-      <p className="p-write-review">2) {t('lesson_details')}</p>
-      <div className="lesson-details">
+      <p className='p-write-review'>2) {t('lesson_details')}</p>
+      <div className='lesson-details'>
         <div>
-          <p className="lesson-details-label">{t('lesson_topic')}</p>
+          <p className='lesson-details-label'>{t('lesson_topic')}</p>
           {renderFormField(
             'lesson_topic',
             '',
@@ -178,7 +178,7 @@ const LessonFinishModal = ({ visible, onDismiss, group, user }) => {
           )}
         </div>
         <div>
-          <p className="lesson-details-label">
+          <p className='lesson-details-label'>
             {t('last_part_lesson_completed')}
           </p>
           {renderSelect(
@@ -191,16 +191,16 @@ const LessonFinishModal = ({ visible, onDismiss, group, user }) => {
           )}
         </div>
       </div>
-      <div className="btn" onClick={submitComplete}>
+      <div className='btn' onClick={submitComplete}>
         {t('submit')}
       </div>
       {loading && (
-        <div className="loading">
-          <div className="trans-bg" />
+        <div className='loading'>
+          <div className='trans-bg' />
           <Loader
-            className="align-center"
-            type="Audio"
-            color="#00BFFF"
+            className='align-center'
+            type='Audio'
+            color='#00BFFF'
             height={50}
             width={50}
           />

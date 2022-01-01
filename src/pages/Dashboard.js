@@ -18,7 +18,7 @@ const Dashboard = () => {
   return (
     <Layout>
       {user_role === 'tutor' && <TutorDashboard />}
-      {user_role === 'student' && <Redirect to="/student/manage-lessons" />}
+      {user_role === 'student' && <Redirect to='/student/manage-lessons' />}
     </Layout>
   )
 }

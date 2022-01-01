@@ -21,20 +21,20 @@ const ModalConfirmLesson = ({ visible, start_at, onDismiss }) => {
 
   return (
     <Modal
-      className="modal-confirm-lesson"
+      className='modal-confirm-lesson'
       visible={visible}
       onCancel={onDismiss}
     >
-      <img src={ImgChecked} alt="" />
-      <p className="thankyou">
+      <img src={ImgChecked} alt='' />
+      <p className='thankyou'>
         {t('thankyou')}
         <br />
         {t('lesson_confirm')}
       </p>
-      <p className="lesson-start">{t('your_lesson_starts_in')}</p>
-      <p className="start-at">{remain}</p>
+      <p className='lesson-start'>{t('your_lesson_starts_in')}</p>
+      <p className='start-at'>{remain}</p>
       <Link
-        className="btn"
+        className='btn'
         to={{
           pathname: studentId
             ? '/admin/schedule-new-lesson'

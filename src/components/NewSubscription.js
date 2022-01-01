@@ -32,7 +32,7 @@ const NewSubscription = ({
   }, [currency])
 
   return (
-    <div className="subscription">
+    <div className='subscription'>
       {plans
         .filter(plan =>
           currency === 0
@@ -55,40 +55,40 @@ const NewSubscription = ({
               }`}
             >
               <div>
-                <div className="body">
+                <div className='body'>
                   {hasDiscount && (
-                    <div className="discount-info">
-                      <img src={ImgDiscount} alt="" />
+                    <div className='discount-info'>
+                      <img src={ImgDiscount} alt='' />
                       <span>{t('summer_discount')}</span>
                       <span>-25% off</span>
                     </div>
                   )}
-                  <div className="inner">
-                    <div className="top-part">
-                      <p className="name">{subscription.lesson_type}</p>
-                      <div className="lessons">
+                  <div className='inner'>
+                    <div className='top-part'>
+                      <p className='name'>{subscription.lesson_type}</p>
+                      <div className='lessons'>
                         <div>
                           <span>{wi_classes * weeks}</span>
                           <span>{t('classes')}</span>
                         </div>
                       </div>
-                      <div className="classes-week">
+                      <div className='classes-week'>
                         <span>
                           {wi_classes} {t('class')}
                         </span>
                         <svg
-                          width="12"
-                          height="36"
-                          viewBox="0 0 12 36"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
+                          width='12'
+                          height='36'
+                          viewBox='0 0 12 36'
+                          fill='none'
+                          xmlns='http://www.w3.org/2000/svg'
                         >
-                          <path d="M11.5 1L0.5 35" stroke="#C4C4C4" />
+                          <path d='M11.5 1L0.5 35' stroke='#C4C4C4' />
                         </svg>
                         <span>{t('week')}</span>
                       </div>
                       {hasDiscount && (
-                        <div className="origin-price">
+                        <div className='origin-price'>
                           <span>
                             {currencySymbol}
                             {(price_per_class * wi_classes * weeks).toFixed(2)}
@@ -100,7 +100,7 @@ const NewSubscription = ({
                         </div>
                       )}
                     </div>
-                    <div className="middle-part">
+                    <div className='middle-part'>
                       <span>
                         {currencySymbol}
                         {(
@@ -115,7 +115,7 @@ const NewSubscription = ({
                         {price_per_class}/{t('class')}
                       </span>
                     </div>
-                    <div className="bottom-part">
+                    <div className='bottom-part'>
                       <span>
                         {t('weeks_classes_each', {
                           weeks: wi_classes * weeks,
@@ -128,18 +128,18 @@ const NewSubscription = ({
                 </div>
               </div>
               {hasDiscount && (
-                <div className="coupons">
+                <div className='coupons'>
                   <input
-                    type="text"
-                    placeholder="Your discount code here..."
+                    type='text'
+                    placeholder='Your discount code here...'
                     value={coupon}
                     onChange={e => setCoupon(e.target.value)}
                   />
                 </div>
               )}
-              <div className="bottom">
+              <div className='bottom'>
                 <div
-                  className="btn"
+                  className='btn'
                   onClick={
                     subscription.payment_id !== selected
                       ? () => onClick(subscription.payment_id, coupon)
@@ -159,12 +159,12 @@ const NewSubscription = ({
           )
         })}
       {loading && (
-        <div className="loading">
-          <div className="trans-bg" />
+        <div className='loading'>
+          <div className='trans-bg' />
           <Loader
-            className="align-center"
-            type="Audio"
-            color="#00BFFF"
+            className='align-center'
+            type='Audio'
+            color='#00BFFF'
             height={50}
             width={50}
           />

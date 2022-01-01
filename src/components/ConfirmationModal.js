@@ -6,18 +6,18 @@ const ConfirmationModal = ({ visible, onSuccess, onCancel, description }) => {
   const [t, i18n] = useTranslation('translation')
 
   return (
-    <Modal visible={visible} className="confirmation-modal" onCancel={onCancel}>
-      <div className="title">{t('confirm')}</div>
-      <div className="description">{t(description)}</div>
+    <Modal visible={visible} className='confirmation-modal' onCancel={onCancel}>
+      <div className='title'>{t('confirm')}</div>
+      <div className='description'>{t(description)}</div>
 
-      <div className="flex align-items-center justify-content-right actions">
+      <div className='flex align-items-center justify-content-right actions'>
         {onSuccess && (
-          <div className="btn" onClick={onSuccess}>
+          <div className='btn' onClick={onSuccess}>
             {t('yes')}
           </div>
         )}
         {onCancel && (
-          <div className="btn" onClick={onCancel}>
+          <div className='btn' onClick={onCancel}>
             {t('no')}
           </div>
         )}

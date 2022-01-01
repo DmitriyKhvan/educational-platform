@@ -28,11 +28,11 @@ const Profile = ({ user, isAdmin = false }) => {
   }, [user])
 
   return (
-    <div className="profile-layout">
-      <div className="profile-wrapper">
+    <div className='profile-layout'>
+      <div className='profile-wrapper'>
         {user && user.roles ? (
           <>
-            <div className="profile-body">
+            <div className='profile-body'>
               {/* {isTutor === false &&
                   <div className="level-view">
                     <img src={IconMedal} alt="" />
@@ -52,9 +52,9 @@ const Profile = ({ user, isAdmin = false }) => {
                 <StudentProfile user={user} update={update} isAdmin={isAdmin} />
               )}
             </div>
-            <div className="profile-footer">
+            <div className='profile-footer'>
               <button
-                className="btn-update"
+                className='btn-update'
                 onClick={() => {
                   setUpdate(true)
                   setTimeout(() => {
@@ -69,9 +69,9 @@ const Profile = ({ user, isAdmin = false }) => {
           </>
         ) : (
           <Loader
-            className="align-center"
-            type="Audio"
-            color="#00BFFF"
+            className='align-center'
+            type='Audio'
+            color='#00BFFF'
             height={50}
             width={50}
           />

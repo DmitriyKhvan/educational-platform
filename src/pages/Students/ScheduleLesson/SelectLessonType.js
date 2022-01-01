@@ -49,14 +49,14 @@ const SelectLessonType = ({ onContinue }) => {
     return (
       <div className={`lesson-card ${selected ? 'active' : ''}`}>
         <div>
-          <div className="lesson-info">
-            <p className="class">{lesson.lesson_type}</p>
-            <p className="type">({lesson.group_type})</p>
+          <div className='lesson-info'>
+            <p className='class'>{lesson.lesson_type}</p>
+            <p className='type'>({lesson.group_type})</p>
           </div>
           <div>
-            <div className="duration-box">
-              <div className="divider" />
-              <div className="first">
+            <div className='duration-box'>
+              <div className='divider' />
+              <div className='first'>
                 <span className={`duration d-${lesson.duration}m`}>
                   {lesson.duration}m
                 </span>
@@ -71,11 +71,11 @@ const SelectLessonType = ({ onContinue }) => {
                   </span>
                 </div>
               </div>
-              <div className="second">
-                <div className="progress">
-                  <div className="gray" />
+              <div className='second'>
+                <div className='progress'>
+                  <div className='gray' />
                   <div
-                    className="blue"
+                    className='blue'
                     style={{
                       width:
                         Math.floor(
@@ -84,7 +84,7 @@ const SelectLessonType = ({ onContinue }) => {
                     }}
                   />
                 </div>
-                <div className="plan">
+                <div className='plan'>
                   {/* <span>{duration.plan} {t('plan')}</span> */}
                   <span>
                     {t('times_used', { n: lesson.lessons })}/{' '}
@@ -98,7 +98,7 @@ const SelectLessonType = ({ onContinue }) => {
             <>
               {!selected && (
                 <div
-                  className="btn-choose-lesson"
+                  className='btn-choose-lesson'
                   onClick={() => {
                     onSelect(index)
                   }}
@@ -108,11 +108,11 @@ const SelectLessonType = ({ onContinue }) => {
               )}
             </>
           ) : (
-            <div className="selected-label">{t('not_available')}</div>
+            <div className='selected-label'>{t('not_available')}</div>
           )}
           {selected && (
-            <div className="selected-label">
-              <img src={ImgChecked} alt="" />
+            <div className='selected-label'>
+              <img src={ImgChecked} alt='' />
               {t('lesson_selected')}
             </div>
           )}
@@ -122,22 +122,22 @@ const SelectLessonType = ({ onContinue }) => {
   }
 
   return (
-    <div className="schedule-lesson-layout">
-      <h4 className="main-title">{t('schedule_lesson')}</h4>
-      <div className="divider" />
+    <div className='schedule-lesson-layout'>
+      <h4 className='main-title'>{t('schedule_lesson')}</h4>
+      <div className='divider' />
       {loading ? (
         <Loader
-          className="align-center"
-          type="Audio"
-          color="#00BFFF"
+          className='align-center'
+          type='Audio'
+          color='#00BFFF'
           height={50}
           width={50}
         />
       ) : planStatus.length === 0 ? (
-        <span className="no-data">{t('no_lessons')}</span>
+        <span className='no-data'>{t('no_lessons')}</span>
       ) : (
         <>
-          <div className="lesson-detail-wraper">
+          <div className='lesson-detail-wraper'>
             {planStatus
               .filter(p => p.group_type === '1-on-1')
               .map((lesson, index) => (
@@ -148,7 +148,7 @@ const SelectLessonType = ({ onContinue }) => {
                 />
               ))}
           </div>
-          <div className="btn-continue" onClick={onClickContinue}>
+          <div className='btn-continue' onClick={onClickContinue}>
             {t('continue')}
           </div>
         </>

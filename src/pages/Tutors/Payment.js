@@ -98,46 +98,46 @@ export const PaymentPage = ({ tutor }) => {
 
   return (
     <>
-      <div className="statistic">
-        <div className="card">
-          <p className="caption">{t('one_on_one_lessons')}</p>
-          <div className="box">
-            <div className="hours-taught-label">{t('classes_taught')}</div>
-            <div className="hours-taught-value">
+      <div className='statistic'>
+        <div className='card'>
+          <p className='caption'>{t('one_on_one_lessons')}</p>
+          <div className='box'>
+            <div className='hours-taught-label'>{t('classes_taught')}</div>
+            <div className='hours-taught-value'>
               {overallStatus?.['1-on-1']?.total_classes || 0} <span>hrs</span>
             </div>
-            <div className="earnings-label">{t('earnings')}</div>
-            <div className="earnings-value">
+            <div className='earnings-label'>{t('earnings')}</div>
+            <div className='earnings-value'>
               $ {overallStatus?.['1-on-1']?.earnings || 0}
             </div>
           </div>
         </div>
-        <div className="card">
-          <p className="caption">{t('group_lessons')}</p>
-          <div className="box">
-            <div className="hours-taught-label">{t('classes_taught')}</div>
-            <div className="hours-taught-value">
+        <div className='card'>
+          <p className='caption'>{t('group_lessons')}</p>
+          <div className='box'>
+            <div className='hours-taught-label'>{t('classes_taught')}</div>
+            <div className='hours-taught-value'>
               {overallStatus?.group?.total_classes || 0} <span>hrs</span>
             </div>
-            <div className="earnings-label">{t('earnings')}</div>
-            <div className="earnings-value">
+            <div className='earnings-label'>{t('earnings')}</div>
+            <div className='earnings-value'>
               $ {overallStatus?.group?.earnings || 0}
             </div>
           </div>
         </div>
-        <div className="card">
-          <p className="caption">{t('overall_summary')}</p>
-          <div className="box">
-            <div className="hours-taught-label">
+        <div className='card'>
+          <p className='caption'>{t('overall_summary')}</p>
+          <div className='box'>
+            <div className='hours-taught-label'>
               {t('total_classes_taught')}
             </div>
-            <div className="hours-taught-value">
+            <div className='hours-taught-value'>
               {(overallStatus?.group?.total_classes || 0) * 1 +
                 (overallStatus?.['1-on-1']?.total_classes || 0) * 1}{' '}
               <span>{t('hrs')}</span>
             </div>
-            <div className="earnings-label">{t('total_earnings')}</div>
-            <div className="earnings-value">
+            <div className='earnings-label'>{t('total_earnings')}</div>
+            <div className='earnings-value'>
               ${' '}
               {(overallStatus?.['1-on-1']?.earnings || 0) * 1 +
                 (overallStatus?.group?.earnings || 0) * 1}
@@ -145,7 +145,7 @@ export const PaymentPage = ({ tutor }) => {
           </div>
         </div>
       </div>
-      <p className="sub-title">{t('payment_history')}</p>
+      <p className='sub-title'>{t('payment_history')}</p>
       <CustomTable data={paymentHistory} columns={columns} />
     </>
   )
@@ -154,10 +154,10 @@ export const PaymentPage = ({ tutor }) => {
 export const PaymentLayout = () => {
   return (
     <Layout>
-      <div className="payment-page-layout">
-        <h4 className="main-title">Payment Page</h4>
-        <div className="divider" />
-        <div className="scroll-layout">
+      <div className='payment-page-layout'>
+        <h4 className='main-title'>Payment Page</h4>
+        <div className='divider' />
+        <div className='scroll-layout'>
           <PaymentPage />
         </div>
       </div>

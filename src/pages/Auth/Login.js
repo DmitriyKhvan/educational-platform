@@ -69,8 +69,7 @@ const Login = () => {
   }
 
   const validateEmail = email => {
-    const re =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(email)
   }
 
@@ -98,7 +97,6 @@ const Login = () => {
       history.push('/')
     } else {
       if (error) {
-        console.log(error)
         NotificationManager.error(t('login_failed'), t)
         history.push('/')
       }
@@ -107,68 +105,68 @@ const Login = () => {
 
   return (
     <AuthLayout>
-      <div className="auth-login">
-        <div className="text-center">
-          <h1 className="title text-center">{t('login')}</h1>
+      <div className='auth-login'>
+        <div className='text-center'>
+          <h1 className='title text-center'>{t('login')}</h1>
         </div>
-        <div className="form-section">
-          <div className="mb-3">
-            <div className="form-item-inner">
-              <label htmlFor="email" className="form-label">
+        <div className='form-section'>
+          <div className='mb-3'>
+            <div className='form-item-inner'>
+              <label htmlFor='email' className='form-label'>
                 <strong>{t('email')}</strong>
               </label>
               <input
-                className="form-control"
-                type="email"
-                id="email"
-                name="email"
+                className='form-control'
+                type='email'
+                id='email'
+                name='email'
                 value={formData.email}
                 onChange={e => onChange(e.target.value, 'email')}
               />
             </div>
             {formDataError.email && (
-              <p className="error-msg">{formDataError.email}</p>
+              <p className='error-msg'>{formDataError.email}</p>
             )}
           </div>
-          <div className="mb-3">
-            <div className="form-item-inner">
-              <label htmlFor="password" className="form-label">
+          <div className='mb-3'>
+            <div className='form-item-inner'>
+              <label htmlFor='password' className='form-label'>
                 <strong>{t('password')}</strong>
               </label>
               <input
-                className="form-control"
-                type="password"
-                id="password"
-                name="password"
+                className='form-control'
+                type='password'
+                id='password'
+                name='password'
                 value={formData.password}
                 onChange={e => onChange(e.target.value, 'password')}
               />
             </div>
             {formDataError.password && (
-              <p className="error-msg">{formDataError.password}</p>
+              <p className='error-msg'>{formDataError.password}</p>
             )}
           </div>
-          <div className="mb-3">
-            <Link to="/forgot-password" className="forgot-password">
+          <div className='mb-3'>
+            <Link to='/forgot-password' className='forgot-password'>
               Forgot Password?
             </Link>
           </div>
 
-          {error && <p className="system-error-msg">{error}</p>}
-          <div className="d-grid gap-2">
+          {error && <p className='system-error-msg'>{error}</p>}
+          <div className='d-grid gap-2'>
             <button
-              className="btn btn-primary btn-lg p-3"
+              className='btn btn-primary btn-lg p-3'
               onClick={handleLogin}
             >
               {loading ? (
-                <ClipLoader loading={loading} size={20} color="white" />
+                <ClipLoader loading={loading} size={20} color='white' />
               ) : (
                 t('sign_in')
               )}
             </button>
           </div>
-          <p className="mt-5">
-            <a href="/signup" className="forgot-password">
+          <p className='mt-5'>
+            <a href='/signup' className='forgot-password'>
               {t('not_registered')}
             </a>
           </p>

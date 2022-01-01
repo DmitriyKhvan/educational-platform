@@ -68,9 +68,9 @@ const Navbar = () => {
   }, [language])
 
   return (
-    <div className="nav-bar">
-      <div className="desktop-version">
-        <div className="left-part">
+    <div className='nav-bar'>
+      <div className='desktop-version'>
+        <div className='left-part'>
           {/* <div className="logo">
             <Link to={'/dashboard'}>
               <img src={Logo} alt="" />
@@ -79,11 +79,11 @@ const Navbar = () => {
           {/* <Link to="/dashboard" className="page-title"> */}
           {/* {t('user_role_dashboard', { user_role: user_role })} */}
           {/* </Link> */}
-          <input type="text" placeholder={t('placeholder_search_here')} />
+          <input type='text' placeholder={t('placeholder_search_here')} />
         </div>
-        <div className="right-part">
+        <div className='right-part'>
           <Dropdown
-            className="settings"
+            className='settings'
             icon={IconUser}
             items={[
               {
@@ -98,7 +98,7 @@ const Navbar = () => {
           />
           {/* <h5 className="me-2">{user.first_name}</h5> */}
           <Dropdown
-            className="language"
+            className='language'
             icon={language === 1 ? FlagUsa : FlagKorea}
             items={[
               {
@@ -114,7 +114,7 @@ const Navbar = () => {
           </h5> */}
 
           <Dropdown
-            className="settings"
+            className='settings'
             icon={IconNotification}
             badge={notifications.length}
             items={(notifications || []).map(n => {
@@ -126,11 +126,11 @@ const Navbar = () => {
                 id: n?.id
               }
             })}
-            popupClassName="notifications"
+            popupClassName='notifications'
             maxCount={3}
             viewMore={t('view_older')}
             renderChild={(item, index) => (
-              <div key={`notification-${index}`} className="notification">
+              <div key={`notification-${index}`} className='notification'>
                 <div>
                   <div>
                     <span>{item.message}</span>
@@ -143,7 +143,7 @@ const Navbar = () => {
                   </div>
                   <img
                     src={IconNavigate}
-                    alt=""
+                    alt=''
                     onClick={() => onHandle(item)}
                   />
                 </div>
@@ -152,14 +152,14 @@ const Navbar = () => {
           />
         </div>
       </div>
-      <div className="mobile-version">
-        <div className="logo">
+      <div className='mobile-version'>
+        <div className='logo'>
           <Link to={'/dashboard'}>
-            <img src={Logo} alt="" />
+            <img src={Logo} alt='' />
           </Link>
         </div>
-        <div className="mobile-menu">
-          <img src={MobileMenuIcon} alt="" onClick={() => showSidebar()} />
+        <div className='mobile-menu'>
+          <img src={MobileMenuIcon} alt='' onClick={() => showSidebar()} />
         </div>
       </div>
     </div>

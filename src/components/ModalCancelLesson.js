@@ -38,12 +38,12 @@ export const ModalCancelLesson = ({
 
   return (
     <Modal
-      className="cancel-lesson-wrapper"
+      className='cancel-lesson-wrapper'
       visible={visible}
       onCancel={onDismiss}
     >
-      <div className="title">{t('cancel_the_lesson')}</div>
-      <div className="description">{t('select_reason')}</div>
+      <div className='title'>{t('cancel_the_lesson')}</div>
+      <div className='description'>{t('select_reason')}</div>
       {reasons.map((clr, index) => (
         <Checkbox
           key={`checkbox-${index}`}
@@ -52,18 +52,18 @@ export const ModalCancelLesson = ({
           checked={checked[index]}
         />
       ))}
-      <div className="flex align-items-center justify-content-space-between">
-        <div className="info">
-          <img src={ImgInfo} alt="" />
+      <div className='flex align-items-center justify-content-space-between'>
+        <div className='info'>
+          <img src={ImgInfo} alt='' />
           <span>{t('learn_more_about_cancel_conditions')}</span>
-          <div className="tooltip">
+          <div className='tooltip'>
             <span>{t('cancel_condition_1')}</span>
             <span>{t('cancel_condition_2')}</span>
             <span>{t('cancel_condition_3')}</span>
             <span>{t('cancel_condition_4')}</span>
           </div>
         </div>
-        <div className="btn" onClick={onSubmit}>
+        <div className='btn' onClick={onSubmit}>
           {t('cancel_lesson')}
         </div>
       </div>

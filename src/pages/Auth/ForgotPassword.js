@@ -20,8 +20,7 @@ const ForgotPassword = () => {
       setError(t('error_empty_field'))
       return false
     } else {
-      const re =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       const emailValid = re.test(email)
       if (!emailValid) {
         setError(t('error_invalid_email'))
@@ -57,37 +56,37 @@ const ForgotPassword = () => {
 
   return (
     <AuthLayout>
-      <div className="auth-login">
-        <p className="text-center title mb-3">{t('forgot_password')}?</p>
-        <div className="form-section">
-          <div className="mb-3">
-            <div className="form-item-inner">
-              <label htmlFor="email" className="form-label">
+      <div className='auth-login'>
+        <p className='text-center title mb-3'>{t('forgot_password')}?</p>
+        <div className='form-section'>
+          <div className='mb-3'>
+            <div className='form-item-inner'>
+              <label htmlFor='email' className='form-label'>
                 <strong>{t('email')}</strong>
               </label>
               <input
-                className="form-control"
-                type="email"
-                id="email"
-                name="email"
+                className='form-control'
+                type='email'
+                id='email'
+                name='email'
                 value={email}
                 onChange={onChange}
               />
             </div>
-            {error && <p className="error-msg">{error}</p>}
-            {errorMsg && <p className="system-error-msg">{errorMsg}</p>}
+            {error && <p className='error-msg'>{error}</p>}
+            {errorMsg && <p className='system-error-msg'>{errorMsg}</p>}
           </div>
-          <div className="d-grid gap-2 pt-4">
+          <div className='d-grid gap-2 pt-4'>
             <button
-              className="btn btn-primary btn-lg p-3"
+              className='btn btn-primary btn-lg p-3'
               onClick={handleForgotPassword}
             >
               {t('reset_password')}
             </button>
           </div>
-          <p className="mt-5">
+          <p className='mt-5'>
             {t('already_have_account')}{' '}
-            <a href="/" className="forgot-password">
+            <a href='/' className='forgot-password'>
               {t('sign_in')}
             </a>
           </p>

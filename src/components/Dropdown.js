@@ -37,17 +37,17 @@ const Dropdown = ({
   }, [items])
 
   return (
-    <div className="dropdown">
+    <div className='dropdown'>
       <img
         src={icon}
-        alt=""
+        alt=''
         className={className}
         onClick={() => (onClick ? onClick() : setVisible(!visible))}
       />
-      {badge > 0 && <span className="badge">{badge}</span>}
+      {badge > 0 && <span className='badge'>{badge}</span>}
       {visible && (
         <>
-          <div className="background" onClick={() => setVisible(false)} />
+          <div className='background' onClick={() => setVisible(false)} />
           <div className={!popupClassName ? 'menu' : popupClassName}>
             {filterItems &&
               filterItems.map((item, index) =>
@@ -66,22 +66,21 @@ const Dropdown = ({
                     }}
                   >
                     <span>{item.label}</span>
-                    <span className="icon">
+                    <span className='icon'>
                       <img
                         src={
                           item.activeIcon && active === index
                             ? item.activeIcon
                             : item.icon
                         }
-                        
-                        alt=""
+                        alt=''
                       />
                     </span>
                   </Link>
                 )
               )}
             {viewMore && !isViewTotal && (
-              <p className="view-more" onClick={() => setIsViewTotal(true)}>
+              <p className='view-more' onClick={() => setIsViewTotal(true)}>
                 {viewMore}
               </p>
             )}

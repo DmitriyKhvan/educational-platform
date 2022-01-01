@@ -23,13 +23,13 @@ export const Counter = ({ max, min, onUpdate, initValue }) => {
     onUpdate(val)
   }
   return (
-    <div className="counter">
-      <div className="button" onClick={() => onChange(true)}>
-        <img src={ImgIncrease} alt="" />
+    <div className='counter'>
+      <div className='button' onClick={() => onChange(true)}>
+        <img src={ImgIncrease} alt='' />
       </div>
-      <div className="value">{value.toString().padStart(2, '0')}</div>
-      <div className="button" onClick={() => onChange(false)}>
-        <img src={ImgDecrease} alt="" />
+      <div className='value'>{value.toString().padStart(2, '0')}</div>
+      <div className='button' onClick={() => onChange(false)}>
+        <img src={ImgDecrease} alt='' />
       </div>
     </div>
   )

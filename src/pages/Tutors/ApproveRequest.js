@@ -63,8 +63,8 @@ const ApproveRequest = () => {
       dataKey: 'actions',
       width: 25,
       render: (item, record) => (
-        <div className="actions">
-          <a onClick={() => onClickApprove(record)} className="outlined">
+        <div className='actions'>
+          <a onClick={() => onClickApprove(record)} className='outlined'>
             {t('approve')}
           </a>
           <a onClick={() => onClickCancel(record)}>{t('cancel')}</a>
@@ -84,9 +84,9 @@ const ApproveRequest = () => {
 
   return (
     <Layout>
-      <div className="main-dashboard">
-        <h4 className="main-title">{t('appointment_requests')}</h4>
-        <div className="divider" />
+      <div className='main-dashboard'>
+        <h4 className='main-title'>{t('appointment_requests')}</h4>
+        <div className='divider' />
         <CustomTable
           data={
             (appointments &&
@@ -106,9 +106,9 @@ const ApproveRequest = () => {
         />
         {loading && (
           <Loader
-            className="align-center"
-            type="BallTriangle"
-            color="#00BFFF"
+            className='align-center'
+            type='BallTriangle'
+            color='#00BFFF'
             height={100}
             width={100}
           />

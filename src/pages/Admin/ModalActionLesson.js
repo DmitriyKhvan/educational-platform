@@ -40,7 +40,7 @@ export const ModalActionLesson = ({
         action === 'reschedule' ? (
           <input
             placeholder={t('pick_from_calendar')}
-            type="date"
+            type='date'
             onChange={onChangeDate}
           />
         ) : (
@@ -53,7 +53,7 @@ export const ModalActionLesson = ({
       width: 30,
       render: item =>
         action === 'assign' ? (
-          <a href="#" className="btn" onClick={onClickChooseTutor}>
+          <a href='#' className='btn' onClick={onClickChooseTutor}>
             {selectedTutor
               ? getAbbrName(selectedTutor.first_name, selectedTutor.last_name)
               : t('choose')}
@@ -113,21 +113,21 @@ export const ModalActionLesson = ({
     <>
       {visible && (
         <Modal
-          className="action-lesson-modal"
+          className='action-lesson-modal'
           visible={visible}
           onCancel={onDismiss}
         >
           {!actionDone ? (
             <>
-              <div className="modal-title">{title}</div>
-              <div className="sub-title">{subTitle}</div>
+              <div className='modal-title'>{title}</div>
+              <div className='sub-title'>{subTitle}</div>
               <CustomTable
-                className="full-height"
+                className='full-height'
                 data={[lesson]}
                 columns={columns}
                 enableSeeAll={false}
               />
-              <div className="footer-content">
+              <div className='footer-content'>
                 <div>
                   {action === 'delete' ? (
                     <p>
@@ -139,7 +139,7 @@ export const ModalActionLesson = ({
                     <>
                       <p>or</p>
                       <p
-                        className="action"
+                        className='action'
                         onClick={() =>
                           onAnotherAction(
                             action === 'reschedule' ? 'assign' : 'reschedule'
@@ -151,16 +151,16 @@ export const ModalActionLesson = ({
                           : 'Reschedule'}
                       </p>
                       <svg
-                        width="12"
-                        height="25"
-                        viewBox="0 0 12 36"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                        width='12'
+                        height='25'
+                        viewBox='0 0 12 36'
+                        fill='none'
+                        xmlns='http://www.w3.org/2000/svg'
                       >
-                        <path d="M11.5 1L0.5 35" stroke="#C4C4C4" />
+                        <path d='M11.5 1L0.5 35' stroke='#C4C4C4' />
                       </svg>
                       <p
-                        className="action"
+                        className='action'
                         onClick={() => onAnotherAction('delete')}
                       >
                         {t('delete_lesson')}
@@ -169,40 +169,40 @@ export const ModalActionLesson = ({
                   )}
                 </div>
                 <div>
-                  <div className="btn-confirm" onClick={onAction}>
+                  <div className='btn-confirm' onClick={onAction}>
                     {t('confirm')}
                   </div>
                   {action === 'delete' && (
-                    <div className="btn-confirm outlined" onClick={onDismiss}>
+                    <div className='btn-confirm outlined' onClick={onDismiss}>
                       {t('cancel')}
                     </div>
                   )}
                 </div>
                 {loading && (
-                  <div className="loading">
+                  <div className='loading'>
                     <Loader
-                      className="align-center"
-                      type="Audio"
-                      color="#00BFFF"
+                      className='align-center'
+                      type='Audio'
+                      color='#00BFFF'
                       height={50}
                       width={50}
                     />
                   </div>
                 )}
                 {visibleTutors && (
-                  <div className="tutors">
-                    <div className="content">
+                  <div className='tutors'>
+                    <div className='content'>
                       {tutor_loading ? (
                         <Loader
-                          className="align-center"
-                          type="Audio"
-                          color="#00BFFF"
+                          className='align-center'
+                          type='Audio'
+                          color='#00BFFF'
                           height={50}
                           width={50}
                         />
                       ) : (
                         <>
-                          <div className="listbox">
+                          <div className='listbox'>
                             {tutors &&
                               tutors.map((tutor, index) => (
                                 <span
@@ -223,7 +223,7 @@ export const ModalActionLesson = ({
                               ))}
                           </div>
                           <div
-                            className="btn"
+                            className='btn'
                             onClick={() => {
                               if (selectedTutor !== null)
                                 setVisibleTutors(false)
@@ -240,8 +240,8 @@ export const ModalActionLesson = ({
             </>
           ) : (
             <>
-              <img src={ImgChekced} alt="" />
-              <p className="event">
+              <img src={ImgChekced} alt='' />
+              <p className='event'>
                 {action === 'delete'
                   ? t('lesson_succssfully_deleted')
                   : action === 'assign'
@@ -250,30 +250,30 @@ export const ModalActionLesson = ({
               </p>
               {action === 'reschedule' && (
                 <>
-                  <p className="message">{t('new_lesson_time')}</p>
-                  <div className="box">
+                  <p className='message'>{t('new_lesson_time')}</p>
+                  <div className='box'>
                     <p>{format(newDate, 'MM/dd/yyyy hh:mm aa')}</p>
                   </div>
                 </>
               )}
               {action === 'assign' && (
                 <>
-                  <p className="message">{t('new_lesson_detail')}</p>
-                  <div className="box">
+                  <p className='message'>{t('new_lesson_detail')}</p>
+                  <div className='box'>
                     <span>
                       {format(
                         new Date(lesson.lessonDate),
                         'MM/dd/yyyy hh:mm aa'
                       )}
                     </span>
-                    <span className="divider" />
+                    <span className='divider' />
                     <span>
                       {getAbbrName(
                         selectedTutor.first_name,
                         selectedTutor.last_name
                       )}
                     </span>
-                    <span className="divider" />
+                    <span className='divider' />
                     <span>{lesson.lessonType}</span>
                   </div>
                 </>

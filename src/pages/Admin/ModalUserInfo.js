@@ -9,11 +9,11 @@ export const ModalUserInfo = ({ visible, title, onDismiss, children }) => {
     <>
       {visible && (
         <Modal
-          className="user-info-modal"
+          className='user-info-modal'
           visible={visible}
           onCancel={onDismiss}
         >
-          <div className="modal-title">{title}</div>
+          <div className='modal-title'>{title}</div>
           {children}
         </Modal>
       )}

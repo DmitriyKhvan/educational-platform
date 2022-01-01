@@ -229,28 +229,28 @@ const Sidebar = () => {
 
   return (
     <>
-      <div className="side-bar desktop-version">
-        <img src={Logo} className="sidebar-logo" alt="" />
-        <div className="link-list">
+      <div className='side-bar desktop-version'>
+        <img src={Logo} className='sidebar-logo' alt='' />
+        <div className='link-list'>
           {navLinks &&
             navLinks.map((item, index) =>
               item.divider ? (
-                <div key={`divider-${index}`} className="divider" />
+                <div key={`divider-${index}`} className='divider' />
               ) : (
                 <li
                   className={`nav-item ${item.is_selected ? 'active' : ''}`}
                   key={index}
                 >
                   <Link to={item.link}>
-                    <div className="icon">
+                    <div className='icon'>
                       <img
                         src={item.activeIcon}
-                        alt=""
+                        alt=''
                         className={item.is_selected ? 'block' : 'none'}
                       />
                       <img
                         src={item.icon}
-                        alt=""
+                        alt=''
                         className={!item.is_selected ? 'block' : 'none'}
                       />
                     </div>
@@ -262,16 +262,16 @@ const Sidebar = () => {
         </div>
       </div>
       {isShowSidebar ? (
-        <div className="side-bar mobile-version">
-          <h4 className="main-title">{t('navigation')}</h4>
+        <div className='side-bar mobile-version'>
+          <h4 className='main-title'>{t('navigation')}</h4>
           <img
             src={CloseIcon}
-            alt=""
-            className="close-icon"
+            alt=''
+            className='close-icon'
             onClick={() => hideSidebar()}
           />
-          <div className="divider" />
-          <div className="link-list">
+          <div className='divider' />
+          <div className='link-list'>
             {navLinks &&
               navLinks.map((item, index) => (
                 <li
@@ -279,15 +279,15 @@ const Sidebar = () => {
                   key={index}
                 >
                   <Link to={item.link} onClick={() => hideSidebar()}>
-                    <div className="icon">
+                    <div className='icon'>
                       <img
                         src={item.activeIcon}
-                        alt=""
+                        alt=''
                         className={item.is_selected ? 'block' : 'none'}
                       />
                       <img
                         src={item.icon}
-                        alt=""
+                        alt=''
                         className={!item.is_selected ? 'block' : 'none'}
                       />
                     </div>
@@ -295,9 +295,9 @@ const Sidebar = () => {
                   </Link>
                 </li>
               ))}
-            <li className="nav-item log-out" onClick={() => handleLogout()}>
-              <div className="icon">
-                <img src={LogoutImg} alt="" />
+            <li className='nav-item log-out' onClick={() => handleLogout()}>
+              <div className='icon'>
+                <img src={LogoutImg} alt='' />
               </div>
               <span>{t('logout')}</span>
             </li>

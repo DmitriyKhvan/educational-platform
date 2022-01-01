@@ -1,4 +1,57 @@
-@import "./variable.scss";
+@import './variable.scss';
+
+.purple-border {
+  border: 3px solid #7048e8 !important;
+}
+
+.schedule-lesson-border {
+  border: 1px solid #dedee1 !important;
+  border-radius: 8.125px;
+}
+
+.btn-dash-return {
+  border: 1px solid #dedee1 !important;
+  background: white !important;
+  color: #261a45 !important;
+}
+
+.day-selector {
+  background: #ffffff;
+  border: 1px solid #dedee1;
+  box-sizing: border-box;
+  border-radius: 10px;
+  color: #261a45;
+}
+
+.schedule-card {
+  background: #ffffff;
+  border: 0.5px solid #dedee1;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+  border-radius: 16px;
+  padding: 31px 25px 26px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  div {
+    position: relative;
+  }
+  label {
+    position: absolute;
+    font-family: Source Sans Pro;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 20px;
+    color: white;
+    white-space: nowrap;
+    left: 50%;
+    top: 48px;
+    transform: translate(-50%, -50%);
+  }
+  img {
+    margin-bottom: 31px;
+  }
+}
 
 .admin-main-layout {
   .sub-title {

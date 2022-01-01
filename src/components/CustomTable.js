@@ -7,8 +7,8 @@ const CustomTable = ({ data, columns, className, enableSeeAll = true }) => {
   const [t, i18n] = useTranslation('translation')
   return (
     <div className={`custom-table ${className}`}>
-      <div className="desktop-version">
-        <div className="custom-table-header">
+      <div className='desktop-version'>
+        <div className='custom-table-header'>
           {columns.map((ci, index) => (
             <div
               className={`child-cell ${
@@ -21,12 +21,12 @@ const CustomTable = ({ data, columns, className, enableSeeAll = true }) => {
             </div>
           ))}
         </div>
-        <div className="custom-table-content">
+        <div className='custom-table-content'>
           {data
             .slice(0, isAll || !enableSeeAll ? data.length : 5)
             .map((item, index) => (
               <div
-                className="custom-table-cell"
+                className='custom-table-cell'
                 key={`custom-table-cell-${index}`}
               >
                 {columns.map((ci, index) => (
@@ -48,7 +48,7 @@ const CustomTable = ({ data, columns, className, enableSeeAll = true }) => {
             ))}
         </div>
       </div>
-      <div className="mobile-version">
+      <div className='mobile-version'>
         {data
           .slice(0, isAll || !enableSeeAll ? data.length : 5)
           .map((item, index) => (
@@ -56,7 +56,7 @@ const CustomTable = ({ data, columns, className, enableSeeAll = true }) => {
               <tbody>
                 {columns.map((ci, index) =>
                   ci.dataKey !== 'actions' ? (
-                    <tr className="child-cell" key={`mobile-header-${index}`}>
+                    <tr className='child-cell' key={`mobile-header-${index}`}>
                       <td>{ci.title}</td>
                       <td>
                         {ci.render ? (
@@ -67,9 +67,9 @@ const CustomTable = ({ data, columns, className, enableSeeAll = true }) => {
                       </td>
                     </tr>
                   ) : (
-                    <tr className="child-cell" key={`mobile-header-${index}`}>
+                    <tr className='child-cell' key={`mobile-header-${index}`}>
                       <td colSpan={2}>
-                        <div className="flex justify-content-center align-items-center">
+                        <div className='flex justify-content-center align-items-center'>
                           {ci.render(item[ci.dataKey], item)}
                         </div>
                       </td>
@@ -81,7 +81,7 @@ const CustomTable = ({ data, columns, className, enableSeeAll = true }) => {
           ))}
       </div>
       {enableSeeAll && !isAll && data.length > 4 && (
-        <div className="btn-see-all" onClick={() => setIsAll(true)}>
+        <div className='btn-see-all' onClick={() => setIsAll(true)}>
           {t('see_all')}
         </div>
       )}

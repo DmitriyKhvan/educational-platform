@@ -5,15 +5,15 @@ import Butterfly from '../assets/images/butterfly.svg'
 
 const AuthLayout = ({ children }) => {
   return (
-    <div className="auth-layout">
-      <div className="auth-body">
-        <div className="main-logo">
-          <img src={Logo} alt="" />
+    <div className='auth-layout'>
+      <div className='auth-body'>
+        <div className='main-logo'>
+          <img src={Logo} alt='' />
         </div>
-        <div className="auth-form">{children}</div>
+        <div className='auth-form'>{children}</div>
       </div>
-      <div className="butterfly">
-        <img src={Butterfly} alt="" />
+      <div className='butterfly'>
+        <img src={Butterfly} alt='' />
       </div>
     </div>
   )
