@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Layout from '../../../components/Layout'
+import moment from 'moment'
 
 const SelectLesson = ({
   setSelectedPlan,
@@ -19,7 +20,14 @@ const SelectLesson = ({
     history.push('/student/manage-lessons')
   }
 
-  const LessonCard = ({ lesson, duration, remaining, data, i }) => {
+  const LessonCard = ({
+    lesson,
+    duration,
+    remaining,
+    data,
+    i,
+    expirationDate
+  }) => {
     return (
       <div
         className='col-6 pe-4'
@@ -59,6 +67,11 @@ const SelectLesson = ({
               </div>
             </div>
           </div>
+          <div className='row container'>
+            <p className='text-end text-danger mb-1'>
+              {t('expires')}: {moment(expirationDate).format('MM-DD-YYYY')}
+            </p>
+          </div>
         </div>
       </div>
     )
@@ -85,6 +98,7 @@ const SelectLesson = ({
                   data={x}
                   i={i}
                   key={i}
+                  expirationDate={x.plan_end}
                 />
               ))}
             </div>
