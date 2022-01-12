@@ -237,6 +237,7 @@ const StudentListAppointments = () => {
                         zoomlink={x.zoomlink}
                         date={date}
                         data={x}
+                        key={i}
                       />
                     )
                   })

@@ -1,9 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment'
-import { useDispatch } from 'react-redux'
 import placeholderAvatar from '../assets/images/placeholder_avatar.png'
-import { cancelAppointment } from '../actions/appointment'
 
 const CalendarModal = ({
   index,
@@ -15,13 +13,7 @@ const CalendarModal = ({
   data
 }) => {
   const [t] = useTranslation('translation')
-  const dispatch = useDispatch()
   const isToday = moment(time).isSame(moment(), 'day')
-  const { id } = data.resource.eventDate
-
-  const cancelEvent = async () => {
-    const res = await dispatch(cancelAppointment(id))
-  }
   return (
     <div className={'page-card grey-border bg-white pt-2 mt-4'} key={index}>
       <div className='container'>
@@ -46,10 +38,7 @@ const CalendarModal = ({
       </div>
       <div className='row'>
         <div className='col-3'>
-          <button
-            className='enter-btn grey-border text-black'
-            onClick={cancelEvent}
-          >
+          <button className='enter-btn grey-border text-black'>
             {t('cancel')}
           </button>
         </div>

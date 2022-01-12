@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState } from 'react'
 import Modal from './Modal'
 import '../assets/styles/student.scss'
@@ -231,6 +232,7 @@ const ModalDateLesson = ({
         onDismiss={() => setVisibleCancel(false)}
         onCancel={onCancelLesson}
         reasons={cancel_lesson_reasons_tutor}
+        lesson={selectedLesson}
       />
     </>
   )

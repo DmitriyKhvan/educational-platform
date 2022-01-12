@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
 import Modal from './Modal'
 import '../assets/styles/student.scss'
 import { Checkbox } from './Checkbox'
@@ -12,10 +13,10 @@ export const ModalCancelLesson = ({
   onCancel,
   lesson
 }) => {
-  const [t, i18n] = useTranslation('translation')
+  const history = useHistory()
+  const [t] = useTranslation('translation')
   const [checked, setChecked] = useState([])
   const [fupdate, setFupdate] = useState(false)
-
   useEffect(() => {
     const checked = reasons.map(reason => false)
     setChecked(checked)
@@ -34,6 +35,7 @@ export const ModalCancelLesson = ({
         .filter(checked => checked),
       id: lesson.id
     })
+    history.push('/tutor/appointments-calendar')
   }
 
   return (
