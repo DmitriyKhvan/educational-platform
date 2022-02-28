@@ -73,9 +73,9 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
                 </div>
               </div>
 
-              <div className='row ps-2 pt-4'>
-                {tutors.map(x => (
-                  <SelectTutors tutor={x} />
+              <div className='row ps-2 pt-4 tutor-overflow-scroll'>
+                {tutors.map((x, i) => (
+                  <SelectTutors tutor={x} key={i} />
                 ))}
               </div>
             </div>

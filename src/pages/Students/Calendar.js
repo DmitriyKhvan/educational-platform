@@ -237,17 +237,17 @@ const Calendar = () => {
           <h1 className='title m-0 pb-4'>{t('appointment_calendar')}</h1>
           <div className='row container-fluid m-0 p-0'>
             <div className='col-auto'>
-              <div class='btn-group' role='group'>
+              <div className='btn-group' role='group'>
                 <button
                   type='button'
-                  class='btn grey-border'
+                  className='btn grey-border'
                   onClick={onClickAllLessons}
                 >
                   <h5>{t('all_lessons')}</h5>
                 </button>
                 <button
                   type='button'
-                  class='btn grey-border'
+                  className='btn grey-border'
                   onClick={onClickPastLessons}
                 >
                   <h5>{t('past_lessons')}</h5>
@@ -257,7 +257,7 @@ const Calendar = () => {
             <div className='ps-3 col-auto'>
               <button
                 type='button'
-                class='btn grey-border'
+                className='btn grey-border'
                 onClick={onCalendarClick}
               >
                 <h5>{t('calendar_view')}</h5>

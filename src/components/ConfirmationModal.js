@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import Modal from './Modal'
 
 const ConfirmationModal = ({ visible, onSuccess, onCancel, description }) => {
-  const [t, i18n] = useTranslation('translation')
+  const [t] = useTranslation('translation')
 
   return (
     <Modal visible={visible} className='confirmation-modal' onCancel={onCancel}>

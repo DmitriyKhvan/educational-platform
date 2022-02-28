@@ -6,4 +6,12 @@ export default class BaseApi {
   getToken() {
     return localStorage.getItem('access_token')
   }
+
+  _setHeader() {
+    return {
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`
+      }
+    }
+  }
 }

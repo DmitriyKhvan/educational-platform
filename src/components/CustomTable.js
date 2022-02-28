@@ -4,7 +4,7 @@ import '../assets/styles/global.scss'
 
 const CustomTable = ({ data, columns, className, enableSeeAll = true }) => {
   const [isAll, setIsAll] = useState(false)
-  const [t, i18n] = useTranslation('translation')
+  const [t] = useTranslation('translation')
   return (
     <div className={`custom-table ${className}`}>
       <div className='desktop-version'>

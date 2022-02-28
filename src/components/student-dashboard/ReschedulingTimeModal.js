@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment'
-import Layout from '../../../components/Layout'
 
-const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
+const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
   const [t] = useTranslation('translation')
   const [counter, setCounter] = useState(0)
   const [dayClicked, setDayClicked] = useState(null)
@@ -14,20 +13,20 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
     startTime: '',
     endTime: ''
   })
+  const duration = 30
   const disable = counter === 0
+  const timeFormatter = 'HH:mm:ss'
+
   const today = moment().subtract(counter, 'week')
+  const isToday = moment()
+  const checkAgainstToday = moment(isToday, timeFormatter)
+
   const startOfWeek = today.startOf('isoWeek')
   const startOfWeekString = startOfWeek.toString()
   const startOfWeekFormatted = startOfWeek.format('MMMM DD')
   const endOfWeek = today.endOf('isoWeek').format('MMMM DD')
-  const timeFormatter = 'HH:mm:ss'
-
-  const isToday = moment()
-  const checkAgainstToday = moment(isToday, timeFormatter)
-
   //Format the time
   const startTime = moment(timeOfDay.startTime, 'HH:mm')
-
   //Format the end time and the next day to it
   const endTime = moment(timeOfDay.endTime, 'HH:mm')
 
@@ -114,6 +113,7 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
     }
     days.push(dayOfTheWeek)
   }
+
   const DaySelector = ({ data, i }) => {
     const checkDate = () => {
       if (data.format === 'day') {
@@ -222,9 +222,9 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
       .add(duration, 'minutes')
       .format('hh:mm A')
     return (
-      <div className={`time-card grey-border bg-white small-card pt-2 mt-4`}>
-        <div className='row container ms-1'>
-          <div className='col-12'>
+      <div className='time-card grey-border bg-white small-card pt-2 mt-4 container'>
+        <div className='ms-1'>
+          <div className='col-12 ps-2'>
             <h3 className={`text-black`}>
               {moment(scheduleStartTime, [moment.ISO_8601, 'HH:mm']).format(
                 'hh:mm A'
@@ -232,28 +232,26 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
               → {scheduleEndTime}
             </h3>
           </div>
-          <div className='col-3'></div>
         </div>
-        <div className='row container'>
-          <div className='schedule-card-col'>
-            <p className={`enter-btn time-btn grey-border text-black`}>
-              {moment(day).format('dddd, MMM DD')}
-            </p>
-          </div>
-          <div className='schedule-card-col'>
-            <div
-              className={`enter-btn btn-primary`}
-              onClick={() => {
-                const formattedDay = moment(day).format('YYYY-MM-DD')
-                const selectedSchedule = moment(
-                  formattedDay + ' ' + scheduleStartTime
-                ).toString()
-                setSchedule(selectedSchedule)
-                setTabIndex(2)
-              }}
-            >
-              {t('confirm_lesson')}
-            </div>
+
+        <div className='schedule-card-col'>
+          <p className={`enter-btn time-btn grey-border text-black`}>
+            {moment(day).format('dddd, MMM DD')}
+          </p>
+        </div>
+        <div className='schedule-card-col'>
+          <div
+            className={`enter-btn btn-primary`}
+            onClick={() => {
+              const formattedDay = moment(day).format('YYYY-MM-DD')
+              const selectedSchedule = moment(
+                formattedDay + ' ' + scheduleStartTime
+              ).toString()
+              setSchedule(selectedSchedule)
+              setTabIndex(3)
+            }}
+          >
+            {t('confirm_lesson')}
           </div>
         </div>
       </div>
@@ -262,31 +260,32 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
 
   const AvailableSpots = () => (
     <React.Fragment>
-      <div className='row container'>
-        <h1 className='title'>Available Spots</h1>
-        <p className='welcome-subtitle text-purple'>
-          Select one of these lesson spots to continue.
-        </p>
-      </div>
-      <div className='schedule-overflow-scroll'>
-        {allTimes.map((x, i) => (
-          <ScheduleCard scheduleStartTime={x} key={i} />
-        ))}
-      </div>
+      <h2 className='mb-2'>Available Spots</h2>
+      <p className='welcome-subtitle text-purple'>
+        Select one of these lesson spots to continue.
+      </p>
+
+      {allTimes.map((x, i) => (
+        <ScheduleCard scheduleStartTime={x} key={i} />
+      ))}
     </React.Fragment>
   )
 
   return (
-    <Layout>
-      <div className='scroll-layout'>
+    <React.Fragment>
+      <div
+        className='scroll-layout'
+        style={{ width: '65vw', overflow: 'scroll' }}
+      >
         <div className='flex-container'>
-          <div className='lesson-wrapper flex-left student-dashboard'>
+          <div
+            className='flex-left p-0 pe-4 col-auto modal-scroll'
+            style={{ borderRight: '1px solid rgba(0, 0, 0, 0.1)' }}
+          >
             <div className='container'>
-              <h1 className='title'>{t('schedule_lesson')}</h1>
-              <p className='welcome-subtitle'>
-                {t('schedule_lesson_subtitle')}
-              </p>
+              <h2>{t('reschedule')}</h2>
             </div>
+
             <div className='row container ps-4 pe-0'>
               <div className='col-1'>
                 <button
@@ -317,39 +316,31 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
                 </button>
               </div>
             </div>
+
             <div className='row'>
               <div className='col-6 px-4'>
                 {days.map(
-                  (x, i) => x.format === 'day' && <DaySelector data={x} i={i} />
+                  (x, i) =>
+                    x.format === 'day' && <DaySelector data={x} i={i} key={i} />
                 )}
               </div>
               <div className='col-6 px-4'>
                 {timeArr.map((x, i) => {
                   i = i + 10
                   if (x.format === 'time') {
-                    return <DaySelector data={x} i={i} />
+                    return <DaySelector data={x} i={i} key={i} />
                   }
                 })}
               </div>
             </div>
-            <div className='row container pt-3'>
-              <div className='col-auto'>
-                <button
-                  className='enter-btn btn-dash-return ms-0'
-                  onClick={() => setTabIndex(0)}
-                >
-                  {t('back')}
-                </button>
-              </div>
-            </div>
           </div>
-          <div className='availability-wrapper flex-right student-list-appointments-wrapper'>
+          <div className='container flex-right col-auto modal-scroll'>
             {dayClicked !== null && timeClicked ? <AvailableSpots /> : ''}
           </div>
         </div>
       </div>
-    </Layout>
+    </React.Fragment>
   )
 }
 
-export default ScheduleSelector
+export default ReschedulingTimeModal

@@ -182,16 +182,16 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
             <div className='row container ps-2'>
               {repeatingLessonArr.map(x => (
                 <div className='col-auto schedule-lesson-border ms-1 px-2 form-check-wrapper py-2'>
-                  <div class='form-check'>
+                  <div className='form-check'>
                     <input
-                      class='form-check-input'
+                      className='form-check-input'
                       type='checkbox'
                       value={x.value}
                       id={x.data}
                       onChange={checkboxEvent}
                       checked={x.value === repeat?.value ? true : false}
                     />
-                    <label class='form-check-label' htmlFor={x.data}>
+                    <label className='form-check-label' htmlFor={x.data}>
                       {x.data}
                     </label>
                   </div>
@@ -202,15 +202,15 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
             {repeat.value === 4
               ? weekArr.map(x => (
                   <div className='col-auto schedule-lesson-border ms-1 px-2 form-check-wrapper py-2'>
-                    <div class='form-check'>
+                    <div className='form-check'>
                       <input
-                        class='form-check-input'
+                        className='form-check-input'
                         type='checkbox'
                         value={x}
                         id={x}
                         onChange={checkboxEvent}
                       />
-                      <label class='form-check-label' htmlFor={x}>
+                      <label className='form-check-label' htmlFor={x}>
                         {x}
                       </label>
                     </div>
@@ -225,25 +225,25 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
                   className='col-auto schedule-lesson-border ms-1 px-2 form-check-wrapper py-2'
                   key={i}
                 >
-                  <div class='form-check'>
+                  <div className='form-check'>
                     <input
-                      class='form-check-input'
+                      className='form-check-input'
                       type='checkbox'
                       value={x.value}
                       id={x.data}
                       onChange={checkboxEvent}
                       checked={x.value === cancel?.value ? true : false}
                     />
-                    <label class='form-check-label' htmlFor={x.data}>
+                    <label className='form-check-label' htmlFor={x.data}>
                       {x.data}
                     </label>
                   </div>
                 </div>
               ))}
             </div>
-            <div class='d-grid gap-2 pt-3'>
+            <div className='d-grid gap-2 pt-3'>
               <button
-                class='btn btn-primary text-white'
+                className='btn btn-primary text-white'
                 disabled={!isChecked}
                 onClick={confirmLesson}
               >

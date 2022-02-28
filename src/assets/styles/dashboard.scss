@@ -252,6 +252,33 @@
   height: 235px;
 }
 
+.modal-scroll {
+  height: 50vh;
+  overflow-y: scroll;
+}
+
+.schedule-overflow-scroll {
+  height: 69vh;
+  overflow-y: scroll;
+}
+
+.tutor-overflow-scroll {
+  height: 65vh;
+  overflow-y: scroll;
+}
+
+.weekly-schedule-scroll {
+  height: 65vh;
+  overflow-y: scroll;
+}
+
+.modal-card {
+  border: 0.5px solid #f2f2f2;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+  border-radius: 16px;
+  padding: 25px 35px;
+}
+
 .page-card {
   border: 0.5px solid #f2f2f2;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
@@ -279,18 +306,18 @@
     line-height: 36px;
     letter-spacing: -0.6px;
   }
-  label {
-    position: absolute;
-    font-family: Source Sans Pro;
-    font-style: italic;
-    font-weight: bold;
-    font-size: 20px;
-    color: white;
-    white-space: nowrap;
-    left: 50%;
-    top: 48px;
-    transform: translate(-50%, -50%);
-  }
+  // label {
+  //   position: absolute;
+  //   font-family: Source Sans Pro;
+  //   font-style: italic;
+  //   font-weight: bold;
+  //   font-size: 20px;
+  //   color: white;
+  //   white-space: nowrap;
+  //   left: 50%;
+  //   top: 48px;
+  //   transform: translate(-50%, -50%);
+  // }
   img {
     margin-bottom: 31px;
   }
@@ -345,18 +372,18 @@
       line-height: 36px;
       letter-spacing: -0.6px;
     }
-    label {
-      position: absolute;
-      font-family: Source Sans Pro;
-      font-style: italic;
-      font-weight: bold;
-      font-size: 20px;
-      color: white;
-      white-space: nowrap;
-      left: 50%;
-      top: 48px;
-      transform: translate(-50%, -50%);
-    }
+    // label {
+    //   position: absolute;
+    //   font-family: Source Sans Pro;
+    //   font-style: italic;
+    //   font-weight: bold;
+    //   font-size: 20px;
+    //   color: white;
+    //   white-space: nowrap;
+    //   left: 50%;
+    //   top: 48px;
+    //   transform: translate(-50%, -50%);
+    // }
     img {
       margin-bottom: 31px;
     }
@@ -412,18 +439,18 @@
         line-height: 36px;
         letter-spacing: -0.6px;
       }
-      label {
-        position: absolute;
-        font-family: Source Sans Pro;
-        font-style: italic;
-        font-weight: bold;
-        font-size: 20px;
-        color: white;
-        white-space: nowrap;
-        left: 50%;
-        top: 48px;
-        transform: translate(-50%, -50%);
-      }
+      // label {
+      //   position: absolute;
+      //   font-family: Source Sans Pro;
+      //   font-style: italic;
+      //   font-weight: bold;
+      //   font-size: 20px;
+      //   color: white;
+      //   white-space: nowrap;
+      //   left: 50%;
+      //   top: 48px;
+      //   transform: translate(-50%, -50%);
+      // }
       img {
         margin-bottom: 31px;
       }

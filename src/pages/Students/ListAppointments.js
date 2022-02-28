@@ -27,21 +27,18 @@ const options = [
 
 const StudentListAppointments = () => {
   const { complete_appoint_id } = useParams()
-
+  const dispatch = useDispatch()
   const [t] = useTranslation('translation')
   const [selectedOption, setSelectedOption] = useState(options[0])
   const [selectedLesson, setSelectedLesson] = useState(false)
-  const [, setCancelIndex] = useState(-1)
-  const appointments = useSelector(state => state.appointment.list)
+  const appointments = useSelector(state => state.appointment.list) || []
   const user = useSelector(state => state.users.user)
-  const state = useSelector(state => state)
   const [completedAppointment, setCompleteAppointment] = useState(null)
   const history = useHistory()
-
   const onDismiss = () => setCompleteAppointment(null)
   const onCancel = async ({ id, reasons }) => {
     try {
-      const res = await AppointmentApi.cancelAppointment(id)
+      await AppointmentApi.cancelAppointment(id)
       NotificationManager.success('You have cancelled successfully!', t)
       fetchAppointments()
     } catch (e) {
@@ -65,8 +62,6 @@ const StudentListAppointments = () => {
       color: 'pink'
     }
   ]
-
-  const dispatch = useDispatch()
 
   useEffect(() => {
     if (user.tutor_profile) {
@@ -205,7 +200,7 @@ const StudentListAppointments = () => {
                 </div>
               </div>
             </div>
-            <div className='student-list-appointments-wrapper flex-right children-wrapper'>
+            <div className='student-list-appointments-wrapper flex-right children-wrapper '>
               <h4 className='weekly-schedule'>{t('weekly_schedule')}</h4>
               <h4 className='text-purple weekly-schedule-subtitle'>
                 {t('student_dashboard_total_lessons', {
@@ -228,20 +223,23 @@ const StudentListAppointments = () => {
                   </Link>
                 </div>
               </div>
-              {appointments.length
-                ? appointments.map((x, i) => {
-                    const date = moment(x.start_at).unix()
-                    return (
-                      <ScheduleCard
-                        lesson={x.lesson.description}
-                        zoomlink={x.zoomlink}
-                        date={date}
-                        data={x}
-                        key={i}
-                      />
-                    )
-                  })
-                : ''}
+              <div className='weekly-schedule-scroll'>
+                {appointments.length
+                  ? appointments.map((x, i) => {
+                      const date = moment(x.start_at).unix()
+                      return (
+                        <ScheduleCard
+                          lesson={x.lesson.description}
+                          zoomlink={x.zoomlink}
+                          date={date}
+                          data={x}
+                          key={i}
+                          fetchAppointments={fetchAppointments}
+                        />
+                      )
+                    })
+                  : ''}
+              </div>
             </div>
           </div>
         ) : (

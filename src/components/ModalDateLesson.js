@@ -5,23 +5,9 @@ import '../assets/styles/student.scss'
 import '../assets/styles/admin.scss'
 import { useTranslation } from 'react-i18next'
 import CustomTable from './CustomTable'
-import {
-  format,
-  startOfMonth,
-  endOfMonth,
-  startOfWeek,
-  endOfWeek,
-  isSameMonth,
-  isSameDay,
-  addDays,
-  addMonths,
-  subMonths,
-  parseISO,
-  subDays
-} from 'date-fns'
+import { format, addDays, subDays } from 'date-fns'
 import LeftArrow from '../assets/images/left-arrow.svg'
 import RightArrow from '../assets/images/right-arrow.svg'
-import { Link } from 'react-router-dom'
 import { getAbbrName } from '../constants/global'
 import { cancel_lesson_reasons_tutor } from '../constants/global'
 import { ModalCancelLesson } from './ModalCancelLesson'
@@ -39,7 +25,7 @@ const ModalDateLesson = ({
   onChangeDate,
   onViewTutor
 }) => {
-  const [t, i18n] = useTranslation('translation')
+  const [t] = useTranslation('translation')
   const today = new Date()
   const [currentDate, setCurrentDate] = useState(new Date(date))
   const [columns, setColumns] = useState([])
