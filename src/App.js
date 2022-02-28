@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom'
 import { Provider, useSelector } from 'react-redux'
 import configureStore from './store'
-import ReactNotification from 'react-notifications-component'
+import { ReactNotifications } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 
 import './assets/styles/global.scss'
@@ -98,7 +98,7 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <ReactNotification />
+        <ReactNotifications />
         <div className='App'>
           <PrivateRoute path='/admin/main' component={Main} />
           <PrivateRoute path='/admin/tutor-list' component={TutorList} />
