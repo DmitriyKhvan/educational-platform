@@ -1,6 +1,15 @@
 @import './variable.scss';
 @import url(https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900);
 
+/**
+ * until https://github.com/facebook/create-react-app/issues/11771
+ * gets fixed, let's hide the problem and not address it
+ */
+body
+  > iframe[style*='2147483647']:not([id='webpack-dev-server-client-overlay']) {
+  display: none;
+}
+
 .ReactModal__Overlay {
   z-index: 9999;
 }
@@ -4568,7 +4577,10 @@ h5 {
 
 .active {
   background: $color-purple;
-  border-radius: 15px;
+}
+
+.active > span {
+  color: $color-white;
 }
 
 a > span {

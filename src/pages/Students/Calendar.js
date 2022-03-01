@@ -9,28 +9,29 @@ import { format, utcToZonedTime } from 'date-fns-tz'
 import * as dates from '../../utils/dates'
 import CalendarModal from '../../components/CalendarModal'
 import Layout from '../../components/Layout'
-import '../../assets/styles/calendar.scss'
 import { getAppointments } from '../../actions/appointment'
 import { getUserInfo } from '../../actions/user'
 import { getStudent } from '../../actions/students'
 
+import '../../assets/styles/calendar.scss'
+
 const Calendar = () => {
   const [t] = useTranslation('translation')
   const user = useSelector(state => state.users.user)
-  const student = useSelector(state => state.students.student_info)
-  const loading = useSelector(state => state.appointment.loading)
   const appointments = useSelector(state => state.appointment.list)
+  const [displayTableData, setDisplayTableData] = useState([])
   const [eventDates, setEventDates] = useState([])
   const [events, setEvents] = useState([])
   const [tabluarData, setTabularData] = useState([])
   const [calendarEvent, setCalendarEvent] = useState({})
   const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false)
-  const [isCalendar, setIsCalendar] = useState(false)
+  const [isCalendar, setIsCalendar] = useState(true)
   const closeModal = () => {
     setCalendarEvent({})
     setIsOpen(false)
   }
+  const today = moment().unix()
 
   const customStyles = {
     content: {
@@ -110,8 +111,8 @@ const Calendar = () => {
   const getAllData = () => {
     const tablularEventData = []
     const eventKeys = Object.keys(eventDates)
-    eventKeys.forEach(key => {
-      for (const eventDate of eventDates[key]) {
+    for (const eventKey of eventKeys) {
+      for (const eventDate of eventDates[eventKey]) {
         const date = moment(eventDate.start_at).unix()
         const endEpoch = date + eventDate.duration * 60
         const tutor = eventDate.tutor
@@ -139,25 +140,32 @@ const Calendar = () => {
         }
         tablularEventData.push(tableRow)
       }
-    })
+    }
     setTabularData(tablularEventData)
   }
 
-  const onClickPastLessons = e => {
+  const onClickPastLessons = () => {
+    getAllData()
     setIsCalendar(false)
-    const today = moment().unix()
     const pastData = []
     for (const pastDataArr of tabluarData) {
       if (moment(pastDataArr.onClick.date).isBefore(today)) {
         pastData.push(pastDataArr)
       }
     }
-    setTabularData(pastData)
+    setDisplayTableData(pastData)
   }
 
-  const onClickAllLessons = e => {
-    setIsCalendar(false)
+  const onClickUpcomingLessons = () => {
     getAllData()
+    setIsCalendar(false)
+    const upcomingData = []
+    for (const upcomingDataArr of tabluarData) {
+      if (moment(upcomingDataArr.onClick.date).isAfter(today)) {
+        upcomingData.push(upcomingDataArr)
+      }
+    }
+    setDisplayTableData(upcomingData)
   }
 
   const onCalendarClick = e => {
@@ -194,6 +202,7 @@ const Calendar = () => {
       resource: events[index]
     })
   })
+
   const CustomModal = () => {
     const [selectedEvent] = calendarEvents.filter(
       x => x.id === calendarEvent.id
@@ -241,9 +250,9 @@ const Calendar = () => {
                 <button
                   type='button'
                   className='btn grey-border'
-                  onClick={onClickAllLessons}
+                  onClick={onClickUpcomingLessons}
                 >
-                  <h5>{t('all_lessons')}</h5>
+                  <h5>{t('upcoming_lessons')}</h5>
                 </button>
                 <button
                   type='button'
@@ -254,7 +263,7 @@ const Calendar = () => {
                 </button>
               </div>
             </div>
-            <div className='ps-3 col-auto'>
+            <div className='col-auto ps-3'>
               <button
                 type='button'
                 className='btn grey-border'
@@ -276,7 +285,7 @@ const Calendar = () => {
                 </thead>
 
                 <tbody>
-                  {tabluarData.map(x => (
+                  {displayTableData.map(x => (
                     <tr className='tr-center'>
                       <td className='td-item'>
                         <p className='td-lesson'>{x.lesson}</p>
