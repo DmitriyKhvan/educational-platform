@@ -33,6 +33,7 @@ import ApproveRequest from './pages/Tutors/ApproveRequest'
 import StudentProfile from './pages/Profile/Tutors/Student'
 import AvailabilityLayout from './pages/Tutors/Availiability'
 import { PaymentLayout } from './pages/Tutors/Payment'
+import TutorProfile from './pages/Profile/Tutors/Profile'
 
 // Student Path
 import StudentCalendar from './pages/Students/Calendar'
@@ -54,7 +55,7 @@ import BookTrialLesson from './pages/Students/BookTrialLesson'
 import TutorList from './pages/Admin/TutorList'
 import StudentList from './pages/Admin/StudentList'
 import Main from './pages/Admin/Main'
-
+import NewTutorProfile from './pages/Profile/EditProfile'
 const store = configureStore({})
 
 require('react-big-calendar/lib/css/react-big-calendar.css')
@@ -203,8 +204,12 @@ function App() {
             component={TutorStudentList}
           />
           <PrivateRoute path='/tutor/students/:id' component={StudentProfile} />
-          <PrivateRoute path='/tutor/profile' component={ProfileLayout} />
-
+          {/* <PrivateRoute path='/tutor/profile' component={ProfileLayout} /> */}
+          <PrivateRoute
+            path='/tutor/new-profile-page'
+            component={NewTutorProfile}
+          />
+          <PrivateRoute path='/tutor/profile' component={TutorProfile} />
           <PrivateRoute path='/messages' component={Messages} />
         </div>
       </Router>

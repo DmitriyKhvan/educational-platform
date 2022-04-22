@@ -1,7 +1,7 @@
-import { store } from 'react-notifications-component'
+import { Store } from 'react-notifications-component'
 
 const success = (message, t) => {
-  store.addNotification({
+  Store.addNotification({
     title: t('success'),
     message: message,
     type: 'success',
@@ -17,7 +17,7 @@ const success = (message, t) => {
 }
 
 const error = (message, t) => {
-  store.addNotification({
+  Store.addNotification({
     title: t('failed'),
     message: message,
     type: 'danger',

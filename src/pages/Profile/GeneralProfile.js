@@ -21,7 +21,7 @@ import { getUserById } from '../../actions/admin'
 
 const GeneralProfile = ({ user, update, isAdmin = false }) => {
   const dispatch = useDispatch()
-  const [t, i18n] = useTranslation('translation')
+  const [t] = useTranslation('translation')
 
   const [isUserImage, setUserImage] = useState(false)
   const [showUploadModal, setShowUploadModal] = useState(false)
@@ -134,13 +134,6 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
 
   useEffect(() => {
     if (update) {
-      // const result = Object.keys(formData).map((key) => {
-      //   return validateInput(formData[key], key)
-      // })
-      // const isInvalid = result.filter((r) => !r).length > 0;
-      // // if (isInvalid) {
-      // //   return
-      // // }
       updateProfile()
     }
   }, [update])
@@ -193,8 +186,6 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
             </div>
           )}
           <div className='form-section'>
-            {/* {renderFormField('username', t('username'), handleChange, formData, formDataError)}
-        {renderFormField('password', t('password'), handleChange, formData, formDataError, 'password')} */}
             <p className='section-title'>{t('contact_details')}</p>
             <div className='flex align-items-center gap-24'>
               {renderFormField(

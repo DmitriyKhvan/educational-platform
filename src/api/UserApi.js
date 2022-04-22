@@ -18,14 +18,10 @@ class UserApi extends BaseApi {
     })
   }
 
-  uploadAvatar(file, user_id) {
-    let data = new FormData()
-    data.append('file', file)
-    data.append('user_id', user_id)
-
+  uploadAvatar(avatar, user_id) {
     return axios.post(
       this.REACT_APP_SERVER_URL + '/users/upload-avatar',
-      data,
+      { avatar, user_id },
       {
         headers: {
           Authorization: `Bearer ${this.getToken()}`

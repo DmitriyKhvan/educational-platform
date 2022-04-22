@@ -48,10 +48,10 @@ export function updateUserInfo(data) {
   }
 }
 
-export function uploadAvatar(file, user_id) {
+export function uploadAvatar(avatar, user_id) {
   return dispatch => {
     dispatch(request())
-    return UserApi.uploadAvatar(file, user_id)
+    return UserApi.uploadAvatar(avatar, user_id)
       .then(resp => {
         return dispatch(success(resp.data))
       })
