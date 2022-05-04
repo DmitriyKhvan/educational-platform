@@ -1,5 +1,31 @@
 @import './variable.scss';
-
+::placeholder{
+  color: #646481;
+  
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 15px;
+line-height: 20px;
+}
+.label{
+  
+  margin-bottom: 10px;
+  color: #261A45;
+  
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 15px;
+line-height: 20px;
+}
+.mb-4{
+padding-bottom: 10px;
+}
+.registered{
+  padding-top:25px;
+  
+}
 .auth-layout {
   width: 100%;
   display: flex;
@@ -54,18 +80,18 @@
       border-radius: 16px;
 
       .name-input {
-        display: flex;
-        width: 100%;
+        // display: flex;
+        // width: 100%;
 
         .form-item {
-          width: 47%;
+          // width: 47%;
 
           &:first-child {
-            margin-right: 3%;
+            // margin-right: 3%;
           }
 
           &:nth-child(2) {
-            margin-left: 3%;
+            // margin-left: 3%;
           }
         }
       }
@@ -249,27 +275,54 @@
 }
 
 // Responsive Style
-@media screen and (max-width: 600px) {
+// @media screen and (max-width: 600px) {
+//   .form-section {
+//     width: 320px;
+//   }
+//   .butterfly img {
+//     width: 320px;
+//   }
+// }
+
+// @media screen and (min-width: 601px) {
+//   // .form-section {
+//   // width: 684px;
+//   // }
+// }
+
+@media (max-width: 575px)
+
+{
   .form-section {
-    width: 320px;
+    max-width: 575px;
+    width: 100%;
+    margin: auto;
   }
+  .auth-layout .auth-body {
+    min-width: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .auth-login h1 {
+    justify-content: center;
+    font-size: 30px;
+  } 
+  .main-logo img{
+    max-width: 80%;
+  } 
   .butterfly img {
-    width: 320px;
-  }
+       width: 320px;
+      }
 }
-
-@media screen and (min-width: 601px) {
-  // .form-section {
-  // width: 684px;
-  // }
-}
-
 .forgot-password {
-  text-decoration: none;
-  color: #6133af;
-  font-family: Inter;
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
   font-size: 15px;
   line-height: 20px;
+  color: #646481;
+  text-decoration: none;
+}
+.text-center{
+  padding-top: 26px;
 }

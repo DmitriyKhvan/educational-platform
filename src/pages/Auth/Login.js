@@ -110,16 +110,16 @@ const Login = () => {
           <h1 className='title text-center'>{t('login')}</h1>
         </div>
         <div className='form-section'>
-          <div className='mb-3'>
+          <div className='mb-4'>
             <div className='form-item-inner'>
-              <label htmlFor='email' className='form-label'>
-                <strong>{t('email')}</strong>
-              </label>
+              <label htmlFor='email' className='form-label'></label>
+              <div className='label'>{t('email')}</div>
               <input
                 className='form-control'
                 type='email'
                 id='email'
                 name='email'
+                placeholder='name@gmail.com'
                 value={formData.email}
                 onChange={e => onChange(e.target.value, 'email')}
               />
@@ -128,16 +128,16 @@ const Login = () => {
               <p className='error-msg'>{formDataError.email}</p>
             )}
           </div>
-          <div className='mb-3'>
+          <div className='mb-4'>
             <div className='form-item-inner'>
-              <label htmlFor='password' className='form-label'>
-                <strong>{t('password')}</strong>
-              </label>
+              <label htmlFor='password' className='form-label'></label>
+              <div className='label'>{t('password')}</div>
               <input
                 className='form-control'
                 type='password'
                 id='password'
                 name='password'
+                placeholder='at least 8 characters'
                 value={formData.password}
                 onChange={e => onChange(e.target.value, 'password')}
               />
@@ -146,7 +146,7 @@ const Login = () => {
               <p className='error-msg'>{formDataError.password}</p>
             )}
           </div>
-          <div className='mb-3'>
+          <div className='mb-4'>
             <Link to='/forgot-password' className='forgot-password'>
               Forgot Password?
             </Link>
@@ -165,11 +165,13 @@ const Login = () => {
               )}
             </button>
           </div>
+          <div className='registered'>
           <p className='mt-5'>
             <a href='/signup' className='forgot-password'>
               {t('not_registered')}
             </a>
           </p>
+          </div>
         </div>
       </div>
     </AuthLayout>
