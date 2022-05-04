@@ -146,7 +146,7 @@ const Login = () => {
               <p className='error-msg'>{formDataError.password}</p>
             )}
           </div>
-          <div className='mb-4'>
+          <div className='mb-4 forget'>
             <Link to='/forgot-password' className='forgot-password'>
               Forgot Password?
             </Link>
