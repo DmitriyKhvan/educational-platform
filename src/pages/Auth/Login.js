@@ -69,7 +69,8 @@ const Login = () => {
   }
 
   const validateEmail = email => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(email)
   }
 
@@ -119,7 +120,7 @@ const Login = () => {
                 type='email'
                 id='email'
                 name='email'
-                placeholder='name@gmail.com'
+                placeholder='name@email.com'
                 value={formData.email}
                 onChange={e => onChange(e.target.value, 'email')}
               />
@@ -155,6 +156,7 @@ const Login = () => {
           {error && <p className='system-error-msg'>{error}</p>}
           <div className='d-grid gap-2'>
             <button
+              
               className='btn btn-primary btn-lg p-3'
               onClick={handleLogin}
             >
@@ -166,11 +168,11 @@ const Login = () => {
             </button>
           </div>
           <div className='registered'>
-          <p className='mt-5'>
-            <a href='/signup' className='forgot-password'>
-              {t('not_registered')}
-            </a>
-          </p>
+            <p className='mt-5'>
+              <a href='/signup' className='forgot-password'>
+                {t('not_registered')}
+              </a>
+            </p>
           </div>
         </div>
       </div>

@@ -1,30 +1,62 @@
 @import './variable.scss';
-::placeholder{
-  color: #646481;
-  
-font-family: 'Inter';
-font-style: normal;
-font-weight: 500;
-font-size: 15px;
-line-height: 20px;
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: #646481 !important;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500 !important;
+  font-size: 15px !important;
+  line-height: 20px;
+  opacity: 1;
 }
-.label{
-  
+::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #646481 !important;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500 !important;
+  font-size: 15px !important;
+  line-height: 20px;
+  opacity: 1;
+}
+:-ms-input-placeholder {
+  /* IE 10+ */
+  color: #646481 !important;
+  opacity: 1;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500 !important;
+  font-size: 15px !important;
+  line-height: 20px;
+}
+:-moz-placeholder {
+  /* Firefox 18- */
+  color: #646481 !important;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500 !important;
+  font-size: 15px !important;
+  line-height: 20px;
+  opacity: 1;
+}
+.label {
   margin-bottom: 10px;
-  color: #261A45;
-  
-font-family: 'Inter';
-font-style: normal;
-font-weight: 600;
-font-size: 15px;
-line-height: 20px;
+  color: #261a45;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
 }
-.mb-4{
-padding-bottom: 10px;
+.mb-4 {
+  padding-bottom: 10px;
 }
-.registered{
-  padding-top:25px;
-  
+.registered {
+  padding-top: 25px;
 }
 .auth-layout {
   width: 100%;
@@ -290,9 +322,7 @@ padding-bottom: 10px;
 //   // }
 // }
 
-@media (max-width: 575px)
-
-{
+@media (max-width: 575px) {
   .form-section {
     max-width: 575px;
     width: 100%;
@@ -306,13 +336,13 @@ padding-bottom: 10px;
   .auth-login h1 {
     justify-content: center;
     font-size: 30px;
-  } 
-  .main-logo img{
+  }
+  .main-logo img {
     max-width: 80%;
-  } 
+  }
   .butterfly img {
-       width: 320px;
-      }
+    width: 320px;
+  }
 }
 .forgot-password {
   font-family: 'Inter';
@@ -331,11 +361,10 @@ padding-bottom: 10px;
   line-height: 20px;
   color: #646481;
   text-decoration: none;
-  
 }
-.text-center{
+.text-center {
   padding-top: 26px;
 }
-.forget{
+.forget {
   margin-top: -14px;
 }
