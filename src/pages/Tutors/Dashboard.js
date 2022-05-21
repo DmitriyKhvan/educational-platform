@@ -1,5 +1,4 @@
 import SummaryCard from '../../components/SummaryCard'
-
 import CalendarIcon from '../../assets/images/calendar.svg'
 import CheckIcon from '../../assets/images/check.svg'
 import ManIcon from '../../assets/images/man.svg'
@@ -89,7 +88,7 @@ const TutorDashboard = () => {
   }
 
   return (
-    <div className='main-dashboard'>
+    <div className='main-dashboard p-4'>
       <h4 className='main-title'>{t('main_dashboard')}</h4>
       <div className='divider' />
       <div className='summary-information'>

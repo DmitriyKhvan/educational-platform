@@ -89,7 +89,7 @@ const Navbar = () => {
               {
                 label: t('my_profile'),
                 icon: IconMyprofile,
-                activeIcon: IconMyprofileActive,
+                activeIcon: IconMyprofile,
                 href:
                   user_role === 'tutor' ? '/tutor/profile' : '/student/profile'
               },

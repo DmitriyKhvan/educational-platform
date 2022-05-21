@@ -109,7 +109,6 @@
 
 .example {
   font-size: 14px;
-  padding: 0 40px;
   min-height: calc(100vh - 100px);
   min-height: max-content;
   height: calc(100vh - 100px);
@@ -125,6 +124,13 @@
   .rbc-calendar {
     flex: 1;
     min-height: 580px;
+  }
+}
+
+.row {
+  h4 {
+    margin-top: 0;
+    margin-bottom: 0;
   }
 }
 

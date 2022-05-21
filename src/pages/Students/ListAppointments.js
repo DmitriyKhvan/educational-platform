@@ -31,7 +31,7 @@ const StudentListAppointments = () => {
   const [t] = useTranslation('translation')
   const [selectedOption, setSelectedOption] = useState(options[0])
   const [selectedLesson, setSelectedLesson] = useState(false)
-  const appointments = useSelector(state => state.appointment.list) || []
+  const appointments = useSelector(state => state.appointment.list)
   const user = useSelector(state => state.users.user)
   const [completedAppointment, setCompleteAppointment] = useState(null)
   const history = useHistory()

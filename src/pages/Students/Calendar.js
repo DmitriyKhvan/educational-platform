@@ -181,7 +181,7 @@ const Calendar = () => {
     timeGutterFormat: 'hA'
   }
 
-  const onSelectEvent = async e => {
+  const onSelectEvent = e => {
     const startDate = moment(e.start).format('MM/DD/YYYY')
     const today = moment().format('MM/DD/YYYY')
     if (moment(startDate).isAfter(today)) {

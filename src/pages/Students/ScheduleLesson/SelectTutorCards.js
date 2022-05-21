@@ -21,10 +21,10 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
       <div className='col-4 pe-5 pt-3'>
         <img
           src={tutor.gender === 'female' ? femaleAvatar : maleAvatar}
-          className='img-fluid'
+          className='img-fluid ps-4'
           alt=''
         />
-        <div className='container pt-3 text-center'>
+        <div className='container pt-3 text-center ps-0'>
           <div className='row'>
             <h1 className='text-purple justify-content-center mb-2'>{name}</h1>
           </div>

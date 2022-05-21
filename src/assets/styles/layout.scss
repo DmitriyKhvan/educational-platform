@@ -154,13 +154,11 @@
       position: absolute;
       z-index: 3001;
       background: white;
-      border-radius: 9px;
       right: 0;
       top: 40px;
       border: 0.5px solid #f2f2f2;
       box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.005);
       &:before {
-        content: '';
         position: absolute;
         top: -20px;
         right: 20px;
@@ -168,7 +166,6 @@
         border-color: transparent #f2f2f2 #f2f2f2 transparent;
       }
       &:after {
-        content: '';
         position: absolute;
         top: -18px;
         right: 21px;
@@ -295,7 +292,7 @@
     display: flex;
     // height: 85vh;
     .children-page {
-      width: calc(100% - 300px);
+      width: 80vw;
       // padding: 39.31px 39px 57px 43px;
     }
   }
@@ -309,7 +306,7 @@
   // Sidebar Style
   .side-bar {
     // background: $color-bg-grey2;
-    width: 297px;
+    width: 20vw;
     padding: 39px 40px 39px 30px;
     height: 100vh;
     position: sticky;
@@ -377,7 +374,7 @@
 
           div {
             width: 16px;
-            margin: 0px 15px 0px 15px;
+            // margin: 0px 15px 0px 15px;
             display: flex;
 
             img {

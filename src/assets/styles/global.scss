@@ -10,6 +10,10 @@ body
   display: none;
 }
 
+li.nav-item.active {
+  border-radius: 15px;
+}
+
 .dropzone {
   text-align: center;
   padding: 20px;
@@ -50,7 +54,7 @@ body
   --bs-gray-700: #495057;
   --bs-gray-800: #343a40;
   --bs-gray-900: #212529;
-  --bs-primary: #6133af;
+  --bs-primary: #6133AF;
   --bs-secondary: #6c757d;
   --bs-success: #198754;
   --bs-info: #0dcaf0;

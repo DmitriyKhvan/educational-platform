@@ -15,6 +15,13 @@ import Icon17 from '../assets/images/sidebar/icon17.svg'
 import Icon18 from '../assets/images/sidebar/icon18.svg'
 import Icon19 from '../assets/images/sidebar/icon19.svg'
 
+import purpleCalendar from '../assets/images/sidebar/calendar.png'
+import whiteCalendar from '../assets/images/sidebar/active-calendar.png'
+import purplePayment from '../assets/images/sidebar/payment.png'
+import whitePayment from '../assets/images/sidebar/active-payment.png'
+import purpleStudentList from '../assets/images/sidebar/student-list.png'
+import whiteStudentList from '../assets/images/sidebar/active-student-list.png'
+
 import ActiveIcon1 from '../assets/images/sidebar/white_dashboard_icon.svg'
 import ActiveIcon2 from '../assets/images/sidebar/white_lesson_icon.svg'
 import ActiveIcon4 from '../assets/images/sidebar/active4.svg'
@@ -65,14 +72,14 @@ const tutorNavLinks = [
   {
     label: 'my_availability',
     link: '/tutor/availability',
-    icon: Icon19,
-    activeIcon: ActiveIcon19
+    icon: purpleCalendar,
+    activeIcon: whiteCalendar
   },
   {
     label: 'student_list',
     link: '/tutor/students',
-    icon: Icon4,
-    activeIcon: ActiveIcon4
+    icon: purpleStudentList,
+    activeIcon: whiteStudentList
   },
   {
     label: 'messages',
@@ -84,8 +91,8 @@ const tutorNavLinks = [
   {
     label: 'payment',
     link: '/tutor/payment-page',
-    icon: Icon12,
-    activeIcon: ActiveIcon12
+    icon: purplePayment,
+    activeIcon: whitePayment
   }
   // { divider: true },
   // { label: 'feedback', link: '/feedback', icon: Icon14, activeIcon: ActiveIcon14 }
