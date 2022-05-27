@@ -15,7 +15,6 @@ const Profile = () => {
   const [profileImage, setProfileImage] = useState('')
   const border = { border: '1px solid #DEDEE1' }
 
-  console.log({ tutor })
   useEffect(() => {
     if (user.avatar) {
       setProfileImage(user.avatar)
@@ -31,7 +30,6 @@ const Profile = () => {
       dispatch(getTutorInfo(user.tutor_profile?.id))
     }
   }, [user, dispatch])
-  console.log(user)
   return (
     <Layout>
       <div id='profile-wrapper'>

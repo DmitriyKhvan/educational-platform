@@ -110,7 +110,7 @@ const StudentListAppointments = () => {
               <p className='welcome-subtitle'>
                 {t('student_dashboard_subtitle')}
               </p>
-              <div className='schdule-lesson-select pt-3'>
+              <div className='schedule-lesson-select pt-3'>
                 <div className='page-card purple large-card py-5'>
                   <div className='row'>
                     <div className='col-2 ms-3'>
@@ -145,7 +145,7 @@ const StudentListAppointments = () => {
                 </div>
               </div>
               <h1 className='pt-5'>Already had a lesson?</h1>
-              <div className='flex-container schdule-lesson-select'>
+              <div className='flex-container schedule-lesson-select'>
                 <div className='page-card pink small-card'>
                   <div className='row ms-1'>
                     <div className='col-4 mt-3 ps-3 me-2'>

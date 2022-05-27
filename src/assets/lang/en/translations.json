@@ -609,5 +609,20 @@
   "warning": "Warning",
   "cancellation_policy_notice": "Below are Nao Now's cancellation policies",
   "cancellation_policy_tutor_one": "Please cancel more than 24 hours in advance of your lesson to avoid penalty",
-  "cancellation_policy_tutor_two": "You may cancel three times per three month period without a note or excuse"
+  "cancellation_policy_tutor_two": "You may cancel three times per three month period without a note or excuse",
+  "tutor_welcome_back": "Welcome back to Nao Now. Have fun!",
+  "review_my_schedule": "Review My Schedule",
+  "calendar": "Calendar →",
+  "availability": "Availability →",
+  "manage_my_classes": "Manage my classes",
+  "manage_classes_title": "See all of my lessons.",
+  "my_lesson_btn": "My Lessons →",
+  "manage_classes_student_title": "See all of my students.",
+  "my_students": "My Students →",
+  "tutor_dashboard_total_lessons": "You have {{total_lessons}} lesson{{t}} today.",
+  "daily_schedule": "Daily Schedule",
+  "student_level": "Level {{t}}",
+  "private": "Private",
+  "accept": "Accept",
+  "decline": "Decline"
 }

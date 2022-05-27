@@ -25,8 +25,8 @@ const ScheduleCard = ({
   const [modalType, setModalType] = useState('')
 
   const [tabIndex, setTabIndex] = useState(0)
-
-  date = date.length > 9 ? date * 1000 : date
+  const hours = 13 * 60 * 60
+  date = date.length > 9 ? date * 1000 + hours : date + hours
   const isToday = moment(date).isSame(moment(), 'day')
   let gender
   if (data.tutor?.gender) {

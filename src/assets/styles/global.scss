@@ -14,6 +14,26 @@ li.nav-item.active {
   border-radius: 15px;
 }
 
+.w-25 {
+  width: 25% !important;
+}
+
+.w-50 {
+  width: 50% !important;
+}
+
+.w-75 {
+  width: 75% !important;
+}
+
+.w-85 {
+  width: 85% !important;
+}
+
+.w-100 {
+  width: 100% !important;
+}
+
 .dropzone {
   text-align: center;
   padding: 20px;
@@ -43,6 +63,10 @@ li.nav-item.active {
   --bs-teal: #20c997;
   --bs-cyan: #0dcaf0;
   --bs-white: #fff;
+  --light-grey: #646481;
+  --light-purple: #EBE4FF;
+  --grey-100: #F2F4F7;
+  --grey-700: #344054;
   --bs-gray: #6c757d;
   --bs-gray-dark: #343a40;
   --bs-gray-100: #f8f9fa;
@@ -175,6 +199,18 @@ body {
 
 .bg-pink {
   background-color: #d6336c !important  ;
+}
+
+.bg-light-purple {
+  background-color: var(--light-purple);
+}
+
+.bg-grey-100 {
+  background-color: var(--grey-100);
+}
+
+.text-grey-700 {
+  color: var(--grey-700)
 }
 
 .dot-filled {
@@ -4176,7 +4212,7 @@ textarea.form-control.is-invalid {
 }
 
 p {
-  font-family: Inter;
+  font-family: 'Inter';
   font-style: normal;
   font-weight: normal;
   font-size: 15px;

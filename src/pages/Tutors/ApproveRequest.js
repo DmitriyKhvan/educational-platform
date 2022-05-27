@@ -1,6 +1,4 @@
-import { Link } from 'react-router-dom'
 import CustomTable from '../../components/CustomTable'
-import SummaryCard from '../../components/SummaryCard'
 
 import CalendarIcon from '../../assets/images/calendar.svg'
 import CheckIcon from '../../assets/images/check.svg'
@@ -24,7 +22,7 @@ const ApproveRequest = () => {
   const loading = useSelector(state => state.tutor.loading)
   const tutor = useSelector(state => state.tutor.info)
   const dispatch = useDispatch()
-  const [t, i18n] = useTranslation('translation')
+  const [t] = useTranslation('translation')
 
   useEffect(() => {
     dispatch(getUserInfo())
@@ -82,7 +80,11 @@ const ApproveRequest = () => {
     dispatch(getAppointments({ tutor_id: tutor.id }))
   }
 
-  return (
+  const test = appointments
+    .filter(apt => apt.students.length > 0)
+    .filter(apt => !apt.students[0].GroupStudent.approved)
+    
+    return (
     <Layout>
       <div className='main-dashboard'>
         <h4 className='main-title'>{t('appointment_requests')}</h4>
