@@ -2132,7 +2132,7 @@ textarea.form-control.is-invalid {
   display: inline-block;
   font-weight: 500;
   line-height: 2;
-
+  color: #212529;
   text-align: center;
   text-decoration: none;
   vertical-align: middle;
@@ -2146,13 +2146,10 @@ textarea.form-control.is-invalid {
   font-size: 1rem;
   border-radius: 5px;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   font-size: 15px !important;
   font-family: 'Inter';
   font-weight: 600;
-  color:#ffffff !important;
-  
-  
 }
 
 .w-10 {
@@ -2570,7 +2567,7 @@ textarea.form-control.is-invalid {
 }
 
 .p-3 {
-  padding: 0.5rem !important;
+  padding: 1rem !important;
 }
 
 .p-4 {
@@ -4228,7 +4225,6 @@ p {
   line-height: 48px;
   text-align: center;
   letter-spacing: -1px;
-  color:#261A45 !important;
 }
 
 .text-start {
