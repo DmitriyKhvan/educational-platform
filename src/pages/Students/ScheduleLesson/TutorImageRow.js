@@ -3,12 +3,17 @@ import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png'
 import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png'
 
 const TutorImageRow = ({ tutor }) => {
+  const tutorProfile = tutor.avatar
+    ? tutor.avatar
+    : tutor.gender === 'female'
+    ? femaleAvatar
+    : maleAvatar
   return (
     <React.Fragment>
       <div className='col-3 pe-3 me-3'>
         <img
           className='img-fluid rounded-corners ps-1'
-          src={tutor.gender === 'male' ? maleAvatar : femaleAvatar}
+          src={tutorProfile}
           alt=''
           style={{
             objectFit: 'cover',

@@ -624,5 +624,8 @@
   "student_level": "Level {{t}}",
   "private": "Private",
   "accept": "Accept",
-  "decline": "Decline"
+  "decline": "Decline",
+  "learn_more": "Learn More",
+  "degree_major": "Degree / Major",
+  "tutor_certificates": "Certificates"
 }

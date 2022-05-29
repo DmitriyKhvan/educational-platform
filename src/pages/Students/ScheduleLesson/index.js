@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
 import LessonConfirmation from './LessonConfirmation'
 import ScheduleSelector from './ScheduleSelector'
 import SelectLesson from './SelectLesson'
@@ -13,13 +12,13 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
 const ScheduleLesson = () => {
   const dispatch = useDispatch()
-  const { state } = useLocation()
   const [clicked, setClicked] = useState(null)
   const [selectedPlan, setSelectedPlan] = useState({})
   const [schedule, setSchedule] = useState()
   const [tabIndex, setTabIndex] = useState(0)
   const [selectTutor, setSelectTutor] = useState()
   const tutors = useSelector(state => state.tutor.list)
+
   useEffect(() => {
     dispatch(getPlanStatus())
     dispatch(getTutorList(schedule))
