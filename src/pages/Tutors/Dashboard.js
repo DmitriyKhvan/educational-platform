@@ -93,14 +93,14 @@ const TutorDashboard = () => {
               </div>
               <div className='row'>
                 <div className='col-6'>
-                  <a href='/' className='enter-btn'>
+                  <Link to='/tutor/appointments-calendar' className='enter-btn'>
                     {t('calendar')}
-                  </a>
+                  </Link>
                 </div>
                 <div className='col-6'>
-                  <a href='/' className='enter-btn'>
+                  <Link to='/tutor/availability' className='enter-btn'>
                     {t('availability')}
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -111,7 +111,7 @@ const TutorDashboard = () => {
               color='pink'
               title={t('manage_classes_title')}
               btnTitle={t('my_lesson_btn')}
-              path='/'
+              path='/tutor/appointments-calendar'
               icon={manageClassesIcon}
               iconBGcolor='small-card-icon-feedback'
             />
@@ -119,7 +119,7 @@ const TutorDashboard = () => {
               color='light-blue'
               title={t('manage_classes_student_title')}
               btnTitle={t('my_students')}
-              path='/'
+              path='/tutor/students'
               icon={studentIcon}
               iconBGcolor='small-card-icon-progress'
             />

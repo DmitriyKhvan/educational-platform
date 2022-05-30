@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const CTACard = ({ color, title, btnTitle, path, icon, iconBGcolor }) => {
   return (
@@ -12,9 +13,9 @@ const CTACard = ({ color, title, btnTitle, path, icon, iconBGcolor }) => {
         </div>
       </div>
       <div className='ps-2'>
-        <a href={path} className='enter-btn'>
+        <Link href={path} className='enter-btn'>
           {btnTitle}
-        </a>
+        </Link>
       </div>
     </div>
   )
