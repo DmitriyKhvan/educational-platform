@@ -412,6 +412,15 @@ export const countries = [
 ]
 
 export const DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+export const DAY = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday'
+]
 
 export const course_options = [
   { label: '1-on-1', value: '1-on-1' },

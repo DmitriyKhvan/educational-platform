@@ -1,10 +1,10 @@
-@import "./variable.scss";
+@import './variable.scss';
 
 .profile-layout {
   position: relative;
 
   .profile-wrapper {
-    background-color: white;
+    background-color: $color-white;
     height: 100%;
     padding: 55px;
     padding-top: 156px;
@@ -15,18 +15,18 @@
     overflow: auto;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
     border-radius: 16px;
-    border: 0.5px solid #f2f2f2;
+    border: 0.5px solid $color-grey3;
 
     .btn-see-pricing-options {
-      background: #60b2cc;
+      background: $color-pale-blue;
       border-radius: 9px;
       margin: auto;
       font-family: Source Sans Pro;
       font-style: normal;
       font-weight: 600;
-      font-size: 12px;
+      font-size: 0.75rem;
       line-height: 15px;
-      color: #ffffff;
+      color: $color-white;
       padding: 15px 26px;
       cursor: pointer;
       display: flex;
@@ -40,8 +40,8 @@
       }
     }
     .subscriptions-payment-wrapper {
-      background: #ffffff;
-      border: 0.5px solid #f2f2f2;
+      background: $color-white;
+      border: 0.5px solid $color-grey3;
       box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
       border-radius: 16px;
       height: 123px;
@@ -58,9 +58,9 @@
       font-family: Source Sans Pro;
       font-style: normal;
       font-weight: 600;
-      font-size: 12px;
+      font-size: 0.75rem;
       line-height: 15px;
-      color: #ffffff;
+      color: $color-white;
       padding: 15px 26px;
       cursor: pointer;
       display: flex;
@@ -81,7 +81,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 25px;
-      border: 0.5px solid #f2f2f2;
+      border: 0.5px solid $color-grey3;
       border-radius: 16px;
       padding: 50px 55px;
 
@@ -103,7 +103,7 @@
         }
         .options {
           background: #fdfdfd;
-          border: 0.5px solid #f2f2f2;
+          border: 0.5px solid $color-grey3;
           box-sizing: border-box;
           box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
           border-radius: 16px;
@@ -111,7 +111,8 @@
           height: 69px;
           display: flex;
           align-items: center;
-          padding: 0px 35px;
+          padding-right: 35px;
+          padding-left: 35px;
           gap: 30px;
           .checkbox {
             margin: 0;
@@ -143,9 +144,9 @@
       font-family: Source Sans Pro;
       font-style: normal;
       font-weight: 600;
-      font-size: 12px;
+      font-size: 0.75rem;
       line-height: 15px;
-      color: #ffffff;
+      color: $color-white;
       padding: 15px 26px;
       cursor: pointer;
       border-radius: 5px;
@@ -178,7 +179,7 @@
     }
     .btn-apply {
       background-color: #0000ff9c;
-      color: white;
+      color: $color-white;
       padding: 8px 30px;
       border-radius: 5px;
       cursor: pointer;
@@ -191,13 +192,13 @@
       text-align: center;
       margin-top: 10px;
       &::before {
-        content: "* ";
+        content: '* ';
       }
     }
   }
 
   .form-section {
-    background: #ffffff;
+    background: $color-white;
     width: auto;
 
     .form-row {
@@ -246,7 +247,8 @@
           border-top: none;
           border-bottom: 1px solid #c4c4c4;
           outline: none;
-          padding: 5px 0;
+          padding-top: 5px;
+          padding-bottom: 5px;
           font-family: Source Sans Pro;
           font-weight: 600;
           font-size: 16px;
@@ -285,7 +287,8 @@
         }
 
         .country-list {
-          margin: 1px 0 0 -1px;
+          margin-top: 1px;
+          margin-left: -1px;
         }
       }
     }
@@ -306,7 +309,8 @@
 
     .CustomCheckBox {
       display: block;
-      margin: 2rem 0;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
 
       input {
         padding: 0;
@@ -317,7 +321,7 @@
         cursor: pointer;
 
         &:checked + label:after {
-          content: "";
+          content: '';
           display: block;
           position: absolute;
           top: 3px;
@@ -340,11 +344,12 @@
         color: #767676;
 
         &:before {
-          content: "";
+          content: '';
           -webkit-appearance: none;
           background-color: transparent;
           border: 1px solid #c4c4c4;
-          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
+            inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
           padding: 10px;
           display: inline-block;
           position: relative;
@@ -356,8 +361,6 @@
       }
     }
   }
-
-  // margin-top: 42px;
 
   .level-view {
     display: flex;
@@ -389,10 +392,10 @@
     font-family: Source Sans Pro;
     font-style: normal;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 15px;
     padding: 13px 15px;
-    color: white;
+    color: $color-white;
     &:active {
       opacity: 0.5;
     }
@@ -444,26 +447,27 @@
     .edit-avatar {
       position: absolute;
       bottom: 0px;
-      padding: 5px 0;
+      padding-top: 5px;
+      padding-bottom: 5px;
       width: 100%;
       text-align: center;
       height: 30px;
-      background: white;
+      background: $color-white;
       opacity: 0.6;
 
       span {
         font-family: Source Sans Pro;
         font-weight: 300;
-        font-size: 12px;
+        font-size: 0.75rem;
         line-height: 16px;
-        color: #000000;
+        color: $color-black;
       }
     }
 
     .default-avatar {
       width: 124px;
       height: 124px;
-      background-color: #e1e1e1;
+      background-color: $color-border;
       border-radius: 50%;
       border: 1px dashed #c4c4c4;
       position: relative;
@@ -490,8 +494,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    background: #ffffff;
-    border: 0.5px solid #f2f2f2;
+    background: $color-white;
+    border: 0.5px solid $color-grey3;
     box-sizing: border-box;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
     border-radius: 11px;
@@ -502,7 +506,7 @@
         font-weight: 600;
         font-size: 18px;
         line-height: 25px;
-        color: #000000;
+        color: $color-black;
         margin: 0 0 5px;
 
         span {
@@ -515,7 +519,7 @@
         font-weight: 600;
         font-size: 10px;
         line-height: 13px;
-        color: #000000;
+        color: $color-black;
       }
 
       .since-date {
@@ -523,7 +527,7 @@
         font-weight: 300;
         font-size: 10px;
         line-height: 13px;
-        color: #000000;
+        color: $color-black;
       }
 
       .main-info {
@@ -537,7 +541,7 @@
             font-weight: 300;
             font-size: 14px;
             line-height: 18px;
-            color: #000000;
+            color: $color-black;
           }
         }
 
@@ -546,25 +550,25 @@
           font-weight: 300;
           font-size: 14px;
           line-height: 18px;
-          color: #000000;
+          color: $color-black;
           max-width: 164px;
         }
 
         .vertical-divider {
           margin: 0 30px;
-          border-left: 0.5px solid #e1e1e1;
+          border-left: 0.5px solid $color-border;
         }
       }
     }
 
     a {
       padding: 13px 18px;
-      color: white;
+      color: $color-white;
       text-decoration: none;
       background-color: #edba38;
       text-align: center;
       font-weight: 600;
-      font-size: 12px;
+      font-size: 0.75rem;
       line-height: 15px;
       border: none;
       outline: none;
@@ -578,10 +582,10 @@
     font-size: 16px;
     text-align: left;
     justify-content: flex-start;
-    padding: 0px 25.86px;
-
+    padding-right: 25.86px;
+    padding-left: 25.86px;
     &::before {
-      content: "";
+      content: '';
       width: 5px;
       height: 5px;
       border-radius: 50%;
@@ -615,10 +619,11 @@
 
   .title {
     position: absolute;
-    background: white;
+    background: $color-white;
     top: -15px;
     left: 15px;
-    padding: 0px 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     font-size: 20px;
     color: #767676;
   }
@@ -635,10 +640,8 @@
   .day-pick-panel,
   .slots-panel {
     border-radius: 10px;
-    // border: 1px solid gray;
     .day-button {
       text-align: center;
-      /* background-color: gray; */
       margin: 15px;
       padding: 10px;
       border: 1px solid gray;
@@ -687,7 +690,7 @@
         position: absolute;
         right: 0px;
         top: 0px;
-        background-color: white;
+        background-color: $color-white;
         transform: translate(50%, -50%);
         border: 1px solid gray;
         border-radius: 50%;
@@ -705,7 +708,7 @@
         &:after {
           position: absolute;
           left: 8px;
-          content: " ";
+          content: ' ';
           height: 15px;
           width: 2px;
           background-color: #333;
@@ -737,8 +740,7 @@
   .uploaded-video {
     margin-top: 17px;
     position: relative;
-    // display: flex;
-    // justify-content: center;
+
     &:hover {
       .vimeo {
         opacity: 0.5;
@@ -748,7 +750,7 @@
       }
     }
     .vimeo {
-      border: 0.5px solid #f2f2f2;
+      border: 0.5px solid $color-grey3;
       box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
       border-radius: 16px;
     }
@@ -765,10 +767,10 @@
       font-family: Source Sans Pro;
       font-style: normal;
       font-weight: 600;
-      font-size: 12px;
+      font-size: 0.75rem;
       line-height: 15px;
       padding: 13px 15px;
-      color: white;
+      color: $color-white;
       &:active {
         opacity: 0.5;
       }
@@ -777,8 +779,8 @@
   .tip-wrapper {
     &.has-video {
       padding: 14px 43px;
-      background: #ffffff;
-      border: 0.5px solid #f2f2f2;
+      background: $color-white;
+      border: 0.5px solid $color-grey3;
       box-sizing: border-box;
       box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
       border-radius: 16px;
@@ -830,12 +832,13 @@
       display: flex;
       align-items: center;
       justify-content: space-evenly;
-      background: #ffffff;
-      border: 0.5px solid #f2f2f2;
+      background: $color-white;
+      border: 0.5px solid $color-grey3;
       box-sizing: border-box;
       box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
       border-radius: 16px;
-      padding: 14px 0px;
+      padding-top: 14px;
+      padding-bottom: 14px;
       line-height: 26px;
       @media screen and (max-width: 1160px) {
         flex-direction: column;
@@ -859,7 +862,7 @@
         }
       }
       .divider {
-        border-bottom: 0.5px solid #b2b2b2;
+        border-bottom: 0.5px solid $color-darker-grey;
         width: 18px;
       }
     }
@@ -890,7 +893,7 @@
 }
 .availability-layout {
   .inner-wrapper {
-    border: 0.5px solid #f2f2f2;
+    border: 0.5px solid $color-grey3;
     box-sizing: border-box;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
     border-radius: 16px;
@@ -904,14 +907,17 @@
     font-style: normal;
     font-weight: 300;
     font-size: 14px;
-    margin: 27px 0px 22px;
+    margin-top: 27px;
+    margin-bottom: 22px;
   }
   .exception-days-notes {
     font-family: Source Sans Pro;
     font-style: normal;
     font-weight: 300;
     font-size: 14px;
-    margin: 14px 0px 14px;
+    margin-top: 14px;
+    margin-bottom: 14px;
+
   }
   .exception-days-wrapper {
     background: rgba(96, 178, 204, 0.3);
@@ -945,7 +951,7 @@
         width: 100px;
       }
       .divider {
-        background-color: #e1e1e1;
+        background-color: $color-border;
         width: 0.5px;
         height: 39px;
         flex: 0 0 0.5px;
@@ -961,7 +967,7 @@
           font-family: Source Sans Pro;
           font-style: normal;
           font-weight: 300;
-          font-size: 12px;
+          font-size: 0.75rem;
           line-height: 13px;
         }
         & .action {
@@ -969,7 +975,7 @@
           position: absolute;
           width: 100%;
           height: 100%;
-          background-color: white;
+          background-color: $color-white;
           opacity: 0.9;
           top: 0px;
           left: 0px;
@@ -981,7 +987,7 @@
           }
           .close {
             background: #fafafa;
-            border: 0.5px solid #f2f2f2;
+            border: 0.5px solid $color-grey3;
             border-radius: 50%;
             padding: 3px;
             cursor: pointer;
@@ -998,7 +1004,7 @@
             &:after {
               position: absolute;
               left: 11px;
-              content: " ";
+              content: ' ';
               height: 9px;
               width: 1px;
               background-color: red;
@@ -1031,9 +1037,9 @@
         font-family: Source Sans Pro;
         font-style: normal;
         font-weight: 600;
-        font-size: 12px;
+        font-size: 0.75rem;
         line-height: 15px;
-        color: #ffffff;
+        color: $color-white;
         cursor: pointer;
         border-radius: 5px;
         min-width: 74px;
@@ -1081,7 +1087,7 @@
             font-family: Source Sans Pro;
             font-style: normal;
             font-weight: 300;
-            font-size: 12px;
+            font-size: 0.75rem;
             line-height: 13px;
             white-space: nowrap;
           }
@@ -1090,7 +1096,7 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background-color: white;
+            background-color: $color-white;
             opacity: 0.9;
             top: 0px;
             left: 0px;
@@ -1102,7 +1108,7 @@
             }
             .close {
               background: #fafafa;
-              border: 0.5px solid #f2f2f2;
+              border: 0.5px solid $color-grey3;
               border-radius: 50%;
               padding: 3px;
               cursor: pointer;
@@ -1119,7 +1125,7 @@
               &:after {
                 position: absolute;
                 left: 11px;
-                content: " ";
+                content: ' ';
                 height: 9px;
                 width: 1px;
                 background-color: red;
@@ -1132,7 +1138,7 @@
               }
             }
             .divider {
-              background-color: #e1e1e1;
+              background-color: $color-border;
               width: 0.5px;
               height: 39px;
             }
@@ -1146,7 +1152,7 @@
       }
     }
     .header {
-      background: #ffffff;
+      background: $color-white;
       border: 0.5px solid $color-grey3;
       box-sizing: border-box;
       box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
@@ -1192,9 +1198,9 @@
         font-family: Source Sans Pro;
         font-style: normal;
         font-weight: 600;
-        font-size: 12px;
+        font-size: 0.75rem;
         line-height: 15px;
-        color: #ffffff;
+        color: $color-white;
         cursor: pointer;
         border-radius: 5px;
         width: 100%;
@@ -1229,7 +1235,6 @@
       padding: 13px;
       display: flex;
       flex-direction: column;
-      // border: 1.5px solid #ed1c70;
     }
     .btn {
       white-space: nowrap;
@@ -1238,9 +1243,9 @@
       font-family: Source Sans Pro;
       font-style: normal;
       font-weight: 600;
-      font-size: 12px;
+      font-size: 0.75rem;
       line-height: 15px;
-      color: #ffffff;
+      color: $color-white;
       cursor: pointer;
       border-radius: 5px;
       width: 100%;
@@ -1277,8 +1282,9 @@
       & > div {
         width: 100%;
         display: flex;
-        padding: 5.86px 0px;
-        border-bottom: 0.5px solid #e1e1e1;
+        padding-top: 5.86px;
+        padding-bottom: 5.86px;
+        border-bottom: 0.5px solid $color-border;
         span {
           width: 100%;
           font-family: Source Sans Pro;
@@ -1297,11 +1303,12 @@
       & > div {
         width: 100%;
         display: flex;
-        padding: 8.74px 0px;
+        padding-top: 8.74px;
+        padding-bottom: 8.74px;
         justify-content: space-between;
         position: relative;
         & > div:first-child::after {
-          content: ":";
+          content: ':';
           position: absolute;
           right: -6px;
           top: 50%;
@@ -1313,7 +1320,7 @@
           line-height: 18px;
         }
         &:first-child::after {
-          content: "-";
+          content: '-';
           position: absolute;
           right: -12px;
           top: 50%;
@@ -1366,7 +1373,6 @@
       padding: 13px;
       display: flex;
       flex-direction: column;
-      // border: 1.5px solid #ed1c70;
 
       .btn {
         white-space: nowrap;
@@ -1375,9 +1381,9 @@
         font-family: Source Sans Pro;
         font-style: normal;
         font-weight: 600;
-        font-size: 12px;
+        font-size: 0.75rem;
         line-height: 15px;
-        color: #ffffff;
+        color: $color-white;
         cursor: pointer;
         border-radius: 5px;
         width: 100%;
@@ -1395,7 +1401,7 @@
         align-items: center;
         justify-content: space-evenly;
         margin-bottom: 16px;
-        border-bottom: 1px solid #e1e1e1;
+        border-bottom: 1px solid $color-border;
         padding-bottom: 27px;
         span {
           font-family: Noto Serif;
@@ -1422,19 +1428,20 @@
               flex-direction: column;
               background: #fdfdfd;
               opacity: 0.98;
-              border: 0.5px solid #f2f2f2;
+              border: 0.5px solid $color-grey3;
               border-radius: 9px;
               padding: 16px 13px;
               .labels {
                 display: flex;
                 gap: 15px;
                 width: 100%;
-                border-bottom: 0.5px solid #e1e1e1;
-                border-top: 0.5px solid #e1e1e1;
+                border-bottom: 0.5px solid $color-border;
+                border-top: 0.5px solid $color-border;
                 & > div {
                   width: 100%;
                   display: flex;
-                  padding: 5.86px 0px;
+                  padding-top: 5.86px;
+                  padding-bottom: 5.86px;
                   span {
                     width: 100%;
                     font-family: Source Sans Pro;
@@ -1464,12 +1471,13 @@
                 & > div {
                   width: 100%;
                   display: flex;
-                  padding: 8.74px 0px;
+                  padding-top: 8.74px;
+                  padding-bottom: 8.74px;
                   justify-content: space-between;
                   position: relative;
                   gap: 8px;
                   & > div:first-child::after {
-                    content: ":";
+                    content: ':';
                     position: absolute;
                     right: -6px;
                     top: 50%;
@@ -1481,7 +1489,7 @@
                     line-height: 18px;
                   }
                   &:first-child::after {
-                    content: "-";
+                    content: '-';
                     position: absolute;
                     right: -12px;
                     top: 50%;
@@ -1508,13 +1516,13 @@
               font-family: Source Sans Pro;
               font-style: normal;
               font-weight: 600;
-              font-size: 12px;
+              font-size: 0.75rem;
               margin: -7px auto;
             }
             .take-off {
               background: #fdfdfd;
               opacity: 0.98;
-              border: 0.5px solid #f2f2f2;
+              border: 0.5px solid $color-grey3;
               border-radius: 9px;
               padding: 12px 13px;
             }
@@ -1523,7 +1531,7 @@
             .DayPicker-wrapper {
               background: #fdfdfd;
               opacity: 0.98;
-              border: 0.5px solid #f2f2f2;
+              border: 0.5px solid $color-grey3;
               border-radius: 9px;
             }
           }
@@ -1540,9 +1548,9 @@
       font-family: Source Sans Pro;
       font-style: normal;
       font-weight: 600;
-      font-size: 12px;
+      font-size: 0.75rem;
       line-height: 15px;
-      color: #ffffff;
+      color: $color-white;
       padding: 15px 26px;
       cursor: pointer;
       border-radius: 5px;
@@ -1580,22 +1588,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #b2b2b2;
+    border: 1px solid $color-darker-grey;
     span {
       font-family: Source Sans Pro;
       font-style: normal;
       font-weight: normal;
       font-size: 25px;
       line-height: 15px;
-      color: #b2b2b2;
+      color: $color-darker-grey;
     }
   }
   .info {
     width: 100%;
     height: 100%;
     padding: 40px 13px 40px 52.13px;
-    background: #ffffff;
-    border: 0.5px solid #f2f2f2;
+    background: $color-white;
+    border: 0.5px solid $color-grey3;
     box-sizing: border-box;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
     border-radius: 16px;
@@ -1649,7 +1657,7 @@
         display: flex;
         .contact {
           padding-right: 20px;
-          border-right: 0.5px solid #e1e1e1;
+          border-right: 0.5px solid $color-border;
           display: flex;
           flex-direction: column;
         }
@@ -1670,14 +1678,14 @@
         justify-content: center;
         height: 51px;
         padding: 15px 26px;
-        color: white;
-        background-color: #ed1c70;
+        color: $color-white;
+        background-color: $color-magenta;
         border-radius: 9px;
         text-align: center;
         font-family: Source Sans Pro;
         font-style: normal;
         font-weight: 600;
-        font-size: 12px;
+        font-size: 0.75rem;
         line-height: 15px;
         outline: none;
         border: none;
@@ -1701,7 +1709,8 @@
 }
 .StripeElement {
   border-bottom: 1px solid #c4c4c4;
-  padding: 12px 0px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   font-family: Source Sans Pro;
   font-style: normal;
   font-weight: 600;
@@ -1751,7 +1760,7 @@
       display: flex;
       flex-direction: column;
       padding-right: 30px;
-      border-right: 0.5px solid #b2b2b2;
+      border-right: 0.5px solid $color-darker-grey;
       .name {
         font-family: Source Sans Pro;
         font-style: normal;
@@ -1778,7 +1787,7 @@
         font-family: Source Sans Pro;
         font-style: normal;
         font-weight: 300;
-        font-size: 12px;
+        font-size: 0.75rem;
       }
     }
   }
@@ -1790,10 +1799,10 @@
     font-family: Source Sans Pro;
     font-style: normal;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 15px;
     padding: 13px 15px;
-    color: white;
+    color: $color-white;
     &:active {
       opacity: 0.5;
     }
@@ -1801,7 +1810,7 @@
 }
 .achivement-wrapper {
   padding: 50px 55px;
-  border: 0.5px solid #f2f2f2;
+  border: 0.5px solid $color-grey3;
   border-radius: 16px;
 
   .achivements {
@@ -1834,15 +1843,15 @@
     line-height: 160%;
   }
   .btn-download {
-    background: #60b2cc;
+    background: $color-pale-blue;
     border-radius: 9px;
     margin: auto;
     font-family: Source Sans Pro;
     font-style: normal;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 15px;
-    color: #ffffff;
+    color: $color-white;
     padding: 15px 26px;
     cursor: pointer;
     display: flex;
@@ -1858,7 +1867,8 @@
   }
 }
 .section-title {
-  margin: 43px 0px 20px 0px;
+  margin-top: 43px;
+  margin-bottom: 20px;
   font-family: Noto Serif;
   font-style: normal;
   font-weight: normal;

@@ -1,3 +1,4 @@
+@import "./variable.scss";
 .image-uploader-wrapper {
    display: flex;
    flex-direction: column;
@@ -39,7 +40,7 @@
                font-family: Source Sans Pro;
                font-style: normal;
                font-weight: 300;
-               font-size: 12px;
+               font-size: 0.75rem;
                line-height: 16px;
                color: #c4c4c4;
             }
@@ -82,7 +83,7 @@
 
 .choose-from-presets {
    margin-top: 16px;
-   p {
+      p {
       font-family: Noto Serif;
       font-style: normal;
       font-weight: normal;
@@ -99,7 +100,7 @@
       div {
          display: flex;
          padding: 1px;
-         border: 1.35px solid #ffffff;
+         border: 1.35px solid $color-white;
 
          img {
             cursor: pointer;
@@ -113,7 +114,7 @@
             padding-top: 10px;
          }
          &.selected {
-            border-color: #ed1c70;
+            border-color: $color-magenta;
             border-radius: 50%;
          }
       }

@@ -1,3 +1,4 @@
+@import "./variable.scss";
 .rbc-row-content {
   position: relative;
   top: 50%;
@@ -18,7 +19,7 @@
 }
 
 .rbc-event {
-  background-color: #6133af !important;
+  background-color: $color-purple1 !important;
   font-family: Inter;
   font-style: normal;
   line-height: 18px;
@@ -71,7 +72,7 @@
 }
 
 .rbc-today > a > span {
-  color: #6133af !important;
+  color: $color-purple1 !important;
 }
 
 .rbc-current-time-indicator {
@@ -94,21 +95,23 @@
   font-size: 20px;
   line-height: 24px;
   letter-spacing: -0.6px;
-  color: #ffffff;
+  color: $color-white;
 }
 
 .rbc-events-container > .rbc-event > .rbc-event-label {
   font-family: Inter;
   font-style: normal;
   font-weight: 500;
-  font-size: 12px;
-  line-height: 15px;
+  font-size: 0.75rem;
+  line-height: 0.938rem;
   letter-spacing: -1px;
   color: #ebe4ff;
 }
 
 .example {
   font-size: 14px;
+  padding-left: 40px;
+  padding-right: 40px;
   min-height: calc(100vh - 100px);
   min-height: max-content;
   height: calc(100vh - 100px);
@@ -138,42 +141,42 @@
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 0.938rem;
   line-height: 18px;
   letter-spacing: -0.2px;
-  color: #646481;
+  color: $color-light-grey;
 }
 
 .td-topic-level {
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
-  font-size: 15px;
+  font-size: 0.938rem;
   line-height: 18px;
   letter-spacing: -0.2px;
-  color: #646481;
+  color: $color-light-grey;
 }
 
 .td-datetime {
   font-family: Inter;
   font-style: normal;
   font-weight: 500;
-  font-size: 15px;
+  font-size: 0.938rem;
   line-height: 18px;
   display: flex;
   align-items: center;
   letter-spacing: -0.2px;
-  color: #646481;
+  color: $color-light-grey;
 }
 
 .td-tutor {
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
-  font-size: 15px;
+  font-size: 0.938rem;
   line-height: 18px;
   letter-spacing: -0.2px;
-  color: #6133af;
+  color: $color-purple1;
 }
 
 .td-button {
@@ -185,17 +188,17 @@
 }
 
 .td-datetime-border {
-  background: #ffffff;
+   background: $color-white;
   /* Border Gray */
   height: 40px;
-  border: 1px solid #dedee1;
+  border: 1px solid $color-border-white;
   box-sizing: border-box;
   border-radius: 8.125px;
 }
 
 .btn-tutor-feedback-disabled {
   color: #261a45;
-  border-color: #dedee1;
+  border-color: $color-border-white;
 }
 
 .calendar {
@@ -227,7 +230,7 @@
       align-items: center;
       justify-content: center;
       background: #fefeff;
-      border: 0.5px solid #f2f2f2;
+      border: 0.5px solid $color-grey3;
       box-sizing: border-box;
       box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.005);
       border-radius: 9px;
@@ -240,7 +243,7 @@
     background: rgba(96, 178, 204, 0.3);
     border: 0.5px solid rgba(96, 178, 204, 0.8);
     border-radius: 21px;
-    margin-top: 20px;
+    margin-top: 20px
   }
 
   .days {
@@ -248,9 +251,10 @@
     font-weight: 400;
     color: gray;
     font-size: 70%;
-    padding: 0.75em 0;
-    background: #ffffff;
-    border-bottom: 4px solid #60b2cc;
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
+    background: $color-white;
+    border-bottom: 4px solid $color-pale-blue;
     box-sizing: border-box;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
     margin-bottom: 15px;
@@ -258,7 +262,6 @@
   }
 
   .row {
-    // border-bottom: 1px solid lightgray;
     display: flex;
 
     &:last-child {
@@ -288,13 +291,13 @@
       font-weight: bold;
       font-size: 18px;
       line-height: 45px;
-      color: black;
+      color: $color-black;
     }
   }
 
   .body {
-    background: #ffffff;
-    border: 0.5px solid #f2f2f2;
+     background: $color-white;
+    border: 0.5px solid $color-grey3;
     box-sizing: border-box;
     border-radius: 0 0 15px 15px;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
@@ -306,7 +309,7 @@
       height: 7em;
       overflow: hidden;
       cursor: pointer;
-      background: white;
+      background:  $color-white;
       transition: 0.25s ease-out;
       color: #42413d;
 
@@ -329,7 +332,7 @@
     }
     .past-lessons-day {
       div {
-        border: 1.75px solid #f2f2f2;
+        border: 1.75px solid $color-grey3;
         width: 80px;
         height: 80px;
         display: flex;
@@ -353,19 +356,19 @@
     }
     .today {
       div {
-        background: #ed1c70;
+        background: $color-magenta;
         width: 80px;
         height: 80px;
         border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
-        color: white;
+        color: $color-white;
       }
     }
     .upcoming-lessons-day {
       div {
-        background: #60b2cc;
+        background: $color-pale-blue;
         width: 80px;
         height: 80px;
         display: flex;
@@ -393,61 +396,10 @@
     }
   }
 
-  @media screen and (min-width: 901px) {
-    .body {
-      .row {
-        .column {
-          // &.has-event {
-          //   &.today {
-          //     div {
-          //       width: 92px;
-          //       height: 92px;
-          //     }
-          //   }
-
-          //   div {
-          //     width: 92px;
-          //     height: 92px;
-          //   }
-          // }
-          // &.today {
-          //   div {
-          //     width: 74px;
-          //     height: 74px;
-          //   }
-          // }
-        }
-      }
-    }
-  }
-
   @media screen and (max-width: 900px) {
     .body {
       .cell {
         height: 4em;
-      }
-      .row {
-        .column {
-          // &.has-event {
-          //   &.today {
-          //     div {
-          //       width: 45px;
-          //       height: 45px;
-          //     }
-          //   }
-
-          //   div {
-          //     width: 45px;
-          //     height: 45px;
-          //   }
-          // }
-          // &.today {
-          //   div {
-          //     width: 45px;
-          //     height: 45px;
-          //   }
-          // }
-        }
       }
     }
   }
@@ -461,7 +413,8 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 0px 14px;
+    padding-right: 14px;
+    padding-left: 14px;
     &:not(:last-child) {
       border-right: 0.5px solid #dbdbdb;
     }

@@ -1,0 +1,180 @@
+@import './variable.scss';
+.btn {
+  background: $color-white;
+  border: 1px solid $color-border-white;
+  box-sizing: border-box;
+  border-radius: 5px;
+  color: $color-black !important;
+}
+
+.btn-lg-tutor {
+  width: 300px;
+  height: 60px;
+  left: calc(50% - 300px / 2 - 245px);
+  top: 1339px;
+  background: $color-white;
+  border: 1px solid $color-border-white;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.btn-sm-tutor {
+  width: 300px;
+  height: 40px;
+  left: calc(50% - 300px / 2 - 245px);
+  top: 1414px;
+  background: $color-white;
+  border: 1px solid $color-border-white;
+  box-sizing: border-box;
+  border-radius: 10px;
+  color: #969696 !important;
+}
+
+.border-availabilities {
+  border-bottom: 1px solid $color-border-white;
+}
+
+.border-availabilities-picker {
+  border-bottom: 1px solid $color-border-white;
+  max-width: 75%;
+}
+
+.border-availabilities-top {
+  border-top: 1px solid $color-border-white;
+}
+
+.border-availabilities_right {
+  border-right: 1px solid $color-border-white;
+}
+
+.form-switch .form-check-input {
+  width: 48px;
+  height: 25px;
+}
+
+.form-switch .form-check-input:checked {
+  background-color: $color-purple1;
+  border-color: $color-purple1;
+  border: none;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(255,255,255,1.0)'/></svg>");
+}
+
+.fa_trash_can {
+  color: $color-border-white;
+  border: 1px solid $color-border-white;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.fa_icon {
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.time_picker {
+  font-weight: bold;
+  color: $color-purple1;
+  border: 1px solid $color-border-white;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.date_override_title {
+  color: #261a45;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 27px;
+  line-height: 33px;
+  /* identical to box height */
+  letter-spacing: -1px;
+}
+.date_override_text_color {
+  color: $color-light-grey !important;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 30px;
+  /* or 150% */
+
+  letter-spacing: -0.6px;
+}
+
+// Modal CSS
+.modal_title {
+  color: $color-purple1;
+}
+
+.modal_text_wrapper {
+  white-space: pre-wrap;
+  overflow: hidden;
+  max-width: 400px;
+}
+
+.modal_close_button {
+  display: block;
+  width: 100%;
+}
+
+// Settings Page CSS
+.sub_lessons_div {
+  border: 1px solid $color-border-white;
+  border-radius: 1em;
+}
+
+.sub_lessons_toggle {
+  display: flex;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: center;
+}
+
+.google_sign_in {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+// Modal Override
+.modal_save_button {
+  display: block;
+  width: 100%;
+  background-color: $color-purple1;
+  color: white !important;
+}
+
+.save_button {
+  display: block;
+  width: 15%;
+
+  background-color: $color-purple1;
+  color: white !important;
+}
+
+// date overrides text break inline size
+.date_override_p1_break {
+  inline-size: 20em;
+}
+.date_override_p2_break {
+  inline-size: 16em;
+}
+.pickerToText {
+  text-align: center;
+  align-content: center;
+  padding-top: 0 !important;
+}
+
+.plus_button {
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  margin-right:  10px;
+  margin-left: 10px;
+}
+
+.modalSize {
+  width: 983px !important;
+  height: 473px !important;
+}

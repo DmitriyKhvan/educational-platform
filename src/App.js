@@ -55,6 +55,8 @@ import BookTrialLesson from './pages/Students/BookTrialLesson'
 import TutorList from './pages/Admin/TutorList'
 import StudentList from './pages/Admin/StudentList'
 import Main from './pages/Admin/Main'
+import AvailabilitySettings from './pages/Tutors/Availiability/AvailabilitySettings'
+
 import NewTutorProfile from './pages/Profile/EditProfile'
 const store = configureStore({})
 
@@ -196,6 +198,10 @@ function App() {
           <PrivateRoute
             path='/tutor/availability'
             component={AvailabilityLayout}
+          />
+          <PrivateRoute
+            path='/tutor/avail/settings'
+            component={AvailabilitySettings}
           />
           <PrivateRoute path='/tutor/payment-page' component={PaymentLayout} />
           <PrivateRoute
