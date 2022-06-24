@@ -4,7 +4,8 @@ import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Layout from '../../../components/Layout'
 import moment from 'moment'
-
+import scheduleTick from '../../../assets/images/scheduleTick.svg'
+import continue_arrow from '../../../assets/images/continue_arrow.svg'
 const SelectLesson = ({
   setSelectedPlan,
   setTabIndex,
@@ -30,36 +31,38 @@ const SelectLesson = ({
   }) => {
     return (
       <div
-        className='col-6 pe-4'
+        className='col-md-6 col-lg-4 pe-4 main-container '
         onClick={() => {
           setClicked(i)
           setSelectedPlan(data)
         }}
       >
         <div
-          className={`schedule-card small-card pt-2 ${
+          className={`schedule-card small-card lesson-container pt-2 ${
             i === clicked ? 'purple-border' : ''
           }`}
         >
           <div className='container-fluid py-3'>
             <div className='row'>
-              <h1 className={`${i === clicked ? 'text-purple' : 'text-black'}`}>
+              <h1 className={`${i === clicked ? 'text-purple lessontext' : 'text-black lessontext'}`}>
                 {lesson.charAt(0).toUpperCase() + lesson.slice(1)}
               </h1>
+              <span className={`${i === clicked ? 'tickmark':'tickNone'}`}><img src={scheduleTick} alt='' /></span>           
             </div>
-            <div className='row'>
+            <div className='row customlabel'>
+    
               <div
-                className='col-4 schedule-lesson-border me-2'
+                className='col-4 schedule-lesson-border me-2 sublabel-1'
                 style={{ background: '#DEDEE1' }}
               >
-                <p className='m-2' style={{ textAlign: 'center' }}>
+                <p className='m-2 inner-txt' style={{ textAlign: 'center' }}>
                   <strong>
                     {duration} {t('minutes')}
                   </strong>
                 </p>
               </div>
-              <div className='col-7 schedule-lesson-border ms-2'>
-                <p className='m-2' style={{ textAlign: 'center' }}>
+              <div className='col-7 schedule-lesson-border ms-2 sublabel-2'>
+                <p className='m-2 inner-txt sublabel2-txt' style={{ textAlign: 'center' }}>
                   <strong>
                     {remaining} {t('lessons_remaining')}
                   </strong>
@@ -67,9 +70,9 @@ const SelectLesson = ({
               </div>
             </div>
           </div>
-          <div className='row container'>
-            <p className='text-end text-danger mb-1'>
-              {t('expires')}: {moment(expirationDate).format('MM-DD-YYYY')}
+          <div className='row container subWidth'>
+            <p className='text-end text-danger mb-1 mt-text expires'>
+             <span className='exp-txt'>{t('expires')}</span><span className='colon-color'>:&nbsp;</span><span className='exp-date'> {moment(expirationDate).format('MM-DD-YYYY')}</span>
             </p>
           </div>
         </div>
@@ -81,15 +84,15 @@ const SelectLesson = ({
     <Layout>
       <div className='scroll-layout'>
         <div className='flex-container'>
-          <div className='container'>
+          <div className='container custom-children-container'>
             <div className='children-wrapper flex-left'>
               <h1 className='title'>{t('schedule_lesson')}</h1>
               <p className='welcome-subtitle'>
                 {t('schedule_lesson_subtitle')}
               </p>
             </div>
-
-            <div className='row container'>
+            <div className='ExpWidth-con'>
+            <div className='row container ExpWidth'>
               {planStatus.map((x, i) => (
                 <LessonCard
                   lesson={x.lesson_type}
@@ -102,7 +105,8 @@ const SelectLesson = ({
                 />
               ))}
             </div>
-            <div className='row container pt-3'>
+            </div>
+            <div className='row container pt-3 btn-custom'>
               <div className='col-auto'>
                 <button
                   className='enter-btn btn-dash-return ms-0'
@@ -113,11 +117,12 @@ const SelectLesson = ({
               </div>
               <div className='col-auto'>
                 <button
-                  className='enter-btn btn-primary'
+                  className='enter-btn btn-primary custom-btn-primary'
                   disabled={disabled}
                   onClick={() => setTabIndex(1)}
                 >
-                  {t('continue')}
+                  <span>{t('continue_custom')}</span>
+                  <span className='continue-arrow'><img src={continue_arrow} alt='' /></span>
                 </button>
               </div>
             </div>

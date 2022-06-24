@@ -1,5 +1,4 @@
 @import "./variable.scss";
-
 .view-messages {
   .header-title {
     align-items: center;
@@ -419,7 +418,7 @@
               font-weight: 300;
               font-size: 14px;
               line-height: 18px;
-              color: #000000;
+              color: $color-black;
               line-break: anywhere;
             }
           }
@@ -474,7 +473,7 @@
             font-weight: 300;
             font-size: 14px;
             line-height: 18px;
-            color: black;
+            color: $color-black;
           }
         }
       }

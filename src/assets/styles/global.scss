@@ -2132,7 +2132,6 @@ textarea.form-control.is-invalid {
   display: inline-block;
   font-weight: 500;
   line-height: 2;
-  color: #212529;
   text-align: center;
   text-decoration: none;
   vertical-align: middle;
@@ -4675,16 +4674,16 @@ a > span {
 }
 
 .welcome-subtitle {
-  font-family: Inter;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 17px;
-  line-height: 21px;
-  display: flex;
-  align-items: center;
-  letter-spacing: -0.6px;
-  color: #646481;
-  margin: 0px 0px 30px 0px;
+    height: 24px;
+    left: 325px;
+    top: 228px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -0.6px;
+    color: #646481;
 }
 
 .divider {

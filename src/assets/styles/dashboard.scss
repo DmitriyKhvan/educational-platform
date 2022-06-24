@@ -27,6 +27,15 @@
     padding: 39.31px 20px 57px 20px;
   }
   display: flex;
+
+  .children-page {
+    width: calc(100% - 300px);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .availability-wrapper {
+    padding: 20px;
   .children-page {
     width: calc(100% - 300px);
   }
@@ -281,7 +290,7 @@
   border: 0.5px solid $color-grey3;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
   border-radius: 16px;
-  padding: 31px 57px 26px;
+  padding: 31px 57px 26px 57px;
   display: flex;
   flex-direction: column;
   div {
@@ -331,7 +340,6 @@
     border-radius: 16px;
     padding: 31px 57px 26px 57px;
     display: flex;
-
     flex-direction: column;
 
     div {
@@ -357,7 +365,6 @@
       line-height: 36px;
       letter-spacing: -0.6px;
     }
-
     img {
       margin-bottom: 31px;
     }
@@ -410,7 +417,6 @@
         line-height: 36px;
         letter-spacing: -0.6px;
       }
-
       img {
         margin-bottom: 31px;
       }
@@ -673,14 +679,14 @@
         box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
         border-radius: 5px;
         padding: 21px 36px;
-        color: black;
+        color: $color-black;
         font-family: Source Sans Pro;
         font-style: italic;
         font-weight: 300;
         font-size: 16px;
         line-height: 20px;
         &::placeholder {
-          color: black;
+          color: $color-black;
           font-family: Source Sans Pro;
           font-style: italic;
           font-weight: 300;

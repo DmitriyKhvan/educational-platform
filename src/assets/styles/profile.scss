@@ -476,7 +476,7 @@
         position: absolute;
         width: 56px;
         height: 42px;
-        background: #fdfdfd;
+        background: $color-bg-grey1;
         opacity: 0.9;
         display: flex;
         align-items: center;
@@ -507,8 +507,7 @@
         font-size: 18px;
         line-height: 25px;
         color: $color-black;
-        margin: 0 0 5px;
-
+        margin-bottom: 5px;
         span {
           color: #42413d;
         }
@@ -740,7 +739,6 @@
   .uploaded-video {
     margin-top: 17px;
     position: relative;
-
     &:hover {
       .vimeo {
         opacity: 0.5;
@@ -917,7 +915,6 @@
     font-size: 14px;
     margin-top: 14px;
     margin-bottom: 14px;
-
   }
   .exception-days-wrapper {
     background: rgba(96, 178, 204, 0.3);
@@ -929,7 +926,7 @@
     gap: 5px;
 
     .exception-day-slot {
-      background: #fafafa;
+      background: $color-bg-grey2;
       border: 0.5px solid #ededed;
       box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
       border-radius: 9px;
@@ -986,7 +983,7 @@
             cursor: pointer;
           }
           .close {
-            background: #fafafa;
+            background: $color-bg-grey2;
             border: 0.5px solid $color-grey3;
             border-radius: 50%;
             padding: 3px;
@@ -1071,7 +1068,7 @@
         padding: 4px;
         .slot {
           width: 100%;
-          background: #fafafa;
+          background: $color-bg-grey2;
           border: 0.5px solid #ededed;
           box-sizing: border-box;
           box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
@@ -1107,7 +1104,7 @@
               cursor: pointer;
             }
             .close {
-              background: #fafafa;
+              background: $color-bg-grey2;
               border: 0.5px solid $color-grey3;
               border-radius: 50%;
               padding: 3px;
@@ -1373,7 +1370,6 @@
       padding: 13px;
       display: flex;
       flex-direction: column;
-
       .btn {
         white-space: nowrap;
         margin: auto;
@@ -1426,7 +1422,7 @@
             .inner-content {
               display: flex;
               flex-direction: column;
-              background: #fdfdfd;
+              background: $color-bg-grey1;
               opacity: 0.98;
               border: 0.5px solid $color-grey3;
               border-radius: 9px;
@@ -1520,7 +1516,7 @@
               margin: -7px auto;
             }
             .take-off {
-              background: #fdfdfd;
+              background: $color-bg-grey1;
               opacity: 0.98;
               border: 0.5px solid $color-grey3;
               border-radius: 9px;
@@ -1529,7 +1525,7 @@
           }
           &.select-date {
             .DayPicker-wrapper {
-              background: #fdfdfd;
+              background: $color-bg-grey1;
               opacity: 0.98;
               border: 0.5px solid $color-grey3;
               border-radius: 9px;

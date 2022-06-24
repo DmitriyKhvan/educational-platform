@@ -239,7 +239,7 @@
           display: flex;
           flex-direction: column;
           border-radius: 34.5px;
-          background: #fafafa;
+          background: $color-bg-grey2;
           border: 0.5px solid $color-grey3;
           box-sizing: border-box;
           box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.01);
@@ -388,8 +388,7 @@
           }
         }
         .btn-complete {
-          background: #60b2cc;
-
+          background: $color-pale-blue;
           border-radius: 9px;
           height: 44px;
           display: flex;
@@ -1151,6 +1150,7 @@
             & > div {
               &:first-child {
                 position: relative;
+
                 iframe {
                   border: 0.5px solid #dbdbdb;
                   box-sizing: border-box;
@@ -1866,7 +1866,7 @@
           }
           .wrapper {
             .review {
-              background: #fdfdfd;
+              background: $color-bg-grey1;
               border: 0.5px solid $color-grey3;
               box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.01);
               border-radius: 16px;
@@ -2297,7 +2297,7 @@
               }
             }
             .remains {
-              background: #fdfdfd;
+              background: $color-bg-grey1;
               border: 0.5px solid $color-grey3;
               box-sizing: border-box;
               border-radius: 9px;
@@ -2578,7 +2578,7 @@
         border-color: $color-magenta;
       }
       div {
-        background: #fdfdfd;
+        background: $color-bg-grey1;
         border: 0.5px solid rgba(219, 219, 219, 0.5);
         padding: 18px 40px;
         border-radius: 8px;
@@ -2709,7 +2709,7 @@
             .inner {
               width: 100%;
               height: 100%;
-              border: 1px solid #9c96b5;
+              border: 1px solid $color-lavender;
               background: rgba(156, 150, 181, 0.1);
               border-radius: 4px;
               .top-part {
@@ -2743,7 +2743,7 @@
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
-                    background: #fafafa;
+                    background: $color-bg-grey2;
                     border-radius: 50%;
                     span:first-child {
                       font-family: Noto Serif JP;
@@ -2822,12 +2822,12 @@
                   font-weight: bold;
                   font-size: 13px;
                   line-height: 16px;
-                  color: #000000;
+                  color: $color-black;
                   opacity: 0.6;
                 }
               }
               .bottom-part {
-                border-top: 0.5px solid #9c96b5;
+                border-top: 0.5px solid $color-lavender;
                 background-color: $color-white;
                 padding: 21px 26px 26px 20px;
                 border-top-left-radius: 16px;
@@ -2849,7 +2849,7 @@
                     content: '';
                     width: 4.57px;
                     height: 4.57px;
-                    background: #9c96b5;
+                    background: $color-lavender;
                     border-radius: 50%;
                     position: absolute;
                     top: calc(50% - 2.25px);
@@ -2869,13 +2869,13 @@
             padding: 15px 26px;
             margin-top: 14px;
             width: 246px;
-            color: black;
+            color: $color-black;
             font-family: Source Sans Pro;
             font-style: normal;
             font-weight: 600;
             font-size: 14px;
             &::placeholder {
-              color: black;
+              color: $color-black;
               font-family: Source Sans Pro;
               font-style: italic;
               font-weight: 300;
@@ -2999,7 +2999,7 @@
     }
     .start-at {
       margin: auto;
-      background: #fafafa;
+      background: $color-bg-grey2;
       border: 0.5px solid $color-grey3;
       border-radius: 16px;
       display: flex;
@@ -3144,7 +3144,6 @@
     align-items: center;
     padding-top: 32px;
     padding-bottom: 21px;
-
     .student-avatar {
       width: 120px;
       display: flex;
@@ -3227,7 +3226,7 @@
     margin-bottom: 15px;
   }
   textarea {
-    background: #fdfdfd;
+    background: $color-bg-grey1;
     border: 0.5px solid $color-grey3;
     border-radius: 5px;
     padding: 16px 26px;
@@ -3450,7 +3449,7 @@
         &:first-child {
           width: 121px;
           height: 44px;
-          background: #fdfdfd;
+          background: $color-bg-grey1;
           border: 0.5px solid rgba(219, 219, 219, 0.5);
           border-radius: 9px;
           display: flex;
@@ -3547,7 +3546,7 @@
       box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
       border-top-left-radius: 16px;
       border-top-right-radius: 16px;
-      border-bottom: 4px solid #60b2cc;
+      border-bottom: 4px solid $color-pale-blue;
       width: 100%;
       display: flex;
       height: 73px;

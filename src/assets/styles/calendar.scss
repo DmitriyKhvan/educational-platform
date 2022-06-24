@@ -6,7 +6,6 @@
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
-
 .rbc-date-cell {
   text-align: center !important;
   font-family: Inter;
@@ -17,7 +16,6 @@
   align-items: center;
   letter-spacing: -0.6px;
 }
-
 .rbc-event {
   background-color: $color-purple1 !important;
   font-family: Inter;
@@ -395,7 +393,6 @@
       pointer-events: none;
     }
   }
-
   @media screen and (max-width: 900px) {
     .body {
       .cell {

@@ -1,4 +1,13 @@
 @import './variable.scss';
+::placeholder {
+  color: $color-light-grey;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 20px;
+}
 ::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
   color: $color-light-grey !important;
@@ -105,7 +114,6 @@
         .form-item-inner {
           display: flex;
           flex-direction: column;
-
           input:not(.form-control) {
             border-right: none;
             border-left: none;
@@ -282,7 +290,11 @@
   color: $color-light-grey;
   text-decoration: none;
 }
-
-.forget {
-   margin-top:-14px;
+.text-center {
+  padding-top: 26px;
 }
+.forget {
+  margin-top: -14px;
+}
+
+
