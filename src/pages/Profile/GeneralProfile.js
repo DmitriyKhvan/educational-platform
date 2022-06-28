@@ -18,6 +18,9 @@ import { useTranslation } from 'react-i18next'
 import { Avatar } from '../../components/Avatar'
 import ModalEditAvailability from '../Admin/ModalEditAvailability'
 import { getUserById } from '../../actions/admin'
+import EditIcon from '../../../src/assets/images/EditIcon.svg'
+import EditCircle from '../../../src/assets/images/EditCircle.svg'
+
 
 const GeneralProfile = ({ user, update, isAdmin = false }) => {
   const dispatch = useDispatch()
@@ -153,8 +156,11 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
           onMouseLeave={() => setEditAvatar(false)}
         >
           <Avatar avatar={user.avatar} />
-          <div className='edit-avatar' onClick={() => showModal()}>
-            <span>{t('edit_avatar')}</span>
+          <div className='edit-avatar custom-edit-avatar' onClick={() => showModal()}>
+            <div className='Icon-Container'>
+          <span className='EditIcon'><img src={EditIcon} alt='' /></span>
+          <span className='EditCircle'><img src={EditCircle} alt='' /></span>
+          </div>
           </div>
         </div>
       ) : (
@@ -186,7 +192,7 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
             </div>
           )}
           <div className='form-section'>
-            <p className='section-title'>{t('contact_details')}</p>
+            <p className='section-title custom-section-title'>{t('contact_details')}</p>
             <div className='flex align-items-center gap-24'>
               {renderFormField(
                 'first_name',
@@ -195,6 +201,8 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
                 formData,
                 formDataError
               )}
+              </div>
+              <div>
               {renderFormField(
                 'last_name',
                 t('last_name'),
@@ -224,6 +232,8 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
                 { required: t('error_select_an_option') },
                 formDataError.gender
               )}
+              </div>
+              <div>
               {renderSelect(
                 'pronouns',
                 t('pronouns'),
@@ -244,6 +254,8 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
                 formData,
                 formDataError
               )}
+              </div>
+              <div>
               {renderPhonenumber(
                 handleChange,
                 formData,

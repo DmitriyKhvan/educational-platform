@@ -1,7 +1,6 @@
 @import './variable.scss';
 ::placeholder {
   color: $color-light-grey;
-
   font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
@@ -140,7 +139,7 @@
           }
 
           .country-list {
-            margin-top: 1px ;
+            margin-top: 1px;
             margin-left: -1px;
           }
         }
@@ -264,10 +263,10 @@
     justify-content: center;
     font-size: 30px;
   }
-.main-logo img {
+  .main-logo img {
     max-width: 80%;
   }
-.butterfly img {
+  .butterfly img {
     width: 320px;
   }
 }
@@ -296,5 +295,4 @@
 .forget {
   margin-top: -14px;
 }
-
-
+}

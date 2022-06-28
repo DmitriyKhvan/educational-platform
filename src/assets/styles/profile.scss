@@ -7,12 +7,12 @@
     background-color: $color-white;
     height: 100%;
     padding: 55px;
-    padding-top: 156px;
+    padding-top: 5px;
     width: 100%;
     margin: auto;
-    margin-top: 46px;
+    margin-top: 87px;
     margin-bottom: 46px;
-    overflow: auto;
+    overflow: hidden;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
     border-radius: 16px;
     border: 0.5px solid $color-grey3;
@@ -21,7 +21,7 @@
       background: $color-pale-blue;
       border-radius: 9px;
       margin: auto;
-      font-family: Source Sans Pro;
+      font-family: 'Inter';
       font-style: normal;
       font-weight: 600;
       font-size: 0.75rem;
@@ -33,7 +33,8 @@
       justify-content: center;
       align-items: center;
       height: 51px;
-      width: 218px;
+      width: 97%;
+      margin-left: 25px;
       margin-top: 42px;
       &:active {
         opacity: 0.5;
@@ -55,7 +56,7 @@
       background: $color-magenta;
       border-radius: 9px;
       margin: auto;
-      font-family: Source Sans Pro;
+      font-family: 'inter';
       font-style: normal;
       font-weight: 600;
       font-size: 0.75rem;
@@ -91,7 +92,7 @@
         flex: 0 0 404px;
         width: 404px;
         & > label {
-          font-family: Source Sans Pro;
+          font-family: 'Inter';
           font-style: normal;
           font-weight: normal;
           font-size: 16px;
@@ -130,8 +131,7 @@
     margin: 0;
     .profile-wrapper {
       width: 100%;
-      padding: 20px;
-      padding-top: 156px;
+      padding-top: 5px;
       padding-bottom: 55px;
     }
   }
@@ -141,7 +141,7 @@
     .btn-update {
       margin: auto;
       background: $color-magenta;
-      font-family: Source Sans Pro;
+      font-family: 'inter';
       font-style: normal;
       font-weight: 600;
       font-size: 0.75rem;
@@ -150,8 +150,9 @@
       padding: 15px 26px;
       cursor: pointer;
       border-radius: 5px;
-      width: 127px;
+      width: 100%;
       height: 51px;
+
       &:active {
         opacity: 0.5;
       }
@@ -200,7 +201,7 @@
   .form-section {
     background: $color-white;
     width: auto;
-
+    margin-left: -25px;
     .form-row {
       width: 100%;
     }
@@ -229,16 +230,20 @@
         display: flex;
         flex-direction: column;
         gap: 20px;
+        margin-left: 25px;
 
         label {
-          font-family: Source Sans Pro;
+          left: 0%;
+          right: 79.72%;
+          top: 0%;
+          bottom: 75%;
+          font-family: 'Inter';
           font-style: normal;
-          font-weight: 300;
-          font-size: 14px;
-          line-height: 18px;
-          color: #767676;
-          margin-bottom: -15px;
-          width: 180px;
+          font-weight: 600;
+          font-size: 15px;
+          line-height: 20px;
+          letter-spacing: -0.2px;
+          color: #261a45;
         }
 
         input:not(.form-control) {
@@ -253,28 +258,50 @@
           font-weight: 600;
           font-size: 16px;
           width: 100%;
-          color: #42413d;
+          height: 51px;
+          padding-left: 8px;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 15px;
+          line-height: 20px;
+          letter-spacing: -0.2px;
+          color: #646481;
         }
 
         input.form-control {
-          border-right: none;
-          border-left: none;
-          border-top: none;
-          border-bottom: 1px solid #c4c4c4;
-          outline: none;
-          font-family: Source Sans Pro;
-          font-weight: 600;
-          font-size: 16px;
-          color: #42413d;
-          width: 100%;
-          border-radius: 0;
+          box-sizing: border-box;
+          position: absolute;
+          left: 0%;
+          right: 0%;
+          top: 37.5%;
+          bottom: 0%;
+          background: $color-white;
+          border-radius: 5px;
+          width: 100% !important;
+          height: 51px;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 15px;
+          line-height: 20px;
+          letter-spacing: -0.2px;
+          color: #646481;
         }
 
         input::placeholder {
-          color: blue;
-          font-size: 1.5em;
+          left: 4.17%;
+          right: 74.44%;
+          top: 56.25%;
+          bottom: 18.75%;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 15px;
+          line-height: 20px;
+          letter-spacing: -0.2px;
+          color: #646481;
         }
-
         .flag-dropdown {
           background-color: transparent;
           border: none;
@@ -337,7 +364,7 @@
       label {
         position: relative;
         cursor: pointer;
-        font-family: Source Sans Pro;
+        font-family: 'inter';
         font-weight: normal;
         font-size: 18px;
         line-height: 25px;
@@ -372,7 +399,7 @@
       width: 8.91px;
     }
     p {
-      font-family: Source Sans Pro;
+      font-family: 'inter';
       font-style: normal;
       font-weight: 600;
       font-size: 16px;
@@ -389,7 +416,7 @@
     top: 40px;
     right: 0px;
     transform: translate(-50%, -50%);
-    font-family: Source Sans Pro;
+    font-family: 'Inter';
     font-style: normal;
     font-weight: 600;
     font-size: 0.75rem;
@@ -407,7 +434,7 @@
     height: 128px;
     cursor: pointer;
     position: absolute;
-    top: -37px;
+    top: -65px;
     left: 50%;
     z-index: 1000;
     transform: translateX(-50%);
@@ -424,7 +451,7 @@
     p {
       margin-top: 20px;
       white-space: nowrap;
-      font-family: Source Sans Pro;
+      font-family: 'Inter';
       font-style: normal;
       font-weight: 600;
       font-size: 18px;
@@ -456,7 +483,7 @@
       opacity: 0.6;
 
       span {
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-weight: 300;
         font-size: 0.75rem;
         line-height: 16px;
@@ -502,7 +529,7 @@
 
     .profile-info {
       h3 {
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-weight: 600;
         font-size: 18px;
         line-height: 25px;
@@ -514,7 +541,7 @@
       }
 
       .student-level {
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-weight: 600;
         font-size: 10px;
         line-height: 13px;
@@ -522,7 +549,7 @@
       }
 
       .since-date {
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-weight: 300;
         font-size: 10px;
         line-height: 13px;
@@ -535,7 +562,7 @@
 
         .telephone-email {
           p {
-            font-family: Source Sans Pro;
+            font-family: 'Inter';
             font-style: normal;
             font-weight: 300;
             font-size: 14px;
@@ -545,7 +572,7 @@
         }
 
         .address-info {
-          font-family: Source Sans Pro;
+          font-family: 'Inter';
           font-weight: 300;
           font-size: 14px;
           line-height: 18px;
@@ -729,7 +756,7 @@
     margin-bottom: 26px;
     p {
       margin-left: 10px;
-      font-family: Source Sans Pro;
+      font-family: 'Inter';
       font-style: normal;
       font-weight: normal;
       font-size: 14px;
@@ -762,7 +789,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-family: Source Sans Pro;
+      font-family: 'Inter';
       font-style: normal;
       font-weight: 600;
       font-size: 0.75rem;
@@ -790,7 +817,7 @@
         align-items: center;
         gap: 20px;
         p {
-          font-family: Source Sans Pro;
+          font-family: 'Inter';
           font-style: normal;
           font-weight: 300;
           font-size: 14px;
@@ -812,14 +839,14 @@
       display: none;
     }
     .description {
-      font-family: Source Sans Pro;
+      font-family: 'Inter';
       font-style: normal;
       font-weight: 300;
       font-size: 14px;
       line-height: 21px;
     }
     .sub-title {
-      font-family: Source Sans Pro;
+      font-family: 'Inter';
       font-style: normal;
       font-weight: normal;
       font-size: 14px;
@@ -844,7 +871,7 @@
       }
       div {
         span:first-child {
-          font-family: Source Sans Pro;
+          font-family: 'Inter';
           font-style: normal;
           font-weight: normal;
           font-size: 14px;
@@ -852,7 +879,7 @@
           margin-right: 14px;
         }
         span:last-child {
-          font-family: Source Sans Pro;
+          font-family: 'Inter';
           font-style: normal;
           font-weight: 300;
           font-size: 14px;
@@ -865,7 +892,7 @@
       }
     }
     .see-intro-video {
-      font-family: Source Sans Pro;
+      font-family: 'Inter';
       font-style: normal;
       font-weight: normal;
       font-size: 14px;
@@ -901,7 +928,7 @@
     margin-top: 31px;
   }
   .notes {
-    font-family: Source Sans Pro;
+    font-family: 'Inter';
     font-style: normal;
     font-weight: 300;
     font-size: 14px;
@@ -909,7 +936,7 @@
     margin-bottom: 22px;
   }
   .exception-days-notes {
-    font-family: Source Sans Pro;
+    font-family: 'Inter';
     font-style: normal;
     font-weight: 300;
     font-size: 14px;
@@ -940,7 +967,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-style: normal;
         font-weight: normal;
         font-size: 14px;
@@ -961,7 +988,7 @@
         justify-content: space-between;
         align-items: center;
         span {
-          font-family: Source Sans Pro;
+          font-family: 'Inter';
           font-style: normal;
           font-weight: 300;
           font-size: 0.75rem;
@@ -1031,7 +1058,7 @@
         white-space: nowrap;
         margin: auto;
         background: $color-magenta;
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-style: normal;
         font-weight: 600;
         font-size: 0.75rem;
@@ -1081,7 +1108,7 @@
           align-items: center;
           position: relative;
           span {
-            font-family: Source Sans Pro;
+            font-family: 'Inter';
             font-style: normal;
             font-weight: 300;
             font-size: 0.75rem;
@@ -1164,7 +1191,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-style: normal;
         font-weight: normal;
         font-size: 14px;
@@ -1192,7 +1219,7 @@
         white-space: nowrap;
         margin: auto;
         background: $color-magenta;
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-style: normal;
         font-weight: 600;
         font-size: 0.75rem;
@@ -1237,7 +1264,7 @@
       white-space: nowrap;
       margin: auto;
       background: $color-magenta;
-      font-family: Source Sans Pro;
+      font-family: 'Inter';
       font-style: normal;
       font-weight: 600;
       font-size: 0.75rem;
@@ -1261,7 +1288,7 @@
       justify-content: space-evenly;
       margin-bottom: 9.55px;
       span {
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-style: normal;
         font-weight: normal;
         font-size: 14px;
@@ -1284,7 +1311,7 @@
         border-bottom: 0.5px solid $color-border;
         span {
           width: 100%;
-          font-family: Source Sans Pro;
+          font-family: 'Inter';
           font-style: normal;
           font-weight: 300;
           font-size: 10px;
@@ -1310,7 +1337,7 @@
           right: -6px;
           top: 50%;
           transform: translateY(-50%);
-          font-family: Source Sans Pro;
+          font-family: 'Inter';
           font-style: normal;
           font-weight: normal;
           font-size: 14px;
@@ -1322,7 +1349,7 @@
           right: -12px;
           top: 50%;
           transform: translateY(-50%);
-          font-family: Source Sans Pro;
+          font-family: 'Inter';
           font-style: normal;
           font-weight: normal;
           font-size: 14px;
@@ -1374,7 +1401,7 @@
         white-space: nowrap;
         margin: auto;
         background: $color-magenta;
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-style: normal;
         font-weight: 600;
         font-size: 0.75rem;
@@ -1440,7 +1467,7 @@
                   padding-bottom: 5.86px;
                   span {
                     width: 100%;
-                    font-family: Source Sans Pro;
+                    font-family: 'Inter';
                     font-style: normal;
                     font-weight: 300;
                     font-size: 10px;
@@ -1454,7 +1481,7 @@
                 padding: 0;
                 border: none;
                 span {
-                  font-family: Source Sans Pro;
+                  font-family: 'Inter';
                   font-style: normal;
                   font-weight: normal;
                   font-size: 14px;
@@ -1478,7 +1505,7 @@
                     right: -6px;
                     top: 50%;
                     transform: translateY(-50%);
-                    font-family: Source Sans Pro;
+                    font-family: 'Inter';
                     font-style: normal;
                     font-weight: normal;
                     font-size: 14px;
@@ -1490,7 +1517,7 @@
                     right: -12px;
                     top: 50%;
                     transform: translateY(-50%);
-                    font-family: Source Sans Pro;
+                    font-family: 'Inter';
                     font-style: normal;
                     font-weight: normal;
                     font-size: 14px;
@@ -1509,7 +1536,7 @@
               }
             }
             .or {
-              font-family: Source Sans Pro;
+              font-family: 'Inter';
               font-style: normal;
               font-weight: 600;
               font-size: 0.75rem;
@@ -1541,7 +1568,7 @@
     .btn-update {
       margin: auto;
       background: $color-magenta;
-      font-family: Source Sans Pro;
+      font-family: 'Inter';
       font-style: normal;
       font-weight: 600;
       font-size: 0.75rem;
@@ -1586,7 +1613,7 @@
     justify-content: center;
     border: 1px solid $color-darker-grey;
     span {
-      font-family: Source Sans Pro;
+      font-family: 'Inter';
       font-style: normal;
       font-weight: normal;
       font-size: 25px;
@@ -1616,7 +1643,7 @@
         white-space: nowrap;
       }
       .name {
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-style: normal;
         font-weight: 600;
         font-size: 18px;
@@ -1627,7 +1654,7 @@
         }
       }
       .level {
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-style: normal;
         font-weight: 600;
         font-size: 10px;
@@ -1635,7 +1662,7 @@
         margin-bottom: 2px;
       }
       .since {
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-style: normal;
         font-weight: 300;
         font-size: 10px;
@@ -1643,7 +1670,7 @@
         margin-bottom: 10px;
       }
       .other {
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-style: normal;
         font-weight: 300;
         font-size: 14px;
@@ -1678,7 +1705,7 @@
         background-color: $color-magenta;
         border-radius: 9px;
         text-align: center;
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-style: normal;
         font-weight: 600;
         font-size: 0.75rem;
@@ -1714,7 +1741,7 @@
   line-height: 45px;
 }
 .card-label {
-  font-family: Source Sans Pro;
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 300;
   font-size: 14px;
@@ -1758,19 +1785,19 @@
       padding-right: 30px;
       border-right: 0.5px solid $color-darker-grey;
       .name {
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-style: normal;
         font-weight: normal;
         font-size: 14px;
       }
       .level {
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-style: normal;
         font-weight: normal;
         font-size: 10px;
       }
       .address {
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-style: normal;
         font-weight: normal;
         font-size: 10px;
@@ -1780,7 +1807,7 @@
       display: flex;
       flex-direction: column;
       p {
-        font-family: Source Sans Pro;
+        font-family: 'Inter';
         font-style: normal;
         font-weight: 300;
         font-size: 0.75rem;
@@ -1792,7 +1819,7 @@
     background: $color-magenta;
     box-shadow: 0px 0px 15px rgba(106, 28, 234, 0.1);
     border-radius: 9px;
-    font-family: Source Sans Pro;
+    font-family: 'Inter';
     font-style: normal;
     font-weight: 600;
     font-size: 0.75rem;
@@ -1808,6 +1835,8 @@
   padding: 50px 55px;
   border: 0.5px solid $color-grey3;
   border-radius: 16px;
+  width: 97%;
+  margin-left: 25px;
 
   .achivements {
     display: flex;
@@ -1825,14 +1854,14 @@
     margin: 22px auto 6px;
   }
   .congrat {
-    font-family: Source Sans Pro;
+    font-family: 'Inter';
     font-style: normal;
     font-weight: normal;
     font-size: 18px;
     line-height: 45px;
   }
   .congrat-detail {
-    font-family: Source Sans Pro;
+    font-family: 'Inter';
     font-style: normal;
     font-weight: 300;
     font-size: 14px;
@@ -1842,7 +1871,7 @@
     background: $color-pale-blue;
     border-radius: 9px;
     margin: auto;
-    font-family: Source Sans Pro;
+    font-family: 'Inter';
     font-style: normal;
     font-weight: 600;
     font-size: 0.75rem;
@@ -1854,20 +1883,522 @@
     justify-content: center;
     align-items: center;
     height: 51px;
-    width: 218px;
+    width: 100%;
     margin-top: 42px;
     gap: 11px;
+    color: #bfa4eb;
     &:active {
       opacity: 0.5;
     }
   }
 }
 .section-title {
-  margin-top: 43px;
-  margin-bottom: 20px;
-  font-family: Noto Serif;
+  left: 0%;
+  right: 79.72%;
+  top: 0%;
+  bottom: 75%;
+  font-family: 'Inter';
   font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 22px;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+  color: #261a45;
 }
+.Custom-main-title {
+  margin-left: 19px;
+}
+
+.custom-section-title {
+  margin-left: 25px;
+}
+.profile-layout {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 25px 20px;
+  position: absolute;
+  width: 100%;
+  height: auto;
+  background: $color-white;
+  border-radius: 10px;
+}
+.custom-edit-avatar {
+  opacity: 1 !important;
+}
+.Icon-Container {
+  height: 0;
+  width: 0;
+  margin-left: 87px;
+  margin-top: -2px;
+}
+
+.EditIcon img {
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 11px;
+}
+
+.form-select.css-b62m3t-container {
+  width: 100%;
+  height: 51px;
+}
+
+.form-select__control.css-1s2u09g-control {
+  height: 46px;
+  width: 100%;
+  padding-left: -49px;
+  margin-top: 4px;
+}
+
+.form-select {
+  display: block;
+  width: 100%;
+  padding: 0;
+  -moz-padding-start: calc(0.75rem - 3px);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  appearance: none;
+}
+
+.react-tel-input .selected-flag .flag {
+  position: absolute;
+  top: 50%;
+  margin-top: 18px;
+  padding-top: 3px;
+}
+
+textarea {
+  line-height: 6px;
+}
+
+.profile-layout .profile-wrapper .courses {
+  width: 97%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  border: 0.5px solid #f2f2f2;
+  border-radius: 16px;
+  margin-left: 25px;
+}
+
+.profile-layout .profile-wrapper .courses .course .options {
+  width: 100%;
+  height: 69px;
+  margin-left: 0;
+}
+
+.css-tlfecz-indicatorContainer {
+  color: hsl(0, 0%, 80%);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 8px;
+  -webkit-transition: color 150ms;
+  transition: color 150ms;
+  box-sizing: border-box;
+  margin-top: -18px;
+}
+
+.form-select .form-select__placeholder {
+  margin-top: -18px;
+  padding-left: 8px;
+  font-family: 'inter';
+  font-style: normal;
+  font-weight: 600;
+}
+.form-select .form-select__placeholder--is-focused {
+  padding-left: 8px !important;
+}
+.css-6j8wv5-Input--is-focused {
+  padding-left: 8px !important;
+}
+div[class$='ValueContainer']:focus {
+  padding-left: 8px !important;
+}
+.form-select .form-select__single-value,
+.form-select .focus-visible {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: -0.2px;
+  color: #646481;
+}
+
+@media screen and (min-width: 279px) and (max-width: 324px) {
+  .content .children-page {
+    width: 370px;
+    .react-tel-input .selected-flag .flag {
+      margin-top: 20px;
+      padding-top: 3px;
+    }
+  }
+  .profile-layout .profile-wrapper .courses .course .options {
+    width: 46%;
+    height: 96px;
+    margin-left: -40px;
+    display: block;
+    margin-bottom: -2px;
+  }
+  .profile-layout .profile-wrapper .courses {
+    margin-left: 16px;
+  }
+  .profile-layout .profile-wrapper .courses .course {
+    display: flex;
+    align-items: center;
+    flex: 0 0 404px;
+    width: 404px;
+    margin-left: 10px;
+    display: block;
+  }
+
+  .profile-layout .profile-wrapper .courses .course > label {
+    margin-left: -54px;
+    margin-bottom: 15px;
+    margin-top: -12px;
+  }
+  .Custom-main-title {
+    margin-bottom: 71px;
+  }
+  .btn-download {
+    width: 220px;
+    margin-left: -46px;
+  }
+  .achivement-wrapper {
+    margin-left: 16px;
+  }
+  .profile-layout .profile-wrapper .btn-see-pricing-options {
+    margin-left: 16px;
+  }
+
+  .achivement-wrapper .btn-download {
+    margin-left: -30px;
+    width: 185px;
+  }
+}
+
+@media screen and (min-width: 325px) and (max-width: 413px) {
+  .profile-layout .profile-wrapper .courses .course .options {
+    width: 46%;
+    height: 96px;
+    margin-left: -38px;
+    display: block;
+    margin-bottom: -2px;
+  }
+
+  .profile-layout .profile-wrapper .courses {
+    margin-left: 16px;
+  }
+
+  .profile-layout .profile-wrapper .courses .course {
+    display: flex;
+    align-items: center;
+    flex: 0 0 404px;
+    width: 404px;
+    margin-left: 10px;
+    display: block;
+  }
+
+  .profile-layout .profile-wrapper .courses .course > label {
+    margin-left: -54px;
+    margin-bottom: 15px;
+    margin-top: -12px;
+  }
+  .Custom-main-title {
+    margin-bottom: 71px;
+  }
+  .btn-download {
+    width: 220px;
+    margin-left: -46px;
+  }
+  .achivement-wrapper {
+    margin-left: 16px;
+  }
+  .profile-layout .profile-wrapper .btn-see-pricing-options {
+    margin-left: 16px;
+  }
+  .achivement-wrapper .btn-download {
+    margin-left: -27px;
+    width: 185px;
+  }
+  .react-tel-input .selected-flag .flag {
+    margin-top: 20px;
+  }
+}
+
+@media screen and (min-width: 360px) {
+  .achivement-wrapper .btn-download {
+    margin-left: -47px;
+    width: 209px;
+  }
+  .profile-layout .profile-wrapper .courses .course .options {
+    margin-left: -45px;
+  }
+}
+
+@media screen and (min-width: 375px) {
+  .achivement-wrapper .btn-download {
+    margin-left: -40px !important;
+    width: 209px;
+  }
+  .profile-layout .profile-wrapper .courses .course .options {
+    margin-left: -37px;
+  }
+}
+
+@media screen and (min-width: 390px) {
+  .achivement-wrapper .btn-download {
+    margin-left: -48px !important;
+    width: 240px;
+  }
+  .profile-layout .profile-wrapper .courses .course .options {
+    margin-left: -33px !important;
+  }
+}
+
+@media screen and (min-width: 393px) {
+  .achivement-wrapper .btn-download {
+    margin-left: -47px;
+    width: 240px;
+  }
+}
+
+@media screen and (min-width: 393px) {
+  .achivement-wrapper .btn-download {
+    margin-left: -32px !important;
+    width: 209px;
+  }
+  .profile-layout .profile-wrapper .courses .course .options {
+    margin-left: -30px;
+  }
+}
+
+@media screen and (min-width: 412px) {
+  .achivement-wrapper .btn-download {
+    margin-left: -39px !important;
+    width: 241px !important;
+  }
+  .profile-layout .profile-wrapper .courses .course .options {
+    margin-left: -21px !important;
+  }
+}
+
+@media screen and (min-width: 414px) and (max-width: 439px) {
+  .profile-layout .profile-wrapper .courses .course .options {
+    width: 220px;
+    height: 96px;
+    margin-left: -38px !important;
+    display: block;
+    margin-bottom: -2px;
+  }
+
+  .profile-layout .profile-wrapper .courses {
+    margin-left: 16px;
+  }
+  .profile-layout .profile-wrapper .courses .course {
+    display: flex;
+    align-items: center;
+    flex: 0 0 404px;
+    width: 404px;
+    margin-left: 10px;
+    display: block;
+  }
+  .profile-layout .profile-wrapper .courses .course > label {
+    margin-left: -54px;
+    margin-bottom: 15px;
+    margin-top: -12px;
+  }
+
+  .Custom-main-title {
+    margin-bottom: 71px;
+  }
+  .btn-download {
+    width: 220px;
+    margin-left: -39px !important;
+  }
+  .achivement-wrapper {
+    margin-left: 16px;
+  }
+  .profile-layout .profile-wrapper .btn-see-pricing-options {
+    margin-left: 15px;
+  }
+  .achivement-wrapper .btn-download {
+    margin-left: -39px !important;
+    width: 260px;
+  }
+  .profile-layout .profile-footer .btn-update {
+    margin-left: -3px;
+  }
+}
+
+@media screen and (min-width: 440px) and (max-width: 574px) {
+  .profile-layout .profile-wrapper .courses .course .options {
+    width: 50%;
+    height: 96px;
+    margin-left: -24px;
+    display: block;
+  }
+}
+
+@media screen and (min-width: 540px) {
+  .achivement-wrapper .btn-download {
+    margin-left: -38px !important;
+    width: 366px !important;
+  }
+}
+
+@media screen and (min-width: 563px) {
+  .react-tel-input .selected-flag .flag {
+    margin-top: 20px;
+    padding-top: 3px;
+  }
+}
+
+@media screen and (min-width: 653px) {
+  .profile-layout .profile-wrapper .courses {
+    margin-left: 19px;
+  }
+  .achivement-wrapper {
+    margin-left: 19px;
+  }
+  .profile-layout .profile-wrapper .btn-see-pricing-options {
+    margin-left: 19px;
+  }
+  .profile-layout .profile-wrapper .courses .course {
+    margin-left: -6px;
+  }
+  .achivement-wrapper .btn-download {
+    margin-left: 0px !important;
+    width: 100% !important;
+  }
+}
+
+@media screen and (min-width: 667px) {
+  .achivement-wrapper .btn-download {
+    margin-left: 0px !important;
+    width: 209px;
+  }
+  .profile-layout .profile-wrapper .courses .course .options {
+    margin-left: -21px !important;
+  }
+}
+
+@media screen and (min-width: 720px) {
+  .achivement-wrapper .btn-download {
+    margin-left: -2px !important;
+    width: 100% !important;
+  }
+}
+@media screen and (min-width: 740px) {
+  .achivement-wrapper .btn-download {
+    margin-left: -3px !important;
+    width: 100% !important;
+  }
+  .react-tel-input .selected-flag .flag {
+    margin-top: 20px;
+    padding-top: 3px;
+  }
+  .profile-layout .profile-wrapper .courses .course .options {
+    margin-left: 0px;
+  }
+}
+
+@media screen and (min-width: 851px) {
+  .achivement-wrapper .btn-download {
+    margin-left: -3px;
+    width: 100%;
+  }
+  .react-tel-input .selected-flag .flag {
+    margin-top: 20px;
+    padding-top: 3px;
+  }
+}
+@media screen and (min-width: 896px) {
+  .profile-layout .profile-wrapper .courses {
+    margin-left: 23px;
+  }
+
+  .profile-layout .profile-wrapper .courses .course {
+    display: flex;
+    align-items: center;
+    flex: 0 0 404px;
+    width: 404px;
+    margin-left: 10px;
+  }
+  .profile-layout .profile-wrapper .courses .course > label {
+    margin-left: -46px;
+    margin-bottom: 15px;
+    margin-top: 5px;
+  }
+  .achivement-wrapper {
+    margin-left: 23px;
+  }
+  .profile-layout .profile-wrapper .btn-see-pricing-options {
+    margin-left: 15px;
+  }
+  .react-tel-input .selected-flag .flag {
+    margin-top: 20px;
+    padding-top: 3px;
+  }
+  .profile-layout .profile-footer .btn-update {
+    margin-left: -3px;
+  }
+}
+
+@media screen and (min-width: 912px) and (max-width: 913px) {
+  .profile-layout .profile-wrapper .courses .course .options {
+    margin-left: 19px;
+    width: 313px;
+  }
+}
+
+@media screen and (min-width: 915px) {
+  .profile-layout .profile-wrapper .courses .course .options {
+    margin-left: 0px;
+  }
+  .profile-layout .profile-wrapper .btn-see-pricing-options {
+    margin-left: 21px;
+  }
+  .profile-layout .profile-wrapper .courses .course {
+    margin-left: 2px;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .profile-layout .profile-wrapper .courses .course .options {
+    width: auto;
+  }
+}
+
+.divider {
+  border-bottom: none;
+  width: 0;
+}
+
+.form-select__control--is-focused {
+  margin: 2px;
+  padding-top: 2px;
+  visibility: visible;
+  color: hsl(0, 0%, 20%);
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  display: inline-grid;
+  grid-area: 1/1/2/3;
+  grid-template-columns: 0 min-content;
+  box-sizing: border-box;
+  border-bottom: none !important;
+}
+

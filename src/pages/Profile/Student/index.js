@@ -222,9 +222,6 @@ const StudentProfile = ({ user, update, isAdmin }) => {
     })
 
     const isInvalid = result.filter(r => !r).length > 0
-    // if (isInvalid) {
-    //   return
-    // }
 
     let respStudent = await dispatch(
       updateStudent({
@@ -266,7 +263,7 @@ const StudentProfile = ({ user, update, isAdmin }) => {
               'textfield'
             )}
 
-            <p className='section-title'>
+            <p className='section-title custom-section-title'>
               {t('enrolled_in_following_courses')}
             </p>
             <div className='courses'>
@@ -293,7 +290,7 @@ const StudentProfile = ({ user, update, isAdmin }) => {
               {t('see_pricing_options')}
             </Link>
 
-            <p className='section-title'>{t('your_level_achieved')}</p>
+            <p className='section-title custom-section-title'>{t('your_level_achieved')}</p>
             <div className='achivement-wrapper'>
               <div className='achivements'>
                 {student_info &&
@@ -324,9 +321,6 @@ const StudentProfile = ({ user, update, isAdmin }) => {
                 </div>
               )}
               <div className='congrat'>{t('congratulations')}</div>
-              {/* <div className="congrat-detail">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec bibendum velit orci, vel placerat metus egestas vulputate. Sed a libero non metus sollicitudin tristique. Cras nec arcu porttitor, accumsan quam ut, vestibulum lacus. In ut dignissim leo, in euismod erat. Vivamus suscipit leo odio, vel convallis felis ornare quis.
-            </div> */}
               <div className='btn-download'>
                 <img src={ImgArrow} alt='' />
                 <span>{t('download_certificate_pdf')}</span>
@@ -335,12 +329,7 @@ const StudentProfile = ({ user, update, isAdmin }) => {
 
             {isAdmin && (
               <>
-                {/* <p className="section-title">Subscriptions & Payment</p>
-            <div className="subscriptions-payment-wrapper">
-              <div className="btn-edit-subscription" onClick={() => setIsSubscriptionModal(true)}>Edit Subscription</div>
-            </div> */}
-
-                <p className='section-title'>{t('upcoming_lessons')}</p>
+                <p className='section-title custom-section-title'>{t('upcoming_lessons')}</p>
                 {appointments_loading ? (
                   <Loader
                     className='align-center'
@@ -357,7 +346,7 @@ const StudentProfile = ({ user, update, isAdmin }) => {
                   />
                 )}
 
-                <p className='section-title'>{t('past_lessons')}</p>
+                <p className='section-title custom-section-title'>{t('past_lessons')}</p>
                 {appointments_loading ? (
                   <Loader
                     className='align-center'

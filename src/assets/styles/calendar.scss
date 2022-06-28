@@ -186,7 +186,7 @@
 }
 
 .td-datetime-border {
-   background: $color-white;
+  background: $color-white;
   /* Border Gray */
   height: 40px;
   border: 1px solid $color-border-white;
@@ -294,7 +294,7 @@
   }
 
   .body {
-     background: $color-white;
+    background: $color-white;
     border: 0.5px solid $color-grey3;
     box-sizing: border-box;
     border-radius: 0 0 15px 15px;
@@ -393,6 +393,7 @@
       pointer-events: none;
     }
   }
+
   @media screen and (max-width: 900px) {
     .body {
       .cell {
@@ -400,7 +401,6 @@
       }
     }
   }
-}
 
 .help {
   display: flex;

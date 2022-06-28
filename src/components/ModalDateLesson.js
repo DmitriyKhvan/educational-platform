@@ -72,11 +72,7 @@ const ModalDateLesson = ({
             </p>
           )
         }
-        // , {
-        //   title: t('lesson_number'),
-        //   dataKey: 'id',
-        //   width: 20,
-        // }
+  
       ]
       if (!isTutor && currentDate >= today) {
         columns = [
