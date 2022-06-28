@@ -132,29 +132,33 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
     <Layout>
       <div className='scroll-layout'>
         <div className='flex-container'>
-          <div className='children-wrapper flex-left'>
-            <h1 className='title my-2'>{t('confirmation')}</h1>
-            <p className='welcome-subtitle'>{t('confirmation_subtitle')}</p>
-            <div className='row'>
-              <div className='col-auto'>
+          <div className=' children-wrapper tutor-confirm-left flex-left'>
+            <h1 className='title my-2 confirm-tutor-title'>
+              {t('confirmation')}
+            </h1>
+            <p className='welcome-subtitle confirm-tutor-subtitle'>
+              {t('confirmation_subtitle')}
+            </p>
+            <div className='row '>
+              <div className='col-auto button-size'>
                 <button
-                  className='enter-btn btn-dash-return'
+                  className='confirm-tutor-enter-btn mobile-width'
                   onClick={() => setTabIndex(0)}
                 >
                   {t('edit_lesson')}
                 </button>
               </div>
-              <div className='col-auto'>
+              <div className='col-auto button-size'>
                 <button
-                  className='enter-btn btn-dash-return'
+                  className='confirm-tutor-enter-btn mobile-width'
                   onClick={() => setTabIndex(1)}
                 >
                   {t('edit_schedule')}
                 </button>
               </div>
-              <div className='col-auto'>
+              <div className='col-auto button-size'>
                 <button
-                  className='enter-btn btn-dash-return'
+                  className='confirm-tutor-enter-btn mobile-width'
                   onClick={() => setTabIndex(2)}
                 >
                   {t('edit_tutor')}
@@ -162,26 +166,32 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
               </div>
             </div>
 
-            <p className='welcome-subtitle pt-4'>{t('lesson_topic')}</p>
-            <div className='row container ps-2'>
+            <p className='welcome-subtitle pt-4 confirm-tutor-subtitle'>
+              {t('lesson_topic')}
+            </p>
+            <div className='row container ps-2 mobile-width-subtitle'>
               <LessonCardComponent
                 lesson={plan.lesson_type}
                 duration={plan.duration}
                 remaining={plan.total_lessons}
               />
             </div>
-            <p className='welcome-subtitle pt-4'>{t('date_and_time')}</p>
-            <div className='row container ps-2'>
+            <p className='welcome-subtitle pt-4 confirm-tutor-subtitle'>
+              {t('date_and_time')}
+            </p>
+            <div className='row container ps-2 mobile-width-subtitle'>
               <ScheduleCard time={time} duration={plan.duration} />{' '}
             </div>
-            <p className='welcome-subtitle pt-4'>{t('tutor')}</p>
-            <div className='row ps-2'>
+            <p className='welcome-subtitle pt-4 confirm-tutor-subtitle'>
+              {t('tutor')}
+            </p>
+            <div className='row ps-2 tutor-image'>
               <TutorImageRow tutor={tutor} />
             </div>
-            {/* <p className='welcome-subtitle pt-4'>{t('repeating_lesson')}</p>
-            <div className='row container ps-2'>
+            <p className='welcome-subtitle-fonts'>{t('repeating_lesson')}</p>
+            <div className='row container ps-2 mobile-view-align'>
               {repeatingLessonArr.map(x => (
-                <div className='col-auto schedule-lesson-border ms-1 px-2 form-check-wrapper py-2'>
+                <div className='col-auto schedule-lesson-border mobile-align-view ms-1 px-2 form-check-wrapper py-2'>
                   <div className='form-check'>
                     <input
                       className='form-check-input'
@@ -199,30 +209,31 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
               ))}
             </div>
             <div className='row container ps-2'>
-            {repeat.value === 4
-              ? weekArr.map(x => (
-                  <div className='col-auto schedule-lesson-border ms-1 px-2 form-check-wrapper py-2'>
-                    <div className='form-check'>
-                      <input
-                        className='form-check-input'
-                        type='checkbox'
-                        value={x}
-                        id={x}
-                        onChange={checkboxEvent}
-                      />
-                      <label className='form-check-label' htmlFor={x}>
-                        {x}
-                      </label>
+              {repeat.value === 4
+                ? weekArr.map(x => (
+                    <div className='col-auto schedule-lesson-border mobile-align-view ms-1 px-2 form-check-wrapper py-2'>
+                      <div className='form-check'>
+                        <input
+                          className='form-check-input'
+                          type='checkbox'
+                          value={x}
+                          id={x}
+                          onChange={checkboxEvent}
+                        />
+                        <label className='form-check-label' htmlFor={x}>
+                          {x}
+                        </label>
+                      </div>
                     </div>
-                  </div>
-                ))
-              : ''}
-          </div> */}
-            <p className='welcome-subtitle pt-4'>{t('tutor_cancellation')}</p>
-            <div className='row container ps-2'>
+                  ))
+                : ''}
+            </div>
+
+            <p className='welcome-subtitle-fonts'>{t('tutor_cancellation')}</p>
+            <div className='row container ps-2  mobile-view-align'>
               {cancellationArr.map((x, i) => (
                 <div
-                  className='col-auto schedule-lesson-border ms-1 px-2 form-check-wrapper py-2'
+                  className='col-auto schedule-lesson-border mobile-align-view ms-1 px-2 form-check-wrapper py-2'
                   key={i}
                 >
                   <div className='form-check'>
@@ -241,9 +252,10 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
                 </div>
               ))}
             </div>
-            <div className='d-grid gap-2 pt-3'>
+
+            <div className='d-grid gap-2 pt-3 buttons-Lesson-shape'>
               <button
-                className='btn btn-primary text-white'
+                className='btn btn-primary text-white buttons-Lesson'
                 disabled={!isChecked}
                 onClick={confirmLesson}
               >
@@ -251,7 +263,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
               </button>
             </div>
           </div>
-          <div className='availability-wrapper flex-right student-list-appointments-wrapper'>
+          <div className='availability-wrapper tutor-confirm-right flex-right student-list-appointments-wrapper'>
             {isConfirmed ? (
               <React.Fragment>
                 <h4 className='weekly-schedule'>{t('lesson_confirmation')}</h4>

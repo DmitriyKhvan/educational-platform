@@ -9,19 +9,19 @@ const ScheduleCard = ({ time, duration }) => {
 
   return (
     <div
-      className={`time-card schedule-lesson-border bg-white small-card pt-2 mt-2`}
+      className={`time-card schedule-lesson-border bg-white small-card pt-2 mt-1 schedule-lesson-border-widths`}
     >
-      <div className='row container'>
-        <div className='col-auto'>
-          <h3 className={`text-black`}>
+      <div className='row alignmobile'>
+        <div className='col-auto '>
+          <h3 className={`inside-align-title-time`}>
             {moment(time, [moment.ISO_8601, 'HH:mm']).format('hh:mm A')} →{' '}
             {scheduleEndTime}
           </h3>
         </div>
-        <div className='col-auto pt-2'>
-          <div className='schedule-card-col px-3'>
+        <div className='col-auto pt-0 check'>
+          <div className='schedule-card-col px-3 align-date'>
             <p
-              className={`enter-btn time-btn schedule-lesson-border text-black`}
+              className={` time-btn schedule-lesson-border confirm-tutor-enter-btn`}
             >
               {moment(time).format('dddd, MMM DD')}
             </p>

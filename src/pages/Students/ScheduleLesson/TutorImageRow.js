@@ -10,7 +10,7 @@ const TutorImageRow = ({ tutor }) => {
     : maleAvatar
   return (
     <React.Fragment>
-      <div className='col-3 pe-3 me-3'>
+      <div className='col-3 pe-3 me-3 image-align-tutor'>
         <img
           className='img-fluid rounded-corners ps-1'
           src={tutorProfile}
@@ -22,15 +22,15 @@ const TutorImageRow = ({ tutor }) => {
           }}
         />
       </div>
-      <div className='col-3 pt-4'>
+      <div className='col-3 pt-4 Text-align-tutor'>
         <div className='row'>
           <h1 className='text-purple'>
             {tutor.first_name + ' ' + tutor.last_name.charAt(0) + '.'}
           </h1>
         </div>
         <div className='row'>
-          <h5 className='text-light-grey'>
-            <strong>{tutor.university}</strong>
+          <h5 className='text-light-grey university-text-font '>
+            <div>{tutor.university}</div>
           </h5>
         </div>
         <div className='row'>

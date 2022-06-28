@@ -1,6 +1,180 @@
 @import "./variable.scss";
 @import url(https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900);
+.university-text-font {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600 !important;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: $color-light-grey !important;
+}
+.row .alignmobile {
+  margin-left: 9px;
+}
+.inside-align-title-time {
+  color: #261a45 !important;
+}
+div.time-style {
+  text-align: 'center';
+  color: #6133af !important;
+  font-weight: 600 !important;
+}
+.schedule-lesson-border-widthss {
+  background: #ebe4ff;
+}
+.Lesson-styles {
+  text-align: 'center';
+  color: #261a45;
+  font-weight: 600 !important;
+}
+.welcome-subtitle-fonts {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600 !important;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: $color-light-grey !important;
+}
+.welcome-subtitle-smalls {
+  font-size: 17px !important;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 21px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.6px;
+  color: $color-light-grey;
+  margin-top: 30px;
+}
+.welcome-subtitle-small {
+  font-size: 17px !important;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 21px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.6px;
+  color: $color-light-grey;
+}
+.form-check-input {
+  position: relative;
+}
+.form-check-label {
+  display: inline-block;
+  margin-top: 0.25em;
+}
+.form-check-input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+.form-check-input:checked:after {
+  background: #6133af !important;
+  border-radius: 3px;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  left: 4px;
+  top: 4px;
+  content: '';
+}
+.form-check {
+  display: flex;
+  min-height: 1.5rem;
+  padding-left: 30px;
+  margin-bottom: 0.125rem;
+  padding-right: 15px;
+}
+#Favorite-label {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #261a45;
+  padding-top: 2px;
+}
+.image-align-tutor {
+  width: auto;
+}
+.buttons-Lesson {
+  font-weight: 600 !important;
+  font-size: 20px !important;
+  line-height: 24px;
+  letter-spacing: -0.6px;
+  width: 100%;
+  height: 60px;
+}
+.confirm-tutor-title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 48px;
+  letter-spacing: -1px;
+  margin-bottom: 15px !important;
+}
+.schedule-lesson-border-width {
+  width: 100%;
+}
+.schedule-lesson-border-widths {
+  width: 100%;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.col-auto .pt-2 {
+  margin-left: -13px;
+}
+.align-date {
+  align-items: center;
+}
 
+.inside-align-title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -0.6px;
+  margin-right: 5px;
+  color: #261a45 !important;
+}
+.confirm-tutor-subtitle {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.6px;
+  margin-bottom: 15px;
+}
+.button-size {
+  margin-bottom: 10px;
+}
+.confirm-tutor-enter-btn {
+  border: 1px solid #dedee1 !important;
+  background: $color-white;
+  border-radius: 5px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #261a45;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 15px;
+  text-decoration: none;
+  margin-right: 10px;
+  flex-wrap: nowrap;
+  margin-left: 9px;
+}
 .ReactModal__Overlay {
   background-color: rgba(255, 255, 255, 0.25) !important;
 }
@@ -14,10 +188,12 @@
   margin-bottom: 30px;
 }
 
+.weekly-schedule-subtitle {
+  margin-bottom: 30px;
+}
 .grey-border {
   border: 0.5px solid $color-darker-grey !important;
 }
-
 .schedule-card-col,
 .calendar-card-col {
   flex: 0 0 auto;
@@ -25,6 +201,12 @@
 @media screen and (min-width: 901px) {
   .availability-wrapper {
     padding: 39.31px 20px 57px 20px;
+  }
+  .Lesson-styles {
+    color: #261a45;
+
+    justify-content: center;
+    display: flex;
   }
   display: flex;
 
@@ -38,6 +220,39 @@
     padding: 20px;
   .children-page {
     width: calc(100% - 300px);
+    padding: 39.31px 39px 57px 43px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .availability-wrapper {
+    padding: 20px;
+  }
+  .tutor-confirm-right {
+    width: 100%;
+  }
+  .alignmobile {
+    align-items: center;
+  }
+  .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .Lesson-styles {
+    display: flex;
+    justify-content: center;
+  }
+  .time-style {
+    display: flex;
+    justify-content: center;
+  }
+  .mobile-view-align {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .mobile-width-subtitle {
+    padding: 0 !important;
+    margin: 0 !important;
   }
 }
 
@@ -51,18 +266,73 @@
   .lesson-wrapper {
     padding: 15px 25px 57px 25px;
   }
+  .tutor-confirm-left {
+    width: 100%;
+  }
   display: flex;
   .children-page {
     width: calc(100% - 300px);
   }
+  .alignmobile {
+    align-items: center;
+  }
+  .Text-align-tutor {
+    width: 50%;
+  }
 }
 
+@media screen and (max-width: 1120px) {
+  .confirm-tutor-title {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: -1px;
+    margin-bottom: 15px !important;
+  }
+  .Text-align-tutor {
+    width: 50%;
+  }
+  .schedule-lesson-border-widthss {
+    margin-left: auto !important;
+  }
+  .lessons-remain {
+    margin-top: 10px !important;
+
+    width: 100%;
+  }
+  .inside-align-title-time {
+    align-items: center;
+    width: 100%;
+    margin-top: 10px !important;
+  }
+  .alignmobile {
+    justify-content: center;
+  }
+}
 @media screen and (max-width: 900px) {
   .availability-wrapper {
     padding: 20px;
   }
   .lesson-wrapper {
     padding: 20px;
+  }
+  .alignmobile {
+    display: flex;
+    justify-content: center !important;
+  }
+  .flex-left {
+    width: 100%;
+  }
+  .mobile-view-align {
+    width: 100%;
+    padding-right: 0 !important;
+  }
+  .Text-align-tutor {
+    width: 50%;
+  }
+  .mobile-width-subtitle {
+    padding-right: 0 !important;
   }
 }
 
@@ -78,9 +348,13 @@
   box-sizing: border-box;
   border-radius: 8.125px;
 }
-
+.buttons-Lesson-shape {
+  width: 100%;
+}
 .time-card {
   border: 0.5px solid $color-grey3;
+  border-radius: 16px;
+  padding: 15px;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
   border-radius: 16px;
   padding: 15px;

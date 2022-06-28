@@ -116,7 +116,9 @@ const RescheduleConfirmationModal = ({
                 <ScheduleCard time={schedule} duration={data.duration} />
               </div>
 
-              <p className='welcome-subtitle pt-4'>{t('tutor')}</p>
+              <p className='welcome-subtitle pt-4 confirm-tutor-subtitle'>
+                {t('tutor')}
+              </p>
               <div className='row ps-2'>
                 <TutorImageRow tutor={tutor} />
               </div>
@@ -130,7 +132,7 @@ const RescheduleConfirmationModal = ({
                   key={i}
                 >
                   <div className='form-check'>
-                    <input
+                    <div
                       className='form-check-input'
                       type='checkbox'
                       value={x.value}
@@ -145,6 +147,7 @@ const RescheduleConfirmationModal = ({
                 </div>
               ))}
             </div>
+
             <div className='row container d-grid gap-2 pt-3'>
               <button
                 className='btn btn-primary text-white'
