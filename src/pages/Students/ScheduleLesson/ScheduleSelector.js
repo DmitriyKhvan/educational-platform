@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment'
 import Layout from '../../../components/Layout'
+import custom_back_arrow from '../../../assets/images/custom_back_arrow.svg'
+import prev_arrow from '../../../assets/images/prev_arrow.svg'
+import forward_arrow from '../../../assets/images/forward_arrow.svg'
 
 const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
   const [t] = useTranslation('translation')
@@ -200,14 +203,14 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
       <React.Fragment>
         {isAfterToday && (
           <div
-            className={`day-selector text-center my-3 ${
-              i === dayClicked || i === timeClicked ? 'purple-border' : ''
+            className={`day-selector text-center my-3 cursor ${
+              i === dayClicked || i === timeClicked ? 'purple-bg' : ''
             }`}
             onClick={isClicked}
           >
-            <h3>
+            <p className={`${  i === dayClicked || i === timeClicked ?'color-white':'daytxt'}`}>
               {(data.day && moment(data.day).format('dddd')) || data.time}
-            </h3>
+            </p>
           </div>
         )}
       </React.Fragment>
@@ -222,27 +225,28 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
       .add(duration, 'minutes')
       .format('hh:mm A')
     return (
-      <div className={`time-card grey-border bg-white small-card pt-2 mt-4`}>
+      <div className='col-6 time-card-container'>
+  
+      <div className={`time-card grey-border bg-white small-card pt-2 mt-4 col-6`}>
         <div className='row container ms-1'>
           <div className='col-12'>
-            <h3 className={`text-black`}>
+            <h3 className={`slot-text`}>
               {moment(scheduleStartTime, [moment.ISO_8601, 'HH:mm']).format(
                 'hh:mm A'
               )}{' '}
-              → {scheduleEndTime}
+               <img src={forward_arrow} alt=''/>{' '}{scheduleEndTime}
             </h3>
           </div>
           <div className='col-3'></div>
         </div>
-        <div className='row container'>
-          <div className='schedule-card-col'>
-            <p className={`enter-btn time-btn grey-border text-black`}>
+        <div className='col-12 slot-con'>
+          <div className='col-6 leftbtn-slot'>
+            <p className={`enter-btn time-btn grey-border`}>
               {moment(day).format('dddd, MMM DD')}
             </p>
           </div>
-          <div className='schedule-card-col'>
-            <div
-              className={`enter-btn btn-primary`}
+          <div
+              className={`col-6 slot-right`}
               onClick={() => {
                 const formattedDay = moment(day).format('YYYY-MM-DD')
                 const selectedSchedule = moment(
@@ -254,24 +258,27 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
             >
               {t('confirm_lesson')}
             </div>
-          </div>
         </div>
       </div>
+      </div>
+      
     )
   }
 
   const AvailableSpots = () => (
     <React.Fragment>
       <div className='row container'>
-        <h1 className='title'>Available Spots</h1>
-        <p className='welcome-subtitle text-purple'>
+        <h1 className='title right-con-title'>Available Spots</h1>
+        <p className='welcome-subtitle  right-con-subtitle'>
           Select one of these lesson spots to continue.
         </p>
       </div>
-      <div className='schedule-overflow-scroll'>
+      <div className='schedule-overflow-scroll slot-scroll col-12'>
+        <div className='row'>
         {allTimes.map((x, i) => (
           <ScheduleCard scheduleStartTime={x} key={i} />
-        ))}
+        ))}  
+        </div>   
       </div>
     </React.Fragment>
   )
@@ -281,43 +288,44 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
       <div className='scroll-layout'>
         <div className='flex-container'>
           <div className='lesson-wrapper flex-left student-dashboard'>
-            <div className='container'>
-              <h1 className='title'>{t('schedule_lesson')}</h1>
-              <p className='welcome-subtitle'>
+            <div className='container title-container'>
+              <h1 className='title lelt-con'>{t('schedule_lesson')}</h1>
+              <p className='welcome-subtitle left-subtitle'>
                 {t('schedule_lesson_subtitle')}
               </p>
             </div>
-            <div className='row container ps-4 pe-0'>
-              <div className='col-1'>
+            <div className='row container ps-4 pe-0 day-bar'>
+              <div className='col-1 leftArrow'>
                 <button
-                  className='btn btn-dash-return'
+                  className='btn btn-dash-return leftArrow-btn'
                   disabled={disable}
                   onClick={() => {
                     setCounter(counter + 1)
                     setDayClicked(null)
                   }}
                 >
-                  ←
+                 <img src={prev_arrow} alt=''/>
+              
                 </button>
               </div>
-              <div className='col-10'>
-                <h1 className='justify-content-center mt-0'>
+              <div className='col-10 bar-resp'>
+                <h1 className='justify-content-center mt-0 start-week'>
                   {startOfWeekFormatted} to {endOfWeek}
                 </h1>
               </div>
-              <div className='col-1 ps-3'>
+              <div className='col-1 ps-3 rightArrow'>
                 <button
-                  className='btn btn-dash-return'
+                  className='btn btn-dash-return rightArrow-btn'
                   onClick={() => {
                     setCounter(counter - 1)
                     setDayClicked(null)
                   }}
                 >
-                  →
+                   <img src={forward_arrow} alt=''/>
                 </button>
               </div>
             </div>
-            <div className='row'>
+            <div className='row customDay-select'>
               <div className='col-6 px-4'>
                 {days.map(
                   (x, i) => x.format === 'day' && <DaySelector data={x} i={i} />
@@ -333,12 +341,12 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
               </div>
             </div>
             <div className='row container pt-3'>
-              <div className='col-auto'>
+              <div className='col-auto back-btn-container '>
                 <button
-                  className='enter-btn btn-dash-return ms-0'
+                  className='enter-btn btn-dash-return ms-0 back-btn-schedule'
                   onClick={() => setTabIndex(0)}
                 >
-                  {t('back')}
+                  <img src={custom_back_arrow}></img>{t('custom_back')}
                 </button>
               </div>
             </div>

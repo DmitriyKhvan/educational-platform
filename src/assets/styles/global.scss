@@ -4215,12 +4215,13 @@ p {
 }
 
 .title {
-  font-family: Inter;
+  width: 400px;
+  height: 48px;
+  font-family: 'Inter';
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
   font-size: 40px;
   line-height: 48px;
-  text-align: center;
   letter-spacing: -1px;
 }
 
@@ -4681,7 +4682,6 @@ a > span {
     letter-spacing: -0.6px;
     color: #646481;
 }
-
 .divider {
   border-bottom: 1px solid #e1e1e1;
   width: 85px;

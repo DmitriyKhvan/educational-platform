@@ -540,6 +540,7 @@
   "continue": "Continue →",
   "continue_custom":"Continue",
   "back": "← Back",
+  "custom_back": "Back",
   "select_a_tutor": "Select a tutor",
   "select_a_tutor_subtitle": "Based on your lesson and availability, we recommend these tutors.",
   "confirmation": "Confirmation",
