@@ -44,13 +44,20 @@ const SelectLesson = ({
         >
           <div className='container-fluid py-3'>
             <div className='row'>
-              <h1 className={`${i === clicked ? 'text-purple lessontext' : 'text-black lessontext'}`}>
+              <h1
+                className={`${
+                  i === clicked
+                    ? 'text-purple lessontext'
+                    : 'text-black lessontext'
+                }`}
+              >
                 {lesson.charAt(0).toUpperCase() + lesson.slice(1)}
               </h1>
-              <span className={`${i === clicked ? 'tickmark':'tickNone'}`}><img src={scheduleTick} alt='' /></span>           
+              <span className={`${i === clicked ? 'tickmark' : 'tickNone'}`}>
+                <img src={scheduleTick} alt='' />
+              </span>
             </div>
             <div className='row customlabel'>
-    
               <div
                 className='col-4 schedule-lesson-border me-2 sublabel-1'
                 style={{ background: '#DEDEE1' }}
@@ -62,7 +69,10 @@ const SelectLesson = ({
                 </p>
               </div>
               <div className='col-7 schedule-lesson-border ms-2 sublabel-2'>
-                <p className='m-2 inner-txt sublabel2-txt' style={{ textAlign: 'center' }}>
+                <p
+                  className='m-2 inner-txt sublabel2-txt'
+                  style={{ textAlign: 'center' }}
+                >
                   <strong>
                     {remaining} {t('lessons_remaining')}
                   </strong>
@@ -72,7 +82,12 @@ const SelectLesson = ({
           </div>
           <div className='row container subWidth'>
             <p className='text-end text-danger mb-1 mt-text expires'>
-             <span className='exp-txt'>{t('expires')}</span><span className='colon-color'>:&nbsp;</span><span className='exp-date'> {moment(expirationDate).format('MM-DD-YYYY')}</span>
+              <span className='exp-txt'>{t('expires')}</span>
+              <span className='colon-color'>:&nbsp;</span>
+              <span className='exp-date'>
+                {' '}
+                {moment(expirationDate).format('MM-DD-YYYY')}
+              </span>
             </p>
           </div>
         </div>
@@ -92,19 +107,19 @@ const SelectLesson = ({
               </p>
             </div>
             <div className='ExpWidth-con'>
-            <div className='row container ExpWidth'>
-              {planStatus.map((x, i) => (
-                <LessonCard
-                  lesson={x.lesson_type}
-                  duration={x.duration}
-                  remaining={x.total_lessons}
-                  data={x}
-                  i={i}
-                  key={i}
-                  expirationDate={x.plan_end}
-                />
-              ))}
-            </div>
+              <div className='row container ExpWidth'>
+                {planStatus.map((x, i) => (
+                  <LessonCard
+                    lesson={x.lesson_type}
+                    duration={x.duration}
+                    remaining={x.total_lessons}
+                    data={x}
+                    i={i}
+                    key={i}
+                    expirationDate={x.plan_end}
+                  />
+                ))}
+              </div>
             </div>
             <div className='row container pt-3 btn-custom'>
               <div className='col-auto'>
@@ -122,7 +137,9 @@ const SelectLesson = ({
                   onClick={() => setTabIndex(1)}
                 >
                   <span>{t('continue_custom')}</span>
-                  <span className='continue-arrow'><img src={continue_arrow} alt='' /></span>
+                  <span className='continue-arrow'>
+                    <img src={continue_arrow} alt='' />
+                  </span>
                 </button>
               </div>
             </div>

@@ -208,7 +208,11 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
             }`}
             onClick={isClicked}
           >
-            <p className={`${  i === dayClicked || i === timeClicked ?'color-white':'daytxt'}`}>
+            <p
+              className={`${
+                i === dayClicked || i === timeClicked ? 'color-white' : 'daytxt'
+              }`}
+            >
               {(data.day && moment(data.day).format('dddd')) || data.time}
             </p>
           </div>
@@ -226,26 +230,27 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
       .format('hh:mm A')
     return (
       <div className='col-6 time-card-container'>
-  
-      <div className={`time-card grey-border bg-white small-card pt-2 mt-4 col-6`}>
-        <div className='row container ms-1'>
-          <div className='col-12'>
-            <h3 className={`slot-text`}>
-              {moment(scheduleStartTime, [moment.ISO_8601, 'HH:mm']).format(
-                'hh:mm A'
-              )}{' '}
-               <img src={forward_arrow} alt=''/>{' '}{scheduleEndTime}
-            </h3>
+        <div
+          className={`time-card grey-border bg-white small-card pt-2 mt-4 col-6`}
+        >
+          <div className='row container ms-1'>
+            <div className='col-12'>
+              <h3 className={`slot-text`}>
+                {moment(scheduleStartTime, [moment.ISO_8601, 'HH:mm']).format(
+                  'hh:mm A'
+                )}{' '}
+                <img src={forward_arrow} alt='' /> {scheduleEndTime}
+              </h3>
+            </div>
+            <div className='col-3'></div>
           </div>
-          <div className='col-3'></div>
-        </div>
-        <div className='col-12 slot-con'>
-          <div className='col-6 leftbtn-slot'>
-            <p className={`enter-btn time-btn grey-border`}>
-              {moment(day).format('dddd, MMM DD')}
-            </p>
-          </div>
-          <div
+          <div className='col-12 slot-con'>
+            <div className='col-6 leftbtn-slot'>
+              <p className={`enter-btn time-btn grey-border`}>
+                {moment(day).format('dddd, MMM DD')}
+              </p>
+            </div>
+            <div
               className={`col-6 slot-right`}
               onClick={() => {
                 const formattedDay = moment(day).format('YYYY-MM-DD')
@@ -258,10 +263,9 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
             >
               {t('confirm_lesson')}
             </div>
+          </div>
         </div>
       </div>
-      </div>
-      
     )
   }
 
@@ -275,10 +279,10 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
       </div>
       <div className='schedule-overflow-scroll slot-scroll col-12'>
         <div className='row'>
-        {allTimes.map((x, i) => (
-          <ScheduleCard scheduleStartTime={x} key={i} />
-        ))}  
-        </div>   
+          {allTimes.map((x, i) => (
+            <ScheduleCard scheduleStartTime={x} key={i} />
+          ))}
+        </div>
       </div>
     </React.Fragment>
   )
@@ -304,8 +308,7 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
                     setDayClicked(null)
                   }}
                 >
-                 <img src={prev_arrow} alt=''/>
-              
+                  <img src={prev_arrow} alt='' />
                 </button>
               </div>
               <div className='col-10 bar-resp'>
@@ -321,7 +324,7 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
                     setDayClicked(null)
                   }}
                 >
-                   <img src={forward_arrow} alt=''/>
+                  <img src={forward_arrow} alt='' />
                 </button>
               </div>
             </div>
@@ -346,7 +349,8 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
                   className='enter-btn btn-dash-return ms-0 back-btn-schedule'
                   onClick={() => setTabIndex(0)}
                 >
-                  <img src={custom_back_arrow}></img>{t('custom_back')}
+                  <img src={custom_back_arrow}></img>
+                  {t('custom_back')}
                 </button>
               </div>
             </div>

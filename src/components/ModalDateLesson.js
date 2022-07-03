@@ -72,7 +72,6 @@ const ModalDateLesson = ({
             </p>
           )
         }
-  
       ]
       if (!isTutor && currentDate >= today) {
         columns = [

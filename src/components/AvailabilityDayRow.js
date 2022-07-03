@@ -12,8 +12,11 @@ export const AvailabilityDayRow = ({
 }) => {
   const [toggle, setToggle] = useState(false)
   const [initialRow, setInitialRow] = useState()
-  const { setAvailabilityRow, removeAvailabilityRow, availabilityRow } =
-    useContext(AvailProv)
+  const {
+    setAvailabilityRow,
+    removeAvailabilityRow,
+    availabilityRow
+  } = useContext(AvailProv)
 
   useEffect(() => {
     setInitialRow(uuid())

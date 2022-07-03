@@ -290,7 +290,9 @@ const StudentProfile = ({ user, update, isAdmin }) => {
               {t('see_pricing_options')}
             </Link>
 
-            <p className='section-title custom-section-title'>{t('your_level_achieved')}</p>
+            <p className='section-title custom-section-title'>
+              {t('your_level_achieved')}
+            </p>
             <div className='achivement-wrapper'>
               <div className='achivements'>
                 {student_info &&
@@ -329,7 +331,9 @@ const StudentProfile = ({ user, update, isAdmin }) => {
 
             {isAdmin && (
               <>
-                <p className='section-title custom-section-title'>{t('upcoming_lessons')}</p>
+                <p className='section-title custom-section-title'>
+                  {t('upcoming_lessons')}
+                </p>
                 {appointments_loading ? (
                   <Loader
                     className='align-center'
@@ -346,7 +350,9 @@ const StudentProfile = ({ user, update, isAdmin }) => {
                   />
                 )}
 
-                <p className='section-title custom-section-title'>{t('past_lessons')}</p>
+                <p className='section-title custom-section-title'>
+                  {t('past_lessons')}
+                </p>
                 {appointments_loading ? (
                   <Loader
                     className='align-center'

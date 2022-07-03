@@ -42,7 +42,11 @@ const Profile = () => {
             <h2 className='mt-1 text-primary'>{tutor?.degree}</h2>
           </div>
           <div className='col-3 my-auto'>
-            <Link className='btn enter-btn' style={border} to='/tutor/new-profile-page'>
+            <Link
+              className='btn enter-btn'
+              style={border}
+              to='/tutor/new-profile-page'
+            >
               {t('edit_profile')}
             </Link>
           </div>

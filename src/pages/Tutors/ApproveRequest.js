@@ -83,8 +83,8 @@ const ApproveRequest = () => {
   const test = appointments
     .filter(apt => apt.students.length > 0)
     .filter(apt => !apt.students[0].GroupStudent.approved)
-    
-    return (
+
+  return (
     <Layout>
       <div className='main-dashboard'>
         <h4 className='main-title'>{t('appointment_requests')}</h4>

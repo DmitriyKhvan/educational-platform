@@ -4,7 +4,12 @@ import { useDispatch } from 'react-redux'
 import { cancelAppointment } from '../../actions/appointment'
 import NotificationManager from '../NotificationManager'
 
-const CancelLessonModal = ({ setTabIndex, setIsOpen, id, fetchAppointments }) => {
+const CancelLessonModal = ({
+  setTabIndex,
+  setIsOpen,
+  id,
+  fetchAppointments
+}) => {
   const [t] = useTranslation('translation')
   const dispatch = useDispatch()
   const [cancel, setCancel] = useState({})
