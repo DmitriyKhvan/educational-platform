@@ -71,7 +71,7 @@ const TutorDashboard = () => {
   return (
     <div className='main-dashboard scroll-layout'>
       <div className='flex-container'>
-        <div className='student-dashboard flex-left children-wrapper'>
+        <div className='student-dashboard flex-lefts children-wrapper'>
           <h4 className='welcome-message'>
             {t('student_dashboard_welcome', { name: user.first_name })}
           </h4>
@@ -80,32 +80,36 @@ const TutorDashboard = () => {
           <div className='schedule-lesson-select pt-3'>
             <div className='page-card purple large-card py-5'>
               <div className='row'>
-                <div className='col-2 ms-3'>
+                <div className='col-2 ms-3 mobilefinal mobilefinal-image'>
                   <img
-                    className='img-fluid large-card-icon'
+                    className='img-fluid large-card-icon sizes'
                     alt=''
                     src={ImgCalendar}
                   />
                 </div>
-                <div className='col-8'>
-                  <p className='title mt-1'>{t('review_my_schedule')}</p>
-                </div>
-              </div>
-              <div className='row'>
-                <div className='col-6'>
-                  <Link to='/tutor/appointments-calendar' className='enter-btn'>
-                    {t('calendar')}
-                  </Link>
-                </div>
-                <div className='col-6'>
-                  <Link to='/tutor/availability' className='enter-btn'>
-                    {t('availability')}
-                  </Link>
+                <div className='col-7'>
+                  <p className='titles mt-1 laptop-title align-review'>
+                    {t('review_my_schedule')}
+                  </p>
+                  <div className='d-flex'>
+                    <Link
+                      to='/tutor/appointments-calendar'
+                      className='enter-btn dashboard_cal-scl_button'
+                    >
+                      {t('calendar')}
+                    </Link>
+                    <Link
+                      to='/tutor/availability'
+                      className='enter-btn dashboard_cal-scl_button'
+                    >
+                      {t('availability')}
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <h1 className='pt-5'>{t('manage_my_classes')}</h1>
+          <h1 className='pt-5 manage_my_classes'>{t('manage_my_classes')}</h1>
           <div className='flex-container schedule-lesson-select'>
             <CTACard
               color='pink'
@@ -125,7 +129,7 @@ const TutorDashboard = () => {
             />
           </div>
         </div>
-        <div className='student-list-appointments-wrapper flex-right children-wrapper'>
+        <div className='student-list-appointments-wrapper flex-rights children-wrapper'>
           {hasLessonApprovals && (
             <BookingRequest
               lessonApprovals={lessonApprovals}
@@ -140,7 +144,7 @@ const TutorDashboard = () => {
             })}
           </h4>
 
-          <Link to='/tutor/appointments-calendar' className='enter-btn ms-0'>
+          <Link to='/tutor/appointments-calendar' className='enter-btn ms-0 tutor_cal_appoint'>
             {t('student_dashboard_view_all_lessons')}
           </Link>
           <div className='weekly-schedule-scroll'>

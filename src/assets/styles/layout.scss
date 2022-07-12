@@ -1,7 +1,35 @@
 @import './variable.scss';
+
+@media screen and (max-width: 400px) {
+  .align-schedule-english {
+    padding: 31px 20px 26px !important;
+  }
+  .mobilefinal-laptop {
+    width: 100% !important;
+  }
+}
+
+.rounded-corners {
+  max-width: 100%;
+  height: auto;
+  border-radius: 100% !important;
+  border: 5px solid #261a41;
+}
+.rounded-corners-round {
+  max-width: 100%;
+  height: auto;
+  border-radius: 100% !important;
+}
+.forest {
+  padding-top: 10px;
+}
+.already-lesson {
+  font-weight: 600;
+}
 .default-layout {
   position: relative;
 }
+
 // Navbar style
 .nav-bar {
   position: sticky;
@@ -32,6 +60,7 @@
       box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.01);
     }
   }
+
   .left-part,
   .right-part {
     display: flex;
@@ -262,33 +291,319 @@
     padding-bottom: 20px;
   }
   @media screen and (min-width: 901px) {
+    .align-flex-direction {
+      margin: 0 !important;
+    }
+    .schedule-english {
+      padding: 0 !important;
+    }
+    .button-align-left-dash {
+      width: 33.33%;
+    }
     .children-wrapper {
       padding: 39.31px 39px 57px 43px;
     }
     display: flex;
+    height: 85vh;
+
     .children-page {
       width: calc(100% - 300px);
     }
+    .flex-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .schedule-lesson-select {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: nowrap;
+    }
   }
 
+  @media screen and (max-width: 901px) {
+    .buttonsdash {
+      width: 100%;
+    }
+    .buttonsdash-second {
+      width: 100%;
+      margin-right: 20px;
+    }
+
+    .children-wrapper {
+      padding: 39.31px 39px 57px 43px;
+    }
+    .flex-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .schedule-lesson-select {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: nowrap;
+    }
+  }
+  @media screen and (min-width: 500px) and (max-width: 599px) {
+    .text-white {
+      width: auto;
+
+      display: flex;
+    }
+    .text-muted {
+      width: auto;
+
+      display: flex;
+    }
+    .change-mobile-top {
+      justify-content: inherit;
+    }
+  }
+  @media screen and (min-width: 700px) and (max-width: 779px) {
+    .rows-align {
+      width: auto;
+      display: flex;
+      flex-wrap: nowrap;
+    }
+  }
   @media screen and (max-width: 900px) {
     .children-wrapper {
       padding: 25px;
     }
   }
-// Sidebar Style
+  @media screen and (max-width: 500px) {
+    .align-review {
+      text-align: center !important;
+    }
+    .change-mobile-top {
+      margin-top: 0 !important;
+    }
+    .rows-align {
+      --bs-gutter-x: 0 !important;
+    }
+    .forest {
+      padding-top: 0 !important ;
+    }
+
+    .images-align {
+      width: auto !important;
+    }
+    .align-flex-direction {
+      padding-bottom: 15px;
+    }
+    .already-lesson {
+      font-size: 25px;
+    }
+    .mobile-view-buttons {
+      flex-direction: column !important;
+    }
+    .schedule-dashboard-button {
+      width: 100%;
+    }
+    .schedule-lesson-select {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+    .mobilefinal {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding-right: 20px;
+    }
+    div.col-8.forest {
+      width: 100%;
+    }
+    .col-7 {
+      width: 100%;
+    }
+    .flex-container .ps-2 {
+      display: inline-block;
+    }
+    .forest .content .text-white {
+      display: flex;
+      justify-content: center;
+    }
+
+    .content .text-muted {
+      display: flex;
+      justify-content: center;
+    }
+    .row .ms-1 {
+      margin: 0 !important;
+      text-align: center;
+    }
+    .flex-container .ps-2 {
+      padding: 0px !important;
+      text-align: center;
+    }
+
+    .text-white {
+      text-align: center !important;
+      align-items: center;
+    }
+    .text-muted {
+      text-align: center !important;
+      align-items: center;
+    }
+    display: flex;
+    justify-content: center;
+    .buttonsdash {
+      width: 100%;
+    }
+    .buttonsdash-second {
+      width: 100%;
+      margin-left: 0 !important;
+    }
+    .align-button-dashboard {
+      display: contents;
+    }
+  }
+  @media screen and (max-width: 700px) {
+    .schedule-lesson-select {
+      display: contents;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .children-wrapper {
+      padding: 25px;
+    }
+    .schedule-lesson-select {
+      display: contents;
+
+      justify-content: center;
+    }
+    .page-card .purple .large-card .py-5 {
+      width: 100%;
+    }
+    .student-dashboard .schedule-lesson-select .small-card {
+      width: auto;
+    }
+    .col-7 .forest {
+      flex-wrap: nowrap;
+    }
+  }
+  @media screen and (min-width: 1300px) {
+    .align-flex-direction {
+      margin: 0 !important;
+    }
+    .align-schedule-english {
+      padding: 5px 25px 20px !important;
+    }
+    .schedule-english {
+      padding: 0 !important;
+    }
+    .flex-left {
+      width: 60%;
+    }
+    .flex-right {
+      width: 40%;
+    }
+    .laptop-title {
+      width: 60%;
+    }
+    .forest {
+      padding-top: 0 !important;
+      padding-left: 10px;
+    }
+    .title .mt-1 {
+      display: contents !important;
+    }
+    .laptop-title {
+      padding-right: 20px;
+      width: auto;
+      display: contents;
+    }
+
+    .mobilefinal-laptop {
+      width: auto;
+    }
+    .mobilefinal-image {
+      width: auto;
+      padding-right: 20px;
+    }
+    .rows-align {
+      flex-wrap: nowrap;
+    }
+    .text-white {
+      padding-top: 10px;
+    }
+    .text-muted {
+      padding-top: 10px;
+    }
+
+    .align-text-right .text-white {
+      padding-top: 0 !important;
+    }
+    .align-text-right .text-muted {
+      padding-top: 0 !important;
+    }
+    .align-text-right .text-black {
+      padding-top: 0 !important;
+    }
+    .col-9 .align-text-right .text-white {
+      padding-top: 0 !important;
+    }
+
+    .col-9 .align-text-right .text-muted {
+      padding-top: 0 !important;
+    }
+  }
+  @media screen and (min-width: 1561px) {
+    .images-align {
+      margin-left: auto;
+    }
+  }
+  @media screen and (min-width: 1500px) {
+    .enter-padd-button {
+      padding: 10px 15px 10px 15px !important;
+    }
+    .img-fluid .small-card-icon-progress .align {
+      width: 90%;
+    }
+    .text-muted {
+      width: 100%;
+    }
+    .text-white {
+      width: 100%;
+    }
+    .title {
+      text-align: left;
+    }
+    .children-wrapper {
+      padding: 39.31px 39px 57px 43px;
+    }
+    .schedule-lesson-select {
+      display: flex;
+      width: 100%;
+
+      display: contents;
+      flex-direction: row;
+    }
+    .page-card .purple .large-card .py-5 {
+      width: 100%;
+    }
+    .flex-container {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+  }
+  .student-dashboard .schedule-lesson-select .small-card {
+    margin: 0 !important;
+  }
+  // Sidebar Style
   .side-bar {
     width: 297px;
-    padding: 39px 40px 39px 30px;
+    padding: 10px 40px 39px 30px;
     height: 100vh;
     position: sticky;
     top: 0;
     border: 1px solid rgba(0, 0, 0, 0.1);
-
     .main-title {
       padding-left: 10px;
     }
-
     .divider {
       margin-left: 10px;
     }
@@ -431,4 +746,19 @@
   left: -100vw;
   position: absolute;
   z-index: 3000;
+}
+.tutor_cal_appoint {
+  width: 370px;
+  height: 48px;
+}
+.already-lesson {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 36px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.6px;
+  color: $color-black;
 }

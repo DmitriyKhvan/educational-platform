@@ -93,8 +93,9 @@ const StudentListAppointments = () => {
     if (selectedOption === options[1]) {
       queryObj.completed = true
     } else {
-      queryObj.from = new Date().toISOString()
+     queryObj.from = new Date().toISOString()
     }
+
     dispatch(getAppointments(queryObj))
   }
 
@@ -103,7 +104,7 @@ const StudentListAppointments = () => {
       <div className='scroll-layout'>
         {appointments.length >= 0 ? (
           <div className='flex-container'>
-            <div className='student-dashboard flex-left children-wrapper'>
+            <div className='student-dashboard flex-left children-wrapper childern-padding'>
               <h4 className='welcome-message'>
                 {t('student_dashboard_welcome', { name: user.first_name })}
               </h4>
@@ -113,19 +114,21 @@ const StudentListAppointments = () => {
               <div className='schedule-lesson-select pt-3'>
                 <div className='page-card purple large-card py-5'>
                   <div className='row'>
-                    <div className='col-2 ms-3'>
+                    <div className='col-2 ms-3 mobilefinal mobilefinal-image'>
                       <img
                         src={ImgCalendar}
                         alt=''
                         className='img-fluid large-card-icon'
                       />
                     </div>
-                    <div className='col-8'>
-                      <p className='title mt-1'>{t('schedule_card')}</p>
+                    <div className='col-7 '>
+                      <p className='title mt-1 laptop-title'>
+                        {t('schedule_card')}
+                      </p>
                     </div>
                   </div>
-                  <div className='row'>
-                    <div className='col-6'>
+                  <div className='row mobile-view-buttons'>
+                    <div className='col-6 desktop schedule-dashboard-button'>
                       <a
                         href='/student/schedule-lesson/select'
                         className='enter-btn'
@@ -133,7 +136,7 @@ const StudentListAppointments = () => {
                         {t('schedule_1_on_1_lesson')}
                       </a>
                     </div>
-                    <div className='col-6'>
+                    <div className='col-6 schedule-dashboard-button'>
                       <a
                         href='/student/schedule-lesson/group-select'
                         className='enter-btn'
@@ -144,19 +147,19 @@ const StudentListAppointments = () => {
                   </div>
                 </div>
               </div>
-              <h1 className='pt-5'>Already had a lesson?</h1>
+              <h1 className='pt-5 already_lesson'>{t('already_lesson')}</h1>
               <div className='flex-container schedule-lesson-select'>
                 <div className='page-card pink small-card'>
-                  <div className='row ms-1'>
-                    <div className='col-4 mt-3 ps-3 me-2'>
+                  <div className='row ms-1 rows-align'>
+                    <div className='col-4  ps-3 mt-3 me-2 mobilefinal mobilefinal-laptop'>
                       <img
                         src={smileIcon}
                         alt=''
                         className='img-fluid small-card-icon-feedback'
                       />
                     </div>
-                    <div className='col-7 mt-2'>
-                      <h3 className='text-white'>
+                    <div className='col-7 forest'>
+                      <h3 className='text-white change-mobile-top'>
                         {t('student_dashboard_feedback')}
                       </h3>
                     </div>
@@ -173,16 +176,16 @@ const StudentListAppointments = () => {
                   </div>
                 </div>
                 <div className='page-card light-blue small-card'>
-                  <div className='row ms-1 mt-3'>
-                    <div className='col-4 ps-3 me-2'>
+                  <div className='row ms-1 rows-align'>
+                    <div className='col-4 ps-3 mt-3 me-2 mobilefinal mobilefinal-laptop'>
                       <img
                         src={pastIcon}
                         alt=''
                         className='img-fluid small-card-icon-progress'
                       />
                     </div>
-                    <div className='col-6'>
-                      <h3 className='text-white'>
+                    <div className='col-7 forest'>
+                      <h3 className='text-white change-mobile-top'>
                         {t('student_dashboard_progress')}
                       </h3>
                     </div>
@@ -208,22 +211,25 @@ const StudentListAppointments = () => {
                   t: appointments.length > 1 ? 's' : ''
                 })}
               </h4>
-              <div className='flex-container'>
+              <div className='flex-container align-button-dashboard'>
                 <div>
                   <Link
                     to='/student/schedule-lesson/select'
-                    className='enter-btn'
+                    className='buttonsdash'
                   >
                     {t('student_dashboard_edit_schedule')}
                   </Link>
                 </div>
                 <div>
-                  <Link to='/student/lesson-calendar' className='enter-btn'>
+                  <Link
+                    to='/student/lesson-calendar'
+                    className='buttonsdash-second'
+                  >
                     {t('student_dashboard_view_all_lessons')}
                   </Link>
                 </div>
               </div>
-              <div className='weekly-schedule-scroll'>
+              <div className='weekly-schedule-scroll weekly-schedule-grid'>
                 {appointments.length
                   ? appointments.map((x, i) => {
                       const date = moment(x.start_at).unix()
@@ -234,6 +240,7 @@ const StudentListAppointments = () => {
                           date={date}
                           data={x}
                           key={i}
+                          index={i}
                           fetchAppointments={fetchAppointments}
                         />
                       )

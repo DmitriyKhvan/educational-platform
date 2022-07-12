@@ -486,5 +486,6 @@
   "pay_every_weeks": "{{ weeks }}주마다 결제",
   "weeks_classes_each": "{{ duration }}분 수업 {{ weeks }}회",
   "summer_discount": "여름 할인",
-  "classes": "수업 횟수"
+  "classes": "수업 횟수",
+  "already_lesson": "이미 수업이 있었나요?"
 }

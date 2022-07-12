@@ -1,5 +1,51 @@
-@import "./variable.scss";
+@import './variable.scss';
 @import url(https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900);
+.dashboard_cal-scl_button{
+  display: inline-block;
+  min-width: 150px !important;
+  height: 48px;
+}
+.align-review{
+display: inline-block !important;
+}
+.flex-rights {
+  width: 100%;
+}
+.flex-lefts {
+  min-width: 55% !important;
+}
+.sizes {
+  min-width: 101px !important;
+  min-height: 101px !important;
+}
+[src='/static/media/calendar_icon.6bb79a2bb8d6d68a5883823f3e189c1e.svg'] {
+  margin-bottom: 0px !important;
+  min-width: 80px;
+}
+.manage_my_classes {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 36px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.6px;
+  color: $color-black;
+}
+.titles {
+  font-family: 'Inter' !important;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px !important;
+  line-height: 20px !important;
+  letter-spacing: -0.6px;
+  color: $color-white;
+  margin-top: 16px;
+}
+.button-opacity {
+  opacity: 0.5;
+}
 .university-text-font {
   font-family: 'Inter';
   font-style: normal;
@@ -8,6 +54,9 @@
   line-height: 18px;
   letter-spacing: -0.2px;
   color: $color-light-grey !important;
+}
+.text-blacks {
+  color: #281b49 !important;
 }
 .row .alignmobile {
   margin-left: 9px;
@@ -194,6 +243,9 @@ div.time-style {
 .grey-border {
   border: 0.5px solid $color-darker-grey !important;
 }
+.align-flex-direction {
+  align-items: center;
+}
 .schedule-card-col,
 .calendar-card-col {
   flex: 0 0 auto;
@@ -209,21 +261,22 @@ div.time-style {
     display: flex;
   }
   display: flex;
-
   .children-page {
     width: calc(100% - 300px);
   }
+  .titles {
+    padding-left: 16px;
+  }
 }
-
 @media screen and (max-width: 900px) {
   .availability-wrapper {
     padding: 20px;
-  .children-page {
-    width: calc(100% - 300px);
-    padding: 39.31px 39px 57px 43px;
+    .children-page {
+      width: calc(100% - 300px);
+      padding: 39.31px 39px 57px 43px;
+    }
   }
 }
-
 @media screen and (max-width: 900px) {
   .availability-wrapper {
     padding: 20px;
@@ -255,11 +308,167 @@ div.time-style {
     margin: 0 !important;
   }
 }
+.buttonsdash {
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
+  border-radius: 5px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #281b49;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 15px;
+  text-decoration: none;
+  flex-wrap: nowrap;
+  width: 100%;
+  max-width: 100%;
+  height: 48px;
+  margin-bottom: 15px;
+  margin-right: 10px;
+}
+.buttonsdash-second {
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
+  border-radius: 5px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #281b49;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 15px;
+  text-decoration: none;
+  flex-wrap: nowrap;
+  max-width: 100%;
+  width: 100%;
+  height: 48px;
+  margin-bottom: 15px;
+  margin-left: 15px;
+}
+.text-purple {
+  color: #7048e8 !important;
+}
+.text-purpless {
+  color: #6133af !important;
+}
 
+.student-dashboard .schedule-lesson-select .page-card {
+  width: 100% !important;
+}
+.content .student-dashboard .schedule-lesson-select .small-car {
+  width: 100% !important;
+}
+.weekly-schedule-subtitle {
+  margin-bottom: 30px;
+}
 @media screen and (max-width: 900px) {
   .availability-wrapper {
     padding: 20px;
   }
+}
+.grey-border {
+  border: 0.5px solid $color-darker-grey !important;
+}
+.grey-borders {
+  border: 1px solid #dedee1 !important;
+}
+.schedule-card-col,
+.calendar-card-col {
+  flex: 0 0 auto;
+}
+
+@media screen and (min-width: 901px) {
+  .align-flex-direction {
+    padding-bottom: 15px;
+  }
+  .rounded-corners {
+    max-width: 100%;
+  }
+  .rounded-corners-round {
+    max-width: 100%;
+  }
+  .availability-wrapper {
+    padding: 20px;
+  }
+  .flex-container {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  .lesson-wrapper {
+    padding: 15px 25px 57px 25px;
+  }
+
+  .children-page {
+    width: calc(100% - 300px);
+  }
+  .mobile-fade-background {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .mobilefinal-laptop {
+    width: auto;
+    padding-right: 20px;
+  }
+  .align-flex-direction {
+    padding-bottom: 15px;
+  }
+  .rounded-corners {
+    max-width: 126px;
+  }
+  .rounded-corners-round {
+    max-width: 126px;
+  }
+  .button-align-left-dash {
+    width: 33.33% !important;
+  }
+  .availability-wrapper {
+    padding: 20px;
+  }
+  .lesson-wrapper {
+    padding: 20px;
+  }
+  .flex-container {
+    flex-wrap: nowrap;
+  }
+}
+@media screen and (min-width: 1500px) {
+  .button-align-left-dash {
+    flex: 0 0 auto;
+    width: 33.33% !important;
+  }
+  .schedule-card-col {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+}
+
+.time-btn {
+  border: 1px solid #dedee1;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+.time-card {
+  border: 0.5px solid #f2f2f2;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+  border-radius: 16px;
+  padding: 15px;
+  display: flex;
+
+  flex-direction: column;
 }
 
 @media screen and (min-width: 901px) {
@@ -371,7 +580,38 @@ div.time-style {
     margin: 25px 0px 0px 25px;
   }
 }
+@media screen and (min-width: 1500) {
+  .schedule-image {
+    margin: '25px 0px 0px 25px';
+  }
+  .flex-container {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+}
+@media screen and (min-width: 768) {
+  .flex-container {
+    flex-wrap: wrap;
+  }
+  .schedule-lesson-select {
+    display: contents;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .page-card .purple .large-card .py-5 {
+    width: 100%;
+  }
+}
 
+.student-dashboard .schedule-lesson-select .page-card .title {
+  color: #ffffff !important;
+}
+.pt-0 {
+  font-weight: 600;
+}
+.welcome-message {
+  font-weight: 600;
+}
 .enter-btn {
   background: $color-white;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
@@ -394,7 +634,7 @@ div.time-style {
 }
 
 .form-check-wrapper {
-  background:$color-white;
+  background: $color-white;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
   border-radius: 5px !important;
   font-family: Inter;
@@ -494,9 +734,64 @@ div.time-style {
   flex-direction: column;
 }
 
+// Responsive Style
 @media screen and (max-width: 600px) {
+  .images-align {
+    width: auto !important;
+  }
+  .align-flex-direction {
+    padding-bottom: 15px;
+  }
+  .align-text-right {
+    width: 100%;
+  }
+  .button-align-left-dash {
+    width: 100% !important;
+  }
+  .align-flex-direction {
+    display: flex;
+    flex-direction: column;
+  }
+  .text-white {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+  .text-black {
+    // width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    text-align: center !important;
+  }
+  .text-muted {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
   .summary-information {
     grid-template-columns: repeat(1, 1fr);
+  }
+  .student-dashboard .schedule-lesson-select .page-card .enter-btn {
+    background: #ffffff;
+    border-radius: 5px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: -0.2px;
+    color: #261a45;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    text-decoration: none;
+    flex-wrap: nowrap;
   }
 }
 
@@ -554,7 +849,7 @@ div.time-style {
 }
 
 .weekly-schedule-scroll {
-  height: 65vh;
+  height: 100vh;
   overflow-y: scroll;
 }
 
@@ -647,7 +942,7 @@ div.time-style {
       margin-bottom: 31px;
     }
   }
-  .schdule-lesson-select {
+  .schedule-lesson-select {
     display: flex;
     gap: 17px;
     margin-top: 29px;
@@ -1056,5 +1351,4 @@ div.time-style {
       }
     }
   }
-}
 }

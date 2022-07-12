@@ -656,5 +656,7 @@
   "decline": "Decline",
   "learn_more": "Learn More",
   "degree_major": "Degree / Major",
-  "tutor_certificates": "Certificates"
+  "tutor_certificates": "Certificates",
+  "already_lesson": "Already had a lesson?"
+
 }
