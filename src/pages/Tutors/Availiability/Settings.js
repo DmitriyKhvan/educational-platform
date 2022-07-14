@@ -1,31 +1,79 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import subLessonIcon from '../../../assets/images/sub_lessons_icon.svg'
+import TutorApi from '../../../api/TutorApi'
+import { Provider, useSelector } from 'react-redux'
+import NotificationManager from '../../../components/NotificationManager'
+import { useHistory } from 'react-router-dom'
+const fedHolidays = require('@18f/us-federal-holidays')
 export const Settings = () => {
   const [t] = useTranslation('translation')
-
+  const history = useHistory()
   // states for handling switch toggled
   const [subBookings, setSubBookings] = useState(false)
   const [holidayBookings, setHolidayBookings] = useState(false)
   const [calendarConflicts, setCalendarConflicts] = useState(true)
   const [addCalendarLessons, setAddCalendarLessons] = useState(false)
+  const [FederalHolidays, setFederalHolidays] = useState(false)
+  const tutor_id = useSelector(state => state?.users?.user?.tutor_profile?.id)
+  useEffect(() => {
+    const currentYear = new Date().getFullYear()
+    const options = { shiftSaturdayHolidays: true, shiftSundayHolidays: true }
+    const holidays = fedHolidays.allForYear(currentYear, options)
+    var all_holidays = []
+    holidays.map(data => {
+      var temp = {}
+      temp.date = data.date
+      temp.slots = [
+        {
+          from: '12:00 AM',
+          to: '11:00 PM'
+        }
+      ]
+      all_holidays.push(temp)
+    })
+
+    setFederalHolidays(all_holidays)
+    if (tutor_id !== undefined) {
+      TutorApi.getExceptionDate(tutor_id).then(response => {
+        if (response?.data?.tutor?.exceptiondates.length > 0) {
+          setHolidayBookings(true)
+        }
+      })
+    }
+  }, [tutor_id])
 
   const toggleSubBookings = () => {
     setSubBookings(!subBookings)
   }
-
   const toggleHolidayBookings = () => {
     setHolidayBookings(!holidayBookings)
   }
-
   const toggleCalendarConflicts = () => {
     setCalendarConflicts(!calendarConflicts)
   }
-
   const toggleAddCalendarLessons = () => {
     setAddCalendarLessons(!addCalendarLessons)
   }
-
+  const saveSettings = () => {
+    if (holidayBookings === true) {
+      TutorApi.updateExceptionDates(FederalHolidays, tutor_id).then(
+        response => {
+          if (response.status === 200) {
+            NotificationManager.success('Updated Successfully', t)
+            history.push('/tutor/availability')
+          }
+        }
+      )
+    } else {
+      TutorApi.updateExceptionDates([], tutor_id).then(response => {
+        if (response.status === 200) {
+          NotificationManager.success('Updated Successfully', t)
+          history.push('/tutor/availability')
+        }
+      })
+    }
+  }
   return (
     <React.Fragment>
       <div className='border-availabilities'>
@@ -82,7 +130,7 @@ export const Settings = () => {
                   <strong>{t('enable_us_holidays_substitute')}</strong>
                 </div>
               </div>
-              <a className='btn mt-5' type='button' href='/tutor/availability'>
+              <a className='btn mt-5' type='button' onClick={saveSettings}>
                 <strong className='p3'>{t('save_return_settings')}</strong>
               </a>
             </div>

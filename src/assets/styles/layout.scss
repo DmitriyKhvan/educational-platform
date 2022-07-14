@@ -34,7 +34,7 @@
 .nav-bar {
   position: sticky;
   top: 0px;
-  z-index: 3000;
+  z-index: 999;
   background-color: $color-white;
   height: 80px;
   border: 1px solid rgba(0, 0, 0, 0.1);

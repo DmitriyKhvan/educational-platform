@@ -487,5 +487,13 @@
   "weeks_classes_each": "{{ duration }}분 수업 {{ weeks }}회",
   "summer_discount": "여름 할인",
   "classes": "수업 횟수",
+  "swal_confirm_Button_Text": "예, 삭제하십시오!",
+  "swal_cancel_Button_Text": "취소",
+  "swal_fire_title": "삭제하시겠습니까?",
+  "swal_fire_title_conform_msg": "삭제되었습니다!",
+  "swal_fire_title_conform_msg1": "이 가용성이 제거되었습니다.",
+  "swal_fire_title_conform_msg2": "성공",
+  "select_the_time": "시간 선택",
+  "saving_data_loader_content":"저장 중...",
   "already_lesson": "이미 수업이 있었나요?"
 }

@@ -37,7 +37,17 @@
   position: relative;
   z-index: 1;
 }
-
+.selct-time {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.7px;
+  color: #261a45;
+  padding-left: 20px;
+  padding-top: 30px;
+}
 .make-appointment-modal {
   .modal-body {
     width: 100%;

@@ -117,7 +117,7 @@ export const TutorTimePicker = ({ day, isAdmin, user_id }) => {
       </div>
 
       <div className='col-1 align-self-center text-center'>
-        <span className='text-muted'>TO</span>
+        <span className='text-muted availability_to_text'>TO</span>
       </div>
       <div className='col-3'>
         <TimePicker

@@ -53,6 +53,20 @@ class TutorApi extends BaseApi {
     )
   }
 
+  getExceptionDate(tutor_id){
+    return axios.get(
+      `${
+        this.REACT_APP_SERVER_URL
+      }/tutors/exceptiondates?${tutor_id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.getToken()}`
+        }
+      }
+    )
+  }
+  
+
   updateTutorInfo(data) {
     return axios.put(this.REACT_APP_SERVER_URL + '/tutors/update', data, {
       headers: {
@@ -60,7 +74,6 @@ class TutorApi extends BaseApi {
       }
     })
   }
-
   getOverallStatus(data) {
     const query = queryString.stringify(data)
 
@@ -73,7 +86,6 @@ class TutorApi extends BaseApi {
       }
     )
   }
-
   getPaymentHistory(data) {
     const query = queryString.stringify(data)
 

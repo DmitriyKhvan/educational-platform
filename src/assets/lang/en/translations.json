@@ -495,7 +495,6 @@
   "no": "No",
   "classes": "classes",
   "homework_assignment_completed": "Choose Homework ",
-
   "schedule_card": "Schedule a lesson with one of your favorite tutors.",
   "student_dashboard_welcome": "Hey, {{name}} 👋",
   "student_dashboard_subtitle": "We hope you have a wonderful day.",
@@ -656,7 +655,15 @@
   "decline": "Decline",
   "learn_more": "Learn More",
   "degree_major": "Degree / Major",
+  "swal_confirm_Button_Text": "Yes, delete it!",
+  "swal_cancel_Button_Text": "Cancel",
+  "swal_fire_title": "Are you sure to delete it",
+  "swal_fire_title_conform_msg": "Deleted!",
+  "swal_fire_title_conform_msg1": "This availability has been removed.",
+  "swal_fire_title_conform_msg2": "success",
+  "select_the_time": "Select the time",
+  "saving_data_loader_content":"Saving ...",
   "tutor_certificates": "Certificates",
   "already_lesson": "Already had a lesson?"
-
 }
+

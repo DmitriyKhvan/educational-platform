@@ -1,6 +1,5 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-
 const AvailabilityPolicyModal = ({ showModal, toggleModal }) => {
   const [t] = useTranslation()
   return (
@@ -37,7 +36,7 @@ const AvailabilityPolicyModal = ({ showModal, toggleModal }) => {
                   data-bs-dismiss='modal'
                   onClick={toggleModal}
                 >
-                  <strong> Close Window</strong>
+                  <strong>Close Window</strong>
                 </button>
               </div>
             </div>

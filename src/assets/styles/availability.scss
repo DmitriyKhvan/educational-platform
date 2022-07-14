@@ -1,4 +1,102 @@
 @import './variable.scss';
+.time_picker:focus {
+  color: $color-purple1 !important;
+  min-width: 100px !important;
+
+}
+.time_picker:focus {
+  appearance: none !important;
+	-webkit-appearance: none !important;
+	-moz-appearance: none !important;
+  text-indent: 1px;
+  text-overflow: '';
+    background:  url("../../assets/images/Vector-color.svg") no-repeat right 1.2rem center/1.100rem 4rem;
+}
+.time_picker:not(:focus){
+  appearance: none !important;
+	-webkit-appearance: none !important;
+	-moz-appearance: none !important;
+  text-indent: 1px;
+  text-overflow: '';
+  background:  url("../../assets/images/Vector-arrow-less.svg") no-repeat right 1.2rem center/1.100rem 4rem;
+}
+.time_picker * {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: -0.5px;
+  color: #261a45 !important;
+}
+.availability_to_text {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.7px;
+  color: #dedee1 !important;
+  padding: 0 20px;
+}
+.border_align_rows {
+  border-bottom: 1px solid #dedee1;
+  margin-top: 20px;
+  width: 100%;
+}
+.align-override-ui{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column; 
+}
+.check{
+  flex-grow: 1;
+}
+.check .over_form {
+  width: 160px !important;
+}
+.check .over_to {
+  width: 160px !important;
+}
+.check .over_to_text {
+  padding: 0 10px !important;
+}
+.check .fa_icon_VectorLessTo {
+  position: absolute;
+  left: 130px !important;
+  bottom: 18px !important;
+  pointer-events: none;
+}
+.check .align_delete {
+  margin-right: 10px !important;
+  margin-left: 8px !important;
+}
+.dates-fetch {
+  padding-bottom: 15px;
+}
+.aligns_row_time .row + .row {
+  margin-top: 10px;
+}
+.date-alignframe .row + .row {
+  margin-top: 10px;
+  padding-left: 35px;
+}
+.rows_align {
+  padding-left: 35px;
+}
+.align_day {
+  align-self: flex-start;
+  padding: 11px;
+  font-size: 20px;
+}
+.align_Toggle {
+  align-self: flex-start;
+  margin-top: 10px;
+}
+
+.align_time_img-time {
+  position: relative;
+  width: 200px;
+}
 .btn {
   background: $color-white;
   border: 1px solid $color-border-white;
@@ -29,14 +127,18 @@
   border-radius: 10px;
   color: #969696 !important;
 }
-
+.align-width_Availability {
+  padding-left: 32px;
+}
 .border-availabilities {
   border-bottom: 1px solid $color-border-white;
+  padding-left: 15px;
 }
 
 .border-availabilities-picker {
   border-bottom: 1px solid $color-border-white;
-  max-width: 75%;
+  // max-width: 75%;
+  align-items: center;
 }
 
 .border-availabilities-top {
@@ -45,6 +147,9 @@
 
 .border-availabilities_right {
   border-right: 1px solid $color-border-white;
+  padding-top: 30px;
+    padding-left: 15px;
+
 }
 
 .form-switch .form-check-input {
@@ -64,22 +169,28 @@
   border: 1px solid $color-border-white;
   box-sizing: border-box;
   border-radius: 10px;
+  margin-bottom: 5px;
 }
-
+.align_fa_trash {
+  align-self: flex-end;
+}
 .fa_icon {
   flex: none;
   order: 0;
   flex-grow: 0;
-  margin-left: 10px;
-  margin-right: 10px;
+  padding: 2px;
 }
 
 .time_picker {
   font-weight: bold;
-  color: $color-purple1;
+  color: #261a45;
   border: 1px solid $color-border-white;
   box-sizing: border-box;
   border-radius: 10px;
+  padding: 11px 11px !important;
+  text-align: left !important;
+  width: 200px !important;
+  max-width: 100%;
 }
 
 .date_override_title {
@@ -115,6 +226,9 @@
 .modal_close_button {
   display: block;
   width: 100%;
+  border-radius: 10px;
+  max-width: 250px;
+  height: 54px;
 }
 
 // Settings Page CSS
@@ -142,23 +256,29 @@
   display: block;
   width: 100%;
   background-color: $color-purple1;
-  color: white !important;
+  color: $color-white !important;
+  border-radius: 10px;
+  max-width: 250px;
+  height: 54px;
 }
-
 .save_button {
   display: block;
   width: 15%;
-
   background-color: $color-purple1;
-  color: white !important;
+  color: $color-white !important;
+  margin-top: 20px;
 }
 
 // date overrides text break inline size
 .date_override_p1_break {
   inline-size: 20em;
+  width: 86%;
+  max-width: 100%;
 }
 .date_override_p2_break {
   inline-size: 16em;
+  width: 86%;
+  max-width: 100%;
 }
 .pickerToText {
   text-align: center;
@@ -170,11 +290,53 @@
   flex: none;
   order: 0;
   flex-grow: 0;
-  margin-right:  10px;
-  margin-left: 10px;
+  padding: 2px;
 }
 
 .modalSize {
   width: 983px !important;
   height: 473px !important;
+}
+
+.date-alignframe {
+  // margin-left: 40px;
+  margin-top: 40px;
+}
+
+.dates-fetch {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.5px;
+  color: #261a45;
+  padding-left: 35px;
+}
+._loading_overlay_content {
+  top: 50%;
+  left: 50%;
+  position: fixed;
+  font-size: 16px !important;
+  font-family: Inter !important;
+  color: #6133af !important;
+  stroke: #6133af !important;
+}
+.css-50etie svg circle {
+  stroke: #6133af !important;
+}
+.border-availabilities-right {
+  border-right: 1px solid #dedee1;
+  max-width: 75%;
+}
+.footer-columnwise {
+  padding: 10px 10px;
+  border-top: 1px solid #dedee1;
+  display: flex;
+  gap: 20px;
+  justify-content: flex-end;
+  width: 100%;
+}
+.align-self-centers{
+  align-self: self-end;
 }
