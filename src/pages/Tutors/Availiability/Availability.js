@@ -15,14 +15,11 @@ import AvailabilityOverrideModal from '../../../components/AvailabilityOverrideM
 import { AvailabilityProvider } from './AvailabilityProvider'
 import TimePicker from 'react-bootstrap-time-picker'
 import trashCan from '../../../assets/images/trash_can.svg'
-import moment from 'moment'
-import 'moment-timezone'
+import moment from 'moment-timezone'
 import timezone from 'timezones-list'
 import { DarkBackground } from '../../../components/common/OverlayStyle'
 import LoadingOverlay from 'react-loading-overlay'
 import Swal from 'sweetalert2'
-import VectorColor from '../../../assets/images/Vector-color.svg'
-import VectorLess from '../../../assets/images/Vector-arrow-less.svg'
 export const Availability = ({ isAdmin, user_id }) => {
   const [t] = useTranslation('translation')
   const [gatherAvailabilities, setGatherAvailabilities] = useState([])
