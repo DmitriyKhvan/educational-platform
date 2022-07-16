@@ -290,6 +290,7 @@
     overflow: auto;
     padding-bottom: 20px;
   }
+
   @media screen and (min-width: 901px) {
     .align-flex-direction {
       margin: 0 !important;
@@ -347,16 +348,11 @@
   @media screen and (min-width: 500px) and (max-width: 599px) {
     .text-white {
       width: auto;
-
       display: flex;
     }
     .text-muted {
       width: auto;
-
       display: flex;
-    }
-    .change-mobile-top {
-      justify-content: inherit;
     }
   }
   @media screen and (min-width: 700px) and (max-width: 779px) {
@@ -370,8 +366,16 @@
     .children-wrapper {
       padding: 25px;
     }
+    .mobile_dash {
+      text-align: center;
+    }
   }
-  @media screen and (max-width: 500px) {
+
+  @media screen and (max-width: 600px) {
+    .mobile_align_dash {
+      text-align: center;
+      padding-top: 25px;
+    }
     .align-review {
       text-align: center !important;
     }
@@ -459,6 +463,11 @@
       display: contents;
     }
   }
+  @media screen and (max-width: 360px) {
+    .mobile_align_dash {
+      line-height: 37px !important;
+    }
+  }
   @media screen and (max-width: 700px) {
     .schedule-lesson-select {
       display: contents;
@@ -466,6 +475,7 @@
       justify-content: center;
     }
   }
+
   @media screen and (max-width: 800px) {
     .children-wrapper {
       padding: 25px;
@@ -485,7 +495,28 @@
       flex-wrap: nowrap;
     }
   }
+  @media screen and (max-width: 800px) {
+    .mobilefinal-image {
+      margin-right: 10px;
+    }
+    .schedule-lesson-select > .page-card:nth-child(2) {
+      margin-top: 20px !important;
+    }
+  }
+  @media screen and (max-width: 900px) {
+    .mobilefinal-image {
+      margin-right: 10px;
+    }
+  }
+
   @media screen and (min-width: 1300px) {
+    .titles_align_desktop {
+      padding-top: 4px;
+      padding-bottom: 13px;
+    }
+    .mobile_align_dash {
+      padding-left: 0 !important;
+    }
     .align-flex-direction {
       margin: 0 !important;
     }
@@ -514,7 +545,7 @@
     .laptop-title {
       padding-right: 20px;
       width: auto;
-      display: contents;
+      display: initial;
     }
 
     .mobilefinal-laptop {
@@ -590,9 +621,7 @@
       flex-wrap: nowrap;
     }
   }
-  .student-dashboard .schedule-lesson-select .small-card {
-    margin: 0 !important;
-  }
+
   // Sidebar Style
   .side-bar {
     width: 297px;
@@ -748,8 +777,8 @@
   z-index: 3000;
 }
 .tutor_cal_appoint {
-  width: 370px;
-  height: 48px;
+  max-width: 50%;
+  padding: 10px;
 }
 .already-lesson {
   font-family: 'Inter';

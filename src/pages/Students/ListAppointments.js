@@ -122,7 +122,7 @@ const StudentListAppointments = () => {
                       />
                     </div>
                     <div className='col-7 '>
-                      <p className='title mt-1 laptop-title'>
+                      <p className='title mt-1 laptop-title mobile_dash'>
                         {t('schedule_card')}
                       </p>
                     </div>

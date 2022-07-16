@@ -71,7 +71,7 @@ const TutorDashboard = () => {
   return (
     <div className='main-dashboard scroll-layout'>
       <div className='flex-container'>
-        <div className='student-dashboard flex-lefts children-wrapper'>
+        <div className='student-dashboard flex-left children-wrapper flex-change'>
           <h4 className='welcome-message'>
             {t('student_dashboard_welcome', { name: user.first_name })}
           </h4>
@@ -88,22 +88,29 @@ const TutorDashboard = () => {
                   />
                 </div>
                 <div className='col-7'>
-                  <p className='titles mt-1 laptop-title align-review'>
-                    {t('review_my_schedule')}
-                  </p>
-                  <div className='d-flex'>
-                    <Link
-                      to='/tutor/appointments-calendar'
-                      className='enter-btn dashboard_cal-scl_button'
-                    >
-                      {t('calendar')}
-                    </Link>
-                    <Link
-                      to='/tutor/availability'
-                      className='enter-btn dashboard_cal-scl_button'
-                    >
-                      {t('availability')}
-                    </Link>
+                  <div className='titles_align_desktop'>
+                    <p className='titles mt-1  laptop-title mobile_align_dash'>
+                      {t('review_my_schedule')}
+                    </p>
+                  </div>
+
+                  <div className='row mobile-view-buttons '>
+                    <div className='col-6 desktop schedule-dashboard-button'>
+                      <Link
+                        to='/tutor/appointments-calendar'
+                        className='enter-btn dashboard_cal-scl_button'
+                      >
+                        {t('calendar')}
+                      </Link>
+                    </div>
+                    <div className='col-6 schedule-dashboard-button'>
+                      <Link
+                        to='/tutor/availability'
+                        className='enter-btn dashboard_cal-scl_button'
+                      >
+                        {t('availability')}
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -129,7 +136,7 @@ const TutorDashboard = () => {
             />
           </div>
         </div>
-        <div className='student-list-appointments-wrapper flex-rights children-wrapper'>
+        <div className='student-list-appointments-wrapper flex-right children-wrapper'>
           {hasLessonApprovals && (
             <BookingRequest
               lessonApprovals={lessonApprovals}
@@ -144,7 +151,10 @@ const TutorDashboard = () => {
             })}
           </h4>
 
-          <Link to='/tutor/appointments-calendar' className='enter-btn ms-0 tutor_cal_appoint'>
+          <Link
+            to='/tutor/appointments-calendar'
+            className='enter-btn ms-0 tutor_cal_appoint'
+          >
             {t('student_dashboard_view_all_lessons')}
           </Link>
           <div className='weekly-schedule-scroll'>
