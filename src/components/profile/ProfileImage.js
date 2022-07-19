@@ -28,7 +28,7 @@ const ProfileImage = () => {
     try {
       const res = await dispatch(uploadAvatar(null, user.id))
       if (res.type === 'UPLOAD_AVATAR_SUCCESS') {
-        NotificationManager.success('Avatar Deleted Successful', t)
+        
         if (user.gender === 'female') {
           setProfileImage(femaleAvatar)
         } else {

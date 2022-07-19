@@ -73,11 +73,6 @@ export const TutorTimePicker = ({ day, isAdmin, user_id }) => {
     const hasValidTimes = validateTimeSelected(availabilities)
     if (hasValidTimes) {
       dispatch(updateTutorAvailability(availabilities, tutorInfo?.id))
-    } else {
-      NotificationManager.success(
-        t('Failed to save time slot. Please check selected times.'),
-        t
-      )
     }
   }, [availabilities])
 

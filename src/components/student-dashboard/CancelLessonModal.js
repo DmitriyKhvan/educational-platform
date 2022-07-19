@@ -39,7 +39,6 @@ const CancelLessonModal = ({
   const onCancelLesson = async () => {
     const res = await dispatch(cancelAppointment(id))
     if (res.type === 'CANCEL_APPOINTMENT_INFO_SUCCESS') {
-      NotificationManager.success(t('lesson_cancelled'), t)
       await fetchAppointments()
       setIsOpen(false)
     }

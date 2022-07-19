@@ -232,7 +232,7 @@ const StudentProfile = ({ user, update, isAdmin }) => {
     )
 
     if (respStudent.type === 'UPDATE_STUDENT_PROFILE_SUCCESS') {
-      NotificationManager.success(t('update_profile_success'), t)
+      
       if (!isAdmin) {
         history.push('/student/profile')
       }

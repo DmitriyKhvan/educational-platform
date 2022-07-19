@@ -52,7 +52,7 @@ const ResetPassword = () => {
     const resp = await dispatch(resetPassword(password, token))
 
     if (resp.type === 'AUTH_RESET_PASSWORD_SUCCESS') {
-      NotificationManager.success(t('reset_password_success'), t)
+      
       history.push('/')
     }
 

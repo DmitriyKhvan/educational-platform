@@ -48,7 +48,7 @@ const BasicInfoForm = () => {
     const res = await dispatch(updateUserInfo(userData))
 
     if (res.type === 'UPDATE_USER_SUCCESS') {
-      NotificationManager.success(t('update_profile_success'), t)
+      
     }
 
     if (res.type === 'UPDATE_USER_FAILURE') {

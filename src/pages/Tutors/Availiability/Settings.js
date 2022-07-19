@@ -60,7 +60,7 @@ export const Settings = () => {
       TutorApi.updateExceptionDates(FederalHolidays, tutor_id).then(
         response => {
           if (response.status === 200) {
-            NotificationManager.success('Updated Successfully', t)
+            
             history.push('/tutor/availability')
           }
         }
@@ -68,7 +68,7 @@ export const Settings = () => {
     } else {
       TutorApi.updateExceptionDates([], tutor_id).then(response => {
         if (response.status === 200) {
-          NotificationManager.success('Updated Successfully', t)
+          
           history.push('/tutor/availability')
         }
       })

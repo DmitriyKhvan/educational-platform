@@ -89,7 +89,7 @@ const GroupLessons = () => {
   const onBook = async group => {
     try {
       const data = await AppointmentApi.joinLesson(group.id)
-      NotificationManager.success('You joined successfully', t)
+      
       setIsConfirmModal(group.start_at)
       fetchAppointments()
     } catch (e) {

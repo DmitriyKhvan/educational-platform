@@ -82,7 +82,7 @@ const ModalFeedback = ({ visible, onDismiss, group, user }) => {
         group_id: group.id,
         student_id: student?.id
       })
-      NotificationManager.success(t('you_updated_lesson'), t)
+      
 
       onDismiss()
     } catch (e) {

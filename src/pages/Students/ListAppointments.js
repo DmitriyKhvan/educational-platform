@@ -39,7 +39,7 @@ const StudentListAppointments = () => {
   const onCancel = async ({ id, reasons }) => {
     try {
       await AppointmentApi.cancelAppointment(id)
-      NotificationManager.success('You have cancelled successfully!', t)
+      
       fetchAppointments()
     } catch (e) {
       NotificationManager.error(e.response?.data?.message || 'Server Issue', t)

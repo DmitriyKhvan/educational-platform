@@ -92,7 +92,6 @@ const Login = () => {
     let resp = await dispatch(login(formData.email, formData.password))
 
     if (resp.type === 'AUTH_LOGIN_SUCCESS') {
-      NotificationManager.success(t('login_success'), t)
       dispatch(getUserInfo())
       history.push('/')
     } else {

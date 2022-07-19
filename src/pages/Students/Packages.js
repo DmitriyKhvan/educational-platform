@@ -154,7 +154,7 @@ export const PackagesView = () => {
 
     try {
       await SubscriptionApi.addCreditCard(paymentMethod)
-      NotificationManager.success(t('your_credit_stored'), t)
+      
     } catch (e) {
       NotificationManager.error(
         e?.response?.data?.error?.message || t('server_issue'),
@@ -187,7 +187,7 @@ export const PackagesView = () => {
         await SubscriptionApi.updatePlan(plan)
       }
       setSelectedPlan(plan)
-      NotificationManager.success(t('purchase_package_success'), t)
+      
       setLocalloading(false)
     } catch (e) {
       setLocalloading(false)

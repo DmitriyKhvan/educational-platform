@@ -14,8 +14,6 @@ import { ModalCancelLesson } from './ModalCancelLesson'
 import { cancelAppointment } from '../actions/appointment'
 import { useDispatch } from 'react-redux'
 import ActionTypes from '../constants/actionTypes'
-import NotificationManager from './NotificationManager'
-
 const ModalDateLesson = ({
   user,
   onDismiss,
@@ -177,7 +175,6 @@ const ModalDateLesson = ({
   const onCancelLesson = async reasons => {
     const res = await dispatch(cancelAppointment(selectedLesson.id))
     if (res === ActionTypes.CANCEL_APPOINTMENT_INFO.SUCCESS) {
-      NotificationManager.success(t('lesson_cancelled'), t)
       setVisibleCancel(false)
     }
   }

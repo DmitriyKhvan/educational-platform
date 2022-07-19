@@ -211,7 +211,6 @@ const Signup = () => {
     )
 
     if (resp.type === 'AUTH_SIGNUP_SUCCESS') {
-      NotificationManager.success(t('signup_success'), t)
       history.push('/email-verify-guide')
     }
 

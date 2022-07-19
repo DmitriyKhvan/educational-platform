@@ -217,7 +217,7 @@ const Calendar = () => {
     try {
       await AppointmentApi.cancelAppointment(id)
       fetchData()
-      NotificationManager.success('You have cancelled successfully!', t)
+      
     } catch (error) {
       NotificationManager.error(
         error.response?.data?.message || 'Server Issue',

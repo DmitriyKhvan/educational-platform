@@ -43,7 +43,6 @@ const ForgotPassword = () => {
     let resp = await dispatch(forgotPassword(email))
 
     if (resp.type === 'AUTH_FORGOT_PASSWORD_SUCCESS') {
-      NotificationManager.success(t('forgot_password_success'), t)
       history.push('/forgot-password-guide')
     }
 

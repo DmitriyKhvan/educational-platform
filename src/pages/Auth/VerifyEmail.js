@@ -25,7 +25,7 @@ const VerifyEmail = () => {
 
       if (resp.type === 'AUTH_EMAIL_VERIFY_SUCCESS') {
         setVerified(true)
-        NotificationManager.success(t('email_verify_success'), t)
+        
         history.push('/')
       }
     }

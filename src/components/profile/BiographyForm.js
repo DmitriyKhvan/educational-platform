@@ -43,10 +43,6 @@ const BiographyForm = () => {
       })
     )
 
-    if (res.type === 'UPDATE_TUTOR_INFO_SUCCESS') {
-      NotificationManager.success(t('update_tutor_success'), t)
-    }
-
     if (res.type === 'UPDATE_TUTOR_INFO_FAILURE') {
       NotificationManager.error(t('update_tutor_failed'), t)
     }
