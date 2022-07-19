@@ -69,11 +69,15 @@ const Signup = () => {
     },
     password: {
       required: 'Password is required',
-      invalid: "Passwords don't match"
+      invalid: "Passwords don't match",
+      minChar: 'Max 8 characters',
+      title:
+        'Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters'
     },
     confirm_password: {
       required: 'Password is required',
-      invalid: "Passwords don't match"
+      invalid: "Passwords don't match",
+      minChar: 'Max 8 characters'
     }
   }
   const validateInput = (value, stateName) => {
@@ -84,7 +88,6 @@ const Signup = () => {
       }))
       return false
     }
-
     switch (stateName) {
       case 'email':
         const emailValid = validateEmail(value)
@@ -105,48 +108,79 @@ const Signup = () => {
         if (formData['confirm_password'] !== value) {
           setFormDataError(formDataError => ({
             ...formDataError,
-            confirm_password: errorMessage[stateName].invalid,
-            password: errorMessage[stateName].invalid
+            confirm_password:
+              formData['confirm_password']?.length < 8
+                ? errorMessage[stateName].minChar
+                : errorMessage[stateName].invalid,
+            password:
+              formData['password']?.length < 8
+                ? errorMessage[stateName].minChar
+                : errorMessage[stateName].invalid
           }))
           return false
         } else {
-          setFormDataError(formDataError => ({
-            ...formDataError,
-            confirm_password: '',
-            password: ''
-          }))
-          return true
+          if (formData['password']?.length < 8) {
+            setFormDataError(formDataError => ({
+              ...formDataError,
+              confirm_password: errorMessage[stateName].minChar,
+              password: errorMessage[stateName].minChar
+            }))
+            return false
+          } else {
+            setFormDataError(formDataError => ({
+              ...formDataError,
+              confirm_password: '',
+              password: ''
+            }))
+            return true
+          }
         }
       case 'confirm_password':
         if (formData['password'] !== value) {
           setFormDataError(formDataError => ({
             ...formDataError,
-            confirm_password: errorMessage[stateName].invalid,
-            password: errorMessage[stateName].invalid
+            password:
+              formData['password']?.length < 8
+                ? errorMessage[stateName].minChar
+                : errorMessage[stateName].invalid,
+            confirm_password:
+              formData['confirm_password']?.length < 8
+                ? errorMessage[stateName].minChar
+                : errorMessage[stateName].invalid
           }))
           return false
         } else {
-          setFormDataError(formDataError => ({
-            ...formDataError,
-            confirm_password: '',
-            password: ''
-          }))
-          return true
+          if (formData['confirm_password']?.length < 8) {
+            setFormDataError(formDataError => ({
+              ...formDataError,
+              password: errorMessage[stateName].minChar,
+              confirm_password: errorMessage[stateName].minChar
+            }))
+            return false
+          } else {
+            setFormDataError(formDataError => ({
+              ...formDataError,
+              password: '',
+              confirm_password: ''
+            }))
+            return true
+          }
         }
       default:
+        
         setFormDataError(formDataError => ({
           ...formDataError,
           [stateName]: ''
         }))
         return true
+      
     }
   }
-
   const validateEmail = email => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(email)
   }
-
   const onChange = (value, stateName) => {
     validateInput(value, stateName)
     setFormData({ ...formData, [stateName]: value })
@@ -210,7 +244,7 @@ const Signup = () => {
     <AuthLayout>
       {!formData.user_role ? (
         <div className='auth-login'>
-          <p className='title text-center m-3'>{t('student_or_tutor')}</p>
+          <p className='title text-center m-5'>{t('student_or_tutor')}</p>
           <div className='welcome-body'>
             <div className='role-select'>
               <div className='role-card'>
@@ -238,18 +272,21 @@ const Signup = () => {
         </div>
       ) : (
         <div className='auth-login'>
-          <p className='title text-center m-3'>{t('welcome_to_naonow')}</p>
+          <div className='text-centerpadding'>
+            <p className='title text-center m-3'>{t('welcome_to_naonow')}</p>
+          </div>
           <div className='form-section pt-2'>
             <div className='mb-3'>
-              <div className='form-item-inner'>
+              <div className='form-item-inner sign-up-bottom'>
                 <label htmlFor='first_name' className='form-label'>
-                  <strong>{t('first_name')}</strong>
+                  <div className='label'>{t('first_name')}</div>
                 </label>
                 <input
                   className='form-control'
                   type='text'
                   id='first_name'
                   name='first_name'
+                  placeholder='First Name'
                   value={formData.first_name}
                   onChange={e => onChange(e.target.value, 'first_name')}
                 />
@@ -259,15 +296,16 @@ const Signup = () => {
               )}
             </div>
             <div className='mb-3'>
-              <div className='form-item-inner'>
+              <div className='form-item-inner sign-up-bottom'>
                 <label htmlFor='last_name' className='form-label'>
-                  <strong>{t('last_name')}</strong>
+                  <div className='label'>{t('last_name')}</div>
                 </label>
                 <input
                   className='form-control'
                   type='text'
                   id='last_name'
                   name='last_name'
+                  placeholder='Last Name'
                   value={formData.last_name}
                   onChange={e => onChange(e.target.value, 'last_name')}
                 />
@@ -277,15 +315,16 @@ const Signup = () => {
               )}
             </div>
             <div className='mb-3'>
-              <div className='form-item-inner'>
+              <div className='form-item-inner sign-up-bottom'>
                 <label htmlFor='email' className='form-label'>
-                  <strong>{t('email')}</strong>
+                  <div className='label'>{t('email')}</div>
                 </label>
                 <input
                   className='form-control'
                   type='email'
                   id='email'
                   name='email'
+                  placeholder='name@email.com'
                   value={formData.email}
                   onChange={e => onChange(e.target.value, 'email')}
                 />
@@ -295,12 +334,12 @@ const Signup = () => {
               )}
             </div>
             <div className='mb-3'>
-              <div className='form-item-inner'>
+              <div className='form-item-inner sign-up-bottom'>
                 <label htmlFor='phone_number' className='form-label'>
-                  <strong>{t('phone_number')}</strong>
+                  <div className='label'>{t('phone_number')}</div>
                 </label>
                 <PhoneInput
-                  className='form-control'
+                  className='form-controls'
                   specialLabel={t('phone_number')}
                   country={'us'}
                   value={formData.phone_number}
@@ -316,33 +355,37 @@ const Signup = () => {
               )}
             </div>
             <div className='mb-3'>
-              <div className='form-item-inner'>
+              <div className='form-item-inner sign-up-bottom'>
                 <label htmlFor='password' className='form-label'>
-                  <strong>{t('password')}</strong>
+                  <div className='label'>{t('password')}</div>
                 </label>
                 <input
+                  
                   className='form-control'
                   type='password'
                   id='password'
                   name='password'
+                  placeholder='at least 8 characters'
                   value={formData.password}
                   onChange={e => onChange(e.target.value, 'password')}
                 />
               </div>
+
               {formDataError.password && (
                 <p className='error-msg'>{formDataError.password}</p>
               )}
             </div>
             <div className='mb-3'>
-              <div className='form-item-inner'>
+              <div className='form-item-inner sign-up-bottom'>
                 <label htmlFor='confirm_password' className='form-label'>
-                  <strong>{t('confirm_password')}</strong>
+                  <div className='label'>{t('confirm_password')}</div>
                 </label>
                 <input
                   className='form-control'
                   type='password'
                   id='confirm_password'
                   name='confirm_password'
+                  placeholder='at least 8 characters'
                   value={formData.confirm_password}
                   onChange={e => onChange(e.target.value, 'confirm_password')}
                 />
@@ -364,12 +407,14 @@ const Signup = () => {
                 )}
               </button>
             </div>
-            <p className='mt-5'>
-              {t('already_have_account')}{' '}
-              <a href='/' className='forgot-password'>
-                {t('sign_in')}
-              </a>
-            </p>
+            <div className='sign'>
+              <p className='forgets'>
+                {t('already_have_account')}{' '}
+                <a href='/' className='forgot-passwords'>
+                  {t('sign_in')}
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       )}

@@ -299,3 +299,70 @@
 .forget {
   margin-top: -14px;
 }
+.react-tel-input .flag-dropdown {
+  border: 0;
+  margin: 10px;
+  margin-top: 2px;
+}
+.react-tel-input .form-control {
+  height: 47px !important;
+}
+.form-controls {
+  box-shadow: none !important;
+}
+.selected-flag {
+  outline: none;
+  padding: 10px;
+  border: 0;
+}
+.flag-dropdown {
+  border: none !important;
+}
+.react-tel-input .selected-flag {
+  outline: none;
+  margin-top: 5px !important;
+  width: 0 !important;
+
+  padding: 0 !important;
+  border-radius: 0;
+}
+.flag-dropdown {
+  border: none !important;
+}
+.sign-up-bottom {
+  padding-bottom: 15px;
+}
+
+.form-item-inner {
+  margin-bottom: 10px;
+  color: #261a45;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
+}
+.forgot-passwords {
+  color: #6134af;
+  text-decoration: none;
+  font-weight: 600;
+  font-family: 'Inter';
+}
+.forgets {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
+  color: #646481;
+  text-decoration: none;
+}
+.sign {
+  padding-top: 45px;
+}
+.text-centerpadding {
+  padding: 25px !important;
+}
+.react-tel-input .special-label{
+  display: none;
+}

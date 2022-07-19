@@ -1973,8 +1973,7 @@
 .react-tel-input .selected-flag .flag {
   position: absolute;
   top: 50%;
-  margin-top: 18px;
-  padding-top: 3px;
+  
 }
 
 textarea {
@@ -2040,10 +2039,7 @@ div[class$='ValueContainer']:focus {
 @media screen and (min-width: 279px) and (max-width: 324px) {
   .content .children-page {
     width: 370px;
-    .react-tel-input .selected-flag .flag {
-      margin-top: 20px;
-      padding-top: 3px;
-    }
+
   }
   .profile-layout .profile-wrapper .courses .course .options {
     width: 46%;
@@ -2133,9 +2129,7 @@ div[class$='ValueContainer']:focus {
     margin-left: -27px;
     width: 185px;
   }
-  .react-tel-input .selected-flag .flag {
-    margin-top: 20px;
-  }
+
 }
 
 @media screen and (min-width: 360px) {
@@ -2260,10 +2254,7 @@ div[class$='ValueContainer']:focus {
 }
 
 @media screen and (min-width: 563px) {
-  .react-tel-input .selected-flag .flag {
-    margin-top: 20px;
-    padding-top: 3px;
-  }
+
 }
 
 @media screen and (min-width: 653px) {
@@ -2306,10 +2297,7 @@ div[class$='ValueContainer']:focus {
     margin-left: -3px !important;
     width: 100% !important;
   }
-  .react-tel-input .selected-flag .flag {
-    margin-top: 20px;
-    padding-top: 3px;
-  }
+
   .profile-layout .profile-wrapper .courses .course .options {
     margin-left: 0px;
   }
@@ -2320,10 +2308,7 @@ div[class$='ValueContainer']:focus {
     margin-left: -3px;
     width: 100%;
   }
-  .react-tel-input .selected-flag .flag {
-    margin-top: 20px;
-    padding-top: 3px;
-  }
+
 }
 @media screen and (min-width: 896px) {
   .profile-layout .profile-wrapper .courses {
@@ -2348,10 +2333,7 @@ div[class$='ValueContainer']:focus {
   .profile-layout .profile-wrapper .btn-see-pricing-options {
     margin-left: 15px;
   }
-  .react-tel-input .selected-flag .flag {
-    margin-top: 20px;
-    padding-top: 3px;
-  }
+
   .profile-layout .profile-footer .btn-update {
     margin-left: -3px;
   }
