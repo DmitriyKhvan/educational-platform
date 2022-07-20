@@ -936,7 +936,6 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .rightArrow-btn {
       margin-left: -15px;
     }
- 
   }
 
   @media screen and (min-width: 668px) and (max-width: 719px) {
@@ -1682,25 +1681,17 @@ button.enter-btn.btn-dash-return.ms-0 {
   font-family: 'Inter';
 }
 button.enter-btn.btn-primary {
-  margin-top: 0px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 15px;
+  padding: 14px;
   position: static;
   width: 113px;
-  height: 48px;
-  left: 197px;
-  top: 0px;
   background: $color-purple1;
   border-radius: 5px;
   flex: none;
   order: 1;
-  flex-grow: 0;
-  margin-right: 20px;
-  margin-left: 20px;
-  margin-bottom: 1px;
   font-family: 'Inter';
 }
 span.tickmark {
@@ -1942,7 +1933,7 @@ span.continue-arrow {
   .mobile-view-buttons {
     margin-left: 6px;
   }
-  .titles_align_desktop{
+  .titles_align_desktop {
     padding: 0;
   }
 }
@@ -1950,9 +1941,9 @@ span.continue-arrow {
   .mobile-view-buttons {
     margin-left: -6px;
   }
- .mobile_align_dash{
-  margin-bottom: 20px;
- }
+  .mobile_align_dash {
+    margin-bottom: 20px;
+  }
 }
 // min-width: fit-content;
 // margin-left: 37px;
@@ -2064,7 +2055,6 @@ span.continue-arrow {
   }
 }
 
-
 @media screen and (min-width: 844px) and (max-width: 896px) {
   .col-md-6.pe-4.main-container {
     padding-left: 8px;
@@ -2174,5 +2164,10 @@ span.continue-arrow {
 
   .ExpWidth-con {
     margin-top: -38px;
+  }
+}
+@media screen and (min-width: 901px){
+  .btn-custom{
+    padding-left: 3rem;
   }
 }
