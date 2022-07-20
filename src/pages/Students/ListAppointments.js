@@ -93,7 +93,7 @@ const StudentListAppointments = () => {
     if (selectedOption === options[1]) {
       queryObj.completed = true
     } else {
-     queryObj.from = new Date().toISOString()
+      queryObj.from = new Date().toISOString()
     }
 
     dispatch(getAppointments(queryObj))
@@ -101,151 +101,155 @@ const StudentListAppointments = () => {
 
   return (
     <Layout>
-      <div className='scroll-layout'>
+      <div className='main-dashboard scroll-layout'>
         {appointments.length >= 0 ? (
           <div className='flex-container'>
-            <div className='student-dashboard flex-left children-wrapper childern-padding'>
-              <h4 className='welcome-message'>
-                {t('student_dashboard_welcome', { name: user.first_name })}
-              </h4>
-              <p className='welcome-subtitle'>
-                {t('student_dashboard_subtitle')}
-              </p>
-              <div className='schedule-lesson-select pt-3'>
-                <div className='page-card purple large-card py-5'>
-                  <div className='row'>
-                    <div className='col-2 ms-3 mobilefinal mobilefinal-image'>
-                      <img
-                        src={ImgCalendar}
-                        alt=''
-                        className='img-fluid large-card-icon'
-                      />
+            <div className='student-dashboard flex-left children-wrapper flex-change childern-padding'>
+              <div className='set-container'>
+                <h4 className='welcome-message'>
+                  {t('student_dashboard_welcome', { name: user.first_name })}
+                </h4>
+                <p className='welcome-subtitle'>
+                  {t('student_dashboard_subtitle')}
+                </p>
+                <div className='schedule-lesson-select pt-3'>
+                  <div className='page-card purple large-card py-5'>
+                    <div className='row image-align_schedule'>
+                      <div className='col-2 ms-3 mobilefinal mobilefinal-image'>
+                        <img
+                          src={ImgCalendar}
+                          alt=''
+                          className='img-fluid large-card-icon'
+                        />
+                      </div>
+                      <div className='col-7 '>
+                        <p className='title mt-1 laptop-title mobile_dash'>
+                          {t('schedule_card')}
+                        </p>
+                      </div>
                     </div>
-                    <div className='col-7 '>
-                      <p className='title mt-1 laptop-title mobile_dash'>
-                        {t('schedule_card')}
-                      </p>
-                    </div>
-                  </div>
-                  <div className='row mobile-view-buttons'>
-                    <div className='col-6 desktop schedule-dashboard-button'>
-                      <a
-                        href='/student/schedule-lesson/select'
-                        className='enter-btn'
-                      >
-                        {t('schedule_1_on_1_lesson')}
-                      </a>
-                    </div>
-                    <div className='col-6 schedule-dashboard-button'>
-                      <a
-                        href='/student/schedule-lesson/group-select'
-                        className='enter-btn'
-                      >
-                        {t('schedule_group_lesson')}
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <h1 className='pt-5 already_lesson'>{t('already_lesson')}</h1>
-              <div className='flex-container schedule-lesson-select'>
-                <div className='page-card pink small-card'>
-                  <div className='row ms-1 rows-align'>
-                    <div className='col-4  ps-3 mt-3 me-2 mobilefinal mobilefinal-laptop'>
-                      <img
-                        src={smileIcon}
-                        alt=''
-                        className='img-fluid small-card-icon-feedback'
-                      />
-                    </div>
-                    <div className='col-7 forest'>
-                      <h3 className='text-white change-mobile-top'>
-                        {t('student_dashboard_feedback')}
-                      </h3>
-                    </div>
-                  </div>
-                  <div className='flex-container ps-2'>
-                    <div>
-                      <a
-                        href='/student/schedule-lesson/select'
-                        className='enter-btn'
-                      >
-                        {t('student_dashboard_submit_feedback_btn')}
-                      </a>
+                    <div className='row mobile-view-buttons'>
+                      <div className='col-6 desktop schedule-dashboard-button'>
+                        <a
+                          href='/student/schedule-lesson/select'
+                          className='enter-btn'
+                        >
+                          {t('schedule_1_on_1_lesson')}
+                        </a>
+                      </div>
+                      <div className='col-6 schedule-dashboard-button'>
+                        <a
+                          href='/student/schedule-lesson/group-select'
+                          className='enter-btn'
+                        >
+                          {t('schedule_group_lesson')}
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className='page-card light-blue small-card'>
-                  <div className='row ms-1 rows-align'>
-                    <div className='col-4 ps-3 mt-3 me-2 mobilefinal mobilefinal-laptop'>
-                      <img
-                        src={pastIcon}
-                        alt=''
-                        className='img-fluid small-card-icon-progress'
-                      />
+                <h1 className='pt-5 already_lesson'>{t('already_lesson')}</h1>
+                <div className='flex-container schedule-lesson-select'>
+                  <div className='page-card pink small-card'>
+                    <div className='row ms-1 rows-align'>
+                      <div className='col-4  ps-0 mt-3 me-2 mobilefinal mobilefinal-laptop'>
+                        <img
+                          src={smileIcon}
+                          alt=''
+                          className='img-fluid small-card-icon-feedback'
+                        />
+                      </div>
+                      <div className='col-7 forest'>
+                        <h3 className='text-white change-mobile-top'>
+                          {t('student_dashboard_feedback')}
+                        </h3>
+                      </div>
                     </div>
-                    <div className='col-7 forest'>
-                      <h3 className='text-white change-mobile-top'>
-                        {t('student_dashboard_progress')}
-                      </h3>
+                    <div className='flex-container ps-0'>
+                      <div>
+                        <a
+                          href='/student/schedule-lesson/select'
+                          className='enter-btn'
+                        >
+                          {t('student_dashboard_submit_feedback_btn')}
+                        </a>
+                      </div>
                     </div>
                   </div>
-                  <div className='flex-container ps-2'>
-                    <div>
-                      <a
-                        href='/student/schedule-lesson/select'
-                        className='enter-btn'
-                      >
-                        {t('student_dashboard_view_progress_btn')}
-                      </a>
+                  <div className='page-card light-blue small-card'>
+                    <div className='row ms-1 rows-align'>
+                      <div className='col-4 ps-0 mt-3 me-2 mobilefinal mobilefinal-laptop'>
+                        <img
+                          src={pastIcon}
+                          alt=''
+                          className='img-fluid small-card-icon-progress'
+                        />
+                      </div>
+                      <div className='col-7  forest'>
+                        <h3 className='text-white change-mobile-top'>
+                          {t('student_dashboard_progress')}
+                        </h3>
+                      </div>
+                    </div>
+                    <div className='flex-container ps-0'>
+                      <div>
+                        <a
+                          href='/student/schedule-lesson/select'
+                          className='enter-btn'
+                        >
+                          {t('student_dashboard_view_progress_btn')}
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className='student-list-appointments-wrapper flex-right children-wrapper '>
-              <h4 className='weekly-schedule'>{t('weekly_schedule')}</h4>
-              <h4 className='text-purple weekly-schedule-subtitle'>
-                {t('student_dashboard_total_lessons', {
-                  total_lessons: appointments.length,
-                  t: appointments.length > 1 ? 's' : ''
-                })}
-              </h4>
-              <div className='flex-container align-button-dashboard'>
-                <div>
-                  <Link
-                    to='/student/schedule-lesson/select'
-                    className='buttonsdash'
-                  >
-                    {t('student_dashboard_edit_schedule')}
-                  </Link>
+            <div className='student-list-appointments-wrapper flex-right children-wrapper changes-container '>
+              <div className='child-set_container'>
+                <h4 className='weekly-schedule'>{t('weekly_schedule')}</h4>
+                <h4 className='text-purple weekly-schedule-subtitle'>
+                  {t('student_dashboard_total_lessons', {
+                    total_lessons: appointments.length,
+                    t: appointments.length > 1 ? 's' : ''
+                  })}
+                </h4>
+                <div className='flex-container align-button-dashboard'>
+                  <div>
+                    <Link
+                      to='/student/schedule-lesson/select'
+                      className='buttonsdash'
+                    >
+                      {t('student_dashboard_edit_schedule')}
+                    </Link>
+                  </div>
+                  <div>
+                    <Link
+                      to='/student/lesson-calendar'
+                      className='buttonsdash-second'
+                    >
+                      {t('student_dashboard_view_all_lessons')}
+                    </Link>
+                  </div>
                 </div>
-                <div>
-                  <Link
-                    to='/student/lesson-calendar'
-                    className='buttonsdash-second'
-                  >
-                    {t('student_dashboard_view_all_lessons')}
-                  </Link>
+                <div className='weekly-schedule-scroll weekly-schedule-grid'>
+                  {appointments.length
+                    ? appointments.map((x, i) => {
+                        const date = moment(x.start_at).unix()
+                        return (
+                          <ScheduleCard
+                            lesson={x.lesson.description}
+                            zoomlink={x.zoomlink}
+                            date={date}
+                            data={x}
+                            key={i}
+                            index={i}
+                            fetchAppointments={fetchAppointments}
+                          />
+                        )
+                      })
+                    : ''}
                 </div>
-              </div>
-              <div className='weekly-schedule-scroll weekly-schedule-grid'>
-                {appointments.length
-                  ? appointments.map((x, i) => {
-                      const date = moment(x.start_at).unix()
-                      return (
-                        <ScheduleCard
-                          lesson={x.lesson.description}
-                          zoomlink={x.zoomlink}
-                          date={date}
-                          data={x}
-                          key={i}
-                          index={i}
-                          fetchAppointments={fetchAppointments}
-                        />
-                      )
-                    })
-                  : ''}
               </div>
             </div>
           </div>

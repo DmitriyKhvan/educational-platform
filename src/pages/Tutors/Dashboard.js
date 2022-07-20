@@ -71,14 +71,15 @@ const TutorDashboard = () => {
   return (
     <div className='main-dashboard scroll-layout'>
       <div className='flex-container'>
-        <div className='student-dashboard flex-left children-wrapper flex-change'>
+        <div className='student-dashboard flex-left children-wrapper flex-change '>
+          <div className='set-container'>
           <h4 className='welcome-message'>
             {t('student_dashboard_welcome', { name: user.first_name })}
           </h4>
           <p className='welcome-subtitle'>{t('tutor_welcome_back')}</p>
 
           <div className='schedule-lesson-select pt-3'>
-            <div className='page-card purple large-card py-5'>
+            <div className='page-card purple large-card py-5 pb-4 purple-top-align'>
               <div className='row'>
                 <div className='col-2 ms-3 mobilefinal mobilefinal-image'>
                   <img
@@ -132,11 +133,14 @@ const TutorDashboard = () => {
               btnTitle={t('my_students')}
               path='/tutor/students'
               icon={studentIcon}
+              alt = {'studentIcon'}
               iconBGcolor='small-card-icon-progress'
             />
+            </div>
           </div>
         </div>
-        <div className='student-list-appointments-wrapper flex-right children-wrapper'>
+        <div className='student-list-appointments-wrapper flex-right children-wrapper changes-container'>
+          <div className='child-set_container'>
           {hasLessonApprovals && (
             <BookingRequest
               lessonApprovals={lessonApprovals}
@@ -172,7 +176,7 @@ const TutorDashboard = () => {
                   />
                 )
               })}
-          </div>
+          </div></div>
         </div>
       </div>
     </div>

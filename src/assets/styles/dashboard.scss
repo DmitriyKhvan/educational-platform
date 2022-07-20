@@ -1,7 +1,6 @@
 @import './variable.scss';
 @import url(https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900);
 
-
 .dashboard_cal-scl_button {
   display: inline-block;
   min-width: 150px !important;
@@ -14,7 +13,7 @@
 }
 [src='/static/media/calendar_icon.6bb79a2bb8d6d68a5883823f3e189c1e.svg'] {
   margin-bottom: 10px !important;
-  min-width: 80px;
+  min-width: 65px;
 }
 .manage_my_classes {
   font-family: 'Inter';
@@ -888,12 +887,6 @@ div.time-style {
 .medium-card {
   width: 500px;
 }
-
-.weekly-schedule-scroll {
-  height: 100vh;
-  overflow-y: scroll;
-}
-
 .outer {
   width: 100%;
   height: 100vh;
@@ -924,8 +917,13 @@ div.time-style {
 }
 
 .weekly-schedule-scroll {
-  height: 65vh;
-  overflow-y: scroll;
+  height: 70vh;
+  overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.weekly-schedule-scroll::-webkit-scrollbar {
+  display: none;
 }
 
 .modal-card {

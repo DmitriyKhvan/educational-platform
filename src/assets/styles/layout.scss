@@ -301,14 +301,12 @@
     .button-align-left-dash {
       width: 33.33%;
     }
-    .children-wrapper {
-      padding: 39.31px 39px 57px 43px;
-    }
+
     display: flex;
     height: 85vh;
 
     .children-page {
-      width: calc(100% - 300px);
+      width: calc(100% - 259px);
     }
     .flex-container {
       display: flex;
@@ -375,6 +373,7 @@
     .mobile_align_dash {
       text-align: center;
       padding-top: 25px;
+      line-height: 36px !important;
     }
     .align-review {
       text-align: center !important;
@@ -526,15 +525,15 @@
     .schedule-english {
       padding: 0 !important;
     }
-    .flex-left {
-      width: 60%;
-    }
-    .flex-right {
-      width: 40%;
-    }
     .laptop-title {
       width: 60%;
     }
+    // .flex-left {
+    //   width: 100%;
+    // }
+    // .flex-right {
+    //   width: 100%;
+    // }
     .forest {
       padding-top: 0 !important;
       padding-left: 10px;
@@ -559,7 +558,7 @@
       flex-wrap: nowrap;
     }
     .text-white {
-      padding-top: 10px;
+      padding-top: 5px;
     }
     .text-muted {
       padding-top: 10px;
@@ -603,9 +602,7 @@
     .title {
       text-align: left;
     }
-    .children-wrapper {
-      padding: 39.31px 39px 57px 43px;
-    }
+
     .schedule-lesson-select {
       display: flex;
       width: 100%;
@@ -624,8 +621,8 @@
 
   // Sidebar Style
   .side-bar {
-    width: 297px;
-    padding: 10px 40px 39px 30px;
+    width: 259px;
+    padding: 10px 30px 39px 20px;
     height: 100vh;
     position: sticky;
     top: 0;
@@ -778,7 +775,8 @@
 }
 .tutor_cal_appoint {
   max-width: 50%;
-  padding: 10px;
+  padding: 13px !important;
+  max-width: 100%;
 }
 .already-lesson {
   font-family: 'Inter';
@@ -790,4 +788,80 @@
   align-items: center;
   letter-spacing: -0.6px;
   color: $color-black;
+}
+.set-container {
+  max-width: 730px;
+}
+.changes-container {
+  padding-top: 20px !important;
+}
+.purple-top-align {
+  padding-top: 32px !important;
+}
+[alt="studentIcon"] {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.image-align_schedule {
+  display: flex;
+}
+.content {
+  .scroll-layout {
+    height: 100%;
+    min-height: 100%;
+    overflow: auto;
+    padding-bottom: 20px;
+  }
+  @media screen and (min-width: 1500px) {
+    .child-set_container {
+      padding: 20px 48px 50px 30px !important;
+    }
+    .set-container {
+      padding: 65px 50px 57px 65px !important;
+    }
+    .changes-container {
+      max-width: 450px;
+    }
+    .flex-left {
+      width: 100%;
+    }
+    .flex-right {
+      width: 100%;
+    }
+  }
+  @media screen and (max-width: 1501px) {
+    .flex-left {
+      width: 65%;
+    }
+    .flex-right {
+      width: 35%
+    }
+    .children-wrapper {
+      padding: 39.31px 39px 57px 43px;
+    }
+  }
+  @media screen and (max-width: 1200px) {
+    .tutor_cal_appoint {
+      max-width: 50%;
+    }
+  }
+  @media screen and (max-width: 1200px) {
+    .flex-left {
+      width: 100%;
+    }
+    .flex-right {
+      width: 100%;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    .tutor_cal_appoint {
+      max-width: 100%;
+    }
+    .children-wrapper {
+      padding: 20px !important;
+    }
+    .image-align_schedule {
+      flex-wrap: wrap;
+    }
+  }
 }
