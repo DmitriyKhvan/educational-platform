@@ -104,102 +104,100 @@ const StudentListAppointments = () => {
       <div className='main-dashboard scroll-layout'>
         {appointments.length >= 0 ? (
           <div className='flex-container'>
-            <div className='student-dashboard flex-left children-wrapper flex-change childern-padding'>
-              <div className='set-container'>
-                <h4 className='welcome-message'>
-                  {t('student_dashboard_welcome', { name: user.first_name })}
-                </h4>
-                <p className='welcome-subtitle'>
-                  {t('student_dashboard_subtitle')}
-                </p>
-                <div className='schedule-lesson-select pt-3'>
-                  <div className='page-card purple large-card py-5'>
-                    <div className='row image-align_schedule'>
-                      <div className='col-2 ms-3 mobilefinal mobilefinal-image'>
-                        <img
-                          src={ImgCalendar}
-                          alt=''
-                          className='img-fluid large-card-icon'
-                        />
-                      </div>
-                      <div className='col-7 '>
-                        <p className='title mt-1 laptop-title mobile_dash'>
-                          {t('schedule_card')}
-                        </p>
-                      </div>
+            <div className='student-dashboard flex-left children-wrapper childern-padding'>
+              <h4 className='welcome-message'>
+                {t('student_dashboard_welcome', { name: user.first_name })}
+              </h4>
+              <p className='welcome-subtitle'>
+                {t('student_dashboard_subtitle')}
+              </p>
+              <div className='schedule-lesson-select pt-3'>
+                <div className='page-card purple large-card py-5'>
+                  <div className='row'>
+                    <div className='col-2 ms-3 mobilefinal mobilefinal-image'>
+                      <img
+                        src={ImgCalendar}
+                        alt=''
+                        className='img-fluid large-card-icon'
+                      />
                     </div>
-                    <div className='row mobile-view-buttons'>
-                      <div className='col-6 desktop schedule-dashboard-button'>
-                        <a
-                          href='/student/schedule-lesson/select'
-                          className='enter-btn'
-                        >
-                          {t('schedule_1_on_1_lesson')}
-                        </a>
-                      </div>
-                      <div className='col-6 schedule-dashboard-button'>
-                        <a
-                          href='/student/schedule-lesson/group-select'
-                          className='enter-btn'
-                        >
-                          {t('schedule_group_lesson')}
-                        </a>
-                      </div>
+                    <div className='col-8 titles-align_changes'>
+                      <p className='title mt-1 laptop-title mobile_dash'>
+                        {t('schedule_card')}
+                      </p>
+                    </div>
+                  </div>
+                  <div className='row mobile-view-buttons'>
+                    <div className='col-6 desktop schedule-dashboard-button'>
+                      <a
+                        href='/student/schedule-lesson/select'
+                        className='enter-btn schedule_button_align'
+                      >
+                        {t('schedule_1_on_1_lesson')}
+                      </a>
+                    </div>
+                    <div className='col-6 schedule-dashboard-button'>
+                      <a
+                        href='/student/schedule-lesson/group-select'
+                        className='enter-btn schedule_button_align'
+                      >
+                        {t('schedule_group_lesson')}
+                      </a>
                     </div>
                   </div>
                 </div>
-                <h1 className='pt-5 already_lesson'>{t('already_lesson')}</h1>
-                <div className='flex-container schedule-lesson-select'>
-                  <div className='page-card pink small-card'>
-                    <div className='row ms-1 rows-align'>
-                      <div className='col-4  ps-0 mt-3 me-2 mobilefinal mobilefinal-laptop'>
-                        <img
-                          src={smileIcon}
-                          alt=''
-                          className='img-fluid small-card-icon-feedback'
-                        />
-                      </div>
-                      <div className='col-7 forest'>
-                        <h3 className='text-white change-mobile-top'>
-                          {t('student_dashboard_feedback')}
-                        </h3>
-                      </div>
+              </div>
+              <h1 className='pt-5 already_lesson'>{t('already_lesson')}</h1>
+              <div className='flex-container schedule-lesson-select'>
+                <div className='page-card pink small-card'>
+                  <div className='row ms-1 rows-align'>
+                    <div className='col-4  ps-0 mt-3 me-2 mobilefinal mobilefinal-laptop'>
+                      <img
+                        src={smileIcon}
+                        alt=''
+                        className='img-fluid small-card-icon-feedback'
+                      />
                     </div>
-                    <div className='flex-container ps-0'>
-                      <div>
-                        <a
-                          href='/student/schedule-lesson/select'
-                          className='enter-btn'
-                        >
-                          {t('student_dashboard_submit_feedback_btn')}
-                        </a>
-                      </div>
+                    <div className='col-7 forest'>
+                      <h3 className='text-white change-mobile-top'>
+                        {t('student_dashboard_feedback')}
+                      </h3>
                     </div>
                   </div>
-                  <div className='page-card light-blue small-card'>
-                    <div className='row ms-1 rows-align'>
-                      <div className='col-4 ps-0 mt-3 me-2 mobilefinal mobilefinal-laptop'>
-                        <img
-                          src={pastIcon}
-                          alt=''
-                          className='img-fluid small-card-icon-progress'
-                        />
-                      </div>
-                      <div className='col-7  forest'>
-                        <h3 className='text-white change-mobile-top'>
-                          {t('student_dashboard_progress')}
-                        </h3>
-                      </div>
+                  <div className='flex-container ps-0'>
+                    <div>
+                      <a
+                        href='/student/schedule-lesson/select'
+                        className='enter-btn schedule_button_align'
+                      >
+                        {t('student_dashboard_submit_feedback_btn')}
+                      </a>
                     </div>
-                    <div className='flex-container ps-0'>
-                      <div>
-                        <a
-                          href='/student/schedule-lesson/select'
-                          className='enter-btn'
-                        >
-                          {t('student_dashboard_view_progress_btn')}
-                        </a>
-                      </div>
+                  </div>
+                </div>
+                <div className='page-card light-blue small-card'>
+                  <div className='row ms-1 rows-align'>
+                    <div className='col-4 ps-0 mt-3 me-2 mobilefinal mobilefinal-laptop'>
+                      <img
+                        src={pastIcon}
+                        alt=''
+                        className='img-fluid small-card-icon-progress'
+                      />
+                    </div>
+                    <div className='col-7 forest'>
+                      <h3 className='text-white change-mobile-top'>
+                        {t('student_dashboard_progress')}
+                      </h3>
+                    </div>
+                  </div>
+                  <div className='flex-container ps-0'>
+                    <div>
+                      <a
+                        href='/student/schedule-lesson/select'
+                        className='enter-btn schedule_button_align'
+                      >
+                        {t('student_dashboard_view_progress_btn')}
+                      </a>
                     </div>
                   </div>
                 </div>

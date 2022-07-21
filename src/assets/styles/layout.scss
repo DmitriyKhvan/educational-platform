@@ -1,5 +1,11 @@
 @import './variable.scss';
-
+.titles-align_changes {
+  width: 370px;
+  max-width: 100%;
+}
+.schedule_button_align {
+  padding: 15px !important;
+}
 @media screen and (max-width: 400px) {
   .align-schedule-english {
     padding: 31px 20px 26px !important;
@@ -542,9 +548,7 @@
       display: contents !important;
     }
     .laptop-title {
-      padding-right: 20px;
-      width: auto;
-      display: initial;
+      width: 100%;
     }
 
     .mobilefinal-laptop {
@@ -552,7 +556,7 @@
     }
     .mobilefinal-image {
       width: auto;
-      padding-right: 20px;
+      padding-right: 30px;
     }
     .rows-align {
       flex-wrap: nowrap;
