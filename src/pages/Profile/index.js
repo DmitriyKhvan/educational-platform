@@ -6,8 +6,10 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import { useTranslation } from 'react-i18next'
 import { getUserById } from '../../actions/admin'
 import Profile from './Profile'
+import { useHistory } from 'react-router-dom'
 
 const ProfileLayout = ({ user_id }) => {
+  const history = useHistory()
   const dispatch = useDispatch()
   const [t, i18n] = useTranslation('translation')
   const user = useSelector(state =>
@@ -24,6 +26,7 @@ const ProfileLayout = ({ user_id }) => {
     if (user && user.roles) {
       if (user.roles[0].role_name === 'tutor') {
         setIsTutor(true)
+        history.push('/tutor/profile')
       } else if (user.roles[0].role_name === 'student') {
         setIsTutor(false)
       } else {

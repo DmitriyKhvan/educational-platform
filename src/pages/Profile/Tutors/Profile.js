@@ -35,7 +35,7 @@ const Profile = () => {
       <div id='profile-wrapper'>
         <img id='profile_image' src={profileImage} alt='Profile Avatar' />
       </div>
-      <div className='children-wrapper pt-1'>
+      <div className='children-wrapper pt-1 px-5'>
         <div className='row'>
           <div className='col-9'>
             <h1>{user.full_name}</h1>

@@ -34,9 +34,8 @@ const Navbar = () => {
     parseInt(getItemToLocalStorage('language', 1))
   )
   const [t, i18n] = useTranslation('translation')
-
   useEffect(() => {
-    dispatch(getUserInfo())
+    dispatch(getUserInfo(user?.id))
   }, [dispatch])
 
   const handleLogout = () => {
