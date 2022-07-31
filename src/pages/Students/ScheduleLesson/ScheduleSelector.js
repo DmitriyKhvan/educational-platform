@@ -1,13 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment'
 import Layout from '../../../components/Layout'
 import custom_back_arrow from '../../../assets/images/custom_back_arrow.svg'
 import prev_arrow from '../../../assets/images/prev_arrow.svg'
 import forward_arrow from '../../../assets/images/forward_arrow.svg'
+import { useDispatch, useSelector } from 'react-redux'
+import Swal from 'sweetalert2'
+import { getTutorList } from '../../../actions/tutor'
 
-const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
+const ScheduleSelector = ({
+  setTabIndex,
+  duration,
+  setSchedule,
+  tabIndex,
+  schedule
+}) => {
   const [t] = useTranslation('translation')
+  const tutors = useSelector(state => state.tutor.list)
+  const dispatch = useDispatch()
   const [counter, setCounter] = useState(0)
   const [dayClicked, setDayClicked] = useState(null)
   const [timeClicked, setTimeClicked] = useState(null)
@@ -203,24 +214,43 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
       <React.Fragment>
         {isAfterToday && (
           <div
-            className={`day-selector text-center my-3 cursor ${
-              i === dayClicked || i === timeClicked ? 'purple-bg' : ''
+            className={`day-selector text-center my-3 ${
+              i === dayClicked || i === timeClicked
+                ? 'schedule_lesson_day'
+                : 'schedule_lesson_day_unselect'
             }`}
             onClick={isClicked}
           >
-            <p
-              className={`${
-                i === dayClicked || i === timeClicked ? 'color-white' : 'daytxt'
-              }`}
-            >
+            <div>
               {(data.day && moment(data.day).format('dddd')) || data.time}
-            </p>
+            </div>
           </div>
         )}
       </React.Fragment>
     )
   }
 
+  const handleConfirmLesson = scheduleStartTime => {
+    const formattedDay = moment(day).format('YYYY-MM-DD')
+    const selectedSchedule = moment(
+      formattedDay + ' ' + scheduleStartTime
+    ).toString()
+    setSchedule(selectedSchedule)
+    dispatch(getTutorList(selectedSchedule)).then(response => {
+      var tutorlist = response.payload.tutors
+      if (Array.isArray(tutorlist) && tutorlist.length > 0) {
+        setTabIndex(2)
+      } else if (Array.isArray(tutorlist) && tutorlist.length === 0) {
+        Swal.fire({
+          title: 'No Tutuors Available for selected Time',
+          text: '',
+          icon: 'warning',
+          confirmButtonColor: '#6133af',
+          cancelButtonColor: '#d33'
+        })
+      }
+    })
+  }
   const ScheduleCard = ({ scheduleStartTime }) => {
     const scheduleEndTime = moment(scheduleStartTime, [
       moment.ISO_8601,
@@ -229,39 +259,37 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
       .add(duration, 'minutes')
       .format('hh:mm A')
     return (
-      <div className='col-6 time-card-container'>
-        <div
-          className={`time-card grey-border bg-white small-card pt-2 mt-4 col-6`}
-        >
-          <div className='row container ms-1'>
-            <div className='col-12'>
-              <h3 className={`slot-text`}>
-                {moment(scheduleStartTime, [moment.ISO_8601, 'HH:mm']).format(
-                  'hh:mm A'
-                )}{' '}
-                <img src={forward_arrow} alt='' /> {scheduleEndTime}
-              </h3>
-            </div>
-            <div className='col-3'></div>
+      <div
+        className={`time-card grey-border bg-white small-card pt-2 mt-4 media_align_width`}
+      >
+        <div className='row container ms-1'>
+          <div className='col-12 align_schedule_texts'>
+            <h3 className={`text-black change_width_schedule`}>
+              {moment(scheduleStartTime, [moment.ISO_8601, 'HH:mm']).format(
+                'hh:mm A'
+              )}{' '}
+              → {scheduleEndTime}
+            </h3>
           </div>
-          <div className='col-12 slot-con'>
-            <div className='col-6 leftbtn-slot'>
-              <p className={`enter-btn time-btn grey-border`}>
+        </div>
+        <div className='row final_width_change'>
+          <div className='col'>
+            <div className='schedule-card-col'>
+              <p className={`enter-btn time-btn grey-border text-black`}>
                 {moment(day).format('dddd, MMM DD')}
               </p>
             </div>
-            <div
-              className={`col-6 slot-right`}
-              onClick={() => {
-                const formattedDay = moment(day).format('YYYY-MM-DD')
-                const selectedSchedule = moment(
-                  formattedDay + ' ' + scheduleStartTime
-                ).toString()
-                setSchedule(selectedSchedule)
-                setTabIndex(2)
-              }}
-            >
-              {t('confirm_lesson')}
+          </div>
+          <div className='col'>
+            <div className='schedule-card-col'>
+              <div
+                className={`enter-btn btn-primary align_button_sche_lesson`}
+                onClick={() => {
+                  handleConfirmLesson(scheduleStartTime)
+                }}
+              >
+                {t('confirm_lesson')}
+              </div>
             </div>
           </div>
         </div>
@@ -271,18 +299,16 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
 
   const AvailableSpots = () => (
     <React.Fragment>
-      <div className='row container'>
-        <h1 className='title right-con-title'>Available Spots</h1>
-        <p className='welcome-subtitle  right-con-subtitle'>
-          Select one of these lesson spots to continue.
+      <div className='row '>
+        <h1 className='title right-con-title'>{t('available_spots')}</h1>
+        <p className='welcome-subtitle right-con-subtitle'>
+        {t('available_spots_subtitle')}
         </p>
       </div>
-      <div className='schedule-overflow-scroll slot-scroll col-12'>
-        <div className='row'>
-          {allTimes.map((x, i) => (
-            <ScheduleCard scheduleStartTime={x} key={i} />
-          ))}
-        </div>
+      <div className='row schedule-overflow-scroll slot-scroll col-12 media_small_width_schedule'>
+        {allTimes.map((x, i) => (
+          <ScheduleCard scheduleStartTime={x} key={i} />
+        ))}
       </div>
     </React.Fragment>
   )
@@ -291,71 +317,75 @@ const ScheduleSelector = ({ setTabIndex, duration, setSchedule }) => {
     <Layout>
       <div className='scroll-layout'>
         <div className='flex-container'>
-          <div className='lesson-wrapper flex-left student-dashboard'>
-            <div className='container title-container'>
-              <h1 className='title lelt-con'>{t('schedule_lesson')}</h1>
-              <p className='welcome-subtitle left-subtitle'>
-                {t('schedule_lesson_subtitle')}
-              </p>
-            </div>
-            <div className='row container ps-4 pe-0 day-bar'>
-              <div className='col-1 leftArrow'>
-                <button
-                  className='btn btn-dash-return leftArrow-btn'
-                  disabled={disable}
-                  onClick={() => {
-                    setCounter(counter + 1)
-                    setDayClicked(null)
-                  }}
-                >
-                  <img src={prev_arrow} alt='' />
-                </button>
+          <div className='lesson-wrapper flex-lefts student-dashboard'>
+            <div className='schedule_set_tutor_container'>
+              <div className='container title-container'>
+                <h1 className='title lelt-con'>{t('schedule_lesson')}</h1>
+                <p className='welcome-subtitle left-subtitle'>
+                  {t('schedule_lesson_subtitle')}
+                </p>
               </div>
-              <div className='col-10 bar-resp'>
-                <h1 className='justify-content-center mt-0 start-week'>
-                  {startOfWeekFormatted} to {endOfWeek}
-                </h1>
+              <div className='row container ps-4 pe-0 day-bar'>
+                <div className='col-1 leftArrow'>
+                  <button
+                    className='btn btn-dash-return leftArrow-btn'
+                    disabled={disable}
+                    onClick={() => {
+                      setCounter(counter + 1)
+                      setDayClicked(null)
+                    }}
+                  >
+                    <img src={prev_arrow} alt='' />
+                  </button>
+                </div>
+                <div className='col-10 bar-resp'>
+                  <h1 className='justify-content-center mt-0 start-week'>
+                    {startOfWeekFormatted} to {endOfWeek}
+                  </h1>
+                </div>
+                <div className='col-1 ps-0 rightArrow'>
+                  <button
+                    className='btn btn-dash-return rightArrow-btn'
+                    onClick={() => {
+                      setCounter(counter - 1)
+                      setDayClicked(null)
+                    }}
+                  >
+                    <img src={forward_arrow} alt='' />
+                  </button>
+                </div>
               </div>
-              <div className='col-1 ps-3 rightArrow'>
-                <button
-                  className='btn btn-dash-return rightArrow-btn'
-                  onClick={() => {
-                    setCounter(counter - 1)
-                    setDayClicked(null)
-                  }}
-                >
-                  <img src={forward_arrow} alt='' />
-                </button>
+              <div className='row customDay-select'>
+                <div className='col-6 px-4'>
+                  {days.map(
+                    (x, i) =>
+                      x.format === 'day' && <DaySelector data={x} i={i} />
+                  )}
+                </div>
+                <div className='col-6 px-4'>
+                  {timeArr.map((x, i) => {
+                    i = i + 10
+                    if (x.format === 'time') {
+                      return <DaySelector data={x} i={i} />
+                    }
+                  })}
+                </div>
               </div>
-            </div>
-            <div className='row customDay-select'>
-              <div className='col-6 px-4'>
-                {days.map(
-                  (x, i) => x.format === 'day' && <DaySelector data={x} i={i} />
-                )}
-              </div>
-              <div className='col-6 px-4'>
-                {timeArr.map((x, i) => {
-                  i = i + 10
-                  if (x.format === 'time') {
-                    return <DaySelector data={x} i={i} />
-                  }
-                })}
-              </div>
-            </div>
-            <div className='row container pt-3'>
-              <div className='col-auto back-btn-container '>
-                <button
-                  className='enter-btn btn-dash-return ms-0 back-btn-schedule'
-                  onClick={() => setTabIndex(0)}
-                >
-                  <img src={custom_back_arrow}></img>
-                  {t('custom_back')}
-                </button>
+              <div className='row container pt-3'>
+                <div className='col-auto back-btn-container '>
+                  <button
+                    className='enter-btn btn-dash-return ms-0 back-btn-schedule'
+                    onClick={() => setTabIndex(0)}
+                  >
+                    <img src={custom_back_arrow}></img>
+
+                    <div className='ms-2'>{t('custom_back')}</div>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-          <div className='availability-wrapper flex-right student-list-appointments-wrapper'>
+          <div className='availability-wrapper flex-rights student-list-appointments-wrapper changes-container schedule_height'>
             {dayClicked !== null && timeClicked ? <AvailableSpots /> : ''}
           </div>
         </div>

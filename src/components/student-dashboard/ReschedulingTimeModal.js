@@ -235,7 +235,7 @@ const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
         </div>
 
         <div className='schedule-card-col'>
-          <p className={`enter-btn time-btn grey-border text-black`}>
+          <p className={`enter-btn time-btn grey-border text-black align_button_sche_lesson`}>
             {moment(day).format('dddd, MMM DD')}
           </p>
         </div>
@@ -260,9 +260,9 @@ const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
 
   const AvailableSpots = () => (
     <React.Fragment>
-      <h2 className='mb-2'>Available Spots</h2>
+      <h2 className='mb-2'>{t('available_spots')}</h2>
       <p className='welcome-subtitle text-purple'>
-        Select one of these lesson spots to continue.
+      {t('available_spots_subtitle')}
       </p>
 
       {allTimes.map((x, i) => (

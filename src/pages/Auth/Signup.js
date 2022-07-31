@@ -49,9 +49,6 @@ const Signup = () => {
   }, [])
 
   const loading = useSelector(state => state.auth.loading)
-  const [activateTutor, setActivateTutor] = useState(false)
-  const [activateStudent, setActivateStudent] = useState(false)
-
   const [systemError, setSystemError] = useState('')
   const errorMessage = {
     first_name: {
@@ -109,17 +106,17 @@ const Signup = () => {
           setFormDataError(formDataError => ({
             ...formDataError,
             confirm_password:
-              formData['confirm_password']?.length < 8
+              formData['confirm_password'].length < 7
                 ? errorMessage[stateName].minChar
                 : errorMessage[stateName].invalid,
             password:
-              formData['password']?.length < 8
+              formData['password']?.length < 7
                 ? errorMessage[stateName].minChar
                 : errorMessage[stateName].invalid
           }))
           return false
         } else {
-          if (formData['password']?.length < 8) {
+          if (formData['password']?.length < 7) {
             setFormDataError(formDataError => ({
               ...formDataError,
               confirm_password: errorMessage[stateName].minChar,
@@ -140,17 +137,17 @@ const Signup = () => {
           setFormDataError(formDataError => ({
             ...formDataError,
             password:
-              formData['password']?.length < 8
+              formData['password']?.length < 7
                 ? errorMessage[stateName].minChar
                 : errorMessage[stateName].invalid,
             confirm_password:
-              formData['confirm_password']?.length < 8
+              formData['confirm_password']?.length < 7
                 ? errorMessage[stateName].minChar
                 : errorMessage[stateName].invalid
           }))
           return false
         } else {
-          if (formData['confirm_password']?.length < 8) {
+          if (formData['confirm_password']?.length < 7) {
             setFormDataError(formDataError => ({
               ...formDataError,
               password: errorMessage[stateName].minChar,
@@ -167,13 +164,11 @@ const Signup = () => {
           }
         }
       default:
-        
         setFormDataError(formDataError => ({
           ...formDataError,
           [stateName]: ''
         }))
         return true
-      
     }
   }
   const validateEmail = email => {
@@ -187,10 +182,17 @@ const Signup = () => {
   }
 
   const handleSignup = async () => {
+    if (formData['password']?.length < 8) {
+      setFormDataError(formDataError => ({
+        ...formDataError,
+        password: errorMessage['password'].minChar
+      }))
+      return
+    }
+
     const result = Object.keys(formData).map(key => {
       return validateInput(formData[key], key)
     })
-
     const isInvalid = result.filter(r => !r).length > 0
 
     if (isInvalid) {
@@ -218,7 +220,6 @@ const Signup = () => {
       NotificationManager.error(t('signup_failed'), t)
       if (typeof resp.payload.error.messages === 'object') {
         const errorMsgs = resp.payload.error.messages
-
         // eslint-disable-next-line array-callback-return
         Object.keys(formDataError).map(key => {
           // eslint-disable-next-line array-callback-return
@@ -239,6 +240,7 @@ const Signup = () => {
     }
   }
 
+  
   return (
     <AuthLayout>
       {!formData.user_role ? (
@@ -359,7 +361,6 @@ const Signup = () => {
                   <div className='label'>{t('password')}</div>
                 </label>
                 <input
-                  
                   className='form-control'
                   type='password'
                   id='password'

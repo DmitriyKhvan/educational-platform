@@ -14,12 +14,14 @@
     width: 100% !important;
   }
 }
-
+.dashboard_cal-scl_button {
+  margin: 5px 10px 5px 0 !important;
+}
 .rounded-corners {
   max-width: 100%;
   height: auto;
-  border-radius: 100% !important;
-  border: 5px solid #261a41;
+
+  border-radius: 5px;
 }
 .rounded-corners-round {
   max-width: 100%;
@@ -64,6 +66,15 @@
       justify-content: space-between;
       padding: 22px;
       box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.01);
+    }
+    .max-select_lesson {
+      padding: 30px 35px;
+      height: 100vh;
+    }
+
+    .schedule_changess {
+      width: 100%;
+      height: 100vh;
     }
   }
 
@@ -298,6 +309,9 @@
   }
 
   @media screen and (min-width: 901px) {
+    .title {
+      text-align: left;
+    }
     .align-flex-direction {
       margin: 0 !important;
     }
@@ -370,12 +384,73 @@
     .children-wrapper {
       padding: 25px;
     }
-    .mobile_dash {
-      text-align: center;
+    .mobile-view-buttons {
+      margin-left: 0 !important;
     }
   }
-
+  @media screen and (max-width: 1200px) {
+    .schedule_changess {
+      padding: 50px 20px 50px 30px;
+    }
+  }
+  @media screen and (min-width: 1201px) {
+    .schedule-overflow-scroll {
+      max-width: 380px;
+      margin-left: 6px;
+    }
+  }
   @media screen and (max-width: 600px) {
+    .mobile_dash {
+      text-align: center !important;
+    }
+    .schedule-overflow-scroll {
+      max-width: 380px;
+      margin: auto;
+    }
+    .customlabel {
+      flex-wrap: wrap;
+    }
+    .sublabel-1 {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .sublabel-2 {
+      width: 100%;
+      margin-top: 10px;
+      margin-left: 0 !important;
+    }
+    .minutes_schedule_text {
+      justify-content: center;
+    }
+    .sublabel2-txt {
+      justify-content: center;
+    }
+    .title_aligns_slesson {
+      font-size: 30px;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    .custom-btn-primary {
+      margin: 5px 10px 5px 0 !important;
+    }
+    .select_tutors_aligns {
+      display: block;
+    }
+    .image-align-tutor {
+      width: 100%;
+    }
+
+    .ExpWidth {
+      justify-content: center;
+    }
+    .select_top_align {
+      max-width: 350px;
+    }
+
+    .max-select_lesson {
+      width: 100%;
+      height: 100vh;
+    }
     .mobile_align_dash {
       text-align: center;
       padding-top: 25px;
@@ -405,6 +480,7 @@
     }
     .mobile-view-buttons {
       flex-direction: column !important;
+      margin-left: 0 !important;
     }
     .schedule-dashboard-button {
       width: 100%;
@@ -426,9 +502,7 @@
     .col-7 {
       width: 100%;
     }
-    .flex-container .ps-2 {
-      display: inline-block;
-    }
+
     .forest .content .text-white {
       display: flex;
       justify-content: center;
@@ -438,12 +512,17 @@
       display: flex;
       justify-content: center;
     }
+    .start-week {
+      font-size: 20px;
+    }
     .row .ms-1 {
-      margin: 0 !important;
       text-align: center;
     }
+    .set_padd_lesson {
+      padding: 20px !important;
+    }
     .flex-container .ps-2 {
-      padding: 0px !important;
+      padding: 0px;
       text-align: center;
     }
 
@@ -517,7 +596,6 @@
   @media screen and (min-width: 1300px) {
     .titles_align_desktop {
       padding-top: 4px;
-      padding-bottom: 13px;
     }
     .mobile_align_dash {
       padding-left: 0 !important;
@@ -534,12 +612,7 @@
     .laptop-title {
       width: 60%;
     }
-    // .flex-left {
-    //   width: 100%;
-    // }
-    // .flex-right {
-    //   width: 100%;
-    // }
+
     .forest {
       padding-top: 0 !important;
       padding-left: 10px;
@@ -591,6 +664,7 @@
     }
   }
   @media screen and (min-width: 1500px) {
+   
     .enter-padd-button {
       padding: 10px 15px 10px 15px !important;
     }
@@ -802,12 +876,133 @@
 .purple-top-align {
   padding-top: 32px !important;
 }
-[alt="studentIcon"] {
+[alt='studentIcon'] {
   padding-top: 20px;
   padding-bottom: 20px;
 }
 .image-align_schedule {
   display: flex;
+}
+.email_title {
+  font-family: 'Sofia Pro';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 57px;
+  line-height: 24px;
+  color: #2b194c;
+  justify-content: center;
+  padding-top: 5rem;
+  padding-bottom: 4rem;
+}
+.Email_image {
+  justify-content: center;
+}
+.Email_img {
+  max-width: 100%;
+  width: 700px;
+}
+.email_containers {
+  background: #efeff1;
+}
+.email_container {
+  width: 100%;
+}
+.email_backgrounds {
+  background: url('../images/Frames.png') no-repeat;
+  background-position: top;
+}
+.email_image_para {
+  font-family: 'Sofia Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 39px;
+  text-align: center;
+  color: $color-white;
+  padding-top: 112px;
+}
+.email_img_order {
+  max-width: 500px;
+  margin: auto;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.email_image_order {
+  padding: 20px 16px 20px 16px;
+}
+.email_background {
+  background-color: #281a49;
+}
+.email_verifies {
+  justify-content: center;
+}
+.email_background_width {
+  max-width: 850px;
+  margin: auto;
+}
+
+.email_verify {
+  padding: 22px;
+  border-radius: 5px;
+  background-color: #ed1c70;
+  font-family: 'Sofia Pro';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 39px;
+  text-align: center;
+  color: $color-white;
+  width: 317px;
+}
+.email_border {
+  border: 2px solid #efeff1;
+  margin-top: 100px;
+  margin-bottom: 70px;
+}
+.email_image_paras {
+  font-family: 'Sofia Pro';
+  font-style: italic;
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 26px;
+  text-align: center;
+  color: $color-white;
+}
+.update_email {
+  font-family: 'Sofia Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 26px;
+  text-align: center;
+  text-decoration-line: underline;
+  color: $color-white;
+  padding-top: 55px;
+}
+.update_emails {
+  justify-content: center;
+  padding-bottom: 50px;
+}
+.update_email_align {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+@media screen and (max-width: 600px) {
+  .email_image_order {
+    padding: 10px !important;
+  }
+  .email_title {
+    font-size: 28px;
+  }
+  .email_background {
+    height: auto;
+    padding: 5px;
+  }
+  .update_email_align {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
 }
 .content {
   .scroll-layout {
@@ -817,20 +1012,28 @@
     padding-bottom: 20px;
   }
   @media screen and (min-width: 1500px) {
-    .child-set_container {
-      padding: 20px 48px 50px 30px !important;
-    }
     .set-container {
-      padding: 65px 50px 57px 65px !important;
+      padding: 20px 50px 57px 50px !important;
     }
-    .changes-container {
-      max-width: 450px;
+    .schedule_set_tutor_container {
+      max-width: 730px;
     }
-    .flex-left {
-      width: 100%;
+  }
+  @media screen and (min-width: 1500px) {
+    .schedule_set_tutor_container {
+      max-width: 730px;
     }
     .flex-right {
-      width: 100%;
+      width: 35%;
+    }
+    .flex-lefts {
+      width: 65% !important;
+    }
+    .flex-rights {
+      width: 35%;
+    }
+    .children-wrapper {
+      padding: 39.31px 39px 57px 43px;
     }
   }
   @media screen and (max-width: 1501px) {
@@ -838,26 +1041,94 @@
       width: 65%;
     }
     .flex-right {
-      width: 35%
+      width: 35%;
     }
-    .children-wrapper {
-      padding: 39.31px 39px 57px 43px;
+    .flex-lefts {
+      width: 62%;
+    }
+    .flex-rights {
+      width: 38%;
+    }
+  }
+  @media screen and (min-width: 1200px) and(max-width: 1323px) {
+    .buttonsdash-second {
+      margin-left: 0 !important;
+    }
+    .ExpWidth {
+      width: 121%;
     }
   }
   @media screen and (max-width: 1200px) {
     .tutor_cal_appoint {
       max-width: 50%;
     }
-  }
-  @media screen and (max-width: 1200px) {
     .flex-left {
       width: 100%;
     }
     .flex-right {
       width: 100%;
     }
+    .flex-lefts {
+      width: 100%;
+    }
+    .flex-rights {
+      width: 100%;
+    }
+  }
+  @media screen and (max-width: 1363px) {
+    .flex-lefts {
+      width: 100%;
+    }
+    .flex-rights {
+      width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    .schedule_lesson_day_unselect {
+      font-size: 15px;
+      padding: 10px;
+      justify-content: center;
+    }
+    .schedule_lesson_day {
+      font-size: 15px;
+      padding: 10px;
+      justify-content: center;
+    }
+    .dash_weekly-schedule-subtitle {
+      font-size: 20px;
+    }
+    .schedule-dashboard-buttons {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+  @media screen and (min-width: 601px) and (max-width: 830px) {
+    .media_align_width {
+      max-width: 390px;
+      margin: auto;
+    }
   }
   @media screen and (max-width: 600px) {
+    .containers-fluids {
+      padding: 5px 10px;
+    }
+    .schedule-lesson-border-widthss {
+      margin-left: auto !important;
+    }
+    .lessons-remain {
+      width: 100%;
+      margin-top: 1rem;
+    }
+    .inside-align-title {
+      margin-left: 7px !important;
+    }
+    .final_width_change {
+      display: contents;
+    }
+    .align_schedule_texts {
+      margin-left: 0px !important;
+    }
     .tutor_cal_appoint {
       max-width: 100%;
     }
@@ -866,6 +1137,26 @@
     }
     .image-align_schedule {
       flex-wrap: wrap;
+    }
+    .change_width_schedule {
+      font-size: 18px;
+    }
+    .schedule-card-col {
+      width: 100%;
+    }
+    .btn-custom {
+      display: contents;
+    }
+    .button_schedule {
+      width: 100%;
+      max-width: 330px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+    .schedule-cardss {
+      max-width: 100%;
     }
   }
 }

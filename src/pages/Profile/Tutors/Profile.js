@@ -72,11 +72,19 @@ const Profile = () => {
                   <p className='mt-1'>{user.email}</p>
                 </div>
               </div>
+
               <div className='col-6'>
-                <div className='row'>
-                  <h4 className='mb-1'>University</h4>
-                  <p className='mt-1'>{tutor?.university.trim()}</p>
-                </div>
+                {tutor?.university !== null && (
+                  <div className='row'>
+                    <h4 className='mb-1'>University</h4>
+                    <p className='mt-1'>
+                      {tutor?.university !== null
+                        ? tutor?.university.trim()
+                        : ''}
+                    </p>
+                  </div>
+                )}
+
                 <div className='row'>
                   <h4 className='mb-1'>Phone Number</h4>
                   <p className='mt-1'>{user.phone_number}</p>

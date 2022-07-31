@@ -31,56 +31,48 @@ const SelectLesson = ({
   }) => {
     return (
       <div
-        className='col-md-6 col-lg-4 pe-4 main-container '
+        className='col-12 col-xl-4 col-lg-6 col-md-6 col-sm-6 pe-2  select_top_align'
         onClick={() => {
           setClicked(i)
           setSelectedPlan(data)
         }}
       >
         <div
-          className={`schedule-card small-card lesson-container pt-2 ${
+          className={` schedule-cardss small-card lesson-container  ${
             i === clicked ? 'purple-border' : ''
           }`}
         >
-          <div className='container-fluid py-3'>
-            <div className='row'>
+          <div className='py-3 '>
+            <div className='d-flex'>
               <h1
                 className={`${
                   i === clicked
-                    ? 'text-purple lessontext'
+                    ? 'text-purpless lessontext'
                     : 'text-black lessontext'
                 }`}
               >
                 {lesson.charAt(0).toUpperCase() + lesson.slice(1)}
               </h1>
-              <span className={`${i === clicked ? 'tickmark' : 'tickNone'}`}>
-                <img src={scheduleTick} alt='' />
-              </span>
-            </div>
-            <div className='row customlabel'>
-              <div
-                className='col-4 schedule-lesson-border me-2 sublabel-1'
-                style={{ background: '#DEDEE1' }}
-              >
-                <p className='m-2 inner-txt' style={{ textAlign: 'center' }}>
-                  <strong>
-                    {duration} {t('minutes')}
-                  </strong>
-                </p>
+              <div className={`${i === clicked ? 'tickmark' : 'tickNone'}`}>
+                <img src={scheduleTick} alt='scheduleTick' />
               </div>
-              <div className='col-7 schedule-lesson-border ms-2 sublabel-2'>
-                <p
-                  className='m-2 inner-txt sublabel2-txt'
-                  style={{ textAlign: 'center' }}
+            </div>
+            <div className='customlabel'>
+              <div
+                className='schedule-lesson-border sublabel-1'
                 >
-                  <strong>
-                    {remaining} {t('lessons_remaining')}
-                  </strong>
-                </p>
+                <div className='minutes_schedule_text'>
+                  {duration} {t('minutes')}
+                </div>
+              </div>
+              <div className='schedule-lesson-border ms-2 sublabel-2'>
+                <div className=' sublabel2-txt'>
+                  {remaining} {t('lessons_remaining')}
+                </div>
               </div>
             </div>
           </div>
-          <div className='row container subWidth'>
+          {/* <div className='row container subWidth'>
             <p className='text-end text-danger mb-1 mt-text expires'>
               <span className='exp-txt'>{t('expires')}</span>
               <span className='colon-color'>:&nbsp;</span>
@@ -89,7 +81,7 @@ const SelectLesson = ({
                 {moment(expirationDate).format('MM-DD-YYYY')}
               </span>
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     )
@@ -99,15 +91,15 @@ const SelectLesson = ({
     <Layout>
       <div className='scroll-layout'>
         <div className='flex-container'>
-          <div className='container custom-children-container'>
-            <div className='children-wrapper flex-left'>
-              <h1 className='title'>{t('schedule_lesson')}</h1>
+          <div className='custom-children-container m-0 schedule_changess max-select_lesson'>
+            <div className='flex-left'>
+              <h1 className='title mt-0 title_aligns_slesson'>{t('schedule_lesson')}</h1>
               <p className='welcome-subtitle'>
                 {t('schedule_lesson_subtitle')}
               </p>
             </div>
             <div className='ExpWidth-con'>
-              <div className='row container ExpWidth'>
+              <div className='row ExpWidth'>
                 {planStatus.map((x, i) => (
                   <LessonCard
                     lesson={x.lesson_type}
@@ -121,10 +113,10 @@ const SelectLesson = ({
                 ))}
               </div>
             </div>
-            <div className='row container pt-3 btn-custom'>
+            <div className='row  pt-3 btn-custom '>
               <div className='col-auto'>
                 <button
-                  className='enter-btn btn-dash-return ms-0'
+                  className='enter-btn btn-dash-return ms-0 button_schedule'
                   onClick={returnToDashboard}
                 >
                   {t('return_to_dash')}
@@ -132,11 +124,11 @@ const SelectLesson = ({
               </div>
               <div className='col-auto'>
                 <button
-                  className='enter-btn btn-primary custom-btn-primary'
+                  className='enter-btn btn-primary button_schedule custom-btn-primary'
                   disabled={disabled}
                   onClick={() => setTabIndex(1)}
                 >
-                  <span>{t('continue_custom')}</span>
+                  <span className='me-2'>{t('continue_custom')}</span>
                   <span className='continue-arrow'>
                     <img src={continue_arrow} alt='' />
                   </span>

@@ -10,11 +10,6 @@ body
   display: none;
 }
 
-*{
-font-family: "Inter";
-}
-
-
 li.nav-item.active {
   border-radius: 15px;
 }
@@ -38,7 +33,6 @@ li.nav-item.active {
 .w-100 {
   width: 100% !important;
 }
-
 
 .dropzone {
   text-align: center;
@@ -370,13 +364,8 @@ fieldset:disabled .btn {
 .btn-primary {
   color: #fff !important;
   background-color: #6134af !important;
-  // border-color: #0d6efd;
 }
-// .btn-primary:hover {
-//   color: #fff !important;
-//   background-color: #ebe4ff !important;
-//   // border-color: #0a58ca;
-// }
+
 .btn-check:focus + .btn-primary,
 .btn-primary:focus {
   color: #fff;
@@ -1616,9 +1605,7 @@ textarea.form-control-lg {
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
-.form-check-input:checked {
 
-}
 .form-check-input:checked[type='checkbox'] {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
 }
@@ -2137,6 +2124,7 @@ textarea.form-control.is-invalid {
   display: inline-block;
   font-weight: 500;
   line-height: 2;
+  color: #212529;
   text-align: center;
   text-decoration: none;
   vertical-align: middle;
@@ -2897,6 +2885,7 @@ textarea.form-control.is-invalid {
   flex-shrink: 0;
   width: 100%;
   max-width: 100%;
+  
   margin-top: var(--bs-gutter-y);
 }
 
@@ -4220,11 +4209,12 @@ p {
 }
 
 .title {
-  font-family: 'Inter';
+  font-family: Inter;
   font-style: normal;
-  font-weight: 400;
+  font-weight: normal;
   font-size: 40px;
   line-height: 48px;
+  text-align: center;
   letter-spacing: -1px;
 }
 
@@ -4264,6 +4254,7 @@ tr,
 td,
 th {
   border-color: inherit;
+  
   border-width: 0;
 }
 
@@ -4271,6 +4262,8 @@ th {
   height: 80px;
   margin: auto !important;
   text-align: center;
+
+  
 }
 
 .tr-center > td {
@@ -4637,23 +4630,19 @@ a > span {
 }
 
 .main-title {
-  width: 350px;
-  height: 24px;
-  left: 5px;
-  top: 0px;
-  font-family: 'Inter';
+  font-family: Noto Serif;
   font-style: normal;
-  font-weight: 600;
+  font-weight: normal;
   font-size: 20px;
-  line-height: 24px;
-  letter-spacing: -0.6px;
-  color: #261A45;
-  margin-left: 6px;
+  line-height: 27px;
+  color: #000000;
+  margin-top: 0;
+  margin-bottom: 15px;
 }
 
 .flex-left {
   width: 65%;
-  
+ 
 }
 
 .flex-right {
@@ -4674,16 +4663,18 @@ a > span {
 }
 
 .welcome-subtitle {
-     left: 325px;
-    top: 228px;
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 24px;
-    letter-spacing: -0.6px;
-    color: #646481;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 21px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.6px;
+  color: #646481;
+  margin: 0px 0px 30px 0px;
 }
+
 .divider {
   border-bottom: 1px solid #e1e1e1;
   width: 85px;
@@ -4753,6 +4744,7 @@ a > span {
         .lesson-type {
           text-transform: capitalize;
         }
+        
         .btn {
           display: block;
           height: 44px;
@@ -4770,6 +4762,7 @@ a > span {
           line-height: 15px;
           box-shadow: 0px 0px 15px rgba(106, 28, 234, 0.1);
           border-radius: 9px;
+          
           text-align: center;
           cursor: pointer;
           display: flex;
@@ -4980,6 +4973,7 @@ a > span {
       line-height: 15px;
       box-shadow: 0px 0px 15px rgba(106, 28, 234, 0.1);
       border-radius: 9px;
+      
       text-align: center;
       cursor: pointer;
       display: flex;
@@ -5305,8 +5299,6 @@ a > span {
     font-size: 16px;
     line-height: 20px;
     color: #42413d;
-    margin-top: -18px;
-    padding-left: 8px;
   }
   .form-select__placeholder {
     font-family: 'Source Sans Pro';
@@ -5314,7 +5306,6 @@ a > span {
     font-size: 16px;
     line-height: 20px;
     color: #42413d4f;
-    padding-left: 8px;
   }
 }
 
@@ -5335,7 +5326,6 @@ a > span {
   }
 }
 
-
 .form-select__control {
   border-bottom: 1px solid #c4c4c4 !important;
   border-top: none !important;
@@ -5350,17 +5340,9 @@ a > span {
   background: #fefeff;
   border-bottom: 1px solid #c4c4c4 !important;
   box-sizing: border-box;
-  margin-top: 12px;
-  height:30px;
+  
 }
-.form-select__single-value:focus{
-  font-family: 'Source Sans Pro';
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 20px;
-  color: #42413d;
-  margin-top: -18px;
-}
+
 @media screen and (min-width: 901px) {
   .mobile-version {
     display: none !important;
@@ -5473,7 +5455,7 @@ textarea {
   align-items: center;
   cursor: pointer;
   p {
-    font-family: 'Inter';
+    font-family: Source Sans Pro;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;

@@ -12,7 +12,7 @@ const TutorImageRow = ({ tutor }) => {
     <React.Fragment>
       <div className='col-3 pe-3 me-3 image-align-tutor'>
         <img
-          className='img-fluid rounded-corners ps-1'
+          className='img-fluid rounded-corners ps-0'
           src={tutorProfile}
           alt=''
           style={{
@@ -24,17 +24,17 @@ const TutorImageRow = ({ tutor }) => {
       </div>
       <div className='col-3 pt-4 Text-align-tutor'>
         <div className='row'>
-          <h1 className='text-purple'>
+          <h1 className='text-purple select_tutors_aligns'>
             {tutor.first_name + ' ' + tutor.last_name.charAt(0) + '.'}
           </h1>
         </div>
         <div className='row'>
-          <h5 className='text-light-grey university-text-font '>
+          <h5 className='text-light-grey university-text-font select_tutors_aligns'>
             <div>{tutor.university}</div>
           </h5>
         </div>
         <div className='row'>
-          <h5 className='text-light-grey'>{tutor.major || ''}</h5>
+          <h5 className='text-light-grey select_tutors_aligns'>{tutor.major || ''}</h5>
         </div>
       </div>
     </React.Fragment>

@@ -13,7 +13,7 @@ const ReschedulingTutorModal = ({ setTabIndex, tutors, setSelectTutor }) => {
       setTabIndex(4)
     }
     return (
-      <div className='col-4 pe-5 pt-3'>
+      <div className='col-12 col-xl-3 col-lg-4 col-md-6 col-sm-3 pe-3'>
         <img
           src={tutor.gender === 'female' ? femaleAvatar : maleAvatar}
           className='img-fluid'

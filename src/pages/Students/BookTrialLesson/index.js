@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import Layout from '../../../components/Layout'
-// import "../../assets/styles/tutor.scss";
 import Loader from 'react-loader-spinner'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import Modal from '../../../components/Modal'

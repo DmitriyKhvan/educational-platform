@@ -566,7 +566,7 @@
   "review_cancellation_policy": "Review Cancellation Policy",
   "cancellation_policy": "At Nao Now, 1-on-1 classes can be rescheduled or cancelled more than 24 hours in advance without losing the lesson credit. You can then rebook the lesson at a more convenient time. You are able to reschedule or cancel your classes once per month of your subscription (ie. if you have a 1 month subscription, you can cancel/reschedule 1 time; if you have a 3 month subscription, you can cancel/reschedule 3 times, if you have a 6 month subscription, you can cancel/ reschedule 6 times, if you have a 12 month subscription, you can cancel/reschedule 12 times). Please minimize changes as much as possible.",
   "available_spots": "Available Spots",
-  "available_spots_subtitle": "Select one of these lesson spots to continue.",
+  "available_spots_subtitle": "Select one of these lesson slots to continue.",
   "set_your_availability": "Set your availability",
   "edit_your_shedule_below": "Edit your schedule below.",
   "settings": "Settings",
@@ -664,6 +664,12 @@
   "select_the_time": "Select the time",
   "saving_data_loader_content":"Saving ...",
   "tutor_certificates": "Certificates",
-  "already_lesson": "Already had a lesson?"
+  "already_lesson": "Already had a lesson?",
+  "show_tutors":"Show All Tutors",
+  "Favorite_tutors":"Show Only Favorite Tutors",
+  "email_copy_para": "Copyright © 2022 Nao Now , All rights reserved. You are receiving this email",
+  "email_copy_para1": " because you created a Nao Now account.",
+  "email_upadate_pre": "Update your email preferences",
+  "email_upadate_sub": "Unsubscribe"
 }
 

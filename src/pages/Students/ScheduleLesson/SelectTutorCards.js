@@ -4,15 +4,19 @@ import Modal from 'react-modal'
 import Layout from '../../../components/Layout'
 import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png'
 import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png'
-
+import Favorite from '../../../assets/images/Favorite.svg'
+import Vector from '../../../assets/images/Vectors.svg'
+import { useDispatch, useSelector } from 'react-redux'
 Modal.setAppElement('#root')
 
 const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
   const [t] = useTranslation('translation')
   const [isOpen, setIsOpen] = useState(false)
   const [modalSelectTutor, setModalSelectTutor] = useState({})
+  var tutors = useSelector(state => state.tutor.list)
   useEffect(() => {
     window.scrollTo(0, 0)
+
   }, [])
 
   const customStyles = {
@@ -131,43 +135,40 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
     }
 
     const tutorProfile = tutor.avatar
-      ? tutor.avatar
-      : tutor.gender === 'female'
-      ? femaleAvatar
-      : maleAvatar
+    ? tutor.avatar
+    : tutor.gender === 'female'
+    ? femaleAvatar
+    : maleAvatar
     return (
-      <div className='col-4 pe-5 pt-3'>
+        <div className='col-12 col-xl-4 col-lg-6 col-md-6 col-sm-6 pt-3 schedulebottom'>
+        <div className='favImg'>
         <img
-          src={tutorProfile}
-          className='img-fluid ps-4'
-          alt=''
-          style={{ width: '19vw' }}
-        />
-        <div className='container pt-3 text-center ps-0'>
-          <div className='row'>
-            <h1 className='text-purple justify-content-center mb-2'>{name}</h1>
-          </div>
-          <div className='row'>
-            <h5 className='text-light-grey justify-content-center'>
-              <strong>{tutor.university}</strong>
-            </h5>
-          </div>
-          <div className='row'>
-            <h5 className='text-light-grey justify-content-center'>
-              {tutor.major || ''}
-            </h5>
-          </div>
+            src={tutorProfile}
+            className='img-fluid schedule'
+            alt=''
+          />
+          <img src={Favorite} alt='FavoriteSvg' className='FavoriteSvg' />
+        </div>
+        <div className='pt-3 text-center'>
+          <div className='Learn-name-university'>
+            <h1 className='text-purple mt-0 select_tutors_aligns'>{name}</h1>
 
-          <div className='row container-fluid'>
+            <h5 className='text-light-grey mt-0 select_tutors_aligns'>
+              <strong className='unversity-font '>{tutor.university}</strong>
+            </h5>
+            <h5 className='text-light-grey select_tutors_aligns'>{tutor.major || ''}</h5>
+          </div>
+          <div className='Learn-buttons-style'>
             <button
-              className='enter-btn grey-border'
+              className='enter-btn btn-dash-return buttonss'
               onClick={onClickLearnMore}
             >
               {t('learn_more')}
             </button>
-          </div>
-          <div className='row container-fluid'>
-            <button className='enter-btn btn-primary' onClick={onClick}>
+            <button
+              className='enter-btn btn-primary buttonss'
+              onClick={onClick}
+            >
               {t('select_tutor')}
             </button>
           </div>
@@ -179,25 +180,56 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
     <Layout>
       <div className='scroll-layout'>
         <div className='flex-container'>
-          <div className='container lesson-wrapper'>
+          <div className='lesson-wrapper schedule_changess tutor_schedule_width '>
             <div className='pb-0'>
-              <h1 className='title'>{t('select_a_tutor')}</h1>
+              <h1 className='title mt-0'>{t('select_a_tutor')}</h1>
               <p className='welcome-subtitle'>{t('select_a_tutor_subtitle')}</p>
               <div className='row'>
                 <div className='col-auto'>
-                  <button
-                    className='enter-btn btn-dash-return'
-                    onClick={() => setTabIndex(1)}
-                  >
-                    {t('back')}
-                  </button>
-                </div>
-                <div className='col-auto pt-2'>
+                  <div className='combos ms-2'>
+                    <button
+                      className=' btn-dash-return combobutton'
+                      onClick={() => setTabIndex(1)}
+                    >
+                      {t('back')}
+                    </button>
+                    <div className='combo'>
+                      <div className='FavoritesTutors'>
+                        <img
+                          src={Vector}
+                          alt='VectorSvg'
+                          className='fa-angle-down'
+                        />
+                        <div id='Favorite-label'>{t('gender')}</div>
+                      </div>
+                    </div>
+
+                    <div className='combo'>
+                      <div className='FavoritesTutors'>
+                        <img
+                          src={Vector}
+                          alt='VectorSvg'
+                          className='fa-angle-downs'
+                        />
+                        <div id='Favorite-label'>{t('major')}</div>
+                      </div>
+                    </div>
+                    <div className='Favorites'>
+                      <div className='CheckBox-Favorite'>
+                        <div className='CheckBox-FavoriteColor'></div>
+                      </div>
+                      <div id='Favorite-label'>{t('Favorite_tutors')}</div>
+                    </div>
+                    <div className='FavoriteSTutors'>
+                      <div id='Favorite-label'>{t('show_tutors')}</div>
+                    </div>
+                  </div>
+                  <div className='col-auto pt-2'>
                   {/* <Select options={options} /> */}
                 </div>
+                </div>
               </div>
-
-              <div className='row ps-2 pt-4 tutor-overflow-scroll'>
+              <div className='row ps-2 pt-4 tutor-overflow-scroll tutor_schedule_widths '>
                 {tutors.map((x, i) => (
                   <SelectTutors tutor={x} key={i} />
                 ))}

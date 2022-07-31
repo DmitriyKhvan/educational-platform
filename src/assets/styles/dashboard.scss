@@ -1,5 +1,566 @@
 @import './variable.scss';
 @import url(https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900);
+.unversity-font {
+  font-weight: 600 !important;
+}
+.schedule-dashboard-buttons {
+  background: #ffffff;
+  border-radius: 5px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #261a45;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  text-decoration: none;
+  margin: 5px 10px;
+}
+.max-select_lesson {
+  width: 1180px;
+  height: 100vh;
+}
+.customlabel {
+  display: flex;
+  justify-content: space-around;
+}
+.dash_weekly-schedule-subtitle {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 21px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.6px;
+  color: #7048e8 !important;
+}
+.minutes_schedule_text {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.6px;
+  color: $color-black;
+  padding: 10px;
+}
+.schedule-cardss {
+  background: $color-white;
+  border: 0.5px solid $color-border-white;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+  border-radius: 16px;
+  padding: 10px 15px 10px 20px;
+  flex-direction: column;
+  width: 100%;
+  max-width: 322px;
+}
+.sublabel-1 {
+  background: #dedee1;
+}
+
+.sublabel2-txt {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.6px;
+  color: #261a45;
+  padding: 10px;
+}
+.schedule-dashboard-buttons {
+  padding: 15px !important;
+}
+.mobile-view-buttons {
+  margin-left: -2px;
+}
+.set-container_tutor {
+  max-width: 730px;
+  width: 100%;
+  padding: 20px 50px 0 50px !important;
+}
+.align_width_width {
+  max-width: 730px;
+  padding: 0px 50px 0 50px !important;
+}
+.child-set_container {
+  padding: 20px;
+}
+.schedule_change_padd {
+  padding: 18px 0px 18px 10px;
+  max-width: 394px;
+}
+.tutor_date_padd {
+  padding: 10px !important;
+}
+.align_button_sche_lesson {
+  border-radius: 8.125px !important;
+}
+.combobutton {
+  font-weight: 600 !important;
+  color: '#261A45' !important;
+  letter-spacing: '-0.2px';
+}
+::selection .customClass {
+  background-color: red;
+  color: white;
+}
+.combobutton {
+  margin-top: 0;
+  margin-right: 20px;
+  padding: 10px 19px;
+  margin-bottom: 8px;
+
+  border-radius: 5px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #261a45;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 15px;
+  text-decoration: none;
+  flex-wrap: nowrap;
+}
+.CheckBox-FavoriteColor {
+  background: #6133af;
+  border-radius: 3px;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  left: 4px;
+  top: 4px;
+}
+.fa-angle-downs {
+  position: absolute;
+  flex: none;
+  order: 1;
+  width: 17px;
+  height: 10px;
+  color: #dedee1;
+  left: 70px;
+  top: 15px;
+}
+.FavoriteSTutors {
+  display: flex;
+  border: 1px solid #dedee1;
+  padding: 6px 15px 20px 15px;
+  border-radius: 5px;
+  background: #ffffff;
+
+  height: 38px;
+}
+.FavoritesTutors {
+  display: flex;
+  border: 1px solid #dedee1;
+  padding: 6px 40px 24px 20px;
+  border-radius: 5px;
+  background: #ffffff;
+  position: relative;
+  height: 38px;
+}
+
+.favImg {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  position: relative;
+}
+.FavoriteSvg {
+  position: absolute;
+  right: 21px;
+  top: 23px;
+}
+#Favorite-label {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600 !important;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #261a45 !important;
+  padding-top: 2px;
+}
+.CheckBox-Favorite {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #dedee1;
+  border-radius: 5px;
+  margin-right: 10px;
+  margin-top: 3px;
+}
+.Favorites {
+  display: flex;
+  border: 1px solid #dedee1;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: #ffffff;
+  align-items: center !important;
+  height: 38px;
+  margin-right: 20px;
+}
+.welcome-subtitle {
+  font-size: 20px;
+}
+select::-ms-expand {
+  display: none;
+}
+select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+#All-Messages {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 15px;
+  width: 110px;
+  color: #261a45 !important;
+  height: 38px;
+  background: #ffffff;
+  border: 1px solid #dedee1;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  position: relative;
+}
+.fa-angle-down {
+  position: absolute;
+  flex: none;
+  order: 1;
+  width: 17px;
+  height: 10px;
+  color: #dedee1;
+  right: 10px;
+  top: 14px;
+}
+.combo {
+  position: relative;
+  padding-right: 20px;
+}
+.combos {
+  display: flex;
+}
+.buttonss {
+  width: 100px;
+  min-width: 117px;
+  height: 38px;
+  border-radius: 5px;
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
+  border-radius: 5px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #261a45;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 15px;
+  text-decoration: none;
+  margin: 10px 0 !important ;
+  flex-wrap: nowrap;
+}
+
+.pt-3 .text-center {
+  display: flex;
+  margin-top: 4px;
+
+  width: 100%;
+  max-width: 300px;
+}
+.Learn-name-university {
+  width: 100%;
+  text-align: left;
+  margin: 2px 0 10px 0 !important;
+}
+.schedule {
+  display: flex;
+  width: 100%;
+  max-width: 300px;
+  border-radius: 5px;
+  height: 400px;
+}
+.weekly-schedule-subtitle {
+  margin: 30px 0px 30px 0px;
+}
+.grey-border {
+  border: 0.5px solid $color-darker-grey !important;
+}
+.schedule-card-col,
+.calendar-card-col {
+  flex: 0 0 auto;
+}
+
+@media screen and (min-width: 850px) and (max-width: 1200px) {
+  .media_align_width {
+    max-width: 380px;
+    margin: auto;
+  }
+  .media_small_width_schedule {
+    justify-content: space-around;
+    margin: 0 !important;
+  }
+  .align_schedule_texts {
+    margin-left: -27px;
+  }
+  .align_schedule-width-dash {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .select_top_align {
+    margin-top: 20px;
+    padding-right: 0 !important;
+  }
+  .Learn-name-university {
+    text-align: center !important;
+  }
+  .summary-information {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .set-container_tutor {
+    padding: 15px !important;
+  }
+  .align_width_width {
+    padding: 15px !important;
+  }
+  .fa-angle-down {
+    position: absolute;
+
+    flex: none;
+    order: 1;
+    width: 17px;
+    height: 10px;
+    color: #dedee1;
+    left: 80px;
+    top: 14px;
+  }
+  .text-purple {
+    font-size: 30px;
+  }
+
+  .fa-angle-downs {
+    position: absolute;
+    flex: none;
+    order: 1;
+    width: 17px;
+    height: 10px;
+    color: #dedee1;
+    left: 70px;
+    top: 14px;
+  }
+  .Favorites {
+    margin-bottom: 10px;
+  }
+  .combos {
+    display: grid;
+    font-size: 15px;
+  }
+  .FavoritesTutors {
+    margin-bottom: 10px;
+  }
+  .schedule-dashboard-buttons {
+    margin-top: 0px;
+
+    padding: 0px 19px;
+    margin-bottom: 8px;
+  }
+  .btn-dash-return {
+    background: white !important;
+    color: #261a45 !important;
+  }
+  .combos {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .buttonss {
+    width: 100%;
+  }
+  .text-center {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .Learn-buttons-style {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .select_top_align {
+    margin-top: 20px;
+  }
+  .favImg {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    position: relative;
+  }
+  .schedulebottom {
+    margin-right: auto;
+    padding-right: 0px !important;
+  }
+  .availability-wrapper {
+    padding: 20px;
+  }
+
+  .text-purple {
+    font-size: 30px;
+  }
+  .text-center {
+    flex-wrap: wrap;
+  }
+  .Learn-buttons-style {
+    width: 100%;
+  }
+  .buttonss {
+    width: 100% !important;
+  }
+  .lesson-wrapper {
+    margin-left: auto;
+  }
+  .lesson-wrapper .pb-0 {
+    padding-bottom: 0 !important;
+  }
+  .lesson-wrapper .tutor-overflow-scroll.ps-2 {
+    padding-left: 0px !important;
+  }
+
+  .lesson-wrapper .favImg {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .lesson-wrapper .pt-3 .text-center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+@media screen and (min-width: 601px) {
+  .summary-information {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .combos {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .buttonss {
+    width: 130px;
+  }
+  .container .lesson-wrapper {
+    margin-left: 35px;
+  }
+}
+
+.weekly-schedule {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 30px;
+  line-height: 36px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.6px;
+  color: $color-black;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.medium-card {
+  width: 500px;
+}
+
+.weekly-schedule-scroll {
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.outer {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+
+.inner {
+  margin: auto;
+}
+
+.max-cta-card {
+  height: 235px;
+}
+
+.modal-scroll {
+  height: 50vh;
+  overflow-y: scroll;
+}
+
+.schedule-overflow-scroll {
+  max-height: 85vh;
+  overflow-y: scroll;
+}
+
+.weekly-schedule-scroll {
+  height: 65vh;
+  overflow-y: scroll;
+}
+
+.modal-card {
+  border: 0.5px solid $color-grey3;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+  border-radius: 16px;
+  padding: 25px 35px;
+}
+
+.page-card {
+  border: 0.5px solid $color-grey3;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+  border-radius: 16px;
+  padding: 31px 57px 26px 57px;
+  display: flex;
+  flex-direction: column;
+  div {
+    position: relative;
+  }
+  .vertical-align-text {
+    padding: 50px 10px;
+  }
+  .vertical-align-card {
+    padding: 25px 10px;
+  }
+
+  .title {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: -0.6px;
+  }
+
+  img {
+    margin-bottom: 31px;
+  }
+}
 
 .dashboard_cal-scl_button {
   display: inline-block;
@@ -51,9 +612,7 @@
 .text-blacks {
   color: #281b49 !important;
 }
-.row .alignmobile {
-  margin-left: 9px;
-}
+
 .inside-align-title-time {
   color: #261a45 !important;
 }
@@ -64,6 +623,9 @@ div.time-style {
 }
 .schedule-lesson-border-widthss {
   background: #ebe4ff;
+  max-width: 97px;
+  margin-left: 5px;
+  margin-right: 7px;
 }
 .Lesson-styles {
   text-align: 'center';
@@ -205,7 +767,7 @@ div.time-style {
   font-weight: 600;
   font-size: 15px;
   line-height: 18px;
-  letter-spacing: -0.2px;
+
   color: #261a45;
   display: flex;
   flex-direction: row;
@@ -213,9 +775,10 @@ div.time-style {
   align-items: center;
   padding: 10px 15px;
   text-decoration: none;
-  margin-right: 10px;
+  margin-right: 2px;
   flex-wrap: nowrap;
   margin-left: 9px;
+  max-width: 155px;
 }
 .ReactModal__Overlay {
   background-color: rgba(255, 255, 255, 0.25) !important;
@@ -343,8 +906,12 @@ div.time-style {
   .alignmobile {
     align-items: center;
   }
-  .Text-align-tutor {
-    width: 50%;
+
+  .child-set_container {
+    padding: 20px;
+  }
+  .set-container {
+    padding: 20px 50px 57px 50px !important;
   }
 }
 @media screen and (max-width: 1120px) {
@@ -359,18 +926,10 @@ div.time-style {
   .Text-align-tutor {
     width: 50%;
   }
-  .schedule-lesson-border-widthss {
-    margin-left: auto !important;
-  }
-  .lessons-remain {
-    margin-top: 10px !important;
 
-    width: 100%;
-  }
   .inside-align-title-time {
     align-items: center;
     width: 100%;
-    margin-top: 10px !important;
   }
   .alignmobile {
     justify-content: center;
@@ -491,9 +1050,7 @@ div.time-style {
   .align-flex-direction {
     padding-bottom: 15px;
   }
-  .rounded-corners {
-    max-width: 126px;
-  }
+
   .rounded-corners-round {
     max-width: 126px;
   }
@@ -527,16 +1084,6 @@ div.time-style {
   border-radius: 8px;
 }
 
-.time-card {
-  border: 0.5px solid #f2f2f2;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
-  border-radius: 16px;
-  padding: 15px;
-  display: flex;
-
-  flex-direction: column;
-}
-
 @media screen and (max-width: 900px) {
   .availability-wrapper {
     padding: 20px;
@@ -554,12 +1101,18 @@ div.time-style {
   .flex-right {
     width: 100%;
   }
+  .flex-lefts {
+    width: 100%;
+  }
+  .flex-rights {
+    width: 100%;
+  }
   .mobile-view-align {
     width: 100%;
     padding-right: 0 !important;
   }
   .Text-align-tutor {
-    width: 50%;
+    width: 100%;
   }
   .mobile-width-subtitle {
     padding-right: 0 !important;
@@ -580,6 +1133,7 @@ div.time-style {
 }
 .buttons-Lesson-shape {
   width: 100%;
+  padding-bottom: 20px;
 }
 .time-card {
   border: 0.5px solid $color-grey3;
@@ -591,9 +1145,102 @@ div.time-style {
   display: flex;
   flex-direction: column;
 }
-
 .schedule-image {
   margin-top: 30px;
+}
+.page-card_schedule {
+  border-radius: 16px;
+  padding: 20px 22px !important;
+  display: flex;
+  flex-direction: column;
+  max-width: 371px;
+}
+.font_schedule_text {
+  font-size: 17px !important;
+  padding-bottom: 16px;
+}
+.round_schedule-width {
+  border: 4px solid #261a45;
+}
+.schedule_images-width {
+  max-width: 65px;
+  border-radius: 50% !important;
+}
+.back_schedule-button {
+  background: #b099d7 !important;
+}
+.cols-image-schedule {
+  width: 65px;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  margin-left: inherit;
+}
+.cancel_schedule-lesson {
+  max-width: 80px;
+}
+.join_schedule-lesson {
+  max-width: 115px;
+}
+.re_schedule-lesson {
+  max-width: 114px;
+}
+.schedule_copy-button {
+  background: #ffffff;
+  border-radius: 5px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.938rem;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #261a45;
+  align-items: center;
+  padding: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+}
+.align_schedule-lesson {
+  margin: 0;
+  justify-content: space-around;
+}
+@media screen and (max-width: 600px) {
+  .mobilefinal-image{
+    margin-right: 0 !important;
+  }
+  .font_schedule_text{
+    padding-top: 15px;
+  }
+  .page-card_schedule {
+    margin: auto;
+  }
+  .mobile-schedule_dash {
+    width: 100% !important;
+  }
+  .cols-image-schedule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100% !important;
+    padding-bottom: 20px;
+    margin: auto;
+  }
+  .join_schedule-lesson {
+    max-width: 100%;
+    margin-top: 1rem;
+    margin-left: 0 !important;
+  }
+  .re_schedule-lesson {
+    max-width: 100%;
+    margin-top: 1rem;
+    margin-left: 0 !important;
+  }
+  .cancel_schedule-lesson {
+    max-width: 100%;
+  }
+
 }
 
 @media screen and (min-width: 1500) {
@@ -653,6 +1300,7 @@ div.time-style {
   text-decoration: none;
   margin: 5px 10px;
   flex-wrap: nowrap;
+  cursor: pointer;
 }
 
 .form-check-wrapper {
@@ -694,6 +1342,7 @@ div.time-style {
   text-decoration: none;
   margin: 5px 10px;
   flex-wrap: nowrap;
+  cursor: pointer;
 }
 
 .form-check-wrapper {
@@ -797,14 +1446,41 @@ div.time-style {
   flex-direction: column;
 }
 
+// Responsive Style
 @media screen and (max-width: 600px) {
+  .tutor_date_padd {
+    max-width: 100%;
+  }
+  .inside-align-title-time {
+    margin-left: 0 !important;
+  }
+  .confirm-tutor-enter-btn {
+    margin-right: 8px;
+  }
+  .schedule_card_aligns {
+    width: 100%;
+  }
+  .dash_child-set_container {
+    padding: 20px !important;
+  }
+  .flex-container .ps-0 {
+    justify-content: center;
+  }
+  .child-set_container {
+    padding: 0;
+  }
+  .weekly-schedule-subtitle {
+    font-size: 25px;
+  }
+  .dash_width {
+    width: 100%;
+  }
   .summary-information {
     grid-template-columns: repeat(1, 1fr);
   }
-}
-
-// Responsive Style
-@media screen and (max-width: 600px) {
+  .schedule_changess {
+    padding: 20px !important;
+  }
   .images-align {
     width: auto !important;
   }
@@ -828,7 +1504,6 @@ div.time-style {
     display: flex;
   }
   .text-black {
-    // width: 100%;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -907,12 +1582,12 @@ div.time-style {
 }
 
 .schedule-overflow-scroll {
-  height: 69vh;
+  max-height: 70vh;
   overflow-y: scroll;
 }
 
 .tutor-overflow-scroll {
-  height: 65vh;
+  max-height: 60vh;
   overflow-y: scroll;
 }
 
@@ -1092,6 +1767,7 @@ div.time-style {
         text-decoration: none;
         margin: 5px 10px;
         flex-wrap: nowrap;
+        cursor: pointer;
       }
     }
   }

@@ -495,5 +495,30 @@
   "swal_fire_title_conform_msg2": "성공",
   "select_the_time": "시간 선택",
   "saving_data_loader_content":"저장 중...",
-  "already_lesson": "이미 수업이 있었나요?"
+  "already_lesson": "이미 수업이 있었나요?",
+  "show_tutors":"모든 교사 보기",
+  "Favorite_tutors":"좋아하는 교사만 표시",
+  "email_copy_para": "Copyright © 2022 나오나우 , All rights reserved. Nao Now 계정을 만드셨기 때문에 이 이메일",
+  "email_copy_para1": "을 받으셨습니다.",
+  "email_upadate_pre": "이메일 환경설정 업데이트",
+  "email_upadate_sub": "구독 취소",
+  "available_spots":"이용 가능한 자리",
+  "available_spots_subtitle": "계속하려면 이 강의 슬롯 중 하나를 선택하세요.",
+  "schedule_card": "좋아하는 교사 중 한 명과 수업을 예약하십시오.",
+  "student_dashboard_feedback": "수업에 대한 피드백을 제공합니다.",
+  "student_dashboard_progress": "내 진행 상황을 봅니다.",
+  "student_dashboard_submit_feedback_btn": "피드백 제출 →",
+  "student_dashboard_view_progress_btn": "완료된 수업 →",
+  "weekly_schedule": "주간 일정표",
+  "student_dashboard_total_lessons": "이번 주에 {{total_lessons}} 수업{{t}}이 있습니다.",
+  "student_dashboard_edit_schedule": "내 일정 수정",
+  "student_dashboard_view_all_lessons": "모든 강의 보기 →",
+  "student_dashboard_welcome": "여기요, {{name}} 👋",
+  "student_dashboard_subtitle": "멋진 하루 보내시기 바랍니다.",
+  "schedule_lesson_subtitle": "지금 1:1 수업을 예약할 수 있습니다.",
+  "return_to_dash": "대시보드로 돌아가기",
+  "continue_custom": "계속하다",
+  "lessons_remaining": "남은 수업"
+  
+
 }

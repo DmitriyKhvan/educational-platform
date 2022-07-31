@@ -1,7 +1,7 @@
 @import "./variable.scss";
 
 .purple-border {
-  border: 3px solid #7048e8 !important;
+  border: 2px solid #6133AF !important;
 }
 
 .schedule-lesson-border {
@@ -21,6 +21,7 @@
   box-sizing: border-box;
   border-radius: 10px;
   color: #261a45;
+  cursor: pointer;
 }
 
 .schedule-card {
@@ -104,6 +105,7 @@
         width: 220px;
         text-align: center;
         text-decoration: none;
+        cursor: pointer;
       }
     }
   }
@@ -236,6 +238,7 @@
     width: 115px;
     text-align: center;
     text-decoration: none;
+    cursor: pointer;
     &.right {
       margin-left: auto;
     }

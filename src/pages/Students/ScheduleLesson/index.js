@@ -21,8 +21,7 @@ const ScheduleLesson = () => {
 
   useEffect(() => {
     dispatch(getPlanStatus())
-    dispatch(getTutorList(schedule))
-  }, [dispatch, schedule])
+    }, [dispatch, schedule])
 
   return (
     <React.Fragment>
@@ -38,6 +37,8 @@ const ScheduleLesson = () => {
           setTabIndex={setTabIndex}
           duration={selectedPlan.duration}
           setSchedule={setSchedule}
+          schedule={schedule}
+          tabIndex={tabIndex}
         />
       ) : tabIndex === 2 ? (
         <SelectTutorCards
