@@ -104,12 +104,16 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
 
   const confirmLesson = async () => {
     const res = await dispatch(createAppointment(data))
-    console.log(JSON.stringify(res, null, 2))
     if (res.type === ActionTypes.CREATE_APPOINTMENT_INFO.SUCCESS) {
-      setNewAppointment(res.payload.groups[0])
-      setDate(moment(res.payload.groups[0].start_at).unix())
-      setIsConfirmed(true)
-      window.scrollTo(0, 0)
+      const { payload } = await fetchAppointments()
+      const newAppt = payload.filter(x => x.id === res.payload.groups[0].id)[0]
+      console.log(newAppt)
+      if (newAppt) {
+        setNewAppointment(res.payload.groups[0])
+        setDate(moment(res.payload.groups[0].start_at).unix())
+        setIsConfirmed(true)
+        window.scrollTo(0, 0)
+      }
     } else {
       if (res.payload.error.messages && res.payload.error.messages.length) {
         NotificationManager.error(
