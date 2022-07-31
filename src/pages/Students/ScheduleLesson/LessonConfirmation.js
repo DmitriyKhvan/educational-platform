@@ -45,10 +45,9 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
   }
 
   const fetchAppointments = async () => {
-    const queryObj = {
-      student_id: user.student_profile.id
-    }
-    return await dispatch(getAppointments(queryObj))
+    return await dispatch(
+      getAppointments()
+    )
   }
 
   const weekArr = Array.apply(null, Array(7)).map((_, i) =>
@@ -109,8 +108,8 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
       const newAppt = payload.filter(x => x.id === res.payload.groups[0].id)[0]
       console.log(newAppt)
       if (newAppt) {
-        setNewAppointment(res.payload.groups[0])
-        setDate(moment(res.payload.groups[0].start_at).unix())
+        setNewAppointment(newAppt)
+        setDate(moment(newAppt.start_at).unix())
         setIsConfirmed(true)
         window.scrollTo(0, 0)
       }
