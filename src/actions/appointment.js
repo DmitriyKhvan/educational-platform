@@ -1,5 +1,12 @@
 import AppointmentApi from '../api/AppointmentApi'
 import ActionTypes from '../constants/actionTypes'
+
+// {
+//     "lesson_id": "1",
+//     "tutor_id": "1",
+//     "start_at": "2021-05-10T08:30:00",
+//     "duration": 30
+// }
 export function getAppointments(params = {}) {
   return dispatch => {
     dispatch(request())

@@ -46,8 +46,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
 
   const fetchAppointments = async () => {
     const queryObj = {
-      student_id: user.student_profile.id,
-      from: new Date().toISOString()
+      student_id: user.student_profile.id
     }
     return await dispatch(getAppointments(queryObj))
   }
@@ -112,7 +111,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
       if (newAppt) {
         setNewAppointment(newAppt)
         setDate(moment(newAppt.start_at).unix())
-        setIsConfirmed(true) 
+        setIsConfirmed(true)
         window.scrollTo(0, 0)
       }
     } else {
