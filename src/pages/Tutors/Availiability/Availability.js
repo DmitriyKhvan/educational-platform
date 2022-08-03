@@ -219,7 +219,7 @@ export const Availability = ({ isAdmin, user_id }) => {
             ></LoadingOverlay>
           </DarkBackground>
           <div className='row justify-content-start'>
-            <div className='col-4 ms-5 pe-3 border-availabilities_right pb-4'>
+            <div className='col-4 pe-3 border-availabilities_right pb-4'>
               <h2 className='date_override_title mt-4'>
                 {t('add_date_overrides')}
               </h2>
@@ -258,8 +258,8 @@ export const Availability = ({ isAdmin, user_id }) => {
                 />
               </div>
             </div>
-            <div className='col-7'>
-              <div>
+            <div className='col-8 over-ride-date-main'>
+              <div className='over-ride-date'>
                 {Object.keys(result).map((data, ids) => {
                   let iteratingData = result[data]
                   return (
