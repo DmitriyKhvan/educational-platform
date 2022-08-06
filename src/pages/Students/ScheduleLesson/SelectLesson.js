@@ -41,62 +41,60 @@ const SelectLesson = ({
       )
       setExpDate(Difference_In_Days)
     }, [])
-
+    console.log({ expDate g})
     return (
-      expDate < 0 && (
-        <div className='col-md-6 col-lg-4 pe-4 main-container  schedule-lesson'>
-          <div
-            className={`schedule-card small-card lesson-container pt-2 ${
-              i === clicked
-                ? 'purple-border'
-                : 'schedule-card small-card lesson-container pt-2'
-            }`}
-            onClick={() => {
-              setClicked(i)
-              setSelectedPlan(data)
-            }}
-          >
-            <div className='container-fluid'>
-              <div className='row'>
-                <h1
-                  className={`${
-                    i === clicked
-                      ? 'text-black lessontext'
-                      : 'text-black lessontext'
-                  }`}
-                >
-                  {lesson.charAt(0).toUpperCase() + lesson.slice(1)}
-                </h1>
-              </div>
-              <div className='row customlabel'>
-                <p className='remaining-lsn' style={{ textAlign: 'center' }}>
-                  {remaining} {t('lessons_remaining')}
-                </p>
-
-                <p className='time_remaining' style={{ textAlign: 'center' }}>
-                  {duration} M
-                </p>
-              </div>
+      <div className='col-md-6 col-lg-4 pe-4 main-container  schedule-lesson'>
+        <div
+          className={`schedule-card small-card lesson-container pt-2 ${
+            i === clicked
+              ? 'purple-border'
+              : 'schedule-card small-card lesson-container pt-2'
+          }`}
+          onClick={() => {
+            setClicked(i)
+            setSelectedPlan(data)
+          }}
+        >
+          <div className='container-fluid'>
+            <div className='row'>
+              <h1
+                className={`${
+                  i === clicked
+                    ? 'text-black lessontext'
+                    : 'text-black lessontext'
+                }`}
+              >
+                {lesson.charAt(0).toUpperCase() + lesson.slice(1)}
+              </h1>
             </div>
-            <hr className='line' />
-            <div className='row container expiry-days'>
-              <p className='expires'>
-                {expDate > 0 ? (
-                  <>
-                    <span className='exp-txt exp-txt-purple'>{`${t(
-                      'expires'
-                    )}${' '}${expDate + ' ' + 'Days'}`}</span>
-                  </>
-                ) : (
-                  <>
-                    <span className='exp-txt exp-pad'>{t('expired')}</span>
-                  </>
-                )}
+            <div className='row customlabel'>
+              <p className='remaining-lsn' style={{ textAlign: 'center' }}>
+                {remaining} {t('lessons_remaining')}
+              </p>
+
+              <p className='time_remaining' style={{ textAlign: 'center' }}>
+                {duration} M
               </p>
             </div>
           </div>
+          <hr className='line' />
+          <div className='row container expiry-days'>
+            <p className='expires'>
+              {expDate > 0 ? (
+                <>
+                  <span className='exp-txt exp-txt-purple'>{`${t(
+                    'expires'
+                  )}${' '}${expDate + ' ' + 'Days'}`}</span>
+                </>
+              ) : (
+                <>
+                  <span className='exp-txt exp-pad'>{t('expired')}</span>
+                </>
+              )}
+            </p>
+          </div>
         </div>
-      )
+      </div>
     )
   }
 
