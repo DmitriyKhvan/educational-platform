@@ -3,7 +3,6 @@ import moment from 'moment'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { approveAppointment, cancelAppointment } from '../actions/appointment'
-import Notification from './NotificationManager'
 
 const BookingRequest = ({ lessonApprovals, fetchAppointments }) => {
   const [t] = useTranslation()
@@ -11,13 +10,11 @@ const BookingRequest = ({ lessonApprovals, fetchAppointments }) => {
 
   const onClickApproval = async ({ target }) => {
     await dispatch(approveAppointment(target.id))
-    Notification.success('Lesson Approved Successfully', t)
     fetchAppointments()
   }
 
   const onClickDecline = async ({ target }) => {
     await dispatch(cancelAppointment(target.id))
-    Notification.success('Lesson Declined Successfully', t)
     fetchAppointments()
   }
 
@@ -33,7 +30,7 @@ const BookingRequest = ({ lessonApprovals, fetchAppointments }) => {
           <div className='page-card grey-border bg-white small-card mt-4 p-3 pt-0 ps-4'>
             <h1 className='text-black'>{apt.lesson.description}</h1>
             <p className='text-light-grey mt-0'>
-              {moment.unix(date).format('ddd')} at {startTime} → {endTime}
+              {moment.unix(date).format('LL')} at {startTime} → {endTime}
             </p>
             <div className='row ps-3'>
               <div
