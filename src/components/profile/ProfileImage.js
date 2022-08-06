@@ -21,6 +21,8 @@ const ProfileImage = () => {
       setProfileImage(femaleAvatar)
     } else if (user.gender === 'male') {
       setProfileImage(maleAvatar)
+    } else {
+      setProfileImage(maleAvatar)
     }
   }, [user])
 
@@ -28,7 +30,6 @@ const ProfileImage = () => {
     try {
       const res = await dispatch(uploadAvatar(null, user.id))
       if (res.type === 'UPLOAD_AVATAR_SUCCESS') {
-        
         if (user.gender === 'female') {
           setProfileImage(femaleAvatar)
         } else {
