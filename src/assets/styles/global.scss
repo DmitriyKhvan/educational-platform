@@ -5043,7 +5043,7 @@ a > span {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 3000;
+  z-index: 999;
 
   .modal-content {
     background: #ffffff;

@@ -40,7 +40,7 @@ const RescheduleConfirmationModal = ({
       return
     }
 
-    queryObj.from = new Date().toISOString()
+    queryObj.from = new Date()
 
     dispatch(getAppointments(queryObj))
   }

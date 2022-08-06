@@ -11,46 +11,92 @@ import AvailabilityPickerOver from '../pages/Tutors/Availiability/AvailabilityPi
 import CloseIcon from '../assets/images/Close icon.svg'
 import { useSelector } from 'react-redux'
 import ClipLoader from 'react-spinners/ClipLoader'
+import moment from 'moment'
+import { uniqpBy } from '../utils/common'
+import { v4 as uuid } from 'uuid'
+import NotificationManager from '../../src/components/NotificationManager'
 const AvailabilityOverrideModal = ({
   showModal,
   toggleModal,
   user_id,
-  isAdmin
+  isAdmin,
+  disablePlusBtn ,
+  setDisablePlusBtn,
+  isteachAddHours,
+  setIsTeachAddHours,
+  setCurrentToTime,
+  currentToTime,
+  gatherAvailabilities,
+  setGatherAvailabilities,
+  type,
+  id
 }) => {
   const [t] = useTranslation()
   const avail = useContext(AvailProv)
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(null)
-  const [gatherAvailabilities, setGatherAvailabilities] = useState([])
-  const [hasValidTimes, setHasValidTimes] = useState(false)
+  const [hasValidTimes, setHasValidTimes] = useState(false);
+  const [canAddSchedule, toggleAddSchedule] = useState(true);
+
+
   const dispatch = useDispatch()
   const tutorInfo = useSelector(state => state.tutor.info)
   const user = useSelector(state =>
     isAdmin ? state.admin.user : state.users.user
   )
+  const [loadings, setLoadings] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [currentDatas, setCurrentDatas] = useState([])
+
   useEffect(() => {
     if (user && user.tutor_profile)
       dispatch(getTutorInfo(user.tutor_profile.id))
   }, [user])
-  const [currentDatas, setCurrentDatas] = useState([])
+
   useEffect(() => {
     setCurrentDatas(tutorInfo?.exceptiondates)
   }, [tutorInfo])
-  const [loadings, setLoadings] = useState(false)
-  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    DateOverrides(startDate)
+  }, [startDate])
+
+  useEffect(() => {
+    DateOverrides()
+  }, [])
+
+  const DateOverrides = (startDates) => {
+    const availableDate = tutorInfo?.exceptiondates?.map(el => el.date).filter(elm => elm.substr(0, 7) === moment(startDates || new Date()).format('yyyy-MM-DD').substr(0, 7));
+    const uniqAvailableDate = uniqpBy(availableDate);
+
+    if (uniqAvailableDate.indexOf(moment(startDates || new Date()).format('yyyy-MM-DD')) !== -1) {
+      toggleAddSchedule(true);
+      setDisablePlusBtn(false)
+    } 
+    else {
+      toggleAddSchedule(uniqAvailableDate.length < 2);
+      setDisablePlusBtn(uniqAvailableDate.length < 2 ? false : true )
+    }
+  }
   const onSubmits = async () => {
     setTimeout(() => {
       setLoading(true)
       gatherAvailabilities.map((date, index) => {
-        date.date = startDate
+        date.date = moment(startDate).format('yyyy-MM-DD')
+      })
+
+      var gather_ = currentDatas.filter((el, i) => {
+        if (el.date !== gatherAvailabilities[0].date) {
+          return el;
+        }
       })
       var updatedData = [...gatherAvailabilities]
-      currentDatas.map(data => {
+      gather_.map(data => {
         var temp = {}
         var time = []
         time.push(data)
         temp.slots = time
-        temp.date = data.date
+        temp.date = moment(data.date).format('yyyy-MM-DD') //2022-07-28 //2022-01-30
         updatedData.push(temp)
       })
       dispatch(updateExceptionDates(updatedData, user_id))
@@ -61,9 +107,85 @@ const AvailabilityOverrideModal = ({
       dispatch(getTutorInfo(user.tutor_profile.id))
     }, 2000)
   }
+
+  const handleMonthChange = (selectmonth) => {
+    DateOverrides(selectmonth)
+    setStartDate(selectmonth)
+  }
+
+ const updateGatherAvail = (data, from) =>{
+  setGatherAvailabilities(data,'')
+ }
+ const validateTimesSelected = (availability, day) => {
+  /* flat map the time slots array **/
+  const timeSlots = availability.flatMap(v => {
+    if (v.day === day) {
+      return v.slots
+    }
+  })
+  for (let i = 0; i < timeSlots.length; i++) {
+    if (timeSlots[i]?.from > timeSlots[i]?.to) {
+      setHasValidTimes(true)
+      NotificationManager.error(
+        t(
+          'Failed to set time. Please make sure times selected are sequential.'
+        ),
+        t
+      )
+      return
+    } else if (timeSlots[i + 1]?.from < timeSlots[i]?.to){
+      NotificationManager.error(
+        t(
+          'Failed to set time. Please make sure times selected are sequential.'
+        ),
+        t
+      )
+      setHasValidTimes(true)
+      return
+    }
+    else if(timeSlots[i] != undefined && timeSlots[i]?.from === timeSlots[i]?.to) {
+        NotificationManager.error(
+          t(
+            'Failed to set time. Please make sure times selected are sequential.'
+          ),
+          t
+        )
+        setHasValidTimes(true)
+        return
+    }
+    else {
+      setHasValidTimes(false)
+    }
+  }
+}
+ const AvailabilitySlots = (fromTime,toTime,id,day) =>{
+  const from = fromTime
+  const to = toTime
+  const avail = { id, day, slots: [{ from, to }] }
+  const data = gatherAvailabilities.filter(el => el.id === id)[0] ? gatherAvailabilities.map(el => {
+    if(el.id === id) {
+      return avail
+    }
+    return el
+  }) : [...gatherAvailabilities, ...[avail]];
+  setGatherAvailabilities(data,'exceptiondates');
+  for (const availability of data) {
+    const availId = availability.id
+    if (availId === id) {
+      if(to >= '23:30'){
+        setDisablePlusBtn(true)
+      }else{
+        setDisablePlusBtn(false)
+      }
+      availability.slots[0] = { from, to }
+      validateTimesSelected(data, day);
+      setGatherAvailabilities(data, "exceptiondates")
+    }
+  }
+}
   return (
     <>
-      {showModal && (
+      { (
         <div className='modal fade' id='overrideModal '>
           <div className='modal-dialog modalSize'>
             <div className='modal-content p-0'>
@@ -88,8 +210,8 @@ const AvailabilityOverrideModal = ({
                 </p>
               </div>
               <div className='modal-body pb-0 m-0'>
-                <div className='container'>
-                  <div className='row'>
+                <div className='container custom-height'>
+                  <div className='row custom-height'>
                     <div className='col-5 border-availabilities-right'>
                       <DatePicker
                         dateFormat='d MMM yyyy'
@@ -99,26 +221,45 @@ const AvailabilityOverrideModal = ({
                         startDate={startDate}
                         minDate={new Date()}
                         endDate={endDate}
+                        onMonthChange={handleMonthChange}
                         inline
                       />
                     </div>
                     <div className='col align-override-ui'>
                       <div className='ms-3 check'>
-                        <div className='selct-time '>{t('select_the_time')}</div>
+                        <div>
+                        <div className='ps-3 pb-2 selected-date'> {moment(startDate).format('DD MMM yyyy')}</div>
+                        <div className='ms-3 selct-time '>{t('select_the_time')}</div>
                         <AvailabilityProvider
                           date={startDate}
                           setGatherAvailabilities={setGatherAvailabilities}
                           gatherAvailabilities={gatherAvailabilities}
+                          setDisablePlusBtn ={setDisablePlusBtn}
+                          isteachAddHours ={isteachAddHours}
+                          setIsTeachAddHours ={setIsTeachAddHours}
+                          AvailabilitySlots = {AvailabilitySlots}
+                          type={type}
+                          validateTimesSelected={validateTimesSelected}
                         >
                           <AvailabilityDayRowOver
+                            startDate={startDate}
                             date={startDate}
                             setGatherAvailabilities={setGatherAvailabilities}
                             gatherAvailabilities={gatherAvailabilities}
                             hasValidTimes={hasValidTimes}
                             setHasValidTimes={setHasValidTimes}
+                            setDisablePlusBtn ={setDisablePlusBtn}
+                            disablePlusBtn ={disablePlusBtn}
+                            canAddSchedule= {canAddSchedule}
+                            AvailabilitySlots = {AvailabilitySlots}
+                            setCurrentToTime={setCurrentToTime}
+                            currentToTime={currentToTime}
+                            type={type}
+                            id={id}
+                            
                           />
                         </AvailabilityProvider>
-                        {avail.availabilityRow.map(k => {
+                        {avail.availabilityRow.exceptiondates.map(k => {
                           return (
                             <>
                               <AvailabilityPickerOver
@@ -126,10 +267,15 @@ const AvailabilityOverrideModal = ({
                                 i={avail.availabilityRow.length + 1}
                                 id={k.id}
                                 date={startDate}
+                                day={k.day}
                               />
                             </>
                           )
                         })}
+                        </div>
+                        {!canAddSchedule && <div className='ms-3'>
+                          <p className='already-choose text-danger'>{t('add_date_override_alert')}</p>
+                        </div>}
                       </div>
                       <div className='footer-columnwise'>
                         <button
@@ -145,7 +291,7 @@ const AvailabilityOverrideModal = ({
                           className='btn btn-secondary modal_save_button'
                           data-bs-dismiss='modal'
                           onClick={() => onSubmits(setLoading(!loading))}
-                          disabled={hasValidTimes}
+                          disabled={hasValidTimes || !canAddSchedule}
                         >
                           {loading ? (
                             <ClipLoader

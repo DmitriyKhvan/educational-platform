@@ -84,7 +84,6 @@ const Profile = () => {
                     </p>
                   </div>
                 )}
-
                 <div className='row'>
                   <h4 className='mb-1'>Phone Number</h4>
                   <p className='mt-1'>{user.phone_number}</p>

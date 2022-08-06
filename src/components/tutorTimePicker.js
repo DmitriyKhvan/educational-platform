@@ -82,15 +82,9 @@ export const TutorTimePicker = ({ day, isAdmin, user_id }) => {
       for (const { slots } of availabilities) {
         for (let i = 0; i < slots.length; i++) {
           if (slots[i].from > slots[i].to) {
-            console.log('FROM TIME cannot be later than the TO TIME')
             hasInvalidTime = false
           }
-          // if (slots[i].from > slots[i + 1].to) {
-          //   console.log(
-          //     'TO TIME (new row) must be greater than FROM TIME (previous row)'
-          //   )
-          //   hasInvalidTime = true
-          // }
+       
         }
       }
     }

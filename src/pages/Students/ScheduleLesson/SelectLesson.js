@@ -1,4 +1,4 @@
-import React from 'react'
+import React ,{useEffect,useState}from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -29,59 +29,68 @@ const SelectLesson = ({
     i,
     expirationDate
   }) => {
+  const [expDate,setExpDate]=useState();
+
+  useEffect(()=>{
+    var date1 = new Date();
+    var date2 = new Date(expirationDate);
+    var Difference_In_Time = date2.getTime() - date1.getTime();
+    // To calculate the no. of days between two dates
+    var Difference_In_Days = Math.ceil(Difference_In_Time / (1000 * 3600 * 24));
+    setExpDate(Difference_In_Days)
+  },[])
+
     return (
       <div
-        className='col-12 col-xl-4 col-lg-6 col-md-6 col-sm-6 pe-2  select_top_align'
+        className='col-md-6 col-lg-4 pe-4 main-container  schedule-lesson'
+      >
+        <div
+          className={`schedule-card small-card lesson-container pt-2 ${
+            i === clicked ? 'purple-border' : 'schedule-card small-card lesson-container pt-2'
+         }`}
         onClick={() => {
           setClicked(i)
           setSelectedPlan(data)
         }}
       >
-        <div
-          className={` schedule-cardss small-card lesson-container  ${
-            i === clicked ? 'purple-border' : ''
-          }`}
-        >
-          <div className='py-3 '>
-            <div className='d-flex'>
+          <div className='container-fluid'>
+            <div className='row'>
               <h1
                 className={`${
                   i === clicked
-                    ? 'text-purpless lessontext'
+                    ? 'text-black lessontext'
                     : 'text-black lessontext'
                 }`}
               >
                 {lesson.charAt(0).toUpperCase() + lesson.slice(1)}
               </h1>
-              <div className={`${i === clicked ? 'tickmark' : 'tickNone'}`}>
-                <img src={scheduleTick} alt='scheduleTick' />
-              </div>
             </div>
-            <div className='customlabel'>
-              <div
-                className='schedule-lesson-border sublabel-1'
+            <div className='row customlabel'>      
+                <p
+                  className='remaining-lsn'
+                  style={{ textAlign: 'center' }}
                 >
-                <div className='minutes_schedule_text'>
-                  {duration} {t('minutes')}
-                </div>
-              </div>
-              <div className='schedule-lesson-border ms-2 sublabel-2'>
-                <div className=' sublabel2-txt'>
-                  {remaining} {t('lessons_remaining')}
-                </div>
-              </div>
+                    {remaining} {t('lessons_remaining')}
+                </p>
+                
+              <p className='time_remaining' style={{ textAlign: 'center' }}>
+                  {duration} M
+              </p>   
             </div>
           </div>
-          {/* <div className='row container subWidth'>
-            <p className='text-end text-danger mb-1 mt-text expires'>
-              <span className='exp-txt'>{t('expires')}</span>
-              <span className='colon-color'>:&nbsp;</span>
-              <span className='exp-date'>
-                {' '}
-                {moment(expirationDate).format('MM-DD-YYYY')}
-              </span>
+          <hr className="line"/>
+          <div className='row container expiry-days'>    
+            <p className='expires'>
+            {expDate>0?
+            <>
+              <span className='exp-txt exp-txt-purple'>{`${t('expires')}${' '}${expDate +' '+'Days'}`}</span>
+              </>:
+              <>
+              <span className='exp-txt exp-pad'>{t('expired')}</span>
+              </>
+              }  
             </p>
-          </div> */}
+          </div> 
         </div>
       </div>
     )
@@ -89,7 +98,7 @@ const SelectLesson = ({
 
   return (
     <Layout>
-      <div className='scroll-layout'>
+      <div className='scroll-layout  schedule-lesson'>
         <div className='flex-container'>
           <div className='custom-children-container m-0 schedule_changess max-select_lesson'>
             <div className='flex-left'>
@@ -113,7 +122,7 @@ const SelectLesson = ({
                 ))}
               </div>
             </div>
-            <div className='row  pt-3 btn-custom '>
+            <div className='row container pt-3 btn-custom '>
               <div className='col-auto'>
                 <button
                   className='enter-btn btn-dash-return ms-0 button_schedule'

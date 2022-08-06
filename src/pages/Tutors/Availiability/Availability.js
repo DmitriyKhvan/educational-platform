@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { DAY } from '../../../constants/global'
+import { AvailProv } from './AvailabilityProvider'
+
 import {
   getTutorInfo,
   updateTutorAvailability,
@@ -20,17 +22,26 @@ import timezone from 'timezones-list'
 import { DarkBackground } from '../../../components/common/OverlayStyle'
 import LoadingOverlay from 'react-loading-overlay'
 import Swal from 'sweetalert2'
+import NotificationManager from '../../../../src/components/NotificationManager'
+import { v4 as uuid } from 'uuid'
+
 export const Availability = ({ isAdmin, user_id }) => {
   const [t] = useTranslation('translation')
-  const [gatherAvailabilities, setGatherAvailabilities] = useState([])
+  const [gatherAvailabilities, setGatherAvailabilities] =  useState({exceptiondates:[],
+    availability:[]})
   const [currentDatas, setCurrentDatas] = useState([])
   const [loaded, setLoaded] = useState(true)
   // for debugging
   const [hasValidTimes, setHasValidTimes] = useState(false)
+  const [isteachAddHours, setIsTeachAddHours] = useState([])
+  const [disablePlusBtn, setDisablePlusBtn] = useState(false)
+  const [initialId, setInitialId] = useState()
   // tutor policies state and handler
   const [togglePolicyModal, setTogglePolicyModal] = useState(false)
+  const [isMonthCheck, setIsMonthCheck] = useState(false)
   const handlePolicyModal = () => {
     setTogglePolicyModal(!togglePolicyModal)
+    setIsTeachAddHours(false)
   }
   // tutor policies state and handler
   const [toggleOverrideModal, setToggleOverrideModal] = useState(false)
@@ -42,10 +53,18 @@ export const Availability = ({ isAdmin, user_id }) => {
   const user = useSelector(state =>
     isAdmin ? state.admin.user : state.users.user
   )
+  const [newRow, setNewRow] = useState(false)
+  const [currentToTime, setCurrentToTime] = useState("16:00")
+
   useEffect(() => {
     if (user && user.tutor_profile)
       dispatch(getTutorInfo(user.tutor_profile.id))
   }, [user])
+
+  useEffect(() => {
+    setInitialId(uuid)
+  }, [])
+
   useEffect(() => {
     var savedData = []
     if (tutorInfo?.availabilities) {
@@ -53,7 +72,7 @@ export const Availability = ({ isAdmin, user_id }) => {
       for (const property in tutorInfo.availabilities) {
         if (tutorInfo.availabilities[property].length === 1) {
           var temp = {}
-          temp.id = count++
+          temp.id = String(count++)
           temp.day = property
           temp.slots = tutorInfo.availabilities[property]
           savedData.push(temp)
@@ -61,7 +80,7 @@ export const Availability = ({ isAdmin, user_id }) => {
         if (tutorInfo.availabilities[property].length > 1) {
           tutorInfo.availabilities[property].map(data => {
             var temp = {}
-            temp.id = count++
+            temp.id = String(count++)
             temp.day = property
             var array = []
             array.push(data)
@@ -71,7 +90,12 @@ export const Availability = ({ isAdmin, user_id }) => {
         }
       }
     }
-    setGatherAvailabilities(savedData)
+    const tempData = [{ id: initialId,
+      day: undefined,
+      slots: [
+        {from: "09:00", to: "17:00"}
+      ]}]
+      storeAvailablitiy( {exceptiondates: tempData, availability: savedData })
   }, [tutorInfo])
   useEffect(() => {
     if (tutorInfo?.exceptiondates !== undefined) {
@@ -84,13 +108,19 @@ export const Availability = ({ isAdmin, user_id }) => {
       })
       setCurrentDatas(withId)
     }
+    const unique = [...new Set(tutorInfo?.exceptiondates.map(item => item.date))]
+    if (unique.length >= 9) {
+      setIsMonthCheck(true)
+    } else {
+      setIsMonthCheck(false)
+    }
   }, [tutorInfo])
 
   // saving data in DB using loader
   const onSubmit = async () => {
     setTimeout(() => {
       setLoaded(true)
-      dispatch(updateTutorAvailability(gatherAvailabilities, user_id))
+      dispatch(updateTutorAvailability(gatherAvailabilities.availability, user_id))
     }, 1000)
   }
   // this delete function is Set override date function
@@ -154,6 +184,80 @@ export const Availability = ({ isAdmin, user_id }) => {
     r[a.date].push(a)
     return r
   }, Object.create(null))
+
+  const validateTimesSelected = (availability, day) => {
+    /* flat map the time slots array **/
+    const timeSlots = availability.flatMap(v => {
+      if (v.day === day) {
+        return v.slots
+      }
+    })
+    for (let i = 0; i < timeSlots.length; i++) {
+      if (timeSlots[i]?.from >= timeSlots[i]?.to) {
+        setHasValidTimes(true)
+        NotificationManager.error(
+          t(
+            'Failed to set time. Please make sure times selected are sequential.'
+          ),
+          t
+        )
+        return
+      } else if (timeSlots[i + 1]?.from < timeSlots[i]?.to){
+        NotificationManager.error(
+          t(
+            'Failed to set time. Please make sure times selected are sequential.'
+          ),
+          t
+        )
+        setHasValidTimes(true)
+        return
+      }
+      else if(timeSlots[i] != undefined && timeSlots[i]?.from === timeSlots[i]?.to) {
+          NotificationManager.error(
+            t(
+              'Failed to set time. Please make sure times selected are sequential.'
+            ),
+            t
+          )
+          setHasValidTimes(true)
+          return
+      }
+      else {
+        setHasValidTimes(false)
+      }
+    }
+  }
+
+  const AvailabilitySlots = (fromTime,toTime,id,day) =>{
+    const from = fromTime
+    const to = toTime
+    const avail = { id, day, slots: [{ from, to }] }
+    storeAvailablitiy([...gatherAvailabilities.availability, ...[avail]], 'availability')
+    const data = gatherAvailabilities.availability;
+    for (const availability of data) {
+      const availId = availability.id
+      if (availId === id) {
+        if(to >= '23:30'){
+          setDisablePlusBtn(true)
+          // setIsTeachAddHours(true)
+        }else{
+          setDisablePlusBtn(false)
+          // setIsTeachAddHours(false)
+        }
+        availability.slots[0] = { from, to }
+        validateTimesSelected(data, day)
+        storeAvailablitiy(data, "availability")
+      }
+    }
+    
+  }
+  const storeAvailablitiy = (data,type) => {
+    if(type){
+      setGatherAvailabilities({...gatherAvailabilities, [type]: data});
+    }else{
+      setGatherAvailabilities(data);
+    }
+  }
   return (
     <React.Fragment>
       <div className='border-availabilities'>
@@ -182,15 +286,32 @@ export const Availability = ({ isAdmin, user_id }) => {
           {DAY.map((day, i) => (
             <AvailabilityProvider
               key={i}
-              setGatherAvailabilities={setGatherAvailabilities}
-              gatherAvailabilities={gatherAvailabilities}
+              setGatherAvailabilities={storeAvailablitiy}
+              gatherAvailabilities={gatherAvailabilities.availability}
+              setIsTeachAddHours = {setIsTeachAddHours}
+              disablePlusBtn = {disablePlusBtn}
+              setDisablePlusBtn = {setDisablePlusBtn}
+              setNewRow ={setNewRow}
+              AvailabilitySlots = {AvailabilitySlots}
+              day={t(day)}
+              isteachAddHours={isteachAddHours}
+              type={'availability'}
+              validateTimesSelected={validateTimesSelected}
+
             >
               <AvailabilityDayRow
                 day={t(day)}
-                setGatherAvailabilities={setGatherAvailabilities}
-                gatherAvailabilities={gatherAvailabilities}
+                setGatherAvailabilities={storeAvailablitiy}
+                gatherAvailabilities={gatherAvailabilities.availability}
                 hasValidTimes={hasValidTimes}
                 setHasValidTimes={setHasValidTimes}
+                isteachAddHours={isteachAddHours}
+                setIsTeachAddHours={setIsTeachAddHours}
+                setNewRow ={setNewRow}
+                AvailabilitySlots={AvailabilitySlots}
+                setCurrentToTime={setCurrentToTime}
+                currentToTime={currentToTime}
+                type={'availability'}
               />
             </AvailabilityProvider>
           ))}
@@ -233,16 +354,27 @@ export const Availability = ({ isAdmin, user_id }) => {
                 <button
                   className='btn btn-lg-tutor'
                   type='button'
+                  disabled={isMonthCheck}
                   onClick={handleOverrideModal}
                 >
                   <strong>{t('add_date_override')}</strong>
                 </button>
                 <AvailabilityProvider>
-                  <AvailabilityOverrideModal
+                  {toggleOverrideModal &&<AvailabilityOverrideModal
                     showModal={toggleOverrideModal}
                     toggleModal={handleOverrideModal}
-                  />
-                </AvailabilityProvider>
+                    disablePlusBtn = {disablePlusBtn}
+                    setDisablePlusBtn = {setDisablePlusBtn}
+                    isteachAddHours ={isteachAddHours}
+                    setIsTeachAddHours ={setIsTeachAddHours}
+                    setCurrentToTime={setCurrentToTime}
+                    currentToTime={currentToTime}
+                    setGatherAvailabilities={storeAvailablitiy}
+                    gatherAvailabilities={gatherAvailabilities?.exceptiondates}
+                    type={'exceptiondates'}
+                    id={initialId}
+                  />}
+                </AvailabilityProvider>            
               </div>
               <div className='align-self-center align-content-center mt-3'>
                 <button
@@ -265,7 +397,7 @@ export const Availability = ({ isAdmin, user_id }) => {
                   return (
                     <div className='date-alignframe border_align_row'>
                       <div className='dates-fetch' key={ids}>
-                        {moment(data).tz(times_city[0]).format('DD MMM yyyy')}
+                        {moment(data).format('DD MMM yyyy')}
                       </div>
                       {iteratingData.map((datas, iter) => (
                         <div className='row mx-0 rows_align' key={iter}>
@@ -274,9 +406,10 @@ export const Availability = ({ isAdmin, user_id }) => {
                               <TimePicker
                                 className='time_picker text-center p-3'
                                 start='09:00'
-                                end='17:00'
+                                end='24:00'
                                 step={30}
                                 value={datas.from}
+                                disabled
                               />
                        
                             </div>
@@ -291,9 +424,10 @@ export const Availability = ({ isAdmin, user_id }) => {
                               <TimePicker
                                 className='time_picker text-center p-3'
                                 start='09:00'
-                                end='17:00'
+                                end='24:00'
                                 step={30}
                                 value={datas.to}
+                                disabled
                               />
                       
                             </div>

@@ -51,6 +51,9 @@
 }
 .check {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .check .over_form {
   width: 160px !important;
@@ -309,6 +312,17 @@
   color: #261a45;
   padding-left: 35px;
 }
+.selected-date{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.5px;
+  color: #261a45;
+  padding-left: 22px;
+  padding-top: 30px;
+}
 ._loading_overlay_content {
   top: 50%;
   left: 50%;
@@ -337,10 +351,21 @@
   align-self: self-end;
 }
 
+.custom-height{
+  height: 100%;
+}
+p.already-choose{
+  font-weight: 500;
+  font-size: 18px;
+  padding: 0px 56px 0px 43px;
+}
+
+
 .over-ride-date{
   margin-top: 16px;
   max-height: 450px;
   overflow-y: auto;
   padding-bottom: 50px;
 }
+
 
