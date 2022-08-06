@@ -41,7 +41,7 @@ const SelectLesson = ({
       )
       setExpDate(Difference_In_Days)
     }, [])
-    console.log({ expDate g})
+    console.log({ expDate })
     return (
       <div className='col-md-6 col-lg-4 pe-4 main-container  schedule-lesson'>
         <div
