@@ -93,7 +93,7 @@ const StudentListAppointments = () => {
     if (selectedOption === options[1]) {
       queryObj.completed = true
     } else {
-      queryObj.from = new Date().toISOString()
+      queryObj.from = new Date()
     }
     dispatch(getAppointments(queryObj))
   }
