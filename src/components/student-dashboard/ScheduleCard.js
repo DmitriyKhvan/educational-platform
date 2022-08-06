@@ -105,7 +105,7 @@ const ScheduleCard = ({
                   : 'text-muted m-0 font_schedule_text'
               }`}
             >
-              {isToday ? 'Today' : moment.unix(date).format('ddd')} at{' '}
+              {isToday ? 'Today' : moment.unix(date).format('LL')} at{' '}
               {startTime} → {endTime}
             </h3>
           </div>
