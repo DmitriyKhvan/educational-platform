@@ -22,6 +22,8 @@ const Profile = () => {
       setProfileImage(femaleAvatar)
     } else if (user.gender === 'male') {
       setProfileImage(maleAvatar)
+    } else {
+      setProfileImage(maleAvatar)
     }
   }, [user])
 
