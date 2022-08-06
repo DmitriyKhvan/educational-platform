@@ -1,4 +1,4 @@
-import React ,{useEffect,useState}from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -29,70 +29,74 @@ const SelectLesson = ({
     i,
     expirationDate
   }) => {
-  const [expDate,setExpDate]=useState();
+    const [expDate, setExpDate] = useState()
 
-  useEffect(()=>{
-    var date1 = new Date();
-    var date2 = new Date(expirationDate);
-    var Difference_In_Time = date2.getTime() - date1.getTime();
-    // To calculate the no. of days between two dates
-    var Difference_In_Days = Math.ceil(Difference_In_Time / (1000 * 3600 * 24));
-    setExpDate(Difference_In_Days)
-  },[])
+    useEffect(() => {
+      var date1 = new Date()
+      var date2 = new Date(expirationDate)
+      var Difference_In_Time = date2.getTime() - date1.getTime()
+      // To calculate the no. of days between two dates
+      var Difference_In_Days = Math.ceil(
+        Difference_In_Time / (1000 * 3600 * 24)
+      )
+      setExpDate(Difference_In_Days)
+    }, [])
 
     return (
-      <div
-        className='col-md-6 col-lg-4 pe-4 main-container  schedule-lesson'
-      >
-        <div
-          className={`schedule-card small-card lesson-container pt-2 ${
-            i === clicked ? 'purple-border' : 'schedule-card small-card lesson-container pt-2'
-         }`}
-        onClick={() => {
-          setClicked(i)
-          setSelectedPlan(data)
-        }}
-      >
-          <div className='container-fluid'>
-            <div className='row'>
-              <h1
-                className={`${
-                  i === clicked
-                    ? 'text-black lessontext'
-                    : 'text-black lessontext'
-                }`}
-              >
-                {lesson.charAt(0).toUpperCase() + lesson.slice(1)}
-              </h1>
-            </div>
-            <div className='row customlabel'>      
-                <p
-                  className='remaining-lsn'
-                  style={{ textAlign: 'center' }}
+      expDate < 0 && (
+        <div className='col-md-6 col-lg-4 pe-4 main-container  schedule-lesson'>
+          <div
+            className={`schedule-card small-card lesson-container pt-2 ${
+              i === clicked
+                ? 'purple-border'
+                : 'schedule-card small-card lesson-container pt-2'
+            }`}
+            onClick={() => {
+              setClicked(i)
+              setSelectedPlan(data)
+            }}
+          >
+            <div className='container-fluid'>
+              <div className='row'>
+                <h1
+                  className={`${
+                    i === clicked
+                      ? 'text-black lessontext'
+                      : 'text-black lessontext'
+                  }`}
                 >
-                    {remaining} {t('lessons_remaining')}
+                  {lesson.charAt(0).toUpperCase() + lesson.slice(1)}
+                </h1>
+              </div>
+              <div className='row customlabel'>
+                <p className='remaining-lsn' style={{ textAlign: 'center' }}>
+                  {remaining} {t('lessons_remaining')}
                 </p>
-                
-              <p className='time_remaining' style={{ textAlign: 'center' }}>
+
+                <p className='time_remaining' style={{ textAlign: 'center' }}>
                   {duration} M
-              </p>   
+                </p>
+              </div>
+            </div>
+            <hr className='line' />
+            <div className='row container expiry-days'>
+              <p className='expires'>
+                {expDate > 0 ? (
+                  <>
+                    <span className='exp-txt exp-txt-purple'>{`${t(
+                      'expires'
+                    )}${' '}${expDate + ' ' + 'Days'}`}</span>
+                  </>
+                ) : (
+                  <>
+                    <span className='exp-txt exp-pad'>{t('expired')}</span>
+                  </>
+                )}
+              </p>
             </div>
           </div>
-          <hr className="line"/>
-          <div className='row container expiry-days'>    
-            <p className='expires'>
-            {expDate>0?
-            <>
-              <span className='exp-txt exp-txt-purple'>{`${t('expires')}${' '}${expDate +' '+'Days'}`}</span>
-              </>:
-              <>
-              <span className='exp-txt exp-pad'>{t('expired')}</span>
-              </>
-              }  
-            </p>
-          </div> 
         </div>
-      </div>
+      )
     )
   }
 
@@ -102,7 +106,9 @@ const SelectLesson = ({
         <div className='flex-container'>
           <div className='custom-children-container m-0 schedule_changess max-select_lesson'>
             <div className='flex-left'>
-              <h1 className='title mt-0 title_aligns_slesson'>{t('schedule_lesson')}</h1>
+              <h1 className='title mt-0 title_aligns_slesson'>
+                {t('schedule_lesson')}
+              </h1>
               <p className='welcome-subtitle'>
                 {t('schedule_lesson_subtitle')}
               </p>
