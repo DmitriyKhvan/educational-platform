@@ -28,9 +28,9 @@ const BiographyForm = () => {
 
   useEffect(() => {
     if (tutor) {
-      setIntroduction(tutor.introduction)
-      setRelevantExperience(tutor.relevant_experience)
-      setUniqueFacts(tutor.unique_facts)
+      setIntroduction(tutor.introduction ?? '')
+      setRelevantExperience(tutor.relevant_experience ?? '')
+      setUniqueFacts(tutor.unique_facts ?? '')
     }
   }, [tutor])
 
