@@ -43,7 +43,7 @@ const SelectLesson = ({
     }, [])
     console.log({ expDate })
     return (
-      <div className='col-md-6 col-lg-4 pe-4 main-container  schedule-lesson'>
+      <div className='col-md-6 col-lg-4 pe-2 main-container schedule-lesson'>
         <div
           className={`schedule-card small-card lesson-container pt-2 ${
             i === clicked

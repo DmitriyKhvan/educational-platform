@@ -8,7 +8,8 @@ const CancelLessonModal = ({
   setTabIndex,
   setIsOpen,
   id,
-  fetchAppointments
+  fetchAppointments,
+  cancelled
 }) => {
   const [t] = useTranslation('translation')
   const dispatch = useDispatch()
@@ -39,8 +40,13 @@ const CancelLessonModal = ({
   const onCancelLesson = async () => {
     const res = await dispatch(cancelAppointment(id))
     if (res.type === 'CANCEL_APPOINTMENT_INFO_SUCCESS') {
-      await fetchAppointments()
+      try {
+        await fetchAppointments()
+      } catch (error) {}
       setIsOpen(false)
+      if (cancelled) {
+        await cancelled()
+      }
     }
   }
 

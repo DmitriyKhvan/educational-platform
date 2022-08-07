@@ -302,7 +302,7 @@ const ScheduleSelector = ({
       <div className='row '>
         <h1 className='title right-con-title'>{t('available_spots')}</h1>
         <p className='welcome-subtitle right-con-subtitle'>
-        {t('available_spots_subtitle')}
+          {t('available_spots_subtitle')}
         </p>
       </div>
       <div className='row schedule-overflow-scroll slot-scroll col-12 media_small_width_schedule'>
@@ -318,14 +318,14 @@ const ScheduleSelector = ({
       <div className='scroll-layout'>
         <div className='flex-container'>
           <div className='lesson-wrapper flex-lefts student-dashboard'>
-            <div className='schedule_set_tutor_container'>
+            <div>
               <div className='container title-container'>
                 <h1 className='title lelt-con'>{t('schedule_lesson')}</h1>
                 <p className='welcome-subtitle left-subtitle'>
                   {t('schedule_lesson_subtitle')}
                 </p>
               </div>
-              <div className='row container ps-4 pe-0 day-bar'>
+              <div className='row container ps-4 pe-0'>
                 <div className='col-1 leftArrow'>
                   <button
                     className='btn btn-dash-return leftArrow-btn'
@@ -338,8 +338,8 @@ const ScheduleSelector = ({
                     <img src={prev_arrow} alt='' />
                   </button>
                 </div>
-                <div className='col-10 bar-resp'>
-                  <h1 className='justify-content-center mt-0 start-week'>
+                <div className='col-10'>
+                  <h1 className='justify-content-center mt-0'>
                     {startOfWeekFormatted} to {endOfWeek}
                   </h1>
                 </div>

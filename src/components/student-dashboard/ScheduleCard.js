@@ -17,7 +17,8 @@ const ScheduleCard = ({
   zoomlink,
   date,
   data,
-  fetchAppointments
+  fetchAppointments,
+  cancelled
 }) => {
   const [t] = useTranslation('translation')
   const [isOpen, setIsOpen] = useState(false)
@@ -165,6 +166,7 @@ const ScheduleCard = ({
           fetchAppointments={fetchAppointments}
           tabIndex={tabIndex}
           type={modalType}
+          cancelled={cancelled}
         />
       )}
       {isWarningOpen && (

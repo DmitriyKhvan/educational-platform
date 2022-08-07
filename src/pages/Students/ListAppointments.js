@@ -92,23 +92,26 @@ const StudentListAppointments = () => {
 
     if (selectedOption === options[1]) {
       queryObj.completed = true
-    } else {
-      queryObj.from = new Date()
     }
     dispatch(getAppointments(queryObj))
   }
-  const isWithinAweek = appointments
+
+  const isWithinAweekArr = appointments
     .map(x => {
+      const startOfWeek = moment().isAfter(moment().startOf('isoWeek'))
+        ? moment().startOf('day')
+        : moment().startOf('isoWeek')
       if (
-        moment(x.start_at).isBetween(
-          moment().startOf('isoWeek'),
-          moment().endOf('isoWeek')
-        )
+        moment(x.start_at).isBetween(startOfWeek, moment().endOf('isoWeek'))
       ) {
         return x
       }
     })
     .filter(x => x)
+
+  const isWithinAweek = isWithinAweekArr.filter(
+    (x, i, a) => a.findIndex(y => y.start_at === x.start_at) === i
+  )
 
   return (
     <Layout>

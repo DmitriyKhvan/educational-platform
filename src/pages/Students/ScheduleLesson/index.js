@@ -21,7 +21,7 @@ const ScheduleLesson = () => {
 
   useEffect(() => {
     dispatch(getPlanStatus())
-    }, [dispatch, schedule])
+  }, [dispatch, schedule])
 
   return (
     <React.Fragment>

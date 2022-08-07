@@ -69,7 +69,7 @@ const RescheduleConfirmationModal = ({
     if (res.type === ActionTypes.UPDATE_APPOINTMENT_INFO.SUCCESS) {
       fetchAppointments()
       closeModal()
-      } else if (res.payload.error.message) {
+    } else if (res.payload.error.message) {
       NotificationManager.error(res.payload.error.message, t)
     } else {
       NotificationManager.error('Server Error', t)

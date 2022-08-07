@@ -26,12 +26,21 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
   const [newAppointment, setNewAppointment] = useState({})
   const [isConfirmed, setIsConfirmed] = useState(false)
   const [date, setDate] = useState()
-
+  const fetchAppointments = async () => {
+    return await dispatch(getAppointments())
+  }
   useEffect(() => {}, [dispatch])
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
 
+  const cancelled = async () => {
+    const { payload } = await dispatch(getAppointments())
+    if (!payload.find(appointment => appointment.id === newAppointment.id)) {
+      setIsConfirmed(false)
+      setNewAppointment({})
+    }
+  }
   const formattedTime = new Date(time)
   let data = {
     lesson_id: plan.lesson_id,
@@ -42,12 +51,6 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
   }
   if (user.student_profile.id) {
     data = { ...data, student_id: user.student_profile.id }
-  }
-
-  const fetchAppointments = async () => {
-    return await dispatch(
-      getAppointments()
-    )
   }
 
   const weekArr = Array.apply(null, Array(7)).map((_, i) =>
@@ -295,6 +298,8 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
                   zoomlink={newAppointment.zoomlink}
                   date={date}
                   data={newAppointment}
+                  fetchAppointments={fetchAppointments}
+                  cancelled={cancelled}
                 />
               </React.Fragment>
             ) : (

@@ -295,39 +295,49 @@ const Calendar = () => {
                 </thead>
 
                 <tbody>
-                  {displayTableData.map(x => (
-                    <tr className='tr-center'>
-                      <td className='td-item'>
-                        <p className='td-lesson'>{x.lesson}</p>
-                      </td>
-                      <td className='td-item'>
-                        <p className='td-topic-level'>{x.topic}</p>
-                      </td>
-                      <td className='td-item'>
-                        <p className='td-topic-level'>Level {x.level || 0}</p>
-                      </td>
-                      <td>
-                        <p className='td-datetime td-datetime-border ps-3'>
-                          {x.dateTime.date} {x.dateTime.startTime} {'→ '}
-                          {x.dateTime.endTime}
-                        </p>
-                      </td>
-                      <td className='td-item'>
-                        <p className='td-tutor'>{x.tutor}</p>
-                      </td>
-                      <td className='td-button'>
-                        <button
-                          className={`btn ${
-                            x.tutorFeedback.length
-                              ? 'btn-primary'
-                              : 'btn-tutor-feedback-disabled'
-                          }`}
-                        >
-                          Feedback
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  {displayTableData
+                    .sort(
+                      (a, b) =>
+                        new Date(a.dateTime.date) - new Date(b.dateTime.date)
+                    )
+                    .sort(
+                      (a, b) =>
+                        new Date(a.dateTime.startTime) -
+                        new Date(b.dateTime.startTime)
+                    )
+                    .map(x => (
+                      <tr className='tr-center'>
+                        <td className='td-item'>
+                          <p className='td-lesson'>{x.lesson}</p>
+                        </td>
+                        <td className='td-item'>
+                          <p className='td-topic-level'>{x.topic}</p>
+                        </td>
+                        <td className='td-item'>
+                          <p className='td-topic-level'>Level {x.level || 0}</p>
+                        </td>
+                        <td>
+                          <p className='td-datetime td-datetime-border ps-3'>
+                            {x.dateTime.date} {x.dateTime.startTime} {'→ '}
+                            {x.dateTime.endTime}
+                          </p>
+                        </td>
+                        <td className='td-item'>
+                          <p className='td-tutor'>{x.tutor}</p>
+                        </td>
+                        <td className='td-button'>
+                          <button
+                            className={`btn ${
+                              x.tutorFeedback.length
+                                ? 'btn-primary'
+                                : 'btn-tutor-feedback-disabled'
+                            }`}
+                          >
+                            Feedback
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             )}
