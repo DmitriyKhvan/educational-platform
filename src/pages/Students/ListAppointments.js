@@ -97,6 +97,18 @@ const StudentListAppointments = () => {
     }
     dispatch(getAppointments(queryObj))
   }
+  const isWithinAweek = appointments
+    .map(x => {
+      if (
+        moment(x.start_at).isBetween(
+          moment().startOf('isoWeek'),
+          moment().endOf('isoWeek')
+        )
+      ) {
+        return x
+      }
+    })
+    .filter(x => x)
 
   return (
     <Layout>
@@ -210,8 +222,8 @@ const StudentListAppointments = () => {
                 <h4 className='weekly-schedule'>{t('weekly_schedule')}</h4>
                 <div className='weekly-schedule-subtitle dash_weekly-schedule-subtitle'>
                   {t('student_dashboard_total_lessons', {
-                    total_lessons: appointments.length,
-                    t: appointments.length > 1 ? 's' : ''
+                    total_lessons: isWithinAweek.length,
+                    t: isWithinAweek.length > 1 ? 's' : ''
                   })}
                 </div>
                 <div className='flex-container align-button-dashboard'>
@@ -234,20 +246,24 @@ const StudentListAppointments = () => {
                 </div>
                 <div className='weekly-schedule-scroll align_schedule-width-dash weekly-schedule-grid'>
                   {appointments.length
-                    ? appointments.map((x, i) => {
-                        const date = moment(x.start_at).unix()
-                        return (
-                          <ScheduleCard
-                            lesson={x.lesson.description}
-                            zoomlink={x.zoomlink}
-                            date={date}
-                            data={x}
-                            key={i}
-                            index={i}
-                            fetchAppointments={fetchAppointments}
-                          />
+                    ? isWithinAweek
+                        .sort(
+                          (a, b) => new Date(a.start_at) - new Date(b.start_at)
                         )
-                      })
+                        .map((x, i) => {
+                          const date = moment(x.start_at).unix()
+                          return (
+                            <ScheduleCard
+                              lesson={x.lesson.description}
+                              zoomlink={x.zoomlink}
+                              date={date}
+                              data={x}
+                              key={i}
+                              index={i}
+                              fetchAppointments={fetchAppointments}
+                            />
+                          )
+                        })
                     : ''}
                 </div>
               </div>
