@@ -1973,6 +1973,7 @@
 .react-tel-input .selected-flag .flag {
   position: absolute;
   top: 50%;
+  
 }
 
 textarea {
@@ -2038,6 +2039,7 @@ div[class$='ValueContainer']:focus {
 @media screen and (min-width: 279px) and (max-width: 324px) {
   .content .children-page {
     width: 370px;
+
   }
   .profile-layout .profile-wrapper .courses .course .options {
     width: 46%;
@@ -2127,6 +2129,7 @@ div[class$='ValueContainer']:focus {
     margin-left: -27px;
     width: 185px;
   }
+
 }
 
 @media screen and (min-width: 360px) {
@@ -2251,6 +2254,7 @@ div[class$='ValueContainer']:focus {
 }
 
 @media screen and (min-width: 563px) {
+
 }
 
 @media screen and (min-width: 653px) {
@@ -2304,6 +2308,7 @@ div[class$='ValueContainer']:focus {
     margin-left: -3px;
     width: 100%;
   }
+
 }
 @media screen and (min-width: 896px) {
   .profile-layout .profile-wrapper .courses {
@@ -2379,6 +2384,4 @@ div[class$='ValueContainer']:focus {
   border-bottom: none !important;
 }
 
-.drop_box_modal_submit_btn {
-  width: 50% !important;
-}
+
