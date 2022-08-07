@@ -12,6 +12,7 @@ import Layout from '../../components/Layout'
 import { getAppointments } from '../../actions/appointment'
 import { getUserInfo } from '../../actions/user'
 import { getStudent } from '../../actions/students'
+import { cancelAppointment } from '../../actions/appointment'
 
 import '../../assets/styles/calendar.scss'
 
@@ -172,6 +173,14 @@ const Calendar = () => {
     setIsCalendar(true)
   }
 
+  const onCancel = async id => {
+    await dispatch(cancelAppointment(id))
+    setIsOpen(false)
+    await dispatch(getAppointments({ student_id: user.student_profile.id }))
+    getAllData()
+    setIsCalendar(true)
+  }
+
   const localizer = momentLocalizer(moment)
   const allViews = ['month', 'week', 'day']
   const formats = {
@@ -224,6 +233,7 @@ const Calendar = () => {
             zoomlink={selectedEvent.resource.zoomLink}
             time={selectedEvent.resource.start_at}
             data={selectedEvent}
+            onCancel={onCancel}
           />
         </Modal>
       </div>
