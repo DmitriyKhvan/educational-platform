@@ -20,7 +20,7 @@ const AvailabilityOverrideModal = ({
   toggleModal,
   user_id,
   isAdmin,
-  disablePlusBtn ,
+  disablePlusBtn,
   setDisablePlusBtn,
   isteachAddHours,
   setIsTeachAddHours,
@@ -35,9 +35,8 @@ const AvailabilityOverrideModal = ({
   const avail = useContext(AvailProv)
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(null)
-  const [hasValidTimes, setHasValidTimes] = useState(false);
-  const [canAddSchedule, toggleAddSchedule] = useState(true);
-
+  const [hasValidTimes, setHasValidTimes] = useState(false)
+  const [canAddSchedule, toggleAddSchedule] = useState(true)
 
   const dispatch = useDispatch()
   const tutorInfo = useSelector(state => state.tutor.info)
@@ -65,17 +64,28 @@ const AvailabilityOverrideModal = ({
     DateOverrides()
   }, [])
 
-  const DateOverrides = (startDates) => {
-    const availableDate = tutorInfo?.exceptiondates?.map(el => el.date).filter(elm => elm.substr(0, 7) === moment(startDates || new Date()).format('yyyy-MM-DD').substr(0, 7));
-    const uniqAvailableDate = uniqpBy(availableDate);
+  const DateOverrides = startDates => {
+    const availableDate = tutorInfo?.exceptiondates
+      ?.map(el => el.date)
+      .filter(
+        elm =>
+          elm.substr(0, 7) ===
+          moment(startDates || new Date())
+            .format('yyyy-MM-DD')
+            .substr(0, 7)
+      )
+    const uniqAvailableDate = uniqpBy(availableDate)
 
-    if (uniqAvailableDate.indexOf(moment(startDates || new Date()).format('yyyy-MM-DD')) !== -1) {
-      toggleAddSchedule(true);
+    if (
+      uniqAvailableDate.indexOf(
+        moment(startDates || new Date()).format('yyyy-MM-DD')
+      ) !== -1
+    ) {
+      toggleAddSchedule(true)
       setDisablePlusBtn(false)
-    } 
-    else {
-      toggleAddSchedule(uniqAvailableDate.length < 2);
-      setDisablePlusBtn(uniqAvailableDate.length < 2 ? false : true )
+    } else {
+      toggleAddSchedule(uniqAvailableDate.length < 2)
+      setDisablePlusBtn(uniqAvailableDate.length < 2 ? false : true)
     }
   }
   const onSubmits = async () => {
@@ -87,7 +97,7 @@ const AvailabilityOverrideModal = ({
 
       var gather_ = currentDatas.filter((el, i) => {
         if (el.date !== gatherAvailabilities[0].date) {
-          return el;
+          return el
         }
       })
       var updatedData = [...gatherAvailabilities]
@@ -108,42 +118,32 @@ const AvailabilityOverrideModal = ({
     }, 2000)
   }
 
-  const handleMonthChange = (selectmonth) => {
+  const handleMonthChange = selectmonth => {
     DateOverrides(selectmonth)
     setStartDate(selectmonth)
   }
 
- const updateGatherAvail = (data, from) =>{
-  setGatherAvailabilities(data,'')
- }
- const validateTimesSelected = (availability, day) => {
-  /* flat map the time slots array **/
-  const timeSlots = availability.flatMap(v => {
-    if (v.day === day) {
-      return v.slots
-    }
-  })
-  for (let i = 0; i < timeSlots.length; i++) {
-    if (timeSlots[i]?.from > timeSlots[i]?.to) {
-      setHasValidTimes(true)
-      NotificationManager.error(
-        t(
-          'Failed to set time. Please make sure times selected are sequential.'
-        ),
-        t
-      )
-      return
-    } else if (timeSlots[i + 1]?.from < timeSlots[i]?.to){
-      NotificationManager.error(
-        t(
-          'Failed to set time. Please make sure times selected are sequential.'
-        ),
-        t
-      )
-      setHasValidTimes(true)
-      return
-    }
-    else if(timeSlots[i] != undefined && timeSlots[i]?.from === timeSlots[i]?.to) {
+  const updateGatherAvail = (data, from) => {
+    setGatherAvailabilities(data, '')
+  }
+  const validateTimesSelected = (availability, day) => {
+    /* flat map the time slots array **/
+    const timeSlots = availability.flatMap(v => {
+      if (v.day === day) {
+        return v.slots
+      }
+    })
+    for (let i = 0; i < timeSlots.length; i++) {
+      if (timeSlots[i]?.from > timeSlots[i]?.to) {
+        setHasValidTimes(true)
+        NotificationManager.error(
+          t(
+            'Failed to set time. Please make sure times selected are sequential.'
+          ),
+          t
+        )
+        return
+      } else if (timeSlots[i + 1]?.from < timeSlots[i]?.to) {
         NotificationManager.error(
           t(
             'Failed to set time. Please make sure times selected are sequential.'
@@ -152,40 +152,53 @@ const AvailabilityOverrideModal = ({
         )
         setHasValidTimes(true)
         return
-    }
-    else {
-      setHasValidTimes(false)
-    }
-  }
-}
- const AvailabilitySlots = (fromTime,toTime,id,day) =>{
-  const from = fromTime
-  const to = toTime
-  const avail = { id, day, slots: [{ from, to }] }
-  const data = gatherAvailabilities.filter(el => el.id === id)[0] ? gatherAvailabilities.map(el => {
-    if(el.id === id) {
-      return avail
-    }
-    return el
-  }) : [...gatherAvailabilities, ...[avail]];
-  setGatherAvailabilities(data,'exceptiondates');
-  for (const availability of data) {
-    const availId = availability.id
-    if (availId === id) {
-      if(to >= '23:30'){
-        setDisablePlusBtn(true)
-      }else{
-        setDisablePlusBtn(false)
+      } else if (
+        timeSlots[i] != undefined &&
+        timeSlots[i]?.from === timeSlots[i]?.to
+      ) {
+        NotificationManager.error(
+          t(
+            'Failed to set time. Please make sure times selected are sequential.'
+          ),
+          t
+        )
+        setHasValidTimes(true)
+        return
+      } else {
+        setHasValidTimes(false)
       }
-      availability.slots[0] = { from, to }
-      validateTimesSelected(data, day);
-      setGatherAvailabilities(data, "exceptiondates")
     }
   }
-}
+  const AvailabilitySlots = (fromTime, toTime, id, day) => {
+    const from = fromTime
+    const to = toTime
+    const avail = { id, day, slots: [{ from, to }] }
+    const data = gatherAvailabilities.filter(el => el.id === id)[0]
+      ? gatherAvailabilities.map(el => {
+          if (el.id === id) {
+            return avail
+          }
+          return el
+        })
+      : [...gatherAvailabilities, ...[avail]]
+    setGatherAvailabilities(data, 'exceptiondates')
+    for (const availability of data) {
+      const availId = availability.id
+      if (availId === id) {
+        if (to >= '23:30') {
+          setDisablePlusBtn(true)
+        } else {
+          setDisablePlusBtn(false)
+        }
+        availability.slots[0] = { from, to }
+        validateTimesSelected(data, day)
+        setGatherAvailabilities(data, 'exceptiondates')
+      }
+    }
+  }
   return (
     <>
-      { (
+      {
         <div className='modal fade' id='overrideModal '>
           <div className='modal-dialog modalSize'>
             <div className='modal-content p-0'>
@@ -228,54 +241,62 @@ const AvailabilityOverrideModal = ({
                     <div className='col align-override-ui'>
                       <div className='ms-3 check'>
                         <div>
-                        <div className='ps-3 pb-2 selected-date'> {moment(startDate).format('DD MMM yyyy')}</div>
-                        <div className='ms-3 selct-time '>{t('select_the_time')}</div>
-                        <AvailabilityProvider
-                          date={startDate}
-                          setGatherAvailabilities={setGatherAvailabilities}
-                          gatherAvailabilities={gatherAvailabilities}
-                          setDisablePlusBtn ={setDisablePlusBtn}
-                          isteachAddHours ={isteachAddHours}
-                          setIsTeachAddHours ={setIsTeachAddHours}
-                          AvailabilitySlots = {AvailabilitySlots}
-                          type={type}
-                          validateTimesSelected={validateTimesSelected}
-                        >
-                          <AvailabilityDayRowOver
-                            startDate={startDate}
+                          <div className='ps-3 pb-2 selected-date'>
+                            {' '}
+                            {moment(startDate).format('DD MMM yyyy')}
+                          </div>
+                          <div className='ms-3 selct-time '>
+                            {t('select_the_time')}
+                          </div>
+                          <AvailabilityProvider
                             date={startDate}
                             setGatherAvailabilities={setGatherAvailabilities}
                             gatherAvailabilities={gatherAvailabilities}
-                            hasValidTimes={hasValidTimes}
-                            setHasValidTimes={setHasValidTimes}
-                            setDisablePlusBtn ={setDisablePlusBtn}
-                            disablePlusBtn ={disablePlusBtn}
-                            canAddSchedule= {canAddSchedule}
-                            AvailabilitySlots = {AvailabilitySlots}
-                            setCurrentToTime={setCurrentToTime}
-                            currentToTime={currentToTime}
+                            setDisablePlusBtn={setDisablePlusBtn}
+                            isteachAddHours={isteachAddHours}
+                            setIsTeachAddHours={setIsTeachAddHours}
+                            AvailabilitySlots={AvailabilitySlots}
                             type={type}
-                            id={id}
-                            
-                          />
-                        </AvailabilityProvider>
-                        {avail.availabilityRow.exceptiondates.map(k => {
-                          return (
-                            <>
-                              <AvailabilityPickerOver
-                                key={k.id}
-                                i={avail.availabilityRow.length + 1}
-                                id={k.id}
-                                date={startDate}
-                                day={k.day}
-                              />
-                            </>
-                          )
-                        })}
+                            validateTimesSelected={validateTimesSelected}
+                          >
+                            <AvailabilityDayRowOver
+                              startDate={startDate}
+                              date={startDate}
+                              setGatherAvailabilities={setGatherAvailabilities}
+                              gatherAvailabilities={gatherAvailabilities}
+                              hasValidTimes={hasValidTimes}
+                              setHasValidTimes={setHasValidTimes}
+                              setDisablePlusBtn={setDisablePlusBtn}
+                              disablePlusBtn={disablePlusBtn}
+                              canAddSchedule={canAddSchedule}
+                              AvailabilitySlots={AvailabilitySlots}
+                              setCurrentToTime={setCurrentToTime}
+                              currentToTime={currentToTime}
+                              type={type}
+                              id={id}
+                            />
+                          </AvailabilityProvider>
+                          {avail.availabilityRow.exceptiondates.map(k => {
+                            return (
+                              <>
+                                <AvailabilityPickerOver
+                                  key={k.id}
+                                  i={avail.availabilityRow.length + 1}
+                                  id={k.id}
+                                  date={startDate}
+                                  day={k.day}
+                                />
+                              </>
+                            )
+                          })}
                         </div>
-                        {!canAddSchedule && <div className='ms-3'>
-                          <p className='already-choose text-danger'>{t('add_date_override_alert')}</p>
-                        </div>}
+                        {!canAddSchedule && (
+                          <div className='ms-3'>
+                            <p className='already-choose text-danger'>
+                              {t('add_date_override_alert')}
+                            </p>
+                          </div>
+                        )}
                       </div>
                       <div className='footer-columnwise'>
                         <button
@@ -311,7 +332,7 @@ const AvailabilityOverrideModal = ({
             </div>
           </div>
         </div>
-      )}
+      }
     </>
   )
 }
