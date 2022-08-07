@@ -527,6 +527,17 @@ select {
   padding: 25px 35px;
 }
 
+.modal-card-profile {
+  border: 0.5px solid $color-grey3;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
+  border-radius: 16px;
+}
+
+/* override Dropzone component margins */
+.dropzone {
+  margin: 0 24px 20px 24px;
+}
+
 .page-card {
   border: 0.5px solid $color-grey3;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
@@ -1202,10 +1213,10 @@ div.time-style {
   justify-content: space-around;
 }
 @media screen and (max-width: 600px) {
-  .mobilefinal-image{
+  .mobilefinal-image {
     margin-right: 0 !important;
   }
-  .font_schedule_text{
+  .font_schedule_text {
     padding-top: 15px;
   }
   .page-card_schedule {
@@ -1235,7 +1246,6 @@ div.time-style {
   .cancel_schedule-lesson {
     max-width: 100%;
   }
-
 }
 
 @media screen and (min-width: 1500) {

@@ -8,7 +8,6 @@ const ModalWrapper = ({ children, isOpen, closeModal }) => {
       left: '50%',
       right: 'auto',
       bottom: 'auto',
-      marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       zIndex: 9999,
       background: 'none',
@@ -18,7 +17,7 @@ const ModalWrapper = ({ children, isOpen, closeModal }) => {
   return (
     <div style={{ zIndex: 9999 }} className='container-fluid'>
       <Modal isOpen={isOpen} style={customStyles} onRequestClose={closeModal}>
-        <div className='modal-card grey-border bg-white pt-2 mt-4'>
+        <div className='modal-card-profile grey-border bg-white pt-2 mt-4'>
           {children}
         </div>
       </Modal>

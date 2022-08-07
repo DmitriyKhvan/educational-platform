@@ -34,7 +34,6 @@ const ProfileModal = ({ isOpen, setIsOpen, setProfileImage }) => {
     try {
       const res = await dispatch(uploadAvatar(profile, user.id))
       if (res.type === 'UPLOAD_AVATAR_SUCCESS') {
-        
       } else {
         NotificationManager.error('Avatar Uploaded/Updated Failed', t)
       }
@@ -47,9 +46,9 @@ const ProfileModal = ({ isOpen, setIsOpen, setProfileImage }) => {
 
   return (
     <ModalWrapper isOpen={isOpen} closeModal={closeModal}>
-      <div className='container-fluid'>
-        <div className='row pt-3'>
-          <div className='col-8'>
+      <div className='d-flex justify-content-between pt-3'>
+        <div className='flex-row'>
+          <div>
             <Dropzone
               onDrop={onDrop}
               accept='image/*'
@@ -64,31 +63,32 @@ const ProfileModal = ({ isOpen, setIsOpen, setProfileImage }) => {
               )}
             </Dropzone>
           </div>
-          <div className='col-4'>
+          <div className='flex-row'>
             {profile && (
               <img
+                // todropbox max height
+                style={{ height: '23vh' }}
                 src={profile}
                 alt='profile'
-                className='rounded-corners img-fluid'
+                className='rounded-corners img-fluid pe-4'
               />
             )}
           </div>
         </div>
-        <div className='row pt-3'>
-          <div className='col-6'>
-            <button className='col-10 enter-btn btn' onClick={closeModal}>
-              {t('cancel')}
-            </button>
-          </div>
-          <div className='col-6'>
-            <button
-              className='col-12 enter-btn btn btn-primary'
-              onClick={onSave}
-            >
-              {t('save')}
-            </button>
-          </div>
-        </div>
+      </div>
+      <div className='d-flex ps-3 pe-3 pb-3'>
+        <button
+          className='enter-btn btn drop_box_modal_submit_btn'
+          onClick={closeModal}
+        >
+          {t('cancel')}
+        </button>
+        <button
+          className='enter-btn btn btn-primary drop_box_modal_submit_btn'
+          onClick={onSave}
+        >
+          {t('save')}
+        </button>
       </div>
     </ModalWrapper>
   )
