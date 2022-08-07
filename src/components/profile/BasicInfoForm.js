@@ -44,11 +44,9 @@ const BasicInfoForm = () => {
   }
 
   const onClick = async () => {
-    console.log({ userData })
     const res = await dispatch(updateUserInfo(userData))
 
     if (res.type === 'UPDATE_USER_SUCCESS') {
-      
     }
 
     if (res.type === 'UPDATE_USER_FAILURE') {
@@ -125,7 +123,7 @@ const BasicInfoForm = () => {
           <Dropdown
             options={countries}
             className='mt-3'
-            value={defaultCountry || userData.country}
+            value={userData.country || defaultCountry}
             name='location'
             onChange={({ value }) => {
               console.log(value)
@@ -155,7 +153,7 @@ const BasicInfoForm = () => {
           <Dropdown
             options={timezones}
             className='mt-3'
-            value={defaultTimezone || userData.time_zone}
+            value={userData.time_zone || defaultTimezone}
             name='time_zone'
             onChange={({ value }) => {
               setUserData({ ...userData, time_zone: value })

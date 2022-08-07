@@ -34,7 +34,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
 
   const formattedTime = new Date(time)
   let data = {
-    lesson_id: plan.lessons,
+    lesson_id: plan.lesson_id,
     tutor_id: tutor.id,
     duration: plan.duration,
     start_at: format(formattedTime, "yyyy-MM-dd'T'HH:mm:ss"),
