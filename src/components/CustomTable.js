@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import moment from 'moment'
 import '../assets/styles/global.scss'
 
 const CustomTable = ({ data, columns, className, enableSeeAll = true }) => {
@@ -40,7 +41,11 @@ const CustomTable = ({ data, columns, className, enableSeeAll = true }) => {
                     {ci.render ? (
                       ci.render(item[ci.dataKey], item)
                     ) : (
-                      <p>{item[ci.dataKey]}</p>
+                      <p>
+                        {ci.dataKey === 'lessonDate'
+                          ? moment(item[ci.dataKey]).format('LLL')
+                          : item[ci.dataKey]}
+                      </p>
                     )}
                   </div>
                 ))}

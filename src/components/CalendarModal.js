@@ -10,7 +10,8 @@ const CalendarModal = ({
   endTime,
   zoomlink,
   time,
-  data
+  data,
+  onCancel
 }) => {
   const [t] = useTranslation('translation')
   const isToday = moment(time).isSame(moment(), 'day')
@@ -38,7 +39,10 @@ const CalendarModal = ({
       </div>
       <div className='row'>
         <div className='col-3'>
-          <button className='enter-btn grey-border text-black'>
+          <button
+            className='enter-btn grey-border text-black'
+            onClick={() => onCancel(data.resource.eventDate.id)}
+          >
             {t('cancel')}
           </button>
         </div>

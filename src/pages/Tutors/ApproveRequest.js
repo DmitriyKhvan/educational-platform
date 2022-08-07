@@ -86,7 +86,7 @@ const ApproveRequest = () => {
 
   return (
     <Layout>
-      <div className='main-dashboard'>
+      <div className='main-dashboard p-5'>
         <h4 className='main-title'>{t('appointment_requests')}</h4>
         <div className='divider' />
         <CustomTable
