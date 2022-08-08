@@ -27,7 +27,17 @@ const ScheduleCard = ({
 
   const [tabIndex, setTabIndex] = useState(0)
   const hours = 13 * 60 * 60
+
+  const epoch = moment.unix(date).utc(0, true).toISOString()
+  const epochDate = date
+  const epochStart = moment(epoch).utc().format('hh:mm A')
+  const epochEnd = moment(epoch)
+    .utc()
+    .add('minutes', data.duration === 30 ? 30 : 60, 'minutes')
+    .format('hh:mm A')
+
   date = date.length > 9 ? date * 1000 + hours : date + hours
+
   const isToday = moment(date).isSame(moment(), 'day')
   let gender
   if (data.tutor?.gender) {
@@ -75,6 +85,7 @@ const ScheduleCard = ({
     fiveMinutesBefore,
     oneMinuteAfterStart
   )
+
   const joinLesson = async () => {
     if (isBetween) {
       window.location.href = zoomlink.url
@@ -92,9 +103,7 @@ const ScheduleCard = ({
         <div className='row'>
           <div className='col-10 mobile-schedule_dash'>
             <h1
-              className={`${
-                index !== 0 ? 'text-white m-0' : 'text-black m-0'
-              }`}
+              className={`${index !== 0 ? 'text-white m-0' : 'text-black m-0'}`}
             >
               {lesson}
             </h1>
@@ -106,15 +115,18 @@ const ScheduleCard = ({
                   : 'text-muted m-0 font_schedule_text'
               }`}
             >
-              {isToday ? 'Today' : moment.unix(date).format('LL')} at{' '}
-              {startTime} → {endTime}
+              {/* {isToday ? 'Today' : moment.unix(date).format('LL')} at{' '}
+              {startTime} → {endTime} */}
+              {moment.unix(epochDate).format('LL')} at {epochStart} → {epochEnd}
             </h3>
           </div>
           <div className='col-2 cols-image-schedule mobile-schedule_dash'>
             <img
               src={gender === 'male' ? maleAvatar : femaleAvatar}
               className={`img-fluid align-middle schedule_images-width ${
-                index !== 0 ? 'img-fluid align-middle schedule_images-width round_schedule-width' : 'img-fluid align-middle schedule_images-width'
+                index !== 0
+                  ? 'img-fluid align-middle schedule_images-width round_schedule-width'
+                  : 'img-fluid align-middle schedule_images-width'
               }`}
               alt=''
             />
@@ -126,7 +138,9 @@ const ScheduleCard = ({
           <a
             onClick={onCancel}
             className={`schedule_copy-button ${
-              index !== 0 ? 'text-purpless back_schedule-button m-0 mobile-schedule_dash' : 'grey-border text-black m-0'
+              index !== 0
+                ? 'text-purpless back_schedule-button m-0 mobile-schedule_dash'
+                : 'grey-border text-black m-0'
             }`}
           >
             {t('cancel')}
@@ -136,7 +150,9 @@ const ScheduleCard = ({
           {/* <Dropdown trigger={['click']} overlay={menu} animation='slide-up'> */}
           <a
             className={`schedule_copy-button ${
-              index !== 0 ? 'text-purpless back_schedule-button mobile-schedule_dash' : 'grey-border text-black'
+              index !== 0
+                ? 'text-purpless back_schedule-button mobile-schedule_dash'
+                : 'grey-border text-black'
             }`}
             onClick={onSelect}
           >
@@ -149,7 +165,9 @@ const ScheduleCard = ({
           <a
             onClick={joinLesson}
             className={`schedule_copy-button ${
-              index !== 0 ? 'text-purple mobile-schedule_dash' : 'grey-border text-black'
+              index !== 0
+                ? 'text-purple mobile-schedule_dash'
+                : 'grey-border text-black'
             }`}
           >
             {t('join_lesson')}
