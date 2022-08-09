@@ -20,6 +20,10 @@ import ModalEditAvailability from '../Admin/ModalEditAvailability'
 import { getUserById } from '../../actions/admin'
 import EditIcon from '../../../src/assets/images/EditIcon.svg'
 import EditCircle from '../../../src/assets/images/EditCircle.svg'
+import timezone from 'timezones-list'
+import Dropdown from 'react-dropdown'
+
+import 'react-dropdown/style.css'
 
 const GeneralProfile = ({ user, update, isAdmin = false }) => {
   const dispatch = useDispatch()
@@ -30,7 +34,8 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
   const [showEditAvatar, setEditAvatar] = useState(false)
   const [isShowAvailability, setIsShowAvailability] = useState(false)
   const [isTutor, setIsTutor] = useState(null)
-
+  const timezones = timezone.map(x => x.label)
+  const defaultTimezone = timezones[15]
   const showModal = () => {
     setShowUploadModal(true)
   }
@@ -123,6 +128,7 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
     } else if (name === 'time_zone') {
       setSelectedTimezoneOption(option)
       setFormDataError(formDataError => ({ ...formDataError, [name]: '' }))
+      console.log(option)
       setFormData({ ...formData, [name]: option.value })
     } else if (name === 'country') {
       setSelectedCountryOption(option)
@@ -271,16 +277,21 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
                 t('phone_number')
               )}
             </div>
-            {renderSelect(
-              'time_zone',
-              t('time_zone'),
-              t('placeholder_select_timezone'),
-              timezones,
-              selectedTimezoneOption,
-              handleChange,
-              { required: t('error_select_an_option') },
-              formDataError.time_zone
-            )}
+            <div className='form-row pt-5'>
+              <div className='form-item'>
+                <div className='form-item-inner'>
+                  <label htmlFor='timezone'>Timezone</label>
+                  <Dropdown
+                    options={timezones}
+                    value={formData.time_zone || defaultTimezone}
+                    name='time_zone'
+                    onChange={({ value }) => {
+                      setFormData({ ...formData, time_zone: value })
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
             {renderSelect(
               'country',
               t('country'),

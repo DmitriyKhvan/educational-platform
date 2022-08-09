@@ -126,7 +126,6 @@ const BasicInfoForm = () => {
             value={userData.country || defaultCountry}
             name='location'
             onChange={({ value }) => {
-              console.log(value)
               setUserData({ ...userData, country: value })
             }}
           />
