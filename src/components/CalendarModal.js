@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment'
 import placeholderAvatar from '../assets/images/placeholder_avatar.png'
+import ZoomWarningModal from './student-dashboard/ZoomWarningModal'
 
 const CalendarModal = ({
   index,
@@ -14,7 +15,27 @@ const CalendarModal = ({
   onCancel
 }) => {
   const [t] = useTranslation('translation')
+  const [isWarningOpen, setIsWarningOpen] = useState(false)
   const isToday = moment(time).isSame(moment(), 'day')
+  const today = moment()
+
+  const date = moment.unix(startTime)
+  const startTimeEpoch = moment.unix(date)
+  const oneMinuteAfterStart = moment.unix(
+    moment(startTimeEpoch).unix() + 1 * 60
+  )
+  const fiveMinutesBefore = moment.unix(moment(startTimeEpoch).unix() - 10 * 60)
+  const isBetween = moment(today).isBetween(
+    fiveMinutesBefore,
+    oneMinuteAfterStart
+  )
+  const joinLesson = async () => {
+    if (isBetween) {
+      window.location.href = zoomlink.url
+    } else {
+      setIsWarningOpen(true)
+    }
+  }
   return (
     <div className={'page-card grey-border bg-white pt-2 mt-4'} key={index}>
       <div className='container'>
@@ -56,7 +77,7 @@ const CalendarModal = ({
         </div>
         <div className='col-5'>
           <a
-            href={zoomlink.url}
+            onClick={joinLesson}
             target='_blank'
             rel='noreferrer'
             className='enter-btn grey-border text-black'
@@ -65,6 +86,13 @@ const CalendarModal = ({
           </a>
         </div>
       </div>
+      {isWarningOpen && (
+        <ZoomWarningModal
+          isWarningOpen={isWarningOpen}
+          closeModal={onCancel}
+          setIsWarningOpen={setIsWarningOpen}
+        />
+      )}
     </div>
   )
 }

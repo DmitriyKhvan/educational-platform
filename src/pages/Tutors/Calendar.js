@@ -15,6 +15,7 @@ import LessonTable from '../../components/tutor-dashboard/LessonTable'
 import NotificationManager from '../../components/NotificationManager'
 import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png'
 import maleAvatar from '../../assets/images/avatars/img_avatar_male.png'
+import ZoomWarningModal from '../../components/student-dashboard/ZoomWarningModal'
 
 import '../../assets/styles/calendar.scss'
 import AppointmentApi from '../../api/AppointmentApi'
@@ -33,6 +34,7 @@ const Calendar = () => {
   const [calendarEvent, setCalendarEvent] = useState({})
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false)
   const [isCancelLessonModalOpen, setIsCancelLessonModalOpen] = useState(false)
+  const [isWarningOpen, setIsWarningOpen] = useState(false)
 
   const customStyles = {
     content: {
@@ -217,7 +219,6 @@ const Calendar = () => {
     try {
       await AppointmentApi.cancelAppointment(id)
       fetchData()
-      
     } catch (error) {
       NotificationManager.error(
         error.response?.data?.message || 'Server Issue',
@@ -244,6 +245,7 @@ const Calendar = () => {
   Modal.setAppElement('#root')
 
   const CustomModal = () => {
+    const today = moment()
     const [selectedEvent] = calendarEvents.filter(
       x => x.id === calendarEvent.id
     )
@@ -258,6 +260,25 @@ const Calendar = () => {
       : femaleAvatar
     const startTime = moment(selectedEvent.resource.start_at).format('LT')
     const endTime = moment(selectedEvent.resource.end_at).format('LT')
+    const date = moment.unix(startTime)
+    const startTimeEpoch = moment.unix(date)
+    const oneMinuteAfterStart = moment.unix(
+      moment(startTimeEpoch).unix() + 1 * 60
+    )
+    const fiveMinutesBefore = moment.unix(
+      moment(startTimeEpoch).unix() - 10 * 60
+    )
+    const isBetween = moment(today).isBetween(
+      fiveMinutesBefore,
+      oneMinuteAfterStart
+    )
+    const joinLesson = async () => {
+      if (isBetween) {
+        window.location.href = eventDate.zoomlink.url
+      } else {
+        setIsWarningOpen(true)
+      }
+    }
     return (
       <div style={{ zIndex: 9999 }} className='container'>
         <Modal
@@ -359,7 +380,7 @@ const Calendar = () => {
               <div className='row'>
                 <a
                   className='btn col-5 btn-primary enter-btn me-4'
-                  href={eventDate.zoomlink.url}
+                  onClick={joinLesson}
                   target='_blank'
                   rel='noreferrer'
                 >
@@ -490,6 +511,13 @@ const Calendar = () => {
       </div>
       {isCalendarModalOpen && <CustomModal />}
       {isCancelLessonModalOpen && <CancelLessonModal />}
+      {isWarningOpen && (
+        <ZoomWarningModal
+          isWarningOpen={isWarningOpen}
+          closeModal={onCancel}
+          setIsWarningOpen={setIsWarningOpen}
+        />
+      )}
     </Layout>
   )
 }
