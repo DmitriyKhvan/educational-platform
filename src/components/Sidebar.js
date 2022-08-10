@@ -75,25 +75,25 @@ const tutorNavLinks = [
     icon: purpleCalendar,
     activeIcon: whiteCalendar
   },
-  {
-    label: 'student_list',
-    link: '/tutor/students',
-    icon: purpleStudentList,
-    activeIcon: whiteStudentList
-  },
-  {
-    label: 'messages',
-    link: '/messages',
-    icon: Icon5,
-    activeIcon: ActiveIcon5
-  },
+  // {
+  //   label: 'student_list',
+  //   link: '/tutor/students',
+  //   icon: purpleStudentList,
+  //   activeIcon: whiteStudentList
+  // },
+  // {
+  //   label: 'messages',
+  //   link: '/messages',
+  //   icon: Icon5,
+  //   activeIcon: ActiveIcon5
+  // },
   // { label: 'class_materials', link: '/tutor/class-materials', icon: Icon10, activeIcon: Icon10 },
-  {
-    label: 'payment',
-    link: '/tutor/payment-page',
-    icon: purplePayment,
-    activeIcon: whitePayment
-  }
+  // {
+  //   label: 'payment',
+  //   link: '/tutor/payment-page',
+  //   icon: purplePayment,
+  //   activeIcon: whitePayment
+  // }
   // { divider: true },
   // { label: 'feedback', link: '/feedback', icon: Icon14, activeIcon: ActiveIcon14 }
 ]
@@ -117,12 +117,12 @@ const studentNavLinks = [
   //   icon: purpleClassMaterialIcon,
   //   activeIcon: whiteClassMaterialIcon
   // },
-  {
-    label: 'messages',
-    link: '/messages',
-    icon: Icon5,
-    activeIcon: ActiveIcon5
-  },
+  // {
+  //   label: 'messages',
+  //   link: '/messages',
+  //   icon: Icon5,
+  //   activeIcon: ActiveIcon5
+  // },
   // {
   //   label: 'favorite_tutors',
   //   link: '/student/favorite-tutors',
@@ -135,12 +135,12 @@ const studentNavLinks = [
   //   icon: purpleHomeworklIcon,
   //   activeIcon: whiteHomeworklIcon
   // },
-  {
-    label: 'packages',
-    link: '/student/packages',
-    icon: Icon11,
-    activeIcon: ActiveIcon11
-  },
+  // {
+  //   label: 'packages',
+  //   link: '/student/packages',
+  //   icon: Icon11,
+  //   activeIcon: ActiveIcon11
+  // },
   { divider: true },
   // {
   //   label: 'support',
