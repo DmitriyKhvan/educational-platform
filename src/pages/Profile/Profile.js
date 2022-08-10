@@ -48,9 +48,9 @@ const Profile = ({ user, isAdmin = false }) => {
                   setDisabled={d => setDisabled(d)}
                 />
               )}
-              {isTutor === false && (
+              {/* {isTutor === false && (
                 <StudentProfile user={user} update={update} isAdmin={isAdmin} />
-              )}
+              )} */}
             </div>
             <div className='profile-footer'>
               <button

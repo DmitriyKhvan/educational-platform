@@ -254,19 +254,19 @@ const StudentProfile = ({ user, update, isAdmin }) => {
       {!isSubscriptionModal && (
         <>
           <div className='form-section'>
-            {renderFormField(
+            {/* {renderFormField(
               'interests',
               t('interests'),
               handleChange,
               formData,
               formDataError,
               'textfield'
-            )}
+            )} */}
 
-            <p className='section-title custom-section-title'>
+            {/* <p className='section-title custom-section-title'>
               {t('enrolled_in_following_courses')}
-            </p>
-            <div className='courses'>
+            </p> */}
+            {/* <div className='courses'>
               {courses.map((course, index) => (
                 <div className='course' key={`course-${index}`}>
                   <label>{t(course.label)}</label>
@@ -285,7 +285,7 @@ const StudentProfile = ({ user, update, isAdmin }) => {
                   </div>
                 </div>
               ))}
-            </div>
+            </div> */}
             <Link to='/student/packages' className='btn-see-pricing-options'>
               {t('see_pricing_options')}
             </Link>
@@ -300,7 +300,7 @@ const StudentProfile = ({ user, update, isAdmin }) => {
                     .slice(0, student_info.level ? student_info.level : 1)
                     .map(index => <img src={ImgCup} alt='' />)}
               </div>
-              {isAdmin ? (
+              {/* {isAdmin ? (
                 renderSelect(
                   'level',
                   t('level'),
@@ -326,7 +326,7 @@ const StudentProfile = ({ user, update, isAdmin }) => {
               <div className='btn-download'>
                 <img src={ImgArrow} alt='' />
                 <span>{t('download_certificate_pdf')}</span>
-              </div>
+              </div> */}
             </div>
 
             {isAdmin && (
