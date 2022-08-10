@@ -292,7 +292,7 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
                 </div>
               </div>
             </div>
-            {renderSelect(
+            {/* {renderSelect(
               'country',
               t('country'),
               t('placeholder_select_country'),
@@ -304,13 +304,13 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
               handleChange,
               { required: t('error_select_an_option') },
               formDataError.country
-            )}
+            )} */}
           </div>
-          {showUploadModal ? (
+          {/* {showUploadModal ? (
             <UploadImageModal hideModal={hideModal} uploadImage={uploadImage} />
           ) : (
             ''
-          )}
+          )} */}
         </>
       )}
       {isShowAvailability && (
