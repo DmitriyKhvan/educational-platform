@@ -111,24 +111,24 @@ const studentNavLinks = [
     icon: Icon2,
     activeIcon: ActiveIcon2
   },
-  {
-    label: 'class_materials',
-    link: '/student/class-materials',
-    icon: purpleClassMaterialIcon,
-    activeIcon: whiteClassMaterialIcon
-  },
+  // {
+  //   label: 'class_materials',
+  //   link: '/student/class-materials',
+  //   icon: purpleClassMaterialIcon,
+  //   activeIcon: whiteClassMaterialIcon
+  // },
   {
     label: 'messages',
     link: '/messages',
     icon: Icon5,
     activeIcon: ActiveIcon5
   },
-  {
-    label: 'favorite_tutors',
-    link: '/student/favorite-tutors',
-    icon: Icon9,
-    activeIcon: ActiveIcon9
-  },
+  // {
+  //   label: 'favorite_tutors',
+  //   link: '/student/favorite-tutors',
+  //   icon: Icon9,
+  //   activeIcon: ActiveIcon9
+  // },
   // {
   //   label: 'sidebar_homework_title',
   //   link: '/',
@@ -142,24 +142,24 @@ const studentNavLinks = [
     activeIcon: ActiveIcon11
   },
   { divider: true },
-  {
-    label: 'support',
-    link: '/support',
-    icon: purpleSupportlIcon,
-    activeIcon: whiteSupportlIcon
-  },
-  {
-    label: 'feedback',
-    link: '/feedback',
-    icon: purpleFeedbacklIcon,
-    activeIcon: whiteFeedbacklIcon
-  },
-  {
-    label: 'faq',
-    link: '/faq',
-    icon: purpleRewardlIcon,
-    activeIcon: whiteRewardlIcon
-  }
+  // {
+  //   label: 'support',
+  //   link: '/support',
+  //   icon: purpleSupportlIcon,
+  //   activeIcon: whiteSupportlIcon
+  // },
+  // {
+  //   label: 'feedback',
+  //   link: '/feedback',
+  //   icon: purpleFeedbacklIcon,
+  //   activeIcon: whiteFeedbacklIcon
+  // },
+  // {
+  //   label: 'faq',
+  //   link: '/faq',
+  //   icon: purpleRewardlIcon,
+  //   activeIcon: whiteRewardlIcon
+  // }
 ]
 
 const adminNavLinks = [
