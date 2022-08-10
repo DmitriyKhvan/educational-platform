@@ -34,7 +34,6 @@ const ProfileModal = ({ isOpen, setIsOpen, setProfileImage }) => {
     try {
       const res = await dispatch(uploadAvatar(profile, user.id))
       if (res.type === 'UPLOAD_AVATAR_SUCCESS') {
-        
       } else {
         NotificationManager.error('Avatar Uploaded/Updated Failed', t)
       }

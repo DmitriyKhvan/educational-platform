@@ -192,8 +192,8 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
                 <TutorImageRow tutor={tutor} />
               </div>
 
-              <p className='welcome-subtitle-fonts'>{t('repeating_lesson')}</p>
-              <div className='row container ps-2 mobile-view-align'>
+              {/* <p className='welcome-subtitle-fonts'>{t('repeating_lesson')}</p> */}
+              {/* <div className='row container ps-2 mobile-view-align'>
                 {repeatingLessonArr.map(x => (
                   <div className='col-auto schedule-lesson-border mobile-align-view ms-1 px-2 form-check-wrapper py-2'>
                     <div className='form-check'>
@@ -211,9 +211,9 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
                     </div>
                   </div>
                 ))}
-              </div>
+              </div> */}
             </div>
-            <div className='row container ps-2 set_padd_lesson'>
+            {/* <div className='row container ps-2 set_padd_lesson'>
               {repeat.value === 4
                 ? weekArr.map(x => (
                     <div className='col-auto schedule-lesson-border mobile-align-view ms-1 px-2 form-check-wrapper py-2'>
@@ -232,12 +232,12 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
                     </div>
                   ))
                 : ''}
-            </div>
+            </div> */}
             <div className='align_width_width'>
-              <p className='welcome-subtitle-fonts'>
+              {/* <p className='welcome-subtitle-fonts'>
                 {t('tutor_cancellation')}
-              </p>
-              <div className='row container ps-2  mobile-view-align'>
+              </p> */}
+              {/* <div className='row container ps-2  mobile-view-align'>
                 {cancellationArr.map((x, i) => (
                   <div
                     className='col-auto schedule-lesson-border mobile-align-view ms-1 px-2 form-check-wrapper py-2'
@@ -258,13 +258,12 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
                     </div>
                   </div>
                 ))}
-              </div>
+              </div> */}
             </div>
             <div className='align_width_width'>
               <div className='d-grid gap-2 pt-3 buttons-Lesson-shape'>
                 <button
                   className='btn btn-primary text-white buttons-Lesson'
-                  disabled={!isChecked}
                   onClick={confirmLesson}
                 >
                   {t('confirm_lesson')}

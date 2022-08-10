@@ -24,7 +24,7 @@ const ScheduleCard = ({
   const [isOpen, setIsOpen] = useState(false)
   const [isWarningOpen, setIsWarningOpen] = useState(false)
   const [modalType, setModalType] = useState('')
-
+  console.log(data)
   const [tabIndex, setTabIndex] = useState(0)
   const hours = 13 * 60 * 60
 
@@ -122,7 +122,13 @@ const ScheduleCard = ({
           </div>
           <div className='col-2 cols-image-schedule mobile-schedule_dash'>
             <img
-              src={gender === 'male' ? maleAvatar : femaleAvatar}
+              src={
+                data.tutor.user.avatar
+                  ? data.tutor.user.avatar
+                  : gender === 'male'
+                  ? maleAvatar
+                  : femaleAvatar
+              }
               className={`img-fluid align-middle schedule_images-width ${
                 index !== 0
                   ? 'img-fluid align-middle schedule_images-width round_schedule-width'
