@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment'
-import placeholderAvatar from '../assets/images/placeholder_avatar.png'
+import placeholderAvatar from '../assets/images/avatars/img_avatar_female.png'
 import ZoomWarningModal from './student-dashboard/ZoomWarningModal'
 
 const CalendarModal = ({
@@ -24,6 +24,9 @@ const CalendarModal = ({
   const oneMinuteAfterStart = moment.unix(
     moment(startTimeEpoch).unix() + 1 * 60
   )
+  const avatar = data.resource?.tutor?.user.avatar
+    ? data.resource?.tutor?.user.avatar
+    : placeholderAvatar
   const fiveMinutesBefore = moment.unix(moment(startTimeEpoch).unix() - 10 * 60)
   const isBetween = moment(today).isBetween(
     fiveMinutesBefore,
@@ -37,7 +40,11 @@ const CalendarModal = ({
     }
   }
   return (
-    <div className={'page-card grey-border bg-white pt-2 mt-4'} key={index}>
+    <div
+      className={'page-card grey-border bg-white pt-2 mt-4'}
+      key={index}
+      style={{ maxWidth: '33vw' }}
+    >
       <div className='container'>
         <div className='row'>
           <div className='col-9'>
@@ -50,10 +57,10 @@ const CalendarModal = ({
           </div>
           <div className='col-3'>
             <img
-              src={placeholderAvatar}
+              src={avatar}
               className='img-fluid align-middle'
               alt=''
-              style={{ padding: '25px 0px 0px 25px' }}
+              style={{ padding: '25px 0px 0px 0px' }}
             />
           </div>
         </div>
