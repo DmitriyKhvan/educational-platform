@@ -162,7 +162,7 @@ const ScheduleCard = ({
             }`}
             onClick={onSelect}
           >
-            Reschedule
+            {t('reschedule')}
           </a>
           {/* </Dropdown> */}
         </div>
