@@ -20,7 +20,7 @@ const BookingRequest = ({ lessonApprovals, fetchAppointments }) => {
 
   return (
     <React.Fragment>
-      <h4 className='weekly-schedule'>Booking Request</h4>
+      <h4 className='weekly-schedule'>{t('booking_request')}</h4>
       {lessonApprovals.map(apt => {
         const date = moment(apt.start_at).unix() + 13 * 60 * 60
         const endEpoch = date + apt.duration * 60
