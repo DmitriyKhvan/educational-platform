@@ -55,6 +55,7 @@ const Calendar = () => {
   }, [dispatch])
 
   useEffect(() => {
+
     if (user && user.student_profile) {
       dispatch(getStudent(user.student_profile.id))
       dispatch(getAppointments({ student_id: user.student_profile.id }))

@@ -15,12 +15,14 @@ import LessonCardComponent from './LessonCard'
 import ScheduleCard from './ScheduleCard'
 import TutorImageRow from './TutorImageRow'
 import ScheduleCardComponent from '../../../components/student-dashboard/ScheduleCard'
+import Loader from '../../../components/common/Loader'
 
 const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
   const dispatch = useDispatch()
   const [t] = useTranslation('translation')
   const [repeat, setRepeat] = useState({})
   const [cancel, setCancel] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
   const user = useSelector(state => state.users.user)
   const [isChecked, setIsChecked] = useState(false)
   const [newAppointment, setNewAppointment] = useState({})
@@ -105,6 +107,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
   ]
 
   const confirmLesson = async () => {
+    setIsLoading(true)
     const res = await dispatch(createAppointment(data))
     if (res.type === ActionTypes.CREATE_APPOINTMENT_INFO.SUCCESS) {
       const { payload } = await fetchAppointments()
@@ -128,6 +131,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
         NotificationManager.error('Server Error', t)
       }
     }
+    setIsLoading(false)
   }
 
   return (
@@ -307,6 +311,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
           </div>
         </div>
       </div>
+      {isLoading && <Loader />}
     </Layout>
   )
 }
