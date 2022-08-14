@@ -151,14 +151,14 @@ const StudentListAppointments = () => {
                           {t('schedule_1_on_1_lesson')}
                         </a>
                       </div>
-                      <div className='col-6 schedule-dashboard-button'>
+                      {/* <div className='col-6 schedule-dashboard-button'>
                         <a
                           href='/student/schedule-lesson/group-select'
                           className='schedule-dashboard-buttons'
                         >
                           {t('schedule_group_lesson')}
                         </a>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
