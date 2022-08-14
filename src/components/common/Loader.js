@@ -1,16 +1,18 @@
 import React from 'react'
-import * as ReactLoader from 'react-loader-spinner'
+import Loader from 'react-loader-spinner'
 
-const Loader = () => {
+const ReactLoader = () => {
   return (
-    <ReactLoader
-      color='#00BFFF'
-      className='align-center'
-      type='TailSpin'
-      height={80}
-      width={80}
-    />
+    <div style={{ zIndex: 9999 }}>
+      <Loader
+        color='#00BFFF'
+        className='align-center'
+        type='TailSpin'
+        height={80}
+        width={80}
+      />
+    </div>
   )
 }
 
-export default Loader
+export default ReactLoader

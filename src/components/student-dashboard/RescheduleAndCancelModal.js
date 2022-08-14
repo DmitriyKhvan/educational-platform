@@ -24,20 +24,27 @@ const RescheduleAndCancelModal = ({
   cancelled
 }) => {
   const dispatch = useDispatch()
-  const [isLoading, setIsLoading] = useState(false)
   const [schedule, setSchedule] = useState()
   const [selectTutor, setSelectTutor] = useState()
   const tutors = useSelector(state => state.tutor.list)
+  const [isLoading, setIsLoading] = useState(false)
   const [planStatus] = useSelector(state => state.students.planStatus).filter(
     x => parseInt(x.duration, 10) === parseInt(data.duration, 10)
   )
 
   useEffect(() => {
-    setIsLoading(true)
-    dispatch(getPlanStatus())
-    dispatch(getTutorList(schedule))
-    setIsLoading(false)
-  }, [dispatch, schedule])
+    ;(async () => {
+      await dispatch(getPlanStatus())
+    })()
+  }, [dispatch])
+
+  useEffect(() => {
+    ;(async () => {
+      setIsLoading(true)
+      await dispatch(getTutorList(schedule))
+      setIsLoading(false)
+    })()
+  }, [tabIndex])
   data.planStatus = planStatus
 
   return (
@@ -69,6 +76,7 @@ const RescheduleAndCancelModal = ({
           tabIndex={tabIndex}
           setTabIndex={setTabIndex}
           setSelectTutor={setSelectTutor}
+          isLoading={isLoading}
         />
       ) : tabIndex === 4 ? (
         <RescheduleConfirmationModal
@@ -87,7 +95,6 @@ const RescheduleAndCancelModal = ({
           />
         )
       )}
-      {isLoading && <Loader />}
     </ModalWrapper>
   )
 }
