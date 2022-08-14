@@ -8,6 +8,7 @@ import forward_arrow from '../../../assets/images/forward_arrow.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
 import { getTutorList } from '../../../actions/tutor'
+import Loader from 'react-loader-spinner'
 
 const ScheduleSelector = ({
   setTabIndex,
@@ -18,6 +19,7 @@ const ScheduleSelector = ({
 }) => {
   const [t] = useTranslation('translation')
   const tutors = useSelector(state => state.tutor.list)
+  const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
   const [counter, setCounter] = useState(0)
   const [dayClicked, setDayClicked] = useState(null)
@@ -231,6 +233,7 @@ const ScheduleSelector = ({
   }
 
   const handleConfirmLesson = scheduleStartTime => {
+    setIsLoading(true)
     const formattedDay = moment(day).format('YYYY-MM-DD')
     const selectedSchedule = moment(
       formattedDay + ' ' + scheduleStartTime
@@ -239,6 +242,7 @@ const ScheduleSelector = ({
     dispatch(getTutorList(selectedSchedule)).then(response => {
       var tutorlist = response.payload.tutors
       if (Array.isArray(tutorlist) && tutorlist.length > 0) {
+        setIsLoading(false)
         setTabIndex(2)
       } else if (Array.isArray(tutorlist) && tutorlist.length === 0) {
         Swal.fire({
@@ -390,6 +394,15 @@ const ScheduleSelector = ({
           </div>
         </div>
       </div>
+      {isLoading && (
+        <Loader
+          color='#00BFFF'
+          className='align-center'
+          type='TailSpin'
+          height={80}
+          width={80}
+        />
+      )}
     </Layout>
   )
 }
