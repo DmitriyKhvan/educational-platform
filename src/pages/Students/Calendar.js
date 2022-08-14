@@ -13,6 +13,7 @@ import { getAppointments } from '../../actions/appointment'
 import { getUserInfo } from '../../actions/user'
 import { getStudent } from '../../actions/students'
 import { cancelAppointment } from '../../actions/appointment'
+import Loader from '../../components/common/Loader'
 
 import '../../assets/styles/calendar.scss'
 
@@ -20,6 +21,7 @@ const Calendar = () => {
   const [t] = useTranslation('translation')
   const user = useSelector(state => state.users.user)
   const appointments = useSelector(state => state.appointment.list)
+  const [isLoading, setIsLoading] = useState(true)
   const [displayTableData, setDisplayTableData] = useState([])
   const [eventDates, setEventDates] = useState([])
   const [events, setEvents] = useState([])
@@ -55,14 +57,16 @@ const Calendar = () => {
   }, [dispatch])
 
   useEffect(() => {
-
-    if (user && user.student_profile) {
-      dispatch(getStudent(user.student_profile.id))
-      dispatch(getAppointments({ student_id: user.student_profile.id }))
-    }
+    ;(async () => {
+      await dispatch(getStudent(user.student_profile.id))
+      if (user && user.student_profile) {
+        await dispatch(getAppointments({ student_id: user.student_profile.id }))
+      }
+    })()
   }, [user])
 
   useEffect(() => {
+    setIsLoading(true)
     if (appointments) {
       const timeZone = 'Asia/Seoul'
 
@@ -108,6 +112,7 @@ const Calendar = () => {
       setEvents(newEvents)
     }
     getAllData()
+    setIsLoading(false)
   }, [eventDates])
 
   const getAllData = () => {
@@ -285,7 +290,7 @@ const Calendar = () => {
             </div>
           </div>
           <div className='scroll-layout'>
-            {!isCalendar && (
+            {!isLoading && !isCalendar && (
               <table className='table mt-5'>
                 <thead>
                   <tr>
@@ -342,7 +347,7 @@ const Calendar = () => {
                 </tbody>
               </table>
             )}
-            {isCalendar && (
+            {!isLoading && isCalendar && (
               <div className='example mt-4 px-0'>
                 <BigCalendar
                   popup={true}
@@ -367,6 +372,7 @@ const Calendar = () => {
         </div>
       </div>
       {isOpen && <CustomModal />}
+      {isLoading && <Loader />}
     </Layout>
   )
 }
