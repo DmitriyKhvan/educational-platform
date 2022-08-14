@@ -19,6 +19,7 @@ import CTACard from '../../components/student-dashboard/CTACard'
 import ScheduleCard from '../../components/student-dashboard/ScheduleCard'
 import whiteSubscriptionIcon from '../../assets/images/white_subscription_icon.svg'
 import whiteBookingIcon from '../../assets/images/white_book_trial_icon.svg'
+import Loader from '../../components/common/Loader'
 
 const options = [
   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
@@ -31,6 +32,7 @@ const StudentListAppointments = () => {
   const [t] = useTranslation('translation')
   const [selectedOption, setSelectedOption] = useState(options[0])
   const [selectedLesson, setSelectedLesson] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const appointments = useSelector(state => state.appointment.list)
   const user = useSelector(state => state.users.user)
   const [completedAppointment, setCompleteAppointment] = useState(null)
@@ -39,8 +41,7 @@ const StudentListAppointments = () => {
   const onCancel = async ({ id, reasons }) => {
     try {
       await AppointmentApi.cancelAppointment(id)
-
-      fetchAppointments()
+      await fetchAppointments()
     } catch (e) {
       NotificationManager.error(e.response?.data?.message || 'Server Issue', t)
     }
@@ -64,12 +65,14 @@ const StudentListAppointments = () => {
   ]
 
   useEffect(() => {
-    if (user.tutor_profile) {
-      history.push('/')
-    }
-    if (user) {
-      fetchAppointments()
-    }
+    ;(async () => {
+      if (user.tutor_profile) {
+        history.push('/')
+      }
+      if (user) {
+        await fetchAppointments()
+      }
+    })()
   }, [selectedOption, user])
 
   useEffect(() => {
@@ -81,7 +84,7 @@ const StudentListAppointments = () => {
     }
   }, [appointments, complete_appoint_id])
 
-  const fetchAppointments = () => {
+  const fetchAppointments = async () => {
     let queryObj = {}
 
     if (user.student_profile) {
@@ -93,7 +96,9 @@ const StudentListAppointments = () => {
     if (selectedOption === options[1]) {
       queryObj.completed = true
     }
-    dispatch(getAppointments(queryObj))
+
+    await dispatch(getAppointments(queryObj))
+    setIsLoading(false)
   }
 
   const isWithinAweekArr = appointments
@@ -112,6 +117,25 @@ const StudentListAppointments = () => {
   const isWithinAweek = isWithinAweekArr.filter(
     (x, i, a) => a.findIndex(y => y.start_at === x.start_at) === i
   )
+
+  const ScheduleArr = isWithinAweek
+    .sort((a, b) => new Date(a.start_at) - new Date(b.start_at))
+    .map((x, i) => {
+      const date = moment(x.start_at).unix()
+      return (
+        <div>
+          <ScheduleCard
+            lesson={x.lesson.description}
+            zoomlink={x.zoomlink}
+            date={date}
+            data={x}
+            key={i}
+            index={i}
+            fetchAppointments={fetchAppointments}
+          />
+        </div>
+      )
+    })
 
   return (
     <Layout>
@@ -221,55 +245,38 @@ const StudentListAppointments = () => {
               </div>
             </div>
             <div className='student-list-appointments-wrapper flex-rights  changes-container '>
-              <div className='child-set_container dash_child-set_container '>
-                <h4 className='weekly-schedule'>{t('weekly_schedule')}</h4>
-                <div className='weekly-schedule-subtitle dash_weekly-schedule-subtitle'>
-                  {t('student_dashboard_total_lessons', {
-                    total_lessons: isWithinAweek.length,
-                    t: isWithinAweek.length > 1 ? 's' : ''
-                  })}
-                </div>
-                <div className='flex-container align-button-dashboard'>
-                  <div>
-                    <Link
-                      to='/student/schedule-lesson/select'
-                      className='buttonsdash'
-                    >
-                      {t('student_dashboard_edit_schedule')}
-                    </Link>
+              {!isLoading && (
+                <div className='child-set_container dash_child-set_container '>
+                  <h4 className='weekly-schedule'>{t('weekly_schedule')}</h4>
+                  <div className='weekly-schedule-subtitle dash_weekly-schedule-subtitle'>
+                    {t('student_dashboard_total_lessons', {
+                      total_lessons: isWithinAweek.length,
+                      t: isWithinAweek.length > 1 ? 's' : ''
+                    })}
                   </div>
-                  <div>
-                    <Link
-                      to='/student/lesson-calendar'
-                      className='buttonsdash-second'
-                    >
-                      {t('student_dashboard_view_all_lessons')}
-                    </Link>
+                  <div className='flex-container align-button-dashboard'>
+                    <div>
+                      <Link
+                        to='/student/schedule-lesson/select'
+                        className='buttonsdash'
+                      >
+                        {t('student_dashboard_edit_schedule')}
+                      </Link>
+                    </div>
+                    <div>
+                      <Link
+                        to='/student/lesson-calendar'
+                        className='buttonsdash-second'
+                      >
+                        {t('student_dashboard_view_all_lessons')}
+                      </Link>
+                    </div>
+                  </div>
+                  <div className='weekly-schedule-scroll align_schedule-width-dash weekly-schedule-grid'>
+                    {appointments.length ? <>{ScheduleArr}</> : ''}
                   </div>
                 </div>
-                <div className='weekly-schedule-scroll align_schedule-width-dash weekly-schedule-grid'>
-                  {appointments.length
-                    ? isWithinAweek
-                        .sort(
-                          (a, b) => new Date(a.start_at) - new Date(b.start_at)
-                        )
-                        .map((x, i) => {
-                          const date = moment(x.start_at).unix()
-                          return (
-                            <ScheduleCard
-                              lesson={x.lesson.description}
-                              zoomlink={x.zoomlink}
-                              date={date}
-                              data={x}
-                              key={i}
-                              index={i}
-                              fetchAppointments={fetchAppointments}
-                            />
-                          )
-                        })
-                    : ''}
-                </div>
-              </div>
+              )}
             </div>
           </div>
         ) : (
@@ -315,6 +322,7 @@ const StudentListAppointments = () => {
           appointment={completedAppointment}
         />
       )}
+      {isLoading && <Loader />}
     </Layout>
   )
 }

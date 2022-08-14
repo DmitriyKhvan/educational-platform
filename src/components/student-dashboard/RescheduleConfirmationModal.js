@@ -71,7 +71,7 @@ const RescheduleConfirmationModal = ({
     if (res.type === ActionTypes.UPDATE_APPOINTMENT_INFO.SUCCESS) {
       fetchAppointments()
       closeModal()
-      window.document.href('/student/manage-lessons')
+      window.location.reload()
     } else if (res.payload.error.message) {
       NotificationManager.error(res.payload.error.message, t)
     } else {
