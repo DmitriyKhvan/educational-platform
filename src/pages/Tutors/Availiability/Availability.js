@@ -253,7 +253,7 @@ export const Availability = ({ isAdmin, user_id }) => {
           // setIsTeachAddHours(false)
         }
         availability.slots[0] = { from, to }
-        validateTimesSelected(data, day)
+        //validateTimesSelected(data, day)
         storeAvailablitiy(data, 'availability')
       }
     }
