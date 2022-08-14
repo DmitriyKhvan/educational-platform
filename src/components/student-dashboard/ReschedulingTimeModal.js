@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment'
+import Loader from '../common/Loader'
 
 const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
   const [t] = useTranslation('translation')
+  const [isLoading, setIsLoading] = useState(false)
   const [counter, setCounter] = useState(0)
   const [dayClicked, setDayClicked] = useState(null)
   const [timeClicked, setTimeClicked] = useState(null)
@@ -235,7 +237,9 @@ const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
         </div>
 
         <div className='schedule-card-col'>
-          <p className={`enter-btn time-btn grey-border text-black align_button_sche_lesson`}>
+          <p
+            className={`enter-btn time-btn grey-border text-black align_button_sche_lesson`}
+          >
             {moment(day).format('dddd, MMM DD')}
           </p>
         </div>
@@ -262,7 +266,7 @@ const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
     <React.Fragment>
       <h2 className='mb-2'>{t('available_spots')}</h2>
       <p className='welcome-subtitle text-purple'>
-      {t('available_spots_subtitle')}
+        {t('available_spots_subtitle')}
       </p>
 
       {allTimes.map((x, i) => (
@@ -339,6 +343,7 @@ const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
           </div>
         </div>
       </div>
+      {isLoading && <Loader />}
     </React.Fragment>
   )
 }

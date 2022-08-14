@@ -10,6 +10,7 @@ import { getTutorList } from '../../actions/tutor'
 import ReschedulingTutorModal from './ReschedulingTutorModal'
 import RescheduleConfirmationModal from './RescheduleConfirmationModal'
 import { getPlanStatus } from '../../actions/subscription'
+import Loader from '../common/Loader'
 
 const RescheduleAndCancelModal = ({
   data,
@@ -23,6 +24,7 @@ const RescheduleAndCancelModal = ({
   cancelled
 }) => {
   const dispatch = useDispatch()
+  const [isLoading, setIsLoading] = useState(false)
   const [schedule, setSchedule] = useState()
   const [selectTutor, setSelectTutor] = useState()
   const tutors = useSelector(state => state.tutor.list)
@@ -31,8 +33,10 @@ const RescheduleAndCancelModal = ({
   )
 
   useEffect(() => {
+    setIsLoading(true)
     dispatch(getPlanStatus())
     dispatch(getTutorList(schedule))
+    setIsLoading(false)
   }, [dispatch, schedule])
   data.planStatus = planStatus
 
@@ -83,6 +87,7 @@ const RescheduleAndCancelModal = ({
           />
         )
       )}
+      {isLoading && <Loader />}
     </ModalWrapper>
   )
 }

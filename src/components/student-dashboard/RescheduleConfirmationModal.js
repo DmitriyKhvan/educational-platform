@@ -9,6 +9,7 @@ import TutorImageRow from '../../pages/Students/ScheduleLesson/TutorImageRow'
 import { updateAppointment, getAppointments } from '../../actions/appointment'
 import ActionTypes from '../../constants/actionTypes'
 import NotificationManager from '../NotificationManager'
+import { useHistory } from 'react-router-dom'
 
 const RescheduleConfirmationModal = ({
   setTabIndex,
@@ -19,6 +20,7 @@ const RescheduleConfirmationModal = ({
 }) => {
   const [t] = useTranslation()
   const dispatch = useDispatch()
+  const history = useHistory()
   const [repeat, setRepeat] = useState({})
   const [cancel, setCancel] = useState({})
   const [isChecked, setIsChecked] = useState(false)
@@ -69,6 +71,7 @@ const RescheduleConfirmationModal = ({
     if (res.type === ActionTypes.UPDATE_APPOINTMENT_INFO.SUCCESS) {
       fetchAppointments()
       closeModal()
+      window.document.href('/student/manage-lessons')
     } else if (res.payload.error.message) {
       NotificationManager.error(res.payload.error.message, t)
     } else {
@@ -123,34 +126,9 @@ const RescheduleConfirmationModal = ({
               </div>
             </div>
 
-            <p className='welcome-subtitle pt-4'>{t('tutor_cancellation')}</p>
-            <div className='row'>
-              {cancellationArr.map((x, i) => (
-                <div
-                  className='col-auto schedule-lesson-border ms-1 px-2 form-check-wrapper py-2'
-                  key={i}
-                >
-                  <div className='form-check'>
-                    <div
-                      className='form-check-input'
-                      type='checkbox'
-                      value={x.value}
-                      id={x.data}
-                      onChange={checkboxEvent}
-                      checked={x.value === cancel?.value ? true : false}
-                    />
-                    <label className='form-check-label' htmlFor={x.data}>
-                      {x.data}
-                    </label>
-                  </div>
-                </div>
-              ))}
-            </div>
-
             <div className='row container d-grid gap-2 pt-3'>
               <button
                 className='btn btn-primary text-white'
-                disabled={!isChecked}
                 onClick={confirmReschedule}
               >
                 {t('confirm_lesson')}

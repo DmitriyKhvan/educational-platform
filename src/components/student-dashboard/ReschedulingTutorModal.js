@@ -2,9 +2,11 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png'
 import maleAvatar from '../../assets/images/avatars/img_avatar_male.png'
+import Loader from '../common/Loader'
 
 const ReschedulingTutorModal = ({ setTabIndex, tutors, setSelectTutor }) => {
   const [t] = useTranslation()
+  const [isLoading, setIsLoading] = React.useState(false)
 
   const SelectTutors = ({ tutor }) => {
     const name = tutor.first_name + ' ' + tutor.last_name.charAt(0) + '.'
@@ -15,7 +17,13 @@ const ReschedulingTutorModal = ({ setTabIndex, tutors, setSelectTutor }) => {
     return (
       <div className='col-12 col-xl-3 col-lg-4 col-md-6 col-sm-3 pe-3'>
         <img
-          src={tutor.gender === 'female' ? femaleAvatar : maleAvatar}
+          src={
+            tutor.avatar
+              ? tutor.avatar
+              : tutor.gender === 'female'
+              ? femaleAvatar
+              : maleAvatar
+          }
           className='img-fluid'
           alt=''
         />
@@ -33,7 +41,7 @@ const ReschedulingTutorModal = ({ setTabIndex, tutors, setSelectTutor }) => {
               {tutor.major || ''}
             </h5>
           </div>
-          <div className='row container-fluid'>
+          <div className='row ps-5 container'>
             <button className='enter-btn btn-primary' onClick={onClick}>
               {t('select_tutor')}
             </button>
@@ -71,6 +79,7 @@ const ReschedulingTutorModal = ({ setTabIndex, tutors, setSelectTutor }) => {
           ))}
         </div>
       </div>
+      {isLoading && <Loader />}
     </React.Fragment>
   )
 }

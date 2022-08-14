@@ -16,7 +16,7 @@ const ModalWrapper = ({ children, isOpen, closeModal }) => {
     }
   }
   return (
-    <div style={{ zIndex: 9999 }} className='container-fluid'>
+    <div style={{ zIndex: 9999, width: '45vw' }} className='container-fluid'>
       <Modal isOpen={isOpen} style={customStyles} onRequestClose={closeModal}>
         <div className='modal-card grey-border bg-white pt-2 mt-4'>
           {children}
