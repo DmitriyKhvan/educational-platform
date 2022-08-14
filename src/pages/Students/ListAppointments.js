@@ -39,14 +39,15 @@ const StudentListAppointments = () => {
   const history = useHistory()
   const onDismiss = () => setCompleteAppointment(null)
   const onCancel = async ({ id, reasons }) => {
+    setIsLoading(true)
     try {
       await AppointmentApi.cancelAppointment(id)
       await fetchAppointments()
     } catch (e) {
       NotificationManager.error(e.response?.data?.message || 'Server Issue', t)
     }
-
     setSelectedLesson(false)
+    setIsLoading(false)
   }
 
   const callToAction = [
