@@ -36,7 +36,7 @@ const ScheduleCard = ({
     .add('minutes', data.duration === 30 ? 30 : 60, 'minutes')
     .format('hh:mm A')
 
-  date = date.length > 9 ? date * 1000 + hours : date + hours
+  // date = date.length > 9 ? date * 1000 + hours : date + hours
 
   const isToday = moment(date).isSame(moment(), 'day')
   let gender
@@ -76,11 +76,10 @@ const ScheduleCard = ({
   const endTime = moment.unix(endEpoch).format('LT')
 
   const today = moment()
-  const startTimeEpoch = moment.unix(date)
-  const oneMinuteAfterStart = moment.unix(
-    moment(startTimeEpoch).unix() + 1 * 60
-  )
-  const fiveMinutesBefore = moment.unix(moment(startTimeEpoch).unix() - 10 * 60)
+  const startTimeEpoch = moment.unix(date).add(4, 'hours')
+  const oneMinuteAfterStart = moment(startTimeEpoch).subtract(1, 'minute')
+  const fiveMinutesBefore = moment(startTimeEpoch).subtract(10, 'minutes')
+
   const isBetween = moment(today).isBetween(
     fiveMinutesBefore,
     oneMinuteAfterStart
