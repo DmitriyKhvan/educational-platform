@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import LessonConfirmation from './LessonConfirmation'
 import ScheduleSelector from './ScheduleSelector'
 import SelectLesson from './SelectLesson'
@@ -18,6 +19,7 @@ const ScheduleLesson = () => {
   const [tabIndex, setTabIndex] = useState(0)
   const [selectTutor, setSelectTutor] = useState()
   const tutors = useSelector(state => state.tutor.list)
+  const { id } = useParams()
 
   useEffect(() => {
     dispatch(getPlanStatus())
@@ -54,6 +56,7 @@ const ScheduleLesson = () => {
             time={schedule}
             tutor={selectTutor}
             setTabIndex={setTabIndex}
+            lessonId={id}
           />
         )
       )}

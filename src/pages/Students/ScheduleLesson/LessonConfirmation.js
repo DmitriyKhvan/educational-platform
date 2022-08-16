@@ -6,7 +6,8 @@ import { format } from 'date-fns'
 import moment from 'moment'
 import {
   createAppointment,
-  getAppointments
+  getAppointments,
+  updateAppointment
 } from '../../../actions/appointment'
 import ActionTypes from '../../../constants/actionTypes'
 import NotificationManager from '../../../components/NotificationManager'
@@ -17,7 +18,7 @@ import TutorImageRow from './TutorImageRow'
 import ScheduleCardComponent from '../../../components/student-dashboard/ScheduleCard'
 import Loader from '../../../components/common/Loader'
 
-const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
+const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
   const dispatch = useDispatch()
   const [t] = useTranslation('translation')
   const [repeat, setRepeat] = useState({})
@@ -108,27 +109,65 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex }) => {
 
   const confirmLesson = async () => {
     setIsLoading(true)
-    const res = await dispatch(createAppointment(data))
-    if (res.type === ActionTypes.CREATE_APPOINTMENT_INFO.SUCCESS) {
-      const { payload } = await fetchAppointments()
-      const newAppt = payload.filter(x => x.id === res.payload.groups[0].id)[0]
-      console.log(newAppt)
-      if (newAppt) {
-        setNewAppointment(newAppt)
-        setDate(moment(newAppt.start_at).unix())
-        setIsConfirmed(true)
-        window.scrollTo(0, 0)
+
+    if (lessonId) {
+      const res = await dispatch(
+        updateAppointment(lessonId, {
+          tutor_id: data.tutor_id,
+          start_at: data.start_at,
+          duration: data.duration
+        })
+      )
+
+      if (res.type === ActionTypes.UPDATE_APPOINTMENT_INFO.SUCCESS) {
+        const { payload } = await dispatch(
+          getAppointments({ tutor_id: data.tutor_id })
+        )
+        const newAppt = payload.filter(x => x.id === parseInt(lessonId))[0]
+
+        if (newAppt) {
+          setNewAppointment(newAppt)
+          setDate(moment(res.payload.group.start_at).unix())
+          setIsConfirmed(true)
+          window.scrollTo(0, 0)
+        }
+      } else {
+        if (res.payload.error.messages && res.payload.error.messages.length) {
+          NotificationManager.error(
+            res.payload.error.messages.map(msg => msg.title).join('\n'),
+            t
+          )
+        } else if (res.payload.error.message) {
+          NotificationManager.error(res.payload.error.message, t)
+        } else {
+          NotificationManager.error('Server Error', t)
+        }
       }
     } else {
-      if (res.payload.error.messages && res.payload.error.messages.length) {
-        NotificationManager.error(
-          res.payload.error.messages.map(msg => msg.title).join('\n'),
-          t
-        )
-      } else if (res.payload.error.message) {
-        NotificationManager.error(res.payload.error.message, t)
+      const res = await dispatch(createAppointment(data))
+      if (res.type === ActionTypes.CREATE_APPOINTMENT_INFO.SUCCESS) {
+        const { payload } = await fetchAppointments()
+        const newAppt = payload.filter(
+          x => x.id === parseInt(res.payload.groups[0].id)
+        )[0]
+        console.log(newAppt)
+        if (newAppt) {
+          setNewAppointment(newAppt)
+          setDate(moment(newAppt.start_at).unix())
+          setIsConfirmed(true)
+          window.scrollTo(0, 0)
+        }
       } else {
-        NotificationManager.error('Server Error', t)
+        if (res.payload.error.messages && res.payload.error.messages.length) {
+          NotificationManager.error(
+            res.payload.error.messages.map(msg => msg.title).join('\n'),
+            t
+          )
+        } else if (res.payload.error.message) {
+          NotificationManager.error(res.payload.error.message, t)
+        } else {
+          NotificationManager.error('Server Error', t)
+        }
       }
     }
     setIsLoading(false)

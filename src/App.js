@@ -138,7 +138,7 @@ function App() {
             component={StudentListAppointments}
           />
           <PrivateRoute
-            path='/student/schedule-lesson/select'
+            path='/student/schedule-lesson/select/:id?'
             component={ScheduleLesson}
           />
           <PrivateRoute

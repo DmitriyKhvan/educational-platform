@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import moment from 'moment'
 import placeholderAvatar from '../assets/images/avatars/img_avatar_female.png'
 import ZoomWarningModal from './student-dashboard/ZoomWarningModal'
+import { Link } from 'react-router-dom'
 
 const CalendarModal = ({
   index,
@@ -75,12 +76,12 @@ const CalendarModal = ({
           </button>
         </div>
         <div className='col-4'>
-          <a
-            href='/student/schedule-lesson/select'
+          <Link
+            to={'/student/schedule-lesson/select/' + data.resource.eventDate.id}
             className='enter-btn grey-border text-black'
           >
             {t('reschedule')}
-          </a>
+          </Link>
         </div>
         <div className='col-5'>
           <a
