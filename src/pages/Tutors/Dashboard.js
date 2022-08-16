@@ -157,7 +157,10 @@ const TutorDashboard = () => {
             <h4 className='text-purple weekly-schedule-subtitle'>
               {t('tutor_dashboard_total_lessons')}
             </h4>
-
+            {t('tutor_dashboard_total_lessons', {
+              total_lessons: upcomingLessons.length,
+              t: upcomingLessons.length > 1 ? 's' : ''
+            })}
             <Link
               to='/tutor/appointments-calendar'
               className='enter-btn ms-0 tutor_cal_appoint'

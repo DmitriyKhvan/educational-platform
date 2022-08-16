@@ -249,7 +249,12 @@ const StudentListAppointments = () => {
               {!isLoading && (
                 <div className='child-set_container dash_child-set_container '>
                   <h4 className='weekly-schedule'>{t('weekly_schedule')}</h4>
-
+                  <div className='weekly-schedule-subtitle dash_weekly-schedule-subtitle'>
+                    {t('student_dashboard_total_lessons', {
+                      total_lessons: isWithinAweek.length,
+                      t: isWithinAweek.length > 1 ? 's' : ''
+                    })}
+                  </div>
                   <div className='flex-container align-button-dashboard'>
                     <div>
                       <Link
