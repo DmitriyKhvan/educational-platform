@@ -260,14 +260,14 @@ const Calendar = () => {
       : femaleAvatar
     const startTime = moment(selectedEvent.resource.start_at).format('LT')
     const endTime = moment(selectedEvent.resource.end_at).format('LT')
-    const date = moment.unix(startTime)
-    const startTimeEpoch = moment.unix(date)
-    const oneMinuteAfterStart = moment.unix(
-      moment(startTimeEpoch).unix() + 1 * 60
+
+    const startTimeEpoch = moment(selectedEvent.resource.start_at).add(
+      4,
+      'hours'
     )
-    const fiveMinutesBefore = moment.unix(
-      moment(startTimeEpoch).unix() - 10 * 60
-    )
+    const oneMinuteAfterStart = moment(startTimeEpoch).subtract(1, 'minute')
+    const fiveMinutesBefore = moment(startTimeEpoch).subtract(10, 'minutes')
+
     const isBetween = moment(today).isBetween(
       fiveMinutesBefore,
       oneMinuteAfterStart
