@@ -10,8 +10,6 @@ import { cancel_lesson_reasons_student } from '../../constants/global'
 import { getAppointments } from '../../actions/appointment'
 import ImgCalendar from '../../assets/images/calendar_icon.svg'
 import emptyCalendar from '../../assets/images/calendar_icon_main.svg'
-import pastIcon from '../../assets/images/past_icon.svg'
-import smileIcon from '../../assets/images/smile_icon.svg'
 import AppointmentApi from '../../api/AppointmentApi'
 import NotificationManager from '../../components/NotificationManager.js'
 import ModalFeedback from './ModalFeedback'
@@ -184,62 +182,6 @@ const StudentListAppointments = () => {
                           {t('schedule_group_lesson')}
                         </a>
                       </div> */}
-                    </div>
-                  </div>
-                </div>
-                <h1 className='pt-5 already_lesson'>{t('already_lesson')}</h1>
-                <div className='flex-container schedule-lesson-select'>
-                  <div className='page-card pink small-card'>
-                    <div className='row ms-1 rows-align'>
-                      <div className='col-4  ps-0 mt-3 me-2 mobilefinal mobilefinal-laptop'>
-                        <img
-                          src={smileIcon}
-                          alt=''
-                          className='img-fluid small-card-icon-feedback'
-                        />
-                      </div>
-                      <div className='col-7 forest'>
-                        <h3 className='text-white change-mobile-top'>
-                          {t('student_dashboard_feedback')}
-                        </h3>
-                      </div>
-                    </div>
-                    <div className='flex-container ps-0'>
-                      <div>
-                        <a
-                          href='/student/schedule-lesson/select'
-                          className='schedule-dashboard-buttons ms-0'
-                        >
-                          {t('student_dashboard_submit_feedback_btn')}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className='page-card light-blue small-card'>
-                    <div className='row ms-1 rows-align'>
-                      <div className='col-4 ps-0 mt-3 me-2 mobilefinal mobilefinal-laptop'>
-                        <img
-                          src={pastIcon}
-                          alt=''
-                          className='img-fluid small-card-icon-progress'
-                        />
-                      </div>
-                      <div className='col-7 forest'>
-                        <h3 className='text-white change-mobile-top'>
-                          {t('student_dashboard_progress')}
-                        </h3>
-                      </div>
-                    </div>
-                    <div className='flex-container ps-0'>
-                      <div>
-                        <a
-                          href='/student/schedule-lesson/select'
-                          className='schedule-dashboard-buttons ms-0'
-                        >
-                          {t('student_dashboard_view_progress_btn')}
-                        </a>
-                      </div>
                     </div>
                   </div>
                 </div>
