@@ -91,10 +91,10 @@ const Calendar = () => {
       const eventKeys = Object.keys(eventDates)
       eventKeys.forEach(key => {
         for (const eventDate of eventDates[key]) {
-          const date = moment(eventDate.start_at).unix()
+          const date = moment(eventDate.start_at).utc(0, true).unix()
           const endEpoch = date + eventDate.duration * 60
-          const start_at = moment.unix(date).format('LLLL')
-          const end_at = moment.unix(endEpoch).format('LLLL')
+          const start_at = moment.unix(date).utc(0, true)
+          const end_at = moment.unix(endEpoch).utc(0, true)
           const iterateEvents = {
             zoomLink: eventDate.zoomlink,
             lesson: eventDate.lesson,
@@ -120,14 +120,14 @@ const Calendar = () => {
     const eventKeys = Object.keys(eventDates)
     for (const eventKey of eventKeys) {
       for (const eventDate of eventDates[eventKey]) {
-        const date = moment(eventDate.start_at).unix()
-        const endEpoch = date + eventDate.duration * 60
+        const date = moment(eventDate.start_at).utc(0, true).unix()
         const tutor = eventDate.tutor
           ? eventDate.tutor.user.first_name +
             ' ' +
             eventDate.tutor.user.last_name.charAt(0).toUpperCase() +
             '.'
           : ''
+        const startTime = moment.unix(date).utc(0, true).format('hh:mm a')
         const tableRow = {
           lesson:
             eventDate.lesson.type.charAt(0).toUpperCase() +
@@ -135,8 +135,12 @@ const Calendar = () => {
           topic: eventDate.lesson.description,
           level: eventDate.students[0].level,
           dateTime: {
-            startTime: moment.unix(date).format('LT'),
-            endTime: moment.unix(endEpoch).format('LT'),
+            startTime,
+            endTime: moment
+              .unix(date)
+              .utc(0, true)
+              .add(eventDate.duration, 'minutes')
+              .format('hh:mm a'),
             date: moment.unix(date).format('ddd, MMM D')
           },
           onClick: {
