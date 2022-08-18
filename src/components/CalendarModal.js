@@ -23,7 +23,7 @@ const CalendarModal = ({
   const date = moment.unix(startTime)
   const startTimeEpoch = moment.unix(date)
   const oneMinuteAfterStart = moment.unix(
-    moment(startTimeEpoch).unix() + 1 * 60
+    moment(startTimeEpoch).unix() + 60 * 60
   )
   const avatar = data.resource?.tutor?.user.avatar
     ? data.resource?.tutor?.user.avatar

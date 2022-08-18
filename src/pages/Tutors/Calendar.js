@@ -265,7 +265,7 @@ const Calendar = () => {
       4,
       'hours'
     )
-    const oneMinuteAfterStart = moment(startTimeEpoch).subtract(1, 'minute')
+    const oneMinuteAfterStart = moment(startTimeEpoch).add(60, 'minute')
     const fiveMinutesBefore = moment(startTimeEpoch).subtract(10, 'minutes')
 
     const isBetween = moment(today).isBetween(
