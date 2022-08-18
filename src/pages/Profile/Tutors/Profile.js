@@ -57,6 +57,10 @@ const Profile = () => {
           <div className='col-7 pe-5'>
             <h3>About me</h3>
             <p>{tutor?.introduction}</p>
+            <h3>{t('experience')}</h3>
+            <p>{tutor?.relevant_experience}</p>
+            <h3>{t('facts')}</h3>
+            <p>{tutor?.unique_facts}</p>
           </div>
           <div className='col-5 ps-5 pt-4'>
             <div className='row ps-3'>
