@@ -4,13 +4,10 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import ImgCalendar from '../../assets/images/calendar_icon.svg'
-import studentIcon from '../../assets/images/students.png'
-import manageClassesIcon from '../../assets/images/manage_classes.png'
 import { getAppointments } from '../../actions/appointment'
 import ScheduleCard from '../../components/student-dashboard/ScheduleCard'
 import { getUserInfo } from '../../actions/user'
 import { getTutorInfo } from '../../actions/tutor'
-import CTACard from '../../components/CTACard'
 import BookingRequest from '../../components/BookingRequest'
 import Loader from '../../components/common/Loader'
 
@@ -122,26 +119,6 @@ const TutorDashboard = () => {
                   </div>
                 </div>
               </div>
-            </div>
-            <h1 className='pt-5 manage_my_classes'>{t('manage_my_classes')}</h1>
-            <div className='flex-container schedule-lesson-select'>
-              <CTACard
-                color='pink'
-                title={t('manage_classes_title')}
-                btnTitle={t('my_lesson_btn')}
-                path='/tutor/appointments-calendar'
-                icon={manageClassesIcon}
-                iconBGcolor='small-card-icon-feedback'
-              />
-              <CTACard
-                color='light-blue'
-                title={t('manage_classes_student_title')}
-                btnTitle={t('my_students')}
-                path='/tutor/students'
-                icon={studentIcon}
-                alt={'studentIcon'}
-                iconBGcolor='small-card-icon-progress'
-              />
             </div>
           </div>
         </div>
