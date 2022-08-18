@@ -109,8 +109,8 @@ const Calendar = () => {
         for (const eventDate of eventDates[key]) {
           const date = moment(eventDate.start_at).unix()
           const endEpoch = date + eventDate.duration * 60
-          const start_at = moment.unix(date).format('LLLL')
-          const end_at = moment.unix(endEpoch).format('LLLL')
+          const start_at = moment.unix(date).utc(0, true)
+          const end_at = moment.unix(endEpoch).utc(0, true)
           const iterateEvents = {
             zoomLink: eventDate.zoomlink,
             lesson: eventDate.lesson,
@@ -135,8 +135,7 @@ const Calendar = () => {
     const eventKeys = Object.keys(eventDates)
     for (const eventKey of eventKeys) {
       for (const eventDate of eventDates[eventKey]) {
-        const date = moment(eventDate.start_at).unix()
-        const endEpoch = date + eventDate.duration * 60
+        const date = moment(eventDate.start_at).utc(0, true).unix()
         const tutor = eventDate.tutor
           ? eventDate.tutor.user.first_name +
             ' ' +
@@ -150,9 +149,14 @@ const Calendar = () => {
           topic: eventDate.lesson.description,
           level: eventDate.students[0].level || 0,
           dateTime: {
-            startTime: moment.unix(date).format('LT'),
-            endTime: moment.unix(endEpoch).format('LT'),
-            date: moment.unix(date).format('ddd, MMM D')
+            startTime: moment(eventDate.start_at)
+              .utc(0, true)
+              .format('hh:mm a'),
+            endTime: moment(eventDate.start_at)
+              .add(eventDate.duration, 'minutes')
+              .utc(0, true)
+              .format('hh:mm a'),
+            date: moment(eventDate.start_at).format('ddd, MMM D')
           },
           onClick: {
             date
@@ -249,6 +253,7 @@ const Calendar = () => {
     const [selectedEvent] = calendarEvents.filter(
       x => x.id === calendarEvent.id
     )
+    console.log(selectedEvent)
     const { eventDate } = selectedEvent.resource
     const [students] = eventDate.students
     const studentLessonLevel = students.level || 0
@@ -258,13 +263,8 @@ const Calendar = () => {
       : students.user.gender === 'male'
       ? maleAvatar
       : femaleAvatar
-    const startTime = moment(selectedEvent.resource.start_at).format('LT')
-    const endTime = moment(selectedEvent.resource.end_at).format('LT')
+    const startTimeEpoch = moment(selectedEvent.resource.start_at).utc(0, true)
 
-    const startTimeEpoch = moment(selectedEvent.resource.start_at).add(
-      4,
-      'hours'
-    )
     const oneMinuteAfterStart = moment(startTimeEpoch).add(60, 'minute')
     const fiveMinutesBefore = moment(startTimeEpoch).subtract(10, 'minutes')
 
@@ -314,7 +314,17 @@ const Calendar = () => {
                 <div className='my-3'>
                   <div className='row'>
                     <h4 className='text-primary'>
-                      {startTime} - {endTime}
+                      {moment(selectedEvent.resource.start_at)
+                        .utc(0, true)
+                        .format('hh:mm a')}{' '}
+                      -{' '}
+                      {moment(selectedEvent.resource.start_at)
+                        .add(
+                          selectedEvent.resource.eventDate.duration,
+                          'minutes'
+                        )
+                        .utc(0, true)
+                        .format('hh:mm a')}
                     </h4>
                   </div>
                   <div className='row'>
