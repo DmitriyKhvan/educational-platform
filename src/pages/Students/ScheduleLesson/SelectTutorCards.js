@@ -65,8 +65,21 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
             <div className='p-4'>
               <div className='row'>
                 <h1>{name}</h1>
+                <h3>{t('introduction')}</h3>
                 <p className='learn-more-text'>
                   {modalSelectTutor.introduction}
+                </p>
+              </div>
+              <div className='row'>
+                <h3>{t('experience')}</h3>
+                <p className='learn-more-text'>
+                  {modalSelectTutor.relevant_experience}
+                </p>
+              </div>
+              <div className='row'>
+                <h3>{t('facts')}</h3>
+                <p className='learn-more-text'>
+                  {modalSelectTutor.unique_facts}
                 </p>
               </div>
               <div className='row ps-2 pt-4'>
