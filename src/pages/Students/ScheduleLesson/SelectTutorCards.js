@@ -83,24 +83,24 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
                 </p>
               </div>
               <div className='row ps-2 pt-4'>
-                <div className='col-4 ps-1'>
-                  <div className='row'>
+                <div className='col-4'>
+                  <div>
                     <p className='learn-more-text mb-1'>{t('school')}</p>
                     <p>
                       <strong>{modalSelectTutor.university}</strong>
                     </p>
                   </div>
                 </div>
-                <div className='col-5'>
-                  <div className='row'>
+                <div className='col-4'>
+                  <div>
                     <p className='learn-more-text mb-1'>{t('degree_major')}</p>
                     <p>
                       <strong>{modalSelectTutor.degree}</strong>
                     </p>
                   </div>
                 </div>
-                <div className='col-3'>
-                  <div className='row'>
+                <div className='col-4'>
+                  <div>
                     <p className='learn-more-text mb-1'>
                       {t('tutor_certificates')}
                     </p>

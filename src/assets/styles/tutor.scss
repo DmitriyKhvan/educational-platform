@@ -1,73 +1,97 @@
 @import './variable.scss';
+.w33 {
+  width: 33% !important;
+}
+
 .set_padd_lesson {
   padding: 20px 50px 0 50px !important;
 }
+
 .tutor_schedule_widths {
   height: 100vh;
   overflow: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 .tutor_schedule_widths::-webkit-scrollbar {
   display: none;
 }
+
 .lessontext {
   margin-top: 0 !important;
 }
+
 .between {
   margin-left: -11px;
 }
+
 .align_schedule_texts {
   margin-left: -27px;
 }
+
 .tickmark {
   padding-top: 10px;
   margin-left: auto;
 }
+
 [alt='scheduleTick'] {
   margin-bottom: 0 !important;
 }
+
 .button_schedule {
   padding: 15px;
 }
+
 .schedule_set_tutor_container {
   max-width: 730px;
 }
+
 .schedule_height {
   height: 100vh;
 }
+
 .tickNone {
   display: none;
 }
+
 .right-con-title {
   padding: 26px 15px 0;
 }
+
 .right-con-subtitle {
   padding: 0 15px;
 }
+
 .schedule-cards {
   padding: 31px 15px 0px 15px;
 }
+
 .schedule_changess {
   padding: 50px 65px;
 }
+
 .btn-custom {
   padding-left: 0 !important;
   padding-top: 40px !important;
 }
+
 .tutor_schedule_width {
   max-width: 1180px;
   width: 100%;
 }
+
 .schedule_height {
   height: 100vh;
   overflow: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 .schedule-overflow-scroll::-webkit-scrollbar {
   display: none;
 }
+
 .schedule_lesson_day {
   font-family: 'Inter';
   font-style: normal;
@@ -79,6 +103,7 @@
   background: #6133af !important;
   padding: 17px;
 }
+
 .schedule_lesson_day_unselect {
   font-family: 'Inter';
   font-style: normal;
@@ -89,11 +114,13 @@
   color: #261a45 !important;
   padding: 17px;
 }
+
 #profile-wrapper {
   background: $color-purple1;
   padding-top: 60px;
   padding-left: 40px;
   position: relative;
+
   &:after {
     content: '';
     position: absolute;
@@ -105,6 +132,7 @@
     z-index: 0;
   }
 }
+
 .learn-more-text {
   font-family: 'Inter';
   font-style: normal;
@@ -126,6 +154,7 @@
   position: relative;
   z-index: 1;
 }
+
 .selct-time {
   font-family: 'Inter';
   font-style: normal;
@@ -135,6 +164,7 @@
   letter-spacing: -0.7px;
   color: #261a45;
 }
+
 .make-appointment-modal {
   .modal-body {
     width: 100%;
@@ -146,12 +176,14 @@
       flex-direction: column;
       align-items: center;
       gap: 10px;
+
       img,
       .no-avatar {
         width: 100px;
         height: 100px;
         border-radius: 50%;
       }
+
       .no-avatar {
         display: flex;
         border: 1px solid gray;
@@ -161,6 +193,7 @@
           font-size: 20px;
         }
       }
+
       p {
         white-space: nowrap;
         text-align: center;
@@ -168,6 +201,7 @@
     }
   }
 }
+
 .payment-page-layout {
   .sub-title {
     font-family: Noto Serif;
@@ -177,10 +211,12 @@
     line-height: 22px;
     margin-top: 16px;
     margin-bottom: 28.87px;
+
     &:not(:first-child) {
       margin-top: 41px;
     }
   }
+
   .statistic {
     display: flex;
     gap: 24px;
@@ -189,23 +225,28 @@
 
     columns: 3;
     flex-wrap: wrap;
+
     @media screen and (max-width: 600px) {
       flex-direction: column;
     }
+
     .card {
       display: flex;
       flex-direction: column;
       gap: 20px;
       width: 240px;
+
       @media screen and (max-width: 600px) {
         width: 100%;
       }
+
       .caption {
         font-family: Noto Serif;
         font-style: normal;
         font-weight: normal;
         font-size: 16px;
       }
+
       .box {
         background: $color-white;
         border: 0.5px solid $color-grey3;
@@ -219,6 +260,7 @@
         &:hover {
           border: 2px solid rgba(237, 28, 112, 0.3);
         }
+
         .hours-taught {
           &-label {
             font-family: Source Sans Pro;
@@ -229,17 +271,20 @@
             border-bottom: 0.5px solid #dbdbdb;
             margin-bottom: 15px;
           }
+
           &-value {
             font-family: Noto Serif JP;
             font-style: normal;
             font-weight: bold;
             font-size: 26px;
             margin-bottom: 15px;
+
             span {
               font-size: 18px;
             }
           }
         }
+
         .earnings {
           &-label {
             font-family: Source Sans Pro;
@@ -250,11 +295,13 @@
             border-bottom: 0.5px solid #dbdbdb;
             margin-bottom: 15px;
           }
+
           &-value {
             font-family: Noto Serif JP;
             font-style: normal;
             font-weight: bold;
             font-size: 26px;
+
             span {
               font-size: 18px;
             }
@@ -263,6 +310,7 @@
       }
     }
   }
+
   .payment-status {
     display: flex;
     align-items: center;
@@ -342,6 +390,7 @@ p.color-white {
 .purple-bg {
   background: #6133af;
 }
+
 .col-1.leftArrow {
   box-sizing: border-box;
   display: flex;
@@ -363,12 +412,15 @@ p.color-white {
   height: 48px;
   margin-left: -18px;
 }
+
 .leftArrow-btn {
   width: 45px;
 }
+
 .rightArrow-btn {
   width: 45px;
 }
+
 button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
   padding: 13px;
   width: 83px;
@@ -488,6 +540,7 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     margin-left: -32px;
     margin-top: 10px;
   }
+
   .back-btn-schedule img {
     margin-right: 5px;
   }
@@ -524,28 +577,36 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
   .cursor {
     cursor: pointer;
   }
+
   @media screen and (min-width: 250px) and (max-width: 1300px) {
     .flex-container {
       display: block;
     }
+
     .availability-wrapper {
       width: 100%;
     }
+
     .lesson-wrapper {
       width: 100%;
     }
+
     .day-selector {
       width: 100%;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: 50px;
     }
+
     .start-week {
       margin: 0px 225px;
     }
+
     .schedule-overflow-scroll.slot-scroll {
       margin-top: -6px;
     }
+
     .slot-right {
       width: 52%;
     }
@@ -555,72 +616,90 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .col-1.ps-3.rightArrow {
       margin-left: -18px;
     }
+
     .start-week {
       font-size: 16px;
       margin: 0 1px;
       width: 118px;
     }
+
     .rightArrow-btn {
       margin-left: -39px;
     }
+
     .leftArrow-btn {
       margin-left: -30px;
     }
+
     p.daytxt {
       margin-left: 3px;
       font-size: 13px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 3px;
       font-size: 13px;
       text-align: center;
     }
+
     .title {
       margin-top: 19px;
       width: 0;
     }
+
     .slot-right {
       margin-left: 8px;
       margin-left: 12px;
     }
+
     .slot-scroll {
       margin-top: 12px;
       padding-right: 16px;
     }
-    .day-bar{
+
+    .day-bar {
       margin-top: 48px;
       width: 275px;
       margin-left: 2px;
     }
+
     .left-subtitle {
       margin-top: 30px;
       font-size: 18px;
     }
+
     .row.customDay-select {
       margin-top: 14px;
     }
+
     .slot-text {
       font-size: 19px;
     }
+
     .lelt-con {
       margin-top: 30px;
       font-size: 38px;
     }
+
     .leftArrow {
       margin-left: 13px;
     }
+
     .col-10.bar-resp {
       width: 165px;
     }
+
     .right-con-subtitle {
       margin-top: 104px;
       margin-bottom: 66px;
     }
+
     .time-card {
       width: 236px;
       margin-left: 18px;
     }
+
     .time-card-container {
       width: 100%;
       margin-left: -5px;
@@ -631,14 +710,17 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .time-card-container {
       width: 100%;
     }
+
     .time-card {
       width: 300px;
 
       margin-left: 12px;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: -22px;
     }
+
     .start-week {
       font-size: 23px;
       margin: 0px -55px;
@@ -647,39 +729,48 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .rightArrow-btn {
       margin-left: -38px;
     }
+
     .leftArrow-btn {
       margin-left: -21px;
     }
+
     p.daytxt {
       margin-left: 22px;
       text-align: center;
       font-size: 18px;
     }
+
     p.color-white {
       margin-left: 22px;
       text-align: center;
       font-size: 18px;
     }
+
     .slot-right {
       margin-left: 8px;
     }
+
     .slot-scroll {
       margin-top: 12px !important;
       padding-right: 16px;
     }
+
     .day-bar {
       margin-top: 48px !important;
       margin-left: 10px;
     }
+
     .lelt-con {
       width: 321px;
       font-size: 38px;
     }
+
     .right-con-title {
       margin-bottom: 48px;
       margin-top: 8px;
       margin-left: -9px;
     }
+
     .right-con-subtitle {
       margin-left: -9px;
     }
@@ -689,46 +780,59 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .time-card-container {
       width: 100%;
     }
+
     .container.title-container {
       margin-left: 0px;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: -19px;
     }
+
     .start-week {
       font-size: 23px;
       margin: 0px -50px;
     }
+
     .slot-right {
       width: 52%;
     }
+
     .rightArrow-btn {
       margin-left: -42px;
     }
+
     .leftArrow-btn {
       margin-left: -25px;
     }
+
     .leftArrow {
       margin-left: -3px;
     }
+
     p.daytxt {
       margin-left: 13px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 13px;
       text-align: center;
     }
+
     .lelt-con {
       width: 331px;
       font-size: 39px;
     }
+
     .slot-right {
       margin-left: 8px;
     }
+
     .slot-scroll {
       margin-top: 12px !important;
     }
+
     .day-bar {
       margin-left: 13px;
     }
@@ -738,19 +842,24 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .container.title-container {
       margin-left: 0px;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: -10px;
     }
+
     .start-week {
       font-size: 23px;
       margin: 0px -31px;
     }
+
     .slot-right {
       width: 52%;
     }
+
     .rightArrow-btn {
       margin-left: -34px;
     }
+
     .leftArrow-btn {
       margin-right: -25px;
     }
@@ -758,31 +867,39 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .leftArrow {
       margin-left: -14px;
     }
+
     p.daytxt {
       margin-left: 21px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 21px;
       text-align: center;
     }
+
     .lelt-con {
       width: 342px;
       font-size: 39px;
     }
+
     .right-con-title {
       margin-left: -7px;
     }
+
     .slot-right {
       margin-left: 8px;
     }
+
     .row.container.ps-4.pe-0.day-bar {
       height: 48px;
       margin-top: 47px;
     }
+
     .right-con-subtitle {
       margin-left: -10px;
     }
+
     .schedule-overflow-scroll.slot-scroll {
       margin-top: -6px;
     }
@@ -792,56 +909,71 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .container.title-container {
       margin-left: 0px;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: -20px;
     }
+
     .start-week {
       font-size: 23px;
       margin: 0px -33px;
     }
+
     .slot-right {
       width: 52%;
     }
+
     .rightArrow-btn {
       margin-left: -33px;
     }
+
     .leftArrow-btn {
       margin-left: -17px;
     }
+
     .leftArrow {
       margin-left: -3px;
     }
+
     p.daytxt {
       margin-left: 33px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 33px;
       text-align: center;
     }
+
     .lelt-con {
       width: 342px;
       font-size: 39px;
     }
+
     .slot-right {
       margin-left: 8px;
     }
+
     .slot-scroll {
       margin-top: 12px !important;
       padding-right: 16px;
       margin-left: 6px;
     }
+
     .row.container.ps-4.pe-0.day-bar {
       height: 48px;
       margin-top: 47px;
       margin-left: 11px;
     }
+
     .right-con-title {
       margin-left: -3px;
     }
+
     .right-con-subtitle {
       margin-left: -3px;
     }
+
     .schedule-overflow-scroll.slot-scroll {
       margin-top: -6px;
       padding-right: 5px;
@@ -852,44 +984,56 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .container.title-container {
       margin-left: 0px;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: 15px;
     }
+
     .start-week {
       font-size: 23px;
       margin: 0px -7px;
     }
+
     .slot-right {
       width: 52%;
     }
+
     .rightArrow-btn {
       margin-left: -59px;
     }
+
     .leftArrow {
       margin-left: -27px;
     }
+
     .leftArrow-btn {
       margin-right: -43px;
     }
+
     p.daytxt {
       margin-left: 33px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 33px;
       text-align: center;
     }
+
     .lelt-con {
       width: 342px;
       font-size: 39px;
     }
+
     .slot-right {
       margin-left: 8px;
     }
+
     .slot-scroll {
       margin-top: 12px !important;
       padding-right: 16px;
     }
+
     .time-card-container {
       margin-left: 8px;
     }
@@ -899,18 +1043,23 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .col-1.ps-3.rightArrow {
       margin-left: -13px;
     }
+
     .start-week {
       margin: 0px 20px;
     }
+
     .slot-right {
       width: 52%;
     }
+
     p.daytxt {
       margin-left: 45px;
     }
+
     p.color-white {
       margin-left: 45px;
     }
+
     .slot-right {
       margin-left: 3px;
     }
@@ -920,17 +1069,21 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .col-1.ps-3.rightArrow {
       margin-left: 0px;
     }
+
     .start-week {
       margin: 0px 32px;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 12px;
     }
+
     p.daytxt {
       margin-left: 62px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 62px;
       text-align: center;
@@ -941,15 +1094,19 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
       padding-right: 5px;
       margin-left: 8px;
     }
+
     .time-card-container {
       width: 100%;
     }
+
     .leftArrow-btn {
       margin-left: -7px;
     }
+
     .rightArrow-btn {
       margin-left: -39px;
     }
+
     .day-bar {
       margin-left: -5px;
     }
@@ -959,15 +1116,19 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .title-container {
       margin-left: 0;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: -13px;
     }
+
     .start-week {
       margin: 0px 93px;
     }
+
     .slot-right {
       width: 52%;
     }
+
     .rightArrow-btn {
       margin-left: 192px;
     }
@@ -977,30 +1138,38 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .title-container {
       margin-left: 0;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: 0px;
     }
+
     .start-week {
       margin: 0px 93px;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 12px;
     }
+
     .rightArrow-btn {
       margin-left: -13px;
     }
+
     .leftArrow-btn {
       margin-left: -2px;
     }
+
     p.daytxt {
       margin-left: 93px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 93px;
       text-align: center;
     }
+
     .time-card-container {
       width: 100%;
     }
@@ -1010,16 +1179,20 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .title-container {
       margin-left: 0;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: 0px;
     }
+
     .start-week {
       margin: 0px 93px;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 13px;
     }
+
     .rightArrow-btn {
       margin-left: -15px;
     }
@@ -1029,18 +1202,23 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .container {
       margin-left: 0;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: -11px;
     }
+
     .start-week {
       margin: 0px 90px;
     }
+
     .slot-right {
       width: 52%;
     }
+
     .rightArrow-btn {
       margin-left: -12px;
     }
+
     .leftArrow-btn {
       margin-left: -27px;
     }
@@ -1050,39 +1228,50 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .container {
       margin-left: 0;
     }
+
     .leftArrow {
       margin-left: -14px;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: 2px;
     }
+
     .start-week {
       margin: 0px 111px;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 12px;
     }
+
     .rightArrow-btn {
       margin-left: -8px;
     }
+
     .back-btn-container {
       margin-left: -12px;
     }
+
     .right-con-title {
       margin-left: -17px;
     }
+
     .right-con-subtitle {
       margin-left: -17px;
     }
+
     p.daytxt {
       margin-left: 104px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 104px;
       text-align: center;
     }
+
     .schedule-overflow-scroll.slot-scroll {
       margin-top: -6px;
       padding-right: 11px;
@@ -1093,61 +1282,76 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .container {
       margin-left: 0;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: 4px;
     }
+
     .start-week {
       margin: 0px 129px;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 12px;
     }
+
     .rightArrow-btn {
       margin-left: -8px;
     }
+
     .col-1.leftArrow {
       margin-left: -16px;
     }
+
     .back-btn-container {
       margin-left: -11px;
     }
+
     .right-con-title {
       margin-top: 0px;
       margin-bottom: 23px;
       margin-left: -12px;
     }
+
     .right-con-subtitle {
       margin-left: -13px;
       margin-top: -25px;
     }
+
     .schedule-overflow-scroll.slot-scroll {
       margin-top: -6px;
       padding-right: 5px;
       margin-left: 7px;
     }
+
     .row.container.pt-3.btn-custom {
       margin-left: 0px;
-  }
+    }
   }
 
   @media screen and (min-width: 768px) and (max-width: 799px) {
     .col-1.ps-3.rightArrow {
       margin-left: 0px;
     }
+
     .start-week {
       margin: 0px 152px;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 11px;
     }
+
     .rightArrow-btn {
       margin-left: -7px;
     }
+
     .leftArrow-btn {
       margin-left: -11px;
     }
+
     .schedule-overflow-scroll.slot-scroll {
       padding-right: 5px;
       overflow: auto;
@@ -1158,16 +1362,20 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .col-1.ps-3.rightArrow {
       margin-left: -3px;
     }
+
     .start-week {
       margin: 0px 187px;
     }
+
     .schedule-overflow-scroll.slot-scroll {
       margin-top: -6px;
       padding-right: 16px;
     }
+
     .slot-right {
       width: 52%;
     }
+
     .rightArrow-btn {
       margin-left: 256px;
     }
@@ -1177,26 +1385,33 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .col-1.ps-3.rightArrow {
       margin-left: -3px;
     }
+
     .start-week {
       margin: 0px 171px;
     }
+
     .schedule-overflow-scroll.slot-scroll {
       margin-top: -6px;
       padding-right: 5px;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 11px;
     }
+
     .rightArrow-btn {
       margin-left: 3px;
     }
+
     .leftArrow-btn {
       margin-left: -9px;
     }
+
     .lelt-con {
       margin-left: -27px;
     }
+
     .left-subtitle {
       margin-left: -27px;
     }
@@ -1206,24 +1421,30 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .col-1.ps-3.rightArrow {
       margin-left: -3px;
     }
+
     .start-week {
       margin: 0px 187px;
     }
+
     .schedule-overflow-scroll.slot-scroll {
       margin-top: -6px;
       padding-right: 16px;
       margin-left: 7px;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 12px;
     }
+
     .rightArrow-btn {
       margin-left: 4px;
     }
+
     .leftArrow-btn {
       margin-left: -18px;
     }
+
     .title-container {
       margin-left: 0px;
     }
@@ -1232,6 +1453,7 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
       margin-left: 130px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 130px;
       text-align: center;
@@ -1252,13 +1474,16 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
       padding-right: 16px;
       margin-left: 7px;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 12px;
     }
+
     .rightArrow-btn {
       margin-left: 4px;
     }
+
     .leftArrow-btn {
       margin-left: -18px;
     }
@@ -1266,51 +1491,63 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .title-container {
       margin-left: 0px;
     }
+
     p.daytxt {
       margin-left: 130px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 130px;
       text-align: center;
     }
+
     .row.container.pt-3.btn-custom {
-    padding-left: 60px;
-    display: flex;
-  }
+      padding-left: 60px;
+      display: flex;
+    }
   }
 
   @media screen and (min-width: 896px) and (max-width: 899px) {
     .col-1.ps-3.rightArrow {
       margin-left: 0px;
     }
+
     .start-week {
       margin: 0px 187px;
     }
+
     .schedule-overflow-scroll.slot-scroll {
       margin-top: -6px;
       padding-right: 16px;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 12px;
     }
+
     .rightArrow-btn {
       margin-left: 0px;
     }
+
     .leftArrow-btn {
       margin-left: -24px;
     }
+
     .container.title-container {
       margin-left: 0;
     }
+
     .slot-scroll {
       margin-left: 10px;
     }
+
     p.daytxt {
       margin-left: 150px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 150px;
       text-align: center;
@@ -1321,29 +1558,36 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .col-1.ps-3.rightArrow {
       margin-left: -3px;
     }
+
     .start-week {
       margin: 0px 80px;
     }
+
     .schedule-overflow-scroll.slot-scroll {
       margin-top: -6px;
       padding-right: 5px;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 12px;
     }
+
     .time-card {
       width: 268px;
       margin-left: 18px;
     }
+
     p.daytxt {
       margin-left: 82px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 82px;
       text-align: center;
     }
+
     .rightArrow-btn {
       margin-left: -17px;
     }
@@ -1353,6 +1597,7 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .col-1.ps-3.rightArrow {
       margin-left: 0px;
     }
+
     .start-week {
       margin: 0px 80px;
     }
@@ -1361,27 +1606,34 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
       margin-top: -6px;
       padding-right: 15px;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 14px;
     }
+
     p.daytxt {
       margin-left: 83px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 83px;
       text-align: center;
     }
+
     .right-con-title {
       margin-left: -10px;
     }
+
     .right-con-subtitle {
       margin-left: -10px;
     }
+
     .rightArrow-btn {
       margin-left: -16px;
     }
+
     .time-card {
       width: 276px;
 
@@ -1393,25 +1645,32 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .availability-wrapper {
       width: 100%;
     }
+
     .lesson-wrapper {
       width: 100%;
     }
+
     .day-selector {
       width: 100%;
     }
+
     .time-card {
       width: 92%;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: 0px;
     }
+
     .rightArrow-btn {
       width: 45px;
       margin-left: -12px;
     }
+
     .leftArrow-btn {
       margin-left: -7px;
     }
+
     .start-week {
       margin: 0px 225px;
     }
@@ -1422,10 +1681,12 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
       margin-left: 8px;
       overflow: auto;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 12px;
     }
+
     .start-week {
       margin: 0px 114px;
     }
@@ -1435,43 +1696,55 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .availability-wrapper {
       width: 100%;
     }
+
     .lesson-wrapper {
       width: 100%;
     }
+
     .day-selector {
       width: 100%;
     }
+
     .time-card {
       width: 90%;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: 0px;
     }
+
     .start-week {
       margin: 0px 225px;
     }
+
     .schedule-overflow-scroll.slot-scroll {
       margin-top: -6px;
       padding-right: 5px;
       margin-left: 6px;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 11px;
     }
+
     .start-week {
       margin: 0px 190px;
     }
+
     .leftArrow-btn {
       margin-left: -13px;
     }
+
     .rightArrow-btn {
       margin-left: 0px;
     }
+
     p.daytxt {
       margin-left: 143px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 143px;
       text-align: center;
@@ -1482,140 +1755,179 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .availability-wrapper {
       width: 100%;
     }
+
     .lesson-wrapper {
       width: 100%;
     }
+
     .day-selector {
       width: 100%;
     }
+
     .time-card {
       width: 100%;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: 0px;
     }
+
     .start-week {
       margin: 0px 235px;
     }
+
     .schedule-overflow-scroll.slot-scroll {
       margin-top: -6px;
       padding-right: 5px;
       overflow: auto;
     }
+
     .slot-right {
       width: 52%;
     }
+
     .rightArrow-btn {
       margin-left: 11px;
     }
+
     .leftArrow-btn {
       margin-left: -29px;
     }
+
     p.daytxt {
       margin-left: 143px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 143px;
       text-align: center;
     }
+
     .col-6.time-card-container {
       width: 48%;
       margin-left: 8px;
     }
   }
+
   @media screen and (min-width: 1366px) and (max-width: 1367px) {
     .availability-wrapper {
       width: 100%;
     }
+
     .lesson-wrapper {
       width: 100%;
     }
+
     .day-selector {
       width: 100%;
     }
+
     .time-card {
       width: 65%;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: 2px;
     }
+
     .start-week {
       margin: 0px 235px;
       margin-left: 125px;
     }
+
     .schedule-overflow-scroll.slot-scroll {
       margin-top: -6px;
       padding-right: 5px;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 12px;
     }
+
     .rightArrow-btn {
       margin-left: -11px;
     }
+
     p.daytxt {
       margin-left: 104px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 104px;
       text-align: center;
     }
+
     .col-6.time-card-container {
       width: 100%;
       margin-left: 8px;
     }
+
     .right-con-subtitle {
       width: 214px;
     }
+
     .leftArrow {
       margin-left: -3px;
     }
   }
+
   @media screen and (min-width: 1368px) and (max-width: 1499px) {
     .availability-wrapper {
       width: 100%;
     }
+
     .lesson-wrapper {
       width: 100%;
     }
+
     .day-selector {
       width: 100%;
     }
+
     .time-card {
       width: 90%;
     }
+
     .start-week {
       margin: 0px 32px;
     }
+
     .schedule-overflow-scroll.slot-scroll {
       margin-top: -6px;
       padding-right: 5px;
       overflow: auto;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 12px;
     }
+
     .rightArrow-btn {
       margin-left: -27px;
     }
+
     .leftArrow-btn {
       margin-left: -7px;
     }
+
     p.daytxt {
       margin-left: 62px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 62px;
       text-align: center;
     }
+
     .day-bar {
       margin-left: 0;
     }
+
     .rightArrow {
       margin-left: -10px;
     }
@@ -1625,46 +1937,58 @@ button.enter-btn.btn-dash-return.ms-0.back-btn-schedule {
     .availability-wrapper {
       width: 100%;
     }
+
     .lesson-wrapper {
       width: 100%;
     }
+
     .day-selector {
       width: 100%;
     }
+
     .time-card-container {
       width: 49%;
       margin-left: 7px;
     }
+
     .start-week {
       margin: 0px 160px;
     }
+
     .schedule-overflow-scroll.slot-scroll {
       margin-top: -6px;
       padding-right: 5px;
       overflow: auto;
     }
+
     .slot-right {
       width: 52%;
       margin-left: 12px;
     }
+
     .col-1.ps-3.rightArrow {
       margin-left: 7px;
     }
+
     .rightArrow-btn {
       margin-left: 0px;
     }
+
     p.daytxt {
       margin-left: 125px;
       text-align: center;
     }
+
     p.color-white {
       margin-left: 125px;
       text-align: center;
     }
+
     .leftArrow {
       margin-left: -7px;
     }
   }
+
   margin-right: 10px;
   margin-left: 10px;
 }
@@ -1684,6 +2008,7 @@ h1.text-purple.lessontext {
   letter-spacing: -0.6px;
   color: #261a45;
 }
+
 .colon-color {
   color: #261a45;
 }
@@ -1695,6 +2020,7 @@ p.text-end.text-danger.mb-1.mt-text {
 .col-md-6.pe-4.main-container {
   padding-bottom: 36px;
 }
+
 p.text-end.text-danger.mb-1.mt-text.expires {
   height: 18px;
   left: 348px;
@@ -1710,9 +2036,11 @@ p.text-end.text-danger.mb-1.mt-text.expires {
   margin-left: -11px;
   margin-top: 69px;
 }
+
 p.m-2.inner-txt.sublabel2-txt {
   color: #261a45;
 }
+
 .ExpWidth-con {
   margin-top: 25px;
 }
@@ -1774,6 +2102,7 @@ button.enter-btn.btn-dash-return.ms-0 {
   margin-left: 20px;
   font-family: 'Inter';
 }
+
 button.enter-btn.btn-primary {
   display: flex;
   flex-direction: row;
@@ -1788,17 +2117,21 @@ button.enter-btn.btn-primary {
   order: 1;
   font-family: 'Inter';
 }
+
 span.tickmark {
   margin-left: 87.58%;
   margin-top: -7px;
 }
+
 span.tickmark img {
   margin-bottom: 0;
 }
+
 span.tickNone {
   margin-left: 87.58%;
   visibility: hidden;
 }
+
 span.tickNone img {
   margin-bottom: 0;
 }
@@ -1814,6 +2147,7 @@ span.exp-txt {
   letter-spacing: -0.6px;
   color: #261a45;
 }
+
 span.exp-date {
   height: 18px;
   left: 402px;
@@ -1855,6 +2189,7 @@ span.continue-arrow {
     width: 98px;
     margin-bottom: 10px;
   }
+
   button.enter-btn.btn-primary {
     width: 71px;
     margin-top: 1px;
@@ -1868,6 +2203,7 @@ span.continue-arrow {
     margin-top: 1px;
     margin-left: 16px;
   }
+
   .content .scroll-layout {
     overflow: hidden;
   }
@@ -1876,6 +2212,7 @@ span.continue-arrow {
     display: block;
     margin-top: 14px;
   }
+
   .col-4.schedule-lesson-border.me-2.sublabel-1 {
     width: 192px;
     margin-bottom: 5px;
@@ -1884,14 +2221,17 @@ span.continue-arrow {
   .col-7.schedule-lesson-border.ms-2.sublabel-2 {
     width: 192px;
   }
+
   p.text-end.text-danger.mb-1.mt-text.expires {
     margin-left: 37px;
     margin-top: 78px;
   }
+
   span.tickmark {
     margin-left: 87.58%;
     margin-top: -7px;
   }
+
   h1.text-black.lessontext,
   h1.text-purple.lessontext {
     margin-left: -5px;
@@ -1907,6 +2247,7 @@ span.continue-arrow {
     width: 97px;
     margin-bottom: 10px;
   }
+
   button.enter-btn.btn-primary {
     width: 93px;
     margin-top: 1px;
@@ -1923,22 +2264,26 @@ span.continue-arrow {
     width: 114px;
     margin-bottom: 10px;
   }
+
   button.enter-btn.btn-primary {
     width: 114px;
     margin-top: 1px;
     margin-left: 9px;
   }
 }
+
 @media screen and (min-width: 360px) and (max-width: 374px) {
   .row.container.pt-3.btn-custom {
     margin-left: -15px;
     width: 400px;
   }
+
   button.enter-btn.btn-primary {
     width: 98px;
     margin-top: 1px;
     margin-left: 22px;
   }
+
   .content .scroll-layout {
     overflow: hidden;
   }
@@ -1946,6 +2291,7 @@ span.continue-arrow {
   p.text-end.text-danger.mb-1.mt-text.expires {
     margin-left: -8px;
   }
+
   span.tickmark {
     margin-left: 87.58%;
     margin-top: -7px;
@@ -1961,10 +2307,12 @@ span.continue-arrow {
     margin-left: -7px;
     width: 400px;
   }
+
   button.enter-btn.btn-primary {
     width: 98px;
     margin-left: 22px;
   }
+
   .content .scroll-layout {
     overflow: hidden;
   }
@@ -1972,6 +2320,7 @@ span.continue-arrow {
   p.text-end.text-danger.mb-1.mt-text.expires {
     margin-left: -8px;
   }
+
   span.tickmark {
     margin-left: 87.58%;
     margin-top: -7px;
@@ -1984,14 +2333,16 @@ span.continue-arrow {
 }
 
 @media screen and (min-width: 390px) and (max-width: 392px) {
-  .row.container.pt-3.btn-custom {  
+  .row.container.pt-3.btn-custom {
     width: 400px;
   }
+
   button.enter-btn.btn-primary {
     width: 98px;
     margin-top: 1px;
     margin-left: 22px;
   }
+
   .content .scroll-layout {
     overflow: hidden;
   }
@@ -1999,6 +2350,7 @@ span.continue-arrow {
   p.text-end.text-danger.mb-1.mt-text.expires {
     margin-left: -8px;
   }
+
   span.tickmark {
     margin-left: 87.58%;
     margin-top: -7px;
@@ -2009,28 +2361,35 @@ span.continue-arrow {
     margin-left: 7px;
   }
 }
+
 @media screen and (max-width: 1200px) {
   .flex-right {
     width: 100%;
   }
+
   .flex-left {
     width: 100%;
   }
+
   .mobile-view-buttons {
     margin-left: 6px;
   }
+
   .titles_align_desktop {
     padding: 0;
   }
 }
+
 @media screen and (max-width: 901px) {
   .mobile-view-buttons {
     margin-left: -6px;
   }
+
   .mobile_align_dash {
     margin-bottom: 20px;
   }
 }
+
 // min-width: fit-content;
 // margin-left: 37px;
 @media screen and (min-width: 393px) and (max-width: 411px) {
@@ -2040,7 +2399,8 @@ span.continue-arrow {
     width: 400px;
     margin-top: -35px;
   }
-  button.enter-btn.btn-dash-return.ms-0 { 
+
+  button.enter-btn.btn-dash-return.ms-0 {
     width: 100%
   }
 
@@ -2049,6 +2409,7 @@ span.continue-arrow {
     margin-top: 1px;
     margin-left: 2px;
   }
+
   .content .scroll-layout {
     overflow: hidden;
   }
@@ -2056,13 +2417,16 @@ span.continue-arrow {
   p.text-end.text-danger.mb-1.mt-text.expires {
     margin-left: -8px;
   }
+
   span.tickmark {
     margin-left: 87.58%;
     margin-top: -7px;
   }
+
   .ExpWidth-con {
     margin-top: 25px;
   }
+
   .content .children-wrapper {
     padding: 25px;
   }
@@ -2072,11 +2436,13 @@ span.continue-arrow {
   .row.container.pt-3.btn-custom {
     margin-left: 0px;
   }
+
   button.enter-btn.btn-primary {
     width: 102px;
     margin-top: 4px;
     margin-left: 21px;
   }
+
   .content .scroll-layout {
     overflow: hidden;
   }
@@ -2084,10 +2450,12 @@ span.continue-arrow {
   p.text-end.text-danger.mb-1.mt-text.expires {
     margin-top: 78px;
   }
+
   span.tickmark {
     margin-left: 87.58%;
     margin-top: -7px;
   }
+
   h1.text-black.lessontext,
   h1.text-purple.lessontext {
     margin-left: 2px;
@@ -2116,6 +2484,7 @@ span.continue-arrow {
     margin-top: 1px;
     margin-left: 21px;
   }
+
   .content .scroll-layout {
     overflow: hidden;
   }
@@ -2124,6 +2493,7 @@ span.continue-arrow {
   h1.text-purple.lessontext {
     margin-left: 2px;
   }
+
   p.text-end.text-danger.mb-1.mt-text.expires {
     margin-left: -2px;
   }
@@ -2139,17 +2509,19 @@ span.continue-arrow {
   .row.container.pt-3.btn-custom {
     margin-left: 14px;
   }
+
   .ExpWidth-con {
-  margin-left: 15px;
+    margin-left: 15px;
   }
 }
-@media screen and (min-width: 720px) and (max-width: 767px) {
-}
+
+@media screen and (min-width: 720px) and (max-width: 767px) {}
 
 @media screen and (min-width: 844px) and (max-width: 896px) {
   .col-md-6.pe-4.main-container {
     padding-left: 34px;
   }
+
   .ExpWidth-con {
     margin-top: 25px;
     width: 100%;
@@ -2177,12 +2549,14 @@ span.continue-arrow {
     flex: 0 0 auto;
     width: 50%;
   }
+
   .content .scroll-layout {
     height: 100%;
     min-height: 100%;
     overflow: hidden;
     padding-bottom: 20px;
   }
+
   .ExpWidth-con {
     margin-top: -37px;
   }
@@ -2197,6 +2571,7 @@ span.continue-arrow {
     flex: 0 0 auto;
     width: 50%;
   }
+
   .row.container.pt-3.btn-custom {
     margin-left: 0px;
   }
@@ -2215,6 +2590,7 @@ span.continue-arrow {
     flex: 0 0 auto;
     width: 33%;
   }
+
   .row.container.pt-3.btn-custom {
     margin-left: 0px;
   }
@@ -2230,6 +2606,7 @@ span.continue-arrow {
     margin-top: -38px;
   }
 }
+
 @media screen and (min-width: 1368px) and (max-width: 3000px) {
   .container {
     margin-left: initial;
@@ -2239,6 +2616,7 @@ span.continue-arrow {
     flex: 0 0 auto;
     width: 33%;
   }
+
   .row.container.pt-3.btn-custom {
     margin-left: 0px;
   }
@@ -2251,114 +2629,141 @@ span.continue-arrow {
   }
 
 }
-@media screen and (min-width: 901px){
-  .btn-custom{
+
+@media screen and (min-width: 901px) {
+  .btn-custom {
     padding-left: 3rem;
   }
 }
 
 .schedule-lesson {
   width: 100%;
-  .custom-children-container{
+
+  .custom-children-container {
     margin: 0;
     height: 100%;
     max-width: 1300px;
+
     @media screen and (max-width:900px) {
-     max-width:  100% !important;
-   }
-   @media screen and (max-width: 600px){
-    padding: 28px !important;
-  }
-  @media screen and (max-width: 393px){
-    padding: 20px !important;
+      max-width: 100% !important;
+    }
+
+    @media screen and (max-width: 600px) {
+      padding: 28px !important;
+    }
+
+    @media screen and (max-width: 393px) {
+      padding: 20px !important;
+    }
+
+    @media screen and (max-width: 375px) {
+      padding: 28px !important;
+    }
+
   }
 
-  @media screen and (max-width: 375px){
-    padding: 28px !important;
-  }
-
-  }
   @media screen and (max-width: 375px) {
     width: 375px;
   }
+
   @media screen and (max-width: 280px) {
     width: 277px;
   }
-  .main-container{
-    &.col-md-6.col-lg-4.pe-4{
+
+  .main-container {
+    &.col-md-6.col-lg-4.pe-4 {
       width: 33%;
-    @media screen and (max-width:1400px) {
+
+      @media screen and (max-width:1400px) {
         width: 40%;
       }
+
       @media screen and (max-width:1150px) {
         width: 100%;
       }
+
       @media screen and (max-width:1149px) {
         width: 50%;
       }
+
       @media screen and (max-width:990px) {
         width: 100%;
       }
+
       @media screen and (max-width:900px) {
         width: 50%;
       }
+
       @media screen and (max-width:768px) {
         width: 50%;
       }
+
       @media screen and (max-width:740px) {
         width: 100%;
       }
     }
-    &.schedule-lesson{
+
+    &.schedule-lesson {
       margin-left: 0;
       padding-left: 0;
       padding-bottom: 0;
-     
+
       @media screen and (max-width:1024px) {
         width: 50%;
-     }
+      }
     }
   }
-.title_aligns_slesson{
-  font-size: 30px;
-  @media screen and (max-width:280px) {
-    font-size: 25px;
- }
-}
-  .lessontext{
+
+  .title_aligns_slesson {
+    font-size: 30px;
+
+    @media screen and (max-width:280px) {
+      font-size: 25px;
+    }
+  }
+
+  .lessontext {
     color: #261A45 !important;
   }
-     .flex-left {
-       padding-left: 0px;
-       @media screen and (max-width:393px) {
-         padding-left: 20px;
-       }
-       @media screen and (max-width:390px) {
-         padding-left: 0px;
-       }
-       @media screen and (max-width:375px) {
-         padding-left: 0px;
-       }
-     }
-  .schedule-card{
-  padding: 0;
-  width: 322px;
-  height: 227px;
-  background: #FFFFFF;
-  border: 1px solid #DEDEE1;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 18px;
-  margin-left: 0;
-  @media screen and (max-width:393px ){
-    margin: 0 auto 25px;
+
+  .flex-left {
+    padding-left: 0px;
+
+    @media screen and (max-width:393px) {
+      padding-left: 20px;
+    }
+
+    @media screen and (max-width:390px) {
+      padding-left: 0px;
+    }
+
+    @media screen and (max-width:375px) {
+      padding-left: 0px;
+    }
   }
-  @media screen and (max-width:280px ){
-    height: 254px;
-    width: 226px;
-    margin-left: -11px;
+
+  .schedule-card {
+    padding: 0;
+    width: 322px;
+    height: 227px;
+    background: #FFFFFF;
+    border: 1px solid #DEDEE1;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 18px;
+    margin-left: 0;
+
+    @media screen and (max-width:393px) {
+      margin: 0 auto 25px;
+    }
+
+    @media screen and (max-width:280px) {
+      height: 254px;
+      width: 226px;
+      margin-left: -11px;
+    }
   }
-  }
-   h1{
+
+  h1 {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 600;
@@ -2366,8 +2771,9 @@ span.continue-arrow {
     line-height: 24px;
     letter-spacing: -0.6px;
     color: #261A45;
-   }
-   .remaining-lsn{
+  }
+
+  .remaining-lsn {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
@@ -2375,7 +2781,7 @@ span.continue-arrow {
     line-height: 22px;
     text-align: center;
     color: #261A45;
-    width:fit-content;
+    width: fit-content;
     margin-right: 5px;
     background: #FFFFFF;
     border: 1px solid #DEDEE1;
@@ -2383,9 +2789,9 @@ span.continue-arrow {
     padding: 5px 10px;
     width: 210px;
 
-   }
-  
-  .time_remaining{
+  }
+
+  .time_remaining {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
@@ -2400,11 +2806,13 @@ span.continue-arrow {
     border-radius: 4px;
     margin: 0;
     width: 60px;
-    @media screen and (max-width:280px ){
-     width: 98%;
+
+    @media screen and (max-width:280px) {
+      width: 98%;
     }
   }
-  .exp-txt{
+
+  .exp-txt {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
@@ -2420,33 +2828,41 @@ span.continue-arrow {
     width: 100%;
     height: 38px;
     margin-left: -2px;
-    @media screen and (max-width:280px ){
+
+    @media screen and (max-width:280px) {
       width: 68%;
       margin-left: 44px;
-      }
+    }
   }
-  .exp-txt-purple{
+
+  .exp-txt-purple {
     background: #EBE4FF;
     color: #6133AF;
   }
-  .exp-pad{
+
+  .exp-pad {
     padding: 5px 65px 5px 65px;
-    @media screen and (max-width:280px ){
+
+    @media screen and (max-width:280px) {
       padding: 5px 20px 5px 20px;
-      }
+    }
   }
-  .row.customlabel{
+
+  .row.customlabel {
     margin-top: 25px;
-    @media screen and (max-width:412px ){
+
+    @media screen and (max-width:412px) {
       margin-top: 30px;
+    }
+
+    @media screen and (max-width:280px) {
+      display: flex;
+      margin-left: -13px;
+    }
+
   }
-     @media screen and (max-width:280px ){
-        display: flex;
-        margin-left: -13px;
-  }
-  
-  }
-  .expiry-days{
+
+  .expiry-days {
     margin: 0;
     width: 277px;
     margin-top: 11px;
@@ -2454,154 +2870,188 @@ span.continue-arrow {
     padding: 2px;
     margin-left: 2px;
   }
-  .container-fluid{
-    padding: 0px 29px 0px 34px;  // padding: 0px 35px 0px 35px;
-    margin-top: 28px;
-    @media screen and (max-width:914px ){
-    // margin-left: 12px;  
-    }
-    @media screen and (max-width:280px ){
-      margin-left: 0px;  
-      margin-top: 14px;
-      }
-  }
-    hr.line {
-        max-width: 320px;
-        width: 100%;
-        background-color: #DEDEE1;
-        border: 0 none;
-        color: #DEDEE1;
-        height: 1px;
-      @media screen and (max-width:280px ){
-        width: 224px; 
-        }
-    }
-    h1.text-purple.lessontext,
-    h1.text-black.lessontext{
-      justify-content: flex-start;
-      margin-left: -7px;
-      @media screen and (max-width:412px ){
-        margin-left: -7px;
-    }
-    }
-    .lessontext{
-      justify-content: flex-start;
-      margin-left: -7px;
-      @media screen and (max-width:414px ){
-        justify-content: flex-start;
-    }
-   
 
-}
-.row.container.pt-3.btn-custom {
-  padding-left: 0px;
-  margin-left: 0;
-  padding-top: 0;
-  @media screen and (max-width:393px) {
+  .container-fluid {
+    padding: 0px 29px 0px 34px; // padding: 0px 35px 0px 35px;
+    margin-top: 28px;
+
+    @media screen and (max-width:914px) {
+      // margin-left: 12px;  
+    }
+
+    @media screen and (max-width:280px) {
+      margin-left: 0px;
+      margin-top: 14px;
+    }
+  }
+
+  hr.line {
+    max-width: 320px;
+    width: 100%;
+    background-color: #DEDEE1;
+    border: 0 none;
+    color: #DEDEE1;
+    height: 1px;
+
+    @media screen and (max-width:280px) {
+      width: 224px;
+    }
+  }
+
+  h1.text-purple.lessontext,
+  h1.text-black.lessontext {
+    justify-content: flex-start;
+    margin-left: -7px;
+
+    @media screen and (max-width:412px) {
+      margin-left: -7px;
+    }
+  }
+
+  .lessontext {
+    justify-content: flex-start;
+    margin-left: -7px;
+
+    @media screen and (max-width:414px) {
+      justify-content: flex-start;
+    }
+
+
+  }
+
+  .row.container.pt-3.btn-custom {
+    padding-left: 0px;
+    margin-left: 0;
+    padding-top: 0;
+
+    @media screen and (max-width:393px) {
       padding-left: 20px !important;
       margin-left: 0;
     }
-}
+  }
+
   .btn-custom {
     @media screen and (max-width:851px) {
       padding-left: 60px;
     }
+
     @media screen and (max-width:720px) {
       margin-left: 23px;
     }
+
     @media screen and (max-width:667px) {
       margin-left: 18px;
     }
+
     @media screen and (max-width:653px) {
       margin-left: -10px;
     }
-  
-    @media screen and (max-width: 412px){
+
+    @media screen and (max-width: 412px) {
       padding-left: 35px;
-     }
-     @media screen and (max-width: 393px){
+    }
+
+    @media screen and (max-width: 393px) {
       flex-direction: column;
       padding-left: 0px;
       margin-left: 17px;
-      
-     }
-     @media screen and (max-width: 280px){
+
+    }
+
+    @media screen and (max-width: 280px) {
       flex-direction: column;
       padding-left: 0px;
       margin-left: 17px;
-      
-     }
+
+    }
   }
-  .children-wrapper{
+
+  .children-wrapper {
     padding: 8px 0px 0px 25px;
-   margin-left: 0px;
+    margin-left: 0px;
   }
-  .ExpWidth{
+
+  .ExpWidth {
     margin-left: 0;
+
     @media screen and (max-width:767px) {
       max-width: 100%;
-     }
+    }
 
   }
-  .button_schedule{
+
+  .button_schedule {
     @media screen and (max-width: 600px) {
-        margin-left: initial !important;
-        margin-right: initial !important;
-      }
-      @media screen and (max-width: 375px) {
-        margin-left: auto !important;
-        margin-right: auto !important;
-      }
+      margin-left: initial !important;
+      margin-right: initial !important;
     }
-  
-  button.enter-btn.btn-dash-return.ms-0{
+
+    @media screen and (max-width: 375px) {
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+  }
+
+  button.enter-btn.btn-dash-return.ms-0 {
     width: 92%;
     max-width: 330px;
+
     @media screen and (max-width:540px) {
       width: 90%;
       max-width: 320px;
-     }
+    }
+
     @media screen and (max-width:414px) {
       width: 90%;
-     }
-     @media screen and (max-width:390px) {
+    }
+
+    @media screen and (max-width:390px) {
       width: 96%;
-     }
+    }
+
     @media screen and (max-width:375px) {
       width: 100%;
-     }
+    }
+
     @media screen and (max-width:280px) {
-     width: 98%;
+      width: 98%;
     }
   }
+
   button.enter-btn.btn-primary {
     width: 92%;
     margin-left: 0;
+
     @media screen and (max-width:540px) {
-      width:90%;
+      width: 90%;
       max-width: 320px;
-     }
+    }
+
     @media screen and (max-width:414px) {
       width: 90%;
-     }
-     @media screen and (max-width:390px) {
+    }
+
+    @media screen and (max-width:390px) {
       width: 96%;
-     }
+    }
+
     @media screen and (max-width:375px) {
       width: 100%;
-     }
+    }
+
     @media screen and (max-width:280px) {
       width: 98%;
       margin-left: 0;
-     }
+    }
   }
+
   .ExpWidth-con {
     margin-left: 0;
     margin-top: 15px;
+
     @media screen and (max-width:280px) {
-     padding: 8px;
-     }
+      padding: 8px;
+    }
+  }
+  
 }
-}
-
-

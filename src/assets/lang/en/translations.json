@@ -497,7 +497,7 @@
   "homework_assignment_completed": "Choose Homework ",
   "schedule_card": "Schedule a lesson with one of your favorite tutors.",
   "student_dashboard_welcome": "Hey, {{name}} 👋",
-  "student_dashboard_subtitle": "We hope you have a wonderful day.",
+  "student_dashboard_subtitle": "Welcome back to Nao Now! Let's learn together.",
   "weekly_schedule": "Weekly Schedule",
   "student_dashboard_feedback": "Give feedback on a lesson.",
   "student_dashboard_progress": "View my progress.",
@@ -560,7 +560,6 @@
   "return_lesson_credit": "Return the lesson credit",
   "minutes": "Minutes",
   "lessons_remaining": "Lessons To Schedule",
-
   "lesson_confirmation": "Lesson Confirmed 🎉",
   "lesson_confirmation_subtitle": "We're looking forward to seeing you!",
   "expires": "This package is Expiring in",

@@ -58,14 +58,15 @@ const BiographyForm = () => {
           <textarea
             className='form-control'
             rows={6}
-            onChange={e =>
+            key={introduction}
+            onBlur={e =>
               setIntroduction(
                 e.target.value.length
                   ? filter.clean(e.target.value)
                   : e.target.value
               )
             }
-            value={introduction}
+            defaultValue={introduction}
           ></textarea>
           <p>{t('profile_word_count', { words: introduction.length })}</p>
         </div>
@@ -76,14 +77,15 @@ const BiographyForm = () => {
           <textarea
             className='form-control'
             rows={6}
-            onChange={e =>
+            key={relevant_experience}
+            onBlur={e =>
               setRelevantExperience(
                 e.target.value.length
                   ? filter.clean(e.target.value)
                   : e.target.value
               )
             }
-            value={relevant_experience}
+            defaultValue={relevant_experience}
           ></textarea>
           <p>
             {t('profile_word_count', { words: relevant_experience.length })}
@@ -96,14 +98,15 @@ const BiographyForm = () => {
           <textarea
             className='form-control'
             rows={6}
-            onChange={e =>
+            onBlur={e =>
               setUniqueFacts(
                 e.target.value.length
                   ? filter.clean(e.target.value)
                   : e.target.value
               )
             }
-            value={unique_facts}
+            defaultValue={unique_facts}
+            key={unique_facts}
           ></textarea>
           <p>{t('profile_word_count', { words: unique_facts.length })}</p>
         </div>

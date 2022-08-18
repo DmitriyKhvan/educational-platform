@@ -92,31 +92,34 @@ const ScheduleCard = ({
       setIsWarningOpen(true)
     }
   }
+
+  const formattedEpochDate = () => {
+    const formattedDate = moment.unix(epochDate).format('ll');
+    return formattedDate.slice(0, formattedDate.indexOf(','))
+  }
   return (
     <div
-      className={`page-card_schedule ${
-        index !== 0 ? 'purple' : 'grey-border bg-white'
-      } small-card pt-2 mt-4`}
+      className={`page-card_schedule ${index === 0 ? 'purple' : 'grey-border bg-white'
+        } small-card pt-2 mt-4`}
     >
       <div className='container'>
         <div className='row'>
           <div className='col-10 mobile-schedule_dash'>
             <h1
-              className={`${index !== 0 ? 'text-white m-0' : 'text-black m-0'}`}
+              className={`${index === 0 ? 'text-white m-0' : 'text-black m-0'}`}
             >
               {lesson}
             </h1>
             {/* TODO: add this to translation.json */}
             <h3
-              className={`${
-                index !== 0
-                  ? 'text-white m-0 font_schedule_text'
-                  : 'text-muted m-0 font_schedule_text'
-              }`}
+              className={`${index === 0
+                ? 'text-white m-0 font_schedule_text'
+                : 'text-muted m-0 font_schedule_text'
+                }`}
             >
               {/* {isToday ? 'Today' : moment.unix(date).format('LL')} at{' '}
               {startTime} → {endTime} */}
-              {moment.unix(epochDate).format('LL')} at {epochStart} → {epochEnd}
+              {formattedEpochDate()} at {epochStart} → {epochEnd}
             </h3>
           </div>
           <div className='col-2 cols-image-schedule mobile-schedule_dash'>
@@ -125,59 +128,55 @@ const ScheduleCard = ({
                 data.tutor.user.avatar
                   ? data.tutor.user.avatar
                   : gender === 'male'
-                  ? maleAvatar
-                  : femaleAvatar
+                    ? maleAvatar
+                    : femaleAvatar
               }
-              className={`img-fluid align-middle schedule_images-width ${
-                index !== 0
-                  ? 'img-fluid align-middle schedule_images-width round_schedule-width'
-                  : 'img-fluid align-middle schedule_images-width'
-              }`}
+              className={`img-fluid align-middle schedule_images-width ${index === 0
+                ? 'img-fluid align-middle schedule_images-width round_schedule-width'
+                : 'img-fluid align-middle schedule_images-width'
+                }`}
               alt=''
             />
           </div>
         </div>
       </div>
       <div className='row align_schedule-lesson d-flex'>
-        <div className='schedule-card-col cancel_schedule-lesson'>
+        <div className='schedule-card-col join_schedule-lesson ms-2'>
           <a
-            onClick={onCancel}
-            className={`schedule_copy-button ${
-              index !== 0
-                ? 'text-purpless back_schedule-button m-0 mobile-schedule_dash'
-                : 'grey-border text-black m-0'
-            }`}
+            onClick={joinLesson}
+            className={`schedule_copy-button ${index === 0
+              ? 'text-purple mobile-schedule_dash'
+              : 'grey-border text-black'
+              }`}
           >
-            {t('cancel')}
+            {t('join_lesson')}
           </a>
         </div>
         <div className='schedule-card-col re_schedule-lesson ms-2'>
           {/* <Dropdown trigger={['click']} overlay={menu} animation='slide-up'> */}
           <a
-            className={`schedule_copy-button ${
-              index !== 0
-                ? 'text-purpless back_schedule-button mobile-schedule_dash'
-                : 'grey-border text-black'
-            }`}
+            className={`schedule_copy-button ${index === 0
+              ? 'text-purpless back_schedule-button mobile-schedule_dash'
+              : 'grey-border text-black'
+              }`}
             onClick={onSelect}
           >
             {t('reschedule')}
           </a>
           {/* </Dropdown> */}
         </div>
-
-        <div className='schedule-card-col join_schedule-lesson ms-2'>
+        <div className='schedule-card-col cancel_schedule-lesson'>
           <a
-            onClick={joinLesson}
-            className={`schedule_copy-button ${
-              index !== 0
-                ? 'text-purple mobile-schedule_dash'
-                : 'grey-border text-black'
-            }`}
+            onClick={onCancel}
+            className={`schedule_copy-button ${index === 0
+              ? 'text-purpless back_schedule-button m-0 mobile-schedule_dash'
+              : 'grey-border text-black m-0'
+              }`}
           >
-            {t('join_lesson')}
+            {t('cancel')}
           </a>
         </div>
+
       </div>
       {isOpen && (
         <RescheduleAndCancelModal
