@@ -141,7 +141,7 @@ const Calendar = () => {
               .utc(0, true)
               .add(eventDate.duration, 'minutes')
               .format('hh:mm a'),
-            date: moment.unix(date).format('ddd, MMM D')
+            date: moment.unix(date).utc(0, true).format('ddd, MMM D')
           },
           onClick: {
             date
@@ -160,7 +160,7 @@ const Calendar = () => {
     setIsCalendar(false)
     const pastData = []
     for (const pastDataArr of tabluarData) {
-      if (moment(pastDataArr.onClick.date).isBefore(today)) {
+      if (moment(pastDataArr.onClick.date).isBefore(moment().unix())) {
         pastData.push(pastDataArr)
       }
     }
@@ -172,7 +172,7 @@ const Calendar = () => {
     setIsCalendar(false)
     const upcomingData = []
     for (const upcomingDataArr of tabluarData) {
-      if (moment(upcomingDataArr.onClick.date).isAfter(today)) {
+      if (moment(upcomingDataArr.onClick.date).isAfter(moment().unix())) {
         upcomingData.push(upcomingDataArr)
       }
     }

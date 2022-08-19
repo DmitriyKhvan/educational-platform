@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import Modal from 'react-modal'
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import { format, utcToZonedTime } from 'date-fns-tz'
 import * as dates from '../../utils/dates'
 import Layout from '../../components/Layout'
@@ -107,10 +107,10 @@ const Calendar = () => {
       const eventKeys = Object.keys(eventDates)
       eventKeys.forEach(key => {
         for (const eventDate of eventDates[key]) {
-          const date = moment(eventDate.start_at).unix()
-          const endEpoch = date + eventDate.duration * 60
-          const start_at = moment.unix(date).utc(0, true)
-          const end_at = moment.unix(endEpoch).utc(0, true)
+          const start_at = moment(eventDate.start_at).utc(0, true)
+          const end_at = moment(eventDate.start_at)
+            .add(eventDate.duration, 'minutes')
+            .utc(0, true)
           const iterateEvents = {
             zoomLink: eventDate.zoomlink,
             lesson: eventDate.lesson,
@@ -192,8 +192,8 @@ const Calendar = () => {
   }
 
   const onSelectEvent = e => {
-    const startDate = moment(e.start).format('MM/DD/YYYY')
-    const today = moment().format('MM/DD/YYYY')
+    const startDate = moment.unix(e.start).utc(0, true)
+    const today = moment().utc(0, true)
     if (moment(startDate).isAfter(today)) {
       setCalendarEvent(e)
       setIsCalendarModalOpen(true)
