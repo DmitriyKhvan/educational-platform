@@ -120,7 +120,7 @@ const ScheduleSelector = ({
   while (startTime <= endTime) {
     allTimes.push(startTime.format('HH:mm'))
 
-    startTime.add(timeOfDay.slotInterval, 'minutes')
+    startTime.add(30, 'minutes')
   }
 
   for (let i = 0; i <= 6; i++) {
