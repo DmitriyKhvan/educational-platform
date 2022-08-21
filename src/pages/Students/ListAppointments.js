@@ -111,6 +111,16 @@ const StudentListAppointments = () => {
         return x
       }
     })
+    .map(y => {
+      if (!y) {
+        return
+      }
+      if (
+        moment(y.start_at).utc(0, true).unix() < moment().utc(0, true).unix()
+      ) {
+        return y
+      }
+    })
     .filter(x => x)
 
   const isWithinAweek = isWithinAweekArr.filter(
