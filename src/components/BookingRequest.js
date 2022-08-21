@@ -22,15 +22,13 @@ const BookingRequest = ({ lessonApprovals, fetchAppointments }) => {
     <React.Fragment>
       <h4 className='weekly-schedule'>{t('booking_request')}</h4>
       {lessonApprovals.map(apt => {
-        const date = moment(apt.start_at).unix() + 13 * 60 * 60
-        const endEpoch = date + apt.duration * 60
-        const startTime = moment.unix(date).format('LT')
-        const endTime = moment.unix(endEpoch).format('LT')
+        const date = moment(apt.start_at).utc(0, true)
         return (
           <div className='page-card grey-border bg-white small-card mt-4 p-3 pt-0 ps-4'>
             <h1 className='text-black'>{apt.lesson.description}</h1>
             <p className='text-light-grey mt-0'>
-              {moment.unix(date).format('LL')} at {startTime} → {endTime}
+              {date.format('MMMM DD, YYYY')} at {date.format('hh:mm a')} →{' '}
+              {date.add(apt.duration, 'minutes').format('hh:mm a')}
             </p>
             <div className='row ps-3'>
               <div

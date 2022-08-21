@@ -43,7 +43,9 @@ const CustomTable = ({ data, columns, className, enableSeeAll = true }) => {
                     ) : (
                       <p>
                         {ci.dataKey === 'lessonDate'
-                          ? moment(item[ci.dataKey]).format('LLL')
+                          ? moment(item[ci.dataKey])
+                              .utc(0, true)
+                              .format('MMMM DD, YYYY hh:mm a')
                           : item[ci.dataKey]}
                       </p>
                     )}
