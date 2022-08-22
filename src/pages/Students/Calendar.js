@@ -147,7 +147,8 @@ const Calendar = () => {
             date
           },
           tutor,
-          tutorFeedback: eventDate.students[0].feedbacks
+          tutorFeedback: eventDate.students[0].feedbacks,
+          resource: eventDate
         }
         tablularEventData.push(tableRow)
       }
@@ -168,15 +169,20 @@ const Calendar = () => {
   }
 
   const onClickUpcomingLessons = () => {
-    getAllData()
     setIsCalendar(false)
-    const upcomingData = []
-    for (const upcomingDataArr of tabluarData) {
-      if (moment(upcomingDataArr.onClick.date).isAfter(moment().unix())) {
-        upcomingData.push(upcomingDataArr)
-      }
+    const x = tabluarData
+      .sort(
+        (a, b) => new Date(b.resource.start_at) - new Date(a.resource.start_at)
+      )
+      .map(x => x)
+    const y = Object.assign({}, x)
+    x.reverse()
+    const z = []
+    for (const [, value] of Object.entries(y)) {
+      z.push(value)
     }
-    setDisplayTableData(upcomingData)
+
+    setDisplayTableData(z)
   }
 
   const onCalendarClick = e => {
@@ -192,7 +198,7 @@ const Calendar = () => {
   }
 
   const localizer = momentLocalizer(moment)
-  const allViews = ['month', 'week', 'day']
+  const allViews = ['month']
   const formats = {
     dateFormat: 'D',
     weekdayFormat: 'dddd',
@@ -201,9 +207,9 @@ const Calendar = () => {
   }
 
   const onSelectEvent = e => {
-    const startDate = moment(e.start).format('MM/DD/YYYY')
-    const today = moment().format('MM/DD/YYYY')
-    if (moment(startDate).isAfter(today)) {
+    const startDate = moment(e.start).utc(0, true).format('MM/DD/YYYY hh:mm a')
+    const today = moment().utc(0, true).format('MM/DD/YYYY hh:mm a')
+    if (moment(startDate).isAfter(today, 'minute')) {
       setCalendarEvent(e)
       setIsOpen(true)
     }
@@ -272,15 +278,15 @@ const Calendar = () => {
                   className='btn grey-border'
                   onClick={onClickUpcomingLessons}
                 >
-                  <h5>{t('upcoming_lessons')}</h5>
+                  <h5>{t('lesson_calendar')}</h5>
                 </button>
-                <button
+                {/* <button
                   type='button'
                   className='btn grey-border'
                   onClick={onClickPastLessons}
                 >
                   <h5>{t('past_lessons')}</h5>
-                </button>
+                </button> */}
               </div>
             </div>
             <div className='col-auto ps-3'>
@@ -315,6 +321,7 @@ const Calendar = () => {
                         new Date(a.dateTime.startTime) -
                         new Date(b.dateTime.startTime)
                     )
+                    .reverse()
                     .map(x => (
                       <tr className='tr-center'>
                         <td className='td-item'>
