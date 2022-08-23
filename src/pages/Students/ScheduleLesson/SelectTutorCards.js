@@ -13,10 +13,9 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
   const [t] = useTranslation('translation')
   const [isOpen, setIsOpen] = useState(false)
   const [modalSelectTutor, setModalSelectTutor] = useState({})
-  var tutors = useSelector(state => state.tutor.list)
+
   useEffect(() => {
     window.scrollTo(0, 0)
-
   }, [])
 
   const customStyles = {
@@ -136,7 +135,8 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
   }
 
   const SelectTutors = ({ tutor }) => {
-    const name = tutor.first_name + ' ' + tutor.last_name.charAt(0) + '.'
+    const last_name = tutor.last_name ? tutor.last_name.charAt(0) + '.' : ''
+    const name = tutor.first_name + ' ' + last_name
     const onClick = () => {
       setSelectTutor(tutor)
       setTabIndex(3)
@@ -148,18 +148,14 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
     }
 
     const tutorProfile = tutor.avatar
-    ? tutor.avatar
-    : tutor.gender === 'female'
-    ? femaleAvatar
-    : maleAvatar
+      ? tutor.avatar
+      : tutor.gender === 'female'
+      ? femaleAvatar
+      : maleAvatar
     return (
-        <div className='col-12 col-xl-4 col-lg-6 col-md-6 col-sm-6 pt-3 schedulebottom'>
+      <div className='col-12 col-xl-4 col-lg-6 col-md-6 col-sm-6 pt-3 schedulebottom'>
         <div className='favImg'>
-        <img
-            src={tutorProfile}
-            className='img-fluid schedule'
-            alt=''
-          />
+          <img src={tutorProfile} className='img-fluid schedule' alt='' />
           <img src={Favorite} alt='FavoriteSvg' className='FavoriteSvg' />
         </div>
         <div className='pt-3 text-center'>
@@ -169,7 +165,9 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
             <h5 className='text-light-grey mt-0 select_tutors_aligns'>
               <strong className='unversity-font '>{tutor.university}</strong>
             </h5>
-            <h5 className='text-light-grey select_tutors_aligns'>{tutor.major || ''}</h5>
+            <h5 className='text-light-grey select_tutors_aligns'>
+              {tutor.major || ''}
+            </h5>
           </div>
           <div className='Learn-buttons-style'>
             <button
@@ -238,8 +236,8 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
                     </div>
                   </div>
                   <div className='col-auto pt-2'>
-                  {/* <Select options={options} /> */}
-                </div>
+                    {/* <Select options={options} /> */}
+                  </div>
                 </div>
               </div>
               <div className='row ps-2 pt-4 tutor-overflow-scroll tutor_schedule_widths '>
