@@ -144,13 +144,14 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
         }
       }
     } else {
-      const res = await dispatch(createAppointment(data))
+      const res = await dispatch(
+        createAppointment({ ...data, payment_id: plan.payment_id })
+      )
       if (res.type === ActionTypes.CREATE_APPOINTMENT_INFO.SUCCESS) {
         const { payload } = await fetchAppointments()
         const newAppt = payload.filter(
           x => x.id === parseInt(res.payload.groups[0].id)
         )[0]
-        console.log(newAppt)
         if (newAppt) {
           setNewAppointment(newAppt)
           setDate(moment(newAppt.start_at).unix())
