@@ -110,14 +110,34 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
   const confirmLesson = async () => {
     setIsLoading(true)
 
+    /* this means if the lesson ID exists, its going to be a reschedule */
     if (lessonId) {
-      const res = await dispatch(
-        updateAppointment(lessonId, {
-          tutor_id: data.tutor_id,
-          start_at: data.start_at,
-          duration: data.duration
-        })
-      )
+      const { payload } = await dispatch(getAppointments())
+      const oldAppointment = payload.filter(v => v.id === lessonId)
+      const newStartAt = moment(data.start_at)
+      const oldStartAt = moment(oldAppointment.start_at)
+      const duration = moment.duration(newStartAt.diff(oldStartAt)).asHours()
+
+      const rescheduleData = {
+        tutor_id: data.tutor_id,
+        start_at: data.start_at,
+        duration: data.duration
+      }
+      setIsLoading(true)
+      const res =
+        duration > 24
+          ? await dispatch(
+              updateAppointment(lessonId, {
+                ...rescheduleData,
+                payment_id: plan.payment_id
+              })
+            )
+          : await dispatch(
+              updateAppointment(lessonId, {
+                ...rescheduleData
+              })
+            )
+      setIsLoading(false)
 
       if (res.type === ActionTypes.UPDATE_APPOINTMENT_INFO.SUCCESS) {
         const { payload } = await dispatch(

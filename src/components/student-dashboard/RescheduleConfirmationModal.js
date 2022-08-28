@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
-import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import LessonCard from '../../pages/Students/ScheduleLesson/LessonCard'
 import ScheduleCard from '../../pages/Students/ScheduleLesson/ScheduleCard'
@@ -10,6 +9,7 @@ import { updateAppointment, getAppointments } from '../../actions/appointment'
 import ActionTypes from '../../constants/actionTypes'
 import NotificationManager from '../NotificationManager'
 import { useHistory } from 'react-router-dom'
+import Loader from '../../components/common/Loader'
 
 const RescheduleConfirmationModal = ({
   setTabIndex,
@@ -21,6 +21,7 @@ const RescheduleConfirmationModal = ({
   const [t] = useTranslation()
   const dispatch = useDispatch()
   const history = useHistory()
+  const [isLoading, setIsLoading] = useState(false)
   const [repeat, setRepeat] = useState({})
   const [cancel, setCancel] = useState({})
   const [isChecked, setIsChecked] = useState(false)
@@ -65,13 +66,37 @@ const RescheduleConfirmationModal = ({
     }
   }
   const confirmReschedule = async () => {
-    const res = await dispatch(
-      updateAppointment(id, { tutor_id: tutor.id, start_at, duration })
-    )
+    const { payload } = await dispatch(getAppointments())
+    const oldAppointment = payload.filter(v => v.id === id)
+    const newStartAt = moment(start_at)
+    const oldStartAt = moment(oldAppointment.start_at)
+    const duration = moment.duration(newStartAt.diff(oldStartAt)).asHours()
+    const rescheduleData = {
+      tutor_id: tutor.id,
+      start_at: start_at,
+      duration: data.duration
+    }
+    setIsLoading(true)
+    const res =
+      duration > 24
+        ? await dispatch(
+            updateAppointment(id, {
+              ...rescheduleData,
+              payment_id: data.planStatus.payment_id
+            })
+          )
+        : await dispatch(
+            updateAppointment(id, {
+              ...rescheduleData
+            })
+          )
+    setIsLoading(false)
     if (res.type === ActionTypes.UPDATE_APPOINTMENT_INFO.SUCCESS) {
+      setIsLoading(true)
       fetchAppointments()
       closeModal()
       window.location.reload()
+      setIsLoading(false)
     } else if (res.payload.error.message) {
       NotificationManager.error(res.payload.error.message, t)
     } else {
@@ -137,6 +162,7 @@ const RescheduleConfirmationModal = ({
           </div>
         </div>
       </div>
+      {isLoading && <Loader />}
     </React.Fragment>
   )
 }
