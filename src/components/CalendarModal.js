@@ -18,21 +18,24 @@ const CalendarModal = ({
   const [t] = useTranslation('translation')
   const [isWarningOpen, setIsWarningOpen] = useState(false)
   const isToday = moment(time).isSame(moment(), 'day')
-  const today = moment()
+  // const date = moment.unix(startTime)
+  // const startTimeEpoch = moment.unix(date)
+  // const oneMinuteAfterStart = moment.unix(
+  //   moment(startTimeEpoch).unix() + 60 * 60
+  // const fiveMinutesBefore = moment.unix(moment(startTimeEpoch).unix() - 10 * 60)
+  // )
 
-  const date = moment.unix(startTime)
-  const startTimeEpoch = moment.unix(date)
-  const oneMinuteAfterStart = moment.unix(
-    moment(startTimeEpoch).unix() + 60 * 60
-  )
   const avatar = data.resource?.tutor?.user.avatar
     ? data.resource?.tutor?.user.avatar
     : placeholderAvatar
-  const fiveMinutesBefore = moment.unix(moment(startTimeEpoch).unix() - 10 * 60)
-  const isBetween = moment(today).isBetween(
-    fiveMinutesBefore,
-    oneMinuteAfterStart
-  )
+
+  const today = moment().utc(true)
+  const hourAfter = moment(data.resource.eventDate.start_at).utc(0, true).add(59, 'minutes');
+  const tenMinutesbefore = moment(data.resource.eventDate.start_at)
+    .utc(0, true)
+    .subtract(10, 'minutes')
+  const isBetween = moment(today).isBetween(tenMinutesbefore, hourAfter)
+
   const joinLesson = async () => {
     if (isBetween) {
       window.location.href = zoomlink.url
