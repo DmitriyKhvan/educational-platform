@@ -52,7 +52,7 @@ const Calendar = () => {
   }
 
   const localizer = momentLocalizer(moment)
-  const allViews = ['month', 'week', 'day']
+  const allViews = ['month']
   const formats = {
     dateFormat: 'D',
     weekdayFormat: 'dddd',
@@ -163,6 +163,7 @@ const Calendar = () => {
           },
           tutor,
           tutorFeedback: eventDate.students[0].feedbacks,
+          resource: eventDate,
           student:
             eventDate.students[0].user.first_name +
             ' ' +
@@ -173,12 +174,6 @@ const Calendar = () => {
       }
     }
     setTabularData(tabularEventData)
-  }
-
-  const onClickPastLessons = () => {
-    getAllData()
-    setIsUpcoming(false)
-    setIsCalendar(false)
   }
 
   const onClickUpcomingLessons = () => {
@@ -192,9 +187,9 @@ const Calendar = () => {
   }
 
   const onSelectEvent = e => {
-    const startDate = moment.unix(e.start).utc(0, true)
-    const today = moment().utc(0, true)
-    if (moment(startDate).isAfter(today)) {
+    const startDate = moment(e.start).utc(0, true).format('MM/DD/YYYY hh:mm a')
+    const today = moment().utc(0, true).format('MM/DD/YYYY hh:mm a')
+    if (moment(startDate).isAfter(today, 'minute')) {
       setCalendarEvent(e)
       setIsCalendarModalOpen(true)
     }
@@ -472,15 +467,15 @@ const Calendar = () => {
                 className='btn grey-border'
                 onClick={onClickUpcomingLessons}
               >
-                <h5>{t('upcoming_lessons')}</h5>
+                <h5>{t('lesson_calendar')}</h5>
               </button>
-              <button
+              {/* <button
                 type='button'
                 className='btn grey-border'
                 onClick={onClickPastLessons}
               >
                 <h5>{t('past_lessons')}</h5>
-              </button>
+              </button> */}
             </div>
           </div>
           <div className='col-auto ps-3 pt-1'>

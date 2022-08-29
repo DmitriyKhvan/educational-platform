@@ -8,24 +8,21 @@ const LessonTable = ({ isUpcoming, tabularData }) => {
   const [t] = useTranslation('translation')
   const [displayTableData, setDisplayTableData] = useState([])
 
-  const today = moment().unix()
   useEffect(() => {
-    if (isUpcoming) {
-      const upcomingData = []
-      for (const upcomingDataArr of tabularData) {
-        if (moment(upcomingDataArr.onClick.date).isAfter(today)) {
-          upcomingData.push(upcomingDataArr)
-        }
+    if (tabularData.length) {
+      const x = tabularData
+        .sort(
+          (a, b) =>
+            new Date(b.resource.start_at) - new Date(a.resource.start_at)
+        )
+        .map(x => x)
+      const y = Object.assign({}, x)
+      x.reverse()
+      const z = []
+      for (const [, value] of Object.entries(y)) {
+        z.push(value)
       }
-      setDisplayTableData(upcomingData)
-    } else {
-      const pastData = []
-      for (const pastDataArr of tabularData) {
-        if (moment(pastDataArr.onClick.date).isBefore(today)) {
-          pastData.push(pastDataArr)
-        }
-      }
-      setDisplayTableData(pastData)
+      setDisplayTableData(z)
     }
   }, [isUpcoming])
 
