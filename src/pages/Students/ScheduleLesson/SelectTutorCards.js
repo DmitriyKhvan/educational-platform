@@ -241,9 +241,15 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
                 </div>
               </div>
               <div className='row ps-2 pt-4 tutor-overflow-scroll tutor_schedule_widths '>
-                {tutors.map((x, i) => (
-                  <SelectTutors tutor={x} key={i} />
-                ))}
+                {tutors
+                  .sort((a, b) =>
+                    a.first_name.toLowerCase() > b.first_name.toLowerCase()
+                      ? 1
+                      : -1
+                  )
+                  .map((x, i) => (
+                    <SelectTutors tutor={x} key={i} />
+                  ))}
               </div>
             </div>
           </div>

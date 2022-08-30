@@ -177,15 +177,17 @@ const SelectTutor = ({ selectedTime, onBack, onContinue, isTimeFirst }) => {
             />
           ) : (
             <>
-              {filterTutors.map((tutor, index) => (
-                <TutorCard
-                  key={`tutorcard-${index}`}
-                  tutor={tutor}
-                  selected={selectedTutor === index}
-                  onSelect={() => setSelectedTutor(index)}
-                  onShowTutorBrief={() => onShowTutorBrief(index)}
-                />
-              ))}
+              {filterTutors
+                .sort((a, b) => a.first_name - b.first_name)
+                .map((tutor, index) => (
+                  <TutorCard
+                    key={`tutorcard-${index}`}
+                    tutor={tutor}
+                    selected={selectedTutor === index}
+                    onSelect={() => setSelectedTutor(index)}
+                    onShowTutorBrief={() => onShowTutorBrief(index)}
+                  />
+                ))}
             </>
           )}
         </div>
