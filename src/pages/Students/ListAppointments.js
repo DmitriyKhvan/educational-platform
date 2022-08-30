@@ -111,19 +111,9 @@ const StudentListAppointments = () => {
         return x
       }
     })
-    .map(y => {
-      if (!y) {
-        return
-      }
-      if (
-        moment(y.start_at).utc(0, true).unix() < moment().utc(0, true).unix()
-      ) {
-        return y
-      }
-    })
     .filter(x => x)
 
-  const isWithinAweek = isWithinAweekArr.filter(
+    const isWithinAweek = isWithinAweekArr.filter(
     (x, i, a) => a.findIndex(y => y.start_at === x.start_at) === i
   )
 

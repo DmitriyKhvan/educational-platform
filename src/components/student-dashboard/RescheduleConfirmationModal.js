@@ -67,10 +67,11 @@ const RescheduleConfirmationModal = ({
   }
   const confirmReschedule = async () => {
     const { payload } = await dispatch(getAppointments())
-    const oldAppointment = payload.filter(v => v.id === id)
-    const newStartAt = moment(start_at)
+    const [oldAppointment] = payload.filter(
+      v => parseInt(v.id) === parseInt(id)
+    )
     const oldStartAt = moment(oldAppointment.start_at)
-    const duration = moment.duration(newStartAt.diff(oldStartAt)).asHours()
+    const duration = moment.duration(oldStartAt.diff(moment())).asHours()
     const rescheduleData = {
       tutor_id: tutor.id,
       start_at: start_at,
@@ -78,7 +79,7 @@ const RescheduleConfirmationModal = ({
     }
     setIsLoading(true)
     const res =
-      duration > 24
+      duration < 24
         ? await dispatch(
             updateAppointment(id, {
               ...rescheduleData,

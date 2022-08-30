@@ -113,11 +113,11 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
     /* this means if the lesson ID exists, its going to be a reschedule */
     if (lessonId) {
       const { payload } = await dispatch(getAppointments())
-      const oldAppointment = payload.filter(v => v.id === lessonId)
-      const newStartAt = moment(data.start_at)
+      const [oldAppointment] = payload.filter(
+        v => parseInt(v.id) === parseInt(lessonId)
+      )
       const oldStartAt = moment(oldAppointment.start_at)
-      const duration = moment.duration(newStartAt.diff(oldStartAt)).asHours()
-
+      const duration = moment.duration(oldStartAt.diff(moment())).asHours()
       const rescheduleData = {
         tutor_id: data.tutor_id,
         start_at: data.start_at,
@@ -125,7 +125,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
       }
       setIsLoading(true)
       const res =
-        duration > 24
+        duration < 24
           ? await dispatch(
               updateAppointment(lessonId, {
                 ...rescheduleData,
