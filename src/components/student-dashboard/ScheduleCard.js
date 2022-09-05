@@ -86,11 +86,7 @@ const ScheduleCard = ({
   )
 
   const joinLesson = async () => {
-    if (isBetween) {
-      window.location.href = zoomlink.url
-    } else {
-      setIsWarningOpen(true)
-    }
+    window.location.href = zoomlink.url
   }
 
   const formattedEpochDate = () => {

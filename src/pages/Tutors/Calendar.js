@@ -268,11 +268,7 @@ const Calendar = () => {
       oneMinuteAfterStart
     )
     const joinLesson = async () => {
-      if (isBetween) {
-        window.location.href = eventDate.zoomlink.url
-      } else {
-        setIsWarningOpen(true)
-      }
+      window.location.href = eventDate.zoomlink.url
     }
     return (
       <div style={{ zIndex: 9999 }} className='container'>

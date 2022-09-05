@@ -30,18 +30,16 @@ const CalendarModal = ({
     : placeholderAvatar
 
   const today = moment().utc(true)
-  const hourAfter = moment(data.resource.eventDate.start_at).utc(0, true).add(59, 'minutes');
+  const hourAfter = moment(data.resource.eventDate.start_at)
+    .utc(0, true)
+    .add(59, 'minutes')
   const tenMinutesbefore = moment(data.resource.eventDate.start_at)
     .utc(0, true)
     .subtract(10, 'minutes')
   const isBetween = moment(today).isBetween(tenMinutesbefore, hourAfter)
 
   const joinLesson = async () => {
-    if (isBetween) {
-      window.location.href = zoomlink.url
-    } else {
-      setIsWarningOpen(true)
-    }
+    window.location.href = zoomlink.url
   }
   return (
     <div
