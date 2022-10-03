@@ -152,7 +152,11 @@
       border-radius: 5px;
       width: 100%;
       height: 51px;
-
+ 
+      &:disabled{
+        opacity: 0.5;
+        pointer-events: none;
+      }
       &:active {
         opacity: 0.5;
       }

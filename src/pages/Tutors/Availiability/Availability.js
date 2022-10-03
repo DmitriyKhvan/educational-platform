@@ -35,6 +35,7 @@ export const Availability = ({ isAdmin, user_id }) => {
   const [loaded, setLoaded] = useState(true)
   // for debugging
   const [hasValidTimes, setHasValidTimes] = useState(false)
+  const [disableSave, handleDisableSave] = useState(true)
   const [isteachAddHours, setIsTeachAddHours] = useState([])
   const [disablePlusBtn, setDisablePlusBtn] = useState(false)
   const [initialId, setInitialId] = useState()
@@ -119,14 +120,18 @@ export const Availability = ({ isAdmin, user_id }) => {
   }, [tutorInfo])
 
   // saving data in DB using loader
-  const onSubmit = async () => {
+  const onSubmit = async e => {
+    setLoaded(!loaded)
     setTimeout(() => {
       setLoaded(true)
       dispatch(
         updateTutorAvailability(gatherAvailabilities.availability, user_id)
       )
+      e.target.blur()
+      handleDisableSave(true)
     }, 1000)
   }
+
   // this delete function is Set override date function
   // Add npm package sweetalert2 using delete function
   const deleteRow = async ({ id }) => {
@@ -146,6 +151,7 @@ export const Availability = ({ isAdmin, user_id }) => {
           t('swal_fire_title_conform_msg1'),
           t('swal_fire_title_conform_msg2')
         )
+        handleDisableSave(false)
         var filtered = currentDatas.filter(e1 => e1.id !== id)
         var filteredDate = []
         filtered.map(data => {
@@ -258,8 +264,10 @@ export const Availability = ({ isAdmin, user_id }) => {
       }
     }
   }
+
   const storeAvailablitiy = (data, type) => {
     if (type) {
+      handleDisableSave(false)
       setGatherAvailabilities({ ...gatherAvailabilities, [type]: data })
     } else {
       setGatherAvailabilities(data)
@@ -328,8 +336,8 @@ export const Availability = ({ isAdmin, user_id }) => {
               type='button'
               className='btn btn-secondary save_button'
               data-bs-dismiss='modal'
-              onClick={() => onSubmit(setLoaded(!loaded))}
-              disabled={hasValidTimes}
+              onClick={onSubmit}
+              disabled={hasValidTimes || disableSave}
             >
               <strong>Save</strong>
             </button>

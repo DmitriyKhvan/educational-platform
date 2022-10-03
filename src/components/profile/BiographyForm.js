@@ -15,6 +15,7 @@ const BiographyForm = () => {
   const [introduction, setIntroduction] = useState('')
   const [relevant_experience, setRelevantExperience] = useState('')
   const [unique_facts, setUniqueFacts] = useState('')
+  const [disableSave, handleDisableSave] = useState(true)
 
   useEffect(() => {
     dispatch(getUserInfo())
@@ -35,6 +36,7 @@ const BiographyForm = () => {
   }, [tutor])
 
   const onClick = async () => {
+    handleDisableSave(true)
     const res = await dispatch(
       updateTutorInfo({
         introduction: introduction.trim(),
@@ -59,13 +61,14 @@ const BiographyForm = () => {
             className='form-control'
             rows={6}
             key={introduction}
-            onBlur={e =>
+            onBlur={e => {
+              handleDisableSave(false)
               setIntroduction(
                 e.target.value.length
                   ? filter.clean(e.target.value)
                   : e.target.value
               )
-            }
+            }}
             defaultValue={introduction}
           ></textarea>
           <p>{t('profile_word_count', { words: introduction.length })}</p>
@@ -78,13 +81,14 @@ const BiographyForm = () => {
             className='form-control'
             rows={6}
             key={relevant_experience}
-            onBlur={e =>
+            onBlur={e => {
+              handleDisableSave(false)
               setRelevantExperience(
                 e.target.value.length
                   ? filter.clean(e.target.value)
                   : e.target.value
               )
-            }
+            }}
             defaultValue={relevant_experience}
           ></textarea>
           <p>
@@ -98,13 +102,14 @@ const BiographyForm = () => {
           <textarea
             className='form-control'
             rows={6}
-            onBlur={e =>
+            onBlur={e => {
+              handleDisableSave(false)
               setUniqueFacts(
                 e.target.value.length
                   ? filter.clean(e.target.value)
                   : e.target.value
               )
-            }
+            }}
             defaultValue={unique_facts}
             key={unique_facts}
           ></textarea>
@@ -112,7 +117,11 @@ const BiographyForm = () => {
         </div>
 
         <div className='mb-4 d-grid gap-2'>
-          <button className='btn btn-primary' onClick={onClick}>
+          <button
+            className='btn btn-primary'
+            disabled={disableSave}
+            onClick={onClick}
+          >
             {t('save_changes')}
           </button>
         </div>

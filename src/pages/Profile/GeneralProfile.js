@@ -25,7 +25,7 @@ import Dropdown from 'react-dropdown'
 
 import 'react-dropdown/style.css'
 
-const GeneralProfile = ({ user, update, isAdmin = false }) => {
+const GeneralProfile = ({ user, update, isAdmin = false, setDisabled }) => {
   const dispatch = useDispatch()
   const [t] = useTranslation('translation')
 
@@ -117,6 +117,7 @@ const GeneralProfile = ({ user, update, isAdmin = false }) => {
   )
 
   const handleChange = (option, stateName) => {
+    setDisabled(false)
     const name = stateName.name
     if (name === 'gender') {
       setSelectedGenderOption(option)

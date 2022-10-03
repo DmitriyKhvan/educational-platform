@@ -10,6 +10,7 @@ const EducationForm = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.users.user)
   const tutor = useSelector(state => state.tutor.info)
+  const [disableSave, handleDisableSave] = useState(true)
 
   const [educationData, setEducationData] = useState({
     major: '',
@@ -42,6 +43,7 @@ const EducationForm = () => {
   }, [tutor])
 
   const onChange = e => {
+    handleDisableSave(false)
     setEducationData({
       ...educationData,
       [e.target.name]: e.target.value
@@ -49,6 +51,7 @@ const EducationForm = () => {
   }
 
   const onClick = async () => {
+    handleDisableSave(true)
     const res = await dispatch(updateTutorInfo(educationData))
 
     if (res.type === 'UPDATE_TUTOR_INFO_FAILURE') {
@@ -144,7 +147,11 @@ const EducationForm = () => {
         />
       </div> */}
       <div className='mb-4 d-grid gap-2'>
-        <button className='btn btn-primary' onClick={onClick}>
+        <button
+          className='btn btn-primary'
+          onClick={onClick}
+          disabled={disableSave}
+        >
           {t('save_changes')}
         </button>
       </div>

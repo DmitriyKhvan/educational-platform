@@ -13,7 +13,7 @@ const Profile = ({ user, isAdmin = false }) => {
   const [isTutor, setIsTutor] = useState(null)
   const [update, setUpdate] = useState(false)
 
-  const [disabled, setDisabled] = useState(false)
+  const [disabled, setDisabled] = useState(true)
 
   useEffect(() => {
     if (user && user.roles) {
@@ -39,13 +39,18 @@ const Profile = ({ user, isAdmin = false }) => {
                     <p>Intermediate level</p>
                   </div>
                 } */}
-              <GeneralProfile user={user} update={update} isAdmin={isAdmin} />
+              <GeneralProfile
+                user={user}
+                update={update}
+                isAdmin={isAdmin}
+                setDisabled={setDisabled}
+              />
               {isTutor === true && (
                 <TutorProfile
                   user={user}
                   update={update}
                   isAdmin={isAdmin}
-                  setDisabled={d => setDisabled(d)}
+                  // setDisabled={d => setDisabled(d)}
                 />
               )}
               {/* {isTutor === false && (

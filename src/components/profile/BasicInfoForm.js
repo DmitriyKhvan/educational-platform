@@ -13,6 +13,7 @@ const BasicInfoForm = () => {
   const [t] = useTranslation()
   const dispatch = useDispatch()
   const user = useSelector(state => state.users.user)
+  const [disableSave, handleDisableSave] = useState(true)
 
   const [userData, setUserData] = useState({
     first_name: '',
@@ -40,6 +41,7 @@ const BasicInfoForm = () => {
   const defaultTimezone = timezones[15]
 
   const onChange = e => {
+    handleDisableSave(false)
     setUserData({ ...userData, [e.target.name]: e.target.value })
   }
 
@@ -126,6 +128,7 @@ const BasicInfoForm = () => {
             value={userData.country || defaultCountry}
             name='location'
             onChange={({ value }) => {
+              handleDisableSave(false)
               setUserData({ ...userData, country: value })
             }}
           />
@@ -155,13 +158,19 @@ const BasicInfoForm = () => {
             value={userData.time_zone || defaultTimezone}
             name='time_zone'
             onChange={({ value }) => {
+              handleDisableSave(false)
               setUserData({ ...userData, time_zone: value })
             }}
           />
         </div>
 
         <div className='mb-4 d-grid gap-2'>
-          <button className='btn btn-primary' onClick={onClick}>
+          <button
+            data-bs-dismiss='modal'
+            className='btn btn-primary'
+            onClick={onClick}
+            disabled={disableSave}
+          >
             {t('save_changes')}
           </button>
         </div>
