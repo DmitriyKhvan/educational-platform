@@ -247,7 +247,7 @@ const ScheduleSelector = ({
       const tutorlist = response.payload.tutors
 
       if (Array.isArray(tutorlist) && tutorlist.length > 0) {
-        setIsLoading(false)
+     
         setTabIndex(2)
       } else if (Array.isArray(tutorlist) && tutorlist.length === 0) {
         Swal.fire({
@@ -258,6 +258,7 @@ const ScheduleSelector = ({
           cancelButtonColor: '#d33'
         })
       }
+      setIsLoading(false)
     })
   }
 
