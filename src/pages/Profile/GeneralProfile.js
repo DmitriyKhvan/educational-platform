@@ -22,8 +22,8 @@ import EditIcon from '../../../src/assets/images/EditIcon.svg'
 import EditCircle from '../../../src/assets/images/EditCircle.svg'
 import timezone from 'timezones-list'
 import Dropdown from 'react-dropdown'
-
 import 'react-dropdown/style.css'
+import Select from 'react-select'
 
 const GeneralProfile = ({ user, update, isAdmin = false, setDisabled }) => {
   const dispatch = useDispatch()
@@ -282,11 +282,25 @@ const GeneralProfile = ({ user, update, isAdmin = false, setDisabled }) => {
               <div className='form-item'>
                 <div className='form-item-inner'>
                   <label htmlFor='timezone'>Timezone</label>
-                  <Dropdown
+                  {/* <Dropdown
                     options={timezones}
                     value={formData.time_zone || defaultTimezone}
                     name='time_zone'
                     onChange={({ value }) => {
+                      setFormData({ ...formData, time_zone: value })
+                    }}
+                  /> */}
+                  <Select
+                    className='custom-timezone-select'
+                    value={{
+                      label: formData.time_zone || defaultTimezone,
+                      value: formData.time_zone || defaultTimezone
+                    }}
+                    options={timezones.map(each => {
+                      return { label: each, value: each }
+                    })}
+                    onChange={({ value }) => {
+                      setDisabled(false)
                       setFormData({ ...formData, time_zone: value })
                     }}
                   />

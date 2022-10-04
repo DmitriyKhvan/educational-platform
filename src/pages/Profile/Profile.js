@@ -64,6 +64,7 @@ const Profile = ({ user, isAdmin = false }) => {
                   setUpdate(true)
                   setTimeout(() => {
                     setUpdate(false)
+                    setDisabled(true)
                   }, 1000)
                 }}
                 disabled={disabled}
