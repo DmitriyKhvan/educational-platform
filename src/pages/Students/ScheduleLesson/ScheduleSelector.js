@@ -18,7 +18,6 @@ const ScheduleSelector = ({
   schedule
 }) => {
   const [t] = useTranslation('translation')
-  const tutors = useSelector(state => state.tutor.list)
   const user = useSelector(state => state.users.user)
   const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
@@ -42,7 +41,6 @@ const ScheduleSelector = ({
 
   const isToday = moment.tz(userTimezone)
   const checkAgainstToday = moment(isToday, timeFormatter)
-  console.log('checkAgainstToday: ', checkAgainstToday.toString())
 
   //Format the time
   const startTime = moment(timeOfDay.startTime, 'HH:mm')
@@ -239,18 +237,14 @@ const ScheduleSelector = ({
     setIsLoading(true)
 
     const formattedDay = moment(day).format('YYYY-MM-DD')
-    const selectedSchedule = moment.tz(formattedDay + ' ' + scheduleStartTime, userTimezone).toString()
-    
-    console.log('User Timezone: ', userTimezone)
-    console.log('Selected Date: ', selectedSchedule)
+    const selectedSchedule = moment
+      .tz(formattedDay + ' ' + scheduleStartTime, userTimezone)
+      .toString()
 
     setSchedule(selectedSchedule)
 
     dispatch(getTutorList(selectedSchedule)).then(response => {
       const tutorlist = response.payload.tutors
-
-      console.log("\n\n\nSelected Time: ", scheduleStartTime)
-      console.log('\n\n\nTutor list: ', tutorlist)
 
       if (Array.isArray(tutorlist) && tutorlist.length > 0) {
         setIsLoading(false)
