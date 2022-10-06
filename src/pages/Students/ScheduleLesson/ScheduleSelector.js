@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import Layout from '../../../components/Layout'
 import custom_back_arrow from '../../../assets/images/custom_back_arrow.svg'
 import prev_arrow from '../../../assets/images/prev_arrow.svg'
@@ -18,7 +18,7 @@ const ScheduleSelector = ({
   schedule
 }) => {
   const [t] = useTranslation('translation')
-  const tutors = useSelector(state => state.tutor.list)
+  const user = useSelector(state => state.users.user)
   const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
   const [counter, setCounter] = useState(0)
@@ -37,8 +37,9 @@ const ScheduleSelector = ({
   const startOfWeekFormatted = startOfWeek.format('MMMM DD')
   const endOfWeek = today.endOf('isoWeek').format('MMMM DD')
   const timeFormatter = 'HH:mm:ss'
+  const userTimezone = user.time_zone.split(' ')[0]
 
-  const isToday = moment()
+  const isToday = moment.tz(userTimezone)
   const checkAgainstToday = moment(isToday, timeFormatter)
 
   //Format the time
@@ -234,15 +235,19 @@ const ScheduleSelector = ({
 
   const handleConfirmLesson = scheduleStartTime => {
     setIsLoading(true)
+
     const formattedDay = moment(day).format('YYYY-MM-DD')
-    const selectedSchedule = moment(
-      formattedDay + ' ' + scheduleStartTime
-    ).toString()
+    const selectedSchedule = moment
+      .tz(formattedDay + ' ' + scheduleStartTime, userTimezone)
+      .toString()
+
     setSchedule(selectedSchedule)
+
     dispatch(getTutorList(selectedSchedule)).then(response => {
-      var tutorlist = response.payload.tutors
+      const tutorlist = response.payload.tutors
+
       if (Array.isArray(tutorlist) && tutorlist.length > 0) {
-        setIsLoading(false)
+     
         setTabIndex(2)
       } else if (Array.isArray(tutorlist) && tutorlist.length === 0) {
         Swal.fire({
@@ -253,8 +258,10 @@ const ScheduleSelector = ({
           cancelButtonColor: '#d33'
         })
       }
+      setIsLoading(false)
     })
   }
+
   const ScheduleCard = ({ scheduleStartTime }) => {
     const scheduleEndTime = moment(scheduleStartTime, [
       moment.ISO_8601,
