@@ -13,11 +13,25 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
   const [t] = useTranslation('translation')
   const [isOpen, setIsOpen] = useState(false)
   const [modalSelectTutor, setModalSelectTutor] = useState({})
+  const [availableTutors, setAvailableTutors] = useState([])
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    if (tutors && tutors.length) {
+      const tempTutors = tutors.sort((a, b) =>
+        a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1
+      )
+      setAvailableTutors([...tempTutors])
+    }
   }, [])
 
+  const handleSearchTutor = e => {
+    const { value } = e.target
+    const tempTutors = tutors.filter(eachTutor =>
+      eachTutor.first_name.toLowerCase().includes(value.toLowerCase())
+    )
+    setAvailableTutors([...tempTutors])
+  }
   const customStyles = {
     content: {
       top: '50%',
@@ -240,16 +254,17 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
                   </div>
                 </div>
               </div>
+              <div className='searchbox'>
+                <input
+                  type='text'
+                  placeholder={t('placeholder_search_tutor')}
+                  onChange={handleSearchTutor}
+                />
+              </div>
               <div className='row ps-2 pt-4 tutor-overflow-scroll tutor_schedule_widths '>
-                {tutors
-                  .sort((a, b) =>
-                    a.first_name.toLowerCase() > b.first_name.toLowerCase()
-                      ? 1
-                      : -1
-                  )
-                  .map((x, i) => (
-                    <SelectTutors tutor={x} key={i} />
-                  ))}
+                {availableTutors.map((x, i) => (
+                  <SelectTutors tutor={x} key={i} />
+                ))}
               </div>
             </div>
           </div>

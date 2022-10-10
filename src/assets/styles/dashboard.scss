@@ -3,6 +3,29 @@
 .unversity-font {
   font-weight: 600 !important;
 }
+.searchbox input {
+  border: 0.5px solid $color-grey3;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 17px;
+  min-width: 350px;
+  outline: none;
+  height: 40px;
+  margin: 10px 0px;
+  &::placeholder {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+    color: $color-black;
+    opacity: 0.3;
+  }
+}
 .schedule-dashboard-buttons {
   background: #ffffff;
   border-radius: 5px;

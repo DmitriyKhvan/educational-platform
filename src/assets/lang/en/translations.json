@@ -3,6 +3,7 @@
   "dashboard": "Dashboard",
   "user_role_dashboard": "{{user_role}} DASHBOARD",
   "placeholder_search_here": "Search...",
+  "placeholder_search_tutor": "Search tutor...",
   "logout": "Logout",
   "navigation": "Navigation",
   "selected": "Selected",
