@@ -27,8 +27,10 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
 
   const handleSearchTutor = e => {
     const { value } = e.target
-    const tempTutors = tutors.filter(eachTutor =>
-      eachTutor.first_name.toLowerCase().includes(value.toLowerCase())
+    const tempTutors = tutors.filter(
+      eachTutor =>
+        eachTutor.first_name.toLowerCase().includes(value.toLowerCase()) ||
+        eachTutor.last_name?.toLowerCase().includes(value.toLowerCase())
     )
     setAvailableTutors([...tempTutors])
   }
