@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import placeholderAvatar from '../assets/images/avatars/img_avatar_female.png'
 import ZoomWarningModal from './student-dashboard/ZoomWarningModal'
 import { Link } from 'react-router-dom'
@@ -18,29 +18,33 @@ const CalendarModal = ({
   const [t] = useTranslation('translation')
   const [isWarningOpen, setIsWarningOpen] = useState(false)
   const isToday = moment(time).isSame(moment(), 'day')
-  // const date = moment.unix(startTime)
-  // const startTimeEpoch = moment.unix(date)
-  // const oneMinuteAfterStart = moment.unix(
-  //   moment(startTimeEpoch).unix() + 60 * 60
-  // const fiveMinutesBefore = moment.unix(moment(startTimeEpoch).unix() - 10 * 60)
-  // )
 
   const avatar = data.resource?.tutor?.user.avatar
     ? data.resource?.tutor?.user.avatar
     : placeholderAvatar
 
-  const today = moment().utc(true)
-  const hourAfter = moment(data.resource.eventDate.start_at)
-    .utc(0, true)
-    .add(59, 'minutes')
-  const tenMinutesbefore = moment(data.resource.eventDate.start_at)
-    .utc(0, true)
-    .subtract(10, 'minutes')
-  const isBetween = moment(today).isBetween(tenMinutesbefore, hourAfter)
+  const today = moment()
+  const tenMinuteBeforeStart = moment(
+    data.resource.eventDate.start_at
+  ).subtract(10, 'minutes')
+  const fiveMinuteBeforeEnd = moment(data.resource.eventDate.start_at).add(
+    data.resource.eventDate.duration - 5,
+    'minutes'
+  )
+
+  const isBetween = moment(today).isBetween(
+    tenMinuteBeforeStart,
+    fiveMinuteBeforeEnd
+  )
 
   const joinLesson = async () => {
-    window.location.href = zoomlink.url
+    if (isBetween) {
+      window.location.href = zoomlink.url
+    } else {
+      setIsWarningOpen(true)
+    }
   }
+
   return (
     <div
       className={'page-card grey-border bg-white pt-2 mt-4'}

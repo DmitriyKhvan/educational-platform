@@ -6,6 +6,7 @@ import ManIcon from '../../assets/images/man.svg'
 import Layout from '../../components/Layout'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
+import moment from 'moment-timezone'
 import {
   approveAppointment,
   cancelAppointment,
@@ -23,6 +24,7 @@ const ApproveRequest = () => {
   const tutor = useSelector(state => state.tutor.info)
   const dispatch = useDispatch()
   const [t] = useTranslation('translation')
+  const userTimezone = user?.time_zone?.split(' ')[0]
 
   useEffect(() => {
     dispatch(getUserInfo())
@@ -80,32 +82,29 @@ const ApproveRequest = () => {
     dispatch(getAppointments({ tutor_id: tutor.id }))
   }
 
-  const test = appointments
-    .filter(apt => apt.students.length > 0)
-    .filter(apt => !apt.students[0].GroupStudent.approved)
+  const displayLessonRequestTable = () => {
+    const data =
+      (appointments &&
+        appointments
+          .filter(event => event.students.length > 0)
+          .filter(event => !event.students[0].GroupStudent.approved)
+          .map(event => ({
+            id: event.id,
+            img: event.students[0].user.avatar,
+            studentName: `${event.students[0].user.first_name} ${event.students[0].user.last_name}`,
+            lessonNumber: event.lesson.type,
+            lessonDate: event.start_at
+          }))) ||
+      []
+    return <CustomTable timezone={userTimezone} data={data} columns={columns} />
+  }
 
   return (
     <Layout>
       <div className='main-dashboard p-5'>
         <h4 className='main-title'>{t('appointment_requests')}</h4>
         <div className='divider' />
-        <CustomTable
-          data={
-            (appointments &&
-              appointments
-                .filter(apt => apt.students.length > 0)
-                .filter(apt => !apt.students[0].GroupStudent.approved)
-                .map(apt => ({
-                  id: apt.id,
-                  img: apt.students[0].user.avatar,
-                  studentName: `${apt.students[0].user.first_name} ${apt.students[0].user.last_name}`,
-                  lessonNumber: apt.lesson.type,
-                  lessonDate: apt.start_at
-                }))) ||
-            []
-          }
-          columns={columns}
-        />
+        {displayLessonRequestTable()}
         {loading && (
           <Loader
             className='align-center'

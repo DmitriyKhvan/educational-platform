@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { format } from 'date-fns'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import {
   createAppointment,
   getAppointments,
@@ -44,12 +43,22 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
       setNewAppointment({})
     }
   }
-  const formattedTime = new Date(time)
+
+  const userTimezone = user?.time_zone?.split(' ')[0]
+  const scheduleDate = moment(time).tz(userTimezone).format('dddd, MMM DD')
+  const scheduleStartTime = moment(time).tz(userTimezone).format('hh:mm A')
+  const scheduleEndTime = moment(time)
+    .tz(userTimezone)
+    .add(plan.duration, 'minutes')
+    .format('hh:mm A')
+
   let data = {
     lesson_id: plan.lesson_id,
     tutor_id: tutor.id,
     duration: plan.duration,
-    start_at: format(formattedTime, "yyyy-MM-dd'T'HH:mm:ss"),
+    start_at: moment
+      .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
+      .format('YYYY-MM-DDTHH:mm:ss'),
     cancel_action: 'assign_new_tutor'
   }
   if (user.student_profile.id) {
@@ -247,7 +256,11 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
                 {t('date_and_time')}
               </p>
               <div className='row container ps-2 mobile-width-subtitle'>
-                <ScheduleCard time={time} duration={plan.duration} />{' '}
+                <ScheduleCard
+                  startTime={scheduleStartTime}
+                  endTime={scheduleEndTime}
+                  date={scheduleDate}
+                />
               </div>
               <p className='welcome-subtitle pt-4 confirm-tutor-subtitle'>
                 {t('tutor')}
@@ -359,7 +372,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
                   index={0}
                   lesson={newAppointment.lesson.description}
                   zoomlink={newAppointment.zoomlink}
-                  date={date}
+                  date={time}
                   data={newAppointment}
                   fetchAppointments={fetchAppointments}
                   cancelled={cancelled}

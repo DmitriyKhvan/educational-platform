@@ -30,14 +30,14 @@ const ScheduleSelector = ({
     startTime: '',
     endTime: ''
   })
+  const userTimezone = user?.time_zone?.split(' ')[0]
   const disable = counter === 0
-  const today = moment().subtract(counter, 'week')
+  const today = moment.tz(userTimezone).subtract(counter, 'week')
   const startOfWeek = today.startOf('isoWeek')
   const startOfWeekString = startOfWeek.toString()
   const startOfWeekFormatted = startOfWeek.format('MMMM DD')
   const endOfWeek = today.endOf('isoWeek').format('MMMM DD')
   const timeFormatter = 'HH:mm:ss'
-  const userTimezone = user.time_zone.split(' ')[0]
 
   const isToday = moment.tz(userTimezone)
   const checkAgainstToday = moment(isToday, timeFormatter)

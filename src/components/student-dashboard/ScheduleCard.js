@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import moment from 'moment'
+import moment from 'moment-timezone'
+import { useSelector } from 'react-redux'
 import Menu, { Item as MenuItem, Divider } from 'rc-menu'
 import Dropdown from 'rc-dropdown'
 import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png'
@@ -24,21 +25,10 @@ const ScheduleCard = ({
   const [isOpen, setIsOpen] = useState(false)
   const [isWarningOpen, setIsWarningOpen] = useState(false)
   const [modalType, setModalType] = useState('')
-  console.log(data)
   const [tabIndex, setTabIndex] = useState(0)
-  const hours = 13 * 60 * 60
+  const user = useSelector(state => state.users.user)
+  const userTimezone = user?.time_zone?.split(' ')[0]
 
-  const epoch = moment.unix(date).utc(0, true).toISOString()
-  const epochDate = date
-  const epochStart = moment(epoch).utc().format('hh:mm A')
-  const epochEnd = moment(epoch)
-    .utc()
-    .add('minutes', data.duration === 30 ? 30 : 60, 'minutes')
-    .format('hh:mm A')
-
-  // date = date.length > 9 ? date * 1000 + hours : date + hours
-
-  const isToday = moment(date).isSame(moment(), 'day')
   let gender
   if (data.tutor?.gender) {
     gender = data.tutor.gender
@@ -71,27 +61,41 @@ const ScheduleCard = ({
       </MenuItem>
     </Menu>
   )
-  const endEpoch = date + data.duration * 60
-  const startTime = moment.unix(date).format('LT')
-  const endTime = moment.unix(endEpoch).format('LT')
 
   const today = moment()
-  const startTimeEpoch = moment.unix(date).add(4, 'hours')
-  const oneMinuteAfterStart = moment(startTimeEpoch).add(60, 'minute')
-  const fiveMinutesBefore = moment(startTimeEpoch).subtract(10, 'minutes')
+  const tenMinuteBeforeStart = moment(date).subtract(10, 'minutes')
+  const fiveMinuteBeforeEnd = moment(date).add(data.duration - 5, 'minutes')
 
   const isBetween = moment(today).isBetween(
-    fiveMinutesBefore,
-    oneMinuteAfterStart
+    tenMinuteBeforeStart,
+    fiveMinuteBeforeEnd
+  )
+
+  console.log(
+    `\n\n\n`,
+    ` UTC Time: [${today.utc()}]\n Your Time: [${today
+      .tz(userTimezone)
+      .toString()}]`
   )
 
   const joinLesson = async () => {
-    window.location.href = zoomlink.url
+    if (isBetween) {
+      window.location.href = zoomlink.url
+    } else {
+      setIsWarningOpen(true)
+    }
   }
 
-  const formattedEpochDate = () => {
-    return moment.utc(data.start_at).format('MMM Do')
+  const displayDate = () => {
+    const eventDate = moment(date).tz(userTimezone).format('MMM Do')
+    const start = moment(date).tz(userTimezone).format('hh:mm A')
+    const end = moment(date)
+      .tz(userTimezone)
+      .add(data.duration, 'minutes')
+      .format('hh:mm A')
+    return `${eventDate} at ${start} → ${end}`
   }
+  
   return (
     <div
       className={`page-card_schedule ${
@@ -114,9 +118,8 @@ const ScheduleCard = ({
                   : 'text-muted m-0 font_schedule_text'
               }`}
             >
-              {/* {isToday ? 'Today' : moment.unix(date).format('LL')} at{' '}
-              {startTime} → {endTime} */}
-              {formattedEpochDate()} at {epochStart} → {epochEnd}
+              {displayDate()}
+              
             </h3>
           </div>
           <div className='col-2 cols-image-schedule mobile-schedule_dash'>
@@ -138,6 +141,7 @@ const ScheduleCard = ({
           </div>
         </div>
       </div>
+
       <div className='row align_schedule-lesson d-flex'>
         <div className='schedule-card-col join_schedule-lesson ms-2'>
           <a

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 import '../../assets/styles/calendar.scss'
 
-const LessonTable = ({ isUpcoming, tabularData }) => {
+const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
   const [t] = useTranslation('translation')
   const [displayTableData, setDisplayTableData] = useState([])
 
@@ -64,8 +64,14 @@ const LessonTable = ({ isUpcoming, tabularData }) => {
               </td>
               <td>
                 <p className='td-datetime td-datetime-border ps-3 my-0'>
-                  {x.dateTime.date} {x.dateTime.startTime} {'→ '}
-                  {x.dateTime.endTime}
+                  {moment(x.resource.start_at)
+                    .tz(timezone)
+                    .format('ddd, MMM Do hh:mm A')}
+                  {' → '}
+                  {moment(x.resource.start_at)
+                    .tz(timezone)
+                    .add(x.resource.duration, 'minutes')
+                    .format('hh:mm A')}
                 </p>
               </td>
               <td className='td-item'>

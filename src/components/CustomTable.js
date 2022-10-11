@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import '../assets/styles/global.scss'
 
-const CustomTable = ({ data, columns, className, enableSeeAll = true }) => {
+const CustomTable = ({ timezone, data, columns, className, enableSeeAll = true }) => {
   const [isAll, setIsAll] = useState(false)
   const [t] = useTranslation('translation')
+
   return (
     <div className={`custom-table ${className}`}>
       <div className='desktop-version'>
@@ -43,9 +44,9 @@ const CustomTable = ({ data, columns, className, enableSeeAll = true }) => {
                     ) : (
                       <p>
                         {ci.dataKey === 'lessonDate'
-                          ? moment(item[ci.dataKey])
-                              .utc(0, true)
-                              .format('MMMM DD, YYYY hh:mm a')
+                          ? moment(item[ci.dataKey]).tz(timezone).format(
+                              'ddd, MMMM Do YYYY [at] hh:mm A'
+                            )
                           : item[ci.dataKey]}
                       </p>
                     )}

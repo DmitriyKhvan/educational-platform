@@ -21,6 +21,7 @@ const TutorDashboard = () => {
   const [upcomingLessons, setUpcomingLessons] = useState([])
   const [lessonApprovals, setLessonApprovals] = useState([])
   const hasLessonApprovals = lessonApprovals.length > 0
+
   useEffect(() => {
     if (!user) {
       dispatch(getUserInfo())
@@ -71,6 +72,34 @@ const TutorDashboard = () => {
     }
   }, [appointments])
 
+  const displayBookingRequest = isAvailable => {
+    if (isAvailable)
+      return (
+        <BookingRequest
+          user={user}
+          lessonApprovals={lessonApprovals}
+          fetchAppointments={fetchAppointments}
+        />
+      )
+  }
+
+  const displayDailySchedule = isAvailable => {
+    if (isAvailable) {
+      return isAvailable.map((event, i) => {
+        return (
+          <ScheduleCard
+            lesson={event.lesson.description}
+            zoomlink={event.zoomlink}
+            date={event.start_at}
+            data={event}
+            key={i}
+            fetchAppointments={fetchAppointments}
+          />
+        )
+      })
+    }
+  }
+
   return (
     <div className='main-dashboard scroll-layout'>
       <div className='flex-container'>
@@ -97,7 +126,6 @@ const TutorDashboard = () => {
                         {t('review_my_schedule')}
                       </p>
                     </div>
-
                     <div className='row mobile-view-buttons '>
                       <div className='col-6 desktop schedule-dashboard-button'>
                         <Link
@@ -124,13 +152,8 @@ const TutorDashboard = () => {
         </div>
         <div className='student-list-appointments-wrapper flex-right children-wrapper changes-container'>
           <div className='child-set_container'>
-            {hasLessonApprovals && (
-              <BookingRequest
-                lessonApprovals={lessonApprovals}
-                fetchAppointments={fetchAppointments}
-              />
-            )}
-            <h4 className='weekly-schedule'>{t('daily_schedule')}</h4>
+            {displayBookingRequest(hasLessonApprovals)}
+            <h4 className='weekly-schedule mt-4'>{t('daily_schedule')}</h4>
             <h4 className='text-purple weekly-schedule-subtitle'>
               {t('upcoming_lessons_2')}
             </h4>
@@ -145,20 +168,7 @@ const TutorDashboard = () => {
               {t('student_dashboard_view_all_lessons')}
             </Link>
             <div className='weekly-schedule-scroll'>
-              {upcomingLessons &&
-                upcomingLessons.map((x, i) => {
-                  const date = moment(x.start_at).unix()
-                  return (
-                    <ScheduleCard
-                      lesson={x.lesson.description}
-                      zoomlink={x.zoomlink}
-                      date={date}
-                      data={x}
-                      key={i}
-                      fetchAppointments={fetchAppointments}
-                    />
-                  )
-                })}
+              {displayDailySchedule(upcomingLessons)}
             </div>
           </div>
         </div>

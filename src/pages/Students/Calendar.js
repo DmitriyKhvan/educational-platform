@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import Modal from 'react-modal'
-import * as moment from 'moment'
+import * as moment from 'moment-timezone'
 import { format, utcToZonedTime } from 'date-fns-tz'
 import * as dates from '../../utils/dates'
 import CalendarModal from '../../components/CalendarModal'
@@ -34,7 +34,6 @@ const Calendar = () => {
     setCalendarEvent({})
     setIsOpen(false)
   }
-  const today = moment().unix()
 
   const customStyles = {
     content: {
@@ -197,7 +196,8 @@ const Calendar = () => {
     setIsCalendar(true)
   }
 
-  const localizer = momentLocalizer(moment)
+  const userTimezone = user?.time_zone?.split(' ')[0]
+  const localizer = momentLocalizer(moment.tz.setDefault(userTimezone))
   const allViews = ['month']
   const formats = {
     dateFormat: 'D',
@@ -207,9 +207,9 @@ const Calendar = () => {
   }
 
   const onSelectEvent = e => {
-    const startDate = moment(e.start).utc(0, true).format('MM/DD/YYYY hh:mm a')
-    const today = moment().utc(0, true).format('MM/DD/YYYY hh:mm a')
-    if (moment(startDate).isAfter(today, 'minute')) {
+    const today = moment().format('MM/DD/YYYY hh:mm a')
+    const closedDate = moment(e.end).format('MM/DD/YYYY hh:mm a')
+    if (moment(today).isBefore(closedDate)) {
       setCalendarEvent(e)
       setIsOpen(true)
     }
@@ -217,23 +217,33 @@ const Calendar = () => {
 
   const calendarEvents = []
   events.forEach((_, index) => {
-    calendarEvents.push({
+    const start = moment(events[index].start_at).tz(userTimezone)
+    const end = moment(events[index].end_at).tz(userTimezone)
+    const event = {
       id: index,
       title:
         events[index].lesson.type.charAt(0).toUpperCase() +
         events[index].lesson.type.slice(1),
-      start: new Date(events[index].start_at),
-      end: new Date(events[index].end_at),
+      start: start,
+      end: end,
       resource: events[index]
-    })
+    }
+    calendarEvents.push(event)
   })
 
   const CustomModal = () => {
     const [selectedEvent] = calendarEvents.filter(
       x => x.id === calendarEvent.id
     )
-    const startTime = moment(selectedEvent.resource.start_at).format('LT')
-    const endTime = moment(selectedEvent.resource.end_at).format('LT')
+    const scheduledTime = moment(selectedEvent.resource.start_at).tz(
+      userTimezone
+    )
+    const startTime = moment(selectedEvent.resource.start_at)
+      .tz(userTimezone)
+      .format('hh:mm A')
+    const endTime = moment(selectedEvent.resource.end_at)
+      .tz(userTimezone)
+      .format('hh:mm A')
     return (
       <div style={{ zIndex: 9999 }} className='container'>
         <Modal
@@ -247,7 +257,7 @@ const Calendar = () => {
             startTime={startTime}
             endTime={endTime}
             zoomlink={selectedEvent.resource.zoomLink}
-            time={selectedEvent.resource.start_at}
+            time={scheduledTime}
             data={selectedEvent}
             onCancel={onCancel}
           />
@@ -269,7 +279,7 @@ const Calendar = () => {
     <Layout>
       <div className='children-wrapper'>
         <div className='appointment-calendar container-fluid'>
-          <h1 className='title m-0 pb-4'>{t('appointment_calendar')}</h1>
+          <h1 className='title m-0 mt-4 mb-3'>{t('appointment_calendar')}</h1>
           <div className='row container-fluid m-0 p-0'>
             <div className='col-auto'>
               <div className='btn-group' role='group'>
@@ -301,7 +311,7 @@ const Calendar = () => {
           </div>
           <div className='scroll-layout'>
             {!isLoading && !isCalendar && (
-              <table className='table mt-5'>
+              <table className='table mt-4'>
                 <thead>
                   <tr>
                     {tableHead.map(x => (
@@ -322,30 +332,38 @@ const Calendar = () => {
                         new Date(b.dateTime.startTime)
                     )
                     .reverse()
-                    .map(x => (
+                    .map(event => (
                       <tr className='tr-center'>
                         <td className='td-item'>
-                          <p className='td-lesson'>{x.lesson}</p>
+                          <p className='td-lesson'>{event.lesson}</p>
                         </td>
                         <td className='td-item'>
-                          <p className='td-topic-level'>{x.topic}</p>
+                          <p className='td-topic-level'>{event.topic}</p>
                         </td>
                         <td className='td-item'>
-                          <p className='td-topic-level'>Level {x.level || 0}</p>
+                          <p className='td-topic-level'>
+                            Level {event.level || 0}
+                          </p>
                         </td>
                         <td>
                           <p className='td-datetime td-datetime-border ps-3'>
-                            {x.dateTime.date} {x.dateTime.startTime} {'→ '}
-                            {x.dateTime.endTime}
+                            {moment(event.resource.start_at)
+                              .tz(userTimezone)
+                              .format('ddd, MMM Do hh:mm A')}
+                            {' → '}
+                            {moment(event.resource.start_at)
+                              .tz(userTimezone)
+                              .add(event.resource.duration, 'minutes')
+                              .format('hh:mm A')}
                           </p>
                         </td>
                         <td className='td-item'>
-                          <p className='td-tutor'>{x.tutor}</p>
+                          <p className='td-tutor'>{event.tutor}</p>
                         </td>
                         <td className='td-button'>
                           <button
                             className={`btn ${
-                              x.tutorFeedback.length
+                              event.tutorFeedback.length
                                 ? 'btn-primary'
                                 : 'btn-tutor-feedback-disabled'
                             }`}

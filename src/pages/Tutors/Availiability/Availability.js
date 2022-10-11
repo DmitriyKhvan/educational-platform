@@ -455,7 +455,6 @@ export const Availability = ({ isAdmin, user_id }) => {
                               className='btn fa_trash_can ms-3 pb-0'
                               disabled={false}
                               onClick={() => {
-                                console.log('datas', datas)
                                 deleteRow({ id: datas.id })
                               }}
                             >

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import Modal from 'react-modal'
@@ -51,7 +51,8 @@ const Calendar = () => {
     }
   }
 
-  const localizer = momentLocalizer(moment)
+  const userTimezone = user?.time_zone?.split(' ')[0]
+  const localizer = momentLocalizer(moment.tz.setDefault(userTimezone))
   const allViews = ['month']
   const formats = {
     dateFormat: 'D',
@@ -187,9 +188,9 @@ const Calendar = () => {
   }
 
   const onSelectEvent = e => {
-    const startDate = moment(e.start).utc(0, true).format('MM/DD/YYYY hh:mm a')
-    const today = moment().utc(0, true).format('MM/DD/YYYY hh:mm a')
-    if (moment(startDate).isAfter(today, 'minute')) {
+    const today = moment().format('MM/DD/YYYY hh:mm a')
+    const closedDate = moment(e.end).format('MM/DD/YYYY hh:mm a')
+    if (moment(today).isBefore(closedDate)) {
       setCalendarEvent(e)
       setIsCalendarModalOpen(true)
     }
@@ -244,13 +245,12 @@ const Calendar = () => {
   Modal.setAppElement('#root')
 
   const CustomModal = () => {
-    const today = moment()
     const [selectedEvent] = calendarEvents.filter(
-      x => x.id === calendarEvent.id
+      event => event.id === calendarEvent.id
     )
-    console.log(selectedEvent)
     const { eventDate } = selectedEvent.resource
     const [students] = eventDate.students
+
     const studentLessonLevel = students.level || 0
     const studentAvatar = students.avatar
     const displayStudentAvatar = studentAvatar
@@ -258,18 +258,52 @@ const Calendar = () => {
       : students.user.gender === 'male'
       ? maleAvatar
       : femaleAvatar
-    const startTimeEpoch = moment(selectedEvent.resource.start_at).utc(0, true)
 
-    const oneMinuteAfterStart = moment(startTimeEpoch).add(60, 'minute')
-    const fiveMinutesBefore = moment(startTimeEpoch).subtract(10, 'minutes')
+    const today = moment()
+    const tenMinuteBeforeStart = moment(eventDate.start_at).subtract(
+      10,
+      'minutes'
+    )
+    const fiveMinuteBeforeEnd = moment(eventDate.start_at).add(
+      eventDate.duration - 5,
+      'minutes'
+    )
 
     const isBetween = moment(today).isBetween(
-      fiveMinutesBefore,
-      oneMinuteAfterStart
+      tenMinuteBeforeStart,
+      fiveMinuteBeforeEnd
     )
+
     const joinLesson = async () => {
-      window.location.href = eventDate.zoomlink.url
+      if (isBetween) window.location.href = eventDate.zoomlink.url
+      if (!isBetween) setIsWarningOpen(true)
     }
+
+    const displayModalEventDate = ({ resource }) => {
+      const start = moment(resource?.start_at)
+        .tz(userTimezone)
+        .format('hh:mm A')
+      const end = moment(resource?.start_at)
+        .tz(userTimezone)
+        .add(resource?.eventDate?.duration, 'minutes')
+        .format('hh:mm A')
+      const timeSlot = `${start} → ${end}`
+      const date = moment(resource?.start_at)
+        .tz(userTimezone)
+        .format('dddd, MMMM Do')
+
+      return (
+        <Fragment>
+          <div className='row'>
+            <h4 class='text-primary'>{date}</h4>
+          </div>
+          <div className='row'>
+            <h4 className=''>{timeSlot}</h4>
+          </div>
+        </Fragment>
+      )
+    }
+
     return (
       <div style={{ zIndex: 9999 }} className='container'>
         <Modal
@@ -303,28 +337,7 @@ const Calendar = () => {
 
               <div className='ps-3'>
                 <div className='my-3'>
-                  <div className='row'>
-                    <h4 className='text-primary'>
-                      {moment(selectedEvent.resource.start_at)
-                        .utc(0, true)
-                        .format('hh:mm a')}{' '}
-                      -{' '}
-                      {moment(selectedEvent.resource.start_at)
-                        .add(
-                          selectedEvent.resource.eventDate.duration,
-                          'minutes'
-                        )
-                        .utc(0, true)
-                        .format('hh:mm a')}
-                    </h4>
-                  </div>
-                  <div className='row'>
-                    <h4>
-                      {moment(selectedEvent.resource.start_at).format(
-                        'dddd, MMMM DD'
-                      )}
-                    </h4>
-                  </div>
+                  {displayModalEventDate(selectedEvent)}
                 </div>
 
                 <div className='my-3'>
@@ -379,15 +392,14 @@ const Calendar = () => {
               </div>
 
               <div className='row'>
-                <a
-                  className='btn col-5 btn-primary enter-btn me-4'
+                <button
+                  className='btn col-5 enter-btn bg-primary text-white'
                   onClick={joinLesson}
                   target='_blank'
                   rel='noreferrer'
                 >
                   {t('start_lesson')}
-                </a>
-
+                </button>
                 <button
                   className='btn col-5 enter-btn'
                   onClick={onCancelLessonClick}
@@ -451,12 +463,10 @@ const Calendar = () => {
 
   return (
     <Layout>
-      <div className='container-fluid p-5'>
+      <div className='container-fluid'>
+        <h1 className='title m-0 mt-4 mb-3'>{t('lessons')}</h1>
         <div className='row container-fluid m-0 p-0'>
           <div className='col-auto'>
-            <h1 className='title m-0 pe-3'>{t('lessons')}</h1>
-          </div>
-          <div className='col-auto pt-1'>
             <div className='btn-group' role='group'>
               <button
                 type='button'
@@ -474,7 +484,7 @@ const Calendar = () => {
               </button> */}
             </div>
           </div>
-          <div className='col-auto ps-3 pt-1'>
+          <div className='col-auto ps-3'>
             <button
               type='button'
               className='btn grey-border'
@@ -485,9 +495,9 @@ const Calendar = () => {
           </div>
         </div>
 
-        <div className='scroll-layout mt-4 px-0'>
-          {isCalendar ? (
-            <div className='example'>
+        <div className='scroll-layout'>
+          <div className='example mt-4 px-0'>
+            {isCalendar ? (
               <BigCalendar
                 popup={true}
                 formats={formats}
@@ -504,10 +514,10 @@ const Calendar = () => {
                 startAccessor='start'
                 endAccessor='end'
               />
-            </div>
-          ) : (
-            <LessonTable isUpcoming={isUpcoming} tabularData={tabularData} />
-          )}
+            ) : (
+              <LessonTable timezone={userTimezone} isUpcoming={isUpcoming} tabularData={tabularData} />
+            )}
+          </div>
         </div>
       </div>
       {isCalendarModalOpen && <CustomModal />}

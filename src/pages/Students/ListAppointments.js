@@ -120,7 +120,7 @@ const StudentListAppointments = () => {
   const ScheduleArr = isWithinAweek
     .sort((a, b) => new Date(a.start_at) - new Date(b.start_at))
     .map((x, i) => {
-      const date = moment(x.start_at).unix()
+      const date = moment(x.start_at)
       return (
         <div>
           <ScheduleCard
