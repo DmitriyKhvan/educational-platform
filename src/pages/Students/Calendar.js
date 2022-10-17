@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import Modal from 'react-modal'
-import * as moment from 'moment-timezone'
+import moment from 'moment-timezone'
 import { format, utcToZonedTime } from 'date-fns-tz'
-import * as dates from '../../utils/dates'
+
 import CalendarModal from '../../components/CalendarModal'
 import Layout from '../../components/Layout'
 import { getAppointments } from '../../actions/appointment'
@@ -198,7 +198,7 @@ const Calendar = () => {
 
   const userTimezone = user?.time_zone?.split(' ')[0]
   const localizer = momentLocalizer(moment.tz.setDefault(userTimezone))
-  const allViews = ['month']
+  const allViews = ['month', 'week', 'day']
   const formats = {
     dateFormat: 'D',
     weekdayFormat: 'dddd',
@@ -215,10 +215,11 @@ const Calendar = () => {
     }
   }
 
+  /* [React Big Calender] Note: events must be a "date" object, not a "moment" object */
   const calendarEvents = []
   events.forEach((_, index) => {
-    const start = moment(events[index].start_at).tz(userTimezone)
-    const end = moment(events[index].end_at).tz(userTimezone)
+    const start = moment(events[index].start_at).tz(userTimezone).toDate()
+    const end = moment(events[index].end_at).tz(userTimezone).toDate()
     const event = {
       id: index,
       title:
@@ -277,129 +278,123 @@ const Calendar = () => {
 
   return (
     <Layout>
-      <div className='children-wrapper'>
-        <div className='appointment-calendar container-fluid'>
-          <h1 className='title m-0 mt-4 mb-3'>{t('appointment_calendar')}</h1>
-          <div className='row container-fluid m-0 p-0'>
-            <div className='col-auto'>
-              <div className='btn-group' role='group'>
-                <button
-                  type='button'
-                  className='btn grey-border'
-                  onClick={onClickUpcomingLessons}
-                >
-                  <h5>{t('lesson_calendar')}</h5>
-                </button>
-                {/* <button
-                  type='button'
-                  className='btn grey-border'
-                  onClick={onClickPastLessons}
-                >
-                  <h5>{t('past_lessons')}</h5>
-                </button> */}
-              </div>
-            </div>
-            <div className='col-auto ps-3'>
+      <div className='appointment-calendar container-fluid'>
+        <h1 className='title m-0 mt-4 mb-3'>{t('appointment_calendar')}</h1>
+        <div className='row container-fluid m-0 p-0'>
+          <div className='col-auto'>
+            <div className='btn-group' role='group'>
               <button
                 type='button'
                 className='btn grey-border'
-                onClick={onCalendarClick}
+                onClick={onClickUpcomingLessons}
               >
-                <h5>{t('calendar_view')}</h5>
+                <h5>{t('lesson_calendar')}</h5>
               </button>
+              {/* <button
+                type='button'
+                className='btn grey-border'
+                onClick={onClickPastLessons}
+              >
+                <h5>{t('past_lessons')}</h5>
+              </button> */}
             </div>
           </div>
-          <div className='scroll-layout'>
-            {!isLoading && !isCalendar && (
-              <table className='table mt-4'>
-                <thead>
-                  <tr>
-                    {tableHead.map(x => (
-                      <th scope='col'>{x}</th>
-                    ))}
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {displayTableData
-                    .sort(
-                      (a, b) =>
-                        new Date(a.dateTime.date) - new Date(b.dateTime.date)
-                    )
-                    .sort(
-                      (a, b) =>
-                        new Date(a.dateTime.startTime) -
-                        new Date(b.dateTime.startTime)
-                    )
-                    .reverse()
-                    .map(event => (
-                      <tr className='tr-center'>
-                        <td className='td-item'>
-                          <p className='td-lesson'>{event.lesson}</p>
-                        </td>
-                        <td className='td-item'>
-                          <p className='td-topic-level'>{event.topic}</p>
-                        </td>
-                        <td className='td-item'>
-                          <p className='td-topic-level'>
-                            Level {event.level || 0}
-                          </p>
-                        </td>
-                        <td>
-                          <p className='td-datetime td-datetime-border ps-3'>
-                            {moment(event.resource.start_at)
-                              .tz(userTimezone)
-                              .format('ddd, MMM Do hh:mm A')}
-                            {' → '}
-                            {moment(event.resource.start_at)
-                              .tz(userTimezone)
-                              .add(event.resource.duration, 'minutes')
-                              .format('hh:mm A')}
-                          </p>
-                        </td>
-                        <td className='td-item'>
-                          <p className='td-tutor'>{event.tutor}</p>
-                        </td>
-                        <td className='td-button'>
-                          <button
-                            className={`btn ${
-                              event.tutorFeedback.length
-                                ? 'btn-primary'
-                                : 'btn-tutor-feedback-disabled'
-                            }`}
-                          >
-                            Feedback
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            )}
-            {!isLoading && isCalendar && (
-              <div className='example mt-4 px-0'>
-                <BigCalendar
-                  popup={true}
-                  formats={formats}
-                  events={calendarEvents}
-                  localizer={localizer}
-                  onSelectEvent={onSelectEvent}
-                  max={dates.add(
-                    dates.endOf(new Date(2015, 17, 1), 'day'),
-                    -1,
-                    'hours'
-                  )}
-                  views={allViews}
-                  showMultiDayTimes
-                  // defaultDate={new Date(2015, 3, 1)}
-                  startAccessor='start'
-                  endAccessor='end'
-                />
-              </div>
-            )}
+          <div className='col-auto ps-3'>
+            <button
+              type='button'
+              className='btn grey-border'
+              onClick={onCalendarClick}
+            >
+              <h5>{t('calendar_view')}</h5>
+            </button>
           </div>
         </div>
+        <div className='scroll-layout'>
+          {!isLoading && !isCalendar && (
+            <table className='table mt-4'>
+              <thead>
+                <tr>
+                  {tableHead.map(x => (
+                    <th scope='col'>{x}</th>
+                  ))}
+                </tr>
+              </thead>
+
+              <tbody>
+                {displayTableData
+                  .sort(
+                    (a, b) =>
+                      new Date(a.dateTime.date) - new Date(b.dateTime.date)
+                  )
+                  .sort(
+                    (a, b) =>
+                      new Date(a.dateTime.startTime) -
+                      new Date(b.dateTime.startTime)
+                  )
+                  .reverse()
+                  .map(event => (
+                    <tr className='tr-center' style={{ height: '60px' }}>
+                      <td className='td-item'>
+                        <p className='td-lesson'>{event.lesson}</p>
+                      </td>
+                      <td className='td-item'>
+                        <p className='td-topic-level'>{event.topic}</p>
+                      </td>
+                      <td className='td-item'>
+                        <p className='td-topic-level'>
+                          Level {event.level || 0}
+                        </p>
+                      </td>
+                      <td>
+                        <p className='td-datetime td-datetime-border ps-3'>
+                          {moment(event.resource.start_at)
+                            .tz(userTimezone)
+                            .format('ddd, MMM Do hh:mm A')}
+                          {' → '}
+                          {moment(event.resource.start_at)
+                            .tz(userTimezone)
+                            .add(event.resource.duration, 'minutes')
+                            .format('hh:mm A')}
+                        </p>
+                      </td>
+                      <td className='td-item'>
+                        <p className='td-tutor'>{event.tutor}</p>
+                      </td>
+                      <td className='td-button'>
+                        <button
+                          className={`btn ${
+                            event.tutorFeedback.length
+                              ? 'btn-primary'
+                              : 'btn-tutor-feedback-disabled'
+                          }`}
+                        >
+                          Feedback
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          )}
+          {!isLoading && isCalendar && (
+            <div className='mt-4'>
+              <BigCalendar
+                style={{ minHeight: '70vh' }}
+                popup={true}
+                formats={formats}
+                events={calendarEvents}
+                localizer={localizer}
+                onSelectEvent={onSelectEvent}
+                views={allViews}
+                showMultiDayTimes
+                startAccessor='start'
+                endAccessor='end'
+              />
+            </div>
+          )}
+        </div>
       </div>
+
       {isOpen && <CustomModal />}
       {isLoading && <Loader />}
     </Layout>

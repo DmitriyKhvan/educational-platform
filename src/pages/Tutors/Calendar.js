@@ -6,7 +6,7 @@ import Modal from 'react-modal'
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment-timezone'
 import { format, utcToZonedTime } from 'date-fns-tz'
-import * as dates from '../../utils/dates'
+
 import Layout from '../../components/Layout'
 import { getAppointments } from '../../actions/appointment'
 import { getTutorInfo } from '../../actions/tutor'
@@ -53,7 +53,7 @@ const Calendar = () => {
 
   const userTimezone = user?.time_zone?.split(' ')[0]
   const localizer = momentLocalizer(moment.tz.setDefault(userTimezone))
-  const allViews = ['month']
+  const allViews = ['month', 'week', 'day']
   const formats = {
     dateFormat: 'D',
     weekdayFormat: 'dddd',
@@ -230,18 +230,23 @@ const Calendar = () => {
     }
   }
 
+  /* [React Big Calender Events] Note: events must be a "date" object, not a "moment" object */
   const calendarEvents = []
   events.forEach((_, index) => {
-    calendarEvents.push({
+    const start = moment(events[index].start_at).tz(userTimezone).toDate()
+    const end = moment(events[index].end_at).tz(userTimezone).toDate()
+    const event = {
       id: index,
       title:
         events[index].lesson.type.charAt(0).toUpperCase() +
         events[index].lesson.type.slice(1),
-      start: new Date(events[index].start_at),
-      end: new Date(events[index].end_at),
+      start: start,
+      end: end,
       resource: events[index]
-    })
+    }
+    calendarEvents.push(event)
   })
+  
   Modal.setAppElement('#root')
 
   const CustomModal = () => {
@@ -496,19 +501,15 @@ const Calendar = () => {
         </div>
 
         <div className='scroll-layout'>
-          <div className='example mt-4 px-0'>
+          <div className='mt-4'>
             {isCalendar ? (
               <BigCalendar
+                style={{ minHeight: '70vh' }}
                 popup={true}
                 formats={formats}
                 events={calendarEvents}
                 localizer={localizer}
                 onSelectEvent={onSelectEvent}
-                max={dates.add(
-                  dates.endOf(new Date(2015, 17, 1), 'day'),
-                  -1,
-                  'hours'
-                )}
                 views={allViews}
                 showMultiDayTimes
                 startAccessor='start'

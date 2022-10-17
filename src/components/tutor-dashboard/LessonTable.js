@@ -28,14 +28,14 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
 
   const tableHead = [
     t('class'),
-    t('level'),
     t('topic'),
+    t('level'),
     t('date_and_time'),
     t('students')
   ]
 
   return (
-    <div style={{ overflowY: 'scroll', height: '70vh' }}>
+    <div className='scroll-layout'>
       <table className='table'>
         <thead>
           <tr>
@@ -49,21 +49,16 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
           {displayTableData.map(x => (
             <tr className='tr-center' style={{ height: '60px' }}>
               <td className='td-item'>
-                <p className='td-lesson my-0'>{x.lesson}</p>
+                <p className='td-lesson'>{x.lesson}</p>
               </td>
               <td className='td-item'>
-                <p className='td-lesson my-0'>{t('level') + ' ' + x.level}</p>
+                <p className='td-topic-level'>{x.topic}</p>
               </td>
               <td className='td-item'>
-                <p
-                  className='td-lesson my-0'
-                  style={{ overflowX: 'clip', width: '15vw' }}
-                >
-                  {x.topic}
-                </p>
+                <p className='td-topic-level'>{t('level') + ' ' + x.level}</p>
               </td>
               <td>
-                <p className='td-datetime td-datetime-border ps-3 my-0'>
+                <p className='td-datetime td-datetime-border ps-3'>
                   {moment(x.resource.start_at)
                     .tz(timezone)
                     .format('ddd, MMM Do hh:mm A')}
@@ -75,7 +70,7 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
                 </p>
               </td>
               <td className='td-item'>
-                <p className='td-lesson my-0'>{x.student}</p>
+                <p className='td-topic-level'>{x.student}</p>
               </td>
             </tr>
           ))}
