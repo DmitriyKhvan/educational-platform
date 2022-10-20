@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import Layout from '../../components/Layout'
 import '../../assets/styles/student.scss'
 import { Link, useParams, useHistory } from 'react-router-dom'
@@ -121,18 +121,22 @@ const StudentListAppointments = () => {
     .sort((a, b) => new Date(a.start_at) - new Date(b.start_at))
     .map((x, i) => {
       const date = moment(x.start_at)
+      const expiredDate = moment(x.start_at).add(x.duration, 'minutes')
+      const currentDate = moment()
       return (
-        <div>
-          <ScheduleCard
-            lesson={x.lesson.description}
-            zoomlink={x.zoomlink}
-            date={date}
-            data={x}
-            key={i}
-            index={i}
-            fetchAppointments={fetchAppointments}
-          />
-        </div>
+        currentDate.isBefore(expiredDate) && (
+          <div>
+            <ScheduleCard
+              lesson={x.lesson.description}
+              zoomlink={x.zoomlink}
+              date={date}
+              data={x}
+              key={i}
+              index={i}
+              fetchAppointments={fetchAppointments}
+            />
+          </div>
+        )
       )
     })
 
