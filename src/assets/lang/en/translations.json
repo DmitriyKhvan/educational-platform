@@ -667,7 +667,7 @@
   "swal_fire_title_conform_msg2": "success",
   "select_the_time": "Select the time",
   "swal_fire_title_schedule_prescreen": "Class cut off date reached",
-  "swal_fire_text_schedule_prescreen": "Please select lesson date 48 hours prior to class start.",
+  "swal_fire_text_schedule_prescreen": "Please select lesson date 48 hours prior to class start time.",
   "swal_fire_footer_schedule_prescreen": "Try any time after",
   "saving_data_loader_content": "Saving ...",
   "tutor_certificates": "Certificates",
