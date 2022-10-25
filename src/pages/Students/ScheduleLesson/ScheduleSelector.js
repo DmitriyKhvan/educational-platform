@@ -234,7 +234,6 @@ const ScheduleSelector = ({
   }
 
   const handleConfirmLesson = scheduleStartTime => {
-    setIsLoading(true)
     const formattedDay = moment(day).format('YYYY-MM-DD')
     const selectedSchedule = moment.tz(
       formattedDay + ' ' + scheduleStartTime,
@@ -248,10 +247,11 @@ const ScheduleSelector = ({
 
     if (!todayDate.isBefore(preScreen)) {
       const minutesRound = 30 - (todayDate.minute() % 30)
-      const available = moment()
+      const available = moment
+        .tz(userTimezone)
         .add(hoursPrior, 'hours')
         .add(minutesRound, 'minutes')
-        .format('dddd[,] MMMM DD @ hh:mm A')
+        .format('dddd[,] MMMM DD @ h:mm A')
       Swal.fire({
         title: t('swal_fire_title_schedule_prescreen'),
         text: t('swal_fire_text_schedule_prescreen'),
@@ -263,6 +263,7 @@ const ScheduleSelector = ({
     }
 
     if (todayDate.isBefore(preScreen)) {
+      setIsLoading(true)
       setSchedule(selectedSchedule.toString())
       dispatch(getTutorList(selectedSchedule.toString())).then(response => {
         const tutorlist = response.payload.tutors
@@ -278,9 +279,9 @@ const ScheduleSelector = ({
             cancelButtonColor: '#d33'
           })
         }
+        setIsLoading(false)
       })
     }
-    setIsLoading(false)
   }
 
   const ScheduleCard = ({ scheduleStartTime }) => {
