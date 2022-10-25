@@ -252,10 +252,12 @@ const ScheduleSelector = ({
         .add(hoursPrior, 'hours')
         .add(minutesRound, 'minutes')
         .format('dddd[,] MMMM DD @ h:mm A')
+
       Swal.fire({
         title: t('swal_fire_title_schedule_prescreen'),
         text: t('swal_fire_text_schedule_prescreen'),
         icon: 'warning',
+        width: '36em',
         confirmButtonColor: '#6133af',
         focusConfirm: true,
         footer: `*${t('swal_fire_footer_schedule_prescreen')} ${available}`
