@@ -235,31 +235,52 @@ const ScheduleSelector = ({
 
   const handleConfirmLesson = scheduleStartTime => {
     setIsLoading(true)
-
     const formattedDay = moment(day).format('YYYY-MM-DD')
-    const selectedSchedule = moment
+    const selectedSchedule = moment.tz(
+      formattedDay + ' ' + scheduleStartTime,
+      userTimezone
+    )
+    const hoursPrior = 48
+    const preScreen = moment
       .tz(formattedDay + ' ' + scheduleStartTime, userTimezone)
-      .toString()
+      .subtract(hoursPrior, 'hours')
+    const todayDate = moment()
 
-    setSchedule(selectedSchedule)
+    if (!todayDate.isBefore(preScreen)) {
+      const minutesRound = 30 - (todayDate.minute() % 30)
+      const available = moment()
+        .add(hoursPrior, 'hours')
+        .add(minutesRound, 'minutes')
+        .format('dddd[,] MMMM DD @ hh:mm A')
+      Swal.fire({
+        title: t('swal_fire_title_schedule_prescreen'),
+        text: t('swal_fire_text_schedule_prescreen'),
+        icon: 'warning',
+        confirmButtonColor: '#6133af',
+        focusConfirm: true,
+        footer: `*${t('swal_fire_footer_schedule_prescreen')} ${available}`
+      })
+    }
 
-    dispatch(getTutorList(selectedSchedule)).then(response => {
-      const tutorlist = response.payload.tutors
+    if (todayDate.isBefore(preScreen)) {
+      setSchedule(selectedSchedule.toString())
+      dispatch(getTutorList(selectedSchedule.toString())).then(response => {
+        const tutorlist = response.payload.tutors
 
-      if (Array.isArray(tutorlist) && tutorlist.length > 0) {
-     
-        setTabIndex(2)
-      } else if (Array.isArray(tutorlist) && tutorlist.length === 0) {
-        Swal.fire({
-          title: 'No Tutuors Available for selected Time',
-          text: '',
-          icon: 'warning',
-          confirmButtonColor: '#6133af',
-          cancelButtonColor: '#d33'
-        })
-      }
-      setIsLoading(false)
-    })
+        if (Array.isArray(tutorlist) && tutorlist.length > 0) {
+          setTabIndex(2)
+        } else if (Array.isArray(tutorlist) && tutorlist.length === 0) {
+          Swal.fire({
+            title: 'No Tutuors Available for selected Time',
+            text: '',
+            icon: 'warning',
+            confirmButtonColor: '#6133af',
+            cancelButtonColor: '#d33'
+          })
+        }
+      })
+    }
+    setIsLoading(false)
   }
 
   const ScheduleCard = ({ scheduleStartTime }) => {
@@ -388,8 +409,7 @@ const ScheduleSelector = ({
                     className='enter-btn btn-dash-return ms-0 back-btn-schedule'
                     onClick={() => setTabIndex(0)}
                   >
-                    <img src={custom_back_arrow}></img>
-
+                    <img src={custom_back_arrow} alt='' />
                     <div className='ms-2'>{t('custom_back')}</div>
                   </button>
                 </div>

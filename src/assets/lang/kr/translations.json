@@ -504,7 +504,6 @@
   "return_to_dash": "대시보드로 돌아가기",
   "continue_custom": "계속하다",
   "lessons_remaining": "남은 수업",
-
   "lesson_confirmation": "레슨 확정 🎉",
   "lesson_confirmation_subtitle": "레슨에서 만나요!",
   "expires": "패키지 만료까지 남은 기간:",
@@ -608,6 +607,9 @@
   "swal_fire_title_conform_msg": "삭제 완료!",
   "swal_fire_title_conform_msg1": "수업 가능 시간이 제거되었습니다.",
   "swal_fire_title_conform_msg2": "완료",
+  "swal_fire_title_schedule_prescreen": "수업 마감 날짜에 도달했습니다",
+  "swal_fire_text_schedule_prescreen": "수업 시작 48시간 전에 수업 날짜를 선택하세요.",
+  "swal_fire_footer_schedule_prescreen": "후에 언제든지 시도",
   "select_the_time": "Select the time",
   "saving_data_loader_content": "Saving ...",
   "tutor_certificates": "Certificates",
@@ -619,5 +621,9 @@
   "email_upadate_pre": "이메일 설정 업데이트",
   "email_upadate_sub": "구독 취소",
   "booking_request": "예약 요청",
-  "calendar_view": "캘린더 보기"
+  "calendar_view": "캘린더 보기",
+  "back": "← 뒤",
+  "custom_back": "뒤",
+  "select_a_tutor": "튜터 선택",
+  "select_a_tutor_subtitle": "수업 및 가용성에 따라 추천된 튜터."
 }
