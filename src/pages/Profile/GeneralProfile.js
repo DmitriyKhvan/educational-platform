@@ -24,6 +24,7 @@ import timezone from 'timezones-list'
 import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 import Select from 'react-select'
+import ProfileModal from '../../components/ProfileModal'
 
 const GeneralProfile = ({ user, update, isAdmin = false, setDisabled }) => {
   const dispatch = useDispatch()
@@ -161,8 +162,11 @@ const GeneralProfile = ({ user, update, isAdmin = false, setDisabled }) => {
           onMouseEnter={() => setEditAvatar(true)}
           onMouseLeave={() => setEditAvatar(false)}
         >
-          <Avatar avatar={user.avatar} />
-          <div
+          <img src={user.avatar} alt='' className='Avatar' />
+          <div className='pencil-wrapper' onClick={() => showModal()}>
+            <img src={EditIcon} alt='' className='EditIcon' />
+          </div>
+          {/* <div
             className='edit-avatar custom-edit-avatar'
             onClick={() => showModal()}
           >
@@ -174,7 +178,7 @@ const GeneralProfile = ({ user, update, isAdmin = false, setDisabled }) => {
                 <img src={EditCircle} alt='' />
               </span>
             </div>
-          </div>
+          </div> */}
         </div>
       ) : (
         <div className=''>
@@ -335,6 +339,11 @@ const GeneralProfile = ({ user, update, isAdmin = false, setDisabled }) => {
           onDismiss={() => setIsShowAvailability(false)}
         />
       )}
+      <ProfileModal
+        isOpen={showUploadModal}
+        setIsOpen={setShowUploadModal}
+        setProfileImage={setUserImage}
+      />
     </div>
   )
 }

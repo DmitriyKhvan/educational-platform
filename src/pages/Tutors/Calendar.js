@@ -1,12 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import Modal from 'react-modal'
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment-timezone'
-import { format, utcToZonedTime } from 'date-fns-tz'
-
 import Layout from '../../components/Layout'
 import { getAppointments } from '../../actions/appointment'
 import { getTutorInfo } from '../../actions/tutor'
@@ -25,9 +22,17 @@ const Calendar = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.users.user)
   const tutor = useSelector(state => state.tutor.info)
-  const appointments = useSelector(state => state.appointment.list)
-  const [eventDates, setEventDates] = useState([])
-  const [events, setEvents] = useState([])
+  const calendarAppointments = useSelector(
+    state => state.appointment.calendarEvents
+  )
+  const tableAppointments = useSelector(
+    state => state.appointment.tablularEventData
+  )
+  const [calendarEvents, setCalendarEvents] = useState([])
+  const [pastLessons, setPastLessons] = useState([])
+  const [upcomingLessons, setUpcomingLessons] = useState([])
+  const [selectedTab, setSelectedTab] = useState('calendar')
+
   const [tabularData, setTabularData] = useState([])
   const [isCalendar, setIsCalendar] = useState(true)
   const [isUpcoming, setIsUpcoming] = useState(true)
@@ -60,6 +65,7 @@ const Calendar = () => {
     dayFormat: 'dddd D',
     timeGutterFormat: 'hA'
   }
+  
   const fetchData = () => {
     dispatch(getAppointments({ tutor_id: tutor?.id }))
   }
@@ -85,106 +91,60 @@ const Calendar = () => {
   }, [tutor])
 
   useEffect(() => {
-    if (appointments) {
-      const eventDates = {}
-      const timeZone = 'Asia/Seoul'
-      appointments.forEach(apt => {
-        let start_at = new Date(apt.start_at)
-        let date = format(utcToZonedTime(start_at, timeZone), 'yyyy-MM-dd')
-
-        if (eventDates[date]) {
-          eventDates[date].push(apt)
-        } else {
-          eventDates[date] = [apt]
+    if (calendarAppointments) {
+      const tempEvents = []
+      calendarAppointments.forEach((_, index) => {
+        const start = moment(calendarAppointments[index].start_at).tz(
+          userTimezone
+        )
+        const end = moment(calendarAppointments[index].end_at).tz(userTimezone)
+        const event = {
+          id: index,
+          title:
+            calendarAppointments[index].lesson.type.charAt(0).toUpperCase() +
+            calendarAppointments[index].lesson.type.slice(1),
+          start: start.toDate(),
+          end: end.toDate(),
+          resource: calendarAppointments[index]
         }
+        tempEvents.push(event)
       })
-      setEventDates(eventDates)
+      setCalendarEvents([...tempEvents])
+      // setIsLoading(false)
     }
-  }, [appointments])
+  }, [calendarAppointments])
 
   useEffect(() => {
-    const newEvents = []
-    if (eventDates) {
-      const eventKeys = Object.keys(eventDates)
-      eventKeys.forEach(key => {
-        for (const eventDate of eventDates[key]) {
-          const start_at = moment(eventDate.start_at).utc(0, true)
-          const end_at = moment(eventDate.start_at)
-            .add(eventDate.duration, 'minutes')
-            .utc(0, true)
-          const iterateEvents = {
-            zoomLink: eventDate.zoomlink,
-            lesson: eventDate.lesson,
-            start_at,
-            end_at,
-            type: eventDate.type,
-            tutor: eventDate.tutor,
-            student: eventDate.students,
-            eventDate
-          }
-
-          newEvents.push(iterateEvents)
+    if (tableAppointments) {
+      const tempUpcomingLessons = []
+      const tempPastLessons = []
+      tableAppointments.map(each => {
+        if (new Date(each.resource.start_at) > new Date()) {
+          tempUpcomingLessons.push(each)
+        } else {
+          tempPastLessons.push(each)
         }
       })
-      setEvents(newEvents)
+      setUpcomingLessons([...tempUpcomingLessons])
+      setPastLessons([...tempPastLessons])
     }
-    getAllData()
-  }, [eventDates])
-
-  const getAllData = () => {
-    const tabularEventData = []
-    const eventKeys = Object.keys(eventDates)
-    for (const eventKey of eventKeys) {
-      for (const eventDate of eventDates[eventKey]) {
-        const date = moment(eventDate.start_at).utc(0, true).unix()
-        const tutor = eventDate.tutor
-          ? eventDate.tutor.user.first_name +
-            ' ' +
-            eventDate.tutor.user.last_name.charAt(0).toUpperCase() +
-            '.'
-          : ''
-        const tableRow = {
-          lesson:
-            eventDate.lesson.type.charAt(0).toUpperCase() +
-            eventDate.lesson.type.slice(1),
-          topic: eventDate.lesson.description,
-          level: eventDate.students[0].level || 0,
-          dateTime: {
-            startTime: moment(eventDate.start_at)
-              .utc(0, true)
-              .format('hh:mm a'),
-            endTime: moment(eventDate.start_at)
-              .add(eventDate.duration, 'minutes')
-              .utc(0, true)
-              .format('hh:mm a'),
-            date: moment(eventDate.start_at).format('ddd, MMM D')
-          },
-          onClick: {
-            date
-          },
-          tutor,
-          tutorFeedback: eventDate.students[0].feedbacks,
-          resource: eventDate,
-          student:
-            eventDate.students[0].user.first_name +
-            ' ' +
-            eventDate.students[0].user.last_name.charAt(0).toUpperCase() +
-            '.'
-        }
-        tabularEventData.push(tableRow)
-      }
-    }
-    setTabularData(tabularEventData)
-  }
+  }, [tableAppointments])
 
   const onClickUpcomingLessons = () => {
-    getAllData()
+    setTabularData([...upcomingLessons])
     setIsUpcoming(true)
     setIsCalendar(false)
+    setSelectedTab('upcomingLessons')
   }
-
+  const onClickPastLessons = () => {
+    setTabularData([...pastLessons])
+    setIsUpcoming(false)
+    setIsCalendar(false)
+    setSelectedTab('pastLessons')
+  }
   const onCalendarClick = () => {
     setIsCalendar(true)
+    setSelectedTab('calendar')
   }
 
   const onSelectEvent = e => {
@@ -230,23 +190,6 @@ const Calendar = () => {
     }
   }
 
-  /* [React Big Calender Events] Note: events must be a "date" object, not a "moment" object */
-  const calendarEvents = []
-  events.forEach((_, index) => {
-    const start = moment(events[index].start_at).tz(userTimezone).toDate()
-    const end = moment(events[index].end_at).tz(userTimezone).toDate()
-    const event = {
-      id: index,
-      title:
-        events[index].lesson.type.charAt(0).toUpperCase() +
-        events[index].lesson.type.slice(1),
-      start: start,
-      end: end,
-      resource: events[index]
-    }
-    calendarEvents.push(event)
-  })
-  
   Modal.setAppElement('#root')
 
   const CustomModal = () => {
@@ -475,27 +418,33 @@ const Calendar = () => {
             <div className='btn-group' role='group'>
               <button
                 type='button'
-                className='btn grey-border'
                 onClick={onClickUpcomingLessons}
+                className={`btn grey-border ${
+                  selectedTab === 'upcomingLessons' && 'btn-selected'
+                }`}
               >
-                <h5>{t('lesson_calendar')}</h5>
+                <span>{t('upcoming_lessons')}</span>
               </button>
-              {/* <button
+              <button
                 type='button'
-                className='btn grey-border'
                 onClick={onClickPastLessons}
+                className={`btn grey-border ${
+                  selectedTab === 'pastLessons' && 'btn-selected'
+                }`}
               >
-                <h5>{t('past_lessons')}</h5>
-              </button> */}
+                <span>{t('past_lessons')}</span>
+              </button>
             </div>
           </div>
           <div className='col-auto ps-3'>
             <button
               type='button'
-              className='btn grey-border'
+              className={`btn grey-border ${
+                selectedTab === 'calendar' && 'btn-selected'
+              }`}
               onClick={onCalendarClick}
             >
-              <h5>{t('calendar_view')}</h5>
+              <span>{t('calendar_view')}</span>
             </button>
           </div>
         </div>
@@ -516,7 +465,11 @@ const Calendar = () => {
                 endAccessor='end'
               />
             ) : (
-              <LessonTable timezone={userTimezone} isUpcoming={isUpcoming} tabularData={tabularData} />
+              <LessonTable
+                timezone={userTimezone}
+                isUpcoming={isUpcoming}
+                tabularData={tabularData}
+              />
             )}
           </div>
         </div>

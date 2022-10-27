@@ -74,7 +74,7 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
           contentLabel='Learn More'
         >
           <div
-            className='container page-card grey-border bg-white pt-2 mt-4 p-4'
+            className='container page-card tutor-desc grey-border bg-white pt-2 mt-4 p-4'
             style={{ width: '40vw' }}
           >
             <div className='p-4'>

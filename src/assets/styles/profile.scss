@@ -464,8 +464,28 @@
 
     .avatar-section {
       position: relative;
+      width: 128px;
+      height: 128px;
+      border-radius: 100%;
+    }
+
+    .avatar-section .Avatar{
       width: 100%;
       height: 100%;
+      border-radius: 100%;
+    }
+    .avatar-section .pencil-wrapper {
+      width: 35px;
+      height: 35px;
+      background-color: #ebe4ff;
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      border: 2px solid #fff;
     }
 
     .user-avatar {
@@ -1939,9 +1959,9 @@
 }
 
 .EditIcon img {
-  position: absolute;
   margin-top: 10px;
   margin-left: 11px;
+  background: transparent !important;
 }
 
 .form-select.css-b62m3t-container {

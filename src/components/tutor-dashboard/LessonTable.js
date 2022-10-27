@@ -11,13 +11,13 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
   useEffect(() => {
     if (tabularData.length) {
       const x = tabularData
+        .sort((a, b) => new Date(a.dateTime.date) - new Date(b.dateTime.date))
         .sort(
           (a, b) =>
-            new Date(b.resource.start_at) - new Date(a.resource.start_at)
+            new Date(a.dateTime.startTime) - new Date(b.dateTime.startTime)
         )
         .map(x => x)
       const y = Object.assign({}, x)
-      x.reverse()
       const z = []
       for (const [, value] of Object.entries(y)) {
         z.push(value)
@@ -46,31 +46,33 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
         </thead>
 
         <tbody>
-          {displayTableData.map(x => (
-            <tr className='tr-center' style={{ height: '60px' }}>
-              <td className='td-item'>
-                <p className='td-lesson'>{x.lesson}</p>
+          {displayTableData.map(event => (
+            <tr className='tr-center'>
+              <td className='td-item m-0'>
+                <p className='td-lesson'>{event.lesson}</p>
               </td>
-              <td className='td-item'>
-                <p className='td-topic-level'>{x.topic}</p>
+              <td className='td-item m-0'>
+                <p className='td-topic-level'>{event.topic}</p>
               </td>
-              <td className='td-item'>
-                <p className='td-topic-level'>{t('level') + ' ' + x.level}</p>
+              <td className='td-item m-0'>
+                <p className='td-topic-level'>
+                  {`${t('level')} ${event.level || 0}`}
+                </p>
               </td>
-              <td>
+              <td className='d-inline-flex'>
                 <p className='td-datetime td-datetime-border ps-3'>
-                  {moment(x.resource.start_at)
+                  {moment(event.resource.start_at)
                     .tz(timezone)
                     .format('ddd, MMM Do hh:mm A')}
                   {' → '}
-                  {moment(x.resource.start_at)
+                  {moment(event.resource.start_at)
                     .tz(timezone)
-                    .add(x.resource.duration, 'minutes')
+                    .add(event.resource.duration, 'minutes')
                     .format('hh:mm A')}
                 </p>
               </td>
-              <td className='td-item'>
-                <p className='td-topic-level'>{x.student}</p>
+              <td className='td-item m-0'>
+                <p className='td-topic-level'>{event.student}</p>
               </td>
             </tr>
           ))}
