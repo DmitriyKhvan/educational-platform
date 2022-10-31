@@ -18,6 +18,7 @@ const Dropdown = ({
   const [isViewTotal, setIsViewTotal] = useState(false)
   const history = useHistory()
   const [filterItems, setFilterItems] = useState(items)
+  
   useEffect(() => {
     if (isViewTotal) {
       setFilterItems(items)
