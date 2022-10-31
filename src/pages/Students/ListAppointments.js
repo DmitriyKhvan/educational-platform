@@ -191,7 +191,7 @@ const StudentListAppointments = () => {
                 </div>
               </div>
             </div>
-            <div className='student-list-appointments-wrapper flex-rights  changes-container '>
+            <div className='student-list-appointments-wrapper flex-right changes-container'>
               {!isLoading && (
                 <div className='child-set_container dash_child-set_container '>
                   <h4 className='weekly-schedule'>{t('weekly_schedule')}</h4>
