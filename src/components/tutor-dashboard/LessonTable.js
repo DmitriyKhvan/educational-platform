@@ -52,7 +52,9 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
                 <p className='td-lesson'>{event.lesson}</p>
               </td>
               <td className='td-item m-0'>
-                <p className='td-topic-level'>{event.topic}</p>
+                <p className='td-topic-level'>
+                  {event.topic === 'Business English' ? 'English' : event.topic}
+                </p>
               </td>
               <td className='td-item m-0'>
                 <p className='td-topic-level'>

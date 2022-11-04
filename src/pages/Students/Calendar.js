@@ -13,6 +13,7 @@ import { cancelAppointment } from '../../actions/appointment'
 import Loader from '../../components/common/Loader'
 
 import '../../assets/styles/calendar.scss'
+import { feedbackURL } from '../../constants/global'
 
 const Calendar = () => {
   const [t] = useTranslation('translation')
@@ -187,6 +188,9 @@ const Calendar = () => {
       setIsOpen(true)
     }
   }
+  const handleFeedback = () => {
+    window.open(feedbackURL)
+  }
 
   const tableHead = [
     'Lesson',
@@ -194,7 +198,7 @@ const Calendar = () => {
     'Level',
     'Date and Time',
     'Tutor',
-    'Tutor Feedback'
+    'Class Feedback'
   ]
 
   return (
@@ -265,7 +269,11 @@ const Calendar = () => {
                           <p className='td-lesson'>{event.lesson}</p>
                         </td>
                         <td className='td-item'>
-                          <p className='td-topic-level'>{event.topic}</p>
+                          <p className='td-topic-level'>
+                            {event.topic === 'Business English'
+                              ? 'English'
+                              : event.topic}
+                          </p>
                         </td>
                         <td className='td-item'>
                           <p className='td-topic-level'>
@@ -294,6 +302,7 @@ const Calendar = () => {
                                 ? 'btn-primary'
                                 : 'btn-tutor-feedback-disabled'
                             }`}
+                            onClick={handleFeedback}
                           >
                             Feedback
                           </button>

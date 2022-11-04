@@ -536,3 +536,5 @@ export const getTimezoneValue = timezone => {
     return 0
   }
 }
+
+export const feedbackURL = process.env.REACT_APP_FEEDBACK_URL
