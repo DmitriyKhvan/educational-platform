@@ -108,7 +108,7 @@ const Login = () => {
         <div className='text-center'>
           <h1 className='title text-center'>{t('login')}</h1>
         </div>
-        <div className='form-section'>
+        <form className='form-section'>
           <div className='mb-4'>
             <div className='form-item-inner'>
               <label htmlFor='email' className='form-label'></label>
@@ -120,6 +120,7 @@ const Login = () => {
                 name='email'
                 placeholder='name@email.com'
                 value={formData.email}
+                autoComplete='username'
                 onChange={e => onChange(e.target.value, 'email')}
               />
             </div>
@@ -138,6 +139,7 @@ const Login = () => {
                 name='password'
                 placeholder='at least 8 characters'
                 value={formData.password}
+                autoComplete='current-password'
                 onChange={e => onChange(e.target.value, 'password')}
               />
             </div>
@@ -154,6 +156,7 @@ const Login = () => {
           {error && <p className='system-error-msg'>{error}</p>}
           <div className='d-grid gap-2'>
             <button
+              type='button'
               className='btn btn-primary btn-lg p-3'
               onClick={handleLogin}
             >
@@ -171,7 +174,7 @@ const Login = () => {
               </a>
             </p>
           </div>
-        </div>
+        </form>
       </div>
     </AuthLayout>
   )

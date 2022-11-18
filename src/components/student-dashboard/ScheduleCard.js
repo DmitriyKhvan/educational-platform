@@ -71,13 +71,6 @@ const ScheduleCard = ({
     fiveMinuteBeforeEnd
   )
 
-  console.log(
-    `\n\n\n`,
-    ` UTC Time: [${today.utc()}]\n Your Time: [${today
-      .tz(userTimezone)
-      .toString()}]`
-  )
-
   const joinLesson = async () => {
     if (isBetween) {
       window.location.href = zoomlink.url
