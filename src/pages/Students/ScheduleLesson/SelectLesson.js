@@ -56,7 +56,7 @@ const SelectLesson = ({
           }}
         >
           <div className='container-fluid'>
-            <div className='row'>
+            <div className='row mb-3'>
               <h1
                 className={`${
                   i === clicked
@@ -67,31 +67,17 @@ const SelectLesson = ({
                 {lesson.charAt(0).toUpperCase() + lesson.slice(1)}
               </h1>
             </div>
-            <div className='row customlabel'>
-              <p className='remaining-lsn' style={{ textAlign: 'center' }}>
-                {remaining} {t('lessons_remaining')}
-              </p>
-
-              <p className='time_remaining' style={{ textAlign: 'center' }}>
-                {duration} M
-              </p>
+            <div className='row mb-1'>
+              <div className='time_remaining'>
+                {duration} {t('minutes')}
+              </div>
             </div>
           </div>
           <hr className='line' />
-          <div className='row container expiry-days'>
-            <p className='expires'>
-              {expDate > 0 ? (
-                <>
-                  <span className='exp-txt exp-txt-purple'>{`${t(
-                    'expires'
-                  )}${' '}${expDate + ' ' + 'Days'}`}</span>
-                </>
-              ) : (
-                <>
-                  <span className='exp-txt exp-pad'>{t('expired')}</span>
-                </>
-              )}
-            </p>
+          <div style={{ width: '100%' }}>
+            <div className='remaining-lsn'>
+              {remaining} {t('lessons_remaining')}
+            </div>
           </div>
         </div>
       </div>
