@@ -1,17 +1,31 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
-import ClipLoader from 'react-spinners/ClipLoader'
-import NotificationManager from '../../components/NotificationManager'
-import { signup } from '../../actions/auth'
-import AuthLayout from '../../components/AuthLayout'
-import { useTranslation } from 'react-i18next'
-import ImgStudent from '../../assets/images/student.svg'
-import ImgTutor from '../../assets/images/tutor.svg'
+import 'react-phone-input-2/lib/style.css';
+
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
+import { useTranslation } from 'react-i18next';
+import PhoneInput from 'react-phone-input-2';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+import {
+  useHistory,
+  useParams,
+} from 'react-router-dom';
+import ClipLoader from 'react-spinners/ClipLoader';
+
+import { signup } from '../../actions/auth';
+import ImgStudent from '../../assets/images/student.svg';
+import ImgTutor from '../../assets/images/tutor.svg';
+import AuthLayout from '../../components/AuthLayout';
+import NotificationManager from '../../components/NotificationManager';
 
 const Signup = () => {
+  const {referalcode} = useParams()
+  console.log(referalcode)
   const history = useHistory()
   const [t] = useTranslation('translation')
   const dispatch = useDispatch()
@@ -23,7 +37,8 @@ const Signup = () => {
     phone_number: '',
     password: '',
     confirm_password: '',
-    user_role: ''
+    user_role: '',
+    referal_code: '',
   })
 
   const [formDataError, setFormDataError] = useState({
@@ -38,13 +53,13 @@ const Signup = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
     const role = urlParams.get('role')
-
+    const code = urlParams.get('referalcode')
     if (role === 'tutor') {
       setFormData({ ...formData, user_role: 'tutor' })
     } else if (role === 'admin') {
       setFormData({ ...formData, user_role: 'admin' })
     } else if (role === 'student') {
-      setFormData({ ...formData, user_role: 'student' })
+      setFormData({ ...formData, user_role: 'student', referal_code: code })
     }
   }, [])
 
@@ -208,7 +223,8 @@ const Signup = () => {
         formData.phone_number,
         formData.email,
         formData.password,
-        formData.user_role
+        formData.user_role,
+        formData.referal_code
       )
     )
 

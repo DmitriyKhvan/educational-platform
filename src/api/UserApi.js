@@ -1,8 +1,10 @@
-import axios from 'axios'
-import BaseApi from './BaseApi'
+import axios from 'axios';
+
+import BaseApi from './BaseApi';
 
 class UserApi extends BaseApi {
   getUserInfo() {
+    console.log('class UserApi extends BaseApi',this.getToken())
     return axios.get(this.REACT_APP_SERVER_URL + '/users/get', {
       headers: {
         Authorization: `Bearer ${this.getToken()}`

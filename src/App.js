@@ -1,63 +1,67 @@
+import 'react-notifications-component/dist/theme.css';
+import './assets/styles/global.scss';
+
 /* eslint-disable import/first */
-import React from 'react'
+import React from 'react';
+
+import { ReactNotifications } from 'react-notifications-component';
 import {
-  Route,
+  Provider,
+  useSelector,
+} from 'react-redux';
+import {
   BrowserRouter as Router,
   Redirect,
-  useHistory
-} from 'react-router-dom'
-import { Provider, useSelector } from 'react-redux'
-import configureStore from './store'
-import { ReactNotifications } from 'react-notifications-component'
-import 'react-notifications-component/dist/theme.css'
+  Route,
+  useHistory,
+} from 'react-router-dom';
 
-import './assets/styles/global.scss'
+import Main from './pages/Admin/Main';
+import StudentList from './pages/Admin/StudentList';
+import TutorList from './pages/Admin/TutorList';
+import EmailVerifyText from './pages/Auth/EmailVerifyText';
+import ForgotPassword from './pages/Auth/ForgotPassword';
+import ForgotPasswordText from './pages/Auth/ForgotPasswordText';
 // Authentication Path
-import Login from './pages/Auth/Login'
-import Signup from './pages/Auth/Signup'
-import ForgotPassword from './pages/Auth/ForgotPassword'
-import ForgotPasswordText from './pages/Auth/ForgotPasswordText'
-import ResetPassword from './pages/Auth/ResetPassword'
-import VerifyEmail from './pages/Auth/VerifyEmail'
-import EmailVerifyText from './pages/Auth/EmailVerifyText'
-
+import Login from './pages/Auth/Login';
+import ResetPassword from './pages/Auth/ResetPassword';
+import Signup from './pages/Auth/Signup';
+import VerifyEmail from './pages/Auth/VerifyEmail';
 // Common Dashboard
-import Dashboard from './pages/Dashboard'
-import Messages from './pages/Messages'
-
-// Tutor Path
-import TutorCalendar from './pages/Tutors/Calendar'
-import TutorPastLessons from './pages/Tutors/PastLessons'
-import TutorStudentList from './pages/Tutors/StudentList'
-import ApproveRequest from './pages/Tutors/ApproveRequest'
-import StudentProfile from './pages/Profile/Tutors/Student'
-import AvailabilityLayout from './pages/Tutors/Availiability'
-import { PaymentLayout } from './pages/Tutors/Payment'
-import TutorProfile from './pages/Profile/Tutors/Profile'
-
+import Dashboard from './pages/Dashboard';
+import FAQ from './pages/FAQ';
+import Feedback from './pages/Feedback';
+import Messages from './pages/Messages';
+import { ProfileLayout } from './pages/Profile';
+import NewTutorProfile from './pages/Profile/EditProfile';
+import TutorProfile from './pages/Profile/Tutors/Profile';
+import StudentProfile from './pages/Profile/Tutors/Student';
+import Referal from './pages/Referal';
+import BookTrialLesson from './pages/Students/BookTrialLesson';
 // Student Path
-import StudentCalendar from './pages/Students/Calendar'
-// import StudentMakeAppointments from './pages/Students/ScheduleLesson/ScheduleLessonSteps'
-import ProfileLayout from './pages/Profile'
-import StudentListAppointments from './pages/Students/ListAppointments'
-import GroupLessons from './pages/Students/GroupLessons'
-import FavouriteTutors from './pages/Students/FavoriteTutors'
-import ClassMaterials from './pages/Students/ClassMaterials'
-import ScheduleLesson from './pages/Students/ScheduleLesson'
-import GroupScheduleLesson from './pages/Students/GroupLessons'
-import ScheduleLessonSteps from './pages/Students/ScheduleLesson/ScheduleLessonSteps.js'
-import { Packages } from './pages/Students/Packages'
-import FAQ from './pages/FAQ'
-import Support from './pages/Support'
-import Feedback from './pages/Feedback'
-import SubmitRequest from './pages/SubmitRequest'
-import BookTrialLesson from './pages/Students/BookTrialLesson'
-import TutorList from './pages/Admin/TutorList'
-import StudentList from './pages/Admin/StudentList'
-import Main from './pages/Admin/Main'
-import AvailabilitySettings from './pages/Tutors/Availiability/AvailabilitySettings'
+import StudentCalendar from './pages/Students/Calendar';
+import ClassMaterials from './pages/Students/ClassMaterials';
+import FavouriteTutors from './pages/Students/FavoriteTutors';
+import GroupLessons from './pages/Students/GroupLessons';
+import GroupScheduleLesson from './pages/Students/GroupLessons';
+import StudentListAppointments from './pages/Students/ListAppointments';
+import { Packages } from './pages/Students/Packages';
+import ScheduleLesson from './pages/Students/ScheduleLesson';
+import ScheduleLessonSteps
+  from './pages/Students/ScheduleLesson/ScheduleLessonSteps.js';
+import SubmitRequest from './pages/SubmitRequest';
+import Support from './pages/Support';
+import ApproveRequest from './pages/Tutors/ApproveRequest';
+import AvailabilityLayout from './pages/Tutors/Availiability';
+import AvailabilitySettings
+  from './pages/Tutors/Availiability/AvailabilitySettings';
+// Tutor Path
+import TutorCalendar from './pages/Tutors/Calendar';
+import TutorPastLessons from './pages/Tutors/PastLessons';
+import { PaymentLayout } from './pages/Tutors/Payment';
+import TutorStudentList from './pages/Tutors/StudentList';
+import configureStore from './store';
 
-import NewTutorProfile from './pages/Profile/EditProfile'
 const store = configureStore({})
 
 require('react-big-calendar/lib/css/react-big-calendar.css')
@@ -114,10 +118,11 @@ function App() {
             path='/admin/lesson-calendar'
             component={TutorCalendar}
           />
-
           <PublicRoute exact path='/' component={Login} />
           <PublicRoute path='/login' component={Login} />
           <PublicRoute path='/signup' component={Signup} />
+          <PublicRoute path="/signup/:referalcode" component={Signup} />
+          
           <PublicRoute path='/forgot-password' component={ForgotPassword} />
           <PublicRoute
             path='/forgot-password-guide'
@@ -126,7 +131,6 @@ function App() {
           <PublicRoute path='/reset-password' component={ResetPassword} />
           <PublicRoute path='/verify-email' component={VerifyEmail} />
           <PublicRoute path='/email-verify-guide' component={EmailVerifyText} />
-
           <PrivateRoute path='/dashboard' component={Dashboard} />
 
           <PrivateRoute
@@ -145,6 +149,7 @@ function App() {
             path='/student/schedule-lesson/group-select'
             component={GroupScheduleLesson}
           />
+           <PrivateRoute path='/student/referal' component={Referal} />
           <PrivateRoute
             exact
             path='/student/schedule-lesson'
@@ -217,6 +222,7 @@ function App() {
           />
           <PrivateRoute path='/tutor/profile' component={TutorProfile} />
           <PrivateRoute path='/messages' component={Messages} />
+         
         </div>
       </Router>
     </Provider>

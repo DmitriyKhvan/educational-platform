@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import StudentProfile from './Student'
-import TutorProfile from './Tutors'
-import GeneralProfile from './GeneralProfile'
-import Loader from 'react-loader-spinner'
-import IconMedal from '../../assets/images/medal.svg'
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
-import { useTranslation } from 'react-i18next'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
+import { useTranslation } from 'react-i18next';
+import Loader from 'react-loader-spinner';
+
+import GeneralProfile from './GeneralProfile';
+import TutorProfile from './Tutors';
 
 const Profile = ({ user, isAdmin = false }) => {
   const [t, i18n] = useTranslation('translation')
@@ -57,7 +60,7 @@ const Profile = ({ user, isAdmin = false }) => {
                 <StudentProfile user={user} update={update} isAdmin={isAdmin} />
               )} */}
             </div>
-            <div className='profile-footer'>
+            {/* <div className='profile-footer'>
               <button
                 className='btn-update'
                 onClick={() => {
@@ -71,7 +74,7 @@ const Profile = ({ user, isAdmin = false }) => {
               >
                 {t('save_changes')}
               </button>
-            </div>
+            </div> */}
           </>
         ) : (
           <Loader

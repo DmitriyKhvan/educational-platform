@@ -1,11 +1,12 @@
-import AuthApi from '../api/AuthApi'
-import ActionTypes from '../constants/actionTypes'
+import AuthApi from '../api/AuthApi';
+import ActionTypes from '../constants/actionTypes';
 
 export function login(email, password) {
   return dispatch => {
     dispatch(request())
     return AuthApi.login(email, password)
       .then(resp => {
+        console.log(resp)
         localStorage.setItem('access_token', resp.data.access_token)
         return dispatch(success(resp.data))
       })
@@ -18,6 +19,7 @@ export function login(email, password) {
     return { type: ActionTypes.AUTH_LOGIN.REQUEST }
   }
   function success(data) {
+    console.log('data from thunk', data)
     return { type: ActionTypes.AUTH_LOGIN.SUCCESS, payload: data }
   }
   function failure(error) {
@@ -31,7 +33,9 @@ export function signup(
   phone_number,
   email,
   password,
-  user_role
+  user_role,
+  referal_code,
+  referalcode
 ) {
   return dispatch => {
     dispatch(request())
@@ -41,7 +45,9 @@ export function signup(
       phone_number,
       email,
       password,
-      user_role
+      user_role,
+      referal_code,
+      referalcode
     )
       .then(resp => {
         return dispatch(success())

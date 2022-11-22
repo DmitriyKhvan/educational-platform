@@ -1,14 +1,23 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getUserInfo } from '../../actions/user'
-import Layout from '../../components/Layout'
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
-import { useTranslation } from 'react-i18next'
-import { getUserById } from '../../actions/admin'
-import Profile from './Profile'
-import { useHistory } from 'react-router-dom'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
-const ProfileLayout = ({ user_id }) => {
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
+import { useTranslation } from 'react-i18next';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+import { useHistory } from 'react-router-dom';
+
+import { getUserById } from '../../actions/admin';
+import { getUserInfo } from '../../actions/user';
+import Layout from '../../components/Layout';
+import Profile from './Profile';
+
+export const ProfileLayout = ({ user_id }) => {
   const history = useHistory()
   const dispatch = useDispatch()
   const [t, i18n] = useTranslation('translation')
@@ -37,15 +46,14 @@ const ProfileLayout = ({ user_id }) => {
 
   return (
     <Layout fluid={true}>
-      {isTutor !== null && (
+      {/* {isTutor !== null && (
         <h4 className='main-title Custom-main-title'>
           {isTutor ? t('tutor_profile') : t('student_profile')}
         </h4>
       )}
-      <div className='divider' />
+      <div className='divider' /> */}
       <div className='scroll-layout'>{user && <Profile user={user} />}</div>
     </Layout>
   )
 }
 
-export default ProfileLayout
