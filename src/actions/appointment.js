@@ -1,12 +1,29 @@
 import AppointmentApi from '../api/AppointmentApi'
 import ActionTypes from '../constants/actionTypes'
 
-// {
-//     "lesson_id": "1",
-//     "tutor_id": "1",
-//     "start_at": "2021-05-10T08:30:00",
-//     "duration": 30
-// }
+export function createLessonExist(data) {
+  return dispatch => {
+    dispatch(request())
+    return AppointmentApi.createLessonExist(data)
+      .then(resp => {
+        return dispatch(success(resp.data))
+      })
+      .catch(error => {
+        return dispatch(failure(error.response?.data))
+      })
+  }
+
+  function request() {
+    return { type: ActionTypes.CREATE_LESSON_EXIST.REQUEST }
+  }
+  function success(data) {
+    return { type: ActionTypes.CREATE_LESSON_EXIST.SUCCESS, payload: data }
+  }
+  function failure(error) {
+    return { type: ActionTypes.CREATE_LESSON_EXIST.FAILURE, payload: error }
+  }
+}
+
 export function getAppointments(params = {}) {
   return dispatch => {
     dispatch(request())
