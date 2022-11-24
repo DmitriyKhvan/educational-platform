@@ -11,10 +11,7 @@ import {
   useDispatch,
   useSelector,
 } from 'react-redux';
-import {
-  useHistory,
-  useParams,
-} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import ClipLoader from 'react-spinners/ClipLoader';
 
 import { signup } from '../../actions/auth';
@@ -24,7 +21,6 @@ import AuthLayout from '../../components/AuthLayout';
 import NotificationManager from '../../components/NotificationManager';
 
 const Signup = () => {
-  const {referalcode} = useParams()
   const history = useHistory()
   const [t] = useTranslation('translation')
   const dispatch = useDispatch()
@@ -92,7 +88,7 @@ const Signup = () => {
     }
   }
   const validateInput = (value, stateName) => {
-    if (!value) {
+    if (!value && stateName !== 'referal_code') {
       setFormDataError(formDataError => ({
         ...formDataError,
         [stateName]: errorMessage[stateName]?.required
@@ -196,9 +192,6 @@ const Signup = () => {
   }
 
   const handleSignup = async () => {
-    
-    console.log(formData.user_role, formData.referal_code)
-
     if (formData['password']?.length < 8) {
       setFormDataError(formDataError => ({
         ...formDataError,
