@@ -11,6 +11,7 @@ import Stars from '../../components/Stars'
 import ModalTutorBrief from './ModalTutorBrief'
 import { fetchFavoriteTutors } from '../../actions/students'
 import FavouriteIcon from '../../components/FavouriteIcon'
+import TutorCard from './TutorCard'
 
 const FavoriateTutor = props => {
   const { tutor, onSelect, t } = props
@@ -85,6 +86,8 @@ const FavouriteTutors = () => {
           </div>
         </div>
       </div>
+
+
       {!!selectedTutor && (
         <ModalTutorBrief
           tutor={selectedTutor}

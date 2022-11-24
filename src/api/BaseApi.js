@@ -6,6 +6,7 @@ export default class BaseApi {
   // 'https://dev.naonow.contracollective.com'
   // 'http://localhost:3001'
   REACT_APP_SERVER_URL ='http://localhost:4000'
+  
   getToken() {
     return localStorage.getItem('access_token')
   }

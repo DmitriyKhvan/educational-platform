@@ -9,7 +9,7 @@ import { Redirect } from 'react-router-dom'
 const Dashboard = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.users.user)
-  const user_role = user.roles && user.roles[0].role_name
+  const user_role = user.roles && user.roles[0]?.role_name
 
   useEffect(() => {
     dispatch(getUserInfo())

@@ -1,0 +1,22 @@
+.tutor_alfa {
+  
+  .tutor_modal {
+    height: 600px;
+    width: 70%;
+    position: fixed;
+    background-color: white;
+    top: 15%;
+    bottom: 10%;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    left: 14%;
+  
+    .tutor_banner {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+      width: 400px;
+      height: 100%;
+    }
+  }
+}
+

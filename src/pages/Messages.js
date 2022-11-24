@@ -278,7 +278,6 @@ const Messages = () => {
                     receiver.id === currentReceiver.id ? 'active' : ''
                   }`}
                   onClick={() => selectReceiver(receiver.id)}
-                  key={receiver.id}
                 >
                   <div className='message-inner'>
                     <Avatar avatar={receiver.image} name={receiver.abbrName} />

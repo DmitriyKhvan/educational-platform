@@ -10,7 +10,7 @@ class AuthApi extends BaseApi {
     })
   }
 
-  signup(first_name, last_name, phone_number, email, password, user_role,referal_code=null ) {
+  signup(first_name, last_name, phone_number, email, password, user_role, referal_code=null ) {
     return axios.post(this.REACT_APP_SERVER_URL + '/auth/register', {
       first_name,
       last_name,

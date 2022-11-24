@@ -2,7 +2,7 @@ import AuthApi from '../api/AuthApi';
 import ActionTypes from '../constants/actionTypes';
 
 export function login(email, password) {
-  return dispatch => {
+  return async dispatch => {
     dispatch(request())
     return AuthApi.login(email, password)
       .then(resp => {
@@ -35,9 +35,8 @@ export function signup(
   password,
   user_role,
   referal_code,
-  referalcode
 ) {
-  return dispatch => {
+  return async dispatch => {
     dispatch(request())
     return AuthApi.signup(
       first_name,
@@ -47,9 +46,9 @@ export function signup(
       password,
       user_role,
       referal_code,
-      referalcode
     )
       .then(resp => {
+        console.log(resp)
         return dispatch(success())
       })
       .catch(error => {
@@ -69,7 +68,7 @@ export function signup(
 }
 
 export function emailVerify(token) {
-  return dispatch => {
+  return async dispatch => {
     dispatch(request())
     return AuthApi.verifyEmail(token)
       .then(resp => {
@@ -93,7 +92,7 @@ export function emailVerify(token) {
 }
 
 export function forgotPassword(email) {
-  return dispatch => {
+  return async dispatch => {
     dispatch(request())
     return AuthApi.forgotPassword(email)
       .then(resp => {
@@ -116,7 +115,7 @@ export function forgotPassword(email) {
 }
 
 export function resetPassword(password, token) {
-  return dispatch => {
+  return async dispatch => {
     dispatch(request())
     return AuthApi.resetPassword(password, token)
       .then(resp => {

@@ -180,7 +180,7 @@ const Sidebar = () => {
   const dispatch = useDispatch()
   const isShowSidebar = useSelector(state => state.settings.isShowSidebar)
   const user = useSelector(state => state.users.user)
-  const user_role = user.roles && user.roles[0].role_name
+  const user_role = user.roles && user.roles[0]?.role_name
 
   tutorNavLinks.map(item => {
     item.is_selected = location.pathname.includes(item.link)
@@ -197,7 +197,7 @@ const Sidebar = () => {
     return item
   })
 
-  const [navLinks, setNavLinks] = useState()
+  const [navLinks, setNavLinks] = useState([])
 
   useEffect(() => {
     if (user_role === 'tutor') {

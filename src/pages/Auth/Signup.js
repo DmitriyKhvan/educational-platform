@@ -25,7 +25,6 @@ import NotificationManager from '../../components/NotificationManager';
 
 const Signup = () => {
   const {referalcode} = useParams()
-  console.log(referalcode)
   const history = useHistory()
   const [t] = useTranslation('translation')
   const dispatch = useDispatch()
@@ -96,7 +95,7 @@ const Signup = () => {
     if (!value) {
       setFormDataError(formDataError => ({
         ...formDataError,
-        [stateName]: errorMessage[stateName].required
+        [stateName]: errorMessage[stateName]?.required
       }))
       return false
     }
@@ -197,6 +196,9 @@ const Signup = () => {
   }
 
   const handleSignup = async () => {
+    
+    console.log(formData.user_role, formData.referal_code)
+
     if (formData['password']?.length < 8) {
       setFormDataError(formDataError => ({
         ...formDataError,
@@ -227,6 +229,7 @@ const Signup = () => {
         formData.referal_code
       )
     )
+    
 
     if (resp.type === 'AUTH_SIGNUP_SUCCESS') {
       history.push('/email-verify-guide')

@@ -61,6 +61,7 @@ import TutorPastLessons from './pages/Tutors/PastLessons';
 import { PaymentLayout } from './pages/Tutors/Payment';
 import TutorStudentList from './pages/Tutors/StudentList';
 import configureStore from './store';
+import TutorsPage from './pages/Students/tutorsPage/TutorsPage';
 
 const store = configureStore({})
 
@@ -150,6 +151,8 @@ function App() {
             component={GroupScheduleLesson}
           />
            <PrivateRoute path='/student/referal' component={Referal} />
+           <PrivateRoute path='/student/tutors' component={TutorsPage} />
+
           <PrivateRoute
             exact
             path='/student/schedule-lesson'
