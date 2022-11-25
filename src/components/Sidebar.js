@@ -19,6 +19,7 @@ import CloseIcon from '../assets/images/close.svg';
 import Logo from '../assets/images/logo.png';
 import LogoutImg from '../assets/images/logout_icon.svg';
 import referIcon from '../assets/images/referIconActive.png';
+import referActiveIcon from '../assets/images/referIconActive.png';
 import whiteCalendar from '../assets/images/sidebar/active-calendar.png';
 import ActiveIcon16 from '../assets/images/sidebar/active16.svg';
 import ActiveIcon17 from '../assets/images/sidebar/active17.svg';
@@ -28,6 +29,8 @@ import Icon16 from '../assets/images/sidebar/icon16.svg';
 import Icon17 from '../assets/images/sidebar/icon17.svg';
 import Icon18 from '../assets/images/sidebar/icon18.svg';
 import Icon1 from '../assets/images/sidebar/purple_dashboard_icon.svg';
+import tutorIcon from '../assets/images/sidebar/purple_tutor_icon.svg';
+import tutorActiveIcon from '../assets/images/sidebar/white_tutor_icon.svg';
 import Icon2 from '../assets/images/sidebar/purple_lesson_icon.svg';
 import Icon11 from '../assets/images/sidebar/purple_subscription_icon.svg';
 import ActiveIcon1 from '../assets/images/sidebar/white_dashboard_icon.svg';
@@ -95,11 +98,18 @@ const studentNavLinks = [
     icon: Icon2,
     activeIcon: ActiveIcon2
   },
+  
+  {
+    label: "Tutors",
+    link:"/student/tutors",
+    icon:tutorIcon,
+    activeIcon:tutorActiveIcon
+  },
   {
     label: 'Refer a Friend',
     link: '/student/referal',
-    icon: referIcon,
-    activeIcon: referIcon
+    icon: Icon1,
+    activeIcon: referActiveIcon
   },
   // {
   //   label: 'messages',

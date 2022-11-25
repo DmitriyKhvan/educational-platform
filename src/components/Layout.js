@@ -7,6 +7,7 @@ import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import io from 'socket.io-client'
 import { setNotification } from '../actions/notification'
+import ReferMessageModal from './ReferMessageModal'
 
 const Layout = ({ children, fluid }) => {
   const isShowSidebar = useSelector(state => state.settings.isShowSidebar)
@@ -15,6 +16,8 @@ const Layout = ({ children, fluid }) => {
   const user = useSelector(state => state.users.user)
   const [socket, setSocket] = useState(null)
   const dispatch = useDispatch()
+  const [referalMessage, setReferalMessage] = React.useState(null);
+  const [showRefer, setRefer] = React.useState(false)
 
   useEffect(() => {
     if (authed && user?.id) {
@@ -26,6 +29,11 @@ const Layout = ({ children, fluid }) => {
     if (socket) {
       socket.on('join', onUserJoined)
       socket.on('completeLesson', onCompleteLesson)
+      socket.on('referal_confirmed', (data) => {
+        setReferalMessage(data)
+        setRefer(true)
+        console.log('referal_confirmed', data);
+      })
     }
   }, [socket])
 
@@ -50,6 +58,7 @@ const Layout = ({ children, fluid }) => {
           <Sidebar />
           <div className='children-page'>
             <Navbar />
+            {referalMessage && showRefer && <ReferMessageModal setRefer={setRefer}/>}
             <div className=''>{children}</div>
           </div>
         </div>

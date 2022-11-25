@@ -68,7 +68,7 @@ const tutorList = [
   },
   {
     id:2,
-    img: Tut,
+    img: "https://media.istockphoto.com/id/1365223878/photo/attractive-man-feeling-cheerful.jpg?b=1&s=170667a&w=0&k=20&c=Pt_reBU6pAQV6cXnIcBSLdtYSB4a_8MJM4qWAO_0leU=",
     name:'Alex T.',
     univer: "Stanford University",
     lang: "B.A. in English",
@@ -76,7 +76,7 @@ const tutorList = [
   },
   {
     id:3,
-    img: Tut,
+    img: "https://img.freepik.com/free-photo/lifestyle-people-emotions-and-casual-concept-confident-nice-smiling-asian-woman-cross-arms-chest-confident-ready-to-help-listening-to-coworkers-taking-part-conversation_1258-59335.jpg?w=2000",
     name:'Caroline W.',
     univer: "Brown University",
     lang: "B.A. in English",
@@ -110,10 +110,7 @@ const tutorList = [
 
 const TutorsPage = () => {
   const [tutors, setTutors] = React.useState(tutorList)
-  const [currentTutor , setCurrentTutor] = React.useState(0);
-  const [status, setStatus] = React.useState(false)
   const [showTutorModal , setShowTutorModal] = React.useState(false)
-  const [modalStatus, setModalStatus] = React.useState(0);
   const {id} = useParams();
   const history = useHistory();
 
@@ -121,8 +118,6 @@ const TutorsPage = () => {
     setTutors(tutors.map(item => {
       if(item.id === id) {
         item.isFavourite = !item.isFavourite;
-        setCurrentTutor(id)
-        setStatus(!status)
         return item;
       } else {
         return item;
@@ -131,7 +126,7 @@ const TutorsPage = () => {
 
   const handleMoreTutor = (id) => {
     if(id) {
-      history.push(`/student/tutors/more/${id}`)
+      history.push(`/student/tutors/${id}`)
     }
 
     setShowTutorModal(true)
@@ -176,8 +171,8 @@ const TutorsPage = () => {
         <div className='tutors_row'>
           {
             tutors.map(item => 
-              <div className='tutors_card'>
-                <div className='tutors_card-img'>
+              <div key={item.id} className='tutors_card'>
+                <div className='tutors_card-img' style={{background:`url("${item.img}") center / cover`}}>
                   {item.isFavourite && <img src={FavIcon} alt=''/>}
                 </div>
                 <div className='tutors_card-body'>
@@ -191,7 +186,7 @@ const TutorsPage = () => {
                       Learn more
                     </button>
                     <button onClick={() => handleStatusTutor(item.id)}>
-                      {currentTutor === item.id && status ? "Remove" : "Favorite"}
+                      {item.isFavourite ? "Remove" : "Favorite"}
                     </button>
                   </div>
                 </div>
@@ -201,7 +196,13 @@ const TutorsPage = () => {
         </div>
       </div>
 
-      {showTutorModal && <TutorMoreModal />}
+      {showTutorModal && <TutorMoreModal 
+        tutorId={id} 
+        tutorsList={tutors}
+        setTutors={setTutors}
+        handleStatusTutor={handleStatusTutor}
+        setShowTutorModal={setShowTutorModal}
+      />}
 
     </Layout>
   )

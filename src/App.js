@@ -63,6 +63,8 @@ import TutorStudentList from './pages/Tutors/StudentList';
 import configureStore from './store';
 import TutorsPage from './pages/Students/tutorsPage/TutorsPage';
 
+import './App.scss'
+
 const store = configureStore({})
 
 require('react-big-calendar/lib/css/react-big-calendar.css')
@@ -151,7 +153,7 @@ function App() {
             component={GroupScheduleLesson}
           />
            <PrivateRoute path='/student/referal' component={Referal} />
-           <PrivateRoute path='/student/tutors' component={TutorsPage} />
+           <PrivateRoute path='/student/tutors/:id?' component={TutorsPage} />
 
           <PrivateRoute
             exact
@@ -233,3 +235,4 @@ function App() {
 }
 
 export default App
+
