@@ -48,7 +48,7 @@ const Signup = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
     const role = urlParams.get('role')
-    const code = urlParams.get('referalcode')
+    const code = localStorage.getItem("referalcode")
     if (role === 'tutor') {
       setFormData({ ...formData, user_role: 'tutor' })
     } else if (role === 'admin') {

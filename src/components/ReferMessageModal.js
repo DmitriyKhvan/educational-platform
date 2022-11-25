@@ -1,7 +1,7 @@
 import React from 'react'
 import Congrat from "../assets/images/🎂 🎁 🎉 🎈.png"
 
-const ReferMessageModal = ({setRefer}) => {
+const ReferMessageModal = ({setRefer, referalMessage}) => {
   return (
     <div className='pop_up'>
       <div className='pop_card'>
@@ -13,7 +13,11 @@ const ReferMessageModal = ({setRefer}) => {
         </h2>
 
         <p>
-          Thank you for referring friends to Nao Now!
+          {
+            referalMessage === "refered_user" 
+              ? "Welcome to Nao Now! We are grateful our friend referred you!"
+              : "Thank you for referring friends to Nao Now!"
+          }
         </p>
       </div>
     </div>

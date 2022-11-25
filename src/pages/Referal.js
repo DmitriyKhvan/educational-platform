@@ -26,9 +26,9 @@ const SERVER_URL = process.env.REACT_APP_SERVER_URL
 const Referal = () => {
  
   const user = useSelector(state => state.users.user)
-  useEffect(() => {
-    localStorage.setItem('referal_code',user.referal_code)
-  },[user.referal_code])
+  // useEffect(() => {
+  //   localStorage.setItem('referal_code',user.referal_code)
+  // },[user.referal_code])
 
   const copyText = (link) => {
     navigator.clipboard.writeText(link)
@@ -67,8 +67,8 @@ const Referal = () => {
                 <div className='gift_banner'>
                   <div className='link_card'>
                     <h3>Share Your Link</h3>
-                    <span onClick={() => copyText(`https://www.naonow.com/referral/${user.referal_code}`)}>
-                      https://www.naonow.com/ <br />referral/{user.referal_code}
+                    <span onClick={() => copyText(`${window.location.origin}/referral/${user.referal_code}`)}>
+                     {window.location.origin}<br />/referral/{user.referal_code}
                     </span>
                   </div>
                 </div>
@@ -88,9 +88,10 @@ const Referal = () => {
               <div className='left_share'>
                 <input 
                   type={"text"}
-                  value={`https://www.naonow.com/referral/${user.referal_code}`}
+                  value={`${window.location.origin}/referral/${user.referal_code}`}
                 />
-                <span onClick={() => copyText(`https://www.naonow.com/referral/${user.referal_code}`)}>Copy</span>
+                <span onClick={() => 
+                  copyText(`${window.location.origin}/referral/${user.referal_code}`)}>Copy</span>
               </div>
               <div className='right_share'>
                 <div>

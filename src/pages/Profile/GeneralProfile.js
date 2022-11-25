@@ -153,137 +153,42 @@ const GeneralProfile = () => {
   return (
     <div>
       <div className='main-dashboard scroll-layout'>
-          <div className='flex-container'>
+        <div className='flex-container'>
           <div className='student-dashboard flex-left children-wrapper flex-change childern-padding'>
-            <div className='student-profile-head'>
-            <div className='student-profile-head-top' style={{position: "relative"}}></div>
-            <div className='student-profile-head-content'>
-              <img src={profileAvatar} style={{position: "absolute", top: 90, left:66}}/>
-             <div>
-             <h3>Addison</h3>
-              <div>Level 3</div>
-              <span>UTC +9 (Korean Standard Time)</span>
-             </div>
-             <button className='edit-button'>Edit Profile</button>
-            </div>
-            </div>
-            <div className='summery-block'>
-            <div className='summery-block-head'>
-              <div className='summery-title'>Summary</div>
-              <button className='edit-button'>Edit</button>
-            </div>
-            <span className='summery-content'>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pharetra eu leo a dignissim. Nunc et maximus urna.
 
-Vestibulum sed leo ultrices, hendrerit tortor et, efficitur quam. Phasellus purus purus, sollicitudin et pulvinar vel, vehicula ac dolor.
-            </span>
-            </div>
-          <div className='interests-block'>
-          <h4 className='interests-title'>My Interests</h4>
-          <div className='interests'>
-          <span className='interests-item'>Sports</span>
-          <span className='interests-item'>Movies</span>
-          <span className='interests-item'>Music</span>
-          <span className='interests-item'>Animals</span>
-          <span className='interests-item'>Food</span>
-          <button className='edit-button'>Edit Topics</button>
           </div>
-          </div>
-          <div className='enrolled-courses-block'>
-          <h4 className='enrolled-courses-title'>Enrolled Courses</h4>
-            <div className='enrolled-courses'>
-              <div className='enrolled-course-item'>
-                <span className='type'>English</span>
-                <span className='lesson-type'>Group Lessons</span>
-                <span className='duration'>30 Minutes</span>
-                <span className='remaining'>5 Lessons Remaining</span>
-              </div>
-              <div className='enrolled-course-item'>
-                <span className='type'>English</span>
-                <span className='lesson-type'>Group Lessons</span>
-                <span className='duration'>30 Minutes</span>
-                <span className='remaining'>5 Lessons Remaining</span>
-              </div>
-              <div className='enrolled-course-item'>
-                <span className='type'>English</span>
-                <span className='lesson-type'>Group Lessons</span>
-                <span className='duration'>30 Minutes</span>
-                <span className='remaining'>5 Lessons Remaining</span>
-              </div>
-              <div className='enrolled-course-item'>
-                <span className='type'>English</span>
-                <span className='lesson-type'>Group Lessons</span>
-                <span className='duration'>30 Minutes</span>
-                <span className='remaining'>5 Lessons Remaining</span>
-              </div>
-            </div>
-          </div>
+          <div className='student-list-appointments-wrapper flex-right changes-container'>
+            <div>
+              <h3 className='right-bar-title'>My Favorite Tutors</h3>
+              <div className='tutors-block'>
+                <div className='tutor-item'>
+                  <div>
+                  <h4 className='name'>Sarah B.</h4>
+                  <span className='university'>Harvard University</span>
+                  </div>
+                  <img className='avatar' src={tutorAvatar}/>
+                </div>
 
+                <div className='tutor-item'>
+                  <div>
+                  <h4 className='name'>Sarah B.</h4>
+                  <span className='university'>Harvard University</span>
+                  </div>
+                  <img className='avatar' src={tutorAvatar}/>
+                </div>
+
+                <div className='tutor-item'>
+                  <div>
+                  <h4 className='name'>Sarah B.</h4>
+                  <span className='university'>Harvard University</span>
+                  </div>
+                  <img className='avatar' src={tutorAvatar}/>
+                </div>
+              </div>
             </div>
-            <div className='student-list-appointments-wrapper flex-right changes-container'>
-    <div>
-      <h3 className='right-bar-title'>My Favorite Tutors</h3>
-      <div className='tutors-block'>
-        <div className='tutor-item'>
-          <div>
-          <h4 className='name'>Sarah B.</h4>
-          <span className='university'>Harvard University</span>
+   
           </div>
-          <img className='avatar' src={tutorAvatar}/>
         </div>
-
-        <div className='tutor-item'>
-          <div>
-          <h4 className='name'>Sarah B.</h4>
-          <span className='university'>Harvard University</span>
-          </div>
-          <img className='avatar' src={tutorAvatar}/>
-        </div>
-
-        <div className='tutor-item'>
-          <div>
-          <h4 className='name'>Sarah B.</h4>
-          <span className='university'>Harvard University</span>
-          </div>
-          <img className='avatar' src={tutorAvatar}/>
-        </div>
-      </div>
-    </div>
-    <div className='additional-details'>
-    <h3 className='right-bar-title'>Additional Details</h3>
-    <div className='details-item'>
-    <span className='details-item-title'>Email</span>
-    <span className='details-item-content'>addison@gmail.com</span>
-    </div>
-    <div className='details-item'>
-    <span className='details-item-title'>Korean Name</span>
-    <span className='details-item-content'>알렉스</span>
-    </div>
-    <div className='details-item'>
-    <span className='details-item-title'>Gender</span>
-    <span className='details-item-content'>Female</span>
-    </div>
-    <div className='details-item'>
-    <span className='details-item-title'>Pronouns</span>
-    <span className='details-item-content'>She / Her</span>
-    </div>
-    <div className='details-item'>
-    <span className='details-item-title'>Birthday</span>
-    <span className='details-item-content'>December 12, 2003</span>
-    </div>
-    <div className='details-item'>
-    <span className='details-item-title'>Parent Name</span>
-    <span className='details-item-content'>Jessica Kim</span>
-    </div>
-    <div className='details-item'>
-    <span className='details-item-title'>Country</span>
-    <span className='details-item-content'>Korea</span>
-    </div>
- 
-    </div>
-            </div>
-            </div>
-          
       </div>
       {selectedLesson && (
         <ModalCancelLesson

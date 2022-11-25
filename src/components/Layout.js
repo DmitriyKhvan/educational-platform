@@ -32,7 +32,6 @@ const Layout = ({ children, fluid }) => {
       socket.on('referal_confirmed', (data) => {
         setReferalMessage(data)
         setRefer(true)
-        console.log('referal_confirmed', data);
       })
     }
   }, [socket])
@@ -53,12 +52,12 @@ const Layout = ({ children, fluid }) => {
   return (
     <Elements stripe={stripe}>
       <div className='default-layout'>
+        {referalMessage && showRefer && <ReferMessageModal referalMessage={referalMessage} setRefer={setRefer}/>}
         <div className={`content ${fluid ? 'fluid' : ''}`}>
           {isShowSidebar && <div className='mobile-fade-background' />}
           <Sidebar />
           <div className='children-page'>
             <Navbar />
-            {referalMessage && showRefer && <ReferMessageModal setRefer={setRefer}/>}
             <div className=''>{children}</div>
           </div>
         </div>

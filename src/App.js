@@ -64,6 +64,7 @@ import configureStore from './store';
 import TutorsPage from './pages/Students/tutorsPage/TutorsPage';
 
 import './App.scss'
+import IsReferal from './pages/isReferal';
 
 const store = configureStore({})
 
@@ -124,7 +125,7 @@ function App() {
           <PublicRoute exact path='/' component={Login} />
           <PublicRoute path='/login' component={Login} />
           <PublicRoute path='/signup' component={Signup} />
-          <PublicRoute path="/signup/:referalcode" component={Signup} />
+          <PublicRoute path="/referral/:referalcode" component={IsReferal} />
           
           <PublicRoute path='/forgot-password' component={ForgotPassword} />
           <PublicRoute
