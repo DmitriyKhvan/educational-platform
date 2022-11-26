@@ -29,6 +29,8 @@ import NotificationManager from '../../components/NotificationManager.js';
 import ScheduleCard from '../../components/student-dashboard/ScheduleCard';
 import { cancel_lesson_reasons_student } from '../../constants/global';
 
+import './style/GeneralProfile.scss'
+
 const options = [
   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
   { value: 'completed_lesson', label: 'Completed Lessons' }
@@ -110,6 +112,8 @@ const GeneralProfile = () => {
     setIsLoading(false)
   }
 
+  
+
   const isWithinAweekArr = appointments
     .map(x => {
       const startOfWeek = moment().isAfter(moment().startOf('isoWeek'))
@@ -150,43 +154,159 @@ const GeneralProfile = () => {
       )
     })
 
+  const interests = ["Sports", "Movies", "Music", "Animals", "Food"]
+
+  const details = [
+    {
+      id:1,
+      caption: "Email",
+      value: "addison@gmail.com",
+    },
+    {
+      id:2,
+      caption: "Korean Name",
+      value: "알렉스",
+    },
+    {
+      id:3,
+      caption: "Gender",
+      value: "Female",
+    },
+    {
+      id:4,
+      caption: "Pronouns",
+      value: "She / Her",
+    },
+    {
+      id:5,
+      caption: "Birthday",
+      value: "December 12, 2003",
+    },
+    {
+      id:6,
+      caption: "Parent Name",
+      value: "Jessica Kim",
+    },
+    {
+      id:7,
+      caption: "Country",
+      value: "Korea",
+    },
+  ]
+
   return (
     <div>
       <div className='main-dashboard scroll-layout'>
         <div className='flex-container'>
-          <div className='student-dashboard flex-left children-wrapper flex-change childern-padding'>
-
-          </div>
-          <div className='student-list-appointments-wrapper flex-right changes-container'>
-            <div>
-              <h3 className='right-bar-title'>My Favorite Tutors</h3>
-              <div className='tutors-block'>
-                <div className='tutor-item'>
-                  <div>
-                  <h4 className='name'>Sarah B.</h4>
-                  <span className='university'>Harvard University</span>
+          <div className='flex-left children-wrapper flex-change '>
+            <div className='profile_section'>
+              <div className='profile_banner'>
+                  <div className='profile_banner-top'>
+                    <img src={profileAvatar} alt=''/>
                   </div>
-                  <img className='avatar' src={tutorAvatar}/>
-                </div>
-
-                <div className='tutor-item'>
-                  <div>
-                  <h4 className='name'>Sarah B.</h4>
-                  <span className='university'>Harvard University</span>
+                  <div className='profile_banner-bottom'>
+                    <div className='profile_main-info'>
+                      <div className='main_info-left'>
+                        <h2>Addison</h2>
+                        <p>
+                          Level 3
+                        </p>
+                        <span>UTC +9 (Korean Standard Time)</span>
+                      </div>
+                      <div className='main_info-right'>
+                        <button>Edit Profile</button>
+                      </div>
+                    </div>
                   </div>
-                  <img className='avatar' src={tutorAvatar}/>
-                </div>
+              </div>
 
-                <div className='tutor-item'>
-                  <div>
-                  <h4 className='name'>Sarah B.</h4>
-                  <span className='university'>Harvard University</span>
+              <div className='edit_summary'>
+                <header>
+                  <h2>Summary</h2>
+                  <button>Edit</button>
+                </header>
+
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pharetra eu leo a dignissim. Nunc et maximus urna. 
+                </p>
+
+                <p>
+                Vestibulum sed leo ultrices, hendrerit tortor et, efficitur quam. Phasellus purus purus, sollicitudin et pulvinar vel, vehicula ac dolor 
+                </p>
+              </div>
+
+              <div className='edit_interests'>
+                <h2>My Interests</h2>
+                <div className='row_interests'>
+                  <div className='topics'>
+                    {interests.map(item => 
+                      <button key={item}>{item}</button>  
+                    )}
                   </div>
-                  <img className='avatar' src={tutorAvatar}/>
+                  <button>Edit Topics</button>
                 </div>
               </div>
+
+              <div className='enrolled_course'>
+                <h2>Enrolled Courses</h2>
+                {
+                  Array.from({length:4}).map(item =>
+                    <div className='enrolled_col'>
+                      <div className='course_card'>
+                        <h3>English</h3>
+                        <button className='lesson_button'>
+                          1-On-1 Lessons
+                        </button>
+                        <button className='time_button'>
+                          30 Minutes
+                        </button>
+                        <button className='remaining_button'>
+                          12 Lessons Remaining
+                        </button>
+                      </div>
+                    </div>  
+                  )
+                }
+              </div>
             </div>
-   
+          </div>
+          <div className='student-list-appointments-wrapper flex-right changes-container'>
+            <div className='favorite_section'>
+              <h2>My Favorite Tutors</h2>
+              
+              <div className='favorite_col'>
+                {
+                  Array.from({length:3}).map(item => 
+                    <div className='favorite_card'>
+                      <div className='favorite_card-left'>
+                        <h3>Sarah B.</h3>
+                        <p>
+                          Harvard University
+                        </p>
+                      </div>
+                      <div className='favorite_card-right'>
+                        <img src={tutorAvatar} alt=''/>
+                      </div>
+                    </div>  
+                  )
+                }
+              </div>
+            </div>
+
+            <div className='details'>
+              <h2>Additional Details</h2>
+
+              <div className='details_col'>
+                {
+                  details.map(item => 
+                    <div className='details_list' key={item.id}>
+                      <h4>{item.caption}</h4>
+                      <p>{item.value}</p>
+                    </div>  
+                  )
+                }
+              </div>  
+            </div>
           </div>
         </div>
       </div>
