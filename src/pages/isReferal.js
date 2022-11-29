@@ -13,7 +13,9 @@ const IsReferal = () => {
     }
   }, [referalcode])
 
-  return {}
+  return (
+    <></>
+  )
 }
 
 export default IsReferal;
