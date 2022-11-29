@@ -36,7 +36,8 @@ const options = [
   { value: 'completed_lesson', label: 'Completed Lessons' }
 ]
 
-const GeneralProfile = () => {
+const GeneralProfile = ({currentUser, isAdmin=false}) => {
+
   const { complete_appoint_id } = useParams()
   const dispatch = useDispatch()
   const [t] = useTranslation('translation')
@@ -48,6 +49,7 @@ const GeneralProfile = () => {
   const [completedAppointment, setCompleteAppointment] = useState(null)
   const history = useHistory()
   const onDismiss = () => setCompleteAppointment(null)
+
   const onCancel = async ({ id, reasons }) => {
     setIsLoading(true)
     try {
@@ -207,7 +209,7 @@ const GeneralProfile = () => {
                   <div className='profile_banner-bottom'>
                     <div className='profile_main-info'>
                       <div className='main_info-left'>
-                        <h2>Addison</h2>
+                        <h2>{currentUser?.first_name}</h2>
                         <p>
                           Level 3
                         </p>

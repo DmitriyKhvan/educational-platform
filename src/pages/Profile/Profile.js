@@ -11,19 +11,23 @@ import Loader from 'react-loader-spinner';
 import GeneralProfile from './GeneralProfile';
 import TutorProfile from './Tutors';
 import StudentProfile from './Tutors/Student';
+import { useSelector } from 'react-redux';
 
 const Profile = ({ user, selectedUser, isAdmin = false }) => {
   const [t, i18n] = useTranslation('translation')
   const [isTutor, setIsTutor] = useState(null)
   const [update, setUpdate] = useState(false)
+  const admin = useSelector(state => state)
 
   const [disabled, setDisabled] = useState(true)
 
+  const roles = user && user.roles && user.roles[0].role_name;
+
   useEffect(() => {
     if (user && user.roles) {
-      if (user.roles[0].role_name === 'tutor') {
+      if (roles === 'tutor') {
         setIsTutor(true)
-      } else if (user.roles[0].role_name === 'student') {
+      } else if (roles === 'student') {
         setIsTutor(false)
       } else {
         setIsTutor(null)
@@ -44,16 +48,16 @@ const Profile = ({ user, selectedUser, isAdmin = false }) => {
                     <p>Intermediate level</p>
                   </div>
                 } */}
-              {/* {
-                isTutor === false && (
+              {
+                isTutor === false && roles === 'student' && !isAdmin &&  (
                   <GeneralProfile
-                    user={user}
+                    currentUser={user}
                     update={update}
                     isAdmin={isAdmin}
                     setDisabled={setDisabled}
                   />  
                 )
-              } */}
+              }
               {isTutor === true && (
                 <TutorProfile
                   user={user}
@@ -62,7 +66,7 @@ const Profile = ({ user, selectedUser, isAdmin = false }) => {
                   // setDisabled={d => setDisabled(d)}
                 />
               )}
-              {isTutor === false && (
+              {isAdmin && (
                 <StudentProfile selectedUser={selectedUser} user={user} update={update} isAdmin={isAdmin} />
               )}
             </div>

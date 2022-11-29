@@ -30,7 +30,7 @@ class AdminApi extends BaseApi {
   }
 
 
-  
+
   fetchTutorRate() {
     return axios.get( `${this.REACT_APP_SERVER_URL}/tutors/rates`, {
       headers: {
@@ -48,7 +48,7 @@ class AdminApi extends BaseApi {
   }
 
   confirmationReferal(id) {
-    return axios.put(`${this.REACT_APP_SERVER_URL}/users/${id}/confirm-referal`, {
+    return axios.put(`${this.REACT_APP_SERVER_URL}/users/${id}/confirm-referal`, {} , {
       headers: {
         Authorization: `Bearer ${this.getToken()}`
       }
