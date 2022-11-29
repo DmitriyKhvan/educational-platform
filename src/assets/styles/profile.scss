@@ -1615,6 +1615,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 26px;
+  padding: 0px 32px;
   margin-top: 42px;
   @media screen and (max-width: 735px) {
     flex-direction: column;
@@ -1659,6 +1660,25 @@
     align-items: center;
     justify-content: space-between;
     position: relative;
+
+    .actions_info {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+
+      .referal_box {
+        label {
+          display: flex;
+          gap: 5px;
+          align-items: center;
+          cursor: pointer;
+
+          input {
+            cursor: pointer;
+          }
+        }
+      }
+    }
 
     @media screen and (max-width: 600px) {
       padding: 20px;
@@ -1754,6 +1774,11 @@
       }
     }
   }
+}
+
+.lessons_table {
+  padding: 0px 32px;
+
 }
 .StripeElement {
   border-bottom: 1px solid #c4c4c4;

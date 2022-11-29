@@ -29,8 +29,10 @@ class AdminApi extends BaseApi {
     })
   }
 
+
+  
   fetchTutorRate() {
-    return axios.get(`${this.REACT_APP_SERVER_URL}/tutors/rates`, {
+    return axios.get( `${this.REACT_APP_SERVER_URL}/tutors/rates`, {
       headers: {
         Authorization: `Bearer ${this.getToken()}`
       }
@@ -39,6 +41,14 @@ class AdminApi extends BaseApi {
 
   updateTutorHourlyRate(data) {
     return axios.post(`${this.REACT_APP_SERVER_URL}/tutors/rates`, data, {
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`
+      }
+    })
+  }
+
+  confirmationReferal(id) {
+    return axios.put(`${this.REACT_APP_SERVER_URL}/users/${id}/confirm-referal`, {
       headers: {
         Authorization: `Bearer ${this.getToken()}`
       }

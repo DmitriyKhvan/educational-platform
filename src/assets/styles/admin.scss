@@ -356,7 +356,7 @@
 
   .actions {
     > div {
-      margin-left: 10px;
+      margin-left: 10px; 
     }
   }
 }
@@ -490,7 +490,7 @@
 
 .user-info-modal {
   .modal-content {
-    padding: 25px 32px;
+    padding: 25px 0px;
     border: none;
     height: 80vh;
     display: flex;
@@ -503,6 +503,8 @@
       height: 90vh;
     }
     .scroll-layout {
+      height: 500px;
+      overflow-y: scroll;
       min-height: unset;
     }
     .modal-title {
@@ -510,6 +512,7 @@
       font-style: normal;
       font-weight: normal;
       font-size: 20px;
+      margin: 0 !important;
       line-height: 27px;
       border-bottom: 1px solid $color-border;
       padding-bottom: 28px;

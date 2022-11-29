@@ -47,6 +47,30 @@ export function getUserById(id) {
   }
 }
 
+export function confirmationReferal(id) {
+  return dispatch => {
+    dispatch(request())
+    return AdminApi.confirmationReferal(id)
+      .then(resp => {
+        console.log(resp)
+        return dispatch(success(resp.data))
+      })
+      .catch(error => {
+        return dispatch(failure(error.response?.data))
+      })
+  }
+
+  function request() {
+    return { type: ActionTypes.CONIFIRM_REFERAL.REQUEST, payload: id }
+  }
+  function success(data) {
+    return { type: ActionTypes.CONIFIRM_REFERAL.SUCCESS, payload: data }
+  }
+  function failure(error) {
+    return { type: ActionTypes.CONIFIRM_REFERAL.FAILURE, payload: error }
+  }
+}
+
 export function fetchTutors(data = {}) {
   return dispatch => {
     dispatch(request())

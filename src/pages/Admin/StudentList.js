@@ -81,12 +81,15 @@ const StudentList = () => {
       title: '',
       dataKey: 'actions',
       width: 10,
-      render: (item, record) => (
-        <div className='actions'>
-          <a onClick={() => setSelectedUser(record)}>{t('view_profile')}</a>
-          <a onClick={() => setDeleteForUser(record)}>{t('delete')}</a>
-        </div>
-      )
+      render: (item, record) => {
+        return  (
+          <div className='actions'>
+            <a  onClick={() => setSelectedUser(record)}>{t('view_profile')}</a>
+            <a onClick={() => setDeleteForUser(record)}>{t('delete')}</a>
+          </div>
+        )
+      }
+
     }
   ]
 
@@ -106,7 +109,8 @@ const StudentList = () => {
 
   const dispatch = useDispatch()
 
-  useEffect(async () => {
+
+  useEffect( () => {
     if (dispatch) {
       if (offset === -1) setOffset(0)
       else fetchData()
@@ -230,7 +234,7 @@ const StudentList = () => {
           }}
         >
           <div className='scroll-layout'>
-            <Profile user={user} isAdmin={true} />
+            <Profile user={user} selectedUser={selectedUser} isAdmin={true} />
           </div>
         </ModalUserInfo>
       )}

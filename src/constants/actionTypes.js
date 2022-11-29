@@ -22,6 +22,11 @@ export default {
     REDUX_ACTION
   ),
 
+  CONIFIRM_REFERAL: defineAction("CONIFIRM_REFERAL", REDUX_ACTION),
+
+
+
+
   // User
   GET_USER: defineAction('GET_USER', REDUX_ACTION),
   UPLOAD_AVATAR: defineAction('UPLOAD_AVATAR', REDUX_ACTION),

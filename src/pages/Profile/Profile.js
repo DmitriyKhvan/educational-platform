@@ -10,8 +10,9 @@ import Loader from 'react-loader-spinner';
 
 import GeneralProfile from './GeneralProfile';
 import TutorProfile from './Tutors';
+import StudentProfile from './Tutors/Student';
 
-const Profile = ({ user, isAdmin = false }) => {
+const Profile = ({ user, selectedUser, isAdmin = false }) => {
   const [t, i18n] = useTranslation('translation')
   const [isTutor, setIsTutor] = useState(null)
   const [update, setUpdate] = useState(false)
@@ -30,6 +31,7 @@ const Profile = ({ user, isAdmin = false }) => {
     }
   }, [user])
 
+  
   return (
     <div className='profile-layout'>
       <div className='profile-wrapper'>
@@ -42,12 +44,16 @@ const Profile = ({ user, isAdmin = false }) => {
                     <p>Intermediate level</p>
                   </div>
                 } */}
-              <GeneralProfile
-                user={user}
-                update={update}
-                isAdmin={isAdmin}
-                setDisabled={setDisabled}
-              />
+              {/* {
+                isTutor === false && (
+                  <GeneralProfile
+                    user={user}
+                    update={update}
+                    isAdmin={isAdmin}
+                    setDisabled={setDisabled}
+                  />  
+                )
+              } */}
               {isTutor === true && (
                 <TutorProfile
                   user={user}
@@ -56,9 +62,9 @@ const Profile = ({ user, isAdmin = false }) => {
                   // setDisabled={d => setDisabled(d)}
                 />
               )}
-              {/* {isTutor === false && (
-                <StudentProfile user={user} update={update} isAdmin={isAdmin} />
-              )} */}
+              {isTutor === false && (
+                <StudentProfile selectedUser={selectedUser} user={user} update={update} isAdmin={isAdmin} />
+              )}
             </div>
             {/* <div className='profile-footer'>
               <button
