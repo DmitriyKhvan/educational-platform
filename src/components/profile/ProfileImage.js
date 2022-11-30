@@ -51,7 +51,7 @@ const ProfileImage = () => {
             <div className='col-6'>
               <h1>{t('change_profile_photo')}</h1>
               <img
-                className='img-fluid rounded-corners'
+                className='img-fluid tutor-profile-pic rounded-corners'
                 src={profileImage}
                 alt=''
               />

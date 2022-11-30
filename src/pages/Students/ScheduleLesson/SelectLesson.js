@@ -6,6 +6,7 @@ import Layout from '../../../components/Layout'
 import moment from 'moment'
 import scheduleTick from '../../../assets/images/scheduleTick.svg'
 import continue_arrow from '../../../assets/images/continue_arrow.svg'
+
 const SelectLesson = ({
   setSelectedPlan,
   setTabIndex,
@@ -29,19 +30,6 @@ const SelectLesson = ({
     i,
     expirationDate
   }) => {
-    const [expDate, setExpDate] = useState()
-
-    useEffect(() => {
-      var date1 = new Date()
-      var date2 = new Date(expirationDate)
-      var Difference_In_Time = date2.getTime() - date1.getTime()
-      // To calculate the no. of days between two dates
-      var Difference_In_Days = Math.ceil(
-        Difference_In_Time / (1000 * 3600 * 24)
-      )
-      setExpDate(Difference_In_Days)
-    }, [])
-
     return (
       <div className='col-md-6 col-lg-4 pe-2 main-container schedule-lesson'>
         <div
@@ -56,7 +44,7 @@ const SelectLesson = ({
           }}
         >
           <div className='container-fluid'>
-            <div className='row'>
+            <div className='row mb-3'>
               <h1
                 className={`${
                   i === clicked
@@ -67,31 +55,17 @@ const SelectLesson = ({
                 {lesson.charAt(0).toUpperCase() + lesson.slice(1)}
               </h1>
             </div>
-            <div className='row customlabel'>
-              <p className='remaining-lsn' style={{ textAlign: 'center' }}>
-                {remaining} {t('lessons_remaining')}
-              </p>
-
-              <p className='time_remaining' style={{ textAlign: 'center' }}>
-                {duration} M
-              </p>
+            <div className='row mb-1'>
+              <div className='time_remaining'>
+                {duration} {t('minutes')}
+              </div>
             </div>
           </div>
           <hr className='line' />
-          <div className='row container expiry-days'>
-            <p className='expires'>
-              {expDate > 0 ? (
-                <>
-                  <span className='exp-txt exp-txt-purple'>{`${t(
-                    'expires'
-                  )}${' '}${expDate + ' ' + 'Days'}`}</span>
-                </>
-              ) : (
-                <>
-                  <span className='exp-txt exp-pad'>{t('expired')}</span>
-                </>
-              )}
-            </p>
+          <div style={{ width: '100%' }}>
+            <div className='remaining-lsn'>
+              {remaining} {t('lessons_remaining')}
+            </div>
           </div>
         </div>
       </div>

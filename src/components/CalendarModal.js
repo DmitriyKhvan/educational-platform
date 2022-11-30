@@ -81,12 +81,12 @@ const CalendarModal = ({
           </button>
         </div>
         <div className='col-4'>
-          <Link
-            to={'/student/schedule-lesson/select/' + data.resource.eventDate.id}
+          <a
+            href={'/student/schedule-lesson/select/' + data.resource.eventDate.id}
             className='enter-btn grey-border text-black'
           >
             {t('reschedule')}
-          </Link>
+          </a>
         </div>
         <div className='col-5'>
           <a

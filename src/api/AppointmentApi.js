@@ -12,6 +12,14 @@ class AppointmentApi extends BaseApi {
     })
   }
 
+  createLessonExist(data) {
+    return axios.post(this.REACT_APP_SERVER_URL + '/lessons/create', data, {
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`
+      }
+    })
+  }
+
   createAppointment(data) {
     return axios.post(this.REACT_APP_SERVER_URL + '/groups', data, {
       headers: {

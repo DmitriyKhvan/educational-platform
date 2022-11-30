@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment-timezone'
 import {
+  createLessonExist,
   createAppointment,
   getAppointments,
   updateAppointment
@@ -53,6 +54,10 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
     .format('hh:mm A')
 
   let data = {
+    lesson_title: plan.lesson_title,
+    lesson_desc: plan.description,
+    lesson_type: plan.lesson_type,
+    type: plan.type,
     lesson_id: plan.lesson_id,
     tutor_id: tutor.id,
     duration: plan.duration,
@@ -173,9 +178,29 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
         }
       }
     } else {
-      const res = await dispatch(
-        createAppointment({ ...data, payment_id: plan.payment_id })
-      )
+      let lesson_data = ``
+      if(data.lesson_id === null) {
+        const { payload } = await dispatch(
+          createLessonExist({
+            title: plan.title,
+            description: plan.lesson_type,
+            type: plan.lesson_type,
+            lesson_guid: plan.payment_id
+          })
+        )
+        lesson_data = payload
+      }
+
+      let createAppointmentData = { ...data, payment_id: plan.payment_id }
+      createAppointmentData.lesson_id = lesson_data.id
+      createAppointmentData.lesson_title = lesson_data.title
+      createAppointmentData.lesson_desc = lesson_data.description
+      createAppointmentData.lesson_type = lesson_data.type
+      createAppointmentData.email = user.email
+      createAppointmentData.package_type = plan.package_type
+      
+      const res = await dispatch(createAppointment(createAppointmentData))
+
       if (res.type === ActionTypes.CREATE_APPOINTMENT_INFO.SUCCESS) {
         const { payload } = await fetchAppointments()
         const newAppt = payload.filter(

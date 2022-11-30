@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Dropzone from 'react-dropzone'
 import ModalWrapper from './ModalWrapper'
 import NotificationManager from './NotificationManager'
-import { uploadAvatar } from '../actions/user'
+import { getUserInfo, uploadAvatar } from '../actions/user'
 
 const ProfileModal = ({ isOpen, setIsOpen, setProfileImage }) => {
   const [t] = useTranslation()
@@ -34,6 +34,7 @@ const ProfileModal = ({ isOpen, setIsOpen, setProfileImage }) => {
     try {
       const res = await dispatch(uploadAvatar(profile, user.id))
       if (res.type === 'UPLOAD_AVATAR_SUCCESS') {
+        dispatch(getUserInfo())
       } else {
         NotificationManager.error('Avatar Uploaded/Updated Failed', t)
       }
@@ -47,8 +48,8 @@ const ProfileModal = ({ isOpen, setIsOpen, setProfileImage }) => {
   return (
     <ModalWrapper isOpen={isOpen} closeModal={closeModal}>
       <div className='container-fluid'>
-        <div className='row pt-3'>
-          <div className='col-8'>
+        <div className='row justify-content-between pt-3'>
+          <div className='col-7'>
             <Dropzone
               onDrop={onDrop}
               accept='image/*'
@@ -68,6 +69,7 @@ const ProfileModal = ({ isOpen, setIsOpen, setProfileImage }) => {
               <img
                 src={profile}
                 alt='profile'
+                style={{ maxWidth: '190px' }}
                 className='rounded-corners img-fluid'
               />
             )}

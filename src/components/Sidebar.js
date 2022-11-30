@@ -16,6 +16,9 @@ import Icon18 from '../assets/images/sidebar/icon18.svg'
 import Icon19 from '../assets/images/sidebar/icon19.svg'
 
 import purpleCalendar from '../assets/images/sidebar/calendar.png'
+import GameIcon from '../assets/images/sidebar/game-menuitem.svg'
+import GameIconFilled from '../assets/images/sidebar/game-menuitem-filled.svg'
+import ClassMaterialIcon from '../assets/images/sidebar/class_materials.svg'
 import whiteCalendar from '../assets/images/sidebar/active-calendar.png'
 import purplePayment from '../assets/images/sidebar/payment.png'
 import whitePayment from '../assets/images/sidebar/active-payment.png'
@@ -49,6 +52,7 @@ import whiteFeedbacklIcon from '../assets/images/sidebar/white_feedback_icon.svg
 import purpleFeedbacklIcon from '../assets/images/sidebar/purple_feedback_icon.svg'
 import whiteRewardlIcon from '../assets/images/sidebar/white_reward_icon.svg'
 import purpleRewardlIcon from '../assets/images/sidebar/purple_reward_icon.svg'
+import { classMaterialURL, gameLinkURL } from '../constants/global'
 
 const tutorNavLinks = [
   {
@@ -74,7 +78,7 @@ const tutorNavLinks = [
     link: '/tutor/availability',
     icon: purpleCalendar,
     activeIcon: whiteCalendar
-  },
+  }
   // {
   //   label: 'student_list',
   //   link: '/tutor/students',
@@ -111,6 +115,20 @@ const studentNavLinks = [
     icon: Icon2,
     activeIcon: ActiveIcon2
   },
+  {
+    label: 'games_sidemenu',
+    link: gameLinkURL,
+    icon: GameIcon,
+    activeIcon: GameIconFilled,
+    external: true
+  },
+  {
+    label: 'class_material_sidemenu',
+    link: classMaterialURL,
+    icon: ClassMaterialIcon,
+    activeIcon: ClassMaterialIcon,
+    external: true
+  },
   // {
   //   label: 'class_materials',
   //   link: '/student/class-materials',
@@ -141,7 +159,7 @@ const studentNavLinks = [
   //   icon: Icon11,
   //   activeIcon: ActiveIcon11
   // },
-  { divider: true },
+  { divider: true }
   // {
   //   label: 'support',
   //   link: '/support',
@@ -248,21 +266,43 @@ const Sidebar = () => {
                   className={`nav-item ${item.is_selected ? 'active' : ''}`}
                   key={index}
                 >
-                  <Link to={item.link}>
-                    <div className='icon'>
-                      <img
-                        src={item.activeIcon}
-                        alt=''
-                        className={item.is_selected ? 'block' : 'none'}
-                      />
-                      <img
-                        src={item.icon}
-                        alt=''
-                        className={!item.is_selected ? 'block' : 'none'}
-                      />
-                    </div>
-                    <span>{t(item.label)}</span>
-                  </Link>
+                  {item.external ? (
+                    <Link
+                      onClick={() => {
+                        window.open(item.link)
+                      }}
+                    >
+                      <div className='icon'>
+                        <img
+                          src={item.activeIcon}
+                          alt=''
+                          className={item.is_selected ? 'block' : 'none'}
+                        />
+                        <img
+                          src={item.icon}
+                          alt=''
+                          className={!item.is_selected ? 'block' : 'none'}
+                        />
+                      </div>
+                      <span>{t(item.label)}</span>
+                    </Link>
+                  ) : (
+                    <Link to={item.link}>
+                      <div className='icon'>
+                        <img
+                          src={item.activeIcon}
+                          alt=''
+                          className={item.is_selected ? 'block' : 'none'}
+                        />
+                        <img
+                          src={item.icon}
+                          alt=''
+                          className={!item.is_selected ? 'block' : 'none'}
+                        />
+                      </div>
+                      <span>{t(item.label)}</span>
+                    </Link>
+                  )}
                 </li>
               )
             )}
