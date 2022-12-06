@@ -240,7 +240,6 @@ const Signup = () => {
     }
   }
 
-  
   return (
     <AuthLayout>
       {!formData.user_role ? (
@@ -262,8 +261,9 @@ const Signup = () => {
                 <img src={ImgTutor} alt='' />
                 <p className='description'>{t('ima_tutor')}</p>
                 <a
-                  href='/signup?role=tutor'
-                  className='enter-btn btn btn-primary btn-lg'
+                  // href='/signup?role=tutor'
+                  href='/'
+                  className='enter-btn btn btn-primary btn-lg disabled'
                 >
                   {t('enter_tutor')}
                 </a>

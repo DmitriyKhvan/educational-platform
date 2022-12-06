@@ -174,15 +174,16 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
           <img src={tutorProfile} className='img-fluid schedule' alt='' />
           <img src={Favorite} alt='FavoriteSvg' className='FavoriteSvg' />
         </div>
-        <div className='pt-3 text-center'>
-          <div className='Learn-name-university'>
-            <h1 className='text-purple mt-0 select_tutors_aligns'>{name}</h1>
-
-            <h5 className='text-light-grey mt-0 select_tutors_aligns'>
-              <strong className='unversity-font '>{tutor.university}</strong>
+        <div className='text-center'>
+          <div className='Learn-name-university pt-3'>
+            <h5 className='text-purple select_tutors_aligns'>
+              <strong style={{ fontSize: '1.3rem' }}>{name}</strong>
+            </h5>
+            <h5 className='my-2 text-light-grey select_tutors_aligns'>
+              <strong className='unversity-font'>{tutor.university}</strong>
             </h5>
             <h5 className='text-light-grey select_tutors_aligns'>
-              {tutor.major || ''}
+              {tutor.major || '-'}
             </h5>
           </div>
           <div className='Learn-buttons-style'>
