@@ -36,6 +36,8 @@ import Icon11 from '../assets/images/sidebar/purple_subscription_icon.svg';
 import ActiveIcon1 from '../assets/images/sidebar/white_dashboard_icon.svg';
 import ActiveIcon2 from '../assets/images/sidebar/white_lesson_icon.svg';
 import ActiveIcon11 from '../assets/images/sidebar/white_subscription_icon.svg';
+import MessageIcon from '../assets/images/sidebar/purple_message_icon.svg'
+import MessageActiveIcon from '../assets/images/sidebar/white_message_icon.svg'
 
 const tutorNavLinks = [
   {
@@ -98,7 +100,12 @@ const studentNavLinks = [
     icon: Icon2,
     activeIcon: ActiveIcon2
   },
-  
+  {
+    label: "Messages",
+    link:"/messages/",
+    icon:MessageIcon,
+    activeIcon:MessageActiveIcon
+  },
   {
     label: "Tutors",
     link:"/student/tutors",

@@ -65,6 +65,7 @@ import TutorsPage from './pages/Students/tutorsPage/TutorsPage';
 
 import './App.scss'
 import IsReferal from './pages/isReferal';
+import Messanger from './pages/Messanger/Messanger';
 
 const store = configureStore({})
 
@@ -227,7 +228,7 @@ function App() {
             component={NewTutorProfile}
           />
           <PrivateRoute path='/tutor/profile' component={TutorProfile} />
-          <PrivateRoute path='/messages' component={Messages} />
+          <PrivateRoute path='/messages' component={Messanger} />
          
         </div>
       </Router>

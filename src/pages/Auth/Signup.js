@@ -225,7 +225,7 @@ const Signup = () => {
     
 
     if (resp.type === 'AUTH_SIGNUP_SUCCESS') {
-      history.push('/email-verify-guide')
+      history.push('/')
     }
 
     if (resp.type === 'AUTH_SIGNUP_FAILURE') {

@@ -11,7 +11,7 @@ const IsReferal = () => {
     } else {
       history.push("/signup")
     }
-  }, [referalcode])
+  }, [referalcode, history])
 
   return (
     <></>

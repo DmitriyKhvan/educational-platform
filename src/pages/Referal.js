@@ -40,6 +40,8 @@ const Referal = () => {
     });
   }
 
+  
+
   return (
     <Layout>
        <div className='referal-wrapper'>
@@ -94,11 +96,17 @@ const Referal = () => {
                   copyText(`${window.location.origin}/referral/${user.referal_code}`)}>Copy</span>
               </div>
               <div className='right_share'>
-                <div>
-                  <img src={email} alt="" />
-                </div>
-                <img src={Message} alt="" />
-                <img src={whatsapp} alt="" />
+                <a href={`mailto:insertyouremail@gmail.com?subject=look at this website&body=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referal_code}`}>
+                  <div>
+                    <img src={email} alt="" />
+                  </div>
+                </a>
+                <a href={`sms:phone number&body=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referal_code}`}>
+                  <img src={Message} alt="" />
+                </a>
+                <a href={`https://wa.me/?text=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referal_code}`}>
+                  <img src={whatsapp} alt="" />
+                </a>
                 <img src={CloudMessage} alt="" />
               </div>
             </div>
@@ -110,18 +118,18 @@ const Referal = () => {
             </div>
 
             <div className='share_button'>
-              <button>
+              <a href=''>
                 <img src={facebook} alt=""/>
                 Share on Facebook
-              </button>
-              <button>
+              </a>
+              <a>
                 <img src={instagram} alt=""/>
                 Share on Instagram
-              </button>
-              <button>
+              </a>
+              <a>
                 <img src={linkedin} alt=""/>
                 Share on LinkedIn
-              </button>
+              </a>
             </div>
 
             <div className='share_info'>
