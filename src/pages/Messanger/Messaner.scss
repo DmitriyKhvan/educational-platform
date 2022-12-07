@@ -204,7 +204,8 @@
         font-size: 30px;
         line-height: 36px;
         letter-spacing: -1px;
-
+        margin-bottom: 0;
+        margin-top: 0;
         /* Dark Purple */
 
         color: #261A45;
@@ -245,6 +246,150 @@
           letter-spacing: -0.2px;
           /* Dark Purple */
           color: #261A45;
+        }
+      }
+    }
+
+    .chat_main {
+      height: 80vh;
+      margin-top: 30px;
+      overflow-y: scroll;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .message_item {
+        &_header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          &_info {
+            display: flex;
+            align-items: center;
+            img {
+              cursor: pointer;
+              width: 50px;
+              height: 50px;
+              border-radius: 50%;
+              object-fit: cover;
+              margin-right: 15px;
+              object-position: top;
+            }
+
+            h2 {
+              font-family: 'Inter';
+              font-style: normal;
+              font-weight: 500;
+              font-size: 17px;
+              line-height: 21px;
+              cursor: pointer;
+              /* identical to box height */
+
+              letter-spacing: -0.6px;
+
+              /* Purple */
+              margin-bottom: 0;
+              color: #6133AF;
+              margin-top: 0;
+            }
+
+            p{
+              font-family: 'Inter';
+              font-style: normal;
+              font-weight: 500;
+              font-size: 17px;
+              line-height: 21px;
+              /* identical to box height */
+              margin-bottom: 0;
+              letter-spacing: -0.6px;
+
+              /* Light Gray */
+              margin-top: 0;
+              color: #646481;
+
+            }
+          }
+
+
+          &_data {
+            p {
+              font-family: 'Inter';
+              font-style: normal;
+              font-weight: 500;
+              font-size: 17px;
+              line-height: 21px;
+              /* identical to box height */
+
+              text-align: right;
+              letter-spacing: -0.6px;
+              margin: 0;
+              /* Light Gray */
+
+              color: #646481;
+            }
+          }
+        }
+      }
+    }
+
+    .chat_addMessage {
+      position: relative;
+      .input_area {
+        background: #FFFFFF;
+        /* Border Gray */
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        border: 1px solid #DEDEE1;
+        border-radius: 10px;
+        padding: 11px;
+        img {
+          cursor: pointer;
+          padding-left: 9px;
+        }
+
+        button {
+          /* Purple */
+          cursor: pointer;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 15px;
+          line-height: 18px;
+          letter-spacing: -0.2px;
+          width: 100px;
+          /* Purple Light */
+          margin-left: auto;
+          color: #EBE4FF;
+          padding: 10px 15px;
+          gap: 10px;
+          background: #6133AF;
+          opacity: 0.5;
+          border-radius: 5px;
+        }
+
+        input {
+          margin-left: 20px;
+          border:0;
+          outline: 0;
+          width:78%;
+          padding: 10px 0;
+          &:-ms-input-placeholder {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 24px;
+            letter-spacing: -0.6px;
+
+            /* Border Gray */
+
+            color: #DEDEE1;
+
+          }
         }
       }
     }
