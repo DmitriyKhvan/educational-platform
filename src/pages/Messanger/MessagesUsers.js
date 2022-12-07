@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 
 const MessagesUsers = ( {base} ) => {
   return (
-    <NavLink to={`/messages/chat/${base.tutor_name}`} activeClassName={"activeMessage"}>
+    <NavLink to={`/messages/chat/${base.tutor_name}/${base.type_message}`} activeClassName={"activeMessage"}>
       <div className='message_users_list'>
         <h3>{base.type_message}</h3>
         <div className='message_row'>

@@ -183,4 +183,70 @@
       }
     }
   }
+
+
+  .chat_area {
+    padding-top: 60px;
+    padding-left: 60px;
+    padding-right: 50px;
+    padding-bottom: 40px;
+
+    .chat_header {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      justify-content: space-between;
+
+      h2 {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 30px;
+        line-height: 36px;
+        letter-spacing: -1px;
+
+        /* Dark Purple */
+
+        color: #261A45;
+
+      }
+
+      &_interface {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        img {
+          cursor: pointer;
+          background: #FFFFFF;
+          /* Border Gray */
+          width: 38px;
+          height: 38px;
+          object-fit: contain;
+          border: 1px solid #DEDEE1;
+          border-radius: 5px;
+        }
+
+        button {
+          height: 38px;
+          /* White */
+
+          background: #FFFFFF;
+          /* Border Gray */
+          cursor: pointer;
+          border: 1px solid #DEDEE1;
+          border-radius: 5px;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 15px;
+          line-height: 18px;
+          text-align: right;
+          letter-spacing: -0.2px;
+          /* Dark Purple */
+          color: #261A45;
+        }
+      }
+    }
+  }
 }
