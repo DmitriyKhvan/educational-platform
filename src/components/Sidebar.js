@@ -53,6 +53,12 @@ const tutorNavLinks = [
     activeIcon: ActiveIcon2
   },
   {
+    label: "Messages",
+    link:"/messages/",
+    icon:MessageIcon,
+    activeIcon:MessageActiveIcon
+  },
+  {
     label: 'check_requests',
     link: '/approve-requests',
     icon: Icon11,

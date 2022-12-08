@@ -62,7 +62,7 @@ const MessageSidebar = () => {
 
       <div className='message_users'>
         {
-          userList.map(item => <MessagesUsers base={item}/>)
+          userList.map(item => <MessagesUsers key={item.id} base={item}/>)
         }
       </div>
     </div>

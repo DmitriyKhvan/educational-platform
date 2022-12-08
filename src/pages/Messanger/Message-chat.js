@@ -1,8 +1,8 @@
 import React from 'react'
 import { useParams } from 'react-router-dom';
 import deleteIcon from '../../assets/images/trash.png';
+import DropzoneMessage from './Dropzone';
 import MessageItem from './MessageItem';
-import AttachmentIcon from '../../assets/images/Attachment icon.png';
 
 
 const MessageChat = () => {
@@ -22,19 +22,32 @@ const MessageChat = () => {
 
       <div className='chat_main'>
         <MessageItem name={name}/>
+        <MessageItem name={name}/>
+        <MessageItem name={name}/>
+        <MessageItem name={name}/>
+        <MessageItem name={name}/>
+        <MessageItem name={name}/>
+        <MessageItem name={name}/>
+        <MessageItem name={name}/>
+
+        <MessageItem name={name}/>
+        <MessageItem name={name}/>
+        <MessageItem name={name}/>
+        <MessageItem name={name}/>
+        <MessageItem name={name}/>
+        <MessageItem name={name}/>
+        <MessageItem name={name}/>
+        <MessageItem name={name}/>
+
+        <MessageItem name={name}/>
+
+        <MessageItem name={name}/>
+
+        
       </div>
 
       <div className="chat_addMessage">
-        <div className="input_area">
-          <img src={AttachmentIcon} alt=""/>
-
-          <input 
-            type="text"
-            placeholder="Write a message"
-          />
-
-          <button>Send</button>
-        </div>
+        <DropzoneMessage />
       </div>  
     </div>
   )

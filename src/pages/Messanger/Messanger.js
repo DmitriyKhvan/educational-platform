@@ -12,7 +12,9 @@ const Messanger = () => {
   return (
     <Layout>
       <div className='message_layout'>
-        <MessageSidebar />
+        <div className='message_sidebar_fixed'>
+          <MessageSidebar />
+        </div>
 
         <Switch>
           <Route path={"/messages/chat/:name/:mode"} component={MessageChat}/>
