@@ -14,6 +14,7 @@ import Loader from '../../components/common/Loader'
 
 import '../../assets/styles/calendar.scss'
 import { feedbackURL } from '../../constants/global'
+import ReviewLessonModal from '../../components/ReviewLessonModal'
 
 const Calendar = () => {
   const [t] = useTranslation('translation')
@@ -201,9 +202,12 @@ const Calendar = () => {
     'Class Feedback'
   ]
 
+  const [isReviewLessonModalOpen, setReviewLessonModal] = useState(false)
+
   return (
     <Layout>
       <div className='children-wrapper'>
+        <button onClick={() => setReviewLessonModal(true)}>Hey</button>
         <div className='appointment-calendar container-fluid'>
           <h1 className='title m-0 mt-4 mb-3'>{t('appointment_calendar')}</h1>
           <div className='row container-fluid m-0 p-0'>
@@ -334,6 +338,10 @@ const Calendar = () => {
 
       {isOpen && <CustomModal />}
       {isLoading && <Loader />}
+      <ReviewLessonModal
+        isOpen={isReviewLessonModalOpen}
+        setIsOpen={setReviewLessonModal}
+      />
     </Layout>
   )
 }
