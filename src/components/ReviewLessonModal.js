@@ -46,7 +46,7 @@ const ReviewLessonModal = ({ isOpen, setIsOpen, lessonInfo }) => {
       >
         <div className='header'>
           <h3>Lesson Feedback</h3>
-          <button>
+          <button onClick={closeModal}>
             <Close />
           </button>
         </div>
