@@ -1,53 +1,82 @@
-import React from 'react'
-import { useParams } from 'react-router-dom';
-import deleteIcon from '../../assets/images/trash.png';
-import DropzoneMessage from './Dropzone';
-import MessageItem from './MessageItem';
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import ChatsApi from '../../api/ChatsApi'
+import deleteIcon from '../../assets/images/trash.png'
+import DropzoneMessage from './Dropzone'
+import MessageItem from './MessageItem'
+import find from 'lodash/find'
+import io from 'socket.io-client'
 
+let interval = null;
 
 const MessageChat = () => {
-  const { name, mode } = useParams();
+  const currentUser = useSelector(state => state.users.user)
+  const { chatId } = useParams();
+  
+  const [socket, setSocket] = useState(null)
+  
+  const [chats, setChats] = useState([]);
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await ChatsApi.getChats();
+      setChats(data.chats);
+    })();
+
+    interval = setInterval(() => {
+      (async () => {
+        const { data } = await ChatsApi.getMessages();
+        setMessages(data.messages);
+      })();
+    }, 200);
+
+    setSocket(io.connect(process.env.REACT_APP_SERVER_URL))
+
+    return () => clearInterval(interval)
+  }, []);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('newmessage', (data) => {
+        setMessages(data)
+      })
+    }
+  }, [socket])
+
+  const chat = find(chats, { id: parseInt(chatId, 10) }) || {};
+
+  const sendMessage = (text) => {
+    socket.emit('sendNewMessage', {
+      chat_id: chat.id,
+      sender_id: currentUser.id,
+      viewed: false,
+      type: 'message',
+      text,
+    });
+  }
   
   return (
     <div className='chat_area'>
       <div className='chat_header'>
-        <h2>{mode}</h2>
+        <h2>{chat.name}</h2>
 
-        <div className='chat_header_interface'>
+        {/* <div className='chat_header_interface'>
           <img src={deleteIcon} alt=""/>
 
           <button>Mark as Unread</button>
-        </div>
+        </div> */}
       </div>
 
       <div className='chat_main'>
-        <MessageItem name={name}/>
-        <MessageItem name={name}/>
-        <MessageItem name={name}/>
-        <MessageItem name={name}/>
-        <MessageItem name={name}/>
-        <MessageItem name={name}/>
-        <MessageItem name={name}/>
-        <MessageItem name={name}/>
-
-        <MessageItem name={name}/>
-        <MessageItem name={name}/>
-        <MessageItem name={name}/>
-        <MessageItem name={name}/>
-        <MessageItem name={name}/>
-        <MessageItem name={name}/>
-        <MessageItem name={name}/>
-        <MessageItem name={name}/>
-
-        <MessageItem name={name}/>
-
-        <MessageItem name={name}/>
-
-        
+        {messages.map(message => message.chat_id === chat.id ? (
+          <MessageItem key={message.id} message={message} chat={chat} />
+        ) : null)}
       </div>
 
       <div className="chat_addMessage">
-        <DropzoneMessage />
+        <DropzoneMessage onSend={sendMessage} />
       </div>  
     </div>
   )
