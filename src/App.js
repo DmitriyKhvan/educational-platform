@@ -31,7 +31,7 @@ import VerifyEmail from './pages/Auth/VerifyEmail';
 import Dashboard from './pages/Dashboard';
 import FAQ from './pages/FAQ';
 import Feedback from './pages/Feedback';
-import Messages from './pages/Messages';
+// import Messages from './pages/Messages';
 import { ProfileLayout } from './pages/Profile';
 import NewTutorProfile from './pages/Profile/EditProfile';
 import TutorProfile from './pages/Profile/Tutors/Profile';

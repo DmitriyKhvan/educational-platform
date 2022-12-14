@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import ChatsApi from '../../api/ChatsApi'
-import deleteIcon from '../../assets/images/trash.png'
+// import deleteIcon from '../../assets/images/trash.png'
 import DropzoneMessage from './Dropzone'
 import MessageItem from './MessageItem'
 import find from 'lodash/find'
@@ -27,8 +27,11 @@ const MessageChat = () => {
 
     interval = setInterval(() => {
       (async () => {
-        const { data } = await ChatsApi.getMessages();
-        setMessages(data.messages);
+        try {
+          const { data } = await ChatsApi.getMessages();
+          setMessages(data.messages);
+        }
+        catch(e) {}
       })();
     }, 200);
 
@@ -39,8 +42,12 @@ const MessageChat = () => {
 
   useEffect(() => {
     if (socket) {
-      socket.on('newmessage', (data) => {
-        setMessages(data)
+      socket.on('receiveNewMessage', (newMessages) => {
+        console.log('receiveNewMessage');
+        setMessages([
+          ...messages,
+          ...newMessages,
+        ]);
       })
     }
   }, [socket])
@@ -56,11 +63,17 @@ const MessageChat = () => {
       text,
     });
   }
+
+  let chatName = chat.name;
+  if (!chatName && chat.users) {
+    let otherUser = chat.users.filter(u => u.id !== currentUser.id)[0]
+    chatName = `Private chat with ${otherUser.first_name} ${otherUser.last_name}`
+  }
   
   return (
     <div className='chat_area'>
       <div className='chat_header'>
-        <h2>{chat.name}</h2>
+        <h2>{chatName}</h2>
 
         {/* <div className='chat_header_interface'>
           <img src={deleteIcon} alt=""/>
