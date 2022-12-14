@@ -28,7 +28,7 @@ const MessageChat = () => {
     interval = setInterval(() => {
       (async () => {
         try {
-          const { data } = await ChatsApi.getMessages();
+          const { data } = await ChatsApi.getMessages(chatId);
           setMessages(data.messages);
         }
         catch(e) {}
