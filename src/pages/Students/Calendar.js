@@ -14,7 +14,7 @@ import Loader from '../../components/common/Loader'
 
 import '../../assets/styles/calendar.scss'
 import { feedbackURL } from '../../constants/global'
-import ReviewLessonModal from '../../components/ReviewLessonModal'
+import ReviewLessonModal from '../../components/student-dashboard/ReviewLessonModal'
 
 const Calendar = () => {
   const [t] = useTranslation('translation')
