@@ -66,6 +66,7 @@ import TutorsPage from './pages/Students/tutorsPage/TutorsPage';
 import './App.scss'
 import IsReferal from './pages/isReferal';
 import Messanger from './pages/Messanger/Messanger';
+import EditTopics from './pages/Profile/editTopics/EditTopics';
 
 const store = configureStore({})
 
@@ -173,6 +174,7 @@ function App() {
             component={StudentCalendar}
           />
           <PrivateRoute path='/student/profile' component={ProfileLayout} />
+          <PrivateRoute path="/student/profiles/edit-topics" component={EditTopics}/>
           <PrivateRoute
             path='/student/group-lessons'
             component={GroupLessons}

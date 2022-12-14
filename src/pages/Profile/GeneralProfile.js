@@ -12,6 +12,7 @@ import {
   useSelector,
 } from 'react-redux';
 import {
+  Link,
   useHistory,
   useParams,
 } from 'react-router-dom';
@@ -30,11 +31,42 @@ import ScheduleCard from '../../components/student-dashboard/ScheduleCard';
 import { cancel_lesson_reasons_student } from '../../constants/global';
 
 import './style/GeneralProfile.scss'
+import React from 'react';
+import useTopic from './editTopics/useTopic';
 
 const options = [
   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
   { value: 'completed_lesson', label: 'Completed Lessons' }
 ]
+
+const interests = [
+  {
+    id:1,
+    title:"Sports",
+    isTopic: true
+  },
+  {
+    id:2,
+    title: "Movies",
+    isTopic: true
+  },
+  {
+    id:3,
+    title: "Music",
+    isTopic: true
+  },
+  {
+    id:4,
+    title: "Animals",
+    isTopic: true
+  },
+  {
+    id:5,
+    title: "Food",
+    isTopic: true
+  },
+]
+
 
 const GeneralProfile = ({currentUser, isAdmin=false}) => {
 
@@ -49,6 +81,7 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
   const [completedAppointment, setCompleteAppointment] = useState(null)
   const history = useHistory()
   const onDismiss = () => setCompleteAppointment(null)
+
 
   const onCancel = async ({ id, reasons }) => {
     setIsLoading(true)
@@ -156,7 +189,6 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
       )
     })
 
-  const interests = ["Sports", "Movies", "Music", "Animals", "Food"]
 
   const details = [
     {
@@ -242,10 +274,10 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
                 <div className='row_interests'>
                   <div className='topics'>
                     {interests.map(item => 
-                      <button key={item}>{item}</button>  
+                      <button key={item.id}>{item.title}</button>  
                     )}
                   </div>
-                  <button>Edit Topics</button>
+                  <Link to={"/student/profiles/edit-topics"}>Edit Topics</Link>
                 </div>
               </div>
 
