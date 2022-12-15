@@ -1,9 +1,8 @@
 import React from 'react'
 import Modal from 'react-modal'
 import Tutor from '../../assets/images/tutor.png'
-import { ReactComponent as Close } from '../../assets/images/Close icon.svg'
 import { useForm, Controller } from 'react-hook-form'
-import ReviewRating from '../ReviewRating'
+import { FileUploader } from 'react-drag-drop-files'
 import RadioGroup from '../RadioGroup'
 
 const ReviewLessonModal = ({ isOpen, setIsOpen, lessonInfo }) => {
@@ -63,11 +62,20 @@ const ReviewLessonModal = ({ isOpen, setIsOpen, lessonInfo }) => {
               placeholder='Write your review here...'
               {...register('review')}
             ></textarea>
+            <Controller
+              control={control}
+              name='file'
+              render={({ field: { onChange } }) => (
+                <FileUploader types={['PDF']} handleChange={onChange} />
+              )}
+            />
           </div>
 
           <div className='modal-footer'>
             <div className='buttons'>
-              <button className='close' onClick={closeModal}>Close</button>
+              <button className='close' onClick={closeModal}>
+                Close
+              </button>
               <button type='submit'>Submit Review</button>
             </div>
 
