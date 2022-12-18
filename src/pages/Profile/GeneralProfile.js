@@ -32,7 +32,7 @@ import { cancel_lesson_reasons_student } from '../../constants/global';
 
 import './style/GeneralProfile.scss'
 import React from 'react';
-import useTopic from './editTopics/useTopic';
+import EditProflileModal from '../../components/EditProflileModal';
 
 const options = [
   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
@@ -226,7 +226,9 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
       caption: "Country",
       value: "Korea",
     },
-  ]
+  ] 
+
+  const [showEditModal , setIsShowEditModal] = React.useState(false)
 
   return (
     <div>
@@ -248,7 +250,7 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
                         <span>UTC +9 (Korean Standard Time)</span>
                       </div>
                       <div className='main_info-right'>
-                        <button>Edit Profile</button>
+                        <button onClick={() => setIsShowEditModal(true)}>Edit Profile</button>
                       </div>
                     </div>
                   </div>
@@ -354,8 +356,10 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
         />
       )}
 
+      {<EditProflileModal isOpen={showEditModal} setIsOpen={setIsShowEditModal} />}
+
       {isLoading && <Loader />}
     </div>
   )
 }
-export default GeneralProfile
+export default GeneralProfile;

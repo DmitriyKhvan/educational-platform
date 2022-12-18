@@ -2685,3 +2685,154 @@ border-radius: 10px;
     }
   }
 }
+
+
+.edit-profile-modal {
+  z-index: 10000;
+  width: 400px;
+  background: $color-white;
+  border: $color-border-grey 1px solid;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  padding: 15px;
+  height: 90vh;
+
+  
+
+  h3 {
+    color: $color-dark-violet;
+    margin: 0;
+    font-size: 20px;
+  }
+  h4 {
+    color: $color-dark-violet;
+    margin: 0;
+    font-size: 15px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .avatar-block {
+    text-align: center;
+    img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+  }
+
+  .header {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+      height: 22px;
+      width: 22px;
+      background: none;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: 0.1s ease-in-out;
+
+      &:hover {
+        background: rgba($color-light-grey, 0.2);
+      }
+      svg {
+        path {
+          fill: $color-light-grey;
+          border: 1px solid $color-light-grey;
+        }
+        width: 100%;
+        height: 100%;
+      }
+    }
+    
+  }
+
+  form {
+    height: 60vh;
+    overflow-y: auto;
+    label {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 20px;
+      /* identical to box height, or 133% */
+
+      letter-spacing: -0.2px;
+
+      /* Dark Purple */
+      display: flex;
+      flex-direction: column;
+      color: #261A45;
+    }
+
+    div {
+      margin-top: 15px;
+      input {
+        margin-top: 10px;
+        background: #FFFFFF;
+        padding: 15px;
+        /* Border Gray */
+
+        border: 1px solid #DEDEE1;
+        border-radius: 5px;
+      }
+
+      select {
+        margin-top: 10px;
+        background: #FFFFFF;
+        padding: 15px;
+        /* Border Gray */
+
+        border: 1px solid #DEDEE1;
+        border-radius: 5px;
+      }
+    }
+
+
+    button[type="submit"]{
+      margin-top: 20px;
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      background: $color-purple;
+      color: $color-white;
+      font-weight: bold;
+    }
+  }
+}
+
+.edit-profile-modal-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: brightness(0.2);
+}
+
+.edit-modal-open{
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+
+.maxHeight {
+  form {
+    height: 100%;
+    overflow-y: none;
+  }
+}
