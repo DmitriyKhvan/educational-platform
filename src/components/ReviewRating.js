@@ -20,7 +20,7 @@ export default function ReviewRating({ onChange }) {
             alt=''
             onClick={() => setStarIndex(index)}
           />
-        ))}
+        ))}   
       </div>
     </div>
   )

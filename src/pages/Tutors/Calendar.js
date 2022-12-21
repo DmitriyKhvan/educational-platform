@@ -13,6 +13,7 @@ import NotificationManager from '../../components/NotificationManager'
 import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png'
 import maleAvatar from '../../assets/images/avatars/img_avatar_male.png'
 import ZoomWarningModal from '../../components/student-dashboard/ZoomWarningModal'
+import ReviewLessonModal from '../../components/tutor-dashboard/ReviewLessonModal'
 
 import '../../assets/styles/calendar.scss'
 import AppointmentApi from '../../api/AppointmentApi'
@@ -65,7 +66,7 @@ const Calendar = () => {
     dayFormat: 'dddd D',
     timeGutterFormat: 'hA'
   }
-  
+
   const fetchData = () => {
     dispatch(getAppointments({ tutor_id: tutor?.id }))
   }
@@ -409,9 +410,12 @@ const Calendar = () => {
     )
   }
 
+  const [isReviewLessonModalOpen, setReviewLessonModal] = useState(false)
+
   return (
     <Layout>
       <div className='container-fluid'>
+        <button onClick={() => setReviewLessonModal(true)}>Open ReviewLessonModal</button>
         <h1 className='title m-0 mt-4 mb-3'>{t('lessons')}</h1>
         <div className='row container-fluid m-0 p-0'>
           <div className='col-auto'>
@@ -483,6 +487,10 @@ const Calendar = () => {
           setIsWarningOpen={setIsWarningOpen}
         />
       )}
+      <ReviewLessonModal
+        isOpen={isReviewLessonModalOpen}
+        setIsOpen={setReviewLessonModal}
+      />
     </Layout>
   )
 }
