@@ -1,9 +1,10 @@
 import React from 'react'
 import Modal from 'react-modal'
-import Tutor from '../assets/images/tutor.png'
-import { ReactComponent as Close } from '../assets/images/Close icon.svg'
+import Tutor from '../../assets/images/tutor.png'
+import { ReactComponent as Close } from '../../assets/images/Close icon.svg'
 import { useForm, Controller } from 'react-hook-form'
-import ReviewRating from './ReviewRating'
+import ReviewRating from '../ReviewRating'
+import RadioGroup from '../RadioGroup'
 
 const ReviewLessonModal = ({ isOpen, setIsOpen, lessonInfo }) => {
   const { register, handleSubmit, control, reset } = useForm()
@@ -68,39 +69,30 @@ const ReviewLessonModal = ({ isOpen, setIsOpen, lessonInfo }) => {
           <h4>Will tutor see my responses?</h4>
           <p>No, your lesson review will be kept private.</p>
           <h4>Tutor attendance</h4>
-          <div className='attendance-selector'>
-            <label htmlFor='present'>
-              <input
-                id='present'
-                type='radio'
-                name='attendance'
-                value='present'
-                defaultChecked
-                {...register('attendance')}
+          <Controller
+            control={control}
+            name='attendance'
+            render={({ field: { onChange, name } }) => (
+              <RadioGroup
+                onChange={onChange}
+                options={[
+                  {
+                    name: 'present',
+                    text: 'Tutor was present'
+                  },
+                  {
+                    name: 'late',
+                    text: 'Student was late'
+                  },
+                  {
+                    name: 'noshow',
+                    text: 'No show'
+                  }
+                ]}
+                name={name}
               />
-              Tutor was present
-            </label>
-            <label htmlFor='late'>
-              <input
-                id='late'
-                type='radio'
-                name='attendance'
-                value='late'
-                {...register('attendance')}
-              />
-              Tutor was late
-            </label>
-            <label htmlFor='noshow'>
-              <input
-                id='noshow'
-                type='radio'
-                name='attendance'
-                value='noshow'
-                {...register('attendance')}
-              />
-              No show
-            </label>
-          </div>
+            )}
+          ></Controller>
           <h4>Rate this tutor</h4>
 
           <Controller
