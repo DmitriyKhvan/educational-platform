@@ -1,0 +1,943 @@
+
+
+.editProfile_container {
+  &_row {
+    display: flex;
+    margin-top: 50px;
+    gap: 90px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 50px;
+    .editProfile_left {
+      margin-left: 65px;
+
+      &_title {
+        h2 {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 40px;
+          line-height: 48px;
+          letter-spacing: -1px;
+          margin-top: 0;
+          /* Dark Purple */
+
+          color: #261A45;
+        }
+      } 
+
+      &_photo {
+        margin-top: 50px;
+        &_title {
+          h2 {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 27px;
+            line-height: 33px;
+            /* identical to box height */
+
+            letter-spacing: -1px;
+            margin: 0;
+            /* Dark Purple */
+
+            color: #261A45;
+          }
+        }
+      }
+
+      &_avatar {
+        display: flex;
+        margin-top: 30px;
+        align-items: center;
+        gap: 30px;
+
+        .avatar_left {
+          img {
+            width: 150px;
+            height: 150px;
+            background: #C4C4C4;
+            border-radius: 10px;
+            object-fit: cover;
+          }
+        }
+
+        .avatar_right {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+
+          button{
+            background: #FFFFFF;
+            /* Border Gray */
+            padding: 16px 30px;
+            border: 1px solid #DEDEE1;
+            border-radius: 10px;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 18px;
+            letter-spacing: -0.2px;
+            display: flex;
+            align-items: center;
+            /* Dark Purple */
+            gap: 10px;
+            color: #261A45;
+
+            img {
+              width: 18px;
+              height: 18px;
+            }
+          }
+        }
+      }
+
+      &_content {
+        margin-top: 30px;
+        
+        p {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 15px;
+          line-height: 18px;
+          letter-spacing: -0.7px;
+
+          /* Light Gray */
+
+          color: #646481;
+          margin: 0;
+        }
+      }
+    }
+
+    .editProfile_right {
+      &_hooks {
+        a {
+          background: #FFFFFF;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 15px;
+          line-height: 18px;
+          letter-spacing: -0.7px;
+          text-decoration: none;
+          /* Dark Purple */
+
+          color: #261A45;
+          /* Border Gray */
+          padding: 11px 15px;
+          border: 1px solid #DEDEE1;
+
+          &:nth-child(4) {
+            /* Border Gray */
+
+            border-radius: 0px 10px 10px 0px;
+          }
+          &:nth-child(1) {
+            /* Border Gray */
+
+            border-radius: 10px 0px 0px 10px;
+          }
+        }
+
+        .active_hook {
+          /* Purple Light */
+          background: #EBE4FF;
+          /* Purple */
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 15px;
+          line-height: 18px;
+          letter-spacing: -0.7px;
+          
+          /* Purple */
+          
+          color: #6133AF;
+          
+          border: 1px solid #6133AF;
+        }
+      }
+
+      &_guild {
+        .guild_card {
+          /* White */
+          width: 440px;
+          background: #FFFFFF;
+          /* Border Gray */
+          margin-top: 85px;
+          border: 1px solid #DEDEE1;
+          border-radius: 10px;
+          padding: 15px 40px 30px 30px;
+
+          img {
+            width: 33px;
+            height: 33px;
+            object-fit: contain;
+          }
+
+          h2 {
+            font-family: 'Inter';
+            font-style: normal;
+            margin-top: 20px;
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 24px;
+            letter-spacing: -0.6px;
+
+            /* Dark Purple */ 
+            margin-bottom: 0;
+            color: #261A45;
+          }
+
+          p {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 26px;
+            /* identical to box height, or 144% */
+            margin-top: 6px;
+            letter-spacing: -0.7px;
+
+            /* Light Gray */
+            margin-bottom: 0;
+            color: #646481;
+
+          }
+
+          button {
+            /* White */
+
+            background: #FFFFFF;
+            /* Border Gray */
+            padding: 15px 0;
+            width: 100%;
+            border: 1px solid #DEDEE1;
+            border-radius: 10px;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 18px;
+            cursor: pointer;
+            letter-spacing: -0.2px;
+            margin-top: 25px;
+            /* Dark Purple */
+
+            color: #261A45;
+
+          }
+        }
+      }
+    }
+  }
+
+  &_forms {
+    &_basic {
+      padding-left: 66px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      &_title {
+        padding-bottom: 20px;
+        h2 {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 27px;
+          line-height: 33px;
+          /* identical to box height */
+          margin: 0;
+          letter-spacing: -1px;
+  
+          /* Dark Purple */
+  
+          color: #261A45;
+        }
+      }
+
+      .form_divider {
+        margin-bottom: 25px;
+        p {
+          margin: 0;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 17px;
+          line-height: 21px;
+          /* identical to box height */
+  
+          letter-spacing: -0.6px;
+  
+          /* Dark Purple */
+  
+          color: #261A45;
+        }
+  
+        input {
+          background: #FFFFFF;
+          /* Border Gray */
+          margin-top: 15px;
+          border: 1px solid #DEDEE1;
+          border-radius: 10px;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 22px;
+          /* identical to box height */
+          padding: 15px;
+          width: 420px;
+          letter-spacing: -0.5px;
+  
+          color: #9F9FB6;
+  
+        }
+
+        select {
+          background: #FFFFFF;
+          /* Border Gray */
+          margin-top: 15px;
+          border: 1px solid #DEDEE1;
+          border-radius: 10px;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 22px;
+          /* identical to box height */
+          padding: 15px;
+          width: 420px;
+          letter-spacing: -0.5px;
+  
+          color: #9F9FB6;
+        }
+      }
+
+      &_switch {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 25px;
+
+        h3 {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 600;
+          margin: 0;
+          font-size: 20px;
+          line-height: 24px;
+          letter-spacing: -0.5px;
+
+          /* Dark Purple */
+
+          color: #261A45;
+        }
+      }
+
+      button {
+        background: #FFFFFF;
+        /* Border Gray */
+        
+        border: 1px solid #DEDEE1;
+        border-radius: 10px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 18px;
+        letter-spacing: -0.2px;
+        cursor: pointer;
+        /* Dark Purple */ 
+        padding: 15px 0;
+        width: 420px;
+
+        color: #261A45;
+
+      }
+    }
+
+    &_biography {
+      padding-left: 66px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+      &_title {
+        h2 {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 27px;
+          line-height: 33px;
+          /* identical to box height */
+          margin: 0;
+          letter-spacing: -1px;
+          /* Dark Purple */
+  
+          color: #261A45;
+        }
+      }
+
+      .bio_guild_card {
+        background: #FFFFFF;
+        /* Border Gray */
+        margin-top: 25px;
+        width: 570px;
+        border: 1px solid #DEDEE1;
+        border-radius: 10px;
+        padding: 15px 72px 30px 30px;
+        margin-bottom: 25px;
+        img {
+          width: 33px;
+          height: 33px;
+          object-fit: contain;
+        }
+
+        h3 {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 20px;
+          line-height: 24px;
+          letter-spacing: -0.6px;
+
+          /* Dark Purple */
+          margin-top: 20px;
+          color: #261A45;
+        }
+
+        p {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 26px;
+          /* or 144% */
+          
+          letter-spacing: -0.7px;
+
+          /* Light Gray */
+
+          color: #646481;
+        }
+      }
+
+      .form_divider {
+        margin-bottom: 25px;
+        .label {
+          margin: 0;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 17px;
+          line-height: 21px;
+          /* identical to box height */
+  
+          letter-spacing: -0.6px;
+  
+          /* Dark Purple */
+  
+          color: #261A45;
+        }
+
+        .text {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 23px;
+          margin-top: 10px;
+          /* or 144% */
+          width: 570px;
+          letter-spacing: -0.6px;
+          margin-bottom: 0;
+          /* Light Gray */
+
+          color: #646481;
+        }
+  
+        textarea {
+          background: #FFFFFF;
+          /* Border Gray */
+          margin-top: 15px;
+          border: 1px solid #DEDEE1;
+          border-radius: 10px;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 22px;
+          /* identical to box height */
+          padding: 15px;
+          width: 570px;
+          height: 300px;
+          letter-spacing: -0.5px;
+  
+          color: #9F9FB6;
+  
+        }
+
+        .rule {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 15px;
+          line-height: 18px;
+          letter-spacing: -0.7px;
+          margin-top: 15px;
+          /* Light Gray */
+
+          color: #646481;
+        }
+      }
+
+      button {
+        background: #FFFFFF;
+        /* Border Gray */
+        
+        border: 1px solid #DEDEE1;
+        border-radius: 10px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 18px;
+        letter-spacing: -0.2px;
+        cursor: pointer;
+        /* Dark Purple */ 
+        padding: 15px 0;
+        width: 570px;
+
+        color: #261A45;
+
+      }
+    }
+
+    &_edu {
+      padding-left: 66px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+      &_title {
+        h2 {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 27px;
+          line-height: 33px;
+          /* identical to box height */
+          margin: 0;
+          letter-spacing: -1px;
+          /* Dark Purple */
+  
+          color: #261A45;
+        }
+      }
+
+      .edu_guild_card {
+        background: #FFFFFF;
+        /* Border Gray */
+        margin-top: 25px;
+        width: 440px;
+        border: 1px solid #DEDEE1;
+        border-radius: 10px;
+        padding: 15px 30px 30px 30px;
+        margin-bottom: 25px;
+        img {
+          width: 33px;
+          height: 33px;
+          object-fit: contain;
+        }
+
+        h3 {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 20px;
+          line-height: 24px;
+          letter-spacing: -0.6px;
+
+          /* Dark Purple */
+          margin-top: 20px;
+          color: #261A45;
+        }
+
+        p {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 26px;
+          /* or 144% */
+          
+          letter-spacing: -0.7px;
+
+          /* Light Gray */
+
+          color: #646481;
+        }
+      }
+
+      .form_divider {
+        margin-bottom: 25px;
+        p {
+          margin: 0;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 600;
+          
+          font-size: 17px;
+          line-height: 21px;
+          /* identical to box height */
+          width: 360px;
+          letter-spacing: -0.6px;
+  
+          /* Dark Purple */
+  
+          color: #261A45;
+        }
+  
+        input {
+          background: #FFFFFF;
+          /* Border Gray */
+          margin-top: 15px;
+          border: 1px solid #DEDEE1;
+          border-radius: 10px;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 22px;
+          /* identical to box height */
+          padding: 15px;
+          width: 420px;
+          letter-spacing: -0.5px;
+  
+          color: #9F9FB6;
+  
+        }
+
+        select {
+          background: #FFFFFF;
+          /* Border Gray */
+          margin-top: 15px;
+          border: 1px solid #DEDEE1;
+          border-radius: 10px;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 22px;
+          /* identical to box height */
+          padding: 15px;
+          width: 420px;
+          letter-spacing: -0.5px;
+  
+          color: #9F9FB6;
+        }
+      }
+
+      .form_divider_edu {
+        margin-bottom: 25px;
+        p {
+          margin: 0;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 600;
+          
+          font-size: 17px;
+          line-height: 21px;
+          /* identical to box height */
+          width: 360px;
+          letter-spacing: -0.6px;
+  
+          /* Dark Purple */
+  
+          color: #261A45;
+        }
+  
+        input {
+          background: #FFFFFF;
+          /* Border Gray */
+          margin-top: 15px;
+          border: 1px solid #DEDEE1;
+          border-radius: 10px;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 22px;
+          /* identical to box height */
+          padding: 15px;
+          width: 420px;
+          letter-spacing: -0.5px;
+  
+          color: #9F9FB6;
+  
+        }
+
+        select {
+          background: #FFFFFF;
+          /* Border Gray */
+          margin-top: 0px;
+          border: 1px solid #DEDEE1;
+          border-radius: 10px;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 22px;
+          /* identical to box height */
+          padding: 15px;
+          width: 420px;
+          letter-spacing: -0.5px;
+  
+          color: #9F9FB6;
+        }
+      }
+
+      .edu_verify_card {
+        background: #FFFFFF;
+        /* Border Gray */
+
+        border: 1px solid #DEDEE1;
+        border-radius: 10px;
+        width: 420px;
+        height: 388px;
+        padding: 15px 30px 20px 30px;
+
+        img {
+          width: 52px;
+          height: 40px;
+          object-fit: contain;
+        }
+
+        h3 {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 20px;
+          line-height: 24px;
+          letter-spacing: -0.6px;
+          margin-top: 20px;
+          /* Purple */
+          margin-bottom: 15px;
+          color: #6133AF;
+
+        }
+
+        p {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 18px;
+          line-height: 26px;
+          /* or 144% */
+
+          letter-spacing: -0.7px;
+
+          /* Dark Purple */
+
+          color: #261A45;
+        }
+
+        button {
+          background: #FFFFFF;
+          /* Border Gray */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 15px 0;
+          width: 100%;
+          border: 1px solid #DEDEE1;
+          border-radius: 10px;  
+          gap: 10px;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 15px;
+          line-height: 18px;
+          letter-spacing: -0.2px;
+          margin-bottom: 20px;
+          /* Dark Purple */
+
+          color: #261A45;
+          cursor: pointer;
+          img {
+            width: 14px;
+            height: 14px;
+
+            object-fit: contain;
+          }
+        }
+
+        div {
+          text-align: center;
+          span {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 13px;
+            line-height: 26px;
+            /* identical to box height, or 200% */
+  
+            text-align: center;
+            letter-spacing: -0.3px;
+  
+            /* Light Gray */
+  
+            color: #646481;
+          }
+        }
+      }
+
+      button {
+        background: #FFFFFF;
+        /* Border Gray */
+        
+        border: 1px solid #DEDEE1;
+        border-radius: 10px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 18px;
+        letter-spacing: -0.2px;
+        cursor: pointer;
+        /* Dark Purple */ 
+        padding: 15px 0;
+        width: 420px;
+        margin-top: 25px;
+        color: #261A45;
+
+      }
+    }
+
+    &_intro {
+      padding-left: 66px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+
+      &_title {
+        h2 {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 27px;
+          line-height: 33px;
+          /* identical to box height */
+          margin: 0;
+          letter-spacing: -1px;
+          /* Dark Purple */
+  
+          color: #261A45;
+        }
+
+        h3 {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 600;
+          font-size: 20px;
+          line-height: 24px;
+          margin-top: 25px;
+          letter-spacing: -0.6px;
+
+          /* Dark Purple */
+
+          color: #261A45;
+        }
+      }
+
+      &_row {
+        gap: 40px;
+        display: flex;
+
+        .intro_left {
+          iframe {
+            width: 420px;
+            height: 342px;
+          }
+        }
+
+        .intro_right {
+          &_card {
+            background: #FFFFFF;
+            border: 1px solid #DEDEE1;
+            border-radius: 10px;
+            padding: 15px 47px 20px 30px;
+            width: 420px;
+            height: 342px;
+            img {
+              width: 28px;
+              height: 30px;
+              object-fit: contain;
+            }
+
+            h3 {
+              margin-top: 20px;
+              font-family: 'Inter';
+              font-style: normal;
+              font-weight: 600;
+              font-size: 20px;
+              line-height: 24px;
+              letter-spacing: -0.6px;
+
+              /* Purple */
+
+              color: #6133AF;
+            }
+
+            p {
+              font-family: 'Inter';
+              font-style: normal;
+              font-weight: 500;
+              font-size: 18px;
+              line-height: 26px;
+              /* or 144% */
+
+              letter-spacing: -0.7px;
+
+              /* Dark Purple */
+
+              color: #261A45;
+            }
+
+            button {
+              background: #FFFFFF;
+              /* Border Gray */
+              padding: 15px 0;
+              border: 1px solid #DEDEE1;
+              border-radius: 10px;
+              width: 100%;
+            
+
+              a {
+                font-family: 'Inter';
+                font-style: normal;
+                cursor: pointer;
+                font-weight: 600;
+                font-size: 15px;
+                line-height: 18px;
+                letter-spacing: -0.2px;
+  
+                /* Dark Purple */ 
+                text-decoration: none;
+  
+                color: #261A45;
+              }
+
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+}
+
+

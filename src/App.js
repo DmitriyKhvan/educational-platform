@@ -67,6 +67,8 @@ import './App.scss'
 import IsReferal from './pages/isReferal';
 import Messanger from './pages/Messanger/Messanger';
 import EditTopics from './pages/Profile/editTopics/EditTopics';
+import EditTutorProfile from './pages/Profile/Tutors/EditTutorProfile';
+import SubmitVideo from './pages/Profile/Tutors/SubmitVideo';
 
 const store = configureStore({})
 
@@ -230,11 +232,13 @@ function App() {
             component={NewTutorProfile}
           />
           <PrivateRoute path='/tutor/profile' component={TutorProfile} />
+          <PrivateRoute path='/tutor/edit-profile' component={EditTutorProfile} />
+          <PrivateRoute path="/tutor/edit-profiles/submit-video" component={SubmitVideo}/>
           <PrivateRoute path='/messages' component={Messanger} />
          
         </div>
       </Router>
-    </Provider>
+    </Provider> 
   )
 }
 
