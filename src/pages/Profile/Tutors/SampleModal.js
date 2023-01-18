@@ -1,7 +1,7 @@
 
 import React from 'react'
 
-import "./Sample.scss"
+import cls from "./Sample.module.scss"
 
 import PlaceImg from "../../../assets/Placeholder.png"
 import Modal from 'react-modal'
@@ -45,22 +45,22 @@ const SampleModal = ({isOpen, closeModal}) => {
       isOpen={isOpen}
       onRequestClose={closeModal}
       overlayClassName='edit-profile-modal-overlay'
-      className={`sample-modal`}
+      className={cls.sample_modal}
       bodyOpenClassName={'edit-modal-open'}
     >
-      <div className='sample_card'>
-        <div className='sample_card_row'>
-          <div className='sample_card_row_left'>
-            <section className='sample_card_row_left_title'>
+      <div className={cls.sample_card}>
+        <div className={cls.sample_card_row}>
+          <div className={cls.sample_card_row_left}>
+            <section className={cls.sample_card_row_left_title}>
               <h2>Tips for an amazing photo</h2>
             </section>
-            <section className='sample_types_row'>
+            <section className={cls.sample_types_row}>
               <div>
                 {Array.from({length:6}).map(item => <img src={PlaceImg} alt=""/>)}
               </div>
             </section>
           </div>
-          <div className='sample_card_row_right'>
+          <div className={cls.sample_card_row_right}>
             <span onClick={closeModal}>&times;</span>
             <ul>
               {

@@ -1,0 +1,90 @@
+
+
+.avatar-modal {
+  z-index: 10000;
+  background: white;
+  outline: 2px solid #DEDEE1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.06);
+
+  .avatarModal_card {
+    width: 500px;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.06);
+    border-radius: 10px;
+    padding: 30px 0 20px 0;
+    height: auto;
+
+    .avatar_preview {
+      width: 100%;
+      object-fit: cover;
+      padding: 0 30px;
+    }
+
+    &_editor {
+      border-bottom: 1px solid #DEDEE1;
+      padding: 0 30px;
+      padding-bottom: 10px;
+      button  {
+        background: #FFFFFF;
+        /* Border Gray */
+        width: 100%;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 18px;
+        letter-spacing: -0.2px; 
+        justify-content: center;
+        /* Dark Purple */   
+        cursor: pointer;
+        color: #261A45; 
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 10px 0;
+        padding: 15px 0;
+        border: 1px solid #DEDEE1;
+        border-radius: 10px;
+
+      }
+    }
+
+    &_footer {
+      padding: 0 30px;
+      display: flex;
+      margin-top: 16px;
+      gap: 10px;
+      button {
+        background: #FFFFFF;
+        /* Border Gray */ 
+        width: 216px;
+        padding: 15px 0;
+        cursor: pointer;
+        border: 1px solid #DEDEE1;
+        border-radius: 10px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 24px;
+        letter-spacing: -0.6px;
+
+        /* Dark Purple */
+
+        color: #261A45;
+
+        &:hover {
+          /* Purple */
+          color: white;
+          background: #6133AF;
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+}

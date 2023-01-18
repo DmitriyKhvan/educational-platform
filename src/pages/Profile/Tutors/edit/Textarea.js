@@ -1,24 +1,24 @@
 import React from "react";
 
-
+import cls from "../EditTutorProfile.module.scss"
 
 export const Textarea = React.forwardRef(({
-  placeholder="",
+  value="",
   label="",
   text="",
   ...rest
 }, ref) => {
   return (
-   <div className="form_divider">
-     <p className="label">{label}</p>
-     <p className="text">{text}</p>
+   <div className={cls.form_divider}>
+     <p className={cls.label}>{label}</p>
+     <p className={cls.text}>{text}</p>
      <textarea 
-        placeholder={placeholder}
+        value={value}
         ref={ref}
         {...rest}
       >
     </textarea>
-    <p className="rule">400 characters minimum. 0 characters currrently.</p>
+    <p className={cls.rule}>400 characters minimum. 0 characters currrently.</p>
    </div>
   )
 })

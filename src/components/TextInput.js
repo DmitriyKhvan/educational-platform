@@ -2,7 +2,7 @@ import React from 'react'
 
 export const TextInput = React.forwardRef(({
   type="",
-  placeholder="",
+  value="",
   label="",
   ...rest
 }, ref) => {
@@ -12,7 +12,7 @@ export const TextInput = React.forwardRef(({
         {label}
         <input 
           type={type}
-          placeholder={placeholder}
+          value={value}
           ref={ref}
           {...rest}
         />

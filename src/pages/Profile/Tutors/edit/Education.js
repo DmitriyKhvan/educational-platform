@@ -7,7 +7,7 @@ import Verify from "../../../../assets/Verif.png"
 import ExportArrow from "../../../../assets/ExportArrow.png"
 import Submit from './Submit'
 
-const Education = () => {
+const Education = ({cls}) => {
 
   const {
     register
@@ -17,11 +17,11 @@ const Education = () => {
 
   return (
     <div>
-      <div className='editProfile_container_forms_edu_title'>
+      <div className={cls.editProfile_container_forms_edu_title}>
         <h2>Education</h2>
       </div>
 
-      <div className='edu_guild_card'>
+      <div className={cls.edu_guild_card}>
         <img src={Stick} alt=""/>
         <h3>
           Guidelines on being honest.
@@ -31,7 +31,7 @@ const Education = () => {
         </p>
       </div>
 
-      <div className='form_divider'>
+      <div className={cls.form_divider}>
         <p>School</p>
 
         <select {...register("school")}>
@@ -39,7 +39,7 @@ const Education = () => {
         </select>
       </div>
 
-      <div className='form_divider'>
+      <div className={cls.form_divider}>
         <p>Graduating year</p>
 
         <select {...register("graduating_year")}>
@@ -47,7 +47,7 @@ const Education = () => {
         </select>
       </div>
 
-      <div className='form_divider'>
+      <div className={cls.form_divider}>
         <p>Degree</p>
 
         <select {...register("degree")}>
@@ -55,7 +55,7 @@ const Education = () => {
         </select>
       </div>
 
-      <div className='form_divider'>
+      <div className={cls.form_divider}>
         <p>Major</p>
 
         <select {...register("major")}>
@@ -63,7 +63,7 @@ const Education = () => {
         </select>
       </div>
 
-      <div className='form_divider'>
+      <div className={cls.form_divider}>
         <p>Certificates (optional)</p>
 
         <select {...register("certificate")}>
@@ -73,18 +73,18 @@ const Education = () => {
 
       <TextInput 
         type="text"
-        placeholder="Training Name"
+        value="Training Name"
         label="Other Degrees, Certificates, Certifications, and/or Experience (optional)"
         {...register("phone_number")}
       />
 
-      <div className='form_divider_edu'>
+      <div className={cls.form_divider_edu}>
         <select {...register("certificate")}>
           <option value={"usa"}>Add More</option>
         </select>
       </div>
 
-      <div className='edu_verify_card'>
+      <div className={cls.edu_verify_card}>
         <img src={Verify} alt=''/>
 
         <h3>Education Verification</h3>

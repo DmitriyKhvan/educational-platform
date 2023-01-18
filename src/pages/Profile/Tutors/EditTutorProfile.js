@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Layout from '../../../components/Layout'
-import "./EditTutorProfile.scss"
+import cls from  "./EditTutorProfile.module.scss"
 import DelIcon from "../../../assets/del.png"
 import Stick from "../../../assets/stick.png"
 import SampleModal from './SampleModal'
@@ -11,10 +11,12 @@ import BasicForm from './edit/BasicForm'
 import Biography from './edit/Biography'
 import Education from './edit/Education'
 import Intro from './edit/Intro'
+import EditAvatarModal from './EditAvatarModal'
 
 const EditTutorProfile = () => {
   const [statusInfo , setStatusInfo] = React.useState("basic");
-  const [showSample, setShowSample] = React.useState(false)
+  const [showSample, setShowSample] = React.useState(false);
+  const [showEditAvatar, setShowEditAvatar] = React.useState(false);
 
   const hooks = [
     {
@@ -44,29 +46,31 @@ const EditTutorProfile = () => {
 
   const label = { inputProps: { 'aria-label': 'Switch demo' } }
 
-  const closeModal = () => setShowSample(false)
+  const closeSampleModal = () => setShowSample(false);
+
+  const closeEditAvatarModal = () => setShowEditAvatar(false);
 
   return (
     <Layout>
-      <div className='editProfile_container'>
-        <div className='editProfile_container_row'>
-          <section className='editProfile_left'>
-            <div className='editProfile_left_title'>
+      <div className={cls.editProfile_container}>
+        <div className={cls.editProfile_container_row}>
+          <section className={cls.editProfile_left}>
+            <div className={cls.editProfile_left_title}>
               <h2>Edit profile</h2>
             </div> 
 
-            <div className='editProfile_left_photo'>
-              <div className='editProfile_left_photo_title'>
+            <div className={cls.editProfile_left_photo}>
+              <div className={cls.editProfile_left_photo_title}>
                 <h2>Change Profile Photo</h2>
               </div>
             </div>
 
-            <div className='editProfile_left_avatar'>
-              <div className='avatar_left'>
+            <div className={cls.editProfile_left_avatar}>
+              <div className={cls.avatar_left}>
                 <img src='https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg' alt=''/>
               </div>
-              <div className='avatar_right'>
-                <button>Upload New Photo</button>
+              <div className={cls.avatar_right}>
+                <button onClick={() => setShowEditAvatar(true)}>Upload New Photo</button>
                 <button>
                   <img src={DelIcon} alt=''/>
                   Delete Photo
@@ -74,17 +78,17 @@ const EditTutorProfile = () => {
               </div>
             </div>
 
-            <div className='editProfile_left_content'>
+            <div className={cls.editProfile_left_content}>
               <p>Recommendations on the photo file format and max size.</p>
             </div>
           </section>
-          <section className='editProfile_right'>
-            <div className='editProfile_right_hooks'>
+          <section className={cls.editProfile_right}>
+            <div className={cls.editProfile_right_hooks}>
               {hooks.map(item => (
                 <a 
                   key={item.caption}
                   onClick={() => setStatusInfo(item.route)} 
-                  className={statusInfo === item.route ? "active_hook" : ""} 
+                  className={statusInfo === item.route ? cls.active_hook : ""} 
                   href={`#${item.route}`}
                 >
                   {item.caption}
@@ -92,8 +96,8 @@ const EditTutorProfile = () => {
               ))}
             </div>
 
-            <div className='editProfile_right_guild'>
-              <div className='guild_card'>
+            <div className={cls.editProfile_right_guild}>
+              <div className={cls.guild_card}>
                 <img src={Stick} alt=""/>
 
                 <h2>Guidelines on taking a proper photo.</h2>
@@ -105,24 +109,25 @@ const EditTutorProfile = () => {
           </section>
         </div>
 
-        <div className='editProfile_container_forms'>
+        <div className={cls.editProfile_container_forms}>
           
-          <form className='editProfile_container_forms_basic' id='basic'>    
-            <BasicForm />
+          <form className={cls.editProfile_container_forms_basic} id='basic'>    
+            <BasicForm cls={cls}/>
           </form>
 
-          <form className='editProfile_container_forms_biography' id='bio'>
-            <Biography />
+          <form className={cls.editProfile_container_forms_biography} id='bio'>
+            <Biography cls={cls}/>
           </form>
 
-          <form className='editProfile_container_forms_edu' id='edu'>
-            <Education />
+          <form className={cls.editProfile_container_forms_edu} id='edu'>
+            <Education cls={cls}/>
           </form>
             
-          <Intro id="intro"/>
+          <Intro id="intro" cls={cls}/>
         </div>  
 
-        {<SampleModal isOpen={showSample} closeModal={closeModal}/>}
+        {<SampleModal isOpen={showSample} closeModal={closeSampleModal}/>}
+        {<EditAvatarModal closeModal={closeEditAvatarModal} isOpen={showEditAvatar} />}
       </div>
     </Layout>
   )

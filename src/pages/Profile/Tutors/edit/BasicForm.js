@@ -8,7 +8,7 @@ import { TextInput } from './TextInput'
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } }
 
-const BasicForm = () => {
+const BasicForm = ({cls}) => {
 
   const {
     register
@@ -18,44 +18,45 @@ const BasicForm = () => {
 
   return (
     <div>
-      <div className='editProfile_container_forms_basic_title'>
+      <div className={cls.editProfile_container_forms_basic_title}>
         <h2>Basic Information</h2>
       </div>
       
       <TextInput 
         type="text"
-        placeholder="Jessica"
+        value="Jessica"
+        cls={cls}
         label="First name"
         {...register("first_name")}
       />
 
       <TextInput 
         type="text"
-        placeholder="Brighton"
+        value="Brighton"
         label="Last name"
         {...register("last_name")}
       />
 
       <TextInput 
         type="email"
-        placeholder="jessica.brighton@gmail.com"
+        value="jessica.brighton@gmail.com"
         label="Email address"
         {...register("email")}
       />
 
       <TextInput 
         type="number"
-        placeholder="+1 (424) 123-4567"
+        value="+1 (424) 123-4567"
         label="Phone number"
         {...register("phone_number")}
       />
 
-      <div className='editProfile_container_forms_basic_switch'>
+      <div className={cls.editProfile_container_forms_basic_switch}>
         <Switch {...label} defaultChecked />
         <h3>Receive SMS notifications</h3>
       </div>
 
-      <div className='form_divider'>
+      <div className={cls.form_divider}>
         <p>Location</p>
 
         <select {...register("location")}>
@@ -65,12 +66,12 @@ const BasicForm = () => {
 
       <TextInput 
         type="text"
-        placeholder="123 Market St"
+        value="123 Market St"
         label="Address"
         {...register("phone_number")}
       />
 
-      <div className='form_divider'>
+      <div className={cls.form_divider}>
         <p>Time zone</p>
 
         <select {...register("time_zone")}>

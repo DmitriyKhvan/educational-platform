@@ -1,22 +1,22 @@
 import React from "react";
 
-
+import cls from "../EditTutorProfile.module.scss";
 
 export const TextInput = React.forwardRef(({
   type="",
-  placeholder="",
+  value="",
   label="",
   ...rest
 }, ref) => {
   return (
-   <div className="form_divider">
+   <div className={cls.form_divider}>
      <p>{label}</p>
      <input 
-      type={type}
-      placeholder={placeholder}
-      ref={ref}
-      {...rest}
-    />
+        type={type}
+        value={value}
+        ref={ref}
+        {...rest}
+     />
    </div>
   )
 })

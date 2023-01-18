@@ -68,7 +68,8 @@ import IsReferal from './pages/isReferal';
 import Messanger from './pages/Messanger/Messanger';
 import EditTopics from './pages/Profile/editTopics/EditTopics';
 import EditTutorProfile from './pages/Profile/Tutors/EditTutorProfile';
-import SubmitVideo from './pages/Profile/Tutors/SubmitVideo';
+import SubmitVideo from './pages/Profile/Tutors/SubmitVideo/SubmitVideo';
+import Submited from './pages/Profile/Tutors/SubmitVideo/Submited';
 
 const store = configureStore({})
 
@@ -234,6 +235,7 @@ function App() {
           <PrivateRoute path='/tutor/profile' component={TutorProfile} />
           <PrivateRoute path='/tutor/edit-profile' component={EditTutorProfile} />
           <PrivateRoute path="/tutor/edit-profiles/submit-video" component={SubmitVideo}/>
+          <PrivateRoute path="/tutor/edit-profiles/submit-videos/submited" component={Submited}/>
           <PrivateRoute path='/messages' component={Messanger} />
          
         </div>

@@ -61,7 +61,7 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
           <TextInput 
             label="Username"
             type={"text"}
-            placeholder={userInfo.userName}
+            value={userInfo.userName}
             {...register("username")}
           />
         </div>
@@ -69,7 +69,7 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
           <TextInput 
             label="Korean Equivalent"
             type={"text"}
-            placeholder={userInfo.equivalent}
+            value={userInfo.equivalent}
             {...register("korean_equivalent")}
           />
         </div>
@@ -97,7 +97,7 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
           <TextInput 
             label="Birthday"
             type={"text"}
-            placeholder="14/04/2002"
+            value="14/04/2002"
             {...register("birthday")}
           />
         </div>
@@ -105,7 +105,7 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
           <TextInput 
             label="Parent Name"
             type={"text"}
-            placeholder="Jessica Kim"
+            value="Jessica Kim"
             {...register("parent_name")}
           />
         </div>
@@ -113,7 +113,7 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
           <TextInput 
             label="Phone Number"
             type={"text"}
-            placeholder="+1 (555) 555-5555"
+            value="+1 (555) 555-5555"
             {...register("phone_number")}
           />
         </div>
@@ -121,7 +121,7 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
           <TextInput 
             label="Address"
             type={"text"}
-            placeholder="123 Street, City, State"
+            value="123 Street, City, State"
             {...register("address")}
           />
         </div>
@@ -149,7 +149,7 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
           <TextInput 
             label="Password"
             type={"password"}
-            placeholder="123 Street, City, State"
+            value="123 Street, City, State"
             {...register("password")}
           />
         </div>
