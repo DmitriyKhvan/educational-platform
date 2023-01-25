@@ -8,6 +8,7 @@ import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png'
 import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png'
 
 import cls from  "./TutorProfile.module.scss"
+import { useAuth } from '../../../modules/auth'
 
 const Profile = () => {
   const [t] = useTranslation()
@@ -35,14 +36,26 @@ const Profile = () => {
     }
   }, [user, dispatch])
 
+  const actions = useAuth();
+
+  console.log(actions)
+
   return (
     <Layout>
       <header className={cls.profile_header}>
         <div className={cls.profile_header_row}>
-          <img className={cls.profile_image} src={profileImage} alt='Profile Avatar' />
+          {
+          !actions?.user?.avatar 
+          ?   <img 
+                className={cls.profile_image} 
+                src='https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg' 
+                alt=''
+              /> 
+          : <img className='avatar_preview' src={actions?.user.avatar} alt=''/>
+        }
 
           <div className={cls.tutor_name}>
-              <h1>{user.full_name}</h1>
+              <h1>{actions?.user.fullName}</h1>
               <h2 className={cls.text_primary}>
                 {tutor?.degree ? tutor.degree : "B.A. English, Stanford University"}
               </h2>
@@ -66,21 +79,31 @@ const Profile = () => {
             <section>
               <div className=''>
                 <h1>Location</h1>
-                <h2>🇺🇸 San Diego, CA</h2>
+                <h2>
+                  {
+                    actions.user?.country 
+                      ? actions.user?.country
+                      : "🇺🇸 San Diego, CA"
+                  }
+                </h2>
               </div>
               <div className=''>
                 <h1>Time zone</h1>
-                <h2>PST (GMT-8)</h2>
+                <h2>{
+                  actions.user?.timeZone
+                    ? actions.user?.timeZone
+                    : "PST (GMT-8)" 
+                }</h2>
               </div>
               <div className=''>
                 <h1>Email Address</h1>
-                <h2>jessica.brighton@gmail.com</h2>
+                <h2>{actions.user?.email}</h2>
               </div>
             </section>
             <section>
               <div className=''>
                 <h1>Phone Number</h1>
-                <h2>(555) 555-5555</h2>
+                <h2>{actions.user?.phoneNumber}</h2>
               </div>
               
               <div className=''>

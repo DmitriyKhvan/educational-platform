@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@18f/us-federal-holidays": "^2.1.1",
+    "@apollo/client": "^3.7.4",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@emotion/utils": "^1.2.0",
@@ -25,6 +26,7 @@
     "country-list": "^2.2.0",
     "date-fns": "^2.29.3",
     "date-fns-tz": "^1.1.6",
+    "graphql": "^16.6.0",
     "i18next": "^20.3.1",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.34",

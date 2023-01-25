@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import { logout } from '../actions/auth'
-import { getUserInfo } from '../actions/user'
 import Logo from '../assets/images/auth-logo.svg'
 import SettingImg from '../assets/images/setting_icon.svg'
 import FlagUsa from '../assets/images/flag-usa.svg'
@@ -22,24 +20,22 @@ import {
   getItemToLocalStorage,
   setItemToLocalStorage
 } from '../constants/global'
+import { useAuth } from '../modules/auth'
 
 const Navbar = () => {
   const history = useHistory()
   const dispatch = useDispatch()
   const isShowSidebar = useSelector(state => state.settings.isShowSidebar)
-  const user = useSelector(state => state.users.user)
+  const { user, logout } = useAuth()
   const notifications = useSelector(state => state.notification.list)
   const user_role = user.roles && user.roles[0]?.role_name
   const [language, setLanguage] = useState(
     parseInt(getItemToLocalStorage('language', 1))
   )
   const [t, i18n] = useTranslation('translation')
-  useEffect(() => {
-    dispatch(getUserInfo(user?.id))
-  }, [dispatch])
 
   const handleLogout = () => {
-    dispatch(logout())
+    logout()
   }
 
   const showSidebar = () => {

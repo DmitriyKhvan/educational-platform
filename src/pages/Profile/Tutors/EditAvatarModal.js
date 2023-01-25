@@ -7,8 +7,28 @@ import Rotate from "../../../assets/rotate.png"
 import Crop from "../../../assets/crop.png"
 
 import "./EditAvatar.scss"
+import { useForm } from 'react-hook-form'
+import { useAuth } from '../../../modules/auth'
 
 const EditAvatarModal = ({isOpen, closeModal}) => {
+  const { updateUser, user } = useAuth()
+
+
+  const {register, handleSubmit} = useForm()
+
+  const handleAvatar = async (area) => {
+    const file = area.avatar[0];
+    const formData = new FormData();
+
+    formData.append("avatar", file)
+
+    const { data } = await updateUser(formData);
+
+    console.log(data)
+  }   
+
+  console.log(user)
+
   return (
     <Modal
       isOpen={isOpen}
@@ -17,14 +37,23 @@ const EditAvatarModal = ({isOpen, closeModal}) => {
       className={`avatar-modal`}
       bodyOpenClassName={'edit-modal-open'}
     >
-      <div className='avatarModal_card'>
-        <img className='avatar_preview' src='https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg' alt=''/>
+      <form onSubmit={handleSubmit(handleAvatar)} className='avatarModal_card'>
+        {
+          !user?.avatar 
+          ?   <img 
+                className='avatar_preview' 
+                src='https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg' 
+                alt=''
+              /> 
+          : <img className='avatar_preview' src={user.avatar} alt=''/>
+        }
 
-        <div className='avatarModal_card_editor'>
-          <button>
+        <div  className='avatarModal_card_editor'>
+          <input type={"file"} {...register("avatar")}/>
+          {/* <button>
             <img src={ExportArrow} alt=""/>
             Upload
-          </button>
+          </button> */}
           <button>
             <img src={Rotate} alt=""/>
             Rotate
@@ -37,9 +66,9 @@ const EditAvatarModal = ({isOpen, closeModal}) => {
 
         <div className='avatarModal_card_footer'>
           <button onClick={closeModal}>Cancel</button>
-          <button onClick={closeModal}>Save</button>
+          <button  type="submit">Save</button>
         </div>
-      </div>
+      </form>
     </Modal>
   )
 }

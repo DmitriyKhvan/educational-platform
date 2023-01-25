@@ -5,16 +5,15 @@ import './assets/styles/global.scss';
 import React from 'react';
 
 import { ReactNotifications } from 'react-notifications-component';
-import {
-  Provider,
-  useSelector,
-} from 'react-redux';
+import { Provider } from 'react-redux';
 import {
   BrowserRouter as Router,
   Redirect,
   Route,
   useHistory,
 } from 'react-router-dom';
+
+import { useAuth } from './modules/auth';
 
 import Main from './pages/Admin/Main';
 import StudentList from './pages/Admin/StudentList';
@@ -76,13 +75,13 @@ const store = configureStore({})
 require('react-big-calendar/lib/css/react-big-calendar.css')
 
 function PrivateRoute({ component: Component, ...rest }) {
-  const authed = useSelector(state => state.auth.authenticated)
+  const { isAuthorized } = useAuth();
   const history = useHistory()
   return (
     <Route
       {...rest}
       render={props =>
-        authed ? (
+        isAuthorized ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -98,19 +97,27 @@ function PrivateRoute({ component: Component, ...rest }) {
 }
 
 function PublicRoute({ component: Component, ...rest }) {
-  const authed = useSelector(state => state.auth.authenticated)
+  const { isAuthorized, user } = useAuth();
 
   return (
     <Route
       {...rest}
       render={props =>
-        authed ? <Redirect to={`/dashboard`} /> : <Component {...props} />
+        isAuthorized ? <Redirect to={`/dashboard`} /> : <Component {...props} />
       }
     />
   )
 }
 
 function App() {
+  const { isAuthInProgress } = useAuth();
+
+  if (isAuthInProgress) {
+    // Waiting for confirmation if user Authenticated or not
+    // TODO: Put loading bar on the whole page.
+    return null;
+  }
+
   return (
     <Provider store={store}>
       <Router>
@@ -236,7 +243,7 @@ function App() {
           <PrivateRoute path='/tutor/edit-profile' component={EditTutorProfile} />
           <PrivateRoute path="/tutor/edit-profiles/submit-video" component={SubmitVideo}/>
           <PrivateRoute path="/tutor/edit-profiles/submit-videos/submited" component={Submited}/>
-          <PrivateRoute path='/messages' component={Messanger} />
+          <PrivateRoute path='/messages' component={Messanger} /> 
          
         </div>
       </Router>

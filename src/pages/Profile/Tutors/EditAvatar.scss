@@ -29,12 +29,13 @@
       border-bottom: 1px solid #DEDEE1;
       padding: 0 30px;
       padding-bottom: 10px;
-      button  {
+      button, input  {
         background: #FFFFFF;
         /* Border Gray */
         width: 100%;
         font-family: 'Inter';
         font-style: normal;
+        text-align: center;
         font-weight: 600;
         font-size: 15px;
         line-height: 18px;
@@ -45,6 +46,7 @@
         color: #261A45; 
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 10px;
         margin: 10px 0;
         padding: 15px 0;

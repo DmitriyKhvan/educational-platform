@@ -1,17 +1,15 @@
 import React, { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import ClipLoader from 'react-spinners/ClipLoader'
 import NotificationManager from '../../components/NotificationManager'
-import { login } from '../../actions/auth'
-import { getUserInfo } from '../../actions/user'
+import { useAuth } from '../../modules/auth'
 import AuthLayout from '../../components/AuthLayout'
 import { useTranslation } from 'react-i18next'
 
 const Login = () => {
-  const history = useHistory()
   const [t] = useTranslation('translation')
-  const dispatch = useDispatch()
+  const { login, isLoading } = useAuth();
 
   const [formData, setFormData] = useState({
     email: '',
@@ -32,7 +30,6 @@ const Login = () => {
     password: ''
   })
 
-  const loading = useSelector(state => state.auth.loading)
   const error = useSelector(state => state.auth.error)
 
   const validateInput = (value, stateName) => {
@@ -79,26 +76,20 @@ const Login = () => {
   }
 
   const handleLogin = async () => {
-    const result = Object.keys(formData).map(key => {
+    const validationResult = Object.keys(formData).map(key => {
       return validateInput(formData[key], key)
     })
 
-    const isInvalid = result.filter(r => !r).length > 0
+    const isInvalid = validationResult.filter(r => !r).length > 0
 
     if (isInvalid) {
       return
     }
-    const from = history.location.state?.from
-    let resp = await dispatch(login(formData.email, formData.password))
+    // const from = history.location.state?.from
+    const { data } = await login(formData.email, formData.password)
 
-    if (resp.type === 'AUTH_LOGIN_SUCCESS') {
-      dispatch(getUserInfo())
-      history.push('/')
-    } else {
-      if (error) {
-        NotificationManager.error(t('login_failed'), t)
-        history.push('/')
-      }
+    if (data?.authResult?.message) {
+      NotificationManager.error(t('login_failed'), t)
     }
   }
 
@@ -160,8 +151,8 @@ const Login = () => {
               className='btn btn-primary btn-lg p-3'
               onClick={handleLogin}
             >
-              {loading ? (
-                <ClipLoader loading={loading} size={20} color='white' />
+              {isLoading ? (
+                <ClipLoader loading={isLoading} size={20} color='white' />
               ) : (
                 t('sign_in')
               )}

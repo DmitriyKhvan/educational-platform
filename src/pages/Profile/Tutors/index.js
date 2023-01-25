@@ -30,10 +30,8 @@ import ImgChecked from '../../../assets/images/checked_sm.svg'
 import ImgCollapse from '../../../assets/images/collapse.svg'
 import ImgExtend from '../../../assets/images/extend.svg'
 import CustomTable from '../../../components/CustomTable'
-import ModalEditTutorPayment from '../../Admin/ModalEditTutorPayment'
 import { getAppointments } from '../../../actions/appointment'
 import { Avatar } from '../../../components/Avatar'
-import { ModalActionLesson } from '../../Admin/ModalActionLesson'
 import ModalEditStudentLesson from '../../Admin/ModalEditStudentLesson'
 import Loader from 'react-spinners/ClipLoader'
 
@@ -283,6 +281,8 @@ const TutorProfile = ({ user, update, isAdmin, setDisabled }) => {
     // }
     dispatch(updateTutorInfo({ ...formData, user_id: user?.id }))
   }
+
+  
 
   return (
     <div className='profile-inner-wrapper'>

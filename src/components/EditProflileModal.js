@@ -3,9 +3,17 @@ import React from 'react'
 import {  useForm } from 'react-hook-form'
 import { ReactComponent as Close } from '../assets/images/Close icon.svg'
 import AvatarImg from '../assets/avatar.png'
-import { TextInput } from './TextInput'
+import { TextInput } from './TextInput';
+import { useAuth } from '../modules/auth'
+import profileAvatar from '../assets/images/Avatar.png';
+
+
+
 
 const EditProflileModal = ({isOpen, setIsOpen}) => {
+  const { updateUser } = useAuth();
+
+  
 
   const {
     reset,
@@ -19,9 +27,8 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
   }
 
   const userInfo = {
-    userName: 'Addison.12',
-    avatar: AvatarImg,
-    name: 'Addison',
+    avatar: profileAvatar,
+    firstName: 'Addison',
     equivalent:"알렉스",
     gender: ['Female', "Male", "Other"],
     pronouns: ["She / Her", "He / His" , "It"],
@@ -31,12 +38,19 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
     address: "123 Street, City, State",
     country: ["Korea", "USA", "Germany"],
     holiday: ["Yes, please schedule lessons on holidays. ", "Noe, please do not schedule lessons on holidays."],
-    password: "123123123"
+    password: "123123123",
+    timeZone: ["UTC +9 (Korean Standard Time)","UTC -10	HST	Hawaii Standard Time"],
+    lastName: "Mishele"
   }
 
-  const onSubmit = data => {
+  const onSubmit = async (area) => {
+    console.log(area)
+
+    const {data} = await updateUser(area)
+
     console.log(data)
-    closeModal()
+
+    // closeModal()
   }
 
   return (
@@ -57,20 +71,20 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
         <img src={userInfo.avatar} alt={userInfo.tutorName} />
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className='body'>
-        <div>
+        {/* <div>
           <TextInput 
-            label="Username"
+            label="Full Name"
             type={"text"}
-            value={userInfo.userName}
-            {...register("username")}
+            value={"Addison.12"}
+            {...register("fullName")}
           />
-        </div>
+        </div> */}
         <div>
           <TextInput 
             label="Korean Equivalent"
             type={"text"}
             value={userInfo.equivalent}
-            {...register("korean_equivalent")}
+            {...register("koreanEquivalent")}
           />
         </div>
         <div>
@@ -85,9 +99,9 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
         </div>
         <div>
           <label>
-            Pronouns (optional)
-            <select {...register("pronouns")}>
-              {userInfo.pronouns.map(item => 
+            Time zone (optional)
+            <select {...register("timeZone")}>
+              {userInfo.timeZone.map(item => 
                 <option key={item} value={item}>{item}</option>
               )}
             </select>
@@ -95,26 +109,26 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
         </div>
         <div>
           <TextInput 
-            label="Birthday"
+            label="Last Name"
             type={"text"}
-            value="14/04/2002"
-            {...register("birthday")}
+            value={userInfo.lastName}
+            {...register("lastName")}
           />
         </div>
         <div>
           <TextInput 
-            label="Parent Name"
+            label="First Name"
             type={"text"}
-            value="Jessica Kim"
-            {...register("parent_name")}
+            value={userInfo.firstName}
+            {...register("firstName")}
           />
         </div>
         <div>
           <TextInput 
             label="Phone Number"
             type={"text"}
-            value="+1 (555) 555-5555"
-            {...register("phone_number")}
+            value="+1(555)555-5555"
+            {...register("phoneNumber")}
           />
         </div>
         <div>
@@ -135,7 +149,7 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
             </select>
           </label>
         </div>
-        <div>
+        {/* <div>
           <label>
             Would you like to schedule lessons on holidays?
             <select {...register("schedule_lesson")}>
@@ -144,16 +158,16 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
               )}
             </select>
           </label>
-        </div>
+        </div> */}
         <div>
           <TextInput 
             label="Password"
             type={"password"}
-            value="123 Street, City, State"
+            value="123123123"
             {...register("password")}
           />
         </div>
-        <button type='submit'>Save Edits</button>
+        <button style={{cursor:"pointer"}} type='submit'>Save Edits</button>
       </form>
     </Modal>
   )

@@ -33,6 +33,7 @@ import { cancel_lesson_reasons_student } from '../../constants/global';
 import './style/GeneralProfile.scss'
 import React from 'react';
 import EditProflileModal from '../../components/EditProflileModal';
+import { useAuth } from '../../modules/auth';
 
 const options = [
   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
@@ -190,45 +191,11 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
     })
 
 
-  const details = [
-    {
-      id:1,
-      caption: "Email",
-      value: "addison@gmail.com",
-    },
-    {
-      id:2,
-      caption: "Korean Name",
-      value: "알렉스",
-    },
-    {
-      id:3,
-      caption: "Gender",
-      value: "Female",
-    },
-    {
-      id:4,
-      caption: "Pronouns",
-      value: "She / Her",
-    },
-    {
-      id:5,
-      caption: "Birthday",
-      value: "December 12, 2003",
-    },
-    {
-      id:6,
-      caption: "Parent Name",
-      value: "Jessica Kim",
-    },
-    {
-      id:7,
-      caption: "Country",
-      value: "Korea",
-    },
-  ] 
-
   const [showEditModal , setIsShowEditModal] = React.useState(false)
+
+  const actions = useAuth();
+
+  console.log(actions)
 
   return (
     <div>
@@ -243,11 +210,20 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
                   <div className='profile_banner-bottom'>
                     <div className='profile_main-info'>
                       <div className='main_info-left'>
-                        <h2>{currentUser?.first_name}</h2>
+                        <h2>
+                          {actions.user?.firstName + " "}
+                          { actions.user?.lastName}
+                        </h2>
                         <p>
                           Level 3
                         </p>
-                        <span>UTC +9 (Korean Standard Time)</span>
+                        <span>
+                          {
+                            actions.user?.timeZone
+                              ? actions.user?.timeZone
+                              : "PST (GMT-8)" 
+                          }
+                        </span>
                       </div>
                       <div className='main_info-right'>
                         <button onClick={() => setIsShowEditModal(true)}>Edit Profile</button>
@@ -333,14 +309,56 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
               <h2>Additional Details</h2>
 
               <div className='details_col'>
-                {
-                  details.map(item => 
-                    <div className='details_list' key={item.id}>
-                      <h4>{item.caption}</h4>
-                      <p>{item.value}</p>
-                    </div>  
-                  )
-                }
+
+                <div className='details_list'>
+                  <h4>Email</h4>
+                  <p>{actions.user?.email}</p>
+                </div> 
+
+                <div className='details_list'>
+                  <h4>Korean Name</h4>
+                  <p>{
+                    actions.user?.koreanEquivalent 
+                      ? actions.user?.koreanEquivalent
+                      : "알렉스"
+                  }</p>
+                </div> 
+
+                <div className='details_list'>
+                  <h4>Gender</h4>
+                  <p>{
+                    actions.user?.gender 
+                      ? actions.user?.gender
+                      : "Male"
+                  }</p>
+                </div> 
+               
+                <div className='details_list'>
+                  <h4>Country</h4>
+                  <p>{
+                    actions.user?.country 
+                      ? actions.user?.country
+                      : "Korea"
+                  }</p>
+                </div> 
+
+                <div className='details_list'>
+                  <h4>Address</h4>
+                  <p>{
+                    actions.user?.address 
+                      ? actions.user?.address
+                      : "123 Street, City, State"
+                  }</p>
+                </div> 
+
+                <div className='details_list'>
+                  <h4>Phone Number</h4>
+                  <p>{
+                    actions.user?.phoneNumber 
+                      ? actions.user?.phoneNumber
+                      : "+996553720025"
+                  }</p>
+                </div> 
               </div>  
             </div>
           </div>

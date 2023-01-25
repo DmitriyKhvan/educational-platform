@@ -7,16 +7,22 @@ import DelIcon from "../../../assets/del.png"
 import Stick from "../../../assets/stick.png"
 import SampleModal from './SampleModal'
 import { useForm } from 'react-hook-form'
-import BasicForm from './edit/BasicForm'
 import Biography from './edit/Biography'
 import Education from './edit/Education'
 import Intro from './edit/Intro'
 import EditAvatarModal from './EditAvatarModal'
+import Submit from './edit/Submit'
+import { TextInput } from './edit/TextInput'
+import { Switch } from 'react-router-dom'
+import { useAuth } from '../../../modules/auth'
 
 const EditTutorProfile = () => {
   const [statusInfo , setStatusInfo] = React.useState("basic");
   const [showSample, setShowSample] = React.useState(false);
   const [showEditAvatar, setShowEditAvatar] = React.useState(false);
+
+  const { updateUser } = useAuth();
+
 
   const hooks = [
     {
@@ -39,7 +45,8 @@ const EditTutorProfile = () => {
 
   const {
     handleSubmit,
-    formState: {errors}
+    formState: {errors},
+    register
   } = useForm({ 
     mode:"onBlur"
   })
@@ -49,6 +56,15 @@ const EditTutorProfile = () => {
   const closeSampleModal = () => setShowSample(false);
 
   const closeEditAvatarModal = () => setShowEditAvatar(false);
+
+
+  const handleEditBasicInfo = async (area) => {
+
+   const {data} = await updateUser(area)
+
+   console.log(data)
+
+  }
 
   return (
     <Layout>
@@ -111,8 +127,77 @@ const EditTutorProfile = () => {
 
         <div className={cls.editProfile_container_forms}>
           
-          <form className={cls.editProfile_container_forms_basic} id='basic'>    
-            <BasicForm cls={cls}/>
+          {/* Basic Info */}
+
+          <form 
+            onSubmit={handleSubmit(handleEditBasicInfo)} 
+            className={cls.editProfile_container_forms_basic} id='basic'
+          >    
+            <div>
+              <div className={cls.editProfile_container_forms_basic_title}>
+                <h2>Basic Information</h2>
+              </div>
+      
+              <TextInput
+                type="text"
+                value="Jessica"
+                cls={cls}
+                label="First name"
+                {...register("firstName")}
+              />
+
+              <TextInput 
+                type="text"
+                value="Brighton"
+                label="Last name"
+                {...register("lastName")}
+              />
+
+              <TextInput 
+                type="email"
+                value="jessica.brighton@gmail.com"
+                label="Email address"
+                {...register("email")}
+              />
+
+              <TextInput 
+                type="text"
+                value="+1(424)1234567"
+                label="Phone number"
+                {...register("phoneNumber")}
+              />
+
+              <div className={cls.editProfile_container_forms_basic_switch}>
+                <Switch {...label} defaultChecked />
+                <h3>Receive SMS notifications</h3>
+              </div>
+
+              <div className={cls.form_divider}>
+                <p>Location</p>
+
+                <select {...register("country")}>
+                  <option value={"United States of America"}>United States of America</option>
+                </select>
+              </div>
+
+              <TextInput 
+                type="text"
+                value="123 Market St"
+                label="Address"
+                {...register("address")}
+              />
+
+              <div className={cls.form_divider}>
+                <p>Time zone</p>
+
+                <select {...register("timeZone")}>
+                  <option value={"usa"}>Pacific Standard Time (GMT-8)</option>
+                </select>
+              </div>
+
+            </div>
+
+            <Submit />
           </form>
 
           <form className={cls.editProfile_container_forms_biography} id='bio'>
