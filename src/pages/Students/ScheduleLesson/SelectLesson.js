@@ -43,7 +43,7 @@ const SelectLesson = ({
     }, [])
 
     return (
-      <div className='col-md-6 col-lg-4 pe-2 main-container schedule-lesson'>
+      <div className='pe-2 main-container schedule-lesson'>
         <div
           className={`schedule-card small-card lesson-container pt-2 ${
             i === clicked
@@ -71,12 +71,9 @@ const SelectLesson = ({
               <div className='time_remaining'>
                 {duration} {t('minutes')}
               </div>
-            </div>
-          </div>
-          <hr className='line' />
-          <div style={{ width: '100%' }}>
-            <div className='remaining-lsn'>
-              {remaining} {t('lessons_remaining')}
+              <div className='remaining-lsn'>
+                {remaining} {t('lessons_remaining')}
+              </div>
             </div>
           </div>
         </div>

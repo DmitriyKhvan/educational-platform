@@ -69,10 +69,6 @@
   max-width: 730px;
 }
 
-.schedule_height {
-  height: 100vh;
-}
-
 .tickNone {
   display: none;
 }
@@ -104,8 +100,8 @@
 }
 
 .schedule_height {
-  height: 100vh;
-  overflow: scroll;
+  height: calc(100vh - 80px);
+  overflow: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -2555,7 +2551,6 @@ span.continue-arrow {
     height: 100%;
     min-height: 100%;
     overflow: auto;
-    padding-bottom: 20px;
   }
 }
 
@@ -2576,7 +2571,6 @@ span.continue-arrow {
     height: 100%;
     min-height: 100%;
     overflow: hidden;
-    padding-bottom: 20px;
   }
 
   .ExpWidth-con {
@@ -2621,7 +2615,6 @@ span.continue-arrow {
     height: 100%;
     min-height: 100%;
     overflow: hidden;
-    padding-bottom: 20px;
   }
 
   .ExpWidth-con {
@@ -2647,7 +2640,6 @@ span.continue-arrow {
     height: 100%;
     min-height: 100%;
     overflow: hidden;
-    padding-bottom: 20px;
   }
 }
 
@@ -2658,8 +2650,6 @@ span.continue-arrow {
 }
 
 .schedule-lesson {
-  width: 100%;
-
   .custom-children-container {
     margin: 0;
     height: 100%;
@@ -2797,7 +2787,7 @@ span.continue-arrow {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
-    font-size: 17.14px;
+    font-size: 13px;
     line-height: 22px;
     text-align: center;
     color: #261a45;
@@ -2807,29 +2797,31 @@ span.continue-arrow {
     margin-bottom: 1rem;
     border: 1px solid #dedee1;
     border-radius: 5px;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 0.75rem;
-    padding-right: 1rem;
-    margin-left: 1.5rem;
+    padding-top: 0.4rem;
+    padding-bottom: 0.54em;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 
   .time_remaining {
+    margin-right: 0.5rem;
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
-    font-size: 17.14px;
+    font-size: 14px;
     line-height: 22px;
     text-align: center;
     color: #6133af;
     align-items: center;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-top: 0.4rem;
+    padding-bottom: 0.54em;
+    padding-left: 0.8rem;
+    margin-top: 0.5rem;
+    padding-right: 0.8rem;
     background: #ebe4ff;
     border-radius: 5px;
-    width: auto;
+    width: fit-content;
+    height: fit-content;
 
     @media screen and (max-width: 280px) {
       width: 98%;
@@ -2991,6 +2983,9 @@ span.continue-arrow {
   }
 
   .ExpWidth {
+    display: grid;
+    column-gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     margin-left: 0;
 
     @media screen and (max-width: 767px) {
@@ -3165,9 +3160,9 @@ span.continue-arrow {
         font-size: 15px;
       }
     }
-    .attendance{
+    .attendance {
       flex: 1;
-      h4{
+      h4 {
         text-align: center;
         justify-content: center;
       }

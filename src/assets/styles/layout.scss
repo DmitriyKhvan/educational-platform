@@ -176,7 +176,7 @@
       right: 0;
       top: 40px;
       border: 0.5px solid $color-grey3;
-      box-shadow: 1px 3px 5px rgba(0, 0, 0, .1);
+      box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
       padding-top: 6px;
       padding-bottom: 6px;
       &:before {
@@ -309,7 +309,6 @@
     height: 100%;
     min-height: 100%;
     overflow: auto;
-    padding-bottom: 20px;
   }
 
   @media screen and (min-width: 901px) {
@@ -666,7 +665,6 @@
     }
   }
   @media screen and (min-width: 1500px) {
-   
     .enter-padd-button {
       padding: 10px 15px 10px 15px !important;
     }
@@ -1012,7 +1010,6 @@
     height: 100%;
     min-height: 100%;
     overflow: auto;
-    padding-bottom: 20px;
   }
   @media screen and (min-width: 1500px) {
     .set-container {
@@ -1057,9 +1054,9 @@
     .buttonsdash-second {
       margin-left: 0 !important;
     }
-    .ExpWidth {
-      width: 121%;
-    }
+    // .ExpWidth {
+    //   width: 121%;
+    // }
   }
   @media screen and (max-width: 1200px) {
     .tutor_cal_appoint {

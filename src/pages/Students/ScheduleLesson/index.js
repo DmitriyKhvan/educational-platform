@@ -5,6 +5,7 @@ import LessonConfirmation from './LessonConfirmation'
 import ScheduleSelector from './ScheduleSelector'
 import SelectLesson from './SelectLesson'
 import SelectTutorCards from './SelectTutorCards'
+import Tut from "../../../assets/images/nao.png"
 import { getPlanStatus } from '../../../actions/subscription'
 import { getTutorList } from '../../../actions/tutor'
 

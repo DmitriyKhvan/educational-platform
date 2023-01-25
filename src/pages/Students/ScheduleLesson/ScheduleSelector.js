@@ -274,7 +274,7 @@ const ScheduleSelector = ({
           setTabIndex(2)
         } else if (Array.isArray(tutorlist) && tutorlist.length === 0) {
           Swal.fire({
-            title: 'No Tutuors Available for selected Time',
+            title: 'No Tutors Available for selected Time',
             text: '',
             icon: 'warning',
             confirmButtonColor: '#6133af',

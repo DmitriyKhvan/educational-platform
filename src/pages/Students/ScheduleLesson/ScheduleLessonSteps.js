@@ -147,7 +147,6 @@ const ScheduleLessonSteps = () => {
             onBack={onBack}
             tutor={selectedTutor}
             time={selectedTime}
-            onContinue={onContinue}
             lesson={selectedLesson}
           />
         )}

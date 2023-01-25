@@ -534,11 +534,6 @@ select {
   overflow-y: scroll;
 }
 
-.schedule-overflow-scroll {
-  max-height: 85vh;
-  overflow-y: scroll;
-}
-
 .weekly-schedule-scroll {
   height: 65vh;
   overflow-y: scroll;
@@ -913,7 +908,7 @@ div.time-style {
 
 @media screen and (min-width: 901px) {
   .lesson-wrapper {
-    padding: 15px 25px 57px 25px;
+    padding: 15px 25px 0 25px;
   }
   .tutor-confirm-left {
     width: 100%;
@@ -1049,7 +1044,7 @@ div.time-style {
   }
 
   .lesson-wrapper {
-    padding: 15px 25px 57px 25px;
+    padding: 15px 25px 0 25px;
   }
 
   .children-page {
@@ -1224,10 +1219,10 @@ div.time-style {
   justify-content: space-around;
 }
 @media screen and (max-width: 600px) {
-  .mobilefinal-image{
+  .mobilefinal-image {
     margin-right: 0 !important;
   }
-  .font_schedule_text{
+  .font_schedule_text {
     padding-top: 15px;
   }
   .page-card_schedule {
@@ -1257,7 +1252,6 @@ div.time-style {
   .cancel_schedule-lesson {
     max-width: 100%;
   }
-
 }
 
 @media screen and (min-width: 1500) {
@@ -1598,11 +1592,6 @@ div.time-style {
   overflow-y: scroll;
 }
 
-.schedule-overflow-scroll {
-  max-height: 85vh;
-  overflow-y: scroll;
-}
-
 .tutor-overflow-scroll {
   max-height: 60vh;
   overflow-y: scroll;
@@ -1663,6 +1652,8 @@ div.time-style {
 }
 
 .student-dashboard {
+  overflow: auto;
+  height: calc(100vh - 80px);
   border: 1px solid rgba(0, 0, 0, 0.1);
   .sub-title {
     font-family: Noto Serif;

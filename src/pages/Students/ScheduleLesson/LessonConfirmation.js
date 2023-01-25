@@ -46,7 +46,9 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
   }
 
   const userTimezone = user?.time_zone?.split(' ')[0]
-  const scheduleDate = moment(time).tz(userTimezone).format('dddd, MMM DD')
+  const scheduleDate = moment(new Date())
+    .tz(userTimezone)
+    .format('dddd, MMM DD')
   const scheduleStartTime = moment(time).tz(userTimezone).format('hh:mm A')
   const scheduleEndTime = moment(time)
     .tz(userTimezone)
@@ -179,7 +181,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
       }
     } else {
       let lesson_data = ``
-      if(data.lesson_id === null) {
+      if (data.lesson_id === null) {
         const { payload } = await dispatch(
           createLessonExist({
             title: plan.title,
@@ -198,7 +200,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
       createAppointmentData.lesson_type = lesson_data.type
       createAppointmentData.email = user.email
       createAppointmentData.package_type = plan.package_type
-      
+
       const res = await dispatch(createAppointment(createAppointmentData))
 
       if (res.type === ActionTypes.CREATE_APPOINTMENT_INFO.SUCCESS) {

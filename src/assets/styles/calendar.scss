@@ -1,4 +1,4 @@
-@import "./variable.scss";
+@import './variable.scss';
 .rbc-row-content {
   position: relative;
   top: 50%;
@@ -11,7 +11,7 @@
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
-  font-size: 40px;
+  font-size: 1.8rem;
   line-height: 48px;
   align-items: center;
   letter-spacing: -0.6px;
@@ -128,6 +128,10 @@
   }
 }
 
+.rbc-calendar {
+  max-width: 1065px;
+}
+
 .row {
   h4 {
     margin-top: 0;
@@ -241,7 +245,7 @@
     background: rgba(96, 178, 204, 0.3);
     border: 0.5px solid rgba(96, 178, 204, 0.8);
     border-radius: 21px;
-    margin-top: 20px
+    margin-top: 20px;
   }
 
   .days {
@@ -307,7 +311,7 @@
       height: 7em;
       overflow: hidden;
       cursor: pointer;
-      background:  $color-white;
+      background: $color-white;
       transition: 0.25s ease-out;
       color: #42413d;
 
@@ -402,19 +406,19 @@
     }
   }
 
-.help {
-  display: flex;
-  justify-content: center;
-  margin-top: 11px;
-  & > div {
+  .help {
     display: flex;
-    align-items: center;
-    gap: 14px;
-    padding-right: 14px;
-    padding-left: 14px;
-    &:not(:last-child) {
-      border-right: 0.5px solid #dbdbdb;
+    justify-content: center;
+    margin-top: 11px;
+    & > div {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-right: 14px;
+      padding-left: 14px;
+      &:not(:last-child) {
+        border-right: 0.5px solid #dbdbdb;
+      }
     }
   }
-}
 }
