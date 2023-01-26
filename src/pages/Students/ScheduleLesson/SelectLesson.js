@@ -14,7 +14,30 @@ const SelectLesson = ({
 }) => {
   const [t] = useTranslation('translation')
   const history = useHistory()
-  const planStatus = useSelector(state => state.students.planStatus)
+  const planStatus2 = useSelector(state => state.students.planStatus)
+  const planStatus = [
+    {
+      lesson_type: 'Junior English',
+      duration: 30,
+      total_lessons: 12,
+      data: 'some-data',
+      plan_end: '2021-08-01T00:00:00.000Z'
+    },
+    {
+      lesson_type: 'Junior Writing',
+      duration: 30,
+      data: 'some-data',
+      total_lessons: 12,
+      plan_end: '2021-08-01T00:00:00.000Z'
+    },
+    {
+      lesson_type: 'Junior English',
+      duration: 30,
+      data: 'some-data',
+      total_lessons: 12,
+      plan_end: '2021-08-01T00:00:00.000Z'
+    }
+  ]
   const disabled = clicked === null ? true : false
 
   const returnToDashboard = () => {
@@ -43,7 +66,7 @@ const SelectLesson = ({
     }, [])
 
     return (
-      <div className='pe-2 main-container schedule-lesson'>
+      <div className='pe-2 col-lg-6 main-container schedule-lesson'>
         <div
           className={`schedule-card small-card lesson-container pt-2 ${
             i === clicked

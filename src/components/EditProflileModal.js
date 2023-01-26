@@ -111,7 +111,7 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
           <TextInput 
             label="Last Name"
             type={"text"}
-            value={userInfo.lastName}
+            placeholder={userInfo.lastName}
             {...register("lastName")}
           />
         </div>
@@ -119,7 +119,7 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
           <TextInput 
             label="First Name"
             type={"text"}
-            value={userInfo.firstName}
+            placeholder={userInfo.firstName}
             {...register("firstName")}
           />
         </div>
@@ -127,7 +127,7 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
           <TextInput 
             label="Phone Number"
             type={"text"}
-            value="+1(555)555-5555"
+            placeholder="+1(555)555-5555"
             {...register("phoneNumber")}
           />
         </div>
@@ -135,7 +135,7 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
           <TextInput 
             label="Address"
             type={"text"}
-            value="123 Street, City, State"
+            placeholder="123 Street, City, State"
             {...register("address")}
           />
         </div>
@@ -163,7 +163,7 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
           <TextInput 
             label="Password"
             type={"password"}
-            value="123123123"
+            placeholder="123123123"
             {...register("password")}
           />
         </div>

@@ -140,7 +140,7 @@ const EditTutorProfile = () => {
       
               <TextInput
                 type="text"
-                value="Jessica"
+                placeholder="Jessica"
                 cls={cls}
                 label="First name"
                 {...register("firstName")}
@@ -148,21 +148,21 @@ const EditTutorProfile = () => {
 
               <TextInput 
                 type="text"
-                value="Brighton"
+                placeholder="Brighton"
                 label="Last name"
                 {...register("lastName")}
               />
 
               <TextInput 
                 type="email"
-                value="jessica.brighton@gmail.com"
+                placeholder="jessica.brighton@gmail.com"
                 label="Email address"
                 {...register("email")}
               />
 
               <TextInput 
                 type="text"
-                value="+1(424)1234567"
+                placeholder="+1(424)1234567"
                 label="Phone number"
                 {...register("phoneNumber")}
               />
@@ -176,13 +176,13 @@ const EditTutorProfile = () => {
                 <p>Location</p>
 
                 <select {...register("country")}>
-                  <option value={"United States of America"}>United States of America</option>
+                  <option value={"USA"}>United States of America</option>
                 </select>
               </div>
 
-              <TextInput 
+              <TextInput
                 type="text"
-                value="123 Market St"
+                placeholder="123 Market St"
                 label="Address"
                 {...register("address")}
               />

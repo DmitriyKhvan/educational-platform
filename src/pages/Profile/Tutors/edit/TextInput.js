@@ -4,7 +4,7 @@ import cls from "../EditTutorProfile.module.scss";
 
 export const TextInput = React.forwardRef(({
   type="",
-  value="",
+  placeholder="",
   label="",
   ...rest
 }, ref) => {
@@ -13,7 +13,7 @@ export const TextInput = React.forwardRef(({
      <p>{label}</p>
      <input 
         type={type}
-        value={value}
+        placeholder={placeholder}
         ref={ref}
         {...rest}
      />

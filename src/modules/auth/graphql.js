@@ -36,12 +36,6 @@ export const LOGIN_MUTATION = gql`
   }
 `;
 
-
-
-
-// 
-
-
 export const MUTATION_UPDATE_USER = gql `
   mutation updateUser($where: UserWhereUniqueInput! $data: UserUpdateInput!) {
     updateUser(where: $where , data: $data) {

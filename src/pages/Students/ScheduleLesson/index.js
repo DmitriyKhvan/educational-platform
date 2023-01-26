@@ -19,7 +19,44 @@ const ScheduleLesson = () => {
   const [schedule, setSchedule] = useState()
   const [tabIndex, setTabIndex] = useState(0)
   const [selectTutor, setSelectTutor] = useState()
-  const tutors = useSelector(state => state.tutor.list)
+  // const tutors = useSelector(state => state.tutor.list)
+  const tutors = [
+    {
+      id: 1,
+      img: Tut,
+      first_name: 'Sarah B.',
+      univer: 'Harvard University',
+      lang: 'B.A. in English',
+      isFavourite: false
+    },
+    {
+      id: 2,
+      img: 'https://media.istockphoto.com/id/1365223878/photo/attractive-man-feeling-cheerful.jpg?b=1&s=170667a&w=0&k=20&c=Pt_reBU6pAQV6cXnIcBSLdtYSB4a_8MJM4qWAO_0leU=',
+      first_name: 'Alex',
+      last_name: 'T.',
+      univer: 'Stanford University',
+      lang: 'B.A. in English',
+      isFavourite: true
+    },
+    {
+      id: 3,
+      img: 'https://img.freepik.com/free-photo/lifestyle-people-emotions-and-casual-concept-confident-nice-smiling-asian-woman-cross-arms-chest-confident-ready-to-help-listening-to-coworkers-taking-part-conversation_1258-59335.jpg?w=2000',
+      first_name: 'Caroline',
+      last_name: 'W.',
+      univer: 'Brown University',
+      lang: 'B.A. in English',
+      isFavourite: false
+    },
+    {
+      id: 4,
+      img: Tut,
+      first_name: 'Sarah',
+      last_name: 'B.',
+      univer: 'Harvard University',
+      lang: 'B.A. in English',
+      isFavourite: false
+    },
+  ]
   const { id } = useParams()
 
   useEffect(() => {
@@ -57,7 +94,7 @@ const ScheduleLesson = () => {
             time={schedule}
             tutor={selectTutor}
             setTabIndex={setTabIndex}
-            lessonId={id}
+            lessonId={12}
           />
         )
       )}

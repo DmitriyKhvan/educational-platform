@@ -35,11 +35,14 @@ export const AuthProvider = ({ children }) => {
       variables: {
         where: {
           id: parseInt(user?.me?.id),
-          email: user?.me?.email
         },
         data: area
       }
     })
+
+    if(!!data) {
+      await refetchUser()
+    }
 
     return { data };
   }

@@ -24,7 +24,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
   const [repeat, setRepeat] = useState({})
   const [cancel, setCancel] = useState({})
   const [isLoading, setIsLoading] = useState(false)
-  const user = useSelector(state => state.users.user)
+  // const user = useSelector(state => state.users.user)
   const [isChecked, setIsChecked] = useState(false)
   const [newAppointment, setNewAppointment] = useState({})
   const [isConfirmed, setIsConfirmed] = useState(false)
@@ -68,9 +68,10 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
       .format('YYYY-MM-DDTHH:mm:ss'),
     cancel_action: 'assign_new_tutor'
   }
-  if (user.student_profile.id) {
-    data = { ...data, student_id: user.student_profile.id }
-  }
+  // if (user.student_profile.id) {
+  //   // data = { ...data, student_id: user.student_profile.id }
+  // }
+  data = { ...data, student_id: 26 }
 
   const weekArr = Array.apply(null, Array(7)).map((_, i) =>
     moment(i, 'e')
@@ -198,7 +199,8 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
       createAppointmentData.lesson_title = lesson_data.title
       createAppointmentData.lesson_desc = lesson_data.description
       createAppointmentData.lesson_type = lesson_data.type
-      createAppointmentData.email = user.email
+      // createAppointmentData.email = user.email
+      createAppointmentData.email = 'sample@email.com'
       createAppointmentData.package_type = plan.package_type
 
       const res = await dispatch(createAppointment(createAppointmentData))
