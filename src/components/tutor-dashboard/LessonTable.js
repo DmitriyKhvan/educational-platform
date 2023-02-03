@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment-timezone'
-
 import '../../assets/styles/calendar.scss'
 
 const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
@@ -68,9 +67,8 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
                     .format('ddd, MMM Do hh:mm A')}
                   {' → '}
                   {moment(event.resource.start_at)
-                    .tz(timezone)
-                    .add(event.resource.duration, 'minutes')
-                    .format('hh:mm A')}
+                      .tz(timezone)
+                      .add(event.resource.duration, 'minutes').format('hh:mm A')}
                 </p>
               </td>
               <td className='td-item m-0'>

@@ -9,7 +9,9 @@ import { useTranslation } from 'react-i18next';
 import Loader from 'react-loader-spinner';
 
 import GeneralProfile from './GeneralProfile';
-import TutorProfile from './Tutors';
+// import TutorProfile from './Tutors';
+import TutorProfile from '../../pages/Profile/Tutors/Profile';
+
 import StudentProfile from './Tutors/Student';
 import { useSelector } from 'react-redux';
 
@@ -21,10 +23,12 @@ const Profile = ({ user, selectedUser, isAdmin = false }) => {
 
   const [disabled, setDisabled] = useState(true)
 
-  const roles = user && user.roles && user.roles[0].role_name;
+  console.log(user)
+
+  const roles = user && user.role && user.role;
 
   useEffect(() => {
-    if (user && user.roles) {
+    if (user && roles) {
       if (roles === 'tutor') {
         setIsTutor(true)
       } else if (roles === 'student') {
@@ -33,23 +37,19 @@ const Profile = ({ user, selectedUser, isAdmin = false }) => {
         setIsTutor(null)
       }
     }
-  }, [user])
+    
+    
+  }, [user, roles])
 
   
   return (
     <div className='profile-layout'>
       <div className='profile-wrapper'>
-        {user && user.roles ? (
-          <>
+        {user && user.role ? (
+          <React.Fragment>
             <div className='profile-body'>
-              {/* {isTutor === false &&
-                  <div className="level-view">
-                    <img src={IconMedal} alt="" />
-                    <p>Intermediate level</p>
-                  </div>
-                } */}
               {
-                isTutor === false && roles === 'student' && !isAdmin &&  (
+                (isTutor === false && roles === 'student' && !isAdmin) &&  (
                   <GeneralProfile
                     currentUser={user}
                     update={update}
@@ -63,29 +63,13 @@ const Profile = ({ user, selectedUser, isAdmin = false }) => {
                   user={user}
                   update={update}
                   isAdmin={isAdmin}
-                  // setDisabled={d => setDisabled(d)}
                 />
               )}
               {isAdmin && (
                 <StudentProfile selectedUser={selectedUser} user={user} update={update} isAdmin={isAdmin} />
               )}
             </div>
-            {/* <div className='profile-footer'>
-              <button
-                className='btn-update'
-                onClick={() => {
-                  setUpdate(true)
-                  setTimeout(() => {
-                    setUpdate(false)
-                    setDisabled(true)
-                  }, 1000)
-                }}
-                disabled={disabled}
-              >
-                {t('save_changes')}
-              </button>
-            </div> */}
-          </>
+          </React.Fragment>
         ) : (
           <Loader
             className='align-center'

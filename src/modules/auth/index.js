@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import { ME_QUERY, LOGIN_MUTATION, MUTATION_UPDATE_USER } from './graphql';
+import { ME_QUERY, LOGIN_MUTATION, MUTATION_UPDATE_USER, RESET_PASSWORD_MUTATION, NEW_PASSWORD_MUTATION } from './graphql';
 
 export const AuthContext = createContext({});
 
@@ -8,7 +8,8 @@ export const AuthProvider = ({ children }) => {
   const [isAuthInProgress, setIsAuthInProgress] = useState(false);
   const { data: user, userLoading, refetch: refetchUser } = useQuery(ME_QUERY);
   const [loginMutation, { loading: loginLoading }] = useMutation(LOGIN_MUTATION);
-  const [updateUserMutation, { loading: updateUserLoading }] = useMutation(MUTATION_UPDATE_USER);
+  const [sendUserPasswordResetLink] = useMutation(RESET_PASSWORD_MUTATION);
+  const [redeemUserPasswordResetToken] = useMutation(NEW_PASSWORD_MUTATION);
 
   useEffect(() => {
     if (!userLoading && isAuthInProgress) {
@@ -29,23 +30,24 @@ export const AuthProvider = ({ children }) => {
     return { data, errors, loading };
   }
 
-
-  const updateUser = async (area) => {
-    const {data} = await updateUserMutation({
-      variables: {
-        where: {
-          id: parseInt(user?.me?.id),
-        },
-        data: area
-      }
+  const resetPassword = async (email) => {
+    const { data } = await sendUserPasswordResetLink({
+      variables: {email}
     })
 
-    if(!!data) {
-      await refetchUser()
-    }
 
-    return { data };
+    return {data}
   }
+
+  const newPassword = async (email, token , password) => {
+    const { data } = await redeemUserPasswordResetToken({
+      variables: {email, token , password}
+    })
+
+
+    return {data}
+  }
+
 
   const logout = async () => {
     localStorage.removeItem('token');
@@ -57,8 +59,9 @@ export const AuthProvider = ({ children }) => {
       user: user?.me || null,
       refetchUser,
       login,
-      updateUser,
       logout,
+      resetPassword,
+      newPassword,
       isLoading: userLoading || loginLoading,
       isAuthorized: !!user?.me,
       isAuthInProgress,
@@ -71,4 +74,4 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const contextValues = useContext(AuthContext);
   return contextValues;
-}
+};

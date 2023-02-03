@@ -12,10 +12,7 @@ const BookingRequest = ({ lessonApprovals, fetchAppointments, user }) => {
   const displayBookingRequestDate = event => {
     const date = moment(event.start_at).tz(userTimezone).format('MMMM DD, YYYY')
     const start = moment(event.start_at).tz(userTimezone).format('hh:mm A')
-    const end = moment(event.start_at)
-      .tz(userTimezone)
-      .add(event.duration, 'minutes')
-      .format('hh:mm A')
+    const end = moment(event.start_at).tz(userTimezone).add(event.duration, 'minutes').format('hh:mm A')
     return `${date} at ${start} → ${end}`
   }
 

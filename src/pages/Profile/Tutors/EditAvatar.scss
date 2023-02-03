@@ -21,8 +21,10 @@
 
     .avatar_preview {
       width: 100%;
-      object-fit: cover;
+      object-fit: contain;
       padding: 0 30px;
+      height: 250px;
+
     }
 
     &_editor {

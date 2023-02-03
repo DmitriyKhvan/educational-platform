@@ -38,26 +38,28 @@ const Profile = () => {
 
   const actions = useAuth();
 
-  console.log(actions)
+  const avatar = actions.user?.tutor?.avatar;
+  const videoUrl = actions.user?.tutor?.videoUrl;
 
   return (
-    <Layout>
+    <div>
       <header className={cls.profile_header}>
         <div className={cls.profile_header_row}>
           {
-          !actions?.user?.avatar 
+          !avatar 
           ?   <img 
                 className={cls.profile_image} 
                 src='https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg' 
                 alt=''
               /> 
-          : <img className='avatar_preview' src={actions?.user.avatar} alt=''/>
+          : <img className='avatar_preview' src={avatar?.url} alt=''/>
         }
 
           <div className={cls.tutor_name}>
               <h1>{actions?.user.fullName}</h1>
               <h2 className={cls.text_primary}>
-                {tutor?.degree ? tutor.degree : "B.A. English, Stanford University"}
+                {actions?.user?.tutor?.degree + ", "} 
+                {actions?.user?.tutor?.university} 
               </h2>
           </div>
         </div>
@@ -69,9 +71,7 @@ const Profile = () => {
             <h2>About me</h2>
 
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-              Varius vel pharetra vel turpis nunc eget. Habitasse platea dictumst vestibulum rhoncus est pellentesque elit. 
+              {actions.user?.tutor?.introduction}
             </p>
           </div>  
 
@@ -121,7 +121,7 @@ const Profile = () => {
             <h2>Introduction video</h2>
           </div>
           <div className={cls.video}>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/nLpK42Fjgsg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <iframe width="560" height="315" src={`https://www.youtube.com/embed/${videoUrl}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
           </div>
         </section>
         <section className={cls.profile_footer_right}>
@@ -173,7 +173,7 @@ const Profile = () => {
           </div>
         </section>  
       </footer>
-    </Layout>
+    </div>
   )
 }
 

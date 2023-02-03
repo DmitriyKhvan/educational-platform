@@ -319,10 +319,11 @@ select {
 }
 .schedule {
   display: flex;
-  width: 100%;
   max-width: 300px;
   border-radius: 5px;
   height: 300px;
+  width: 100%;
+  object-fit: cover;
 }
 .weekly-schedule-subtitle {
   margin: 30px 0px 30px 0px;
@@ -436,6 +437,7 @@ select {
   }
   .favImg {
     width: 100%;
+    height: auto;
     max-width: 300px;
     display: flex;
     position: relative;

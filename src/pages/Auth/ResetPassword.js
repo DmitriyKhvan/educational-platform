@@ -1,44 +1,40 @@
 import { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import NotificationManager from '../../components/NotificationManager'
-import { resetPassword } from '../../actions/auth'
+import { useHistory, useLocation } from 'react-router-dom'
 import AuthLayout from '../../components/AuthLayout'
-import ClipLoader from 'react-spinners/ClipLoader'
 import { useTranslation } from 'react-i18next'
+import { useForm } from 'react-hook-form'
+import { useAuth } from '../../modules/auth'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ResetPassword = () => {
-  const dispatch = useDispatch()
   const history = useHistory()
   const [t] = useTranslation('translation')
   const [token, setToken] = useState()
+  const location = useLocation();
+  const params = new URLSearchParams(window.location.search);
+  const queryToken = params.get('token');
+  const queryEmail = params.get("email");
+
+  const { newPassword, refetchUser } = useAuth();
+  const notify = () => toast("Password has been reset!");
+
+
+  const {
+    register,
+    handleSubmit
+  } = useForm({
+    mode:"onBlur",
+  }); 
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
     setToken(urlParams.get('token'))
   }, [token])
 
-  const loading = useSelector(state => state.auth.loading)
-  const errorMsg = useSelector(state => state.auth.error)
-
-  const [formData, setFormData] = useState({
-    password: '',
-    confirmPassword: ''
-  })
   const [error, setError] = useState('')
 
-  const { password, confirmPassword } = formData
-
-  const onChange = e => {
-    if (!e.target.value) {
-      setError(t('error_field_not_empty'))
-    } else {
-      setError('')
-    }
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
-
-  const handleResetPassword = async () => {
+  const handleResetPassword = async ({password, confirmPassword}) => {
     if (!password) {
       setError(t('error_field_not_empty'))
       return false
@@ -49,26 +45,22 @@ const ResetPassword = () => {
       return false
     }
 
-    const resp = await dispatch(resetPassword(password, token))
+    if(password === confirmPassword) {
+      const { data } = await newPassword(queryEmail , queryToken, password);
 
-    if (resp.type === 'AUTH_RESET_PASSWORD_SUCCESS') {
-      
-      history.push('/')
-    }
-
-    if (resp.type === 'AUTH_RESET_PASSWORD_FAILURE') {
-      if (errorMsg) {
-        NotificationManager.error(t('reset_password_failure'), t)
-        history.push('/forgot-password')
+      if(data) {
+        notify()
       }
     }
+
+    await refetchUser()
   }
 
   return (
     <AuthLayout>
       <div className='auth-login'>
         <p className='title text-center mb-3'>{t('reset_password')}</p>
-        <div className='form-section'>
+        <form onSubmit={handleSubmit(handleResetPassword)} className='form-section'>
           <div className='mb-3'>
             <div className='form-item-inner'>
               <label htmlFor='password' className='form-label'>
@@ -79,8 +71,7 @@ const ResetPassword = () => {
                 type='password'
                 id='password'
                 name='password'
-                value={password}
-                onChange={onChange}
+                {...register("password")}
               />
             </div>
           </div>
@@ -94,23 +85,22 @@ const ResetPassword = () => {
               type='password'
               id='confirmPassword'
               name='confirmPassword'
-              value={confirmPassword}
-              onChange={onChange}
+              {...register("confirmPassword")}
             />
           </div>
           {error && <p className='error-msg'>{error}</p>}
-          {errorMsg && <p className='system-error-msg'>{errorMsg}</p>}
 
           <div className='d-grid gap-2 pt-4'>
             <button
               className='btn btn-primary btn-lg p-3'
-              onClick={handleResetPassword}
+              type='submit'
             >
-              {loading ? (
+              Reset
+              {/* {loading ? (
                 <ClipLoader loading={loading} size={20} color='white' />
               ) : (
                 t('reset_password')
-              )}
+              )} */}
             </button>
           </div>
           <p className='mt-5'>
@@ -119,8 +109,10 @@ const ResetPassword = () => {
               {t('sign_in')}
             </a>
           </p>
-        </div>
+        </form>
       </div>
+
+      <ToastContainer />
     </AuthLayout>
   )
 }

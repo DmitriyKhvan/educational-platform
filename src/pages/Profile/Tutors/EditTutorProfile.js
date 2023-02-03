@@ -6,23 +6,19 @@ import cls from  "./EditTutorProfile.module.scss"
 import DelIcon from "../../../assets/del.png"
 import Stick from "../../../assets/stick.png"
 import SampleModal from './SampleModal'
-import { useForm } from 'react-hook-form'
 import Biography from './edit/Biography'
 import Education from './edit/Education'
 import Intro from './edit/Intro'
 import EditAvatarModal from './EditAvatarModal'
-import Submit from './edit/Submit'
-import { TextInput } from './edit/TextInput'
-import { Switch } from 'react-router-dom'
+import BasicForm from './edit/BasicForm'
+import Select from 'react-select';
 import { useAuth } from '../../../modules/auth'
+
 
 const EditTutorProfile = () => {
   const [statusInfo , setStatusInfo] = React.useState("basic");
   const [showSample, setShowSample] = React.useState(false);
   const [showEditAvatar, setShowEditAvatar] = React.useState(false);
-
-  const { updateUser } = useAuth();
-
 
   const hooks = [
     {
@@ -43,28 +39,13 @@ const EditTutorProfile = () => {
     }
   ]
 
-  const {
-    handleSubmit,
-    formState: {errors},
-    register
-  } = useForm({ 
-    mode:"onBlur"
-  })
-
-  const label = { inputProps: { 'aria-label': 'Switch demo' } }
-
   const closeSampleModal = () => setShowSample(false);
 
   const closeEditAvatarModal = () => setShowEditAvatar(false);
 
+  const actions  = useAuth();
 
-  const handleEditBasicInfo = async (area) => {
-
-   const {data} = await updateUser(area)
-
-   console.log(data)
-
-  }
+  const avatar = actions.user?.tutor?.avatar;
 
   return (
     <Layout>
@@ -83,7 +64,15 @@ const EditTutorProfile = () => {
 
             <div className={cls.editProfile_left_avatar}>
               <div className={cls.avatar_left}>
-                <img src='https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg' alt=''/>
+              {
+                !avatar 
+                ?   <img 
+                      className={cls.profile_image} 
+                      src='https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg' 
+                      alt=''
+                    /> 
+                : <img  src={avatar?.url} alt=''/>
+              }
               </div>
               <div className={cls.avatar_right}>
                 <button onClick={() => setShowEditAvatar(true)}>Upload New Photo</button>
@@ -126,91 +115,26 @@ const EditTutorProfile = () => {
         </div>
 
         <div className={cls.editProfile_container_forms}>
+
+
           
           {/* Basic Info */}
 
-          <form 
-            onSubmit={handleSubmit(handleEditBasicInfo)} 
-            className={cls.editProfile_container_forms_basic} id='basic'
-          >    
-            <div>
-              <div className={cls.editProfile_container_forms_basic_title}>
-                <h2>Basic Information</h2>
-              </div>
-      
-              <TextInput
-                type="text"
-                placeholder="Jessica"
-                cls={cls}
-                label="First name"
-                {...register("firstName")}
-              />
+          <BasicForm cls={cls}/>
 
-              <TextInput 
-                type="text"
-                placeholder="Brighton"
-                label="Last name"
-                {...register("lastName")}
-              />
+          {/* Biography info */}
 
-              <TextInput 
-                type="email"
-                placeholder="jessica.brighton@gmail.com"
-                label="Email address"
-                {...register("email")}
-              />
+          <Biography cls={cls}/>
+          
+          {/* Edu */}
+          
+          <Education cls={cls}/>
 
-              <TextInput 
-                type="text"
-                placeholder="+1(424)1234567"
-                label="Phone number"
-                {...register("phoneNumber")}
-              />
-
-              <div className={cls.editProfile_container_forms_basic_switch}>
-                <Switch {...label} defaultChecked />
-                <h3>Receive SMS notifications</h3>
-              </div>
-
-              <div className={cls.form_divider}>
-                <p>Location</p>
-
-                <select {...register("country")}>
-                  <option value={"USA"}>United States of America</option>
-                </select>
-              </div>
-
-              <TextInput
-                type="text"
-                placeholder="123 Market St"
-                label="Address"
-                {...register("address")}
-              />
-
-              <div className={cls.form_divider}>
-                <p>Time zone</p>
-
-                <select {...register("timeZone")}>
-                  <option value={"usa"}>Pacific Standard Time (GMT-8)</option>
-                </select>
-              </div>
-
-            </div>
-
-            <Submit />
-          </form>
-
-          <form className={cls.editProfile_container_forms_biography} id='bio'>
-            <Biography cls={cls}/>
-          </form>
-
-          <form className={cls.editProfile_container_forms_edu} id='edu'>
-            <Education cls={cls}/>
-          </form>
+          {/* Intro */}
             
-          <Intro id="intro" cls={cls}/>
+          <Intro  id="intro" cls={cls}/>
         </div>  
-
+        
         {<SampleModal isOpen={showSample} closeModal={closeSampleModal}/>}
         {<EditAvatarModal closeModal={closeEditAvatarModal} isOpen={showEditAvatar} />}
       </div>

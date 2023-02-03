@@ -19,6 +19,7 @@ import ReviewLessonModal from '../../components/student-dashboard/ReviewLessonMo
 const Calendar = () => {
   const [t] = useTranslation('translation')
   const user = useSelector(state => state.users.user)
+
   const calendarAppointments = useSelector(
     state => state.appointment.calendarEvents
   )
@@ -207,7 +208,7 @@ const Calendar = () => {
   return (
     <Layout>
       <div className='children-wrapper'>
-        <button onClick={() => setReviewLessonModal(true)}>Hey</button>
+        {/* <button onClick={() => setReviewLessonModal(true)}>Hey</button> */}
         <div className='appointment-calendar container-fluid'>
           <h1 className='title m-0 mt-4 mb-3'>{t('appointment_calendar')}</h1>
           <div className='row container-fluid m-0 p-0'>

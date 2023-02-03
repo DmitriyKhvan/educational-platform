@@ -98,6 +98,7 @@ function PrivateRoute({ component: Component, ...rest }) {
 
 function PublicRoute({ component: Component, ...rest }) {
   const { isAuthorized, user } = useAuth();
+  
 
   return (
     <Route
@@ -117,6 +118,8 @@ function App() {
     // TODO: Put loading bar on the whole page.
     return null;
   }
+
+  
 
   return (
     <Provider store={store}>
@@ -165,8 +168,9 @@ function App() {
             path='/student/schedule-lesson/group-select'
             component={GroupScheduleLesson}
           />
-           <PrivateRoute path='/student/referal' component={Referal} />
-           <PrivateRoute path='/student/tutors/:id?' component={TutorsPage} />
+
+          <PrivateRoute path='/student/referal' component={Referal} />
+          <PrivateRoute path='/student/tutors/:id?' component={TutorsPage} />
 
           <PrivateRoute
             exact
@@ -214,6 +218,7 @@ function App() {
           <PrivateRoute
             path='/tutor/appointments-calendar'
             component={TutorCalendar}
+
           />
           <PrivateRoute
             path='/tutor/past-lessons'
@@ -244,7 +249,7 @@ function App() {
           <PrivateRoute path="/tutor/edit-profiles/submit-video" component={SubmitVideo}/>
           <PrivateRoute path="/tutor/edit-profiles/submit-videos/submited" component={Submited}/>
           <PrivateRoute path='/messages' component={Messanger} /> 
-         
+          
         </div>
       </Router>
     </Provider> 

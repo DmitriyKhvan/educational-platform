@@ -236,6 +236,7 @@ const Calendar = () => {
         .tz(userTimezone)
         .add(resource?.eventDate?.duration, 'minutes')
         .format('hh:mm A')
+
       const timeSlot = `${start} → ${end}`
       const date = moment(resource?.start_at)
         .tz(userTimezone)
@@ -415,7 +416,7 @@ const Calendar = () => {
   return (
     <Layout>
       <div className='container-fluid'>
-        <button onClick={() => setReviewLessonModal(true)}>Open ReviewLessonModal</button>
+        {/* <button onClick={() => setReviewLessonModal(true)}>Open ReviewLessonModal</button> */}
         <h1 className='title m-0 mt-4 mb-3'>{t('lessons')}</h1>
         <div className='row container-fluid m-0 p-0'>
           <div className='col-auto'>

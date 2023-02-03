@@ -1,19 +1,26 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
 import NotificationManager from '../../components/NotificationManager'
 import AuthLayout from '../../components/AuthLayout'
-import { forgotPassword } from '../../actions/auth'
 import { useTranslation } from 'react-i18next'
+import { useAuth } from '../../modules/auth'
+import { useForm } from 'react-hook-form'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ForgotPassword = () => {
   const history = useHistory()
   const [t, i18n] = useTranslation('translation')
-  const dispatch = useDispatch()
-  const [email, setEmail] = useState('')
   const [error, setError] = useState('')
+  const { resetPassword } = useAuth()
+  const notify = () => toast("Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.");
 
-  const errorMsg = useSelector(state => state.auth.error)
+  const {
+    register,
+    handleSubmit
+  } = useForm({
+    mode:"onBlur"
+  });
 
   const validateEmail = email => {
     if (!email) {
@@ -32,32 +39,34 @@ const ForgotPassword = () => {
     }
   }
 
-  const onChange = e => {
-    validateEmail(e.target.value)
-    setEmail(e.target.value)
-  }
-
-  const handleForgotPassword = async () => {
+  const handleForgotPassword = async ({email}) => {
     validateEmail(email)
 
-    let resp = await dispatch(forgotPassword(email))
+    const { data } =  await resetPassword(email);
 
-    if (resp.type === 'AUTH_FORGOT_PASSWORD_SUCCESS') {
-      history.push('/forgot-password-guide')
+    if(data) {
+      notify()
     }
 
-    if (resp.type === 'AUTH_FORGOT_PASSWORD_FAILURE') {
-      if (errorMsg) {
-        NotificationManager.error(t('forgot_password_failure'), t)
-      }
-    }
+
+    // let resp = await dispatch(forgotPassword(email))
+
+    // if (resp.type === 'AUTH_FORGOT_PASSWORD_SUCCESS') {
+    //   history.push('/forgot-password-guide')
+    // }
+
+    // if (resp.type === 'AUTH_FORGOT_PASSWORD_FAILURE') {
+    //   if (errorMsg) {
+    //     NotificationManager.error(t('forgot_password_failure'), t)
+    //   }
+    // }
   }
 
   return (
     <AuthLayout>
       <div className='auth-login'>
         <p className='text-center title mb-3'>{t('forgot_password')}?</p>
-        <div className='form-section'>
+        <form onSubmit={handleSubmit(handleForgotPassword)} className='form-section'>
           <div className='mb-3'>
             <div className='form-item-inner'>
               <label htmlFor='email' className='form-label'>
@@ -68,17 +77,15 @@ const ForgotPassword = () => {
                 type='email'
                 id='email'
                 name='email'
-                value={email}
-                onChange={onChange}
+                {...register("email")}
               />
             </div>
             {error && <p className='error-msg'>{error}</p>}
-            {errorMsg && <p className='system-error-msg'>{errorMsg}</p>}
           </div>
           <div className='d-grid gap-2 pt-4'>
             <button
+              type='submit'
               className='btn btn-primary btn-lg p-3'
-              onClick={handleForgotPassword}
             >
               {t('reset_password')}
             </button>
@@ -89,8 +96,9 @@ const ForgotPassword = () => {
               {t('sign_in')}
             </a>
           </p>
-        </div>
+        </form>
       </div>
+      <ToastContainer />
     </AuthLayout>
   )
 }

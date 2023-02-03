@@ -2,8 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import VideoIcon from "../../../../assets/Video.png"
+import { useAuth } from '../../../../modules/auth';
 
 const Intro = ({id, cls}) => {
+
+  const actions = useAuth();
+
+  const videoUrl = actions.user?.tutor?.videoUrl;
+
   return (
     <div className={cls.editProfile_container_forms_intro} id={id}>
       <div className={cls.editProfile_container_forms_intro_title}>
@@ -14,7 +20,7 @@ const Intro = ({id, cls}) => {
 
       <div className={cls.editProfile_container_forms_intro_row}>
         <div className={cls.intro_left}>
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/nLpK42Fjgsg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          <iframe width="560" height="315" src={`https://www.youtube.com/embed/${videoUrl}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
         <div className={cls.intro_right}>
           <div className={cls.intro_right_card}>

@@ -2,8 +2,9 @@ import React from 'react'
 
 export const TextInput = React.forwardRef(({
   type="",
-  placeholder="",
+  defaultValue="",
   label="",
+  multiple=false,
   ...rest
 }, ref) => {
   return (
@@ -12,9 +13,10 @@ export const TextInput = React.forwardRef(({
         {label}
         <input 
           type={type}
-          placeholder={placeholder}
+          defaultValue={defaultValue}
           ref={ref}
           {...rest}
+          multiple={multiple}
         />
       </label>
     </React.Fragment>

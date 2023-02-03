@@ -1,11 +1,20 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import Loader from '../common/Loader'
+import { getTutorList } from '../../actions/tutor'
+import { useDispatch } from 'react-redux'
+import Swal from 'sweetalert2'
 
-const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
+const ReschedulingTimeModal = ({
+  setSchedule,
+  setTabIndex,
+  type,
+  duration
+}) => {
   const [t] = useTranslation('translation')
   const [isLoading, setIsLoading] = useState(false)
+  const dispatch = useDispatch()
   const [counter, setCounter] = useState(0)
   const [dayClicked, setDayClicked] = useState(null)
   const [timeClicked, setTimeClicked] = useState(null)
@@ -15,7 +24,7 @@ const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
     startTime: '',
     endTime: ''
   })
-  const duration = 30
+
   const disable = counter === 0
   const timeFormatter = 'HH:mm:ss'
 
@@ -27,9 +36,8 @@ const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
   const startOfWeekString = startOfWeek.toString()
   const startOfWeekFormatted = startOfWeek.format('MMMM DD')
   const endOfWeek = today.endOf('isoWeek').format('MMMM DD')
-  //Format the time
+
   const startTime = moment(timeOfDay.startTime, 'HH:mm')
-  //Format the end time and the next day to it
   const endTime = moment(timeOfDay.endTime, 'HH:mm')
 
   const days = []
@@ -102,10 +110,11 @@ const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
   }
 
   //Loop over the times - only pushes time with 30 minutes interval
-  while (startTime <= endTime) {
-    allTimes.push(startTime.format('HH:mm'))
-
-    startTime.add(timeOfDay.slotInterval, 'minutes')
+  if (timeClicked) {
+    while (startTime <= endTime) {
+      allTimes.push(startTime.format('HH:mm'))
+      startTime.add(timeOfDay.slotInterval, 'minutes')
+    }
   }
 
   for (let i = 0; i <= 6; i++) {
@@ -217,12 +226,11 @@ const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
   }
 
   const ScheduleCard = ({ scheduleStartTime }) => {
-    const scheduleEndTime = moment(scheduleStartTime, [
-      moment.ISO_8601,
-      'HH:mm'
-    ])
-      .add(duration, 'minutes')
-      .format('hh:mm A')
+    const scheduleEndTime = moment(scheduleStartTime, [moment.ISO_8601, 'HH:mm']).add(
+      duration,
+      'minutes'
+    ).format('hh:mm A')
+
     return (
       <div className='time-card grey-border bg-white small-card pt-2 mt-4 container'>
         <div className='ms-1'>
@@ -247,12 +255,36 @@ const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
           <div
             className={`enter-btn btn-primary`}
             onClick={() => {
-              const formattedDay = moment(day).format('YYYY-MM-DD')
-              const selectedSchedule = moment(
-                formattedDay + ' ' + scheduleStartTime
-              ).toString()
-              setSchedule(selectedSchedule)
-              setTabIndex(3)
+              const dayMoment = moment(day)
+              const selectedSchedule = moment()
+                .year(dayMoment.year())
+                .month(dayMoment.month())
+                .hours(scheduleStartTime.split(':')[0])
+                .minutes(scheduleStartTime.split(':')[1])
+                .seconds(0)
+                .utc()
+                .date(dayMoment.date())
+              setIsLoading(true)
+              setSchedule(selectedSchedule.toString())
+              dispatch(getTutorList(selectedSchedule.toString())).then(
+                response => {
+                  const tutorlist = response.payload.tutors
+                  if (tutorlist.length > 0) {
+                    setTabIndex(3)
+                  }
+                  if (tutorlist.length === 0) {
+                    Swal.fire({
+                      title: 'No Tutors Available for selected Time',
+                      text: '',
+                      icon: 'warning',
+                      confirmButtonColor: '#6133af',
+                      cancelButtonColor: '#d33',
+                      target: 'body > div.ReactModalPortal > div > div'
+                    })
+                  }
+                  setIsLoading(false)
+                }
+              )
             }}
           >
             {t('confirm_lesson')}
@@ -268,32 +300,27 @@ const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
       <p className='welcome-subtitle text-purple'>
         {t('available_spots_subtitle')}
       </p>
-
-      {allTimes.map((x, i) => (
-        <ScheduleCard scheduleStartTime={x} key={i} />
-      ))}
+      <div
+        className='px-4'
+        style={{ height: '40rem', width: 'auto', overflowY: 'scroll' }}
+      >
+        {allTimes.map((x, i) => (
+          <ScheduleCard scheduleStartTime={x} key={i} />
+        ))}
+      </div>
     </React.Fragment>
   )
 
   return (
     <React.Fragment>
-      <div
-        className='scroll-layout'
-        style={{ width: '65vw', overflow: 'scroll' }}
-      >
-        <div className='flex-container'>
-          <div
-            className='flex-left p-0 pe-4 col-auto modal-scroll'
-            style={{ borderRight: '1px solid rgba(0, 0, 0, 0.1)' }}
-          >
-            <div className='container'>
-              <h2>{t('reschedule')}</h2>
-            </div>
-
-            <div className='row container ps-4 pe-0'>
+      <div className='container' style={{ width: '75vw' }}>
+        <div className='row'>
+          <div className='col pe-4'>
+            <h2>{t('reschedule_lesson')}</h2>
+            <div className='row align-items-start'>
               <div className='col-1'>
                 <button
-                  className='btn btn-dash-return'
+                  className='btn'
                   disabled={disable}
                   onClick={() => {
                     setCounter(counter + 1)
@@ -303,14 +330,14 @@ const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
                   ←
                 </button>
               </div>
-              <div className='col-10'>
-                <h1 className='justify-content-center mt-0'>
+              <div className='col'>
+                <h3 className='justify-content-center text-center mt-2'>
                   {startOfWeekFormatted} to {endOfWeek}
-                </h1>
+                </h3>
               </div>
-              <div className='col-1 ps-3'>
+              <div className='col-1'>
                 <button
-                  className='btn btn-dash-return'
+                  className='btn'
                   onClick={() => {
                     setCounter(counter - 1)
                     setDayClicked(null)
@@ -322,13 +349,19 @@ const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
             </div>
 
             <div className='row'>
-              <div className='col-6 px-4'>
+              <div className='col px-4'>
+                <p className='text-muted text-center'>{t('date')}</p>
                 {days.map(
                   (x, i) =>
                     x.format === 'day' && <DaySelector data={x} i={i} key={i} />
                 )}
               </div>
-              <div className='col-6 px-4'>
+              <div className='col px-4'>
+                {dayClicked !== null ? (
+                  <p className='text-muted text-center'>{t('time')}</p>
+                ) : (
+                  ''
+                )}
                 {timeArr.map((x, i) => {
                   i = i + 10
                   if (x.format === 'time') {
@@ -338,7 +371,8 @@ const ReschedulingTimeModal = ({ setSchedule, setTabIndex, type }) => {
               </div>
             </div>
           </div>
-          <div className='container flex-right col-auto modal-scroll'>
+
+          <div className='col'>
             {dayClicked !== null && timeClicked ? <AvailableSpots /> : ''}
           </div>
         </div>

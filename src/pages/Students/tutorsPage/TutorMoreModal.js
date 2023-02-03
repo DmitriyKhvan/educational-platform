@@ -1,6 +1,7 @@
 
 
 import React from 'react'
+import { useParams } from 'react-router-dom';
 import FavIcon from "../../../assets/images/Favorite.png"
 
 import "./TutorModal.scss"
@@ -11,22 +12,25 @@ const TutorMoreModal = ({
     tutorsList, 
     handleStatusTutor,
   }) => {
-
-  const renderSelectedTutor = tutorsList.find(item => item.id === parseInt(tutorId));
   
+  const {id} = useParams();
+  
+  const renderSelectedTutor = tutorsList?.find(item => item.id === id);
+  
+  console.log(renderSelectedTutor)
+    
   return (
     <div className='tutor_alfa'>
       <div className='tutor_modal'>
-        <div className='tutor_banner' style={{background:`url('${(renderSelectedTutor.img)}') center / cover `}}></div>
+        <iframe width="40%" height="100%" src={renderSelectedTutor?.videoUrl} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        {/* <div className='tutor_banner' style={{background:`url('${(renderSelectedTutor?.picture?.url)}') center / cover `}}></div> */}
         <div className='tutor_more-content'>
-          {renderSelectedTutor.isFavourite && <img src={FavIcon} alt='' className='favTutorIcon'/>}
-          <h1>{renderSelectedTutor.name}</h1>
-          <p>
-            I’m from San Diego, California, I received a Bachelor’s Degree in English from Harvard University
+          {renderSelectedTutor?.isFavourite && <img src={FavIcon} alt='' className='favTutorIcon'/>}
+          <h1>{renderSelectedTutor?.userName}</h1>
+          <p>   
+            {renderSelectedTutor?.about}
           </p>
-          <p>
-            I have a true passion for working with the youngest learners!! Helping each child progress in all areas of their academic development is a challenge that I am honored to accept daily.
-          </p>
+          
 
           <div className='bottom_content'>
             <p>
@@ -43,11 +47,11 @@ const TutorMoreModal = ({
             <div className='bottom_content-status'>
               <div>
                 <p>School</p>
-                <h3>{renderSelectedTutor.univer}</h3>
+                <h3>{renderSelectedTutor?.university}</h3>
               </div>
               <div>
                 <p>Degree / Major</p>
-                <h3>{renderSelectedTutor.lang}</h3>
+                <h3>{renderSelectedTutor?.language}</h3>
               </div>
               <div>
                 <p>Topics </p>
@@ -63,7 +67,7 @@ const TutorMoreModal = ({
                 Message
               </button>
               <button onClick={() => handleStatusTutor(parseInt(tutorId))}>
-                {renderSelectedTutor.isFavourite ? "Remove" : "Favorite"}
+                {renderSelectedTutor?.isFavourite ? "Remove" : "Favorite"}
               </button>
             </div>
           </div>

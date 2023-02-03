@@ -18,6 +18,7 @@ import ScheduleCard from '../../components/student-dashboard/ScheduleCard'
 import whiteSubscriptionIcon from '../../assets/images/white_subscription_icon.svg'
 import whiteBookingIcon from '../../assets/images/white_book_trial_icon.svg'
 import Loader from '../../components/common/Loader'
+import { useAuth } from '../../modules/auth'
 
 const options = [
   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
@@ -32,10 +33,12 @@ const StudentListAppointments = () => {
   const [selectedLesson, setSelectedLesson] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const appointments = useSelector(state => state.appointment.list)
-  const user = useSelector(state => state.users.user)
+  const { user } = useAuth()
   const [completedAppointment, setCompleteAppointment] = useState(null)
   const history = useHistory()
   const onDismiss = () => setCompleteAppointment(null)
+
+
   const onCancel = async ({ id, reasons }) => {
     setIsLoading(true)
     try {
@@ -86,8 +89,8 @@ const StudentListAppointments = () => {
   const fetchAppointments = async () => {
     let queryObj = {}
 
-    if (user.student_profile) {
-      queryObj.student_id = user.student_profile.id
+    if (user.role === 'student') {
+      queryObj.student_id = user.student.id
     } else {
       return
     }
@@ -148,7 +151,7 @@ const StudentListAppointments = () => {
             <div className='student-dashboard flex-left children-wrapper flex-change childern-padding'>
               <div className='set-container'>
                 <h4 className='welcome-message'>
-                  {t('student_dashboard_welcome', { name: user.first_name })}
+                  {t('student_dashboard_welcome', { name: user.firstName })}
                 </h4>
                 <p className='welcome-subtitle'>
                   {t('student_dashboard_subtitle')}
@@ -171,20 +174,20 @@ const StudentListAppointments = () => {
                     </div>
                     <div className='row mobile-view-buttons'>
                       <div className='col-6 desktop schedule-dashboard-button'>
-                        <a
-                          href='/student/schedule-lesson/select'
+                        <Link
+                          to='/student/schedule-lesson/select'
                           className='schedule-dashboard-buttons'
                         >
                           {t('schedule_1_on_1_lesson')}
-                        </a>
+                        </Link>
                       </div>
                       {/* <div className='col-6 schedule-dashboard-button'>
-                        <a
+                        <Link
                           href='/student/schedule-lesson/group-select'
                           className='schedule-dashboard-buttons'
                         >
                           {t('schedule_group_lesson')}
-                        </a>
+                        </Link>
                       </div> */}
                     </div>
                   </div>
@@ -269,7 +272,7 @@ const StudentListAppointments = () => {
           appointment={completedAppointment}
         />
       )}
-      {isLoading && <Loader />}
+      {/* {isLoading && <Loader />} */}
     </Layout>
   )
 }

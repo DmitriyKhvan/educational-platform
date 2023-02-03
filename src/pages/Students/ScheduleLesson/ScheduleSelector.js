@@ -300,12 +300,11 @@ const ScheduleSelector = ({
   }
 
   const ScheduleCard = ({ scheduleStartTime }) => {
-    const scheduleEndTime = moment(scheduleStartTime, [
-      moment.ISO_8601,
-      'HH:mm'
-    ])
-      .add(duration, 'minutes')
-      .format('hh:mm A')
+    const scheduleEndTime = moment(scheduleStartTime, [moment.ISO_8601, 'HH:mm']).add(
+      duration,
+      'minutes'
+    ).format('hh:mm A')
+
     return (
       <div
         className={`time-card grey-border bg-white small-card pt-2 mt-4 media_align_width`}
@@ -407,14 +406,14 @@ const ScheduleSelector = ({
                 <div className='col-6 px-4'>
                   {days.map(
                     (x, i) =>
-                      x.format === 'day' && <DaySelector data={x} i={i} />
+                      x.format === 'day' && <DaySelector data={x} i={i} key={i} />
                   )}
                 </div>
                 <div className='col-6 px-4'>
                   {timeArr.map((x, i) => {
                     i = i + 10
                     if (x.format === 'time') {
-                      return <DaySelector data={x} i={i} />
+                      return <DaySelector data={x} i={i} key={i} />
                     }
                   })}
                 </div>

@@ -2,11 +2,12 @@ import React from 'react'
 import Layout from '../../../components/Layout'
 
 import FavIcon from "../../../assets/images/Favorite.png"
-import Tut from "../../../assets/images/nao.png"
 
-import "./TutorsPage.scss"
-import TutorMoreModal from './TutorMoreModal'
-import { useHistory, useParams } from 'react-router-dom'
+import "./TutorsPage.scss";
+import TutorMoreModal from './TutorMoreModal';
+import { useHistory } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { MENTORS_QUERY } from '../../../modules/auth/graphql';
 
 const filtersList = [
   {
@@ -57,72 +58,21 @@ const filtersList = [
  
 ]
 
-const tutorList = [
-  {
-    id:1,
-    img: Tut,
-    name:'Sarah B.',
-    univer: "Harvard University",
-    lang: "B.A. in English",
-    isFavourite: false
-  },
-  {
-    id:2,
-    img: "https://media.istockphoto.com/id/1365223878/photo/attractive-man-feeling-cheerful.jpg?b=1&s=170667a&w=0&k=20&c=Pt_reBU6pAQV6cXnIcBSLdtYSB4a_8MJM4qWAO_0leU=",
-    name:'Alex T.',
-    univer: "Stanford University",
-    lang: "B.A. in English",
-    isFavourite: false
-  },
-  {
-    id:3,
-    img: "https://img.freepik.com/free-photo/lifestyle-people-emotions-and-casual-concept-confident-nice-smiling-asian-woman-cross-arms-chest-confident-ready-to-help-listening-to-coworkers-taking-part-conversation_1258-59335.jpg?w=2000",
-    name:'Caroline W.',
-    univer: "Brown University",
-    lang: "B.A. in English",
-    isFavourite: false
-  },
-  {
-    id:4,
-    img: Tut,
-    name:'Sarah B.',
-    univer: "Harvard University",
-    lang: "B.A. in English",
-    isFavourite: false
-  },
-  {
-    id:5,
-    img:Tut,
-    name:'Alex T.',
-    univer: "Stanford University",
-    lang: "B.A. in English",
-    isFavourite: false
-  },
-  {
-    id:6,
-    img: Tut,
-    name:'Caroline W.',
-    univer: "Brown University",
-    lang: "B.A. in English",
-    isFavourite: false
-  },
-]
+
 
 const TutorsPage = () => {
-  const [tutors, setTutors] = React.useState(tutorList)
   const [showTutorModal , setShowTutorModal] = React.useState(false)
-  const {id} = useParams();
   const history = useHistory();
+  const { data } = useQuery(MENTORS_QUERY);
 
-  const handleStatusTutor = (id) => 
-    setTutors(tutors.map(item => {
-      if(item.id === id) {
-        item.isFavourite = !item.isFavourite;
-        return item;
-      } else {
-        return item;
-      } 
-  }))
+  const mentors = data?.tutors;
+
+  console.log(mentors)
+
+  const handleStatusTutor = (id) =>  {
+  
+  }
+    
 
   const handleMoreTutor = (id) => {
     if(id) {
@@ -130,6 +80,10 @@ const TutorsPage = () => {
     }
 
     setShowTutorModal(true)
+  }
+
+  const handleFilter = () => {
+
   }
   
   return (
@@ -169,24 +123,28 @@ const TutorsPage = () => {
         </div>
 
         <div className='tutors_row'>
+          {mentors?.length === 0 && <p>Empty</p>}
+
+          {!mentors && <p>Loading...</p>}
+
           {
-            tutors.map(item => 
+            mentors && mentors.map(item => 
               <div key={item.id} className='tutors_card'>
-                <div className='tutors_card-img' style={{background:`url("${item.img}") center / cover`}}>
+                <div className='tutors_card-img' style={{background:`url("${item.picture?.url}") center / cover`}}>
                   {item.isFavourite && <img src={FavIcon} alt=''/>}
                 </div>
                 <div className='tutors_card-body'>
                   <div className='tutors_info'>
-                    <h2>{item.name}</h2>
-                    <p>{item.univer}</p>
-                    <span>{item.lang}</span>
+                    <h2>{item.userName}</h2>
+                    <p>{item.university}</p>
+                    <span>{item.language}</span>
                   </div>
                   <div className='tutors_control-buttons'>
                     <button onClick={() => handleMoreTutor(item.id)}>
                       Learn more
                     </button>
                     <button onClick={() => handleStatusTutor(item.id)}>
-                      {item.isFavourite ? "Remove" : "Favorite"}
+                      {item?.isFavourite ? "Remove" : "Favorite"}
                     </button>
                   </div>
                 </div>
@@ -196,10 +154,8 @@ const TutorsPage = () => {
         </div>
       </div>
 
-      {showTutorModal && <TutorMoreModal 
-        tutorId={id} 
-        tutorsList={tutors}
-        setTutors={setTutors}
+      {(showTutorModal) && <TutorMoreModal 
+        tutorsList={mentors}
         handleStatusTutor={handleStatusTutor}
         setShowTutorModal={setShowTutorModal}
       />}
@@ -208,4 +164,4 @@ const TutorsPage = () => {
   )
 }
 
-export default TutorsPage
+export default TutorsPage;

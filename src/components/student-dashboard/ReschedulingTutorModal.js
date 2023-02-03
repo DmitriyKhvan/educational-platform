@@ -19,35 +19,40 @@ const ReschedulingTutorModal = ({
     const name = tutor.first_name + ' ' + tutor.last_name.charAt(0) + '.'
 
     return (
-      <div className='col-12 col-xl-3 col-lg-4 col-md-6 col-sm-3 pe-3'>
-        <img
-          src={
-            tutor.avatar
-              ? tutor.avatar
-              : tutor.gender === 'female'
-              ? femaleAvatar
-              : maleAvatar
-          }
-          className='img-fluid'
-          alt=''
-        />
-        <div className='container pt-3 text-center'>
+      <div className='col-xl-3 col-lg-4 col-md-6 col-sm-12 pe-3 mb-3'>
+        <div className='text-center mb-1'>
+          <img
+            src={
+              tutor.avatar
+                ? tutor.avatar
+                : tutor.gender === 'female'
+                ? femaleAvatar
+                : maleAvatar
+            }
+            className='img-fluid'
+            alt=''
+          />
+        </div>
+        <div className='text-center'>
           <div className='row'>
-            <h1 className='text-purple justify-content-center mb-2'>{name}</h1>
+            <h4 className='text-purple justify-content-center'>{name}</h4>
           </div>
+
           <div className='row'>
             <h5 className='text-light-grey justify-content-center'>
               <strong>{tutor.university}</strong>
             </h5>
           </div>
+
           <div className='row'>
             <h5 className='text-light-grey justify-content-center'>
-              {tutor.major || ''}
+              {tutor.major || '-'}
             </h5>
           </div>
-          <div className='row ps-5 container'>
+
+          <div className='row px-4 mx-1'>
             <button
-              className='enter-btn btn-primary'
+              className='btn-primary btn'
               onClick={() => onClick(tutor)}
             >
               {t('select_tutor')}
@@ -57,38 +62,29 @@ const ReschedulingTutorModal = ({
       </div>
     )
   }
+
   return (
-    <div>
-      <div
-        className='scroll-layout container'
-        style={{ width: '65vw', overflow: 'scroll' }}
-      >
-        <div className='container'>
-          <h2>{t('select_a_tutor')}</h2>
-          <p className='welcome-subtitle'>{t('select_a_tutor_subtitle')}</p>
+    <div style={{ width: '65vw' }}>
+      <h2 className='mt-0'>{t('select_a_tutor')}</h2>
+      <p className='mb-2 welcome-subtitle'>{t('select_a_tutor_subtitle')}</p>
+      <div className='row'>
+        <div className='col'>
+          <button
+            className='enter-btn btn-dash-return px-4'
+            onClick={() => setTabIndex(2)}
+          >
+            {t('back')}
+          </button>
         </div>
-        <div className='row container'>
-          <div className='col-auto'>
-            <button
-              className='enter-btn btn-dash-return ms-0'
-              onClick={() => setTabIndex(2)}
-            >
-              {t('back')}
-            </button>
-          </div>
-          <div className='col-auto pt-2'>
-            {/* <Select options={options} /> */}
-          </div>
-        </div>
-        <div className='row ps-2 pt-4 modal-scroll'>
-          {tutors
-            .sort((a, b) =>
-              a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1
-            )
-            .map((x, i) => (
-              <SelectTutors tutor={x} key={i} />
-            ))}
-        </div>
+      </div>
+      <div className='row mt-2 ps-2 pt-0 modal-scroll'>
+        {tutors
+          .sort((a, b) =>
+            a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1
+          )
+          .map((x, i) => (
+            <SelectTutors tutor={x} key={i} />
+          ))}
       </div>
       {isLoading && <Loader />}
     </div>

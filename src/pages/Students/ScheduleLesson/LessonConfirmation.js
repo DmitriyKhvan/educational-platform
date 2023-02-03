@@ -24,7 +24,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
   const [repeat, setRepeat] = useState({})
   const [cancel, setCancel] = useState({})
   const [isLoading, setIsLoading] = useState(false)
-  // const user = useSelector(state => state.users.user)
+  const user = useSelector(state => state.users.user)
   const [isChecked, setIsChecked] = useState(false)
   const [newAppointment, setNewAppointment] = useState({})
   const [isConfirmed, setIsConfirmed] = useState(false)
@@ -45,15 +45,12 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
     }
   }
 
-  const userTimezone = user?.time_zone?.split(' ')[0]
+  const userTimezone = user?.time_zone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
   const scheduleDate = moment(new Date())
     .tz(userTimezone)
     .format('dddd, MMM DD')
   const scheduleStartTime = moment(time).tz(userTimezone).format('hh:mm A')
-  const scheduleEndTime = moment(time)
-    .tz(userTimezone)
-    .add(plan.duration, 'minutes')
-    .format('hh:mm A')
+  const scheduleEndTime = moment(time).tz(userTimezone).add(plan.duration, 'minutes').format('hh:mm A')
 
   let data = {
     lesson_title: plan.lesson_title,

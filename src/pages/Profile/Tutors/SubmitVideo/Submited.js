@@ -31,7 +31,7 @@ const Submited = () => {
             </p>
           </div>
 
-          <button onClick={() => history.push("/tutor/edit-profile")} >Return to My Profile</button>
+          <button onClick={() => history.push("/student/profile")} >Return to My Profile</button>
         </div>
       </div>
     </Layout>

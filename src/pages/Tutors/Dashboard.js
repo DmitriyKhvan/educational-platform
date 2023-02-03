@@ -10,17 +10,20 @@ import { getUserInfo } from '../../actions/user'
 import { getTutorInfo } from '../../actions/tutor'
 import BookingRequest from '../../components/BookingRequest'
 import Loader from '../../components/common/Loader'
+import { useAuth } from '../../modules/auth'
 
 const TutorDashboard = () => {
   const [t] = useTranslation('translation')
   const dispatch = useDispatch()
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const user = useSelector(state => state.users.user)
   const tutor = useSelector(state => state.tutor.info)
   const appointments = useSelector(state => state.appointment)
   const [upcomingLessons, setUpcomingLessons] = useState([])
   const [lessonApprovals, setLessonApprovals] = useState([])
   const hasLessonApprovals = lessonApprovals.length > 0
+
+  const { user: currentUser } = useAuth();
 
   useEffect(() => {
     if (!user) {
@@ -36,11 +39,12 @@ const TutorDashboard = () => {
 
   const fetchAppointments = async () => {
     if (tutor) {
-      setIsLoading(true)
+      // setIsLoading(true)
       await dispatch(getAppointments({ tutor_id: tutor.id }))
       setIsLoading(false)
     }
   }
+
 
   useEffect(() => {
     ;(async () => {
@@ -100,13 +104,15 @@ const TutorDashboard = () => {
     }
   }
 
+  console.log(currentUser)
+
   return (
     <div className='main-dashboard scroll-layout'>
       <div className='flex-container'>
         <div className='student-dashboard flex-left children-wrapper flex-change '>
           <div className='set-container'>
             <h4 className='welcome-message'>
-              {t('student_dashboard_welcome', { name: user.first_name })}
+              {t('student_dashboard_welcome', { name: currentUser?.firstName })}
             </h4>
             <p className='welcome-subtitle'>{t('tutor_welcome_back')}</p>
 

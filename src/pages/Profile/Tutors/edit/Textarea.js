@@ -3,7 +3,7 @@ import React from "react";
 import cls from "../EditTutorProfile.module.scss"
 
 export const Textarea = React.forwardRef(({
-  value="",
+  defaultValue="",
   label="",
   text="",
   ...rest
@@ -13,7 +13,7 @@ export const Textarea = React.forwardRef(({
      <p className={cls.label}>{label}</p>
      <p className={cls.text}>{text}</p>
      <textarea 
-        value={value}
+        defaultValue={defaultValue}
         ref={ref}
         {...rest}
       >

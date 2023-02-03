@@ -7,10 +7,11 @@ import { I18nextProvider } from 'react-i18next'
 import i18next from 'i18next'
 import translation_en from './assets/lang/en/translations.json'
 import translation_kr from './assets/lang/kr/translations.json'
-import { ApolloClient, HttpLink, ApolloLink, InMemoryCache, ApolloProvider, concat } from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCache, ApolloProvider, concat } from '@apollo/client';
 import { AuthProvider } from './modules/auth';
+import { createUploadLink } from 'apollo-upload-client'
 
-const httpLink = new HttpLink({ uri: `${process.env.REACT_APP_SERVER_URL}/api/graphql` });
+const httpLink = createUploadLink({ uri: `${process.env.REACT_APP_SERVER_URL}/api/graphql` });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
@@ -19,7 +20,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
       authorization: localStorage.getItem('token') || null,
     }
   }));
-
+  
   return forward(operation);
 })
 
@@ -27,6 +28,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: concat(authMiddleware, httpLink),
 });
+
+
 
 i18next.init({
   interpolation: { escapeValue: false }, // React already does escaping

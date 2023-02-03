@@ -84,17 +84,17 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
   const onDismiss = () => setCompleteAppointment(null)
 
 
-  const onCancel = async ({ id, reasons }) => {
-    setIsLoading(true)
-    try {
-      await AppointmentApi.cancelAppointment(id)
-      await fetchAppointments()
-    } catch (e) {
-      NotificationManager.error(e.response?.data?.message || 'Server Issue', t)
-    }
-    setSelectedLesson(false)
-    setIsLoading(false)
-  }
+  // const onCancel = async ({ id, reasons }) => {
+  //   setIsLoading(true)
+  //   try {
+  //     await AppointmentApi.cancelAppointment(id)
+  //     await fetchAppointments()
+  //   } catch (e) {
+  //     NotificationManager.error(e.response?.data?.message || 'Server Issue', t)
+  //   }
+  //   setSelectedLesson(false)
+  //   setIsLoading(false)
+  // }
 
   const callToAction = [
     {
@@ -111,13 +111,14 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
     }
   ]
 
+
   useEffect(() => {
     ;(async () => {
       if (user.tutor_profile) {
         history.push('/')
       }
       if (user) {
-        await fetchAppointments()
+        // await fetchAppointments()
       }
     })()
   }, [selectedOption, user])
@@ -131,22 +132,22 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
     }
   }, [appointments, complete_appoint_id])
 
-  const fetchAppointments = async () => {
-    let queryObj = {}
+  // const fetchAppointments = async () => {
+  //   let queryObj = {}
 
-    if (user.student_profile) {
-      queryObj.student_id = user.student_profile.id
-    } else {
-      return
-    }
+  //   if (user.student_profile) {
+  //     queryObj.student_id = user.student_profile.id
+  //   } else {
+  //     return
+  //   }
 
-    if (selectedOption === options[1]) {
-      queryObj.completed = true
-    }
+  //   if (selectedOption === options[1]) {
+  //     queryObj.completed = true
+  //   }
 
-    await dispatch(getAppointments(queryObj))
-    setIsLoading(false)
-  }
+  //   await dispatch(getAppointments(queryObj))
+  //   setIsLoading(false)
+  // }
 
   
 
@@ -183,7 +184,7 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
               data={x}
               key={i}
               index={i}
-              fetchAppointments={fetchAppointments}
+              // fetchAppointments={fetchAppointments}
             />
           </div>
         )
@@ -195,7 +196,7 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
 
   const actions = useAuth();
 
-  console.log(actions)
+  const avatar = actions.user?.student?.avatar?.url;
 
   return (
     <div>
@@ -205,7 +206,12 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
             <div className='profile_section'>
               <div className='profile_banner'>
                   <div className='profile_banner-top'>
-                    <img src={profileAvatar} alt=''/>
+                    {
+                      avatar 
+                        ? <img style={{objectPosition: "top"}} src={avatar} alt=''/>
+                        : <img src={profileAvatar} alt=''/>
+                    }
+                    
                   </div>
                   <div className='profile_banner-bottom'>
                     <div className='profile_main-info'>
@@ -231,7 +237,7 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
                     </div>
                   </div>
               </div>
-
+              
               <div className='edit_summary'>
                 <header>
                   <h2>Summary</h2>
@@ -258,7 +264,6 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
                   <Link to={"/student/profiles/edit-topics"}>Edit Topics</Link>
                 </div>
               </div>
-
               <div className='enrolled_course'>
                 <h2>Enrolled Courses</h2>
                 {
@@ -359,6 +364,7 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
                       : "+996553720025"
                   }</p>
                 </div> 
+
               </div>  
             </div>
           </div>
@@ -369,14 +375,14 @@ const GeneralProfile = ({currentUser, isAdmin=false}) => {
           visible={!!selectedLesson}
           lesson={selectedLesson}
           onDismiss={onDismiss}
-          onCancel={onCancel}
+          // onCancel={onCancel}
           reasons={cancel_lesson_reasons_student}
         />
       )}
 
       {<EditProflileModal isOpen={showEditModal} setIsOpen={setIsShowEditModal} />}
 
-      {isLoading && <Loader />}
+      {/* {isLoading && <Loader />} */}
     </div>
   )
 }

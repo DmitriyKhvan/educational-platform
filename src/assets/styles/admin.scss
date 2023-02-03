@@ -1,7 +1,7 @@
-@import "./variable.scss";
+@import './variable.scss';
 
 .purple-border {
-  border: 2px solid #6133AF !important;
+  border: 2px solid #6133af !important;
 }
 
 .schedule-lesson-border {
@@ -25,6 +25,7 @@
 }
 
 .schedule-card {
+  cursor: pointer;
   background: $color-white;
   border: 0.5px solid $color-border-white;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
@@ -356,7 +357,7 @@
 
   .actions {
     > div {
-      margin-left: 10px; 
+      margin-left: 10px;
     }
   }
 }
@@ -901,7 +902,7 @@
           }
 
           .country-list {
-            margin-top: 1px ;
+            margin-top: 1px;
             margin-left: -1px;
           }
         }

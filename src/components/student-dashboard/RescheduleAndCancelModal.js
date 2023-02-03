@@ -1,16 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import CancellationPolicyModal from './CancellationPolicyModal'
 import CancelLessonModal from './CancelLessonModal'
 import CancelWarningModal from './CancelWarningModal'
 import ModalWrapper from '../ModalWrapper'
-import ScheduleSelector from '../../pages/Students/ScheduleLesson/ScheduleSelector'
 import ReschedulingTimeModal from './ReschedulingTimeModal'
-import { getTutorList } from '../../actions/tutor'
 import ReschedulingTutorModal from './ReschedulingTutorModal'
 import RescheduleConfirmationModal from './RescheduleConfirmationModal'
-import { getPlanStatus } from '../../actions/subscription'
-import Loader from '../common/Loader'
 
 const RescheduleAndCancelModal = ({
   data,
@@ -21,31 +17,13 @@ const RescheduleAndCancelModal = ({
   fetchAppointments,
   tabIndex,
   type,
-  cancelled
+  cancelled,
+  duration
 }) => {
-  const dispatch = useDispatch()
   const [schedule, setSchedule] = useState()
   const [selectTutor, setSelectTutor] = useState()
   const tutors = useSelector(state => state.tutor.list)
   const [isLoading, setIsLoading] = useState(false)
-  const [planStatus] = useSelector(state => state.students.planStatus).filter(
-    x => parseInt(x.duration, 10) === parseInt(data.duration, 10)
-  )
-
-  useEffect(() => {
-    ;(async () => {
-      await dispatch(getPlanStatus())
-    })()
-  }, [dispatch])
-
-  useEffect(() => {
-    ;(async () => {
-      setIsLoading(true)
-      await dispatch(getTutorList(schedule))
-      setIsLoading(false)
-    })()
-  }, [tabIndex])
-  data.planStatus = planStatus
 
   return (
     <ModalWrapper isOpen={isOpen} closeModal={closeModal}>
@@ -69,6 +47,7 @@ const RescheduleAndCancelModal = ({
           setSchedule={setSchedule}
           setTabIndex={setTabIndex}
           type={type}
+          duration={duration}
         />
       ) : tabIndex === 3 ? (
         <ReschedulingTutorModal
@@ -85,7 +64,6 @@ const RescheduleAndCancelModal = ({
           schedule={schedule}
           tutor={selectTutor}
           closeModal={closeModal}
-          cancelled={cancelled}
         />
       ) : (
         tabIndex === 10 && (

@@ -1,54 +1,85 @@
 
+import { useMutation } from '@apollo/client'
 import { Switch } from '@mui/material'
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm , Controller } from 'react-hook-form'
+import { useAuth } from '../../../../modules/auth'
+import { MUTATION_UPDATE_USER } from '../../../../modules/auth/graphql'
 import Submit from './Submit'
 import { TextInput } from './TextInput'
-
-
+import Select from 'react-select';
+import timezone from 'timezones-list';
 const label = { inputProps: { 'aria-label': 'Switch demo' } }
 
 const BasicForm = ({cls}) => {
 
+  const [updateTutor, { loading: updateUserLoading }] = useMutation(MUTATION_UPDATE_USER);
+
+  const { user, refetchUser } = useAuth();
+
+  const timezones = timezone.map(x => x.label)
+
   const {
-    register
+    register,
+    handleSubmit,
+    control
   } = useForm({
-    mode:"onBlur"
-  })
+    mode:"onBlur",
+    defaultValues: {
+      firstName: user?.firstName
+    }
+  });
+
+  const handleEditBasicInfo = async (area) => {
+
+    await updateTutor({
+      variables: {
+        where: {
+          id: user?.id,
+        },
+        data: area
+      }
+    })
+
+    await refetchUser();
+  }
 
   return (
+    <form 
+      onSubmit={handleSubmit(handleEditBasicInfo)} 
+      className={cls.editProfile_container_forms_basic} id='basic'
+    >    
     <div>
       <div className={cls.editProfile_container_forms_basic_title}>
         <h2>Basic Information</h2>
       </div>
-      
-      <TextInput 
+
+      <TextInput
         type="text"
-        value="Jessica"
-        cls={cls}
+        defaultValue={user?.firstName}
         label="First name"
-        {...register("first_name")}
+        {...register("firstName")}
       />
 
       <TextInput 
         type="text"
-        value="Brighton"
+        defaultValue={user?.lastName}
         label="Last name"
-        {...register("last_name")}
+        {...register("lastName")}
       />
 
       <TextInput 
         type="email"
-        value="jessica.brighton@gmail.com"
+        defaultValue={user?.email}
         label="Email address"
         {...register("email")}
       />
 
       <TextInput 
-        type="number"
-        value="+1 (424) 123-4567"
+        type="text"
+        defaultValue={user?.phoneNumber}
         label="Phone number"
-        {...register("phone_number")}
+        {...register("phoneNumber")}
       />
 
       <div className={cls.editProfile_container_forms_basic_switch}>
@@ -59,30 +90,44 @@ const BasicForm = ({cls}) => {
       <div className={cls.form_divider}>
         <p>Location</p>
 
-        <select {...register("location")}>
-          <option value={"usa"}>United States of America</option>
+        <select defaultValue={user?.country} {...register("country")}>
+          <option value={"USA"}>United States of America</option>
         </select>
       </div>
 
-      <TextInput 
+      <TextInput
         type="text"
-        value="123 Market St"
+        defaultValue={user?.address}
         label="Address"
-        {...register("phone_number")}
+        {...register("address")}
       />
 
       <div className={cls.form_divider}>
         <p>Time zone</p>
 
-        <select {...register("time_zone")}>
-          <option value={"usa"}>Pacific Standard Time (GMT-8)</option>
-        </select>
+        <div style={{width:"420px", marginTop:"15px"}}>
+          <Controller
+            control={control}
+            name="timeZone"
+            defaultValue={user?.timeZone}
+            render={({ field: { ref, value, onChange } }) => (
+              <Select
+                inputRef={ref}
+                value={{ label: value, value: value }}
+                options={timezones.map(each => {
+                  return { label: each, value: each };
+                })}
+                onChange={e => onChange(e.value)}
+              />
+            )}
+          />
+        </div>
       </div>
-
-      <Submit />
-
     </div>
+
+    <Submit />
+  </form>  
   )
 }
 
-export default BasicForm
+export default BasicForm;

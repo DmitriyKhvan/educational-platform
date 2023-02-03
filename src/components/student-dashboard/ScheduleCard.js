@@ -82,13 +82,10 @@ const ScheduleCard = ({
   const displayDate = () => {
     const eventDate = moment(date).tz(userTimezone).format('MMM Do')
     const start = moment(date).tz(userTimezone).format('hh:mm A')
-    const end = moment(date)
-      .tz(userTimezone)
-      .add(data.duration, 'minutes')
-      .format('hh:mm A')
+    const end = moment(date).tz(userTimezone).add(data.duration, 'minutes').format('hh:mm A')
     return `${eventDate} at ${start} → ${end}`
   }
-  
+
   return (
     <div
       className={`page-card_schedule ${
@@ -112,7 +109,6 @@ const ScheduleCard = ({
               }`}
             >
               {displayDate()}
-              
             </h3>
           </div>
           <div className='col-2 cols-image-schedule mobile-schedule_dash'>
@@ -186,6 +182,7 @@ const ScheduleCard = ({
           tabIndex={tabIndex}
           type={modalType}
           cancelled={cancelled}
+          duration={data.duration}
         />
       )}
       {isWarningOpen && (

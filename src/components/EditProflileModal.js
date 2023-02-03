@@ -6,14 +6,15 @@ import AvatarImg from '../assets/avatar.png'
 import { TextInput } from './TextInput';
 import { useAuth } from '../modules/auth'
 import profileAvatar from '../assets/images/Avatar.png';
-
-
-
+import { MUTATION_UPDATE_STUDENT } from '../modules/auth/graphql'
+import { useMutation } from '@apollo/client'
+import timezone from 'timezones-list';
 
 const EditProflileModal = ({isOpen, setIsOpen}) => {
-  const { updateUser } = useAuth();
+  const [updateStudent, { loading: updateUserLoading }] = useMutation(MUTATION_UPDATE_STUDENT);
 
-  
+  const { user, refetchUser } = useAuth();
+  const timezones = timezone.map(x => x.label)
 
   const {
     reset,
@@ -43,15 +44,29 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
     lastName: "Mishele"
   }
 
+
   const onSubmit = async (area) => {
     console.log(area)
 
-    const {data} = await updateUser(area)
+    const { data } = await updateStudent({
+      variables: {
+        where: {
+          id: parseInt(user?.student?.id),
+        },
+        data: {
+          avatar: { upload: area.avatar[0] }
+        }
+      }
+    })
 
-    console.log(data)
+    if(data) {
+      closeModal();
+    }
 
-    // closeModal()
+    await refetchUser();
   }
+
+  const avatar = user?.student?.avatar?.url || AvatarImg;
 
   return (
     <Modal
@@ -68,7 +83,7 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
         </button>
       </div>
       <div className='avatar-block'>
-        <img src={userInfo.avatar} alt={userInfo.tutorName} />
+        {avatar && <img src={avatar} alt={userInfo.tutorName} />}
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className='body'>
         {/* <div>
@@ -83,14 +98,18 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
           <TextInput 
             label="Korean Equivalent"
             type={"text"}
-            value={userInfo.equivalent}
-            {...register("koreanEquivalent")}
+            defaultValue={userInfo.equivalent}
+            {...register("koreanEquivalent", {
+              required: "This field is required!"
+            })}
           />
         </div>
         <div>
           <label>
             Gender
-            <select {...register("gender")}>
+            <select {...register("gender", {
+              required: "This field is required!"
+            })}>
               {userInfo.gender.map(item => 
                 <option key={item} value={item}>{item}</option>
               )}
@@ -100,8 +119,10 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
         <div>
           <label>
             Time zone (optional)
-            <select {...register("timeZone")}>
-              {userInfo.timeZone.map(item => 
+            <select {...register("timeZone", {
+              required: "This field is required!"
+            })}>
+              {timezones.map(item => 
                 <option key={item} value={item}>{item}</option>
               )}
             </select>
@@ -111,62 +132,66 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
           <TextInput 
             label="Last Name"
             type={"text"}
-            placeholder={userInfo.lastName}
-            {...register("lastName")}
+            defaultValue={userInfo.lastName}
+            {...register("lastName" ,{
+              required: "This field is required!"
+            })}
           />
         </div>
         <div>
           <TextInput 
             label="First Name"
             type={"text"}
-            placeholder={userInfo.firstName}
-            {...register("firstName")}
+            defaultValue={userInfo.firstName}
+            {...register("firstName", {
+              required: "This field is required!"
+            })}
           />
         </div>
         <div>
           <TextInput 
             label="Phone Number"
             type={"text"}
-            placeholder="+1(555)555-5555"
-            {...register("phoneNumber")}
+            defaultValue="+1(555)555-5555"
+            {...register("phoneNumber", {
+              required: "This field is required!"
+            })}
           />
         </div>
         <div>
           <TextInput 
             label="Address"
             type={"text"}
-            placeholder="123 Street, City, State"
-            {...register("address")}
+            defaultValue="123 Street, City, State"
+            {...register("address", {
+              required: "This field is required!"
+            })}
           />
         </div>
         <div>
           <label>
             Country
-            <select {...register("country")}>
+            <select {...register("country", {
+              required: "This field is required!"
+            })}>
               {userInfo.country.map(item => 
                 <option key={item} value={item}>{item}</option>
               )}
             </select>
           </label>
         </div>
-        {/* <div>
-          <label>
-            Would you like to schedule lessons on holidays?
-            <select {...register("schedule_lesson")}>
-              {userInfo.holiday.map(item => 
-                <option key={item} value={item}>{item}</option>
-              )}
-            </select>
-          </label>
-        </div> */}
+
         <div>
           <TextInput 
-            label="Password"
-            type={"password"}
-            placeholder="123123123"
-            {...register("password")}
+            label="Avatar"
+            type={"file"}
+            multiple={true}
+            {...register("avatar", {
+              required: "This field is required!"
+            })}
           />
         </div>
+        
         <button style={{cursor:"pointer"}} type='submit'>Save Edits</button>
       </form>
     </Modal>
