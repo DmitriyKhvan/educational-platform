@@ -6,14 +6,20 @@ import AvatarImg from '../assets/avatar.png'
 import { TextInput } from './TextInput'
 import { useAuth } from '../modules/auth'
 import profileAvatar from '../assets/images/Avatar.png'
-import { MUTATION_UPDATE_STUDENT } from '../modules/auth/graphql'
+import {
+  MUTATION_UPDATE_STUDENT,
+  MUTATION_UPDATE_USER
+} from '../modules/auth/graphql'
 import { useMutation } from '@apollo/client'
 import timezone from 'timezones-list'
 
 const EditProflileModal = ({ isOpen, setIsOpen }) => {
-  const [updateStudent, { loading: updateUserLoading }] = useMutation(
+  const [updateStudent, { loading: updateStudentLoading }] = useMutation(
     MUTATION_UPDATE_STUDENT
   )
+
+  const [updateUser, { loading: updateUserLoading }] =
+    useMutation(MUTATION_UPDATE_USER)
 
   const { user, refetchUser } = useAuth()
   const timezones = timezone.map(x => x.label)
@@ -27,7 +33,7 @@ const EditProflileModal = ({ isOpen, setIsOpen }) => {
 
   const userInfo = {
     avatar: profileAvatar,
-    firstName: 'Addison',
+    firstName: user?.firstName,
     equivalent: '알렉스',
     gender: ['Female', 'Male', 'Other'],
     pronouns: ['She / Her', 'He / His', 'It'],
@@ -45,24 +51,39 @@ const EditProflileModal = ({ isOpen, setIsOpen }) => {
       'UTC +9 (Korean Standard Time)',
       'UTC -10	HST	Hawaii Standard Time'
     ],
-    lastName: 'Mishele'
+    lastName: user?.lastName
   }
 
   const onSubmit = async area => {
     console.log(area)
 
-    const { data } = await updateStudent({
+    if (area.avatar?.length) {
+      const { data } = await updateStudent({
+        variables: {
+          where: {
+            id: parseInt(user?.student?.id)
+          },
+          data: {
+            avatar: { upload: area.avatar[0] }
+          }
+        }
+      })
+    }
+
+    const { data: userData } = await updateUser({
       variables: {
         where: {
-          id: parseInt(user?.student?.id)
+          id: parseInt(user?.id)
         },
         data: {
-          avatar: { upload: area.avatar[0] }
+          firstName: area.firstName,
+          lastName: area.lastName,
+          koreanEquivalent: area.koreanEquivalent
         }
       }
     })
 
-    if (data) {
+    if (userData) {
       closeModal()
     }
 
@@ -102,23 +123,21 @@ const EditProflileModal = ({ isOpen, setIsOpen }) => {
           />
         </div> */}
         <div>
+          {/*
+          Rewrite component below to use react-hook-form controller
+          */}
+
           <TextInput
             label='Korean Equivalent'
             type={'text'}
             defaultValue={userInfo.equivalent}
-            {...register('koreanEquivalent', {
-              required: 'This field is required!'
-            })}
+            {...register('koreanEquivalent')}
           />
         </div>
         <div>
           <label>
             Gender
-            <select
-              {...register('gender', {
-                required: 'This field is required!'
-              })}
-            >
+            <select {...register('gender')}>
               {userInfo.gender.map(item => (
                 <option key={item} value={item}>
                   {item}
@@ -130,11 +149,7 @@ const EditProflileModal = ({ isOpen, setIsOpen }) => {
         <div>
           <label>
             Time zone (optional)
-            <select
-              {...register('timeZone', {
-                required: 'This field is required!'
-              })}
-            >
+            <select {...register('timeZone')}>
               {timezones.map(item => (
                 <option key={item} value={item}>
                   {item}
@@ -148,9 +163,7 @@ const EditProflileModal = ({ isOpen, setIsOpen }) => {
             label='Last Name'
             type={'text'}
             defaultValue={userInfo.lastName}
-            {...register('lastName', {
-              required: 'This field is required!'
-            })}
+            {...register('lastName')}
           />
         </div>
         <div>
@@ -158,9 +171,7 @@ const EditProflileModal = ({ isOpen, setIsOpen }) => {
             label='First Name'
             type={'text'}
             defaultValue={userInfo.firstName}
-            {...register('firstName', {
-              required: 'This field is required!'
-            })}
+            {...register('firstName')}
           />
         </div>
         <div>
@@ -168,9 +179,7 @@ const EditProflileModal = ({ isOpen, setIsOpen }) => {
             label='Phone Number'
             type={'text'}
             defaultValue='+1(555)555-5555'
-            {...register('phoneNumber', {
-              required: 'This field is required!'
-            })}
+            {...register('phoneNumber')}
           />
         </div>
         <div>
@@ -178,19 +187,13 @@ const EditProflileModal = ({ isOpen, setIsOpen }) => {
             label='Address'
             type={'text'}
             defaultValue='123 Street, City, State'
-            {...register('address', {
-              required: 'This field is required!'
-            })}
+            {...register('address')}
           />
         </div>
         <div>
           <label>
             Country
-            <select
-              {...register('country', {
-                required: 'This field is required!'
-              })}
-            >
+            <select {...register('country')}>
               {userInfo.country.map(item => (
                 <option key={item} value={item}>
                   {item}
@@ -201,14 +204,7 @@ const EditProflileModal = ({ isOpen, setIsOpen }) => {
         </div>
 
         <div>
-          <TextInput
-            label='Avatar'
-            type={'file'}
-            multiple={true}
-            {...register('avatar', {
-              required: 'This field is required!'
-            })}
-          />
+          <TextInput label='Avatar' type={'file'} {...register('avatar')} />
         </div>
 
         <button style={{ cursor: 'pointer' }} type='submit'>
