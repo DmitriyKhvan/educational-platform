@@ -471,7 +471,7 @@ const Calendar = () => {
               />
             ) : (
               <LessonTable
-                timezone={userTimezone}
+                timezone={'America/New_York'}
                 isUpcoming={isUpcoming}
                 tabularData={tabularData}
               />

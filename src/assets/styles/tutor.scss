@@ -3090,7 +3090,7 @@ span.continue-arrow {
     color: $color-dark-violet;
     margin: 0;
     font-size: 15px;
-    margin-top: 20px;
+    margin-top: 10px;
     margin-bottom: 10px;
     width: 100%;
   }
@@ -3098,6 +3098,27 @@ span.continue-arrow {
     margin: 0;
     color: $color-light-grey;
     font-size: 15px;
+  }
+
+  input[type='text'] {
+    outline-offset: -2px;
+    border: none;
+    border-bottom: 2px solid $color-purple;
+    background: none;
+    width: 15px;
+    font-weight: bold;
+    font-size: 15px;
+    color: $color-purple
+  }
+  
+  .title-input {
+    border: none;
+    border: 1px solid $color-border-grey !important;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100% !important;
+    margin-bottom: 10px;
+    margin-top: 20px;
   }
 
   .subject-info {

@@ -1,0 +1,197 @@
+.header {
+  border-bottom: 1px solid #e9e9e9;
+  display: flex;
+  align-items: center;
+  h1 {
+    margin-left: 4rem;
+    font-family: Inter;
+    font-style: light;
+    color: #261a45;
+    font-weight: 600;
+    font-size: 1.8rem;
+    line-height: 48px;
+    align-items: center;
+    letter-spacing: -0.6px;
+  }
+  .actions {
+    margin-left: auto;
+    margin-right: 3rem;
+    display: flex;
+    gap: 0.75rem;
+    button {
+      font-size: 15px;
+      padding: 0.5rem 1.5rem;
+      display: block;
+      height: 48px;
+      padding: 1rem;
+      line-height: 15px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid #e9e9e9;
+      cursor: pointer;
+      &:hover {
+        background: #f2f2f2;
+      }
+      &:disabled {
+        background: #e9e9e9;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: min-content;
+  .left {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: min-content;
+    grid-column: 1 / span 1;
+    .general_info {
+      height: min-content;
+      h2 {
+        margin-top: 0;
+        font-size: 27px;
+      }
+      padding: 40px;
+      padding-left: 4rem;
+      border-bottom: 1px solid #e9e9e9;
+      .info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        .info_item {
+          h3 {
+            font-weight: bold;
+            font-size: 15px;
+            margin: 0;
+            margin-bottom: 5px;
+          }
+          p {
+            margin: 0;
+            font-size: 20px;
+            color: #261a45;
+            font-weight: 600;
+            line-height: 24px;
+            letter-spacing: -0.6px;
+          }
+        }
+      }
+    }
+    .attendants {
+      padding: 40px;
+      padding-left: 4rem;
+      h2 {
+        font-size: 27px;
+        margin: 0;
+        margin-bottom: 30px;
+      }
+      &_item {
+        width: min-content;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        margin-right: 28px;
+        img {
+          width: 100px;
+          height: 100px;
+          filter: drop-shadow(0px 12px 16px rgba(0, 0, 0, 0.08));
+          margin-bottom: 24px;
+        }
+        .name {
+          text-align: center;
+          margin: 0;
+          margin-bottom: 14px;
+        }
+        .status {
+          padding: 4px 12px;
+          color: #fe1a87;
+          border-radius: 4px;
+          background: #ffbfde;
+          margin: 0;
+        }
+      }
+    }
+  }
+  .right {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: min-content;
+    border-left: 1px solid #e9e9e9;
+    .progress {
+      border-bottom: 1px #e9e9e9 solid;
+      &_header {
+        padding: 35px;
+        border-bottom: 1px solid #e9e9e9;
+        h2 {
+          font-size: 27px;
+          margin: 0;
+        }
+      }
+      &_item {
+        border-bottom: 1px solid #e9e9e9;
+        padding: 20px;
+        padding-left: 35px;
+        h3 {
+          margin: 0;
+          padding: 0;
+        }
+        p {
+          margin: 0;
+        }
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+    .homework {
+      padding: 40px;
+      padding-left: 35px;
+      padding-right: 50px;
+      h2 {
+        margin: 0;
+        font-size: 27px;
+        margin-bottom: 30px;
+      }
+      &_card {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        border: 1px solid #e9e9e9;
+        border-radius: 8px;
+        padding: 16px;
+      }
+      &_name {
+        margin: 0;
+        margin-bottom: 10px;
+        font-size: 16px;
+        color: black;
+      }
+      &_status {
+        margin: 0;
+        padding: 6px 12px;
+        font-size: 12px;
+        border-radius: 4px;
+        background: #d6336c;
+        width: min-content;
+        color: #fff;
+      }
+      button {
+        width: 66px;
+        height: 66px;
+        background: white;
+        border: 1px solid #dedee1;
+        border-radius: 8px;
+        font-weight: bold;
+        color: black;
+        font-size: 24px;
+        cursor: pointer;
+        &:hover {
+          background: #f2f2f2;
+        }
+      }
+    }
+  }
+}

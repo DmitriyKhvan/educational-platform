@@ -38,7 +38,7 @@ const EditProflileModal = ({isOpen, setIsOpen}) => {
     phone_number: "+1 (555) 555-5555",
     address: "123 Street, City, State",
     country: ["Korea", "USA", "Germany"],
-    holiday: ["Yes, please schedule lessons on holidays. ", "Noe, please do not schedule lessons on holidays."],
+    holiday: ["Yes, please schedule lessons on holidays. ", "No, please do not schedule lessons on holidays."],
     password: "123123123",
     timeZone: ["UTC +9 (Korean Standard Time)","UTC -10	HST	Hawaii Standard Time"],
     lastName: "Mishele"

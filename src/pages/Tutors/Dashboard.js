@@ -10,9 +10,11 @@ import { getUserInfo } from '../../actions/user'
 import { getTutorInfo } from '../../actions/tutor'
 import BookingRequest from '../../components/BookingRequest'
 import Loader from '../../components/common/Loader'
+import ZoomLink from '../../components/ZoomLink'
 import { useAuth } from '../../modules/auth'
 
 const TutorDashboard = () => {
+  const [isZoomTime, setZoomTime] = useState(true)
   const [t] = useTranslation('translation')
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
@@ -115,6 +117,14 @@ const TutorDashboard = () => {
               {t('student_dashboard_welcome', { name: currentUser?.firstName })}
             </h4>
             <p className='welcome-subtitle'>{t('tutor_welcome_back')}</p>
+
+            {isZoomTime && (
+              <ZoomLink
+                link={
+                  'https://us02web.zoom.us/j/5688232445?pwd=ckx1NXBHNDlaYWNVdHpaQ1VoZVo4QT09#success'
+                }
+              />
+            )}
 
             <div className='schedule-lesson-select pt-3'>
               <div className='page-card purple large-card py-5 pb-4 purple-top-align'>

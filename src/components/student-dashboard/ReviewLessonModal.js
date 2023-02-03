@@ -82,7 +82,7 @@ const ReviewLessonModal = ({ isOpen, setIsOpen, lessonInfo }) => {
                   },
                   {
                     name: 'late',
-                    text: 'Student was late'
+                    text: 'Tutor was late'
                   },
                   {
                     name: 'noshow',

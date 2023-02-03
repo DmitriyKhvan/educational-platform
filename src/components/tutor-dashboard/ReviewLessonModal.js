@@ -50,12 +50,24 @@ const ReviewLessonModal = ({ isOpen, setIsOpen, lessonInfo }) => {
             <img src={lessonInfo.studentPic} alt={lessonInfo.studentName} />
             <h1>{lessonInfo.studentName}</h1>
           </div>
-          <span>{'Level ' + lessonInfo.level}</span>
+          <span>
+            {'Level '}{' '}
+            <input
+              type='text'
+              {...register('level', { maxLength: 1 })}
+              maxLength={1}
+            />
+          </span>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='body'>
-            <h1>Nao Now Level 2: Golden Gate Bridge</h1>
-            <h4>Write a review</h4>
+            <input
+              type='text'
+              className='title-input'
+              placeholder='Enter title'
+              {...register('review_title')}
+            />
+            <h4>Write feedback</h4>
             <textarea
               name='review'
               id='review'

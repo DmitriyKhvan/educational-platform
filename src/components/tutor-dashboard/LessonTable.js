@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import moment from 'moment-timezone'
+import { Link } from 'react-router-dom'
 import '../../assets/styles/calendar.scss'
 
 const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
@@ -23,11 +24,106 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
       }
       setDisplayTableData(z)
     }
+
+    if (isUpcoming) {
+      setDisplayTableData([
+        {
+          lessonId: '253',
+          lesson: 'General English',
+          topic: 'Topic Name',
+          level: '3',
+          type: 'Private',
+          resource: {
+            start_at: '2023-1-28 12:12:12',
+            duration: '25'
+          },
+          student: 'Alice S.'
+        },
+        {
+          lessonId: '123',
+          lesson: 'Junior English',
+          topic: 'Topic Name',
+          level: '3',
+          type: 'Group',
+          resource: {
+            start_at: '2023-1-28 12:12:12',
+            duration: '25'
+          },
+          student: 'Jane D.'
+        },
+        {
+          lessonId: '123',
+          lesson: 'Junior English',
+          topic: 'Topic Name',
+          level: '3',
+          type: 'Group',
+          resource: {
+            start_at: '2023-1-28 12:12:12',
+            duration: '50'
+          },
+          student: 'Jane D.'
+        }
+      ])
+    } else {
+      setDisplayTableData([
+        {
+          lessonId: '253',
+          lesson: 'General English',
+          topic: 'Topic Name',
+          level: '3',
+          type: 'Private',
+          resource: {
+            start_at: '2022-12-12 12:12:12',
+            duration: '25'
+          },
+          student: 'Alice S.'
+        },
+        {
+          lessonId: '123',
+          lesson: 'Junior English',
+          topic: 'Topic Name',
+          level: '3',
+          type: 'Group',
+          resource: {
+            start_at: '2022-12-12 12:12:12',
+            duration: '25'
+          },
+          student: 'Jane D.'
+        },
+        {
+          lessonId: '123',
+          lesson: 'Junior English',
+          topic: 'Topic Name',
+          level: '3',
+          type: 'Group',
+          resource: {
+            start_at: '2022-12-12 12:12:12',
+            duration: '50'
+          },
+          student: 'Jane D.'
+        },
+        {
+          lessonId: '123',
+          lesson: 'Junior English',
+          topic: 'Topic Name',
+          level: '3',
+          type: 'Group',
+          resource: {
+            start_at: '2022-12-12 12:12:12',
+            duration: '25'
+          },
+          student: 'Jane D.'
+        }
+      ])
+    }
   }, [isUpcoming])
 
   const tableHead = [
+    'Lesson ID',
     t('class'),
     t('topic'),
+    'Duration',
+    'Type',
     t('level'),
     t('date_and_time'),
     t('students')
@@ -48,6 +144,9 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
           {displayTableData.map(event => (
             <tr className='tr-center'>
               <td className='td-item m-0'>
+                <p className='td-lesson'>{'#' + event.lessonId}</p>
+              </td>
+              <td className='td-item m-0'>
                 <p className='td-lesson'>{event.lesson}</p>
               </td>
               <td className='td-item m-0'>
@@ -57,22 +156,37 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
               </td>
               <td className='td-item m-0'>
                 <p className='td-topic-level'>
-                  {`${t('level')} ${event.level || 0}`}
-                </p>
-              </td>
-              <td className='d-inline-flex'>
-                <p className='td-datetime td-datetime-border ps-3'>
-                  {moment(event.resource.start_at)
-                    .tz(timezone)
-                    .format('ddd, MMM Do hh:mm A')}
-                  {' → '}
-                  {moment(event.resource.start_at)
-                      .tz(timezone)
-                      .add(event.resource.duration, 'minutes').format('hh:mm A')}
+                  {`${event.resource.duration}m`}
                 </p>
               </td>
               <td className='td-item m-0'>
+                <p className='td-topic-level'>{`${event.type}`}</p>
+              </td>
+              <td className='td-item m-0'>
+                <p className='td-topic-level td-level'>
+                  {`${t('level')} ${event.level || 0}`}
+                </p>
+              </td>
+              <td className='td-item m-0'>
+                <div className='td-datetime td-datetime-border p-3'>
+                  {moment(event.resource.start_at)
+                    .tz(timezone)
+                    .format('ddd, MMM Do') + ' | '}
+                  {moment(event.resource.start_at)
+                    .tz(timezone)
+                    .format('hh:mm A')}
+                  {' → '}
+                  {moment(event.resource.start_at)
+                    .tz(timezone)
+                    .add(event.resource.duration, 'minutes')
+                    .format('hh:mm A')}
+                </div>
+              </td>
+              <td className='td-item m-0'>
                 <p className='td-topic-level'>{event.student}</p>
+              </td>
+              <td className='td-item m-0'>
+                <Link className='td-button' to={`appointments-calendar/lesson/${event.lessonId}`}>View More</Link>
               </td>
             </tr>
           ))}
