@@ -18,8 +18,7 @@ const TutorDashboard = () => {
   const [t] = useTranslation('translation')
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
-  const user = useSelector(state => state.users.user)
-  const tutor = useSelector(state => state.tutor.info)
+  const { user } = useAuth();
   const appointments = useSelector(state => state.appointment)
   const [upcomingLessons, setUpcomingLessons] = useState([])
   const [lessonApprovals, setLessonApprovals] = useState([])
@@ -27,84 +26,86 @@ const TutorDashboard = () => {
 
   const { user: currentUser } = useAuth();
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     dispatch(getUserInfo())
-  //   }
-  // }, [dispatch])
+  const tutor = user.tutor;
 
-  // useEffect(() => {
-  //   if (user && user.tutor_profile && !tutor) {
-  //     dispatch(getTutorInfo(user.tutor_profile.id))
-  //   }
-  // }, [user])
+  useEffect(() => {
+    if (!user) {
+      dispatch(getUserInfo())
+    }
+  }, [dispatch])
 
-  // const fetchAppointments = async () => {
-  //   if (tutor) {
-  //     // setIsLoading(true)
-  //     await dispatch(getAppointments({ tutor_id: tutor.id }))
-  //     setIsLoading(false)
-  //   }
-  // }
+  useEffect(() => {
+    if (user && user.tutor && !tutor) {
+      dispatch(getTutorInfo(user.tutor.id))
+    }
+  }, [user])
+
+  const fetchAppointments = async () => {
+    if (tutor) {
+      // setIsLoading(true)
+      await dispatch(getAppointments({ tutor_id: tutor.id }))
+      setIsLoading(false)
+    }
+  }
 
 
-  // useEffect(() => {
-  //   ;(async () => {
-  //     await fetchAppointments()
-  //   })()
-  // }, [tutor])
+  useEffect(() => {
+    ;(async () => {
+      await fetchAppointments()
+    })()
+  }, [tutor])
 
-  // useEffect(() => {
-  //   if (appointments && appointments.list.length > 0) {
-  //     const startOfDay = new moment().startOf('day')
-  //     const endOfDay = new moment().endOf('day')
-  //     const ids = []
-  //     for (const apt of appointments.list) {
-  //       if (ids.indexOf(apt.students[0].id) === -1) ids.push(apt.students[0].id)
-  //     }
-  //     setUpcomingLessons(
-  //       appointments.list.filter(
-  //         apt =>
-  //           new moment(apt.start_at).isBefore(endOfDay) &&
-  //           new moment(apt.start_at).isAfter(startOfDay)
-  //       )
-  //     )
-  //     setLessonApprovals(
-  //       appointments.list
-  //         .filter(apt => apt.students.length > 0)
-  //         .filter(apt => !apt.students[0].GroupStudent.approved)
-  //         .filter(apt => new moment(apt.start_at).isAfter(new moment()))
-  //     )
-  //   }
-  // }, [appointments])
+  useEffect(() => {
+    if (appointments && appointments.list.length > 0) {
+      const startOfDay = new moment().startOf('day')
+      const endOfDay = new moment().endOf('day')
+      const ids = []
+      for (const apt of appointments.list) {
+        if (ids.indexOf(apt.students[0].id) === -1) ids.push(apt.students[0].id)
+      }
+      setUpcomingLessons(
+        appointments.list.filter(
+          apt =>
+            new moment(apt.start_at).isBefore(endOfDay) &&
+            new moment(apt.start_at).isAfter(startOfDay)
+        )
+      )
+      setLessonApprovals(
+        appointments.list
+          .filter(apt => apt.students.length > 0)
+          .filter(apt => !apt.students[0].GroupStudent.approved)
+          .filter(apt => new moment(apt.start_at).isAfter(new moment()))
+      )
+    }
+  }, [appointments])
 
-  // const displayBookingRequest = isAvailable => {
-  //   if (isAvailable)
-  //     return (
-  //       <BookingRequest
-  //         user={user}
-  //         lessonApprovals={lessonApprovals}
-  //         fetchAppointments={fetchAppointments}
-  //       />
-  //     )
-  // }
+  const displayBookingRequest = isAvailable => {
+    if (isAvailable)
+      return (
+        <BookingRequest
+          user={user}
+          lessonApprovals={lessonApprovals}
+          fetchAppointments={fetchAppointments}
+        />
+      )
+  }
 
-  // const displayDailySchedule = isAvailable => {
-  //   if (isAvailable) {
-  //     return isAvailable.map((event, i) => {
-  //       return (
-  //         <ScheduleCard
-  //           lesson={event.lesson.description}
-  //           zoomlink={event.zoomlink}
-  //           date={event.start_at}
-  //           data={event}
-  //           key={i}
-  //           fetchAppointments={fetchAppointments}
-  //         />
-  //       )
-  //     })
-  //   }
-  // }
+  const displayDailySchedule = isAvailable => {
+    if (isAvailable) {
+      return isAvailable.map((event, i) => {
+        return (
+          <ScheduleCard
+            lesson={event.lesson.description}
+            zoomlink={event.zoomlink}
+            date={event.start_at}
+            data={event}
+            key={i}
+            fetchAppointments={fetchAppointments}
+          />
+        )
+      })
+    }
+  }
 
   console.log(currentUser)
 

@@ -178,7 +178,7 @@ const ScheduleLesson = () => {
             time={schedule}
             tutor={selectTutor}
             setTabIndex={setTabIndex}
-            lessonId={12}
+            lessonId={null}
           />
         )
       )}

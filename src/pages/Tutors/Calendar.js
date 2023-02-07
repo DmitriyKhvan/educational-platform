@@ -57,7 +57,7 @@ const Calendar = () => {
     }
   }
 
-  const userTimezone = user?.time_zone?.split(' ')[0]
+  const userTimezone = user?.time_zone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
   const localizer = momentLocalizer(moment.tz.setDefault(userTimezone))
   const allViews = ['month', 'week', 'day']
   const formats = {

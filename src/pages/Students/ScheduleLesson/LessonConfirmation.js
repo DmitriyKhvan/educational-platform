@@ -17,14 +17,15 @@ import ScheduleCard from './ScheduleCard'
 import TutorImageRow from './TutorImageRow'
 import ScheduleCardComponent from '../../../components/student-dashboard/ScheduleCard'
 import Loader from '../../../components/common/Loader'
+import { useAuth } from '../../../modules/auth'
 
-const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
+const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null }) => {
   const dispatch = useDispatch()
   const [t] = useTranslation('translation')
   const [repeat, setRepeat] = useState({})
   const [cancel, setCancel] = useState({})
   const [isLoading, setIsLoading] = useState(false)
-  const user = useSelector(state => state.users.user)
+  const { user } = useAuth()
   const [isChecked, setIsChecked] = useState(false)
   const [newAppointment, setNewAppointment] = useState({})
   const [isConfirmed, setIsConfirmed] = useState(false)
@@ -45,7 +46,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
     }
   }
 
-  const userTimezone = user?.time_zone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const userTimezone = user?.timeZone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
   const scheduleDate = moment(new Date())
     .tz(userTimezone)
     .format('dddd, MMM DD')
@@ -179,10 +180,10 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
       }
     } else {
       let lesson_data = ``
-      if (data.lesson_id === null) {
+      if (!data.lesson_id) {
         const { payload } = await dispatch(
           createLessonExist({
-            title: plan.title,
+            title: plan.title || plan.lesson_type,
             description: plan.lesson_type,
             type: plan.lesson_type,
             lesson_guid: plan.payment_id
@@ -196,8 +197,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId }) => {
       createAppointmentData.lesson_title = lesson_data.title
       createAppointmentData.lesson_desc = lesson_data.description
       createAppointmentData.lesson_type = lesson_data.type
-      // createAppointmentData.email = user.email
-      createAppointmentData.email = 'sample@email.com'
+      createAppointmentData.email = user.email
       createAppointmentData.package_type = plan.package_type
 
       const res = await dispatch(createAppointment(createAppointmentData))

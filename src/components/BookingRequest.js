@@ -7,7 +7,7 @@ import { approveAppointment, cancelAppointment } from '../actions/appointment'
 const BookingRequest = ({ lessonApprovals, fetchAppointments, user }) => {
   const [t] = useTranslation()
   const dispatch = useDispatch()
-  const userTimezone = user?.time_zone?.split(' ')[0]
+  const userTimezone = user?.time_zone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const displayBookingRequestDate = event => {
     const date = moment(event.start_at).tz(userTimezone).format('MMMM DD, YYYY')

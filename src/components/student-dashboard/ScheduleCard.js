@@ -11,6 +11,7 @@ import 'rc-dropdown/assets/index.css'
 import RescheduleAndCancelModal from './RescheduleAndCancelModal'
 import ZoomWarningModal from './ZoomWarningModal'
 import RescheduleModal from './RescheduleModal'
+import { useAuth } from '../../modules/auth'
 
 const ScheduleCard = ({
   index,
@@ -26,8 +27,8 @@ const ScheduleCard = ({
   const [isWarningOpen, setIsWarningOpen] = useState(false)
   const [modalType, setModalType] = useState('')
   const [tabIndex, setTabIndex] = useState(0)
-  const user = useSelector(state => state.users.user)
-  const userTimezone = user?.time_zone?.split(' ')[0]
+  const { user } = useAuth()
+  const userTimezone = user?.timeZone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone
 
   let gender
   if (data.tutor?.gender) {

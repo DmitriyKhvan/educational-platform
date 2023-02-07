@@ -15,10 +15,11 @@ import Loader from '../../components/common/Loader'
 import '../../assets/styles/calendar.scss'
 import { feedbackURL } from '../../constants/global'
 import ReviewLessonModal from '../../components/student-dashboard/ReviewLessonModal'
+import { useAuth } from '../../modules/auth'
 
 const Calendar = () => {
   const [t] = useTranslation('translation')
-  const user = useSelector(state => state.users.user)
+  const { user } = useAuth()
 
   const calendarAppointments = useSelector(
     state => state.appointment.calendarEvents
@@ -65,15 +66,16 @@ const Calendar = () => {
 
   useEffect(() => {
     ;(async () => {
-      await dispatch(getStudent(user.student_profile.id))
-      if (user && user.student_profile) {
-        await dispatch(getAppointments({ student_id: user.student_profile.id }))
+      await dispatch(getStudent(user.student.id))
+      if (user && user.student) {
+        await dispatch(getAppointments({ student_id: user.student.id }))
       }
     })()
   }, [user])
 
   useEffect(() => {
     if (calendarAppointments) {
+      console.log(calendarAppointments);
       const tempEvents = []
       calendarAppointments.forEach((_, index) => {
         const start = moment(calendarAppointments[index].start_at).tz(
@@ -172,7 +174,7 @@ const Calendar = () => {
     setIsCalendar(true)
   }
 
-  const userTimezone = user?.time_zone?.split(' ')[0]
+  const userTimezone = user?.timeZone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
   const localizer = momentLocalizer(moment.tz.setDefault(userTimezone))
   const allViews = ['month', 'week', 'day']
   const formats = {

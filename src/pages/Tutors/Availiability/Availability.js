@@ -24,6 +24,8 @@ import LoadingOverlay from 'react-loading-overlay'
 import Swal from 'sweetalert2'
 import NotificationManager from '../../../../src/components/NotificationManager'
 import { v4 as uuid } from 'uuid'
+import { useAuth } from '../../../modules/auth'
+import { Link } from 'react-router-dom'
 
 export const Availability = ({ isAdmin, user_id }) => {
   const [t] = useTranslation('translation')
@@ -53,15 +55,13 @@ export const Availability = ({ isAdmin, user_id }) => {
   }
   const dispatch = useDispatch()
   const tutorInfo = useSelector(state => state.tutor.info)
-  const user = useSelector(state =>
-    isAdmin ? state.admin.user : state.users.user
-  )
+  const { user } = useAuth()
   const [newRow, setNewRow] = useState(false)
   const [currentToTime, setCurrentToTime] = useState('16:00')
 
   useEffect(() => {
-    if (user && user.tutor_profile)
-      dispatch(getTutorInfo(user.tutor_profile.id))
+    if (user && user?.tutor)
+      dispatch(getTutorInfo(user?.tutor?.id))
   }, [user])
 
   useEffect(() => {
@@ -283,14 +283,14 @@ export const Availability = ({ isAdmin, user_id }) => {
               <h3>{t('edit_your_shedule_below')}</h3>
             </div>
             <div className='col-xs-6 col-md-4 pe-5 text-end align-self-center'>
-              <a
+              <Link
                 href='/tutor/avail/settings'
                 className='btn btn-default align-content-end'
                 type='button'
               >
                 <FontAwesomeIcon icon={faGear} size='1x' className='me-2' />
                 <strong>{t('settings')}</strong>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

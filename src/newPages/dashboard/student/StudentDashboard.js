@@ -128,13 +128,12 @@ const StudentListAppointments = () => {
       const currentDate = moment()
       return (
         currentDate.isBefore(expiredDate) && (
-          <div>
+          <div key={i}>
             <ScheduleCard
               lesson={x.lesson.description}
               zoomlink={x.zoomlink}
               date={date}
               data={x}
-              key={i}
               index={i}
               fetchAppointments={fetchAppointments}
             />
@@ -239,9 +238,10 @@ const StudentListAppointments = () => {
               {t('student_dashboard_no_lessons_subtitle')}
             </h3>
             <div className='row container justify-content-center mt-5'>
-              {callToAction.map(x => (
+              {callToAction.map((x, i) => (
                 <div className='col-4'>
                   <CTACard
+                    key={i}
                     icon={x.icon}
                     title={x.title}
                     subtitle={x.subtitle}
