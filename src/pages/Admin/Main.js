@@ -20,7 +20,7 @@ import { getAbbrName } from '../../constants/global'
 import ModalEditStudentLesson from './ModalEditStudentLesson'
 import ModalEditTutorLesson from './ModalEditTutorLesson'
 import { ModalUserInfo } from './ModalUserInfo'
-import Profile from '../Profile/Profile'
+import Profile from '../../newPages/profile/SwitchProfile'
 
 const Main = () => {
   const [t, i18n] = useTranslation('translation')

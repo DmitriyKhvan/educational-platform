@@ -1,5 +1,6 @@
 import 'react-notifications-component/dist/theme.css'
 import './assets/styles/global.scss'
+require('react-big-calendar/lib/css/react-big-calendar.css')
 
 /* eslint-disable import/first */
 import React from 'react'
@@ -18,25 +19,19 @@ import { useAuth } from './modules/auth'
 import Main from './pages/Admin/Main'
 import StudentList from './pages/Admin/StudentList'
 import TutorList from './pages/Admin/TutorList'
-import EmailVerifyText from './pages/Auth/EmailVerifyText'
-import ForgotPassword from './pages/Auth/ForgotPassword'
-import ForgotPasswordText from './pages/Auth/ForgotPasswordText'
+import EmailVerifyText from './newPages/Auth/EmailVerifyText'
+import ForgotPassword from './newPages/Auth/ForgotPassword'
+import ForgotPasswordText from './newPages/Auth/ForgotPasswordText'
 import LessonInfo from './pages/Tutors/LessonInfo'
 // Authentication Path
-import Login from './pages/Auth/Login'
-import ResetPassword from './pages/Auth/ResetPassword'
-import Signup from './pages/Auth/Signup'
-import VerifyEmail from './pages/Auth/VerifyEmail'
+import Login from './newPages/Auth/Login'
+import ResetPassword from './newPages/Auth/ResetPassword'
+import Signup from './newPages/Auth/Signup'
+import VerifyEmail from './newPages/Auth/VerifyEmail'
 // Common Dashboard
-import Dashboard from './pages/Dashboard'
-import FAQ from './pages/FAQ'
-import Feedback from './pages/Feedback'
+import Dashboard from './newPages/dashboard/Dashboard'
 // import Messages from './pages/Messages';
-import { ProfileLayout } from './pages/Profile'
-import NewTutorProfile from './pages/Profile/EditProfile'
-import TutorProfile from './pages/Profile/Tutors/Profile'
-import StudentProfile from './pages/Profile/Tutors/Student'
-import Referal from './pages/Referal'
+import { ProfileLayout } from './newPages/profile/ProfileLayout'
 import BookTrialLesson from './pages/Students/BookTrialLesson'
 // Student Path
 import StudentCalendar from './pages/Students/Calendar'
@@ -44,12 +39,10 @@ import ClassMaterials from './pages/Students/ClassMaterials'
 import FavouriteTutors from './pages/Students/FavoriteTutors'
 import GroupLessons from './pages/Students/GroupLessons'
 import GroupScheduleLesson from './pages/Students/GroupLessons'
-import StudentListAppointments from './pages/Students/ListAppointments'
+import StudentListAppointments from './newPages/dashboard/student/StudentDashboard'
 import { Packages } from './pages/Students/Packages'
 import ScheduleLesson from './pages/Students/ScheduleLesson'
 import ScheduleLessonSteps from './pages/Students/ScheduleLesson/ScheduleLessonSteps.js'
-import SubmitRequest from './pages/SubmitRequest'
-import Support from './pages/Support'
 import ApproveRequest from './pages/Tutors/ApproveRequest'
 import AvailabilityLayout from './pages/Tutors/Availiability'
 import AvailabilitySettings from './pages/Tutors/Availiability/AvailabilitySettings'
@@ -59,23 +52,27 @@ import TutorPastLessons from './pages/Tutors/PastLessons'
 import { PaymentLayout } from './pages/Tutors/Payment'
 import TutorStudentList from './pages/Tutors/StudentList'
 import configureStore from './store'
-import TutorsPage from './pages/Students/tutorsPage/TutorsPage'
 
 import './App.scss'
-import IsReferal from './pages/isReferal'
-import Messanger from './pages/Messanger/Messanger'
-import EditTopics from './pages/Profile/editTopics/EditTopics'
-import EditTutorProfile from './pages/Profile/Tutors/EditTutorProfile'
-import SubmitVideo from './pages/Profile/Tutors/SubmitVideo/SubmitVideo'
-import Submited from './pages/Profile/Tutors/SubmitVideo/Submited'
+import { ToastContainer } from 'react-toastify'
+
+// TUTORS PAGES
+
+import * as TutorsPages from "./newPages/profile/Tutors/export";
+
+// STUDENT PAGES
+
+import * as StudentPages from "./newPages/profile/student/export";
+import Loader from './components/Loader/Loader'
 
 const store = configureStore({})
 
-require('react-big-calendar/lib/css/react-big-calendar.css')
 
 function PrivateRoute({ component: Component, ...rest }) {
   const { isAuthorized } = useAuth()
   const history = useHistory()
+
+  
   return (
     <Route
       {...rest}
@@ -96,7 +93,9 @@ function PrivateRoute({ component: Component, ...rest }) {
 }
 
 function PublicRoute({ component: Component, ...rest }) {
-  const { isAuthorized, user } = useAuth()
+  const { isAuthorized, user } = useAuth();
+
+  console.log(isAuthorized)
 
   return (
     <Route
@@ -109,15 +108,25 @@ function PublicRoute({ component: Component, ...rest }) {
 }
 
 function App() {
-  const { isAuthInProgress } = useAuth()
+  const { isAuthInProgress, isAuthorized, user } = useAuth();
 
+  React.useEffect(() => {
+    window.scrollTo({
+      top: 0
+    })
+  })
+
+  console.log(isAuthInProgress)
+  
   if (isAuthInProgress) {
     // Waiting for confirmation if user Authenticated or not
     // TODO: Put loading bar on the whole page.
     return null
   }
 
-  
+
+  // if(!isAuthorized) return <Loader height={"100vh"}/>
+
 
   return (
     <Provider store={store}>
@@ -138,7 +147,6 @@ function App() {
           <PublicRoute exact path='/' component={Login} />
           <PublicRoute path='/login' component={Login} />
           <PublicRoute path='/signup' component={Signup} />
-          <PublicRoute path='/referral/:referalcode' component={IsReferal} />
 
           <PublicRoute path='/forgot-password' component={ForgotPassword} />
           <PublicRoute
@@ -167,8 +175,6 @@ function App() {
             component={GroupScheduleLesson}
           />
 
-          <PrivateRoute path='/student/referal' component={Referal} />
-          <PrivateRoute path='/student/tutors/:id?' component={TutorsPage} />
 
           <PrivateRoute
             exact
@@ -185,11 +191,7 @@ function App() {
             path='/student/lesson-calendar'
             component={StudentCalendar}
           />
-          <PrivateRoute path='/student/profile' component={ProfileLayout} />
-          <PrivateRoute
-            path='/student/profiles/edit-topics'
-            component={EditTopics}
-          />
+          
           <PrivateRoute
             path='/student/group-lessons'
             component={GroupLessons}
@@ -206,11 +208,7 @@ function App() {
             path='/student/book-trial-lesson'
             component={BookTrialLesson}
           />
-          <PrivateRoute path='/faq' component={FAQ} />
-          <PrivateRoute path='/support' component={Support} />
-          <PrivateRoute path='/feedback' component={Feedback} />
-          <PrivateRoute path='/submit-request' component={SubmitRequest} />
-
+          
           <PrivateRoute path='/approve-requests' component={ApproveRequest} />
           <PrivateRoute
             path='/tutor/manage-appointments'
@@ -240,35 +238,58 @@ function App() {
             path='/tutor/students'
             component={TutorStudentList}
           />
-          <PrivateRoute path='/tutor/students/:id' component={StudentProfile} />
+          {/* <PrivateRoute path='/tutor/students/:id' component={StudentProfile} /> */}
           {/* <PrivateRoute path='/tutor/profile' component={ProfileLayout} /> */}
-          <PrivateRoute
+          {/* <PrivateRoute
             path='/tutor/new-profile-page'
             component={NewTutorProfile}
-          />
-          <PrivateRoute path='/tutor/profile' component={TutorProfile} />
-
-          <PrivateRoute
-            path='/tutor/edit-profile'
-            component={EditTutorProfile}
-          />
-          <PrivateRoute
-            path='/tutor/edit-profiles/submit-video'
-            component={SubmitVideo}
-          />
-          <PrivateRoute
-            path='/tutor/edit-profiles/submit-videos/submited'
-            component={Submited}
-          />
+          /> */}
+          
           <PrivateRoute
             exact
             path='/tutor/appointments-calendar/lesson/:lessonID'
             component={LessonInfo}
           />
 
-          <PrivateRoute path='/messages' component={Messanger} />
+
+
+
+          {/* PROFILE */}
+
+          <PrivateRoute path='/:mode(student|tutor)/profile' component={ProfileLayout} />
+
+
+          {/* STUDENT PAGES */}
+
+          <PrivateRoute
+            path='/student/profiles/edit-topics'
+            component={StudentPages.EditTopics}
+          />
+          <PublicRoute path='/referral/:referalcode' component={StudentPages.IsReferal} />
+
+          <PrivateRoute path='/student/referal' component={StudentPages.Referal} />
+
+          <PrivateRoute path='/student/mentors-list/:id?' component={StudentPages.Mentors} />
+
+
+          {/* TUTORS PAGES */}
+
+          <PrivateRoute
+            path='/tutor/edit-profile'
+            component={TutorsPages.EditTutorProfile}
+          />
+          <PrivateRoute
+            path='/tutor/edit-profiles/submit-video'
+            component={TutorsPages.SubmitVideo}
+          />
+          <PrivateRoute
+            path='/tutor/edit-profiles/submit-videos/submited'
+            component={TutorsPages.Submited}
+          />
+          <PrivateRoute path='/messages' component={TutorsPages.Messanger} />
         </div>
       </Router>
+      <ToastContainer />
     </Provider>
   )
 }

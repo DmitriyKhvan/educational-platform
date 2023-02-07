@@ -135,8 +135,8 @@ const studentNavLinks = [
     activeIcon:MessageActiveIcon
   },
   {
-    label: "Tutors",
-    link:"/student/tutors",
+    label: "Mentors",
+    link:"/student/mentors-list",
     icon:tutorIcon,
     activeIcon:tutorActiveIcon
   },
@@ -283,7 +283,7 @@ const Sidebar = () => {
   return (
     <>
       <div className='side-bar desktop-version'>
-        <img src={Logo} className='sidebar-logo' alt='' />
+        <img onClick={() => history.push("/")} src={Logo} className='sidebar-logo' alt='' />
         <div className='link-list'>
           {navLinks &&
             navLinks.map((item, index) =>

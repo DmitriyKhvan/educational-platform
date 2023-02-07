@@ -5,7 +5,7 @@ import { ME_QUERY, LOGIN_MUTATION, MUTATION_UPDATE_USER, RESET_PASSWORD_MUTATION
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthInProgress, setIsAuthInProgress] = useState(false);
+  const [isAuthInProgress, setIsAuthInProgress] = useState(true);
   const { data: user, userLoading, refetch: refetchUser } = useQuery(ME_QUERY);
   const [loginMutation, { loading: loginLoading }] = useMutation(LOGIN_MUTATION);
   const [sendUserPasswordResetLink] = useMutation(RESET_PASSWORD_MUTATION);

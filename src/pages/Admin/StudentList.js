@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from 'react-spinners/ClipLoader'
 import { getAbbrName, getAvatarName } from '../../constants/global'
 import { ModalUserInfo } from './ModalUserInfo'
-import Profile from '../Profile/Profile'
+import Profile from '../../newPages/profile/SwitchProfile'
 import StudentApi from '../../api/StudentApi'
 import ConfirmationModal from '../../components/ConfirmationModal'
 

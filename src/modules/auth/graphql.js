@@ -154,7 +154,7 @@ export const MUTATION_UPDATE_USER = gql`
 
 export const MUTATION_UPDATE_TUTOR = gql`
   mutation updateTutor(
-    $data: TutorUpdateInput!
+    $data: TutorUpdateInput !
     $where: TutorWhereUniqueInput!
   ) {
     updateTutor(data: $data, where: $where) {

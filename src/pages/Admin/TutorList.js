@@ -12,7 +12,7 @@ import { getAbbrName, getAvatarName } from '../../constants/global'
 
 import Loader from 'react-spinners/ClipLoader'
 import { ModalUserInfo } from './ModalUserInfo'
-import Profile from '../Profile/Profile'
+import Profile from '../../newPages/profile/SwitchProfile'
 import ConfirmationModal from '../../components/ConfirmationModal'
 import '../../assets/styles/admin.scss'
 import { deleteTutor } from '../../actions/tutor'
