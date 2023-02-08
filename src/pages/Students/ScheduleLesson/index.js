@@ -133,7 +133,7 @@ const ScheduleLesson = () => {
   const tutors = data?.tutors?.map(tutor => {
     return {
       id: tutor.id,
-      avatar: tutor.avatar.url,
+      avatar: tutor?.avatar?.url ?? "",
       first_name: tutor.user.firstName,
       last_name: tutor.user.lastName,
       univer: 'Stanford University',
