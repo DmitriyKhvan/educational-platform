@@ -9,6 +9,26 @@ import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
 import { getTutorList } from '../../../actions/tutor'
 import Loader from 'react-loader-spinner'
+import { useQuery, gql } from '@apollo/client'
+
+const GET_TIMESHEETS = gql`
+  query GetTimesheets($day: String) {
+    timesheets(
+      where: { day: { equals: $day } }
+      orderBy: []
+      take: null
+      skip: 0
+    ) {
+      id
+      tutorId
+      day
+      from
+      to
+      createdAt
+      updatedAt
+    }
+  }
+`
 
 const ScheduleSelector = ({
   setTabIndex,
@@ -117,10 +137,30 @@ const ScheduleSelector = ({
     }
   }
 
+  const {
+    data: timesheetsData,
+    loading,
+    errors
+  } = useQuery(GET_TIMESHEETS, {
+    variables: {
+      day: moment(day).format('dddd')
+    }
+  })
+
   //Loop over the times - only pushes time with 30 minutes interval
   while (startTime <= endTime) {
-    allTimes.push(startTime.format('HH:mm'))
-
+    const tempTime = moment(startTime.format('HH:mm'), 'HH:mm')
+    timesheetsData.timesheets.some(timesheet => {
+      const timesheetFrom = moment(timesheet.from, 'HH:mm')
+      const timesheetTo = moment(timesheet.to, 'HH:mm')
+      // Third argument is for units (for which we do not care right now)
+      // Fourth parameter '[)' means that the end time is not included
+      if (tempTime.isBetween(timesheetFrom, timesheetTo, null, '[)')) {
+        allTimes.push(startTime.format('HH:mm'))
+        return true
+      }
+      return false
+    })
     startTime.add(30, 'minutes')
   }
 
@@ -270,18 +310,18 @@ const ScheduleSelector = ({
       dispatch(getTutorList(selectedSchedule.toString())).then(response => {
         // const tutorlist = response.payload.tutors
         const tutorlist = [
-            {
-              id: 1,
-              name: 'Tutor 1',
-              isFavourite: true,
-              univer: 'University of California',
-              lang: "English",
-              image: 'https://picsum.photos/200/300',
-              rating: 4.5,
-              price: 100,
-              currency: 'USD',
-            }
-          ]
+          {
+            id: 1,
+            name: 'Tutor 1',
+            isFavourite: true,
+            univer: 'University of California',
+            lang: 'English',
+            image: 'https://picsum.photos/200/300',
+            rating: 4.5,
+            price: 100,
+            currency: 'USD'
+          }
+        ]
 
         if (Array.isArray(tutorlist) && tutorlist.length > 0) {
           setTabIndex(2)
@@ -300,10 +340,12 @@ const ScheduleSelector = ({
   }
 
   const ScheduleCard = ({ scheduleStartTime }) => {
-    const scheduleEndTime = moment(scheduleStartTime, [moment.ISO_8601, 'HH:mm']).add(
-      duration,
-      'minutes'
-    ).format('hh:mm A')
+    const scheduleEndTime = moment(scheduleStartTime, [
+      moment.ISO_8601,
+      'HH:mm'
+    ])
+      .add(duration, 'minutes')
+      .format('hh:mm A')
 
     return (
       <div
@@ -353,9 +395,15 @@ const ScheduleSelector = ({
         </p>
       </div>
       <div className='row schedule-overflow-scroll slot-scroll col-12 media_small_width_schedule'>
-        {allTimes.map((x, i) => (
-          <ScheduleCard scheduleStartTime={x} key={i} />
-        ))}
+        {allTimes.length > 0 &&
+          allTimes.map((x, i) => (
+            <ScheduleCard scheduleStartTime={x} key={i} />
+          ))}
+        {allTimes.length === 0 && (
+          <div className='col-12'>
+            <p className='text-center'>{t('no_available_slots')}</p>
+          </div>
+        )}
       </div>
     </React.Fragment>
   )
@@ -406,7 +454,9 @@ const ScheduleSelector = ({
                 <div className='col-6 px-4'>
                   {days.map(
                     (x, i) =>
-                      x.format === 'day' && <DaySelector data={x} i={i} key={i} />
+                      x.format === 'day' && (
+                        <DaySelector data={x} i={i} key={i} />
+                      )
                   )}
                 </div>
                 <div className='col-6 px-4'>
