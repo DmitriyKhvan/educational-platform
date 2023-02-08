@@ -60,8 +60,7 @@ export const Availability = ({ isAdmin, user_id }) => {
   const [currentToTime, setCurrentToTime] = useState('16:00')
 
   useEffect(() => {
-    if (user && user?.tutor)
-      dispatch(getTutorInfo(user?.tutor?.id))
+    if (user && user?.tutor) dispatch(getTutorInfo(user?.tutor?.id))
   }, [user])
 
   useEffect(() => {
@@ -344,7 +343,10 @@ export const Availability = ({ isAdmin, user_id }) => {
           </div>
         </div>
       </div>
-      <div className='border-availabilities-top mt-5'>
+      {
+        //Commented out for now
+      }
+      {/* <div className='border-availabilities-top mt-5 d-none'>
         <div className='container-fluid'>
           <DarkBackground disappear={!loaded}>
             <LoadingOverlay
@@ -477,7 +479,7 @@ export const Availability = ({ isAdmin, user_id }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </React.Fragment>
   )
 }
