@@ -110,7 +110,9 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
   )
 
   const { data: timesheetsData } = useQuery(GET_TIMESHEETS, {
-    variables: { day: schedule.day }
+    variables: {
+      day: moment(schedule, 'ddd MMM DD YYYY HH:mm:ss').format('dddd')
+    }
   })
 
   const availableTutorIds = timesheetsData?.timesheets?.reduce((acc, each) => {
@@ -124,31 +126,37 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
     return acc
   }, [])
 
-  const { data: tutorsData } = useQuery(GET_TUTORS_BY_ID, {
-    variables: { ids: availableTutorIds }
-  })
+  const [tutors, setTutors] = useState([])
 
-  const tutors = tutorsData?.tutors.map(tutor => {
-    return {
-      id: tutor.id,
-      avatar: tutor?.avatar?.url ?? '',
-      first_name: tutor.user.firstName,
-      last_name: tutor.user.lastName,
-      univer: 'Stanford University',
-      lang: 'SMTH',
-      isFavourite: false
+  const { data: tutorsData } = useQuery(GET_TUTORS_BY_ID, {
+    variables: { ids: availableTutorIds },
+    onCompleted: tutorsData => {
+      const data = tutorsData?.tutors.map(tutor => {
+        return {
+          id: tutor.id,
+          avatar: tutor?.avatar?.url ?? '',
+          first_name: tutor.user.firstName,
+          last_name: tutor.user.lastName,
+          univer: 'Stanford University',
+          lang: 'SMTH',
+          isFavourite: false
+        }
+      })
+      console.log("OAIHSDJASHD")
+      setTutors(data)
     }
   })
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    console.log(tutors, 'TUTORS')
     if (tutors && tutors.length) {
       const tempTutors = tutors.sort((a, b) =>
         a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1
       )
       setAvailableTutors([...tempTutors])
     }
-  }, [])
+  }, [tutors])
 
   const handleSearchTutor = e => {
     const { value } = e.target
