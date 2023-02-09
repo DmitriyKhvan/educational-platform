@@ -35,7 +35,8 @@ const ScheduleSelector = ({
   duration,
   setSchedule,
   tabIndex,
-  schedule
+  schedule,
+  setTutorIdList
 }) => {
   const [t] = useTranslation('translation')
   const user = useSelector(state => state.users.user)
@@ -150,16 +151,15 @@ const ScheduleSelector = ({
   //Loop over the times - only pushes time with 30 minutes interval
   while (startTime <= endTime) {
     const tempTime = moment(startTime.format('HH:mm'), 'HH:mm')
-    timesheetsData.timesheets.some(timesheet => {
+    timesheetsData.timesheets.map(timesheet => {
       const timesheetFrom = moment(timesheet.from, 'HH:mm')
       const timesheetTo = moment(timesheet.to, 'HH:mm')
       // Third argument is for units (for which we do not care right now)
       // Fourth parameter '[)' means that the end time is not included
       if (tempTime.isBetween(timesheetFrom, timesheetTo, null, '[)')) {
         allTimes.push(startTime.format('HH:mm'))
-        return true
+        return timesheet.tutorId
       }
-      return false
     })
     startTime.add(30, 'minutes')
   }

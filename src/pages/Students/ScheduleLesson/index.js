@@ -7,82 +7,10 @@ import SelectLesson from './SelectLesson'
 import SelectTutorCards from './SelectTutorCards'
 import Tut from '../../../assets/images/nao.png'
 import { getPlanStatus } from '../../../actions/subscription'
+import { useQuery, gql } from '@apollo/client'
 
 import '../../../assets/styles/tutor.scss'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
-import { useQuery, gql } from '@apollo/client'
-
-const GET_TUTORS = gql`
-  query {
-    tutors(where: {}, orderBy: [], take: null, skip: 0) {
-      id
-      userName(something: 1)
-      major
-      language
-      university
-      acceptanceRate
-      checked
-      videoUrl
-      totalRequests
-      graduatingYear
-      degree
-      certificates
-      introduction
-      relevantExperience
-      uniqueFacts
-      about
-      experience
-      facts
-      avatar {
-        id
-        filesize
-        width
-        height
-        extension
-        url
-      }
-      picture {
-        id
-        filesize
-        width
-        height
-        extension
-        url
-      }
-      diplomaVerification {
-        filename
-        filesize
-        url
-      }
-      user {
-        id
-        firstName
-        lastName
-        koreanEquivalent
-        phoneNumber
-        address
-        gender
-        timeZone
-        country
-        avatar
-        emailVerificationToken
-        resetPasswordExpires
-        resetPasswordToken
-        referalId
-        referalConfirmed
-        fullName(something: 1)
-        role(something: 1)
-        email
-        createdAt
-        updatedAt
-        passwordResetIssuedAt
-        passwordResetRedeemedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`
 
 const ScheduleLesson = () => {
   const dispatch = useDispatch()
@@ -92,7 +20,6 @@ const ScheduleLesson = () => {
   const [tabIndex, setTabIndex] = useState(0)
   const [selectTutor, setSelectTutor] = useState()
   // const tutors = useSelector(state => state.tutor.list)
-  const { loading, error, data } = useQuery(GET_TUTORS)
   // const tutors = [
   //   {
   //     id: 1,
@@ -130,20 +57,11 @@ const ScheduleLesson = () => {
   //     isFavourite: false
   //   }
   // ]
-  const tutors = data?.tutors?.map(tutor => {
-    return {
-      id: tutor.id,
-      avatar: tutor?.avatar?.url ?? "",
-      first_name: tutor.user.firstName,
-      last_name: tutor.user.lastName,
-      univer: 'Stanford University',
-      lang: 'SMTH',
-      isFavourite: false
-    }
-  })
+
   const { id } = useParams()
 
   useEffect(() => {
+    console.log(schedule, "schedule");
     dispatch(getPlanStatus())
   }, [dispatch, schedule])
 
@@ -166,10 +84,11 @@ const ScheduleLesson = () => {
         />
       ) : tabIndex === 2 ? (
         <SelectTutorCards
-          tutors={tutors}
+          // tutors={tutors}
           tabIndex={tabIndex}
           setTabIndex={setTabIndex}
           setSelectTutor={setSelectTutor}
+          schedule={schedule}
         />
       ) : (
         tabIndex === 3 && (
