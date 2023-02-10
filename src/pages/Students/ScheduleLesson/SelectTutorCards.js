@@ -8,6 +8,7 @@ import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png'
 import Favorite from '../../../assets/images/Favorite.svg'
 import Vector from '../../../assets/images/Vectors.svg'
 import { useQuery, gql } from '@apollo/client'
+import MentorsModal from '../../../newPages/mentors-list/MentorsModal'
 Modal.setAppElement('#root')
 
 const GET_TIMESHEETS = gql`
@@ -137,12 +138,8 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
           avatar: tutor?.avatar?.url ?? '',
           first_name: tutor.user.firstName,
           last_name: tutor.user.lastName,
-          univer: 'Stanford University',
-          lang: 'SMTH',
-          isFavourite: false
         }
       })
-      console.log("OAIHSDJASHD")
       setTutors(data)
     }
   })
@@ -292,7 +289,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
     }
 
     const onClickLearnMore = () => {
-      setModalSelectTutor(tutor)
+      setModalSelectTutor(tutor.id)
       setIsOpen(true)
     }
 
@@ -406,7 +403,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
           </div>
         </div>
       </div>
-      {isOpen && <LearnMoreModal />}
+      {isOpen && <MentorsModal setShowTutorModal={setIsOpen} tutorId={modalSelectTutor} tutorsList={tutorsData.tutors}/>}
     </Layout>
   )
 }
