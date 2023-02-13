@@ -1,6 +1,6 @@
 import 'react-notifications-component/dist/theme.css'
 import './assets/styles/global.scss'
-require('react-big-calendar/lib/css/react-big-calendar.css')
+import 'react-big-calendar/lib/css/react-big-calendar.css'
 
 /* eslint-disable import/first */
 import React from 'react'
@@ -42,7 +42,7 @@ import GroupScheduleLesson from './pages/Students/GroupLessons'
 import StudentListAppointments from './newPages/dashboard/student/StudentDashboard'
 import { Packages } from './pages/Students/Packages'
 import ScheduleLesson from './pages/Students/ScheduleLesson'
-import ScheduleLessonSteps from './pages/Students/ScheduleLesson/ScheduleLessonSteps.js'
+import ScheduleLessonSteps from './pages/Students/ScheduleLesson/ScheduleLessonSteps'
 import ApproveRequest from './pages/Tutors/ApproveRequest'
 import AvailabilityLayout from './pages/Tutors/Availiability'
 import AvailabilitySettings from './pages/Tutors/Availiability/AvailabilitySettings'

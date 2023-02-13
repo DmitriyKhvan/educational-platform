@@ -4,7 +4,7 @@ import Loader from 'react-loader-spinner'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import Modal from '../../../components/Modal'
 import TimeSelect from '../../../components/TimeSelect'
-import NotificationManager from '../../../components/NotificationManager.js'
+import NotificationManager from '../../../components/NotificationManager'
 import { createAppointment } from '../../../actions/appointment'
 import { useTranslation } from 'react-i18next'
 import BookTimeTrial from './BoolTimeTrial'
@@ -88,7 +88,6 @@ const BookTrialLesson = () => {
             onBack={onBack}
             tutor={selectedTutor}
             time={selectedTime}
-            onContinue={onContinue}
           />
         )}
       </div>

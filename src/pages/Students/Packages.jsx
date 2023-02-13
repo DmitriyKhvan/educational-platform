@@ -6,7 +6,7 @@ import ImgChecked from '../../assets/images/checked.svg'
 import Loader from 'react-loader-spinner'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import Modal from '../../components/Modal'
-import NotificationManager from '../../components/NotificationManager.js'
+import NotificationManager from '../../components/NotificationManager'
 import { Checkbox } from '../../components/Checkbox'
 import {
   getPlan,

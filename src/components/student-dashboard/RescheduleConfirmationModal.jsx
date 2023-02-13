@@ -8,7 +8,7 @@ import TutorImageRow from '../../pages/Students/ScheduleLesson/TutorImageRow'
 import { updateAppointment, getAppointments } from '../../actions/appointment'
 import ActionTypes from '../../constants/actionTypes'
 import NotificationManager from '../NotificationManager'
-import Loader from '../../components/common/Loader'
+import Loader from '../common/Loader'
 
 const RescheduleConfirmationModal = ({
   setTabIndex,
