@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import LessonConfirmation from './LessonConfirmation'
 import ScheduleSelector from './ScheduleSelector'
 import SelectLesson from './SelectLesson'
 import SelectTutorCards from './SelectTutorCards'
-import Tut from '../../../assets/images/nao.png'
 import { getPlanStatus } from '../../../actions/subscription'
 import { useQuery, gql } from '@apollo/client'
 
