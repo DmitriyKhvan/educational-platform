@@ -14,7 +14,6 @@ const TutorProfile = () => {
 
   const user = actions?.user;
 
-
   useEffect(() => {
     if (user?.tutor?.avatar) {
       setProfileImage(user?.tutor?.avatar?.url)
@@ -27,11 +26,10 @@ const TutorProfile = () => {
     }
   }, [user])
 
-
   const videoUrl = actions.user?.tutor?.videoUrl;
 
   return (
-    <div>
+    <div className={cls.profile_page}>
       <header className={cls.profile_header}>
         <div className={cls.profile_header_row}>
 
@@ -40,8 +38,17 @@ const TutorProfile = () => {
           <div className={cls.tutor_name}>
               <h1>{actions?.user.fullName}</h1>
               <h2 className={cls.text_primary}>
-                {actions?.user?.tutor?.degree + ", "} 
-                {actions?.user?.tutor?.university} 
+                {
+                  (actions?.user?.tutor?.degree && actions?.user?.tutor?.university)
+                    ? 
+                      (
+                        `
+                          ${actions?.user?.tutor?.degree},
+                          ${actions?.user?.tutor?.university}
+                        `
+                      )
+                    : ""
+                }
               </h2>
           </div>
         </div>

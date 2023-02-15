@@ -14,9 +14,10 @@ import { useHistory } from 'react-router-dom'
 
 const Education = ({cls}) => {
 
-  const [updateTutor, { loading: updateUserLoading }] = useMutation(MUTATION_UPDATE_TUTOR);
+  const [updateTutor] = useMutation(MUTATION_UPDATE_TUTOR);
 
   const notify = () => toast("Education information is changed!")
+  const [file, setFile] = React.useState({});
 
   const history = useHistory();
 
@@ -26,10 +27,28 @@ const Education = ({cls}) => {
     register,
     handleSubmit
   } = useForm({
-    mode:"onBlur"
+    mode:"onBlur",
+    defaultValues: {
+      university: user?.tutor?.university,
+      graduatingYear: user?.tutor?.graduatingYear,
+      degree: user?.tutor?.degree,
+      major: user?.tutor?.major
+    }
   })
 
   const handleEditEdu = async (area) => {
+
+    if(file) {
+      const files = file.target?.files[0];
+      const { data } = updateTutor({
+        variables: {
+          where: {
+            id: parseInt(user?.tutor?.id)
+          },
+          data: {diplomaVerification: { upload: files } }
+        }
+      })
+    }
 
     const newData = {
       ...area,
@@ -74,33 +93,41 @@ const Education = ({cls}) => {
         <div className={cls.form_divider}>
           <p>University</p>
 
-          <select {...register("university")}>
-            <option value={"usa"}>Stanford University</option>
-          </select>
+          <TextInput 
+            type="text"
+            placeholder="Standford University"
+            {...register("university")}
+          />
         </div>
 
         <div className={cls.form_divider}>
           <p>Graduating year</p>
 
-          <select {...register("graduatingYear")}>
-            <option value={2015}>Class of 2012</option>
-          </select>
+          <TextInput 
+            type="number"
+            placeholder="2018"
+            {...register("graduatingYear")}
+          />
         </div>
 
         <div className={cls.form_divider}>
           <p>Degree</p>
 
-          <select {...register("degree")}>
-            <option value={"usa"}>B.A. in English</option>
-          </select>
+          <TextInput 
+            type="text"
+            placeholder="A.B English"
+            {...register("degree")}
+          />
         </div>
 
         <div className={cls.form_divider}>
           <p>Major</p>
 
-          <select {...register("major")}>
-            <option value={"UK"}>Major Name</option>
-          </select>
+          <TextInput 
+            type="text"
+            placeholder="Major"
+            {...register("major")}
+          />
         </div>
 
         <div className={cls.form_divider}>
@@ -137,10 +164,13 @@ const Education = ({cls}) => {
             Options include a Diploma, University Transcript, Certificates or Student ID.
           </p>
 
-          <button>
-            <img src={ExportArrow} alt=""/>
-            Upload
-          </button>
+          <div className={cls.avatar_block}>
+            <label htmlFor='file'>
+              <input  id='file' type={"file"} multiple onChange={e => setFile(e)}/>
+              <img src={ExportArrow} alt=""/>
+              Upload
+            </label>
+          </div>
 
           <div>
             <span>

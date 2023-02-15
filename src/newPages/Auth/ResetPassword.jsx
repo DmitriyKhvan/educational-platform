@@ -19,7 +19,6 @@ const ResetPassword = () => {
   const { newPassword, refetchUser } = useAuth();
   const notify = () => toast("Password has been reset!");
 
-
   const {
     register,
     handleSubmit
@@ -50,6 +49,7 @@ const ResetPassword = () => {
 
       if(data) {
         notify()
+        history.push("/")
       }
     }
 

@@ -25,7 +25,6 @@ const TutorDashboard = () => {
   const hasLessonApprovals = lessonApprovals.length > 0
 
   const { user: currentUser } = useAuth();
-
   const tutor = user.tutor;
 
   useEffect(() => {
@@ -107,8 +106,6 @@ const TutorDashboard = () => {
     }
   }
 
-  console.log(currentUser)
-
   return (
     <div className='main-dashboard scroll-layout'>
       <div className='flex-container'>
@@ -119,13 +116,13 @@ const TutorDashboard = () => {
             </h4>
             <p className='welcome-subtitle'>{t('tutor_welcome_back')}</p>
 
-            {isZoomTime && (
+            {/* {isZoomTime && (
               <ZoomLink
                 link={
                   'https://us02web.zoom.us/j/5688232445?pwd=ckx1NXBHNDlaYWNVdHpaQ1VoZVo4QT09#success'
                 }
               />
-            )}
+            )} */}
 
             <div className='schedule-lesson-select pt-3'>
               <div className='page-card purple large-card py-5 pb-4 purple-top-align'>

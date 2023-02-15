@@ -1,5 +1,79 @@
 
 
+.tutor_timeZone {
+  width: 420px;
+  margin: 15px 0;
+  .css-1s2u09g-control {
+    background: #FFFFFF;
+    /* Border Gray */
+    margin-top: 15px;
+    border: 1px solid #DEDEE1 !important;
+    border-radius: 10px !important;
+    font-family: 'Inter';
+    font-style: normal;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    /* identical to box height */
+    padding: 0px;
+    width: 420px;
+    letter-spacing: -0.5px;  
+  }
+
+  .css-tlfecz-indicatorContainer {
+    margin-top: 0;
+  }
+
+  .css-1okebmr-indicatorSeparator {
+    display: none;
+  }
+
+  .css-319lph-ValueContainer {
+    /* Border Gray */
+    /* identical to box height */
+    padding: 11px;
+    font-weight: 500;
+    font-size: 18px;
+  }
+}
+
+
+.student_country {
+  label {
+    margin: 15px 0;
+  }
+  .css-1s2u09g-control {
+    background: #FFFFFF;
+    /* Border Gray */
+    border: 1px solid #DEDEE1 !important;
+    border-radius: 5px !important;
+    font-family: 'Inter';
+    font-style: normal;
+    cursor: pointer;
+    line-height: 22px;
+    /* identical to box height */
+    padding: 0px;
+    width: 100%;
+    letter-spacing: -0.5px;  
+  }
+
+  .css-tlfecz-indicatorContainer {
+    margin-top: 0;
+  }
+
+  .css-1okebmr-indicatorSeparator {
+    display: none;
+  }
+
+  .css-319lph-ValueContainer {
+    /* Border Gray */
+    /* identical to box height */
+    padding: 10px;
+  }
+}
+
+
 .avatar-modal {
   z-index: 10000;
   background: white;
@@ -31,6 +105,38 @@
       border-bottom: 1px solid #DEDEE1;
       padding: 0 30px;
       padding-bottom: 10px;
+
+      .avatar_block {
+        label {
+          background: #FFFFFF;
+          /* Border Gray */
+          width: 100%;
+          font-family: 'Inter';
+          font-style: normal;
+          text-align: center;
+          font-weight: 600;
+          font-size: 15px;
+          line-height: 18px;
+          letter-spacing: -0.2px; 
+          justify-content: center;
+          /* Dark Purple */   
+          cursor: pointer;
+          color: #261A45; 
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          margin: 10px 0;
+          padding: 15px 0;
+          border: 1px solid #DEDEE1;
+          border-radius: 10px;
+          input {
+            display: none;
+
+          }
+        }
+      }
+
       button, input  {
         background: #FFFFFF;
         /* Border Gray */

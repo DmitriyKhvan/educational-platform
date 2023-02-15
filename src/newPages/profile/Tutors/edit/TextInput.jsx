@@ -4,7 +4,8 @@ import cls from "../EditTutorProfile.module.scss";
 
 export const TextInput = React.forwardRef(({
   type="",
-  defaultValue="",
+  placeholder="",
+  disabled,
   label="",
   ...rest
 }, ref) => {
@@ -13,7 +14,8 @@ export const TextInput = React.forwardRef(({
      <p>{label}</p>
      <input 
         type={type}
-        defaultValue={defaultValue}
+        disabled={disabled}
+        placeholder={placeholder}
         ref={ref}
         {...rest}
      />

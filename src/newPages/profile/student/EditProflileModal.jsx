@@ -1,11 +1,12 @@
 import Modal from 'react-modal'
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import {  Controller, useForm } from 'react-hook-form'
 import { ReactComponent as Close } from '../../../assets/images/Close icon.svg'
 import AvatarImg from '../../../assets/avatar.png'
 import { TextInput } from '../../../components/TextInput'
 import { useAuth } from '../../../modules/auth'
-import profileAvatar from '../../../assets/images/Avatar.png'
+import Select from 'react-select';
+
 import {
   MUTATION_UPDATE_STUDENT,
   MUTATION_UPDATE_USER
@@ -13,11 +14,15 @@ import {
 import { useMutation } from '@apollo/client'
 import timezone from 'timezones-list'
 import { toast } from 'react-toastify'
+import { getData } from 'country-list'
 
-const EditProflileModal = ({ isOpen, setIsOpen }) => {
+import { AiFillEdit } from "react-icons/ai"
+
+const EditProflileModal = ({profileImage, isOpen, setIsOpen }) => {
   const [updateStudent] = useMutation(
     MUTATION_UPDATE_STUDENT
   )
+  const [preview, setPreview] = React.useState({});
 
   const notifyAvatar = () => toast("Avatar is changed!")
   const notify = () => toast("Student information is changed!")
@@ -28,7 +33,16 @@ const EditProflileModal = ({ isOpen, setIsOpen }) => {
   const { user, refetchUser } = useAuth()
   const timezones = timezone.map(x => x.label)
 
-  const { reset, register, handleSubmit } = useForm()
+  const { reset, register, handleSubmit, control  } = useForm({
+    defaultValues: {
+      koreanEquivalent: user?.koreanEquivalent,
+      gender: user?.gender,
+      lastName: user?.lastName,
+      firstName: user?.firstName,
+      phoneNumber: user?.phoneNumber,
+      address: user?.address,
+    }
+  })
 
   const closeModal = () => {
     setIsOpen(false)
@@ -36,9 +50,9 @@ const EditProflileModal = ({ isOpen, setIsOpen }) => {
   }
 
   const onSubmit = async area => {
-    console.log(area)
-
     if (area.avatar?.length) {
+      setPreview(area.avatar)
+
       const { data } = await updateStudent({
         variables: {
           where: {
@@ -85,8 +99,7 @@ const EditProflileModal = ({ isOpen, setIsOpen }) => {
   }
 
   const avatar = user?.student?.avatar?.url || AvatarImg;
-
-  console.log(user)
+  const countries = getData().map(x => x.name)
 
   return (
     <Modal
@@ -107,104 +120,117 @@ const EditProflileModal = ({ isOpen, setIsOpen }) => {
         </button>
       </div>
       <div className='avatar-block'>
-        {avatar && <img src={avatar} alt={"userInfo.tutorName"} />}
+        {avatar && <img src={profileImage} alt={"userInfo.tutorName"} />}
+        <label for="inputTag" className='file_upload'>
+          <input 
+            {...register("avatar")} 
+            webkitdirectory 
+            directory  
+            id="inputTag"  
+            type={"file"} 
+            multiple
+          />
+          <AiFillEdit className="edit-icon"/>
+        </label>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className='body'>
-        {/* <div>
-          <TextInput 
-            label="Full Name"
-            type={"text"}
-            value={"Addison.12"}
-            {...register("fullName")}
-          />
-        </div> */}
-        <div>
-          {/*
-          Rewrite component below to use react-hook-form controller
-          */}
-
-          <TextInput
-            label='Korean Equivalent'
-            type={'text'}
-            defaultValue={user?.koreanEquivalent}
-            {...register('koreanEquivalent')}
-          />
-        </div>
-        <div>
-          <label>
-            Gender
-            <select {...register('gender')}>
-              <option  value={"male"}>
-                Male
-              </option>
-              <option  value={"female"}>
-                Female
-              </option>
-            </select>
-          </label>
-        </div>
-        <div>
-          <label>
-            Time zone (optional)
-            <select {...register('timeZone')}>
-              {timezones.map(item => (
-                <option key={item} value={item}>
-                  {item}
+        <section className='scroll-form'>
+          <section>
+            <TextInput
+              label='Korean Equivalent'
+              type={'text'}
+              placeholder={"알렉스"}
+              {...register('koreanEquivalent')}
+            />
+          </section>
+          <section>
+            <label>
+              Gender
+              <select {...register('gender')}>
+                <option  value={"male"}>
+                  Male
                 </option>
-              ))}
-            </select>
-          </label>
-        </div>
-        <div>
-          <TextInput
-            label='Last Name'
-            type={'text'}
-            defaultValue={user?.lastName}
-            {...register('lastName')}
-          />
-        </div>
-        <div>
-          <TextInput
-            label='First Name'
-            type={'text'}
-            defaultValue={user?.firstName}
-            {...register('firstName')}
-          />
-        </div>
-        <div>
-          <TextInput
-            label='Phone Number'
-            type={'text'}
-            defaultValue='+1(555)555-5555'
-            {...register('phoneNumber')}
-          />
-        </div>
-        <div>
-          <TextInput
-            label='Address'
-            type={'text'}
-            defaultValue='123 Street, City, State'
-            {...register('address')}
-          />
-        </div>
-        <div>
-          <label>
-            Country
-            <select {...register('country')}>
-              <option value={"usa"}>
-                USA
-              </option>
-              <option value={"korea"}>
-                Korea
-              </option>
-            </select>
-          </label>
-        </div>
+                <option  value={"female"}>
+                  Female
+                </option>
+              </select>
+            </label>
+          </section>
+      
+          <div className='student_country'>
+            <label>
+              Time zone (optional)
+            </label>
+            <Controller
+              control={control}
+              defaultValue={user?.timeZone}
+              name="timeZone"
+              render={({ field: { ref, value, onChange } }) => (
+                <Select
+                  inputRef={ref}
+                  value={{ label: value, value: value }}
+                  options={timezones.map(each => {
+                    return { label: each, value: each };
+                  })}
+                  onChange={e => onChange(e.value)}
+                />
+              )}
+            />
+          </div>
+          <section>
+            <TextInput
+              label='Last Name'
+              type={'text'}
+              placeholder={"Addison"}
+              {...register('lastName')}
+            />
+          </section>
+          <section>
+            <TextInput
+              label='First Name'
+              type={'text'}
+              placeholder={"Alisa"}
+              {...register('firstName')}
+            />
+          </section>
+          <section>
+            <TextInput
+              label='Phone Number'
+              type={'text'}
+              placeholder="+1(555)555-5555"
+              {...register('phoneNumber')}
+            />
+          </section>
+          <section>
+            <TextInput
+              label='Address'
+              type={'text'}
+              placeholder={"Bakarov 98"}
+              {...register('address')}
+            />
+          </section>
+          <div className='student_country'>
+            <label htmlFor='country'>
+              Country
+            </label>
+            <Controller
+              control={control}
+              defaultValue={user?.country}
+              name="country"
+              render={({ field: { ref, value, onChange } }) => (
+                <Select
+                  inputRef={ref}
+                  value={{ label: value, value: value }}
+                  options={countries.map(each => {
+                    return { label: each, value: each };
+                  })}
+                  onChange={e => onChange(e.value)}
+                />
+              )}
+            />
+          </div>
 
-        <div>
-          <TextInput label='Avatar' type={'file'} {...register('avatar')} />
-        </div>
-
+        </section>
         <button style={{ cursor: 'pointer' }} type='submit'>
           Save Edits
         </button>

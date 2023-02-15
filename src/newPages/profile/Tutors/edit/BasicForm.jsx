@@ -1,6 +1,6 @@
 
 import { useMutation } from '@apollo/client'
-import { Switch } from '@mui/material'
+// import { Switch } from '@mui/material'
 import React from 'react'
 import { useForm , Controller } from 'react-hook-form'
 import { useAuth } from '../../../../modules/auth'
@@ -11,10 +11,9 @@ import Select from 'react-select';
 import timezone from 'timezones-list';
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
-const label = { inputProps: { 'aria-label': 'Switch demo' } }
+import { getData } from 'country-list'
 
 const BasicForm = ({cls}) => {
-
   const [updateTutor] = useMutation(MUTATION_UPDATE_USER);
 
   const notify = () => toast("Basic information is changed!");
@@ -32,8 +31,12 @@ const BasicForm = ({cls}) => {
   } = useForm({
     mode:"onBlur",
     defaultValues: {
-      firstName: user?.firstName
-    }
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      email: user?.email,
+      phoneNumber: user?.phoneNumber,
+      address: user?.address
+    } 
   });
 
   const handleEditBasicInfo = async (area) => {
@@ -55,6 +58,8 @@ const BasicForm = ({cls}) => {
     await refetchUser();
   }
 
+  const countries = getData().map(x => x.name)
+
   return (
     <form 
       onSubmit={handleSubmit(handleEditBasicInfo)} 
@@ -67,48 +72,65 @@ const BasicForm = ({cls}) => {
 
       <TextInput
         type="text"
-        defaultValue={user?.firstName}
+        placeholder={"Alisa"}
         label="First name"
         {...register("firstName")}
       />
 
       <TextInput 
         type="text"
-        defaultValue={user?.lastName}
+        placeholder={"Addison"}
         label="Last name"
         {...register("lastName")}
       />
 
       <TextInput 
         type="email"
-        defaultValue={user?.email}
+        placeholder={"example@gmail.com"}
         label="Email address"
+        disabled={true}
         {...register("email")}
       />
 
       <TextInput 
         type="text"
-        defaultValue={user?.phoneNumber}
+        placeholder={"+9965537201"}
         label="Phone number"
         {...register("phoneNumber")}
       />
 
-      <div className={cls.editProfile_container_forms_basic_switch}>
+      {/* <div className={cls.editProfile_container_forms_basic_switch}>
         <Switch {...label} defaultChecked />
         <h3>Receive SMS notifications</h3>
-      </div>
+      </div> */}
 
-      <div className={cls.form_divider}>
-        <p>Location</p>
+      <div className='basic'>
+        <div className={cls.form_divider}>
+          <p>Country</p>
 
-        <select defaultValue={user?.country} {...register("country")}>
-          <option value={"USA"}>United States of America</option>
-        </select>
+          <div className='tutor_timeZone'>
+            <Controller
+              control={control}
+              name="country"
+              defaultValue={user?.country}
+              render={({ field: { ref, value, onChange } }) => (
+                <Select
+                  inputRef={ref}
+                  value={{ label: value, value: value }}
+                  options={countries.map(each => {
+                    return { label: each, value: each };
+                  })}
+                  onChange={e => onChange(e.value)}
+                />
+              )}
+            />
+          </div>
+        </div>
       </div>
 
       <TextInput
         type="text"
-        defaultValue={user?.address}
+        placeholder={"Bakarov 99"}
         label="Address"
         {...register("address")}
       />
@@ -116,7 +138,7 @@ const BasicForm = ({cls}) => {
       <div className={cls.form_divider}>
         <p>Time zone</p>
 
-        <div style={{width:"420px", marginTop:"15px"}}>
+        <div className='tutor_timeZone'>
           <Controller
             control={control}
             name="timeZone"

@@ -239,9 +239,8 @@ const StudentListAppointments = () => {
             </h3>
             <div className='row container justify-content-center mt-5'>
               {callToAction.map((x, i) => (
-                <div className='col-4'>
+                <div key={i} className='col-4'>
                   <CTACard
-                    key={i}
                     icon={x.icon}
                     title={x.title}
                     subtitle={x.subtitle}
