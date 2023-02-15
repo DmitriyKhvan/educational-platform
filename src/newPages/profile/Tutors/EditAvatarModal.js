@@ -1,6 +1,6 @@
 
 
-import React, { useState } from 'react'
+import React from 'react'
 import Modal from 'react-modal'
 import ExportArrow from "../../../assets/ExportArrow.png"
 import Rotate from "../../../assets/rotate.png"
@@ -8,47 +8,41 @@ import Crop from "../../../assets/crop.png"
 
 import "./EditAvatar.scss"
 import { useAuth } from '../../../modules/auth'
-import { ME_QUERY, MUTATION_UPDATE_TUTOR } from '../../../modules/auth/graphql'
-import { useMutation, useQuery } from '@apollo/client'
+import {  MUTATION_UPDATE_TUTOR } from '../../../modules/auth/graphql'
+import { useMutation } from '@apollo/client'
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { useForm } from 'react-hook-form'
 
-const EditAvatarModal = ({isOpen, closeModal}) => {
-  const { user } = useAuth()
+const EditAvatarModal = ({isOpen, closeModal, profileImage}) => {
+  const { user, refetchUser} = useAuth()
   const [updateTutor] = useMutation(MUTATION_UPDATE_TUTOR);
-  const {  refetch: refetchUser } = useQuery(ME_QUERY);
   const history = useHistory();
   const notify = () => toast("Avatar is changed!")
 
-  const [file, setFile] = useState({});
+  const { handleSubmit, register } = useForm();
 
-  const updateAvatar = async (e) => {
-    e.preventDefault();
-    const {target: { validity, files }} = file;
+  const updateAvatar = async (area) => {
 
-    if(validity.valid) {
-      const { data } = await updateTutor({
-        variables: {
-          where: {
-            id: parseInt(user?.tutor?.id)
-          },
-          data: { avatar: { upload: files[0] }}
-        }
-      })
-
-      if(data) {
-        notify()
-        history.push("/student/profile")
-        closeModal()
+    const { data } = await updateTutor({
+      variables: {
+        where: {
+          id: parseInt(user?.tutor?.id)
+        },
+        data: { avatar: { upload: area.avatar[0] }}
       }
+    })
 
-      await refetchUser()
-
-      return {data}
+    if(data) {
+      notify()
+      history.push("/student/profile")
+      closeModal()
     }
-  }
 
-  const avatar = user?.tutor?.avatar;
+    await refetchUser()
+
+    return {data}
+  }
 
   return (
     <Modal
@@ -58,22 +52,27 @@ const EditAvatarModal = ({isOpen, closeModal}) => {
       className={`avatar-modal`}
       bodyOpenClassName={'edit-modal-open'}
     >
-      <form onSubmit={updateAvatar} className='avatarModal_card'>
+      <form onSubmit={handleSubmit(updateAvatar)}  className='avatarModal_card'>
         {
-          !avatar 
-          ?   <img 
-                className='avatar_preview' 
-                src='https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg' 
-                alt=''
-              /> 
-          : <img className='avatar_preview' src={avatar?.url} alt=''/>
+          <img className='avatar_preview' src={profileImage} alt=''/>
         }
 
         <div  className='avatarModal_card_editor'>
-          <input type={"file"} multiple onChange={e => setFile(e)}/>
+          <div className='avatar_block'>
+            <label htmlFor='input'>
+              <input 
+                id='input' 
+                type={"file"} 
+                webkitdirectory 
+                multiple 
+                {...register("avatar")}
+              />
+              <img src={ExportArrow} alt=""/>
+              Upload
+            </label>
+          </div>
           {/* <button>
-            <img src={ExportArrow} alt=""/>
-            Upload
+            
           </button> */}
           {/* <button>
             <img src={Rotate} alt=""/>
@@ -87,7 +86,7 @@ const EditAvatarModal = ({isOpen, closeModal}) => {
 
         <div className='avatarModal_card_footer'>
           <button onClick={closeModal}>Cancel</button>
-          <button  type="submit">Save</button>
+          <button  type='submit'>Save</button>
         </div>
       </form>
     </Modal>

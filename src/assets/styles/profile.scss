@@ -14,7 +14,7 @@
     margin-bottom: 46px;
     overflow: hidden;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
-    border-radius: 16px;
+    border-radius: 0;
     border: 0.5px solid $color-grey3;
 
     .btn-see-pricing-options {
@@ -1968,7 +1968,6 @@
   flex-direction: column;
   align-items: flex-start;
   // padding: 25px 20px;
-  position: absolute;
   width: 100%;
   height: auto;
   background: $color-white;
@@ -2698,7 +2697,8 @@ border-radius: 10px;
   transform: translate(-50%, -50%);
   border-radius: 10px;
   padding: 15px;
-  height: 90vh;
+  height: 90%;
+
 
   
 
@@ -2718,12 +2718,28 @@ border-radius: 10px;
 
   .avatar-block {
     text-align: center;
+    position: relative;
+    
     img {
       width: 150px;
       height: 150px;
       object-fit: cover;
       cursor: pointer;
     }
+
+    .file_upload {
+      .edit-icon {
+        position: absolute;
+        font-size: 30px;
+        cursor: pointer;
+      }
+  
+      input {
+        display: none;
+      }
+    }
+
+    
   }
 
   .header {
@@ -2759,52 +2775,61 @@ border-radius: 10px;
   }
 
   form {
-    height: 60vh;
-    overflow-y: auto;
-    label {
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 600;
-      font-size: 15px;
-      line-height: 20px;
-      /* identical to box height, or 133% */
-
-      letter-spacing: -0.2px;
-
-      /* Dark Purple */
-      display: flex;
-      flex-direction: column;
-      color: #261A45;
-    }
-
-    div {
-      margin-top: 15px;
-      input {
-        margin-top: 10px;
-        background: #FFFFFF;
-        padding: 15px;
-        /* Border Gray */
-
-        border: 1px solid #DEDEE1;
-        border-radius: 5px;
+    display: flex;
+    height: 70%;
+    flex-direction: column;
+    justify-content: space-between;
+    .scroll-form {
+      height: 55vh;
+      overflow-y: auto;
+      label {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 20px;
+        /* identical to box height, or 133% */
+  
+        letter-spacing: -0.2px;
+  
+        /* Dark Purple */
+        display: flex;
+        flex-direction: column;
+        color: #261A45;
       }
+  
+      section {
+        margin-top: 15px;
+        input {
+          margin-top: 10px;
+          background: #FFFFFF;
+          padding: 15px;
+          /* Border Gray */
+  
+          border: 1px solid #DEDEE1;
+          border-radius: 5px;
+        }
+  
+        select {
+          margin-top: 10px;
+          background: #FFFFFF;
+          padding: 15px;
+          /* Border Gray */
+          color: #261A45;
 
-      select {
-        margin-top: 10px;
-        background: #FFFFFF;
-        padding: 15px;
-        /* Border Gray */
-
-        border: 1px solid #DEDEE1;
-        border-radius: 5px;
+          border: 1px solid #DEDEE1;
+          border-radius: 5px;
+        }
       }
     }
 
 
     button[type="submit"]{
-      margin-top: 20px;
+      margin-top: 40px;
       padding: 10px;
-      width: 100%;
+      position: absolute;
+      bottom: 1%;
+      width:92%;
       border-radius: 5px;
       background: $color-purple;
       color: $color-white;
@@ -2814,7 +2839,7 @@ border-radius: 10px;
 }
 
 .edit-profile-modal-overlay {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   z-index: 9999;

@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import { ME_QUERY, LOGIN_MUTATION, MUTATION_UPDATE_USER, RESET_PASSWORD_MUTATION, NEW_PASSWORD_MUTATION } from './graphql';
+import { ME_QUERY, LOGIN_MUTATION, RESET_PASSWORD_MUTATION, NEW_PASSWORD_MUTATION } from './graphql';
 
 export const AuthContext = createContext({});
 

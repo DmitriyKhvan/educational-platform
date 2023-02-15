@@ -115,11 +115,13 @@
 
     .editProfile_right {
       &_hooks {
-        a {
+        display: flex;
+        div {
           background: #FFFFFF;
           font-family: 'Inter';
           font-style: normal;
           font-weight: 600;
+          cursor: pointer;
           font-size: 15px;
           line-height: 18px;
           letter-spacing: -0.7px;
@@ -262,6 +264,7 @@
 
       .form_divider {
         margin-bottom: 25px;
+
         p {
           margin: 0;
           font-family: 'Inter';
@@ -283,6 +286,7 @@
           /* Border Gray */
           margin-top: 15px;
           border: 1px solid #DEDEE1;
+          cursor: pointer;
           border-radius: 10px;
           font-family: 'Inter';
           font-style: normal;
@@ -316,6 +320,7 @@
           background: #FFFFFF;
           /* Border Gray */
           margin-top: 15px;
+          cursor: pointer;
           border: 1px solid #DEDEE1;
           border-radius: 10px;
           font-family: 'Inter';
@@ -753,34 +758,42 @@
           color: #261A45;
         }
 
-        button {
-          background: #FFFFFF;
-          /* Border Gray */
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 15px 0;
-          width: 100%;
-          border: 1px solid #DEDEE1;
-          border-radius: 10px;  
-          gap: 10px;
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 600;
-          font-size: 15px;
-          line-height: 18px;
-          letter-spacing: -0.2px;
-          margin-bottom: 20px;
-          /* Dark Purple */
+        .avatar_block {
 
-          color: #261A45;
-          cursor: pointer;
-          img {
-            width: 14px;
-            height: 14px;
+          label {
+            background: #FFFFFF;
+            /* Border Gray */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 0;
+            width: 100%;
+            border: 1px solid #DEDEE1;
+            border-radius: 10px;  
+            gap: 10px;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 18px;
+            letter-spacing: -0.2px;
+            margin-bottom: 20px;
+            /* Dark Purple */
 
-            object-fit: contain;
+            color: #261A45;
+            cursor: pointer;
+            img {
+              width: 14px;
+              height: 14px;
+
+              object-fit: contain;
+            }
+            input {
+              display: none;
+            }
           }
+
+       
         }
 
         div {

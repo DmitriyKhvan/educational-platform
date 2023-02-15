@@ -11,12 +11,14 @@ export const ME_QUERY = gql`
       email
       gender
       address
+      
       country
       timeZone
       phoneNumber
       koreanEquivalent
       student {
         id
+        about
         avatar {
           id
           filesize
@@ -34,6 +36,9 @@ export const ME_QUERY = gql`
         uniqueFacts
         degree
         university
+        graduatingYear
+        degree
+        major
         avatar {
           id
           filesize
@@ -172,4 +177,27 @@ export const MUTATION_UPDATE_STUDENT = gql`
       id
     }
   }
+`
+
+
+
+export const GROUPS_QUERY = gql`
+ query groups {
+  groups {
+    id 
+    tutorId 
+    lessonId 
+    lessonType 
+    lessonTitle 
+    lessonDesc 
+    seatCount 
+    startAt 
+    duration 
+    completed 
+    cancelAction 
+    lessonTopic 
+    lastPartLesson 
+    zoomlinkId 
+  }
+ }
 `

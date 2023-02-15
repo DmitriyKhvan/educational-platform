@@ -86,7 +86,7 @@ const Mentors = () => {
           <h1>Mentors</h1>
           <p>Find new tutors or contact your favorite ones.</p>
         </div>
-
+{/* 
         <div className='tutors_filters'>
           {filtersList.map(
             item =>
@@ -107,7 +107,7 @@ const Mentors = () => {
               Show Only Favorite Tutors
             </label>
           </button>
-        </div>
+        </div> */}
 
         <div className='tutors_row'>
           {mentors?.length === 0 && <p>Empty</p>}

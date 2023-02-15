@@ -6,13 +6,15 @@
 .main-dashboard {
   padding-bottom: 0 !important;
   .flex-container {
+  height: 100vh;
+
     .profile_section {
       padding: 9px 60px;
       .profile_banner {
         .profile_banner-top {
           background: #7048E8;
           border-radius: 10px 10px 0px 0px;
-          width: 605px;
+          width: 100%;
           height: 150px;
           position: relative;
           img {
@@ -27,7 +29,7 @@
         }
       
         .profile_banner-bottom {
-          width: 605px;
+          width: 100%;
           height: 150px;
           border: 1px solid #DEDEE1;
           border-radius: 0px 0px 10px 10px;
@@ -114,6 +116,10 @@
   
       .edit_summary {
         margin-top: 30px;
+        div {
+          display: flex;
+          gap: 30px;
+        }
         header {
           display: flex;
           align-items: center;
@@ -259,6 +265,10 @@
   
           color: #261A45;
         }
+
+        p {
+          margin-top: 50px;
+        }
   
         .enrolled_col {
           margin-top: 20px;
@@ -278,7 +288,7 @@
               font-family: 'Inter';
               font-style: normal;
               font-weight: 600;
-              font-size: 20px;
+              font-size: 15px;
               line-height: 24px;
               letter-spacing: -0.6px;
               cursor: pointer;

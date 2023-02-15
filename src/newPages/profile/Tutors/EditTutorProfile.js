@@ -10,39 +10,85 @@ import Intro from './edit/Intro'
 import EditAvatarModal from './EditAvatarModal'
 import BasicForm from './edit/BasicForm'
 import { useAuth } from '../../../modules/auth'
+import { MUTATION_UPDATE_TUTOR } from '../../../modules/auth/graphql'
+import { useMutation } from '@apollo/client'
+import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png'
+import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png'
 
 
 const EditTutorProfile = () => {
   const [statusInfo , setStatusInfo] = React.useState("basic");
   const [showSample, setShowSample] = React.useState(false);
   const [showEditAvatar, setShowEditAvatar] = React.useState(false);
+  const [updateTutor] = useMutation(MUTATION_UPDATE_TUTOR);
+  const [profileImage, setProfileImage] = React.useState('')
+  const { user, refetchUser } = useAuth()
 
   const hooks = [
     {
       caption: "Basic info",
-      route: "basic"
+      route: "basic",
+      count:475
     }, 
     {
       caption: "Biography",
-      route: "bio"
+      route: "bio",
+      count:1480
     },
     {
       caption: "Education",
-      route: "edu"
+      route: "edu",
+      count:3367
     },
     {
       caption: "Introduction Video",
-      route: "intro"
+      route: "intro",
+      count:5000
     }
   ]
+
+  React.useEffect(() => {
+    if (user?.tutor?.avatar) {
+      setProfileImage(user?.tutor?.avatar?.url)
+    } else if (user.gender === 'female') {
+      setProfileImage(femaleAvatar)
+    } else if (user.gender === 'male') {
+      setProfileImage(maleAvatar)
+    } else {
+      setProfileImage(maleAvatar)
+    }
+  }, [user])
 
   const closeSampleModal = () => setShowSample(false);
 
   const closeEditAvatarModal = () => setShowEditAvatar(false);
 
-  const actions  = useAuth();
+  const deleteAvatar = async () => {
+    const { data } = await updateTutor({
+      variables: {
+        where: {
+          id: parseInt(user?.tutor?.id)
+        },
+        data: { avatar: null}
+      }
+    })
 
-  const avatar = actions.user?.tutor?.avatar;
+    if(data) {
+      refetchUser()
+    }
+  }
+
+  const handleScrollToSelector = (data) => {
+    setStatusInfo(data)
+    hooks.forEach(item => {
+      if(item.route.includes(data)) {
+        window.scrollTo({
+          behavior: "smooth",
+          top: item.count
+        })
+      } 
+    })
+  }
 
   return (
     <Layout>
@@ -62,18 +108,12 @@ const EditTutorProfile = () => {
             <div className={cls.editProfile_left_avatar}>
               <div className={cls.avatar_left}>
               {
-                !avatar 
-                ?   <img 
-                      className={cls.profile_image} 
-                      src='https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg' 
-                      alt=''
-                    /> 
-                : <img  src={avatar?.url} alt=''/>
+                <img  src={profileImage} alt=''/>
               }
               </div>
               <div className={cls.avatar_right}>
                 <button onClick={() => setShowEditAvatar(true)}>Upload New Photo</button>
-                <button>
+                <button onClick={deleteAvatar}>
                   <img src={DelIcon} alt=''/>
                   Delete Photo
                 </button>
@@ -87,14 +127,15 @@ const EditTutorProfile = () => {
           <section className={cls.editProfile_right}>
             <div className={cls.editProfile_right_hooks}>
               {hooks.map(item => (
-                <a 
+                <div 
                   key={item.caption}
-                  onClick={() => setStatusInfo(item.route)} 
+                  onClick={() => {
+                    handleScrollToSelector(item.route)
+                  }} 
                   className={statusInfo === item.route ? cls.active_hook : ""} 
-                  href={`#${item.route}`}
                 >
                   {item.caption}
-                </a>
+                </div>
               ))}
             </div>
 
@@ -119,6 +160,8 @@ const EditTutorProfile = () => {
 
           {/* Biography info */}
 
+
+
           <Biography cls={cls}/>
           
           {/* Edu */}
@@ -127,14 +170,14 @@ const EditTutorProfile = () => {
 
           {/* Intro */}
             
-          <Intro  id="intro" cls={cls}/>
+          <Intro  cls={cls}/>
         </div>  
         
         {<SampleModal isOpen={showSample} closeModal={closeSampleModal}/>}
-        {<EditAvatarModal closeModal={closeEditAvatarModal} isOpen={showEditAvatar} />}
+        {<EditAvatarModal profileImage={profileImage} closeModal={closeEditAvatarModal} isOpen={showEditAvatar} />}
       </div>
     </Layout>
   )
 }
 
-export default EditTutorProfile
+export default EditTutorProfile;

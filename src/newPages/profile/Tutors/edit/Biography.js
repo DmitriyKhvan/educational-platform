@@ -25,7 +25,12 @@ const Biography = ({cls}) => {
     register,
     handleSubmit
   } = useForm({
-    mode:"onBlur"
+    mode:"onBlur",
+    defaultValues: {
+      introduction: user?.tutor?.introduction,
+      relevantExperience: user?.tutor?.relevantExperience,
+      uniqueFacts: user?.tutor?.uniqueFacts
+    }
   })
 
   const handleEditBigraphy = async (area) => {
@@ -72,7 +77,8 @@ const Biography = ({cls}) => {
         </div>
 
         <Textarea
-          defaultValue="Input"
+          placeholder="Include your name, university, degree(s), academic distinctions,
+          and why students should book lessons with you."
           label="Introduction"
           text="Include your name, university, degree(s), academic distinctions,
           and why students should book lessons with you."
@@ -80,7 +86,8 @@ const Biography = ({cls}) => {
         />
 
         <Textarea 
-          defaultValue="Input"
+          placeholder="Include tutoring, teaching, or other work experience
+          that is notable or related to your education."
           label="Relevant Experience"
           text="Include tutoring, teaching, or other work experience
           that is notable or related to your education."
@@ -88,7 +95,8 @@ const Biography = ({cls}) => {
         />
 
         <Textarea 
-          defaultValue="Input"
+          placeholder="For example, honors, accomplishments, hobbies, interests, or other jobs.
+          Try to show a bit of your personality!"
           label="Unique facts about yourself"
           text="For example, honors, accomplishments, hobbies, interests, or other jobs.
           Try to show a bit of your personality!"

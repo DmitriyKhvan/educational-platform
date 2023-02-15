@@ -2,19 +2,20 @@ import React from 'react';
 
 
 import '../../../assets/styles/student.scss';
-
-
-import {
-  Link,
-} from 'react-router-dom';
+import "./style/StudentProfile.scss";
 
 import profileAvatar from '../../../assets/images/Avatar.png';
-import tutorAvatar from '../../../assets/images/tutor.png';
 
 import './style/GeneralProfile.scss'
 import { useAuth } from '../../../modules/auth';
 import EditProflileModal from './EditProflileModal';
-
+import { useMutation, useQuery } from '@apollo/client';
+import { GROUPS_QUERY, MUTATION_UPDATE_STUDENT } from '../../../modules/auth/graphql';
+import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png'
+import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png'
+import { getPlanStatus } from '../../../actions/subscription';
 // const options = [
 //   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
 //   { value: 'completed_lesson', label: 'Completed Lessons' }
@@ -50,6 +51,7 @@ const interests = [
 
 
 const StudentProfile = () => {
+  const { data: groups, userLoading, refetch: refetchUser } = useQuery(GROUPS_QUERY);
 
   // const [selectedOption, setSelectedOption] = useState(options[0])
   // const [selectedLesson, setSelectedLesson] = useState(false)
@@ -165,12 +167,79 @@ const StudentProfile = () => {
   //     )
   //   })
 
+  const [updateStudent] = useMutation(
+    MUTATION_UPDATE_STUDENT
+  )
 
   const [showEditModal , setIsShowEditModal] = React.useState(false)
+  const [summary, setSummary] = React.useState(false)
+  const [about , setAbout] = React.useState("");
+  const [save, setSave] = React.useState(false)
+  const notify = () => toast("Summary information is changed!")
+  const planStatus = useSelector(state => state.students.planStatus)
+  const [profileImage, setProfileImage] = React.useState('')
+  const dispatch = useDispatch()
+  const [schedule, setSchedule] = React.useState()
 
   const actions = useAuth();
 
   const avatar = actions.user?.student?.avatar?.url;
+  
+  React.useEffect(() => {
+    if (avatar) {
+      setProfileImage(avatar)
+    } else if (actions.user.gender === 'female') {
+      setProfileImage(femaleAvatar)
+    } else if (actions.user.gender === 'male') {
+      setProfileImage(maleAvatar)
+    } else {
+      setProfileImage(maleAvatar)
+    }
+  }, [actions.user, avatar])
+
+  const saveSummary = async () => {
+
+   if(about !== "") {
+    const { data } = await updateStudent({
+      variables: {
+        data: {
+          about: about
+        },
+        where: {
+          id: parseInt(actions?.user?.student?.id)
+        }
+      }
+    })
+
+    if(data) {
+      setSave(false)
+      setSummary(false)
+      setAbout("")
+      notify()
+    }
+
+    await actions.refetchUser();
+   }
+  }
+
+  const cancelSummary = () => {
+    setSummary(false)
+    setSave(false)
+    setAbout("")
+  }
+
+  const editSummary = () => {
+    setSummary(true)
+    setSave(true)
+  }
+
+  React.useEffect(() => {
+    dispatch(getPlanStatus())
+  }, [dispatch, schedule])
+
+  const defaultAbout = actions?.user?.student?.about;
+
+  console.log(planStatus)
 
   return (
     <div>
@@ -180,12 +249,7 @@ const StudentProfile = () => {
             <div className='profile_section'>
               <div className='profile_banner'>
                   <div className='profile_banner-top'>
-                    {
-                      avatar 
-                        ? <img style={{objectPosition: "top"}} src={avatar} alt=''/>
-                        : <img src={profileAvatar} alt=''/>
-                    }
-                    
+                     <img style={{objectPosition: "top"}} src={profileImage} alt=''/>
                   </div>
                   <div className='profile_banner-bottom'>
                     <div className='profile_main-info'>
@@ -215,18 +279,42 @@ const StudentProfile = () => {
               <div className='edit_summary'>
                 <header>
                   <h2>Summary</h2>
-                  <button>Edit</button>
+                  {
+                    save 
+                      ? <div>
+                        <button onClick={saveSummary}>Save</button>
+                        <button onClick={cancelSummary}>Cancel</button>
+                      </div>
+                      : <button onClick={editSummary }>Edit</button>
+                  }
                 </header>
 
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pharetra eu leo a dignissim. Nunc et maximus urna. 
-                </p>
+                {
+                  summary 
+                    ? <textarea 
+                        onChange={e => setAbout(e.target.value)} 
+                        className='edit_summary_textarea' 
+                        defaultValue={!defaultAbout ? about : defaultAbout}
+                      >
 
-                <p>
-                Vestibulum sed leo ultrices, hendrerit tortor et, efficitur quam. Phasellus purus purus, sollicitudin et pulvinar vel, vehicula ac dolor 
-                </p>
+                      </textarea>
+                    : !defaultAbout 
+                      ? <React.Fragment>
+                          <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pharetra eu leo a dignissim. Nunc et maximus urna. 
+                          </p>
+
+                          <p>
+                              Vestibulum sed leo ultrices, hendrerit tortor et, efficitur quam. Phasellus purus purus, sollicitudin et pulvinar vel, vehicula ac dolor 
+                          </p>
+                        </React.Fragment>
+                      : <p>
+                        {defaultAbout}
+                      </p>
+                }
+
               </div>
-
+{/* 
               <div className='edit_interests'>
                 <h2>My Interests</h2>
                 <div className='row_interests'>
@@ -237,32 +325,36 @@ const StudentProfile = () => {
                   </div>
                   <Link to={"/student/profiles/edit-topics"}>Edit Topics</Link>
                 </div>
-              </div>
+              </div> */}
               <div className='enrolled_course'>
                 <h2>Enrolled Courses</h2>
-                {
-                  Array.from({length:4}).map(item =>
-                    <div className='enrolled_col'>
+                {planStatus && 
+                  planStatus.map(item =>
+                    <div key={item.id} className='enrolled_col'>
                       <div className='course_card'>
-                        <h3>English</h3>
+                        <h3>
+                          {item.lesson_type}
+                        </h3>
                         <button className='lesson_button'>
                           1-On-1 Lessons
                         </button>
                         <button className='time_button'>
-                          30 Minutes
+                          {item.duration} Minutes
                         </button>
                         <button className='remaining_button'>
-                          12 Lessons Remaining
+                          {item.total_lessons} Lessons Remaining
                         </button>
                       </div>
                     </div>  
                   )
                 }
+
+                {planStatus?.length === 0 && <p>You don't have any courses!</p>}
               </div>
             </div>
           </div>
           <div className='student-list-appointments-wrapper flex-right changes-container'>
-            <div className='favorite_section'>
+            {/* <div className='favorite_section'>
               <h2>My Favorite Tutors</h2>
               
               <div className='favorite_col'>
@@ -282,7 +374,7 @@ const StudentProfile = () => {
                   )
                 }
               </div>
-            </div>
+            </div> */}
 
             <div className='details'>
               <h2>Additional Details</h2>
@@ -354,7 +446,13 @@ const StudentProfile = () => {
         />
       )} */}
 
-      {<EditProflileModal isOpen={showEditModal} setIsOpen={setIsShowEditModal} />}
+      {
+        <EditProflileModal 
+          profileImage={profileImage} 
+          isOpen={showEditModal} 
+          setIsOpen={setIsShowEditModal}
+        />
+      }
 
       {/* {isLoading && <Loader />} */}
     </div>

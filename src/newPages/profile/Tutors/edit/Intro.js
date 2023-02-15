@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom'
 import VideoIcon from "../../../../assets/Video.png"
 import { useAuth } from '../../../../modules/auth';
 
-const Intro = ({id, cls}) => {
+const Intro = ({ cls}) => {
 
   const actions = useAuth();
 
   const videoUrl = actions.user?.tutor?.videoUrl;
 
   return (
-    <div className={cls.editProfile_container_forms_intro} id={id}>
+    <div className={cls.editProfile_container_forms_intro} id={"intro"}>
       <div className={cls.editProfile_container_forms_intro_title}>
         <h2>Introduction Video</h2>
 
