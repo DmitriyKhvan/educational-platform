@@ -120,6 +120,7 @@
   "available": "AVAILABLE",
   "not_available": "NOT AVAILABLE",
   "availability_schedule": "Availability Schedule",
+  "no_available_slots": "No Available Slots",
   "add_more": "Add More",
   "from": "From",
   "to": "To",

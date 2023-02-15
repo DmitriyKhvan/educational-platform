@@ -58,6 +58,8 @@ export const MENTORS_QUERY = gql`
       id
       user {
         id
+        firstName
+        lastName
       }
       major
       language

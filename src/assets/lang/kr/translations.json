@@ -625,5 +625,6 @@
   "back": "← 뒤",
   "custom_back": "뒤",
   "select_a_tutor": "튜터 선택",
-  "select_a_tutor_subtitle": "수업 및 가용성에 따라 추천된 튜터."
+  "select_a_tutor_subtitle": "수업 및 가용성에 따라 추천된 튜터.",
+  "no_available_slots": "사용 가능한 시간대가 없습니다."
 }

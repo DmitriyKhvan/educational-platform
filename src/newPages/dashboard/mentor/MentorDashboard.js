@@ -14,7 +14,7 @@ import ZoomLink from '../../../components/ZoomLink'
 import { useAuth } from '../../../modules/auth'
 
 const TutorDashboard = () => {
-  const [isZoomTime, setZoomTime] = useState(true)
+  const [isZoomTime, setZoomTime] = useState(false);
   const [t] = useTranslation('translation')
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)

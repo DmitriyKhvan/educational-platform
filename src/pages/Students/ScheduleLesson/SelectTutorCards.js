@@ -1,18 +1,148 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Modal from 'react-modal'
+import moment from 'moment'
 import Layout from '../../../components/Layout'
 import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png'
 import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png'
 import Favorite from '../../../assets/images/Favorite.svg'
 import Vector from '../../../assets/images/Vectors.svg'
+import { useQuery, gql } from '@apollo/client'
+import MentorsModal from '../../../newPages/mentors-list/MentorsModal'
 Modal.setAppElement('#root')
 
-const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
+const GET_TIMESHEETS = gql`
+  query GetTimesheets($day: String) {
+    timesheets(
+      where: { day: { equals: $day } }
+      orderBy: []
+      take: null
+      skip: 0
+    ) {
+      id
+      tutorId
+      day
+      from
+      to
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+const GET_TUTORS_BY_ID = gql`
+  query GetTutors($ids: [ID!]) {
+    tutors(where: { id: { in: $ids } }, orderBy: [], take: null, skip: 0) {
+      id
+      userName(something: 1)
+      major
+      language
+      university
+      acceptanceRate
+      checked
+      videoUrl
+      totalRequests
+      graduatingYear
+      degree
+      certificates
+      introduction
+      relevantExperience
+      uniqueFacts
+      about
+      experience
+      facts
+      avatar {
+        id
+        filesize
+        width
+        height
+        extension
+        url
+      }
+      picture {
+        id
+        filesize
+        width
+        height
+        extension
+        url
+      }
+      diplomaVerification {
+        filename
+        filesize
+        url
+      }
+      user {
+        id
+        firstName
+        lastName
+        koreanEquivalent
+        phoneNumber
+        address
+        gender
+        timeZone
+        country
+        avatar
+        emailVerificationToken
+        resetPasswordExpires
+        resetPasswordToken
+        referalId
+        referalConfirmed
+        fullName(something: 1)
+        role(something: 1)
+        email
+        passwordResetIssuedAt
+        passwordResetRedeemedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
   const [t] = useTranslation('translation')
   const [isOpen, setIsOpen] = useState(false)
   const [modalSelectTutor, setModalSelectTutor] = useState({})
   const [availableTutors, setAvailableTutors] = useState([])
+  const scheduleMoment = moment(
+    moment(schedule, 'ddd MMM DD YYYY HH:mm:ss').format('HH:mm'),
+    'HH:mm'
+  )
+
+  const { data: timesheetsData } = useQuery(GET_TIMESHEETS, {
+    variables: {
+      day: moment(schedule, 'ddd MMM DD YYYY HH:mm:ss').format('dddd')
+    }
+  })
+
+  const availableTutorIds = timesheetsData?.timesheets?.reduce((acc, each) => {
+    const timesheetFrom = moment(each.from, 'HH:mm')
+    const timesheetTo = moment(each.to, 'HH:mm')
+    // Third argument is for units (for which we do not care right now)
+    // Fourth parameter '[)' means that the end time is not included
+    if (scheduleMoment.isBetween(timesheetFrom, timesheetTo, undefined, '[]')) {
+      return [...acc, each.tutorId]
+    }
+    return acc
+  }, [])
+
+  const [tutors, setTutors] = useState([])
+
+  const { data: tutorsData } = useQuery(GET_TUTORS_BY_ID, {
+    variables: { ids: availableTutorIds },
+    onCompleted: tutorsData => {
+      const data = tutorsData?.tutors.map(tutor => {
+        return {
+          id: tutor.id,
+          avatar: tutor?.avatar?.url ?? '',
+          first_name: tutor.user.firstName,
+          last_name: tutor.user.lastName,
+        }
+      })
+      setTutors(data)
+    }
+  })
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -22,7 +152,7 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
       )
       setAvailableTutors([...tempTutors])
     }
-  }, [])
+  }, [tutors])
 
   const handleSearchTutor = e => {
     const { value } = e.target
@@ -158,7 +288,7 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
     }
 
     const onClickLearnMore = () => {
-      setModalSelectTutor(tutor)
+      setModalSelectTutor(tutor.id)
       setIsOpen(true)
     }
 
@@ -272,7 +402,7 @@ const SelectTutorCards = ({ tutors, setTabIndex, setSelectTutor }) => {
           </div>
         </div>
       </div>
-      {isOpen && <LearnMoreModal />}
+      {isOpen && <MentorsModal setShowTutorModal={setIsOpen} tutorId={modalSelectTutor} tutorsList={tutorsData.tutors}/>}
     </Layout>
   )
 }
