@@ -77,7 +77,6 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build",
     "serve": "vite preview",
     "fmt": "prettier --write './**/*.{js,json}'"
   },

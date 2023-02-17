@@ -56,8 +56,6 @@ const ScheduleLesson = () => {
   //   }
   // ]
 
-  const { id } = useParams()
-
   useEffect(() => {
     console.log(schedule, "schedule");
     dispatch(getPlanStatus())
