@@ -24,7 +24,7 @@ const ApproveRequest = () => {
   const tutor = useSelector(state => state.tutor.info)
   const dispatch = useDispatch()
   const [t] = useTranslation('translation')
-  const userTimezone = user?.time_zone?.split(' ')[0]
+  const userTimezone = user?.time_zone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   useEffect(() => {
     dispatch(getUserInfo())

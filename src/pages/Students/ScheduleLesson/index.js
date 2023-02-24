@@ -16,19 +16,6 @@ const ScheduleLesson = () => {
   const [schedule, setSchedule] = useState()
   const [tabIndex, setTabIndex] = useState(0)
   const [selectTutor, setSelectTutor] = useState()
-  const { loading, error, data } = useQuery(GET_TUTORS)
-
-  const tutors = data?.tutors?.map(tutor => {
-    return {
-      id: tutor?.id,
-      avatar: tutor?.avatar?.url ?? "",
-      first_name: tutor?.user?.firstName,
-      last_name: tutor?.user?.lastName,
-      univer: 'Stanford University',
-      lang: 'SMTH',
-      isFavourite: false
-    }
-  })
 
   useEffect(() => {
     dispatch(getPlanStatus())
@@ -53,7 +40,6 @@ const ScheduleLesson = () => {
         />
       ) : tabIndex === 2 ? (
         <SelectTutorCards
-          // tutors={tutors}
           tabIndex={tabIndex}
           setTabIndex={setTabIndex}
           setSelectTutor={setSelectTutor}
