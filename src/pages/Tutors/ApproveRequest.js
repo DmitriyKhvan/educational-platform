@@ -16,6 +16,7 @@ import Loader from 'react-loader-spinner'
 import { useTranslation } from 'react-i18next'
 import { getTutorInfo } from '../../actions/tutor'
 import { getUserInfo } from '../../actions/user'
+import { Link } from 'react-router-dom'
 
 const ApproveRequest = () => {
   const appointments = useSelector(state => state.appointment.list)
@@ -96,15 +97,91 @@ const ApproveRequest = () => {
             lessonDate: event.start_at
           }))) ||
       []
-    return <CustomTable timezone={userTimezone} data={data} columns={columns} />
+    // return <CustomTable timezone={userTimezone} data={data} columns={columns} />
+    return data
   }
+
+  const tableHead = [
+    'Student ID',
+    'Student Name',
+    t('Lesson Number'),
+    t('Lesson Date'),
+    
+  ]
+
+  const tablesData = [
+    {
+      id:1,
+      img:"",
+      studentName:"Alex",
+      lessonNumber: 5,
+      lessonDate: "05.06.2023"
+    },
+    {
+      id:2,
+      img:"",
+      studentName:"Alisa",
+      lessonNumber: 5,
+      lessonDate: "05.06.2023"
+    },
+  ]
+
+  const renderTable = () => 
+    displayLessonRequestTable().length !== 0 
+      ? displayLessonRequestTable()
+      : tablesData
 
   return (
     <Layout>
       <div className='main-dashboard p-5'>
         <h4 className='main-title'>{t('appointment_requests')}</h4>
         <div className='divider' />
-        {displayLessonRequestTable()}
+        <table className='table'>
+          <thead>
+            <tr>
+              {tableHead.map(x => (
+                <th scope='col'>{x}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+          {renderTable()?.map(event => (
+            <tr className='tr-center'>
+              <td className='td-item m-0'>
+                <p className='td-lesson'>{'#' + event.id}</p>
+              </td>
+              <td className='td-item m-0'>
+                <p className='td-lesson'>{event.studentName}</p>
+              </td>
+              <td className='td-item m-0'>
+                <p className='td-topic-level'>
+                  {event.lessonNumber}
+                </p>
+              </td>
+              <td className='td-item m-0'>
+                <div className='td-datetime td-datetime-border p-3'>
+                  {moment(event.lessonDate)
+                    .tz('America/New_York')
+                    .format('ddd, MMM Do') + ' | '}
+                  {moment(event.lessonDate)
+                    .tz('America/New_York')
+                    .format('hh:mm A')}
+                  {' → '}
+                  {moment(event.lessonDate)
+                    .tz('America/New_York')
+                    .format('hh:mm A')}
+                </div>
+              </td>
+              <td className='td-item m-0'>
+                <Link className='td-button' to={`appointments-calendar/lesson/${event.id}`}>Cancel</Link>
+              </td>
+              <td className='td-item m-0'>
+                <Link className='td-button' to={`appointments-calendar/lesson/${event.id}`}>Approve</Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+        </table>
         {loading && (
           <Loader
             className='align-center'

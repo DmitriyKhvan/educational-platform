@@ -14,7 +14,7 @@ import { MUTATION_UPDATE_TUTOR } from '../../../modules/auth/graphql'
 import { useMutation } from '@apollo/client'
 import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png'
 import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png'
-
+import { Link  } from "react-scroll"
 
 const EditTutorProfile = () => {
   const [statusInfo , setStatusInfo] = React.useState("basic");
@@ -33,17 +33,17 @@ const EditTutorProfile = () => {
     {
       caption: "Biography",
       route: "bio",
-      count:1480
+      count:1600
     },
     {
       caption: "Education",
       route: "edu",
-      count:3367
+      count:3487
     },
     {
       caption: "Introduction Video",
       route: "intro",
-      count:5000
+      count:5120
     }
   ]
 
@@ -76,18 +76,6 @@ const EditTutorProfile = () => {
     if(data) {
       refetchUser()
     }
-  }
-
-  const handleScrollToSelector = (data) => {
-    setStatusInfo(data)
-    hooks.forEach(item => {
-      if(item.route.includes(data)) {
-        window.scrollTo({
-          behavior: "smooth",
-          top: item.count
-        })
-      } 
-    })
   }
 
   return (
@@ -127,15 +115,20 @@ const EditTutorProfile = () => {
           <section className={cls.editProfile_right}>
             <div className={cls.editProfile_right_hooks}>
               {hooks.map(item => (
-                <div 
+                <Link 
+                  to={item.route}
                   key={item.caption}
                   onClick={() => {
-                    handleScrollToSelector(item.route)
+                    setStatusInfo(item.route)
                   }} 
+                  spy={true}
+                  smooth={true}
+                  offset={-80}
+                  duration={500}
                   className={statusInfo === item.route ? cls.active_hook : ""} 
                 >
                   {item.caption}
-                </div>
+                </Link>
               ))}
             </div>
 
@@ -169,12 +162,18 @@ const EditTutorProfile = () => {
           <Education cls={cls}/>
 
           {/* Intro */}
-            
+             
           <Intro  cls={cls}/>
         </div>  
         
         {<SampleModal isOpen={showSample} closeModal={closeSampleModal}/>}
-        {<EditAvatarModal profileImage={profileImage} closeModal={closeEditAvatarModal} isOpen={showEditAvatar} />}
+        {
+          <EditAvatarModal 
+            profileImage={profileImage} 
+            closeModal={closeEditAvatarModal} 
+            isOpen={showEditAvatar} 
+          />
+        }
       </div>
     </Layout>
   )
