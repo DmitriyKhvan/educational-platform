@@ -35,7 +35,8 @@ const BasicForm = ({cls}) => {
       lastName: user?.lastName,
       email: user?.email,
       phoneNumber: user?.phoneNumber,
-      address: user?.address
+      address: user?.address,
+      gender: user?.gender
     } 
   });
 
@@ -83,6 +84,19 @@ const BasicForm = ({cls}) => {
         label="Last name"
         {...register("lastName")}
       />
+
+      <div className={cls.form_divider}>
+        <p>Gender</p>
+
+        <select {...register('gender')}>
+          <option   value={"male"}>
+            Male
+          </option>
+          <option  value={"female"}>
+            Female
+          </option>
+        </select>
+      </div>
 
       <TextInput 
         type="email"

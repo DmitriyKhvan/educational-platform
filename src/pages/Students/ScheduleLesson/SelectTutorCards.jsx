@@ -302,7 +302,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
       <div className='col-12 col-xl-4 col-lg-6 col-md-6 col-sm-6 pt-3 schedulebottom'>
         <div className='favImg'>
           <img src={tutorProfile} className='img-fluid schedule' alt='' />
-          <img src={Favorite} alt='FavoriteSvg' className='FavoriteSvg' />
+          {/* <img src={Favorite} alt='FavoriteSvg' className='FavoriteSvg' /> */}
         </div>
         <div className='text-center'>
           <div className='Learn-name-university pt-3'>
@@ -351,7 +351,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
                     >
                       {t('back')}
                     </button>
-                    <div className='combo'>
+                    {/* <div className='combo'>
                       <div className='FavoritesTutors'>
                         <img
                           src={Vector}
@@ -380,20 +380,20 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
                     </div>
                     <div className='FavoriteSTutors'>
                       <div id='Favorite-label'>{t('show_tutors')}</div>
-                    </div>
+                    </div> */}
                   </div>
                   <div className='col-auto pt-2'>
                     {/* <Select options={options} /> */}
                   </div>
                 </div>
               </div>
-              <div className='searchbox'>
+              {/* <div className='searchbox'>
                 <input
                   type='text'
                   placeholder={t('placeholder_search_tutor')}
                   onChange={handleSearchTutor}
                 />
-              </div>
+              </div> */}
               <div className='row ps-2 pt-4 tutor-overflow-scroll tutor_schedule_widths '>
                 {availableTutors.map((x, i) => (
                   <SelectTutors tutor={x} key={i} />

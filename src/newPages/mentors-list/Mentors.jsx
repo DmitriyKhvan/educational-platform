@@ -84,7 +84,7 @@ const Mentors = () => {
       <div className='tutors_section'>
         <div className='tutors_title'>
           <h1>Mentors</h1>
-          <p>Find new tutors or contact your favorite ones.</p>
+          <p>Find new mentors or contact your favorite ones.</p>
         </div>
 {/* 
         <div className='tutors_filters'>
@@ -135,9 +135,9 @@ const Mentors = () => {
                     <button onClick={() => handleMoreTutor(item.id)}>
                       Learn more
                     </button>
-                    <button onClick={() => handleStatusTutor(item.id)}>
+                    {/* <button onClick={() => handleStatusTutor(item.id)}>
                       {item?.isFavourite ? 'Remove' : 'Favorite'}
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </div>
