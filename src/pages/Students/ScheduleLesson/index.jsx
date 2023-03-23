@@ -5,6 +5,7 @@ import ScheduleSelector from './ScheduleSelector'
 import SelectLesson from './SelectLesson'
 import SelectTutorCards from './SelectTutorCards'
 import { getPlanStatus } from '../../../actions/subscription'
+import { useQuery, gql } from '@apollo/client'
 
 import '../../../assets/styles/tutor.scss'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
@@ -18,6 +19,7 @@ const ScheduleLesson = () => {
   const [selectTutor, setSelectTutor] = useState()
 
   useEffect(() => {
+    console.log(schedule, "schedule");
     dispatch(getPlanStatus())
   }, [dispatch, schedule])
 

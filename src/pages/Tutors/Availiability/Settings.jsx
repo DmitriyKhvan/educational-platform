@@ -5,7 +5,7 @@ import TutorApi from '../../../api/TutorApi'
 import { Provider, useSelector } from 'react-redux'
 import NotificationManager from '../../../components/NotificationManager'
 import { useHistory } from 'react-router-dom'
-const fedHolidays = require('@18f/us-federal-holidays')
+import fedHolidays from '@18f/us-federal-holidays'
 export const Settings = () => {
   const [t] = useTranslation('translation')
   const history = useHistory()

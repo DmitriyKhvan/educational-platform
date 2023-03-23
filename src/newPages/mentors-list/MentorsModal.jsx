@@ -12,9 +12,13 @@ const MentorsModal = ({
 }) => {
   const { id } = useParams()
 
+  console.log(tutorsList, 'tutorId')
+
   const renderSelectedTutor = tutorsList?.find(
     item => item.id === (tutorId ? tutorId : id)
   )
+
+  console.log(renderSelectedTutor)
 
   return (
     <div className='tutor_alfa'>

@@ -146,6 +146,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    console.log(tutors, 'TUTORS')
     if (tutors && tutors.length) {
       const tempTutors = tutors.sort((a, b) =>
         a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1
