@@ -19,7 +19,6 @@ const ScheduleLesson = () => {
   const [selectTutor, setSelectTutor] = useState()
 
   useEffect(() => {
-    console.log(schedule, "schedule");
     dispatch(getPlanStatus())
   }, [dispatch, schedule])
 

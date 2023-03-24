@@ -149,7 +149,7 @@ const ScheduleSelector = ({
   })
 
   //Loop over the times - only pushes time with 30 minutes interval
-  while (startTime <= endTime) {
+  while (startTime.isSameOrBefore(endTime)) {
     const tempTime = moment(startTime.format('HH:mm'), 'HH:mm')
     timesheetsData?.timesheets.map(timesheet => {
       const timesheetFrom = moment(timesheet.from, 'HH:mm')

@@ -75,7 +75,6 @@ const Calendar = () => {
 
   useEffect(() => {
     if (calendarAppointments) {
-      console.log(calendarAppointments);
       const tempEvents = []
       calendarAppointments.forEach((_, index) => {
         const start = moment(calendarAppointments[index].start_at).tz(

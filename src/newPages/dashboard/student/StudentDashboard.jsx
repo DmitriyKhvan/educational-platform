@@ -32,12 +32,11 @@ const StudentListAppointments = () => {
   const [selectedOption, setSelectedOption] = useState(options[0])
   const [selectedLesson, setSelectedLesson] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const appointments = useSelector(state => state.appointment.list)
+  const appointments = useSelector(state => state.appointment.list) ?? []
   const { user } = useAuth()
   const [completedAppointment, setCompleteAppointment] = useState(null)
   const history = useHistory()
   const onDismiss = () => setCompleteAppointment(null)
-
 
   const onCancel = async ({ id, reasons }) => {
     setIsLoading(true)
@@ -79,7 +78,7 @@ const StudentListAppointments = () => {
 
   useEffect(() => {
     if (complete_appoint_id) {
-      const feedbackAppt = appointments.find(
+      const feedbackAppt = appointments?.find(
         apt => apt.id == complete_appoint_id
       )
       setCompleteAppointment(feedbackAppt)
@@ -99,7 +98,7 @@ const StudentListAppointments = () => {
       queryObj.completed = true
     }
 
-    await dispatch(getAppointments(queryObj))
+    dispatch(getAppointments(queryObj))
     setIsLoading(false)
   }
 
@@ -116,7 +115,7 @@ const StudentListAppointments = () => {
     })
     .filter(x => x)
 
-    const isWithinAweek = isWithinAweekArr.filter(
+  const isWithinAweek = isWithinAweekArr.filter(
     (x, i, a) => a.findIndex(y => y.start_at === x.start_at) === i
   )
 
