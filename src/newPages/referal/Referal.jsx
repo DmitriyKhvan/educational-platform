@@ -46,14 +46,14 @@ const Referal = () => {
             <div className='main_section-row'>
               <div className='left_side'>
                 <div className='refer_card'>
-                  <h2>For you</h2>
+                  <h2>For You</h2>
                   <p>1 Hour Of Free Classes</p>
                   <span>
                     You will get 1 hour worth of free classes after your friend purchases with Nao Now.
                   </span>
                 </div>  
                 <div className='refer_card'>
-                  <h2>For you</h2>
+                  <h2>For Your Friend</h2>
                   <p>1 Hour Of Free Classes</p>
                   <span>
                     You will get 1 hour worth of free classes after your friend purchases with Nao Now.

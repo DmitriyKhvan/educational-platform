@@ -1705,6 +1705,11 @@ div.time-style {
     img {
       margin-bottom: 31px;
     }
+    &.small-card {
+      .schedule-dashboard-buttons {
+        margin: 0;
+      }
+    }
   }
   .schdule-lesson-select {
     display: flex;

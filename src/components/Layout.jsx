@@ -3,15 +3,15 @@ import { useSelector, useDispatch } from 'react-redux'
 import Navbar from './Navbar'
 import Sidebar from './Sidebar'
 import '../assets/styles/layout.scss'
-import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
+// import { Elements } from '@stripe/react-stripe-js'
+// import { loadStripe } from '@stripe/stripe-js'
 import io from 'socket.io-client'
 import { setNotification } from '../actions/notification'
 import ReferMessageModal from './ReferMessageModal'
 
 const Layout = ({ children, fluid }) => {
   const isShowSidebar = useSelector(state => state.settings.isShowSidebar)
-  const stripe = loadStripe(process.env.REACT_APP_STRIPE_KEY)
+  // const stripe = loadStripe(process.env.REACT_APP_STRIPE_KEY)
   const authed = useSelector(state => state.auth.authenticated)
   const user = useSelector(state => state.users.user)
   const [socket, setSocket] = useState(null)
@@ -50,7 +50,8 @@ const Layout = ({ children, fluid }) => {
   }
 
   return (
-    <Elements stripe={stripe}>
+    <>
+    {/* <Elements stripe={stripe}> */}
       <div className='default-layout'>
         {referalMessage && showRefer && <ReferMessageModal referalMessage={referalMessage} setRefer={setRefer}/>}
         <div className={`content ${fluid ? 'fluid' : ''}`}>
@@ -63,7 +64,8 @@ const Layout = ({ children, fluid }) => {
         </div>
         {/* <Footer /> */}
       </div>
-    </Elements>
+    {/* </Elements> */}
+    </>
   )
 }
 

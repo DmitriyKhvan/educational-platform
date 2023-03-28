@@ -4,7 +4,6 @@ import AvailabilityPicker from '../pages/Tutors/Availiability/AvailabilityPicker
 import { AvailProv } from '../pages/Tutors/Availiability/AvailabilityProvider'
 import plusIcon from '../assets/images/plus_icon.svg'
 import { v4 as uuid } from 'uuid'
-import moment from 'moment'
 export const AvailabilityDayRow = ({
   day,
   setGatherAvailabilities,

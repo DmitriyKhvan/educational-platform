@@ -79,6 +79,7 @@
   "scripts": {
     "start": "vite",
     "serve": "vite preview",
+    "build": "vite build",
     "fmt": "prettier --write './**/*.{js,json}'"
   },
   "eslintConfig": {

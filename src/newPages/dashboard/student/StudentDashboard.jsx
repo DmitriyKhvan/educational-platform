@@ -17,7 +17,8 @@ import CTACard from '../../../components/student-dashboard/CTACard'
 import ScheduleCard from '../../../components/student-dashboard/ScheduleCard'
 import whiteSubscriptionIcon from '../../../assets/images/white_subscription_icon.svg'
 import whiteBookingIcon from '../../../assets/images/white_book_trial_icon.svg'
-import Loader from '../../../components/common/Loader'
+import smileIcon from '../../../assets/images/smile_icon.svg'
+// import Loader from '../../../components/common/Loader'
 import { useAuth } from '../../../modules/auth'
 
 const options = [
@@ -49,21 +50,6 @@ const StudentListAppointments = () => {
     setSelectedLesson(false)
     setIsLoading(false)
   }
-
-  const callToAction = [
-    {
-      icon: whiteBookingIcon,
-      title: t('book_trial'),
-      subtitle: t('book_trial_subtitle'),
-      color: 'light-blue'
-    },
-    {
-      icon: whiteSubscriptionIcon,
-      title: t('purchase_subscription'),
-      subtitle: t('purchase_subscription_subtitle'),
-      color: 'pink'
-    }
-  ]
 
   useEffect(() => {
     ;(async () => {
@@ -102,7 +88,7 @@ const StudentListAppointments = () => {
     setIsLoading(false)
   }
 
-  const isWithinAweekArr = appointments
+  const isWithinAweekArr = (appointments || [])
     .map(x => {
       const startOfWeek = moment().isAfter(moment().startOf('isoWeek'))
         ? moment().startOf('day')
@@ -119,7 +105,7 @@ const StudentListAppointments = () => {
     (x, i, a) => a.findIndex(y => y.start_at === x.start_at) === i
   )
 
-  const ScheduleArr = isWithinAweek
+  const ScheduleArr = (isWithinAweek || [])
     .sort((a, b) => new Date(a.start_at) - new Date(b.start_at))
     .map((x, i) => {
       const date = moment(x.start_at)
@@ -140,6 +126,44 @@ const StudentListAppointments = () => {
         )
       )
     })
+
+  const callToAction = (
+    appointments.length >= 0
+      ? [
+        {
+          icon: smileIcon,
+          title: "Give feedback on a lesson.",
+          button: {
+            to: '',
+            text: 'Submit Feedback →',
+          },
+          color: 'pink'
+        },
+        {
+          icon: whiteBookingIcon,
+          title: "View my progress.",
+          button: {
+            to: '',
+            text: 'Completed Lessons →',
+          },
+          color: 'light-blue'
+        },
+      ]
+      : [
+        {
+          icon: whiteBookingIcon,
+          title: t('book_trial'),
+          subtitle: t('book_trial_subtitle'),
+          color: 'light-blue'
+        },
+        {
+          icon: whiteSubscriptionIcon,
+          title: t('purchase_subscription'),
+          subtitle: t('purchase_subscription_subtitle'),
+          color: 'pink'
+        },
+      ]
+  )
 
   return (
     <Layout>
@@ -181,7 +205,7 @@ const StudentListAppointments = () => {
                       </div>
                       <div className='col-6 schedule-dashboard-button'>
                         <Link
-                          href='/student/schedule-lesson/group-select'
+                          to='/student/schedule-lesson/group-select'
                           className='schedule-dashboard-buttons'
                         >
                           {t('schedule_group_lesson')}
@@ -190,6 +214,20 @@ const StudentListAppointments = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className='row container justify-content-center mt-5'>
+                <div className='col px-4'>
+                  <h4 className='welcome-message'>
+                    Already had a lesson?
+                  </h4>
+                </div>
+              </div>
+              <div className='row container justify-content-center mt-5'>
+                {callToAction.map((props, i) => (
+                  <div key={i} className='col-6 flex'>
+                    <CTACard {...props} />
+                  </div>
+                ))}
               </div>
             </div>
             <div className='student-list-appointments-wrapper flex-right changes-container'>
@@ -237,14 +275,9 @@ const StudentListAppointments = () => {
               {t('student_dashboard_no_lessons_subtitle')}
             </h3>
             <div className='row container justify-content-center mt-5'>
-              {callToAction.map((x, i) => (
+              {callToAction.map((props, i) => (
                 <div key={i} className='col-4'>
-                  <CTACard
-                    icon={x.icon}
-                    title={x.title}
-                    subtitle={x.subtitle}
-                    color={x.color}
-                  />
+                  <CTACard {...props} />
                 </div>
               ))}
             </div>

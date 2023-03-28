@@ -6,7 +6,7 @@ export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [isAuthInProgress, setIsAuthInProgress] = useState(true);
-  const { data: user, userLoading, refetch: refetchUser } = useQuery(ME_QUERY);
+  const { data: user, loading: userLoading, refetch: refetchUser } = useQuery(ME_QUERY);
   const [loginMutation, { loading: loginLoading }] = useMutation(LOGIN_MUTATION);
   const [sendUserPasswordResetLink] = useMutation(RESET_PASSWORD_MUTATION);
   const [redeemUserPasswordResetToken] = useMutation(NEW_PASSWORD_MUTATION);

@@ -24,12 +24,12 @@ import {
 } from '../../constants/global'
 import MultipleToggle from '../../components/MultipleToggle'
 import {
-  CardElement,
-  Elements,
+  // CardElement,
+  // Elements,
   CardNumberElement,
   CardExpiryElement,
   CardCvcElement,
-  useStripe,
+  // useStripe,
   useElements
 } from '@stripe/react-stripe-js'
 import NewSubscription from '../../components/NewSubscription'
@@ -43,7 +43,8 @@ export const PackagesView = () => {
   const subscription_plan = useSelector(state => state.students.subscription)
   const loading = useSelector(state => state.students.loading)
   const dispatch = useDispatch()
-  const stripe = useStripe()
+  // const stripe = useStripe()
+  const stripe = null
   const elements = useElements()
 
   const [courseIndex, setCourseIndex] = useState(0)

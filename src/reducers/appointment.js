@@ -1,6 +1,6 @@
 import ActionTypes from '../constants/actionTypes'
 import { format, utcToZonedTime } from 'date-fns-tz'
-import * as moment from 'moment-timezone'
+import moment from 'moment-timezone'
 
 const initialState = {
   list: [],

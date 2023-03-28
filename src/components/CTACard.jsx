@@ -13,7 +13,7 @@ const CTACard = ({ color, title, btnTitle, path, icon, iconBGcolor,alt }) => {
         </div>
       </div>
       <div className='ps-0'>
-        <Link href={path} className='enter-btn ms-0 p-3 m-0'>
+        <Link to={path} className='enter-btn ms-0 p-3 m-0'>
         {btnTitle}
         </Link>
       </div>

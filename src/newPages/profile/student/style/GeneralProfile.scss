@@ -275,7 +275,7 @@
   
           .course_card {
             display: flex;
-            align-items: center;
+            align-items: stretch;
             background: #FFFFFF;
             gap: 20px;
             /* Border Gray */
@@ -299,7 +299,6 @@
             }
   
             .lesson_button {
-              height: 38px;
               /* Purple */
               padding: 10px;
               background: #6133AF;
@@ -319,8 +318,6 @@
             }
   
             .time_button {
-              height: 30px;
-  
               /* Purple Light */
               cursor: pointer;
               background: #EBE4FF;
@@ -334,6 +331,7 @@
               display: flex;
               align-items: center;
               letter-spacing: -0.6px;
+              white-space: nowrap;
               /* Purple */
   
               color: #6133AF;
@@ -343,10 +341,7 @@
             }
   
             .remaining_button {
-              height: 38px;
-  
               /* White */
-  
               background: #FFFFFF;
               /* Border Gray */
   

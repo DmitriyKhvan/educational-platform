@@ -173,10 +173,20 @@ const ApproveRequest = () => {
                 </div>
               </td>
               <td className='td-item m-0'>
-                <Link className='td-button' to={`appointments-calendar/lesson/${event.id}`}>Cancel</Link>
+                <Link className='td-button' to={`appointments-calendar/lesson/${event.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onClickCancel(event);
+                  }}
+                >Cancel</Link>
               </td>
               <td className='td-item m-0'>
-                <Link className='td-button' to={`appointments-calendar/lesson/${event.id}`}>Approve</Link>
+                <Link className='td-button' to={`appointments-calendar/lesson/${event.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onClickApprove(event);
+                  }}
+                >Approve</Link>
               </td>
             </tr>
           ))}

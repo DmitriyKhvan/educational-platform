@@ -93,9 +93,7 @@ function PrivateRoute({ component: Component, ...rest }) {
 }
 
 function PublicRoute({ component: Component, ...rest }) {
-  const { isAuthorized, user } = useAuth();
-
-  console.log(isAuthorized)
+  const { isAuthorized } = useAuth();
 
   return (
     <Route
@@ -108,7 +106,7 @@ function PublicRoute({ component: Component, ...rest }) {
 }
 
 function App() {
-  const { isAuthInProgress, isAuthorized, user } = useAuth();
+  const { isAuthInProgress, isAuthorized, isLoading, user } = useAuth();
 
   React.useEffect(() => {
     window.scrollTo({
@@ -116,16 +114,7 @@ function App() {
     })
   })
 
-  console.log(isAuthInProgress)
-  
-  if (isAuthInProgress) {
-    // Waiting for confirmation if user Authenticated or not
-    // TODO: Put loading bar on the whole page.
-    return null
-  }
-
-
-  // if(!isAuthorized) return <Loader height={"100vh"}/>
+  if(isLoading || isAuthInProgress) return <Loader height={"100vh"}/>
 
 
   return (

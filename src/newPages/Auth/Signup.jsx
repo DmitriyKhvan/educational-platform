@@ -11,7 +11,7 @@ import {
   useDispatch,
   useSelector,
 } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import ClipLoader from 'react-spinners/ClipLoader';
 
 import { signup } from '../../actions/auth';
@@ -262,23 +262,23 @@ const Signup = () => {
               <div className='role-card'>
                 <img src={ImgStudent} alt='' />
                 <p className='description'>{t('ima_student')}</p>
-                <a
+                <Link
                   href='/signup?role=student'
                   className='enter-btn btn btn-primary btn-lg'
                 >
                   {t('enter_student')}
-                </a>
+                </Link>
               </div>
               <div className='role-card'>
                 <img src={ImgTutor} alt='' />
                 <p className='description'>{t('ima_tutor')}</p>
-                <a
-                  // href='/signup?role=tutor'
-                  href='/'
-                  className='enter-btn btn btn-primary btn-lg disabled'
+                <Link
+                  to='/signup?role=tutor'
+                  // href='/'
+                  className='enter-btn btn btn-primary btn-lg'
                 >
                   {t('enter_tutor')}
-                </a>
+                </Link>
               </div>
             </div>
           </div>

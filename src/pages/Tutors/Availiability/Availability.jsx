@@ -283,7 +283,7 @@ export const Availability = ({ isAdmin, user_id }) => {
             </div>
             <div className='col-xs-6 col-md-4 pe-5 text-end align-self-center'>
               <Link
-                href='/tutor/avail/settings'
+                to='/tutor/avail/settings'
                 className='btn btn-default align-content-end'
                 type='button'
               >
