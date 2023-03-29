@@ -76,6 +76,16 @@
             line-height: 24px;
             letter-spacing: -0.6px;
           }
+          button {
+            background: none;
+            color: #261a45;
+            border-radius: 6px;
+            padding: 7px 10px;
+            font-weight: 400;
+            cursor: pointer;
+            font-size: 15px;
+            border: 1px solid #e9e9e9;
+          }
         }
       }
     }

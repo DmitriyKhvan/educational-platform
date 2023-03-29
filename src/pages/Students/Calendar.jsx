@@ -16,6 +16,8 @@ import '../../assets/styles/calendar.scss'
 import { feedbackURL } from '../../constants/global'
 import ReviewLessonModal from '../../components/student-dashboard/ReviewLessonModal'
 import { useAuth } from '../../modules/auth'
+import FeedbackModal from './FeedbackModal'
+import FeedbackLessonModal from '../Tutors/FeedbackLessonModal'
 
 const Calendar = () => {
   const [t] = useTranslation('translation')
@@ -149,6 +151,22 @@ const Calendar = () => {
     )
   }
 
+  const tables = [
+    {
+      id:1,
+      package: "PRIVATE ENGLISH",
+      level: "Level 2",
+      currentTopic: "Jurrasic Park",
+      nextTopic: "Triceratops",
+      resource: {
+        duration: 25,
+        start_at: "7:30"
+      },
+      mentor: "Said A.",
+      
+    }
+  ]
+
   const onClickPastLessons = () => {
     setIsCalendar(false)
     setDisplayTableData([...pastLessons])
@@ -196,15 +214,25 @@ const Calendar = () => {
   }
 
   const tableHead = [
-    'Lesson',
-    'Topic',
+    'Package',
     'Level',
+    'Current Topic',
+    'Next Topic',
     'Date and Time',
-    'Tutor',
+    'Mentor',
     'Class Feedback'
   ]
 
-  const [isReviewLessonModalOpen, setReviewLessonModal] = useState(false)
+  const [isReviewLessonModalOpen, setReviewLessonModal] = useState(false);
+  const [isFeedbackModal, setFeedbackModal] = React.useState(false);
+
+  const handleOpenFeedbackModal = () => {
+    setFeedbackModal(true)
+  }
+
+  const handleClodeFeedbackModal = () => {
+    setFeedbackModal(false)
+  }
 
   return (
     <Layout>
@@ -259,6 +287,16 @@ const Calendar = () => {
                 </thead>
 
                 <tbody>
+                  {
+                    displayTableData?.length === 0 
+                      && (
+                        <tr className='tr-center ' style={{transform: "translateX(38%) translateY(30%)"}}>
+                          <td onClick={handleOpenFeedbackModal}>
+                            You don't have a lessons!
+                          </td>
+                        </tr>
+                      )
+                  }
                   {displayTableData
                     .sort(
                       (a, b) =>
@@ -272,21 +310,24 @@ const Calendar = () => {
                     .map(event => (
                       <tr className='tr-center'>
                         <td className='td-item'>
-                          <p className='td-lesson'>{event.lesson}</p>
+                          <p className='td-lesson'>{event.package}</p>
                         </td>
                         <td className='td-item'>
                           <p className='td-topic-level'>
-                            {event.topic === 'Business English'
-                              ? 'English'
-                              : event.topic}
+                            {event.level}
                           </p>
                         </td>
                         <td className='td-item'>
                           <p className='td-topic-level'>
-                            {`${t('level')} ${event.level || 0}`}
+                            {` ${event.currentTopic}`}
                           </p>
                         </td>
-                        <td>
+                        <td className='td-item'>
+                          <p className='td-topic-level'>
+                            {` ${event.nextTopic}`}
+                          </p>
+                        </td>
+                        <td  className='td-item'>
                           <p className='td-datetime td-datetime-border ps-3'>
                             {moment(event.resource.start_at)
                               .tz(userTimezone)
@@ -299,12 +340,12 @@ const Calendar = () => {
                           </p>
                         </td>
                         <td className='td-item'>
-                          <p className='td-tutor'>{event.tutor}</p>
+                          <p className='td-tutor'>{event.mentor}</p>
                         </td>
-                        <td className='td-button'>
+                        <td className='td-item'>
                           <button
                             className={`btn ${
-                              event.tutorFeedback.length
+                              event.tutorFeedback?.length
                                 ? 'btn-primary'
                                 : 'btn-tutor-feedback-disabled'
                             }`}
@@ -337,7 +378,7 @@ const Calendar = () => {
           </div>
         </div>
       </div>
-
+      <FeedbackLessonModal modalState='student' isOpen={isFeedbackModal} closeModal={handleClodeFeedbackModal}/>
       {isOpen && <CustomModal />}
       {isLoading && <Loader />}
       <ReviewLessonModal

@@ -12,6 +12,7 @@ import BookingRequest from '../../../components/BookingRequest'
 import Loader from '../../../components/common/Loader'
 import ZoomLink from '../../../components/ZoomLink'
 import { useAuth } from '../../../modules/auth'
+import FeedbackLessonModal from '../../../pages/Tutors/FeedbackLessonModal'
 
 const TutorDashboard = () => {
   const [isZoomTime, setZoomTime] = useState(false);
@@ -106,6 +107,10 @@ const TutorDashboard = () => {
     }
   }
 
+  const [isFeedbackShow, setFeedbackShow] = React.useState(false);
+
+  const handleCloseModal = () => setFeedbackShow(false)
+
   return (
     <div className='main-dashboard scroll-layout'>
       <div className='flex-container'>
@@ -123,6 +128,8 @@ const TutorDashboard = () => {
                 }
               />
             )} */}
+
+            {/* <button onClick={() => setFeedbackShow(true) }>Lesson Feedback</button> */}
 
             <div className='schedule-lesson-select pt-3'>
               <div className='page-card purple large-card py-5 pb-4 purple-top-align'>
@@ -188,6 +195,8 @@ const TutorDashboard = () => {
         </div>
       </div>
       {isLoading && <Loader />}
+
+      <FeedbackLessonModal modalState='mentor' isOpen={isFeedbackShow} closeModal={handleCloseModal}/>
     </div>
   )
 }

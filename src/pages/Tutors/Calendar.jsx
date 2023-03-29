@@ -449,7 +449,7 @@ const Calendar = () => {
               }`}
               onClick={onCalendarClick}
             >
-              <span>{t('calendar_view')}</span>
+              <span>{"My Calendar"}</span>
             </button>
           </div>
         </div>

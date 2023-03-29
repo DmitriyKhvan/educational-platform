@@ -3,9 +3,14 @@ import { useParams } from 'react-router-dom'
 import Layout from '../../components/Layout'
 import styles from './LessonInfo.module.scss'
 import Avatar from '../../assets/images/Avatar.png'
+import FeedbackLessonModal from './FeedbackLessonModal'
 
 const LessonInfo = () => {
-  const { lessonID } = useParams()
+  const { lessonID } = useParams();
+
+  const [isFeedbackShow, setFeedbackShow] = React.useState(false);
+
+  const handleCloseModal = () => setFeedbackShow(false)
 
   return (
     <Layout>
@@ -27,24 +32,31 @@ const LessonInfo = () => {
                 <p>Jurassic Park Lesson</p>
               </div>
               <div className={styles.info_item}>
-                <h3>Level</h3>
-                <p>Level 3</p>
+                <h3>Last Section Completed</h3>
+                <p>Vocabulary Words<br />/Completed</p>
               </div>
               <div className={styles.info_item}>
-                <h3>Date and Time</h3>
-                <p>January 14th, 2022 1:00 PM → 1:30 PM (PDT)</p>
+                <h3>Package</h3>
+                <p>Private English</p>
               </div>
               <div className={styles.info_item}>
                 <h3>Duration</h3>
                 <p>30 minutes</p>
               </div>
               <div className={styles.info_item}>
-                <h3>Lesson Format</h3>
-                <p>Private</p>
+                <h3>Date and Time</h3>
+                <p>January 14th, 2022<br /> 1:00 PM → 1:30 PM (PDT)</p>
               </div>
               <div className={styles.info_item}>
-                <h3>Lesson Type</h3>
-                <p>English</p>
+                <h3>Level</h3>
+                <p>Level 3</p>
+              </div>
+              <div className={styles.info_item}>
+                <h3>Feedback Completed</h3>
+                <p>Yes</p>
+              </div>
+              <div className={styles.info_item}>
+                <button onClick={ () => setFeedbackShow(true)}>Feedback</button>
               </div>
             </div>
           </div>
@@ -74,27 +86,31 @@ const LessonInfo = () => {
               <p>In Progress</p>
             </div>
             <div className={styles.progress_item}>
-              <h3>Vocabulary Game</h3>
+              <h3>Slime</h3>
               <p>Completed</p>
             </div>
             <div className={styles.progress_item}>
-              <h3>Vocabulary Video</h3>
+              <h3>Statue of Liberty</h3>
               <p>Completed</p>
             </div>
             <div className={styles.progress_item}>
-              <h3>Vocabulary Section</h3>
+              <h3>Lions</h3>
               <p>Completed</p>
             </div>
             <div className={styles.progress_item}>
-              <h3>Warm Up Exercises</h3>
-              <p>Completed</p>
+              <h3>Jurrasic Park</h3>
+              <p>In progress</p>
             </div>
             <div className={styles.progress_item}>
-              <h3>Overview</h3>
-              <p>Completed</p>
+              <h3>BTS</h3>
+              <p>Not Completed</p>
+            </div>
+            <div className={styles.progress_item}>
+              <h3>Sea Creatures</h3>
+              <p>Not Completed</p>
             </div>
           </div>
-          <div className={styles.homework}>
+          {/* <div className={styles.homework}>
             <div className={styles.homework_header}>
               <h2>Homework</h2>
             </div>
@@ -105,9 +121,12 @@ const LessonInfo = () => {
               </div>
               <button>{'\u2192'}</button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
+
+      <FeedbackLessonModal modalState='mentor' isOpen={isFeedbackShow} closeModal={handleCloseModal}/>
+
     </Layout>
   )
 }
