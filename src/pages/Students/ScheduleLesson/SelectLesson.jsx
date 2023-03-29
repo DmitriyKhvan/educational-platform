@@ -30,8 +30,9 @@ const SelectLesson = ({
     i,
     expirationDate
   }) => {
+
     return (
-      <div className='pe-2 col-lg-6 main-container schedule-lesson'>
+      <div className='pe-2 col-lg-4 main-container schedule-lesson'>
         <div
           className={`schedule-card small-card lesson-container pt-2 ${
             i === clicked
@@ -83,7 +84,7 @@ const SelectLesson = ({
               </p>
             </div>
             <div className='ExpWidth-con'>
-              <div className='row ExpWidth'>
+              <div className='lesson_card-inline'>
                 {planStatus.map((x, i) => (
                   <LessonCard
                     lesson={x.lesson_type}

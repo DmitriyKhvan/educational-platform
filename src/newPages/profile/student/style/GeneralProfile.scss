@@ -275,7 +275,7 @@
   
           .course_card {
             display: flex;
-            align-items: stretch;
+            align-items: center;
             background: #FFFFFF;
             gap: 20px;
             /* Border Gray */
@@ -288,7 +288,7 @@
               font-family: 'Inter';
               font-style: normal;
               font-weight: 600;
-              font-size: 15px;
+              font-size: 13px;
               line-height: 24px;
               letter-spacing: -0.6px;
               cursor: pointer;
@@ -306,7 +306,7 @@
               font-family: 'Inter';
               font-style: normal;
               font-weight: 600;
-              font-size: 15px;
+              font-size: 13px;
               line-height: 18px;
               display: flex;
               align-items: center;
@@ -325,7 +325,7 @@
               font-family: 'Inter';
               font-style: normal;
               font-weight: 600;
-              font-size: 15px;
+              font-size: 13px;
               padding: 6px 10px;
               line-height: 18px;
               display: flex;
@@ -333,11 +333,7 @@
               letter-spacing: -0.6px;
               white-space: nowrap;
               /* Purple */
-  
               color: #6133AF;
-  
-  
-  
             }
   
             .remaining_button {
@@ -350,7 +346,7 @@
               font-family: 'Inter';
               font-style: normal;
               font-weight: 600;
-              font-size: 15px;
+              font-size: 13px;
               line-height: 18px;
               display: flex;
               align-items: center;

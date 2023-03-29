@@ -3,6 +3,10 @@
   width: 33% !important;
 }
 
+.lesson_card-inline {
+  display: flex;
+}
+
 .tutor-desc {
   height: 94vh;
   overflow-y: scroll;
