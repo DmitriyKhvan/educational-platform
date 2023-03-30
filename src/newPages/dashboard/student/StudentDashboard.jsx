@@ -137,7 +137,8 @@ const StudentListAppointments = () => {
             to: '',
             text: 'Submit Feedback →',
           },
-          color: 'pink'
+          color: '#D6336C',
+          cl: ""
         },
         {
           icon: whiteBookingIcon,
@@ -146,7 +147,8 @@ const StudentListAppointments = () => {
             to: '',
             text: 'Completed Lessons →',
           },
-          color: 'light-blue'
+          color: '#1482DA',
+          cl: "blue-progress"
         },
       ]
       : [
@@ -154,13 +156,13 @@ const StudentListAppointments = () => {
           icon: whiteBookingIcon,
           title: t('book_trial'),
           subtitle: t('book_trial_subtitle'),
-          color: 'light-blue'
+          color: '#1482DA'
         },
         {
           icon: whiteSubscriptionIcon,
           title: t('purchase_subscription'),
           subtitle: t('purchase_subscription_subtitle'),
-          color: 'pink'
+          color: '#D6336C'
         },
       ]
   )
@@ -222,11 +224,9 @@ const StudentListAppointments = () => {
                   </h4>
                 </div>
               </div>
-              <div className='row container justify-content-center mt-5'>
+              <div className='row container justify-content-center ml-0 mt-5'>
                 {callToAction.map((props, i) => (
-                  <div key={i} className='col-6 flex'>
-                    <CTACard {...props} />
-                  </div>
+                  <CTACard key={i} {...props} />
                 ))}
               </div>
             </div>
