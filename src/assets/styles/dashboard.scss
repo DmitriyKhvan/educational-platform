@@ -30,6 +30,7 @@
   background: #ffffff;
   border-radius: 5px;
   font-family: 'Inter';
+  width: 80%;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -1655,7 +1656,8 @@ div.time-style {
 
 .student-dashboard {
   overflow: auto;
-  height: calc(100vh - 80px);
+  // height: calc(100vh - 80px);
+  height: auto;
   border: 1px solid rgba(0, 0, 0, 0.1);
   .sub-title {
     font-family: Noto Serif;
@@ -1670,13 +1672,43 @@ div.time-style {
     }
   }
   .small-card {
-    width: 300px;
+    width: 285px;
+
+    .small-card-inline {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      .small-card-img-rounded {
+        border-radius: 8.125px;
+        width: 65px;
+        height: 65px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-blend-mode: overlay;
+        background-color: rgba(0, 0, 0, 0.5);
+  
+        img {
+          width: 40px;
+          height: 36px;
+        }
+      }
+
+    }
+
+    h3 {
+      width: 60%;
+    }
+
   }
+
+  
   .page-card {
     border: 0.5px solid $color-grey3;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
     border-radius: 16px;
-    padding: 25px;
+    padding: 15px 30px 30px 30px;
     display: flex;
     flex-direction: column;
     div {
@@ -1703,7 +1735,7 @@ div.time-style {
       letter-spacing: -0.6px;
     }
     img {
-      margin-bottom: 31px;
+      margin-bottom: 0;
     }
     &.small-card {
       .schedule-dashboard-buttons {
