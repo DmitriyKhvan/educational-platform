@@ -254,6 +254,12 @@ function App() {
             path='/student/profiles/edit-topics'
             component={StudentPages.EditTopics}
           />
+
+          <PrivateRoute
+            path='/student/profiles/edit-information'
+            component={StudentPages.EditProflileStudent}
+          />
+          
           <PublicRoute path='/referral/:referalcode' component={StudentPages.IsReferal} />
 
           <PrivateRoute path='/student/referal' component={StudentPages.Referal} />

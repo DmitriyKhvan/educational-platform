@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png'
 import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png'
 import { getPlanStatus } from '../../../actions/subscription';
+import { useHistory } from 'react-router-dom';
 // const options = [
 //   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
 //   { value: 'completed_lesson', label: 'Completed Lessons' }
@@ -180,22 +181,23 @@ const StudentProfile = () => {
   const [profileImage, setProfileImage] = React.useState('')
   const dispatch = useDispatch()
   const [schedule, setSchedule] = React.useState()
+  const navigate = useHistory();
 
   const actions = useAuth();
+  const avatar = actions?.user?.student?.avatar?.url;
 
-  const avatar = actions.user?.student?.avatar?.url;
-  
+
   React.useEffect(() => {
     if (avatar) {
       setProfileImage(avatar)
-    } else if (actions.user.gender === 'female') {
+    } else if (actions.user?.gender === 'female') {
       setProfileImage(femaleAvatar)
-    } else if (actions.user.gender === 'male') {
+    } else if (actions.user?.gender === 'male') {
       setProfileImage(maleAvatar)
     } else {
       setProfileImage(maleAvatar)
     }
-  }, [actions.user, avatar])
+  }, [actions, avatar])
 
   const saveSummary = async () => {
 
@@ -270,7 +272,7 @@ const StudentProfile = () => {
                         </span>
                       </div>
                       <div className='main_info-right'>
-                        <button onClick={() => setIsShowEditModal(true)}>Edit Profile</button>
+                        <button onClick={() => navigate.push("/student/profiles/edit-information")}>Edit Profile</button>
                       </div>
                     </div>
                   </div>
