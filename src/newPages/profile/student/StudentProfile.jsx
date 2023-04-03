@@ -272,7 +272,9 @@ const StudentProfile = () => {
                         </span>
                       </div>
                       <div className='main_info-right'>
-                        <button onClick={() => navigate.push("/student/profiles/edit-information")}>Edit Profile</button>
+                        <button onClick={() => {
+                          navigate.push("/student/profiles/edit-information");
+                        }}>Edit Profile</button>
                       </div>
                     </div>
                   </div>

@@ -63,7 +63,7 @@ const EditAvatarModal = ({isOpen, closeModal, profileImage}) => {
               <input 
                 id='input' 
                 type={"file"} 
-                webkitdirectory 
+                webkitdirectory
                 multiple 
                 {...register("avatar")}
               />
