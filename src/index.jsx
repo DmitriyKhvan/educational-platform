@@ -17,7 +17,10 @@ import { createUploadLink } from 'apollo-upload-client'
 import './index.css'
 
 const httpLink = createUploadLink({
-  uri: `${process.env.REACT_APP_SERVER_URL}/api/graphql`
+  uri: `${process.env.REACT_APP_SERVER_URL}/api/graphql`,
+  headers: {
+    'Apollo-Require-Preflight': 'true'
+  }
 })
 
 const authMiddleware = new ApolloLink((operation, forward) => {
