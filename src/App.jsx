@@ -58,21 +58,20 @@ import { ToastContainer } from 'react-toastify'
 
 // TUTORS PAGES
 
-import * as TutorsPages from "./newPages/profile/Tutors/export";
+import * as TutorsPages from './newPages/profile/Tutors/export'
 
 // STUDENT PAGES
 
-import * as StudentPages from "./newPages/profile/student/export";
+import * as StudentPages from './newPages/profile/student/export'
 import Loader from './components/Loader/Loader'
+import StudentsList from './newPages/students-list/StudentsList'
 
 const store = configureStore({})
-
 
 function PrivateRoute({ component: Component, ...rest }) {
   const { isAuthorized } = useAuth()
   const history = useHistory()
 
-  
   return (
     <Route
       {...rest}
@@ -93,7 +92,7 @@ function PrivateRoute({ component: Component, ...rest }) {
 }
 
 function PublicRoute({ component: Component, ...rest }) {
-  const { isAuthorized } = useAuth();
+  const { isAuthorized } = useAuth()
 
   return (
     <Route
@@ -106,7 +105,7 @@ function PublicRoute({ component: Component, ...rest }) {
 }
 
 function App() {
-  const { isAuthInProgress, isAuthorized, isLoading, user } = useAuth();
+  const { isAuthInProgress, isAuthorized, isLoading, user } = useAuth()
 
   React.useEffect(() => {
     window.scrollTo({
@@ -114,8 +113,7 @@ function App() {
     })
   })
 
-  if(isLoading || isAuthInProgress) return <Loader height={"100vh"}/>
-
+  if (isLoading || isAuthInProgress) return <Loader height={'100vh'} />
 
   return (
     <Provider store={store}>
@@ -164,7 +162,6 @@ function App() {
             component={GroupScheduleLesson}
           />
 
-
           <PrivateRoute
             exact
             path='/student/schedule-lesson'
@@ -180,7 +177,7 @@ function App() {
             path='/student/lesson-calendar'
             component={StudentCalendar}
           />
-          
+
           <PrivateRoute
             path='/student/group-lessons'
             component={GroupLessons}
@@ -197,7 +194,7 @@ function App() {
             path='/student/book-trial-lesson'
             component={BookTrialLesson}
           />
-          
+
           <PrivateRoute path='/approve-requests' component={ApproveRequest} />
           <PrivateRoute
             path='/tutor/manage-appointments'
@@ -207,7 +204,6 @@ function App() {
             exact
             path='/tutor/appointments-calendar'
             component={TutorCalendar}
-
           />
           <PrivateRoute
             path='/tutor/past-lessons'
@@ -233,20 +229,19 @@ function App() {
             path='/tutor/new-profile-page'
             component={NewTutorProfile}
           /> */}
-          
+
           <PrivateRoute
             exact
             path='/tutor/appointments-calendar/lesson/:lessonID'
             component={LessonInfo}
           />
 
-
-
-
           {/* PROFILE */}
 
-          <PrivateRoute path='/:mode(student|tutor)/profile' component={ProfileLayout} />
-
+          <PrivateRoute
+            path='/:mode(student|tutor)/profile'
+            component={ProfileLayout}
+          />
 
           {/* STUDENT PAGES */}
 
@@ -259,13 +254,26 @@ function App() {
             path='/student/profiles/edit-information'
             component={StudentPages.EditProflileStudent}
           />
-          
-          <PublicRoute path='/referral/:referalcode' component={StudentPages.IsReferal} />
 
-          <PrivateRoute path='/student/referal' component={StudentPages.Referal} />
+          <PublicRoute
+            path='/referral/:referalcode'
+            component={StudentPages.IsReferal}
+          />
 
-          <PrivateRoute path='/student/mentors-list/:id?' component={StudentPages.Mentors} />
+          <PrivateRoute
+            path='/student/referal'
+            component={StudentPages.Referal}
+          />
 
+          <PrivateRoute
+            path='/student/mentors-list/:id?'
+            component={StudentPages.Mentors}
+          />
+
+          <PrivateRoute
+            path='/tutor/students-list/:id?'
+            component={StudentsList}
+          />
 
           {/* TUTORS PAGES */}
 
