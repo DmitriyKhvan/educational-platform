@@ -12,13 +12,9 @@ const StudentsModal = ({
 }) => {
   const { id } = useParams()
 
-  console.log(studentList, 'studentId')
-
   const renderSelectedTutor = studentList?.find(
     item => item.id === (studentId ? studentId : id)
   )
-
-  console.log(renderSelectedTutor)
 
   return (
     <div className='tutor_alfa'>

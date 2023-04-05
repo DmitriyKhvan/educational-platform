@@ -68,8 +68,6 @@ export default function StudentsList() {
 
   const students = data?.students
 
-  console.log(students)
-
   const handleStatusTutor = id => {}
 
   const handleMoreTutor = id => {
