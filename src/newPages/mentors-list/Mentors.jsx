@@ -61,7 +61,9 @@ const filtersList = [
 const Mentors = () => {
   const [showTutorModal, setShowTutorModal] = React.useState(false)
   const history = useHistory()
-  const { data } = useQuery(MENTORS_QUERY)
+  const { data } = useQuery(MENTORS_QUERY, {
+    errorPolicy: 'ignore' 
+  })
 
   const mentors = data?.tutors
 
@@ -86,7 +88,7 @@ const Mentors = () => {
           <h1>Mentors</h1>
           <p>Find new mentors or contact your favorite ones.</p>
         </div>
-{/* 
+        {/* 
         <div className='tutors_filters'>
           {filtersList.map(
             item =>
@@ -112,7 +114,7 @@ const Mentors = () => {
         <div className='tutors_row'>
           {mentors?.length === 0 && <p>Empty</p>}
 
-          {!mentors && <Loader height={"50vh"}/>}
+          {!mentors && <Loader height={'50vh'} />}
 
           {mentors &&
             mentors.map(item => (
@@ -156,4 +158,4 @@ const Mentors = () => {
   )
 }
 
-export default Mentors;
+export default Mentors
