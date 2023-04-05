@@ -87,28 +87,6 @@ export default function StudentsList() {
           <h1>Students</h1>
           <p>Find new students or contact your favorite ones.</p>
         </div>
-        {/* 
-        <div className='tutors_filters'>
-          {filtersList.map(
-            item =>
-              item.options && (
-                <select key={item.id}>
-                  {item.options?.map(opt => (
-                    <option value={opt.title.toLowerCase()} key={opt.id}>
-                      {opt.title}
-                    </option>
-                  ))}
-                </select>
-              )
-          )}
-
-          <button className='tutors_show'>
-            <label>
-              <input type={'checkbox'} />
-              Show Only Favorite Tutors
-            </label>
-          </button>
-        </div> */}
 
         <div className='tutors_row'>
           {students?.length === 0 && <p>Empty</p>}
