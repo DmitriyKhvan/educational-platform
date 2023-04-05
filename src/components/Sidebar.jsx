@@ -76,7 +76,7 @@ const tutorNavLinks = [
   },
   {
     label: "Student List",
-    link:"/student/mentors-list",
+    link:"/tutor/students-list",
     icon:tutorIcon,
     activeIcon:tutorActiveIcon
   },
