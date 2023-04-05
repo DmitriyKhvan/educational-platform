@@ -114,9 +114,6 @@ export default function StudentsList() {
                     <button onClick={() => handleMoreTutor(item.id)}>
                       Learn more
                     </button>
-                    {/* <button onClick={() => handleStatusTutor(item.id)}>
-                      {item?.isFavourite ? 'Remove' : 'Favorite'}
-                    </button> */}
                   </div>
                 </div>
               </div>
