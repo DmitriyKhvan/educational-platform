@@ -4,8 +4,6 @@ import React from 'react';
 import '../../../assets/styles/student.scss';
 import "./style/StudentProfile.scss";
 
-import profileAvatar from '../../../assets/images/Avatar.png';
-
 import './style/GeneralProfile.scss'
 import { useAuth } from '../../../modules/auth';
 import EditProflileModal from './EditProflileModal';
@@ -448,13 +446,13 @@ const StudentProfile = () => {
         />
       )} */}
 
-      {
+      {/* {
         <EditProflileModal 
           profileImage={profileImage} 
           isOpen={showEditModal} 
           setIsOpen={setIsShowEditModal}
         />
-      }
+      } */}
 
       {/* {isLoading && <Loader />} */}
     </div>
