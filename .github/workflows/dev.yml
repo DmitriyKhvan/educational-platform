@@ -31,8 +31,8 @@ jobs:
         uses: burnett01/rsync-deployments@5.2.1
         with:
           switches: -avzr --delete
-          path: ./dist
-          remote_path: /home/${{ secrets.REMOTE_USER }}/test
+          path: ./dist/
+          remote_path: /home/${{ secrets.REMOTE_USER }}/test/
           remote_host: ${{ secrets.REMOTE_HOST }}
           remote_user: ${{ secrets.REMOTE_USER }}
           remote_key: ${{ secrets.SSH_KEY }}
