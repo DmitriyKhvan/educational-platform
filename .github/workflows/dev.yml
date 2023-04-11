@@ -8,6 +8,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-22.04
+    env:
+      REACT_APP_SERVER_URL: ${{ secrets.DEV_REACT_APP_SERVER_URL }}
+      REACT_APP_STRIPE_KEY: ${{ secrets.DEV_REACT_APP_STRIPE_KEY }}
     steps:
       - name: checkout
         uses: actions/checkout@v3
