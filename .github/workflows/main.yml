@@ -39,3 +39,4 @@ jobs:
           dist-id: ${{ secrets.PROD_CF_DISTRIBUTION }}
           no-cache: true
           delete-removed: true
+          invalidation: /
