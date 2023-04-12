@@ -141,6 +141,7 @@ function App() {
             component={ForgotPasswordText}
           />
           <PublicRoute path='/reset-password' component={ResetPassword} />
+          <PublicRoute path='/welcome-set-password' component={ResetPassword} />
           <PublicRoute path='/verify-email' component={VerifyEmail} />
           <PublicRoute path='/email-verify-guide' component={EmailVerifyText} />
           <PrivateRoute path='/dashboard' component={Dashboard} />
