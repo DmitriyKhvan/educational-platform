@@ -18,6 +18,7 @@ import TutorImageRow from './TutorImageRow'
 import ScheduleCardComponent from '../../../components/student-dashboard/ScheduleCard'
 import Loader from '../../../components/common/Loader'
 import { useAuth } from '../../../modules/auth'
+import LessonCard from './LessonCard'
 
 const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null }) => {
   const dispatch = useDispatch()
@@ -274,12 +275,13 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
               <p className='welcome-subtitle pt-4 confirm-tutor-subtitle'>
                 {t('lesson_topic')}
               </p>
-              <div className='row container ps-2 mobile-width-subtitle'>
-                <LessonCardComponent
+              <div className='lesson_card-inline'>
+                <LessonCard
                   lesson={plan.lesson_type}
                   duration={plan.duration}
                   remaining={plan.total_lessons}
                 />
+               
               </div>
               <p className='welcome-subtitle pt-4 confirm-tutor-subtitle'>
                 {t('date_and_time')}
@@ -369,11 +371,10 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
             <div className='align_width_width'>
               <div className='d-grid gap-2 pt-3 buttons-Lesson-shape'>
                 <button
-                  disabled={confirmDisable}
-                  className={ confirmDisable ? 'btn btn-primary text-white buttons-Lesson disabled' : 'btn btn-primary text-white buttons-Lesson'}
+                  className={ confirmDisable ? 'btn btn-primary text-white buttons-Lesson disB ' : 'btn btn-primary text-white buttons-Lesson'}
                   onClick={confirmLesson}
                 >
-                  {t('confirm_lesson')}
+                  {confirmDisable ? "Lesson confirmed" : t('confirm_lesson')}
                 </button>
               </div>
             </div>

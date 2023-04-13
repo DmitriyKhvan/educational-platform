@@ -386,24 +386,30 @@ const StudentProfile = () => {
                   <p>{actions.user?.email}</p>
                 </div> 
 
-                <div className='details_list'>
-                  <h4>Korean Name</h4>
-                  <p>{
-                    actions.user?.koreanEquivalent 
-                      ? actions.user?.koreanEquivalent
-                      : "알렉스"
-                  }</p>
-                </div> 
+                {
+                  actions.user?.koreanEquivalent &&
+                  <div className='details_list'>
+                    <h4>Korean Name</h4>
+                    <p>
+                      {
+                        actions.user?.koreanEquivalent
+                      }
+                    </p>
+                  </div> 
+                }
 
-                <div className='details_list'>
-                  <h4>Gender</h4>
-                  <p>{
-                    actions.user?.gender 
-                      ? actions.user?.gender
-                      : "Male"
-                  }</p>
-                </div> 
-               
+                {
+                  actions.user?.gender &&
+                  <div className='details_list'>
+                    <h4>Gender</h4>
+                    <p>
+                      {
+                        actions.user?.gender
+                      }
+                    </p>
+                  </div> 
+                }
+
                 <div className='details_list'>
                   <h4>Country</h4>
                   <p>{

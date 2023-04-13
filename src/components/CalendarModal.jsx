@@ -11,6 +11,7 @@ const CalendarModal = ({
   startTime,
   endTime,
   zoomlink,
+  closeModal,
   time,
   data,
   onCancel
@@ -51,6 +52,7 @@ const CalendarModal = ({
       key={index}
       style={{ maxWidth: '33vw' }}
     >
+      <p className='close-sh' onClick={closeModal}>&times;</p>
       <div className='container'>
         <div className='row'>
           <div className='col-9'>
@@ -71,24 +73,20 @@ const CalendarModal = ({
           </div>
         </div>
       </div>
-      <div className='row'>
-        <div className='col-3'>
+      <div className='schedule-modal-ls'>
           <button
             className='enter-btn grey-border text-black'
             onClick={() => onCancel(data.resource.eventDate.id)}
           >
-            {t('cancel')}
+            Cancel Lesson 
+            {/* {t('cancel')} */}
           </button>
-        </div>
-        <div className='col-4'>
           <a
             href={'/student/schedule-lesson/select/' + data.resource.eventDate.id}
             className='enter-btn grey-border text-black'
           >
             {t('reschedule')}
           </a>
-        </div>
-        <div className='col-5'>
           <a
             onClick={joinLesson}
             target='_blank'
@@ -97,7 +95,6 @@ const CalendarModal = ({
           >
             {t('join_lesson')}
           </a>
-        </div>
       </div>
       {isWarningOpen && (
         <ZoomWarningModal

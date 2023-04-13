@@ -225,7 +225,7 @@ const StudentListAppointments = () => {
                   </h4>
                 </div>
               </div>
-              <div className='row container justify-content-center ml-0 mt-5'>
+              <div className='dashboard-cards-inline container  ml-0 mt-5'>
                 {callToAction.map((props, i) => (
                   <CTACard key={i} {...props} />
                 ))}
@@ -280,7 +280,7 @@ const StudentListAppointments = () => {
             <h3 className='mt-0'>
               {t('student_dashboard_no_lessons_subtitle')}
             </h3>
-            <div className='row container justify-content-center mt-5'>
+            <div className='row  justify-content-center mt-5'>
               {callToAction.map((props, i) => (
                 <div key={i} className='col-4'>
                   <CTACard {...props} />

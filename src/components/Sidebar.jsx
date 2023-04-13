@@ -152,16 +152,16 @@ const studentNavLinks = [
     icon: Icon1,
     activeIcon: referActiveIcon
   },
-  {
-    label: 'games_sidemenu',
-    link: gameLinkURL,
-    icon: GameIcon,
-    activeIcon: GameIconFilled,
-    external: true
-  },
+  // {
+  //   label: 'games_sidemenu',
+  //   link: gameLinkURL,
+  //   icon: GameIcon,
+  //   activeIcon: GameIconFilled,
+  //   external: true
+  // },
   {
     label: 'class_material_sidemenu',
-    link: classMaterialURL,
+    link: classMaterialURL || "https://naonow.instructure.com/",
     icon: ClassMaterialIcon,
     activeIcon: ClassMaterialIcon,
     external: true
