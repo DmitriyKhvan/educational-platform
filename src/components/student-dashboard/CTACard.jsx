@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
-const CTACard = ({ icon, title, subtitle, button, color }) => (
-  <div style={{background: color}} className={`page-card ${title} small-card  mx-4 ms-3`}>
+const CTACard = ({ icon, title, subtitle, button, color, disabled }) => (
+  <div style={{background: color}}  className={`page-card ${title} ${disabled && "disCard"} small-card  mx-4 ms-3`}>
     <div className='p-0 container'>
       <section className='small-card-inline'>
         <div className='small-card-img-rounded'>

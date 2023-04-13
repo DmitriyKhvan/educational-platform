@@ -74,7 +74,7 @@ const Navbar = () => {
           {/* <Link to="/dashboard" className="page-title"> */}
           {/* {t('user_role_dashboard', { user_role: user_role })} */}
           {/* </Link> */}
-          <input type='text' placeholder={t('placeholder_search_here')} />
+          {/* <input type='text' placeholder={t('placeholder_search_here')} /> */}
         </div>
         <div className='right-part'>
           <Dropdown
@@ -108,7 +108,7 @@ const Navbar = () => {
             {language === 1 ? t('english') : t('korean')}
           </h5> */}
 
-          <Dropdown
+          {/* <Dropdown
             className='settings'
             icon={IconNotification}
             badge={notifications.length}
@@ -144,7 +144,7 @@ const Navbar = () => {
                 </div>
               </div>
             )}
-          />
+          /> */}
         </div>
       </div>
       <div className='mobile-version'>

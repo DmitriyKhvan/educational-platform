@@ -80,12 +80,12 @@ const tutorNavLinks = [
     icon:tutorIcon,
     activeIcon:tutorActiveIcon
   },
-  {
-    label: "Messages",
-    link:"/messages/",
-    icon:MessageIcon,
-    activeIcon:MessageActiveIcon
-  },
+  // {
+  //   label: "Messages",
+  //   link:"/messages/",
+  //   icon:MessageIcon,
+  //   activeIcon:MessageActiveIcon
+  // },
   {
     label: 'check_requests',
     link: '/approve-requests',
@@ -134,12 +134,12 @@ const studentNavLinks = [
     icon: Icon2,
     activeIcon: ActiveIcon2
   },
-  {
-    label: "Messages",
-    link:"/messages/",
-    icon:MessageIcon,
-    activeIcon:MessageActiveIcon
-  },
+  // {
+  //   label: "Messages",
+  //   link:"/messages/",
+  //   icon:MessageIcon,
+  //   activeIcon:MessageActiveIcon
+  // },
   {
     label: "Mentors",
     link:"/student/mentors-list",
