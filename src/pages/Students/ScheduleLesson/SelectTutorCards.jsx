@@ -34,7 +34,7 @@ const GET_TUTORS_BY_ID = gql`
   query GetTutors($ids: [ID!]) {
     tutors(where: { id: { in: $ids } }, orderBy: [], take: null, skip: 0) {
       id
-      userName(something: 1)
+      userName
       major
       language
       university
@@ -88,8 +88,8 @@ const GET_TUTORS_BY_ID = gql`
         resetPasswordToken
         referalId
         referalConfirmed
-        fullName(something: 1)
-        role(something: 1)
+        fullName
+        role
         email
         passwordResetIssuedAt
         passwordResetRedeemedAt
