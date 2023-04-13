@@ -70,7 +70,7 @@ const Calendar = () => {
     ;(async () => {
       await dispatch(getStudent(user.student.id))
       if (user && user.student) {
-        await dispatch(getAppointments({ student_id: user.student.id }))
+        await dispatch(getAppointments({ student_id: user.student.id, status: 'scheduled' }))
       }
     })()
   }, [user])
@@ -187,7 +187,7 @@ const Calendar = () => {
   const onCancel = async id => {
     await dispatch(cancelAppointment(id))
     setIsOpen(false)
-    await dispatch(getAppointments({ student_id: user.student_profile.id }))
+    await dispatch(getAppointments({ student_id: user.student_profile.id, status: 'scheduled' }))
     setIsCalendar(true)
   }
 

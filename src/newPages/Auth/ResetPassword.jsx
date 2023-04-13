@@ -16,7 +16,9 @@ const ResetPassword = () => {
   const queryToken = params.get('token');
   const queryEmail = params.get("email");
 
-  const { newPassword, refetchUser } = useAuth();
+  const isWelcome = location.pathname.includes('welcome-set-password');
+
+  const { newPassword, inviteSetPassword, refetchUser } = useAuth();
   const notify = () => toast("Password has been reset!");
 
   const {
@@ -45,11 +47,15 @@ const ResetPassword = () => {
     }
 
     if(password === confirmPassword) {
-      const { data } = await newPassword(queryEmail , queryToken, password);
+      const resetPassword = isWelcome ? inviteSetPassword : newPassword;
+      const { data } = await resetPassword(queryEmail , queryToken, password);
 
-      if(data) {
+      if(data.resetResult === null) {
         notify()
         history.push("/")
+      }
+      else {
+        setError(data.resetResult.message)
       }
     }
 
@@ -59,7 +65,7 @@ const ResetPassword = () => {
   return (
     <AuthLayout>
       <div className='auth-login'>
-        <p className='title text-center mb-3'>{t('reset_password')}</p>
+        <p className='title text-center mb-3'>{t(isWelcome ? 'welcome_set_password' : 'reset_password')}</p>
         <form onSubmit={handleSubmit(handleResetPassword)} className='form-section'>
           <div className='mb-3'>
             <div className='form-item-inner'>
@@ -95,7 +101,7 @@ const ResetPassword = () => {
               className='btn btn-primary btn-lg p-3'
               type='submit'
             >
-              Reset
+              {isWelcome ? 'Set Password' : 'Reset'}
               {/* {loading ? (
                 <ClipLoader loading={loading} size={20} color='white' />
               ) : (
@@ -103,12 +109,12 @@ const ResetPassword = () => {
               )} */}
             </button>
           </div>
-          <p className='mt-5'>
+          {isWelcome ? null : <p className='mt-5'>
             {t('already_have_account')}{' '}
             <a href='/' className='forgot-password'>
               {t('sign_in')}
             </a>
-          </p>
+          </p>}
         </form>
       </div>
 

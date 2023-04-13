@@ -526,6 +526,7 @@
   "sign_in": "Sign In",
   "not_registered": "Don't have an account?",
   "email": "Your Email",
+  "welcome_set_password": "Set New Password",
   "reset_password": "Password Reset",
   "new_password": "Enter New Password",
   "confirm_new_password": "Confirm New Password",
