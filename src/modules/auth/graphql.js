@@ -11,7 +11,7 @@ export const ME_QUERY = gql`
       email
       gender
       address
-      
+
       country
       timeZone
       phoneNumber
@@ -161,7 +161,7 @@ export const MUTATION_UPDATE_USER = gql`
 
 export const MUTATION_UPDATE_TUTOR = gql`
   mutation updateTutor(
-    $data: TutorUpdateInput !
+    $data: TutorUpdateInput!
     $where: TutorWhereUniqueInput!
   ) {
     updateTutor(data: $data, where: $where) {
@@ -181,25 +181,86 @@ export const MUTATION_UPDATE_STUDENT = gql`
   }
 `
 
-
-
 export const GROUPS_QUERY = gql`
- query groups {
-  groups {
-    id 
-    tutorId 
-    lessonId 
-    lessonType 
-    lessonTitle 
-    lessonDesc 
-    seatCount 
-    startAt 
-    duration 
-    completed 
-    cancelAction 
-    lessonTopic 
-    lastPartLesson 
-    zoomlinkId 
+  query groups {
+    groups {
+      id
+      tutorId
+      lessonId
+      lessonType
+      lessonTitle
+      lessonDesc
+      seatCount
+      startAt
+      duration
+      completed
+      cancelAction
+      lessonTopic
+      lastPartLesson
+      zoomlinkId
+    }
   }
- }
+`
+
+export const STUDENTS_QUERY = gql`
+  query students($where: StudentWhereInput) {
+    students(where: $where) {
+      id
+      userName(something: 1)
+      parentId
+      parentName
+      level
+      langLevel
+      courseType
+      payment
+      birthday
+      stripeCustomer
+      about
+      pronouns
+      avatar {
+        id
+        filesize
+        width
+        height
+        extension
+        url
+      }
+      picture {
+        id
+        filesize
+        width
+        height
+        extension
+        url
+      }
+      user {
+        id
+        firstName
+        lastName
+        koreanEquivalent
+        phoneNumber
+        address
+        gender
+        timeZone
+        country
+        avatar
+        emailVerificationToken
+        resetPasswordExpires
+        resetPasswordToken
+        referalId
+        referalConfirmed
+        fullName(something: 1)
+        role(something: 1)
+        email
+        isActive
+        createdAt
+        updatedAt
+        passwordResetIssuedAt
+        passwordResetRedeemedAt
+      }
+      isActive
+      createdAt
+      updatedAt
+    }
+  }
 `

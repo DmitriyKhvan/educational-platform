@@ -3,12 +3,13 @@ import Layout from '../../components/Layout'
 
 import FavIcon from '../../assets/images/Favorite.png'
 
-import './Mentors.scss'
+import './Students.scss'
 import { useHistory } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
-import { MENTORS_QUERY } from '../../modules/auth/graphql'
-import MentorsModal from './MentorsModal'
+import { STUDENTS_QUERY } from '../../modules/auth/graphql'
+import studentsModal from './StudentsModal'
 import Loader from '../../components/Loader/Loader'
+import StudentsModal from './StudentsModal'
 
 const filtersList = [
   {
@@ -58,26 +59,23 @@ const filtersList = [
   }
 ]
 
-const Mentors = () => {
-  const [showTutorModal, setShowTutorModal] = React.useState(false)
+export default function StudentsList() {
+  const [showStudentModal, setShowStudentModal] = React.useState(false)
   const history = useHistory()
-  const { data } = useQuery(MENTORS_QUERY, {
-    errorPolicy: 'ignore' 
+  const { data } = useQuery(STUDENTS_QUERY, {
+    errorPolicy: 'ignore'
   })
 
-  const mentors = data?.tutors
-
-  console.log(data)
-
+  const students = data?.students
 
   const handleStatusTutor = id => {}
 
   const handleMoreTutor = id => {
     if (id) {
-      history.push(`/student/mentors-list/${id}`)
+      history.push(`/tutor/students-list/${id}`)
     }
 
-    setShowTutorModal(true)
+    setShowStudentModal(true)
   }
 
   const handleFilter = () => {}
@@ -86,39 +84,17 @@ const Mentors = () => {
     <Layout>
       <div className='tutors_section'>
         <div className='tutors_title'>
-          <h1>Mentors</h1>
-          <p>Find new mentors or contact your favorite ones.</p>
+          <h1>Students</h1>
+          <p>Find new students or contact your favorite ones.</p>
         </div>
-        {/* 
-        <div className='tutors_filters'>
-          {filtersList.map(
-            item =>
-              item.options && (
-                <select key={item.id}>
-                  {item.options?.map(opt => (
-                    <option value={opt.title.toLowerCase()} key={opt.id}>
-                      {opt.title}
-                    </option>
-                  ))}
-                </select>
-              )
-          )}
-
-          <button className='tutors_show'>
-            <label>
-              <input type={'checkbox'} />
-              Show Only Favorite Tutors
-            </label>
-          </button>
-        </div> */}
 
         <div className='tutors_row'>
-          {mentors?.length === 0 && <p>Empty</p>}
+          {students?.length === 0 && <p>Empty</p>}
 
-          {!mentors && <Loader height={'50vh'} />}
+          {!students && <Loader height={'50vh'} />}
 
-          {mentors &&
-            mentors.map(item => (
+          {students &&
+            students.map(item => (
               <div key={item.id} className='tutors_card'>
                 <div
                   className='tutors_card-img'
@@ -138,9 +114,6 @@ const Mentors = () => {
                     <button onClick={() => handleMoreTutor(item.id)}>
                       Learn more
                     </button>
-                    {/* <button onClick={() => handleStatusTutor(item.id)}>
-                      {item?.isFavourite ? 'Remove' : 'Favorite'}
-                    </button> */}
                   </div>
                 </div>
               </div>
@@ -148,15 +121,13 @@ const Mentors = () => {
         </div>
       </div>
 
-      {showTutorModal && (
-        <MentorsModal
-          tutorsList={mentors}
+      {showStudentModal && (
+        <StudentsModal
+          studentList={students}
           handleStatusTutor={handleStatusTutor}
-          setShowTutorModal={setShowTutorModal}
+          setShowStudentModal={setShowStudentModal}
         />
       )}
     </Layout>
   )
 }
-
-export default Mentors

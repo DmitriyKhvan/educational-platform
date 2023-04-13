@@ -121,11 +121,11 @@ const EditProflileModal = ({profileImage, isOpen, setIsOpen }) => {
       </div>
       <div className='avatar-block'>
         {avatar && <img src={profileImage} alt={"userInfo.tutorName"} />}
-        <label for="inputTag" className='file_upload'>
-          <input 
+        <label htmlFor="inputTag" className='file_upload'>
+          <input
             {...register("avatar")} 
-            webkitdirectory 
-            directory  
+            webkitdirectory
+            directory
             id="inputTag"  
             type={"file"} 
             multiple

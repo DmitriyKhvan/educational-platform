@@ -244,4 +244,3 @@ const EditProflileStudent = () => {
 }
 
 export default EditProflileStudent;
-

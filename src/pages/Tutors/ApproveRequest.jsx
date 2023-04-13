@@ -106,30 +106,12 @@ const ApproveRequest = () => {
     'Student Name',
     t('Lesson Number'),
     t('Lesson Date'),
-    
-  ]
-
-  const tablesData = [
-    {
-      id:1,
-      img:"",
-      studentName:"Alex",
-      lessonNumber: 5,
-      lessonDate: "05.06.2023"
-    },
-    {
-      id:2,
-      img:"",
-      studentName:"Alisa",
-      lessonNumber: 5,
-      lessonDate: "05.06.2023"
-    },
   ]
 
   const renderTable = () => 
     displayLessonRequestTable().length !== 0 
       ? displayLessonRequestTable()
-      : tablesData
+      : []
 
   return (
     <Layout>
