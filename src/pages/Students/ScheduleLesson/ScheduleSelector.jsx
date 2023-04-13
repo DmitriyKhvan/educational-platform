@@ -386,6 +386,9 @@ const ScheduleSelector = ({
     )
   }
 
+  const uniqTimes = [...new Set(allTimes)];
+
+
   const AvailableSpots = () => (
     <React.Fragment>
       <div className='row '>
@@ -396,7 +399,7 @@ const ScheduleSelector = ({
       </div>
       <div className='row schedule-overflow-scroll slot-scroll col-12 media_small_width_schedule'>
         {allTimes.length > 0 &&
-          allTimes.map((x, i) => (
+          uniqTimes.map((x, i) => (
             <ScheduleCard scheduleStartTime={x} key={i} />
           ))}
         {allTimes.length === 0 && (

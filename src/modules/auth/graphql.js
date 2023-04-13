@@ -53,8 +53,8 @@ export const ME_QUERY = gql`
 `
 
 export const MENTORS_QUERY = gql`
-  query tutors($where: TutorWhereInput) {
-    tutors(where: $where) {
+  query tutors($where: TutorWhereInput! $orderBy: [TutorOrderByInput!]! $take: Int $skip: Int) {
+    tutors(where: $where, orderBy: $orderBy, take:$take, skip:$skip) {
       id
       user {
         id

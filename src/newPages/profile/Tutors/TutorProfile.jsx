@@ -97,7 +97,18 @@ const TutorProfile = () => {
               
               <div className=''>
                 <h1>University</h1>
-                <h2>Stanford University</h2>
+                <h2>
+                  {
+                  (actions?.user?.tutor?.degree && actions?.user?.tutor?.university)
+                    ? 
+                      (
+                        `
+                          ${actions?.user?.tutor?.university}
+                        `
+                      )
+                    : ""
+                  }
+                </h2>
               </div>
             </section>
           </div>

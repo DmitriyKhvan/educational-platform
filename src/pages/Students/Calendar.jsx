@@ -145,6 +145,7 @@ const Calendar = () => {
             time={scheduledTime}
             data={selectedEvent}
             onCancel={onCancel}
+            closeModal={closeModal}
           />
         </Modal>
       </div>

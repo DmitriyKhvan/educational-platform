@@ -67,7 +67,8 @@ const Mentors = () => {
 
   const mentors = data?.tutors
 
-  console.log(mentors)
+  console.log(data)
+
 
   const handleStatusTutor = id => {}
 

@@ -18,11 +18,10 @@ const MentorsModal = ({
     item => item.id === (tutorId ? tutorId : id)
   )
 
-  console.log(renderSelectedTutor)
-
   return (
     <div className='tutor_alfa'>
       <div className='tutor_modal'>
+        <p className='close-sh' onClick={() => setShowTutorModal(false)}>&times;</p>
         <iframe
           width='40%'
           height='100%'
@@ -68,11 +67,11 @@ const MentorsModal = ({
             </div>
 
             <div className='bottom_content-button'>
-              <button onClick={() => setShowTutorModal(false)}>Cancel</button>
-              <button>Message</button>
-              <button onClick={() => handleStatusTutor(parseInt(tutorId))}>
+              {/* <button onClick={() => setShowTutorModal(false)}>Cancel</button> */}
+              {/* <button>Message</button> */}
+              {/* <button onClick={() => handleStatusTutor(parseInt(tutorId))}>
                 {renderSelectedTutor?.isFavourite ? 'Remove' : 'Favorite'}
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

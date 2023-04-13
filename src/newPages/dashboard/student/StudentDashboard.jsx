@@ -133,6 +133,7 @@ const StudentListAppointments = () => {
         {
           icon: smileIcon,
           title: "Give feedback on a lesson.",
+          disabled: true,
           button: {
             to: '',
             text: 'Submit Feedback →',
@@ -144,7 +145,7 @@ const StudentListAppointments = () => {
           icon: whiteBookingIcon,
           title: "View my progress.",
           button: {
-            to: '',
+            to: '/student/lesson-calendar',
             text: 'Completed Lessons →',
           },
           color: '#1482DA',
@@ -205,14 +206,14 @@ const StudentListAppointments = () => {
                           {t('schedule_1_on_1_lesson')}
                         </Link>
                       </div>
-                      <div className='col-6 schedule-dashboard-button'>
+                      {/* <div className='col-6 schedule-dashboard-button'>
                         <Link
                           to='/student/schedule-lesson/group-select'
                           className='schedule-dashboard-buttons'
                         >
                           {t('schedule_group_lesson')}
                         </Link>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -224,7 +225,7 @@ const StudentListAppointments = () => {
                   </h4>
                 </div>
               </div>
-              <div className='row container justify-content-center ml-0 mt-5'>
+              <div className='dashboard-cards-inline container  ml-0 mt-5'>
                 {callToAction.map((props, i) => (
                   <CTACard key={i} {...props} />
                 ))}
@@ -240,27 +241,32 @@ const StudentListAppointments = () => {
                       t: isWithinAweek.length > 1 ? 's' : ''
                     })}
                   </div>
-                  <div className='flex-container align-button-dashboard'>
-                    <div>
-                      <Link
-                        to='/student/schedule-lesson/select'
-                        className='buttonsdash'
-                      >
-                        {t('student_dashboard_edit_schedule')}
-                      </Link>
-                    </div>
-                    <div>
-                      <Link
-                        to='/student/lesson-calendar'
-                        className='buttonsdash-second'
-                      >
-                        {t('student_dashboard_view_all_lessons')}
-                      </Link>
-                    </div>
+                  <div>
+                    <section className='d-flex align-button-dashboard'>
+                      <div>
+                        <Link
+                          to='/student/schedule-lesson/select'
+                          className='buttonsdash'
+                        >
+                          {t('student_dashboard_edit_schedule')}
+                        </Link>
+                      </div>
+                      <div>
+                        <Link
+                          to='/student/lesson-calendar'
+                          className='buttonsdash-second'
+                        >
+                          {t('student_dashboard_view_all_lessons')}
+                        </Link>
+                      </div>
+                    </section>
                   </div>
+                  
                   <div className='weekly-schedule-scroll align_schedule-width-dash weekly-schedule-grid'>
                     {appointments.length ? <>{ScheduleArr}</> : ''}
                   </div>
+
+                  
                 </div>
               )}
             </div>
@@ -274,7 +280,7 @@ const StudentListAppointments = () => {
             <h3 className='mt-0'>
               {t('student_dashboard_no_lessons_subtitle')}
             </h3>
-            <div className='row container justify-content-center mt-5'>
+            <div className='row  justify-content-center mt-5'>
               {callToAction.map((props, i) => (
                 <div key={i} className='col-4'>
                   <CTACard {...props} />

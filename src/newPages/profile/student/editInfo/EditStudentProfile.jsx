@@ -121,21 +121,21 @@ const EditProflileStudent = () => {
         <div className='header'>
           <h3>Edit Profile</h3>
         </div>
-        <div className='avatar-block'>
-          {avatar && <img src={profileImage} alt={"userInfo.tutorName"} />}
-          <label htmlFor="inputTag" className='file_upload'>
-            <input 
-              {...register("avatar")} 
-              webkitdirectory
-              directory
-              id="inputTag"  
-              type={"file"} 
-              multiple
-            />
-            <AiFillEdit className="edit-icon"/>
-          </label>
-        </div>
+        
         <form onSubmit={handleSubmit(onSubmit)} className='body'>
+          <div className='avatar-block'>
+            {avatar && <img src={profileImage} alt={"userInfo.tutorName"} />}
+            <label for="inputTag" className='file_upload'>
+              <input 
+                {...register("avatar")} 
+                webkitdirectory 
+                directory  
+                id="inputTag"  
+                type={"file"} 
+              />
+              <AiFillEdit className="edit-icon"/>
+            </label>
+          </div>
           <section className='scroll-form'>
             <section>
               <TextInput

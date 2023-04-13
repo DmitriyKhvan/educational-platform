@@ -4,8 +4,6 @@ import React from 'react';
 import '../../../assets/styles/student.scss';
 import "./style/StudentProfile.scss";
 
-import profileAvatar from '../../../assets/images/Avatar.png';
-
 import './style/GeneralProfile.scss'
 import { useAuth } from '../../../modules/auth';
 import EditProflileModal from './EditProflileModal';
@@ -390,24 +388,30 @@ const StudentProfile = () => {
                   <p>{actions.user?.email}</p>
                 </div> 
 
-                <div className='details_list'>
-                  <h4>Korean Name</h4>
-                  <p>{
-                    actions.user?.koreanEquivalent 
-                      ? actions.user?.koreanEquivalent
-                      : "알렉스"
-                  }</p>
-                </div> 
+                {
+                  actions.user?.koreanEquivalent &&
+                  <div className='details_list'>
+                    <h4>Korean Name</h4>
+                    <p>
+                      {
+                        actions.user?.koreanEquivalent
+                      }
+                    </p>
+                  </div> 
+                }
 
-                <div className='details_list'>
-                  <h4>Gender</h4>
-                  <p>{
-                    actions.user?.gender 
-                      ? actions.user?.gender
-                      : "Male"
-                  }</p>
-                </div> 
-               
+                {
+                  actions.user?.gender &&
+                  <div className='details_list'>
+                    <h4>Gender</h4>
+                    <p>
+                      {
+                        actions.user?.gender
+                      }
+                    </p>
+                  </div> 
+                }
+
                 <div className='details_list'>
                   <h4>Country</h4>
                   <p>{
@@ -450,13 +454,13 @@ const StudentProfile = () => {
         />
       )} */}
 
-      {
+      {/* {
         <EditProflileModal 
           profileImage={profileImage} 
           isOpen={showEditModal} 
           setIsOpen={setIsShowEditModal}
         />
-      }
+      } */}
 
       {/* {isLoading && <Loader />} */}
     </div>

@@ -80,12 +80,12 @@ const tutorNavLinks = [
     icon:tutorIcon,
     activeIcon:tutorActiveIcon
   },
-  {
-    label: "Messages",
-    link:"/messages/",
-    icon:MessageIcon,
-    activeIcon:MessageActiveIcon
-  },
+  // {
+  //   label: "Messages",
+  //   link:"/messages/",
+  //   icon:MessageIcon,
+  //   activeIcon:MessageActiveIcon
+  // },
   {
     label: 'check_requests',
     link: '/approve-requests',
@@ -134,12 +134,12 @@ const studentNavLinks = [
     icon: Icon2,
     activeIcon: ActiveIcon2
   },
-  {
-    label: "Messages",
-    link:"/messages/",
-    icon:MessageIcon,
-    activeIcon:MessageActiveIcon
-  },
+  // {
+  //   label: "Messages",
+  //   link:"/messages/",
+  //   icon:MessageIcon,
+  //   activeIcon:MessageActiveIcon
+  // },
   {
     label: "Mentors",
     link:"/student/mentors-list",
@@ -152,16 +152,16 @@ const studentNavLinks = [
     icon: Icon1,
     activeIcon: referActiveIcon
   },
-  {
-    label: 'games_sidemenu',
-    link: gameLinkURL,
-    icon: GameIcon,
-    activeIcon: GameIconFilled,
-    external: true
-  },
+  // {
+  //   label: 'games_sidemenu',
+  //   link: gameLinkURL,
+  //   icon: GameIcon,
+  //   activeIcon: GameIconFilled,
+  //   external: true
+  // },
   {
     label: 'class_material_sidemenu',
-    link: classMaterialURL,
+    link: classMaterialURL || "https://naonow.instructure.com/",
     icon: ClassMaterialIcon,
     activeIcon: ClassMaterialIcon,
     external: true
