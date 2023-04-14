@@ -58,7 +58,9 @@ const Calendar = () => {
     }
   }
 
-  const userTimezone = user?.time_zone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const userTimezone =
+    user?.time_zone?.split(' ')[0] ||
+    Intl.DateTimeFormat().resolvedOptions().timeZone
   const localizer = momentLocalizer(moment.tz.setDefault(userTimezone))
   const allViews = ['month', 'week', 'day']
   const formats = {
@@ -150,14 +152,15 @@ const Calendar = () => {
   }
 
   const onSelectEvent = e => {
-    toast.warn("This class has already passed", {
-      hideProgressBar: true,
-    })
     const today = moment().format('MM/DD/YYYY hh:mm a')
     const closedDate = moment(e.end).format('MM/DD/YYYY hh:mm a')
     if (moment(today).isBefore(closedDate)) {
       setCalendarEvent(e)
       setIsCalendarModalOpen(true)
+    } else {
+      toast.warn('This class has already passed', {
+        hideProgressBar: true
+      })
     }
   }
 
@@ -454,7 +457,7 @@ const Calendar = () => {
               }`}
               onClick={onCalendarClick}
             >
-              <span>{"My Calendar"}</span>
+              <span>{'My Calendar'}</span>
             </button>
           </div>
         </div>
