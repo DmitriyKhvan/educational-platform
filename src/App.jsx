@@ -92,13 +92,13 @@ function PrivateRoute({ component: Component, ...rest }) {
 }
 
 function PublicRoute({ component: Component, ...rest }) {
-  const { isAuthorized } = useAuth()
+  const { isAuthorized, user } = useAuth()
 
   return (
     <Route
       {...rest}
       render={props =>
-        isAuthorized ? <Redirect to={`/dashboard`} /> : <Component {...props} />
+        isAuthorized && user.isActive ? <Redirect to={`/dashboard`} /> : <Component {...props} />
       }
     />
   )

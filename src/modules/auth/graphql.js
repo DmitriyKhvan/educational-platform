@@ -13,6 +13,7 @@ export const ME_QUERY = gql`
       address
       # referal
       referalId
+      isActive
       country
       timeZone
       phoneNumber
