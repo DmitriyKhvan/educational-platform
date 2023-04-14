@@ -413,6 +413,7 @@
   "delete_tutor": "Are you sure to delete this mentor? *",
   "delete_student": "Are you sure to delete this student? *",
   "edit_student_lesson": "Edit Student's Lesson",
+  "student_lesson_name": "Student's Name",
   "edit_tutor_lesson": "Edit Mentor's Lesson",
   "assign_substitute": "Assign Substitute",
   "reschedule": "Reschedule",
