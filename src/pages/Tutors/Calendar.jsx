@@ -201,7 +201,6 @@ const Calendar = () => {
   Modal.setAppElement('#root')
 
   const CustomModal = () => {
-    console.log('sa')
     const [selectedEvent] = calendarEvents.filter(
       event => event.id === calendarEvent.id
     )
