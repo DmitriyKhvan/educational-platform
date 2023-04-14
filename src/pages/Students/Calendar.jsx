@@ -249,9 +249,9 @@ const Calendar = () => {
 
   useEffect(() => {
     if (location.search.includes('completed')) {
-      onClickUpcomingLessons()
+      onClickPastLessons()
     }
-  }, [upcomingLessons])
+  }, [pastLessons])
 
   return (
     <Layout>
