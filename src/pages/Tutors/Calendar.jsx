@@ -17,6 +17,7 @@ import ReviewLessonModal from '../../components/tutor-dashboard/ReviewLessonModa
 
 import '../../assets/styles/calendar.scss'
 import AppointmentApi from '../../api/AppointmentApi'
+import { toast } from 'react-toastify'
 
 const Calendar = () => {
   const [t] = useTranslation('translation')
@@ -149,6 +150,9 @@ const Calendar = () => {
   }
 
   const onSelectEvent = e => {
+    toast.warn("This class has already passed", {
+      hideProgressBar: true,
+    })
     const today = moment().format('MM/DD/YYYY hh:mm a')
     const closedDate = moment(e.end).format('MM/DD/YYYY hh:mm a')
     if (moment(today).isBefore(closedDate)) {
@@ -194,6 +198,7 @@ const Calendar = () => {
   Modal.setAppElement('#root')
 
   const CustomModal = () => {
+    console.log('sa')
     const [selectedEvent] = calendarEvents.filter(
       event => event.id === calendarEvent.id
     )
@@ -243,14 +248,14 @@ const Calendar = () => {
         .format('dddd, MMMM Do')
 
       return (
-        <Fragment>
+        <>
           <div className='row'>
-            <h4 class='text-primary'>{date}</h4>
+            <h4 className='text-primary'>{date}</h4>
           </div>
           <div className='row'>
             <h4 className=''>{timeSlot}</h4>
           </div>
-        </Fragment>
+        </>
       )
     }
 
