@@ -34,6 +34,7 @@ const ScheduleSelector = ({
   setTabIndex,
   duration,
   setSchedule,
+  lesson,
   tabIndex,
   schedule,
   setTutorIdList
@@ -51,7 +52,7 @@ const ScheduleSelector = ({
     startTime: '',
     endTime: ''
   })
-  const userTimezone = user?.time_zone?.split(' ')[0]
+  const userTimezone = user?.timeZone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
   const disable = counter === 0
   const today = moment.tz(userTimezone).subtract(counter, 'week')
   const startOfWeek = today.startOf('isoWeek')
@@ -418,9 +419,15 @@ const ScheduleSelector = ({
           <div className='lesson-wrapper flex-lefts student-dashboard'>
             <div>
               <div className='container title-container'>
-                <h1 className='title lelt-con'>{t('schedule_lesson')}</h1>
+                <h1 className='title lelt-con'>{lesson ? t('reschedule_lesson') : t('schedule_lesson')}</h1>
                 <p className='welcome-subtitle left-subtitle'>
-                  {t('schedule_lesson_subtitle')}
+                  {
+                    lesson
+                      ? <>
+                        {t('choose_new_date')}<br /><br />
+                        Currently lesson scheduled at {moment(lesson.startAt).tz(userTimezone).format('dddd, MMM DD hh:mm A')}
+                      </>
+                      : t('schedule_lesson_subtitle')}
                 </p>
               </div>
               <div className='row container ps-4 pe-0'>
