@@ -11,12 +11,20 @@ const SelectLesson = ({
   setSelectedPlan,
   setTabIndex,
   clicked,
-  setClicked
+  setClicked,
+  lesson,
 }) => {
   const [t] = useTranslation('translation')
   const history = useHistory()
   const planStatus = useSelector(state => state.students.planStatus)
   const disabled = clicked === null ? true : false
+
+  useEffect(() => {
+    if (lesson) {
+      setSelectedPlan(planStatus[0])
+      setTabIndex(1);
+    }
+  }, [lesson]);
 
   const returnToDashboard = () => {
     history.push('/student/manage-lessons')

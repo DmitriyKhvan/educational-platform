@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import moment from 'moment-timezone'
 import placeholderAvatar from '../assets/images/avatars/img_avatar_female.png'
 import ZoomWarningModal from './student-dashboard/ZoomWarningModal'
-import { Link } from 'react-router-dom'
 
 const CalendarModal = ({
   index,
@@ -81,12 +81,12 @@ const CalendarModal = ({
             Cancel Lesson 
             {/* {t('cancel')} */}
           </button>
-          <a
-            href={'/student/schedule-lesson/select/' + data.resource.eventDate.id}
+          <Link
+            to={'/student/schedule-lesson/select/' + data.resource.eventDate.id}
             className='enter-btn grey-border text-black'
           >
             {t('reschedule')}
-          </a>
+          </Link>
           <a
             onClick={joinLesson}
             target='_blank'

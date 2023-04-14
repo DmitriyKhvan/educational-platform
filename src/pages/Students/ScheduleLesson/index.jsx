@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useParams } from "react-router-dom";
 import LessonConfirmation from './LessonConfirmation'
 import ScheduleSelector from './ScheduleSelector'
 import SelectLesson from './SelectLesson'
@@ -10,7 +11,36 @@ import { useQuery, gql } from '@apollo/client'
 import '../../../assets/styles/tutor.scss'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
+const GET_GROUP_INFO = gql`
+  query ($id: ID) {
+    group(where: { id: $id }) {
+      id
+      tutorId
+      lessonId
+      lessonType
+      lessonTitle
+      lessonDesc
+      seatCount
+      startAt
+      duration
+      status
+      completed
+      cancelAction
+      lessonTopic
+      lastPartLesson
+      zoomlinkId
+      createdAt
+      updatedAt
+    }
+  }
+`
+
 const ScheduleLesson = () => {
+  const { id = null } = useParams();
+  const { data, loading } = useQuery(GET_GROUP_INFO, {
+    variables: { id },
+    skip: !id,
+  })
   const dispatch = useDispatch()
   const [clicked, setClicked] = useState(null)
   const [selectedPlan, setSelectedPlan] = useState({})
@@ -22,6 +52,15 @@ const ScheduleLesson = () => {
     dispatch(getPlanStatus())
   }, [dispatch, schedule])
 
+  const scheduledLesson = data?.group || null;
+
+  useEffect(() => {
+    if (scheduledLesson) {
+    }
+  }, [scheduledLesson]);
+
+  if (loading) return null;
+
   return (
     <React.Fragment>
       {tabIndex === 0 ? (
@@ -30,6 +69,7 @@ const ScheduleLesson = () => {
           setTabIndex={setTabIndex}
           clicked={clicked}
           setClicked={setClicked}
+          lesson={scheduledLesson}
         />
       ) : tabIndex === 1 ? (
         <ScheduleSelector
@@ -38,12 +78,15 @@ const ScheduleLesson = () => {
           setSchedule={setSchedule}
           schedule={schedule}
           tabIndex={tabIndex}
+          lesson={scheduledLesson}
+          lessonId={id}
         />
       ) : tabIndex === 2 ? (
         <SelectTutorCards
           tabIndex={tabIndex}
           setTabIndex={setTabIndex}
           setSelectTutor={setSelectTutor}
+          lesson={scheduledLesson}
           schedule={schedule}
         />
       ) : (
@@ -53,7 +96,8 @@ const ScheduleLesson = () => {
             time={schedule}
             tutor={selectTutor}
             setTabIndex={setTabIndex}
-            lessonId={null}
+            lesson={scheduledLesson}
+            lessonId={id}
           />
         )
       )}
