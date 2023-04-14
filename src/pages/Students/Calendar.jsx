@@ -138,6 +138,7 @@ const Calendar = () => {
           contentLabel='Example Modal'
         >
           <CalendarModal
+            event={selectedEvent}
             lesson={selectedEvent.title}
             startTime={startTime}
             endTime={endTime}

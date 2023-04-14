@@ -6,6 +6,7 @@ import ZoomWarningModal from './student-dashboard/ZoomWarningModal'
 import { Link } from 'react-router-dom'
 
 const CalendarModal = ({
+  event,
   index,
   lesson,
   startTime,
@@ -45,6 +46,8 @@ const CalendarModal = ({
       setIsWarningOpen(true)
     }
   }
+
+  console.log(event)
 
   return (
     <div
