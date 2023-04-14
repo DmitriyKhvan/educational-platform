@@ -11,6 +11,7 @@ import { getUserInfo } from '../../actions/user'
 import { getStudent } from '../../actions/students'
 import { cancelAppointment } from '../../actions/appointment'
 import Loader from '../../components/common/Loader'
+import { useLocation } from 'react-router-dom'
 
 import '../../assets/styles/calendar.scss'
 import { feedbackURL } from '../../constants/global'
@@ -21,6 +22,7 @@ import FeedbackLessonModal from '../Tutors/FeedbackLessonModal'
 
 const Calendar = () => {
   const [t] = useTranslation('translation')
+  const location = useLocation()
   const { user } = useAuth()
 
   const calendarAppointments = useSelector(
@@ -70,7 +72,9 @@ const Calendar = () => {
     ;(async () => {
       await dispatch(getStudent(user.student.id))
       if (user && user.student) {
-        await dispatch(getAppointments({ student_id: user.student.id, status: 'scheduled' }))
+        await dispatch(
+          getAppointments({ student_id: user.student.id, status: 'scheduled' })
+        )
       }
     })()
   }, [user])
@@ -155,17 +159,16 @@ const Calendar = () => {
 
   const tables = [
     {
-      id:1,
-      package: "PRIVATE ENGLISH",
-      level: "Level 2",
-      currentTopic: "Jurrasic Park",
-      nextTopic: "Triceratops",
+      id: 1,
+      package: 'PRIVATE ENGLISH',
+      level: 'Level 2',
+      currentTopic: 'Jurrasic Park',
+      nextTopic: 'Triceratops',
       resource: {
         duration: 25,
-        start_at: "7:30"
+        start_at: '7:30'
       },
-      mentor: "Said A.",
-      
+      mentor: 'Said A.'
     }
   ]
 
@@ -189,11 +192,18 @@ const Calendar = () => {
   const onCancel = async id => {
     await dispatch(cancelAppointment(id))
     setIsOpen(false)
-    await dispatch(getAppointments({ student_id: user.student_profile.id, status: 'scheduled' }))
+    await dispatch(
+      getAppointments({
+        student_id: user.student_profile.id,
+        status: 'scheduled'
+      })
+    )
     setIsCalendar(true)
   }
 
-  const userTimezone = user?.timeZone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const userTimezone =
+    user?.timeZone?.split(' ')[0] ||
+    Intl.DateTimeFormat().resolvedOptions().timeZone
   const localizer = momentLocalizer(moment.tz.setDefault(userTimezone))
   const allViews = ['month', 'week', 'day']
   const formats = {
@@ -226,8 +236,8 @@ const Calendar = () => {
     'Class Feedback'
   ]
 
-  const [isReviewLessonModalOpen, setReviewLessonModal] = useState(false);
-  const [isFeedbackModal, setFeedbackModal] = React.useState(false);
+  const [isReviewLessonModalOpen, setReviewLessonModal] = useState(false)
+  const [isFeedbackModal, setFeedbackModal] = React.useState(false)
 
   const handleOpenFeedbackModal = () => {
     setFeedbackModal(true)
@@ -236,6 +246,12 @@ const Calendar = () => {
   const handleClodeFeedbackModal = () => {
     setFeedbackModal(false)
   }
+
+  useEffect(() => {
+    if (location.search.includes('completed')) {
+      onClickUpcomingLessons()
+    }
+  }, [upcomingLessons])
 
   return (
     <Layout>
@@ -290,16 +306,16 @@ const Calendar = () => {
                 </thead>
 
                 <tbody>
-                  {
-                    displayTableData?.length === 0 
-                      && (
-                        <tr className='tr-center ' style={{transform: "translateX(38%) translateY(30%)"}}>
-                          <td onClick={handleOpenFeedbackModal}>
-                            You don't have lessons!
-                          </td>
-                        </tr>
-                      )
-                  }
+                  {displayTableData?.length === 0 && (
+                    <tr
+                      className='tr-center '
+                      style={{ transform: 'translateX(38%) translateY(30%)' }}
+                    >
+                      <td onClick={handleOpenFeedbackModal}>
+                        You don't have lessons!
+                      </td>
+                    </tr>
+                  )}
                   {displayTableData
                     .sort(
                       (a, b) =>
@@ -318,9 +334,8 @@ const Calendar = () => {
                         <td className='td-item'>
                           <p className='td-lesson'>{event.resource.duration}</p>
                         </td>
-                        
-                        {
-                        /* Do not remove this code, it will be used in the future 
+
+                        {/* Do not remove this code, it will be used in the future 
                         <td className='td-item'>
                           <p className='td-topic-level'>
                             {event.level}
@@ -336,7 +351,7 @@ const Calendar = () => {
                             {` ${event.nextTopic}`}
                           </p>
                         </td> */}
-                        <td  className='td-item'>
+                        <td className='td-item'>
                           <p className='td-datetime td-datetime-border ps-3'>
                             {moment(event.resource.start_at)
                               .tz(userTimezone)
@@ -387,7 +402,11 @@ const Calendar = () => {
           </div>
         </div>
       </div>
-      <FeedbackLessonModal modalState='student' isOpen={isFeedbackModal} closeModal={handleClodeFeedbackModal}/>
+      <FeedbackLessonModal
+        modalState='student'
+        isOpen={isFeedbackModal}
+        closeModal={handleClodeFeedbackModal}
+      />
       {isOpen && <CustomModal />}
       {isLoading && <Loader />}
       <ReviewLessonModal

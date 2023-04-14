@@ -145,7 +145,7 @@ const StudentListAppointments = () => {
           icon: whiteBookingIcon,
           title: "View my progress.",
           button: {
-            to: '/student/lesson-calendar',
+            to: '/student/lesson-calendar?completed',
             text: 'Completed Lessons →',
           },
           color: '#1482DA',
