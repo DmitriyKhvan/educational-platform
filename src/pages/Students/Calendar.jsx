@@ -216,9 +216,10 @@ const Calendar = () => {
 
   const tableHead = [
     'Package',
-    'Level',
-    'Current Topic',
-    'Next Topic',
+    'Duration',
+    // 'Level',
+    // 'Current Topic',
+    // 'Next Topic',
     'Date and Time',
     'Mentor',
     'Class Feedback'
@@ -311,8 +312,14 @@ const Calendar = () => {
                     .map(event => (
                       <tr className='tr-center'>
                         <td className='td-item'>
-                          <p className='td-lesson'>{event.package}</p>
+                          <p className='td-lesson'>{event.lesson}</p>
                         </td>
+                        <td className='td-item'>
+                          <p className='td-lesson'>{event.resource.duration}</p>
+                        </td>
+                        
+                        {
+                        /* Do not remove this code, it will be used in the future 
                         <td className='td-item'>
                           <p className='td-topic-level'>
                             {event.level}
@@ -327,7 +334,7 @@ const Calendar = () => {
                           <p className='td-topic-level'>
                             {` ${event.nextTopic}`}
                           </p>
-                        </td>
+                        </td> */}
                         <td  className='td-item'>
                           <p className='td-datetime td-datetime-border ps-3'>
                             {moment(event.resource.start_at)
@@ -341,7 +348,7 @@ const Calendar = () => {
                           </p>
                         </td>
                         <td className='td-item'>
-                          <p className='td-tutor'>{event.mentor}</p>
+                          <p className='td-tutor'>{event.tutor}</p>
                         </td>
                         <td className='td-item'>
                           <button
