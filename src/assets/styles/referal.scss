@@ -214,43 +214,41 @@
 
         .left_share {
           position: relative;
+          border: 1px solid #DEDEE1;
+          border-radius: 5px;
+          width: min-content;
+          max-width: 450px;
+          display: flex;
+          flex-grow: 1;
           input {
-            width: 390px;
+            width: 100%;
+            padding: 15px 15px;
+            border-radius: inherit;
+            border: none;
             background: #FFFFFF;
             /* Border Gray */
-            padding: 15px 15px;
-            border: 1px solid #DEDEE1;
-            border-radius: 5px;
             font-family: 'Inter';
             font-style: normal;
             font-weight: 400;
             font-size: 15px;
             line-height: 20px;
-            /* identical to box height, or 133% */
-
             letter-spacing: -0.2px;
-
-            /* Dark Purple */
-
             color: #261A45;
           }
           span {
-            position: absolute;
+            padding: 15px;
+            display: inline-block;
+            background-color: #6133AF;
+            color: white;
             font-family: 'Inter';
             font-style: normal;
             font-weight: 400;
             font-size: 15px;
             line-height: 20px;
+            border-top-right-radius: inherit;
+            border-bottom-right-radius: inherit;
             cursor: pointer;
-            right: 5%;
-            top: 32%;
-            /* identical to box height, or 133% */
-
             letter-spacing: -0.2px;
-
-            /* Dark Purple */
-
-            color: #261A45;
           }
         }
 
