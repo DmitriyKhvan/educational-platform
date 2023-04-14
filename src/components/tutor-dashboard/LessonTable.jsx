@@ -24,110 +24,18 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
       }
       setDisplayTableData(z)
     }
-
-    // if (isUpcoming) {
-    //   setDisplayTableData([
-    //     {
-    //       lessonId: '253',
-    //       lesson: 'General English',
-    //       topic: 'Topic Name',
-    //       level: '3',
-    //       type: 'Private',
-    //       resource: {
-    //         start_at: '2023-1-28 12:12:12',
-    //         duration: '25'
-    //       },
-    //       student: 'Alice S.'
-    //     },
-    //     {
-    //       lessonId: '123',
-    //       lesson: 'Junior English',
-    //       topic: 'Topic Name',
-    //       level: '3',
-    //       type: 'Group',
-    //       resource: {
-    //         start_at: '2023-1-28 12:12:12',
-    //         duration: '25'
-    //       },
-    //       student: 'Jane D.'
-    //     },
-    //     {
-    //       lessonId: '123',
-    //       lesson: 'Junior English',
-    //       topic: 'Topic Name',
-    //       level: '3',
-    //       type: 'Group',
-    //       resource: {
-    //         start_at: '2023-1-28 12:12:12',
-    //         duration: '50'
-    //       },
-    //       student: 'Jane D.'
-    //     }
-    //   ])
-    // } else {
-    //   setDisplayTableData([
-    //     {
-    //       lessonId: '253',
-    //       lesson: 'General English',
-    //       topic: 'Topic Name',
-    //       level: '3',
-    //       type: 'Private',
-    //       resource: {
-    //         start_at: '2022-12-12 12:12:12',
-    //         duration: '25'
-    //       },
-    //       student: 'Alice S.'
-    //     },
-    //     {
-    //       lessonId: '123',
-    //       lesson: 'Junior English',
-    //       topic: 'Topic Name',
-    //       level: '3',
-    //       type: 'Group',
-    //       resource: {
-    //         start_at: '2022-12-12 12:12:12',
-    //         duration: '25'
-    //       },
-    //       student: 'Jane D.'
-    //     },
-    //     {
-    //       lessonId: '123',
-    //       lesson: 'Junior English',
-    //       topic: 'Topic Name',
-    //       level: '3',
-    //       type: 'Group',
-    //       resource: {
-    //         start_at: '2022-12-12 12:12:12',
-    //         duration: '50'
-    //       },
-    //       student: 'Jane D.'
-    //     },
-    //     {
-    //       lessonId: '123',
-    //       lesson: 'Junior English',
-    //       topic: 'Topic Name',
-    //       level: '3',
-    //       type: 'Group',
-    //       resource: {
-    //         start_at: '2022-12-12 12:12:12',
-    //         duration: '25'
-    //       },
-    //       student: 'Jane D.'
-    //     }
-    //   ])
-    // }
   }, [tabularData])
-
 
   const tableHead = [
     'Package',
-    t('level'),
-    t('topic'),
-    "Last Section Completed",
+    // Do not delete this code, it is for future use
+    // t('level'),
+    // t('topic'),
+    // "Last Section Completed",
     'Duration',
     t('date_and_time'),
-    t("Student's"),
-    "Class Feedback"
+    t("student_lesson_name"),
+    'Class Feedback'
   ]
 
   console.log(displayTableData)
@@ -144,21 +52,21 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
         </thead>
 
         <tbody>
-          {
-            displayTableData?.length === 0 
-              && (
-                <tr className='tr-center ' style={{transform: "translateX(38%) translateY(30%)"}}>
-                  <td>
-                    You don't have a lessons!
-                  </td>
-                </tr>
-              )
-          }
-          {displayTableData.map((event,i) => (
+          {displayTableData?.length === 0 && (
+            <tr
+              className='tr-center '
+              style={{ transform: 'translateX(38%) translateY(30%)' }}
+            >
+              <td>You don't have a lessons!</td>
+            </tr>
+          )}
+          {displayTableData.map((event, i) => (
             <tr className='tr-center'>
               <td className='td-item m-0'>
                 <p className='td-lesson'>{event.lesson}</p>
               </td>
+              {/* 
+              Do not delete this code, it is for future use
               <td className='td-item  m-0'>
                 <p className='td-topic-level td-level'>
                   {`${t('level')} ${event.level || 0}`}
@@ -173,13 +81,13 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
                 <p className='td-topic-level '>
                   {"WarmUp Exercise"}
                 </p>
-              </td>
+              </td> */}
               <td className='td-item m-0'>
                 <p className='td-topic-level'>
                   {`${event.resource.duration}m`}
                 </p>
               </td>
-              
+
               <td className='td-item m-0'>
                 <div className='td-datetime td-datetime-border p-3'>
                   {moment(event.resource.start_at)
@@ -196,10 +104,19 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
                 </div>
               </td>
               <td className='td-item m-0'>
-                <p className='td-topic-level'>{event.tutor}</p>
+                <p className='td-topic-level'>
+                  {event.resource.students[0].user.first_name ??
+                    '' + ' ' + event.resource.students[0].user.last_name ??
+                    ''}
+                </p>
               </td>
               <td className='td-item m-0'>
-                <Link className='td-button' to={`appointments-calendar/lesson/${event.resource.id}`}>Feedback</Link>
+                <Link
+                  className='td-button'
+                  to={`appointments-calendar/lesson/${event.resource.id}`}
+                >
+                  Feedback
+                </Link>
               </td>
             </tr>
           ))}
@@ -209,4 +126,4 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
   )
 }
 
-export default LessonTable;
+export default LessonTable

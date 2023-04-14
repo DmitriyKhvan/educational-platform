@@ -11,7 +11,8 @@ export const ME_QUERY = gql`
       email
       gender
       address
-
+      # referal
+      referalId
       country
       timeZone
       phoneNumber
@@ -53,8 +54,13 @@ export const ME_QUERY = gql`
 `
 
 export const MENTORS_QUERY = gql`
-  query tutors($where: TutorWhereInput! $orderBy: [TutorOrderByInput!]! $take: Int $skip: Int) {
-    tutors(where: $where, orderBy: $orderBy, take:$take, skip:$skip) {
+  query tutors
+    # # $where: TutorWhereInput!
+    # $orderBy: [TutorOrderByInput!]!
+    # $take: Int
+    # $skip: Int
+   {
+    tutors(take: null) {
       id
       user {
         id

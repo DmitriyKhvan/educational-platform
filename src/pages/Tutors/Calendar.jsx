@@ -17,6 +17,7 @@ import ReviewLessonModal from '../../components/tutor-dashboard/ReviewLessonModa
 
 import '../../assets/styles/calendar.scss'
 import AppointmentApi from '../../api/AppointmentApi'
+import { toast } from 'react-toastify'
 
 const Calendar = () => {
   const [t] = useTranslation('translation')
@@ -57,7 +58,9 @@ const Calendar = () => {
     }
   }
 
-  const userTimezone = user?.time_zone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const userTimezone =
+    user?.time_zone?.split(' ')[0] ||
+    Intl.DateTimeFormat().resolvedOptions().timeZone
   const localizer = momentLocalizer(moment.tz.setDefault(userTimezone))
   const allViews = ['month', 'week', 'day']
   const formats = {
@@ -154,6 +157,10 @@ const Calendar = () => {
     if (moment(today).isBefore(closedDate)) {
       setCalendarEvent(e)
       setIsCalendarModalOpen(true)
+    } else {
+      toast.warn('This class has already passed', {
+        hideProgressBar: true
+      })
     }
   }
 
@@ -243,14 +250,14 @@ const Calendar = () => {
         .format('dddd, MMMM Do')
 
       return (
-        <Fragment>
+        <>
           <div className='row'>
-            <h4 class='text-primary'>{date}</h4>
+            <h4 className='text-primary'>{date}</h4>
           </div>
           <div className='row'>
             <h4 className=''>{timeSlot}</h4>
           </div>
-        </Fragment>
+        </>
       )
     }
 
@@ -449,7 +456,7 @@ const Calendar = () => {
               }`}
               onClick={onCalendarClick}
             >
-              <span>{"My Calendar"}</span>
+              <span>{'My Calendar'}</span>
             </button>
           </div>
         </div>

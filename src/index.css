@@ -1,7 +1,5 @@
-
 html {
   scroll-behavior: smooth;
-
 }
 
 body {
@@ -11,7 +9,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
 }
 
 code {
@@ -19,15 +16,13 @@ code {
     monospace;
 }
 
-
-
 .disCard {
-  cursor:no-drop;
+  cursor: no-drop;
   position: relative;
-} 
+}
 
-.disCard::before{
-  content: "";
+.disCard::before {
+  content: '';
   position: absolute;
   width: 100%;
   left: 0;
@@ -35,11 +30,11 @@ code {
   top: 0;
   z-index: 2;
   height: 100%;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
-.disCard::after{
-  content: "soon...";
+.disCard::after {
+  content: 'soon...';
   position: absolute;
   width: 100px;
   padding: 7px;
@@ -49,17 +44,17 @@ code {
   text-align: center;
   color: white;
   z-index: 2;
-  background-color: #7048E8;
+  background-color: #7048e8;
 }
 
 .disB {
   position: relative;
   pointer-events: none;
-  cursor:no-drop;
+  cursor: no-drop;
 }
 
 .disB::before {
-  content: "";
+  content: '';
   position: absolute;
   width: 100%;
   left: 0;
@@ -68,13 +63,11 @@ code {
   z-index: 2;
   pointer-events: none;
   height: 100%;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
-
-
 .dashboard-cards-inline {
+  margin-left: 0;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
 }

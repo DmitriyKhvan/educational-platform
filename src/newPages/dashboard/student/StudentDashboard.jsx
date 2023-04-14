@@ -127,46 +127,45 @@ const StudentListAppointments = () => {
       )
     })
 
-  const callToAction = (
+  const callToAction =
     appointments.length >= 0
       ? [
-        {
-          icon: smileIcon,
-          title: "Give feedback on a lesson.",
-          disabled: true,
-          button: {
-            to: '',
-            text: 'Submit Feedback →',
+          {
+            icon: smileIcon,
+            title: 'Give feedback on a lesson.',
+            disabled: true,
+            button: {
+              to: '',
+              text: 'Submit Feedback →'
+            },
+            color: '#D6336C',
+            cl: ''
           },
-          color: '#D6336C',
-          cl: ""
-        },
-        {
-          icon: whiteBookingIcon,
-          title: "View my progress.",
-          button: {
-            to: '/student/lesson-calendar',
-            text: 'Completed Lessons →',
-          },
-          color: '#1482DA',
-          cl: "blue-progress"
-        },
-      ]
+          {
+            icon: whiteBookingIcon,
+            title: 'View my progress.',
+            button: {
+              to: '/student/lesson-calendar?completed',
+              text: 'Completed Lessons →'
+            },
+            color: '#1482DA',
+            cl: 'blue-progress'
+          }
+        ]
       : [
-        {
-          icon: whiteBookingIcon,
-          title: t('book_trial'),
-          subtitle: t('book_trial_subtitle'),
-          color: '#1482DA'
-        },
-        {
-          icon: whiteSubscriptionIcon,
-          title: t('purchase_subscription'),
-          subtitle: t('purchase_subscription_subtitle'),
-          color: '#D6336C'
-        },
-      ]
-  )
+          {
+            icon: whiteBookingIcon,
+            title: t('book_trial'),
+            subtitle: t('book_trial_subtitle'),
+            color: '#1482DA'
+          },
+          {
+            icon: whiteSubscriptionIcon,
+            title: t('purchase_subscription'),
+            subtitle: t('purchase_subscription_subtitle'),
+            color: '#D6336C'
+          }
+        ]
 
   return (
     <Layout>
@@ -220,15 +219,13 @@ const StudentListAppointments = () => {
               </div>
               <div className='row container justify-content-center mt-5'>
                 <div className='col px-4'>
-                  <h4 className='welcome-message'>
-                    Already had a lesson?
-                  </h4>
+                  <h4 className='welcome-message'>Already had a lesson?</h4>
+                  <div className='dashboard-cards-inline mt-5'>
+                    {callToAction.map((props, i) => (
+                      <CTACard key={i} {...props} />
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <div className='dashboard-cards-inline container  ml-0 mt-5'>
-                {callToAction.map((props, i) => (
-                  <CTACard key={i} {...props} />
-                ))}
               </div>
             </div>
             <div className='student-list-appointments-wrapper flex-right changes-container'>
@@ -261,12 +258,10 @@ const StudentListAppointments = () => {
                       </div>
                     </section>
                   </div>
-                  
+
                   <div className='weekly-schedule-scroll align_schedule-width-dash weekly-schedule-grid'>
                     {appointments.length ? <>{ScheduleArr}</> : ''}
                   </div>
-
-                  
                 </div>
               )}
             </div>
