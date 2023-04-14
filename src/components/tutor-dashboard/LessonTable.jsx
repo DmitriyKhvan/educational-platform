@@ -29,9 +29,10 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
 
   const tableHead = [
     'Package',
-    t('level'),
-    t('topic'),
-    "Last Section Completed",
+    // Do not delete this code, it is for future use
+    // t('level'),
+    // t('topic'),
+    // "Last Section Completed",
     'Duration',
     t('date_and_time'),
     t("Student's"),
@@ -67,6 +68,8 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
               <td className='td-item m-0'>
                 <p className='td-lesson'>{event.lesson}</p>
               </td>
+              {/* 
+              Do not delete this code, it is for future use
               <td className='td-item  m-0'>
                 <p className='td-topic-level td-level'>
                   {`${t('level')} ${event.level || 0}`}
@@ -81,7 +84,7 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
                 <p className='td-topic-level '>
                   {"WarmUp Exercise"}
                 </p>
-              </td>
+              </td> */}
               <td className='td-item m-0'>
                 <p className='td-topic-level'>
                   {`${event.resource.duration}m`}
