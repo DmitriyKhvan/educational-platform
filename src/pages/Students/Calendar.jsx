@@ -157,21 +157,6 @@ const Calendar = () => {
     )
   }
 
-  const tables = [
-    {
-      id: 1,
-      package: 'PRIVATE ENGLISH',
-      level: 'Level 2',
-      currentTopic: 'Jurrasic Park',
-      nextTopic: 'Triceratops',
-      resource: {
-        duration: 25,
-        start_at: '7:30'
-      },
-      mentor: 'Said A.'
-    }
-  ]
-
   const onClickPastLessons = () => {
     setIsCalendar(false)
     setDisplayTableData([...pastLessons])

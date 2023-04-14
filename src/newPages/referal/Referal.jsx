@@ -2,8 +2,6 @@ import '../../assets/styles/referal.scss'
 
 import React from 'react'
 
-import { useSelector } from 'react-redux'
-
 import card from '../../assets/images/card.png'
 import email from '../../assets/images/email.svg'
 import facebook from '../../assets/images/facebook.png'
@@ -13,15 +11,8 @@ import Message from '../../assets/images/message.svg'
 import present from '../../assets/images/present.png'
 import videotut from '../../assets/images/videoTut.png'
 import whatsapp from '../../assets/images/whatsapp.svg'
-import CloudMessage from '../../assets/images/Frame.png'
 import Layout from '../../components/Layout'
-
-import Congrat from '../../assets/images/🎂 🎁 🎉 🎈.png'
 import { useAuth } from '../../modules/auth'
-
-const SERVER_URL = process.env.REACT_APP_SERVER_URL
-  ? process.env.REACT_APP_SERVER_URL
-  : 'https://dev.naonow.contracollective.com'
 
 const Referal = () => {
   // const user = useSelector(state => state.users.user)
