@@ -293,7 +293,7 @@ const Calendar = () => {
                       && (
                         <tr className='tr-center ' style={{transform: "translateX(38%) translateY(30%)"}}>
                           <td onClick={handleOpenFeedbackModal}>
-                            You don't have a lessons!
+                            You don't have lessons!
                           </td>
                         </tr>
                       )
