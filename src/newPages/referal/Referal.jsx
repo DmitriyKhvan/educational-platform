@@ -124,7 +124,6 @@ const Referal = () => {
               >
                 <img src={whatsapp} alt='' />
               </a>
-              <img src={CloudMessage} alt='' />
             </div>
           </div>
           <div className='share_title'>
