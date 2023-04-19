@@ -75,7 +75,7 @@ const StudentListAppointments = () => {
     let queryObj = {}
 
     if (user.role === 'student') {
-      queryObj.student_id = user.student.id
+      queryObj.student_id = user.student?.id
     } else {
       return
     }
@@ -101,6 +101,8 @@ const StudentListAppointments = () => {
     })
     .filter(x => x)
 
+    console.log(user)
+
   const isWithinAweek = isWithinAweekArr.filter(
     (x, i, a) => a.findIndex(y => y.start_at === x.start_at) === i
   )
@@ -108,15 +110,15 @@ const StudentListAppointments = () => {
   const ScheduleArr = (isWithinAweek || [])
     .sort((a, b) => new Date(a.start_at) - new Date(b.start_at))
     .map((x, i) => {
-      const date = moment(x.start_at)
-      const expiredDate = moment(x.start_at).add(x.duration, 'minutes')
+      const date = moment(x?.start_at)
+      const expiredDate = moment(x?.start_at).add(x?.duration, 'minutes')
       const currentDate = moment()
       return (
         currentDate.isBefore(expiredDate) && (
           <div key={i}>
             <ScheduleCard
-              lesson={x.lesson.description}
-              zoomlink={x.zoomlink}
+              lesson={x.lesson?.description}
+              zoomlink={x?.zoomlink}
               date={date}
               data={x}
               index={i}
@@ -126,6 +128,7 @@ const StudentListAppointments = () => {
         )
       )
     })
+
 
   const callToAction =
     appointments.length >= 0

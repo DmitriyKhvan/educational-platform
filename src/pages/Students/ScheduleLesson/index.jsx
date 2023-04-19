@@ -74,7 +74,7 @@ const ScheduleLesson = () => {
       ) : tabIndex === 1 ? (
         <ScheduleSelector
           setTabIndex={setTabIndex}
-          duration={selectedPlan.duration}
+          duration={selectedPlan?.duration}
           setSchedule={setSchedule}
           schedule={schedule}
           tabIndex={tabIndex}

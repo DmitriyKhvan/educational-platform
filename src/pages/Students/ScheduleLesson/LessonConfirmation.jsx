@@ -54,16 +54,16 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
     .tz(userTimezone)
     .format('dddd, MMM DD')
   const scheduleStartTime = moment(time).tz(userTimezone).format('hh:mm A')
-  const scheduleEndTime = moment(time).tz(userTimezone).add(plan.duration, 'minutes').format('hh:mm A')
+  const scheduleEndTime = moment(time).tz(userTimezone).add(plan?.duration, 'minutes').format('hh:mm A')
 
   let data = {
-    lesson_title: plan.lesson_title,
-    lesson_desc: plan.description,
-    lesson_type: plan.lesson_type,
-    type: plan.type,
-    lesson_id: plan.lesson_id,
-    tutor_id: tutor.id,
-    duration: plan.duration,
+    lesson_title: plan?.lesson_title,
+    lesson_desc: plan?.description,
+    lesson_type: plan?.lesson_type,
+    type: plan?.type,
+    lesson_id: plan?.lesson_id,
+    tutor_id: tutor?.id,
+    duration: plan?.duration,
     start_at: moment
       .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
       .format('YYYY-MM-DDTHH:mm:ss'),
@@ -137,9 +137,9 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
       const oldStartAt = moment(oldAppointment.start_at)
       const duration = moment.duration(oldStartAt.diff(moment())).asHours()
       const rescheduleData = {
-        tutor_id: data.tutor_id,
-        start_at: data.start_at,
-        duration: data.duration
+        tutor_id: data?.tutor_id,
+        start_at: data?.start_at,
+        duration: data?.duration
       }
       setIsLoading(true)
       const res =
@@ -195,20 +195,20 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
         lesson_data = payload
       }
 
-      let createAppointmentData = { ...data, payment_id: plan.payment_id }
-      createAppointmentData.lesson_id = lesson_data.id
-      createAppointmentData.lesson_title = lesson_data.title
-      createAppointmentData.lesson_desc = lesson_data.description
-      createAppointmentData.lesson_type = lesson_data.type
-      createAppointmentData.email = user.email
-      createAppointmentData.package_type = plan.package_type
+      let createAppointmentData = { ...data, payment_id: plan?.payment_id }
+      createAppointmentData.lesson_id = lesson_data?.id
+      createAppointmentData.lesson_title = lesson_data?.title
+      createAppointmentData.lesson_desc = lesson_data?.description
+      createAppointmentData.lesson_type = lesson_data?.type
+      createAppointmentData.email = user?.email
+      createAppointmentData.package_type = plan?.package_type
 
       const res = await dispatch(createAppointment(createAppointmentData))
 
       if (res.type === ActionTypes.CREATE_APPOINTMENT_INFO.SUCCESS) {
         const { payload } = await fetchAppointments()
         const newAppt = payload.filter(
-          x => x.id === parseInt(res.payload.groups[0].id)
+          x => x.id === parseInt(res.payload?.groups[0].id)
         )[0]
         if (newAppt) {
           setConfirmDisable(true)
@@ -277,9 +277,9 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
               </p>
               <div className='lesson_card-inline'>
                 <LessonCard
-                  lesson={plan.lesson_type}
-                  duration={plan.duration}
-                  remaining={plan.total_lessons}
+                  lesson={plan?.lesson_type}
+                  duration={plan?.duration}
+                  remaining={plan?.total_lessons}
                 />
                
               </div>

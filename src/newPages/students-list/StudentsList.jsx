@@ -2,7 +2,8 @@ import React from 'react'
 import Layout from '../../components/Layout'
 
 import FavIcon from '../../assets/images/Favorite.png'
-
+import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png'
+import maleAvatar from '../../assets/images/avatars/img_avatar_male.png'
 import './Students.scss'
 import { useHistory } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
@@ -99,7 +100,11 @@ export default function StudentsList() {
                 <div
                   className='tutors_card-img'
                   style={{
-                    background: `url("${item.avatar?.url}") center / cover`
+                    background: `url("${
+                      item?.user?.gender === "male"
+                        ? maleAvatar
+                        : femaleAvatar 
+                    }") center / cover`
                   }}
                 >
                   {item.isFavourite && <img src={FavIcon} alt='' />}
