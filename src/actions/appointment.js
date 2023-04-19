@@ -71,7 +71,7 @@ export function createAppointment(data) {
 }
 
 export function cancelAppointment(id) {
-  return dispatch => {
+  return async dispatch => {
     dispatch(request())
     return AppointmentApi.cancelAppointment(id)
       .then(resp => {

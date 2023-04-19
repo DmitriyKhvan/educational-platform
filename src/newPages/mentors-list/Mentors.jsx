@@ -9,6 +9,8 @@ import { useQuery } from '@apollo/client'
 import { MENTORS_QUERY } from '../../modules/auth/graphql'
 import MentorsModal from './MentorsModal'
 import Loader from '../../components/Loader/Loader'
+import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png'
+import maleAvatar from '../../assets/images/avatars/img_avatar_male.png'
 
 const filtersList = [
   {
@@ -67,7 +69,7 @@ const Mentors = () => {
 
   const mentors = data?.tutors
 
-  console.log(data)
+  console.log(mentors)
 
 
   const handleStatusTutor = id => {}
@@ -123,7 +125,11 @@ const Mentors = () => {
                 <div
                   className='tutors_card-img'
                   style={{
-                    background: `url("${item.avatar?.url}") center / cover`
+                    background: `url("${
+                      item?.user?.gender === "male"
+                        ? maleAvatar
+                        : femaleAvatar 
+                    }") center / cover`
                   }}
                 >
                   {item.isFavourite && <img src={FavIcon} alt='' />}

@@ -67,6 +67,7 @@ export const MENTORS_QUERY = gql`
         id
         firstName
         lastName
+        gender
       }
       major
       language
@@ -230,7 +231,7 @@ export const STUDENTS_QUERY = gql`
   query students($where: StudentWhereInput) {
     students(where: $where) {
       id
-      userName(something: 1)
+      userName
       parentId
       parentName
       level
@@ -273,8 +274,8 @@ export const STUDENTS_QUERY = gql`
         resetPasswordToken
         referalId
         referalConfirmed
-        fullName(something: 1)
-        role(something: 1)
+        fullName
+        role
         email
         isActive
         createdAt

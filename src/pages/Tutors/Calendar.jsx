@@ -71,7 +71,7 @@ const Calendar = () => {
   }
 
   const fetchData = () => {
-    dispatch(getAppointments({ tutor_id: tutor?.id }))
+    dispatch(getAppointments({ tutor_id: tutor?.id, status: "scheduled" }))
   }
 
   useEffect(() => {
@@ -87,6 +87,8 @@ const Calendar = () => {
       fetchData()
     }
   }, [user])
+
+  
 
   useEffect(() => {
     if (tutor && tutor.id) {

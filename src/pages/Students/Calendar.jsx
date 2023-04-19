@@ -24,6 +24,8 @@ const Calendar = () => {
   const [t] = useTranslation('translation')
   const location = useLocation()
   const { user } = useAuth()
+  
+  console.log(user)
 
   const calendarAppointments = useSelector(
     state => state.appointment.calendarEvents
@@ -31,6 +33,8 @@ const Calendar = () => {
   const tableAppointments = useSelector(
     state => state.appointment.tablularEventData
   )
+
+  console.log(tableAppointments)
 
   const [calendarEvents, setCalendarEvents] = useState([])
   const [pastLessons, setPastLessons] = useState([])
@@ -70,10 +74,10 @@ const Calendar = () => {
 
   useEffect(() => {
     ;(async () => {
-      await dispatch(getStudent(user.student.id))
-      if (user && user.student) {
-        await dispatch(
-          getAppointments({ student_id: user.student.id, status: 'scheduled' })
+      dispatch(getStudent(user.student?.id))
+      if (user && user?.student) {
+        dispatch(
+          getAppointments({ student_id: user.student?.id, status: 'scheduled' })
         )
       }
     })()
@@ -123,13 +127,13 @@ const Calendar = () => {
     const [selectedEvent] = calendarEvents.filter(
       x => x.id === calendarEvent.id
     )
-    const scheduledTime = moment(selectedEvent.resource.start_at).tz(
+    const scheduledTime = moment(selectedEvent?.resource?.start_at).tz(
       userTimezone
     )
-    const startTime = moment(selectedEvent.resource.start_at)
+    const startTime = moment(selectedEvent.resource?.start_at)
       .tz(userTimezone)
       .format('hh:mm A')
-    const endTime = moment(selectedEvent.resource.end_at)
+    const endTime = moment(selectedEvent.resource?.end_at)
       .tz(userTimezone)
       .format('hh:mm A')
 
@@ -143,10 +147,10 @@ const Calendar = () => {
         >
           <CalendarModal
             event={selectedEvent}
-            lesson={selectedEvent.title}
+            lesson={selectedEvent?.title}
             startTime={startTime}
             endTime={endTime}
-            zoomlink={selectedEvent.resource.zoomLink}
+            zoomlink={selectedEvent.resource?.zoomLink}
             time={scheduledTime}
             data={selectedEvent}
             onCancel={onCancel}
@@ -174,12 +178,13 @@ const Calendar = () => {
     setSelectedTab('calendar')
   }
 
-  const onCancel = async id => {
-    await dispatch(cancelAppointment(id))
+  function onCancel(id){
+    console.log(id)
+    dispatch(cancelAppointment(id))
     setIsOpen(false)
-    await dispatch(
+    dispatch(
       getAppointments({
-        student_id: user.student_profile.id,
+        student_id: user?.student?.id,
         status: 'scheduled'
       })
     )

@@ -1,7 +1,7 @@
 import React from 'react'
 
 const LessonCard = ({ lesson, duration, remaining }) => {
-  const lessonTitle = lesson.charAt(0).toUpperCase() + lesson.slice(1)
+  const lessonTitle = lesson?.charAt(0).toUpperCase() + lesson?.slice(1)
   const lessonDuration = `${duration} Minutes`
   const optionalDisplayLessons = remaining ? (
     <div className='col-auto schedule-lesson-border lessons-remain p-2'>

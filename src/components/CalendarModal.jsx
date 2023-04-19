@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import moment from 'moment-timezone'
-import placeholderAvatar from '../assets/images/avatars/img_avatar_female.png'
 import ZoomWarningModal from './student-dashboard/ZoomWarningModal'
+import femaleAvatar from '../assets/images/avatars/img_avatar_female.png'
+import maleAvatar from '../assets/images/avatars/img_avatar_male.png'
 
 const CalendarModal = ({
   event,
@@ -20,10 +21,24 @@ const CalendarModal = ({
   const [t] = useTranslation('translation')
   const [isWarningOpen, setIsWarningOpen] = useState(false)
   const isToday = moment(time).isSame(moment(), 'day')
+  const [profileImage, setProfileImage] = React.useState('')
 
-  const avatar = data.resource?.tutor?.user.avatar
-    ? data.resource?.tutor?.user.avatar
-    : placeholderAvatar
+  const avatar = data.resource?.tutor?.user?.avatar;
+
+  React.useEffect(() => {
+    if (avatar) {
+      setProfileImage(avatar)
+    } else if (data?.resource?.tutor?.user?.gender?.toLowerCase() === 'female') {
+      setProfileImage(femaleAvatar)
+    } else if (data?.resource?.tutor?.user?.gender?.toLowerCase() === 'male') {
+      setProfileImage(maleAvatar)
+    } else {
+      setProfileImage(maleAvatar)
+    }
+  }, [avatar])
+    
+
+  console.log(data)
 
   const today = moment()
   const tenMinuteBeforeStart = moment(
@@ -68,7 +83,7 @@ const CalendarModal = ({
           </div>
           <div className='col-3'>
             <img
-              src={avatar}
+              src={profileImage}
               className='img-fluid align-middle'
               alt=''
               style={{ padding: '25px 0px 0px 0px' }}
@@ -79,13 +94,13 @@ const CalendarModal = ({
       <div className='schedule-modal-ls'>
           <button
             className='enter-btn grey-border text-black'
-            onClick={() => onCancel(data.resource.eventDate.id)}
+            onClick={() => onCancel(data?.resource?.eventDate?.id)}
           >
             Cancel Lesson 
             {/* {t('cancel')} */}
           </button>
           <Link
-            to={'/student/schedule-lesson/select/' + data.resource.eventDate.id}
+            to={'/student/schedule-lesson/select/' + data?.resource?.eventDate?.id}
             className='enter-btn grey-border text-black'
           >
             {t('reschedule')}

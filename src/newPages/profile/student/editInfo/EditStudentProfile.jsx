@@ -54,9 +54,9 @@ const EditProflileStudent = () => {
   React.useEffect(() => {
     if (avatar) {
       setProfileImage(avatar)
-    } else if (user.gender === 'female') {
+    } else if (user?.student?.gender === 'female') {
       setProfileImage(femaleAvatar)
-    } else if (user.gender === 'male') {
+    } else if (user?.student?.gender === 'male') {
       setProfileImage(maleAvatar)
     } else {
       setProfileImage(maleAvatar)
@@ -124,7 +124,7 @@ const EditProflileStudent = () => {
         
         <form onSubmit={handleSubmit(onSubmit)} className='body'>
           <div className='avatar-block'>
-            {avatar && <img src={profileImage} alt={"userInfo.tutorName"} />}
+            {<img src={profileImage} alt={"userInfo.tutorName"} />}
             <label for="inputTag" className='file_upload'>
               <input 
                 {...register("avatar")} 
