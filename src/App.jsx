@@ -165,7 +165,7 @@ function App() {
 
           <PrivateRoute
             exact
-            path='/stuxdent/schedule-lesson'
+            path='/student/schedule-lesson'
             component={ScheduleLessonSteps}
           />
           <PrivateRoute
