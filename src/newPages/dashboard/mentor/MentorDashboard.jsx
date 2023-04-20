@@ -55,7 +55,7 @@ const TutorDashboard = () => {
   }, [tutor])
 
   useEffect(() => {
-    if (appointments && appointments?.calendarEvents?.length > 0) {
+    if (appointments && appointments?.list?.length > 0) {
       const startOfDay = new moment().startOf('day')
       const endOfDay = new moment().endOf('day')
       const ids = []
@@ -66,7 +66,7 @@ const TutorDashboard = () => {
       console.log(appointments)
 
       setUpcomingLessons(
-        appointments.calendarEvents?.filter(
+        appointments.list?.filter(
           apt => 
             new moment(apt.start_at).isBefore(endOfDay) &&
             new moment(apt.start_at).isAfter(startOfDay)
@@ -94,7 +94,7 @@ const TutorDashboard = () => {
 
   const displayDailySchedule = isAvailable => {
     if (isAvailable) {
-      return isAvailable.map((event, i) => {
+      return appointments.list.map((event, i) => {
         return (
           <ScheduleCard
             lesson={event?.lesson.description}
