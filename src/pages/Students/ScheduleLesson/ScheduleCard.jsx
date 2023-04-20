@@ -12,9 +12,9 @@ const ScheduleCard = ({ startTime, endTime, date }) => {
           </h3>
         </div>
         <div className='col-auto pt-0 check'>
-          <div className='schedule-card-col  align-date'>
+          <div className='schedule-card-col  align-date me-3'>
             <p
-              className={` time-btn schedule-lesson-border confirm-tutor-enter-btn tutor_date_padd`}
+              className={` time-btn schedule-lesson-border confirm-tutor-enter-btn tutor_date_padd `}
             >
               {date}
             </p>

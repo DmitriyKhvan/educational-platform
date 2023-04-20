@@ -12,8 +12,13 @@ import '../../../assets/styles/tutor.scss'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
 const GET_GROUP_INFO = gql`
-  query ($id: ID) {
-    group(where: { id: $id }) {
+  query groups (
+    $where: GroupWhereInput!
+    $orderBy: [GroupOrderByInput!]!
+    $take: Int
+    $skip: Int
+  ) {
+    groups(where: $where) {
       id
       tutorId
       lessonId
@@ -37,10 +42,7 @@ const GET_GROUP_INFO = gql`
 
 const ScheduleLesson = () => {
   const { id = null } = useParams();
-  const { data, loading } = useQuery(GET_GROUP_INFO, {
-    variables: { id },
-    skip: !id,
-  })
+  const { data, loading } = useQuery(GET_GROUP_INFO, {errorPolicy: 'ignore' })
   const dispatch = useDispatch()
   const [clicked, setClicked] = useState(null)
   const [selectedPlan, setSelectedPlan] = useState({})
@@ -53,6 +55,8 @@ const ScheduleLesson = () => {
   }, [dispatch, schedule])
 
   const scheduledLesson = data?.group || null;
+
+  console.log(data)
 
   useEffect(() => {
     if (scheduledLesson) {

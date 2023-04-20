@@ -30,11 +30,6 @@ const ScheduleCard = ({
   const { user } = useAuth()
   const userTimezone = user?.timeZone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone
 
-  let gender
-  if (data.tutor?.gender) {
-    gender = data.tutor.gender
-  }
-
   function onSelect() {
     setIsOpen(true)
     setModalType('reschedule-time')
@@ -80,6 +75,8 @@ const ScheduleCard = ({
     }
   }
 
+  console.log(data)
+
   const displayDate = () => {
     const eventDate = moment(date).tz(userTimezone).format('MMM Do')
     const start = moment(date).tz(userTimezone).format('hh:mm A')
@@ -115,9 +112,9 @@ const ScheduleCard = ({
           <div className='col-2 cols-image-schedule mobile-schedule_dash'>
             <img
               src={
-                data.tutor.user.avatar
+                data?.tutor?.user?.avatar
                   ? data.tutor.user.avatar
-                  : gender === 'male'
+                  : data.tutor?.user?.gender === 'male'
                   ? maleAvatar
                   : femaleAvatar
               }

@@ -71,3 +71,15 @@ code {
   display: flex;
   flex-wrap: wrap;
 }
+
+
+.attends img {
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.attends b {
+  font-size: 14px;
+}

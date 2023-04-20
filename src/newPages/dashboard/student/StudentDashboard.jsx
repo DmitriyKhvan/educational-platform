@@ -93,15 +93,15 @@ const StudentListAppointments = () => {
       const startOfWeek = moment().isAfter(moment().startOf('isoWeek'))
         ? moment().startOf('day')
         : moment().startOf('isoWeek')
+
       if (
         moment(x.start_at).isBetween(startOfWeek, moment().endOf('isoWeek'))
       ) {
+
         return x
-      }
+      } 
     })
     .filter(x => x)
-
-    console.log(user)
 
   const isWithinAweek = isWithinAweekArr.filter(
     (x, i, a) => a.findIndex(y => y.start_at === x.start_at) === i

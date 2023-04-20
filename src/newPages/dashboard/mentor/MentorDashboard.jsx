@@ -43,11 +43,10 @@ const TutorDashboard = () => {
   const fetchAppointments = async () => {
     if (tutor) {
       // setIsLoading(true)
-      await dispatch(getAppointments({ tutor_id: tutor.id }))
+      await dispatch(getAppointments({ tutor_id: tutor.id, status: "scheduled" }))
       setIsLoading(false)
     }
   }
-
 
   useEffect(() => {
     ;(async () => {
@@ -56,16 +55,19 @@ const TutorDashboard = () => {
   }, [tutor])
 
   useEffect(() => {
-    if (appointments && appointments.list.length > 0) {
+    if (appointments && appointments?.calendarEvents?.length > 0) {
       const startOfDay = new moment().startOf('day')
       const endOfDay = new moment().endOf('day')
       const ids = []
       for (const apt of appointments.list) {
         if (ids.indexOf(apt.students[0].id) === -1) ids.push(apt.students[0].id)
       }
+
+      console.log(appointments)
+
       setUpcomingLessons(
-        appointments.list.filter(
-          apt =>
+        appointments.calendarEvents?.filter(
+          apt => 
             new moment(apt.start_at).isBefore(endOfDay) &&
             new moment(apt.start_at).isAfter(startOfDay)
         )
@@ -95,9 +97,9 @@ const TutorDashboard = () => {
       return isAvailable.map((event, i) => {
         return (
           <ScheduleCard
-            lesson={event.lesson.description}
-            zoomlink={event.zoomlink}
-            date={event.start_at}
+            lesson={event?.lesson.description}
+            zoomlink={event?.zoomlink}
+            date={event?.start_at}
             data={event}
             key={i}
             fetchAppointments={fetchAppointments}
@@ -188,9 +190,9 @@ const TutorDashboard = () => {
             >
               {t('student_dashboard_view_all_lessons')}
             </Link>
-            {/* <div className='weekly-schedule-scroll'>
+            <div className='weekly-schedule-scroll'>
               {displayDailySchedule(upcomingLessons)}
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
