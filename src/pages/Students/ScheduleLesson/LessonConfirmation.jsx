@@ -165,6 +165,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
         const { payload } = await dispatch(
           getAppointments({ tutor_id: data.tutor_id })
         )
+        setConfirmDisable(true)
         const newAppt = payload.filter(x => x.id === parseInt(lessonId))[0]
 
         if (newAppt) {
