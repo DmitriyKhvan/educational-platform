@@ -16,7 +16,7 @@
     font-size: 18px;
     line-height: 22px;
     /* identical to box height */
-    padding: 0px;
+    padding: 10px;
     width: 420px;
     letter-spacing: -0.5px;  
   }
@@ -27,6 +27,13 @@
 
   .css-1okebmr-indicatorSeparator {
     display: none;
+  }
+
+  .css-1pahdxg-control {
+    padding: 10px;
+    border-radius: 10px !important;
+    font-weight: 500;
+    font-size: 18px;
   }
 
   .css-319lph-ValueContainer {
