@@ -34,7 +34,7 @@ const Calendar = () => {
     state => state.appointment.tablularEventData
   )
 
-  console.log(tableAppointments)
+  console.log(calendarAppointments)
 
   const [calendarEvents, setCalendarEvents] = useState([])
   const [pastLessons, setPastLessons] = useState([])
@@ -179,7 +179,6 @@ const Calendar = () => {
   }
 
   function onCancel(id){
-    console.log(id)
     dispatch(cancelAppointment(id))
     setIsOpen(false)
     dispatch(

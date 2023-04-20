@@ -101,9 +101,11 @@ export default function StudentsList() {
                   className='tutors_card-img'
                   style={{
                     background: `url("${
-                      item?.user?.gender === "male"
+                      item?.user?.avatar
+                        ? item.user.avatar
+                        : item?.user?.gender === 'male'
                         ? maleAvatar
-                        : femaleAvatar 
+                        : femaleAvatar
                     }") center / cover`
                   }}
                 >

@@ -67,48 +67,77 @@ const TutorProfile = () => {
           <div className={cls.profile_content_row_right}>
             <section>
               <div className=''>
-                <h1>Location</h1>
-                <h2>
-                  {
-                    actions.user?.country 
-                      ? actions.user?.country
-                      : "🇺🇸 San Diego, CA"
-                  }
-                </h2>
+                {
+                  actions.user?.country && (
+                    <>
+                      <h1>Location</h1>
+                      <h2>
+                        {
+                          actions.user?.country 
+                        }
+                      </h2>
+                    </>
+                  )
+                }
               </div>
               <div className=''>
-                <h1>Time zone</h1>
-                <h2>{
-                  actions.user?.timeZone
-                    ? actions.user?.timeZone
-                    : "PST (GMT-8)" 
-                }</h2>
+              {
+                  actions.user?.timezone && (
+                    <>
+                      <h1>Timezone</h1>
+                      <h2>
+                        {
+                          actions.user?.timezone 
+                        }
+                      </h2>
+                    </>
+                  )
+                }
               </div>
               <div className=''>
-                <h1>Email Address</h1>
-                <h2>{actions.user?.email}</h2>
+                {
+                  actions.user?.email && (
+                    <>
+                      <h1>Email address</h1>
+                      <h2>
+                        {
+                          actions.user?.email 
+                        }
+                      </h2>
+                    </>
+                  )
+                }
               </div>
             </section>
             <section>
               <div className=''>
-                <h1>Phone Number</h1>
-                <h2>{actions.user?.phoneNumber}</h2>
+              {
+                  actions.user?.phoneNumber && (
+                    <>
+                      <h1>Phone number</h1>
+                      <h2>
+                        {
+                          actions.user?.phoneNumber 
+                        }
+                      </h2>
+                    </>
+                  )
+                }
               </div>
               
               <div className=''>
-                <h1>University</h1>
-                <h2>
-                  {
-                  (actions?.user?.tutor?.degree && actions?.user?.tutor?.university)
-                    ? 
-                      (
-                        `
-                          ${actions?.user?.tutor?.university}
-                        `
-                      )
-                    : ""
-                  }
-                </h2>
+                {
+                  actions.user?.tutor?.university && (
+                    <>
+                      <h1>University</h1>
+                      <h2>
+                        {
+                          actions.user?.tutor?.university 
+                        }
+                      </h2>
+                    </>
+                  )
+                }
               </div>
             </section>
           </div>

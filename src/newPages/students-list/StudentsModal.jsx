@@ -19,6 +19,7 @@ const StudentsModal = ({
   return (
     <div className='tutor_alfa'>
       <div className='tutor_modal'>
+      <p className='close-sh' onClick={() => setShowStudentModal(false)}>&times;</p>
         <img
           src={renderSelectedTutor?.avatar?.url}
           width='500px'
@@ -29,7 +30,7 @@ const StudentsModal = ({
           {renderSelectedTutor?.isFavourite && (
             <img src={FavIcon} alt='' className='favTutorIcon' />
           )}
-          <h1>{`${renderSelectedTutor?.user.firstName} ${renderSelectedTutor?.user.lastName}`}</h1>
+          <h1>{`${renderSelectedTutor?.user.firstName} ${renderSelectedTutor?.user.fullName && renderSelectedTutor?.user.fullName}`}</h1>
           <p>{renderSelectedTutor?.about}</p>
 
           <div className='bottom_content'>

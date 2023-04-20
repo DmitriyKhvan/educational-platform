@@ -210,10 +210,21 @@ const Calendar = () => {
     const [students] = eventDate.students
 
     const studentLessonLevel = students.level || 0
-    const studentAvatar = students.avatar
+
+    const studentAvatar = students.user?.avatar;
+    const tutorAvatar = eventDate.tutor?.user?.avatar;
+
+    console.log(students)
+
     const displayStudentAvatar = studentAvatar
       ? studentAvatar
-      : students.user.gender === 'male'
+      : students.user?.gender === 'male'
+      ? maleAvatar
+      : femaleAvatar
+
+    const displayTutorAvatar = tutorAvatar
+      ? tutorAvatar
+      : eventDate.tutor?.user?.gender === 'male'
       ? maleAvatar
       : femaleAvatar
 
@@ -272,7 +283,7 @@ const Calendar = () => {
           contentLabel='Tutor Calendar Event'
         >
           <div
-            className='container page-card grey-border bg-white pt-2 mt-4 p-4'
+            className='container page-card-modal grey-border bg-white pt-1 mt-4 p-2'
             style={{ width: '30vw' }}
           >
             <div className='px-4'>
@@ -284,7 +295,7 @@ const Calendar = () => {
                 </div>
                 <div className='col-1'>
                   <button
-                    style={{ backgroundColor: 'white' }}
+                    style={{ backgroundColor: 'white', cursor:"pointer" }}
                     onClick={closeCalendarModal}
                   >
                     <h1>
@@ -327,24 +338,40 @@ const Calendar = () => {
                   </div>
                 </div>
 
-                <div className='my-3'>
+                <div className='my-3 attends'>
                   <div className='row'>
                     <h4 className='text-primary'>{t('attendants')}</h4>
                   </div>
                   <div className='row mt-2'>
                     <div className='col-4 me-3'>
-                      <img
-                        src={displayStudentAvatar}
-                        alt='Student Avatar'
-                        className='img-fluid rounded-corners'
-                      />
+                      <div>
+                        <b>Student</b>
+                      </div>
+                      <div>
+                        <img
+                          src={displayStudentAvatar}
+                          alt='Student Avatar'
+                          className='img-fluid rounded-corners'
+                        />
+                      </div>
+                      <p>
+                        {students?.user?.first_name}
+                      </p>
                     </div>
                     <div className='col-4'>
+                      <div>
+                        <b>Mentor</b>
+                      </div>
+                      <div>
                       <img
-                        src={eventDate.tutor.user.avatar}
+                        src={displayTutorAvatar}
                         alt='Tutor Avatar'
                         className='img-fluid rounded-corners'
                       />
+                      </div>
+                      <p>
+                      {eventDate?.tutor?.user?.first_name}
+                      </p>
                     </div>
                   </div>
                 </div>
