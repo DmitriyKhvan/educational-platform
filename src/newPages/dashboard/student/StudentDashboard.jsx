@@ -88,6 +88,8 @@ const StudentListAppointments = () => {
     setIsLoading(false)
   }
 
+  console.log(appointments)
+
   const isWithinAweekArr = (appointments || [])
     .map(x => {
       const startOfWeek = moment().isAfter(moment().startOf('isoWeek'))

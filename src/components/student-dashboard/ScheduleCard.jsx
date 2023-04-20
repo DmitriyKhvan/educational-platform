@@ -75,8 +75,6 @@ const ScheduleCard = ({
     }
   }
 
-  console.log(data)
-
   const displayDate = () => {
     const eventDate = moment(date).tz(userTimezone).format('MMM Do')
     const start = moment(date).tz(userTimezone).format('hh:mm A')
