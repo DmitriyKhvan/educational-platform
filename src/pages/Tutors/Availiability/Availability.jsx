@@ -27,7 +27,7 @@ import { v4 as uuid } from 'uuid'
 import { useAuth } from '../../../modules/auth'
 import { Link } from 'react-router-dom'
 
-export const Availability = ({ isAdmin, user_id }) => {
+ const Availability = ({ isAdmin, user_id }) => {
   const [t] = useTranslation('translation')
   const [gatherAvailabilities, setGatherAvailabilities] = useState({
     exceptiondates: [],

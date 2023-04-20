@@ -4,7 +4,7 @@ import '../../../assets/styles/availability.scss'
 import Layout from '../../../components/Layout'
 import Availability from './Availability'
 import AvailabilityView from './Content'
-export const AvailiabilityLayout = () => {
+const AvailiabilityLayout = () => {
   const [t] = useTranslation()
   return (
     <Layout>
