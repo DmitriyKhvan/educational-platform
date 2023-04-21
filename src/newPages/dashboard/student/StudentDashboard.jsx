@@ -72,7 +72,7 @@ const StudentListAppointments = () => {
   }, [appointments, complete_appoint_id])
 
   const fetchAppointments = async () => {
-    let queryObj = {}
+    let queryObj = { status: "scheduled" }
 
     if (user.role === 'student') {
       queryObj.student_id = user.student?.id
