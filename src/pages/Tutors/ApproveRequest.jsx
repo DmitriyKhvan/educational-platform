@@ -17,16 +17,16 @@ import { useTranslation } from 'react-i18next'
 import { getTutorInfo } from '../../actions/tutor'
 import { getUserInfo } from '../../actions/user'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../modules/auth'
 
 const ApproveRequest = () => {
   const appointments = useSelector(state => state.appointment.list)
-  const user = useSelector(state => state.users.user)
+  const {user} = useAuth()
   const loading = useSelector(state => state.tutor.loading)
   const tutor = useSelector(state => state.tutor.info)
   const dispatch = useDispatch()
   const [t] = useTranslation('translation')
-  const userTimezone = user?.time_zone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
-
+  const userTimezone = user?.timeZone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
   useEffect(() => {
     dispatch(getUserInfo())
   }, [dispatch])
@@ -84,18 +84,22 @@ const ApproveRequest = () => {
   }
 
   const displayLessonRequestTable = () => {
+    
     const data =
       (appointments &&
         appointments
           .filter(event => event.students.length > 0)
           .filter(event => !event.students[0].GroupStudent.approved)
-          .map(event => ({
-            id: event.id,
-            img: event.students[0].user.avatar,
-            studentName: `${event.students[0].user.first_name} ${event.students[0].user.last_name}`,
-            lessonNumber: event.lesson.type,
-            lessonDate: event.start_at
-          }))) ||
+          .map(event => {
+            return ({
+              id: event.id,
+              img: event.students[0].user.avatar,
+              studentName: `${event.students[0].user.first_name} ${event.students[0].user.last_name}`,
+              lessonNumber: event.lesson.type,
+              lessonDate: event.start_at,
+              duration: event.duration
+            })
+          })) ||
       []
     // return <CustomTable timezone={userTimezone} data={data} columns={columns} />
     return data
@@ -112,6 +116,9 @@ const ApproveRequest = () => {
     displayLessonRequestTable().length !== 0 
       ? displayLessonRequestTable()
       : []
+
+
+      console.log(renderTable())
 
   return (
     <Layout>
@@ -143,14 +150,15 @@ const ApproveRequest = () => {
               <td className='td-item m-0'>
                 <div className='td-datetime td-datetime-border p-3'>
                   {moment(event.lessonDate)
-                    .tz('America/New_York')
+                    .tz(userTimezone)
                     .format('ddd, MMM Do') + ' | '}
                   {moment(event.lessonDate)
-                    .tz('America/New_York')
+                    .tz(userTimezone)
                     .format('hh:mm A')}
                   {' → '}
                   {moment(event.lessonDate)
-                    .tz('America/New_York')
+                    .tz(userTimezone)
+                    .add(event?.duration, 'minutes')
                     .format('hh:mm A')}
                 </div>
               </td>
