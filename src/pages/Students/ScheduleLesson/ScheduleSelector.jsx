@@ -52,6 +52,9 @@ const ScheduleSelector = ({
     startTime: '',
     endTime: ''
   })
+
+  console.log(user?.timeZone);
+
   const userTimezone = user?.timeZone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
   const disable = counter === 0
   const today = moment.tz(userTimezone).subtract(counter, 'week')
@@ -150,7 +153,7 @@ const ScheduleSelector = ({
   })
 
   //Loop over the times - only pushes time with 30 minutes interval
-  while (startTime.isSameOrBefore(endTime)) {
+  while (startTime.isBefore(endTime)) {
     const tempTime = moment(startTime.format('HH:mm'), 'HH:mm')
     timesheetsData?.timesheets.map(timesheet => {
       const timesheetFrom = moment(timesheet.from, 'HH:mm')
@@ -162,8 +165,9 @@ const ScheduleSelector = ({
         return timesheet.tutorId
       }
     })
-    startTime.add(30, 'minutes')
+    startTime.add(duration, 'minutes')
   }
+  console.log(startTime)
 
   for (let i = 0; i <= 6; i++) {
     const dayOfTheWeek = {
@@ -217,7 +221,7 @@ const ScheduleSelector = ({
           } else {
             setTimeOfDay({
               slotInterval: duration,
-              startTime: '00:00',
+              startTime: '09:00',
               endTime: '11:30'
             })
           }
