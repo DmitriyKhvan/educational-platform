@@ -18,12 +18,13 @@ import ReviewLessonModal from '../../components/tutor-dashboard/ReviewLessonModa
 import '../../assets/styles/calendar.scss'
 import AppointmentApi from '../../api/AppointmentApi'
 import { toast } from 'react-toastify'
+import { useAuth } from '../../modules/auth'
 
 const Calendar = () => {
   const [t] = useTranslation('translation')
   const dispatch = useDispatch()
-  const user = useSelector(state => state.users.user)
-  const tutor = useSelector(state => state.tutor.info)
+  // const user = useSelector(state => state.users.user)
+  // const tutor = useSelector(state => state.tutor.info)
   const calendarAppointments = useSelector(
     state => state.appointment.calendarEvents
   )
@@ -43,6 +44,8 @@ const Calendar = () => {
   const [isCancelLessonModalOpen, setIsCancelLessonModalOpen] = useState(false)
   const [isWarningOpen, setIsWarningOpen] = useState(false)
 
+  const {user} = useAuth()
+
   const customStyles = {
     content: {
       top: '50%',
@@ -59,8 +62,10 @@ const Calendar = () => {
   }
 
   const userTimezone =
-    user?.time_zone?.split(' ')[0] ||
-    Intl.DateTimeFormat().resolvedOptions().timeZone
+    user?.timeZone?.split(' ')[0] ||
+    Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    console.log(user)
   const localizer = momentLocalizer(moment.tz.setDefault(userTimezone))
   const allViews = ['month', 'week', 'day']
   const formats = {
@@ -71,19 +76,19 @@ const Calendar = () => {
   }
 
   const fetchData = () => {
-    dispatch(getAppointments({ tutor_id: tutor?.id, status: "scheduled" }))
+    dispatch(getAppointments({ tutor_id: user.tutor?.id, status: "scheduled" }))
   }
 
-  useEffect(() => {
-    dispatch(getUserInfo())
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(getUserInfo())
+  // }, [dispatch])
 
   useEffect(() => {
-    if (user && user.tutor_profile && !tutor) {
-      dispatch(getTutorInfo(user.tutor_profile.id))
-    }
+    // if (user && user.tutor_profile && !tutor) {
+    //   dispatch(getTutorInfo(user.tutor_profile.id))
+    // }
 
-    if (user && user.roles && user.roles[0].role_name === 'admin') {
+    if ((user && user.role) && user.role === 'admin') {
       fetchData()
     }
   }, [user])
@@ -91,10 +96,10 @@ const Calendar = () => {
   
 
   useEffect(() => {
-    if (tutor && tutor.id) {
+    if (user && user?.tutor?.id) {
       fetchData()
     }
-  }, [tutor])
+  }, [user])
 
   useEffect(() => {
     if (calendarAppointments) {
@@ -212,9 +217,8 @@ const Calendar = () => {
     const studentLessonLevel = students.level || 0
 
     const studentAvatar = students.user?.avatar;
-    const tutorAvatar = eventDate.tutor?.user?.avatar;
+    const tutorAvatar = user.tutor?.avatar?.url;
 
-    console.log(students)
 
     const displayStudentAvatar = studentAvatar
       ? studentAvatar

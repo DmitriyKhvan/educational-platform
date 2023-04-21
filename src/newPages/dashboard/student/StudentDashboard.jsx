@@ -84,7 +84,9 @@ const StudentListAppointments = () => {
       queryObj.completed = true
     }
 
-    dispatch(getAppointments(queryObj))
+    console.log(queryObj)
+
+    dispatch(getAppointments({...queryObj, status: "scheduled"}))
     setIsLoading(false)
   }
 
@@ -92,6 +94,7 @@ const StudentListAppointments = () => {
 
   const isWithinAweekArr = (appointments || [])
     .map(x => {
+      console.log(x)
       const startOfWeek = moment().isAfter(moment().startOf('isoWeek'))
         ? moment().startOf('day')
         : moment().startOf('isoWeek')

@@ -385,7 +385,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
             </div>
           </div>
 
-          <div className='availability-wrapper tutor-confirm-right flex-right student-list-appointments-wrapper'>
+          <div className='availability-wrapper  tutor-confirm-right flex-right-student-conf student-list-appointments-wrapper'>
             {isConfirmed ? (
               <React.Fragment>
                 <h4 className='weekly-schedule'>{t('lesson_confirmation')}</h4>

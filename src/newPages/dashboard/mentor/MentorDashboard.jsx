@@ -173,7 +173,7 @@ const TutorDashboard = () => {
             </div>
           </div>
         </div>
-        <div className='student-list-appointments-wrapper flex-right children-wrapper changes-container'>
+        <div className='student-list-appointments-wrapper flex-right  changes-container'>
           <div className='child-set_container'>
             {/* {displayBookingRequest(hasLessonApprovals)} */}
             <h4 className='weekly-schedule mt-4'>{t('daily_schedule')}</h4>

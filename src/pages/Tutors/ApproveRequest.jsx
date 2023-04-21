@@ -23,25 +23,26 @@ const ApproveRequest = () => {
   const appointments = useSelector(state => state.appointment.list)
   const {user} = useAuth()
   const loading = useSelector(state => state.tutor.loading)
-  const tutor = useSelector(state => state.tutor.info)
+  // const tutor = useSelector(state => state.tutor.info)
   const dispatch = useDispatch()
   const [t] = useTranslation('translation')
   const userTimezone = user?.timeZone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
-  useEffect(() => {
-    dispatch(getUserInfo())
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(getUserInfo())
+  // }, [dispatch])
+
+  // useEffect(() => {
+  //   if (user && user.tutor) {
+  //     dispatch(getTutorInfo(user.tutor?.id))
+  //   }
+  // }, [user])
 
   useEffect(() => {
-    if (user && user.tutor_profile) {
-      dispatch(getTutorInfo(user.tutor_profile.id))
+    console.log(user)
+    if (user) {
+      dispatch(getAppointments({ tutor_id: user?.tutor?.id, status: 'scheduled' }))
     }
   }, [user])
-
-  useEffect(() => {
-    if (tutor) {
-      dispatch(getAppointments({ tutor_id: tutor.id, status: 'scheduled' }))
-    }
-  }, [tutor])
 
   const columns = [
     {
@@ -117,9 +118,6 @@ const ApproveRequest = () => {
       ? displayLessonRequestTable()
       : []
 
-
-      console.log(renderTable())
-
   return (
     <Layout>
       <div className='main-dashboard p-5'>
@@ -129,13 +127,13 @@ const ApproveRequest = () => {
           <thead>
             <tr>
               {tableHead.map(x => (
-                <th scope='col'>{x}</th>
+                <th scope='col' key={x}>{x}</th>
               ))}
             </tr>
           </thead>
           <tbody>
           {renderTable()?.map(event => (
-            <tr className='tr-center'>
+            <tr key={event.id} className='tr-center'>
               <td className='td-item m-0'>
                 <p className='td-lesson'>{'#' + event.id}</p>
               </td>
