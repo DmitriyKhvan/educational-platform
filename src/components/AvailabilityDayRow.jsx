@@ -81,6 +81,7 @@ export const AvailabilityDayRow = ({
     const currentData = gatherAvailabilities.filter(el => el.day === day)
     return currentData[currentData.length - 1]?.slots?.[0]?.to >= '23:30'
   }
+
   return (
     <div className='row form-switch justify-content-md-center py-3 border-availabilities-picker'>
       <input

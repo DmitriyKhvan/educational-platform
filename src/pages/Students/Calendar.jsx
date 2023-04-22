@@ -66,19 +66,19 @@ const Calendar = () => {
     }
   }
 
-  useEffect(() => {
-    if (!user) {
-      dispatch(getUserInfo())
-    }
-  }, [dispatch])
+  // useEffect(() => {
+  //   if (!user) {
+  //     dispatch(getUserInfo())
+  //   }
+  // }, [dispatch])
 
   useEffect(() => {
     ;(async () => {
-      dispatch(getStudent(user.student?.id))
+      // dispatch(getStudent(user.student?.id))
       if (user && user?.student) {
-        dispatch(
-          getAppointments({ student_id: user.student?.id, status: 'scheduled' })
-        )
+          dispatch(
+            getAppointments({ student_id: user.student?.id, status: 'scheduled' })
+          )
       }
     })()
   }, [user])
@@ -102,10 +102,12 @@ const Calendar = () => {
         }
         tempEvents.push(event)
       })
-      setCalendarEvents([...tempEvents])
+        setCalendarEvents([...tempEvents])
       setIsLoading(false)
     }
   }, [calendarAppointments])
+
+  console.log(calendarEvent)
 
   useEffect(() => {
     if (tableAppointments) {
@@ -178,15 +180,17 @@ const Calendar = () => {
     setSelectedTab('calendar')
   }
 
-  function onCancel(id){
-    dispatch(cancelAppointment(id))
+  async function onCancel(id){
+    await dispatch(cancelAppointment(id))
     setIsOpen(false)
-    dispatch(
-      getAppointments({
-        student_id: user?.student?.id,
-        status: 'scheduled'
-      })
-    )
+    await setTimeout(() => {
+       dispatch(
+        getAppointments({
+          student_id: user?.student?.id,
+          status: 'scheduled'
+        })
+      )
+    }, 1000)
     setIsCalendar(true)
   }
 

@@ -25,6 +25,8 @@ const CalendarModal = ({
 
   const avatar = data.resource?.tutor?.user?.avatar;
 
+  console.log(avatar)
+
   React.useEffect(() => {
     if (avatar) {
       setProfileImage(avatar)

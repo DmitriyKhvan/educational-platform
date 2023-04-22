@@ -11,6 +11,8 @@ import { getTutorInfo, updateTutorAvailability } from '../../../actions/tutor'
 import VectorColor from '../../../assets/images/Vector-color.svg'
 import VectorLess from '../../../assets/images/Vector-arrow-less.svg'
 import Alert from '../../../components/Popup/Alert'
+import Select from 'react-select'
+import { Controller, useForm } from 'react-hook-form'
 const AvailabilityPicker = ({
   isAdmin,
   day,
@@ -40,8 +42,8 @@ const AvailabilityPicker = ({
   const user = useSelector(state =>
     isAdmin ? state.admin.user : state.users.user
   )
-  const [fromTime, setFromTime] = useState('09:00')
-  const [toTime, setToTime] = useState('17:00')
+  const [fromTime, setFromTime] = useState(frmTime)
+  const [toTime, setToTime] = useState(tTime)
   const [currentData, setCurrentData] = useState([])
 
   const times = [
@@ -240,30 +242,38 @@ const AvailabilityPicker = ({
     },
   ]
 
+  const {
+    control
+  } = useForm()
+
   useEffect(() => {
     setCurrentData(tutorInfo.availabilities[day])
   }, [tutorInfo])
 
   const onChangeTime = (time, iteration, timeType) => {
 
+    let t = parseInt(time)
+
     if (iteration) {
       // Existing
-      if (typeof time === 'number') {
+
+      if (typeof  t === 'number') {
        
         if(timeType === 'from'){
-          setFromTime(formatTime(time))
-          AvailabilitySlots(formatTime(time),toTime,String(id),day)
+          setFromTime(formatTime( t))
+          AvailabilitySlots(formatTime( t),toTime,String(id),day)
         }else{
-          setToTime(formatTime(time))
-          updateTime(formatTime(time))
-          AvailabilitySlots(fromTime,formatTime(time),String(id),day)
+          setToTime(formatTime( t))
+          updateTime(formatTime( t))
+          AvailabilitySlots(fromTime,formatTime( t),String(id),day)
         }
       }
     } else {
       // New
-      if (typeof time === 'number') {
+      if (typeof  t === 'number') {
         let cpyCurrentData = [...currentData] || []
-        cpyCurrentData[iteration][timeType] = formatTime(time)
+        cpyCurrentData[iteration][timeType] = formatTime( t)
+        console.log(cpyCurrentData)
         AvailabilitySlots(cpyCurrentData[iteration].from,cpyCurrentData[iteration].to,id,day)
         setCurrentData(cpyCurrentData || [])
       }
@@ -274,17 +284,17 @@ const AvailabilityPicker = ({
   }
 
   useEffect(()=>{
-      if(frmTime!== undefined){
+      if(frmTime !== undefined){
         setFromTime(frmTime)
       }
-      if(tTime!== undefined){
+      if(tTime !== undefined){
         setToTime(tTime)
       }
       
-      if(updateTime!==undefined){
+      if(updateTime !==undefined){
         updateTime(toTime)
       }
-  },[frmTime,tTime])
+  },[frmTime,tTime, toTime, fromTime, setFromTime, setToTime])
   
   const removeRowDown = (type) => {
     Alert(
@@ -307,24 +317,35 @@ const AvailabilityPicker = ({
     removeAvailabilityRow(item)
   }
 
-
-
   return (
     <>
 
         <>
-          <div className='row mx-0'>
+          <div className='row mx-0 mt-2'>
             <div className='col-auto align_time_img-time over_form'>
               <div className='d-flex '>
-                <select  
-                  defaultValue={fromTime} 
+                {/* <select  
+                  defaultValue={fromTime}
                   className='time_picker text-center p-3' 
                   onChange={time => onChangeTime(time.target.value, 'newTime', 'from')}
                 >
                   {
                     times.map(t => <option value={t.time}>{t.timeType}</option>)
                   }
-                </select>
+                </select> */}
+
+             
+                <Select
+                  className='time_picker text-center ' 
+                  defaultValue={{label: fromTime}}
+                  options={times.map(({ timeType, time }) => {
+                    return { value: time, label: timeType };
+                  })}
+                  onChange={e => {
+                    onChangeTime(e.value, 'newTime', 'from')
+                  }}
+                />
+
                 {/* <TimePicker
                   className='time_picker text-center p-3 '
                   step={30}
@@ -341,7 +362,7 @@ const AvailabilityPicker = ({
             </div>
             <div className='col-auto align_time_img-time over_to'>
               <div className='d-flex '>
-                <select  
+                {/* <select  
                   defaultValue={toTime} 
                   className='time_picker text-center p-3'  
                   onChange={time => onChangeTime(time.target.value, 'newTime', 'to')}
@@ -349,7 +370,17 @@ const AvailabilityPicker = ({
                   {
                     times.map(t => <option value={t.time}>{t.timeType}</option>)
                   }
-                </select>
+                </select> */}
+                 <Select
+                  className='time_picker text-center' 
+                  defaultValue={{label: toTime}}
+                  options={times.map(({ timeType, time }) => {
+                    return { value: time, label: timeType };
+                  })}
+                  onChange={e => {
+                    onChangeTime(e.value, 'newTime', 'to')
+                  }}
+                />
                 {/* <TimePicker
                   className='time_picker text-center p-3'
                   step={30}
