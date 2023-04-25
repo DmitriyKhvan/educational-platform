@@ -32,7 +32,7 @@ const Navbar = () => {
   const [language, setLanguage] = useState(
     parseInt(getItemToLocalStorage('language', 1))
   )
-  const [t, i18n] = useTranslation('translation')
+  const [t, i18n] = useTranslation('common')
 
   const handleLogout = () => {
     logout()
@@ -65,17 +65,7 @@ const Navbar = () => {
   return (
     <div className='nav-bar'>
       <div className='desktop-version'>
-        <div className='left-part'>
-          {/* <div className="logo">
-            <Link to={'/dashboard'}>
-              <img src={Logo} alt="" />
-            </Link>
-          </div> */}
-          {/* <Link to="/dashboard" className="page-title"> */}
-          {/* {t('user_role_dashboard', { user_role: user_role })} */}
-          {/* </Link> */}
-          {/* <input type='text' placeholder={t('placeholder_search_here')} /> */}
-        </div>
+        <div className='left-part'></div>
         <div className='right-part'>
           <Dropdown
             className='settings'
@@ -88,7 +78,11 @@ const Navbar = () => {
                 href:
                   user_role === 'tutor' ? '/tutor/profile' : '/student/profile'
               },
-              { label: t('logout'), icon: LogoutImg, onClick: handleLogout }
+              {
+                label: t('logout'),
+                icon: LogoutImg,
+                onClick: handleLogout
+              }
             ]}
           />
           {/* <h5 className="me-2">{user.first_name}</h5> */}

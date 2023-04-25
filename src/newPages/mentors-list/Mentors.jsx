@@ -11,6 +11,7 @@ import MentorsModal from './MentorsModal'
 import Loader from '../../components/Loader/Loader'
 import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png'
 import maleAvatar from '../../assets/images/avatars/img_avatar_male.png'
+import { useTranslation } from 'react-i18next'
 
 const filtersList = [
   {
@@ -64,13 +65,11 @@ const Mentors = () => {
   const [showTutorModal, setShowTutorModal] = React.useState(false)
   const history = useHistory()
   const { data } = useQuery(MENTORS_QUERY, {
-    errorPolicy: 'ignore' 
+    errorPolicy: 'ignore'
   })
+  const [t] = useTranslation(['studentMentor', 'common'])
 
   const mentors = data?.tutors
-
-  console.log(mentors)
-
 
   const handleStatusTutor = id => {}
 
@@ -82,37 +81,13 @@ const Mentors = () => {
     setShowTutorModal(true)
   }
 
-  const handleFilter = () => {}
-
   return (
     <Layout>
       <div className='tutors_section'>
         <div className='tutors_title'>
-          <h1>Mentors</h1>
-          <p>Find new mentors or contact your favorite ones.</p>
+          <h1>{t('mentor_list', { ns: 'studentMentor' })}</h1>
+          <p>{t('mentor_list_desc', { ns: 'studentMentor' })}</p>
         </div>
-        {/* 
-        <div className='tutors_filters'>
-          {filtersList.map(
-            item =>
-              item.options && (
-                <select key={item.id}>
-                  {item.options?.map(opt => (
-                    <option value={opt.title.toLowerCase()} key={opt.id}>
-                      {opt.title}
-                    </option>
-                  ))}
-                </select>
-              )
-          )}
-
-          <button className='tutors_show'>
-            <label>
-              <input type={'checkbox'} />
-              Show Only Favorite Tutors
-            </label>
-          </button>
-        </div> */}
 
         <div className='tutors_row'>
           {mentors?.length === 0 && <p>Empty</p>}
@@ -144,7 +119,7 @@ const Mentors = () => {
                   </div>
                   <div className='tutors_control-buttons'>
                     <button onClick={() => handleMoreTutor(item.id)}>
-                      Learn more
+                      {t('learn_more', { ns: 'common' })}
                     </button>
                     {/* <button onClick={() => handleStatusTutor(item.id)}>
                       {item?.isFavourite ? 'Remove' : 'Favorite'}

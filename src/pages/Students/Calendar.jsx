@@ -21,11 +21,9 @@ import FeedbackModal from './FeedbackModal'
 import FeedbackLessonModal from '../Tutors/FeedbackLessonModal'
 
 const Calendar = () => {
-  const [t] = useTranslation('translation')
+  const [t] = useTranslation(['lessons'])
   const location = useLocation()
   const { user } = useAuth()
-  
-  console.log(user)
 
   const calendarAppointments = useSelector(
     state => state.appointment.calendarEvents
@@ -33,8 +31,6 @@ const Calendar = () => {
   const tableAppointments = useSelector(
     state => state.appointment.tablularEventData
   )
-
-  console.log(calendarAppointments)
 
   const [calendarEvents, setCalendarEvents] = useState([])
   const [pastLessons, setPastLessons] = useState([])
@@ -66,19 +62,12 @@ const Calendar = () => {
     }
   }
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     dispatch(getUserInfo())
-  //   }
-  // }, [dispatch])
-
   useEffect(() => {
     ;(async () => {
-      // dispatch(getStudent(user.student?.id))
       if (user && user?.student) {
-          dispatch(
-            getAppointments({ student_id: user.student?.id, status: 'scheduled' })
-          )
+        dispatch(
+          getAppointments({ student_id: user.student?.id, status: 'scheduled' })
+        )
       }
     })()
   }, [user])
@@ -102,12 +91,10 @@ const Calendar = () => {
         }
         tempEvents.push(event)
       })
-        setCalendarEvents([...tempEvents])
+      setCalendarEvents([...tempEvents])
       setIsLoading(false)
     }
   }, [calendarAppointments])
-
-  console.log(calendarEvent)
 
   useEffect(() => {
     if (tableAppointments) {
@@ -180,11 +167,11 @@ const Calendar = () => {
     setSelectedTab('calendar')
   }
 
-  async function onCancel(id){
+  async function onCancel(id) {
     await dispatch(cancelAppointment(id))
     setIsOpen(false)
     await setTimeout(() => {
-       dispatch(
+      dispatch(
         getAppointments({
           student_id: user?.student?.id,
           status: 'scheduled'
@@ -219,14 +206,11 @@ const Calendar = () => {
   }
 
   const tableHead = [
-    'Package',
-    'Duration',
-    // 'Level',
-    // 'Current Topic',
-    // 'Next Topic',
-    'Date and Time',
-    'Mentor',
-    'Class Feedback'
+    t('lesson_package', { ns: 'lessons' }),
+    t('duration', { ns: 'lessons' }),
+    t('date_time', { ns: 'lessons' }),
+    t('mentor', { ns: 'lessons' }),
+    t('class_feedback', { ns: 'lessons' })
   ]
 
   const [isReviewLessonModalOpen, setReviewLessonModal] = useState(false)
@@ -251,7 +235,9 @@ const Calendar = () => {
       <div className='children-wrapper'>
         {/* <button onClick={() => setReviewLessonModal(true)}>Hey</button> */}
         <div className='appointment-calendar container-fluid'>
-          <h1 className='title m-0 mt-4 mb-3'>{t('appointment_calendar')}</h1>
+          <h1 className='title m-0 mt-4 mb-3'>
+            {t('lessons', { ns: 'lessons' })}
+          </h1>
           <div className='row container-fluid m-0 p-0'>
             <div className='col-auto'>
               <div className='btn-group' role='group'>
@@ -262,7 +248,7 @@ const Calendar = () => {
                   }`}
                   onClick={onClickUpcomingLessons}
                 >
-                  <span>{t('upcoming_lessons')}</span>
+                  <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
                 </button>
                 <button
                   type='button'
@@ -271,7 +257,7 @@ const Calendar = () => {
                   }`}
                   onClick={onClickPastLessons}
                 >
-                  <span>{t('past_lessons')}</span>
+                  <span>{t('past_lessons', { ns: 'lessons' })}</span>
                 </button>
               </div>
             </div>
@@ -283,7 +269,7 @@ const Calendar = () => {
                 }`}
                 onClick={onCalendarClick}
               >
-                <span>{t('calendar_view')}</span>
+                <span>{t('calendar_view', { ns: 'lessons' })}</span>
               </button>
             </div>
           </div>
@@ -305,7 +291,7 @@ const Calendar = () => {
                       style={{ transform: 'translateX(38%) translateY(30%)' }}
                     >
                       <td onClick={handleOpenFeedbackModal}>
-                        You don't have lessons!
+                        {t('no_lessons', { ns: 'lessons' })}
                       </td>
                     </tr>
                   )}
@@ -389,6 +375,14 @@ const Calendar = () => {
                   showMultiDayTimes
                   startAccessor='start'
                   endAccessor='end'
+                  messages={{
+                    month: t('calendar_month', { ns: 'lessons' }),
+                    week: t('calendar_week', { ns: 'lessons' }),
+                    day: t('calendar_day', { ns: 'lessons' }),
+                    previous: t('calendar_prev', { ns: 'lessons' }),
+                    next: t('calendar_next', { ns: 'lessons' }),
+                    today: t('calendar_today', { ns: 'lessons' })
+                  }}
                 />
               </div>
             )}

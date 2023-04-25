@@ -1,24 +1,18 @@
-import 'react-phone-input-2/lib/style.css';
+import 'react-phone-input-2/lib/style.css'
 
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from 'react'
 
-import { useTranslation } from 'react-i18next';
-import PhoneInput from 'react-phone-input-2';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
-import ClipLoader from 'react-spinners/ClipLoader';
+import { useTranslation } from 'react-i18next'
+import PhoneInput from 'react-phone-input-2'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory, Link } from 'react-router-dom'
+import ClipLoader from 'react-spinners/ClipLoader'
 
-import { signup } from '../../actions/auth';
-import ImgStudent from '../../assets/images/student.svg';
-import ImgTutor from '../../assets/images/tutor.svg';
-import AuthLayout from '../../components/AuthLayout';
-import NotificationManager from '../../components/NotificationManager';
+import { signup } from '../../actions/auth'
+import ImgStudent from '../../assets/images/student.svg'
+import ImgTutor from '../../assets/images/tutor.svg'
+import AuthLayout from '../../components/AuthLayout'
+import NotificationManager from '../../components/NotificationManager'
 
 const Signup = () => {
   const history = useHistory()
@@ -33,7 +27,7 @@ const Signup = () => {
     password: '',
     confirm_password: '',
     user_role: '',
-    referal_code: '',
+    referal_code: ''
   })
 
   const [formDataError, setFormDataError] = useState({
@@ -48,7 +42,7 @@ const Signup = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
     const role = urlParams.get('role')
-    const code = localStorage.getItem("referalcode")
+    const code = localStorage.getItem('referalcode')
     if (role === 'tutor') {
       setFormData({ ...formData, user_role: 'tutor' })
     } else if (role === 'admin') {
@@ -222,7 +216,6 @@ const Signup = () => {
         formData.referal_code
       )
     )
-    
 
     if (resp.type === 'AUTH_SIGNUP_SUCCESS') {
       history.push('/')
@@ -349,11 +342,13 @@ const Signup = () => {
             <div className='mb-3'>
               <div className='form-item-inner sign-up-bottom'>
                 <label htmlFor='phone_number' className='form-label'>
-                  <div className='label'>{t('phone_number')}</div>
+                  <div className='label'>
+                    {t('phone_number', { ns: 'common' })}
+                  </div>
                 </label>
                 <PhoneInput
                   className='form-controls'
-                  specialLabel={t('phone_number')}
+                  specialLabel={t('phone_number', { ns: 'common' })}
                   country={'us'}
                   value={formData.phone_number}
                   onChange={phone => onChange(`+${phone}`, 'phone_number')}

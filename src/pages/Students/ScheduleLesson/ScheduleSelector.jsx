@@ -39,7 +39,7 @@ const ScheduleSelector = ({
   schedule,
   setTutorIdList
 }) => {
-  const [t] = useTranslation('translation')
+  const [t] = useTranslation(['lessons', 'common', 'modal'])
   const user = useSelector(state => state.users.user)
   const [isLoading, setIsLoading] = useState(false)
   const dispatch = useDispatch()
@@ -53,9 +53,9 @@ const ScheduleSelector = ({
     endTime: ''
   })
 
-  console.log(user?.timeZone);
-
-  const userTimezone = user?.timeZone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const userTimezone =
+    user?.timeZone?.split(' ')[0] ||
+    Intl.DateTimeFormat().resolvedOptions().timeZone
   const disable = counter === 0
   const today = moment.tz(userTimezone).subtract(counter, 'week')
   const startOfWeek = today.startOf('isoWeek')
@@ -167,7 +167,6 @@ const ScheduleSelector = ({
     })
     startTime.add(duration, 'minutes')
   }
-  console.log(startTime)
 
   for (let i = 0; i <= 6; i++) {
     const dayOfTheWeek = {
@@ -270,7 +269,10 @@ const ScheduleSelector = ({
             onClick={isClicked}
           >
             <div>
-              {(data.day && moment(data.day).format('dddd')) || data.time}
+              {t(data.day && moment(data.day).format('dddd'), {
+                ns: 'common'
+              }) || t(data.time, { ns: 'common' })}
+              {/* {(data.day && moment(data.day).format('dddd')) || data.time} */}
             </div>
           </div>
         )}
@@ -299,13 +301,15 @@ const ScheduleSelector = ({
         .format('dddd[,] MMMM DD @ h:mm A')
 
       Swal.fire({
-        title: t('swal_fire_title_schedule_prescreen'),
-        text: t('swal_fire_text_schedule_prescreen'),
+        title: t('swal_fire_title_schedule_prescreen', { ns: 'modals' }),
+        text: t('swal_fire_text_schedule_prescreen', { ns: 'modals' }),
         icon: 'warning',
         width: '36em',
         confirmButtonColor: '#6133af',
         focusConfirm: true,
-        footer: `*${t('swal_fire_footer_schedule_prescreen')} ${available}`
+        footer: `*${t('swal_fire_footer_schedule_prescreen', {
+          ns: 'modals'
+        })} ${available}`
       })
     }
 
@@ -370,7 +374,10 @@ const ScheduleSelector = ({
           <div className='col'>
             <div className='schedule-card-col'>
               <p className={`enter-btn time-btn grey-border text-black`}>
-                {moment(day).format('dddd, MMM DD')}
+                {`${t(moment(day).format('dddd'), { ns: 'common' })}, ${moment(
+                  day
+                ).format('MMM DD')}`}
+                {/* {moment(day).format('dddd MMM DD')} */}
               </p>
             </div>
           </div>
@@ -391,8 +398,7 @@ const ScheduleSelector = ({
     )
   }
 
-  const uniqTimes = [...new Set(allTimes)];
-
+  const uniqTimes = [...new Set(allTimes)]
 
   const AvailableSpots = () => (
     <React.Fragment>
@@ -423,15 +429,23 @@ const ScheduleSelector = ({
           <div className='lesson-wrapper flex-lefts student-dashboard'>
             <div>
               <div className='container title-container'>
-                <h1 className='title lelt-con'>{lesson ? t('reschedule_lesson') : t('schedule_lesson')}</h1>
+                <h1 className='title lelt-con'>
+                  {lesson ? t('reschedule_lesson') : t('schedule_lesson')}
+                </h1>
                 <p className='welcome-subtitle left-subtitle'>
-                  {
-                    lesson
-                      ? <>
-                        {t('choose_new_date')}<br /><br />
-                        Currently lesson scheduled at {moment(lesson.startAt).tz(userTimezone).format('dddd, MMM DD hh:mm A')}
-                      </>
-                      : t('schedule_lesson_subtitle')}
+                  {lesson ? (
+                    <>
+                      {t('choose_new_date')}
+                      <br />
+                      <br />
+                      Currently lesson scheduled at{' '}
+                      {moment(lesson.startAt)
+                        .tz(userTimezone)
+                        .format('dddd, MMM DD hh:mm A')}
+                    </>
+                  ) : (
+                    t('schedule_lesson_subtitle')
+                  )}
                 </p>
               </div>
               <div className='row container ps-4 pe-0'>
