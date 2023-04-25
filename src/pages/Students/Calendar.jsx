@@ -19,6 +19,7 @@ import ReviewLessonModal from '../../components/student-dashboard/ReviewLessonMo
 import { useAuth } from '../../modules/auth'
 import FeedbackModal from './FeedbackModal'
 import FeedbackLessonModal from '../Tutors/FeedbackLessonModal'
+import WeekHeader from '../../components/common/WeekHeader'
 
 const Calendar = () => {
   const [t] = useTranslation(['lessons'])
@@ -375,6 +376,14 @@ const Calendar = () => {
                   showMultiDayTimes
                   startAccessor='start'
                   endAccessor='end'
+                  components={{
+                    month: {
+                      header: WeekHeader
+                    },
+                    week: {
+                      header: WeekHeader
+                    }
+                  }}
                   messages={{
                     month: t('calendar_month', { ns: 'lessons' }),
                     week: t('calendar_week', { ns: 'lessons' }),

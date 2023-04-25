@@ -60,8 +60,13 @@ const ScheduleSelector = ({
   const today = moment.tz(userTimezone).subtract(counter, 'week')
   const startOfWeek = today.startOf('isoWeek')
   const startOfWeekString = startOfWeek.toString()
-  const startOfWeekFormatted = startOfWeek.format('MMMM DD')
-  const endOfWeek = today.endOf('isoWeek').format('MMMM DD')
+  const startOfWeekFormatted = `${t(startOfWeek.format('MMMM'), {
+    ns: 'common'
+  })} ${startOfWeek.format('DD')}${t('kor_day', { ns: 'common' })}`
+  const endOfWeek = today.endOf('isoWeek')
+  const endOfWeekFormatted = `${t(endOfWeek.format('MMMM'), {
+    ns: 'common'
+  })} ${endOfWeek.format('DD')}${t('kor_day', { ns: 'common' })}`
   const timeFormatter = 'HH:mm:ss'
 
   const isToday = moment.tz(userTimezone)
@@ -374,10 +379,12 @@ const ScheduleSelector = ({
           <div className='col'>
             <div className='schedule-card-col'>
               <p className={`enter-btn time-btn grey-border text-black`}>
-                {`${t(moment(day).format('dddd'), { ns: 'common' })}, ${moment(
-                  day
-                ).format('MMM DD')}`}
-                {/* {moment(day).format('dddd MMM DD')} */}
+                {`${t(moment(day).format('dddd'), { ns: 'common' })}, ${t(
+                  moment(day).format('MMMM'),
+                  { ns: 'common' }
+                )} ${moment(day).format('DD')}${t('kor_day', {
+                  ns: 'common'
+                })}`}
               </p>
             </div>
           </div>
@@ -463,7 +470,7 @@ const ScheduleSelector = ({
                 </div>
                 <div className='col-10'>
                   <h1 className='justify-content-center mt-0'>
-                    {startOfWeekFormatted} to {endOfWeek}
+                    {startOfWeekFormatted} to {endOfWeekFormatted}
                   </h1>
                 </div>
                 <div className='col-1 ps-0 rightArrow'>
