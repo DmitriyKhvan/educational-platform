@@ -15,6 +15,7 @@ import maleAvatar from '../../assets/images/avatars/img_avatar_male.png'
 import ZoomWarningModal from '../../components/student-dashboard/ZoomWarningModal'
 import ReviewLessonModal from '../../components/tutor-dashboard/ReviewLessonModal'
 
+import WeekHeader from '../../components/common/WeekHeader'
 import '../../assets/styles/calendar.scss'
 import AppointmentApi from '../../api/AppointmentApi'
 import { toast } from 'react-toastify'
@@ -490,6 +491,14 @@ const Calendar = () => {
                 showMultiDayTimes
                 startAccessor='start'
                 endAccessor='end'
+                components={{
+                  month: {
+                    header: WeekHeader
+                  },
+                  week: {
+                    header: WeekHeader
+                  }
+                }}
                 messages={{
                   month: t('calendar_month'),
                   week: t('calendar_week'),

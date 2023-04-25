@@ -552,11 +552,5 @@
   "email_upadate_pre": "이메일 설정 업데이트",
   "email_upadate_sub": "구독 취소",
   "booking_request": "예약 요청",
-  "back": "← 뒤",
-  "calendar_month": "Month",
-  "calendar_week": "Week",
-  "calendar_day": "Day",
-  "calendar_next": "Next",
-  "calendar_prev": "Back",
-  "calendar_today": "Today"
+  "back": "← 뒤"
 }

@@ -60,8 +60,6 @@ const LessonConfirmation = ({
     Intl.DateTimeFormat().resolvedOptions().timeZone
   const scheduleDate = moment(time).tz(userTimezone).format('dddd, MMM DD')
 
-  console.log(userTimezone)
-
   const scheduleStartTime = moment(time).tz(userTimezone).format('hh:mm A')
   const scheduleEndTime = moment(time)
     .tz(userTimezone)
