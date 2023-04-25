@@ -10,23 +10,20 @@ import { getUserInfo } from '../../../actions/user'
 import { getTutorInfo } from '../../../actions/tutor'
 import BookingRequest from '../../../components/BookingRequest'
 import Loader from '../../../components/common/Loader'
-import ZoomLink from '../../../components/ZoomLink'
 import { useAuth } from '../../../modules/auth'
 import FeedbackLessonModal from '../../../pages/Tutors/FeedbackLessonModal'
 
 const TutorDashboard = () => {
-  const [isZoomTime, setZoomTime] = useState(false);
-  const [t] = useTranslation('translation')
+  const [t] = useTranslation('dashboard')
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
-  const { user } = useAuth();
+  const { user } = useAuth()
   const appointments = useSelector(state => state.appointment)
   const [upcomingLessons, setUpcomingLessons] = useState([])
   const [lessonApprovals, setLessonApprovals] = useState([])
-  const hasLessonApprovals = lessonApprovals.length > 0
 
-  const { user: currentUser } = useAuth();
-  const tutor = user.tutor;
+  const { user: currentUser } = useAuth()
+  const tutor = user.tutor
 
   useEffect(() => {
     if (!user) {
@@ -42,8 +39,9 @@ const TutorDashboard = () => {
 
   const fetchAppointments = async () => {
     if (tutor) {
-      // setIsLoading(true)
-      await dispatch(getAppointments({ tutor_id: tutor.id, status: "scheduled" }))
+      await dispatch(
+        getAppointments({ tutor_id: tutor.id, status: 'scheduled' })
+      )
       setIsLoading(false)
     }
   }
@@ -63,11 +61,9 @@ const TutorDashboard = () => {
         if (ids.indexOf(apt.students[0].id) === -1) ids.push(apt.students[0].id)
       }
 
-      console.log(appointments)
-
       setUpcomingLessons(
         appointments.list?.filter(
-          apt => 
+          apt =>
             new moment(apt.start_at).isBefore(endOfDay) &&
             new moment(apt.start_at).isAfter(startOfDay)
         )
@@ -109,7 +105,7 @@ const TutorDashboard = () => {
     }
   }
 
-  const [isFeedbackShow, setFeedbackShow] = React.useState(false);
+  const [isFeedbackShow, setFeedbackShow] = React.useState(false)
 
   const handleCloseModal = () => setFeedbackShow(false)
 
@@ -119,19 +115,11 @@ const TutorDashboard = () => {
         <div className='student-dashboard flex-left children-wrapper flex-change '>
           <div className='set-container'>
             <h4 className='welcome-message'>
-              {t('student_dashboard_welcome', { name: currentUser?.firstName })}
+              {t('student_dashboard_welcome', {
+                name: currentUser?.firstName
+              })}
             </h4>
-            <p className='welcome-subtitle'>{t('tutor_welcome_back')}</p>
-
-            {/* {isZoomTime && (
-              <ZoomLink
-                link={
-                  'https://us02web.zoom.us/j/5688232445?pwd=ckx1NXBHNDlaYWNVdHpaQ1VoZVo4QT09#success'
-                }
-              />
-            )} */}
-
-            {/* <button onClick={() => setFeedbackShow(true) }>Lesson Feedback</button> */}
+            <p className='welcome-subtitle'>{t('mentor_welcome_back')}</p>
 
             <div className='schedule-lesson-select pt-3'>
               <div className='page-card purple large-card py-5 pb-4 purple-top-align'>
@@ -178,9 +166,9 @@ const TutorDashboard = () => {
             {/* {displayBookingRequest(hasLessonApprovals)} */}
             <h4 className='weekly-schedule mt-4'>{t('daily_schedule')}</h4>
             <h4 className='text-purple weekly-schedule-subtitle'>
-              {t('upcoming_lessons_2')}
+              {t('upcoming_lessons')}
             </h4>
-            {t('tutor_dashboard_total_lessons', {
+            {t('mentor_dashboard_total_lessons', {
               total_lessons: upcomingLessons.length,
               t: upcomingLessons.length > 1 ? 's' : ''
             })}
@@ -198,7 +186,11 @@ const TutorDashboard = () => {
       </div>
       {isLoading && <Loader />}
 
-      <FeedbackLessonModal modalState='mentor' isOpen={isFeedbackShow} closeModal={handleCloseModal}/>
+      <FeedbackLessonModal
+        modalState='mentor'
+        isOpen={isFeedbackShow}
+        closeModal={handleCloseModal}
+      />
     </div>
   )
 }

@@ -1,32 +1,22 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
-import { useTranslation } from 'react-i18next';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
-import {
-  Link,
-  useHistory,
-  useLocation,
-} from 'react-router-dom';
-import { useAuth } from '../modules/auth';
-import CloseIcon from '../assets/images/close.svg';
-import Logo from '../assets/images/logo.png';
-import LogoutImg from '../assets/images/logout_icon.svg';
-import referIcon from '../assets/images/referIconActive.png';
-import referActiveIcon from '../assets/images/referIconActive.png';
-import whiteCalendar from '../assets/images/sidebar/active-calendar.png';
-import Icon16 from '../assets/images/sidebar/icon16.svg';
-import Icon17 from '../assets/images/sidebar/icon17.svg';
-import Icon18 from '../assets/images/sidebar/icon18.svg';
-import Icon1 from '../assets/images/sidebar/purple_dashboard_icon.svg';
-import tutorIcon from '../assets/images/sidebar/purple_tutor_icon.svg';
-import tutorActiveIcon from '../assets/images/sidebar/white_tutor_icon.svg';
-import Icon2 from '../assets/images/sidebar/purple_lesson_icon.svg';
-import Icon11 from '../assets/images/sidebar/purple_subscription_icon.svg';
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useHistory, useLocation } from 'react-router-dom'
+import { useAuth } from '../modules/auth'
+import CloseIcon from '../assets/images/close.svg'
+import Logo from '../assets/images/logo.png'
+import LogoutImg from '../assets/images/logout_icon.svg'
+import referIcon from '../assets/images/referIconActive.png'
+import referActiveIcon from '../assets/images/referIconActive.png'
+import whiteCalendar from '../assets/images/sidebar/active-calendar.png'
+import Icon16 from '../assets/images/sidebar/icon16.svg'
+import Icon17 from '../assets/images/sidebar/icon17.svg'
+import Icon18 from '../assets/images/sidebar/icon18.svg'
+import Icon1 from '../assets/images/sidebar/purple_dashboard_icon.svg'
+import tutorIcon from '../assets/images/sidebar/purple_tutor_icon.svg'
+import tutorActiveIcon from '../assets/images/sidebar/white_tutor_icon.svg'
+import Icon2 from '../assets/images/sidebar/purple_lesson_icon.svg'
+import Icon11 from '../assets/images/sidebar/purple_subscription_icon.svg'
 import MessageIcon from '../assets/images/sidebar/purple_message_icon.svg'
 import MessageActiveIcon from '../assets/images/sidebar/white_message_icon.svg'
 import purpleCalendar from '../assets/images/sidebar/calendar.png'
@@ -69,16 +59,16 @@ const tutorNavLinks = [
     activeIcon: ActiveIcon1
   },
   {
-    label: 'appointment_calendar',
+    label: 'lessons',
     link: '/tutor/appointments-calendar',
     icon: Icon2,
     activeIcon: ActiveIcon2
   },
   {
-    label: "Student List",
-    link:"/tutor/students-list",
-    icon:tutorIcon,
-    activeIcon:tutorActiveIcon
+    label: 'students',
+    link: '/tutor/students-list',
+    icon: tutorIcon,
+    activeIcon: tutorActiveIcon
   },
   // {
   //   label: "Messages",
@@ -129,7 +119,7 @@ const studentNavLinks = [
     activeIcon: ActiveIcon1
   },
   {
-    label: 'lesson_calendar',
+    label: 'lessons',
     link: '/student/lesson-calendar',
     icon: Icon2,
     activeIcon: ActiveIcon2
@@ -141,27 +131,27 @@ const studentNavLinks = [
   //   activeIcon:MessageActiveIcon
   // },
   {
-    label: "Mentors",
-    link:"/student/mentors-list",
-    icon:tutorIcon,
-    activeIcon:tutorActiveIcon
+    label: 'mentors',
+    link: '/student/mentors-list',
+    icon: tutorIcon,
+    activeIcon: tutorActiveIcon
   },
   {
-    label: 'Refer a Friend',
+    label: 'refer',
     link: '/student/referal',
     icon: Icon1,
     activeIcon: referActiveIcon
   },
   // {
-  //   label: 'games_sidemenu',
+  //   label: 'games',
   //   link: gameLinkURL,
   //   icon: GameIcon,
   //   activeIcon: GameIconFilled,
   //   external: true
   // },
   {
-    label: 'class_material_sidemenu',
-    link: classMaterialURL || "https://naonow.instructure.com/",
+    label: 'class_material',
+    link: classMaterialURL || 'https://naonow.instructure.com/',
     icon: ClassMaterialIcon,
     activeIcon: ClassMaterialIcon,
     external: true
@@ -231,7 +221,7 @@ const adminNavLinks = [
     activeIcon: ActiveIcon18
   },
   {
-    label: 'appointment_calendar',
+    label: 'lessons',
     link: '/admin/lesson-calendar',
     icon: Icon2,
     activeIcon: ActiveIcon2
@@ -241,13 +231,13 @@ const adminNavLinks = [
 const Sidebar = () => {
   let location = useLocation()
   const history = useHistory()
-  const [t] = useTranslation('translation')
+  const [t] = useTranslation(['common', 'sidebar'])
   const dispatch = useDispatch()
   const isShowSidebar = useSelector(state => state.settings.isShowSidebar)
 
-  const { user: CurrentUser, logout } = useAuth();
+  const { user: CurrentUser, logout } = useAuth()
 
-  const user_role = CurrentUser.role && CurrentUser.role;
+  const user_role = CurrentUser.role && CurrentUser.role
 
   tutorNavLinks.map(item => {
     item.is_selected = location.pathname.includes(item.link)
@@ -263,7 +253,6 @@ const Sidebar = () => {
     item.is_selected = location.pathname.includes(item.link)
     return item
   })
-
 
   const [navLinks, setNavLinks] = useState([])
 
@@ -289,7 +278,12 @@ const Sidebar = () => {
   return (
     <>
       <div className='side-bar desktop-version'>
-        <img onClick={() => history.push("/")} src={Logo} className='sidebar-logo' alt='' />
+        <img
+          onClick={() => history.push('/')}
+          src={Logo}
+          className='sidebar-logo'
+          alt=''
+        />
         <div className='link-list'>
           {navLinks &&
             navLinks.map((item, index) =>
@@ -302,10 +296,10 @@ const Sidebar = () => {
                 >
                   {item.external ? (
                     <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        window.open(item.link);
+                      href='#'
+                      onClick={e => {
+                        e.preventDefault()
+                        window.open(item.link)
                       }}
                     >
                       <div className='icon'>
@@ -320,7 +314,7 @@ const Sidebar = () => {
                           className={!item.is_selected ? 'block' : 'none'}
                         />
                       </div>
-                      <span>{t(item.label)}</span>
+                      <span>{t(item.label, { ns: 'sidebar' })}</span>
                     </a>
                   ) : (
                     <Link to={item.link}>
@@ -336,7 +330,7 @@ const Sidebar = () => {
                           className={!item.is_selected ? 'block' : 'none'}
                         />
                       </div>
-                      <span>{t(item.label)}</span>
+                      <span>{t(item.label, { ns: 'sidebar' })}</span>
                     </Link>
                   )}
                 </li>
@@ -346,7 +340,7 @@ const Sidebar = () => {
       </div>
       {isShowSidebar ? (
         <div className='side-bar mobile-version'>
-          <h4 className='main-title'>{t('navigation')}</h4>
+          <h4 className='main-title'>{t('navigation', { ns: 'sidebar' })}</h4>
           <img
             src={CloseIcon}
             alt=''
@@ -382,7 +376,7 @@ const Sidebar = () => {
               <div className='icon'>
                 <img src={LogoutImg} alt='' />
               </div>
-              <span>{t('logout')}</span>
+              <span>{t('logout', { ns: 'common' })}</span>
             </li>
           </div>
         </div>

@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Layout from '../../../components/Layout'
-import moment from 'moment'
 import scheduleTick from '../../../assets/images/scheduleTick.svg'
 import continue_arrow from '../../../assets/images/continue_arrow.svg'
 
@@ -12,9 +11,9 @@ const SelectLesson = ({
   setTabIndex,
   clicked,
   setClicked,
-  lesson,
+  lesson
 }) => {
-  const [t] = useTranslation('translation')
+  const [t] = useTranslation(['lessons', 'common'])
   const history = useHistory()
   const planStatus = useSelector(state => state.students.planStatus)
   const disabled = clicked === null ? true : false
@@ -22,9 +21,9 @@ const SelectLesson = ({
   useEffect(() => {
     if (lesson) {
       setSelectedPlan(planStatus[0])
-      setTabIndex(1);
+      setTabIndex(1)
     }
-  }, [lesson]);
+  }, [lesson])
 
   const returnToDashboard = () => {
     history.push('/student/manage-lessons')
@@ -38,7 +37,6 @@ const SelectLesson = ({
     i,
     expirationDate
   }) => {
-
     return (
       <div className='pe-2 col-lg-4 main-container schedule-lesson'>
         <div
@@ -66,7 +64,7 @@ const SelectLesson = ({
             </div>
             <div className='row mb-1'>
               <div className='time_remaining'>
-                {duration} {t('minutes')}
+                {duration} {t('minutes', { ns: 'common' })}
               </div>
               <div className='remaining-lsn'>
                 {remaining} {t('lessons_remaining')}

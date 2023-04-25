@@ -1,0 +1,13 @@
+{
+  "dashboard": "대시보드",
+  "navigation": "탐색",
+  "lessons": "레슨 달력",
+  "games": "게임",
+  "class_material": "수업 자료",
+  "mentors": "멘토",
+  "students": "학생",
+  "refer": "친구 초대하기",
+  "manage_appointments": "레슨 관리",
+  "check_requests": "레슨 요청",
+  "my_availability": "내 수업 가능 일정"
+}

@@ -106,7 +106,7 @@ const BasicInfoForm = () => {
         </div>
         <div className='mb-4'>
           <label htmlFor='phone_number' className='form-label'>
-            <strong>{t('phone_number')}</strong>
+            <strong>{t('phone_number', { ns: 'common' })}</strong>
           </label>
           <input
             className='form-control mt-3'

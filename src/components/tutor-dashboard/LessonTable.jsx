@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import '../../assets/styles/calendar.scss'
 
 const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
-  const [t] = useTranslation('translation')
+  const [t] = useTranslation('lessons')
   const [displayTableData, setDisplayTableData] = useState([])
 
   useEffect(() => {
@@ -27,18 +27,12 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
   }, [tabularData])
 
   const tableHead = [
-    'Package',
-    // Do not delete this code, it is for future use
-    // t('level'),
-    // t('topic'),
-    // "Last Section Completed",
-    'Duration',
-    t('date_and_time'),
-    t("student_lesson_name"),
-    'Class Feedback'
+    t('lesson_package'),
+    t('duration'),
+    t('date_time'),
+    t('student_name'),
+    t('class_feedback')
   ]
-
-  console.log(displayTableData)
 
   return (
     <div className='scroll-layout'>
@@ -57,7 +51,7 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
               className='tr-center '
               style={{ transform: 'translateX(38%) translateY(30%)' }}
             >
-              <td>You don't have a lessons!</td>
+              <td>{t('no_lessons')}</td>
             </tr>
           )}
           {displayTableData.map((event, i) => (

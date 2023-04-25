@@ -18,7 +18,6 @@ import ScheduleCard from '../../../components/student-dashboard/ScheduleCard'
 import whiteSubscriptionIcon from '../../../assets/images/white_subscription_icon.svg'
 import whiteBookingIcon from '../../../assets/images/white_book_trial_icon.svg'
 import smileIcon from '../../../assets/images/smile_icon.svg'
-// import Loader from '../../../components/common/Loader'
 import { useAuth } from '../../../modules/auth'
 
 const options = [
@@ -29,7 +28,7 @@ const options = [
 const StudentListAppointments = () => {
   const { complete_appoint_id } = useParams()
   const dispatch = useDispatch()
-  const [t] = useTranslation('translation')
+  const [t] = useTranslation('dashboard')
   const [selectedOption, setSelectedOption] = useState(options[0])
   const [selectedLesson, setSelectedLesson] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -72,7 +71,7 @@ const StudentListAppointments = () => {
   }, [appointments, complete_appoint_id])
 
   const fetchAppointments = async () => {
-    let queryObj = {}
+    let queryObj = { status: 'scheduled' }
 
     if (user.role === 'student') {
       queryObj.student_id = user.student?.id
@@ -84,13 +83,9 @@ const StudentListAppointments = () => {
       queryObj.completed = true
     }
 
-    console.log(queryObj)
-
-    dispatch(getAppointments({...queryObj, status: "scheduled"}))
+    dispatch(getAppointments({ ...queryObj, status: 'scheduled' }))
     setIsLoading(false)
   }
-
-  console.log(appointments)
 
   const isWithinAweekArr = (appointments || [])
     .map(x => {
@@ -102,9 +97,8 @@ const StudentListAppointments = () => {
       if (
         moment(x.start_at).isBetween(startOfWeek, moment().endOf('isoWeek'))
       ) {
-
         return x
-      } 
+      }
     })
     .filter(x => x)
 
@@ -134,27 +128,28 @@ const StudentListAppointments = () => {
       )
     })
 
-
   const callToAction =
     appointments.length >= 0
       ? [
           {
             icon: smileIcon,
-            title: 'Give feedback on a lesson.',
+            title: t('student_dashboard_feedback', { ns: 'dashboard' }),
             disabled: true,
             button: {
               to: '',
-              text: 'Submit Feedback →'
+              text: t('student_dashboard_submit_feedback_btn', {
+                ns: 'dashboard'
+              })
             },
             color: '#D6336C',
             cl: ''
           },
           {
             icon: whiteBookingIcon,
-            title: 'View my progress.',
+            title: t('student_dashboard_progress', { ns: 'dashboard' }),
             button: {
               to: '/student/lesson-calendar?completed',
-              text: 'Completed Lessons →'
+              text: t('completed_lessons', { ns: 'dashboard' })
             },
             color: '#1482DA',
             cl: 'blue-progress'
@@ -163,14 +158,14 @@ const StudentListAppointments = () => {
       : [
           {
             icon: whiteBookingIcon,
-            title: t('book_trial'),
-            subtitle: t('book_trial_subtitle'),
+            title: t('book_trial', { ns: 'dashboard' }),
+            subtitle: t('book_trial_subtitle', { ns: 'dashboard' }),
             color: '#1482DA'
           },
           {
             icon: whiteSubscriptionIcon,
             title: t('purchase_subscription'),
-            subtitle: t('purchase_subscription_subtitle'),
+            subtitle: t('purchase_subscription_subtitle', { ns: 'dashboard' }),
             color: '#D6336C'
           }
         ]
@@ -183,10 +178,13 @@ const StudentListAppointments = () => {
             <div className='student-dashboard flex-left children-wrapper flex-change childern-padding'>
               <div className='set-container'>
                 <h4 className='welcome-message'>
-                  {t('student_dashboard_welcome', { name: user.firstName })}
+                  {t('student_dashboard_welcome', {
+                    ns: 'dashboard',
+                    name: user.firstName
+                  })}
                 </h4>
                 <p className='welcome-subtitle'>
-                  {t('student_dashboard_subtitle')}
+                  {t('student_dashboard_subtitle', { ns: 'dashboard' })}
                 </p>
                 <div className='schedule-lesson-select pt-3'>
                   <div className='page-card purple large-card py-5'>
@@ -200,7 +198,7 @@ const StudentListAppointments = () => {
                       </div>
                       <div className='col-9 dash_width'>
                         <p className='title mt-1 laptop-title mobile_dash'>
-                          {t('schedule_card')}
+                          {t('schedule_card', { ns: 'dashboard' })}
                         </p>
                       </div>
                     </div>
@@ -210,7 +208,7 @@ const StudentListAppointments = () => {
                           to='/student/schedule-lesson/select'
                           className='schedule-dashboard-buttons'
                         >
-                          {t('schedule_1_on_1_lesson')}
+                          {t('schedule_1_on_1_lesson', { ns: 'dashboard' })}
                         </Link>
                       </div>
                       {/* <div className='col-6 schedule-dashboard-button'>
@@ -227,7 +225,9 @@ const StudentListAppointments = () => {
               </div>
               <div className='row container justify-content-center mt-5'>
                 <div className='col px-4'>
-                  <h4 className='welcome-message'>Already had a lesson?</h4>
+                  <h4 className='welcome-message'>
+                    {t('already_lesson', { ns: 'dashboard' })}
+                  </h4>
                   <div className='dashboard-cards-inline mt-5'>
                     {callToAction.map((props, i) => (
                       <CTACard key={i} {...props} />
@@ -239,9 +239,12 @@ const StudentListAppointments = () => {
             <div className='student-list-appointments-wrapper flex-right changes-container'>
               {!isLoading && (
                 <div className='child-set_container dash_child-set_container '>
-                  <h4 className='weekly-schedule'>{t('weekly_schedule')}</h4>
+                  <h4 className='weekly-schedule'>
+                    {t('weekly_schedule', { ns: 'dashboard' })}
+                  </h4>
                   <div className='weekly-schedule-subtitle dash_weekly-schedule-subtitle'>
                     {t('student_dashboard_total_lessons', {
+                      ns: 'dashboard',
                       total_lessons: isWithinAweek.length,
                       t: isWithinAweek.length > 1 ? 's' : ''
                     })}
@@ -253,7 +256,9 @@ const StudentListAppointments = () => {
                           to='/student/schedule-lesson/select'
                           className='buttonsdash'
                         >
-                          {t('student_dashboard_edit_schedule')}
+                          {t('student_dashboard_edit_schedule', {
+                            ns: 'dashboard'
+                          })}
                         </Link>
                       </div>
                       <div>
@@ -261,7 +266,9 @@ const StudentListAppointments = () => {
                           to='/student/lesson-calendar'
                           className='buttonsdash-second'
                         >
-                          {t('student_dashboard_view_all_lessons')}
+                          {t('student_dashboard_view_all_lessons', {
+                            ns: 'dashboard'
+                          })}
                         </Link>
                       </div>
                     </section>
@@ -278,10 +285,10 @@ const StudentListAppointments = () => {
           <div className='d-flex flex-column min-vh-80 justify-content-center align-items-center'>
             <img src={emptyCalendar} alt='' className='img-fluid' />
             <div>
-              <h1>{t('student_dashboard_no_lessons')}</h1>
+              <h1>{t('student_dashboard_no_lessons', { ns: 'dashboard' })}</h1>
             </div>
             <h3 className='mt-0'>
-              {t('student_dashboard_no_lessons_subtitle')}
+              {t('student_dashboard_no_lessons_subtitle', { ns: 'dashboard' })}
             </h3>
             <div className='row  justify-content-center mt-5'>
               {callToAction.map((props, i) => (
@@ -312,7 +319,6 @@ const StudentListAppointments = () => {
           appointment={completedAppointment}
         />
       )}
-      {/* {isLoading && <Loader />} */}
     </Layout>
   )
 }

@@ -6,7 +6,7 @@ import moment from 'moment'
 import { getPlanStatus } from '../../actions/subscription'
 
 const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
-  const [t] = useTranslation('translation')
+  const [t] = useTranslation('modals')
   const dispatch = useDispatch()
   const [planLength, setPlanLength] = useState(0)
   const [isChecked, setIsChecked] = useState(false)
@@ -50,7 +50,7 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
       <div className='col-auto'>
         <div className='row'>
           <div className='col-11 ps-2'>
-            <h2>Warning</h2>
+            <h2>{t('warning')}</h2>
           </div>
           <div className='col-auto text-end pt-2 ps-4'>
             <button
@@ -62,10 +62,7 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
             ></button>
           </div>
         </div>
-        <p className='welcome-subtitle'>
-          Number of lessons left in your package that you can reschedule or
-          cancel:
-        </p>
+        <p className='welcome-subtitle'>{t('cancel_modal_desc')}</p>
         {cancellationDots}
         <div className='form-check pt-3'>
           <input
@@ -77,7 +74,7 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
             checked={isChecked}
           />
           <label className='form-check-label' htmlFor='cancel'>
-            Are you sure you want to cancel?
+            {t('confirm_cancel')}
           </label>
         </div>
 
@@ -96,7 +93,7 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
               onClick={onClick}
               disabled={!isChecked}
             >
-              {t('continue')}
+              {t('continue_cancel')}
             </button>
           </div>
         </div>

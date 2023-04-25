@@ -226,10 +226,12 @@ const ReschedulingTimeModal = ({
   }
 
   const ScheduleCard = ({ scheduleStartTime }) => {
-    const scheduleEndTime = moment(scheduleStartTime, [moment.ISO_8601, 'HH:mm']).add(
-      duration,
-      'minutes'
-    ).format('hh:mm A')
+    const scheduleEndTime = moment(scheduleStartTime, [
+      moment.ISO_8601,
+      'HH:mm'
+    ])
+      .add(duration, 'minutes')
+      .format('hh:mm A')
 
     return (
       <div className='time-card grey-border bg-white small-card pt-2 mt-4 container'>

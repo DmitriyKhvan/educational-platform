@@ -4,6 +4,7 @@ import AvailabilityPicker from '../pages/Tutors/Availiability/AvailabilityPicker
 import { AvailProv } from '../pages/Tutors/Availiability/AvailabilityProvider'
 import plusIcon from '../assets/images/plus_icon.svg'
 import { v4 as uuid } from 'uuid'
+import { useTranslation } from 'react-i18next'
 export const AvailabilityDayRow = ({
   day,
   setGatherAvailabilities,
@@ -25,6 +26,7 @@ export const AvailabilityDayRow = ({
   const { setAvailabilityRow, removeAvailabilityRow, availabilityRow } =
     useContext(AvailProv)
   const { addAvailRowUp } = useContext(AvailProv)
+  const [t] = useTranslation('common')
 
   useEffect(() => {
     setInitialRow('0')
@@ -93,7 +95,7 @@ export const AvailabilityDayRow = ({
       />
       <div className='col-sm-1 ms-3 me-5 align_day'>
         <div>
-          <strong>{day}</strong>
+          <strong>{t(day)}</strong>
         </div>
       </div>
       {toggle && (

@@ -11,6 +11,7 @@ import { STUDENTS_QUERY } from '../../modules/auth/graphql'
 import studentsModal from './StudentsModal'
 import Loader from '../../components/Loader/Loader'
 import StudentsModal from './StudentsModal'
+import { useTranslation } from 'react-i18next'
 
 const filtersList = [
   {
@@ -66,6 +67,7 @@ export default function StudentsList() {
   const { data } = useQuery(STUDENTS_QUERY, {
     errorPolicy: 'ignore'
   })
+  const [t] = useTranslation(['common', 'studentMentor'])
 
   const students = data?.students
 
@@ -85,8 +87,8 @@ export default function StudentsList() {
     <Layout>
       <div className='tutors_section'>
         <div className='tutors_title'>
-          <h1>Students</h1>
-          <p>Find new students or contact your favorite ones.</p>
+          <h1>{t('student_list', { ns: 'studentMentor' })}</h1>
+          <p>{t('student_list_desc', { ns: 'studentMentor' })}</p>
         </div>
 
         <div className='tutors_row'>
@@ -119,7 +121,7 @@ export default function StudentsList() {
                   </div>
                   <div className='tutors_control-buttons'>
                     <button onClick={() => handleMoreTutor(item.id)}>
-                      Learn more
+                      {t('learn_more', { ns: 'common' })}
                     </button>
                   </div>
                 </div>

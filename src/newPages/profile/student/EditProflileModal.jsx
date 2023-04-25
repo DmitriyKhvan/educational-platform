@@ -1,11 +1,11 @@
 import Modal from 'react-modal'
 import React from 'react'
-import {  Controller, useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { ReactComponent as Close } from '../../../assets/images/Close icon.svg'
 import AvatarImg from '../../../assets/avatar.png'
 import { TextInput } from '../../../components/TextInput'
 import { useAuth } from '../../../modules/auth'
-import Select from 'react-select';
+import Select from 'react-select'
 
 import {
   MUTATION_UPDATE_STUDENT,
@@ -16,31 +16,28 @@ import timezone from 'timezones-list'
 import { toast } from 'react-toastify'
 import { getData } from 'country-list'
 
-import { AiFillEdit } from "react-icons/ai"
+import { AiFillEdit } from 'react-icons/ai'
 
-const EditProflileModal = ({profileImage, isOpen, setIsOpen }) => {
-  const [updateStudent] = useMutation(
-    MUTATION_UPDATE_STUDENT
-  )
-  const [preview, setPreview] = React.useState({});
+const EditProflileModal = ({ profileImage, isOpen, setIsOpen }) => {
+  const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT)
+  const [preview, setPreview] = React.useState({})
 
-  const notifyAvatar = () => toast("Avatar is changed!")
-  const notify = () => toast("Student information is changed!")
+  const notifyAvatar = () => toast('Avatar is changed!')
+  const notify = () => toast('Student information is changed!')
 
-  const [updateUser] =
-    useMutation(MUTATION_UPDATE_USER)
+  const [updateUser] = useMutation(MUTATION_UPDATE_USER)
 
   const { user, refetchUser } = useAuth()
   const timezones = timezone.map(x => x.label)
 
-  const { reset, register, handleSubmit, control  } = useForm({
+  const { reset, register, handleSubmit, control } = useForm({
     defaultValues: {
       koreanEquivalent: user?.koreanEquivalent,
       gender: user?.gender,
       lastName: user?.lastName,
       firstName: user?.firstName,
       phoneNumber: user?.phoneNumber,
-      address: user?.address,
+      address: user?.address
     }
   })
 
@@ -69,7 +66,7 @@ const EditProflileModal = ({profileImage, isOpen, setIsOpen }) => {
         notifyAvatar()
       }
 
-       await refetchUser()
+      await refetchUser()
     }
 
     const { data: userData } = await updateUser({
@@ -81,7 +78,7 @@ const EditProflileModal = ({profileImage, isOpen, setIsOpen }) => {
           koreanEquivalent: area.koreanEquivalent,
           lastName: area.lastName,
           gender: area.gender,
-          timeZone:area.timeZone,
+          timeZone: area.timeZone,
           phoneNumber: area.phoneNumber,
           firstName: area.firstName,
           country: area.country,
@@ -98,7 +95,7 @@ const EditProflileModal = ({profileImage, isOpen, setIsOpen }) => {
     await refetchUser()
   }
 
-  const avatar = user?.student?.avatar?.url || AvatarImg;
+  const avatar = user?.student?.avatar?.url || AvatarImg
   const countries = getData().map(x => x.name)
 
   return (
@@ -120,17 +117,17 @@ const EditProflileModal = ({profileImage, isOpen, setIsOpen }) => {
         </button>
       </div>
       <div className='avatar-block'>
-        {avatar && <img src={profileImage} alt={"userInfo.tutorName"} />}
-        <label htmlFor="inputTag" className='file_upload'>
+        {avatar && <img src={profileImage} alt={'userInfo.tutorName'} />}
+        <label htmlFor='inputTag' className='file_upload'>
           <input
-            {...register("avatar")} 
+            {...register('avatar')}
             webkitdirectory
             directory
-            id="inputTag"  
-            type={"file"} 
+            id='inputTag'
+            type={'file'}
             multiple
           />
-          <AiFillEdit className="edit-icon"/>
+          <AiFillEdit className='edit-icon' />
         </label>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className='body'>
@@ -139,7 +136,7 @@ const EditProflileModal = ({profileImage, isOpen, setIsOpen }) => {
             <TextInput
               label='Korean Equivalent'
               type={'text'}
-              placeholder={"알렉스"}
+              placeholder={'알렉스'}
               {...register('koreanEquivalent')}
             />
           </section>
@@ -147,30 +144,24 @@ const EditProflileModal = ({profileImage, isOpen, setIsOpen }) => {
             <label>
               Gender
               <select {...register('gender')}>
-                <option  value={"male"}>
-                  Male
-                </option>
-                <option  value={"female"}>
-                  Female
-                </option>
+                <option value={'male'}>Male</option>
+                <option value={'female'}>Female</option>
               </select>
             </label>
           </section>
-      
+
           <div className='student_country'>
-            <label>
-              Time zone (optional)
-            </label>
+            <label>Time zone (optional)</label>
             <Controller
               control={control}
               defaultValue={user?.timeZone}
-              name="timeZone"
+              name='timeZone'
               render={({ field: { ref, value, onChange } }) => (
                 <Select
                   inputRef={ref}
                   value={{ label: value, value: value }}
                   options={timezones.map(each => {
-                    return { label: each, value: each };
+                    return { label: each, value: each }
                   })}
                   onChange={e => onChange(e.value)}
                 />
@@ -181,7 +172,7 @@ const EditProflileModal = ({profileImage, isOpen, setIsOpen }) => {
             <TextInput
               label='Last Name'
               type={'text'}
-              placeholder={"Addison"}
+              placeholder={'Addison'}
               {...register('lastName')}
             />
           </section>
@@ -189,7 +180,7 @@ const EditProflileModal = ({profileImage, isOpen, setIsOpen }) => {
             <TextInput
               label='First Name'
               type={'text'}
-              placeholder={"Alisa"}
+              placeholder={'Alisa'}
               {...register('firstName')}
             />
           </section>
@@ -197,7 +188,7 @@ const EditProflileModal = ({profileImage, isOpen, setIsOpen }) => {
             <TextInput
               label='Phone Number'
               type={'text'}
-              placeholder="+1(555)555-5555"
+              placeholder='+1(555)555-5555'
               {...register('phoneNumber')}
             />
           </section>
@@ -205,31 +196,28 @@ const EditProflileModal = ({profileImage, isOpen, setIsOpen }) => {
             <TextInput
               label='Address'
               type={'text'}
-              placeholder={"Bakarov 98"}
+              placeholder={'Bakarov 98'}
               {...register('address')}
             />
           </section>
           <div className='student_country'>
-            <label htmlFor='country'>
-              Country
-            </label>
+            <label htmlFor='country'>Country</label>
             <Controller
               control={control}
               defaultValue={user?.country}
-              name="country"
+              name='country'
               render={({ field: { ref, value, onChange } }) => (
                 <Select
                   inputRef={ref}
                   value={{ label: value, value: value }}
                   options={countries.map(each => {
-                    return { label: each, value: each };
+                    return { label: each, value: each }
                   })}
                   onChange={e => onChange(e.value)}
                 />
               )}
             />
           </div>
-
         </section>
         <button style={{ cursor: 'pointer' }} type='submit'>
           Save Edits
