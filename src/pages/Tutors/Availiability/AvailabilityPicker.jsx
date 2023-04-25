@@ -3,16 +3,221 @@ import { useTranslation } from 'react-i18next'
 import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment'
 import { AvailProv } from './AvailabilityProvider'
-import NotificationManager from '../../../components/NotificationManager'
-// import TimePicker from 'react-bootstrap-time-picker'
 import trashCan from '../../../assets/images/trash_can.svg'
-import Swal from 'sweetalert2'
-import { getTutorInfo, updateTutorAvailability } from '../../../actions/tutor'
-import VectorColor from '../../../assets/images/Vector-color.svg'
-import VectorLess from '../../../assets/images/Vector-arrow-less.svg'
 import Alert from '../../../components/Popup/Alert'
 import Select from 'react-select'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import findIndex from 'lodash/findIndex';
+
+const formatTime = time => {
+  return moment.utc(time * 1000).format('HH:mm')
+}
+
+const formatTimeToSeconds = time => {
+  const [hours, minutes] = time.split(':');
+  return ((parseInt(hours) * 60 * 60) + (parseInt(minutes) * 60));
+}
+
+const times = [
+  {
+    timeType: "12:00 AM",
+    time: 0
+  },
+  {
+    timeType: "12:30 AM",
+    time: 1800
+  },
+
+  {
+    timeType: "01:00 AM",
+    time: 3600
+  },
+  {
+    timeType: "01:30 AM",
+    time: 5400
+  },
+  {
+    timeType: "02:00 AM",
+    time: 7200
+  },
+  {
+    timeType: "02:30 AM",
+    time: 9000
+  },
+  {
+    timeType: "03:00 AM",
+    time: 10800
+  },
+  {
+    timeType: "03:30 AM",
+    time: 12600
+  },
+  {
+    timeType: "04:00 AM",
+    time: 14400
+  },
+  {
+    timeType: "04:30 AM",
+    time: 16200
+  },
+  {
+    timeType: "05:00 AM",
+    time: 18000
+  },
+  {
+    timeType: "05:30 AM",
+    time: 19800
+  },
+  {
+    timeType: "06:00 AM",
+    time: 21600
+  },
+  {
+    timeType: "06:30 AM",
+    time: 23400
+  },
+  {
+    timeType: "07:00 AM",
+    time: 25200
+  },
+  {
+    timeType: "07:30 AM",
+    time: 27000
+  },
+  {
+    timeType: "08:00 AM",
+    time: 28800
+  },
+  {
+    timeType: "08:30 AM",
+    time: 30600
+  },
+  {
+    timeType: "09:00 AM",
+    time: 32400
+  },
+  {
+    timeType: "09:30 AM",
+    time: 34200
+  },
+  {
+    timeType: "10:00 AM",
+    time: 36000
+  },
+  {
+    timeType: "10:30 AM",
+    time: 37800
+  },
+  {
+    timeType: "11:00 AM",
+    time: 39600
+  },
+  {
+    timeType: "11:30 AM",
+    time: 41400
+  },
+  {
+    timeType: "12:00 PM",
+    time: 43200
+  },
+  {
+    timeType: "12:30 PM",
+    time: 45000
+  },
+  {
+    timeType: "01:00 PM",
+    time: 46800
+  },
+  {
+    timeType: "01:30 PM",
+    time: 48600
+  },
+  {
+    timeType: "02:00 PM",
+    time: 50400
+  },
+  {
+    timeType: "02:30 PM",
+    time: 52200
+  },
+  {
+    timeType: "03:00 PM",
+    time: 54000
+  },
+  {
+    timeType: "03:30 PM",
+    time: 55800
+  },
+  {
+    timeType: "04:00 PM",
+    time: 57600
+  },
+  {
+    timeType: "04:30 PM",
+    time: 59400
+  },
+  {
+    timeType: "05:00 PM",
+    time: 61200
+  },
+  {
+    timeType: "05:30 PM",
+    time: 63000
+  },
+  {
+    timeType: "06:00 PM",
+    time: 64800
+  },
+  {
+    timeType: "06:30 PM",
+    time: 66600
+  },
+  {
+    timeType: "07:00 PM",
+    time: 68400
+  },
+  {
+    timeType: "07:30 PM",
+    time: 70200
+  },
+  {
+    timeType: "08:00 PM",
+    time: 72000
+  },
+  {
+    timeType: "08:30 PM",
+    time: 73800
+  },
+  {
+    timeType: "09:00 PM",
+    time: 75600
+  },
+  {
+    timeType: "09:30 PM",
+    time: 77400
+  },
+  {
+    timeType: "10:00 PM",
+    time: 79200
+  },
+  {
+    timeType: "10:30 PM",
+    time: 81000
+  },
+  {
+    timeType: "11:00 PM",
+    time: 82800
+  },
+  {
+    timeType: "11:30 PM",
+    time: 84600
+  },
+];
+
+const timeOptions = times.map(({ timeType, time }) => {
+  return { value: time, label: timeType };
+});
+
 const AvailabilityPicker = ({
   isAdmin,
   day,
@@ -45,202 +250,6 @@ const AvailabilityPicker = ({
   const [fromTime, setFromTime] = useState(frmTime)
   const [toTime, setToTime] = useState(tTime)
   const [currentData, setCurrentData] = useState([])
-
-  const times = [
-    {
-      timeType: "12:00 AM",
-      time: 0
-    },
-    {
-      timeType: "12:30 AM",
-      time: 1800
-    },
-
-    {
-      timeType: "01:00 AM",
-      time: 3600
-    },
-    {
-      timeType: "01:30 AM",
-      time: 5400
-    },
-    {
-      timeType: "02:00 AM",
-      time: 7200
-    },
-    {
-      timeType: "02:30 AM",
-      time: 9000
-    },
-    {
-      timeType: "03:00 AM",
-      time: 10800
-    },
-    {
-      timeType: "03:30 AM",
-      time: 12600
-    },
-    {
-      timeType: "04:00 AM",
-      time: 14400
-    },
-    {
-      timeType: "04:30 AM",
-      time: 16200
-    },
-    {
-      timeType: "05:00 AM",
-      time: 18000
-    },
-    {
-      timeType: "05:30 AM",
-      time: 19800
-    },
-    {
-      timeType: "06:00 AM",
-      time: 21600
-    },
-    {
-      timeType: "06:30 AM",
-      time: 23400
-    },
-    {
-      timeType: "07:00 AM",
-      time: 25200
-    },
-    {
-      timeType: "07:30 AM",
-      time: 27000
-    },
-    {
-      timeType: "08:00 AM",
-      time: 28800
-    },
-    {
-      timeType: "08:30 AM",
-      time: 30600
-    },
-    {
-      timeType: "09:00 AM",
-      time: 32400
-    },
-    {
-      timeType: "09:30 AM",
-      time: 34200
-    },
-    {
-      timeType: "10:00 AM",
-      time: 36000
-    },
-    {
-      timeType: "10:30 AM",
-      time: 37800
-    },
-    {
-      timeType: "11:00 AM",
-      time: 39600
-    },
-    {
-      timeType: "11:30 AM",
-      time: 41400
-    },
-    {
-      timeType: "12:00 AM",
-      time: 43200
-    },
-    {
-      timeType: "12:30 AM",
-      time: 45000
-    },
-    {
-      timeType: "01:00 PM",
-      time: 46800
-    },
-    {
-      timeType: "01:30 PM",
-      time: 48600
-    },
-    {
-      timeType: "02:00 PM",
-      time: 50400
-    },
-    {
-      timeType: "02:30 PM",
-      time: 52200
-    },
-    {
-      timeType: "03:00 PM",
-      time: 54000
-    },
-    {
-      timeType: "03:30 PM",
-      time: 55800
-    },
-    {
-      timeType: "04:00 PM",
-      time: 57600
-    },
-    {
-      timeType: "04:30 PM",
-      time: 59400
-    },
-    {
-      timeType: "05:00 PM",
-      time: 61200
-    },
-    {
-      timeType: "05:30 PM",
-      time: 63000
-    },
-    {
-      timeType: "06:00 PM",
-      time: 64800
-    },
-    {
-      timeType: "06:30 PM",
-      time: 66600
-    },
-    {
-      timeType: "07:00 PM",
-      time: 68400
-    },
-    {
-      timeType: "07:30 PM",
-      time: 70200
-    },
-    {
-      timeType: "08:00 PM",
-      time: 72000
-    },
-    {
-      timeType: "08:30 PM",
-      time: 73800
-    },
-    {
-      timeType: "09:00 PM",
-      time: 75600
-    },
-    {
-      timeType: "09:30 PM",
-      time: 77400
-    },
-    {
-      timeType: "10:00 PM",
-      time: 79200
-    },
-    {
-      timeType: "10:30 PM",
-      time: 81000
-    },
-    {
-      timeType: "11:00 PM",
-      time: 82800
-    },
-    {
-      timeType: "11:30 PM",
-      time: 84600
-    },
-  ]
 
   const {
     control
@@ -279,9 +288,6 @@ const AvailabilityPicker = ({
       }
     }
   }
-  const formatTime = time => {
-    return moment.utc(time * 1000).format('HH:mm')
-  }
 
   useEffect(()=>{
       if(frmTime !== undefined){
@@ -317,91 +323,51 @@ const AvailabilityPicker = ({
     removeAvailabilityRow(item)
   }
 
+  const fromTimeIndex = findIndex(timeOptions, { value: formatTimeToSeconds(fromTime) });
+  const toTimeIndex = findIndex(timeOptions, { value: formatTimeToSeconds(toTime) });
+
   return (
-    <>
+    <div className='row mx-0 mt-2'>
+      <div className='col-auto align_time_img-time over_form'>
+        <div className='d-flex '>
+          <Select
+            className='time_picker text-center ' 
+            defaultValue={timeOptions[fromTimeIndex]}
+            options={timeOptions}
+            onChange={e => {
+              onChangeTime(e.value, 'newTime', 'from')
+            }}
+          />
+        </div>
+      </div>
 
-        <>
-          <div className='row mx-0 mt-2'>
-            <div className='col-auto align_time_img-time over_form'>
-              <div className='d-flex '>
-                {/* <select  
-                  defaultValue={fromTime}
-                  className='time_picker text-center p-3' 
-                  onChange={time => onChangeTime(time.target.value, 'newTime', 'from')}
-                >
-                  {
-                    times.map(t => <option value={t.time}>{t.timeType}</option>)
-                  }
-                </select> */}
-
-             
-                <Select
-                  className='time_picker text-center ' 
-                  defaultValue={{label: fromTime}}
-                  options={times.map(({ timeType, time }) => {
-                    return { value: time, label: timeType };
-                  })}
-                  onChange={e => {
-                    onChangeTime(e.value, 'newTime', 'from')
-                  }}
-                />
-
-                {/* <TimePicker
-                  className='time_picker text-center p-3 '
-                  step={30}
-                  onChange={time => onChangeTime(time, 'newTime', 'from')}
-                  value={fromTime}
-                /> */}
-              </div>
-            </div>
-
-            <div className='col-auto align-self-center pickerToText '>
-              <span className='text-muted availability_to_text over_to_text'>
-                TO
-              </span>
-            </div>
-            <div className='col-auto align_time_img-time over_to'>
-              <div className='d-flex '>
-                {/* <select  
-                  defaultValue={toTime} 
-                  className='time_picker text-center p-3'  
-                  onChange={time => onChangeTime(time.target.value, 'newTime', 'to')}
-                >
-                  {
-                    times.map(t => <option value={t.time}>{t.timeType}</option>)
-                  }
-                </select> */}
-                 <Select
-                  className='time_picker text-center' 
-                  defaultValue={{label: toTime}}
-                  options={times.map(({ timeType, time }) => {
-                    return { value: time, label: timeType };
-                  })}
-                  onChange={e => {
-                    onChangeTime(e.value, 'newTime', 'to')
-                  }}
-                />
-                {/* <TimePicker
-                  className='time_picker text-center p-3'
-                  step={30}
-                  onChange={time => onChangeTime(time, 'newTime', 'to')}
-                  defaultValue={toTime}
-                /> */}
-              </div>
-            </div>
-            <div className='col-auto align-self-center '>
-              <button
-                type='button'
-                className='btn fa_trash_can ms-3 pb-0 align_delete'
-                onClick={() => removeRowDown(type)}
-              >
-                <img src={trashCan} className='fa_icon' alt='' />
-              </button>
-            </div>
-          </div>
-        </>
-      {/* )} */}
-    </>
+      <div className='col-auto align-self-center pickerToText '>
+        <span className='text-muted availability_to_text over_to_text'>
+          TO
+        </span>
+      </div>
+      <div className='col-auto align_time_img-time over_to'>
+        <div className='d-flex '>
+            <Select
+            className='time_picker text-center' 
+            defaultValue={timeOptions[toTimeIndex]}
+            options={timeOptions}
+            onChange={e => {
+              onChangeTime(e.value, 'newTime', 'to')
+            }}
+          />
+        </div>
+      </div>
+      <div className='col-auto align-self-center '>
+        <button
+          type='button'
+          className='btn fa_trash_can ms-3 pb-0 align_delete'
+          onClick={() => removeRowDown(type)}
+        >
+          <img src={trashCan} className='fa_icon' alt='' />
+        </button>
+      </div>
+    </div>
   )
 }
 export default AvailabilityPicker
