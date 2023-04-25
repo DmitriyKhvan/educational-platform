@@ -80,11 +80,11 @@ const ApproveRequest = () => {
 
   const onClickApprove = async ({ id }) => {
     await dispatch(approveAppointment(id))
-    dispatch(getAppointments({ tutor_id: tutor.id }))
+    dispatch(getAppointments({ tutor_id: user?.tutor?.id, status: 'scheduled' }))
   }
   const onClickCancel = async ({ id }) => {
     await dispatch(cancelAppointment(id))
-    dispatch(getAppointments({ tutor_id: tutor.id }))
+    dispatch(getAppointments({ tutor_id: user?.tutor?.id, status: 'scheduled' }))
   }
 
   const displayLessonRequestTable = () => {
