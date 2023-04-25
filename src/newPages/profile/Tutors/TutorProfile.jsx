@@ -11,6 +11,7 @@ const TutorProfile = () => {
   const [t] = useTranslation()
   const [profileImage, setProfileImage] = useState('')
   const actions = useAuth();
+  const [aboutText, setAbout] = React.useState("");
 
   const user = actions?.user;
 
@@ -27,6 +28,43 @@ const TutorProfile = () => {
   }, [user])
 
   const videoUrl = actions.user?.tutor?.videoUrl;
+
+
+  function renderAbout() {
+    var text = actions.user?.tutor?.introduction;
+    var textLength = actions.user?.tutor?.introduction.length;
+    var news = "";
+    if(textLength) {
+      for(var i = 0; i < textLength;i++) {
+        if(i === 50) {
+          news += '\n'
+        }else if(i === 100) {
+          news += "\n"
+        } else if(i === 150) {
+          news += "\n"
+        }else  if(i === 200) {
+          news += "\n"
+        } else  if(i === 250) {
+          news += "\n"
+        } else  if(i === 300) {
+          news += "\n"
+        } else  if(i === 350) {
+          news += "\n"
+        } else {
+          news += text[i]
+        }
+      }
+    }
+
+    if(news) {
+      setAbout(news)
+    }
+  }
+
+  React.useEffect(() => {
+    renderAbout()
+  }, [user])
+
 
   return (
     <div className={cls.profile_page}>
@@ -60,7 +98,7 @@ const TutorProfile = () => {
             <h2>About me</h2>
 
             <p>
-              {actions.user?.tutor?.introduction}
+                {aboutText}
             </p>
           </div>  
 

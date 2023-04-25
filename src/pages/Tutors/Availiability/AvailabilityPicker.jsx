@@ -48,11 +48,11 @@ const AvailabilityPicker = ({
 
   const times = [
     {
-      timeType: "12:00 AM",
+      timeType: "12:00 PM",
       time: 0
     },
     {
-      timeType: "12:30 AM",
+      timeType: "12:30 PM",
       time: 1800
     },
 
@@ -338,6 +338,7 @@ const AvailabilityPicker = ({
                 <Select
                   className='time_picker text-center ' 
                   defaultValue={{label: fromTime}}
+                  isSearchable
                   options={times.map(({ timeType, time }) => {
                     return { value: time, label: timeType };
                   })}
@@ -374,6 +375,7 @@ const AvailabilityPicker = ({
                  <Select
                   className='time_picker text-center' 
                   defaultValue={{label: toTime}}
+                  isSearchable
                   options={times.map(({ timeType, time }) => {
                     return { value: time, label: timeType };
                   })}
