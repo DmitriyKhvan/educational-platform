@@ -46,5 +46,6 @@
   "edu_verification_subtitle1": "Please upload proof of your educational status.",
   "edu_verification_subtitle2": "Options include a Diploma, University Transcript, Certificates or Student ID.",
   "upload_limits": "JPG, PNG, or PDF format; maximum file size of 20MB.",
-  "prerecorded": "Have a pre-recorded video on Youtube or Vimeo?"
+  "prerecorded": "Have a pre-recorded video on Youtube or Vimeo?",
+  "textarea_limits": "400 characters minimum. {{count}} characters currrently."
 }

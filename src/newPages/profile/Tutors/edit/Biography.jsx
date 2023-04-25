@@ -13,13 +13,12 @@ import { useTranslation } from 'react-i18next'
 
 const Biography = ({ cls }) => {
   const [t] = useTranslation('profile')
-  const [intro, setIntro] = React.useState(0);
-  const [exp, setExp] = React.useState("");
-  const [facts, setFacts] = React.useState("");
+  const [intro, setIntro] = React.useState(0)
+  const [exp, setExp] = React.useState('')
+  const [facts, setFacts] = React.useState('')
   const [updateTutor, { loading: updateUserLoading }] = useMutation(
     MUTATION_UPDATE_TUTOR
   )
-
 
   const notify = () => toast('Biography information is changed!')
 
@@ -29,9 +28,9 @@ const Biography = ({ cls }) => {
   const {
     register,
     handleSubmit,
-    formState: {errors}
+    formState: { errors }
   } = useForm({
-    mode:"onBlur",
+    mode: 'onBlur',
     defaultValues: {
       introduction: user?.tutor?.introduction,
       relevantExperience: user?.tutor?.relevantExperience,
@@ -82,54 +81,57 @@ const Biography = ({ cls }) => {
         </div> */}
 
         <Textarea
-          placeholder="Include your name, university, degree(s), academic distinctions,
-          and why students should book lessons with you."
-          label="Introduction"
-          text="Include your name, university, degree(s), academic distinctions,
-          and why students should book lessons with you."
+          placeholder={t('bio_intro')}
+          label=''
+          text={t('bio_intro')}
           setState={setIntro}
           user={user?.tutor?.introduction?.length}
           state={intro}
-          {...register("introduction", {
+          {...register('introduction', {
             maxLength: {
-              value:400,
-              message: () => window.alert("The Introduction characters should be less than 400")
+              value: 400,
+              message: () =>
+                window.alert(
+                  'The Introduction characters should be less than 400'
+                )
             }
           })}
         />
         {errors?.introduction && errors?.introduction?.message()}
-        
-        <Textarea 
-          placeholder="Include tutoring, teaching, or other work experience
-          that is notable or related to your education."
-          label="Relevant Experience"
-          text="Include tutoring, teaching, or other work experience
-          that is notable or related to your education."
+
+        <Textarea
+          placeholder={t('bio_experience')}
+          label={t('bio_experience_label')}
+          text={t('bio_experience')}
           setState={setExp}
           user={user?.tutor?.relevantExperience?.length}
           state={exp}
-          {...register("relevantExperience", {
+          {...register('relevantExperience', {
             maxLength: {
-              value:400,
-              message: () => window.alert("The Relevant Experience characters should be less than 400")
+              value: 400,
+              message: () =>
+                window.alert(
+                  'The Relevant Experience characters should be less than 400'
+                )
             }
           })}
         />
         {errors?.relevantExperience && errors?.relevantExperience?.message()}
-        
-        <Textarea 
-          placeholder="For example, honors, accomplishments, hobbies, interests, or other jobs.
-          Try to show a bit of your personality!"
-          label="Unique facts about yourself"
-          text="For example, honors, accomplishments, hobbies, interests, or other jobs.
-          Try to show a bit of your personality!"
+
+        <Textarea
+          placeholder={t('bio_facts')}
+          label={t('bio_facts_label')}
+          text={t('bio_facts')}
           setState={setFacts}
           user={user.tutor?.uniqueFacts?.length}
           state={facts}
-          {...register("uniqueFacts", {
+          {...register('uniqueFacts', {
             maxLength: {
-              value:400,
-              message: () => window.alert("The Unique Facts characters should be less than 400")
+              value: 400,
+              message: () =>
+                window.alert(
+                  'The Unique Facts characters should be less than 400'
+                )
             }
           })}
         />
