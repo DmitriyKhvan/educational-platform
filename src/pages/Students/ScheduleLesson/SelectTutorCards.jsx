@@ -101,7 +101,7 @@ const GET_TUTORS_BY_ID = gql`
 `
 
 const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
-  const [t] = useTranslation('translation')
+  const [t] = useTranslation(['lessons', 'common'])
   const [isOpen, setIsOpen] = useState(false)
   const [modalSelectTutor, setModalSelectTutor] = useState({})
   const [availableTutors, setAvailableTutors] = useState([])
@@ -137,7 +137,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
           id: tutor.id,
           avatar: tutor?.avatar?.url ?? '',
           first_name: tutor.user.firstName,
-          last_name: tutor.user.lastName,
+          last_name: tutor.user.lastName
         }
       })
       setTutors(data)
@@ -321,13 +321,13 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
               className='enter-btn btn-dash-return buttonss'
               onClick={onClickLearnMore}
             >
-              {t('learn_more')}
+              {t('learn_more', { ns: 'common' })}
             </button>
             <button
               className='enter-btn btn-primary buttonss'
               onClick={onClick}
             >
-              {t('select_tutor')}
+              {t('select_mentor')}
             </button>
           </div>
         </div>
@@ -340,8 +340,8 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
         <div className='flex-container'>
           <div className='lesson-wrapper schedule_changess tutor_schedule_width '>
             <div className='pb-0'>
-              <h1 className='title mt-0'>{t('select_a_tutor')}</h1>
-              <p className='welcome-subtitle'>{t('select_a_tutor_subtitle')}</p>
+              <h1 className='title mt-0'>{t('select_mentor')}</h1>
+              <p className='welcome-subtitle'>{t('select_mentor_subtitle')}</p>
               <div className='row'>
                 <div className='col-auto'>
                   <div className='combos ms-2'>
@@ -349,7 +349,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
                       className=' btn-dash-return combobutton'
                       onClick={() => setTabIndex(1)}
                     >
-                      {t('back')}
+                      {t('back', { ns: 'common' })}
                     </button>
                     {/* <div className='combo'>
                       <div className='FavoritesTutors'>
@@ -387,13 +387,6 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
                   </div>
                 </div>
               </div>
-              {/* <div className='searchbox'>
-                <input
-                  type='text'
-                  placeholder={t('placeholder_search_tutor')}
-                  onChange={handleSearchTutor}
-                />
-              </div> */}
               <div className='row ps-2 pt-4 tutor-overflow-scroll tutor_schedule_widths '>
                 {availableTutors.map((x, i) => (
                   <SelectTutors tutor={x} key={i} />
@@ -403,7 +396,13 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
           </div>
         </div>
       </div>
-      {isOpen && <MentorsModal setShowTutorModal={setIsOpen} tutorId={modalSelectTutor} tutorsList={tutorsData.tutors}/>}
+      {isOpen && (
+        <MentorsModal
+          setShowTutorModal={setIsOpen}
+          tutorId={modalSelectTutor}
+          tutorsList={tutorsData.tutors}
+        />
+      )}
     </Layout>
   )
 }

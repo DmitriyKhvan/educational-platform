@@ -18,19 +18,19 @@ const CalendarModal = ({
   data,
   onCancel
 }) => {
-  const [t] = useTranslation('translation')
+  const [t] = useTranslation('modals')
   const [isWarningOpen, setIsWarningOpen] = useState(false)
   const isToday = moment(time).isSame(moment(), 'day')
   const [profileImage, setProfileImage] = React.useState('')
 
-  const avatar = data.resource?.tutor?.user?.avatar;
-
-  console.log(avatar)
+  const avatar = data.resource?.tutor?.user?.avatar
 
   React.useEffect(() => {
     if (avatar) {
       setProfileImage(avatar)
-    } else if (data?.resource?.tutor?.user?.gender?.toLowerCase() === 'female') {
+    } else if (
+      data?.resource?.tutor?.user?.gender?.toLowerCase() === 'female'
+    ) {
       setProfileImage(femaleAvatar)
     } else if (data?.resource?.tutor?.user?.gender?.toLowerCase() === 'male') {
       setProfileImage(maleAvatar)
@@ -38,9 +38,6 @@ const CalendarModal = ({
       setProfileImage(maleAvatar)
     }
   }, [avatar])
-    
-
-  console.log(data)
 
   const today = moment()
   const tenMinuteBeforeStart = moment(
@@ -64,15 +61,15 @@ const CalendarModal = ({
     }
   }
 
-  console.log(event)
-
   return (
     <div
       className={'page-card grey-border bg-white pt-2 mt-4'}
       key={index}
       style={{ maxWidth: '33vw' }}
     >
-      <p className='close-sh' onClick={closeModal}>&times;</p>
+      <p className='close-sh' onClick={closeModal}>
+        &times;
+      </p>
       <div className='container'>
         <div className='row'>
           <div className='col-9'>
@@ -94,27 +91,28 @@ const CalendarModal = ({
         </div>
       </div>
       <div className='schedule-modal-ls'>
-          <button
-            className='enter-btn grey-border text-black'
-            onClick={() => onCancel(data?.resource?.eventDate?.id)}
-          >
-            Cancel Lesson 
-            {/* {t('cancel')} */}
-          </button>
-          <Link
-            to={'/student/schedule-lesson/select/' + data?.resource?.eventDate?.id}
-            className='enter-btn grey-border text-black'
-          >
-            {t('reschedule')}
-          </Link>
-          <a
-            onClick={joinLesson}
-            target='_blank'
-            rel='noreferrer'
-            className='enter-btn grey-border text-black'
-          >
-            {t('join_lesson')}
-          </a>
+        <button
+          className='enter-btn grey-border text-black'
+          onClick={() => onCancel(data?.resource?.eventDate?.id)}
+        >
+          {t('cancel_lesson')}
+        </button>
+        <Link
+          to={
+            '/student/schedule-lesson/select/' + data?.resource?.eventDate?.id
+          }
+          className='enter-btn grey-border text-black'
+        >
+          {t('reschedule')}
+        </Link>
+        <a
+          onClick={joinLesson}
+          target='_blank'
+          rel='noreferrer'
+          className='enter-btn grey-border text-black'
+        >
+          {t('join_lesson')}
+        </a>
       </div>
       {isWarningOpen && (
         <ZoomWarningModal

@@ -21,10 +21,8 @@ import { toast } from 'react-toastify'
 import { useAuth } from '../../modules/auth'
 
 const Calendar = () => {
-  const [t] = useTranslation('translation')
+  const [t] = useTranslation('lessons')
   const dispatch = useDispatch()
-  // const user = useSelector(state => state.users.user)
-  // const tutor = useSelector(state => state.tutor.info)
   const calendarAppointments = useSelector(
     state => state.appointment.calendarEvents
   )
@@ -44,7 +42,7 @@ const Calendar = () => {
   const [isCancelLessonModalOpen, setIsCancelLessonModalOpen] = useState(false)
   const [isWarningOpen, setIsWarningOpen] = useState(false)
 
-  const {user} = useAuth()
+  const { user } = useAuth()
 
   const customStyles = {
     content: {
@@ -63,9 +61,8 @@ const Calendar = () => {
 
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
-    Intl.DateTimeFormat().resolvedOptions().timeZone;
+    Intl.DateTimeFormat().resolvedOptions().timeZone
 
-    console.log(user)
   const localizer = momentLocalizer(moment.tz.setDefault(userTimezone))
   const allViews = ['month', 'week', 'day']
   const formats = {
@@ -76,24 +73,14 @@ const Calendar = () => {
   }
 
   const fetchData = () => {
-    dispatch(getAppointments({ tutor_id: user.tutor?.id, status: "scheduled" }))
+    dispatch(getAppointments({ tutor_id: user.tutor?.id, status: 'scheduled' }))
   }
 
-  // useEffect(() => {
-  //   dispatch(getUserInfo())
-  // }, [dispatch])
-
   useEffect(() => {
-    // if (user && user.tutor_profile && !tutor) {
-    //   dispatch(getTutorInfo(user.tutor_profile.id))
-    // }
-
-    if ((user && user.role) && user.role === 'admin') {
+    if (user && user.role && user.role === 'admin') {
       fetchData()
     }
   }, [user])
-
-  
 
   useEffect(() => {
     if (user && user?.tutor?.id) {
@@ -216,9 +203,8 @@ const Calendar = () => {
 
     const studentLessonLevel = students.level || 0
 
-    const studentAvatar = students.user?.avatar;
-    const tutorAvatar = user.tutor?.avatar?.url;
-
+    const studentAvatar = students.user?.avatar
+    const tutorAvatar = user.tutor?.avatar?.url
 
     const displayStudentAvatar = studentAvatar
       ? studentAvatar
@@ -299,7 +285,7 @@ const Calendar = () => {
                 </div>
                 <div className='col-1'>
                   <button
-                    style={{ backgroundColor: 'white', cursor:"pointer" }}
+                    style={{ backgroundColor: 'white', cursor: 'pointer' }}
                     onClick={closeCalendarModal}
                   >
                     <h1>
@@ -358,24 +344,20 @@ const Calendar = () => {
                           className='img-fluid rounded-corners'
                         />
                       </div>
-                      <p>
-                        {students?.user?.first_name}
-                      </p>
+                      <p>{students?.user?.first_name}</p>
                     </div>
                     <div className='col-4'>
                       <div>
                         <b>Mentor</b>
                       </div>
                       <div>
-                      <img
-                        src={displayTutorAvatar}
-                        alt='Tutor Avatar'
-                        className='img-fluid rounded-corners'
-                      />
+                        <img
+                          src={displayTutorAvatar}
+                          alt='Tutor Avatar'
+                          className='img-fluid rounded-corners'
+                        />
                       </div>
-                      <p>
-                      {eventDate?.tutor?.user?.first_name}
-                      </p>
+                      <p>{eventDate?.tutor?.user?.first_name}</p>
                     </div>
                   </div>
                 </div>
@@ -468,7 +450,7 @@ const Calendar = () => {
                   selectedTab === 'upcomingLessons' && 'btn-selected'
                 }`}
               >
-                <span>{t('upcoming_lessons')}</span>
+                <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
               </button>
               <button
                 type='button'
@@ -477,7 +459,7 @@ const Calendar = () => {
                   selectedTab === 'pastLessons' && 'btn-selected'
                 }`}
               >
-                <span>{t('past_lessons')}</span>
+                <span>{t('past_lessons', { ns: 'lessons' })}</span>
               </button>
             </div>
           </div>
@@ -489,7 +471,7 @@ const Calendar = () => {
               }`}
               onClick={onCalendarClick}
             >
-              <span>{'My Calendar'}</span>
+              <span>{t('calendar_view', { ns: 'lessons' })}</span>
             </button>
           </div>
         </div>
@@ -508,6 +490,14 @@ const Calendar = () => {
                 showMultiDayTimes
                 startAccessor='start'
                 endAccessor='end'
+                messages={{
+                  month: t('calendar_month'),
+                  week: t('calendar_week'),
+                  day: t('calendar_day'),
+                  previous: t('calendar_prev'),
+                  next: t('calendar_next'),
+                  today: t('calendar_today')
+                }}
               />
             ) : (
               <LessonTable

@@ -6,6 +6,28 @@ import i18next from 'i18next'
 import translation_en from './assets/lang/en/translations.json'
 import translation_kr from './assets/lang/kr/translations.json'
 import {
+  commonEn,
+  sidebarEn,
+  lessonsEn,
+  dashboardEn,
+  modalsEn,
+  studentMentorEn,
+  availabilityEn,
+  referEn,
+  profileEn
+} from './assets/lang/en'
+import {
+  commonKr,
+  sidebarKr,
+  lessonsKr,
+  dashboardKr,
+  modalsKr,
+  studentMentorKr,
+  availabilityKr,
+  referKr,
+  profileKr
+} from './assets/lang/kr'
+import {
   ApolloClient,
   ApolloLink,
   InMemoryCache,
@@ -44,10 +66,28 @@ i18next.init({
   lng: 'en', // language to use
   resources: {
     en: {
-      translation: translation_en // 'common' is our custom namespace
+      // translation: translation_en, // 'common' is our custom namespace,
+      common: commonEn,
+      sidebar: sidebarEn,
+      lessons: lessonsEn,
+      dashboard: dashboardEn,
+      modals: modalsEn,
+      studentMentor: studentMentorEn,
+      availability: availabilityEn,
+      refer: referEn,
+      profile: profileEn
     },
     kr: {
-      translation: translation_kr // 'common' is our custom namespace
+      // translation: translation_kr, // 'common' is our custom namespace
+      common: commonKr,
+      sidebar: sidebarKr,
+      lessons: lessonsKr,
+      dashboard: dashboardKr,
+      modals: modalsKr,
+      studentMentor: studentMentorKr,
+      availability: availabilityKr,
+      refer: referKr,
+      profile: profileKr
     }
   }
 })

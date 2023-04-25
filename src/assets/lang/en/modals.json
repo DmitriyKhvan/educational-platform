@@ -1,0 +1,15 @@
+{
+  "zoom_modal_title": "Ready to being class?",
+  "zoom_modal_desc": "Your zoom link will become active 10 minutes before the start of class.",
+  "warning": "Warning",
+  "cancel_modal_desc": "Number of lessons left in your package that you can reschedule or cancel:",
+  "confirm_cancel": "Are you sure you want to cancel?",
+  "review_cancellation_policy": "Review Cancellation Policy",
+  "continue_cancel": "Continue →",
+  "join_lesson": "Join Lesson",
+  "cancel_lesson": "Cancel Lesson",
+  "reschedule": "Reschedule",
+  "swal_fire_title_schedule_prescreen": "Class cut off date reached",
+  "swal_fire_text_schedule_prescreen": "Please select lesson date 48 hours prior to class start time.",
+  "swal_fire_footer_schedule_prescreen": "Try any time after"
+}

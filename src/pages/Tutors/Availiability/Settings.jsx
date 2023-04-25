@@ -7,7 +7,7 @@ import NotificationManager from '../../../components/NotificationManager'
 import { useHistory } from 'react-router-dom'
 import fedHolidays from '@18f/us-federal-holidays'
 export const Settings = () => {
-  const [t] = useTranslation('translation')
+  const [t] = useTranslation('availability')
   const history = useHistory()
   // states for handling switch toggled
   const [subBookings, setSubBookings] = useState(false)
@@ -60,7 +60,6 @@ export const Settings = () => {
       TutorApi.updateExceptionDates(FederalHolidays, tutor_id).then(
         response => {
           if (response.status === 200) {
-            
             history.push('/tutor/availability')
           }
         }
@@ -68,7 +67,6 @@ export const Settings = () => {
     } else {
       TutorApi.updateExceptionDates([], tutor_id).then(response => {
         if (response.status === 200) {
-          
           history.push('/tutor/availability')
         }
       })

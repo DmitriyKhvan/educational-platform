@@ -22,13 +22,15 @@ const ScheduleCard = ({
   fetchAppointments,
   cancelled
 }) => {
-  const [t] = useTranslation('translation')
+  const [t] = useTranslation('modals')
   const [isOpen, setIsOpen] = useState(false)
   const [isWarningOpen, setIsWarningOpen] = useState(false)
   const [modalType, setModalType] = useState('')
   const [tabIndex, setTabIndex] = useState(0)
   const { user } = useAuth()
-  const userTimezone = user?.timeZone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone
+  const userTimezone =
+    user?.timeZone?.split(' ')[0] ||
+    Intl.DateTimeFormat().resolvedOptions().timeZone
 
   function onSelect() {
     setIsOpen(true)
@@ -78,7 +80,10 @@ const ScheduleCard = ({
   const displayDate = () => {
     const eventDate = moment(date).tz(userTimezone).format('MMM Do')
     const start = moment(date).tz(userTimezone).format('hh:mm A')
-    const end = moment(date).tz(userTimezone).add(data.duration, 'minutes').format('hh:mm A')
+    const end = moment(date)
+      .tz(userTimezone)
+      .add(data.duration, 'minutes')
+      .format('hh:mm A')
     return `${eventDate} at ${start} → ${end}`
   }
 
@@ -163,7 +168,7 @@ const ScheduleCard = ({
                 : 'grey-border text-black m-0'
             }`}
           >
-            {t('cancel')}
+            {t('cancel_lesson')}
           </a>
         </div>
       </div>

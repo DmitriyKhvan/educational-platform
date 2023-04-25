@@ -20,9 +20,15 @@ import Loader from '../../../components/common/Loader'
 import { useAuth } from '../../../modules/auth'
 import LessonCard from './LessonCard'
 
-const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null }) => {
+const LessonConfirmation = ({
+  plan,
+  tutor,
+  time,
+  setTabIndex,
+  lessonId = null
+}) => {
   const dispatch = useDispatch()
-  const [t] = useTranslation('translation')
+  const [t] = useTranslation(['common', 'lessons', 'dashboard'])
   const [repeat, setRepeat] = useState({})
   const [cancel, setCancel] = useState({})
   const [isLoading, setIsLoading] = useState(false)
@@ -31,7 +37,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
   const [newAppointment, setNewAppointment] = useState({})
   const [isConfirmed, setIsConfirmed] = useState(false)
   const [date, setDate] = useState()
-  const [confirmDisable, setConfirmDisable] = useState(false) 
+  const [confirmDisable, setConfirmDisable] = useState(false)
   const fetchAppointments = async () => {
     return await dispatch(getAppointments())
   }
@@ -49,16 +55,18 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
     }
   }
 
-  const userTimezone = user?.timeZone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const scheduleDate = moment(time)
-    .tz(userTimezone)
-    .format('dddd, MMM DD')
+  const userTimezone =
+    user?.timeZone?.split(' ')[0] ||
+    Intl.DateTimeFormat().resolvedOptions().timeZone
+  const scheduleDate = moment(time).tz(userTimezone).format('dddd, MMM DD')
 
-    console.log(userTimezone)
-
+  console.log(userTimezone)
 
   const scheduleStartTime = moment(time).tz(userTimezone).format('hh:mm A')
-  const scheduleEndTime = moment(time).tz(userTimezone).add(plan?.duration, 'minutes').format('hh:mm A')
+  const scheduleEndTime = moment(time)
+    .tz(userTimezone)
+    .add(plan?.duration, 'minutes')
+    .format('hh:mm A')
 
   let data = {
     lesson_title: plan?.lesson_title,
@@ -245,10 +253,10 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
           <div className=' children-wrapper tutor-confirm-left flex-left '>
             <div className='set-container_tutor'>
               <h1 className='title my-2 mt-0 confirm-tutor-title'>
-                {t('confirmation')}
+                {t('confirmation', { ns: 'lessons' })}
               </h1>
               <p className='welcome-subtitle confirm-tutor-subtitle'>
-                {t('confirmation_subtitle')}
+                {t('confirmation_subtitle', { ns: 'lessons' })}
               </p>
               <div className='row '>
                 <div className='col-auto button-size'>
@@ -256,7 +264,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
                     className='confirm-tutor-enter-btn mobile-width'
                     onClick={() => setTabIndex(0)}
                   >
-                    {t('edit_lesson')}
+                    {t('edit_lesson', { ns: 'lessons' })}
                   </button>
                 </div>
                 <div className='col-auto button-size'>
@@ -264,7 +272,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
                     className='confirm-tutor-enter-btn mobile-width'
                     onClick={() => setTabIndex(1)}
                   >
-                    {t('edit_schedule')}
+                    {t('edit_schedule', { ns: 'lessons' })}
                   </button>
                 </div>
                 <div className='col-auto button-size'>
@@ -272,24 +280,28 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
                     className='confirm-tutor-enter-btn mobile-width'
                     onClick={() => setTabIndex(2)}
                   >
-                    {t('edit_tutor')}
+                    {t('edit_mentor', { ns: 'lessons' })}
                   </button>
                 </div>
               </div>
 
               <p className='welcome-subtitle pt-4 confirm-tutor-subtitle'>
-                {t('lesson_topic')}
+                {t('lesson_topic', { ns: 'lessons' })}
               </p>
               <div className='lesson_card-inline'>
                 <LessonCard
                   lesson={plan?.lesson_type}
-                  duration={plan?.duration}
-                  remaining={plan?.total_lessons}
+                  duration={`${plan?.duration} ${t('minutes', {
+                    ns: 'common'
+                  })}`}
+                  remaining={t('lessons_remaining', {
+                    ns: 'lessons',
+                    count: plan?.total_lessons
+                  })}
                 />
-               
               </div>
               <p className='welcome-subtitle pt-4 confirm-tutor-subtitle'>
-                {t('date_and_time')}
+                {t('date_time', { ns: 'lessons' })}
               </p>
               <div className='row container ps-2 mobile-width-subtitle'>
                 <ScheduleCard
@@ -299,7 +311,7 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
                 />
               </div>
               <p className='welcome-subtitle pt-4 confirm-tutor-subtitle'>
-                {t('tutor')}
+                {t('mentor', { ns: 'lessons' })}
               </p>
               <div className='row ps-2 tutor-image'>
                 <TutorImageRow tutor={tutor} />
@@ -376,10 +388,16 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
             <div className='align_width_width'>
               <div className='d-grid gap-2 pt-3 buttons-Lesson-shape'>
                 <button
-                  className={ confirmDisable ? 'btn btn-primary text-white buttons-Lesson disB ' : 'btn btn-primary text-white buttons-Lesson'}
+                  className={
+                    confirmDisable
+                      ? 'btn btn-primary text-white buttons-Lesson disB '
+                      : 'btn btn-primary text-white buttons-Lesson'
+                  }
                   onClick={confirmLesson}
                 >
-                  {confirmDisable ? "Lesson confirmed" : t('confirm_lesson')}
+                  {confirmDisable
+                    ? t('lesson_confirmation', { ns: 'lessons' })
+                    : t('confirm_lesson', { ns: 'lessons' })}
                 </button>
               </div>
             </div>
@@ -388,19 +406,23 @@ const LessonConfirmation = ({ plan, tutor, time, setTabIndex, lessonId = null })
           <div className='availability-wrapper  tutor-confirm-right flex-right-student-conf student-list-appointments-wrapper'>
             {isConfirmed ? (
               <React.Fragment>
-                <h4 className='weekly-schedule'>{t('lesson_confirmation')}</h4>
+                <h4 className='weekly-schedule'>
+                  {t('lesson_confirmation', { ns: 'lessons' })}
+                </h4>
                 <h4 className='text-purple weekly-schedule-subtitle'>
-                  {t('lesson_confirmation_subtitle')}
+                  {t('lesson_confirmation_subtitle', { ns: 'lessons' })}
                 </h4>
                 <div className='flex-container'>
                   <div>
                     <Link to='/student/manage-lessons' className='enter-btn'>
-                      {t('dashboard')}
+                      {t('return_to_dash', { ns: 'lessons' })}
                     </Link>
                   </div>
                   <div>
                     <Link to='/student/lesson-calendar' className='enter-btn'>
-                      {t('student_dashboard_view_all_lessons')}
+                      {t('student_dashboard_view_all_lessons', {
+                        ns: 'dashboard'
+                      })}
                     </Link>
                   </div>
                 </div>
