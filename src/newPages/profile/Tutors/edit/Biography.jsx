@@ -8,22 +8,30 @@ import { useAuth } from '../../../../modules/auth'
 import { MUTATION_UPDATE_TUTOR } from '../../../../modules/auth/graphql'
 import Submit from './Submit'
 import { Textarea } from './Textarea'
+
 import { useTranslation } from 'react-i18next'
 
 const Biography = ({ cls }) => {
   const [t] = useTranslation('profile')
+  const [intro, setIntro] = React.useState(0);
+  const [exp, setExp] = React.useState("");
+  const [facts, setFacts] = React.useState("");
   const [updateTutor, { loading: updateUserLoading }] = useMutation(
     MUTATION_UPDATE_TUTOR
   )
+
 
   const notify = () => toast('Biography information is changed!')
 
   const { user, refetchUser } = useAuth()
 
   const history = useHistory()
-
-  const { register, handleSubmit } = useForm({
-    mode: 'onBlur',
+  const {
+    register,
+    handleSubmit,
+    formState: {errors}
+  } = useForm({
+    mode:"onBlur",
     defaultValues: {
       introduction: user?.tutor?.introduction,
       relevantExperience: user?.tutor?.relevantExperience,
@@ -74,25 +82,58 @@ const Biography = ({ cls }) => {
         </div> */}
 
         <Textarea
-          placeholder={t('bio_intro')}
-          label=''
-          text={t('bio_intro')}
-          {...register('introduction')}
+          placeholder="Include your name, university, degree(s), academic distinctions,
+          and why students should book lessons with you."
+          label="Introduction"
+          text="Include your name, university, degree(s), academic distinctions,
+          and why students should book lessons with you."
+          setState={setIntro}
+          user={user?.tutor?.introduction?.length}
+          state={intro}
+          {...register("introduction", {
+            maxLength: {
+              value:400,
+              message: () => window.alert("The Introduction characters should be less than 400")
+            }
+          })}
         />
-
-        <Textarea
-          placeholder={t('bio_experience')}
-          label={t('bio_experience_label')}
-          text={t('bio_experience')}
-          {...register('relevantExperience')}
+        {errors?.introduction && errors?.introduction?.message()}
+        
+        <Textarea 
+          placeholder="Include tutoring, teaching, or other work experience
+          that is notable or related to your education."
+          label="Relevant Experience"
+          text="Include tutoring, teaching, or other work experience
+          that is notable or related to your education."
+          setState={setExp}
+          user={user?.tutor?.relevantExperience?.length}
+          state={exp}
+          {...register("relevantExperience", {
+            maxLength: {
+              value:400,
+              message: () => window.alert("The Relevant Experience characters should be less than 400")
+            }
+          })}
         />
-
-        <Textarea
-          placeholder={t('bio_facts')}
-          label={t('bio_facts_label')}
-          text={t('bio_facts')}
-          {...register('uniqueFacts')}
+        {errors?.relevantExperience && errors?.relevantExperience?.message()}
+        
+        <Textarea 
+          placeholder="For example, honors, accomplishments, hobbies, interests, or other jobs.
+          Try to show a bit of your personality!"
+          label="Unique facts about yourself"
+          text="For example, honors, accomplishments, hobbies, interests, or other jobs.
+          Try to show a bit of your personality!"
+          setState={setFacts}
+          user={user.tutor?.uniqueFacts?.length}
+          state={facts}
+          {...register("uniqueFacts", {
+            maxLength: {
+              value:400,
+              message: () => window.alert("The Unique Facts characters should be less than 400")
+            }
+          })}
         />
+        {errors?.uniqueFacts && errors?.uniqueFacts?.message()}
 
         <Submit />
       </div>

@@ -6,8 +6,28 @@ export const Textarea = React.forwardRef(({
   placeholder="",
   label="",
   text="",
+  user=0,
+  setState= 0,
+  state= 0,
   ...rest
 }, ref) => {
+  console.log(user)
+  const [count , setCount] = React.useState(0);
+
+  function renderCount() {
+    if(state !== 0) {
+      setCount(state)
+    } else if (user !== 0) {
+      setCount(user)
+    } else {
+      setCount(0)
+    }
+  }
+
+  React.useEffect(() => {
+    renderCount()
+  }, [state, user]);
+
   return (
    <div className={cls.form_divider}>
      <p className={cls.label}>{label}</p>
@@ -15,10 +35,12 @@ export const Textarea = React.forwardRef(({
      <textarea 
         placeholder={placeholder}
         ref={ref}
-        {...rest}
+        {...rest} 
+        onChange={e => setState(e.target.value.length)}
       >
     </textarea>
-    <p className={cls.rule}>400 characters minimum. 0 characters currrently.</p>
+    <p className={cls.rule}>400 characters minimum. {count} characters currrently.
+    </p>
    </div>
   )
 })
