@@ -1,86 +1,102 @@
-import { createContext, useState, useEffect, useContext } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
-import { ME_QUERY, LOGIN_MUTATION, RESET_PASSWORD_MUTATION, NEW_PASSWORD_MUTATION, INVITE_SET_PASSWORD_MUTATION } from './graphql';
+import { createContext, useState, useEffect, useContext } from 'react'
+import { useMutation, useQuery } from '@apollo/client'
+import {
+  ME_QUERY,
+  LOGIN_MUTATION,
+  RESET_PASSWORD_MUTATION,
+  NEW_PASSWORD_MUTATION,
+  INVITE_SET_PASSWORD_MUTATION
+} from './graphql'
 
-export const AuthContext = createContext({});
+export const AuthContext = createContext({})
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthInProgress, setIsAuthInProgress] = useState(true);
-  const { data: user, loading: userLoading, refetch: refetchUser } = useQuery(ME_QUERY);
-  const [loginMutation, { loading: loginLoading }] = useMutation(LOGIN_MUTATION);
-  const [sendUserPasswordResetLink] = useMutation(RESET_PASSWORD_MUTATION);
-  const [redeemUserPasswordResetToken] = useMutation(NEW_PASSWORD_MUTATION);
-  const [redeemInvitePasswordSetToken] = useMutation(INVITE_SET_PASSWORD_MUTATION);
+  const [isAuthInProgress, setIsAuthInProgress] = useState(true)
+  const {
+    data: user,
+    loading: userLoading,
+    refetch: refetchUser
+  } = useQuery(ME_QUERY)
+  const [loginMutation, { loading: loginLoading }] = useMutation(LOGIN_MUTATION)
+  const [sendUserPasswordResetLink] = useMutation(RESET_PASSWORD_MUTATION)
+  const [redeemUserPasswordResetToken] = useMutation(NEW_PASSWORD_MUTATION)
+  const [redeemInvitePasswordSetToken] = useMutation(
+    INVITE_SET_PASSWORD_MUTATION
+  )
+  const me = {
+    ...user?.me,
+    student: user?.me?.students?.[0] ?? null
+  }
 
   useEffect(() => {
     if (!userLoading && isAuthInProgress) {
-      setIsAuthInProgress(false);
+      setIsAuthInProgress(false)
     }
   }, [userLoading, isAuthInProgress])
 
   const login = async (email, password) => {
     const { data, errors, loading } = await loginMutation({
-      variables: { email, password },
-    });
+      variables: { email, password }
+    })
 
     if (data.authResult) {
-      localStorage.setItem('token', data.authResult.sessionToken);
-      await refetchUser();
+      localStorage.setItem('token', data.authResult.sessionToken)
+      await refetchUser()
     }
 
-    return { data, errors, loading };
+    return { data, errors, loading }
   }
 
-  const resetPassword = async (email) => {
+  const resetPassword = async email => {
     const { data } = await sendUserPasswordResetLink({
-      variables: {email}
+      variables: { email }
     })
 
-
-    return {data}
+    return { data }
   }
 
-  const newPassword = async (email, token , password) => {
+  const newPassword = async (email, token, password) => {
     const { data } = await redeemUserPasswordResetToken({
-      variables: {email, token , password}
+      variables: { email, token, password }
     })
 
-    return {data}
+    return { data }
   }
 
-  const inviteSetPassword = async (email, token , password) => {
+  const inviteSetPassword = async (email, token, password) => {
     const { data } = await redeemInvitePasswordSetToken({
-      variables: {email, token , password}
+      variables: { email, token, password }
     })
 
-    return {data}
+    return { data }
   }
-
 
   const logout = async () => {
-    localStorage.removeItem('token');
-    await refetchUser();
+    localStorage.removeItem('token')
+    await refetchUser()
   }
 
   return (
-    <AuthContext.Provider value={{
-      user: user?.me || null,
-      refetchUser,
-      login,
-      logout,
-      resetPassword,
-      newPassword,
-      inviteSetPassword,
-      isLoading: userLoading || loginLoading,
-      isAuthorized: !!user?.me,
-      isAuthInProgress,
-    }}>
+    <AuthContext.Provider
+      value={{
+        user: me || null,
+        refetchUser,
+        login,
+        logout,
+        resetPassword,
+        newPassword,
+        inviteSetPassword,
+        isLoading: userLoading || loginLoading,
+        isAuthorized: !!user?.me,
+        isAuthInProgress
+      }}
+    >
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
 
 export const useAuth = () => {
-  const contextValues = useContext(AuthContext);
-  return contextValues;
-};
+  const contextValues = useContext(AuthContext)
+  return contextValues
+}

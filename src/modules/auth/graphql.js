@@ -18,7 +18,7 @@ export const ME_QUERY = gql`
       timeZone
       phoneNumber
       koreanEquivalent
-      student {
+      students {
         id
         about
         avatar {
@@ -55,12 +55,11 @@ export const ME_QUERY = gql`
 `
 
 export const MENTORS_QUERY = gql`
-  query tutors
-    # # $where: TutorWhereInput!
-    # $orderBy: [TutorOrderByInput!]!
-    # $take: Int
-    # $skip: Int
-   {
+  query tutors # # $where: TutorWhereInput!
+  # $orderBy: [TutorOrderByInput!]!
+  # $take: Int
+  # $skip: Int
+  {
     tutors(take: null) {
       id
       user {
