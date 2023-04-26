@@ -11,7 +11,7 @@ export const ME_QUERY = gql`
       email
       gender
       address
-      # referal
+      referalCode
       referalId
       isActive
       country
