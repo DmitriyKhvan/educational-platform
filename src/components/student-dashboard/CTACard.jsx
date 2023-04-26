@@ -1,19 +1,19 @@
 import { Link } from 'react-router-dom'
 
-const CTACard = ({ icon, title, subtitle, button, color, disabled }) => (
-  <div style={{background: color}}  className={`page-card ${title} ${disabled && "disCard"} small-card  mx-4 ms-0`}>
+const CTACard = ({ icon, title, subtitle,bl, button, color, disabled }) => (
+  <div style={{background: color}}  className={`page-card dash-card  ${title} ${disabled && "disCard"} small-card  mx-4 ms-0`}>
     <div className='p-0 container'>
-      <section className='small-card-inline'>
+      <section className={`small-card-inline secblock`}>
         <div className='small-card-img-rounded'>
           <img src={icon} alt='' className='img-fluid ' />
         </div>
-        <h3 className='text-white'>{title}</h3>
+        <h3 className={`text-white`}>{title}</h3>
       </section>
       {
         button
           ? <Link
               to={button.to}
-              className='schedule-dashboard-buttons'
+              className={`schedule-dashboard-buttons`}
             >
               {button.text}
             </Link>

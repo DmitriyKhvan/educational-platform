@@ -147,6 +147,7 @@ const StudentListAppointments = () => {
           {
             icon: whiteBookingIcon,
             title: t('student_dashboard_progress', { ns: 'dashboard' }),
+            bl:"secblock",
             button: {
               to: '/student/lesson-calendar?completed',
               text: t('completed_lessons', { ns: 'dashboard' })

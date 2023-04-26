@@ -132,8 +132,8 @@ const ScheduleCard = ({
         </div>
       </div>
 
-      <div className='row align_schedule-lesson d-flex'>
-        <div className='schedule-card-col join_schedule-lesson ms-2'>
+      <div className='row-schedule-btns'>
+        <div className=''>
           <a
             onClick={joinLesson}
             className={`schedule_copy-button ${
@@ -145,7 +145,7 @@ const ScheduleCard = ({
             {t('join_lesson')}
           </a>
         </div>
-        <div className='schedule-card-col re_schedule-lesson ms-2'>
+        <div className=''>
           {/* <Dropdown trigger={['click']} overlay={menu} animation='slide-up'> */}
           <a
             className={`schedule_copy-button ${
@@ -159,7 +159,7 @@ const ScheduleCard = ({
           </a>
           {/* </Dropdown> */}
         </div>
-        <div className='schedule-card-col cancel_schedule-lesson'>
+        <div className=''>
           <a
             onClick={onCancel}
             className={`schedule_copy-button ${

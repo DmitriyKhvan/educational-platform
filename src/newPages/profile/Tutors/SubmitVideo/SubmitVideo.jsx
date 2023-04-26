@@ -83,6 +83,7 @@ const SubmitVideo = () => {
 
               <div className={cls.record_youtube}>
                 <p>{t('prerecorded')}</p>
+                <p>Upload video via youtube share!</p>
 
                 <div className={cls.record_youtube_row}>
                   <input
