@@ -8,8 +8,8 @@ import AuthLayout from '../../components/AuthLayout'
 import { useTranslation } from 'react-i18next'
 
 const Login = () => {
-  const [t] = useTranslation('translation')
-  const { login, isLoading } = useAuth();
+  const [t] = useTranslation('common')
+  const { login, isLoading } = useAuth()
 
   const [formData, setFormData] = useState({
     email: '',
@@ -66,7 +66,8 @@ const Login = () => {
   }
 
   const validateEmail = email => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(email)
   }
 

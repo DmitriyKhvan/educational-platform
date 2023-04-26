@@ -16,7 +16,7 @@ import NotificationManager from '../../components/NotificationManager'
 
 const Signup = () => {
   const history = useHistory()
-  const [t] = useTranslation('translation')
+  const [t] = useTranslation('common')
   const dispatch = useDispatch()
 
   const [formData, setFormData] = useState({
@@ -249,7 +249,7 @@ const Signup = () => {
     <AuthLayout>
       {!formData.user_role ? (
         <div className='auth-login'>
-          <p className='title text-center m-5'>{t('student_or_tutor')}</p>
+          <p className='title text-center m-5'>{t('student_or_mentor')}</p>
           <div className='welcome-body'>
             <div className='role-select'>
               <div className='role-card'>
@@ -270,7 +270,7 @@ const Signup = () => {
                   // href='/'
                   className='enter-btn btn btn-primary btn-lg'
                 >
-                  {t('enter_tutor')}
+                  {t('enter_mentor')}
                 </Link>
               </div>
             </div>
