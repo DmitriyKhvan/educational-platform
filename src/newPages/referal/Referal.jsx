@@ -57,11 +57,11 @@ const Referal = () => {
                   <span
                     onClick={() =>
                       copyText(
-                        `${window.location.origin}/referral/${user.referal_code}`
+                        `${window.location.origin}/referral/${user.referalCode}`
                       )
                     }
                   >
-                    {window.location.origin}/referral/{user.referal_code}
+                    {window.location.origin}/referral/{user.referalCode}
                   </span>
                 </div>
               </div>
@@ -79,12 +79,12 @@ const Referal = () => {
             <div className='left_share'>
               <input
                 type={'text'}
-                value={`${window.location.origin}/referral/${user.referal_code}`}
+                value={`${window.location.origin}/referral/${user.referalCode}`}
               />
               <span
                 onClick={() =>
                   copyText(
-                    `${window.location.origin}/referral/${user.referal_code}`
+                    `${window.location.origin}/referral/${user.referalCode}`
                   )
                 }
               >
@@ -93,19 +93,19 @@ const Referal = () => {
             </div>
             <div className='right_share'>
               <a
-                href={`mailto:insertyouremail@gmail.com?subject=look at this website&body=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referal_code}`}
+                href={`mailto:insertyouremail@gmail.com?subject=look at this website&body=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referalCode}`}
               >
                 <div>
                   <img src={email} alt='' />
                 </div>
               </a>
               <a
-                href={`sms:phone number&body=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referal_code}`}
+                href={`sms:phone number&body=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referalCode}`}
               >
                 <img src={Message} alt='' />
               </a>
               <a
-                href={`https://wa.me/?text=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referal_code}`}
+                href={`https://wa.me/?text=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referalCode}`}
               >
                 <img src={whatsapp} alt='' />
               </a>

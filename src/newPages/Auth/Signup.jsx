@@ -256,7 +256,7 @@ const Signup = () => {
                 <img src={ImgStudent} alt='' />
                 <p className='description'>{t('ima_student')}</p>
                 <Link
-                  href='/signup?role=student'
+                  to='/signup?role=student'
                   className='enter-btn btn btn-primary btn-lg'
                 >
                   {t('enter_student')}
