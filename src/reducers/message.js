@@ -1,34 +1,34 @@
-import ActionTypes from '../constants/actionTypes'
+import ActionTypes from '../constants/actionTypes';
 
 const initialState = {
   loading: false,
-  data: []
-}
+  data: [],
+};
 
 export default function users(state = initialState, action) {
-  let { payload } = action
+  let { payload } = action;
 
   switch (action.type) {
     case ActionTypes.GET_MESSAGE_INFO.REQUEST:
       return {
         ...state,
         loading: true,
-        data: []
-      }
+        data: [],
+      };
     case ActionTypes.GET_MESSAGE_INFO.SUCCESS:
       return {
         ...state,
         data: payload.messages,
-        loading: false
-      }
+        loading: false,
+      };
     case ActionTypes.GET_MESSAGE_INFO.FAILURE:
       return {
         ...state,
         loading: false,
-        data: []
-      }
+        data: [],
+      };
 
     default:
-      return state
+      return state;
   }
 }

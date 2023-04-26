@@ -1,22 +1,22 @@
-import axios from 'axios'
-import BaseApi from './BaseApi'
-import queryString from 'query-string'
+import axios from 'axios';
+import BaseApi from './BaseApi';
+import queryString from 'query-string';
 
 class SubscriptionApi extends BaseApi {
   getSubscriptions(data) {
-    const { group_type, lesson_type, duration } = data
+    const { group_type, lesson_type, duration } = data;
     return axios.get(
       `${
         this.REACT_APP_SERVER_URL
       }/payments/plans?group_type=${group_type}&lesson_type=${lesson_type}&duration=${parseInt(
-        duration
+        duration,
       )}`,
       {
         headers: {
-          Authorization: `Bearer ${this.getToken()}`
-        }
-      }
-    )
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      },
+    );
   }
 
   createPlan(plan) {
@@ -25,10 +25,10 @@ class SubscriptionApi extends BaseApi {
       { plan },
       {
         headers: {
-          Authorization: `Bearer ${this.getToken()}`
-        }
-      }
-    )
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      },
+    );
   }
 
   updatePlan(plan) {
@@ -37,35 +37,35 @@ class SubscriptionApi extends BaseApi {
       { plan },
       {
         headers: {
-          Authorization: `Bearer ${this.getToken()}`
-        }
-      }
-    )
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      },
+    );
   }
 
   getPlan(data) {
-    const { group_type, lesson_type, duration, period } = data
+    const { group_type, lesson_type, duration, period } = data;
     return axios.get(
       `${
         this.REACT_APP_SERVER_URL
       }/payments/plan?group_type=${group_type}&lesson_type=${lesson_type}&duration=${parseInt(
-        duration
+        duration,
       )}${period ? '&period=' + period : ''}`,
       {
         headers: {
-          Authorization: `Bearer ${this.getToken()}`
-        }
-      }
-    )
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      },
+    );
   }
 
   getPlanStatus(data) {
-    const query = queryString.stringify(data)
+    const query = queryString.stringify(data);
     return axios.get(`${this.REACT_APP_SERVER_URL}/payments/status?${query}`, {
       headers: {
-        Authorization: `Bearer ${this.getToken()}`
-      }
-    })
+        Authorization: `Bearer ${this.getToken()}`,
+      },
+    });
   }
 
   validateCoupon(data) {
@@ -73,10 +73,10 @@ class SubscriptionApi extends BaseApi {
       `${this.REACT_APP_SERVER_URL}/payments/validate-code/${data}`,
       {
         headers: {
-          Authorization: `Bearer ${this.getToken()}`
-        }
-      }
-    )
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      },
+    );
   }
 
   addCreditCard(payment_method) {
@@ -85,11 +85,11 @@ class SubscriptionApi extends BaseApi {
       { payment_method },
       {
         headers: {
-          Authorization: `Bearer ${this.getToken()}`
-        }
-      }
-    )
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      },
+    );
   }
 }
 
-export default new SubscriptionApi()
+export default new SubscriptionApi();

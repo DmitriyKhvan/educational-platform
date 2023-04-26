@@ -1,15 +1,15 @@
-import ActionTypes from '../constants/actionTypes'
+import ActionTypes from '../constants/actionTypes';
 
-export const setNotification = message => ({
+export const setNotification = (message) => ({
   type: ActionTypes.ADD_NOTIFICATION,
-  payload: message
-})
+  payload: message,
+});
 
-export const readNotification = id => ({
+export const readNotification = (id) => ({
   type: ActionTypes.READ_NOTIFICATION,
-  payload: id
-})
+  payload: id,
+});
 
 export const deleteAllNotification = () => ({
-  type: ActionTypes.DELETE_ALL_NOTIFICATION
-})
+  type: ActionTypes.DELETE_ALL_NOTIFICATION,
+});
