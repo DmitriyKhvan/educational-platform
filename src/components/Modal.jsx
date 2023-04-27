@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
 
-const Modal = props => {
+const Modal = (props) => {
   return (
     <>
       {props.visible && (
-        <div className='modal'>
+        <div className="modal">
           <div className={props.className}>
-            <div className='modal-content'>
-              <span className='close' onClick={props.onCancel}>
+            <div className="modal-content">
+              <span className="close" onClick={props.onCancel}>
                 &times;
               </span>
               {props.children}
@@ -16,7 +16,7 @@ const Modal = props => {
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Modal
+export default Modal;

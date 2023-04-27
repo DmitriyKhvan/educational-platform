@@ -1,15 +1,15 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-import VideoIcon from '../../../../assets/Video.png'
-import { useAuth } from '../../../../modules/auth'
-import { useTranslation } from 'react-i18next'
+import VideoIcon from '../../../../assets/Video.png';
+import { useAuth } from '../../../../modules/auth';
+import { useTranslation } from 'react-i18next';
 
 const Intro = ({ cls }) => {
-  const [t] = useTranslation('profile')
-  const actions = useAuth()
+  const [t] = useTranslation('profile');
+  const actions = useAuth();
 
-  const videoUrl = actions.user?.tutor?.videoUrl
+  const videoUrl = actions.user?.tutor?.videoUrl;
 
   return (
     <div className={cls.editProfile_container_forms_intro} id={'intro'}>
@@ -23,18 +23,18 @@ const Intro = ({ cls }) => {
       <div className={cls.editProfile_container_forms_intro_row}>
         <div className={cls.intro_left}>
           <iframe
-            width='560'
-            height='315'
+            width="560"
+            height="315"
             src={`https://www.youtube.com/embed/${videoUrl}`}
-            title='YouTube video player'
-            frameborder='0'
-            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen
           ></iframe>
         </div>
         <div className={cls.intro_right}>
           <div className={cls.intro_right_card}>
-            <img src={VideoIcon} alt='' />
+            <img src={VideoIcon} alt="" />
 
             <h3>{t('upload_video')}</h3>
 
@@ -56,7 +56,7 @@ const Intro = ({ cls }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Intro
+export default Intro;

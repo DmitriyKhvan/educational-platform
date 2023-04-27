@@ -1,14 +1,14 @@
-import { useState } from 'react'
-import Modal from '../../components/Modal'
-import '../../assets/styles/student.scss'
-import { useTranslation } from 'react-i18next'
-import { Avatar } from '../../components/Avatar'
-import { ModalUserInfo } from './ModalUserInfo'
-import { UserHeader } from '../../components/UserHeader'
-import { PackagesView } from '../Students/Packages'
+import { useState } from 'react';
+import Modal from '../../components/Modal';
+import '../../assets/styles/student.scss';
+import { useTranslation } from 'react-i18next';
+import { Avatar } from '../../components/Avatar';
+import { ModalUserInfo } from './ModalUserInfo';
+import { UserHeader } from '../../components/UserHeader';
+import { PackagesView } from '../Students/Packages';
 
 const ModalSubscription = ({ user, onDismiss, visible }) => {
-  const [t, i18n] = useTranslation('translation')
+  const [t, i18n] = useTranslation('translation');
 
   return (
     <ModalUserInfo
@@ -17,16 +17,16 @@ const ModalSubscription = ({ user, onDismiss, visible }) => {
       user={user}
       onDismiss={onDismiss}
     >
-      <div className='scroll-layout'>
-        <div className='packages-layout'>
+      <div className="scroll-layout">
+        <div className="packages-layout">
           <UserHeader user={user} onAction={onDismiss} />
-          <div className='availability-layout'>
+          <div className="availability-layout">
             <PackagesView user_id={user.id} />
           </div>
         </div>
       </div>
     </ModalUserInfo>
-  )
-}
+  );
+};
 
-export default ModalSubscription
+export default ModalSubscription;

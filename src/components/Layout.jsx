@@ -1,72 +1,77 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import Navbar from './Navbar'
-import Sidebar from './Sidebar'
-import '../assets/styles/layout.scss'
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import Navbar from './Navbar';
+import Sidebar from './Sidebar';
+import '../assets/styles/layout.scss';
 // import { Elements } from '@stripe/react-stripe-js'
 // import { loadStripe } from '@stripe/stripe-js'
-import io from 'socket.io-client'
-import { setNotification } from '../actions/notification'
-import ReferMessageModal from './ReferMessageModal'
+import io from 'socket.io-client';
+import { setNotification } from '../actions/notification';
+import ReferMessageModal from './ReferMessageModal';
 
 const Layout = ({ children, fluid }) => {
-  const isShowSidebar = useSelector(state => state.settings.isShowSidebar)
+  const isShowSidebar = useSelector((state) => state.settings.isShowSidebar);
   // const stripe = loadStripe(process.env.REACT_APP_STRIPE_KEY)
-  const authed = useSelector(state => state.auth.authenticated)
-  const user = useSelector(state => state.users.user)
-  const [socket, setSocket] = useState(null)
-  const dispatch = useDispatch()
+  const authed = useSelector((state) => state.auth.authenticated);
+  const user = useSelector((state) => state.users.user);
+  const [socket, setSocket] = useState(null);
+  const dispatch = useDispatch();
   const [referalMessage, setReferalMessage] = React.useState(null);
-  const [showRefer, setRefer] = React.useState(false)
+  const [showRefer, setRefer] = React.useState(false);
 
   useEffect(() => {
     if (authed && user?.id) {
-      setSocket(io.connect(process.env.REACT_APP_SERVER_URL))
+      setSocket(io.connect(process.env.REACT_APP_SERVER_URL));
     }
-  }, [user, authed])
+  }, [user, authed]);
 
   useEffect(() => {
     if (socket) {
-      socket.on('join', onUserJoined)
-      socket.on('completeLesson', onCompleteLesson)
+      socket.on('join', onUserJoined);
+      socket.on('completeLesson', onCompleteLesson);
       socket.on('referal_confirmed', (data) => {
-        setReferalMessage(data)
-        setRefer(true)
-      })
+        setReferalMessage(data);
+        setRefer(true);
+      });
     }
-  }, [socket])
+  }, [socket]);
 
-  const onCompleteLesson = data => {
+  const onCompleteLesson = (data) => {
     dispatch(
       setNotification({
         message: `Lesson #${data.group.group_id} is completed`,
-        data
-      })
-    )
-  }
+        data,
+      }),
+    );
+  };
 
   const onUserJoined = () => {
-    socket.emit('join', user.id)
-  }
+    socket.emit('join', user.id);
+  };
 
   return (
     <>
-    {/* <Elements stripe={stripe}> */}
-      <div className='default-layout'>
-        {referalMessage && showRefer && <ReferMessageModal referalMessage={referalMessage} setRefer={setRefer}/>}
+      {/* <Elements stripe={stripe}> */}
+      <div className="default-layout">
+        {referalMessage && showRefer && (
+          <ReferMessageModal
+            referalMessage={referalMessage}
+            setRefer={setRefer}
+          />
+        )}
         <div className={`content ${fluid ? 'fluid' : ''}`}>
-          {isShowSidebar && <div className='mobile-fade-background' />}
+          {isShowSidebar && <div className="mobile-fade-background" />}
           <Sidebar />
-          <div className='children-page'>
+          <div className="children-page">
             <Navbar />
-            <div className=''>{children}</div>
+            <div className="">{children}</div>
           </div>
         </div>
         {/* <Footer /> */}
       </div>
-    {/* </Elements> */}
+      {/* </Elements> */}
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

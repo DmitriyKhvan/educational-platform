@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import cls from '../EditTutorProfile.module.scss'
-import { useTranslation } from 'react-i18next'
+import cls from '../EditTutorProfile.module.scss';
+import { useTranslation } from 'react-i18next';
 
 export const Textarea = React.forwardRef(
   (
@@ -14,25 +14,25 @@ export const Textarea = React.forwardRef(
       state = 0,
       ...rest
     },
-    ref
+    ref,
   ) => {
-    console.log(user)
-    const [count, setCount] = React.useState(0)
-    const [t] = useTranslation('profile')
+    console.log(user);
+    const [count, setCount] = React.useState(0);
+    const [t] = useTranslation('profile');
 
     function renderCount() {
       if (state !== 0) {
-        setCount(state)
+        setCount(state);
       } else if (user !== 0) {
-        setCount(user)
+        setCount(user);
       } else {
-        setCount(0)
+        setCount(0);
       }
     }
 
     React.useEffect(() => {
-      renderCount()
-    }, [state, user])
+      renderCount();
+    }, [state, user]);
 
     return (
       <div className={cls.form_divider}>
@@ -42,10 +42,10 @@ export const Textarea = React.forwardRef(
           placeholder={placeholder}
           ref={ref}
           {...rest}
-          onChange={e => setState(e.target.value.length)}
+          onChange={(e) => setState(e.target.value.length)}
         ></textarea>
         <p className={cls.rule}>{t('textarea_limits', { count })}</p>
       </div>
-    )
-  }
-)
+    );
+  },
+);

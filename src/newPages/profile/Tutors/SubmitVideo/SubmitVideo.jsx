@@ -1,55 +1,55 @@
-import React from 'react'
-import Layout from '../../../../components/Layout'
+import React from 'react';
+import Layout from '../../../../components/Layout';
 
-import cls from './SubmitVideo.module.scss'
+import cls from './SubmitVideo.module.scss';
 
-import VideoContainer from '../../../../assets/videos/video container.png'
-import VideoLayer from '../../../../assets/videos/VIDEO LAYER.png'
-import { useHistory } from 'react-router-dom'
-import { MUTATION_UPDATE_TUTOR } from '../../../../modules/auth/graphql'
-import { useMutation, useQuery } from '@apollo/client'
-import { useAuth } from '../../../../modules/auth'
-import { useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
+import VideoContainer from '../../../../assets/videos/video container.png';
+import VideoLayer from '../../../../assets/videos/VIDEO LAYER.png';
+import { useHistory } from 'react-router-dom';
+import { MUTATION_UPDATE_TUTOR } from '../../../../modules/auth/graphql';
+import { useMutation, useQuery } from '@apollo/client';
+import { useAuth } from '../../../../modules/auth';
+import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 const SubmitVideo = () => {
-  const history = useHistory()
+  const history = useHistory();
 
-  const [t] = useTranslation(['profile', 'common'])
+  const [t] = useTranslation(['profile', 'common']);
   const [updateTutor, { loading: updateUserLoading }] = useMutation(
-    MUTATION_UPDATE_TUTOR
-  )
+    MUTATION_UPDATE_TUTOR,
+  );
 
-  const { user, refetchUser } = useAuth()
+  const { user, refetchUser } = useAuth();
 
   const { register, handleSubmit } = useForm({
-    mode: 'onBlur'
-  })
+    mode: 'onBlur',
+  });
 
-  const handleEditVideo = async area => {
-    const url = area.videoUrl.slice(17)
+  const handleEditVideo = async (area) => {
+    const url = area.videoUrl.slice(17);
 
     if (url) {
       const { data } = await updateTutor({
         variables: {
           where: {
-            id: parseInt(user?.tutor?.id)
+            id: parseInt(user?.tutor?.id),
           },
-          data: { videoUrl: url }
-        }
-      })
+          data: { videoUrl: url },
+        },
+      });
 
       if (data) {
-        history.push('/tutor/edit-profiles/submit-videos/submited')
+        history.push('/tutor/edit-profiles/submit-videos/submited');
       }
     }
 
-    await refetchUser()
-  }
+    await refetchUser();
+  };
 
   const cancelVideo = () => {
-    history.push('/tutor/edit-profile')
-  }
+    history.push('/tutor/edit-profile');
+  };
 
   return (
     <Layout>
@@ -88,7 +88,7 @@ const SubmitVideo = () => {
                 <div className={cls.record_youtube_row}>
                   <input
                     type={'text'}
-                    placeholder='youtube.com/video'
+                    placeholder="youtube.com/video"
                     {...register('videoUrl')}
                   />
                   <button>{t('submit', { ns: 'common' })}</button>
@@ -131,7 +131,7 @@ const SubmitVideo = () => {
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default SubmitVideo
+export default SubmitVideo;

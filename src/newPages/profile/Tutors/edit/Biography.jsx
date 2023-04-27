@@ -1,66 +1,66 @@
-import { useMutation } from '@apollo/client'
-import React from 'react'
-import { useForm } from 'react-hook-form'
-import { useHistory } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import Stick from '../../../../assets/stick.png'
-import { useAuth } from '../../../../modules/auth'
-import { MUTATION_UPDATE_TUTOR } from '../../../../modules/auth/graphql'
-import Submit from './Submit'
-import { Textarea } from './Textarea'
+import { useMutation } from '@apollo/client';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Stick from '../../../../assets/stick.png';
+import { useAuth } from '../../../../modules/auth';
+import { MUTATION_UPDATE_TUTOR } from '../../../../modules/auth/graphql';
+import Submit from './Submit';
+import { Textarea } from './Textarea';
 
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next';
 
 const Biography = ({ cls }) => {
-  const [t] = useTranslation('profile')
-  const [intro, setIntro] = React.useState(0)
-  const [exp, setExp] = React.useState('')
-  const [facts, setFacts] = React.useState('')
+  const [t] = useTranslation('profile');
+  const [intro, setIntro] = React.useState(0);
+  const [exp, setExp] = React.useState('');
+  const [facts, setFacts] = React.useState('');
   const [updateTutor, { loading: updateUserLoading }] = useMutation(
-    MUTATION_UPDATE_TUTOR
-  )
+    MUTATION_UPDATE_TUTOR,
+  );
 
-  const notify = () => toast('Biography information is changed!')
+  const notify = () => toast('Biography information is changed!');
 
-  const { user, refetchUser } = useAuth()
+  const { user, refetchUser } = useAuth();
 
-  const history = useHistory()
+  const history = useHistory();
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
       introduction: user?.tutor?.introduction,
       relevantExperience: user?.tutor?.relevantExperience,
-      uniqueFacts: user?.tutor?.uniqueFacts
-    }
-  })
+      uniqueFacts: user?.tutor?.uniqueFacts,
+    },
+  });
 
-  const handleEditBigraphy = async area => {
+  const handleEditBigraphy = async (area) => {
     const { data } = await updateTutor({
       variables: {
         where: {
-          id: parseInt(user?.tutor?.id)
+          id: parseInt(user?.tutor?.id),
         },
-        data: area
-      }
-    })
+        data: area,
+      },
+    });
 
     if (data) {
-      notify()
-      history.push('/student/profile')
+      notify();
+      history.push('/student/profile');
     }
 
-    await refetchUser()
-  }
+    await refetchUser();
+  };
 
   return (
     <form
       onSubmit={handleSubmit(handleEditBigraphy)}
       className={cls.editProfile_container_forms_biography}
-      id='bio'
+      id="bio"
     >
       <div>
         <div className={cls.editProfile_container_forms_biography_title}>
@@ -82,7 +82,7 @@ const Biography = ({ cls }) => {
 
         <Textarea
           placeholder={t('bio_intro')}
-          label=''
+          label=""
           text={t('bio_intro')}
           setState={setIntro}
           user={user?.tutor?.introduction?.length}
@@ -92,9 +92,9 @@ const Biography = ({ cls }) => {
               value: 400,
               message: () =>
                 window.alert(
-                  'The Introduction characters should be less than 400'
-                )
-            }
+                  'The Introduction characters should be less than 400',
+                ),
+            },
           })}
         />
         {errors?.introduction && errors?.introduction?.message()}
@@ -111,9 +111,9 @@ const Biography = ({ cls }) => {
               value: 400,
               message: () =>
                 window.alert(
-                  'The Relevant Experience characters should be less than 400'
-                )
-            }
+                  'The Relevant Experience characters should be less than 400',
+                ),
+            },
           })}
         />
         {errors?.relevantExperience && errors?.relevantExperience?.message()}
@@ -130,9 +130,9 @@ const Biography = ({ cls }) => {
               value: 400,
               message: () =>
                 window.alert(
-                  'The Unique Facts characters should be less than 400'
-                )
-            }
+                  'The Unique Facts characters should be less than 400',
+                ),
+            },
           })}
         />
         {errors?.uniqueFacts && errors?.uniqueFacts?.message()}
@@ -140,7 +140,7 @@ const Biography = ({ cls }) => {
         <Submit />
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default Biography
+export default Biography;

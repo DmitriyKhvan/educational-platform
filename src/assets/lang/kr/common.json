@@ -26,6 +26,8 @@
   "required_email": "이메일을 입력하세요",
   "error_invalid_email": "잘못된 이메일 주소입니다",
   "required_password": "비밀번호를 입력하세요",
+  "forgot_password": "비밀번호 찾기",
+  "error_empty_field": "필수 입력란입니다.",
   "upload": "업로드",
   "korean": "한국어",
   "english": "영어",

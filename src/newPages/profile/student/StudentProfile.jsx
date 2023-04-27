@@ -1,122 +1,122 @@
-import React from 'react'
-import '../../../assets/styles/student.scss'
-import './style/StudentProfile.scss'
-import './style/GeneralProfile.scss'
-import { useAuth } from '../../../modules/auth'
-import { useMutation, useQuery } from '@apollo/client'
+import React from 'react';
+import '../../../assets/styles/student.scss';
+import './style/StudentProfile.scss';
+import './style/GeneralProfile.scss';
+import { useAuth } from '../../../modules/auth';
+import { useMutation, useQuery } from '@apollo/client';
 import {
   GROUPS_QUERY,
-  MUTATION_UPDATE_STUDENT
-} from '../../../modules/auth/graphql'
-import { toast } from 'react-toastify'
-import { useDispatch, useSelector } from 'react-redux'
-import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png'
-import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png'
-import { getPlanStatus } from '../../../actions/subscription'
-import { useHistory } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
+  MUTATION_UPDATE_STUDENT,
+} from '../../../modules/auth/graphql';
+import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
+import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
+import { getPlanStatus } from '../../../actions/subscription';
+import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const StudentProfile = () => {
-  const [t] = useTranslation(['profile', 'common', 'lessons'])
+  const [t] = useTranslation(['profile', 'common', 'lessons']);
   const {
     data: groups,
     userLoading,
-    refetch: refetchUser
-  } = useQuery(GROUPS_QUERY)
+    refetch: refetchUser,
+  } = useQuery(GROUPS_QUERY);
 
-  const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT)
+  const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
 
-  const [showEditModal, setIsShowEditModal] = React.useState(false)
-  const [summary, setSummary] = React.useState(false)
-  const [about, setAbout] = React.useState('')
-  const [save, setSave] = React.useState(false)
-  const notify = () => toast('Summary information is changed!')
-  const planStatus = useSelector(state => state.students.planStatus)
-  const [profileImage, setProfileImage] = React.useState('')
-  const dispatch = useDispatch()
-  const [schedule, setSchedule] = React.useState()
-  const navigate = useHistory()
+  const [showEditModal, setIsShowEditModal] = React.useState(false);
+  const [summary, setSummary] = React.useState(false);
+  const [about, setAbout] = React.useState('');
+  const [save, setSave] = React.useState(false);
+  const notify = () => toast('Summary information is changed!');
+  const planStatus = useSelector((state) => state.students.planStatus);
+  const [profileImage, setProfileImage] = React.useState('');
+  const dispatch = useDispatch();
+  const [schedule, setSchedule] = React.useState();
+  const navigate = useHistory();
 
-  const actions = useAuth()
-  const avatar = actions?.user?.student?.avatar?.url
+  const actions = useAuth();
+  const avatar = actions?.user?.student?.avatar?.url;
 
   React.useEffect(() => {
     if (avatar) {
-      setProfileImage(avatar)
+      setProfileImage(avatar);
     } else if (actions.user?.gender === 'female') {
-      setProfileImage(femaleAvatar)
+      setProfileImage(femaleAvatar);
     } else if (actions.user?.gender === 'male') {
-      setProfileImage(maleAvatar)
+      setProfileImage(maleAvatar);
     } else {
-      setProfileImage(maleAvatar)
+      setProfileImage(maleAvatar);
     }
-  }, [actions, avatar])
+  }, [actions, avatar]);
 
   const saveSummary = async () => {
     if (about !== '') {
       const { data } = await updateStudent({
         variables: {
           data: {
-            about: about
+            about: about,
           },
           where: {
-            id: parseInt(actions?.user?.student?.id)
-          }
-        }
-      })
+            id: parseInt(actions?.user?.student?.id),
+          },
+        },
+      });
 
       if (data) {
-        setSave(false)
-        setSummary(false)
-        setAbout('')
-        notify()
+        setSave(false);
+        setSummary(false);
+        setAbout('');
+        notify();
       }
 
-      await actions.refetchUser()
+      await actions.refetchUser();
     }
-  }
+  };
 
   const cancelSummary = () => {
-    setSummary(false)
-    setSave(false)
-    setAbout('')
-  }
+    setSummary(false);
+    setSave(false);
+    setAbout('');
+  };
 
   const editSummary = () => {
-    setSummary(true)
-    setSave(true)
-  }
+    setSummary(true);
+    setSave(true);
+  };
 
   React.useEffect(() => {
-    dispatch(getPlanStatus())
-  }, [dispatch, schedule])
+    dispatch(getPlanStatus());
+  }, [dispatch, schedule]);
 
-  const defaultAbout = actions?.user?.student?.about
+  const defaultAbout = actions?.user?.student?.about;
 
   return (
     <div>
-      <div className='main-dashboard scroll-layout'>
-        <div className='flex-container'>
-          <div className='flex-left children-wrapper flex-change '>
-            <div className='profile_section'>
-              <div className='profile_banner'>
-                <div className='profile_banner-top'>
+      <div className="main-dashboard scroll-layout">
+        <div className="flex-container">
+          <div className="flex-left children-wrapper flex-change ">
+            <div className="profile_section">
+              <div className="profile_banner">
+                <div className="profile_banner-top">
                   <img
                     style={{ objectPosition: 'top' }}
                     src={profileImage}
-                    alt=''
+                    alt=""
                   />
                 </div>
-                <div className='profile_banner-bottom'>
-                  <div className='profile_main-info'>
-                    <div className='main_info-left'>
+                <div className="profile_banner-bottom">
+                  <div className="profile_main-info">
+                    <div className="main_info-left">
                       <h2>
                         {actions.user?.firstName + ' '}
                         {actions.user?.lastName}
                       </h2>
                       <p>
                         {t('student_level', {
-                          level: 3
+                          level: 3,
                         })}
                       </p>
                       <span>
@@ -125,10 +125,10 @@ const StudentProfile = () => {
                           : 'PST (GMT-8)'}
                       </span>
                     </div>
-                    <div className='main_info-right'>
+                    <div className="main_info-right">
                       <button
                         onClick={() => {
-                          navigate.push('/student/profiles/edit-information')
+                          navigate.push('/student/profiles/edit-information');
                         }}
                       >
                         {t('edit_profile')}
@@ -138,7 +138,7 @@ const StudentProfile = () => {
                 </div>
               </div>
 
-              <div className='edit_summary'>
+              <div className="edit_summary">
                 <header>
                   <h2>{t('summary')}</h2>
                   {save ? (
@@ -159,8 +159,8 @@ const StudentProfile = () => {
 
                 {summary ? (
                   <textarea
-                    onChange={e => setAbout(e.target.value)}
-                    className='edit_summary_textarea'
+                    onChange={(e) => setAbout(e.target.value)}
+                    className="edit_summary_textarea"
                     defaultValue={!defaultAbout ? about : defaultAbout}
                   ></textarea>
                 ) : !defaultAbout ? (
@@ -181,23 +181,23 @@ const StudentProfile = () => {
                   <p>{defaultAbout}</p>
                 )}
               </div>
-              <div className='enrolled_course'>
+              <div className="enrolled_course">
                 <h2>{t('enrolled_courses')}</h2>
                 {planStatus &&
-                  planStatus.map(item => (
-                    <div key={item.id} className='enrolled_col'>
-                      <div className='course_card'>
+                  planStatus.map((item) => (
+                    <div key={item.id} className="enrolled_col">
+                      <div className="course_card">
                         <h3>{item.lesson_type}</h3>
-                        <button className='lesson_button'>
+                        <button className="lesson_button">
                           {t('lesson_type')}
                         </button>
-                        <button className='time_button'>
+                        <button className="time_button">
                           {item.duration} {t('minutes', { ns: 'common' })}
                         </button>
-                        <button className='remaining_button'>
+                        <button className="remaining_button">
                           {t('lessons_remaining', {
                             ns: 'lessons',
-                            count: item.total_lessons
+                            count: item.total_lessons,
                           })}
                         </button>
                       </div>
@@ -210,37 +210,37 @@ const StudentProfile = () => {
               </div>
             </div>
           </div>
-          <div className='student-list-appointments-wrapper flex-right changes-container'>
-            <div className='details'>
+          <div className="student-list-appointments-wrapper flex-right changes-container">
+            <div className="details">
               <h2>{t('add_details')}</h2>
-              <div className='details_col'>
-                <div className='details_list'>
+              <div className="details_col">
+                <div className="details_list">
                   <h4>{t('email')}</h4>
                   <p>{actions.user?.email}</p>
                 </div>
 
                 {actions.user?.koreanEquivalent && (
-                  <div className='details_list'>
+                  <div className="details_list">
                     <h4>{t('korean_name')}</h4>
                     <p>{actions.user?.koreanEquivalent}</p>
                   </div>
                 )}
 
                 {actions.user?.gender && (
-                  <div className='details_list'>
+                  <div className="details_list">
                     <h4>{t('gender')}</h4>
                     <p>{actions.user?.gender}</p>
                   </div>
                 )}
 
-                <div className='details_list'>
+                <div className="details_list">
                   <h4>{t('country', { ns: 'common' })}</h4>
                   <p>
                     {actions.user?.country ? actions.user?.country : 'Korea'}
                   </p>
                 </div>
 
-                <div className='details_list'>
+                <div className="details_list">
                   <h4>{t('address', { ns: 'common' })}</h4>
                   <p>
                     {actions.user?.address
@@ -249,7 +249,7 @@ const StudentProfile = () => {
                   </p>
                 </div>
 
-                <div className='details_list'>
+                <div className="details_list">
                   <h4>{t('phone_number', { ns: 'common' })}</h4>
                   <p>
                     {actions.user?.phoneNumber
@@ -263,6 +263,6 @@ const StudentProfile = () => {
         </div>
       </div>
     </div>
-  )
-}
-export default StudentProfile
+  );
+};
+export default StudentProfile;

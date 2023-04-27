@@ -1,5 +1,4 @@
-import { Store } from 'react-notifications-component'
-
+import { Store } from 'react-notifications-component';
 
 const error = (message, t) => {
   Store.addNotification({
@@ -12,11 +11,11 @@ const error = (message, t) => {
     animationOut: ['animate__animated', 'animate__fadeOut'],
     dismiss: {
       duration: 5000,
-      onScreen: true
-    }
-  })
-}
+      onScreen: true,
+    },
+  });
+};
 
 export default {
-  error
-}
+  error,
+};

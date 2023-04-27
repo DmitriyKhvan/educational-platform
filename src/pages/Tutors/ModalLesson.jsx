@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react'
-import '../../assets/styles/student.scss'
-import { useTranslation } from 'react-i18next'
-import { ModalUserInfo } from '../Admin/ModalUserInfo'
-import { UserHeader } from '../../components/UserHeader'
-import CustomTable from '../../components/CustomTable'
-import { useDispatch, useSelector } from 'react-redux'
-import { getAppointments } from '../../actions/appointment'
-import { getAbbrName, getAvatarName } from '../../constants/global'
-import { format } from 'date-fns'
-import Loader from 'react-spinners/ClipLoader'
-import { useHistory } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import '../../assets/styles/student.scss';
+import { useTranslation } from 'react-i18next';
+import { ModalUserInfo } from '../Admin/ModalUserInfo';
+import { UserHeader } from '../../components/UserHeader';
+import CustomTable from '../../components/CustomTable';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAppointments } from '../../actions/appointment';
+import { getAbbrName, getAvatarName } from '../../constants/global';
+import { format } from 'date-fns';
+import Loader from 'react-spinners/ClipLoader';
+import { useHistory } from 'react-router-dom';
 
 const ModalLesson = ({
   student,
@@ -17,14 +17,14 @@ const ModalLesson = ({
   visible,
   title,
   description,
-  status
+  status,
 }) => {
-  const [t, i18n] = useTranslation('translation')
-  const dispatch = useDispatch()
-  const history = useHistory()
-  const loading = useSelector(state => state.appointment.loading)
-  const appointments = useSelector(state => state.appointment.list)
-  const [filtered, setFiltered] = useState([])
+  const [t, i18n] = useTranslation('translation');
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const loading = useSelector((state) => state.appointment.loading);
+  const appointments = useSelector((state) => state.appointment.list);
+  const [filtered, setFiltered] = useState([]);
 
   const columns =
     status === 'past'
@@ -35,7 +35,7 @@ const ModalLesson = ({
             width: 20,
             render: (text, record) => (
               <span>{format(new Date(text), 'M/dd/yyyy hh:mmaa')}</span>
-            )
+            ),
           },
           {
             title: t('tutor_name'),
@@ -46,11 +46,11 @@ const ModalLesson = ({
                 <span>
                   {getAbbrName(
                     record.tutor.user.first_name,
-                    record.tutor.user.last_name
+                    record.tutor.user.last_name,
                   )}
                 </span>
-              )
-            }
+              );
+            },
           },
           {
             title: t('level'),
@@ -60,21 +60,21 @@ const ModalLesson = ({
               <span>
                 Level #{record.students[0].level ? record.students[0].level : 1}
               </span>
-            )
+            ),
           },
           {
             title: t('level_topic'),
             dataKey: 'lesson',
             width: 20,
-            render: (text, record) => <span>{record.lesson.type}</span>
+            render: (text, record) => <span>{record.lesson.type}</span>,
           },
           {
             title: t('where_left'),
             dataKey: 'where_left',
             width: 20,
             render: (item, record) =>
-              record.completed ? t('finished') : t('unfinished')
-          }
+              record.completed ? t('finished') : t('unfinished'),
+          },
         ]
       : [
           {
@@ -83,7 +83,7 @@ const ModalLesson = ({
             width: 20,
             render: (text, record) => (
               <span>{format(new Date(text), 'M/dd/yyyy hh:mmaa')}</span>
-            )
+            ),
           },
           {
             title: t('tutor_name'),
@@ -94,11 +94,11 @@ const ModalLesson = ({
                 <span>
                   {getAbbrName(
                     record.tutor.user.first_name,
-                    record.tutor.user.last_name
+                    record.tutor.user.last_name,
                   )}
                 </span>
-              )
-            }
+              );
+            },
           },
           {
             title: t('level'),
@@ -107,40 +107,40 @@ const ModalLesson = ({
             render: (text, record) => (
               <span>
                 {t('level_n', {
-                  n: record.students[0].level ? record.students[0].level : 1
+                  n: record.students[0].level ? record.students[0].level : 1,
                 })}
               </span>
-            )
+            ),
           },
           {
             title: t('level_topic'),
             dataKey: 'lesson',
             width: 20,
-            render: (text, record) => <span>{record.lesson.type}</span>
-          }
-        ]
+            render: (text, record) => <span>{record.lesson.type}</span>,
+          },
+        ];
 
   useEffect(() => {
     if (appointments) {
-      const today = new Date()
-      let filtered = appointments.filter(apt => {
-        const date = new Date(apt.start_at)
-        if (status === 'upcoming') return date >= today
-        if (status === 'past') return date < today
-      })
-      setFiltered(filtered)
+      const today = new Date();
+      let filtered = appointments.filter((apt) => {
+        const date = new Date(apt.start_at);
+        if (status === 'upcoming') return date >= today;
+        if (status === 'past') return date < today;
+      });
+      setFiltered(filtered);
     }
-  }, [appointments])
+  }, [appointments]);
 
   useEffect(() => {
     if (student) {
-      dispatch(getAppointments({ student_id: student.student.id }))
+      dispatch(getAppointments({ student_id: student.student.id }));
     }
-  }, [student])
+  }, [student]);
 
   const goToStudentProfile = () => {
-    history.push(`/tutor/students/${student.student.id}`)
-  }
+    history.push(`/tutor/students/${student.student.id}`);
+  };
 
   return (
     <>
@@ -150,27 +150,27 @@ const ModalLesson = ({
         user={student}
         onDismiss={onDismiss}
       >
-        <div className='scroll-layout'>
-          <div className='edit-student-lesson-wrapper'>
+        <div className="scroll-layout">
+          <div className="edit-student-lesson-wrapper">
             <UserHeader user={student} onAction={goToStudentProfile} />
-            <p className='sub-title'>
+            <p className="sub-title">
               {student.first_name}'s{' '}
               {status === 'past' ? t('past_lessons') : t('upcoming_lessons')}{' '}
               {`{${filtered.length}}`}
             </p>
             {loading ? (
-              <div className='flex justify-content-center align-items-center'>
+              <div className="flex justify-content-center align-items-center">
                 <Loader
-                  className='align-center'
-                  type='Audio'
-                  color='#00BFFF'
+                  className="align-center"
+                  type="Audio"
+                  color="#00BFFF"
                   height={50}
                   width={50}
                 />
               </div>
             ) : (
               <CustomTable
-                className='full-height'
+                className="full-height"
                 data={filtered}
                 columns={columns}
                 enableSeeAll={false}
@@ -180,7 +180,7 @@ const ModalLesson = ({
         </div>
       </ModalUserInfo>
     </>
-  )
-}
+  );
+};
 
-export default ModalLesson
+export default ModalLesson;

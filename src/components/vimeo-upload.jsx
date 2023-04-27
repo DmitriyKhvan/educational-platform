@@ -18,8 +18,8 @@
  | @credits   Built on cors-upload-sample, https://github.com/googledrive/cors-upload-sample
  */
 
-;(function (root, factory) {
-  module.exports = factory()
+(function (root, factory) {
+  module.exports = factory();
 })(this, function () {
   // -------------------------------------------------------------------------
   // RetryHandler Class
@@ -31,9 +31,9 @@
    * @constructor
    */
   var RetryHandler = function () {
-    this.interval = 1000 // Start at one second
-    this.maxInterval = 60 * 1000 // Don't wait longer than a minute
-  }
+    this.interval = 1000; // Start at one second
+    this.maxInterval = 60 * 1000; // Don't wait longer than a minute
+  };
 
   /**
    * Invoke the function after waiting
@@ -41,16 +41,16 @@
    * @param {function} fn Function to invoke
    */
   RetryHandler.prototype.retry = function (fn) {
-    setTimeout(fn, this.interval)
-    this.interval = this.nextInterval_()
-  }
+    setTimeout(fn, this.interval);
+    this.interval = this.nextInterval_();
+  };
 
   /**
    * Reset the counter (e.g. after successful request)
    */
   RetryHandler.prototype.reset = function () {
-    this.interval = 1000
-  }
+    this.interval = 1000;
+  };
 
   /**
    * Calculate the next wait time.
@@ -59,9 +59,9 @@
    * @private
    */
   RetryHandler.prototype.nextInterval_ = function () {
-    var interval = this.interval * 2 + this.getRandomInt_(0, 1000)
-    return Math.min(interval, this.maxInterval)
-  }
+    var interval = this.interval * 2 + this.getRandomInt_(0, 1000);
+    return Math.min(interval, this.maxInterval);
+  };
 
   /**
    * Get a random int in the range of min to max. Used to add jitter to wait times.
@@ -71,8 +71,8 @@
    * @private
    */
   RetryHandler.prototype.getRandomInt_ = function (min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min)
-  }
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  };
 
   // -------------------------------------------------------------------------
   // Private data
@@ -110,8 +110,8 @@
     retryHandler: new RetryHandler(),
     onComplete: function () {},
     onProgress: function () {},
-    onError: function () {}
-  }
+    onError: function () {},
+  };
 
   /**
    * Helper class for resumable uploads using XHR/CORS. Can upload any Blob-like item, whether
@@ -142,25 +142,26 @@
   var me = function (opts) {
     /* copy user options or use default values */
     for (var i in defaults) {
-      this[i] = opts[i] !== undefined ? opts[i] : defaults[i]
+      this[i] = opts[i] !== undefined ? opts[i] : defaults[i];
     }
 
     this.contentType =
-      opts.contentType || this.file.type || defaults.contentType
-    this.httpMethod = opts.fileId ? 'PUT' : 'POST'
+      opts.contentType || this.file.type || defaults.contentType;
+    this.httpMethod = opts.fileId ? 'PUT' : 'POST';
 
     this.videoData = {
       name: opts.name > '' ? opts.name : defaults.name,
       description:
         opts.description > '' ? opts.description : defaults.description,
-      'privacy.view': opts.private ? 'nobody' : 'anybody'
-    }
+      'privacy.view': opts.private ? 'nobody' : 'anybody',
+    };
 
     if (!(this.url = opts.url)) {
-      var params = opts.params || {} /*  TODO params.uploadType = 'resumable' */
-      this.url = this.buildUrl_(opts.fileId, params, opts.baseUrl)
+      var params =
+        opts.params || {}; /*  TODO params.uploadType = 'resumable' */
+      this.url = this.buildUrl_(opts.fileId, params, opts.baseUrl);
     }
-  }
+  };
 
   // -------------------------------------------------------------------------
   // Public methods
@@ -174,41 +175,41 @@
     */
 
   me.prototype.defaults = function (opts) {
-    return defaults /* TODO $.extend(true, defaults, opts) */
-  }
+    return defaults; /* TODO $.extend(true, defaults, opts) */
+  };
 
   /**
    * Initiate the upload (Get vimeo ticket number and upload url)
    */
   me.prototype.upload = function () {
-    var xhr = new XMLHttpRequest()
-    xhr.open(this.httpMethod, this.url, true)
-    xhr.setRequestHeader('Authorization', 'Bearer ' + this.token)
-    xhr.setRequestHeader('Content-Type', 'application/offset+octet-stream')
-    xhr.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.4')
+    var xhr = new XMLHttpRequest();
+    xhr.open(this.httpMethod, this.url, true);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + this.token);
+    xhr.setRequestHeader('Content-Type', 'application/offset+octet-stream');
+    xhr.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.4');
 
     xhr.onload = function (e) {
       // get vimeo upload  url, user (for available quote), ticket id and complete url
       if (e.target.status < 400) {
-        var response = JSON.parse(e.target.responseText)
-        this.url = response.upload.upload_link
-        this.user = response.user
-        this.ticket_id = response.uri.slice(8)
-        this.complete_url = defaults.api_url + response.uri
-        this.sendFile_()
+        var response = JSON.parse(e.target.responseText);
+        this.url = response.upload.upload_link;
+        this.user = response.user;
+        this.ticket_id = response.uri.slice(8);
+        this.complete_url = defaults.api_url + response.uri;
+        this.sendFile_();
       } else {
-        this.onUploadError_(e)
+        this.onUploadError_(e);
       }
-    }.bind(this)
+    }.bind(this);
 
-    xhr.onerror = this.onUploadError_.bind(this)
+    xhr.onerror = this.onUploadError_.bind(this);
     xhr.send(
       JSON.stringify({
         type: 'streaming',
-        upgrade_to_1080: this.upgrade_to_1080
-      })
-    )
-  }
+        upgrade_to_1080: this.upgrade_to_1080,
+      }),
+    );
+  };
 
   // -------------------------------------------------------------------------
   // Private methods
@@ -219,33 +220,33 @@
    * @private
    */
   me.prototype.sendFile_ = function () {
-    var content = this.file
-    var end = this.file.size
+    var content = this.file;
+    var end = this.file.size;
 
     if (this.offset || this.chunkSize) {
       // Only bother to slice the file if we're either resuming or uploading in chunks
       if (this.chunkSize) {
-        end = Math.min(this.offset + this.chunkSize, this.file.size)
+        end = Math.min(this.offset + this.chunkSize, this.file.size);
       }
-      content = content.slice(this.offset, end)
+      content = content.slice(this.offset, end);
     }
 
-    var xhr = new XMLHttpRequest()
-    xhr.open('PUT', this.url, true)
-    xhr.setRequestHeader('Content-Type', this.contentType)
+    var xhr = new XMLHttpRequest();
+    xhr.open('PUT', this.url, true);
+    xhr.setRequestHeader('Content-Type', this.contentType);
     // xhr.setRequestHeader('Content-Length', this.file.size)
     xhr.setRequestHeader(
       'Content-Range',
-      'bytes ' + this.offset + '-' + (end - 1) + '/' + this.file.size
-    )
-    xhr.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.4')
+      'bytes ' + this.offset + '-' + (end - 1) + '/' + this.file.size,
+    );
+    xhr.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.4');
     if (xhr.upload) {
-      xhr.upload.addEventListener('progress', this.onProgress)
+      xhr.upload.addEventListener('progress', this.onProgress);
     }
-    xhr.onload = this.onContentUploadSuccess_.bind(this)
-    xhr.onerror = this.onContentUploadError_.bind(this)
-    xhr.send(content)
-  }
+    xhr.onload = this.onContentUploadSuccess_.bind(this);
+    xhr.onerror = this.onContentUploadError_.bind(this);
+    xhr.send(content);
+  };
 
   /**
    * Query for the state of the file for resumption.
@@ -253,18 +254,18 @@
    * @private
    */
   me.prototype.resume_ = function () {
-    var xhr = new XMLHttpRequest()
-    xhr.open('PUT', this.url, true)
-    xhr.setRequestHeader('Content-Range', 'bytes */' + this.file.size)
-    xhr.setRequestHeader('X-Upload-Content-Type', this.file.type)
-    xhr.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.4')
+    var xhr = new XMLHttpRequest();
+    xhr.open('PUT', this.url, true);
+    xhr.setRequestHeader('Content-Range', 'bytes */' + this.file.size);
+    xhr.setRequestHeader('X-Upload-Content-Type', this.file.type);
+    xhr.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.4');
     if (xhr.upload) {
-      xhr.upload.addEventListener('progress', this.onProgress)
+      xhr.upload.addEventListener('progress', this.onProgress);
     }
-    xhr.onload = this.onContentUploadSuccess_.bind(this)
-    xhr.onerror = this.onContentUploadError_.bind(this)
-    xhr.send()
-  }
+    xhr.onload = this.onContentUploadSuccess_.bind(this);
+    xhr.onerror = this.onContentUploadError_.bind(this);
+    xhr.send();
+  };
 
   /**
    * Extract the last saved range if available in the request.
@@ -272,11 +273,11 @@
    * @param {XMLHttpRequest} xhr Request object
    */
   me.prototype.extractRange_ = function (xhr) {
-    var range = xhr.getResponseHeader('Range')
+    var range = xhr.getResponseHeader('Range');
     if (range) {
-      this.offset = parseInt(range.match(/\d+/g).pop(), 10) + 1
+      this.offset = parseInt(range.match(/\d+/g).pop(), 10) + 1;
     }
-  }
+  };
 
   /**
    * The final step is to call vimeo.videos.upload.complete to queue up
@@ -287,27 +288,27 @@
    * @private
    */
   me.prototype.complete_ = function (xhr) {
-    var xhr = new XMLHttpRequest()
-    xhr.open('DELETE', this.complete_url, true)
-    xhr.setRequestHeader('Authorization', 'Bearer ' + this.token)
-    xhr.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.4')
+    var xhr = new XMLHttpRequest();
+    xhr.open('DELETE', this.complete_url, true);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + this.token);
+    xhr.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.4');
     xhr.onload = function (e) {
       // Get the video location (videoId)
       if (e.target.status < 400) {
-        var location = e.target.getResponseHeader('Location')
+        var location = e.target.getResponseHeader('Location');
 
         // Example of location: ' /videos/115365719', extract the video id only
-        var video_id = location.split('/').pop()
+        var video_id = location.split('/').pop();
         // Update the video metadata
-        this.onUpdateVideoData_(video_id)
+        this.onUpdateVideoData_(video_id);
       } else {
-        this.onCompleteError_(e)
+        this.onCompleteError_(e);
       }
-    }.bind(this)
+    }.bind(this);
 
-    xhr.onerror = this.onCompleteError_.bind(this)
-    xhr.send()
-  }
+    xhr.onerror = this.onCompleteError_.bind(this);
+    xhr.send();
+  };
 
   /**
    * Update the Video Data and add the metadata to the upload object
@@ -316,19 +317,19 @@
    * @param {string} [id] Video Id
    */
   me.prototype.onUpdateVideoData_ = function (video_id) {
-    var url = this.buildUrl_(video_id, [], defaults.api_url + '/videos/')
-    var httpMethod = 'PATCH'
-    var xhr = new XMLHttpRequest()
+    var url = this.buildUrl_(video_id, [], defaults.api_url + '/videos/');
+    var httpMethod = 'PATCH';
+    var xhr = new XMLHttpRequest();
 
-    xhr.open(httpMethod, url, true)
-    xhr.setRequestHeader('Authorization', 'Bearer ' + this.token)
-    xhr.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.4')
+    xhr.open(httpMethod, url, true);
+    xhr.setRequestHeader('Authorization', 'Bearer ' + this.token);
+    xhr.setRequestHeader('Accept', 'application/vnd.vimeo.*+json;version=3.4');
     xhr.onload = function (e) {
       // add the metadata
-      this.onGetMetadata_(e, video_id)
-    }.bind(this)
-    xhr.send(this.buildQuery_(this.videoData))
-  }
+      this.onGetMetadata_(e, video_id);
+    }.bind(this);
+    xhr.send(this.buildQuery_(this.videoData));
+  };
 
   /**
    * Retrieve the metadata from a successful onUpdateVideoData_ response
@@ -345,16 +346,16 @@
     if (e.target.status < 400) {
       if (e.target.response) {
         // add the returned metadata to the metadata array
-        var meta = JSON.parse(e.target.response)
+        var meta = JSON.parse(e.target.response);
         // get the new index of the item
-        var index = this.metadata.push(meta) - 1
+        var index = this.metadata.push(meta) - 1;
         // call the complete method
-        this.onComplete(video_id, index)
+        this.onComplete(video_id, index);
       } else {
-        this.onCompleteError_(e)
+        this.onCompleteError_(e);
       }
     }
-  }
+  };
 
   /**
    * Handle successful responses for uploads. Depending on the context,
@@ -366,13 +367,13 @@
    */
   me.prototype.onContentUploadSuccess_ = function (e) {
     if (e.target.status == 200 || e.target.status == 201) {
-      this.onUpdateVideoData_(this.ticket_id)
+      this.onUpdateVideoData_(this.ticket_id);
     } else if (e.target.status == 308) {
-      this.extractRange_(e.target)
-      this.retryHandler.reset()
-      this.sendFile_()
+      this.extractRange_(e.target);
+      this.retryHandler.reset();
+      this.sendFile_();
     }
-  }
+  };
 
   /**
    * Handles errors for uploads. Either retries or aborts depending
@@ -383,11 +384,11 @@
    */
   me.prototype.onContentUploadError_ = function (e) {
     if (e.target.status && e.target.status < 500) {
-      this.onError(e.target.response)
+      this.onError(e.target.response);
     } else {
-      this.retryHandler.retry(this.resume_())
+      this.retryHandler.retry(this.resume_());
     }
-  }
+  };
 
   /**
    * Handles errors for the complete request.
@@ -396,8 +397,8 @@
    * @param {object} e XHR event
    */
   me.prototype.onCompleteError_ = function (e) {
-    this.onError(e.target.response) // TODO - Retries for initial upload
-  }
+    this.onError(e.target.response); // TODO - Retries for initial upload
+  };
 
   /**
    * Handles errors for the initial request.
@@ -406,8 +407,8 @@
    * @param {object} e XHR event
    */
   me.prototype.onUploadError_ = function (e) {
-    this.onError(e.target.response) // TODO - Retries for initial upload
-  }
+    this.onError(e.target.response); // TODO - Retries for initial upload
+  };
 
   /**
    * Construct a query string from a hash/object
@@ -417,13 +418,13 @@
    * @return {string} query string
    */
   me.prototype.buildQuery_ = function (params) {
-    params = params || {}
+    params = params || {};
     return Object.keys(params)
       .map(function (key) {
-        return encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
+        return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
       })
-      .join('&')
-  }
+      .join('&');
+  };
 
   /**
    * Build the drive upload URL
@@ -434,16 +435,16 @@
    * @return {string} URL
    */
   me.prototype.buildUrl_ = function (id, params, baseUrl) {
-    var url = baseUrl || defaults.api_url + '/me/videos'
+    var url = baseUrl || defaults.api_url + '/me/videos';
     if (id) {
-      url += id
+      url += id;
     }
-    var query = this.buildQuery_(params)
+    var query = this.buildQuery_(params);
     if (query) {
-      url += '?' + query
+      url += '?' + query;
     }
-    return url
-  }
+    return url;
+  };
 
-  return me
-})
+  return me;
+});

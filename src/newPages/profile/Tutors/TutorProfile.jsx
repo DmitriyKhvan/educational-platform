@@ -1,80 +1,76 @@
-import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
-import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png'
-import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png'
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
+import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 
-import cls from './TutorProfile.module.scss'
-import { useAuth } from '../../../modules/auth'
+import cls from './TutorProfile.module.scss';
+import { useAuth } from '../../../modules/auth';
 
 const TutorProfile = () => {
-  const [t] = useTranslation(['profile', 'common'])
-  const [profileImage, setProfileImage] = useState('')
+  const [t] = useTranslation(['profile', 'common']);
+  const [profileImage, setProfileImage] = useState('');
 
+  const [aboutText, setAbout] = React.useState('');
 
-  const [aboutText, setAbout] = React.useState("");
+  const actions = useAuth();
 
-  const actions = useAuth()
-
-
-  const user = actions?.user
+  const user = actions?.user;
 
   useEffect(() => {
     if (user?.tutor?.avatar) {
-      setProfileImage(user?.tutor?.avatar?.url)
+      setProfileImage(user?.tutor?.avatar?.url);
     } else if (user.gender === 'female') {
-      setProfileImage(femaleAvatar)
+      setProfileImage(femaleAvatar);
     } else if (user.gender === 'male') {
-      setProfileImage(maleAvatar)
+      setProfileImage(maleAvatar);
     } else {
-      setProfileImage(maleAvatar)
+      setProfileImage(maleAvatar);
     }
-  }, [user])
+  }, [user]);
 
-  const videoUrl = actions.user?.tutor?.videoUrl
-
+  const videoUrl = actions.user?.tutor?.videoUrl;
 
   function renderAbout() {
     var text = actions.user?.tutor?.introduction;
     var textLength = actions.user?.tutor?.introduction.length;
-    var news = "";
-    if(textLength) {
-      for(var i = 0; i < textLength;i++) {
-        if(i === 50) {
-          news += '\n'
-        }else if(i === 100) {
-          news += "\n"
-        } else if(i === 150) {
-          news += "\n"
-        }else  if(i === 200) {
-          news += "\n"
-        } else  if(i === 250) {
-          news += "\n"
-        } else  if(i === 300) {
-          news += "\n"
-        } else  if(i === 350) {
-          news += "\n"
+    var news = '';
+    if (textLength) {
+      for (var i = 0; i < textLength; i++) {
+        if (i === 50) {
+          news += '\n';
+        } else if (i === 100) {
+          news += '\n';
+        } else if (i === 150) {
+          news += '\n';
+        } else if (i === 200) {
+          news += '\n';
+        } else if (i === 250) {
+          news += '\n';
+        } else if (i === 300) {
+          news += '\n';
+        } else if (i === 350) {
+          news += '\n';
         } else {
-          news += text[i]
+          news += text[i];
         }
       }
     }
 
-    if(news) {
-      setAbout(news)
+    if (news) {
+      setAbout(news);
     }
   }
 
   React.useEffect(() => {
-    renderAbout()
-  }, [user])
-
+    renderAbout();
+  }, [user]);
 
   return (
     <div className={cls.profile_page}>
       <header className={cls.profile_header}>
         <div className={cls.profile_header_row}>
-          <img className='avatar_preview' src={profileImage} alt='' />
+          <img className="avatar_preview" src={profileImage} alt="" />
 
           <div className={cls.tutor_name}>
             <h1>{actions?.user.fullName}</h1>
@@ -95,18 +91,12 @@ const TutorProfile = () => {
           <div className={cls.profile_content_row_left}>
             <h2>{t('summary')}</h2>
 
-
-            <p>
-                {aboutText}
-            </p>
-
-
+            <p>{aboutText}</p>
           </div>
-
 
           <div className={cls.profile_content_row_right}>
             <section>
-              <div className=''>
+              <div className="">
                 {actions.user?.country && (
                   <>
                     <h1>{t('country', { ns: 'common' })}</h1>
@@ -114,7 +104,7 @@ const TutorProfile = () => {
                   </>
                 )}
               </div>
-              <div className=''>
+              <div className="">
                 {actions.user?.timezone && (
                   <>
                     <h1>{t('timezone', { ns: 'common' })}</h1>
@@ -122,7 +112,7 @@ const TutorProfile = () => {
                   </>
                 )}
               </div>
-              <div className=''>
+              <div className="">
                 {actions.user?.email && (
                   <>
                     <h1>{t('email')}</h1>
@@ -132,7 +122,7 @@ const TutorProfile = () => {
               </div>
             </section>
             <section>
-              <div className=''>
+              <div className="">
                 {actions.user?.phoneNumber && (
                   <>
                     <h1>{t('phone_number', { ns: 'common' })}</h1>
@@ -141,7 +131,7 @@ const TutorProfile = () => {
                 )}
               </div>
 
-              <div className=''>
+              <div className="">
                 {actions.user?.tutor?.university && (
                   <>
                     <h1>{t('university')}</h1>
@@ -160,12 +150,12 @@ const TutorProfile = () => {
           </div>
           <div className={cls.video}>
             <iframe
-              width='560'
-              height='315'
+              width="560"
+              height="315"
               src={`https://www.youtube.com/embed/${videoUrl}`}
-              title='YouTube video player'
-              frameborder='0'
-              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen
             ></iframe>
           </div>
@@ -189,22 +179,22 @@ const TutorProfile = () => {
             <div className={cls.profile_footer_right_students_card}>
               <div className={cls.st_card}>
                 <img
-                  src='https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg'
-                  alt=''
+                  src="https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg"
+                  alt=""
                 />
                 <h3>Lisa</h3>
               </div>
               <div className={cls.st_card}>
                 <img
-                  src='https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg'
-                  alt=''
+                  src="https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg"
+                  alt=""
                 />
                 <h3>Lisa</h3>
               </div>
               <div className={cls.st_card}>
                 <img
-                  src='https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg'
-                  alt=''
+                  src="https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg"
+                  alt=""
                 />
                 <h3>Lisa</h3>
               </div>
@@ -217,7 +207,7 @@ const TutorProfile = () => {
         </section>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default TutorProfile
+export default TutorProfile;

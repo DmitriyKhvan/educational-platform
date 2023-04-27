@@ -1,7 +1,7 @@
-import { createContext, useState } from 'react'
-import { v4 as uuid } from 'uuid'
-import moment from 'moment'
-export const AvailProv = createContext()
+import { createContext, useState } from 'react';
+import { v4 as uuid } from 'uuid';
+import moment from 'moment';
+export const AvailProv = createContext();
 
 export const AvailabilityProvider = ({
   children,
@@ -13,93 +13,117 @@ export const AvailabilityProvider = ({
   setNewRow,
   isteachAddHours,
   day,
-  validateTimesSelected
-
+  validateTimesSelected,
 }) => {
-  const [availabilityRow, setAvailabilityRow] = useState({exceptiondates:[],
-  availability:[]})
+  const [availabilityRow, setAvailabilityRow] = useState({
+    exceptiondates: [],
+    availability: [],
+  });
 
   const removeAvailabilityRow = ({ id, day, type }) => {
-    const tempData = [{ id: id,
-      day: undefined,
-      slots: [
-        {from: "09:00", to: "17:00"}
-      ]}]
+    const tempData = [
+      { id: id, day: undefined, slots: [{ from: '09:00', to: '17:00' }] },
+    ];
     if (id) {
-      setAvailabilityRow({...availabilityRow, [type]: availabilityRow[type].filter(q => q.id !== id)
-     } )
-      var LastToTime, fromTime, length
-      var deleteRow = gatherAvailabilities.filter(q => q.id !== id)
-      const removeDay= isteachAddHours && isteachAddHours.filter((el=>el!==day))
-      setIsTeachAddHours(removeDay)
+      setAvailabilityRow({
+        ...availabilityRow,
+        [type]: availabilityRow[type].filter((q) => q.id !== id),
+      });
+      var LastToTime, fromTime, length;
+      var deleteRow = gatherAvailabilities.filter((q) => q.id !== id);
+      const removeDay =
+        isteachAddHours && isteachAddHours.filter((el) => el !== day);
+      setIsTeachAddHours(removeDay);
       localStorage.setItem('deleteRow', JSON.stringify(deleteRow));
-      setGatherAvailabilities(deleteRow.length===0?tempData :deleteRow, type)
-    
+      setGatherAvailabilities(
+        deleteRow.length === 0 ? tempData : deleteRow,
+        type,
+      );
+
       if (deleteRow.length > 0) {
         length = deleteRow.length - 1;
-        LastToTime = deleteRow[length].slots[0].to
+        LastToTime = deleteRow[length].slots[0].to;
         fromTime = LastToTime;
-        if (LastToTime === "23:30") {
+        if (LastToTime === '23:30') {
           // setIsTeachAddHours(true)
-          setDisablePlusBtn(true)
+          setDisablePlusBtn(true);
         } else {
           // setIsTeachAddHours(false)
-          setDisablePlusBtn(false)
+          setDisablePlusBtn(false);
         }
       }
-      validateTimesSelected(deleteRow.length===0?tempData :deleteRow,day)
+      validateTimesSelected(deleteRow.length === 0 ? tempData : deleteRow, day);
     }
-  }
+  };
   const addAvailRows = (type) => {
-    var length, LastToTime ,fromTime,toTime
-    if(gatherAvailabilities.length>0){
-       length = gatherAvailabilities.length-1;
-       LastToTime = gatherAvailabilities[length].slots[0].to
+    var length, LastToTime, fromTime, toTime;
+    if (gatherAvailabilities.length > 0) {
+      length = gatherAvailabilities.length - 1;
+      LastToTime = gatherAvailabilities[length].slots[0].to;
       // fromTime = moment(LastToTime, 'HH:mm:ss').add("60", 'minutes').format('HH:mm');
       fromTime = LastToTime;
-      if(fromTime >= "23:00"){
-       toTime = moment(fromTime, 'HH:mm:ss').add("30", 'minutes').format('HH:mm');
-       setDisablePlusBtn(true)
-      }else{
-       toTime = moment(fromTime, 'HH:mm:ss').add("60", 'minutes').format('HH:mm');
+      if (fromTime >= '23:00') {
+        toTime = moment(fromTime, 'HH:mm:ss')
+          .add('30', 'minutes')
+          .format('HH:mm');
+        setDisablePlusBtn(true);
+      } else {
+        toTime = moment(fromTime, 'HH:mm:ss')
+          .add('60', 'minutes')
+          .format('HH:mm');
       }
-       
     }
-    const id = uuid()
-    AvailabilitySlots(fromTime||"09:00",toTime||"17:00",id)
-    setAvailabilityRow({...availabilityRow, [type]: [...availabilityRow[type], ...[{ id ,fromTime: fromTime || "09:00",toTime: toTime || "17:00" ,day}]]})
-  }
+    const id = uuid();
+    AvailabilitySlots(fromTime || '09:00', toTime || '17:00', id);
+    setAvailabilityRow({
+      ...availabilityRow,
+      [type]: [
+        ...availabilityRow[type],
+        ...[
+          { id, fromTime: fromTime || '09:00', toTime: toTime || '17:00', day },
+        ],
+      ],
+    });
+  };
   const addAvailRowUp = (day, type) => {
-    var length, LastToTime ,fromTime,toTime
-    const tempDay = [...isteachAddHours]
-    if(gatherAvailabilities.length>0){
-       length = gatherAvailabilities.length-1;
-       gatherAvailabilities.map((data)=>{
-          if(data.day === day){
-            LastToTime = data.slots[0].to
-          }
-         var allLast = data.slots[0].to
-         if (allLast >= "23:00") {
-          
-         }
-         fromTime = LastToTime;
-         if (fromTime >= "23:00") {
-           toTime = moment(fromTime, 'HH:mm:ss').add("30", 'minutes').format('HH:mm');
-           tempDay.push(day)
-         }
-          else{
-           toTime = moment(fromTime, 'HH:mm:ss').add("60", 'minutes').format('HH:mm');       
-          }
-       })
-       setIsTeachAddHours([...new Set(tempDay)])
-       
+    var length, LastToTime, fromTime, toTime;
+    const tempDay = [...isteachAddHours];
+    if (gatherAvailabilities.length > 0) {
+      length = gatherAvailabilities.length - 1;
+      gatherAvailabilities.map((data) => {
+        if (data.day === day) {
+          LastToTime = data.slots[0].to;
+        }
+        var allLast = data.slots[0].to;
+        if (allLast >= '23:00') {
+        }
+        fromTime = LastToTime;
+        if (fromTime >= '23:00') {
+          toTime = moment(fromTime, 'HH:mm:ss')
+            .add('30', 'minutes')
+            .format('HH:mm');
+          tempDay.push(day);
+        } else {
+          toTime = moment(fromTime, 'HH:mm:ss')
+            .add('60', 'minutes')
+            .format('HH:mm');
+        }
+      });
+      setIsTeachAddHours([...new Set(tempDay)]);
     }
-    const id = uuid()
-     AvailabilitySlots(fromTime||"09:00",toTime||"17:00",id,day)
-    setAvailabilityRow({...availabilityRow, [type]: [...availabilityRow[type], ...[{ id ,fromTime: fromTime || "09:00",toTime: toTime || "17:00" ,day}]]})
-    setNewRow(true)
-  }
-  
+    const id = uuid();
+    AvailabilitySlots(fromTime || '09:00', toTime || '17:00', id, day);
+    setAvailabilityRow({
+      ...availabilityRow,
+      [type]: [
+        ...availabilityRow[type],
+        ...[
+          { id, fromTime: fromTime || '09:00', toTime: toTime || '17:00', day },
+        ],
+      ],
+    });
+    setNewRow(true);
+  };
 
   return (
     <AvailProv.Provider
@@ -108,11 +132,10 @@ export const AvailabilityProvider = ({
         setAvailabilityRow,
         removeAvailabilityRow,
         addAvailRows,
-        addAvailRowUp
-
+        addAvailRowUp,
       }}
     >
       {children}
     </AvailProv.Provider>
-  )
-}
+  );
+};

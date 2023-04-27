@@ -1,12 +1,12 @@
 import React from 'react';
-import Modal from 'react-modal'
+import Modal from 'react-modal';
 
-export default function FeedbackModal({isOpen, closeModal}) {
+export default function FeedbackModal({ isOpen, closeModal }) {
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={closeModal}
-      overlayClassName='edit-profile-modal-overlay'
+      overlayClassName="edit-profile-modal-overlay"
       className={'feedback-modal'}
       bodyOpenClassName={'edit-modal-open'}
     >
@@ -16,7 +16,7 @@ export default function FeedbackModal({isOpen, closeModal}) {
         <span onClick={closeModal}>&times;</span>
       </div>
 
-      <div className='feedback-modal_lessonInfo'>
+      <div className="feedback-modal_lessonInfo">
         <div>
           <h3>Jurrasic Park</h3>
           <div className="inline_btns">
@@ -26,18 +26,19 @@ export default function FeedbackModal({isOpen, closeModal}) {
           </div>
         </div>
         <div>
-          <img src='https://pngimg.com/uploads/girls/girls_PNG6465.png' alt=''/>
+          <img
+            src="https://pngimg.com/uploads/girls/girls_PNG6465.png"
+            alt=""
+          />
         </div>
       </div>
 
-      <div className='feedback-modal_topics'>
+      <div className="feedback-modal_topics">
         <h2>Topic</h2>
 
-        <div className='topic_block'>
+        <div className="topic_block">
           <h3>Jurrasic Park</h3>
-          <div>
-            Enter your lesson where you finish the class
-          </div>
+          <div>Enter your lesson where you finish the class</div>
         </div>
 
         <div className="choose_topic">
@@ -48,22 +49,18 @@ export default function FeedbackModal({isOpen, closeModal}) {
             <option value="">Marvel</option>
             <option value="">DC</option>
           </select>
-
-          
         </div>
 
         <div className="topic_comment">
-          <textarea>
-
-          </textarea>
+          <textarea></textarea>
           <button>Submit</button>
         </div>
 
-        <div className='topic_date'>
+        <div className="topic_date">
           <h3>Jan 14, 2022</h3>
-          <button>{"1:00 PM => 1:30 PM"}</button>
+          <button>{'1:00 PM => 1:30 PM'}</button>
         </div>
       </div>
     </Modal>
-  )
-};
+  );
+}
