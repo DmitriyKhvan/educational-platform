@@ -1,28 +1,28 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import Layout from '../../components/Layout'
-import '../../assets/styles/student.scss'
-import ImgChecked from '../../assets/images/checked.svg'
-import Loader from 'react-loader-spinner'
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
-import Modal from '../../components/Modal'
-import NotificationManager from '../../components/NotificationManager'
-import { Checkbox } from '../../components/Checkbox'
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Layout from '../../components/Layout';
+import '../../assets/styles/student.scss';
+import ImgChecked from '../../assets/images/checked.svg';
+import Loader from 'react-loader-spinner';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import Modal from '../../components/Modal';
+import NotificationManager from '../../components/NotificationManager';
+import { Checkbox } from '../../components/Checkbox';
 import {
   getPlan,
   createPlan,
   updatePlan,
-  getSubscriptions
-} from '../../actions/subscription'
-import SubscriptionApi from '../../api/SubscriptionApi'
-import { useTranslation } from 'react-i18next'
+  getSubscriptions,
+} from '../../actions/subscription';
+import SubscriptionApi from '../../api/SubscriptionApi';
+import { useTranslation } from 'react-i18next';
 import {
   class_durations,
   class_types,
   courses,
-  currencies
-} from '../../constants/global'
-import MultipleToggle from '../../components/MultipleToggle'
+  currencies,
+} from '../../constants/global';
+import MultipleToggle from '../../components/MultipleToggle';
 import {
   // CardElement,
   // Elements,
@@ -30,206 +30,207 @@ import {
   CardExpiryElement,
   CardCvcElement,
   // useStripe,
-  useElements
-} from '@stripe/react-stripe-js'
-import NewSubscription from '../../components/NewSubscription'
+  useElements,
+} from '@stripe/react-stripe-js';
+import NewSubscription from '../../components/NewSubscription';
 
 /**
  * Constants
  */
 
 export const PackagesView = () => {
-  const [t, i18n] = useTranslation('translation')
-  const subscription_plan = useSelector(state => state.students.subscription)
-  const loading = useSelector(state => state.students.loading)
-  const dispatch = useDispatch()
+  const [t, i18n] = useTranslation('translation');
+  const subscription_plan = useSelector((state) => state.students.subscription);
+  const loading = useSelector((state) => state.students.loading);
+  const dispatch = useDispatch();
   // const stripe = useStripe()
-  const stripe = null
-  const elements = useElements()
+  const stripe = null;
+  const elements = useElements();
 
-  const [courseIndex, setCourseIndex] = useState(0)
-  const [durationIndex, setDurationIndex] = useState(0) // 0: 30min, 1: 60min
-  const [classTypeIndex, setClassTypeIndex] = useState(0) // 0: 1-on-1, 1: group
-  const [subDurations, setSubDurations] = useState([])
-  const [subDurIndex, setSubDurIndex] = useState(0)
-  const [currencyIndex, setCurrencyIndex] = useState(0)
-  const [hasDiscount, setHasDiscount] = useState(false)
-  const [subscriptions, setSubscriptions] = useState([])
-  const [selectedPlan, setSelectedPlan] = useState(null)
-  const [isFetchPlan, setIsFetchPlan] = useState(false)
+  const [courseIndex, setCourseIndex] = useState(0);
+  const [durationIndex, setDurationIndex] = useState(0); // 0: 30min, 1: 60min
+  const [classTypeIndex, setClassTypeIndex] = useState(0); // 0: 1-on-1, 1: group
+  const [subDurations, setSubDurations] = useState([]);
+  const [subDurIndex, setSubDurIndex] = useState(0);
+  const [currencyIndex, setCurrencyIndex] = useState(0);
+  const [hasDiscount, setHasDiscount] = useState(false);
+  const [subscriptions, setSubscriptions] = useState([]);
+  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [isFetchPlan, setIsFetchPlan] = useState(false);
   const subscriptionsList = useSelector(
-    state => state.subscription.subscriptions
-  )
-  const loadingSubscriptions = useSelector(state => state.subscription.loading)
+    (state) => state.subscription.subscriptions,
+  );
+  const loadingSubscriptions = useSelector(
+    (state) => state.subscription.loading,
+  );
 
-  const [localloading, setLocalloading] = useState(false)
+  const [localloading, setLocalloading] = useState(false);
 
   useEffect(() => {
     let data = {
       group_type: class_types[classTypeIndex],
       lesson_type: courses[courseIndex].package,
-      duration: class_durations[durationIndex]
-    }
-    dispatch(getSubscriptions(data))
-  }, [courseIndex, durationIndex, classTypeIndex])
+      duration: class_durations[durationIndex],
+    };
+    dispatch(getSubscriptions(data));
+  }, [courseIndex, durationIndex, classTypeIndex]);
 
   useEffect(() => {
     if (subscriptionsList && subscriptionsList.length > 0) {
       if (subscriptionsList[0].data.length > 2) {
-        setSubDurations(subscriptionsList.map(sub => sub.period))
-        setSubDurIndex(0)
-        setSubscriptions(subscriptionsList[0].data)
+        setSubDurations(subscriptionsList.map((sub) => sub.period));
+        setSubDurIndex(0);
+        setSubscriptions(subscriptionsList[0].data);
       } else {
-        setSubDurations([])
-        const subscriptons = subscriptionsList.map(sub => sub.data).flat()
-        setSubscriptions(subscriptons)
+        setSubDurations([]);
+        const subscriptons = subscriptionsList.map((sub) => sub.data).flat();
+        setSubscriptions(subscriptons);
       }
     } else {
-      setSubscriptions([])
-      setSubDurations([])
-      setSubDurIndex(0)
+      setSubscriptions([]);
+      setSubDurations([]);
+      setSubDurIndex(0);
     }
-    setIsFetchPlan(true)
-  }, [subscriptionsList])
+    setIsFetchPlan(true);
+  }, [subscriptionsList]);
 
   useEffect(() => {
-    setIsFetchPlan(true)
-  }, [subDurIndex])
+    setIsFetchPlan(true);
+  }, [subDurIndex]);
 
   useEffect(() => {
     if (isFetchPlan) {
       let data = {
         group_type: class_types[classTypeIndex],
         lesson_type: courses[courseIndex].package,
-        duration: class_durations[durationIndex]
-      }
+        duration: class_durations[durationIndex],
+      };
       if (subDurations && subDurations.length > 0) {
         const period =
           subDurations[subDurIndex].indexOf('year') > -1
             ? 12
-            : parseInt(subDurations[subDurIndex])
+            : parseInt(subDurations[subDurIndex]);
         data = {
           ...data,
-          period
-        }
+          period,
+        };
       }
-      setIsFetchPlan(false)
-      dispatch(getPlan(data))
+      setIsFetchPlan(false);
+      dispatch(getPlan(data));
     }
-  }, [isFetchPlan])
+  }, [isFetchPlan]);
 
   useEffect(() => {
     if (subscription_plan && subscription_plan.length > 0) {
-      setSelectedPlan(subscription_plan[0].payment_id)
+      setSelectedPlan(subscription_plan[0].payment_id);
     } else {
-      setSelectedPlan(null)
+      setSelectedPlan(null);
     }
-  }, [subscription_plan])
+  }, [subscription_plan]);
 
   useEffect(() => {
     if (subDurations.length > 0) {
-      setSubscriptions(subscriptionsList[subDurIndex].data)
+      setSubscriptions(subscriptionsList[subDurIndex].data);
     }
-  }, [subDurIndex])
+  }, [subDurIndex]);
 
   const addCardOnStripe = async () => {
     if (!stripe || !elements) {
       // Stripe.js has not loaded yet. Make sure to disable
       // form submission until Stripe.js has loaded.
-      return
+      return;
     }
-    const card = elements.getElement(CardNumberElement)
+    const card = elements.getElement(CardNumberElement);
     return await stripe.createPaymentMethod({
       type: 'card',
-      card: card
-    })
-  }
+      card: card,
+    });
+  };
 
   const onSaveCreditCard = async () => {
-    setLocalloading(true)
-    const { paymentMethod, error } = await addCardOnStripe()
+    setLocalloading(true);
+    const { paymentMethod, error } = await addCardOnStripe();
     if (error) {
-      NotificationManager.error(error.message, t)
-      return
+      NotificationManager.error(error.message, t);
+      return;
     }
 
     try {
-      await SubscriptionApi.addCreditCard(paymentMethod)
-      
+      await SubscriptionApi.addCreditCard(paymentMethod);
     } catch (e) {
       NotificationManager.error(
         e?.response?.data?.error?.message || t('server_issue'),
-        t
-      )
+        t,
+      );
     }
-    setLocalloading(false)
-  }
+    setLocalloading(false);
+  };
 
   const onClickPlan = async (plan, promoCode) => {
     try {
-      setLocalloading(true)
+      setLocalloading(true);
       if (selectedPlan === null) {
         if (promoCode && promoCode.length) {
           try {
             const { data: couponData } = await SubscriptionApi.validCoupon(
-              promoCode
-            )
+              promoCode,
+            );
           } catch (error) {
             NotificationManager.error(
               error?.response?.data?.error?.message ||
                 t('invalided_couponcode'),
-              t
-            )
+              t,
+            );
           }
         }
 
-        await SubscriptionApi.createPlan(plan)
+        await SubscriptionApi.createPlan(plan);
       } else {
-        await SubscriptionApi.updatePlan(plan)
+        await SubscriptionApi.updatePlan(plan);
       }
-      setSelectedPlan(plan)
-      
-      setLocalloading(false)
+      setSelectedPlan(plan);
+
+      setLocalloading(false);
     } catch (e) {
-      setLocalloading(false)
+      setLocalloading(false);
       NotificationManager.error(
         e?.response?.data?.error?.message || t('server_issue'),
-        t
-      )
+        t,
+      );
     }
-  }
+  };
 
-  const onChangeCourseIndex = index => {
-    setCourseIndex(index)
-    onChangeDurationIndex(0)
-  }
+  const onChangeCourseIndex = (index) => {
+    setCourseIndex(index);
+    onChangeDurationIndex(0);
+  };
 
-  const onChangeDurationIndex = index => {
-    setDurationIndex(index)
+  const onChangeDurationIndex = (index) => {
+    setDurationIndex(index);
     // onChangeClassTypeIndex(0);
-  }
+  };
 
-  const onChangeClassTypeIndex = index => {
-    setClassTypeIndex(index)
-    setSubDurations(0)
-  }
+  const onChangeClassTypeIndex = (index) => {
+    setClassTypeIndex(index);
+    setSubDurations(0);
+  };
 
-  const onChangeSubDuration = index => {
-    setSubDurIndex(index)
-  }
+  const onChangeSubDuration = (index) => {
+    setSubDurIndex(index);
+  };
 
-  const onChangeCurrencyIndex = index => {
-    setCurrencyIndex(index)
-  }
+  const onChangeCurrencyIndex = (index) => {
+    setCurrencyIndex(index);
+  };
 
   const onChangeHasDiscount = () => {
-    setHasDiscount(!hasDiscount)
-  }
+    setHasDiscount(!hasDiscount);
+  };
 
   return (
     <>
-      <p className='sub-title'>1) {t('choose_course')}</p>
-      <div className='course-wrapper'>
+      <p className="sub-title">1) {t('choose_course')}</p>
+      <div className="course-wrapper">
         {courses.map((course, index) => (
           <div
             key={`course-${index}`}
@@ -241,28 +242,28 @@ export const PackagesView = () => {
         ))}
       </div>
 
-      <p className='sub-title'>{t('credit_card_details')}</p>
-      <div className='card-info'>
-        <label htmlFor='card_number' className='card-label'>
+      <p className="sub-title">{t('credit_card_details')}</p>
+      <div className="card-info">
+        <label htmlFor="card_number" className="card-label">
           {t('card_number')}
         </label>
-        <CardNumberElement id='card_number' />
-        <div className='exp_cvc'>
+        <CardNumberElement id="card_number" />
+        <div className="exp_cvc">
           <div>
-            <label htmlFor='card_expire' className='card-label'>
+            <label htmlFor="card_expire" className="card-label">
               {t('expiration_date')}
             </label>
-            <CardExpiryElement id='card_expire' />
+            <CardExpiryElement id="card_expire" />
           </div>
           <div>
-            <label htmlFor='card_cvc' className='card-label'>
+            <label htmlFor="card_cvc" className="card-label">
               {t('cvc')}
             </label>
-            <CardCvcElement id='card_cvc' />
+            <CardCvcElement id="card_cvc" />
           </div>
         </div>
         <button
-          className='btn'
+          className="btn"
           onClick={onSaveCreditCard}
           disabled={!stripe || !elements}
         >
@@ -270,8 +271,8 @@ export const PackagesView = () => {
         </button>
       </div>
 
-      <p className='sub-title'>2) {t('your_plan')}</p>
-      <div className='plan-wrapper'>
+      <p className="sub-title">2) {t('your_plan')}</p>
+      <div className="plan-wrapper">
         <div>
           <MultipleToggle
             label={t('class_duration')}
@@ -281,7 +282,7 @@ export const PackagesView = () => {
           />
           <MultipleToggle
             label={t('class_type')}
-            items={courses[courseIndex].options.map(idx => class_types[idx])}
+            items={courses[courseIndex].options.map((idx) => class_types[idx])}
             onChange={onChangeClassTypeIndex}
             defaultActiveIndex={classTypeIndex}
           />
@@ -292,7 +293,7 @@ export const PackagesView = () => {
             defaultActiveIndex={currencyIndex}
           />
         </div>
-        {subDurations.length > 0 && <p className='divider' />}
+        {subDurations.length > 0 && <p className="divider" />}
         {subDurations.length > 0 && (
           <div>
             <MultipleToggle
@@ -307,16 +308,16 @@ export const PackagesView = () => {
       </div>
       {loadingSubscriptions || loading || localloading ? (
         <Loader
-          className='align-center'
-          type='Audio'
-          color='#00BFFF'
+          className="align-center"
+          type="Audio"
+          color="#00BFFF"
           height={50}
           width={50}
         />
       ) : (
         <>
           {classTypeIndex === 1 && (
-            <div className='group'>
+            <div className="group">
               <Checkbox
                 label={t('have_discount_code')}
                 onChange={onChangeHasDiscount}
@@ -324,7 +325,7 @@ export const PackagesView = () => {
               />
             </div>
           )}
-          <p className='selected-plan-detail'>
+          <p className="selected-plan-detail">
             Showing our{' '}
             <strong>
               {class_durations[durationIndex].replace('min', ' mins')}{' '}
@@ -335,7 +336,7 @@ export const PackagesView = () => {
               : ''}{' '}
             :
           </p>
-          <div className='subscription-wrapper'>
+          <div className="subscription-wrapper">
             <NewSubscription
               currency={currencyIndex}
               plans={subscriptions}
@@ -351,19 +352,19 @@ export const PackagesView = () => {
         </>
       )}
     </>
-  )
-}
+  );
+};
 
 export const Packages = () => {
-  const [t, i18n] = useTranslation('translation')
+  const [t, i18n] = useTranslation('translation');
   return (
     <Layout>
-      <div className='packages-layout'>
-        <h4 className='main-title'>{t('purchase_package')}</h4>
-        <div className='scroll-layout'>
+      <div className="packages-layout">
+        <h4 className="main-title">{t('purchase_package')}</h4>
+        <div className="scroll-layout">
           <PackagesView />
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};

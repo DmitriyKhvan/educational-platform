@@ -75,3 +75,15 @@
 .rbc-row-segment {
   padding: 10px;
 }
+
+
+
+.row-schedule-btns{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  a{
+    font-size: 12px;
+  }
+}

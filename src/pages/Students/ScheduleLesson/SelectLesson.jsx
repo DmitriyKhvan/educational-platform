@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import Layout from '../../../components/Layout'
-import moment from 'moment'
-import scheduleTick from '../../../assets/images/scheduleTick.svg'
-import continue_arrow from '../../../assets/images/continue_arrow.svg'
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import Layout from '../../../components/Layout';
+import scheduleTick from '../../../assets/images/scheduleTick.svg';
+import continue_arrow from '../../../assets/images/continue_arrow.svg';
 
 const SelectLesson = ({
   setSelectedPlan,
@@ -14,21 +13,21 @@ const SelectLesson = ({
   setClicked,
   lesson,
 }) => {
-  const [t] = useTranslation('translation')
-  const history = useHistory()
-  const planStatus = useSelector(state => state.students.planStatus)
-  const disabled = clicked === null ? true : false
+  const [t] = useTranslation(['lessons', 'common']);
+  const history = useHistory();
+  const planStatus = useSelector((state) => state.students.planStatus);
+  const disabled = clicked === null ? true : false;
 
   useEffect(() => {
     if (lesson) {
-      setSelectedPlan(planStatus[0])
+      setSelectedPlan(planStatus[0]);
       setTabIndex(1);
     }
   }, [lesson]);
 
   const returnToDashboard = () => {
-    history.push('/student/manage-lessons')
-  }
+    history.push('/student/manage-lessons');
+  };
 
   const LessonCard = ({
     lesson,
@@ -36,11 +35,10 @@ const SelectLesson = ({
     remaining,
     data,
     i,
-    expirationDate
+    expirationDate,
   }) => {
-
     return (
-      <div className='pe-2 col-lg-4 main-container schedule-lesson'>
+      <div className="pe-2 col-lg-4 main-container schedule-lesson">
         <div
           className={`schedule-card small-card lesson-container pt-2 ${
             i === clicked
@@ -48,12 +46,12 @@ const SelectLesson = ({
               : 'schedule-card small-card lesson-container pt-2'
           }`}
           onClick={() => {
-            setClicked(i)
-            setSelectedPlan(data)
+            setClicked(i);
+            setSelectedPlan(data);
           }}
         >
-          <div className='container-fluid'>
-            <div className='row mb-3'>
+          <div className="container-fluid">
+            <div className="row mb-3">
               <h1
                 className={`${
                   i === clicked
@@ -64,35 +62,35 @@ const SelectLesson = ({
                 {lesson.charAt(0).toUpperCase() + lesson.slice(1)}
               </h1>
             </div>
-            <div className='row mb-1'>
-              <div className='time_remaining'>
-                {duration} {t('minutes')}
+            <div className="row mb-1">
+              <div className="time_remaining">
+                {duration} {t('minutes', { ns: 'common' })}
               </div>
-              <div className='remaining-lsn'>
+              <div className="remaining-lsn">
                 {remaining} {t('lessons_remaining')}
               </div>
             </div>
           </div>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <Layout>
-      <div className='scroll-layout  schedule-lesson'>
-        <div className='flex-container'>
-          <div className='custom-children-container m-0 schedule_changess max-select_lesson'>
-            <div className='flex-left'>
-              <h1 className='title mt-0 title_aligns_slesson'>
+      <div className="scroll-layout  schedule-lesson">
+        <div className="flex-container">
+          <div className="custom-children-container m-0 schedule_changess max-select_lesson">
+            <div className="flex-left">
+              <h1 className="title mt-0 title_aligns_slesson">
                 {t('schedule_lesson')}
               </h1>
-              <p className='welcome-subtitle'>
+              <p className="welcome-subtitle">
                 {t('schedule_lesson_subtitle')}
               </p>
             </div>
-            <div className='ExpWidth-con'>
-              <div className='lesson_card-inline'>
+            <div className="ExpWidth-con">
+              <div className="lesson_card-inline">
                 {planStatus.map((x, i) => (
                   <LessonCard
                     lesson={x.lesson_type}
@@ -106,24 +104,24 @@ const SelectLesson = ({
                 ))}
               </div>
             </div>
-            <div className='row container pt-3 btn-custom '>
-              <div className='col-auto'>
+            <div className="row container pt-3 btn-custom ">
+              <div className="col-auto">
                 <button
-                  className='enter-btn btn-dash-return ms-0 button_schedule'
+                  className="enter-btn btn-dash-return ms-0 button_schedule"
                   onClick={returnToDashboard}
                 >
                   {t('return_to_dash')}
                 </button>
               </div>
-              <div className='col-auto'>
+              <div className="col-auto">
                 <button
-                  className='enter-btn btn-primary button_schedule custom-btn-primary'
+                  className="enter-btn btn-primary button_schedule custom-btn-primary"
                   disabled={disabled}
                   onClick={() => setTabIndex(1)}
                 >
-                  <span className='me-2'>{t('continue_custom')}</span>
-                  <span className='continue-arrow'>
-                    <img src={continue_arrow} alt='' />
+                  <span className="me-2">{t('continue_custom')}</span>
+                  <span className="continue-arrow">
+                    <img src={continue_arrow} alt="" />
                   </span>
                 </button>
               </div>
@@ -132,7 +130,7 @@ const SelectLesson = ({
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default SelectLesson
+export default SelectLesson;

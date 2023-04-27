@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
 export const Toggle = ({ on, off, className, initValue, onUpdate }) => {
-  const [activeItem, setActiveItem] = useState(initValue)
+  const [activeItem, setActiveItem] = useState(initValue);
   useEffect(() => {
-    setActiveItem(initValue)
-  }, [initValue])
+    setActiveItem(initValue);
+  }, [initValue]);
 
-  const onClick = value => {
-    setActiveItem(value)
-    onUpdate(value)
-  }
+  const onClick = (value) => {
+    setActiveItem(value);
+    onUpdate(value);
+  };
 
   return (
     <div className={'toggle ' + className}>
@@ -26,5 +26,5 @@ export const Toggle = ({ on, off, className, initValue, onUpdate }) => {
         {off.label}
       </span>
     </div>
-  )
-}
+  );
+};

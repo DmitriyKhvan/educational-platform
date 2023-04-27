@@ -1,16 +1,16 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
-import Layout from '../../components/Layout'
-import styles from './LessonInfo.module.scss'
-import Avatar from '../../assets/images/Avatar.png'
-import FeedbackLessonModal from './FeedbackLessonModal'
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import Layout from '../../components/Layout';
+import styles from './LessonInfo.module.scss';
+import Avatar from '../../assets/images/Avatar.png';
+import FeedbackLessonModal from './FeedbackLessonModal';
 
 const LessonInfo = () => {
   const { lessonID } = useParams();
 
   const [isFeedbackShow, setFeedbackShow] = React.useState(false);
 
-  const handleCloseModal = () => setFeedbackShow(false)
+  const handleCloseModal = () => setFeedbackShow(false);
 
   return (
     <Layout>
@@ -33,7 +33,11 @@ const LessonInfo = () => {
               </div>
               <div className={styles.info_item}>
                 <h3>Last Section Completed</h3>
-                <p>Vocabulary Words<br />/Completed</p>
+                <p>
+                  Vocabulary Words
+                  <br />
+                  /Completed
+                </p>
               </div>
               <div className={styles.info_item}>
                 <h3>Package</h3>
@@ -45,7 +49,10 @@ const LessonInfo = () => {
               </div>
               <div className={styles.info_item}>
                 <h3>Date and Time</h3>
-                <p>January 14th, 2022<br /> 1:00 PM → 1:30 PM (PDT)</p>
+                <p>
+                  January 14th, 2022
+                  <br /> 1:00 PM → 1:30 PM (PDT)
+                </p>
               </div>
               <div className={styles.info_item}>
                 <h3>Level</h3>
@@ -56,7 +63,7 @@ const LessonInfo = () => {
                 <p>Yes</p>
               </div>
               <div className={styles.info_item}>
-                <button onClick={ () => setFeedbackShow(true)}>Feedback</button>
+                <button onClick={() => setFeedbackShow(true)}>Feedback</button>
               </div>
             </div>
           </div>
@@ -65,12 +72,12 @@ const LessonInfo = () => {
               <h2>Attendants</h2>
             </div>
             <div className={styles.attendants_item}>
-              <img src={Avatar} alt='profile' />
+              <img src={Avatar} alt="profile" />
               <h4 className={styles.name}>Rachel</h4>
               <span className={styles.status}>Tutor</span>
             </div>
             <div className={styles.attendants_item}>
-              <img src={Avatar} alt='profile' />
+              <img src={Avatar} alt="profile" />
               <h4 className={styles.name}>Rachel</h4>
               <span className={styles.status}>Tutor</span>
             </div>
@@ -125,10 +132,13 @@ const LessonInfo = () => {
         </div>
       </div>
 
-      <FeedbackLessonModal modalState='mentor' isOpen={isFeedbackShow} closeModal={handleCloseModal}/>
-
+      <FeedbackLessonModal
+        modalState="mentor"
+        isOpen={isFeedbackShow}
+        closeModal={handleCloseModal}
+      />
     </Layout>
-  )
-}
+  );
+};
 
-export default LessonInfo
+export default LessonInfo;

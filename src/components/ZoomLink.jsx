@@ -1,11 +1,11 @@
-import React from 'react'
-import styles from './ZoomLink.module.scss'
+import React from 'react';
+import styles from './ZoomLink.module.scss';
 
 export default function ZoomLink({ link }) {
   return (
     <div className={styles.card}>
       <div className={styles.card_icon}>
-        <i className='fas fa-video'></i>
+        <i className="fas fa-video"></i>
       </div>
       <div className={styles.card_body}>
         <div className={styles.card_header}>
@@ -15,15 +15,15 @@ export default function ZoomLink({ link }) {
         <div className={styles.card_link_body}>
           <a
             href={link}
-            target='_blank'
-            rel='noreferrer'
+            target="_blank"
+            rel="noreferrer"
             className={styles.card_link}
           >
-            <i className='fas fa-link'></i>
+            <i className="fas fa-link"></i>
             {link}
           </a>
         </div>
       </div>
     </div>
-  )
+  );
 }

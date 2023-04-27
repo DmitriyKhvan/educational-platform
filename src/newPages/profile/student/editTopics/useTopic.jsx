@@ -1,14 +1,14 @@
-import React from 'react'
+import React from 'react';
 
 const useTopic = () => {
-  const [topic, setTopic] = React.useState([])
+  const [topic, setTopic] = React.useState([]);
 
   return {
     state: {
       topic,
-      setTopic
-    }
-  }
-}
+      setTopic,
+    },
+  };
+};
 
-export default useTopic
+export default useTopic;

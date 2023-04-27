@@ -1,73 +1,67 @@
-import '../../assets/styles/referal.scss'
+import '../../assets/styles/referal.scss';
 
-import React from 'react'
+import React from 'react';
 
-import card from '../../assets/images/card.png'
-import email from '../../assets/images/email.svg'
-import facebook from '../../assets/images/facebook.png'
-import instagram from '../../assets/images/instagram.png'
-import linkedin from '../../assets/images/linkedin.png'
-import Message from '../../assets/images/message.svg'
-import present from '../../assets/images/present.png'
-import videotut from '../../assets/images/videoTut.png'
-import whatsapp from '../../assets/images/whatsapp.svg'
-import Layout from '../../components/Layout'
-import { useAuth } from '../../modules/auth'
+import card from '../../assets/images/card.png';
+import email from '../../assets/images/email.svg';
+import facebook from '../../assets/images/facebook.png';
+import instagram from '../../assets/images/instagram.png';
+import linkedin from '../../assets/images/linkedin.png';
+import Message from '../../assets/images/message.svg';
+import present from '../../assets/images/present.png';
+import videotut from '../../assets/images/videoTut.png';
+import whatsapp from '../../assets/images/whatsapp.svg';
+import Layout from '../../components/Layout';
+import { useAuth } from '../../modules/auth';
+import { useTranslation } from 'react-i18next';
 
 const Referal = () => {
   // const user = useSelector(state => state.users.user)
-  const { user } = useAuth()
+  const { user } = useAuth();
+  const [t] = useTranslation('refer');
 
-  const copyText = link => {
+  const copyText = (link) => {
     navigator.clipboard
       .writeText(link)
       .then(() => {
-        alert('Text copied to clipboard')
+        alert('Text copied to clipboard');
       })
-      .catch(err => {
-        console.error('Error in copying text: ', err)
-      })
-  }
+      .catch((err) => {
+        console.error('Error in copying text: ', err);
+      });
+  };
 
   return (
     <Layout>
-      <div className='referal-wrapper'>
-        <h2 className='title'>Refer A Friend</h2>
-        <div className='description'>
-          Invite a friend to Nao Now and you both benefit.
-        </div>
-        <div className='main_section'>
-          <div className='main_section-row'>
-            <div className='left_side'>
-              <div className='refer_card'>
-                <h2>For You</h2>
-                <p>1 Hour Of Free Classes</p>
-                <span>
-                  You will get 1 hour worth of free classes after your friend
-                  purchases with Nao Now.
-                </span>
+      <div className="referal-wrapper">
+        <h2 className="title">{t('refer')}</h2>
+        <div className="description">{t('refer_desc')}</div>
+        <div className="main_section">
+          <div className="main_section-row">
+            <div className="left_side">
+              <div className="refer_card">
+                <h2>{t('refer_from_title')}</h2>
+                <p>{t('refer_card_subtitle')}</p>
+                <span>{t('refer_card_desc')}</span>
               </div>
-              <div className='refer_card'>
-                <h2>For Your Friend</h2>
-                <p>1 Hour Of Free Classes</p>
-                <span>
-                  You will get 1 hour worth of free classes after your friend
-                  purchases with Nao Now.
-                </span>
+              <div className="refer_card">
+                <h2>{t('refer_to_title')}</h2>
+                <p>{t('refer_card_subtitle')}</p>
+                <span>{t('refer_card_desc')}</span>
               </div>
             </div>
-            <div className='right_side'>
-              <div className='gift_banner'>
-                <div className='link_card'>
-                  <h3>Share Your Link</h3>
+            <div className="right_side">
+              <div className="gift_banner">
+                <div className="link_card">
+                  <h3>{t('share_link')}</h3>
                   <span
                     onClick={() =>
                       copyText(
-                        `${window.location.origin}/referral/${user.referal_code}`
+                        `${window.location.origin}/referral/${user.referalCode}`,
                       )
                     }
                   >
-                    {window.location.origin}/referral/{user.referal_code}
+                    {window.location.origin}/referral/{user.referalCode}
                   </span>
                 </div>
               </div>
@@ -75,137 +69,99 @@ const Referal = () => {
           </div>
         </div>
 
-        <div className='sociel_section'>
-          <div className='sociel_title'>
-            <h2>Share your referral code with friends</h2>
-            <p>Copy the link and share it via text, email or messenger.</p>
+        <div className="sociel_section">
+          <div className="sociel_title">
+            <h2>{t('share_title')}</h2>
+            <p>{t('share_subtitle')}</p>
           </div>
 
-          <div className='share_link-input'>
-            <div className='left_share'>
+          <div className="share_link-input">
+            <div className="left_share">
               <input
                 type={'text'}
-                value={`${window.location.origin}/referral/${user.referal_code}`}
+                value={`${window.location.origin}/referral/${user.referalCode}`}
               />
               <span
                 onClick={() =>
                   copyText(
-                    `${window.location.origin}/referral/${user.referal_code}`
+                    `${window.location.origin}/referral/${user.referalCode}`,
                   )
                 }
               >
-                Copy
+                {t('copy_link')}
               </span>
             </div>
-            <div className='right_share'>
+            <div className="right_share">
               <a
-                href={`mailto:insertyouremail@gmail.com?subject=look at this website&body=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referal_code}`}
+                href={`mailto:insertyouremail@gmail.com?subject=look at this website&body=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referalCode}`}
               >
                 <div>
-                  <img src={email} alt='' />
+                  <img src={email} alt="" />
                 </div>
               </a>
               <a
-                href={`sms:phone number&body=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referal_code}`}
+                href={`sms:phone number&body=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referalCode}`}
               >
-                <img src={Message} alt='' />
+                <img src={Message} alt="" />
               </a>
               <a
-                href={`https://wa.me/?text=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referal_code}`}
+                href={`https://wa.me/?text=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referalCode}`}
               >
-                <img src={whatsapp} alt='' />
+                <img src={whatsapp} alt="" />
               </a>
             </div>
           </div>
-          <div className='share_title'>
-            <h2>Share the link with your network</h2>
-            <p>Share your referral code on social media.</p>
+          <div className="share_title">
+            <h2>{t('share_network')}</h2>
+            <p>{t('share_network_subtitle')}</p>
           </div>
 
-          <div className='share_button'>
-            <a href=''>
-              <img src={facebook} alt='' />
-              Share on Facebook
+          <div className="share_button">
+            <a href="">
+              <img src={facebook} alt="" />
+              {t('share_facebook')}
             </a>
             <a>
-              <img src={instagram} alt='' />
-              Share on Instagram
+              <img src={instagram} alt="" />
+              {t('share_instagram')}
             </a>
             <a>
-              <img src={linkedin} alt='' />
-              Share on LinkedIn
+              <img src={linkedin} alt="" />
+              {t('share_linkedin')}
             </a>
           </div>
 
-          <div className='share_info'>
-            <h2>How It Works</h2>
+          <div className="share_info">
+            <h2>{t('share_how')}</h2>
 
-            <div className='share_col'>
-              <div className='share_list'>
-                <img src={present} alt='' />
+            <div className="share_col">
+              <div className="share_list">
+                <img src={present} alt="" />
 
                 <div>
-                  <h3>Share your referral code with a friend</h3>
-                  <p>
-                    Copy the link above and share it with your friends or
-                    network.
-                  </p>
+                  <h3>{t('share_how_1_title')}</h3>
+                  <p>{t('share_how_1_subtitle')}</p>
                 </div>
               </div>
-              <div className='share_list'>
-                <img src={card} alt='' />
-
+              <div className="share_list">
+                <img src={card} alt="" />
                 <div>
-                  <h3>
-                    Your friend buys lessons and gets 1 hour worth of free
-                    classes
-                  </h3>
-                  <p>
-                    If your friend is a new student, they will get 1 hour of
-                    free classes added to their package.
-                  </p>
+                  <h3>{t('share_how_2_title')}</h3>
+                  <p>{t('share_how_2_subtitle')}</p>
                 </div>
               </div>
-              <div className='share_list'>
-                <img src={videotut} alt='' />
-
+              <div className="share_list">
+                <img src={videotut} alt="" />
                 <div>
-                  <h3>You get 1 hour of free classes</h3>
+                  <h3>{t('share_how_3_title')}</h3>
                 </div>
               </div>
             </div>
           </div>
-
-          {/* <div className='pop_up'>
-              <div className='pop_card'>
-                <img src={Congrat} alt=""/>
-                <span>&times;</span>
-
-                <h2>
-                  1 hour of FREE classes added to your package
-                </h2>
-
-                <p>
-                  Thank you for referring friends to Nao Now!
-                </p>
-              </div>
-              <div className='pop_card'>
-                <img src={Congrat} alt=""/>
-                <span>&times;</span>
-
-                <h2>
-                  1 hour of FREE classes added to your package
-                </h2>
-
-                <p>
-                Welcome to Nao Now! We are grateful our friend referred you! 
-                </p>
-              </div>  
-            </div> */}
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default Referal
+export default Referal;

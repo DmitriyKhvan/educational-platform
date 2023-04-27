@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 export const ME_QUERY = gql`
   {
@@ -11,14 +11,14 @@ export const ME_QUERY = gql`
       email
       gender
       address
-      # referal
+      referalCode
       referalId
       isActive
       country
       timeZone
       phoneNumber
       koreanEquivalent
-      student {
+      students {
         id
         about
         avatar {
@@ -52,15 +52,12 @@ export const ME_QUERY = gql`
       }
     }
   }
-`
+`;
 
 export const MENTORS_QUERY = gql`
-  query tutors
-    # # $where: TutorWhereInput!
-    # $orderBy: [TutorOrderByInput!]!
-    # $take: Int
-    # $skip: Int
-   {
+  query tutors # $take: Int # $orderBy: [TutorOrderByInput!]! # # $where: TutorWhereInput!
+  # $skip: Int
+  {
     tutors(take: null) {
       id
       user {
@@ -106,7 +103,7 @@ export const MENTORS_QUERY = gql`
       }
     }
   }
-`
+`;
 
 export const USERS_QUERY = gql`
   query users {
@@ -114,7 +111,7 @@ export const USERS_QUERY = gql`
       id
     }
   }
-`
+`;
 
 export const LOGIN_MUTATION = gql`
   mutation login($email: String!, $password: String!) {
@@ -133,13 +130,13 @@ export const LOGIN_MUTATION = gql`
       }
     }
   }
-`
+`;
 
 export const RESET_PASSWORD_MUTATION = gql`
   mutation sendUserPasswordResetLink($email: String!) {
     sendUserPasswordResetLink(email: $email)
   }
-`
+`;
 
 export const NEW_PASSWORD_MUTATION = gql`
   mutation redeemUserPasswordResetToken(
@@ -156,7 +153,7 @@ export const NEW_PASSWORD_MUTATION = gql`
       message
     }
   }
-`
+`;
 
 export const INVITE_SET_PASSWORD_MUTATION = gql`
   mutation redeemInvitePasswordSetToken(
@@ -173,7 +170,7 @@ export const INVITE_SET_PASSWORD_MUTATION = gql`
       message
     }
   }
-`
+`;
 
 export const MUTATION_UPDATE_USER = gql`
   mutation updateUser($where: UserWhereUniqueInput!, $data: UserUpdateInput!) {
@@ -182,7 +179,7 @@ export const MUTATION_UPDATE_USER = gql`
       firstName
     }
   }
-`
+`;
 
 export const MUTATION_UPDATE_TUTOR = gql`
   mutation updateTutor(
@@ -193,7 +190,7 @@ export const MUTATION_UPDATE_TUTOR = gql`
       id
     }
   }
-`
+`;
 
 export const MUTATION_UPDATE_STUDENT = gql`
   mutation updateStudent(
@@ -204,7 +201,7 @@ export const MUTATION_UPDATE_STUDENT = gql`
       id
     }
   }
-`
+`;
 
 export const GROUPS_QUERY = gql`
   query groups {
@@ -225,7 +222,7 @@ export const GROUPS_QUERY = gql`
       zoomlinkId
     }
   }
-`
+`;
 
 export const STUDENTS_QUERY = gql`
   query students($where: StudentWhereInput) {
@@ -288,4 +285,4 @@ export const STUDENTS_QUERY = gql`
       updatedAt
     }
   }
-`
+`;

@@ -236,92 +236,80 @@ const AvailabilityPicker = ({
   setIsTeachAddHours,
   setDisablePlusBtn,
   AvailabilitySlots,
-  type
+  type,
 }) => {
-
-
-  const dispatch = useDispatch()
-   const { removeAvailabilityRow, availabilityRow } = useContext(AvailProv)
-  const { t } = useTranslation()
-  const tutorInfo = useSelector(state => state.tutor.info)
-  const user = useSelector(state =>
-    isAdmin ? state.admin.user : state.users.user
-  )
-  const [fromTime, setFromTime] = useState(frmTime)
-  const [toTime, setToTime] = useState(tTime)
-  const [currentData, setCurrentData] = useState([])
+  const dispatch = useDispatch();
+  const { removeAvailabilityRow, availabilityRow } = useContext(AvailProv);
+  const { t } = useTranslation();
+  const tutorInfo = useSelector((state) => state.tutor.info);
+  const user = useSelector((state) =>
+    isAdmin ? state.admin.user : state.users.user,
+  );
+  const [fromTime, setFromTime] = useState(frmTime);
+  const [toTime, setToTime] = useState(tTime);
+  const [currentData, setCurrentData] = useState([]);
 
   const {
     control
   } = useForm()
 
   useEffect(() => {
-    setCurrentData(tutorInfo.availabilities[day])
-  }, [tutorInfo])
+    setCurrentData(tutorInfo.availabilities[day]);
+  }, [tutorInfo]);
 
   const onChangeTime = (time, iteration, timeType) => {
-
-    let t = parseInt(time)
+    let t = parseInt(time);
 
     if (iteration) {
       // Existing
 
-      if (typeof  t === 'number') {
-       
-        if(timeType === 'from'){
-          setFromTime(formatTime( t))
-          AvailabilitySlots(formatTime( t),toTime,String(id),day)
-        }else{
-          setToTime(formatTime( t))
-          updateTime(formatTime( t))
-          AvailabilitySlots(fromTime,formatTime( t),String(id),day)
+      if (typeof t === 'number') {
+        if (timeType === 'from') {
+          setFromTime(formatTime(t));
+          AvailabilitySlots(formatTime(t), toTime, String(id), day);
+        } else {
+          setToTime(formatTime(t));
+          updateTime(formatTime(t));
+          AvailabilitySlots(fromTime, formatTime(t), String(id), day);
         }
       }
     } else {
       // New
-      if (typeof  t === 'number') {
-        let cpyCurrentData = [...currentData] || []
-        cpyCurrentData[iteration][timeType] = formatTime( t)
-        console.log(cpyCurrentData)
-        AvailabilitySlots(cpyCurrentData[iteration].from,cpyCurrentData[iteration].to,id,day)
-        setCurrentData(cpyCurrentData || [])
+      if (typeof t === 'number') {
+        let cpyCurrentData = [...currentData] || [];
+        cpyCurrentData[iteration][timeType] = formatTime(t);
+        console.log(cpyCurrentData);
+        AvailabilitySlots(
+          cpyCurrentData[iteration].from,
+          cpyCurrentData[iteration].to,
+          id,
+          day,
+        );
+        setCurrentData(cpyCurrentData || []);
       }
     }
   }
 
-  useEffect(()=>{
-      if(frmTime !== undefined){
-        setFromTime(frmTime)
-      }
-      if(tTime !== undefined){
-        setToTime(tTime)
-      }
-      
-      if(updateTime !==undefined){
-        updateTime(toTime)
-      }
-  },[frmTime,tTime, toTime, fromTime, setFromTime, setToTime])
-  
   const removeRowDown = (type) => {
     Alert(
       t('swal_fire_title'),
       '',
       'warning',
-      () => removeRows({id,day,type}),
+      () => removeRows({ id, day, type }),
       true,
       t('swal_confirm_Button_Text'),
       t('swal_cancel_Button_Text'),
       t('swal_fire_title_conform_msg'),
       t('swal_fire_title_conform_msg1'),
-      t('swal_fire_title_conform_msg2')
+      t('swal_fire_title_conform_msg2'),
     );
-  }
+  };
 
-  const removeRows = (item)=>{
+  const removeRows = (item) => {
     const data = availabilityRow[item.type];
-  
-    removeAvailabilityRow(item)
-  }
+
+    removeAvailabilityRow(item);
+  };
 
   const fromTimeIndex = findIndex(timeOptions, { value: formatTimeToSeconds(fromTime) });
   const toTimeIndex = findIndex(timeOptions, { value: formatTimeToSeconds(toTime) });

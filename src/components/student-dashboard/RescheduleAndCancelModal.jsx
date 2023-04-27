@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import CancellationPolicyModal from './CancellationPolicyModal'
-import CancelLessonModal from './CancelLessonModal'
-import CancelWarningModal from './CancelWarningModal'
-import ModalWrapper from '../ModalWrapper'
-import ReschedulingTimeModal from './ReschedulingTimeModal'
-import ReschedulingTutorModal from './ReschedulingTutorModal'
-import RescheduleConfirmationModal from './RescheduleConfirmationModal'
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import CancellationPolicyModal from './CancellationPolicyModal';
+import CancelLessonModal from './CancelLessonModal';
+import CancelWarningModal from './CancelWarningModal';
+import ModalWrapper from '../ModalWrapper';
+import ReschedulingTimeModal from './ReschedulingTimeModal';
+import ReschedulingTutorModal from './ReschedulingTutorModal';
+import RescheduleConfirmationModal from './RescheduleConfirmationModal';
 
 const RescheduleAndCancelModal = ({
   data,
@@ -18,12 +18,12 @@ const RescheduleAndCancelModal = ({
   tabIndex,
   type,
   cancelled,
-  duration
+  duration,
 }) => {
-  const [schedule, setSchedule] = useState()
-  const [selectTutor, setSelectTutor] = useState()
-  const tutors = useSelector(state => state.tutor.list)
-  const [isLoading, setIsLoading] = useState(false)
+  const [schedule, setSchedule] = useState();
+  const [selectTutor, setSelectTutor] = useState();
+  const tutors = useSelector((state) => state.tutor.list);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <ModalWrapper isOpen={isOpen} closeModal={closeModal}>
@@ -74,7 +74,7 @@ const RescheduleAndCancelModal = ({
         )
       )}
     </ModalWrapper>
-  )
-}
+  );
+};
 
-export default RescheduleAndCancelModal
+export default RescheduleAndCancelModal;

@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import Select from 'react-select'
+import React, { useEffect, useState } from 'react';
+import Select from 'react-select';
 
-import CustomTable from '../../components/CustomTable'
+import CustomTable from '../../components/CustomTable';
 
-import { Link } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import { Avatar } from '../../components/Avatar'
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { Avatar } from '../../components/Avatar';
 import {
   filterLessonsByStatus,
   getAbbrName,
-  getAvatarName
-} from '../../constants/global'
+  getAvatarName,
+} from '../../constants/global';
 
 const options = [
   { value: 'studentName', label: 'student_name' },
   // { value: 'lessonNumber', label: 'lesson_number' },
-  { value: 'lessonDate', label: 'lesson_date' }
-]
+  { value: 'lessonDate', label: 'lesson_date' },
+];
 
 const customStyles = {
   option: (styles, { isFocused, isSelected }) => ({
@@ -25,13 +25,13 @@ const customStyles = {
     color: '#000000',
     padding: '8px 0 8px 16px',
     fontSize: 14,
-    fontWeight: isSelected ? 600 : 300
+    fontWeight: isSelected ? 600 : 300,
   }),
   dropdownIndicator: (styles, state) => ({
     ...styles,
-    transform: state.selectProps.menuIsOpen && 'rotate(180deg)'
-  })
-}
+    transform: state.selectProps.menuIsOpen && 'rotate(180deg)',
+  }),
+};
 
 const Lessons = ({
   appointments,
@@ -39,18 +39,18 @@ const Lessons = ({
   status,
   onAction,
   onComplete,
-  onFeedback
+  onFeedback,
 }) => {
-  const [selectedOption, setSelectedOption] = useState()
-  const [students, setStudents] = useState([])
-  const [t, i18n] = useTranslation('translation')
+  const [selectedOption, setSelectedOption] = useState();
+  const [students, setStudents] = useState([]);
+  const [t, i18n] = useTranslation('translation');
 
   useEffect(() => {
     if (appointments && appointments.list) {
-      let students = filterLessonsByStatus(status, appointments.list)
-      setStudents(students)
+      let students = filterLessonsByStatus(status, appointments.list);
+      setStudents(students);
     }
-  }, [appointments])
+  }, [appointments]);
 
   const columns = [
     {
@@ -58,20 +58,20 @@ const Lessons = ({
       dataKey: 'student',
       width: 30,
       render: (text, record) => (
-        <div className='with-avatar'>
+        <div className="with-avatar">
           <Avatar
             avatar={record.img}
             name={getAvatarName(record.first_name, record.last_name)}
           />
           <p>{getAbbrName(record.first_name, record.last_name)}</p>
         </div>
-      )
+      ),
     },
     {
       title: t('lesson'),
       dataKey: 'lessonType',
       width: 30,
-      render: (text, record) => <p className='lesson-type'>{text}</p>
+      render: (text, record) => <p className="lesson-type">{text}</p>,
     },
     // {
     //   title: t('lesson_number'),
@@ -81,9 +81,9 @@ const Lessons = ({
     {
       title: t('lesson_date'),
       dataKey: 'lessonDate',
-      width: 30
-    }
-  ]
+      width: 30,
+    },
+  ];
 
   if (onComplete) {
     columns.push({
@@ -91,17 +91,17 @@ const Lessons = ({
       dataKey: 'completed',
       width: 20,
       render: (item, record) => (
-        <div className='actions'>
+        <div className="actions">
           {record.completed ? (
-            <a onClick={() => onComplete(record)} className='edit'>
+            <a onClick={() => onComplete(record)} className="edit">
               {t('edit')}
             </a>
           ) : (
             <a onClick={() => onComplete(record)}>{t('complete')}</a>
           )}
         </div>
-      )
-    })
+      ),
+    });
   }
 
   columns.push({
@@ -109,22 +109,22 @@ const Lessons = ({
     dataKey: 'actions',
     width: 20,
     render: (item, record) => (
-      <div className='actions'>
+      <div className="actions">
         {onAction ? (
           <a onClick={() => onAction(record, status)}>{t('view_detail')}</a>
         ) : (
           <Link
             to={{
               pathname: `/tutor/students/${record.studentId}`,
-              state: { student: record.student }
+              state: { student: record.student },
             }}
           >
             {t('view_detail')}
           </Link>
         )}
       </div>
-    )
-  })
+    ),
+  });
 
   if (onFeedback) {
     columns.push({
@@ -132,68 +132,68 @@ const Lessons = ({
       dataKey: 'feedback',
       width: 20,
       render: (item, record) => (
-        <div className='actions'>
+        <div className="actions">
           {record.feedbacks.length > 0 ? (
-            <a className='given-feedback'>{t('feedback_complete')}</a>
+            <a className="given-feedback">{t('feedback_complete')}</a>
           ) : (
             <a onClick={() => onFeedback(record)}>{t('feedback')}</a>
           )}
         </div>
-      )
-    })
+      ),
+    });
   }
 
-  const handleChange = option => {
-    setSelectedOption(option)
+  const handleChange = (option) => {
+    setSelectedOption(option);
     switch (option.value) {
       case 'studentName':
         students.sort(function (a, b) {
-          const aa = a.student.user.first_name + a.student.user.last_name
-          const bb = b.student.user.first_name + b.student.user.last_name
-          return aa.localeCompare(bb)
-        })
-        break
+          const aa = a.student.user.first_name + a.student.user.last_name;
+          const bb = b.student.user.first_name + b.student.user.last_name;
+          return aa.localeCompare(bb);
+        });
+        break;
       case 'lessonNumber':
         students.sort(function (a, b) {
-          return a.id - b.id
-        })
-        break
+          return a.id - b.id;
+        });
+        break;
       case 'lessonDate':
         students.sort(function (a, b) {
-          return new Date(b['lessonDate']) - new Date(a['lessonDate'])
-        })
-        break
+          return new Date(b['lessonDate']) - new Date(a['lessonDate']);
+        });
+        break;
     }
-    setStudents(students)
-  }
+    setStudents(students);
+  };
 
   return (
     <>
-      <div className='page-header'>
-        <h4 className='main-title'>{title}</h4>
+      <div className="page-header">
+        <h4 className="main-title">{title}</h4>
         <Select
           value={selectedOption}
           onChange={handleChange}
-          options={options.map(opt => ({
+          options={options.map((opt) => ({
             value: opt.value,
-            label: t(opt.label)
+            label: t(opt.label),
           }))}
           styles={customStyles}
-          placeholder='Sort By'
-          classNamePrefix='custom-select'
-          className='custom-select'
-          name='sortBy'
+          placeholder="Sort By"
+          classNamePrefix="custom-select"
+          className="custom-select"
+          name="sortBy"
           rules={{ required: 'Please select an option' }}
-          getOptionValue={option => option.value}
-          getOptionLabel={option => option.label}
+          getOptionValue={(option) => option.value}
+          getOptionLabel={(option) => option.label}
         />
       </div>
-      <div className='divider' />
+      <div className="divider" />
       {appointments && !appointments.loading && (
-        <CustomTable data={students} columns={columns} type='student' />
+        <CustomTable data={students} columns={columns} type="student" />
       )}
     </>
-  )
-}
+  );
+};
 
-export default Lessons
+export default Lessons;

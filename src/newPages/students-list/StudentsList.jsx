@@ -1,16 +1,17 @@
-import React from 'react'
-import Layout from '../../components/Layout'
+import React from 'react';
+import Layout from '../../components/Layout';
 
-import FavIcon from '../../assets/images/Favorite.png'
-import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png'
-import maleAvatar from '../../assets/images/avatars/img_avatar_male.png'
-import './Students.scss'
-import { useHistory } from 'react-router-dom'
-import { useQuery } from '@apollo/client'
-import { STUDENTS_QUERY } from '../../modules/auth/graphql'
-import studentsModal from './StudentsModal'
-import Loader from '../../components/Loader/Loader'
-import StudentsModal from './StudentsModal'
+import FavIcon from '../../assets/images/Favorite.png';
+import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
+import maleAvatar from '../../assets/images/avatars/img_avatar_male.png';
+import './Students.scss';
+import { useHistory } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { STUDENTS_QUERY } from '../../modules/auth/graphql';
+import studentsModal from './StudentsModal';
+import Loader from '../../components/Loader/Loader';
+import StudentsModal from './StudentsModal';
+import { useTranslation } from 'react-i18next';
 
 const filtersList = [
   {
@@ -19,14 +20,14 @@ const filtersList = [
     options: [
       {
         id: 1,
-        title: 'Man'
+        title: 'Man',
       },
       {
         id: 2,
-        title: 'Women'
-      }
+        title: 'Women',
+      },
     ],
-    checkbox: false
+    checkbox: false,
   },
   {
     id: 2,
@@ -34,14 +35,14 @@ const filtersList = [
     options: [
       {
         id: 1,
-        title: 'Harvard'
+        title: 'Harvard',
       },
       {
         id: 2,
-        title: 'Cambridge'
-      }
+        title: 'Cambridge',
+      },
     ],
-    checkbox: false
+    checkbox: false,
   },
   {
     id: 3,
@@ -49,56 +50,57 @@ const filtersList = [
     options: [
       {
         id: 1,
-        title: 'Major'
+        title: 'Major',
       },
       {
         id: 2,
-        title: 'Major'
-      }
+        title: 'Major',
+      },
     ],
-    checkbox: false
-  }
-]
+    checkbox: false,
+  },
+];
 
 export default function StudentsList() {
-  const [showStudentModal, setShowStudentModal] = React.useState(false)
-  const history = useHistory()
+  const [showStudentModal, setShowStudentModal] = React.useState(false);
+  const history = useHistory();
   const { data } = useQuery(STUDENTS_QUERY, {
-    errorPolicy: 'ignore'
-  })
+    errorPolicy: 'ignore',
+  });
+  const [t] = useTranslation(['common', 'studentMentor']);
 
-  const students = data?.students
+  const students = data?.students;
 
-  const handleStatusTutor = id => {}
+  const handleStatusTutor = (id) => {};
 
-  const handleMoreTutor = id => {
+  const handleMoreTutor = (id) => {
     if (id) {
-      history.push(`/tutor/students-list/${id}`)
+      history.push(`/tutor/students-list/${id}`);
     }
 
-    setShowStudentModal(true)
-  }
+    setShowStudentModal(true);
+  };
 
-  const handleFilter = () => {}
+  const handleFilter = () => {};
 
   return (
     <Layout>
-      <div className='tutors_section'>
-        <div className='tutors_title'>
-          <h1>Students</h1>
-          <p>Find new students or contact your favorite ones.</p>
+      <div className="tutors_section">
+        <div className="tutors_title">
+          <h1>{t('student_list', { ns: 'studentMentor' })}</h1>
+          <p>{t('student_list_desc', { ns: 'studentMentor' })}</p>
         </div>
 
-        <div className='tutors_row'>
+        <div className="tutors_row">
           {students?.length === 0 && <p>Empty</p>}
 
           {!students && <Loader height={'50vh'} />}
 
           {students &&
-            students.map(item => (
-              <div key={item.id} className='tutors_card'>
+            students.map((item) => (
+              <div key={item.id} className="tutors_card">
                 <div
-                  className='tutors_card-img'
+                  className="tutors_card-img"
                   style={{
                     background: `url("${
                       item?.user?.avatar
@@ -106,20 +108,20 @@ export default function StudentsList() {
                         : item?.user?.gender === 'male'
                         ? maleAvatar
                         : femaleAvatar
-                    }") center / cover`
+                    }") center / cover`,
                   }}
                 >
-                  {item.isFavourite && <img src={FavIcon} alt='' />}
+                  {item.isFavourite && <img src={FavIcon} alt="" />}
                 </div>
-                <div className='tutors_card-body'>
-                  <div className='tutors_info'>
+                <div className="tutors_card-body">
+                  <div className="tutors_info">
                     <h2>{item.userName}</h2>
                     <p>{item.university}</p>
                     <span>{item.language}</span>
                   </div>
-                  <div className='tutors_control-buttons'>
+                  <div className="tutors_control-buttons">
                     <button onClick={() => handleMoreTutor(item.id)}>
-                      Learn more
+                      {t('learn_more', { ns: 'common' })}
                     </button>
                   </div>
                 </div>
@@ -136,5 +138,5 @@ export default function StudentsList() {
         />
       )}
     </Layout>
-  )
+  );
 }

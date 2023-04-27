@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import moment from 'moment-timezone'
-import { Link } from 'react-router-dom'
-import '../../assets/styles/calendar.scss'
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import moment from 'moment-timezone';
+import { Link } from 'react-router-dom';
+import '../../assets/styles/calendar.scss';
 
 const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
-  const [t] = useTranslation('translation')
-  const [displayTableData, setDisplayTableData] = useState([])
+  const [t] = useTranslation('lessons');
+  const [displayTableData, setDisplayTableData] = useState([]);
 
   useEffect(() => {
     if (tabularData.length) {
@@ -14,39 +14,33 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
         .sort((a, b) => new Date(a.dateTime.date) - new Date(b.dateTime.date))
         .sort(
           (a, b) =>
-            new Date(a.dateTime.startTime) - new Date(b.dateTime.startTime)
+            new Date(a.dateTime.startTime) - new Date(b.dateTime.startTime),
         )
-        .map(x => x)
-      const y = Object.assign({}, x)
-      const z = []
+        .map((x) => x);
+      const y = Object.assign({}, x);
+      const z = [];
       for (const [, value] of Object.entries(y)) {
-        z.push(value)
+        z.push(value);
       }
-      setDisplayTableData(z)
+      setDisplayTableData(z);
     }
-  }, [tabularData])
+  }, [tabularData]);
 
   const tableHead = [
-    'Package',
-    // Do not delete this code, it is for future use
-    // t('level'),
-    // t('topic'),
-    // "Last Section Completed",
-    'Duration',
-    t('date_and_time'),
-    t("student_lesson_name"),
-    'Class Feedback'
-  ]
-
-  console.log(displayTableData)
+    t('lesson_package'),
+    t('duration'),
+    t('date_time'),
+    t('student_name'),
+    t('class_feedback'),
+  ];
 
   return (
-    <div className='scroll-layout'>
-      <table className='table'>
+    <div className="scroll-layout">
+      <table className="table">
         <thead>
           <tr>
-            {tableHead.map(x => (
-              <th scope='col'>{x}</th>
+            {tableHead.map((x) => (
+              <th scope="col">{x}</th>
             ))}
           </tr>
         </thead>
@@ -54,16 +48,16 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
         <tbody>
           {displayTableData?.length === 0 && (
             <tr
-              className='tr-center '
+              className="tr-center "
               style={{ transform: 'translateX(38%) translateY(30%)' }}
             >
-              <td>You don't have a lessons!</td>
+              <td>{t('no_lessons')}</td>
             </tr>
           )}
           {displayTableData.map((event, i) => (
-            <tr className='tr-center'>
-              <td className='td-item m-0'>
-                <p className='td-lesson'>{event.lesson}</p>
+            <tr className="tr-center">
+              <td className="td-item m-0">
+                <p className="td-lesson">{event.lesson}</p>
               </td>
               {/* 
               Do not delete this code, it is for future use
@@ -82,14 +76,14 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
                   {"WarmUp Exercise"}
                 </p>
               </td> */}
-              <td className='td-item m-0'>
-                <p className='td-topic-level'>
+              <td className="td-item m-0">
+                <p className="td-topic-level">
                   {`${event.resource.duration}m`}
                 </p>
               </td>
 
-              <td className='td-item m-0'>
-                <div className='td-datetime td-datetime-border p-3'>
+              <td className="td-item m-0">
+                <div className="td-datetime td-datetime-border p-3">
                   {moment(event.resource.start_at)
                     .tz(timezone)
                     .format('ddd, MMM Do') + ' | '}
@@ -103,16 +97,16 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
                     .format('hh:mm A')}
                 </div>
               </td>
-              <td className='td-item m-0'>
-                <p className='td-topic-level'>
+              <td className="td-item m-0">
+                <p className="td-topic-level">
                   {event.resource.students[0].user.first_name ??
                     '' + ' ' + event.resource.students[0].user.last_name ??
                     ''}
                 </p>
               </td>
-              <td className='td-item m-0'>
+              <td className="td-item m-0">
                 <Link
-                  className='td-button'
+                  className="td-button"
                   to={`appointments-calendar/lesson/${event.resource.id}`}
                 >
                   Feedback
@@ -123,7 +117,7 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
-export default LessonTable
+export default LessonTable;

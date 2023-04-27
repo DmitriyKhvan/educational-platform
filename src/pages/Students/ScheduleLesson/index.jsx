@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useParams } from "react-router-dom";
-import LessonConfirmation from './LessonConfirmation'
-import ScheduleSelector from './ScheduleSelector'
-import SelectLesson from './SelectLesson'
-import SelectTutorCards from './SelectTutorCards'
-import { getPlanStatus } from '../../../actions/subscription'
-import { useQuery, gql } from '@apollo/client'
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import LessonConfirmation from './LessonConfirmation';
+import ScheduleSelector from './ScheduleSelector';
+import SelectLesson from './SelectLesson';
+import SelectTutorCards from './SelectTutorCards';
+import { getPlanStatus } from '../../../actions/subscription';
+import { useQuery, gql } from '@apollo/client';
 
-import '../../../assets/styles/tutor.scss'
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import '../../../assets/styles/tutor.scss';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 const GET_GROUP_INFO = gql`
-  query groups (
+  query groups(
     $where: GroupWhereInput!
     $orderBy: [GroupOrderByInput!]!
     $take: Int
@@ -38,25 +38,25 @@ const GET_GROUP_INFO = gql`
       updatedAt
     }
   }
-`
+`;
 
 const ScheduleLesson = () => {
   const { id = null } = useParams();
-  const { data, loading } = useQuery(GET_GROUP_INFO, {errorPolicy: 'ignore' })
-  const dispatch = useDispatch()
-  const [clicked, setClicked] = useState(null)
-  const [selectedPlan, setSelectedPlan] = useState({})
-  const [schedule, setSchedule] = useState()
-  const [tabIndex, setTabIndex] = useState(0)
-  const [selectTutor, setSelectTutor] = useState()
+  const { data, loading } = useQuery(GET_GROUP_INFO, { errorPolicy: 'ignore' });
+  const dispatch = useDispatch();
+  const [clicked, setClicked] = useState(null);
+  const [selectedPlan, setSelectedPlan] = useState({});
+  const [schedule, setSchedule] = useState();
+  const [tabIndex, setTabIndex] = useState(0);
+  const [selectTutor, setSelectTutor] = useState();
 
   useEffect(() => {
-    dispatch(getPlanStatus())
-  }, [dispatch, schedule])
+    dispatch(getPlanStatus());
+  }, [dispatch, schedule]);
 
   const scheduledLesson = data?.group || null;
 
-  console.log(data)
+  console.log(data);
 
   useEffect(() => {
     if (scheduledLesson) {
@@ -106,7 +106,7 @@ const ScheduleLesson = () => {
         )
       )}
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default ScheduleLesson
+export default ScheduleLesson;

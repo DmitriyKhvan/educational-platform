@@ -1,0 +1,13 @@
+{
+  "set_your_availability": "수업 가능 시간 설정",
+  "edit_your_shedule_below": "아래에서 일정을 편집해 주세요.",
+  "set_your_teaching_hours": "튜터링 시간 설정",
+  "tutor_availability_settings": "수업 가능 시간 설정",
+  "substitute_lesson_title": "대체 레슨",
+  "enable_substitute_bookings": "대체 예약 활성화",
+  "substitute_lesson_desc_one": "다른 Nao Now 튜터가 수업을 진행할 수 없는 경우 대체 수업을 진행하고 싶습니다.",
+  "substitute_lesson_desc_two": "대체 수업은 최소 수업 시작 2시간 전에 요청해야 합니다.",
+  "substitute_us_holidays": "미국 휴일에도 레슨을 진행하시나요?",
+  "enable_us_holidays_substitute": "휴일 예약 활성화",
+  "save_return_settings": "저장 후 돌아가기"
+}
