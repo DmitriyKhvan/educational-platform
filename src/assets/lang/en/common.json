@@ -26,6 +26,8 @@
   "required_email": "Email is required",
   "error_invalid_email": "Invalid e-mail address",
   "required_password": "Password is required",
+  "forgot_password": "Forgot Password",
+  "error_empty_field": "This field should not be empty.",
   "upload": "Upload",
   "korean": "Korean",
   "english": "English",

@@ -1,14 +1,14 @@
-import React from 'react'
+import React from 'react';
 
 const RadioGroup = ({ onChange, className, options, name }) => {
   return (
     <div className={'radio-group ' + className}>
-      {options.map(option => (
+      {options.map((option) => (
         <label htmlFor={option.name}>
           <input
-            onChange={e => onChange(e.target.value)}
+            onChange={(e) => onChange(e.target.value)}
             id={option.name}
-            type='radio'
+            type="radio"
             name={name}
             value={option.name}
           />
@@ -16,7 +16,7 @@ const RadioGroup = ({ onChange, className, options, name }) => {
         </label>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default RadioGroup
+export default RadioGroup;

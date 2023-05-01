@@ -1,29 +1,29 @@
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client';
 // import { Switch } from '@mui/material'
-import React from 'react'
-import { useForm, Controller } from 'react-hook-form'
-import { useAuth } from '../../../../modules/auth'
-import { MUTATION_UPDATE_USER } from '../../../../modules/auth/graphql'
-import Submit from './Submit'
-import { TextInput } from './TextInput'
-import Select from 'react-select'
-import timezone from 'timezones-list'
-import { useHistory } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import { getData } from 'country-list'
-import { useTranslation } from 'react-i18next'
+import React from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { useAuth } from '../../../../modules/auth';
+import { MUTATION_UPDATE_USER } from '../../../../modules/auth/graphql';
+import Submit from './Submit';
+import { TextInput } from './TextInput';
+import Select from 'react-select';
+import timezone from 'timezones-list';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { getData } from 'country-list';
+import { useTranslation } from 'react-i18next';
 
 const BasicForm = ({ cls }) => {
-  const [t] = useTranslation(['common', 'profile'])
-  const [updateTutor] = useMutation(MUTATION_UPDATE_USER)
+  const [t] = useTranslation(['common', 'profile']);
+  const [updateTutor] = useMutation(MUTATION_UPDATE_USER);
 
-  const notify = () => toast('Basic information is changed!')
+  const notify = () => toast('Basic information is changed!');
 
-  const history = useHistory()
+  const history = useHistory();
 
-  const { user, refetchUser } = useAuth()
+  const { user, refetchUser } = useAuth();
 
-  const timezones = timezone.map(x => x.label)
+  const timezones = timezone.map((x) => x.label);
 
   const { register, handleSubmit, control } = useForm({
     mode: 'onBlur',
@@ -33,35 +33,35 @@ const BasicForm = ({ cls }) => {
       email: user?.email,
       phoneNumber: user?.phoneNumber,
       address: user?.address,
-      gender: user?.gender
-    }
-  })
+      gender: user?.gender,
+    },
+  });
 
-  const handleEditBasicInfo = async area => {
+  const handleEditBasicInfo = async (area) => {
     const { data } = await updateTutor({
       variables: {
         where: {
-          id: user?.id
+          id: user?.id,
         },
-        data: area
-      }
-    })
+        data: area,
+      },
+    });
 
     if (data) {
-      notify()
-      history.push('/student/profile')
+      notify();
+      history.push('/student/profile');
     }
 
-    await refetchUser()
-  }
+    await refetchUser();
+  };
 
-  const countries = getData().map(x => x.name)
+  const countries = getData().map((x) => x.name);
 
   return (
     <form
       onSubmit={handleSubmit(handleEditBasicInfo)}
       className={cls.editProfile_container_forms_basic}
-      id='basic'
+      id="basic"
     >
       <div>
         <div className={cls.editProfile_container_forms_basic_title}>
@@ -69,14 +69,14 @@ const BasicForm = ({ cls }) => {
         </div>
 
         <TextInput
-          type='text'
+          type="text"
           placeholder={'Alisa'}
           label={t('first_name')}
           {...register('firstName')}
         />
 
         <TextInput
-          type='text'
+          type="text"
           placeholder={'Addison'}
           label={t('last_name')}
           {...register('lastName')}
@@ -92,7 +92,7 @@ const BasicForm = ({ cls }) => {
         </div>
 
         <TextInput
-          type='email'
+          type="email"
           placeholder={'example@gmail.com'}
           label={t('email', { ns: 'profile' })}
           disabled={true}
@@ -100,7 +100,7 @@ const BasicForm = ({ cls }) => {
         />
 
         <TextInput
-          type='text'
+          type="text"
           placeholder={'+9965537201'}
           label={t('phone_number')}
           {...register('phoneNumber')}
@@ -111,23 +111,23 @@ const BasicForm = ({ cls }) => {
         <h3>Receive SMS notifications</h3>
       </div> */}
 
-        <div className='basic'>
+        <div className="basic">
           <div className={cls.form_divider}>
             <p>{t('country')}</p>
 
-            <div className='tutor_timeZone'>
+            <div className="tutor_timeZone">
               <Controller
                 control={control}
-                name='country'
+                name="country"
                 defaultValue={user?.country}
                 render={({ field: { ref, value, onChange } }) => (
                   <Select
                     inputRef={ref}
                     value={{ label: value, value: value }}
-                    options={countries.map(each => {
-                      return { label: each, value: each }
+                    options={countries.map((each) => {
+                      return { label: each, value: each };
                     })}
-                    onChange={e => onChange(e.value)}
+                    onChange={(e) => onChange(e.value)}
                   />
                 )}
               />
@@ -136,7 +136,7 @@ const BasicForm = ({ cls }) => {
         </div>
 
         <TextInput
-          type='text'
+          type="text"
           placeholder={'Bakarov 99'}
           label={t('address')}
           {...register('address')}
@@ -145,19 +145,19 @@ const BasicForm = ({ cls }) => {
         <div className={cls.form_divider}>
           <p>{t('time_zone')}</p>
 
-          <div className='tutor_timeZone'>
+          <div className="tutor_timeZone">
             <Controller
               control={control}
-              name='timeZone'
+              name="timeZone"
               defaultValue={user?.timeZone}
               render={({ field: { ref, value, onChange } }) => (
                 <Select
                   inputRef={ref}
                   value={{ label: value, value: value }}
-                  options={timezones.map(each => {
-                    return { label: each, value: each }
+                  options={timezones.map((each) => {
+                    return { label: each, value: each };
                   })}
-                  onChange={e => onChange(e.value)}
+                  onChange={(e) => onChange(e.value)}
                 />
               )}
             />
@@ -167,7 +167,7 @@ const BasicForm = ({ cls }) => {
 
       <Submit />
     </form>
-  )
-}
+  );
+};
 
-export default BasicForm
+export default BasicForm;

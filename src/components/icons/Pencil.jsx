@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
 const SvgPencil = ({ style, ...props }) => (
   <svg
     width={19}
     height={19}
-    style={{ cursor: "pointer", ...style }}
+    style={{ cursor: 'pointer', ...style }}
     {...props}
   >
     <defs>

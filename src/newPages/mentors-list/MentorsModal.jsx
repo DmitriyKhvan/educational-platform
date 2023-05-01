@@ -1,45 +1,47 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
-import FavIcon from '../../assets/images/Favorite.png'
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import FavIcon from '../../assets/images/Favorite.png';
 
-import './MentorsModal.scss'
+import './MentorsModal.scss';
 
 const MentorsModal = ({
   setShowTutorModal,
   tutorId,
   tutorsList,
-  handleStatusTutor
+  handleStatusTutor,
 }) => {
-  const { id } = useParams()
+  const { id } = useParams();
 
-  console.log(tutorsList, 'tutorId')
+  console.log(tutorsList, 'tutorId');
 
   const renderSelectedTutor = tutorsList?.find(
-    item => item.id === (tutorId ? tutorId : id)
-  )
+    (item) => item.id === (tutorId ? tutorId : id),
+  );
 
   return (
-    <div className='tutor_alfa'>
-      <div className='tutor_modal'>
-        <p className='close-sh' onClick={() => setShowTutorModal(false)}>&times;</p>
+    <div className="tutor_alfa">
+      <div className="tutor_modal">
+        <p className="close-sh" onClick={() => setShowTutorModal(false)}>
+          &times;
+        </p>
         <iframe
-          width='40%'
-          height='100%'
+          width="40%"
+          height="100%"
           src={`https://www.youtube.com/embed/${renderSelectedTutor?.videoUrl}`}
-          title='YouTube video player'
-          frameborder='0'
-          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen
         ></iframe>
 
-        <div className='tutor_more-content'>
+        <div className="tutor_more-content">
           {renderSelectedTutor?.isFavourite && (
-            <img src={FavIcon} alt='' className='favTutorIcon' />
+            <img src={FavIcon} alt="" className="favTutorIcon" />
           )}
           <h1>{`${renderSelectedTutor?.user.firstName} ${renderSelectedTutor?.user.lastName}`}</h1>
           <p>{renderSelectedTutor?.about}</p>
 
-          <div className='bottom_content'>
+          <div className="bottom_content">
             <p>
               “Great review about Sarah by a fellow NaoNow Student”.
               <br />
@@ -51,7 +53,7 @@ const MentorsModal = ({
               <span>— Jane Doe (Age 14)</span>
             </p>
 
-            <div className='bottom_content-status'>
+            <div className="bottom_content-status">
               <div>
                 <p>School</p>
                 <h3>{renderSelectedTutor?.university}</h3>
@@ -66,7 +68,7 @@ const MentorsModal = ({
               </div>
             </div>
 
-            <div className='bottom_content-button'>
+            <div className="bottom_content-button">
               {/* <button onClick={() => setShowTutorModal(false)}>Cancel</button> */}
               {/* <button>Message</button> */}
               {/* <button onClick={() => handleStatusTutor(parseInt(tutorId))}>
@@ -77,7 +79,7 @@ const MentorsModal = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default MentorsModal
+export default MentorsModal;

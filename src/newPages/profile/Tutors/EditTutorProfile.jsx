@@ -1,84 +1,84 @@
-import React from 'react'
-import Layout from '../../../components/Layout'
-import cls from './EditTutorProfile.module.scss'
-import DelIcon from '../../../assets/del.png'
-import Stick from '../../../assets/stick.png'
-import SampleModal from './SampleModal'
-import Biography from './edit/Biography'
-import Education from './edit/Education'
-import Intro from './edit/Intro'
-import EditAvatarModal from './EditAvatarModal'
-import BasicForm from './edit/BasicForm'
-import { useAuth } from '../../../modules/auth'
-import { MUTATION_UPDATE_TUTOR } from '../../../modules/auth/graphql'
-import { useMutation } from '@apollo/client'
-import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png'
-import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png'
-import { Link } from 'react-scroll'
-import { useTranslation } from 'react-i18next'
+import React from 'react';
+import Layout from '../../../components/Layout';
+import cls from './EditTutorProfile.module.scss';
+import DelIcon from '../../../assets/del.png';
+import Stick from '../../../assets/stick.png';
+import SampleModal from './SampleModal';
+import Biography from './edit/Biography';
+import Education from './edit/Education';
+import Intro from './edit/Intro';
+import EditAvatarModal from './EditAvatarModal';
+import BasicForm from './edit/BasicForm';
+import { useAuth } from '../../../modules/auth';
+import { MUTATION_UPDATE_TUTOR } from '../../../modules/auth/graphql';
+import { useMutation } from '@apollo/client';
+import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
+import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
+import { Link } from 'react-scroll';
+import { useTranslation } from 'react-i18next';
 
 const EditTutorProfile = () => {
-  const [t] = useTranslation(['profile', 'common'])
-  const [statusInfo, setStatusInfo] = React.useState('basic')
-  const [showSample, setShowSample] = React.useState(false)
-  const [showEditAvatar, setShowEditAvatar] = React.useState(false)
-  const [updateTutor] = useMutation(MUTATION_UPDATE_TUTOR)
-  const [profileImage, setProfileImage] = React.useState('')
-  const { user, refetchUser } = useAuth()
+  const [t] = useTranslation(['profile', 'common']);
+  const [statusInfo, setStatusInfo] = React.useState('basic');
+  const [showSample, setShowSample] = React.useState(false);
+  const [showEditAvatar, setShowEditAvatar] = React.useState(false);
+  const [updateTutor] = useMutation(MUTATION_UPDATE_TUTOR);
+  const [profileImage, setProfileImage] = React.useState('');
+  const { user, refetchUser } = useAuth();
 
   const hooks = [
     {
       caption: t('basic_info'),
       route: 'basic',
-      count: 475
+      count: 475,
     },
     {
       caption: t('biography'),
       route: 'bio',
-      count: 1600
+      count: 1600,
     },
     {
       caption: t('bio_education'),
       route: 'edu',
-      count: 3487
+      count: 3487,
     },
     {
       caption: t('intro_video'),
       route: 'intro',
-      count: 5120
-    }
-  ]
+      count: 5120,
+    },
+  ];
 
   React.useEffect(() => {
     if (user?.tutor?.avatar) {
-      setProfileImage(user?.tutor?.avatar?.url)
+      setProfileImage(user?.tutor?.avatar?.url);
     } else if (user.gender === 'female') {
-      setProfileImage(femaleAvatar)
+      setProfileImage(femaleAvatar);
     } else if (user.gender === 'male') {
-      setProfileImage(maleAvatar)
+      setProfileImage(maleAvatar);
     } else {
-      setProfileImage(maleAvatar)
+      setProfileImage(maleAvatar);
     }
-  }, [user])
+  }, [user]);
 
-  const closeSampleModal = () => setShowSample(false)
+  const closeSampleModal = () => setShowSample(false);
 
-  const closeEditAvatarModal = () => setShowEditAvatar(false)
+  const closeEditAvatarModal = () => setShowEditAvatar(false);
 
   const deleteAvatar = async () => {
     const { data } = await updateTutor({
       variables: {
         where: {
-          id: parseInt(user?.tutor?.id)
+          id: parseInt(user?.tutor?.id),
         },
-        data: { avatar: null }
-      }
-    })
+        data: { avatar: null },
+      },
+    });
 
     if (data) {
-      refetchUser()
+      refetchUser();
     }
-  }
+  };
 
   return (
     <Layout>
@@ -97,14 +97,14 @@ const EditTutorProfile = () => {
 
             <div className={cls.editProfile_left_avatar}>
               <div className={cls.avatar_left}>
-                {<img src={profileImage} alt='' />}
+                {<img src={profileImage} alt="" />}
               </div>
               <div className={cls.avatar_right}>
                 <button onClick={() => setShowEditAvatar(true)}>
                   {t('upload_photo')}
                 </button>
                 <button onClick={deleteAvatar}>
-                  <img src={DelIcon} alt='' />
+                  <img src={DelIcon} alt="" />
                   {t('delete_photo')}
                 </button>
               </div>
@@ -116,12 +116,12 @@ const EditTutorProfile = () => {
           </section>
           <section className={cls.editProfile_right}>
             <div className={cls.editProfile_right_hooks}>
-              {hooks.map(item => (
+              {hooks.map((item) => (
                 <Link
                   to={item.route}
                   key={item.caption}
                   onClick={() => {
-                    setStatusInfo(item.route)
+                    setStatusInfo(item.route);
                   }}
                   spy={true}
                   smooth={true}
@@ -136,7 +136,7 @@ const EditTutorProfile = () => {
 
             <div className={cls.editProfile_right_guild}>
               <div className={cls.guild_card}>
-                <img src={Stick} alt='' />
+                <img src={Stick} alt="" />
 
                 <h2>{t('photo_guidelines')}</h2>
 
@@ -176,7 +176,7 @@ const EditTutorProfile = () => {
         }
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default EditTutorProfile
+export default EditTutorProfile;

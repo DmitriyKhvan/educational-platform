@@ -30,6 +30,7 @@
     "date-fns-tz": "^1.1.6",
     "graphql": "^16.6.0",
     "i18next": "^20.3.1",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.34",
     "qs": "^6.11.0",
@@ -80,7 +81,7 @@
     "start": "vite",
     "serve": "vite preview",
     "build": "vite build",
-    "format": "prettier --write './src/**/*.{js,ts,html,css,md,json}' --config ./.prettierrc"
+    "format": "prettier --write './src/**/*.{js,jsx,ts,tsx,html,css,md,json}' --config ./.prettierrc"
   },
   "eslintConfig": {
     "extends": [

@@ -1,61 +1,61 @@
-import React, { useState, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import Loader from 'react-loader-spinner'
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import Loader from 'react-loader-spinner';
 
-import Modal from '../../components/Modal'
-import { renderFormField, renderSelect } from '../../components/Global'
-import TutorApi from '../../api/TutorApi'
-import NotificationManager from '../../components/NotificationManager'
-import StudentApi from '../../api/StudentApi'
-import AppointmentApi from '../../api/AppointmentApi'
-import { timezones } from '../../constants/global'
+import Modal from '../../components/Modal';
+import { renderFormField, renderSelect } from '../../components/Global';
+import TutorApi from '../../api/TutorApi';
+import NotificationManager from '../../components/NotificationManager';
+import StudentApi from '../../api/StudentApi';
+import AppointmentApi from '../../api/AppointmentApi';
+import { timezones } from '../../constants/global';
 
 const recurrenceOptions = [
   {
     label: 'Weekly',
-    value: 'weekly'
+    value: 'weekly',
   },
   {
     label: 'Montly',
-    value: 'monthly'
+    value: 'monthly',
   },
   {
     label: 'Every Weekday',
-    value: 'everyweekday'
+    value: 'everyweekday',
   },
   {
     label: 'Custom',
-    value: 'custom'
-  }
-]
+    value: 'custom',
+  },
+];
 
 const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
-  const [t, i18n] = useTranslation('translation')
+  const [t, i18n] = useTranslation('translation');
 
-  const [loading, setLoading] = useState(0)
+  const [loading, setLoading] = useState(0);
 
-  const [lessonTypes, setLessonTypes] = useState([])
+  const [lessonTypes, setLessonTypes] = useState([]);
 
   const [formData, setFormData] = useState({
     seat_count: 1,
     start_at: null,
-    recurrenceTimes: 6
-  })
+    recurrenceTimes: 6,
+  });
 
-  const [selectedTutor, setSelectedTutor] = useState(null)
-  const [selectedDuration, setSelectedDuration] = useState(null)
-  const [selectedStudents, setSelectedStudents] = useState([])
-  const [selectedLessonType, setSelectedLessonType] = useState(null)
+  const [selectedTutor, setSelectedTutor] = useState(null);
+  const [selectedDuration, setSelectedDuration] = useState(null);
+  const [selectedStudents, setSelectedStudents] = useState([]);
+  const [selectedLessonType, setSelectedLessonType] = useState(null);
   const [selectedTimezone, setSelectedTimezone] = useState({
     label: '(UTC+09:00) Seoul',
-    value: 'UTC+9'
-  })
+    value: 'UTC+9',
+  });
 
-  const [isRecurrence, setIsRecurrence] = useState('onetime')
-  const [selectedRecurrence, setSelectedRecurrence] = useState(null)
+  const [isRecurrence, setIsRecurrence] = useState('onetime');
+  const [selectedRecurrence, setSelectedRecurrence] = useState(null);
 
-  const [tutors, setTutors] = useState([])
-  const [students, setStudents] = useState([])
+  const [tutors, setTutors] = useState([]);
+  const [students, setStudents] = useState([]);
 
   const [formDataError, setFormDataError] = useState({
     seat_count: null,
@@ -64,36 +64,36 @@ const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
     duration: null,
     students: null,
     tutor: null,
-    timezone: null
-  })
+    timezone: null,
+  });
 
   const onSave = async () => {
     if (!selectedTutor) {
       setFormDataError({
-        tutor: 'You should select an tutor for this lesson.'
-      })
-      return
+        tutor: 'You should select an tutor for this lesson.',
+      });
+      return;
     }
 
     if (!selectedLessonType) {
       setFormDataError({
-        lessonType: 'You should select an lesson type for this lesson.'
-      })
-      return
+        lessonType: 'You should select an lesson type for this lesson.',
+      });
+      return;
     }
 
     if (!selectedDuration) {
       setFormDataError({
-        duration: 'You should select an duration for this lesson.'
-      })
-      return
+        duration: 'You should select an duration for this lesson.',
+      });
+      return;
     }
 
     try {
       await AppointmentApi.createAppointment({
         ...formData,
         students: selectedStudents.length
-          ? selectedStudents.map(s => s.value)
+          ? selectedStudents.map((s) => s.value)
           : undefined,
         tutor_id: selectedTutor?.value,
         duration: selectedDuration.value,
@@ -102,168 +102,168 @@ const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
           isRecurrence && selectedRecurrence?.value
             ? selectedRecurrence?.value
             : undefined,
-        timezone: selectedTimezone.value
-      })
-      onCreate()
-      onClose()
+        timezone: selectedTimezone.value,
+      });
+      onCreate();
+      onClose();
     } catch (e) {
-      NotificationManager.error(e.response?.data?.message, t)
+      NotificationManager.error(e.response?.data?.message, t);
     }
-  }
+  };
 
   const handleChange = (option, key) => {
     setFormData({
       ...formData,
-      [key]: option
-    })
-  }
+      [key]: option,
+    });
+  };
 
-  const handleTutorSelect = option => {
-    setSelectedTutor(option)
+  const handleTutorSelect = (option) => {
+    setSelectedTutor(option);
     if (formDataError.tutor) {
       setFormDataError({
-        tutor: null
-      })
+        tutor: null,
+      });
     }
-  }
+  };
 
-  const handleLessonTypeSelect = option => {
-    setSelectedLessonType(option)
+  const handleLessonTypeSelect = (option) => {
+    setSelectedLessonType(option);
     if (formDataError.lessonType) {
       setFormDataError({
-        lessonType: null
-      })
+        lessonType: null,
+      });
     }
-  }
+  };
 
-  const handleDurationSelect = option => {
-    setSelectedDuration(option)
+  const handleDurationSelect = (option) => {
+    setSelectedDuration(option);
     if (formDataError.duration) {
       setFormDataError({
-        duration: null
-      })
+        duration: null,
+      });
     }
-  }
+  };
 
-  const handleTimezoneSelect = option => {
-    setSelectedTimezone(option)
-  }
+  const handleTimezoneSelect = (option) => {
+    setSelectedTimezone(option);
+  };
 
-  const handleRecurrenceSelect = option => {
-    setSelectedRecurrence(option)
-  }
+  const handleRecurrenceSelect = (option) => {
+    setSelectedRecurrence(option);
+  };
 
-  const handleStudentsSelect = options => {
+  const handleStudentsSelect = (options) => {
     if (options.length > formData.seat_count) {
       setFormDataError({
-        students: 'You should have to increase the seat_count'
-      })
+        students: 'You should have to increase the seat_count',
+      });
     } else {
       if (formDataError.students) {
         setFormDataError({
-          students: null
-        })
+          students: null,
+        });
       }
-      setSelectedStudents(options)
+      setSelectedStudents(options);
     }
-  }
+  };
 
   const fetchAvailableTutors = async () => {
     try {
-      setTutors([])
-      setSelectedTutor(null)
+      setTutors([]);
+      setSelectedTutor(null);
 
-      setLoading(loading + 1)
+      setLoading(loading + 1);
       let { data } = await TutorApi.getTutorList(
         formData.start_at,
-        selectedTimezone.value
-      )
-      setTutors(data.tutors)
+        selectedTimezone.value,
+      );
+      setTutors(data.tutors);
     } catch (e) {
-      NotificationManager.error(e.response?.data?.message, t)
+      NotificationManager.error(e.response?.data?.message, t);
     }
-    setLoading(loading - 1)
-  }
+    setLoading(loading - 1);
+  };
 
   const fetchAvailableStudents = async () => {
     try {
-      setStudents([])
-      setSelectedTutor(null)
+      setStudents([]);
+      setSelectedTutor(null);
 
-      setLoading(loading + 1)
-      let { data } = await StudentApi.getAvailableStudents(formData.start_at)
-      setStudents(data.students)
+      setLoading(loading + 1);
+      let { data } = await StudentApi.getAvailableStudents(formData.start_at);
+      setStudents(data.students);
     } catch (e) {
-      NotificationManager.error(e.response?.data?.message, t)
+      NotificationManager.error(e.response?.data?.message, t);
     }
-    setLoading(loading - 1)
-  }
+    setLoading(loading - 1);
+  };
 
   const fetchLessons = async () => {
     try {
-      setLoading(loading + 1)
+      setLoading(loading + 1);
 
-      let { data } = await AppointmentApi.fetchLessonTypes()
+      let { data } = await AppointmentApi.fetchLessonTypes();
 
-      setLessonTypes(data.lessons)
+      setLessonTypes(data.lessons);
     } catch (e) {
-      NotificationManager.error(e.response?.data?.message, t)
+      NotificationManager.error(e.response?.data?.message, t);
     }
 
-    setLoading(loading - 1)
-  }
+    setLoading(loading - 1);
+  };
 
   const onClose = () => {
     setFormData({
       seat_count: 1,
-      start_at: null
-    })
+      start_at: null,
+    });
 
-    setSelectedTutor(null)
-    setSelectedDuration(null)
-    setSelectedStudents([])
-    setSelectedLessonType(null)
-    onCancel()
-  }
+    setSelectedTutor(null);
+    setSelectedDuration(null);
+    setSelectedStudents([]);
+    setSelectedLessonType(null);
+    onCancel();
+  };
 
   useEffect(() => {
     if (formData.start_at) {
-      fetchAvailableTutors()
-      fetchAvailableStudents()
+      fetchAvailableTutors();
+      fetchAvailableStudents();
     }
-  }, [formData.start_at, selectedTimezone])
+  }, [formData.start_at, selectedTimezone]);
 
   useEffect(() => {
-    fetchLessons()
-  }, [])
+    fetchLessons();
+  }, []);
 
   return (
-    <Modal visible={visible} className='create-lesson' onCancel={onClose}>
-      <div className='title'>{t('create_lesson')}</div>
+    <Modal visible={visible} className="create-lesson" onCancel={onClose}>
+      <div className="title">{t('create_lesson')}</div>
       {loading > 0 ? (
         <Loader
-          className='align-center'
-          type='Audio'
-          color='#00BFFF'
+          className="align-center"
+          type="Audio"
+          color="#00BFFF"
           height={50}
           width={50}
         />
       ) : (
-        <div className='form-section'>
+        <div className="form-section">
           {renderSelect(
             'lesson_type',
             t('lesson_type'),
             t('select_lesson_type'),
-            lessonTypes.map(t => ({
+            lessonTypes.map((t) => ({
               value: t.id,
               label: t.type
                 ? t.type.charAt(0).toUpperCase() + t.type.slice(1)
-                : ''
+                : '',
             })),
             selectedLessonType,
             handleLessonTypeSelect,
             undefined,
-            formDataError.lessonType
+            formDataError.lessonType,
           )}
           {renderFormField(
             'seat_count',
@@ -271,7 +271,7 @@ const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
             handleChange,
             formData,
             formDataError,
-            'number'
+            'number',
           )}
 
           {renderSelect(
@@ -280,7 +280,7 @@ const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
             t('placeholder_select_timezone'),
             timezones,
             selectedTimezone,
-            handleTimezoneSelect
+            handleTimezoneSelect,
           )}
 
           {renderFormField(
@@ -289,7 +289,7 @@ const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
             handleChange,
             formData,
             formDataError,
-            'datetime-local'
+            'datetime-local',
           )}
 
           {renderSelect(
@@ -298,28 +298,28 @@ const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
             t('select_duration'),
             [
               { value: 30, label: t('30min') },
-              { value: 60, label: t('60min') }
+              { value: 60, label: t('60min') },
             ],
             selectedDuration,
             handleDurationSelect,
             undefined,
-            formDataError.duration
+            formDataError.duration,
           )}
 
-          <div className='form-row'>
-            <div className='form-item'>
+          <div className="form-row">
+            <div className="form-item">
               <div
-                className='recurrence'
-                onChange={event => {
-                  setIsRecurrence(event.target.value)
+                className="recurrence"
+                onChange={(event) => {
+                  setIsRecurrence(event.target.value);
                 }}
               >
                 <label>
                   <input
                     value={'onetime'}
                     checked={isRecurrence === 'onetime'}
-                    type='radio'
-                    name='recurrence'
+                    type="radio"
+                    name="recurrence"
                   />
                   One Time
                 </label>
@@ -327,8 +327,8 @@ const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
                   <input
                     value={'recurrence'}
                     checked={isRecurrence === 'recurrence'}
-                    type='radio'
-                    name='recurrence'
+                    type="radio"
+                    name="recurrence"
                   />
                   Recurrence
                 </label>
@@ -344,7 +344,7 @@ const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
                 t('select_recurrence'),
                 recurrenceOptions,
                 selectedRecurrence,
-                handleRecurrenceSelect
+                handleRecurrenceSelect,
               )}
               {renderFormField(
                 'recurrenceTimes',
@@ -352,7 +352,7 @@ const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
                 handleChange,
                 formData,
                 formDataError,
-                'number'
+                'number',
               )}
             </>
           )}
@@ -362,14 +362,14 @@ const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
               'tutor',
               t('tutor'),
               t('select_tutor'),
-              tutors.map(t => ({
+              tutors.map((t) => ({
                 value: t.id,
-                label: `${t.first_name} ${t.last_name}`
+                label: `${t.first_name} ${t.last_name}`,
               })),
               selectedTutor,
               handleTutorSelect,
               undefined,
-              formDataError.tutor
+              formDataError.tutor,
             )}
 
           {formData.start_at &&
@@ -377,24 +377,24 @@ const ModalCreateLesson = ({ visible, onCreate, onCancel }) => {
               'student',
               t('students'),
               t('select_students'),
-              students.map(t => ({
+              students.map((t) => ({
                 value: t.id,
-                label: `${t.first_name} ${t.last_name}`
+                label: `${t.first_name} ${t.last_name}`,
               })),
               selectedStudents,
               handleStudentsSelect,
               undefined,
               formDataError.students,
               false,
-              true
+              true,
             )}
         </div>
       )}
-      <button className='btn-save' onClick={onSave} disabled={loading > 0}>
+      <button className="btn-save" onClick={onSave} disabled={loading > 0}>
         {t('create_lesson')}
       </button>
     </Modal>
-  )
-}
+  );
+};
 
-export default ModalCreateLesson
+export default ModalCreateLesson;

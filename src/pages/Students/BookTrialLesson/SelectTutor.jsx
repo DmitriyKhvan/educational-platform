@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import '../../../assets/styles/dashboard.scss'
-import { useDispatch, useSelector } from 'react-redux'
-import { useTranslation } from 'react-i18next'
-import Select from 'react-select'
-import { genders } from '../../../constants/global'
-import { Checkbox } from '../../../components/Checkbox'
-import TutorCard from '../TutorCard'
-import ImgArrowBack from '../../../assets/images/arrow_back.svg'
-import ModalTutorBrief from '../ModalTutorBrief'
-import NotificationManager from '../../../components/NotificationManager'
+import React, { useEffect, useState } from 'react';
+import '../../../assets/styles/dashboard.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import Select from 'react-select';
+import { genders } from '../../../constants/global';
+import { Checkbox } from '../../../components/Checkbox';
+import TutorCard from '../TutorCard';
+import ImgArrowBack from '../../../assets/images/arrow_back.svg';
+import ModalTutorBrief from '../ModalTutorBrief';
+import NotificationManager from '../../../components/NotificationManager';
 
 const customStyles = {
   option: (styles, { isFocused, isSelected }) => ({
@@ -17,13 +17,13 @@ const customStyles = {
     color: '#000000',
     padding: '8px 0 8px 16px',
     fontSize: 14,
-    fontWeight: isSelected ? 600 : 300
+    fontWeight: isSelected ? 600 : 300,
   }),
   dropdownIndicator: (styles, state) => ({
     ...styles,
-    transform: state.selectProps.menuIsOpen && 'rotate(180deg)'
-  })
-}
+    transform: state.selectProps.menuIsOpen && 'rotate(180deg)',
+  }),
+};
 
 const tutors = [
   {
@@ -44,7 +44,7 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
+        provided_at: new Date(),
       },
       {
         review:
@@ -52,7 +52,7 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
+        provided_at: new Date(),
       },
       {
         review:
@@ -60,7 +60,7 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
+        provided_at: new Date(),
       },
       {
         review:
@@ -68,9 +68,9 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
-      }
-    ]
+        provided_at: new Date(),
+      },
+    ],
   },
   {
     name: 'Hudson Jaslyn',
@@ -90,7 +90,7 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
+        provided_at: new Date(),
       },
       {
         review:
@@ -98,7 +98,7 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
+        provided_at: new Date(),
       },
       {
         review:
@@ -106,7 +106,7 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
+        provided_at: new Date(),
       },
       {
         review:
@@ -114,9 +114,9 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
-      }
-    ]
+        provided_at: new Date(),
+      },
+    ],
   },
   {
     name: 'Hudson Jaslyn',
@@ -136,7 +136,7 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
+        provided_at: new Date(),
       },
       {
         review:
@@ -144,7 +144,7 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
+        provided_at: new Date(),
       },
       {
         review:
@@ -152,7 +152,7 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
+        provided_at: new Date(),
       },
       {
         review:
@@ -160,9 +160,9 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
-      }
-    ]
+        provided_at: new Date(),
+      },
+    ],
   },
   {
     name: 'Hudson Jaslyn',
@@ -182,7 +182,7 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
+        provided_at: new Date(),
       },
       {
         review:
@@ -190,7 +190,7 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
+        provided_at: new Date(),
       },
       {
         review:
@@ -198,7 +198,7 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
+        provided_at: new Date(),
       },
       {
         review:
@@ -206,9 +206,9 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
-      }
-    ]
+        provided_at: new Date(),
+      },
+    ],
   },
   {
     name: 'Hudson Jaslyn',
@@ -228,7 +228,7 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
+        provided_at: new Date(),
       },
       {
         review:
@@ -236,7 +236,7 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
+        provided_at: new Date(),
       },
       {
         review:
@@ -244,7 +244,7 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
+        provided_at: new Date(),
       },
       {
         review:
@@ -252,97 +252,97 @@ const tutors = [
         points: 4.5,
         avatar: 'preset_1',
         from: 'Carolina T.',
-        provided_at: new Date()
-      }
-    ]
-  }
-]
+        provided_at: new Date(),
+      },
+    ],
+  },
+];
 
-const SelectTutor = props => {
-  const dispatch = useDispatch()
-  const [t, i18n] = useTranslation('translation')
-  const [selectedTutor, setSelectedTutor] = useState(-1)
+const SelectTutor = (props) => {
+  const dispatch = useDispatch();
+  const [t, i18n] = useTranslation('translation');
+  const [selectedTutor, setSelectedTutor] = useState(-1);
   const majors = [
     { label: t('all'), value: 'all' },
     { label: t('english'), value: 'english' },
-    { label: t('korean'), value: 'korean' }
-  ]
+    { label: t('korean'), value: 'korean' },
+  ];
 
-  const [genderOption, setGenderOption] = useState(genders[0])
-  const [majorOption, setMajorOption] = useState(majors[0])
-  const [filterTutors, setFilterTutors] = useState(tutors)
-  const [genderAll, setGenders] = useState(genders)
-  const [checkedFavouriteTutors, setCheckedFavouriteTutors] = useState(false)
-  const [modalBriefVisible, setModalBriefVisible] = useState(false)
+  const [genderOption, setGenderOption] = useState(genders[0]);
+  const [majorOption, setMajorOption] = useState(majors[0]);
+  const [filterTutors, setFilterTutors] = useState(tutors);
+  const [genderAll, setGenders] = useState(genders);
+  const [checkedFavouriteTutors, setCheckedFavouriteTutors] = useState(false);
+  const [modalBriefVisible, setModalBriefVisible] = useState(false);
 
   useEffect(() => {
     let genderAll = [
       { value: 'all', label: t('all') },
-      ...genders.map(gender => ({ ...gender, label: t(gender.label) }))
-    ]
-    setGenders(genderAll)
-    setGenderOption(genderAll[0])
-  }, [dispatch])
+      ...genders.map((gender) => ({ ...gender, label: t(gender.label) })),
+    ];
+    setGenders(genderAll);
+    setGenderOption(genderAll[0]);
+  }, [dispatch]);
 
   useEffect(() => {
-    updateFilter()
-    setSelectedTutor(-1)
-  }, [genderOption, majorOption, checkedFavouriteTutors])
+    updateFilter();
+    setSelectedTutor(-1);
+  }, [genderOption, majorOption, checkedFavouriteTutors]);
 
   const updateFilter = () => {
-    let filterTutors = tutors
+    let filterTutors = tutors;
     if (genderOption.value !== 'all') {
       filterTutors = filterTutors.filter(
-        tutor => tutor.gender === genderOption.value
-      )
+        (tutor) => tutor.gender === genderOption.value,
+      );
     }
     if (majorOption.value !== 'all') {
       filterTutors = filterTutors.filter(
-        tutor => tutor.major === majorOption.value
-      )
+        (tutor) => tutor.major === majorOption.value,
+      );
     }
     if (checkedFavouriteTutors) {
-      filterTutors = filterTutors.filter(tutor => tutor.favorite)
+      filterTutors = filterTutors.filter((tutor) => tutor.favorite);
     }
-    setFilterTutors(filterTutors)
-  }
+    setFilterTutors(filterTutors);
+  };
 
-  const onChangeGender = e => {
-    setGenderOption(e)
-  }
+  const onChangeGender = (e) => {
+    setGenderOption(e);
+  };
 
-  const onChangeMajor = e => {
-    setMajorOption(e)
-  }
+  const onChangeMajor = (e) => {
+    setMajorOption(e);
+  };
 
-  const onChangeCheckFavouriteTutors = e => {
-    setCheckedFavouriteTutors(!checkedFavouriteTutors)
-  }
+  const onChangeCheckFavouriteTutors = (e) => {
+    setCheckedFavouriteTutors(!checkedFavouriteTutors);
+  };
 
-  const onShowTutorBrief = index => {
-    setSelectedTutor(index)
-    setModalBriefVisible(true)
-  }
+  const onShowTutorBrief = (index) => {
+    setSelectedTutor(index);
+    setModalBriefVisible(true);
+  };
 
   const onDismiss = () => {
-    setModalBriefVisible(false)
-  }
+    setModalBriefVisible(false);
+  };
 
   const onContinue = () => {
-    if (selectedTutor === -1) return
-    props.onContinue(filterTutors[selectedTutor])
-  }
+    if (selectedTutor === -1) return;
+    props.onContinue(filterTutors[selectedTutor]);
+  };
 
   return (
-    <div className='select-tutor'>
-      <h4 className='main-title'>{t('choose_available_tutors')}</h4>
-      <div className='divider' />
-      <div className='scroll-layout'>
-        <div className='filter'>
+    <div className="select-tutor">
+      <h4 className="main-title">{t('choose_available_tutors')}</h4>
+      <div className="divider" />
+      <div className="scroll-layout">
+        <div className="filter">
           <div>
             {/* <p>{t('placeholder_sortby')}</p> */}
-            <div className='btn-step-back' onClick={props.onBack}>
-              <img src={ImgArrowBack} alt='' />
+            <div className="btn-step-back" onClick={props.onBack}>
+              <img src={ImgArrowBack} alt="" />
               <span>{t('step_back')}</span>
             </div>
             <Select
@@ -351,11 +351,11 @@ const SelectTutor = props => {
               options={genderAll}
               styles={customStyles}
               placeholder={t('gender')}
-              classNamePrefix='custom-select'
-              className='custom-select'
-              name='gender'
-              getOptionValue={option => option.value}
-              getOptionLabel={option => option.label}
+              classNamePrefix="custom-select"
+              className="custom-select"
+              name="gender"
+              getOptionValue={(option) => option.value}
+              getOptionLabel={(option) => option.label}
             />
             <Select
               value={majorOption}
@@ -363,11 +363,11 @@ const SelectTutor = props => {
               options={majors}
               styles={customStyles}
               placeholder={t('major')}
-              classNamePrefix='custom-select'
-              className='custom-select'
-              name='major'
-              getOptionValue={option => option.value}
-              getOptionLabel={option => option.label}
+              classNamePrefix="custom-select"
+              className="custom-select"
+              name="major"
+              getOptionValue={(option) => option.value}
+              getOptionLabel={(option) => option.label}
             />
             <Checkbox
               label={t('show_favourite_tutors_only')}
@@ -377,7 +377,7 @@ const SelectTutor = props => {
           </div>
           <p>{t('show_all_available_tutors', { tutors: 14 })}</p>
         </div>
-        <div className='tutors-wrapper'>
+        <div className="tutors-wrapper">
           {filterTutors.map((tutor, index) => (
             <TutorCard
               key={`tutorcard-${index}`}
@@ -388,7 +388,7 @@ const SelectTutor = props => {
             />
           ))}
         </div>
-        <div className='btn-continue' onClick={onContinue}>
+        <div className="btn-continue" onClick={onContinue}>
           {t('continue')}
         </div>
       </div>
@@ -401,7 +401,7 @@ const SelectTutor = props => {
         />
       )}
     </div>
-  )
-}
+  );
+};
 
-export default SelectTutor
+export default SelectTutor;
