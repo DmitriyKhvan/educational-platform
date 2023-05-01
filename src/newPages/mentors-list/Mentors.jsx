@@ -69,7 +69,8 @@ const Mentors = () => {
   })
   const [t] = useTranslation(['studentMentor', 'common'])
 
-  const mentors = data?.tutors
+  const mentors = data?.tutors;
+
 
   const handleStatusTutor = id => {}
 

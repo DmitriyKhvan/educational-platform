@@ -73,7 +73,7 @@ const ForgotPassword = () => {
                 <strong>{t('email')}</strong>
               </label>
               <input
-                className='form-control'
+                className='form-control mt-3'
                 type='email'
                 id='email'
                 name='email'
@@ -87,13 +87,15 @@ const ForgotPassword = () => {
               type='submit'
               className='btn btn-primary btn-lg p-3'
             >
-              {t('reset_password')}
+              Reset password
+              {/* {t('reset_password')} */}
             </button>
           </div>
           <p className='mt-5'>
-            {t('already_have_account')}{' '}
+            {/* {t('already_have_account')}{' '} */}
             <a href='/' className='forgot-password'>
-              {t('sign_in')}
+            Already have an account? Sign in
+            {/* {t('sign_in')} */}
             </a>
           </p>
         </form>
