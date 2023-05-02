@@ -41,7 +41,7 @@ jobs:
         uses: "google-github-actions/setup-gcloud@v1"
 
       - name: "Upload to bucket"
-        run: gcloud storage cp -r dist/ gs://dashboard-dev-naonow-com/
+        run: gcloud storage cp -r dist/** gs://dashboard-dev-naonow-com/
 
       - name: "Invalidate cache"
-        run: gcloud compute url-maps invalidate-cdn-cache dashboard-dev-lb --path "/*"
+        run: gcloud compute url-maps invalidate-cdn-cache dashboard-dev-lb --path "/*" --async
