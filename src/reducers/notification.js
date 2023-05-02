@@ -1,43 +1,43 @@
-import ActionTypes from '../constants/actionTypes'
+import ActionTypes from '../constants/actionTypes';
 
 const initialState = {
-  list: []
-}
+  list: [],
+};
 
 export default function notification(state = initialState, action) {
-  let { payload } = action
+  let { payload } = action;
   // Get User By Id
   switch (action.type) {
     case ActionTypes.ADD_NOTIFICATION:
-      if (state.list.map(m => m.id).indexOf(payload.id) < 0) {
+      if (state.list.map((m) => m.id).indexOf(payload.id) < 0) {
         return {
           ...state,
           list: [
             { message: payload, read: false, id: payload.id },
-            ...state.list
-          ]
-        }
+            ...state.list,
+          ],
+        };
       }
-      return state
+      return state;
     case ActionTypes.READ_NOTIFICATION:
       return {
         ...state,
-        list: state.list.map(m => {
+        list: state.list.map((m) => {
           if (m.id === payload) {
             return {
               ...m,
-              read: true
-            }
+              read: true,
+            };
           }
-          return m
-        })
-      }
+          return m;
+        }),
+      };
     case ActionTypes.DELETE_ALL_NOTIFICATION:
       return {
         ...state,
-        list: []
-      }
+        list: [],
+      };
     default:
-      return state
+      return state;
   }
 }

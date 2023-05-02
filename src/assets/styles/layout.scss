@@ -3,6 +3,11 @@
   width: 370px;
   max-width: 100%;
 }
+
+// .children-wrapper {
+//   padding: 0px !important;
+// }
+
 .schedule_button_align {
   padding: 15px !important;
 }
@@ -113,7 +118,7 @@
       padding-left: 17px;
       margin-right: 25px;
       margin-left: 25px;
-      min-width: 350px;
+      min-width: 290px;
       outline: none;
       height: 40px;
       &::placeholder {
@@ -176,7 +181,7 @@
       right: 0;
       top: 40px;
       border: 0.5px solid $color-grey3;
-      box-shadow: 1px 3px 5px rgba(0, 0, 0, .1);
+      box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
       padding-top: 6px;
       padding-bottom: 6px;
       &:before {
@@ -309,7 +314,6 @@
     height: 100%;
     min-height: 100%;
     overflow: auto;
-    padding-bottom: 20px;
   }
 
   @media screen and (min-width: 901px) {
@@ -327,7 +331,7 @@
     }
 
     display: flex;
-    height: 85vh;
+    height: 100%;
 
     .children-page {
       width: calc(100% - 259px);
@@ -441,7 +445,6 @@
     .image-align-tutor {
       width: 100%;
     }
-
     .ExpWidth {
       justify-content: center;
     }
@@ -470,7 +473,6 @@
     .forest {
       padding-top: 0 !important ;
     }
-
     .images-align {
       width: auto !important;
     }
@@ -666,7 +668,6 @@
     }
   }
   @media screen and (min-width: 1500px) {
-   
     .enter-padd-button {
       padding: 10px 15px 10px 15px !important;
     }
@@ -871,7 +872,7 @@
   color: $color-black;
 }
 .set-container {
-  max-width: 730px;
+  max-width: 100%;
 }
 .changes-container {
   padding-top: 20px !important;
@@ -1012,7 +1013,6 @@
     height: 100%;
     min-height: 100%;
     overflow: auto;
-    padding-bottom: 20px;
   }
   @media screen and (min-width: 1500px) {
     .set-container {
@@ -1029,6 +1029,11 @@
     .flex-right {
       width: 35%;
     }
+
+    .flex-right-student-conf {
+      width: 55%;
+    }
+
     .flex-lefts {
       width: 65% !important;
     }
@@ -1053,13 +1058,13 @@
       width: 40%;
     }
   }
-  @media screen and (min-width: 1200px) and(max-width: 1323px) {
+  @media screen and (min-width: 1200px) and (max-width: 1323px) {
     .buttonsdash-second {
       margin-left: 0 !important;
     }
-    .ExpWidth {
-      width: 121%;
-    }
+    // .ExpWidth {
+    //   width: 121%;
+    // }
   }
   @media screen and (max-width: 1200px) {
     .tutor_cal_appoint {

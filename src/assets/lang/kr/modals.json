@@ -1,0 +1,15 @@
+{
+  "zoom_modal_title": "Ready to being class?",
+  "zoom_modal_desc": "Your zoom link will become active 10 minutes before the start of class.",
+  "warning": "Warning",
+  "cancel_modal_desc": "Number of lessons left in your package that you can reschedule or cancel:",
+  "confirm_cancel": "Are you sure you want to cancel?",
+  "review_cancellation_policy": "취소 정책 검토",
+  "continue_cancel": "계속 →",
+  "join_lesson": "레슨 참가",
+  "cancel_lesson": "레슨 취소하기",
+  "reschedule": "일정 변경",
+  "swal_fire_title_schedule_prescreen": "수업 마감 날짜에 도달했습니다",
+  "swal_fire_text_schedule_prescreen": "수업 시작 시간 48시간 전에 수업 날짜를 선택하세요.",
+  "swal_fire_footer_schedule_prescreen": "후에 언제든지 시도"
+}

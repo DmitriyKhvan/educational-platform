@@ -1,15 +1,15 @@
 export const genders = [
   { label: 'male', value: 'male' },
-  { label: 'female', value: 'female' }
-]
+  { label: 'female', value: 'female' },
+];
 
 export const pronouns = [
   { label: 'He/Him/His', value: 'male' },
   { label: 'She/Her/Hers', value: 'female' },
   { label: 'They/Them/Theirs', value: 'transgender' },
   { label: 'She and/or He', value: 'non-binary' },
-  { label: 'Other', value: 'other' }
-]
+  { label: 'Other', value: 'other' },
+];
 
 export const timezones = [
   { label: '(UTC-05:00) Eastern Time (US & Canada)', value: 'UTC-4' },
@@ -49,11 +49,11 @@ export const timezones = [
   {
     label:
       '(UTC+00:00) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London',
-    value: 'UTC+0'
+    value: 'UTC+0',
   },
   {
     label: '(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna',
-    value: 'UTC+1'
+    value: 'UTC+1',
   },
   // {
   //   label: "(UTC+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague",
@@ -87,7 +87,7 @@ export const timezones = [
   // { label: "(UTC+05:00) Islamabad, Karachi, Tashkent", value: "UTC+5" },
   {
     label: '(UTC+05:30) Chennai, Kolkata, Mumbai, New Delhi',
-    value: 'UTC+05:30'
+    value: 'UTC+05:30',
   },
   // { label: "(UTC+05:30) Sri Jayawardenapura", value: "UTC+05:30" },
   { label: '(UTC+05:45) Kathmandu', value: 'UTC+05:45' },
@@ -98,7 +98,7 @@ export const timezones = [
   // { label: "(UTC+07:00) Krasnoyarsk", value: "UTC+7" },
   {
     label: '(UTC+08:00) Beijing, Chongqing, Hong Kong, Urumqi',
-    value: 'UTC+8'
+    value: 'UTC+8',
   },
   // { label: "(UTC+08:00) Kuala Lumpur, Singapore", value: "UTC+8" },
   // { label: "(UTC+08:00) Irkutsk, Ulaan Bataar", value: "UTC+8" },
@@ -117,19 +117,19 @@ export const timezones = [
   { label: '(UTC+11:00) Magadan, Solomon Is., New Caledonia', value: 'UTC+11' },
   { label: '(UTC+12:00) Auckland, Wellington', value: 'UTC+12' },
   { label: '(UTC+12:00) Fiji, Kamchatka, Marshall Is.', value: 'UTC+12' },
-  { label: "(UTC+13:00) Nuku'alofa", value: 'UTC+13' }
-]
+  { label: "(UTC+13:00) Nuku'alofa", value: 'UTC+13' },
+];
 
 export const LANGUAGES = [
   { label: 'english', value: 'english' },
-  { label: 'spanish', value: 'spanish' }
-]
+  { label: 'spanish', value: 'spanish' },
+];
 
 export const languageLevels = [
   { label: 'beginner', value: 'beginner' },
   { label: 'intermediate', value: 'intermediate' },
-  { label: 'fluent', value: 'fluent' }
-]
+  { label: 'fluent', value: 'fluent' },
+];
 
 export const countries = [
   { label: 'united_states', value: 'usa' },
@@ -168,7 +168,7 @@ export const countries = [
   { label: 'Brazil', value: 'Brazil' },
   {
     label: 'British Indian Ocean Territory',
-    value: 'British Indian Ocean Territory'
+    value: 'British Indian Ocean Territory',
   },
   { label: 'Brunei Darussalam', value: 'Brunei Darussalam' },
   { label: 'Bulgaria', value: 'Bulgaria' },
@@ -210,7 +210,7 @@ export const countries = [
   { label: 'Ethiopia', value: 'Ethiopia' },
   {
     label: 'Falkland Islands (Malvinas)',
-    value: 'Falkland Islands (Malvinas)'
+    value: 'Falkland Islands (Malvinas)',
   },
   { label: 'Faroe Islands', value: 'Faroe Islands' },
   { label: 'Fiji', value: 'Fiji' },
@@ -220,7 +220,7 @@ export const countries = [
   { label: 'French Polynesia', value: 'French Polynesia' },
   {
     label: 'French Southern Territories',
-    value: 'French Southern Territories'
+    value: 'French Southern Territories',
   },
   { label: 'Gabon', value: 'Gabon' },
   { label: 'Gambia', value: 'Gambia' },
@@ -241,11 +241,11 @@ export const countries = [
   { label: 'Haiti', value: 'Haiti' },
   {
     label: 'Heard Island and McDonald Islands',
-    value: 'Heard Island and McDonald Islands'
+    value: 'Heard Island and McDonald Islands',
   },
   {
     label: 'Holy See (Vatican City State)',
-    value: 'Holy See (Vatican City State)'
+    value: 'Holy See (Vatican City State)',
   },
   { label: 'Honduras', value: 'Honduras' },
   { label: 'Hong Kong', value: 'Hong Kong' },
@@ -271,7 +271,7 @@ export const countries = [
   { label: 'Kyrgyzstan', value: 'Kyrgyzstan' },
   {
     label: "Lao People's Democratic Republic",
-    value: "Lao People's Democratic Republic"
+    value: "Lao People's Democratic Republic",
   },
   { label: 'Latvia', value: 'Latvia' },
   { label: 'Lebanon', value: 'Lebanon' },
@@ -343,7 +343,7 @@ export const countries = [
   { label: 'Saint Pierre and Miquelon', value: 'Saint Pierre and Miquelon' },
   {
     label: 'Saint Vincent and the Grenadines',
-    value: 'Saint Vincent and the Grenadines'
+    value: 'Saint Vincent and the Grenadines',
   },
   { label: 'Samoa', value: 'Samoa' },
   { label: 'San Marino', value: 'San Marino' },
@@ -362,7 +362,7 @@ export const countries = [
   { label: 'South Africa', value: 'South Africa' },
   {
     label: 'South Georgia and the South Sandwich Islands',
-    value: 'South Georgia and the South Sandwich Islands'
+    value: 'South Georgia and the South Sandwich Islands',
   },
   { label: 'South Sudan', value: 'South Sudan' },
   { label: 'Spain', value: 'Spain' },
@@ -394,7 +394,7 @@ export const countries = [
   { label: 'United Kingdom', value: 'United Kingdom' },
   {
     label: 'United States Minor Outlying Islands',
-    value: 'United States Minor Outlying Islands'
+    value: 'United States Minor Outlying Islands',
   },
   { label: 'Uruguay', value: 'Uruguay' },
   { label: 'Uzbekistan', value: 'Uzbekistan' },
@@ -408,10 +408,10 @@ export const countries = [
   { label: 'Yemen', value: 'Yemen' },
   { label: 'Zambia', value: 'Zambia' },
   { label: 'Zimbabwe', value: 'Zimbabwe' },
-  { label: '', value: '' }
-]
+  { label: '', value: '' },
+];
 
-export const DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+export const DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 export const DAY = [
   'Sunday',
   'Monday',
@@ -419,38 +419,43 @@ export const DAY = [
   'Wednesday',
   'Thursday',
   'Friday',
-  'Saturday'
-]
+  'Saturday',
+];
 
 export const course_options = [
   { label: '1-on-1', value: '1-on-1' },
-  { label: 'Group Lesson', value: 'group' }
-]
+  { label: 'Group Lesson', value: 'group' },
+];
 export const courses = [
   // { value: 'interview_prep', options: [0, 1] },
   { value: 'english', package: 'english', label: 'english', options: [0, 1] },
-  { value: 'writing', package: 'writing', label: 'writing', options: [0, 1] }
+  { value: 'writing', package: 'writing', label: 'writing', options: [0, 1] },
   // { value: 'winter_camps', options: [1] },
   // { value: 'summer_camps', options: [1] },
   // { value: 'spanish', options: [0, 1] },
   // { value: 'debate', package: 'debate', label: 'debate', options: [1] },
   // { value: 'chit_chat', options: [0] }
-]
+];
 
-export const class_durations = ['30min', '60min']
+export const class_durations = ['30min', '60min'];
 
-export const class_types = ['1-on-1', 'group']
+export const class_types = ['1-on-1', 'group'];
 
-export const subscription_periods = ['1month', '3months', '6months', '12months']
+export const subscription_periods = [
+  '1month',
+  '3months',
+  '6months',
+  '12months',
+];
 
-export const currencies = ['$', '₩']
+export const currencies = ['$', '₩'];
 
 export const introsteps = [
   'dress_smart',
   'brand_yourself',
   'smile_look_camera',
-  'speak_ca'
-]
+  'speak_ca',
+];
 
 export const cancel_lesson_reasons_student = [
   { label: 'cancel_reason_1', value: 1 },
@@ -461,42 +466,42 @@ export const cancel_lesson_reasons_student = [
   { label: 'cancel_reason_6', value: 6 },
   { label: 'cancel_reason_7', value: 7 },
   { label: 'cancel_reason_8', value: 8 },
-  { label: 'cancel_reason_9', value: 9 }
-]
+  { label: 'cancel_reason_9', value: 9 },
+];
 
 export const cancel_lesson_reasons_tutor = [
   { label: 'cancel_reason_2', value: 1 },
   { label: 'cancel_reason_3', value: 2 },
   { label: 'cancel_reason_4', value: 3 },
   { label: 'cancel_reason_10', value: 4 },
-  { label: 'cancel_reason_9', value: 5 }
-]
+  { label: 'cancel_reason_9', value: 5 },
+];
 
 export const getAvatarName = (firstname, lastname) => {
   return `${(firstname || '').charAt(0).toUpperCase()}${(lastname || '')
     .charAt(0)
-    .toUpperCase()}`
-}
+    .toUpperCase()}`;
+};
 
 export const getAbbrName = (firstname, lastname) => {
-  return `${firstname} ${(lastname || '').charAt(0).toUpperCase()}.`
-}
+  return `${firstname} ${(lastname || '').charAt(0).toUpperCase()}.`;
+};
 
 export const filterLessonsByStatus = (status, appointments) => {
-  const today = new Date()
+  const today = new Date();
   return appointments
-    .filter(apt => {
-      const date = new Date(apt.start_at)
+    .filter((apt) => {
+      const date = new Date(apt.start_at);
       if (status === 'upcoming')
         return (
           apt.students[0]?.GroupStudent?.approved &&
           !apt.completed &&
           date >= today
-        )
-      if (status === 'past') return date < today
+        );
+      if (status === 'past') return date < today;
     })
-    .map(apt => {
-      let lessonDate = new Date(apt.start_at)
+    .map((apt) => {
+      let lessonDate = new Date(apt.start_at);
       return {
         id: apt.id,
         studentId: apt.students[0].id,
@@ -515,28 +520,28 @@ export const filterLessonsByStatus = (status, appointments) => {
         lesson_topic: apt.lesson_topic,
         last_part_lesson: apt.last_part_lesson,
         group_student: apt.GroupStudent,
-        feedbacks: apt.students[0]?.feedbacks || []
-      }
-    })
-}
+        feedbacks: apt.students[0]?.feedbacks || [],
+      };
+    });
+};
 
 export const getItemToLocalStorage = (key, devaultValue) =>
-  localStorage.getItem(key) || devaultValue
+  localStorage.getItem(key) || devaultValue;
 export const setItemToLocalStorage = (key, value) =>
-  localStorage.setItem(key, value)
+  localStorage.setItem(key, value);
 
-export const getTimezoneValue = timezone => {
-  let offsetstring = timezone.replace(/utc/i, '').split(':')
+export const getTimezoneValue = (timezone) => {
+  let offsetstring = timezone.replace(/utc/i, '').split(':');
 
   try {
-    let result = offsetstring[0] * 60 + (offsetstring[1] || 0)
-    return result
+    let result = offsetstring[0] * 60 + (offsetstring[1] || 0);
+    return result;
   } catch (e) {
-    console.error('Converting Error:', e)
-    return 0
+    console.error('Converting Error:', e);
+    return 0;
   }
-}
+};
 
-export const feedbackURL = process.env.REACT_APP_FEEDBACK_URL
-export const gameLinkURL = process.env.REACT_APP_GAME_URL
-export const classMaterialURL = process.env.REACT_APP_CLASS_MATERIAL_URL
+export const feedbackURL = process.env.REACT_APP_FEEDBACK_URL;
+export const gameLinkURL = process.env.REACT_APP_GAME_URL;
+export const classMaterialURL = process.env.REACT_APP_CLASS_MATERIAL_URL;

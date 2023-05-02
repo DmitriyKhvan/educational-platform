@@ -1,0 +1,45 @@
+name: dev
+
+on:
+  push:
+    branches:
+      - "dev"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    env:
+      REACT_APP_SERVER_URL: ${{ secrets.DEV_REACT_APP_SERVER_URL }}
+      REACT_APP_STRIPE_KEY: ${{ secrets.DEV_REACT_APP_STRIPE_KEY }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: use node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: install yarn
+        run: npm install -g yarn
+
+      - name: install deps
+        run: yarn
+
+      - name: build
+        run: yarn build
+
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.GCP_JSON }}"
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+
+      - name: "Upload to bucket"
+        run: gcloud storage cp -r dist/** gs://dashboard-dev-naonow-com/
+
+      - name: "Invalidate cache"
+        run: gcloud compute url-maps invalidate-cdn-cache dashboard-dev-lb --path "/*" --async

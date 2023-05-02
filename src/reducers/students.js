@@ -1,4 +1,4 @@
-import ActionTypes from '../constants/actionTypes'
+import ActionTypes from '../constants/actionTypes';
 
 const initialState = {
   loading: false,
@@ -8,159 +8,159 @@ const initialState = {
   planStatus: [],
   favoriteTutors: [],
   list: [],
-  error: null
-}
+  error: null,
+};
 
 export default function student(state = initialState, action) {
-  let { payload } = action
+  let { payload } = action;
 
   switch (action.type) {
     case ActionTypes.GET_STUDENT_INFO.REQUEST:
       return {
         ...state,
-        loading: true
-      }
+        loading: true,
+      };
     case ActionTypes.GET_STUDENT_INFO.SUCCESS:
       return {
         ...state,
         student_info: payload.student,
-        loading: false
-      }
+        loading: false,
+      };
     case ActionTypes.GET_STUDENT_INFO.FAILURE:
       return {
         ...state,
-        loading: false
-      }
+        loading: false,
+      };
 
     case ActionTypes.UPDATE_STUDENT_PROFILE.REQUEST:
       return {
         ...state,
-        loading: true
-      }
+        loading: true,
+      };
     case ActionTypes.UPDATE_STUDENT_PROFILE.SUCCESS:
       return {
         ...state,
         student_info: payload.student,
-        loading: false
-      }
+        loading: false,
+      };
     case ActionTypes.UPDATE_STUDENT_PROFILE.FAILURE:
       return {
         ...state,
-        loading: false
-      }
+        loading: false,
+      };
 
     case ActionTypes.CREATE_PLAN.REQUEST:
       return {
         ...state,
         loading: true,
-        error: null
-      }
+        error: null,
+      };
     case ActionTypes.CREATE_PLAN.SUCCESS:
       return {
         ...state,
         subscription: payload.subscription || null,
         loading: false,
-        error: null
-      }
+        error: null,
+      };
     case ActionTypes.CREATE_PLAN.FAILURE:
       return {
         ...state,
         error: payload,
-        loading: false
-      }
+        loading: false,
+      };
 
     case ActionTypes.UPDATE_PLAN.REQUEST:
       return {
         ...state,
-        loading: true
-      }
+        loading: true,
+      };
     case ActionTypes.UPDATE_PLAN.SUCCESS:
       return {
         ...state,
         subscription: payload.subscriptions || null,
-        loading: false
-      }
+        loading: false,
+      };
     case ActionTypes.UPDATE_PLAN.FAILURE:
       return {
         ...state,
-        loading: false
-      }
+        loading: false,
+      };
 
     case ActionTypes.GET_PLAN.REQUEST:
       return {
         ...state,
-        loading: true
-      }
+        loading: true,
+      };
     case ActionTypes.GET_PLAN.SUCCESS:
       return {
         ...state,
         subscription: payload.subscriptions || null,
-        loading: false
-      }
+        loading: false,
+      };
     case ActionTypes.GET_PLAN.FAILURE:
       return {
         ...state,
-        loading: false
-      }
+        loading: false,
+      };
 
     case ActionTypes.GET_PLAN_STATUS.REQUEST:
       return {
         ...state,
-        loading: true
-      }
+        loading: true,
+      };
     case ActionTypes.GET_PLAN_STATUS.SUCCESS:
       return {
         ...state,
         planStatus: payload.results || [],
-        loading: false
-      }
+        loading: false,
+      };
     case ActionTypes.GET_PLAN_STATUS.FAILURE:
       return {
         ...state,
-        loading: false
-      }
+        loading: false,
+      };
 
     // Fetch Favorite Tutor List
     case ActionTypes.FETCH_FAVORITE_TUTORS.REQUEST:
       return {
         ...state,
-        loading: true
-      }
+        loading: true,
+      };
 
     case ActionTypes.FETCH_FAVORITE_TUTORS.SUCCESS:
       return {
         ...state,
         favoriteTutors: payload.tutors,
-        loading: false
-      }
+        loading: false,
+      };
 
     case ActionTypes.FETCH_FAVORITE_TUTORS.FAILURE:
       return {
         ...state,
-        loading: false
-      }
+        loading: false,
+      };
 
     // Fetch Student List
     case ActionTypes.GET_STUDENT_LIST.REQUEST:
       return {
         ...state,
-        loading: true
-      }
+        loading: true,
+      };
 
     case ActionTypes.GET_STUDENT_LIST.SUCCESS:
       return {
         ...state,
         list: payload,
-        loading: false
-      }
+        loading: false,
+      };
 
     case ActionTypes.GET_STUDENT_LIST.FAILURE:
       return {
         ...state,
-        loading: false
-      }
+        loading: false,
+      };
 
     default:
-      return state
+      return state;
   }
 }

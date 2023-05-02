@@ -1,0 +1,100 @@
+
+
+.submited_container {
+  padding-top: 50px;
+  padding-left: 66px;
+
+  &_title {
+    h2 {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 40px;
+      line-height: 48px;
+      letter-spacing: -1px;
+      margin-top: 0;
+      margin-bottom: 60px;
+      /* Dark Purple */
+
+      color: #261A45;
+    }
+  }
+
+  &_videoSubmited {
+    h2{
+      margin-top: 0;
+      margin-bottom: 30px;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 500;
+      font-size: 27px;
+      line-height: 33px;
+      /* identical to box height */
+
+      letter-spacing: -1px;
+
+      /* Dark Purple */
+
+      color: #261A45;
+
+    }
+
+    &_card {
+      background: #FFFFFF;
+      /* Border Gray */
+      width: 450px;
+      height: auto;
+      border: 1px solid #DEDEE1;
+      border-radius: 10px;  
+      padding: 30px;
+      padding-bottom: 10px;
+
+      h3 {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 24px;
+        letter-spacing: -0.7px;
+        margin-top: 0;
+        /* Purple */
+        margin-bottom: 0;
+        color: #6133AF;
+      }
+
+      p {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 26px;
+        /* or 144% */
+        letter-spacing: -0.7px;
+
+        /* Light Gray */
+
+        color: #646481;
+      }
+    }
+
+    button {
+      background: #FFFFFF;
+      /* Border Gray */
+
+      border: 1px solid #DEDEE1;
+      border-radius: 10px;
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 18px;
+      letter-spacing: -0.2px;
+      width: 450px;
+      /* Dark Purple */
+      cursor: pointer;
+      margin-top: 30px;
+      color: #261A45;
+      padding: 15px 0;
+    }
+  }
+}
