@@ -97,8 +97,12 @@ const Calendar = () => {
       });
       setCalendarEvents([...tempEvents]);
       setIsLoading(false);
+    } else {
+      setIsLoading(false);
+
     }
   }, [calendarAppointments]);
+
 
   useEffect(() => {
     if (tableAppointments) {

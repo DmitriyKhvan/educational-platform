@@ -128,6 +128,8 @@ const StudentListAppointments = () => {
       );
     });
 
+    console.log(appointments)
+
   const callToAction =
     appointments.length >= 0
       ? [
@@ -174,7 +176,6 @@ const StudentListAppointments = () => {
   return (
     <Layout>
       <div className="main-dashboard scroll-layout">
-        {appointments.length >= 0 ? (
           <div className="flex-container">
             <div className="student-dashboard flex-left children-wrapper flex-change childern-padding">
               <div className="set-container">
@@ -282,24 +283,25 @@ const StudentListAppointments = () => {
               )}
             </div>
           </div>
-        ) : (
-          <div className="d-flex flex-column min-vh-80 justify-content-center align-items-center">
-            <img src={emptyCalendar} alt="" className="img-fluid" />
-            <div>
-              <h1>{t('student_dashboard_no_lessons', { ns: 'dashboard' })}</h1>
-            </div>
-            <h3 className="mt-0">
-              {t('student_dashboard_no_lessons_subtitle', { ns: 'dashboard' })}
-            </h3>
-            <div className="row  justify-content-center mt-5">
-              {callToAction.map((props, i) => (
-                <div key={i} className="col-4">
-                  <CTACard {...props} />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        
+        {/* // : (
+        //   <div className="d-flex flex-column min-vh-80 justify-content-center align-items-center">
+        //     <img src={emptyCalendar} alt="" className="img-fluid" />
+        //     <div>
+        //       <h1>{t('student_dashboard_no_lessons', { ns: 'dashboard' })}</h1>
+        //     </div>
+        //     <h3 className="mt-0">
+        //       {t('student_dashboard_no_lessons_subtitle', { ns: 'dashboard' })}
+        //     </h3>
+        //     <div className="row  justify-content-center mt-5">
+        //       {callToAction.map((props, i) => (
+        //         <div key={i} className="col-4">
+        //           <CTACard {...props} />
+        //         </div>
+        //       ))}
+        //     </div>
+        //   </div>
+        // ) */}
       </div>
       {selectedLesson && (
         <ModalCancelLesson

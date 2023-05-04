@@ -141,11 +141,11 @@ const LessonConfirmation = ({
     /* this means if the lesson ID exists, its going to be a reschedule */
     if (lessonId) {
       const { payload } = await dispatch(getAppointments());
-      const [oldAppointment] = payload.filter(
+      const [oldAppointment] = payload?.filter(
         (v) => parseInt(v.id) === parseInt(lessonId),
       );
-      const oldStartAt = moment(oldAppointment.start_at);
-      const duration = moment.duration(oldStartAt.diff(moment())).asHours();
+      const oldStartAt = moment(oldAppointment?.start_at);
+      const duration = moment.duration(oldStartAt?.diff(moment())).asHours();
       const rescheduleData = {
         tutor_id: data?.tutor_id,
         start_at: data?.start_at,
@@ -157,7 +157,7 @@ const LessonConfirmation = ({
           ? await dispatch(
               updateAppointment(lessonId, {
                 ...rescheduleData,
-                payment_id: plan.payment_id,
+                payment_id: plan?.payment_id,
               }),
             )
           : await dispatch(
@@ -169,14 +169,14 @@ const LessonConfirmation = ({
 
       if (res.type === ActionTypes.UPDATE_APPOINTMENT_INFO.SUCCESS) {
         const { payload } = await dispatch(
-          getAppointments({ tutor_id: data.tutor_id }),
+          getAppointments({ tutor_id: data?.tutor_id }),
         );
         setConfirmDisable(true);
         const newAppt = payload.filter((x) => x.id === parseInt(lessonId))[0];
 
         if (newAppt) {
           setNewAppointment(newAppt);
-          setDate(moment(res.payload.group.start_at).unix());
+          setDate(moment(res.payload?.group?.start_at).unix());
           setIsConfirmed(true);
           window.scrollTo(0, 0);
         }
@@ -191,6 +191,7 @@ const LessonConfirmation = ({
         } else {
           NotificationManager.error('Server Error', t);
         }
+        setIsLoading(false)
       }
     } else {
       let lesson_data = ``;
@@ -218,8 +219,8 @@ const LessonConfirmation = ({
 
       if (res.type === ActionTypes.CREATE_APPOINTMENT_INFO.SUCCESS) {
         const { payload } = await fetchAppointments();
-        const newAppt = payload.filter(
-          (x) => x.id === parseInt(res.payload?.groups[0].id),
+        const newAppt = payload?.filter(
+          (x) => x?.id === parseInt(res.payload?.groups[0].id),
         )[0];
         if (newAppt) {
           setConfirmDisable(true);
@@ -239,6 +240,7 @@ const LessonConfirmation = ({
         } else {
           NotificationManager.error('Server Error', t);
         }
+        setIsLoading(false)
       }
     }
     setIsLoading(false);

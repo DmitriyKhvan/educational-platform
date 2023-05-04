@@ -33,7 +33,7 @@ const TutorProfile = () => {
 
   function renderAbout() {
     var text = actions.user?.tutor?.introduction;
-    var textLength = actions.user?.tutor?.introduction.length;
+    var textLength = actions.user?.tutor?.introduction?.length;
     var news = '';
     if (textLength) {
       for (var i = 0; i < textLength; i++) {
@@ -73,7 +73,7 @@ const TutorProfile = () => {
           <img className="avatar_preview" src={profileImage} alt="" />
 
           <div className={cls.tutor_name}>
-            <h1>{actions?.user.fullName}</h1>
+            <h1>{actions?.user?.fullName ? actions?.user.fullName : "Nickname"}</h1>
             <h2 className={cls.text_primary}>
               {actions?.user?.tutor?.degree && actions?.user?.tutor?.university
                 ? `

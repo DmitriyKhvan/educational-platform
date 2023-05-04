@@ -33,14 +33,14 @@ const TutorDashboard = () => {
 
   useEffect(() => {
     if (user && user.tutor && !tutor) {
-      dispatch(getTutorInfo(user.tutor.id));
+      dispatch(getTutorInfo(user.tutor?.id));
     }
   }, [user]);
 
   const fetchAppointments = async () => {
     if (tutor) {
       await dispatch(
-        getAppointments({ tutor_id: tutor.id, status: 'scheduled' }),
+        getAppointments({ tutor_id: tutor?.id, status: 'scheduled' }),
       );
       setIsLoading(false);
     }
@@ -91,7 +91,7 @@ const TutorDashboard = () => {
 
   const displayDailySchedule = (isAvailable) => {
     if (isAvailable) {
-      return appointments.list.map((event, i) => {
+      return isAvailable?.map((event, i) => {
         return (
           <ScheduleCard
             lesson={event?.lesson.description}
