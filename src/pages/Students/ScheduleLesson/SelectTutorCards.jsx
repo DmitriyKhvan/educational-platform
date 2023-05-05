@@ -11,9 +11,12 @@ import TutorApi from '../../../api/TutorApi';
 Modal.setAppElement('#root');
 
 
+
 const GET_TUTORS_BY_ID = gql`
   query GetTutors($ids: [ID!]) {
-    tutors(where: { id: { in: $ids } }, orderBy: [], take: null, skip: 0) {
+    tutors(where: { id: { in: $ids }, user: {
+      isActive: { equals: true }
+    } }, orderBy: [], take: null, skip: 0) {
       id
       userName
       major

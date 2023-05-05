@@ -135,9 +135,9 @@ function App() {
             path="/admin/lesson-calendar"
             component={TutorCalendar}
           />
-          <PublicRoute exact path="/" component={Login} />
-          <PublicRoute path="/login" component={Login} />
-          <PublicRoute path="/signup" component={Signup} />
+          <PublicRoute exact path='/' component={Login} />
+          {/* <PublicRoute path='/login' component={Login} />
+          <PublicRoute path='/signup' component={Signup} /> */}
 
           <PublicRoute path="/forgot-password" component={ForgotPassword} />
           <PublicRoute

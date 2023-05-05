@@ -159,13 +159,13 @@ const Login = () => {
               )}
             </button>
           </div>
-          <div className="registered">
-            <p className="mt-5">
-              <a href="/signup" className="forgot-password">
+          {/* <div className='registered'>
+            <p className='mt-5'>
+              <a href='/signup' className='forgot-password'>
                 {t('not_registered')}
               </a>
             </p>
-          </div>
+          </div> */}
         </form>
       </div>
     </AuthLayout>

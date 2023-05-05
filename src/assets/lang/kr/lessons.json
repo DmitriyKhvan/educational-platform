@@ -39,5 +39,10 @@
   "edit_mentor": "멘토 수정하기",
   "lesson_topic": "레슨 주제",
   "lesson_confirmation": "레슨 승인되었습니다 🎉",
-  "lesson_confirmation_subtitle": "레슨에서 만나요!"
+  "lesson_confirmation_subtitle": "레슨에서 만나요!",
+  "current_topic": "현재 주제",
+  "tutor_calendar_current_topic": "레벨 {{ level }} / {{ current_topic }}",
+  "tutor_calendar_previous_topic": "레벨 {{ level }} / {{ previous_topic }}",
+  "attendants": "참여자",
+  "start_lesson": "레슨 시작"
 }
