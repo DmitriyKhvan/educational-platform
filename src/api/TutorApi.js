@@ -111,6 +111,24 @@ class TutorApi extends BaseApi {
       },
     });
   }
+
+  getTimesheets(body) {
+    return axios.post(`${this.REACT_APP_SERVER_URL}/tutor-timesheets`, body, {
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`,
+      },
+    });
+  }
+
+  getAvailableForTime(isoTime, duration) {
+    return axios.post(`${this.REACT_APP_SERVER_URL}/tutor-timesheets/list-available`, {
+      time: isoTime, duration,
+    }, {
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`,
+      },
+    });
+  }
 }
 
 export default new TutorApi();
