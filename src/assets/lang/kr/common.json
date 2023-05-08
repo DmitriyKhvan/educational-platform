@@ -67,5 +67,7 @@
   "reset_password": "비밀번호 초기화",
   "new_password": "비밀번호 입력",
   "confirm_new_password": "비밀번호 확인",
-  "confirm_password_error": "비밀번호가 일치하는지 확인하십시오."
+  "confirm_password_error": "비밀번호가 일치하는지 확인하십시오.",
+  "date": "일자",
+  "time": "시간"
 }

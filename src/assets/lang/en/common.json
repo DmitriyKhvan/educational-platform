@@ -67,5 +67,7 @@
   "reset_password": "Password Reset",
   "new_password": "Enter New Password",
   "confirm_new_password": "Confirm New Password",
-  "confirm_password_error": "Please make sure your passwords match."
+  "confirm_password_error": "Please make sure your passwords match.",
+  "date": "Date",
+  "time": "Time"
 }

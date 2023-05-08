@@ -44,5 +44,6 @@
   "tutor_calendar_current_topic": "Level {{ level }} / {{ current_topic }}",
   "tutor_calendar_previous_topic": "Level {{ level }} / {{ previous_topic }}",
   "attendants": "Attendants",
-  "start_lesson": "Start Lesson"
+  "start_lesson": "Start Lesson",
+  "reschedule_lesson": "Reschedule Lesson"
 }
