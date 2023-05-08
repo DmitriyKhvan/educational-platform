@@ -42,6 +42,19 @@
     }
   }
 
+  .mentors_filters_row {
+    input {
+      background: #FFFFFF;
+      width: 420px;
+      padding: 15px 5px;
+      /* Border Gray */
+      margin-top: 30px;
+      border: 1px solid #DEDEE1;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }
+
   .tutors_filters {
     margin-top: 30px;
     display: flex;

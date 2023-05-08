@@ -64,6 +64,7 @@ const filtersList = [
 const Mentors = () => {
   const [showTutorModal, setShowTutorModal] = React.useState(false);
   const history = useHistory();
+  const [tutor, setTutor] = React.useState([]);
   const { data } = useQuery(MENTORS_QUERY, {
     errorPolicy: 'ignore',
   });
@@ -71,6 +72,10 @@ const Mentors = () => {
 
   const mentors = data?.tutors;
 
+  React.useEffect(() => {
+    setTutor(mentors);
+  }, [mentors]);
+ 
 
   const handleStatusTutor = (id) => {};
 
@@ -82,6 +87,16 @@ const Mentors = () => {
     setShowTutorModal(true);
   };
 
+  const handleFilter = (e) => {
+    const tutors = [...mentors];
+
+    const newT = tutors.filter(i =>
+      i.userName.toLowerCase().includes(e.toLowerCase())
+    )
+
+    setTutor(newT)
+  }
+
   return (
     <Layout>
       <div className="tutors_section">
@@ -90,13 +105,23 @@ const Mentors = () => {
           <p>{t('mentor_list_desc', { ns: 'studentMentor' })}</p>
         </div>
 
+        <div className='mentors_filters_row'>
+          <div>
+            <input
+              type={"text"}
+              placeholder={"Search..."}
+              onChange={(e) =>  handleFilter(e.target.value)}
+            /> 
+          </div>
+        </div>
+
         <div className="tutors_row">
-          {mentors?.length === 0 && <p>Empty</p>}
+          {tutor?.length === 0 && <p>Cannot find mentors!</p>}
 
           {!mentors && <Loader height={'50vh'} />}
 
           {mentors &&
-            mentors.map((item) => (
+            tutor?.map((item) => (
               <div key={item.id} className="tutors_card">
                 <div
                   className="tutors_card-img"
