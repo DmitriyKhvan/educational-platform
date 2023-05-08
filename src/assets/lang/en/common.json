@@ -61,5 +61,11 @@
   "Saturday": "Saturday",
   "Morning": "Morning",
   "Afternoon": "Afternoon",
-  "Evening": "Evening"
+  "Evening": "Evening",
+  "welcome_set_password": "Set New Password",
+  "error_field_not_empty": " should not be empty.",
+  "reset_password": "Password Reset",
+  "new_password": "Enter New Password",
+  "confirm_new_password": "Confirm New Password",
+  "confirm_password_error": "Please make sure your passwords match."
 }

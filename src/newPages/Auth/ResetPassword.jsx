@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const ResetPassword = () => {
   const history = useHistory();
-  const [t] = useTranslation('translation');
+  const [t] = useTranslation('common');
   const [token, setToken] = useState();
   const location = useLocation();
   const params = new URLSearchParams(window.location.search);

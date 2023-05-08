@@ -61,5 +61,11 @@
   "Saturday": "토요일",
   "Morning": "오전",
   "Afternoon": "오후",
-  "Evening": "저녁"
+  "Evening": "저녁",
+  "error_field_not_empty": "필수 입력란입니다.",
+  "welcome_set_password": "비밀번호 초기화",
+  "reset_password": "비밀번호 초기화",
+  "new_password": "비밀번호 입력",
+  "confirm_new_password": "비밀번호 확인",
+  "confirm_password_error": "비밀번호가 일치하는지 확인하십시오."
 }
