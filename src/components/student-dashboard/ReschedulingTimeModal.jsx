@@ -12,7 +12,7 @@ const ReschedulingTimeModal = ({
   type,
   duration,
 }) => {
-  const [t] = useTranslation('translation');
+  const [t] = useTranslation(['lessons', 'common']);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const [counter, setCounter] = useState(0);
@@ -352,7 +352,9 @@ const ReschedulingTimeModal = ({
 
             <div className="row">
               <div className="col px-4">
-                <p className="text-muted text-center">{t('date')}</p>
+                <p className="text-muted text-center">
+                  {t('date', { ns: 'common' })}
+                </p>
                 {days.map(
                   (x, i) =>
                     x.format === 'day' && (
@@ -362,7 +364,9 @@ const ReschedulingTimeModal = ({
               </div>
               <div className="col px-4">
                 {dayClicked !== null ? (
-                  <p className="text-muted text-center">{t('time')}</p>
+                  <p className="text-muted text-center">
+                    {t('time', { ns: 'common' })}
+                  </p>
                 ) : (
                   ''
                 )}
