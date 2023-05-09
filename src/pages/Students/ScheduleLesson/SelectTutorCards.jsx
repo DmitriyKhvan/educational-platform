@@ -5,30 +5,11 @@ import moment from 'moment';
 import Layout from '../../../components/Layout';
 import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
-import Favorite from '../../../assets/images/Favorite.svg';
-import Vector from '../../../assets/images/Vectors.svg';
 import { useQuery, gql } from '@apollo/client';
 import MentorsModal from '../../../newPages/mentors-list/MentorsModal';
+import TutorApi from '../../../api/TutorApi';
 Modal.setAppElement('#root');
 
-const GET_TIMESHEETS = gql`
-  query GetTimesheets($day: String) {
-    timesheets(
-      where: { day: { equals: $day } }
-      orderBy: []
-      take: null
-      skip: 0
-    ) {
-      id
-      tutorId
-      day
-      from
-      to
-      createdAt
-      updatedAt
-    }
-  }
-`;
 
 
 const GET_TUTORS_BY_ID = gql`
@@ -103,32 +84,25 @@ const GET_TUTORS_BY_ID = gql`
   }
 `;
 
-const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
+const useAvailableMentors = (isoTime, duration) => {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    TutorApi.getAvailableForTime(isoTime, duration)
+      .then(({ data }) => {
+        setData(data?.mentors);
+      })
+  }, [isoTime, duration]);
+  return data;
+};
+
+const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
   const [t] = useTranslation(['lessons', 'common']);
   const [isOpen, setIsOpen] = useState(false);
   const [modalSelectTutor, setModalSelectTutor] = useState({});
   const [availableTutors, setAvailableTutors] = useState([]);
-  const scheduleMoment = moment(
-    moment(schedule, 'ddd MMM DD YYYY HH:mm:ss').format('HH:mm'),
-    'HH:mm',
-  );
+  const availableMentors = useAvailableMentors(moment(schedule, 'ddd MMM DD YYYY HH:mm:ss ZZ').toISOString(), step);
 
-  const { data: timesheetsData } = useQuery(GET_TIMESHEETS, {
-    variables: {
-      day: moment(schedule, 'ddd MMM DD YYYY HH:mm:ss').format('dddd'),
-    },
-  });
-
-  const availableTutorIds = timesheetsData?.timesheets?.reduce((acc, each) => {
-    const timesheetFrom = moment(each.from, 'HH:mm');
-    const timesheetTo = moment(each.to, 'HH:mm');
-    // Third argument is for units (for which we do not care right now)
-    // Fourth parameter '[)' means that the end time is not included
-    if (scheduleMoment.isBetween(timesheetFrom, timesheetTo, undefined, '[]')) {
-      return [...acc, each.tutorId];
-    }
-    return acc;
-  }, []);
+  const availableTutorIds = availableMentors.map(mentor => mentor.id);
 
   const [tutors, setTutors] = useState([]);
 
@@ -145,6 +119,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule }) => {
       });
       setTutors(data);
     },
+    skip: !availableTutorIds.length,
   });
 
   useEffect(() => {

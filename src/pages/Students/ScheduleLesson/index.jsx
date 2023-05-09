@@ -56,8 +56,6 @@ const ScheduleLesson = () => {
 
   const scheduledLesson = data?.group || null;
 
-  console.log(data);
-
   useEffect(() => {
     if (scheduledLesson) {
     }
@@ -79,6 +77,7 @@ const ScheduleLesson = () => {
         <ScheduleSelector
           setTabIndex={setTabIndex}
           duration={selectedPlan?.duration}
+          step={selectedPlan?.duration === 25 ? 30 : 60}
           setSchedule={setSchedule}
           schedule={schedule}
           tabIndex={tabIndex}
@@ -92,6 +91,7 @@ const ScheduleLesson = () => {
           setSelectTutor={setSelectTutor}
           lesson={scheduledLesson}
           schedule={schedule}
+          step={selectedPlan?.duration === 25 ? 30 : 60}
         />
       ) : (
         tabIndex === 3 && (

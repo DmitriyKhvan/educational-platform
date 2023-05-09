@@ -9,30 +9,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { getTutorList } from '../../../actions/tutor';
 import Loader from 'react-loader-spinner';
-import { useQuery, gql } from '@apollo/client';
+import TutorApi from '../../../api/TutorApi';
 
-const GET_TIMESHEETS = gql`
-  query GetTimesheets($day: String) {
-    timesheets(
-      where: { day: { equals: $day } }
-      orderBy: []
-      take: null
-      skip: 0
-    ) {
-      id
-      tutorId
-      day
-      from
-      to
-      createdAt
-      updatedAt
-    }
-  }
-`;
+const useTimesheets = (body) => {
+  const [data, setData] = useState({});
+  useEffect(() => {
+    TutorApi.getTimesheets(body)
+      .then(({ data }) => {
+        setData(data);
+      })
+  }, [body.date]);
+  return { data }
+};
 
 const ScheduleSelector = ({
   setTabIndex,
   duration,
+  step,
   setSchedule,
   lesson,
   tabIndex,
@@ -84,17 +77,17 @@ const ScheduleSelector = ({
 
   const morningCheck = [
     moment('00:00:00', timeFormatter),
-    moment(duration === 30 ? '11:30:00' : '11:00:00', timeFormatter),
+    moment(step === 30 ? '11:30:00' : '11:00:00', timeFormatter),
   ];
 
   const afternoonCheck = [
-    moment(duration === 30 ? '11:30:00' : '11:00:00', timeFormatter),
-    moment(duration ? '17:30:00' : '17:00:00', timeFormatter),
+    moment(step === 30 ? '11:30:00' : '11:00:00', timeFormatter),
+    moment(step ? '17:30:00' : '17:00:00', timeFormatter),
   ];
 
   const eveningCheck = [
-    moment(duration ? '17:30:00' : '17:00:00', timeFormatter),
-    moment(duration === 30 ? '23:30:00' : '23:00:00', timeFormatter),
+    moment(step ? '17:30:00' : '17:00:00', timeFormatter),
+    moment(step === 30 ? '23:30:00' : '23:00:00', timeFormatter),
   ];
 
   if (day) {
@@ -147,18 +140,22 @@ const ScheduleSelector = ({
     }
   }
 
-  const {
-    data: timesheetsData,
-    loading,
-    errors,
-  } = useQuery(GET_TIMESHEETS, {
-    variables: {
-      day: moment(day).format('dddd'),
-    },
+  // const {
+  //   data: timesheetsData
+  // } = useQuery(GET_TIMESHEETS, {
+  //   variables: {
+  //     day: moment(day).format('dddd'),
+  //   },
+  // });
+
+  const { data: timesheetsData } = useTimesheets({
+    tz: userTimezone,
+    date: moment(day).format('YYYY-MM-DD'),
+    step,
   });
 
   //Loop over the times - only pushes time with 30 minutes interval
-  while (startTime.isBefore(endTime)) {
+  while (startTime.isBefore(endTime) || startTime.isSame(endTime)) {
     const tempTime = moment(startTime.format('HH:mm'), 'HH:mm');
     timesheetsData?.timesheets.map((timesheet) => {
       const timesheetFrom = moment(timesheet.from, 'HH:mm');
@@ -170,7 +167,7 @@ const ScheduleSelector = ({
         return timesheet.tutorId;
       }
     });
-    startTime.add(duration, 'minutes');
+    startTime.add(step, 'minutes');
   }
 
   for (let i = 0; i <= 6; i++) {
@@ -200,7 +197,7 @@ const ScheduleSelector = ({
         if (isAfterToday) {
           setDayClicked(i);
           setDay(data.day);
-          setTimeOfDay({ slotInterval: duration, startTime: '', endTime: '' });
+          setTimeOfDay({ slotInterval: step, startTime: '', endTime: '' });
           timeArr = [];
           setTimeClicked(null);
         }
@@ -218,13 +215,13 @@ const ScheduleSelector = ({
         if (data.time === 'Morning') {
           if (checkAgainstToday.isBetween(...morningCheck) && isSame) {
             setTimeOfDay({
-              slotInterval: duration,
+              slotInterval: step,
               startTime: roundUp.format('HH:mm'),
               endTime: '11:30',
             });
           } else {
             setTimeOfDay({
-              slotInterval: duration,
+              slotInterval: step,
               startTime: '09:00',
               endTime: '11:30',
             });
@@ -233,13 +230,13 @@ const ScheduleSelector = ({
         if (data.time === 'Afternoon') {
           if (checkAgainstToday.isBetween(...afternoonCheck) && isSame) {
             setTimeOfDay({
-              slotInterval: duration,
+              slotInterval: step,
               startTime: roundUp.format('HH:mm'),
               endTime: '17:30',
             });
           } else {
             setTimeOfDay({
-              slotInterval: duration,
+              slotInterval: step,
               startTime: '12:00',
               endTime: '17:30',
             });
@@ -248,13 +245,13 @@ const ScheduleSelector = ({
         if (data.time === 'Evening') {
           if (checkAgainstToday.isBetween(...eveningCheck) && isSame) {
             setTimeOfDay({
-              slotInterval: duration,
+              slotInterval: step,
               startTime: roundUp.format('HH:mm'),
               endTime: '23:30',
             });
           } else {
             setTimeOfDay({
-              slotInterval: duration,
+              slotInterval: step,
               startTime: '18:00',
               endTime: '23:30',
             });
