@@ -240,7 +240,7 @@ const AvailabilityPicker = ({
 }) => {
   const dispatch = useDispatch();
   const { removeAvailabilityRow, availabilityRow } = useContext(AvailProv);
-  const { t } = useTranslation();
+  const { t } = useTranslation('modals');
   const tutorInfo = useSelector((state) => state.tutor.info);
   const user = useSelector((state) =>
     isAdmin ? state.admin.user : state.users.user,
