@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { getData } from 'country-list';
-import timezone from 'timezones-list';
+import timezones from 'timezones-list';
+import find from 'lodash/find';
 import Dropdown from 'react-dropdown';
 
 import 'react-dropdown/style.css';
 import NotificationManager from '../NotificationManager';
 import { updateUserInfo } from '../../actions/user';
 import Select from 'react-select';
+
+const timezoneOptions = timezones.map(({ label, tzCode }) => ({ label, value: tzCode }));
 
 const BasicInfoForm = () => {
   const [t] = useTranslation();
@@ -38,8 +41,7 @@ const BasicInfoForm = () => {
 
   const countries = getData().map((x) => x.name);
   const defaultCountry = countries[232];
-  const timezones = timezone.map((x) => x.label);
-  const defaultTimezone = timezones[15];
+  const defaultTimezone = timezoneOptions[15];
 
   const onChange = (e) => {
     handleDisableSave(false);
@@ -153,25 +155,10 @@ const BasicInfoForm = () => {
           <label htmlFor="timezone" className="form-label">
             <strong>{t('timezone')}</strong>
           </label>
-          {/* <Dropdown
-            options={timezones}
-            className='mt-3'
-            value={userData.time_zone || defaultTimezone}
-            name='time_zone'
-            onChange={({ value }) => {
-              handleDisableSave(false)
-              setUserData({ ...userData, time_zone: value })
-            }}
-          /> */}
           <Select
             className="mt-3"
-            value={{
-              label: userData.time_zone || defaultTimezone,
-              value: userData.time_zone || defaultTimezone,
-            }}
-            options={timezones.map((each) => {
-              return { label: each, value: each };
-            })}
+            value={find(timezoneOptions, { value: userData.time_zone }) || defaultTimezone}
+            options={timezoneOptions}
             onChange={({ value }) => {
               handleDisableSave(false);
               setUserData({ ...userData, time_zone: value });
