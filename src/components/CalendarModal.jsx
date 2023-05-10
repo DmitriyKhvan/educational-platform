@@ -5,6 +5,7 @@ import moment from 'moment-timezone';
 import ZoomWarningModal from './student-dashboard/ZoomWarningModal';
 import femaleAvatar from '../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../assets/images/avatars/img_avatar_male.png';
+import Swal from 'sweetalert2';
 
 const CalendarModal = ({
   event,
@@ -22,6 +23,8 @@ const CalendarModal = ({
   const [isWarningOpen, setIsWarningOpen] = useState(false);
   const isToday = moment(time).isSame(moment(), 'day');
   const [profileImage, setProfileImage] = React.useState('');
+
+  const isLate = moment.duration(moment(time).diff(moment())).asHours() <= 24;
 
   const avatar = data.resource?.tutor?.user?.avatar;
 
@@ -65,7 +68,7 @@ const CalendarModal = ({
     <div
       className={'page-card grey-border bg-white pt-2 mt-4'}
       key={index}
-      style={{ maxWidth: '33vw' }}
+      style={{ maxWidth: '33vw', zIndex: '-1' }}
     >
       <p className="close-sh" onClick={closeModal}>
         &times;
@@ -93,7 +96,17 @@ const CalendarModal = ({
       <div className="schedule-modal-ls">
         <button
           className="enter-btn grey-border text-black"
-          onClick={() => onCancel(data?.resource?.eventDate?.id)}
+          onClick={() => {
+            if (isLate) {
+              closeModal();
+              Swal.fire({
+                title: t('cannot_cancel'),
+                text: t('cancel_error'),
+                icon: 'error',
+                confirmButtonText: t('ok'),
+              });
+            } else onCancel(data?.resource?.eventDate?.id);
+          }}
         >
           {t('cancel_lesson')}
         </button>
@@ -102,6 +115,18 @@ const CalendarModal = ({
             '/student/schedule-lesson/select/' + data?.resource?.eventDate?.id
           }
           className="enter-btn grey-border text-black"
+          onClick={(e) => {
+            if (isLate) {
+              e.preventDefault();
+              closeModal();
+              Swal.fire({
+                title: t('cannot_reschedule'),
+                text: t('reschedule_error'),
+                icon: 'error',
+                confirmButtonText: t('ok'),
+              });
+            }
+          }}
         >
           {t('reschedule')}
         </Link>
