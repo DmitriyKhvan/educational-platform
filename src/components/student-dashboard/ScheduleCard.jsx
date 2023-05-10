@@ -2,16 +2,14 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
-import { useSelector } from 'react-redux';
-import Menu, { Item as MenuItem, Divider } from 'rc-menu';
-import Dropdown from 'rc-dropdown';
+import Menu, { Item as MenuItem } from 'rc-menu';
 import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../assets/images/avatars/img_avatar_male.png';
 import 'rc-dropdown/assets/index.css';
 import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
-import RescheduleModal from './RescheduleModal';
 import { useAuth } from '../../modules/auth';
+import Swal from 'sweetalert2';
 
 const ScheduleCard = ({
   index,
@@ -22,8 +20,8 @@ const ScheduleCard = ({
   fetchAppointments,
   cancelled,
 }) => {
-  const [t] = useTranslation('modals');
   const [isOpen, setIsOpen] = useState(false);
+  const [t] = useTranslation('modals');
   const [isWarningOpen, setIsWarningOpen] = useState(false);
   const [modalType, setModalType] = useState('');
   const [tabIndex, setTabIndex] = useState(0);
@@ -32,9 +30,20 @@ const ScheduleCard = ({
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+  const isLate = moment.duration(moment(date).diff(moment())).asHours() <= 24;
+
   function onSelect() {
-    setIsOpen(true);
-    setModalType('reschedule-time');
+    if (isLate) {
+      Swal.fire({
+        title: t('cannot_cancel'),
+        text: t('cancel_error'),
+        icon: 'error',
+        confirmButtonText: t('ok'),
+      });
+    } else {
+      setIsOpen(true);
+      setModalType('reschedule-time');
+    }
   }
 
   const closeModal = () => {
@@ -44,8 +53,17 @@ const ScheduleCard = ({
   };
 
   const onCancel = () => {
-    setIsOpen(true);
-    setModalType('cancel');
+    if (isLate) {
+      Swal.fire({
+        title: t('cannot_reschedule'),
+        text: t('reschedule_error'),
+        icon: 'error',
+        confirmButtonText: t('ok'),
+      });
+    } else {
+      setIsOpen(true);
+      setModalType('cancel');
+    }
   };
 
   const menu = (
@@ -149,7 +167,7 @@ const ScheduleCard = ({
           {/* <Dropdown trigger={['click']} overlay={menu} animation='slide-up'> */}
           <a
             className={`schedule_copy-button ${
-              index === 0
+              isLate
                 ? 'text-purpless back_schedule-button mobile-schedule_dash'
                 : 'grey-border text-black'
             }`}
@@ -163,7 +181,7 @@ const ScheduleCard = ({
           <a
             onClick={onCancel}
             className={`schedule_copy-button ${
-              index === 0
+              isLate
                 ? 'text-purpless back_schedule-button m-0 mobile-schedule_dash'
                 : 'grey-border text-black m-0'
             }`}

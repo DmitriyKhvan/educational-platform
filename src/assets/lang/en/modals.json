@@ -9,6 +9,10 @@
   "join_lesson": "Join Lesson",
   "cancel_lesson": "Cancel Lesson",
   "reschedule": "Reschedule",
+  "reschedule_error": "You can not reschedule the lesson within 24 hours before the start time!",
+  "cancel_error": "You can not cancel the lesson within 24 hours before the start time!",
+  "cannot_cancel": "You cannot cancel this lesson.",
+  "cannot_reschedule": "You cannot reschedule this lesson.",
   "swal_fire_title_schedule_prescreen": "Class cut off date reached",
   "swal_fire_text_schedule_prescreen": "Please select lesson date 48 hours prior to class start time.",
   "swal_fire_footer_schedule_prescreen": "Try any time after",
@@ -17,5 +21,6 @@
   "swal_fire_title": "Are you sure to delete it?",
   "swal_fire_title_conform_msg": "Deleted!",
   "swal_fire_title_conform_msg1": "This availability has been removed.",
-  "swal_fire_title_conform_msg2": "success"
+  "swal_fire_title_conform_msg2": "success",
+  "ok": "OK"
 }
