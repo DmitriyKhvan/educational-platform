@@ -7,11 +7,14 @@ import { MUTATION_UPDATE_USER } from '../../../../modules/auth/graphql';
 import Submit from './Submit';
 import { TextInput } from './TextInput';
 import Select from 'react-select';
-import timezone from 'timezones-list';
+import timezones from 'timezones-list';
+import find from 'lodash/find';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getData } from 'country-list';
 import { useTranslation } from 'react-i18next';
+
+const timezoneOptions = timezones.map(({ label, tzCode }) => ({ label, value: tzCode }));
 
 const BasicForm = ({ cls }) => {
   const [t] = useTranslation(['common', 'profile']);
@@ -22,8 +25,6 @@ const BasicForm = ({ cls }) => {
   const history = useHistory();
 
   const { user, refetchUser } = useAuth();
-
-  const timezones = timezone.map((x) => x.label);
 
   const { register, handleSubmit, control } = useForm({
     mode: 'onBlur',
@@ -153,10 +154,8 @@ const BasicForm = ({ cls }) => {
               render={({ field: { ref, value, onChange } }) => (
                 <Select
                   inputRef={ref}
-                  value={{ label: value, value: value }}
-                  options={timezones.map((each) => {
-                    return { label: each, value: each };
-                  })}
+                  value={find(timezoneOptions, { value })}
+                  options={timezoneOptions}
                   onChange={(e) => onChange(e.value)}
                 />
               )}

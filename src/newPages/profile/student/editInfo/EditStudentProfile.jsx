@@ -12,7 +12,8 @@ import {
   MUTATION_UPDATE_USER,
 } from '../../../../modules/auth/graphql';
 import { useMutation } from '@apollo/client';
-import timezone from 'timezones-list';
+import timezones from 'timezones-list';
+import find from 'lodash/find';
 import { toast } from 'react-toastify';
 import { getData } from 'country-list';
 
@@ -20,6 +21,8 @@ import { AiFillEdit } from 'react-icons/ai';
 import Layout from '../../../../components/Layout';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+
+const timezoneOptions = timezones.map(({ label, tzCode }) => ({ label, value: tzCode }));
 
 const EditProflileStudent = () => {
   const [t] = useTranslation(['profile', 'common']);
@@ -35,7 +38,6 @@ const EditProflileStudent = () => {
   const [updateUser] = useMutation(MUTATION_UPDATE_USER);
 
   const { user, refetchUser } = useAuth();
-  const timezones = timezone.map((x) => x.label);
 
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
@@ -162,10 +164,8 @@ const EditProflileStudent = () => {
                 render={({ field: { ref, value, onChange } }) => (
                   <Select
                     inputRef={ref}
-                    value={{ label: value, value: value }}
-                    options={timezones.map((each) => {
-                      return { label: each, value: each };
-                    })}
+                    value={find(timezoneOptions, { value })}
+                    options={timezoneOptions}
                     onChange={(e) => onChange(e.value)}
                   />
                 )}
