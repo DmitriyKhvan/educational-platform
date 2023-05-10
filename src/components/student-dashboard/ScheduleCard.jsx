@@ -1,16 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import moment from 'moment-timezone';
-import { useSelector } from 'react-redux';
-import Menu, { Item as MenuItem, Divider } from 'rc-menu';
-import Dropdown from 'rc-dropdown';
+import moment, { isMoment } from 'moment-timezone';
+import Menu, { Item as MenuItem } from 'rc-menu';
 import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../assets/images/avatars/img_avatar_male.png';
 import 'rc-dropdown/assets/index.css';
 import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
-import RescheduleModal from './RescheduleModal';
 import { useAuth } from '../../modules/auth';
 
 const ScheduleCard = ({
