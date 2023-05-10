@@ -34,7 +34,7 @@ const ScheduleCard = ({
 
   function onSelect() {
     if (isLate) {
-      return Swal.fire({
+      Swal.fire({
         title: t('cannot_cancel'),
         text: t('cancel_error'),
         icon: 'error',
@@ -54,7 +54,7 @@ const ScheduleCard = ({
 
   const onCancel = () => {
     if (isLate) {
-      return Swal.fire({
+      Swal.fire({
         title: t('cannot_reschedule'),
         text: t('reschedule_error'),
         icon: 'error',
