@@ -89,6 +89,7 @@ const BasicForm = ({ cls }) => {
           <select {...register('gender')}>
             <option value={'male'}>{t('male', { ns: 'profile' })}</option>
             <option value={'female'}>{t('female', { ns: 'profile' })}</option>
+            <option value={'non-binary'}>Non-binary</option>
           </select>
         </div>
 
