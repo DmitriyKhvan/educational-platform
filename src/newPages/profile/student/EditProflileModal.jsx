@@ -148,6 +148,7 @@ const EditProflileModal = ({ profileImage, isOpen, setIsOpen }) => {
               <select {...register('gender')}>
                 <option value={'male'}>Male</option>
                 <option value={'female'}>Female</option>
+                <option value={'non-binary'}>Non-binary</option>
               </select>
             </label>
           </section>
