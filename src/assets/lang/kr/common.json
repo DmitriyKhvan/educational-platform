@@ -37,6 +37,7 @@
   "edit": "수정",
   "submit": "제출",
   "back": "뒤로 가기",
+  "confirm": "확인",
   "settings": "설정",
   "minutes": "분",
   "kor_day": "일",
@@ -69,5 +70,9 @@
   "confirm_new_password": "비밀번호 확인",
   "confirm_password_error": "비밀번호가 일치하는지 확인하십시오.",
   "date": "일자",
-  "time": "시간"
+  "time": "시간",
+  "email_copy_para": "Copyright © 2022 Nao Now , All rights reserved. 이 이메일은",
+  "email_copy_para1": " Nao Now 사용자에게 발송되는 이메일입니다.",
+  "email_upadate_pre": "이메일 설정 업데이트",
+  "email_upadate_sub": "구독 취소"
 }

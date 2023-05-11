@@ -11,7 +11,7 @@ const CancelLessonModal = ({
   fetchAppointments,
   cancelled,
 }) => {
-  const [t] = useTranslation('translation');
+  const [t] = useTranslation('common');
   const dispatch = useDispatch();
   const [cancel, setCancel] = useState({});
   const [isChecked, setIsChecked] = useState(false);

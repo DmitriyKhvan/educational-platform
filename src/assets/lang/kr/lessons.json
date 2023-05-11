@@ -45,5 +45,5 @@
   "tutor_calendar_previous_topic": "레벨 {{ level }} / {{ previous_topic }}",
   "attendants": "참여자",
   "start_lesson": "레슨 시작",
-  "reschedule_lesson": "레슨 일정 변경"
+  "previous_topic": "이전 주제"
 }

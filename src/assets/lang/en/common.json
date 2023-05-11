@@ -37,6 +37,7 @@
   "edit": "Edit",
   "submit": "Submit",
   "back": "Back",
+  "confirm": "Confirm",
   "settings": "Settings",
   "minutes": "minutes",
   "kor_day": "",
@@ -69,5 +70,9 @@
   "confirm_new_password": "Confirm New Password",
   "confirm_password_error": "Please make sure your passwords match.",
   "date": "Date",
-  "time": "Time"
+  "time": "Time",
+  "email_copy_para": "Copyright © 2022 Nao Now , All rights reserved. You are receiving this email",
+  "email_copy_para1": " because you created a Nao Now account.",
+  "email_upadate_pre": "Update your email preferences",
+  "email_upadate_sub": "Unsubscribe"
 }

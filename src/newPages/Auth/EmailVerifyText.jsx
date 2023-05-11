@@ -7,7 +7,7 @@ import Email_Google from '../../assets/images/email_Google.svg';
 import Email_in from '../../assets/images/email_in.svg';
 import Email_facebook from '../../assets/images/email_facebook.svg';
 const EmailVerifyText = () => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('common');
   return (
     <div className="auth-layout email_containers">
       <div className=" email_container email_backgrounds">

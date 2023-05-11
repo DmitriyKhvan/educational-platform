@@ -12,7 +12,7 @@ const ReschedulingTimeModal = ({
   type,
   duration,
 }) => {
-  const [t] = useTranslation(['lessons', 'common']);
+  const [t] = useTranslation(['lessons', 'common', 'modals']);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const [counter, setCounter] = useState(0);
@@ -318,7 +318,7 @@ const ReschedulingTimeModal = ({
       <div className="container" style={{ width: '75vw' }}>
         <div className="row">
           <div className="col pe-4">
-            <h2>{t('reschedule_lesson')}</h2>
+            <h2>{t('reschedule_lesson', { ns: 'modals' })}</h2>
             <div className="row align-items-start">
               <div className="col-1">
                 <button

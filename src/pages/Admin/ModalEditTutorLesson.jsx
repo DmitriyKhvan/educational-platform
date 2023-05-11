@@ -38,7 +38,7 @@ const ModalEditTutorLesson = ({
   date,
   onGoToProfile,
 }) => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation(['modals', 'lessons']);
   const [currentDate, setCurrentDate] = useState(date);
   const [isActionModal, setIsActionModal] = useState(false);
   const [lesson, setLesson] = useState(null);
@@ -53,7 +53,7 @@ const ModalEditTutorLesson = ({
   const dispatch = useDispatch();
   const columns_upcoming = [
     {
-      title: t('lesson_date'),
+      title: t('lesson_date', { ns: 'lessons' }),
       dataKey: 'lessonDate',
       width: 20,
     },

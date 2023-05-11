@@ -14,12 +14,11 @@ import TutorApi from '../../../api/TutorApi';
 const useTimesheets = (body) => {
   const [data, setData] = useState({});
   useEffect(() => {
-    TutorApi.getTimesheets(body)
-      .then(({ data }) => {
-        setData(data);
-      })
+    TutorApi.getTimesheets(body).then(({ data }) => {
+      setData(data);
+    });
   }, [body.date]);
-  return { data }
+  return { data };
 };
 
 const ScheduleSelector = ({
@@ -32,7 +31,7 @@ const ScheduleSelector = ({
   schedule,
   setTutorIdList,
 }) => {
-  const [t] = useTranslation(['lessons', 'common', 'modal']);
+  const [t] = useTranslation(['lessons', 'common', 'modals']);
   const user = useSelector((state) => state.users.user);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
@@ -439,7 +438,7 @@ const ScheduleSelector = ({
                 <p className="welcome-subtitle left-subtitle">
                   {lesson ? (
                     <>
-                      {t('choose_new_date')}
+                      {t('choose_new_date', { ns: 'modals' })}
                       <br />
                       <br />
                       Currently lesson scheduled at{' '}

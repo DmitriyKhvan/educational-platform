@@ -45,5 +45,5 @@
   "tutor_calendar_previous_topic": "Level {{ level }} / {{ previous_topic }}",
   "attendants": "Attendants",
   "start_lesson": "Start Lesson",
-  "reschedule_lesson": "Reschedule Lesson"
+  "previous_topic": "Previous Topic"
 }

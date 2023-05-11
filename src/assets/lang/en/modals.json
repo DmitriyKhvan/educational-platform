@@ -22,5 +22,20 @@
   "swal_fire_title_conform_msg": "Deleted!",
   "swal_fire_title_conform_msg1": "This availability has been removed.",
   "swal_fire_title_conform_msg2": "success",
-  "ok": "OK"
+  "ok": "OK",
+  "please_read_the_following": "Please read the following.",
+  "reschedule_lesson": "Reschedule Lesson",
+  "lesson_cancellation": "Lesson Cancellation",
+  "cancellation_policy": "At Nao Now, 1-on-1 classes can be rescheduled or cancelled more than 24 hours in advance without losing the lesson credit. You can then rebook the lesson at a more convenient time. You are able to reschedule or cancel your classes once per month of your subscription (ie. if you have a 1 month subscription, you can cancel/reschedule 1 time; if you have a 3 month subscription, you can cancel/reschedule 3 times, if you have a 6 month subscription, you can cancel/ reschedule 6 times, if you have a 12 month subscription, you can cancel/reschedule 12 times). Please minimize changes as much as possible.",
+  "cancellation_policy_notice": "Below are Nao Now's cancellation policies",
+  "cancellation_policy_tutor_one": "Please cancel more than 24 hours in advance of your lesson to avoid penalty",
+  "cancellation_policy_tutor_two": "You may cancel three times per three month period without a note or excuse",
+  "assign_substitute_lesson": "Assign a Substitute Lesson",
+  "choose_substitution_tutor": "Please choose substitution mentor for the lesson.",
+  "delete_lesson": "Delete Lesson",
+  "choose_new_date": "Please choose new date for the lesson.",
+  "delete_following_lesson": "Are you sure to delete following lesson? *",
+  "edit_student_lesson": "Edit Student's Lesson",
+  "scheduled_lessons": "There are {{lessons}} scheduled lessons for this day:",
+  "schedule_new_lesson": "+ Schedule New Lesson"
 }

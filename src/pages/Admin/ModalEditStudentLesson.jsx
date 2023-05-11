@@ -38,7 +38,7 @@ const ModalEditStudentLesson = ({
   date,
   onGoToProfile,
 }) => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('modals');
   const [currentDate, setCurrentDate] = useState(date);
   const [isActionModal, setIsActionModal] = useState(false);
   const [lesson, setLesson] = useState(null);

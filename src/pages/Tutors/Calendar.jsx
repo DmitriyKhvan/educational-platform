@@ -22,7 +22,7 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../../modules/auth';
 
 const Calendar = () => {
-  const [t] = useTranslation('lessons');
+  const [t] = useTranslation(['lessons', 'modals']);
   const dispatch = useDispatch();
   const calendarAppointments = useSelector(
     (state) => state.appointment.calendarEvents,
@@ -405,20 +405,26 @@ const Calendar = () => {
             <div className="px-4 pt-3">
               <div className="row">
                 <h1 className="text-primary mb-2">
-                  {t('lesson_cancellation')}
+                  {t('lesson_cancellation', { ns: 'modals' })}
                 </h1>
               </div>
-              <div className="row">{t('please_read_the_following')}</div>
+              <div className="row">
+                {t('please_read_the_following', { ns: 'modals' })}
+              </div>
               <div className="row mt-4">
-                <h2 className="mb-2">{t('warning')}</h2>
+                <h2 className="mb-2">{t('warning', { ns: 'modals' })}</h2>
               </div>
               <div className="row">
-                <p>{t('cancellation_policy_notice')}</p>
+                <p>{t('cancellation_policy_notice', { ns: 'modals' })}</p>
               </div>
               <div className="row">
                 <ul>
-                  <li>{t('cancellation_policy_tutor_one')}</li>
-                  <li>{t('cancellation_policy_tutor_two')}</li>
+                  <li>
+                    {t('cancellation_policy_tutor_one', { ns: 'modals' })}
+                  </li>
+                  <li>
+                    {t('cancellation_policy_tutor_two', { ns: 'modals' })}
+                  </li>
                 </ul>
               </div>
               <div className="row">

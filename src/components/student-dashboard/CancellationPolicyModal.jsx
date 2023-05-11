@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 const CancellationPolicyModal = ({ setTabIndex, setIsOpen }) => {
-  const [t] = useTranslation('translation');
+  const [t] = useTranslation('modals');
   return (
     <React.Fragment>
       <div className="container">

@@ -14,7 +14,7 @@ import Email_image from '../../assets/images/verify_email-image.png';
 const VerifyEmail = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('common');
   const [verified, setVerified] = useState(false);
   useEffect(() => {
     async function tokenVerify(token) {
