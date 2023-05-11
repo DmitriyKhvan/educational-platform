@@ -13,6 +13,7 @@ import NotificationManager from '../../../../src/components/NotificationManager'
 import { v4 as uuid } from 'uuid';
 import { useAuth } from '../../../modules/auth';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Availability = ({ isAdmin, user_id }) => {
   const [t] = useTranslation(['common', 'availability']);
@@ -111,6 +112,34 @@ const Availability = ({ isAdmin, user_id }) => {
 
   // saving data in DB using loader
   const onSubmit = async (e) => {
+    const days = gatherAvailabilities.availability.reduce((acc, curr) => {
+      if (acc[curr.day] === undefined) acc[curr.day] = [...curr.slots];
+      else acc[curr.day] = [...acc[curr.day], ...curr.slots];
+      return acc;
+    }, {});
+
+    let isError = false;
+
+    for (const day in days) {
+      days[day].map((slot, ind) => {
+        if (
+          slot.from >= slot.to ||
+          (ind > 0 && days[day][ind - 1]?.to >= slot.from)
+        ) {
+          isError = true;
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please check your time slots',
+          });
+        }
+      });
+    }
+
+    if (isError) {
+      return;
+    }
+
     setLoaded(!loaded);
     setTimeout(() => {
       setLoaded(true);
