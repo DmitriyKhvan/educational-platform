@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { I18nextProvider } from 'react-i18next';
 import i18next from 'i18next';
-import translation_en from './assets/lang/en/translations.json';
-import translation_kr from './assets/lang/kr/translations.json';
 import {
   commonEn,
   sidebarEn,
@@ -66,7 +64,6 @@ i18next.init({
   lng: 'en', // language to use
   resources: {
     en: {
-      // translation: translation_en, // 'common' is our custom namespace,
       common: commonEn,
       sidebar: sidebarEn,
       lessons: lessonsEn,
@@ -78,7 +75,6 @@ i18next.init({
       profile: profileEn,
     },
     kr: {
-      // translation: translation_kr, // 'common' is our custom namespace
       common: commonKr,
       sidebar: sidebarKr,
       lessons: lessonsKr,

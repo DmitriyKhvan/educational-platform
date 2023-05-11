@@ -74,5 +74,13 @@
   "email_copy_para": "Copyright © 2022 Nao Now , All rights reserved. You are receiving this email",
   "email_copy_para1": " because you created a Nao Now account.",
   "email_upadate_pre": "Update your email preferences",
-  "email_upadate_sub": "Unsubscribe"
+  "email_upadate_sub": "Unsubscribe",
+  "see_all": "See All",
+  "level": "Level",
+  "week": "week",
+  "selected": "Selected",
+  "upgrade": "Upgrade",
+  "downgrade": "Downgrade",
+  "lessons": "Lessons",
+  "select": "Select"
 }

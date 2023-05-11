@@ -5,7 +5,7 @@ const MultipleToggle = ({ label, items, defaultActiveIndex, onChange }) => {
   const [activeIndex, setActiveIndex] = useState(
     defaultActiveIndex !== undefined ? defaultActiveIndex : -1,
   );
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('common');
 
   const onClick = (index) => {
     if (activeIndex === index) return;

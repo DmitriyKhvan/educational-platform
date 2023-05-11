@@ -14,7 +14,7 @@ export const ModalCancelLesson = ({
   lesson,
 }) => {
   const history = useHistory();
-  const [t] = useTranslation('translation');
+  const [t] = useTranslation('modals');
   const [checked, setChecked] = useState([]);
   const [fupdate, setFupdate] = useState(false);
   useEffect(() => {

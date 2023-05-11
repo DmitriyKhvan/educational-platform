@@ -11,7 +11,7 @@ const CustomTable = ({
   enableSeeAll = true,
 }) => {
   const [isAll, setIsAll] = useState(false);
-  const [t] = useTranslation('translation');
+  const [t] = useTranslation('common');
 
   return (
     <div className={`custom-table ${className}`}>

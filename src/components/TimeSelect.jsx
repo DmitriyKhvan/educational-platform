@@ -17,7 +17,7 @@ const padStart = (val, len, fill) => {
 
 const TimeSelect = ({ visible, onCancel, setTimeSelectData }) => {
   const [times, setTimes] = useState([]);
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   const [durations, setDurations] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState('00:00 AM');

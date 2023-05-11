@@ -45,5 +45,11 @@
   "tutor_calendar_previous_topic": "Level {{ level }} / {{ previous_topic }}",
   "attendants": "Attendants",
   "start_lesson": "Start Lesson",
-  "previous_topic": "Previous Topic"
+  "previous_topic": "Previous Topic",
+  "lesson_time": "Lesson Time",
+  "summer_discount": "summer discount",
+  "classes": "classes",
+  "class": "Class",
+  "weeks_classes_each": "{{ weeks }} Classes of {{ duration }} each",
+  "pay_every_weeks": "Pay every {{ weeks }} weeks"
 }

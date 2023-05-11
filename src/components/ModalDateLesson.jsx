@@ -23,7 +23,7 @@ const ModalDateLesson = ({
   onChangeDate,
   onViewTutor,
 }) => {
-  const [t] = useTranslation('translation');
+  const [t] = useTranslation(['lessons', 'modals']);
   const today = new Date();
   const [currentDate, setCurrentDate] = useState(new Date(date));
   const [columns, setColumns] = useState([]);
@@ -104,10 +104,10 @@ const ModalDateLesson = ({
                     }}
                     className="outlined"
                   >
-                    {t('cancel_lesson')}
+                    {t('cancel_lesson', { ns: 'modals' })}
                   </a>
                   <a href={record.zoomInfo} target="_blank" rel="noreferrer">
-                    {t('join_lesson')}
+                    {t('join_lesson', { ns: 'modals' })}
                   </a>
                 </div>
               ),

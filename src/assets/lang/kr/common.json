@@ -74,5 +74,12 @@
   "email_copy_para": "Copyright © 2022 Nao Now , All rights reserved. 이 이메일은",
   "email_copy_para1": " Nao Now 사용자에게 발송되는 이메일입니다.",
   "email_upadate_pre": "이메일 설정 업데이트",
-  "email_upadate_sub": "구독 취소"
+  "email_upadate_sub": "구독 취소",
+  "see_all": "모두 보기",
+  "week": "주",
+  "selected": "선택됨",
+  "upgrade": "업그레이드",
+  "downgrade": "다운그레이드",
+  "lessons": "레슨",
+  "select": "선택"
 }
