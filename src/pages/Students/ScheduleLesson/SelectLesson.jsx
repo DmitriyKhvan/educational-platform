@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../../components/Layout';
 import scheduleTick from '../../../assets/images/scheduleTick.svg';
@@ -15,6 +15,7 @@ const SelectLesson = ({
 }) => {
   const [t] = useTranslation(['lessons', 'common']);
   const history = useHistory();
+  const { id } = useParams()
   const planStatus = useSelector((state) => state.students.planStatus);
   const disabled = clicked === null ? true : false;
 
@@ -24,6 +25,7 @@ const SelectLesson = ({
       setTabIndex(1);
     }
   }, [lesson]);
+  
 
   const returnToDashboard = () => {
     history.push('/student/manage-lessons');
@@ -83,10 +85,10 @@ const SelectLesson = ({
           <div className="custom-children-container m-0 schedule_changess max-select_lesson">
             <div className="flex-left">
               <h1 className="title mt-0 title_aligns_slesson">
-                {t('schedule_lesson')}
+                { !id ? t('schedule_lesson') : t('reschedule_lesson')}
               </h1>
               <p className="welcome-subtitle">
-                {t('schedule_lesson_subtitle')}
+                {!id ? t('schedule_lesson_subtitle') : t("reschedule_lesson_subtitle")}
               </p>
             </div>
             <div className="ExpWidth-con">

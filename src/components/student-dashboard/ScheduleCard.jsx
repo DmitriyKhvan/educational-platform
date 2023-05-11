@@ -10,6 +10,7 @@ import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
+import { useHistory } from 'react-router-dom';
 
 const ScheduleCard = ({
   index,
@@ -29,6 +30,7 @@ const ScheduleCard = ({
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const hist = useHistory()
 
   const isLate = moment.duration(moment(date).diff(moment())).asHours() <= 24;
 
@@ -41,7 +43,8 @@ const ScheduleCard = ({
         confirmButtonText: t('ok'),
       });
     } else {
-      setIsOpen(true);
+      // setIsOpen(true);
+      hist.push("/student/lesson-calendar")
       setModalType('reschedule-time');
     }
   }

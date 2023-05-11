@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import LessonConfirmation from './LessonConfirmation';
 import ScheduleSelector from './ScheduleSelector';
@@ -10,15 +10,12 @@ import { useQuery, gql } from '@apollo/client';
 
 import '../../../assets/styles/tutor.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import { useAuth } from '../../../modules/auth';
+import { getAppointments } from '../../../actions/appointment';
 
 const GET_GROUP_INFO = gql`
-  query groups(
-    $where: GroupWhereInput!
-    $orderBy: [GroupOrderByInput!]!
-    $take: Int
-    $skip: Int
-  ) {
-    groups(where: $where) {
+  query ($id: ID) {
+    group(where: { id: $id }) {
       id
       tutorId
       lessonId
@@ -38,30 +35,56 @@ const GET_GROUP_INFO = gql`
       updatedAt
     }
   }
-`;
+`
+
 
 const ScheduleLesson = () => {
   const { id = null } = useParams();
-  const { data, loading } = useQuery(GET_GROUP_INFO, { errorPolicy: 'ignore' });
+  const { data, loading } = useQuery(GET_GROUP_INFO, {
+    variables: { id },
+    skip: !id,
+  })
   const dispatch = useDispatch();
   const [clicked, setClicked] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState({});
   const [schedule, setSchedule] = useState();
   const [tabIndex, setTabIndex] = useState(0);
   const [selectTutor, setSelectTutor] = useState();
+  const [plan, setPlan] = React.useState([])
+  const {user} = useAuth();
+
+  const calendarAppointments = useSelector(
+    (state) => state.appointment.calendarEvents,
+  );
+  const planStatus = useSelector((state) => state.students.planStatus);
 
   useEffect(() => {
     dispatch(getPlanStatus());
+
+    if (user && user?.student) {
+      dispatch(
+        getAppointments({
+          student_id: user.student?.id,
+          status: 'scheduled',
+        }),
+      );
+    }
   }, [dispatch, schedule]);
 
   const scheduledLesson = data?.group || null;
 
-  useEffect(() => {
-    if (scheduledLesson) {
-    }
-  }, [scheduledLesson]);
+  // useEffect(() => {
+  //   if (id) {
+  //     if(calendarAppointments) {
+  //       const rescheduleLessonPlan = calendarAppointments?.find(i => i.eventDate?.id === parseInt(id));
+  //       setPlan(rescheduleLessonPlan)
+  //     }
+  //   } 
+  // }, [calendarAppointments, id]);
 
   if (loading) return null;
+
+  console.log(scheduledLesson)
 
   return (
     <React.Fragment>

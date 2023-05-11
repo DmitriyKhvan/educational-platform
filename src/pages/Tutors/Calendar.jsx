@@ -20,6 +20,7 @@ import '../../assets/styles/calendar.scss';
 import AppointmentApi from '../../api/AppointmentApi';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../modules/auth';
+import Swal from 'sweetalert2';
 
 const Calendar = () => {
   const [t] = useTranslation(['lessons', 'modals']);
@@ -44,6 +45,8 @@ const Calendar = () => {
   const [isWarningOpen, setIsWarningOpen] = useState(false);
 
   const { user } = useAuth();
+
+
 
   const customStyles = {
     content: {
@@ -180,19 +183,37 @@ const Calendar = () => {
       (x) => x.id === calendarEvent.id,
     );
 
+    const scheduledTime = moment(selectedEvent?.resource?.start_at).tz(
+      userTimezone,
+    );
+
+    const isLate = moment.duration(moment(scheduledTime).diff(moment())).asHours() <= 24;
+
+
     const { id } = selectedEvent.resource.eventDate;
-    try {
-      await AppointmentApi.cancelAppointment(id);
-      fetchData();
-    } catch (error) {
-      NotificationManager.error(
-        error.response?.data?.message || 'Server Issue',
-        t,
-      );
-    } finally {
-      closeCalendarModal();
+    if (isLate) {
       closeCancelLessonModal();
+      Swal.fire({
+        title: t('cannot_cancel'),
+        text: t('cancel_error'),
+        icon: 'error',
+        confirmButtonText: t('ok'),
+      });
+    } else {
+      try {
+        await AppointmentApi.cancelAppointment(id);
+        fetchData();
+      } catch (error) {
+        NotificationManager.error(
+          error.response?.data?.message || 'Server Issue',
+          t,
+        );
+      } finally {
+        closeCalendarModal();
+        closeCancelLessonModal();
+      }
     }
+    
   };
 
   Modal.setAppElement('#root');
@@ -267,6 +288,8 @@ const Calendar = () => {
       );
     };
 
+
+      
     return (
       <div style={{ zIndex: 9999 }} className="container">
         <Modal

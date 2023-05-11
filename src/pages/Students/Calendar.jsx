@@ -29,6 +29,8 @@ const Calendar = () => {
   const calendarAppointments = useSelector(
     (state) => state.appointment.calendarEvents,
   );
+
+
   const tableAppointments = useSelector(
     (state) => state.appointment.tablularEventData,
   );
