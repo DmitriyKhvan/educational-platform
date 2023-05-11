@@ -84,7 +84,6 @@ const ScheduleLesson = () => {
 
   if (loading) return null;
 
-  console.log(scheduledLesson)
 
   return (
     <React.Fragment>
