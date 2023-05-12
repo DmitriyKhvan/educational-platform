@@ -10,6 +10,7 @@ import { useAuth } from '../../../modules/auth';
 const TutorProfile = () => {
   const [t] = useTranslation(['profile', 'common']);
   const [profileImage, setProfileImage] = useState('');
+  const [videoLink, setVideoLink] = React.useState("");
 
   const [aboutText, setAbout] = React.useState('');
 
@@ -30,6 +31,44 @@ const TutorProfile = () => {
   }, [user]);
 
   const videoUrl = actions.user?.tutor?.videoUrl;
+
+  function renderVideo() {
+    const url = videoUrl.split("");
+    var yt = ["y", "o", "u", "t", "u", "b", 'e'];
+    var codeURL = [];
+    var isVideo = null;
+    
+    for(var i = 0;i < url.length;i++) {
+      if(yt.includes(url[i])) {
+        isVideo = true
+        if(url.includes("=")) {
+          for(var i = 0;i < url.length;i++) {
+            if(url[i] === "=") {
+              codeURL = url.slice((i + 1),)
+            } 
+          }
+        } else {
+          codeURL = url.slice(17,)
+        }
+      } else {
+        isVideo = false
+        codeURL = url.slice(18,)
+      }
+    }
+
+    const prepareVideoToDB = codeURL.join("");
+    var video = "";
+
+    if(isVideo) {
+      video = "https://www.youtube.com/embed/" + prepareVideoToDB
+    } else {
+      video = "https://vimeo.com/" + prepareVideoToDB
+    }
+
+    if(video) {
+      setVideoLink(video)
+    }
+  }
 
   function renderAbout() {
     var text = actions.user?.tutor?.introduction;
@@ -64,6 +103,7 @@ const TutorProfile = () => {
 
   React.useEffect(() => {
     renderAbout();
+    renderVideo();
   }, [user]);
 
   return (
@@ -152,7 +192,7 @@ const TutorProfile = () => {
             <iframe
               width="560"
               height="315"
-              src={`https://www.youtube.com/embed/${videoUrl}`}
+              src={videoLink}
               title="YouTube video player"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

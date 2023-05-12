@@ -4,6 +4,8 @@
   padding-top: 50px;
   padding-left: 66px;
   padding-bottom: 60px;
+
+
   &_title {
     h2 {
       font-family: 'Inter';
@@ -17,6 +19,35 @@
 
       color: #261A45;
       margin: 0;
+    }
+  }
+
+  .type_video_btn {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    button {
+      padding: 7px 20px;
+      cursor: pointer;
+      background: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border:1px solid #DEDEE1;
+      border-radius: 10px;
+
+      img {
+        width: 20px;
+        height: 20px;
+        object-fit: cover;
+      }
+
+      
+    }
+    .activeBtn {
+      background-color: #6133AF;
+      color: white;
     }
   }
 
