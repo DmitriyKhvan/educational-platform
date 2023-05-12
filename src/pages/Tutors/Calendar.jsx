@@ -46,8 +46,6 @@ const Calendar = () => {
 
   const { user } = useAuth();
 
-
-
   const customStyles = {
     content: {
       top: '50%',
@@ -187,17 +185,17 @@ const Calendar = () => {
       userTimezone,
     );
 
-    const isLate = moment.duration(moment(scheduledTime).diff(moment())).asHours() <= 24;
-
+    const isLate =
+      moment.duration(moment(scheduledTime).diff(moment())).asHours() <= 24;
 
     const { id } = selectedEvent.resource.eventDate;
     if (isLate) {
       closeCancelLessonModal();
       Swal.fire({
-        title: t('cannot_cancel'),
-        text: t('cancel_error'),
+        title: t('cannot_cancel', { ns: 'modals' }),
+        text: t('cancel_error', { ns: 'modals' }),
         icon: 'error',
-        confirmButtonText: t('ok'),
+        confirmButtonText: t('ok', { ns: 'modals' }),
       });
     } else {
       try {
@@ -213,7 +211,6 @@ const Calendar = () => {
         closeCancelLessonModal();
       }
     }
-    
   };
 
   Modal.setAppElement('#root');
@@ -288,8 +285,6 @@ const Calendar = () => {
       );
     };
 
-
-      
     return (
       <div style={{ zIndex: 9999 }} className="container">
         <Modal
@@ -402,7 +397,7 @@ const Calendar = () => {
                   className="btn col-5 enter-btn"
                   onClick={onCancelLessonClick}
                 >
-                  {t('cancel_lesson')}
+                  {t('cancel_lesson', { ns: 'modals' })}
                 </button>
               </div>
             </div>
@@ -455,7 +450,7 @@ const Calendar = () => {
                   className="btn btn-primary enter-btn m-0"
                   onClick={onCancel}
                 >
-                  {t('cancel_lesson')}
+                  {t('cancel_lesson', { ns: 'modals' })}
                 </button>
               </div>
             </div>

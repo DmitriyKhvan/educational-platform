@@ -30,7 +30,7 @@ const ScheduleCard = ({
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const hist = useHistory()
+  const hist = useHistory();
 
   const isLate = moment.duration(moment(date).diff(moment())).asHours() <= 24;
 
@@ -44,7 +44,7 @@ const ScheduleCard = ({
       });
     } else {
       // setIsOpen(true);
-      hist.push("/student/lesson-calendar")
+      hist.push('/student/lesson-calendar');
       setModalType('reschedule-time');
     }
   }
