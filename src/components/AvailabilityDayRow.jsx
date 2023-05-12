@@ -106,7 +106,7 @@ export const AvailabilityDayRow = ({
                 return (
                   <AvailabilityPicker
                     day={day}
-                    key={i}
+                    key={k.id + ' picker'}
                     id={k.id}
                     setGatherAvailabilities={setGatherAvailabilities}
                     gatherAvailabilities={gatherAvailabilities}
