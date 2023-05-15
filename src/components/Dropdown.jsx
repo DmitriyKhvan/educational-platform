@@ -56,6 +56,7 @@ const Dropdown = ({
                   renderChild(item, index, active, setActive, setVisible)
                 ) : (
                   <Link
+                    key={index}
                     to={item.href || '#'}
                     className={`menu-item ${active === index ? 'active' : ''}`}
                     onClick={() => {

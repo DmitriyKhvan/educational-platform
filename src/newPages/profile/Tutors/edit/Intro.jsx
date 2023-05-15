@@ -27,9 +27,9 @@ const Intro = ({ cls }) => {
             height="315"
             src={`https://www.youtube.com/embed/${videoUrl}`}
             title="YouTube video player"
-            frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
+            allowFullScreen
+            style={{ border: 0 }}
           ></iframe>
         </div>
         <div className={cls.intro_right}>

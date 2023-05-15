@@ -10,7 +10,7 @@ import { useAuth } from '../../../modules/auth';
 const TutorProfile = () => {
   const [t] = useTranslation(['profile', 'common']);
   const [profileImage, setProfileImage] = useState('');
-  const [videoLink, setVideoLink] = React.useState("");
+  const [videoLink, setVideoLink] = React.useState('');
 
   const [aboutText, setAbout] = React.useState('');
 
@@ -33,40 +33,43 @@ const TutorProfile = () => {
   const videoUrl = actions.user?.tutor?.videoUrl;
 
   function renderVideo() {
-    const url = videoUrl.split("");
-    var yt = ["y", "o", "u", "t", "u", "b", 'e'];
+    if (!videoUrl) {
+      return;
+    }
+    const url = videoUrl.split('');
+    var yt = ['y', 'o', 'u', 't', 'u', 'b', 'e'];
     var codeURL = [];
     var isVideo = null;
-    
-    for(var i = 0;i < url.length;i++) {
-      if(yt.includes(url[i])) {
-        isVideo = true
-        if(url.includes("=")) {
-          for(var i = 0;i < url.length;i++) {
-            if(url[i] === "=") {
-              codeURL = url.slice((i + 1),)
-            } 
+
+    for (var i = 0; i < url.length; i++) {
+      if (yt.includes(url[i])) {
+        isVideo = true;
+        if (url.includes('=')) {
+          for (var i = 0; i < url.length; i++) {
+            if (url[i] === '=') {
+              codeURL = url.slice(i + 1);
+            }
           }
         } else {
-          codeURL = url.slice(17,)
+          codeURL = url.slice(17);
         }
       } else {
-        isVideo = false
-        codeURL = url.slice(18,)
+        isVideo = false;
+        codeURL = url.slice(18);
       }
     }
 
-    const prepareVideoToDB = codeURL.join("");
-    var video = "";
+    const prepareVideoToDB = codeURL.join('');
+    var video = '';
 
-    if(isVideo) {
-      video = "https://www.youtube.com/embed/" + prepareVideoToDB
+    if (isVideo) {
+      video = 'https://www.youtube.com/embed/' + prepareVideoToDB;
     } else {
-      video = "https://vimeo.com/" + prepareVideoToDB
+      video = 'https://vimeo.com/' + prepareVideoToDB;
     }
 
-    if(video) {
-      setVideoLink(video)
+    if (video) {
+      setVideoLink(video);
     }
   }
 
@@ -113,7 +116,9 @@ const TutorProfile = () => {
           <img className="avatar_preview" src={profileImage} alt="" />
 
           <div className={cls.tutor_name}>
-            <h1>{actions?.user?.fullName ? actions?.user.fullName : "Nickname"}</h1>
+            <h1>
+              {actions?.user?.fullName ? actions?.user.fullName : 'Nickname'}
+            </h1>
             <h2 className={cls.text_primary}>
               {actions?.user?.tutor?.degree && actions?.user?.tutor?.university
                 ? `
@@ -194,9 +199,9 @@ const TutorProfile = () => {
               height="315"
               src={videoLink}
               title="YouTube video player"
-              frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
+              allowFullScreen
+              style={{ border: 0 }}
             ></iframe>
           </div>
         </section>

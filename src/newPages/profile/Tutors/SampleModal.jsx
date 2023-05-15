@@ -56,8 +56,8 @@ const SampleModal = ({ isOpen, closeModal }) => {
             </section>
             <section className={cls.sample_types_row}>
               <div>
-                {Array.from({ length: 6 }).map((item) => (
-                  <img src={PlaceImg} alt="" />
+                {Array.from({ length: 6 }).map((item, idx) => (
+                  <img key={idx} src={PlaceImg} alt="" />
                 ))}
               </div>
             </section>
@@ -66,7 +66,7 @@ const SampleModal = ({ isOpen, closeModal }) => {
             <span onClick={closeModal}>&times;</span>
             <ul>
               {sampleInfo.map((item) => (
-                <li>
+                <li key={item.id}>
                   <img src={Check} alt="" />
                   {item.text}
                 </li>
