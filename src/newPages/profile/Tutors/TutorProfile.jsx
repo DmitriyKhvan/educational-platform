@@ -65,7 +65,7 @@ const TutorProfile = () => {
     if (isVideo) {
       video = 'https://www.youtube.com/embed/' + prepareVideoToDB;
     } else {
-      video = 'https://vimeo.com/' + prepareVideoToDB;
+      video = 'https://player.vimeo.com/video/' + prepareVideoToDB;
     }
 
     if (video) {
@@ -108,6 +108,9 @@ const TutorProfile = () => {
     renderAbout();
     renderVideo();
   }, [user]);
+
+
+  console.log(videoLink)
 
   return (
     <div className={cls.profile_page}>
@@ -205,15 +208,15 @@ const TutorProfile = () => {
           {
             videoLink?.length !== 0 && (
               <div className={cls.video}>
-              <iframe
-                width="560"
-                height="315"
-                src={videoLink}
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                style={{ border: 0 }}
-              ></iframe>
+                <iframe
+                  width="560"
+                  height="315"
+                  src={videoLink}
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  style={{ border: 0 }}
+                ></iframe>
             </div>
             )
           }
