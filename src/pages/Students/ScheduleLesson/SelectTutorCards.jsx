@@ -10,8 +10,6 @@ import MentorsModal from '../../../newPages/mentors-list/MentorsModal';
 import TutorApi from '../../../api/TutorApi';
 Modal.setAppElement('#root');
 
-
-
 const GET_TUTORS_BY_ID = gql`
   query GetTutors($ids: [ID!]) {
     tutors(where: { id: { in: $ids }, user: {
@@ -87,10 +85,9 @@ const GET_TUTORS_BY_ID = gql`
 const useAvailableMentors = (isoTime, duration) => {
   const [data, setData] = useState([]);
   useEffect(() => {
-    TutorApi.getAvailableForTime(isoTime, duration)
-      .then(({ data }) => {
-        setData(data?.mentors);
-      })
+    TutorApi.getAvailableForTime(isoTime, duration).then(({ data }) => {
+      setData(data?.mentors);
+    });
   }, [isoTime, duration]);
   return data;
 };
@@ -100,9 +97,12 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalSelectTutor, setModalSelectTutor] = useState({});
   const [availableTutors, setAvailableTutors] = useState([]);
-  const availableMentors = useAvailableMentors(moment(schedule, 'ddd MMM DD YYYY HH:mm:ss ZZ').toISOString(), step);
+  const availableMentors = useAvailableMentors(
+    moment(schedule, 'ddd MMM DD YYYY HH:mm:ss ZZ').toISOString(),
+    step,
+  );
 
-  const availableTutorIds = availableMentors.map(mentor => mentor.id);
+  const availableTutorIds = availableMentors.map((mentor) => mentor.id);
 
   const [tutors, setTutors] = useState([]);
 
@@ -365,11 +365,15 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
                   </div>
                 </div>
               </div>
-              <div className="row ps-2 pt-4 tutor-overflow-scroll tutor_schedule_widths ">
-                {availableTutors.map((x, i) => (
-                  <SelectTutors tutor={x} key={i} />
-                ))}
-              </div>
+              {availableTutors?.length ? (
+                <div className="row ps-2 pt-4 tutor-overflow-scroll tutor_schedule_widths ">
+                  {availableTutors.map((x, i) => (
+                    <SelectTutors tutor={x} key={i} />
+                  ))}
+                </div>
+              ) : (
+                <div className="no_mentors">{t('no_mentors_available')}</div>
+              )}
             </div>
           </div>
         </div>

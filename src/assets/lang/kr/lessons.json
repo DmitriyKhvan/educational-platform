@@ -32,6 +32,7 @@
   "lessons_remaining": "남은 레슨 {{count}}",
   "select_mentor": "멘토 선택",
   "select_mentor_subtitle": "수업 및 가용성에 따라 추천된 멘토.",
+  "no_mentors_available": "현재 멘토가 없습니다",
   "confirmation": "확인",
   "confirmation_subtitle": "아래의 내용이 모두 올바른지 확인하십시오.",
   "edit_lesson": "레슨 수정하기",
