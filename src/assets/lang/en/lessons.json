@@ -32,7 +32,7 @@
   "lessons_remaining": "{{count}} Lessons Remaining",
   "select_mentor": "Select a mentor",
   "select_mentor_subtitle": "Based on your lesson and availability, we recommend these mentors.",
-  "no_mentors_available": "No mentors available",
+  "no_mentors_available": "No mentors available at the moment",
   "confirmation": "Confirmation",
   "confirmation_subtitle": "Please ensure that everything below is correct.",
   "edit_lesson": "Edit Lesson",
