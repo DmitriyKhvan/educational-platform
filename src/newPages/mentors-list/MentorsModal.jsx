@@ -11,12 +11,59 @@ const MentorsModal = ({
   handleStatusTutor,
 }) => {
   const { id } = useParams();
-
-  console.log(tutorsList, 'tutorId');
+  const [videoLink, setVideoLink] = React.useState('');
 
   const renderSelectedTutor = tutorsList?.find(
     (item) => item.id === (tutorId ? tutorId : id),
   );
+
+
+  function renderVideo(videoUrl) {
+    if (!videoUrl) {
+      return;
+    }
+    const url = videoUrl.split('');
+    var yt = ['y', 'o', 'u', 't', 'u', 'b', 'e'];
+    var codeURL = [];
+    var isVideo = null;
+
+    for (var i = 0; i < url.length; i++) {
+      if (yt.includes(url[i])) {
+        isVideo = true;
+        if (url.includes('=')) {
+          for (var i = 0; i < url.length; i++) {
+            if (url[i] === '=') {
+              codeURL = url.slice(i + 1);
+            }
+          }
+        } else {
+          codeURL = url.slice(17);
+        }
+      } else {
+        isVideo = false;
+        codeURL = url.slice(18);
+      }
+    }
+
+    const prepareVideoToDB = codeURL.join('');
+    var video = '';
+
+    if (isVideo) {
+      video = 'https://www.youtube.com/embed/' + prepareVideoToDB;
+    } else {
+      video = 'https://vimeo.com/' + prepareVideoToDB;
+    }
+
+    console.log(video)
+
+    if (video) {
+      setVideoLink(video);
+    }
+  }
+
+  React.useEffect(() => {
+    renderVideo(renderSelectedTutor?.videoUrl);
+  }, [renderSelectedTutor]);
 
   return (
     <div className="tutor_alfa">
@@ -24,15 +71,28 @@ const MentorsModal = ({
         <p className="close-sh" onClick={() => setShowTutorModal(false)}>
           &times;
         </p>
-        <iframe
-          width="40%"
-          height="100%"
-          src={`https://www.youtube.com/embed/${renderSelectedTutor?.videoUrl}`}
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        ></iframe>
+
+        {
+          videoLink.length === 0 && (
+            <div className='no_video'>
+              <h2>No video!</h2>
+            </div>
+          )
+        }
+
+        {
+          videoLink.length !== 0 && (
+            <iframe
+              width="560"
+              height="100%"
+              src={videoLink}
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              style={{ border: 0 }}
+            ></iframe>
+          )
+        }
 
         <div className="tutor_more-content">
           {renderSelectedTutor?.isFavourite && (

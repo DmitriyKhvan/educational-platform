@@ -7,9 +7,57 @@ import { useTranslation } from 'react-i18next';
 
 const Intro = ({ cls }) => {
   const [t] = useTranslation('profile');
+  const [videoLink, setVideoLink] = React.useState('');
+
   const actions = useAuth();
 
   const videoUrl = actions.user?.tutor?.videoUrl;
+
+  function renderVideo() {
+    if (!videoUrl) {
+      return;
+    }
+    const url = videoUrl.split('');
+    var yt = ['y', 'o', 'u', 't', 'u', 'b', 'e'];
+    var codeURL = [];
+    var isVideo = null;
+
+    for (var i = 0; i < url.length; i++) {
+      if (yt.includes(url[i])) {
+        isVideo = true;
+        if (url.includes('=')) {
+          for (var i = 0; i < url.length; i++) {
+            if (url[i] === '=') {
+              codeURL = url.slice(i + 1);
+            }
+          }
+        } else {
+          codeURL = url.slice(17);
+        }
+      } else {
+        isVideo = false;
+        codeURL = url.slice(18);
+      }
+    }
+
+    const prepareVideoToDB = codeURL.join('');
+    var video = '';
+
+    if (isVideo) {
+      video = 'https://www.youtube.com/embed/' + prepareVideoToDB;
+    } else {
+      video = 'https://vimeo.com/' + prepareVideoToDB;
+    }
+
+    if (video) {
+      setVideoLink(video);
+    }
+  }
+
+
+  React.useEffect(() => {
+    renderVideo();
+  }, [actions]);
 
   return (
     <div className={cls.editProfile_container_forms_intro} id={'intro'}>
@@ -22,15 +70,29 @@ const Intro = ({ cls }) => {
 
       <div className={cls.editProfile_container_forms_intro_row}>
         <div className={cls.intro_left}>
-          <iframe
-            width="560"
-            height="315"
-            src={`https://www.youtube.com/embed/${videoUrl}`}
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-            style={{ border: 0 }}
-          ></iframe>
+          {
+              videoLink.length === 0 && (
+                <div className={cls.no_video}>
+                  <h2>No video!</h2>
+                </div>
+              )
+            }
+
+            {
+              videoLink.length !== 0 && (
+                <div className={cls.video}>
+                <iframe
+                  width="560"
+                  height="315"
+                  src={videoLink}
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  style={{ border: 0 }}
+                ></iframe>
+              </div>
+              )
+            }
         </div>
         <div className={cls.intro_right}>
           <div className={cls.intro_right_card}>

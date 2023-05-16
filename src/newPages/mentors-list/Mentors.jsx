@@ -12,6 +12,7 @@ import Loader from '../../components/Loader/Loader';
 import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../assets/images/avatars/img_avatar_male.png';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../modules/auth';
 
 const filtersList = [
   {
@@ -63,6 +64,7 @@ const filtersList = [
 
 const Mentors = () => {
   const [showTutorModal, setShowTutorModal] = React.useState(false);
+
   const history = useHistory();
   const [tutor, setTutor] = React.useState([]);
   const { data } = useQuery(MENTORS_QUERY, {
@@ -96,6 +98,9 @@ const Mentors = () => {
 
     setTutor(newT)
   }
+
+
+
 
   return (
     <Layout>

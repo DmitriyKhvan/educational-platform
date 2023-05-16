@@ -44,6 +44,7 @@ const ScheduleLesson = () => {
     variables: { id },
     skip: !id,
   })
+
   const dispatch = useDispatch();
   const [clicked, setClicked] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState({});

@@ -878,6 +878,17 @@
         display: flex;
 
         .intro_left {
+          .no_video {
+            width: 420px;
+            height: 342px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            h2 {
+              color: gray;
+            }
+          }
+
           iframe {
             width: 420px;
             height: 342px;
