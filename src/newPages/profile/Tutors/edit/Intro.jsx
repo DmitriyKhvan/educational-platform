@@ -71,7 +71,7 @@ const Intro = ({ cls }) => {
       <div className={cls.editProfile_container_forms_intro_row}>
         <div className={cls.intro_left}>
           {
-              videoLink.length === 0 && (
+              videoLink?.length === 0 && (
                 <div className={cls.no_video}>
                   <h2>No video!</h2>
                 </div>
@@ -79,7 +79,7 @@ const Intro = ({ cls }) => {
             }
 
             {
-              videoLink.length !== 0 && (
+              videoLink?.length !== 0 && (
                 <div className={cls.video}>
                 <iframe
                   width="560"
