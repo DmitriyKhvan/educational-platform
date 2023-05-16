@@ -195,7 +195,7 @@ const TutorProfile = () => {
           </div>
 
           {
-            videoLink.length === 0 && (
+            videoLink?.length === 0 && (
               <div className={cls.no_video}>
                 <h2>No video!</h2>
               </div>
@@ -203,7 +203,7 @@ const TutorProfile = () => {
           }
 
           {
-            videoLink.length !== 0 && (
+            videoLink?.length !== 0 && (
               <div className={cls.video}>
               <iframe
                 width="560"

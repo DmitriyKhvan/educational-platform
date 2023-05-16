@@ -73,7 +73,7 @@ const MentorsModal = ({
         </p>
 
         {
-          videoLink.length === 0 && (
+          videoLink?.length === 0 && (
             <div className='no_video'>
               <h2>No video!</h2>
             </div>
@@ -81,7 +81,7 @@ const MentorsModal = ({
         }
 
         {
-          videoLink.length !== 0 && (
+          videoLink?.length !== 0 && (
             <iframe
               width="560"
               height="100%"
