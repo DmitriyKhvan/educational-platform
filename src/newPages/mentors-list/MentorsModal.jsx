@@ -22,26 +22,26 @@ const MentorsModal = ({
     if (!videoUrl) {
       return;
     }
-    const url = videoUrl.split('');
+    const url = videoUrl?.split('');
     var yt = ['y', 'o', 'u', 't', 'u', 'b', 'e'];
     var codeURL = [];
     var isVideo = null;
 
-    for (var i = 0; i < url.length; i++) {
+    for (var i = 0; i < url?.length; i++) {
       if (yt.includes(url[i])) {
         isVideo = true;
         if (url.includes('=')) {
-          for (var i = 0; i < url.length; i++) {
+          for (var i = 0; i < url?.length; i++) {
             if (url[i] === '=') {
               codeURL = url.slice(i + 1);
             }
           }
         } else {
-          codeURL = url.slice(17);
+          codeURL = url?.slice(17);
         }
       } else {
         isVideo = false;
-        codeURL = url.slice(18);
+        codeURL = url?.slice(18);
       }
     }
 

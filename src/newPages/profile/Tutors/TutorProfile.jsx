@@ -36,7 +36,7 @@ const TutorProfile = () => {
     if (!videoUrl) {
       return;
     }
-    const url = videoUrl.split('');
+    const url = videoUrl?.split('');
     var yt = ['y', 'o', 'u', 't', 'u', 'b', 'e'];
     var codeURL = [];
     var isVideo = null;
