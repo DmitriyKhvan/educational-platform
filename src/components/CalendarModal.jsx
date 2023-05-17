@@ -16,6 +16,7 @@ const CalendarModal = ({
   zoomlink,
   closeModal,
   time,
+  mentors,
   data,
   onCancel,
 }) => {
@@ -26,11 +27,11 @@ const CalendarModal = ({
 
   const isLate = moment.duration(moment(time).diff(moment())).asHours() <= 24;
 
-  const avatar = data.resource?.tutor?.user?.avatar;
+  const avatar = mentors?.avatar;
 
   React.useEffect(() => {
     if (avatar) {
-      setProfileImage(avatar);
+      setProfileImage(avatar?.url);
     } else if (
       data?.resource?.tutor?.user?.gender?.toLowerCase() === 'female'
     ) {

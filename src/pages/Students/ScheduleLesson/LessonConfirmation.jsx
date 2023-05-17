@@ -19,6 +19,8 @@ import ScheduleCardComponent from '../../../components/student-dashboard/Schedul
 import Loader from '../../../components/common/Loader';
 import { useAuth } from '../../../modules/auth';
 import LessonCard from './LessonCard';
+import { MENTORS_QUERY } from '../../../modules/auth/graphql';
+import { useQuery } from '@apollo/client';
 
 const LessonConfirmation = ({
   plan,
@@ -54,6 +56,14 @@ const LessonConfirmation = ({
       setNewAppointment({});
     }
   };
+
+
+
+  const men = {
+    avatar: {
+      url: tutor?.avatar
+    }
+  }
 
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
@@ -431,6 +441,7 @@ const LessonConfirmation = ({
                   lesson={newAppointment.lesson.description}
                   zoomlink={newAppointment.zoomlink}
                   date={time}
+                  mentors={men}
                   data={newAppointment}
                   fetchAppointments={fetchAppointments}
                   cancelled={cancelled}

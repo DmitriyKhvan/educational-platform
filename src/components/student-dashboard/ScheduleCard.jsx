@@ -17,7 +17,9 @@ const ScheduleCard = ({
   lesson,
   zoomlink,
   date,
+  mentors,
   data,
+  setIdLesson,
   fetchAppointments,
   cancelled,
 }) => {
@@ -31,6 +33,8 @@ const ScheduleCard = ({
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
   const hist = useHistory();
+
+  console.log(mentors)
 
   const isLate = moment.duration(moment(date).diff(moment())).asHours() <= 24;
 
@@ -98,10 +102,12 @@ const ScheduleCard = ({
     }
   };
 
-  const displayDate = () => {
+   const displayDate = () => {
     const eventDate = moment(date).tz(userTimezone).format('MMM Do');
     const start = moment(date).tz(userTimezone).format('hh:mm A');
+   
     const end = moment(date)
+    
       .tz(userTimezone)
       .add(data.duration, 'minutes')
       .format('hh:mm A');
@@ -136,8 +142,8 @@ const ScheduleCard = ({
           <div className="col-2 cols-image-schedule mobile-schedule_dash">
             <img
               src={
-                data?.tutor?.user?.avatar
-                  ? data.tutor.user.avatar
+                mentors?.avatar
+                  ? mentors?.avatar?.url
                   : data.tutor?.user?.gender === 'male'
                   ? maleAvatar
                   : femaleAvatar

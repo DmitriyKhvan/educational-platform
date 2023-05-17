@@ -12,6 +12,8 @@ import BookingRequest from '../../../components/BookingRequest';
 import Loader from '../../../components/common/Loader';
 import { useAuth } from '../../../modules/auth';
 import FeedbackLessonModal from '../../../pages/Tutors/FeedbackLessonModal';
+import { useQuery } from '@apollo/client';
+import { STUDENTS_QUERY } from '../../../modules/auth/graphql';
 
 const TutorDashboard = () => {
   const [t] = useTranslation('dashboard');
@@ -21,6 +23,15 @@ const TutorDashboard = () => {
   const appointments = useSelector((state) => state.appointment);
   const [upcomingLessons, setUpcomingLessons] = useState([]);
   const [lessonApprovals, setLessonApprovals] = useState([]);
+  const [StId, setStID] = React.useState(null)
+
+  const { data } = useQuery(STUDENTS_QUERY, {
+    errorPolicy: 'ignore',
+  });
+  const students = data?.students;
+
+  const founded = students?.find(i => +i?.id === +StId);
+
 
   const { user: currentUser } = useAuth();
   const tutor = user.tutor;
@@ -46,6 +57,8 @@ const TutorDashboard = () => {
     }
   };
 
+  console.log(appointments)
+
   useEffect(() => {
     (async () => {
       await fetchAppointments();
@@ -65,8 +78,11 @@ const TutorDashboard = () => {
       setUpcomingLessons(
         appointments.list?.filter(
           (apt) =>
-            new moment(apt.start_at).isBefore(endOfDay) &&
-            new moment(apt.start_at).isAfter(startOfDay),
+            {
+              apt?.students?.forEach( i => setStID(i?.id))
+              new moment(apt.start_at).isBefore(endOfDay) &&
+              new moment(apt.start_at).isAfter(startOfDay)
+            }
         ),
       );
       setLessonApprovals(
@@ -98,6 +114,7 @@ const TutorDashboard = () => {
             zoomlink={event?.zoomlink}
             date={event?.start_at}
             data={event}
+            mentors={founded}
             key={i}
             fetchAppointments={fetchAppointments}
           />

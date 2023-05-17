@@ -20,8 +20,45 @@ import { useAuth } from '../../modules/auth';
 import FeedbackModal from './FeedbackModal';
 import FeedbackLessonModal from '../Tutors/FeedbackLessonModal';
 import WeekHeader from '../../components/common/WeekHeader';
+import { gql, useQuery } from '@apollo/client';
+import { MENTORS_QUERY } from '../../modules/auth/graphql';
+
+const GET_GROUP_INFO = gql`
+  query ($id: ID) {
+    group(where: { id: $id }) {
+      id
+      tutorId
+      lessonId
+      lessonType
+      lessonTitle
+      lessonDesc
+      seatCount
+      startAt
+      duration
+      status
+      completed
+      cancelAction
+      lessonTopic
+      lastPartLesson
+      zoomlinkId
+      createdAt
+      updatedAt
+    }
+  }
+`
 
 const Calendar = () => {
+  const [idOfLesson, setIdLesson] = React.useState(null);
+  const { data, loading } = useQuery(GET_GROUP_INFO, {
+    variables: { id: idOfLesson },
+    skip: !idOfLesson,
+  })
+  const { data: mentorsList } = useQuery(MENTORS_QUERY, {
+    errorPolicy: 'ignore',
+  });
+
+  const mentors = mentorsList?.tutors?.find(i => +i?.id === +data?.group?.tutorId);
+
   const [t] = useTranslation(['lessons']);
   const location = useLocation();
   const { user } = useAuth();
@@ -123,9 +160,15 @@ const Calendar = () => {
   }, [tableAppointments]);
 
   const CustomModal = () => {
-    const [selectedEvent] = calendarEvents.filter(
+    const [selectedEvent] = calendarEvents?.filter(
       (x) => x.id === calendarEvent.id,
     );
+
+    if(selectedEvent) {
+      setIdLesson(selectedEvent.resource?.eventDate?.id)
+    }
+
+
     const scheduledTime = moment(selectedEvent?.resource?.start_at).tz(
       userTimezone,
     );
@@ -145,8 +188,10 @@ const Calendar = () => {
           contentLabel="Example Modal"
         >
           <CalendarModal
+            setIdLesson={setIdLesson}
             event={selectedEvent}
             lesson={selectedEvent?.title}
+            mentors={mentors}
             startTime={startTime}
             endTime={endTime}
             zoomlink={selectedEvent.resource?.zoomLink}
