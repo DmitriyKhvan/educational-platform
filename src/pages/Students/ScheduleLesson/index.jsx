@@ -10,8 +10,6 @@ import { useQuery, gql } from '@apollo/client';
 
 import '../../../assets/styles/tutor.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-import { useAuth } from '../../../modules/auth';
-import { getAppointments } from '../../../actions/appointment';
 
 const GET_GROUP_INFO = gql`
   query ($id: ID) {
@@ -51,40 +49,15 @@ const ScheduleLesson = () => {
   const [schedule, setSchedule] = useState();
   const [tabIndex, setTabIndex] = useState(0);
   const [selectTutor, setSelectTutor] = useState();
-  const [plan, setPlan] = React.useState([])
-  const {user} = useAuth();
-
-  const calendarAppointments = useSelector(
-    (state) => state.appointment.calendarEvents,
-  );
-  const planStatus = useSelector((state) => state.students.planStatus);
 
   useEffect(() => {
     dispatch(getPlanStatus());
 
-    if (user && user?.student) {
-      dispatch(
-        getAppointments({
-          student_id: user.student?.id,
-          status: 'scheduled',
-        }),
-      );
-    }
   }, [dispatch, schedule]);
 
   const scheduledLesson = data?.group || null;
 
-  // useEffect(() => {
-  //   if (id) {
-  //     if(calendarAppointments) {
-  //       const rescheduleLessonPlan = calendarAppointments?.find(i => i.eventDate?.id === parseInt(id));
-  //       setPlan(rescheduleLessonPlan)
-  //     }
-  //   } 
-  // }, [calendarAppointments, id]);
-
   if (loading) return null;
-
 
   return (
     <React.Fragment>

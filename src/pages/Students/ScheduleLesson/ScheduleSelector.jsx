@@ -317,35 +317,8 @@ const ScheduleSelector = ({
     if (todayDate.isBefore(preScreen)) {
       setIsLoading(true);
       setSchedule(selectedSchedule.toString());
-      dispatch(getTutorList(selectedSchedule.toString())).then((response) => {
-        // const tutorlist = response.payload.tutors
-        const tutorlist = [
-          {
-            id: 1,
-            name: 'Tutor 1',
-            isFavourite: true,
-            univer: 'University of California',
-            lang: 'English',
-            image: 'https://picsum.photos/200/300',
-            rating: 4.5,
-            price: 100,
-            currency: 'USD',
-          },
-        ];
-
-        if (Array.isArray(tutorlist) && tutorlist.length > 0) {
-          setTabIndex(2);
-        } else if (Array.isArray(tutorlist) && tutorlist.length === 0) {
-          Swal.fire({
-            title: 'No Tutors Available for selected Time',
-            text: '',
-            icon: 'warning',
-            confirmButtonColor: '#6133af',
-            cancelButtonColor: '#d33',
-          });
-        }
-        setIsLoading(false);
-      });
+      setTabIndex(2)
+      setIsLoading(false)
     }
   };
 
