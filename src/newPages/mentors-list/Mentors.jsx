@@ -77,7 +77,6 @@ const Mentors = () => {
   React.useEffect(() => {
     setTutor(mentors);
   }, [mentors]);
- 
 
   const handleStatusTutor = (id) => {};
 
@@ -99,9 +98,6 @@ const Mentors = () => {
     setTutor(newT)
   }
 
-
-
-
   return (
     <Layout>
       <div className="tutors_section">
@@ -121,7 +117,7 @@ const Mentors = () => {
         </div>
 
         <div className="tutors_row">
-          {tutor?.length === 0 && <p>Cannot find mentors!</p>}
+          {tutor?.length === 0 && <p>Cannot find mentor!</p>}
 
           {!mentors && <Loader height={'50vh'} />}
 

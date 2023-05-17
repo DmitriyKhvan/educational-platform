@@ -87,8 +87,11 @@ const useAvailableMentors = (isoTime, duration) => {
   useEffect(() => {
     TutorApi.getAvailableForTime(isoTime, duration).then(({ data }) => {
       setData(data?.mentors);
+      console.log(data)
     });
   }, [isoTime, duration]);
+
+
   return data;
 };
 
@@ -121,6 +124,8 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
     },
     skip: !availableTutorIds.length,
   });
+  
+  console.log(tutorsData)
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -142,6 +147,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
     );
     setAvailableTutors([...tempTutors]);
   };
+
   const customStyles = {
     content: {
       top: '50%',
