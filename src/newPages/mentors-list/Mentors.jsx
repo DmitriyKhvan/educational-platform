@@ -67,10 +67,10 @@ const Mentors = () => {
 
   const history = useHistory();
   const [tutor, setTutor] = React.useState([]);
+  const [t] = useTranslation(['studentMentor', 'common']);
   const { data } = useQuery(MENTORS_QUERY, {
     errorPolicy: 'ignore',
   });
-  const [t] = useTranslation(['studentMentor', 'common']);
 
   const mentors = data?.tutors;
 

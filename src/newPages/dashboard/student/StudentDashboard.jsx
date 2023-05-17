@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment-timezone';
 import Layout from '../../../components/Layout';
@@ -19,6 +19,8 @@ import whiteSubscriptionIcon from '../../../assets/images/white_subscription_ico
 import whiteBookingIcon from '../../../assets/images/white_book_trial_icon.svg';
 import smileIcon from '../../../assets/images/smile_icon.svg';
 import { useAuth } from '../../../modules/auth';
+import { MENTORS_QUERY } from '../../../modules/auth/graphql';
+import { gql, useQuery } from '@apollo/client';
 
 const options = [
   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
@@ -26,6 +28,10 @@ const options = [
 ];
 
 const StudentListAppointments = () => {
+  const { data: mentorsList } = useQuery(MENTORS_QUERY, {
+    errorPolicy: 'ignore',
+  });
+
   const { complete_appoint_id } = useParams();
   const dispatch = useDispatch();
   const [t] = useTranslation('dashboard');
@@ -112,11 +118,13 @@ const StudentListAppointments = () => {
       const date = moment(x?.start_at);
       const expiredDate = moment(x?.start_at).add(x?.duration, 'minutes');
       const currentDate = moment();
+      const mentors = mentorsList?.tutors?.find(i => +i?.id === x?.tutor?.id);
       return (
         currentDate.isBefore(expiredDate) && (
           <div key={i}>
             <ScheduleCard
               lesson={x.lesson?.description}
+              mentors={mentors}
               zoomlink={x?.zoomlink}
               date={date}
               data={x}

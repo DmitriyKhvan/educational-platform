@@ -67,9 +67,9 @@ export default function StudentsList() {
   const { data } = useQuery(STUDENTS_QUERY, {
     errorPolicy: 'ignore',
   });
+  const students = data?.students;
   const [t] = useTranslation(['common', 'studentMentor']);
 
-  const students = data?.students;
 
   const handleStatusTutor = (id) => {};
 
