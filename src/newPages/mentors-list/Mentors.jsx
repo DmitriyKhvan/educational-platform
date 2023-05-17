@@ -117,7 +117,7 @@ const Mentors = () => {
         </div>
 
         <div className="tutors_row">
-          {tutor?.length === 0 && <p>Cannot find mentor!</p>}
+          {tutor?.length === 0 && <p>{t("cannot_find_mentors")}</p>}
 
           {!mentors && <Loader height={'50vh'} />}
 
@@ -128,8 +128,8 @@ const Mentors = () => {
                   className="tutors_card-img"
                   style={{
                     background: `url("${
-                      item?.user?.avatar
-                        ? item.user.avatar
+                      item?.avatar
+                        ? item.avatar?.url
                         : item?.user?.gender === 'male'
                         ? maleAvatar
                         : femaleAvatar

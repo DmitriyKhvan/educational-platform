@@ -87,7 +87,6 @@ const useAvailableMentors = (isoTime, duration) => {
   useEffect(() => {
     TutorApi.getAvailableForTime(isoTime, duration).then(({ data }) => {
       setData(data?.mentors);
-      console.log(data)
     });
   }, [isoTime, duration]);
 
@@ -125,8 +124,6 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
     skip: !availableTutorIds.length,
   });
   
-  console.log(tutorsData)
-
   useEffect(() => {
     window.scrollTo(0, 0);
     console.log(tutors, 'TUTORS');

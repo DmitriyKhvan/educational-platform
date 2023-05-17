@@ -28,6 +28,7 @@ const Calendar = () => {
   const calendarAppointments = useSelector(
     (state) => state.appointment.calendarEvents,
   );
+
   const tableAppointments = useSelector(
     (state) => state.appointment.tablularEventData,
   );
@@ -224,8 +225,10 @@ const Calendar = () => {
 
     const studentLessonLevel = students.level || 0;
 
-    const studentAvatar = students.user?.avatar;
+    const studentAvatar = students?.avatar?.url;
     const tutorAvatar = user.tutor?.avatar?.url;
+
+    console.log(students)
 
     const displayStudentAvatar = studentAvatar
       ? studentAvatar

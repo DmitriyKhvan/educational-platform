@@ -17,9 +17,6 @@ const MentorsModal = ({
     (item) => item.id === (tutorId ? tutorId : id),
   );
 
-  console.log(renderSelectedTutor)
-
-
   function renderVideo(videoUrl) {
     if (!videoUrl) {
       return;
@@ -104,30 +101,16 @@ const MentorsModal = ({
           <p>{renderSelectedTutor?.about}</p>
 
           <div className="bottom_content">
-            {/* <p>
-              “Great review about Sarah by a fellow NaoNow Student”.
-              <br />
-              <span>— Jane Doe (Age 14)</span>
-            </p>
-            <p>
-              “Great review about Sarah by a fellow NaoNow Student”.
-              <br />
-              <span>— Jane Doe (Age 14)</span>
-            </p> */}
-
             <div className="bottom_content-status">
               <div>
-                <p>School</p>
+                <p>University</p>
                 <h3>{renderSelectedTutor?.university}</h3>
               </div>
               <div>
                 <p>Degree / Major</p>
                 <h3>{renderSelectedTutor?.language}</h3>
               </div>
-              {/* <div>
-                <p>Topics </p>
-                <h3>English, Writing, Debate</h3>
-              </div> */}
+             
             </div>
 
             <div className="bottom_content-button">
