@@ -21,6 +21,8 @@ import AppointmentApi from '../../api/AppointmentApi';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
+import { STUDENTS_QUERY } from '../../modules/auth/graphql';
+import { useQuery } from '@apollo/client';
 
 const Calendar = () => {
   const [t] = useTranslation(['lessons', 'modals']);
@@ -223,15 +225,18 @@ const Calendar = () => {
     const { eventDate } = selectedEvent.resource;
     const [students] = eventDate.students;
 
+    const { data } = useQuery(STUDENTS_QUERY, {
+      errorPolicy: 'ignore',
+    });
+    const studentsList = data?.students;
+
     const studentLessonLevel = students.level || 0;
 
-    const studentAvatar = students?.avatar?.url;
+    const studentAvatar = studentsList?.find(i => +i.id === +students?.id);
     const tutorAvatar = user.tutor?.avatar?.url;
 
-    console.log(students)
-
-    const displayStudentAvatar = studentAvatar
-      ? studentAvatar
+    const displayStudentAvatar = studentAvatar?.avatar
+      ? studentAvatar?.avatar?.url
       : students.user?.gender === 'male'
       ? maleAvatar
       : femaleAvatar;
