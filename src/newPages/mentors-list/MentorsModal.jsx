@@ -53,8 +53,6 @@ const MentorsModal = ({
       video = 'https://vimeo.com/' + prepareVideoToDB;
     }
 
-    console.log(video)
-
     if (video) {
       setVideoLink(video);
     }
@@ -63,6 +61,8 @@ const MentorsModal = ({
   React.useEffect(() => {
     renderVideo(renderSelectedTutor?.videoUrl);
   }, [renderSelectedTutor]);
+
+   console.log(renderSelectedTutor)
 
   return (
     <div className="tutor_alfa">
@@ -98,7 +98,6 @@ const MentorsModal = ({
             <img src={FavIcon} alt="" className="favTutorIcon" />
           )}
           <h1>{`${renderSelectedTutor?.user.firstName} ${renderSelectedTutor?.user.lastName}`}</h1>
-          <p>{renderSelectedTutor?.about}</p>
 
           <div className="bottom_content">
             <div className="bottom_content-status">
@@ -108,11 +107,38 @@ const MentorsModal = ({
               </div>
               <div>
                 <p>Degree / Major</p>
-                <h3>{renderSelectedTutor?.language}</h3>
+                <h3>{renderSelectedTutor?.degree} {renderSelectedTutor.major ? "/ " + renderSelectedTutor.major : null}</h3>
               </div>
-             
             </div>
+            <div className='modal_bio'>
+              {
+                renderSelectedTutor?.introduction && (
+                  <div>
+                    <p>Biography</p>
+                    <span>{renderSelectedTutor?.introduction}</span>
+                  </div>
+                )
+              }
 
+              {
+                renderSelectedTutor?.relevantExperience && (
+                  <div>
+                    <p>Relevant Experience</p>
+                    <span>{renderSelectedTutor?.relevantExperience}</span>
+                  </div>
+                )
+              }
+
+              {
+                renderSelectedTutor?.uniqueFacts && (
+                  <div>
+                    <p>Unique Facts</p>
+                    <span>{renderSelectedTutor?.uniqueFacts}</span>
+                  </div>
+                )
+              }
+              
+            </div>
             <div className="bottom_content-button">
               {/* <button onClick={() => setShowTutorModal(false)}>Cancel</button> */}
               {/* <button>Message</button> */}
@@ -126,5 +152,7 @@ const MentorsModal = ({
     </div>
   );
 };
+
+
 
 export default MentorsModal;

@@ -17,7 +17,7 @@ const StudentsModal = ({
   );
 
   return (
-    <div className="tutor_alfa">
+    <div className="student_alfa">
       <div className="tutor_modal">
         <p className="close-sh" onClick={() => setShowStudentModal(false)}>
           &times;
