@@ -41,6 +41,18 @@ class TutorApi extends BaseApi {
     );
   }
 
+  adjustTutorAvailability(offsetHours) {
+    return axios.post(
+      this.REACT_APP_SERVER_URL + '/tutors/availability-adjust',
+      { offsetHours },
+      {
+        headers: {
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      },
+    );
+  }
+
   updateExceptionDates(exceptiondates, tutor_id) {
     return axios.post(
       this.REACT_APP_SERVER_URL + '/tutors/exceptiondates',

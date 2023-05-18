@@ -45,6 +45,25 @@
   }
 }
 
+.tutor_checkbox {
+  max-width: 420px;
+  
+  label {
+    display: flex;
+
+    input {
+      width: 15px !important;
+      margin-top: 0 !important;
+      margin-right: 10px;
+    }
+
+    span {
+      display: block;
+      flex: 1;
+    }
+  }
+}
+
 
 .student_country {
   label {

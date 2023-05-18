@@ -13,8 +13,20 @@ import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getData } from 'country-list';
 import { useTranslation } from 'react-i18next';
+import TutorApi from '../../../../api/TutorApi';
 
 const timezoneOptions = timezones.map(({ label, tzCode }) => ({ label, value: tzCode }));
+
+function getIntHoursOffset(utcTzOffset) {
+  return parseInt(utcTzOffset.split(':')[0], 10);
+}
+
+function getOffsetBetweenTimezones(tzCode1, tzCode2) {
+  const utcTz1 = getIntHoursOffset(find(timezones, { tzCode: tzCode1 }).utc);
+  const utcTz2 = getIntHoursOffset(find(timezones, { tzCode: tzCode2 }).utc);
+
+  return utcTz1 - utcTz2;
+}
 
 const BasicForm = ({ cls }) => {
   const [t] = useTranslation(['common', 'profile']);
@@ -35,10 +47,12 @@ const BasicForm = ({ cls }) => {
       phoneNumber: user?.phoneNumber,
       address: user?.address,
       gender: user?.gender,
+      convertAvailabilityTime: true,
     },
   });
 
-  const handleEditBasicInfo = async (area) => {
+  const handleEditBasicInfo = async ({ convertAvailabilityTime, ...area }) => {
+    const oldTimezone = user?.timeZone;
     const { data } = await updateTutor({
       variables: {
         where: {
@@ -48,9 +62,14 @@ const BasicForm = ({ cls }) => {
       },
     });
 
+    if (convertAvailabilityTime && oldTimezone !== area.timeZone) {
+      const offsetHours = getOffsetBetweenTimezones(oldTimezone, area.timeZone);
+      await TutorApi.adjustTutorAvailability(offsetHours);
+    }
+
     if (data) {
       notify();
-      history.push('/student/profile');
+      history.push('/tutor/profile');
     }
 
     await refetchUser();
@@ -161,6 +180,15 @@ const BasicForm = ({ cls }) => {
                 />
               )}
             />
+          </div>
+          <div className="tutor_checkbox">
+            <label>
+              <input
+                type="checkbox"
+                {...register("convertAvailabilityTime")} 
+              />
+              <span>Conver availability time into the new timezone?</span>
+            </label>
           </div>
         </div>
       </div>
