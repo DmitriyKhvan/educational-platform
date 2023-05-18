@@ -97,6 +97,11 @@ const Mentors = () => {
 
     setTutor(newT)
   }
+  
+
+  function resizerUsername(name) {
+    return (name.length > 9) ? name.slice(0, 9 - 1) + '...' : name;
+  } 
 
   return (
     <Layout>
@@ -140,9 +145,9 @@ const Mentors = () => {
                 </div>
                 <div className="tutors_card-body">
                   <div className="tutors_info">
-                    <h2>{item.userName}</h2>
-                    <p>{item.university}</p>
-                    <span>{item.language}</span>
+                    <h2>{resizerUsername(item?.user?.firstName)}</h2>
+                    <h4>{item.university}</h4>
+                    <span>{item.degree} {item.major ? "/ " + item.major : null}</span>
                   </div>
                   <div className="tutors_control-buttons">
                     <button onClick={() => handleMoreTutor(item.id)}>

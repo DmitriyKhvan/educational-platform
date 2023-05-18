@@ -93,7 +93,7 @@
       }
 
       .bottom_content {
-        margin-top:110px;
+        margin-top:0;
         p{
           font-family: 'Inter';
           font-style: normal;
@@ -141,6 +141,30 @@
           /* Dark Purple */
 
           color: #261A45;
+        }
+      }
+
+      .modal_bio {
+        p {
+          font-family: 'Inter';
+          cursor: pointer;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 15px;
+          line-height: 18px;
+          letter-spacing: -0.2px;
+          margin-bottom: 10px;
+          /* Light Gray */  
+
+          color: #646481;
+
+        }
+
+        span {
+          font-size: 15px;
+          letter-spacing: -0.2px;
+          line-height: 15px;
+          margin-top: 20px;
         }
       }
 
