@@ -78,9 +78,9 @@ const ScheduleLesson = () => {
           tabIndex={tabIndex}
           lesson={scheduledLesson}
           lessonId={id}
-          selectedTutor={location.state.tutor}
+          selectedTutor={location?.state?.tutor}
         />
-      ) : tabIndex === 2 && !location.state.tutor ? (
+      ) : tabIndex === 2 && !location?.state?.tutor ? (
         <SelectTutorCards
           tabIndex={tabIndex}
           setTabIndex={setTabIndex}
@@ -90,11 +90,11 @@ const ScheduleLesson = () => {
           step={selectedPlan?.duration === 25 ? 30 : 60}
         />
       ) : (
-        (tabIndex === 3 || location.state.tutor) && (
+        (tabIndex === 3 || location?.state?.tutor) && (
           <LessonConfirmation
             plan={selectedPlan}
             time={schedule}
-            tutor={selectTutor || location.state.tutor}
+            tutor={selectTutor || location?.state?.tutor}
             setTabIndex={setTabIndex}
             lesson={scheduledLesson}
             lessonId={id}

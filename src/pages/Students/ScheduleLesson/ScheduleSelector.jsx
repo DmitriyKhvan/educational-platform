@@ -151,8 +151,10 @@ const ScheduleSelector = ({
   const { data: timesheetsData } = useTimesheets({
     tz: userTimezone,
     date: moment(day).format('YYYY-MM-DD'),
-    tutorId: selectedTutor.id,
     step,
+    ...(selectedTutor && {
+      tutorId: selectedTutor.id,
+    }),
   });
 
   //Loop over the times - only pushes time with 30 minutes interval
