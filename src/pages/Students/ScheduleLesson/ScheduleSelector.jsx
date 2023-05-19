@@ -157,13 +157,19 @@ const ScheduleSelector = ({
   while (startTime.isBefore(endTime) || startTime.isSame(endTime)) {
     const tempTime = moment(startTime.format('HH:mm'), 'HH:mm');
     timesheetsData?.timesheets.map((timesheet) => {
+      if (
+        selectedTutor &&
+        !timesheet?.tutorIds?.includes(parseInt(selectedTutor?.id))
+      )
+        return;
+
       const timesheetFrom = moment(timesheet.from, 'HH:mm');
       const timesheetTo = moment(timesheet.to, 'HH:mm');
       // Third argument is for units (for which we do not care right now)
       // Fourth parameter '[)' means that the end time is not included
       if (tempTime.isBetween(timesheetFrom, timesheetTo, null, '[)')) {
         allTimes.push(startTime.format('HH:mm'));
-        return timesheet.tutorId;
+        return timesheet;
       }
     });
     startTime.add(step, 'minutes');
