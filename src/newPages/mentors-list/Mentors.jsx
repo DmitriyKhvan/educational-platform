@@ -173,7 +173,7 @@ const Mentors = () => {
                         height: '100%',
                       }}
                     >
-                      <button>Schedule</button>
+                      <button>{t('schedule', { ns: 'common' })}</button>
                     </Link>
                     {/* <button onClick={() => handleStatusTutor(item.id)}>
                       {item?.isFavourite ? 'Remove' : 'Favorite'}

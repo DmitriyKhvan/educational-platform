@@ -213,12 +213,23 @@ const StudentListAppointments = () => {
                     </div>
                   </div>
                   <div className="row mobile-view-buttons">
-                    <div className="col-6 desktop schedule-dashboard-button">
+                    <div
+                      className="col-6 desktop schedule-dashboard-button flex"
+                      style={{
+                        width: '100%',
+                      }}
+                    >
                       <Link
                         to="/student/schedule-lesson/select"
                         className="schedule-dashboard-buttons"
                       >
-                        {t('schedule_1_on_1_lesson', { ns: 'dashboard' })}
+                        {t('schedule_by_time', { ns: 'dashboard' })}
+                      </Link>
+                      <Link
+                        to="/student/mentors-list"
+                        className="schedule-dashboard-buttons"
+                      >
+                        {t('schedule_by_mentor', { ns: 'dashboard' })}
                       </Link>
                     </div>
                     {/* <div className='col-6 schedule-dashboard-button'>

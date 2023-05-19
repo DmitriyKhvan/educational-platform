@@ -82,5 +82,6 @@
   "upgrade": "Upgrade",
   "downgrade": "Downgrade",
   "lessons": "Lessons",
-  "select": "Select"
+  "select": "Select",
+  "schedule": "Schedule"
 }
