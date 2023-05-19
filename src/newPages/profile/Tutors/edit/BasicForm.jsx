@@ -13,17 +13,18 @@ import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getData } from 'country-list';
 import { useTranslation } from 'react-i18next';
+import { getTimezoneOffset } from 'date-fns-tz';
 import TutorApi from '../../../../api/TutorApi';
 
 const timezoneOptions = timezones.map(({ label, tzCode }) => ({ label, value: tzCode }));
 
-function getIntHoursOffset(utcTzOffset) {
-  return parseInt(utcTzOffset.split(':')[0], 10);
+function getIntHoursOffset(tzCode) {
+  return getTimezoneOffset(tzCode) / 60 / 60 / 1000;
 }
 
 function getOffsetBetweenTimezones(tzCode1, tzCode2) {
-  const utcTz1 = getIntHoursOffset(find(timezones, { tzCode: tzCode1 }).utc);
-  const utcTz2 = getIntHoursOffset(find(timezones, { tzCode: tzCode2 }).utc);
+  const utcTz1 = getIntHoursOffset(tzCode1);
+  const utcTz2 = getIntHoursOffset(tzCode2);
 
   return utcTz1 - utcTz2;
 }
