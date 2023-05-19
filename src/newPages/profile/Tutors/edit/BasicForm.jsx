@@ -15,7 +15,10 @@ import { getData } from 'country-list';
 import { useTranslation } from 'react-i18next';
 import TutorApi from '../../../../api/TutorApi';
 
-const timezoneOptions = timezones.map(({ label, tzCode }) => ({ label, value: tzCode }));
+const timezoneOptions = timezones.map(({ label, tzCode }) => ({
+  label,
+  value: tzCode,
+}));
 
 function getIntHoursOffset(utcTzOffset) {
   return parseInt(utcTzOffset.split(':')[0], 10);
@@ -183,10 +186,7 @@ const BasicForm = ({ cls }) => {
           </div>
           <div className="tutor_checkbox">
             <label>
-              <input
-                type="checkbox"
-                {...register("convertAvailabilityTime")} 
-              />
+              <input type="checkbox" {...register('convertAvailabilityTime')} />
               <span>Conver availability time into the new timezone?</span>
             </label>
           </div>

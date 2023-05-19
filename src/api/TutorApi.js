@@ -133,13 +133,18 @@ class TutorApi extends BaseApi {
   }
 
   getAvailableForTime(isoTime, duration) {
-    return axios.post(`${this.REACT_APP_SERVER_URL}/tutor-timesheets/list-available`, {
-      time: isoTime, duration,
-    }, {
-      headers: {
-        Authorization: `Bearer ${this.getToken()}`,
+    return axios.post(
+      `${this.REACT_APP_SERVER_URL}/tutor-timesheets/list-available`,
+      {
+        time: isoTime,
+        duration,
       },
-    });
+      {
+        headers: {
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      },
+    );
   }
 }
 

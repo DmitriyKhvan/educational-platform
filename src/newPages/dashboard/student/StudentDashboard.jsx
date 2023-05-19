@@ -118,7 +118,7 @@ const StudentListAppointments = () => {
       const date = moment(x?.start_at);
       const expiredDate = moment(x?.start_at).add(x?.duration, 'minutes');
       const currentDate = moment();
-      const mentors = mentorsList?.tutors?.find(i => +i?.id === x?.tutor?.id);
+      const mentors = mentorsList?.tutors?.find((i) => +i?.id === x?.tutor?.id);
       return (
         currentDate.isBefore(expiredDate) && (
           <div key={i}>
@@ -136,7 +136,7 @@ const StudentListAppointments = () => {
       );
     });
 
-    console.log(appointments)
+  console.log(appointments);
 
   const callToAction =
     appointments.length >= 0
@@ -184,44 +184,44 @@ const StudentListAppointments = () => {
   return (
     <Layout>
       <div className="main-dashboard scroll-layout">
-          <div className="flex-container">
-            <div className="student-dashboard flex-left children-wrapper flex-change childern-padding">
-              <div className="set-container">
-                <h4 className="welcome-message">
-                  {t('student_dashboard_welcome', {
-                    ns: 'dashboard',
-                    name: user.firstName,
-                  })}
-                </h4>
-                <p className="welcome-subtitle">
-                  {t('student_dashboard_subtitle', { ns: 'dashboard' })}
-                </p>
-                <div className="schedule-lesson-select pt-3">
-                  <div className="page-card purple large-card py-5">
-                    <div className="row image-align_schedule">
-                      <div className="col-2 ms-3 mobilefinal mobilefinal-image">
-                        <img
-                          src={ImgCalendar}
-                          alt=""
-                          className="img-fluid large-card-icon"
-                        />
-                      </div>
-                      <div className="col-9 dash_width">
-                        <p className="title mt-1 laptop-title mobile_dash">
-                          {t('schedule_card', { ns: 'dashboard' })}
-                        </p>
-                      </div>
+        <div className="flex-container">
+          <div className="student-dashboard flex-left children-wrapper flex-change childern-padding">
+            <div className="set-container">
+              <h4 className="welcome-message">
+                {t('student_dashboard_welcome', {
+                  ns: 'dashboard',
+                  name: user.firstName,
+                })}
+              </h4>
+              <p className="welcome-subtitle">
+                {t('student_dashboard_subtitle', { ns: 'dashboard' })}
+              </p>
+              <div className="schedule-lesson-select pt-3">
+                <div className="page-card purple large-card py-5">
+                  <div className="row image-align_schedule">
+                    <div className="col-2 ms-3 mobilefinal mobilefinal-image">
+                      <img
+                        src={ImgCalendar}
+                        alt=""
+                        className="img-fluid large-card-icon"
+                      />
                     </div>
-                    <div className="row mobile-view-buttons">
-                      <div className="col-6 desktop schedule-dashboard-button">
-                        <Link
-                          to="/student/schedule-lesson/select"
-                          className="schedule-dashboard-buttons"
-                        >
-                          {t('schedule_1_on_1_lesson', { ns: 'dashboard' })}
-                        </Link>
-                      </div>
-                      {/* <div className='col-6 schedule-dashboard-button'>
+                    <div className="col-9 dash_width">
+                      <p className="title mt-1 laptop-title mobile_dash">
+                        {t('schedule_card', { ns: 'dashboard' })}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="row mobile-view-buttons">
+                    <div className="col-6 desktop schedule-dashboard-button">
+                      <Link
+                        to="/student/schedule-lesson/select"
+                        className="schedule-dashboard-buttons"
+                      >
+                        {t('schedule_1_on_1_lesson', { ns: 'dashboard' })}
+                      </Link>
+                    </div>
+                    {/* <div className='col-6 schedule-dashboard-button'>
                         <Link
                           to='/student/schedule-lesson/group-select'
                           className='schedule-dashboard-buttons'
@@ -229,69 +229,69 @@ const StudentListAppointments = () => {
                           {t('schedule_group_lesson')}
                         </Link>
                       </div> */}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row container justify-content-center mt-5">
-                <div className="col px-4">
-                  <h4 className="welcome-message">
-                    {t('already_lesson', { ns: 'dashboard' })}
-                  </h4>
-                  <div className="dashboard-cards-inline mt-5">
-                    {callToAction.map((props, i) => (
-                      <CTACard key={i} {...props} />
-                    ))}
                   </div>
                 </div>
               </div>
             </div>
-            <div className="student-list-appointments-wrapper flex-right changes-container">
-              {!isLoading && (
-                <div className="child-set_container dash_child-set_container ">
-                  <h4 className="weekly-schedule">
-                    {t('weekly_schedule', { ns: 'dashboard' })}
-                  </h4>
-                  <div className="weekly-schedule-subtitle dash_weekly-schedule-subtitle">
-                    {t('student_dashboard_total_lessons', {
-                      ns: 'dashboard',
-                      total_lessons: isWithinAweek.length,
-                      t: isWithinAweek.length > 1 ? 's' : '',
-                    })}
-                  </div>
-                  <div>
-                    <section className="d-flex align-button-dashboard">
-                      <div>
-                        <Link
-                          to="/student/schedule-lesson/select"
-                          className="buttonsdash"
-                        >
-                          {t('student_dashboard_edit_schedule', {
-                            ns: 'dashboard',
-                          })}
-                        </Link>
-                      </div>
-                      <div>
-                        <Link
-                          to="/student/lesson-calendar"
-                          className="buttonsdash-second"
-                        >
-                          {t('student_dashboard_view_all_lessons', {
-                            ns: 'dashboard',
-                          })}
-                        </Link>
-                      </div>
-                    </section>
-                  </div>
-
-                  <div className="weekly-schedule-scroll align_schedule-width-dash weekly-schedule-grid">
-                    {appointments.length ? <>{ScheduleArr}</> : ''}
-                  </div>
+            <div className="row container justify-content-center mt-5">
+              <div className="col px-4">
+                <h4 className="welcome-message">
+                  {t('already_lesson', { ns: 'dashboard' })}
+                </h4>
+                <div className="dashboard-cards-inline mt-5">
+                  {callToAction.map((props, i) => (
+                    <CTACard key={i} {...props} />
+                  ))}
                 </div>
-              )}
+              </div>
             </div>
           </div>
-        
+          <div className="student-list-appointments-wrapper flex-right changes-container">
+            {!isLoading && (
+              <div className="child-set_container dash_child-set_container ">
+                <h4 className="weekly-schedule">
+                  {t('weekly_schedule', { ns: 'dashboard' })}
+                </h4>
+                <div className="weekly-schedule-subtitle dash_weekly-schedule-subtitle">
+                  {t('student_dashboard_total_lessons', {
+                    ns: 'dashboard',
+                    total_lessons: isWithinAweek.length,
+                    t: isWithinAweek.length > 1 ? 's' : '',
+                  })}
+                </div>
+                <div>
+                  <section className="d-flex align-button-dashboard">
+                    <div>
+                      <Link
+                        to="/student/schedule-lesson/select"
+                        className="buttonsdash"
+                      >
+                        {t('student_dashboard_edit_schedule', {
+                          ns: 'dashboard',
+                        })}
+                      </Link>
+                    </div>
+                    <div>
+                      <Link
+                        to="/student/lesson-calendar"
+                        className="buttonsdash-second"
+                      >
+                        {t('student_dashboard_view_all_lessons', {
+                          ns: 'dashboard',
+                        })}
+                      </Link>
+                    </div>
+                  </section>
+                </div>
+
+                <div className="weekly-schedule-scroll align_schedule-width-dash weekly-schedule-grid">
+                  {appointments.length ? <>{ScheduleArr}</> : ''}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* // : (
         //   <div className="d-flex flex-column min-vh-80 justify-content-center align-items-center">
         //     <img src={emptyCalendar} alt="" className="img-fluid" />

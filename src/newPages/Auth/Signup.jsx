@@ -414,10 +414,10 @@ const Signup = () => {
                 )}
               </button>
             </div>
-            <div className='sign'>
-              <p className='forgets'>
+            <div className="sign">
+              <p className="forgets">
                 {/* {t('already_have_account')}{' '} */}
-                <a href='/' className='forgot-passwords'>
+                <a href="/" className="forgot-passwords">
                   Already have an account?{t('sign_in')}
                 </a>
               </p>

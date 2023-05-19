@@ -19,7 +19,10 @@ import { getData } from 'country-list';
 
 import { AiFillEdit } from 'react-icons/ai';
 
-const timezoneOptions = timezones.map(({ label, tzCode }) => ({ label, value: tzCode }));
+const timezoneOptions = timezones.map(({ label, tzCode }) => ({
+  label,
+  value: tzCode,
+}));
 
 const EditProflileModal = ({ profileImage, isOpen, setIsOpen }) => {
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);

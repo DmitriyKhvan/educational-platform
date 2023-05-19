@@ -23,15 +23,14 @@ const TutorDashboard = () => {
   const appointments = useSelector((state) => state.appointment);
   const [upcomingLessons, setUpcomingLessons] = useState([]);
   const [lessonApprovals, setLessonApprovals] = useState([]);
-  const [StId, setStID] = React.useState(null)
+  const [StId, setStID] = React.useState(null);
 
   const { data } = useQuery(STUDENTS_QUERY, {
     errorPolicy: 'ignore',
   });
   const students = data?.students;
 
-  const founded = students?.find(i => +i?.id === +StId);
-
+  const founded = students?.find((i) => +i?.id === +StId);
 
   const { user: currentUser } = useAuth();
   const tutor = user.tutor;
@@ -57,7 +56,7 @@ const TutorDashboard = () => {
     }
   };
 
-  console.log(appointments)
+  console.log(appointments);
 
   useEffect(() => {
     (async () => {
@@ -76,14 +75,11 @@ const TutorDashboard = () => {
       }
 
       setUpcomingLessons(
-        appointments.list?.filter(
-          (apt) =>
-            {
-              apt?.students?.forEach( i => setStID(i?.id))
-              new moment(apt.start_at).isBefore(endOfDay) &&
-              new moment(apt.start_at).isAfter(startOfDay)
-            }
-        ),
+        appointments.list?.filter((apt) => {
+          apt?.students?.forEach((i) => setStID(i?.id));
+          new moment(apt.start_at).isBefore(endOfDay) &&
+            new moment(apt.start_at).isAfter(startOfDay);
+        }),
       );
       setLessonApprovals(
         appointments.list

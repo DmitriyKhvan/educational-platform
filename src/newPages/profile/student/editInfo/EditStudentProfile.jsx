@@ -22,7 +22,10 @@ import Layout from '../../../../components/Layout';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-const timezoneOptions = timezones.map(({ label, tzCode }) => ({ label, value: tzCode }));
+const timezoneOptions = timezones.map(({ label, tzCode }) => ({
+  label,
+  value: tzCode,
+}));
 
 const EditProflileStudent = () => {
   const [t] = useTranslation(['profile', 'common']);

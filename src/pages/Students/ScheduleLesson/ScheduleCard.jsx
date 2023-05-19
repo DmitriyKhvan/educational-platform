@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 const ScheduleCard = ({ startTime, endTime, date }) => {
   const [t] = useTranslation('common');
 
-  console.log(date)
+  console.log(date);
 
   return (
     <div
