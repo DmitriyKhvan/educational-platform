@@ -18,7 +18,10 @@ import { getTimezoneOffset } from 'date-fns-tz';
 import TutorApi from '../../../../api/TutorApi';
 import { getTutorInfo } from '../../../../actions/tutor';
 
-const timezoneOptions = timezones.map(({ label, tzCode }) => ({ label, value: tzCode }));
+const timezoneOptions = timezones.map(({ label, tzCode }) => ({
+  label,
+  value: tzCode,
+}));
 
 function getIntHoursOffset(tzCode) {
   return getTimezoneOffset(tzCode) / 60 / 60 / 1000;
@@ -188,10 +191,7 @@ const BasicForm = ({ cls }) => {
           </div>
           <div className="tutor_checkbox">
             <label>
-              <input
-                type="checkbox"
-                {...register("convertAvailabilityTime")} 
-              />
+              <input type="checkbox" {...register('convertAvailabilityTime')} />
               <span>Conver availability time into the new timezone?</span>
             </label>
           </div>

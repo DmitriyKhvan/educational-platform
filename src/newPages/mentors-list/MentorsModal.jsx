@@ -62,8 +62,6 @@ const MentorsModal = ({
     renderVideo(renderSelectedTutor?.videoUrl);
   }, [renderSelectedTutor]);
 
-   console.log(renderSelectedTutor)
-
   return (
     <div className="tutor_alfa">
       <div className="tutor_modal">
@@ -71,27 +69,23 @@ const MentorsModal = ({
           &times;
         </p>
 
-        {
-          videoLink?.length === 0 && (
-            <div className='no_video'>
-              <h2>No video!</h2>
-            </div>
-          )
-        }
+        {videoLink?.length === 0 && (
+          <div className="no_video">
+            <h2>No video!</h2>
+          </div>
+        )}
 
-        {
-          videoLink?.length !== 0 && (
-            <iframe
-              width="560"
-              height="100%"
-              src={videoLink}
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              style={{ border: 0 }}
-            ></iframe>
-          )
-        }
+        {videoLink?.length !== 0 && (
+          <iframe
+            width="560"
+            height="100%"
+            src={videoLink}
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            style={{ border: 0 }}
+          ></iframe>
+        )}
 
         <div className="tutor_more-content">
           {renderSelectedTutor?.isFavourite && (
@@ -107,37 +101,35 @@ const MentorsModal = ({
               </div>
               <div>
                 <p>Degree / Major</p>
-                <h3>{renderSelectedTutor?.degree} {renderSelectedTutor.major ? "/ " + renderSelectedTutor.major : null}</h3>
+                <h3>
+                  {renderSelectedTutor?.degree}{' '}
+                  {renderSelectedTutor.major
+                    ? '/ ' + renderSelectedTutor.major
+                    : null}
+                </h3>
               </div>
             </div>
-            <div className='modal_bio'>
-              {
-                renderSelectedTutor?.introduction && (
-                  <div>
-                    <p>Biography</p>
-                    <span>{renderSelectedTutor?.introduction}</span>
-                  </div>
-                )
-              }
+            <div className="modal_bio">
+              {renderSelectedTutor?.introduction && (
+                <div>
+                  <p>Biography</p>
+                  <span>{renderSelectedTutor?.introduction}</span>
+                </div>
+              )}
 
-              {
-                renderSelectedTutor?.relevantExperience && (
-                  <div>
-                    <p>Relevant Experience</p>
-                    <span>{renderSelectedTutor?.relevantExperience}</span>
-                  </div>
-                )
-              }
+              {renderSelectedTutor?.relevantExperience && (
+                <div>
+                  <p>Relevant Experience</p>
+                  <span>{renderSelectedTutor?.relevantExperience}</span>
+                </div>
+              )}
 
-              {
-                renderSelectedTutor?.uniqueFacts && (
-                  <div>
-                    <p>Unique Facts</p>
-                    <span>{renderSelectedTutor?.uniqueFacts}</span>
-                  </div>
-                )
-              }
-              
+              {renderSelectedTutor?.uniqueFacts && (
+                <div>
+                  <p>Unique Facts</p>
+                  <span>{renderSelectedTutor?.uniqueFacts}</span>
+                </div>
+              )}
             </div>
             <div className="bottom_content-button">
               {/* <button onClick={() => setShowTutorModal(false)}>Cancel</button> */}
@@ -152,7 +144,5 @@ const MentorsModal = ({
     </div>
   );
 };
-
-
 
 export default MentorsModal;

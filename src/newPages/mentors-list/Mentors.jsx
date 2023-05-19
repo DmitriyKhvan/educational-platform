@@ -1,5 +1,6 @@
 import React from 'react';
 import Layout from '../../components/Layout';
+import { Link } from 'react-router-dom';
 
 import FavIcon from '../../assets/images/Favorite.png';
 
@@ -91,17 +92,16 @@ const Mentors = () => {
   const handleFilter = (e) => {
     const tutors = [...mentors];
 
-    const newT = tutors.filter(i =>
-      i.userName.toLowerCase().includes(e.toLowerCase())
-    )
+    const newT = tutors.filter((i) =>
+      i.userName.toLowerCase().includes(e.toLowerCase()),
+    );
 
-    setTutor(newT)
-  }
-  
+    setTutor(newT);
+  };
 
   function resizerUsername(name) {
-    return (name.length > 9) ? name.slice(0, 9 - 1) + '...' : name;
-  } 
+    return name.length > 9 ? name.slice(0, 9 - 1) + '...' : name;
+  }
 
   return (
     <Layout>
@@ -111,18 +111,18 @@ const Mentors = () => {
           <p>{t('mentor_list_desc', { ns: 'studentMentor' })}</p>
         </div>
 
-        <div className='mentors_filters_row'>
+        <div className="mentors_filters_row">
           <div>
             <input
-              type={"text"}
-              placeholder={"Search..."}
-              onChange={(e) =>  handleFilter(e.target.value)}
-            /> 
+              type={'text'}
+              placeholder={'Search...'}
+              onChange={(e) => handleFilter(e.target.value)}
+            />
           </div>
         </div>
 
         <div className="tutors_row">
-          {tutor?.length === 0 && <p>{t("cannot_find_mentors")}</p>}
+          {tutor?.length === 0 && <p>{t('cannot_find_mentors')}</p>}
 
           {!mentors && <Loader height={'50vh'} />}
 
@@ -147,12 +147,34 @@ const Mentors = () => {
                   <div className="tutors_info">
                     <h2>{resizerUsername(item?.user?.firstName)}</h2>
                     <h4>{item.university}</h4>
-                    <span>{item.degree} {item.major ? "/ " + item.major : null}</span>
+                    <span>
+                      {item.degree} {item.major ? '/ ' + item.major : null}
+                    </span>
                   </div>
                   <div className="tutors_control-buttons">
                     <button onClick={() => handleMoreTutor(item.id)}>
                       {t('learn_more', { ns: 'common' })}
                     </button>
+                    <Link
+                      to={{
+                        pathname: `/student/schedule-lesson/select`,
+                        state: {
+                          tutor: {
+                            id: item.id,
+                            first_name: item.user.firstName,
+                            last_name: item.user.lastName,
+                            avatar: item.avatar?.url,
+                          },
+                        },
+                      }}
+                      style={{
+                        all: 'unset',
+                        width: '100%',
+                        height: '100%',
+                      }}
+                    >
+                      <button>{t('schedule', { ns: 'common' })}</button>
+                    </Link>
                     {/* <button onClick={() => handleStatusTutor(item.id)}>
                       {item?.isFavourite ? 'Remove' : 'Favorite'}
                     </button> */}

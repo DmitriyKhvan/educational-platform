@@ -12,9 +12,12 @@ Modal.setAppElement('#root');
 
 const GET_TUTORS_BY_ID = gql`
   query GetTutors($ids: [ID!]) {
-    tutors(where: { id: { in: $ids }, user: {
-      isActive: { equals: true }
-    } }, orderBy: [], take: null, skip: 0) {
+    tutors(
+      where: { id: { in: $ids }, user: { isActive: { equals: true } } }
+      orderBy: []
+      take: null
+      skip: 0
+    ) {
       id
       userName
       major
@@ -90,7 +93,6 @@ const useAvailableMentors = (isoTime, duration) => {
     });
   }, [isoTime, duration]);
 
-
   return data;
 };
 
@@ -123,7 +125,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
     },
     skip: !availableTutorIds.length,
   });
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
     console.log(tutors, 'TUTORS');

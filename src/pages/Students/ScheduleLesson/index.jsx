@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import LessonConfirmation from './LessonConfirmation';
 import ScheduleSelector from './ScheduleSelector';
 import SelectLesson from './SelectLesson';
@@ -33,15 +33,15 @@ const GET_GROUP_INFO = gql`
       updatedAt
     }
   }
-`
-
+`;
 
 const ScheduleLesson = () => {
   const { id = null } = useParams();
+  const location = useLocation();
   const { data, loading } = useQuery(GET_GROUP_INFO, {
     variables: { id },
     skip: !id,
-  })
+  });
 
   const dispatch = useDispatch();
   const [clicked, setClicked] = useState(null);
@@ -52,7 +52,6 @@ const ScheduleLesson = () => {
 
   useEffect(() => {
     dispatch(getPlanStatus());
-
   }, [dispatch, schedule]);
 
   const scheduledLesson = data?.group || null;
@@ -79,8 +78,9 @@ const ScheduleLesson = () => {
           tabIndex={tabIndex}
           lesson={scheduledLesson}
           lessonId={id}
+          selectedTutor={location?.state?.tutor}
         />
-      ) : tabIndex === 2 ? (
+      ) : tabIndex === 2 && !location?.state?.tutor ? (
         <SelectTutorCards
           tabIndex={tabIndex}
           setTabIndex={setTabIndex}
@@ -90,11 +90,11 @@ const ScheduleLesson = () => {
           step={selectedPlan?.duration === 25 ? 30 : 60}
         />
       ) : (
-        tabIndex === 3 && (
+        (tabIndex === 3 || location?.state?.tutor) && (
           <LessonConfirmation
             plan={selectedPlan}
             time={schedule}
-            tutor={selectTutor}
+            tutor={selectTutor || location?.state?.tutor}
             setTabIndex={setTabIndex}
             lesson={scheduledLesson}
             lessonId={id}

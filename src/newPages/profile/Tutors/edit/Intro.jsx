@@ -54,7 +54,6 @@ const Intro = ({ cls }) => {
     }
   }
 
-
   React.useEffect(() => {
     renderVideo();
   }, [actions]);
@@ -70,29 +69,25 @@ const Intro = ({ cls }) => {
 
       <div className={cls.editProfile_container_forms_intro_row}>
         <div className={cls.intro_left}>
-          {
-              videoLink?.length === 0 && (
-                <div className={cls.no_video}>
-                  <h2>No video!</h2>
-                </div>
-              )
-            }
+          {videoLink?.length === 0 && (
+            <div className={cls.no_video}>
+              <h2>No video!</h2>
+            </div>
+          )}
 
-            {
-              videoLink?.length !== 0 && (
-                <div className={cls.video}>
-                <iframe
-                  width="560"
-                  height="315"
-                  src={videoLink}
-                  title="YouTube video player"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  style={{ border: 0 }}
-                ></iframe>
-              </div>
-              )
-            }
+          {videoLink?.length !== 0 && (
+            <div className={cls.video}>
+              <iframe
+                width="560"
+                height="315"
+                src={videoLink}
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                style={{ border: 0 }}
+              ></iframe>
+            </div>
+          )}
         </div>
         <div className={cls.intro_right}>
           <div className={cls.intro_right_card}>

@@ -11,7 +11,10 @@ import NotificationManager from '../NotificationManager';
 import { updateUserInfo } from '../../actions/user';
 import Select from 'react-select';
 
-const timezoneOptions = timezones.map(({ label, tzCode }) => ({ label, value: tzCode }));
+const timezoneOptions = timezones.map(({ label, tzCode }) => ({
+  label,
+  value: tzCode,
+}));
 
 const BasicInfoForm = () => {
   const [t] = useTranslation();
@@ -157,7 +160,10 @@ const BasicInfoForm = () => {
           </label>
           <Select
             className="mt-3"
-            value={find(timezoneOptions, { value: userData.time_zone }) || defaultTimezone}
+            value={
+              find(timezoneOptions, { value: userData.time_zone }) ||
+              defaultTimezone
+            }
             options={timezoneOptions}
             onChange={({ value }) => {
               handleDisableSave(false);

@@ -141,7 +141,7 @@ const Login = () => {
           </div>
           <div className="mb-4 forget">
             <Link to="/forgot-password" className="forgot-password">
-              Forgot Password?
+              {t('forgot_password')}
             </Link>
           </div>
 

@@ -107,10 +107,7 @@ const TutorProfile = () => {
   React.useEffect(() => {
     renderAbout();
     renderVideo();
-  }, [user]);
-
-
-  console.log(videoLink)
+}, [user]);
 
   return (
     <div className={cls.profile_page}>
@@ -197,31 +194,25 @@ const TutorProfile = () => {
             <h2>{t('intro_video')}</h2>
           </div>
 
-          {
-            videoLink?.length === 0 && (
-              <div className={cls.no_video}>
-                <h2>No video!</h2>
-              </div>
-            )
-          }
-
-          {
-            videoLink?.length !== 0 && (
-              <div className={cls.video}>
-                <iframe
-                  width="560"
-                  height="315"
-                  src={videoLink}
-                  title="YouTube video player"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  style={{ border: 0 }}
-                ></iframe>
+          {videoLink?.length === 0 && (
+            <div className={cls.no_video}>
+              <h2>No video!</h2>
             </div>
-            )
-          }
+          )}
 
-          
+          {videoLink?.length !== 0 && (
+            <div className={cls.video}>
+              <iframe
+                width="560"
+                height="315"
+                src={videoLink}
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                style={{ border: 0 }}
+              ></iframe>
+            </div>
+          )}
         </section>
         <section className={cls.profile_footer_right}>
           <div className={cls.profile_footer_right_topics}>

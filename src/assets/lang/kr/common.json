@@ -81,5 +81,6 @@
   "upgrade": "업그레이드",
   "downgrade": "다운그레이드",
   "lessons": "레슨",
-  "select": "선택"
+  "select": "선택",
+  "schedule": "예약하기"
 }

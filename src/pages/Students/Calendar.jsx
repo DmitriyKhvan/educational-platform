@@ -45,19 +45,21 @@ const GET_GROUP_INFO = gql`
       updatedAt
     }
   }
-`
+`;
 
 const Calendar = () => {
   const [idOfLesson, setIdLesson] = React.useState(null);
   const { data, loading } = useQuery(GET_GROUP_INFO, {
     variables: { id: idOfLesson },
     skip: !idOfLesson,
-  })
+  });
   const { data: mentorsList } = useQuery(MENTORS_QUERY, {
     errorPolicy: 'ignore',
   });
 
-  const mentors = mentorsList?.tutors?.find(i => +i?.id === +data?.group?.tutorId);
+  const mentors = mentorsList?.tutors?.find(
+    (i) => +i?.id === +data?.group?.tutorId,
+  );
 
   const [t] = useTranslation(['lessons']);
   const location = useLocation();
@@ -66,7 +68,6 @@ const Calendar = () => {
   const calendarAppointments = useSelector(
     (state) => state.appointment.calendarEvents,
   );
-
 
   const tableAppointments = useSelector(
     (state) => state.appointment.tablularEventData,
@@ -138,10 +139,8 @@ const Calendar = () => {
       setIsLoading(false);
     } else {
       setIsLoading(false);
-
     }
   }, [calendarAppointments]);
-
 
   useEffect(() => {
     if (tableAppointments) {
@@ -164,10 +163,9 @@ const Calendar = () => {
       (x) => x.id === calendarEvent.id,
     );
 
-    if(selectedEvent) {
-      setIdLesson(selectedEvent.resource?.eventDate?.id)
+    if (selectedEvent) {
+      setIdLesson(selectedEvent.resource?.eventDate?.id);
     }
-
 
     const scheduledTime = moment(selectedEvent?.resource?.start_at).tz(
       userTimezone,

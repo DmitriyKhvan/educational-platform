@@ -15,7 +15,7 @@ const SelectLesson = ({
 }) => {
   const [t] = useTranslation(['lessons', 'common']);
   const history = useHistory();
-  const { id } = useParams()
+  const { id } = useParams();
   const planStatus = useSelector((state) => state.students.planStatus);
   const disabled = clicked === null ? true : false;
 
@@ -25,7 +25,6 @@ const SelectLesson = ({
       setTabIndex(1);
     }
   }, [lesson]);
-  
 
   const returnToDashboard = () => {
     history.push('/student/manage-lessons');
@@ -85,10 +84,12 @@ const SelectLesson = ({
           <div className="custom-children-container m-0 schedule_changess max-select_lesson">
             <div className="flex-left">
               <h1 className="title mt-0 title_aligns_slesson">
-                { !id ? t('schedule_lesson') : t('reschedule_lesson')}
+                {!id ? t('schedule_lesson') : t('reschedule_lesson')}
               </h1>
               <p className="welcome-subtitle">
-                {!id ? t('schedule_lesson_subtitle') : t("reschedule_lesson_subtitle")}
+                {!id
+                  ? t('schedule_lesson_subtitle')
+                  : t('reschedule_lesson_subtitle')}
               </p>
             </div>
             <div className="ExpWidth-con">

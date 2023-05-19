@@ -70,7 +70,6 @@ export default function StudentsList() {
   const students = data?.students;
   const [t] = useTranslation(['common', 'studentMentor']);
 
-
   const handleStatusTutor = (id) => {};
 
   const handleMoreTutor = (id) => {

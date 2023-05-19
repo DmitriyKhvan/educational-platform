@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 
 const SubmitVideo = () => {
   const history = useHistory();
-  const [typeVideo, setTypeVideo] = React.useState("yt");
+  const [typeVideo, setTypeVideo] = React.useState('yt');
 
   const [t] = useTranslation(['profile', 'common']);
   const [updateTutor, { loading: updateUserLoading }] = useMutation(
@@ -28,7 +28,6 @@ const SubmitVideo = () => {
   });
 
   const handleEditVideo = async (area) => {
-
     if (area.videoUrl) {
       const { data } = await updateTutor({
         variables: {
@@ -86,35 +85,43 @@ const SubmitVideo = () => {
                 <p>Upload video via youtube share!</p>
 
                 <div className={cls.type_video_btn}>
-                  <button onClick={() => setTypeVideo("vm")} className={typeVideo === "vm" ? cls.activeBtn : ""}>
+                  <button
+                    onClick={() => setTypeVideo('vm')}
+                    className={typeVideo === 'vm' ? cls.activeBtn : ''}
+                  >
                     Vimeo
-                    <img src="https://www.oxfordbachsoloists.com/wp-content/uploads/2022/04/vimeo-icon-logo-441934AEB1-seeklogo.com_.png" alt="" />
+                    <img
+                      src="https://www.oxfordbachsoloists.com/wp-content/uploads/2022/04/vimeo-icon-logo-441934AEB1-seeklogo.com_.png"
+                      alt=""
+                    />
                   </button>
-                  <button onClick={() => setTypeVideo("yt")} className={typeVideo === "yt" ? cls.activeBtn : ""}>
+                  <button
+                    onClick={() => setTypeVideo('yt')}
+                    className={typeVideo === 'yt' ? cls.activeBtn : ''}
+                  >
                     Youtube
-                    <img src="https://img.freepik.com/free-icon/youtube_318-566773.jpg" alt="" />
+                    <img
+                      src="https://img.freepik.com/free-icon/youtube_318-566773.jpg"
+                      alt=""
+                    />
                   </button>
                 </div>
 
                 <div className={cls.record_youtube_row}>
-                  {
-                    typeVideo === "yt" 
-                      ? (
-                          <input
-                            type={'text'}
-                            placeholder="youtube.com/video"
-                            {...register('videoUrl')}
-                          />
-                        )
-                      : (
-                        <input
-                          type={'text'}
-                          placeholder="vimeo.com/video"
-                          {...register('videoUrl')}
-                        />
-                      )
-                  }
-                  <button type='submit'>{t('submit', { ns: 'common' })}</button>
+                  {typeVideo === 'yt' ? (
+                    <input
+                      type={'text'}
+                      placeholder="youtube.com/video"
+                      {...register('videoUrl')}
+                    />
+                  ) : (
+                    <input
+                      type={'text'}
+                      placeholder="vimeo.com/video"
+                      {...register('videoUrl')}
+                    />
+                  )}
+                  <button type="submit">{t('submit', { ns: 'common' })}</button>
                 </div>
               </div>
 

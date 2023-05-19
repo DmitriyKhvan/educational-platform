@@ -34,8 +34,6 @@ const ScheduleCard = ({
     Intl.DateTimeFormat().resolvedOptions().timeZone;
   const hist = useHistory();
 
-  console.log(mentors)
-
   const isLate = moment.duration(moment(date).diff(moment())).asHours() <= 24;
 
   function onSelect() {
@@ -102,12 +100,11 @@ const ScheduleCard = ({
     }
   };
 
-   const displayDate = () => {
+  const displayDate = () => {
     const eventDate = moment(date).tz(userTimezone).format('MMM Do');
     const start = moment(date).tz(userTimezone).format('hh:mm A');
-   
+
     const end = moment(date)
-    
       .tz(userTimezone)
       .add(data.duration, 'minutes')
       .format('hh:mm A');
