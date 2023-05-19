@@ -87,15 +87,13 @@ const ForgotPassword = () => {
           </div>
           <div className="d-grid gap-2 pt-4">
             <button type="submit" className="btn btn-primary btn-lg p-3">
-              Reset password
-              {/* {t('reset_password')} */}
+              {t('reset_password')}
             </button>
           </div>
           <p className="mt-5">
-            {/* {t('already_have_account')}{' '} */}
+            {t('already_have_account')}{' '}
             <a href="/" className="forgot-password">
-              Already have an account? Sign in
-              {/* {t('sign_in')} */}
+              {t('sign_in')}
             </a>
           </p>
         </form>

@@ -56,8 +56,6 @@ const TutorDashboard = () => {
     }
   };
 
-  console.log(appointments);
-
   useEffect(() => {
     (async () => {
       await fetchAppointments();

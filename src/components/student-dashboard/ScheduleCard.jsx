@@ -34,8 +34,6 @@ const ScheduleCard = ({
     Intl.DateTimeFormat().resolvedOptions().timeZone;
   const hist = useHistory();
 
-  console.log(mentors);
-
   const isLate = moment.duration(moment(date).diff(moment())).asHours() <= 24;
 
   function onSelect() {

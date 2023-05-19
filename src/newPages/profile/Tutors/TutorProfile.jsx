@@ -107,9 +107,7 @@ const TutorProfile = () => {
   React.useEffect(() => {
     renderAbout();
     renderVideo();
-  }, [user]);
-
-  console.log(videoLink);
+}, [user]);
 
   return (
     <div className={cls.profile_page}>

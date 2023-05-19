@@ -416,9 +416,8 @@ const Signup = () => {
             </div>
             <div className="sign">
               <p className="forgets">
-                {/* {t('already_have_account')}{' '} */}
                 <a href="/" className="forgot-passwords">
-                  Already have an account?{t('sign_in')}
+                  {t('already_have_account')}{' '}
                 </a>
               </p>
             </div>

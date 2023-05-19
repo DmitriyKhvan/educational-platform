@@ -62,8 +62,6 @@ const MentorsModal = ({
     renderVideo(renderSelectedTutor?.videoUrl);
   }, [renderSelectedTutor]);
 
-  console.log(renderSelectedTutor);
-
   return (
     <div className="tutor_alfa">
       <div className="tutor_modal">

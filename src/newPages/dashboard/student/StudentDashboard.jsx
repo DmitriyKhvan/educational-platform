@@ -95,7 +95,6 @@ const StudentListAppointments = () => {
 
   const isWithinAweekArr = (appointments || [])
     .map((x) => {
-      console.log(x);
       const startOfWeek = moment().isAfter(moment().startOf('isoWeek'))
         ? moment().startOf('day')
         : moment().startOf('isoWeek');
@@ -135,8 +134,6 @@ const StudentListAppointments = () => {
         )
       );
     });
-
-  console.log(appointments);
 
   const callToAction =
     appointments.length >= 0
