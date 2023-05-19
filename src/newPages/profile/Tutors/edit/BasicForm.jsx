@@ -72,7 +72,7 @@ const BasicForm = ({ cls }) => {
     }
 
     if (data) {
-      dispatch(getTutorInfo());
+      dispatch(getTutorInfo(user.tutor.id));
       notify();
       history.push('/tutor/profile');
     }
