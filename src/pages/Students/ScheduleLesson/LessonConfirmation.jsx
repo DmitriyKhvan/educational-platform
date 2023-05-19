@@ -57,13 +57,11 @@ const LessonConfirmation = ({
     }
   };
 
-
-
   const men = {
     avatar: {
-      url: tutor?.avatar
-    }
-  }
+      url: tutor?.avatar,
+    },
+  };
 
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
@@ -201,7 +199,7 @@ const LessonConfirmation = ({
         } else {
           NotificationManager.error('Server Error', t);
         }
-        setIsLoading(false)
+        setIsLoading(false);
       }
     } else {
       let lesson_data = ``;
@@ -250,7 +248,7 @@ const LessonConfirmation = ({
         } else {
           NotificationManager.error('Server Error', t);
         }
-        setIsLoading(false)
+        setIsLoading(false);
       }
     }
     setIsLoading(false);

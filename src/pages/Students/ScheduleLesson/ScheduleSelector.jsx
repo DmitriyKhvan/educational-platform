@@ -30,6 +30,7 @@ const ScheduleSelector = ({
   tabIndex,
   schedule,
   setTutorIdList,
+  selectedTutor,
 }) => {
   const [t] = useTranslation(['lessons', 'common', 'modals']);
   const user = useSelector((state) => state.users.user);
@@ -150,6 +151,7 @@ const ScheduleSelector = ({
   const { data: timesheetsData } = useTimesheets({
     tz: userTimezone,
     date: moment(day).format('YYYY-MM-DD'),
+    tutorId: selectedTutor.id,
     step,
   });
 
@@ -317,8 +319,8 @@ const ScheduleSelector = ({
     if (todayDate.isBefore(preScreen)) {
       setIsLoading(true);
       setSchedule(selectedSchedule.toString());
-      setTabIndex(2)
-      setIsLoading(false)
+      setTabIndex(2);
+      setIsLoading(false);
     }
   };
 
