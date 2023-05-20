@@ -52,7 +52,6 @@ export function confirmationReferal(id) {
     dispatch(request());
     return AdminApi.confirmationReferal(id)
       .then((resp) => {
-        console.log(resp);
         return dispatch(success(resp.data));
       })
       .catch((error) => {

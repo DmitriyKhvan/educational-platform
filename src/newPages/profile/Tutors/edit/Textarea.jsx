@@ -16,7 +16,6 @@ export const Textarea = React.forwardRef(
     },
     ref,
   ) => {
-    console.log(user);
     const [count, setCount] = React.useState(0);
     const [t] = useTranslation('profile');
 

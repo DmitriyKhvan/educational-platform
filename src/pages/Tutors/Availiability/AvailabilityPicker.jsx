@@ -276,7 +276,6 @@ const AvailabilityPicker = ({
       if (typeof t === 'number') {
         let cpyCurrentData = [...currentData] || [];
         cpyCurrentData[iteration][timeType] = formatTime(t);
-        console.log(cpyCurrentData);
         AvailabilitySlots(
           cpyCurrentData[iteration].from,
           cpyCurrentData[iteration].to,
