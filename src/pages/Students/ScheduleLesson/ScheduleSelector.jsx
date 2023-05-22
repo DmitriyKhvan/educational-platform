@@ -416,7 +416,7 @@ const ScheduleSelector = ({
             <div>
               <div className="container title-container">
                 <h1 className="title lelt-con">
-                  {lesson ? t('reschedule_lesson', {ns: "modals"}) : t('schedule_lesson')}
+                  {lesson ? t('reschedule_lesson', {ns: 'modals'}) : t('schedule_lesson')}
                 </h1>
                 <p className="welcome-subtitle left-subtitle">
                   {lesson ? (
