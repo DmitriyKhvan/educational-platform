@@ -231,7 +231,7 @@ const ScheduleSelector = ({
           } else {
             setTimeOfDay({
               slotInterval: step,
-              startTime: '09:00',
+              startTime: '00:00',
               endTime: '11:30',
             });
           }
