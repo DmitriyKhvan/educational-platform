@@ -34,6 +34,7 @@
   "choose_substitution_tutor": "레슨을 진행할 대체 튜터를 선택해 주세요.",
   "choose_new_date": "신규 레슨 일자를 선택해 주세요.",
   "delete_lesson": "레슨 삭제",
+  "currently_scheduled": "레슨 현재 다음 날짜에 예약되어 있습니다.",
   "delete_following_lesson": "다음 레슨을 삭제하시겠습니까? *",
   "edit_student_lesson": "학생 레슨 변경",
   "scheduled_lessons": "해당 일자에는 {{lessons}}개의 레슨이 예약되어 있습니다.",

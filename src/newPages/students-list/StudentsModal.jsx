@@ -8,7 +8,6 @@ const StudentsModal = ({
   setShowStudentModal,
   studentId,
   studentList,
-  handleStatusTutor,
 }) => {
   const { id } = useParams();
 
@@ -16,46 +15,103 @@ const StudentsModal = ({
     (item) => item.id === (studentId ? studentId : id),
   );
 
+  const avatar = renderSelectedTutor?.avatar && renderSelectedTutor?.avatar.url;
+
   return (
     <div className="student_alfa">
       <div className="tutor_modal">
         <p className="close-sh" onClick={() => setShowStudentModal(false)}>
           &times;
         </p>
-        <img
-          src={renderSelectedTutor?.avatar?.url}
-          width="500px"
-          className="student_image"
-          alt=""
-        />
+          {!avatar && (
+            <div className="no_video">
+              <h2>No Image!</h2>
+            </div>
+          )}
+
+          {avatar && (
+            <img
+            src={renderSelectedTutor?.avatar?.url}
+            width="500px"
+            className="student_image"
+            alt=""
+          />
+          )}
         <div className="tutor_more-content">
           {renderSelectedTutor?.isFavourite && (
             <img src={FavIcon} alt="" className="favTutorIcon" />
           )}
           <h1>{`${renderSelectedTutor?.user.firstName} ${
-            renderSelectedTutor?.user.fullName &&
-            renderSelectedTutor?.user.fullName
+            renderSelectedTutor?.user.lastName &&
+            renderSelectedTutor?.user.lastName
           }`}</h1>
-          <p>{renderSelectedTutor?.about}</p>
+          
 
           <div className="bottom_content">
-            <p>
-              “Great review about Sarah by a fellow NaoNow Student”.
-              <br />
-              <span>— Jane Doe (Age 14)</span>
-            </p>
-            <p>
-              “Great review about Sarah by a fellow NaoNow Student”.
-              <br />
-              <span>— Jane Doe (Age 14)</span>
-            </p>
-
+            <div className="bottom_content-status">
+              {
+                renderSelectedTutor?.user?.address && (
+                  <div>
+                    <p>Address</p>
+                    <h3>{renderSelectedTutor?.user?.address}</h3>
+                  </div>
+                )
+              }
+              {
+                renderSelectedTutor?.user?.email && (
+                  <div>
+                    <p>Email</p>
+                    <h3>
+                      {renderSelectedTutor.user?.email}
+                    </h3>
+                  </div>
+                )
+              }
+              {
+                renderSelectedTutor?.user?.phoneNumber && (
+                  <div>
+                    <p>Phone Number</p>
+                    <h3>
+                      {renderSelectedTutor.user?.phoneNumber}
+                    </h3>
+                  </div>
+                )
+              }
+              {
+                renderSelectedTutor?.level && (
+                  <div>
+                    <p>Level</p>
+                    <h3>
+                      {renderSelectedTutor?.level}
+                    </h3>
+                  </div>
+                )
+              }
+              {
+                renderSelectedTutor?.courseType && (
+                  <div>
+                    <p>Course Type</p>
+                    <h3>
+                      {renderSelectedTutor?.courseType}
+                    </h3>
+                  </div>
+                )
+              }
+            </div>
+            <div className="modal_bio">
+              {renderSelectedTutor?.about && (
+                <div>
+                  <p>Biography</p>
+                  <span>{renderSelectedTutor?.about}</span>
+                </div>
+              )}
+            </div>
             <div className="bottom_content-button">
-              <button onClick={() => setShowStudentModal(false)}>Cancel</button>
-              <button>Message</button>
+              {/* <button onClick={() => setShowStudentModal(false)}>Cancel</button> */}
+              {/* <button>Message</button>
               <button onClick={() => handleStatusTutor(parseInt(studentId))}>
                 {renderSelectedTutor?.isFavourite ? 'Remove' : 'Favorite'}
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

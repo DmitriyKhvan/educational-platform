@@ -80,6 +80,7 @@ export const MENTORS_QUERY = gql`
       relevantExperience
       uniqueFacts
       about
+      isActive
       experience
       facts
       createdAt
