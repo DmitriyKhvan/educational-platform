@@ -12,6 +12,7 @@ import studentsModal from './StudentsModal';
 import Loader from '../../components/Loader/Loader';
 import StudentsModal from './StudentsModal';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../modules/auth';
 
 const filtersList = [
   {
@@ -67,7 +68,10 @@ export default function StudentsList() {
   const { data } = useQuery(STUDENTS_QUERY, {
     errorPolicy: 'ignore',
   });
-  const students = data?.students;
+  const students = data?.students?.filter(i => i.user?.isActive);
+
+  const { user } = useAuth();
+
   const [t] = useTranslation(['common', 'studentMentor']);
 
   const handleStatusTutor = (id) => {};
@@ -79,8 +83,6 @@ export default function StudentsList() {
 
     setShowStudentModal(true);
   };
-
-  const handleFilter = () => {};
 
   return (
     <Layout>
