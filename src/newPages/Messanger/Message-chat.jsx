@@ -42,7 +42,6 @@ const MessageChat = () => {
   useEffect(() => {
     if (socket) {
       socket.on('receiveNewMessage', (newMessages) => {
-        console.log('receiveNewMessage');
         setMessages([...messages, ...newMessages]);
       });
     }

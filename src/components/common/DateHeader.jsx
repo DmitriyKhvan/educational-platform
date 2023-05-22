@@ -20,7 +20,6 @@ Label.propTypes = {
 };
 
 const DateHeader = (props) => {
-  console.log(props);
   return (
     <>
       <span class="rbc-btn-group">

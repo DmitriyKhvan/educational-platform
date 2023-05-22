@@ -10,7 +10,6 @@ const MessagesUsers = ({ chat }) => {
   let chatName = chat.name;
   if (!chatName) {
     let otherUser = chat.users.filter((u) => u.id !== currentUser.id)[0];
-    console.log('otherUser', otherUser);
     chatName = `Private chat with ${otherUser.first_name} ${otherUser.last_name}`;
   }
 
