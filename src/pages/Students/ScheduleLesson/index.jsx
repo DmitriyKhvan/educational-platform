@@ -95,6 +95,7 @@ const ScheduleLesson = () => {
             plan={selectedPlan}
             time={schedule}
             tutor={selectTutor || location?.state?.tutor}
+            isMentorScheduled={!!location?.state?.tutor}
             setTabIndex={setTabIndex}
             lesson={scheduledLesson}
             lessonId={id}
