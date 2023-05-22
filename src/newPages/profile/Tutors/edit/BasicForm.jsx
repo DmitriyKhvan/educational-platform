@@ -1,5 +1,4 @@
 import { useMutation } from '@apollo/client';
-// import { Switch } from '@mui/material'
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -98,7 +97,7 @@ const BasicForm = ({ cls }) => {
 
         <TextInput
           type="text"
-          placeholder={'Alisa'}
+          placeholder={'Alice'}
           label={t('first_name')}
           {...register('firstName')}
         />
@@ -130,15 +129,10 @@ const BasicForm = ({ cls }) => {
 
         <TextInput
           type="text"
-          placeholder={'+9965537201'}
+          placeholder={'+11231234567'}
           label={t('phone_number')}
           {...register('phoneNumber')}
         />
-
-        {/* <div className={cls.editProfile_container_forms_basic_switch}>
-        <Switch {...label} defaultChecked />
-        <h3>Receive SMS notifications</h3>
-      </div> */}
 
         <div className="basic">
           <div className={cls.form_divider}>
@@ -166,7 +160,7 @@ const BasicForm = ({ cls }) => {
 
         <TextInput
           type="text"
-          placeholder={'Bakarov 99'}
+          placeholder={'Cupertino 1337'}
           label={t('address')}
           {...register('address')}
         />
@@ -192,7 +186,9 @@ const BasicForm = ({ cls }) => {
           <div className="tutor_checkbox">
             <label>
               <input type="checkbox" {...register('convertAvailabilityTime')} />
-              <span>Conver availability time into the new timezone?</span>
+              <span>
+                Update mentor availability and calendar to reflect new timezone
+              </span>
             </label>
           </div>
         </div>
