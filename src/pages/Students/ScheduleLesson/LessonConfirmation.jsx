@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
+import { useHistory } from 'react-router-dom';
 import {
   createLessonExist,
   createAppointment,
@@ -28,6 +29,7 @@ const LessonConfirmation = ({
   time,
   setTabIndex,
   lessonId = null,
+  isMentorScheduled = false,
 }) => {
   const dispatch = useDispatch();
   const [t] = useTranslation(['common', 'lessons', 'dashboard']);
@@ -43,6 +45,7 @@ const LessonConfirmation = ({
   const fetchAppointments = async () => {
     return await dispatch(getAppointments());
   };
+  const history = useHistory();
 
   useEffect(() => {}, [dispatch]);
   useEffect(() => {
@@ -286,7 +289,11 @@ const LessonConfirmation = ({
                 <div className="col-auto button-size">
                   <button
                     className="confirm-tutor-enter-btn mobile-width"
-                    onClick={() => setTabIndex(2)}
+                    onClick={() =>
+                      isMentorScheduled
+                        ? history.push('/student/mentors-list')
+                        : setTabIndex(2)
+                    }
                   >
                     {t('edit_mentor', { ns: 'lessons' })}
                   </button>
