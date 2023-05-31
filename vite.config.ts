@@ -1,10 +1,11 @@
-import { build, defineConfig } from 'vite';
+import { PluginOption, defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 import svgrPlugin from 'vite-plugin-svgr';
 import envCompatible from 'vite-plugin-env-compatible';
 import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
+import eslint from 'vite-plugin-eslint';
 import { splitVendorChunkPlugin } from 'vite';
 const ENV_PREFIX = 'REACT_APP_';
 
@@ -12,6 +13,7 @@ const ENV_PREFIX = 'REACT_APP_';
 export default defineConfig({
   plugins: [
     react(),
+    eslint(),
     viteTsconfigPaths(),
     svgrPlugin(),
     envCompatible({ prefix: ENV_PREFIX }),
@@ -24,11 +26,12 @@ export default defineConfig({
         brotliSize: true,
         open: true,
       }),
-      apply(config, { mode, command }) {
+      apply(this, config, { mode, command }) {
         return command === 'build' && mode === 'analyze' ? true : false;
       },
-    },
+    } as PluginOption,
   ],
+
   build: {
     reportCompressedSize: true,
   },
