@@ -7,7 +7,7 @@ import trashCan from '../../../assets/images/trash_can.svg';
 import Alert from '../../../components/Popup/Alert';
 import Select from 'react-select';
 import { useForm } from 'react-hook-form';
-import findIndex from 'lodash/findIndex';
+import findIndex from 'lodash-es/findIndex';
 
 const formatTime = (time) => {
   return moment.utc(time * 1000).format('HH:mm');

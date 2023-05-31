@@ -13,7 +13,7 @@ import {
 } from '../../../modules/auth/graphql';
 import { useMutation } from '@apollo/client';
 import timezones from 'timezones-list';
-import find from 'lodash/find';
+import find from 'lodash-es/find';
 import { toast } from 'react-toastify';
 import { getData } from 'country-list';
 

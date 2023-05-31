@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Modal from 'react-modal';
@@ -6,14 +6,14 @@ import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment-timezone';
 import Layout from '../../components/Layout';
 import { getAppointments } from '../../actions/appointment';
-import { getTutorInfo } from '../../actions/tutor';
-import { getUserInfo } from '../../actions/user';
 import LessonTable from '../../components/tutor-dashboard/LessonTable';
 import NotificationManager from '../../components/NotificationManager';
 import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../assets/images/avatars/img_avatar_male.png';
 import ZoomWarningModal from '../../components/student-dashboard/ZoomWarningModal';
-import ReviewLessonModal from '../../components/tutor-dashboard/ReviewLessonModal';
+const ReviewLessonModal = lazy(() =>
+  import('../../components/tutor-dashboard/ReviewLessonModal'),
+);
 
 import WeekHeader from '../../components/common/WeekHeader';
 import '../../assets/styles/calendar.scss';
@@ -23,6 +23,7 @@ import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
 import { STUDENTS_QUERY } from '../../modules/auth/graphql';
 import { useQuery } from '@apollo/client';
+import Loader from '../../components/Loader/Loader';
 
 const Calendar = () => {
   const [t] = useTranslation(['lessons', 'modals']);
@@ -473,7 +474,9 @@ const Calendar = () => {
   return (
     <Layout>
       <div className="container-fluid">
-        {/* <button onClick={() => setReviewLessonModal(true)}>Open ReviewLessonModal</button> */}
+        <button onClick={() => setReviewLessonModal(true)}>
+          Open ReviewLessonModal
+        </button>
         <h1 className="title m-0 mt-4 mb-3">{t('lessons')}</h1>
         <div className="row container-fluid m-0 p-0">
           <div className="col-auto">
@@ -561,10 +564,12 @@ const Calendar = () => {
           setIsWarningOpen={setIsWarningOpen}
         />
       )}
-      <ReviewLessonModal
-        isOpen={isReviewLessonModalOpen}
-        setIsOpen={setReviewLessonModal}
-      />
+      <Suspense fallback={<Loader />}>
+        <ReviewLessonModal
+          isOpen={isReviewLessonModalOpen}
+          setIsOpen={setReviewLessonModal}
+        />
+      </Suspense>
     </Layout>
   );
 };

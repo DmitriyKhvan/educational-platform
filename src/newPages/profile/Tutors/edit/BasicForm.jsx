@@ -8,7 +8,7 @@ import Submit from './Submit';
 import { TextInput } from './TextInput';
 import Select from 'react-select';
 import timezones from 'timezones-list';
-import find from 'lodash/find';
+import find from 'lodash-es/find';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getData } from 'country-list';

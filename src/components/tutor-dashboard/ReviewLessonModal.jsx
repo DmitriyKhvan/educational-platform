@@ -21,16 +21,6 @@ const ReviewLessonModal = ({ isOpen, setIsOpen, lessonInfo }) => {
     date: new Date(),
   };
 
-  const lessonStartDate = new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-  }).format(lessonInfo.date);
-
-  const lessonEndDate = new Intl.DateTimeFormat('en-US', {
-    hour: 'numeric',
-  }).format(new Date(lessonInfo.date.getTime() + lessonInfo.duration * 60000));
-
   const onSubmit = (data) => {
     closeModal();
   };

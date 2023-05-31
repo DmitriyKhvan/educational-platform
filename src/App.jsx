@@ -26,7 +26,6 @@ import LessonInfo from './pages/Tutors/LessonInfo';
 // Authentication Path
 import Login from './newPages/Auth/Login';
 import ResetPassword from './newPages/Auth/ResetPassword';
-import Signup from './newPages/Auth/Signup';
 import VerifyEmail from './newPages/Auth/VerifyEmail';
 // Common Dashboard
 import Dashboard from './newPages/dashboard/Dashboard';
@@ -136,8 +135,6 @@ function App() {
             component={TutorCalendar}
           />
           <PublicRoute exact path="/" component={Login} />
-          {/* <PublicRoute path='/login' component={Login} />
-          <PublicRoute path='/signup' component={Signup} /> */}
 
           <PublicRoute path="/forgot-password" component={ForgotPassword} />
           <PublicRoute

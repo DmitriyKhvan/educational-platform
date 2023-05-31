@@ -5,7 +5,7 @@ import ChatsApi from '../../api/ChatsApi';
 // import deleteIcon from '../../assets/images/trash.png'
 import DropzoneMessage from './Dropzone';
 import MessageItem from './MessageItem';
-import find from 'lodash/find';
+import find from 'lodash-es/find';
 import io from 'socket.io-client';
 
 let interval = null;

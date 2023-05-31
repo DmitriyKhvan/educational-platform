@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { getData } from 'country-list';
 import timezones from 'timezones-list';
-import find from 'lodash/find';
+import find from 'lodash-es/find';
 import Dropdown from 'react-dropdown';
 
 import 'react-dropdown/style.css';
@@ -140,6 +140,20 @@ const BasicInfoForm = () => {
           />
         </div>
 
+        {/* <div className='mb-4'>
+          <label htmlFor='address' className='form-label'>
+            <strong>{t('address')}</strong>
+          </label>
+          <input
+            className='form-control mt-3'
+            type='email'
+            id='address'
+            name='address'
+            value={userData.address}
+            onChange={onChange}
+          />
+        </div> */}
+
         <div className="mb-4">
           <label htmlFor="timezone" className="form-label">
             <strong>{t('timezone')}</strong>
@@ -147,7 +161,7 @@ const BasicInfoForm = () => {
           <Select
             className="mt-3"
             value={
-              timezoneOptions.find(() => { value: userData.time_zone }) ||
+              find(timezoneOptions, { value: userData.time_zone }) ||
               defaultTimezone
             }
             options={timezoneOptions}
