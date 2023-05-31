@@ -2,10 +2,16 @@ import React from 'react';
 
 import cls from './Sample.module.scss';
 
-import PlaceImg from '../../../assets/Placeholder.png';
+// import PlaceImg from '../../../assets/Placeholder.png';
+
 import Modal from 'react-modal';
 import Check from '../../../assets/check.png';
 import { useTranslation } from 'react-i18next';
+
+const images = import.meta.glob('../../../assets/samples/*', {
+  eager: true,
+  as: 'url',
+});
 
 const SampleModal = ({ isOpen, closeModal }) => {
   const [t] = useTranslation('profile');
@@ -40,15 +46,6 @@ const SampleModal = ({ isOpen, closeModal }) => {
     },
   ];
 
-  const sampleImages = [
-    '/src/assets/samples/1.jpg',
-    '/src/assets/samples/2.jpg',
-    '/src/assets/samples/3.jpg',
-    '/src/assets/samples/4.jpg',
-    '/src/assets/samples/5.jpg',
-    '/src/assets/samples/6.jpg',
-  ];
-
   return (
     <Modal
       isOpen={isOpen}
@@ -65,7 +62,7 @@ const SampleModal = ({ isOpen, closeModal }) => {
             </section>
             <section className={cls.sample_types_row}>
               <div>
-                {sampleImages.map((item, idx) => (
+                {Object.values(images).map((item, idx) => (
                   <img key={idx} src={item} alt="" />
                 ))}
               </div>
