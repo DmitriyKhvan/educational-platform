@@ -1,4 +1,3 @@
-import 'rc-time-picker/assets/index.css';
 import Layout from '../../../components/Layout';
 import { useTranslation } from 'react-i18next';
 import { Settings } from './Settings';

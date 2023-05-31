@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { DAYS } from '../../../constants/global';
-import 'rc-time-picker/assets/index.css';
 import moment from 'moment';
 import Modal from '../../../components/Modal';
 import { useDispatch, useSelector } from 'react-redux';

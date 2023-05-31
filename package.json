@@ -29,7 +29,6 @@
     "query-string": "^7.0.1",
     "rc-dropdown": "^3.2.2",
     "rc-menu": "^9.2.1",
-    "rc-time-picker": "^3.7.3",
     "react": "^17.0.1",
     "react-big-calendar": "^0.38.0",
     "react-bootstrap": "^2.1.0",
