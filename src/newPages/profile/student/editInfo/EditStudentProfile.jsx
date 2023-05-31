@@ -84,8 +84,6 @@ const EditProflileStudent = () => {
         },
       });
 
-      console.log(file)
-
       if (data) {
         notifyAvatar();
         history.push('/student/profile');

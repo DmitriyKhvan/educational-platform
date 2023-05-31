@@ -136,7 +136,7 @@ const TutorProfile = () => {
           <div className={cls.profile_content_row_left}>
             <h2>{t('summary')}</h2>
 
-            <p>{aboutText}</p>
+            <p>{actions.user?.tutor?.introduction && actions.user?.tutor?.introduction}</p>
           </div>
 
           <div className={cls.profile_content_row_right}>
@@ -214,7 +214,7 @@ const TutorProfile = () => {
             </div>
           )}
         </section>
-        <section className={cls.profile_footer_right}>
+        {/* <section className={cls.profile_footer_right}>
           <div className={cls.profile_footer_right_topics}>
             <h2>{t('topics')}</h2>
             <div className={cls.approved_row}>
@@ -258,7 +258,7 @@ const TutorProfile = () => {
               <button>Randomize</button>
             </div>
           </div>
-        </section>
+        </section> */}
       </footer>
     </div>
   );

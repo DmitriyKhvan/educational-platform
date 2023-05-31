@@ -64,12 +64,12 @@ const tutorNavLinks = [
     icon: Icon2,
     activeIcon: ActiveIcon2,
   },
-  {
-    label: 'students',
-    link: '/tutor/students-list',
-    icon: tutorIcon,
-    activeIcon: tutorActiveIcon,
-  },
+  // {
+  //   label: 'students',
+  //   link: '/tutor/students-list',
+  //   icon: tutorIcon,
+  //   activeIcon: tutorActiveIcon,
+  // },
   // {
   //   label: "Messages",
   //   link:"/messages/",
