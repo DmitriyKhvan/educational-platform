@@ -474,9 +474,9 @@ const Calendar = () => {
   return (
     <Layout>
       <div className="container-fluid">
-        <button onClick={() => setReviewLessonModal(true)}>
+        {/* <button onClick={() => setReviewLessonModal(true)}>
           Open ReviewLessonModal
-        </button>
+        </button> */}
         <h1 className="title m-0 mt-4 mb-3">{t('lessons')}</h1>
         <div className="row container-fluid m-0 p-0">
           <div className="col-auto">
