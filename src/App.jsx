@@ -3,7 +3,7 @@ import './assets/styles/global.scss';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 /* eslint-disable import/first */
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 
 import { ReactNotifications } from 'react-notifications-component';
 import { Provider } from 'react-redux';
@@ -31,17 +31,6 @@ import VerifyEmail from './newPages/Auth/VerifyEmail';
 import Dashboard from './newPages/dashboard/Dashboard';
 // import Messages from './pages/Messages';
 import { ProfileLayout } from './newPages/profile/ProfileLayout';
-import BookTrialLesson from './pages/Students/BookTrialLesson';
-// Student Path
-import StudentCalendar from './pages/Students/Calendar';
-import ClassMaterials from './pages/Students/ClassMaterials';
-import FavouriteTutors from './pages/Students/FavoriteTutors';
-import GroupLessons from './pages/Students/GroupLessons';
-import GroupScheduleLesson from './pages/Students/GroupLessons';
-import StudentListAppointments from './newPages/dashboard/student/StudentDashboard';
-import { Packages } from './pages/Students/Packages';
-import ScheduleLesson from './pages/Students/ScheduleLesson';
-import ScheduleLessonSteps from './pages/Students/ScheduleLesson/ScheduleLessonSteps';
 import ApproveRequest from './pages/Tutors/ApproveRequest';
 import AvailabilityLayout from './pages/Tutors/Availiability';
 import AvailabilitySettings from './pages/Tutors/Availiability/AvailabilitySettings';
@@ -61,7 +50,7 @@ import * as TutorsPages from './newPages/profile/Tutors/export';
 
 // STUDENT PAGES
 
-import * as StudentPages from './newPages/profile/student/export';
+import { IsReferal } from './newPages/profile/student/export';
 import Loader from './components/Loader/Loader';
 import StudentsList from './newPages/students-list/StudentsList';
 
@@ -126,10 +115,10 @@ function App() {
           <PrivateRoute path="/admin/main" component={Main} />
           <PrivateRoute path="/admin/tutor-list" component={TutorList} />
           <PrivateRoute path="/admin/student-list" component={StudentList} />
-          <PrivateRoute
+          {/* <PrivateRoute
             path="/admin/schedule-new-lesson"
             component={ScheduleLessonSteps}
-          />
+          /> */}
           <PrivateRoute
             path="/admin/lesson-calendar"
             component={TutorCalendar}
@@ -149,6 +138,8 @@ function App() {
 
           <PrivateRoute path="/approve-requests" component={ApproveRequest} />
 
+          <PublicRoute path="/referral/:referalcode" component={IsReferal} />
+
           {/* PROFILE */}
 
           <PrivateRoute
@@ -158,89 +149,18 @@ function App() {
 
           {/* STUDENT PAGES */}
 
-          <PrivateRoute
-            path="/student/lesson-complete/:complete_appoint_id"
-            component={StudentListAppointments}
-          />
-
-          <PrivateRoute
-            path="/student/manage-lessons"
-            component={StudentListAppointments}
-          />
-
-          <PrivateRoute
-            path="/student/schedule-lesson/select/:id?"
-            component={ScheduleLesson}
-          />
-
-          <PrivateRoute
-            path="/student/schedule-lesson/group-select"
-            component={GroupScheduleLesson}
-          />
-
-          <PrivateRoute
-            exact
-            path="/student/schedule-lesson"
-            component={ScheduleLessonSteps}
-          />
-
-          <PrivateRoute
-            exact
-            path="/student/appointments"
-            component={StudentListAppointments}
-          />
-
-          <PrivateRoute path="/student/packages" component={Packages} />
-
-          <PrivateRoute
-            path="/student/lesson-calendar"
-            component={StudentCalendar}
-          />
-
-          <PrivateRoute
-            path="/student/group-lessons"
-            component={GroupLessons}
-          />
-
-          <PrivateRoute
-            path="/student/favorite-tutors"
-            component={FavouriteTutors}
-          />
-
-          <PrivateRoute
-            path="/student/class-materials"
-            component={ClassMaterials}
-          />
-          
-          <PrivateRoute
-            path="/student/book-trial-lesson"
-            component={BookTrialLesson}
-          />
-
-          <PrivateRoute
-            path="/student/profiles/edit-topics"
-            component={StudentPages.EditTopics}
-          />
-
-          <PrivateRoute
-            path="/student/profiles/edit-information"
-            component={StudentPages.EditProflileStudent}
-          />
-
-          <PublicRoute
-            path="/referral/:referalcode"
-            component={StudentPages.IsReferal}
-          />
-
-          <PrivateRoute
-            path="/student/referal"
-            component={StudentPages.Referal}
-          />
-
-          <PrivateRoute
-            path="/student/mentors-list/:id?"
-            component={StudentPages.Mentors}
-          />
+          <Suspense
+            fallback={
+              <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
+                <Loader />
+              </div>
+            }
+          >
+            <PrivateRoute
+              path="/student"
+              component={lazy(() => import('./pages/Students'))}
+            />
+          </Suspense>
 
           {/* TUTORS PAGES */}
 
@@ -248,7 +168,7 @@ function App() {
             path="/tutor/manage-appointments"
             component={Dashboard}
           />
-          
+
           <PrivateRoute
             exact
             path="/tutor/appointments-calendar"
@@ -304,14 +224,14 @@ function App() {
             component={TutorsPages.Submited}
           />
 
-          <PrivateRoute path="/messages" component={TutorsPages.Messanger} />
+          {/* <PrivateRoute path="/messages" component={TutorsPages.Messanger} /> */}
 
-          {/* <PrivateRoute path='/tutor/students/:id' component={StudentProfile} /> */}
-          {/* <PrivateRoute path='/tutor/profile' component={ProfileLayout} /> */}
-          {/* <PrivateRoute
+          <PrivateRoute path='/tutor/students/:id' component={StudentProfile} />
+          <PrivateRoute path='/tutor/profile' component={ProfileLayout} />
+          <PrivateRoute
             path='/tutor/new-profile-page'
             component={NewTutorProfile}
-          /> */}
+          />
         </div>
       </Router>
       <ToastContainer />
