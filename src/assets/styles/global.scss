@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import './variable.scss';
 @import url(https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900);
 
@@ -50,118 +54,6 @@ li.nav-item.active {
 }
 .rounded-corners {
   border-radius: 15px !important;
-}
-:root {
-  --bs-blue: #0d6efd;
-  --bs-indigo: #6610f2;
-  --bs-purple: #6f42c1;
-  --bs-pink: #d63384;
-  --bs-red: #dc3545;
-  --bs-orange: #fd7e14;
-  --bs-yellow: #ffc107;
-  --bs-green: #198754;
-  --bs-teal: #20c997;
-  --bs-cyan: #0dcaf0;
-  --bs-white: #fff;
-  --light-grey: #646481;
-  --light-purple: #EBE4FF;
-  --grey-100: #F2F4F7;
-  --grey-700: #344054;
-  --bs-gray: #6c757d;
-  --bs-gray-dark: #343a40;
-  --bs-gray-100: #f8f9fa;
-  --bs-gray-200: #e9ecef;
-  --bs-gray-300: #dee2e6;
-  --bs-gray-400: #ced4da;
-  --bs-gray-500: #adb5bd;
-  --bs-gray-600: #6c757d;
-  --bs-gray-700: #495057;
-  --bs-gray-800: #343a40;
-  --bs-gray-900: #212529;
-  --bs-primary: #6133AF;
-  --bs-secondary: #6c757d;
-  --bs-success: #198754;
-  --bs-info: #0dcaf0;
-  --bs-warning: #ffc107;
-  --bs-danger: #dc3545;
-  --bs-light: #f8f9fa;
-  --bs-dark: #212529;
-  --bs-primary-rgb: 97, 51, 175;
-  --bs-secondary-rgb: 108, 117, 125;
-  --bs-success-rgb: 25, 135, 84;
-  --bs-info-rgb: 13, 202, 240;
-  --bs-warning-rgb: 255, 193, 7;
-  --bs-danger-rgb: 220, 53, 69;
-  --bs-light-rgb: 248, 249, 250;
-  --bs-dark-rgb: 33, 37, 41;
-  --bs-white-rgb: 255, 255, 255;
-  --bs-black-rgb: 0, 0, 0;
-  --bs-body-color-rgb: 33, 37, 41;
-  --bs-body-bg-rgb: 255, 255, 255;
-  --bs-font-sans-serif: system-ui, -apple-system, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
-    'Liberation Mono', 'Courier New', monospace;
-  --bs-gradient: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.15),
-    rgba(255, 255, 255, 0)
-  );
-  --bs-body-font-family: var(--bs-font-sans-serif);
-  --bs-body-font-size: 1rem;
-  --bs-body-font-weight: 400;
-  --bs-body-line-height: 1.5;
-  --bs-body-color: #212529;
-  --bs-body-bg: #fff;
-
-  --st-overlay-color: rgba(0, 0, 0, 0.4);
-  --st-overlay-z-index: 1000;
-  --st-overlay-transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-  --st-overlay-perspective: 1000px;
-
-  // MODAL WINDOW
-  --st-modal-minWidth: 300px;
-
-  --st-modal-borderRadius: 5px;
-  --st-modal-border: none;
-  --st-modal-boxShadow: 0 0 10px rgba(0, 0, 0, 0.3);
-
-  --st-modal-transformVisible: translate3d(-50%, -50%, 0) scale(1) rotateX(0);
-  --st-modal-transformHidden: translate3d(-50%, 100%, 0) scale(0.5)
-    rotateX(-90deg);
-  --st-modal-transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-
-  --st-modal-backgroundColor: #ffffff;
-  --st-modal-titleTextColor: #444444;
-  --st-modal-secondColor: #f6f6f6;
-
-  // BUTTON
-  --st-button-dangerColor: #ff5c5c;
-  --st-button-dangerTextColor: #ffffff;
-
-  --st-button-primaryColor: #5d9aff;
-  --st-button-primaryTextColor: #ffffff;
-
-  --st-button-lightColor: #f6f6f6;
-  --st-button-lightTextColor: #444444;
-
-  --st-button-darkColor: #444444;
-  --st-button-darkTextColor: #f6f6f6;
-
-  --st-button-borderRadius: 6px;
-
-  // INPUT
-  --st-input-padding: 0.5rem;
-  --st-input-border: solid 1px #eeeeee;
-  --st-input-borderRadius: 6px;
-
-  // DIALOG
-  --st-dialog-baseWidth: 95%;
-  --st-dialog-maxWidth: 600px;
-  --st-dialog-padding: 1rem;
-  --st-dialog-maxContentHeight: 85vh;
-  --st-dialog-contentColor: #000000;
 }
 
 input,
