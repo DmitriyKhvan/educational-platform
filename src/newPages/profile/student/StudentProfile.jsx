@@ -114,11 +114,11 @@ const StudentProfile = () => {
                         {actions.user?.firstName + ' '}
                         {actions.user?.lastName}
                       </h2>
-                      <p>
+                      {/* <p>
                         {t('student_level', {
                           level: 3,
                         })}
-                      </p>
+                      </p> */}
                       <span>
                         {actions.user?.timeZone
                           ? actions.user?.timeZone
@@ -233,30 +233,36 @@ const StudentProfile = () => {
                   </div>
                 )}
 
-                <div className="details_list">
-                  <h4>{t('country', { ns: 'common' })}</h4>
-                  <p>
-                    {actions.user?.country ? actions.user?.country : 'Korea'}
-                  </p>
-                </div>
+                {actions.user?.country && (
+                  <div className="details_list">
+                    <h4>{t('country', { ns: 'common' })}</h4>
+                    <p>{actions.user?.country ? actions.user?.country : 'Korea'}</p>
+                  </div>
+                )}
 
-                <div className="details_list">
-                  <h4>{t('address', { ns: 'common' })}</h4>
-                  <p>
-                    {actions.user?.address
-                      ? actions.user?.address
-                      : '123 Street, City, State'}
-                  </p>
-                </div>
+            
+                {
+                  actions?.user?.address && (
+                    <div className="details_list">
+                      <h4>{t('address', { ns: 'common' })}</h4>
+                      <p>
+                        {actions.user?.address}
+                      </p>
+                    </div>
+                  )
+                }
 
-                <div className="details_list">
-                  <h4>{t('phone_number', { ns: 'common' })}</h4>
-                  <p>
-                    {actions.user?.phoneNumber
-                      ? actions.user?.phoneNumber
-                      : '+996553720025'}
-                  </p>
-                </div>
+                {
+                  actions?.user?.phoneNumber && (
+                    <div className="details_list">
+                      <h4>{t('phone_number', { ns: 'common' })}</h4>
+                      <p>
+                        {actions.user?.phoneNumber}
+                      </p>
+                    </div>
+                  )
+                }
+
               </div>
             </div>
           </div>

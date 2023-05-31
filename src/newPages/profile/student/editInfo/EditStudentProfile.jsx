@@ -31,6 +31,8 @@ const EditProflileStudent = () => {
   const [t] = useTranslation(['profile', 'common']);
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
   const [profileImage, setProfileImage] = React.useState('');
+  const [file , setFile] = React.useState({});
+
 
   const history = useHistory();
   const [preview, setPreview] = React.useState({});
@@ -131,10 +133,12 @@ const EditProflileStudent = () => {
             <label for="inputTag" className="file_upload">
               <input
                 {...register('avatar')}
-                webkitdirectory
-                directory
                 id="inputTag"
+                multiple
+                accept='image/*'
+                
                 type={'file'}
+                onChange={e => setFile(e.target.files[0])}
               />
               <AiFillEdit className="edit-icon" />
             </label>
