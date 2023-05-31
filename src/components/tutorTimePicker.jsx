@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import TimePicker from 'react-bootstrap-time-picker';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTutorInfo, updateTutorAvailability } from '../actions/tutor';
-
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
-import NotificationManager from '../components/NotificationManager';
 
 export const TutorTimePicker = ({ day, isAdmin, user_id }) => {
   const { t } = useTranslation();

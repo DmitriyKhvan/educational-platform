@@ -140,20 +140,6 @@ const BasicInfoForm = () => {
           />
         </div>
 
-        {/* <div className='mb-4'>
-          <label htmlFor='address' className='form-label'>
-            <strong>{t('address')}</strong>
-          </label>
-          <input
-            className='form-control mt-3'
-            type='email'
-            id='address'
-            name='address'
-            value={userData.address}
-            onChange={onChange}
-          />
-        </div> */}
-
         <div className="mb-4">
           <label htmlFor="timezone" className="form-label">
             <strong>{t('timezone')}</strong>
@@ -161,7 +147,7 @@ const BasicInfoForm = () => {
           <Select
             className="mt-3"
             value={
-              find(timezoneOptions, { value: userData.time_zone }) ||
+              timezoneOptions.find(() => { value: userData.time_zone }) ||
               defaultTimezone
             }
             options={timezoneOptions}
