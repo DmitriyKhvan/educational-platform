@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 const Login = () => {
   const [t] = useTranslation('common');
   const { login, isLoading } = useAuth();
+  const [isShowPassword, setIsShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -126,7 +127,7 @@ const Login = () => {
               <div className="label">{t('password')}</div>
               <input
                 className="form-control"
-                type="password"
+                type={isShowPassword ? 'text' : 'password'}
                 id="password"
                 name="password"
                 placeholder="at least 8 characters"
@@ -134,6 +135,16 @@ const Login = () => {
                 autoComplete="current-password"
                 onChange={(e) => onChange(e.target.value, 'password')}
               />
+              <div className="flex mt-3 gap-2">
+                <input
+                  type="checkbox"
+                  onChange={(e) => setIsShowPassword(e.target.checked)}
+                  id="show-password"
+                />
+                <label style={{ userSelect: 'none' }} htmlFor="show-password">
+                  Show Password
+                </label>
+              </div>
             </div>
             {formDataError.password && (
               <p className="error-msg">{formDataError.password}</p>
