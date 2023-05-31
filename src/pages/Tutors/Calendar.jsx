@@ -330,7 +330,7 @@ const Calendar = () => {
                   {displayModalEventDate(selectedEvent)}
                 </div>
 
-                <div className="my-3">
+                {/* <div className="my-3">
                   <div className="row">
                     <h4 className="text-primary">{t('current_topic')}</h4>
                   </div>
@@ -356,7 +356,7 @@ const Calendar = () => {
                       })}
                     </h4>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="my-3 attends">
                   <div className="row">

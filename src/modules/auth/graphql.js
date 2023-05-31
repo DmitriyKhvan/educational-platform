@@ -65,6 +65,7 @@ export const MENTORS_QUERY = gql`
         firstName
         lastName
         gender
+        isActive
       }
       major
       language
