@@ -42,7 +42,7 @@ const ApproveRequest = () => {
   useEffect(() => {
     if (user) {
       dispatch(
-        getAppointments({ tutor_id: user?.tutor?.id, status: 'scheduled' }),
+        getAppointments({ tutor_id: user?.tutor?.id, status: 'scheduled,paid,completed,in_progress' }),
       );
     }
   }, [user]);

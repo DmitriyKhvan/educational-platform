@@ -79,7 +79,7 @@ const Calendar = () => {
 
   const fetchData = () => {
     dispatch(
-      getAppointments({ tutor_id: user.tutor?.id, status: 'scheduled' }),
+      getAppointments({ tutor_id: user.tutor?.id, status: 'scheduled,paid,completed,in_progress' }),
     );
   };
 
