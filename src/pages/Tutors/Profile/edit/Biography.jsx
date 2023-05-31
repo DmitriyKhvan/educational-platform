@@ -84,17 +84,26 @@ const Biography = ({ cls }) => {
           setState={setIntro}
           user={user?.tutor?.introduction?.length}
           state={intro}
-          {...register('introduction', {
-            maxLength: {
-              value: 400,
-              message: () =>
-                window.alert(
-                  'The Introduction characters should be less than 400',
-                ),
-            },
-          })}
+          {...register('introduction',
+          {
+            minLength: {
+              value: 400
+            }
+          }
+          // , 
+          // {
+          //   maxLength: {
+          //     value: 400,
+          //     message: () =>
+          //       window.alert(
+          //         'The Introduction characters should be less than 400',
+          //       ),
+          //   },
+          // }
+          )
+        }
         />
-        {errors?.introduction && errors?.introduction?.message()}
+        {/* {errors?.introduction && errors?.introduction?.message()} */}
 
         <Textarea
           placeholder={t('bio_experience')}
@@ -103,17 +112,24 @@ const Biography = ({ cls }) => {
           setState={setExp}
           user={user?.tutor?.relevantExperience?.length}
           state={exp}
-          {...register('relevantExperience', {
-            maxLength: {
-              value: 400,
-              message: () =>
-                window.alert(
-                  'The Relevant Experience characters should be less than 400',
-                ),
-            },
-          })}
+          {...register('relevantExperience',
+          {
+            minLength: {
+              value: 400
+            }
+          }
+            // , {
+            // maxLength: {
+            //   value: 400,
+            //   message: () =>
+            //     window.alert(
+            //       'The Relevant Experience characters should be less than 400',
+            //     ),
+            // },
+            // }
+          )}
         />
-        {errors?.relevantExperience && errors?.relevantExperience?.message()}
+        {/* {errors?.relevantExperience && errors?.relevantExperience?.message()} */}
 
         <Textarea
           placeholder={t('bio_facts')}
@@ -122,17 +138,24 @@ const Biography = ({ cls }) => {
           setState={setFacts}
           user={user.tutor?.uniqueFacts?.length}
           state={facts}
-          {...register('uniqueFacts', {
-            maxLength: {
-              value: 400,
-              message: () =>
-                window.alert(
-                  'The Unique Facts characters should be less than 400',
-                ),
-            },
-          })}
+          {...register('uniqueFacts',
+          {
+            minLength: {
+              value: 400
+            }
+          }
+            // , {
+            // maxLength: {
+            //   value: 400,
+            //   message: () =>
+            //     window.alert(
+            //       'The Unique Facts characters should be less than 400',
+            //     ),
+            // },
+            // }
+          )}
         />
-        {errors?.uniqueFacts && errors?.uniqueFacts?.message()}
+        {/* {errors?.uniqueFacts && errors?.uniqueFacts?.message()} */}
 
         <Submit />
       </div>

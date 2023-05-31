@@ -42,7 +42,7 @@ export const Textarea = forwardRef(
           {...rest}
           onChange={(e) => setState(e.target.value.length)}
         ></textarea>
-        <p className={cls.rule}>{t('textarea_limits', { count })}</p>
+        {/* <p className={cls.rule}>{t('textarea_limits', { count })}</p> */}
       </div>
     );
   },
