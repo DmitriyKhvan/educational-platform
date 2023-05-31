@@ -31,8 +31,7 @@ const EditProflileStudent = () => {
   const [t] = useTranslation(['profile', 'common']);
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
   const [profileImage, setProfileImage] = React.useState('');
-  const [file , setFile] = React.useState(null);
-
+  const [file, setFile] = React.useState(null);
 
   const history = useHistory();
   const [, setPreview] = React.useState({});
@@ -132,29 +131,28 @@ const EditProflileStudent = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="body">
           <div className="avatar-block">
             {!file && <img src={profileImage} alt={'userInfo.tutorName'} />}
-            
-              {file ? (
-                <>
-                  <img 
-                    src={URL.createObjectURL(file)}
-                    alt="Thumb"
-                    className="previewImg"
-                  />
-                  <button onClick={removePreviewImage}>&times;</button>
-                </>
-                
-              ) : (
-                <label for="inputTag" className="file_upload">
-                   <input
-                    id="inputTag"
-                    multiple
-                    accept="image/*"
-                    type={"file"}
-                    onChange={e => setFile(e.target.files[0])}
-                  />
+
+            {file ? (
+              <>
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt="Thumb"
+                  className="previewImg"
+                />
+                <button onClick={removePreviewImage}>&times;</button>
+              </>
+            ) : (
+              <label for="inputTag" className="file_upload">
+                <input
+                  id="inputTag"
+                  multiple
+                  accept="image/*"
+                  type={'file'}
+                  onChange={(e) => setFile(e.target.files[0])}
+                />
                 <AiFillEdit className="edit-icon" />
-                </label>
-              )}
+              </label>
+            )}
           </div>
           <section className="scroll-form">
             <section>

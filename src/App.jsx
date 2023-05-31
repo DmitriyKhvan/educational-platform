@@ -64,9 +64,7 @@ function PublicRoute({ component: Component, ...rest }) {
   const { isAuthorized, user } = useAuth();
 
   function isSide() {
-    return user?.tutor 
-      ? user?.tutor?.isActive
-      : user?.isActive
+    return user?.tutor ? user?.tutor?.isActive : user?.isActive;
   }
 
   return (

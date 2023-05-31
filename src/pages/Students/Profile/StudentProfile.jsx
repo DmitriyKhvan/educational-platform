@@ -227,33 +227,25 @@ const StudentProfile = () => {
                 {actions.user?.country && (
                   <div className="details_list">
                     <h4>{t('country', { ns: 'common' })}</h4>
-                    <p>{actions.user?.country ? actions.user?.country : 'Korea'}</p>
+                    <p>
+                      {actions.user?.country ? actions.user?.country : 'Korea'}
+                    </p>
                   </div>
                 )}
 
-            
-                {
-                  actions?.user?.address && (
-                    <div className="details_list">
-                      <h4>{t('address', { ns: 'common' })}</h4>
-                      <p>
-                        {actions.user?.address}
-                      </p>
-                    </div>
-                  )
-                }
+                {actions?.user?.address && (
+                  <div className="details_list">
+                    <h4>{t('address', { ns: 'common' })}</h4>
+                    <p>{actions.user?.address}</p>
+                  </div>
+                )}
 
-                {
-                  actions?.user?.phoneNumber && (
-                    <div className="details_list">
-                      <h4>{t('phone_number', { ns: 'common' })}</h4>
-                      <p>
-                        {actions.user?.phoneNumber}
-                      </p>
-                    </div>
-                  )
-                }
-
+                {actions?.user?.phoneNumber && (
+                  <div className="details_list">
+                    <h4>{t('phone_number', { ns: 'common' })}</h4>
+                    <p>{actions.user?.phoneNumber}</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>

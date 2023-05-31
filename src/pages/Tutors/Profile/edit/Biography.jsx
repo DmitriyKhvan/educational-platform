@@ -84,24 +84,24 @@ const Biography = ({ cls }) => {
           setState={setIntro}
           user={user?.tutor?.introduction?.length}
           state={intro}
-          {...register('introduction',
-          {
-            minLength: {
-              value: 400
-            }
-          }
-          // , 
-          // {
-          //   maxLength: {
-          //     value: 400,
-          //     message: () =>
-          //       window.alert(
-          //         'The Introduction characters should be less than 400',
-          //       ),
-          //   },
-          // }
-          )
-        }
+          {...register(
+            'introduction',
+            {
+              minLength: {
+                value: 400,
+              },
+            },
+            // ,
+            // {
+            //   maxLength: {
+            //     value: 400,
+            //     message: () =>
+            //       window.alert(
+            //         'The Introduction characters should be less than 400',
+            //       ),
+            //   },
+            // }
+          )}
         />
         {/* {errors?.introduction && errors?.introduction?.message()} */}
 
@@ -112,12 +112,13 @@ const Biography = ({ cls }) => {
           setState={setExp}
           user={user?.tutor?.relevantExperience?.length}
           state={exp}
-          {...register('relevantExperience',
-          {
-            minLength: {
-              value: 400
-            }
-          }
+          {...register(
+            'relevantExperience',
+            {
+              minLength: {
+                value: 400,
+              },
+            },
             // , {
             // maxLength: {
             //   value: 400,
@@ -138,12 +139,13 @@ const Biography = ({ cls }) => {
           setState={setFacts}
           user={user.tutor?.uniqueFacts?.length}
           state={facts}
-          {...register('uniqueFacts',
-          {
-            minLength: {
-              value: 400
-            }
-          }
+          {...register(
+            'uniqueFacts',
+            {
+              minLength: {
+                value: 400,
+              },
+            },
             // , {
             // maxLength: {
             //   value: 400,

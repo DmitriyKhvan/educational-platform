@@ -107,7 +107,7 @@ const TutorProfile = () => {
   React.useEffect(() => {
     renderAbout();
     renderVideo();
-}, [user]);
+  }, [user]);
 
   return (
     <div className={cls.profile_page}>
@@ -136,7 +136,10 @@ const TutorProfile = () => {
           <div className={cls.profile_content_row_left}>
             <h2>{t('summary')}</h2>
 
-            <p>{actions.user?.tutor?.introduction && actions.user?.tutor?.introduction}</p>
+            <p>
+              {actions.user?.tutor?.introduction &&
+                actions.user?.tutor?.introduction}
+            </p>
           </div>
 
           <div className={cls.profile_content_row_right}>
