@@ -105,7 +105,7 @@ const Calendar = () => {
         dispatch(
           getAppointments({
             student_id: user.student?.id,
-            status: 'scheduled',
+            status: 'scheduled,paid,completed,in_progress',
           }),
         );
       }

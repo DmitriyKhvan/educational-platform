@@ -88,7 +88,12 @@ const StudentListAppointments = () => {
       queryObj.completed = true;
     }
 
-    dispatch(getAppointments({ ...queryObj, status: 'scheduled' }));
+    dispatch(
+      getAppointments({
+        ...queryObj,
+        status: 'scheduled,paid,completed,in_progress',
+      }),
+    );
     setIsLoading(false);
   };
 
