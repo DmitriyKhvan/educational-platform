@@ -1,5 +1,6 @@
 import axios from 'axios';
 import queryString from 'query-string';
+// eslint-disable-next-line
 import BaseApi from './BaseApi';
 
 class AppointmentApi extends BaseApi {

@@ -5,3 +5,5 @@ dist/
 env.d.ts
 tailwind.config.js
 vite.config.ts
+src/actions
+src/api

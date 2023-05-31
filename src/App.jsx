@@ -225,13 +225,6 @@ function App() {
           />
 
           {/* <PrivateRoute path="/messages" component={TutorsPages.Messanger} /> */}
-
-          <PrivateRoute path='/tutor/students/:id' component={StudentProfile} />
-          <PrivateRoute path='/tutor/profile' component={ProfileLayout} />
-          <PrivateRoute
-            path='/tutor/new-profile-page'
-            component={NewTutorProfile}
-          />
         </div>
       </Router>
       <ToastContainer />

@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import AvailabilityPicker from '../pages/Tutors/Availiability/AvailabilityPicker';
 import { AvailProv } from '../pages/Tutors/Availiability/AvailabilityProvider';
 import plusIcon from '../assets/images/plus_icon.svg';
@@ -13,24 +12,15 @@ export const AvailabilityDayRow = ({
   isteachAddHours,
   setIsTeachAddHours,
   newRow,
-  setNewRow,
   AvailabilitySlots,
   setCurrentToTime,
-  currentToTime,
   type,
 }) => {
   const [toggle, setToggle] = useState(false);
-  const [initialRow, setInitialRow] = useState();
-  const [ontoggle, setOntoggle] = useState(false);
-  const tutorInfo = useSelector((state) => state.tutor.info);
-  const { setAvailabilityRow, removeAvailabilityRow, availabilityRow } =
-    useContext(AvailProv);
+  const { removeAvailabilityRow } = useContext(AvailProv);
   const { addAvailRowUp } = useContext(AvailProv);
   const [t] = useTranslation('common');
 
-  useEffect(() => {
-    setInitialRow('0');
-  }, []);
   useEffect(() => {
     var days = [];
     if (gatherAvailabilities.length > 0) {
@@ -55,7 +45,6 @@ export const AvailabilityDayRow = ({
     }
   }, [gatherAvailabilities]);
   const onToggleDay = () => {
-    setOntoggle(true);
     setToggle(!toggle);
     if (!toggle) {
       removeAvailabilityRow({ day });
@@ -101,7 +90,7 @@ export const AvailabilityDayRow = ({
       {toggle && (
         <>
           <div className="col-auto justify-content-md-center aligns_row_time">
-            {gatherAvailabilities.map((k, i) => {
+            {gatherAvailabilities.map((k) => {
               if (k.day === day) {
                 return (
                   <AvailabilityPicker

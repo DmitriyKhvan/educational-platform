@@ -8,20 +8,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import AvailabilityDayRow from '../../../components/AvailabilityDayRow';
 import { AvailabilityProvider } from './AvailabilityProvider';
-import timezone from 'timezones-list';
 import NotificationManager from '../../../../src/components/NotificationManager';
 import { v4 as uuid } from 'uuid';
 import { useAuth } from '../../../modules/auth';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-const Availability = ({ isAdmin, user_id }) => {
+const Availability = ({ user_id }) => {
   const [t] = useTranslation(['common', 'availability']);
   const [gatherAvailabilities, setGatherAvailabilities] = useState({
     exceptiondates: [],
     availability: [],
   });
-  const [currentDatas, setCurrentDatas] = useState([]);
+  const [, setCurrentDatas] = useState([]);
   const [loaded, setLoaded] = useState(true);
   // for debugging
   const [hasValidTimes, setHasValidTimes] = useState(false);
@@ -30,21 +29,11 @@ const Availability = ({ isAdmin, user_id }) => {
   const [disablePlusBtn, setDisablePlusBtn] = useState(false);
   const [initialId, setInitialId] = useState();
   // tutor policies state and handler
-  const [togglePolicyModal, setTogglePolicyModal] = useState(false);
-  const [isMonthCheck, setIsMonthCheck] = useState(false);
-  const handlePolicyModal = () => {
-    setTogglePolicyModal(!togglePolicyModal);
-    setIsTeachAddHours(false);
-  };
+  const [, setIsMonthCheck] = useState(false);
   // tutor policies state and handler
-  const [toggleOverrideModal, setToggleOverrideModal] = useState(false);
-  const handleOverrideModal = () => {
-    setToggleOverrideModal(!toggleOverrideModal);
-  };
   const dispatch = useDispatch();
   const tutorInfo = useSelector((state) => state.tutor.info);
   const { user } = useAuth();
-  const [newRow, setNewRow] = useState(false);
   const [currentToTime, setCurrentToTime] = useState('16:00');
 
   useEffect(() => {
@@ -151,7 +140,7 @@ const Availability = ({ isAdmin, user_id }) => {
     }, 1000);
   };
 
-  const [userData, setUserData] = useState({
+  const [, setUserData] = useState({
     time_zone: '',
   });
   useEffect(() => {
@@ -160,18 +149,8 @@ const Availability = ({ isAdmin, user_id }) => {
     });
   }, [user]);
   // timezone map looping
-  const timezones = timezone.map((x) => x.label);
   // default time-zone is America/Los_Angeles (GMT-08:00)
-  const defaultTimezone = timezones[15];
-  const array = defaultTimezone || userData.time_zone;
-  const times_city = array.split(' (GM');
   // date override date groupby date map
-  var final = currentDatas;
-  var result = final.reduce(function (r, a) {
-    r[a.date] = r[a.date] || [];
-    r[a.date].push(a);
-    return r;
-  }, Object.create(null));
 
   const validateTimesSelected = (availability, day) => {
     /* flat map the time slots array **/
@@ -288,7 +267,6 @@ const Availability = ({ isAdmin, user_id }) => {
               setIsTeachAddHours={setIsTeachAddHours}
               disablePlusBtn={disablePlusBtn}
               setDisablePlusBtn={setDisablePlusBtn}
-              setNewRow={setNewRow}
               AvailabilitySlots={AvailabilitySlots}
               day={day}
               isteachAddHours={isteachAddHours}
@@ -303,7 +281,6 @@ const Availability = ({ isAdmin, user_id }) => {
                 setHasValidTimes={setHasValidTimes}
                 isteachAddHours={isteachAddHours}
                 setIsTeachAddHours={setIsTeachAddHours}
-                setNewRow={setNewRow}
                 AvailabilitySlots={AvailabilitySlots}
                 setCurrentToTime={setCurrentToTime}
                 currentToTime={currentToTime}

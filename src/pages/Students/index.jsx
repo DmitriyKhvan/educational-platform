@@ -4,7 +4,6 @@ import BookTrialLesson from './BookTrialLesson';
 import StudentCalendar from './Calendar';
 import ClassMaterials from './ClassMaterials';
 import FavouriteTutors from './FavoriteTutors';
-import GroupLessons from './GroupLessons';
 import GroupScheduleLesson from './GroupLessons';
 import StudentListAppointments from '../../newPages/dashboard/student/StudentDashboard';
 import { Packages } from './Packages';
@@ -13,7 +12,7 @@ import * as StudentPages from '../../newPages/profile/student/export';
 import ScheduleLessonSteps from './ScheduleLesson/ScheduleLessonSteps';
 
 export default function StudentRoutes() {
-  let { path, url } = useRouteMatch();
+  let { path } = useRouteMatch();
 
   return (
     <Switch>
@@ -47,10 +46,6 @@ export default function StudentRoutes() {
 
       <Route path={`${path}/lesson-calendar`}>
         <StudentCalendar />
-      </Route>
-
-      <Route path={`${path}/group-lessons`}>
-        <GroupLessons />
       </Route>
 
       <Route path={`${path}/favorite-tutors`}>

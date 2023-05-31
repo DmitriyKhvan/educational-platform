@@ -24,7 +24,7 @@ import NotificationManager from '../../components/NotificationManager';
 import ModalConfirmLesson from './ScheduleLesson/ModalConfirmLesson';
 
 const GroupLessons = () => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
 
   const user = useSelector((state) => state.users.user);
 
@@ -49,7 +49,7 @@ const GroupLessons = () => {
 
   const onBook = async (group) => {
     try {
-      const data = await AppointmentApi.joinLesson(group.id);
+      await AppointmentApi.joinLesson(group.id);
 
       setIsConfirmModal(group.start_at);
       fetchAppointments();
