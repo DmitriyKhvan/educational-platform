@@ -71,7 +71,7 @@ const EditAvatarModal = ({ isOpen, closeModal, profileImage }) => {
               <>
                 <label onClick={() => setFile(null)}>
                   <span>&times;</span>
-                  {t('chooseOther')}
+                  {t('choose_other')}
                 </label>
               </>
             ) : (
