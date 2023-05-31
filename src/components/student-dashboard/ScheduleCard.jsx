@@ -5,7 +5,6 @@ import moment from 'moment-timezone';
 import Menu, { Item as MenuItem } from 'rc-menu';
 import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../assets/images/avatars/img_avatar_male.png';
-import 'rc-dropdown/assets/index.css';
 import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
 import { useAuth } from '../../modules/auth';
@@ -170,7 +169,6 @@ const ScheduleCard = ({
           </a>
         </div>
         <div className="">
-          {/* <Dropdown trigger={['click']} overlay={menu} animation='slide-up'> */}
           <a
             className={`schedule_copy-button ${
               isLate
@@ -181,7 +179,6 @@ const ScheduleCard = ({
           >
             {t('reschedule')}
           </a>
-          {/* </Dropdown> */}
         </div>
         <div className="">
           <a
