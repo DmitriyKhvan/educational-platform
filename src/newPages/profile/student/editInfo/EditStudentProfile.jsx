@@ -31,6 +31,7 @@ const EditProflileStudent = () => {
   const [t] = useTranslation(['profile', 'common']);
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
   const [profileImage, setProfileImage] = React.useState('');
+  const [file, setFile] = React.useState(null);
 
   const history = useHistory();
   const [preview, setPreview] = React.useState({});
@@ -68,7 +69,7 @@ const EditProflileStudent = () => {
   }, [user, avatar]);
 
   const onSubmit = async (area) => {
-    if (area.avatar?.length) {
+    if (file) {
       setPreview(area.avatar);
 
       const { data } = await updateStudent({
@@ -77,7 +78,7 @@ const EditProflileStudent = () => {
             id: parseInt(user?.student?.id),
           },
           data: {
-            avatar: { upload: area.avatar[0] },
+            avatar: { upload: file },
           },
         },
       });
@@ -118,6 +119,8 @@ const EditProflileStudent = () => {
 
   const countries = getData().map((x) => x.name);
 
+  const removePreviewImage = () => setFile(null);
+
   return (
     <Layout>
       <section className="edit-profile-modal">
@@ -127,17 +130,29 @@ const EditProflileStudent = () => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="body">
           <div className="avatar-block">
-            {<img src={profileImage} alt={'userInfo.tutorName'} />}
-            <label for="inputTag" className="file_upload">
-              <input
-                {...register('avatar')}
-                webkitdirectory
-                directory
-                id="inputTag"
-                type={'file'}
-              />
-              <AiFillEdit className="edit-icon" />
-            </label>
+            {!file && <img src={profileImage} alt={'userInfo.tutorName'} />}
+
+            {file ? (
+              <>
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt="Thumb"
+                  className="previewImg"
+                />
+                <button onClick={removePreviewImage}>&times;</button>
+              </>
+            ) : (
+              <label for="inputTag" className="file_upload">
+                <input
+                  id="inputTag"
+                  multiple
+                  accept="image/*"
+                  type={'file'}
+                  onChange={(e) => setFile(e.target.files[0])}
+                />
+                <AiFillEdit className="edit-icon" />
+              </label>
+            )}
           </div>
           <section className="scroll-form">
             <section>

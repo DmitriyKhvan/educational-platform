@@ -40,6 +40,15 @@ const SampleModal = ({ isOpen, closeModal }) => {
     },
   ];
 
+  const sampleImages = [
+    '/src/assets/samples/1.jpg',
+    '/src/assets/samples/2.jpg',
+    '/src/assets/samples/3.jpg',
+    '/src/assets/samples/4.jpg',
+    '/src/assets/samples/5.jpg',
+    '/src/assets/samples/6.jpg',
+  ];
+
   return (
     <Modal
       isOpen={isOpen}
@@ -56,8 +65,8 @@ const SampleModal = ({ isOpen, closeModal }) => {
             </section>
             <section className={cls.sample_types_row}>
               <div>
-                {Array.from({ length: 6 }).map((item, idx) => (
-                  <img key={idx} src={PlaceImg} alt="" />
+                {sampleImages.map((item, idx) => (
+                  <img key={idx} src={item} alt="" />
                 ))}
               </div>
             </section>

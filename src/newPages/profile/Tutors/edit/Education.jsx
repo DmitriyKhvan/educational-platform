@@ -147,7 +147,7 @@ const Education = ({ cls }) => {
           </select>
         </div> */}
 
-        <div className={cls.edu_verify_card}>
+        {/* <div className={cls.edu_verify_card}>
           <img src={Verify} alt="" />
 
           <h3>{t('edu_verification')}</h3>
@@ -168,7 +168,7 @@ const Education = ({ cls }) => {
               {t('upload', { ns: 'common' })}
             </label>
           </div>
-        </div>
+        </div> */}
 
         <Submit />
       </div>

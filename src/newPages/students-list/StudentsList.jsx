@@ -68,7 +68,7 @@ export default function StudentsList() {
   const { data } = useQuery(STUDENTS_QUERY, {
     errorPolicy: 'ignore',
   });
-  const students = data?.students?.filter(i => i.user?.isActive);
+  const students = data?.students?.filter((i) => i.user?.isActive);
 
   const { user } = useAuth();
 

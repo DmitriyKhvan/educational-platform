@@ -19,28 +19,31 @@ const EditAvatarModal = ({ isOpen, closeModal, profileImage }) => {
   const [updateTutor] = useMutation(MUTATION_UPDATE_TUTOR);
   const history = useHistory();
   const notify = () => toast('Avatar is changed!');
+  const [file, setFile] = React.useState(null);
 
   const { handleSubmit, register } = useForm();
 
   const updateAvatar = async (area) => {
-    const { data } = await updateTutor({
-      variables: {
-        where: {
-          id: parseInt(user?.tutor?.id),
+    if (file) {
+      const { data } = await updateTutor({
+        variables: {
+          where: {
+            id: parseInt(user?.tutor?.id),
+          },
+          data: { avatar: { upload: file } },
         },
-        data: { avatar: { upload: area.avatar[0] } },
-      },
-    });
+      });
 
-    if (data) {
-      notify();
-      history.push('/student/profile');
-      closeModal();
+      if (data) {
+        notify();
+        history.push('/student/profile');
+        closeModal();
+      }
+
+      await refetchUser();
+
+      return { data };
     }
-
-    await refetchUser();
-
-    return { data };
   };
 
   return (
@@ -52,21 +55,38 @@ const EditAvatarModal = ({ isOpen, closeModal, profileImage }) => {
       bodyOpenClassName={'edit-modal-open'}
     >
       <form onSubmit={handleSubmit(updateAvatar)} className="avatarModal_card">
-        {<img className="avatar_preview" src={profileImage} alt="" />}
+        {!file ? (
+          <img className="avatar_preview" src={profileImage} alt="" />
+        ) : (
+          <img
+            src={URL.createObjectURL(file)}
+            alt="Thumb"
+            className="avatar_preview"
+          />
+        )}
 
         <div className="avatarModal_card_editor">
           <div className="avatar_block">
-            <label htmlFor="input">
-              <input
-                id="input"
-                type={'file'}
-                webkitdirectory
-                multiple
-                {...register('avatar')}
-              />
-              <img src={ExportArrow} alt="" />
-              {t('upload')}
-            </label>
+            {file ? (
+              <>
+                <label onClick={() => setFile(null)}>
+                  <span>&times;</span>
+                  {t('choose_other')}
+                </label>
+              </>
+            ) : (
+              <label for="input">
+                <input
+                  id="input"
+                  multiple
+                  accept="image/*"
+                  type={'file'}
+                  onChange={(e) => setFile(e.target.files[0])}
+                />
+                <img src={ExportArrow} alt="" />
+                {t('upload')}
+              </label>
+            )}
           </div>
           {/* <button>
             

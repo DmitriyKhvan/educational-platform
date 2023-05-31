@@ -410,7 +410,9 @@ const ScheduleSelector = ({
             <div>
               <div className="container title-container">
                 <h1 className="title lelt-con">
-                  {lesson ? t('reschedule_lesson', {ns: 'modals'}) : t('schedule_lesson')}
+                  {lesson
+                    ? t('reschedule_lesson', { ns: 'modals' })
+                    : t('schedule_lesson')}
                 </h1>
                 <p className="welcome-subtitle left-subtitle">
                   {lesson ? (
@@ -418,7 +420,7 @@ const ScheduleSelector = ({
                       {t('choose_new_date', { ns: 'modals' })}
                       <br />
                       <br />
-                      {t('currently_scheduled', { ns: 'modals' })} {' '}
+                      {t('currently_scheduled', { ns: 'modals' })}{' '}
                       {moment(lesson.startAt)
                         .tz(userTimezone)
                         .format('dddd, MMM DD hh:mm A')}
