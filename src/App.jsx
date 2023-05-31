@@ -94,11 +94,17 @@ function PrivateRoute({ component: Component, ...rest }) {
 function PublicRoute({ component: Component, ...rest }) {
   const { isAuthorized, user } = useAuth();
 
+  function isSide() {
+    return user?.tutor 
+      ? user?.tutor?.isActive
+      : user?.isActive
+  }
+
   return (
     <Route
       {...rest}
       render={(props) =>
-        isAuthorized && user.isActive ? (
+        isAuthorized && isSide() ? (
           <Redirect to={`/dashboard`} />
         ) : (
           <Component {...props} />

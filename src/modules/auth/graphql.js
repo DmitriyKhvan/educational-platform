@@ -37,6 +37,7 @@ export const ME_QUERY = gql`
         relevantExperience
         uniqueFacts
         degree
+        isActive
         university
         graduatingYear
         degree

@@ -29,6 +29,7 @@
   "forgot_password": "비밀번호 찾기",
   "error_empty_field": "필수 입력란입니다.",
   "upload": "업로드",
+  "chooseOther": "",
   "korean": "한국어",
   "english": "영어",
   "cancel": "취소",
