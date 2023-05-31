@@ -108,7 +108,7 @@ function PublicRoute({ component: Component, ...rest }) {
 }
 
 function App() {
-  const { isAuthInProgress, isAuthorized, isLoading, user } = useAuth();
+  const { isAuthInProgress, isLoading } = useAuth();
 
   React.useEffect(() => {
     window.scrollTo({
@@ -147,18 +147,32 @@ function App() {
           <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
 
+          <PrivateRoute path="/approve-requests" component={ApproveRequest} />
+
+          {/* PROFILE */}
+
+          <PrivateRoute
+            path="/:mode(student|tutor)/profile"
+            component={ProfileLayout}
+          />
+
+          {/* STUDENT PAGES */}
+
           <PrivateRoute
             path="/student/lesson-complete/:complete_appoint_id"
             component={StudentListAppointments}
           />
+
           <PrivateRoute
             path="/student/manage-lessons"
             component={StudentListAppointments}
           />
+
           <PrivateRoute
             path="/student/schedule-lesson/select/:id?"
             component={ScheduleLesson}
           />
+
           <PrivateRoute
             path="/student/schedule-lesson/group-select"
             component={GroupScheduleLesson}
@@ -169,12 +183,15 @@ function App() {
             path="/student/schedule-lesson"
             component={ScheduleLessonSteps}
           />
+
           <PrivateRoute
             exact
             path="/student/appointments"
             component={StudentListAppointments}
           />
+
           <PrivateRoute path="/student/packages" component={Packages} />
+
           <PrivateRoute
             path="/student/lesson-calendar"
             component={StudentCalendar}
@@ -184,68 +201,21 @@ function App() {
             path="/student/group-lessons"
             component={GroupLessons}
           />
+
           <PrivateRoute
             path="/student/favorite-tutors"
             component={FavouriteTutors}
           />
+
           <PrivateRoute
             path="/student/class-materials"
             component={ClassMaterials}
           />
+          
           <PrivateRoute
             path="/student/book-trial-lesson"
             component={BookTrialLesson}
           />
-
-          <PrivateRoute path="/approve-requests" component={ApproveRequest} />
-          <PrivateRoute
-            path="/tutor/manage-appointments"
-            component={Dashboard}
-          />
-          <PrivateRoute
-            exact
-            path="/tutor/appointments-calendar"
-            component={TutorCalendar}
-          />
-          <PrivateRoute
-            path="/tutor/past-lessons"
-            component={TutorPastLessons}
-          />
-          <PrivateRoute
-            path="/tutor/availability"
-            component={AvailabilityLayout}
-          />
-          <PrivateRoute
-            path="/tutor/avail/settings"
-            component={AvailabilitySettings}
-          />
-          <PrivateRoute path="/tutor/payment-page" component={PaymentLayout} />
-          <PrivateRoute
-            exact
-            path="/tutor/students"
-            component={TutorStudentList}
-          />
-          {/* <PrivateRoute path='/tutor/students/:id' component={StudentProfile} /> */}
-          {/* <PrivateRoute path='/tutor/profile' component={ProfileLayout} /> */}
-          {/* <PrivateRoute
-            path='/tutor/new-profile-page'
-            component={NewTutorProfile}
-          /> */}
-
-          <PrivateRoute
-            exact
-            path="/tutor/appointments-calendar/lesson/:lessonID"
-            component={LessonInfo}
-          />
-
-          {/* PROFILE */}
-
-          <PrivateRoute
-            path="/:mode(student|tutor)/profile"
-            component={ProfileLayout}
-          />
-
-          {/* STUDENT PAGES */}
 
           <PrivateRoute
             path="/student/profiles/edit-topics"
@@ -272,26 +242,76 @@ function App() {
             component={StudentPages.Mentors}
           />
 
+          {/* TUTORS PAGES */}
+
+          <PrivateRoute
+            path="/tutor/manage-appointments"
+            component={Dashboard}
+          />
+          
+          <PrivateRoute
+            exact
+            path="/tutor/appointments-calendar"
+            component={TutorCalendar}
+          />
+
+          <PrivateRoute
+            path="/tutor/past-lessons"
+            component={TutorPastLessons}
+          />
+
+          <PrivateRoute
+            path="/tutor/availability"
+            component={AvailabilityLayout}
+          />
+
+          <PrivateRoute
+            path="/tutor/avail/settings"
+            component={AvailabilitySettings}
+          />
+
+          <PrivateRoute path="/tutor/payment-page" component={PaymentLayout} />
+
+          <PrivateRoute
+            exact
+            path="/tutor/students"
+            component={TutorStudentList}
+          />
+
+          <PrivateRoute
+            exact
+            path="/tutor/appointments-calendar/lesson/:lessonID"
+            component={LessonInfo}
+          />
+
           <PrivateRoute
             path="/tutor/students-list/:id?"
             component={StudentsList}
           />
 
-          {/* TUTORS PAGES */}
-
           <PrivateRoute
             path="/tutor/edit-profile"
             component={TutorsPages.EditTutorProfile}
           />
+
           <PrivateRoute
             path="/tutor/edit-profiles/submit-video"
             component={TutorsPages.SubmitVideo}
           />
+
           <PrivateRoute
             path="/tutor/edit-profiles/submit-videos/submited"
             component={TutorsPages.Submited}
           />
+
           <PrivateRoute path="/messages" component={TutorsPages.Messanger} />
+
+          {/* <PrivateRoute path='/tutor/students/:id' component={StudentProfile} /> */}
+          {/* <PrivateRoute path='/tutor/profile' component={ProfileLayout} /> */}
+          {/* <PrivateRoute
+            path='/tutor/new-profile-page'
+            component={NewTutorProfile}
+          /> */}
         </div>
       </Router>
       <ToastContainer />
