@@ -1,11 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Layout from '../../../components/Layout';
-import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-import Modal from '../../../components/Modal';
-import TimeSelect from '../../../components/TimeSelect';
-import NotificationManager from '../../../components/NotificationManager';
-import { createAppointment } from '../../../actions/appointment';
 import { useTranslation } from 'react-i18next';
 import BookTimeTrial from './BoolTimeTrial';
 import SelectTutor from './SelectTutor';
@@ -20,20 +15,13 @@ const BookTrialLesson = () => {
     'deposit_payment',
     'overview_confirmation',
   ]);
-  const [visibleTimeSelect, setVisibleTimeSelect] = useState(false);
   const [startAt, setStartAt] = useState(new Date());
-  const [creating, setCreating] = useState(false);
 
   const [tabIndex, setTabIndex] = useState(1);
 
   const [selectedTutor, setSelectedTutor] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [visibleConfirm, setVisibleConfirm] = useState(false);
-
-  const setTimeSelectData = (start_at, duration) => {
-    setStartAt(start_at);
-    // setDuration(duration);
-  };
 
   const onContinue = (data) => {
     if (tabIndex === 1) {

@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import TutorCard from './TutorCard';
-import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-import TimeSelect from '../../components/TimeSelect';
 import LeftArrow from '../../assets/images/left-arrow.svg';
 import RightArrow from '../../assets/images/right-arrow.svg';
 import Layout from '../../components/Layout';
@@ -14,20 +11,11 @@ import {
   format,
   startOfMonth,
   endOfMonth,
-  startOfWeek,
-  endOfWeek,
-  isSameMonth,
-  isSameDay,
   addMinutes,
-  addDays,
   addMonths,
   subMonths,
-  parseISO,
 } from 'date-fns';
-import { renderSelect } from '../../components/Global';
-import Select from 'react-select';
 import CustomTable from '../../components/CustomTable';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Avatar } from '../../components/Avatar';
 import { getAppointments } from '../../actions/appointment';
@@ -39,18 +27,6 @@ const GroupLessons = () => {
   const [t, i18n] = useTranslation('translation');
 
   const user = useSelector((state) => state.users.user);
-  const optionsLevel = [
-    { value: 'all', label: t('all') },
-    { value: 'beginner', label: t('beginner') },
-    { value: 'intermediate', label: t('intermediate') },
-    { value: 'advanced', label: t('advanced') },
-    { value: 'adult', label: t('adult') },
-  ];
-  const optionsClassType = [
-    { value: 'all', label: t('all') },
-    { value: 'writing', label: t('writing') },
-    { value: 'debate', label: t('debate') },
-  ];
 
   const dispatch = useDispatch();
   const [isConfirmModal, setIsConfirmModal] = useState(false);
@@ -70,21 +46,6 @@ const GroupLessons = () => {
   }, [currentDate]);
 
   const appointments = useSelector((state) => state.appointment.list);
-
-  const customStyles = {
-    option: (styles, { isFocused, isSelected }) => ({
-      ...styles,
-      backgroundColor: isFocused ? '#F2F2F2' : null,
-      color: '#000000',
-      padding: '8px 0 8px 16px',
-      fontSize: 14,
-      fontWeight: isSelected ? 600 : 300,
-    }),
-    dropdownIndicator: (styles, state) => ({
-      ...styles,
-      transform: state.selectProps.menuIsOpen && 'rotate(180deg)',
-    }),
-  };
 
   const onBook = async (group) => {
     try {

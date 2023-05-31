@@ -7,13 +7,11 @@ import {
   getTutorInfo,
   updateExceptionDates,
   updateTutorAvailability,
-  updateTutorInfo,
 } from '../../../actions/tutor';
 import { Counter } from '../../../components/Counter';
 import { Toggle } from '../../../components/Toggle';
 import NotificationManager from '../../../components/NotificationManager';
 import { useTranslation } from 'react-i18next';
-import Layout from '../../../components/Layout';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import { Checkbox } from '../../../components/Checkbox';
