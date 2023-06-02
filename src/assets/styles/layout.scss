@@ -44,7 +44,7 @@
 .nav-bar {
   position: sticky;
   top: 0px;
-  z-index: 999;
+  z-index: 6;
   background-color: $color-white;
   height: 80px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -691,6 +691,7 @@
     }
 
     &.mobile-version {
+      background: white;
       position: fixed;
       height: 100vh;
       z-index: 8;
