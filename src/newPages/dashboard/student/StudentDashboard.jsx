@@ -194,24 +194,22 @@ const StudentListAppointments = () => {
                 {t('student_dashboard_subtitle', { ns: 'dashboard' })}
               </p>
               <div className="schedule-lesson-select pt-3">
-                <div className="page-card purple large-card py-5">
-                  <div className="row image-align_schedule">
-                    <div className="col-2 ms-3 mobilefinal mobilefinal-image">
+                <div className="page-card purple large-card py-5 flex flex-col gap-4">
+                  <div className="flex gap-2">
+                    <div className="w-32 flex m-auto">
                       <img
                         src={ImgCalendar}
                         alt=""
-                        className="img-fluid large-card-icon"
+                        className="img-fluid large-card-icon self-center"
                       />
                     </div>
-                    <div className="col-9 dash_width">
-                      <p className="title mt-1 laptop-title mobile_dash">
-                        {t('schedule_card', { ns: 'dashboard' })}
-                      </p>
-                    </div>
+                    <p className="title mt-1 laptop-title mobile_dash">
+                      {t('schedule_card', { ns: 'dashboard' })}
+                    </p>
                   </div>
-                  <div className="row mobile-view-buttons">
+                  <div>
                     <div
-                      className="col-6 desktop schedule-dashboard-button flex"
+                      className="desktop schedule-dashboard-button flex justify-center items-center"
                       style={{
                         width: '100%',
                       }}
