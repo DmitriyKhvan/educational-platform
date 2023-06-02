@@ -97,7 +97,7 @@ const myLessons = [
 
 const Lessons = () => {
   const [selectedOption, setSelectedOption] = useState();
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
 
   const columns = [
     {
@@ -119,7 +119,7 @@ const Lessons = () => {
       title: '',
       dataKey: 'actions',
       width: 10,
-      render: (item) => (
+      render: () => (
         <div className="actions">
           <a>{t('view_detail')}</a>
         </div>

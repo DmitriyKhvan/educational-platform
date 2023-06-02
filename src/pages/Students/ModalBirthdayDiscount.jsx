@@ -1,15 +1,10 @@
-import { useState } from 'react';
 import Modal from '../../components/Modal';
 import '../../assets/styles/student.scss';
-import { Checkbox } from '../../components/Checkbox';
-import ImgInfo from '../../assets/images/info.svg';
 import { useTranslation } from 'react-i18next';
 import ImgBalloon from '../../assets/images/balloon.svg';
-import { Link } from 'react-router-dom';
 
-const ModalBirthdayDiscount = ({ visible, start_at, onDismiss }) => {
-  const [t, i18n] = useTranslation('translation');
-  const [expand, setExpand] = useState(false);
+const ModalBirthdayDiscount = ({ visible, onDismiss }) => {
+  const [t] = useTranslation('translation');
 
   return (
     <Modal

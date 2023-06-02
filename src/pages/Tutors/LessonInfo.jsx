@@ -1,13 +1,10 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import Layout from '../../components/Layout';
 import styles from './LessonInfo.module.scss';
 import Avatar from '../../assets/images/Avatar.png';
 import FeedbackLessonModal from './FeedbackLessonModal';
 
 const LessonInfo = () => {
-  const { lessonID } = useParams();
-
   const [isFeedbackShow, setFeedbackShow] = React.useState(false);
 
   const handleCloseModal = () => setFeedbackShow(false);

@@ -43,7 +43,7 @@ const Lessons = ({
 }) => {
   const [selectedOption, setSelectedOption] = useState();
   const [students, setStudents] = useState([]);
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
 
   useEffect(() => {
     if (appointments && appointments.list) {
@@ -71,7 +71,7 @@ const Lessons = ({
       title: t('lesson'),
       dataKey: 'lessonType',
       width: 30,
-      render: (text, record) => <p className="lesson-type">{text}</p>,
+      render: (text) => <p className="lesson-type">{text}</p>,
     },
     // {
     //   title: t('lesson_number'),

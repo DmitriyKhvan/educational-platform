@@ -30,7 +30,7 @@ const tutor_attendance = [
 ];
 
 const ModalFeedback = ({ visible, onDismiss, appointment }) => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   const [starIndex, setStarIndex] = useState(-1);
   const [attendance, setAttendance] = useState(null);
 
@@ -38,10 +38,10 @@ const ModalFeedback = ({ visible, onDismiss, appointment }) => {
   const [formData, setFormData] = useState({
     review: '',
   });
-  const [formDataError, setFormDataError] = useState({
+  const [formDataError] = useState({
     review: '',
   });
-  const handleChange = (option, stateName) => {
+  const handleChange = (option) => {
     setFormData({ review: option });
   };
 

@@ -11,7 +11,7 @@ import { useHistory } from 'react-router-dom';
 
 const SelectLessonType = ({ onContinue }) => {
   const dispatch = useDispatch();
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const planStatus = useSelector((state) => state.students.planStatus);
   const loading = useSelector((state) => state.students.loading);
@@ -25,7 +25,7 @@ const SelectLessonType = ({ onContinue }) => {
     dispatch(getPlanStatus(data));
   }, [dispatch]);
 
-  const onSelect = (key, lesson) => {
+  const onSelect = (key) => {
     setSelectedIndex(key);
   };
 

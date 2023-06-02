@@ -31,7 +31,7 @@ const customStyles = {
 
 const SelectTutor = ({ selectedTime, onBack, onContinue, isTimeFirst }) => {
   const dispatch = useDispatch();
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   const [selectedTutor, setSelectedTutor] = useState(-1);
   const majors = [
     { label: t('all'), value: 'all' },
@@ -100,7 +100,7 @@ const SelectTutor = ({ selectedTime, onBack, onContinue, isTimeFirst }) => {
     setMajorOption(e);
   };
 
-  const onChangeCheckFavouriteTutors = (e) => {
+  const onChangeCheckFavouriteTutors = () => {
     setCheckedFavouriteTutors(!checkedFavouriteTutors);
   };
 

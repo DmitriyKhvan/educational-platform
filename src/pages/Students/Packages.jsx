@@ -2,18 +2,11 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../../components/Layout';
 import '../../assets/styles/student.scss';
-import ImgChecked from '../../assets/images/checked.svg';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-import Modal from '../../components/Modal';
 import NotificationManager from '../../components/NotificationManager';
 import { Checkbox } from '../../components/Checkbox';
-import {
-  getPlan,
-  createPlan,
-  updatePlan,
-  getSubscriptions,
-} from '../../actions/subscription';
+import { getPlan, getSubscriptions } from '../../actions/subscription';
 import SubscriptionApi from '../../api/SubscriptionApi';
 import { useTranslation } from 'react-i18next';
 import {
@@ -39,7 +32,7 @@ import NewSubscription from '../../components/NewSubscription';
  */
 
 export const PackagesView = () => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   const subscription_plan = useSelector((state) => state.students.subscription);
   const loading = useSelector((state) => state.students.loading);
   const dispatch = useDispatch();
@@ -172,6 +165,7 @@ export const PackagesView = () => {
       if (selectedPlan === null) {
         if (promoCode && promoCode.length) {
           try {
+            // eslint-disable-next-line no-unused-vars
             const { data: couponData } = await SubscriptionApi.validCoupon(
               promoCode,
             );
@@ -356,7 +350,7 @@ export const PackagesView = () => {
 };
 
 export const Packages = () => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   return (
     <Layout>
       <div className="packages-layout">

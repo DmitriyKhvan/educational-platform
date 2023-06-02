@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import subLessonIcon from '../../../assets/images/sub_lessons_icon.svg';
 import TutorApi from '../../../api/TutorApi';
-import { Provider, useSelector } from 'react-redux';
-import NotificationManager from '../../../components/NotificationManager';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import fedHolidays from '@18f/us-federal-holidays';
 export const Settings = () => {
@@ -12,8 +11,6 @@ export const Settings = () => {
   // states for handling switch toggled
   const [subBookings, setSubBookings] = useState(false);
   const [holidayBookings, setHolidayBookings] = useState(false);
-  const [calendarConflicts, setCalendarConflicts] = useState(true);
-  const [addCalendarLessons, setAddCalendarLessons] = useState(false);
   const [FederalHolidays, setFederalHolidays] = useState(false);
   const tutor_id = useSelector(
     (state) => state?.users?.user?.tutor_profile?.id,
@@ -50,12 +47,6 @@ export const Settings = () => {
   };
   const toggleHolidayBookings = () => {
     setHolidayBookings(!holidayBookings);
-  };
-  const toggleCalendarConflicts = () => {
-    setCalendarConflicts(!calendarConflicts);
-  };
-  const toggleAddCalendarLessons = () => {
-    setAddCalendarLessons(!addCalendarLessons);
   };
   const saveSettings = () => {
     if (holidayBookings === true) {

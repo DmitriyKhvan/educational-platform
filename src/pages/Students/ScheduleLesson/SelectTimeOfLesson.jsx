@@ -63,7 +63,7 @@ const SelectTimeOfLesson = ({
   onBack,
 }) => {
   const dispatch = useDispatch();
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
 
   const user = useSelector((state) => state.users.user);
 
@@ -152,12 +152,12 @@ const SelectTimeOfLesson = ({
         let idx = DAYS.indexOf(tDay.toLocaleLowerCase());
         for (let time of tutor.availabilities[tDay]) {
           try {
-            let [hours, minutes, _seconds] = time.from.split(':');
+            let [hours, minutes] = time.from.split(':');
             let from = Math.ceil(
               ((hours || 0) * 60 + (minutes || 0) * 1 + diffTimezone) / 30,
             );
 
-            [hours, minutes, _seconds] = time.to.split(':');
+            [hours, minutes] = time.to.split(':');
             let to = Math.ceil(
               ((hours || 0) * 60 + (minutes || 0) * 1 + diffTimezone) / 30,
             );

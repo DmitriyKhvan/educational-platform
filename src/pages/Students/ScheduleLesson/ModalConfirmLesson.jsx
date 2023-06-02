@@ -5,10 +5,9 @@ import { useTranslation } from 'react-i18next';
 import ImgChecked from '../../../assets/images/checked.svg';
 import { Link, useHistory } from 'react-router-dom';
 import { differenceInDays, differenceInHours } from 'date-fns';
-import student from '../../../reducers/students';
 
 const ModalConfirmLesson = ({ visible, start_at, onDismiss }) => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   const [remain, setRemain] = useState('');
   const history = useHistory();
   const studentId = history.location.state && history.location.state.studentId;

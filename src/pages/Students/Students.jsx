@@ -29,7 +29,7 @@ const customStyles = {
 };
 
 const Students = ({ students, title, sort, setSort }) => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
 
   const columns = [
     {

@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { AvailProv } from './AvailabilityProvider';
 import trashCan from '../../../assets/images/trash_can.svg';
 import Alert from '../../../components/Popup/Alert';
 import Select from 'react-select';
-import { useForm } from 'react-hook-form';
 import findIndex from 'lodash-es/findIndex';
 
 const formatTime = (time) => {
@@ -18,238 +17,36 @@ const formatTimeToSeconds = (time) => {
   return parseInt(hours) * 60 * 60 + parseInt(minutes) * 60;
 };
 
-const times = [
-  {
-    timeType: '12:00 AM',
-    time: 0,
-  },
-  {
-    timeType: '12:30 AM',
-    time: 1800,
-  },
-
-  {
-    timeType: '01:00 AM',
-    time: 3600,
-  },
-  {
-    timeType: '01:30 AM',
-    time: 5400,
-  },
-  {
-    timeType: '02:00 AM',
-    time: 7200,
-  },
-  {
-    timeType: '02:30 AM',
-    time: 9000,
-  },
-  {
-    timeType: '03:00 AM',
-    time: 10800,
-  },
-  {
-    timeType: '03:30 AM',
-    time: 12600,
-  },
-  {
-    timeType: '04:00 AM',
-    time: 14400,
-  },
-  {
-    timeType: '04:30 AM',
-    time: 16200,
-  },
-  {
-    timeType: '05:00 AM',
-    time: 18000,
-  },
-  {
-    timeType: '05:30 AM',
-    time: 19800,
-  },
-  {
-    timeType: '06:00 AM',
-    time: 21600,
-  },
-  {
-    timeType: '06:30 AM',
-    time: 23400,
-  },
-  {
-    timeType: '07:00 AM',
-    time: 25200,
-  },
-  {
-    timeType: '07:30 AM',
-    time: 27000,
-  },
-  {
-    timeType: '08:00 AM',
-    time: 28800,
-  },
-  {
-    timeType: '08:30 AM',
-    time: 30600,
-  },
-  {
-    timeType: '09:00 AM',
-    time: 32400,
-  },
-  {
-    timeType: '09:30 AM',
-    time: 34200,
-  },
-  {
-    timeType: '10:00 AM',
-    time: 36000,
-  },
-  {
-    timeType: '10:30 AM',
-    time: 37800,
-  },
-  {
-    timeType: '11:00 AM',
-    time: 39600,
-  },
-  {
-    timeType: '11:30 AM',
-    time: 41400,
-  },
-  {
-    timeType: '12:00 PM',
-    time: 43200,
-  },
-  {
-    timeType: '12:30 PM',
-    time: 45000,
-  },
-  {
-    timeType: '01:00 PM',
-    time: 46800,
-  },
-  {
-    timeType: '01:30 PM',
-    time: 48600,
-  },
-  {
-    timeType: '02:00 PM',
-    time: 50400,
-  },
-  {
-    timeType: '02:30 PM',
-    time: 52200,
-  },
-  {
-    timeType: '03:00 PM',
-    time: 54000,
-  },
-  {
-    timeType: '03:30 PM',
-    time: 55800,
-  },
-  {
-    timeType: '04:00 PM',
-    time: 57600,
-  },
-  {
-    timeType: '04:30 PM',
-    time: 59400,
-  },
-  {
-    timeType: '05:00 PM',
-    time: 61200,
-  },
-  {
-    timeType: '05:30 PM',
-    time: 63000,
-  },
-  {
-    timeType: '06:00 PM',
-    time: 64800,
-  },
-  {
-    timeType: '06:30 PM',
-    time: 66600,
-  },
-  {
-    timeType: '07:00 PM',
-    time: 68400,
-  },
-  {
-    timeType: '07:30 PM',
-    time: 70200,
-  },
-  {
-    timeType: '08:00 PM',
-    time: 72000,
-  },
-  {
-    timeType: '08:30 PM',
-    time: 73800,
-  },
-  {
-    timeType: '09:00 PM',
-    time: 75600,
-  },
-  {
-    timeType: '09:30 PM',
-    time: 77400,
-  },
-  {
-    timeType: '10:00 PM',
-    time: 79200,
-  },
-  {
-    timeType: '10:30 PM',
-    time: 81000,
-  },
-  {
-    timeType: '11:00 PM',
-    time: 82800,
-  },
-  {
-    timeType: '11:30 PM',
-    time: 84600,
-  },
-];
+const times = Array.from({ length: 48 }, (_, i) => {
+  const temp = moment
+    .utc()
+    .startOf('day')
+    .add(i * 30, 'minutes');
+  return {
+    timeType: temp.format('hh:mm A'),
+    time: 1800 * i,
+  };
+});
 
 const timeOptions = times.map(({ timeType, time }) => {
   return { value: time, label: timeType };
 });
 
 const AvailabilityPicker = ({
-  isAdmin,
   day,
   id,
-  user_id,
-  setGatherAvailabilities,
-  gatherAvailabilities,
-  disabled = false,
-  setHasValidTimes,
-  newRow,
-  date,
   frmTime,
   tTime,
   updateTime,
-  isteachAddHours,
-  setIsTeachAddHours,
-  setDisablePlusBtn,
   AvailabilitySlots,
   type,
 }) => {
-  const dispatch = useDispatch();
-  const { removeAvailabilityRow, availabilityRow } = useContext(AvailProv);
+  const { removeAvailabilityRow } = useContext(AvailProv);
   const { t } = useTranslation('modals');
   const tutorInfo = useSelector((state) => state.tutor.info);
-  const user = useSelector((state) =>
-    isAdmin ? state.admin.user : state.users.user,
-  );
   const [fromTime, setFromTime] = useState(frmTime);
   const [toTime, setToTime] = useState(tTime);
   const [currentData, setCurrentData] = useState([]);
-
-  const { control } = useForm();
 
   useEffect(() => {
     setCurrentData(tutorInfo.availabilities[day]);
@@ -303,8 +100,6 @@ const AvailabilityPicker = ({
   };
 
   const removeRows = (item) => {
-    const data = availabilityRow[item.type];
-
     removeAvailabilityRow(item);
   };
 

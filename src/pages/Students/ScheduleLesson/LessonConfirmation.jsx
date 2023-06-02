@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link , useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
@@ -12,15 +12,12 @@ import {
 import ActionTypes from '../../../constants/actionTypes';
 import NotificationManager from '../../../components/NotificationManager';
 import Layout from '../../../components/Layout';
-import LessonCardComponent from './LessonCard';
 import ScheduleCard from './ScheduleCard';
 import TutorImageRow from './TutorImageRow';
 import ScheduleCardComponent from '../../../components/student-dashboard/ScheduleCard';
 import Loader from '../../../components/common/Loader';
 import { useAuth } from '../../../modules/auth';
 import LessonCard from './LessonCard';
-import { MENTORS_QUERY } from '../../../modules/auth/graphql';
-import { useQuery } from '@apollo/client';
 
 const LessonConfirmation = ({
   plan,
@@ -32,14 +29,11 @@ const LessonConfirmation = ({
 }) => {
   const dispatch = useDispatch();
   const [t] = useTranslation(['common', 'lessons', 'dashboard']);
-  const [repeat, setRepeat] = useState({});
-  const [cancel, setCancel] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
-  const [isChecked, setIsChecked] = useState(false);
   const [newAppointment, setNewAppointment] = useState({});
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [date, setDate] = useState();
+  const [, setDate] = useState();
   const [confirmDisable, setConfirmDisable] = useState(false);
   const fetchAppointments = async () => {
     return await dispatch(getAppointments());
@@ -94,64 +88,14 @@ const LessonConfirmation = ({
   // }
   data = { ...data, student_id: 26 };
 
-  const weekArr = Array.apply(null, Array(7)).map((_, i) =>
-    moment(i, 'e')
-      .startOf('week')
-      .isoWeekday(i + 1)
-      .format('ddd'),
-  );
-
-  const checkboxEvent = ({ target }) => {
-    const id = parseInt(target.value);
-    if (id <= 4) {
-      if (id === repeat.value) {
-        setRepeat({});
-      } else {
-        setRepeat({ data: target.id, value: id });
-      }
-    } else if (id > 4) {
-      if (id === cancel.value) {
-        setCancel({});
-        setIsChecked(false);
-      } else {
-        setCancel({ data: target.id, value: id });
-        setIsChecked(true);
-      }
-    }
-  };
-
-  const repeatingLessonArr = [
-    {
-      data: t('every_week'),
-      value: 1,
-    },
-    {
-      data: t('every_two_weeks'),
-      value: 2,
-    },
-    {
-      data: t('dont_repeat'),
-      value: 3,
-    },
-    {
-      data: t('custom'),
-      value: 4,
-    },
-  ];
-
-  const cancellationArr = [
-    { data: t('assign_new_tutor'), value: 5 },
-    { data: t('choose_new_tutor'), value: 6 },
-    { data: t('return_lesson_credit'), value: 7 },
-  ];
 
   const confirmLesson = async () => {
     setIsLoading(true);
 
     /* this means if the lesson ID exists, its going to be a reschedule */
     if (lessonId) {
-      const { payload } = await dispatch(getAppointments());
-      const [oldAppointment] = payload?.filter(
+      const { payload } = dispatch(getAppointments());
+      const oldAppointment = payload?.filter(
         (v) => parseInt(v.id) === parseInt(lessonId),
       );
       const oldStartAt = moment(oldAppointment?.start_at);
@@ -164,13 +108,13 @@ const LessonConfirmation = ({
       setIsLoading(true);
       const res =
         duration < 24
-          ? await dispatch(
+          ? dispatch(
               updateAppointment(lessonId, {
                 ...rescheduleData,
                 payment_id: plan?.payment_id,
               }),
             )
-          : await dispatch(
+          : dispatch(
               updateAppointment(lessonId, {
                 ...rescheduleData,
               }),
@@ -178,7 +122,7 @@ const LessonConfirmation = ({
       setIsLoading(false);
 
       if (res.type === ActionTypes.UPDATE_APPOINTMENT_INFO.SUCCESS) {
-        const { payload } = await dispatch(
+        const { payload } = dispatch(
           getAppointments({ tutor_id: data?.tutor_id }),
         );
         setConfirmDisable(true);

@@ -9,13 +9,13 @@ import { Checkbox } from '../../components/Checkbox';
 import CupImage from '../../assets/images/cup.svg';
 import { Avatar } from '../../components/Avatar';
 import { renderFormField, renderSelect } from '../../components/Global';
-import NotificationManager from '../../components/NotificationManager.js';
+import NotificationManager from '../../components/NotificationManager';
 
 import '../../assets/styles/student.scss';
 import AppointmentApi from '../../api/AppointmentApi';
 
 const LessonFinishModal = ({ visible, onDismiss, group, user }) => {
-  const [t, _] = useTranslation('translation');
+  const [t] = useTranslation('translation');
 
   const student_attendance = [
     { label: t('stduent_was_ontime'), value: 'on_time' },

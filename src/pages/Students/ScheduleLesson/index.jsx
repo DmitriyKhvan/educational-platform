@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import LessonConfirmation from './LessonConfirmation';
 import ScheduleSelector from './ScheduleSelector';

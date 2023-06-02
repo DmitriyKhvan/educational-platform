@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import Layout from '../../../components/Layout';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +15,7 @@ import ModalConfirmLesson from './ModalConfirmLesson';
 
 const ScheduleLessonSteps = () => {
   const history = useHistory();
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
 
   const [tabs, setTabs] = useState([]);
 

@@ -1,9 +1,7 @@
 import Layout from '../../../components/Layout';
-import { useTranslation } from 'react-i18next';
 import { Settings } from './Settings';
-export const AvailabilitySettings = () => {
-  const [t] = useTranslation('translation');
 
+export const AvailabilitySettings = () => {
   return (
     <Layout>
       <Settings />
