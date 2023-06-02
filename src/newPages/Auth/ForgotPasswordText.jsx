@@ -2,7 +2,7 @@ import AuthLayout from '../../components/AuthLayout';
 import { useTranslation } from 'react-i18next';
 
 const ForgotPasswordText = () => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   return (
     <AuthLayout>
       <div className="auth-sent-email">

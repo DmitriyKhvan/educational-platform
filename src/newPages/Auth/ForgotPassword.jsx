@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import NotificationManager from '../../components/NotificationManager';
 import AuthLayout from '../../components/AuthLayout';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../modules/auth';
@@ -8,8 +6,7 @@ import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const ForgotPassword = () => {
-  const history = useHistory();
+const ForgotPassword = () => {;
   const [t] = useTranslation('common');
   const [error, setError] = useState('');
   const { resetPassword } = useAuth();

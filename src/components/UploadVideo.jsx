@@ -2,11 +2,11 @@ import React, { useState, useRef } from 'react';
 import '../assets/styles/video_uploader.scss';
 import { useTranslation } from 'react-i18next';
 
-const UploadVideo = ({ url, file, setFile, id, progress }) => {
+const UploadVideo = ({ file, setFile, id, progress }) => {
   const ref = useRef();
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   const [dragOver, setDragOver] = useState(false);
-  const [errorNotification, setErrorNotification] = useState(null);
+  const [, setErrorNotification] = useState(null);
 
   /**
       Drag and Drop Event Handlers

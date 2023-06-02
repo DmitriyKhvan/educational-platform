@@ -26,7 +26,7 @@ const timezoneOptions = timezones.map(({ label, tzCode }) => ({
 
 const EditProflileModal = ({ profileImage, isOpen, setIsOpen }) => {
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
-  const [preview, setPreview] = React.useState({});
+  const [, setPreview] = React.useState({});
 
   const notifyAvatar = () => toast('Avatar is changed!');
   const notify = () => toast('Student information is changed!');
@@ -127,7 +127,6 @@ const EditProflileModal = ({ profileImage, isOpen, setIsOpen }) => {
           <input
             {...register('avatar')}
             webkitdirectory
-            directory
             id="inputTag"
             type={'file'}
             multiple

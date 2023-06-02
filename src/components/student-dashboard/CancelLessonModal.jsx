@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { cancelAppointment } from '../../actions/appointment';
-import NotificationManager from '../NotificationManager';
 
 const CancelLessonModal = ({
   setTabIndex,
@@ -42,7 +41,9 @@ const CancelLessonModal = ({
     if (res.type === 'CANCEL_APPOINTMENT_INFO_SUCCESS') {
       try {
         await fetchAppointments();
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+      }
       setIsOpen(false);
       if (cancelled) {
         await cancelled();
@@ -71,8 +72,8 @@ const CancelLessonModal = ({
           <p className="welcome-subtitle mb-4">
             Why are you cancelling this lesson?
           </p>
-          {cancellationArr.map((x, i) => (
-            <div className="form-check pt-1">
+          {cancellationArr.map((x) => (
+            <div className="form-check pt-1" key={x}>
               <input
                 className="form-check-input"
                 type="checkbox"

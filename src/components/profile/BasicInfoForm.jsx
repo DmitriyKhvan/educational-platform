@@ -54,8 +54,6 @@ const BasicInfoForm = () => {
   const onClick = async () => {
     const res = await dispatch(updateUserInfo(userData));
     handleDisableSave(true);
-    if (res.type === 'UPDATE_USER_SUCCESS') {
-    }
 
     if (res.type === 'UPDATE_USER_FAILURE') {
       NotificationManager.error(t('update_profile_failed'), t);

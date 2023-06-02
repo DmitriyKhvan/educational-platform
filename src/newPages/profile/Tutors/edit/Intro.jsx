@@ -26,8 +26,8 @@ const Intro = ({ cls }) => {
       if (yt.includes(url[i])) {
         isVideo = true;
         if (url.includes('=')) {
-          for (var i = 0; i < url.length; i++) {
-            if (url[i] === '=') {
+          for (var l = 0; i < url.length; i++) {
+            if (url[l] === '=') {
               codeURL = url.slice(i + 1);
             }
           }

@@ -31,7 +31,7 @@ const ReviewLessonModal = ({ isOpen, setIsOpen, lessonInfo }) => {
     hour: 'numeric',
   }).format(new Date(lessonInfo.date.getTime() + lessonInfo.duration * 60000));
 
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     closeModal();
   };
 

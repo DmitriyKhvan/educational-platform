@@ -30,7 +30,9 @@ const MessageChat = () => {
         try {
           const { data } = await ChatsApi.getMessages(chatId);
           setMessages(data.messages);
-        } catch (e) {}
+        } catch (e) {
+          console.error(e);
+        }
       })();
     }, 200);
 

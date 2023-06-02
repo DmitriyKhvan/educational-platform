@@ -1,9 +1,8 @@
-import React from 'react';
-
 import cls from '../EditTutorProfile.module.scss';
 import { useTranslation } from 'react-i18next';
+import { forwardRef, useState, useEffect } from 'react';
 
-export const Textarea = React.forwardRef(
+export const Textarea = forwardRef(
   (
     {
       placeholder = '',
@@ -16,7 +15,7 @@ export const Textarea = React.forwardRef(
     },
     ref,
   ) => {
-    const [count, setCount] = React.useState(0);
+    const [count, setCount] = useState(0);
     const [t] = useTranslation('profile');
 
     function renderCount() {
@@ -29,7 +28,7 @@ export const Textarea = React.forwardRef(
       }
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
       renderCount();
     }, [state, user]);
 
@@ -48,3 +47,5 @@ export const Textarea = React.forwardRef(
     );
   },
 );
+
+Textarea.displayName = 'Textarea';

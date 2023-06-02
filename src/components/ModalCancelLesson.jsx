@@ -18,7 +18,7 @@ export const ModalCancelLesson = ({
   const [checked, setChecked] = useState([]);
   const [fupdate, setFupdate] = useState(false);
   useEffect(() => {
-    const checked = reasons.map((reason) => false);
+    const checked = reasons.map(() => false);
     setChecked(checked);
   }, [reasons]);
 

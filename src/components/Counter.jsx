@@ -2,7 +2,7 @@ import ImgIncrease from '../assets/images/increase.svg';
 import ImgDecrease from '../assets/images/decrease.svg';
 import { useState } from 'react';
 
-export const Counter = ({ max, min, onUpdate, initValue }) => {
+export const Counter = ({ max, onUpdate, initValue }) => {
   const [value, setValue] = useState(initValue);
   const onChange = (plus) => {
     let val = value;

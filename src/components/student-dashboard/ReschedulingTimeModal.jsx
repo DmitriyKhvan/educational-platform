@@ -9,7 +9,6 @@ import Swal from 'sweetalert2';
 const ReschedulingTimeModal = ({
   setSchedule,
   setTabIndex,
-  type,
   duration,
 }) => {
   const [t] = useTranslation(['lessons', 'common', 'modals']);

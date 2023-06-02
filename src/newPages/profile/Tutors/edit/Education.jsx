@@ -1,6 +1,5 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import Stick from '../../../../assets/stick.png';
 import { TextInput } from './TextInput';
 
 import Verify from '../../../../assets/Verif.png';
@@ -37,7 +36,7 @@ const Education = ({ cls }) => {
   const handleEditEdu = async (area) => {
     if (file) {
       const files = file.target?.files[0];
-      const { data } = updateTutor({
+      updateTutor({
         variables: {
           where: {
             id: parseInt(user?.tutor?.id),

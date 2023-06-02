@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import '../../assets/styles/calendar.scss';
 
-const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
+const LessonTable = ({ timezone, tabularData }) => {
   const [t] = useTranslation('lessons');
   const [displayTableData, setDisplayTableData] = useState([]);
 
@@ -39,8 +39,10 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
       <table className="table">
         <thead>
           <tr>
-            {tableHead.map((x) => (
-              <th scope="col">{x}</th>
+            {tableHead.map((x, ind) => (
+              <th scope="col" key={`row-${ind}`}>
+                {x}
+              </th>
             ))}
           </tr>
         </thead>
@@ -54,8 +56,8 @@ const LessonTable = ({ timezone, isUpcoming, tabularData }) => {
               <td>{t('no_lessons')}</td>
             </tr>
           )}
-          {displayTableData.map((event, i) => (
-            <tr className="tr-center">
+          {displayTableData.map((event) => (
+            <tr className="tr-center" key={event.start_at}>
               <td className="td-item m-0">
                 <p className="td-lesson">{event.lesson}</p>
               </td>

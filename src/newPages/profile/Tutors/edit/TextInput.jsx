@@ -1,8 +1,7 @@
-import React from 'react';
-
 import cls from '../EditTutorProfile.module.scss';
+import { forwardRef } from 'react';
 
-export const TextInput = React.forwardRef(
+export const TextInput = forwardRef(
   ({ type = '', placeholder = '', disabled, label = '', ...rest }, ref) => {
     return (
       <div className={cls.form_divider}>
@@ -18,3 +17,5 @@ export const TextInput = React.forwardRef(
     );
   },
 );
+
+TextInput.displayName = 'TextInput';

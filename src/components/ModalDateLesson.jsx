@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState } from 'react';
 import Modal from './Modal';
 import '../assets/styles/student.scss';
@@ -20,7 +19,6 @@ const ModalDateLesson = ({
   date,
   lessonData,
   onChangeDate,
-  onViewTutor,
 }) => {
   const [t] = useTranslation(['lessons', 'modals']);
   const today = new Date();
@@ -171,7 +169,7 @@ const ModalDateLesson = ({
     onChangeDate(newDate, true);
   };
 
-  const onCancelLesson = async (reasons) => {
+  const onCancelLesson = async () => {
     const res = await dispatch(cancelAppointment(selectedLesson.id));
     if (res === ActionTypes.CANCEL_APPOINTMENT_INFO.SUCCESS) {
       setVisibleCancel(false);

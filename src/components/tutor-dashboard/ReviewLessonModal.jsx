@@ -21,7 +21,7 @@ const ReviewLessonModal = ({ isOpen, setIsOpen, lessonInfo }) => {
     date: new Date(),
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     closeModal();
   };
 

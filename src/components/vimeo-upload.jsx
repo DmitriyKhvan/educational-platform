@@ -174,7 +174,7 @@
 
     */
 
-  me.prototype.defaults = function (opts) {
+  me.prototype.defaults = function () {
     return defaults; /* TODO $.extend(true, defaults, opts) */
   };
 
@@ -288,6 +288,7 @@
    * @private
    */
   me.prototype.complete_ = function (xhr) {
+    //eslint-disable-next-line
     var xhr = new XMLHttpRequest();
     xhr.open('DELETE', this.complete_url, true);
     xhr.setRequestHeader('Authorization', 'Bearer ' + this.token);

@@ -38,7 +38,10 @@ const BookingRequest = ({ lessonApprovals, fetchAppointments, user }) => {
       <h4 className="weekly-schedule">{t('booking_request')}</h4>
       {lessonApprovals.map((event) => {
         return (
-          <div className="page-card grey-border bg-white small-card mt-4 p-3 pt-0 ps-4">
+          <div
+            className="page-card grey-border bg-white small-card mt-4 p-3 pt-0 ps-4"
+            key={event.id}
+          >
             <h1 className="text-black">{event.lesson.description}</h1>
             <p className="text-light-grey mt-0">
               {displayBookingRequestDate(event)}

@@ -10,8 +10,8 @@ const AvailabilitySpots = ({ times }) => {
       <p className="welcome-subtitle text-purple">
         {t('available_spots_subtitle')}
       </p>
-      {times.map((x) => (
-        <ScheduleCard scheduleStartTime={x} />
+      {times.map((x, ind) => (
+        <ScheduleCard scheduleStartTime={x} key={'available-' + ind} />
       ))}
     </React.Fragment>
   );

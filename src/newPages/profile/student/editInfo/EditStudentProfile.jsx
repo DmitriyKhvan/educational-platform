@@ -33,7 +33,7 @@ const EditProflileStudent = () => {
   const [profileImage, setProfileImage] = React.useState('');
 
   const history = useHistory();
-  const [preview, setPreview] = React.useState({});
+  const [, setPreview] = React.useState({});
 
   const notifyAvatar = () => toast('Avatar is changed!');
   const notify = () => toast('Student information is changed!');
@@ -132,7 +132,6 @@ const EditProflileStudent = () => {
               <input
                 {...register('avatar')}
                 webkitdirectory
-                directory
                 id="inputTag"
                 type={'file'}
               />

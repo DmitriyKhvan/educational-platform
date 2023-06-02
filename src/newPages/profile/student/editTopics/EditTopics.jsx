@@ -73,8 +73,8 @@ const EditTopics = () => {
         </div>
 
         <div className="topics_inline">
-          {addTopic.map((item) => (
-            <Topics item={item} onHandle={handleTopic} />
+          {addTopic.map((item, ind) => (
+            <Topics item={item} key={`topic-${ind}`} onHandle={handleTopic} />
           ))}
         </div>
 

@@ -8,59 +8,9 @@ import './Students.scss';
 import { useHistory } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { STUDENTS_QUERY } from '../../modules/auth/graphql';
-import studentsModal from './StudentsModal';
 import Loader from '../../components/Loader/Loader';
 import StudentsModal from './StudentsModal';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../modules/auth';
-
-const filtersList = [
-  {
-    id: 1,
-    caption: 'Sex',
-    options: [
-      {
-        id: 1,
-        title: 'Man',
-      },
-      {
-        id: 2,
-        title: 'Women',
-      },
-    ],
-    checkbox: false,
-  },
-  {
-    id: 2,
-    caption: 'school',
-    options: [
-      {
-        id: 1,
-        title: 'Harvard',
-      },
-      {
-        id: 2,
-        title: 'Cambridge',
-      },
-    ],
-    checkbox: false,
-  },
-  {
-    id: 3,
-    caption: 'major',
-    options: [
-      {
-        id: 1,
-        title: 'Major',
-      },
-      {
-        id: 2,
-        title: 'Major',
-      },
-    ],
-    checkbox: false,
-  },
-];
 
 export default function StudentsList() {
   const [showStudentModal, setShowStudentModal] = React.useState(false);
@@ -68,13 +18,11 @@ export default function StudentsList() {
   const { data } = useQuery(STUDENTS_QUERY, {
     errorPolicy: 'ignore',
   });
-  const students = data?.students?.filter(i => i.user?.isActive);
-
-  const { user } = useAuth();
+  const students = data?.students?.filter((i) => i.user?.isActive);
 
   const [t] = useTranslation(['common', 'studentMentor']);
 
-  const handleStatusTutor = (id) => {};
+  const handleStatusTutor = () => {};
 
   const handleMoreTutor = (id) => {
     if (id) {

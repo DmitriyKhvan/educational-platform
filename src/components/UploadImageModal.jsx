@@ -8,7 +8,7 @@ import { Avatar } from './Avatar';
 
 const UploadImageModal = (props) => {
   const ref = useRef();
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   const [file, setFile] = useState(null);
   const [dragOver, setDragOver] = useState(false);
   const [preset, setPreset] = useState(-1);

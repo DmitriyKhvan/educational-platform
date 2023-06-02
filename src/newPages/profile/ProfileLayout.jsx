@@ -8,7 +8,7 @@ import Layout from '../../components/Layout';
 import { useAuth } from '../../modules/auth';
 import SwitchProfile from './SwitchProfile';
 
-export const ProfileLayout = ({ user_id }) => {
+export const ProfileLayout = () => {
   const history = useHistory();
   const { user: CurrentUser } = useAuth();
 

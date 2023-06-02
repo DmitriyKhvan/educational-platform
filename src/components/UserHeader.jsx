@@ -2,7 +2,7 @@ import { getAvatarName } from '../constants/global';
 import Stars from './Stars';
 import { Avatar } from './Avatar';
 
-export const UserHeader = ({ user, roleUser, onAction }) => {
+export const UserHeader = ({ user, onAction }) => {
   return (
     <div className="user-header">
       <div className="user-info">

@@ -1,8 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
 import ExportArrow from '../../../assets/ExportArrow.png';
-import Rotate from '../../../assets/rotate.png';
-import Crop from '../../../assets/crop.png';
 
 import './EditAvatar.scss';
 import { useAuth } from '../../../modules/auth';

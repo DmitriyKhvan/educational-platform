@@ -23,7 +23,7 @@ const RescheduleAndCancelModal = ({
   const [schedule, setSchedule] = useState();
   const [selectTutor, setSelectTutor] = useState();
   const tutors = useSelector((state) => state.tutor.list);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
 
   return (
     <ModalWrapper isOpen={isOpen} closeModal={closeModal}>

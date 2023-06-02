@@ -8,7 +8,6 @@ import maleAvatar from '../assets/images/avatars/img_avatar_male.png';
 import Swal from 'sweetalert2';
 
 const CalendarModal = ({
-  event,
   index,
   lesson,
   startTime,

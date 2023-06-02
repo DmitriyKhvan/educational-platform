@@ -3,9 +3,8 @@ import '../../../assets/styles/student.scss';
 import './style/StudentProfile.scss';
 import './style/GeneralProfile.scss';
 import { useAuth } from '../../../modules/auth';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import {
-  GROUPS_QUERY,
   MUTATION_UPDATE_STUDENT,
 } from '../../../modules/auth/graphql';
 import { toast } from 'react-toastify';
@@ -18,15 +17,8 @@ import { useTranslation } from 'react-i18next';
 
 const StudentProfile = () => {
   const [t] = useTranslation(['profile', 'common', 'lessons']);
-  const {
-    data: groups,
-    userLoading,
-    refetch: refetchUser,
-  } = useQuery(GROUPS_QUERY);
 
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
-
-  const [showEditModal, setIsShowEditModal] = React.useState(false);
   const [summary, setSummary] = React.useState(false);
   const [about, setAbout] = React.useState('');
   const [save, setSave] = React.useState(false);
@@ -34,7 +26,6 @@ const StudentProfile = () => {
   const planStatus = useSelector((state) => state.students.planStatus);
   const [profileImage, setProfileImage] = React.useState('');
   const dispatch = useDispatch();
-  const [schedule, setSchedule] = React.useState();
   const navigate = useHistory();
 
   const actions = useAuth();
@@ -89,7 +80,7 @@ const StudentProfile = () => {
 
   React.useEffect(() => {
     dispatch(getPlanStatus());
-  }, [dispatch, schedule]);
+  }, [dispatch]);
 
   const defaultAbout = actions?.user?.student?.about;
 

@@ -1,6 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import React, { useContext, useEffect } from 'react';
 
 import AvailabilityPickerOver from '../pages/Tutors/Availiability/AvailabilityPicker';
 import { AvailProv } from '../pages/Tutors/Availiability/AvailabilityProvider';
@@ -19,17 +17,14 @@ export const AvailabilityDayRowOver = ({
   type,
   id,
 }) => {
-  const tutorInfo = useSelector((state) => state.tutor.info);
   // const [currentToTime, setCurrentToTime] = useState("16:00")
-  const { t } = useTranslation();
 
   const avail = useContext(AvailProv);
   const { addAvailRows } = useContext(AvailProv);
 
   useEffect(() => {
     var crttoTime = currentToTime.split(':');
-    if (crttoTime[0] >= 17) {
-    } else {
+    if (!crttoTime[0] >= 17) {
       setDisablePlusBtn(false);
     }
   }, [currentToTime]);

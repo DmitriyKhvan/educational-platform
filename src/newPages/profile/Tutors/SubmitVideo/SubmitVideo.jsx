@@ -3,11 +3,9 @@ import Layout from '../../../../components/Layout';
 
 import cls from './SubmitVideo.module.scss';
 
-import VideoContainer from '../../../../assets/videos/video container.png';
-import VideoLayer from '../../../../assets/videos/VIDEO LAYER.png';
 import { useHistory } from 'react-router-dom';
 import { MUTATION_UPDATE_TUTOR } from '../../../../modules/auth/graphql';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useAuth } from '../../../../modules/auth';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -17,9 +15,7 @@ const SubmitVideo = () => {
   const [typeVideo, setTypeVideo] = React.useState('yt');
 
   const [t] = useTranslation(['profile', 'common']);
-  const [updateTutor, { loading: updateUserLoading }] = useMutation(
-    MUTATION_UPDATE_TUTOR,
-  );
+  const [updateTutor] = useMutation(MUTATION_UPDATE_TUTOR);
 
   const { user, refetchUser } = useAuth();
 
@@ -44,10 +40,6 @@ const SubmitVideo = () => {
     }
 
     await refetchUser();
-  };
-
-  const cancelVideo = () => {
-    history.push('/tutor/edit-profile');
   };
 
   return (

@@ -3,7 +3,6 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import Stick from '../../../../assets/stick.png';
 import { useAuth } from '../../../../modules/auth';
 import { MUTATION_UPDATE_TUTOR } from '../../../../modules/auth/graphql';
 import Submit from './Submit';
@@ -16,9 +15,7 @@ const Biography = ({ cls }) => {
   const [intro, setIntro] = React.useState(0);
   const [exp, setExp] = React.useState('');
   const [facts, setFacts] = React.useState('');
-  const [updateTutor, { loading: updateUserLoading }] = useMutation(
-    MUTATION_UPDATE_TUTOR,
-  );
+  const [updateTutor] = useMutation(MUTATION_UPDATE_TUTOR);
 
   const notify = () => toast('Biography information is changed!');
 
