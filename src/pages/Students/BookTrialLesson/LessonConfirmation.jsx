@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import '../../../assets/styles/dashboard.scss';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import ImgArrowBack from '../../../assets/images/arrow_back.svg';
-import { Checkbox } from '../../../components/Checkbox';
 import { Avatar } from '../../../components/Avatar';
 import Stars from '../../../components/Stars';
 import { format } from 'date-fns';
@@ -12,30 +11,10 @@ import { getAbbrName } from '../../../constants/global';
 
 const LessonConfirmation = ({ tutor, time, onBack, onContinue }) => {
   const dispatch = useDispatch();
-  const [t, i18n] = useTranslation('translation');
-  const [checkStates, setCheckStates] = useState([false, false, false]);
+  const [t] = useTranslation('translation');
 
   useEffect(() => {}, [dispatch]);
 
-  const onChangeChecked = (index) => {
-    let checked = [...checkStates];
-    checked[index] = !checked[index];
-    setCheckStates(checked);
-  };
-
-  const CancelReasonBox = ({ label, index, checked, onChange }) => {
-    return (
-      <div className={`cancel-reason ${checked ? 'active' : ''}`}>
-        <div>
-          <Checkbox
-            checked={checked}
-            onChange={() => onChange(index)}
-            label={label}
-          />
-        </div>
-      </div>
-    );
-  };
   return (
     <div className="overview-confirmation">
       <h4 className="main-title">{t('overview_confirmation')}</h4>

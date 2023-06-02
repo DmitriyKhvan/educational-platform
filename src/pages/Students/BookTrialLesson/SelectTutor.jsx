@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../../../assets/styles/dashboard.scss';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import { genders } from '../../../constants/global';
@@ -8,7 +8,6 @@ import { Checkbox } from '../../../components/Checkbox';
 import TutorCard from '../TutorCard';
 import ImgArrowBack from '../../../assets/images/arrow_back.svg';
 import ModalTutorBrief from '../ModalTutorBrief';
-import NotificationManager from '../../../components/NotificationManager';
 
 const customStyles = {
   option: (styles, { isFocused, isSelected }) => ({
@@ -260,7 +259,7 @@ const tutors = [
 
 const SelectTutor = (props) => {
   const dispatch = useDispatch();
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   const [selectedTutor, setSelectedTutor] = useState(-1);
   const majors = [
     { label: t('all'), value: 'all' },
@@ -315,7 +314,7 @@ const SelectTutor = (props) => {
     setMajorOption(e);
   };
 
-  const onChangeCheckFavouriteTutors = (e) => {
+  const onChangeCheckFavouriteTutors = () => {
     setCheckedFavouriteTutors(!checkedFavouriteTutors);
   };
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link , useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
 import {
@@ -88,16 +88,22 @@ const LessonConfirmation = ({
   // }
   data = { ...data, student_id: 26 };
 
-
   const confirmLesson = async () => {
     setIsLoading(true);
 
     /* this means if the lesson ID exists, its going to be a reschedule */
     if (lessonId) {
       const { payload } = dispatch(getAppointments());
-      const oldAppointment = payload?.filter(
-        (v) => parseInt(v.id) === parseInt(lessonId),
-      );
+      const [oldAppointment] =
+        payload?.filter((v) => parseInt(v.id) === parseInt(lessonId)) ?? [];
+      if (!oldAppointment) {
+        NotificationManager.error(
+          'Something went wrong, please try again later',
+          t,
+        );
+        setIsLoading(false);
+        return;
+      }
       const oldStartAt = moment(oldAppointment?.start_at);
       const duration = moment.duration(oldStartAt?.diff(moment())).asHours();
       const rescheduleData = {

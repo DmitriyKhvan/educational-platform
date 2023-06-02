@@ -8,14 +8,13 @@ import LessonConfirmation from './LessonConfirmation';
 import ModalConfirmLesson from './ModalConfirmLesson';
 
 const BookTrialLesson = () => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
 
-  const [tabs, setTabs] = useState([
+  const [tabs] = useState([
     'select_time_of_trial',
     'deposit_payment',
     'overview_confirmation',
   ]);
-  const [startAt, setStartAt] = useState(new Date());
 
   const [tabIndex, setTabIndex] = useState(1);
 

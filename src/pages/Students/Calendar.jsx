@@ -6,9 +6,7 @@ import Modal from 'react-modal';
 import moment from 'moment-timezone';
 import CalendarModal from '../../components/CalendarModal';
 import Layout from '../../components/Layout';
-import { getAppointments , cancelAppointment } from '../../actions/appointment';
-import { getUserInfo } from '../../actions/user';
-import { getStudent } from '../../actions/students';
+import { getAppointments, cancelAppointment } from '../../actions/appointment';
 import Loader from '../../components/common/Loader';
 import { useLocation } from 'react-router-dom';
 
@@ -16,7 +14,6 @@ import '../../assets/styles/calendar.scss';
 import { feedbackURL } from '../../constants/global';
 import ReviewLessonModal from '../../components/student-dashboard/ReviewLessonModal';
 import { useAuth } from '../../modules/auth';
-import FeedbackModal from './FeedbackModal';
 import FeedbackLessonModal from '../Tutors/FeedbackLessonModal';
 import WeekHeader from '../../components/common/WeekHeader';
 import { gql, useQuery } from '@apollo/client';
@@ -48,7 +45,7 @@ const GET_GROUP_INFO = gql`
 
 const Calendar = () => {
   const [idOfLesson, setIdLesson] = React.useState(null);
-  const { data, loading } = useQuery(GET_GROUP_INFO, {
+  const { data } = useQuery(GET_GROUP_INFO, {
     variables: { id: idOfLesson },
     skip: !idOfLesson,
   });
@@ -158,9 +155,9 @@ const Calendar = () => {
   }, [tableAppointments]);
 
   const CustomModal = () => {
-    const [selectedEvent] = calendarEvents?.filter(
-      (x) => x.id === calendarEvent.id,
-    );
+    // if it defaults to undefined then it is your fault, im not testing this
+    const [selectedEvent] =
+      calendarEvents?.filter((x) => x.id === calendarEvent.id) ?? [];
 
     if (selectedEvent) {
       setIdLesson(selectedEvent.resource?.eventDate?.id);
@@ -214,15 +211,15 @@ const Calendar = () => {
     setSelectedTab('upcomingLessons');
   };
 
-  const onCalendarClick = (e) => {
+  const onCalendarClick = () => {
     setIsCalendar(true);
     setSelectedTab('calendar');
   };
 
   async function onCancel(id) {
-    await dispatch(cancelAppointment(id));
+    dispatch(cancelAppointment(id));
     setIsOpen(false);
-    await setTimeout(() => {
+    setTimeout(() => {
       dispatch(
         getAppointments({
           student_id: user?.student?.id,
@@ -330,8 +327,8 @@ const Calendar = () => {
               <table className="table mt-4">
                 <thead>
                   <tr>
-                    {tableHead.map((x) => (
-                      <th scope="col">{x}</th>
+                    {tableHead.map((x, ind) => (
+                      <th scope="col" key={`row-${ind}`}>{x}</th>
                     ))}
                   </tr>
                 </thead>
@@ -358,7 +355,7 @@ const Calendar = () => {
                         new Date(b.dateTime.startTime),
                     )
                     .map((event) => (
-                      <tr className="tr-center">
+                      <tr className="tr-center" key={event.start_at}>
                         <td className="td-item">
                           <p className="td-lesson">{event.lesson}</p>
                         </td>

@@ -19,16 +19,15 @@ const tutor = {
 };
 
 const ModalWriteReview = ({ visible, onDismiss }) => {
-  const [t, i18n] = useTranslation('translation');
-  const [expand, setExpand] = useState(false);
+  const [t] = useTranslation('translation');
   const [starIndex, setStarIndex] = useState(-1);
   const [formData, setFormData] = useState({
     review: '',
   });
-  const [formDataError, setFormDataError] = useState({
+  const [formDataError] = useState({
     review: '',
   });
-  const handleChange = (option, stateName) => {
+  const handleChange = (option) => {
     setFormData({ review: option });
   };
 

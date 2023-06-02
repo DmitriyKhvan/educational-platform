@@ -1,12 +1,11 @@
-import { useState } from 'react';
 import Modal from '../../../components/Modal';
 import '../../../assets/styles/student.scss';
 import { useTranslation } from 'react-i18next';
 import ImgChecked from '../../../assets/images/checked.svg';
 import { Link } from 'react-router-dom';
 
-const ModalConfirmLesson = ({ visible, start_at, onDismiss }) => {
-  const [t, i18n] = useTranslation('translation');
+const ModalConfirmLesson = ({ visible, onDismiss }) => {
+  const [t] = useTranslation('translation');
   return (
     <Modal
       className="modal-confirm-lesson"
