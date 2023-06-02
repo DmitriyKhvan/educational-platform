@@ -67,7 +67,7 @@ code {
 }
 
 .dashboard-cards-inline {
-  margin-left: 0;
+  gap: 1rem;
   display: flex;
   flex-wrap: wrap;
 }
