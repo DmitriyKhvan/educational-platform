@@ -22,20 +22,20 @@ Label.propTypes = {
 const DateHeader = (props) => {
   return (
     <>
-      <span class="rbc-btn-group">
+      <span className="rbc-btn-group">
         <button type="button">오늘</button>
         <button type="button">지난달</button>
         <button type="button">다음달</button>
       </span>
-      <span class="rbc-toolbar-label">ssspril 2023</span>
-      <span class="rbc-btn-group">
-        <button type="button" class="rbc-active">
+      <span className="rbc-toolbar-label">ssspril 2023</span>
+      <span className="rbc-btn-group">
+        <button type="button" className="rbc-active">
           월
         </button>
-        <button type="button" class="">
+        <button type="button" className="">
           주
         </button>
-        <button type="button" class="">
+        <button type="button" className="">
           일
         </button>
       </span>

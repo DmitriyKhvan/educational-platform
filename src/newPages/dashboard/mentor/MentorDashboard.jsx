@@ -8,7 +8,6 @@ import { getAppointments } from '../../../actions/appointment';
 import ScheduleCard from '../../../components/student-dashboard/ScheduleCard';
 import { getUserInfo } from '../../../actions/user';
 import { getTutorInfo } from '../../../actions/tutor';
-import BookingRequest from '../../../components/BookingRequest';
 import Loader from '../../../components/common/Loader';
 import { useAuth } from '../../../modules/auth';
 import FeedbackLessonModal from '../../../pages/Tutors/FeedbackLessonModal';
@@ -22,7 +21,7 @@ const TutorDashboard = () => {
   const { user } = useAuth();
   const appointments = useSelector((state) => state.appointment);
   const [upcomingLessons, setUpcomingLessons] = useState([]);
-  const [lessonApprovals, setLessonApprovals] = useState([]);
+  const [, setLessonApprovals] = useState([]);
   const [StId, setStID] = React.useState(null);
 
   const { data } = useQuery(STUDENTS_QUERY, {
@@ -88,17 +87,6 @@ const TutorDashboard = () => {
     }
   }, [appointments]);
 
-  const displayBookingRequest = (isAvailable) => {
-    if (isAvailable)
-      return (
-        <BookingRequest
-          user={user}
-          lessonApprovals={lessonApprovals}
-          fetchAppointments={fetchAppointments}
-        />
-      );
-  };
-
   const displayDailySchedule = (isAvailable) => {
     if (isAvailable) {
       return isAvailable?.map((event, i) => {
@@ -134,13 +122,13 @@ const TutorDashboard = () => {
             <p className="welcome-subtitle">{t('mentor_welcome_back')}</p>
 
             <div className="schedule-lesson-select pt-3">
-              <div className="page-card purple large-card py-5 pb-4 purple-top-align">
-                <div className="row">
-                  <div className="col-2 ms-3 mobilefinal mobilefinal-image">
+              <div className="page-card purple large-card py-5 flex flex-col gap-4">
+                <div className="flex gap-4">
+                  <div className="min-w-[4rem] max-h-fit m-auto">
                     <img
-                      className="img-fluid large-card-icon sizes"
-                      alt=""
                       src={ImgCalendar}
+                      alt=""
+                      className="img-fluid large-card-icon self-center"
                     />
                   </div>
                   <div className="col-7">

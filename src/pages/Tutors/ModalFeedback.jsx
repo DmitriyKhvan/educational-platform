@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Loader from 'react-loader-spinner';
-import io from 'socket.io-client';
 
 import Modal from '../../components/Modal';
-import { Checkbox } from '../../components/Checkbox';
 
 import CupImage from '../../assets/images/cup.svg';
 import { Avatar } from '../../components/Avatar';
 import { renderFormField, renderSelect } from '../../components/Global';
-import NotificationManager from '../../components/NotificationManager.js';
 
 import '../../assets/styles/student.scss';
 import AppointmentApi from '../../api/AppointmentApi';
 
-const ModalFeedback = ({ visible, onDismiss, group, user }) => {
-  const [t, _] = useTranslation('translation');
+const ModalFeedback = ({ visible, onDismiss, group }) => {
+  const [t] = useTranslation('translation');
 
   const last_part_options = [
     { label: t('warm_up'), value: 'warm_up' },
@@ -85,10 +82,10 @@ const ModalFeedback = ({ visible, onDismiss, group, user }) => {
 
       onDismiss();
     } catch (e) {
-      NotificationManager.error(
-        e.response?.data?.message || t('server_issue'),
-        t,
-      );
+      // NotificationManager.error(
+      //   e.response?.data?.message || t('server_issue'),
+      //   t,
+      // );
     }
     setLoading(false);
   };

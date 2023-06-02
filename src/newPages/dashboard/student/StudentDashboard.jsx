@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next';
 import { cancel_lesson_reasons_student } from '../../../constants/global';
 import { getAppointments } from '../../../actions/appointment';
 import ImgCalendar from '../../../assets/images/calendar_icon.svg';
-import emptyCalendar from '../../../assets/images/calendar_icon_main.svg';
 import AppointmentApi from '../../../api/AppointmentApi';
 import NotificationManager from '../../../components/NotificationManager';
 import ModalFeedback from '../../../pages/Students/ModalFeedback';
@@ -20,7 +19,7 @@ import whiteBookingIcon from '../../../assets/images/white_book_trial_icon.svg';
 import smileIcon from '../../../assets/images/smile_icon.svg';
 import { useAuth } from '../../../modules/auth';
 import { MENTORS_QUERY } from '../../../modules/auth/graphql';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
 const options = [
   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
@@ -35,7 +34,7 @@ const StudentListAppointments = () => {
   const { complete_appoint_id } = useParams();
   const dispatch = useDispatch();
   const [t] = useTranslation('dashboard');
-  const [selectedOption, setSelectedOption] = useState(options[0]);
+  const [selectedOption] = useState(options[0]);
   const [selectedLesson, setSelectedLesson] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const appointments = useSelector((state) => state.appointment.list) ?? [];
@@ -44,7 +43,7 @@ const StudentListAppointments = () => {
   const history = useHistory();
   const onDismiss = () => setCompleteAppointment(null);
 
-  const onCancel = async ({ id, reasons }) => {
+  const onCancel = async ({ id }) => {
     setIsLoading(true);
     try {
       await AppointmentApi.cancelAppointment(id);
@@ -180,7 +179,7 @@ const StudentListAppointments = () => {
 
   return (
     <Layout>
-      <div className="main-dashboard scroll-layout">
+      <div className="main-dashboard">
         <div className="flex-container">
           <div className="student-dashboard flex-left children-wrapper flex-change childern-padding">
             <div className="set-container">
@@ -194,9 +193,9 @@ const StudentListAppointments = () => {
                 {t('student_dashboard_subtitle', { ns: 'dashboard' })}
               </p>
               <div className="schedule-lesson-select pt-3">
-                <div className="page-card purple large-card py-5 flex flex-col gap-4">
-                  <div className="flex gap-2">
-                    <div className="w-32 flex m-auto">
+                <div className="page-card purple large-card py-5 flex flex-col gap-4 max-w-2xl">
+                  <div className="flex gap-4">
+                    <div className="min-w-[4rem] max-h-fit m-auto">
                       <img
                         src={ImgCalendar}
                         alt=""

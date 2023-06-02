@@ -64,7 +64,7 @@ const Layout = ({ children, fluid }) => {
           <Sidebar />
           <div className="children-page">
             <Navbar />
-            <div className="">{children}</div>
+            <div className="max-w-7xl">{children}</div>
           </div>
         </div>
         {/* <Footer /> */}

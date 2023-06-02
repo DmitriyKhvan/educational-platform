@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import '../../assets/styles/profile.scss';
 
 const StudentList = () => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   const dispatch = useDispatch();
 
   const students = useSelector((state) => state.students.list);

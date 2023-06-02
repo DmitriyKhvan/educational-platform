@@ -6,6 +6,7 @@ import Email_butterfly from '../../assets/images/email_butterfly.svg';
 import Email_Google from '../../assets/images/email_Google.svg';
 import Email_in from '../../assets/images/email_in.svg';
 import Email_facebook from '../../assets/images/email_facebook.svg';
+
 const EmailVerifyText = () => {
   const [t] = useTranslation('common');
   return (

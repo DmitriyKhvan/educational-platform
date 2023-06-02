@@ -128,7 +128,7 @@ const EditProflileStudent = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="body">
           <div className="avatar-block">
             {<img src={profileImage} alt={'userInfo.tutorName'} />}
-            <label for="inputTag" className="file_upload">
+            <label htmlFor="inputTag" className="file_upload">
               <input
                 {...register('avatar')}
                 webkitdirectory

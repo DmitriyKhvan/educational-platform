@@ -1,11 +1,10 @@
 import React from 'react';
 import Layout from '../../components/Layout';
-import { Link } from 'react-router-dom';
+import { Link , useHistory } from 'react-router-dom';
 
 import FavIcon from '../../assets/images/Favorite.png';
 
 import './Mentors.scss';
-import { useHistory } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { MENTORS_QUERY } from '../../modules/auth/graphql';
 import MentorsModal from './MentorsModal';

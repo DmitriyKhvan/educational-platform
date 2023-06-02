@@ -6,11 +6,9 @@ import { getOverallStatus, getPaymentHistory } from '../../actions/tutor';
 import CustomTable from '../../components/CustomTable';
 
 import Layout from '../../components/Layout';
-import ImgApproved from '../../assets/images/approved.svg';
-import ImgNotApproved from '../../assets/images/not_approved.svg';
 
 export const PaymentPage = ({ tutor }) => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   const columns = [
     {
       title: t('lesson_date'),
@@ -74,12 +72,12 @@ export const PaymentPage = ({ tutor }) => {
     (state) => state.tutor.status.paymentHistory,
   );
 
-  const [period, setPeriod] = useState('week');
+  const [period] = useState('week');
 
   const tutorProfile = useSelector((state) => state.users.user.tutor_profile);
 
   useEffect(() => {
-    let from, to;
+    let from;
     if (period === 'week') {
       let beforeOneWeek = new Date(
           new Date().getTime() - 60 * 60 * 24 * 7 * 1000,
@@ -87,11 +85,9 @@ export const PaymentPage = ({ tutor }) => {
         day = beforeOneWeek.getDay(),
         diffToMonday = beforeOneWeek.getDate() - day + (day === 0 ? -6 : 1);
       from = new Date(beforeOneWeek.setDate(diffToMonday));
-      to = new Date(beforeOneWeek.setDate(diffToMonday + 6));
     } else if (period === 'month') {
       let date = new Date();
       from = new Date(date.getFullYear(), date.getMonth() - 1, 1);
-      to = new Date(date.getFullYear(), date.getMonth(), 0);
     } else if (period === 'year') {
       from = new Date();
       from.setFullYear(from.getFullYear() - 1);

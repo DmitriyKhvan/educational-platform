@@ -9,7 +9,7 @@ const CTACard = ({ color, title, btnTitle, path, icon, iconBGcolor, alt }) => {
           <img src={icon} className={`img-fluid ${iconBGcolor}`} alt={alt} />
         </div>
         <div className="col-7 forest">
-          <h3 className="text-white change-mobile-top">{title}</h3>
+          <h3 className="text-white change-mobile-top">{title} CTACARD</h3>
         </div>
       </div>
       <div className="ps-0">

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link , useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
-import { useHistory } from 'react-router-dom';
 import {
   createLessonExist,
   createAppointment,

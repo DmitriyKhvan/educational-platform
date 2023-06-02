@@ -6,7 +6,7 @@ import { UserHeader } from '../../components/UserHeader';
 import CustomTable from '../../components/CustomTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAppointments } from '../../actions/appointment';
-import { getAbbrName, getAvatarName } from '../../constants/global';
+import { getAbbrName } from '../../constants/global';
 import { format } from 'date-fns';
 import Loader from 'react-spinners/ClipLoader';
 import { useHistory } from 'react-router-dom';
@@ -16,10 +16,9 @@ const ModalLesson = ({
   onDismiss,
   visible,
   title,
-  description,
   status,
 }) => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   const dispatch = useDispatch();
   const history = useHistory();
   const loading = useSelector((state) => state.appointment.loading);
@@ -33,7 +32,7 @@ const ModalLesson = ({
             title: t('lesson_date'),
             dataKey: 'start_at',
             width: 20,
-            render: (text, record) => (
+            render: (text) => (
               <span>{format(new Date(text), 'M/dd/yyyy hh:mmaa')}</span>
             ),
           },
@@ -81,7 +80,7 @@ const ModalLesson = ({
             title: t('lesson_date'),
             dataKey: 'start_at',
             width: 20,
-            render: (text, record) => (
+            render: (text) => (
               <span>{format(new Date(text), 'M/dd/yyyy hh:mmaa')}</span>
             ),
           },
@@ -154,7 +153,7 @@ const ModalLesson = ({
           <div className="edit-student-lesson-wrapper">
             <UserHeader user={student} onAction={goToStudentProfile} />
             <p className="sub-title">
-              {student.first_name}'s{' '}
+                {student.first_name}&apos;s{' '}
               {status === 'past' ? t('past_lessons') : t('upcoming_lessons')}{' '}
               {`{${filtered.length}}`}
             </p>

@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
+import React, { useEffect } from 'react';
 import Layout from '../../components/Layout';
-import CustomTable from '../../components/CustomTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAppointments } from '../../actions/appointment';
 import Loader from 'react-loader-spinner';
 import Lessons from './Lessons';
-import ModalLesson from './ModalLesson';
 import { useTranslation } from 'react-i18next';
 import { getUserInfo } from '../../actions/user';
 import { getTutorInfo } from '../../actions/tutor';
@@ -15,7 +12,7 @@ const PastLessons = () => {
   const user = useSelector((state) => state.users.user);
   const tutor = useSelector((state) => state.tutor.info);
   const appointments = useSelector((state) => state.appointment);
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,7 +33,7 @@ const PastLessons = () => {
     }
   }, [tutor]);
 
-  const onSelectStudent = (student) => {};
+  const onSelectStudent = () => {};
 
   return (
     <Layout>

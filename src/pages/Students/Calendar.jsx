@@ -6,10 +6,9 @@ import Modal from 'react-modal';
 import moment from 'moment-timezone';
 import CalendarModal from '../../components/CalendarModal';
 import Layout from '../../components/Layout';
-import { getAppointments } from '../../actions/appointment';
+import { getAppointments , cancelAppointment } from '../../actions/appointment';
 import { getUserInfo } from '../../actions/user';
 import { getStudent } from '../../actions/students';
-import { cancelAppointment } from '../../actions/appointment';
 import Loader from '../../components/common/Loader';
 import { useLocation } from 'react-router-dom';
 

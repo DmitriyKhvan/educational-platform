@@ -5,7 +5,7 @@ const AvailabilityPolicyModal = ({ showModal, toggleModal }) => {
   return (
     <>
       {showModal && (
-        <div className="modal fade" id="policyModal" tabindex="-1">
+        <div className="modal fade" id="policyModal" tabIndex="-1">
           <div className="modal-dialog">
             <div className="modal-content p-0">
               <div className="modal-header  border-availabilities pt-2 ps-2">
