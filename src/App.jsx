@@ -16,9 +16,6 @@ import {
 
 import { useAuth } from './modules/auth';
 
-import Main from './pages/Admin/Main';
-import StudentList from './pages/Admin/StudentList';
-import TutorList from './pages/Admin/TutorList';
 import EmailVerifyText from './newPages/Auth/EmailVerifyText';
 import ForgotPassword from './newPages/Auth/ForgotPassword';
 import ForgotPasswordText from './newPages/Auth/ForgotPasswordText';
@@ -111,121 +108,103 @@ function App() {
     <Provider store={store}>
       <Router>
         <ReactNotifications />
-        <div className="App">
-          <PrivateRoute path="/admin/main" component={Main} />
-          <PrivateRoute path="/admin/tutor-list" component={TutorList} />
-          <PrivateRoute path="/admin/student-list" component={StudentList} />
-          {/* <PrivateRoute
-            path="/admin/schedule-new-lesson"
-            component={ScheduleLessonSteps}
-          /> */}
+        <div className="App"></div>
+        <PublicRoute exact path="/" component={Login} />
+
+        <PublicRoute path="/forgot-password" component={ForgotPassword} />
+        <PublicRoute
+          path="/forgot-password-guide"
+          component={ForgotPasswordText}
+        />
+        <PublicRoute path="/reset-password" component={ResetPassword} />
+        <PublicRoute path="/welcome-set-password" component={ResetPassword} />
+        <PublicRoute path="/verify-email" component={VerifyEmail} />
+        <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
+        <PrivateRoute path="/dashboard" component={Dashboard} />
+
+        <PrivateRoute path="/approve-requests" component={ApproveRequest} />
+
+        <PublicRoute path="/referral/:referalcode" component={IsReferal} />
+
+        {/* PROFILE */}
+
+        <PrivateRoute
+          path="/:mode(student|tutor)/profile"
+          component={ProfileLayout}
+        />
+
+        {/* STUDENT PAGES */}
+
+        <Suspense
+          fallback={
+            <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
+              <Loader />
+            </div>
+          }
+        >
           <PrivateRoute
-            path="/admin/lesson-calendar"
-            component={TutorCalendar}
+            path="/student"
+            component={lazy(() => import('./pages/Students'))}
           />
-          <PublicRoute exact path="/" component={Login} />
+        </Suspense>
 
-          <PublicRoute path="/forgot-password" component={ForgotPassword} />
-          <PublicRoute
-            path="/forgot-password-guide"
-            component={ForgotPasswordText}
-          />
-          <PublicRoute path="/reset-password" component={ResetPassword} />
-          <PublicRoute path="/welcome-set-password" component={ResetPassword} />
-          <PublicRoute path="/verify-email" component={VerifyEmail} />
-          <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
-          <PrivateRoute path="/dashboard" component={Dashboard} />
+        {/* TUTORS PAGES */}
 
-          <PrivateRoute path="/approve-requests" component={ApproveRequest} />
+        <PrivateRoute path="/tutor/manage-appointments" component={Dashboard} />
 
-          <PublicRoute path="/referral/:referalcode" component={IsReferal} />
+        <PrivateRoute
+          exact
+          path="/tutor/appointments-calendar"
+          component={TutorCalendar}
+        />
 
-          {/* PROFILE */}
+        <PrivateRoute path="/tutor/past-lessons" component={TutorPastLessons} />
 
-          <PrivateRoute
-            path="/:mode(student|tutor)/profile"
-            component={ProfileLayout}
-          />
+        <PrivateRoute
+          path="/tutor/availability"
+          component={AvailabilityLayout}
+        />
 
-          {/* STUDENT PAGES */}
+        <PrivateRoute
+          path="/tutor/avail/settings"
+          component={AvailabilitySettings}
+        />
 
-          <Suspense
-            fallback={
-              <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
-                <Loader />
-              </div>
-            }
-          >
-            <PrivateRoute
-              path="/student"
-              component={lazy(() => import('./pages/Students'))}
-            />
-          </Suspense>
+        <PrivateRoute path="/tutor/payment-page" component={PaymentLayout} />
 
-          {/* TUTORS PAGES */}
+        <PrivateRoute
+          exact
+          path="/tutor/students"
+          component={TutorStudentList}
+        />
 
-          <PrivateRoute
-            path="/tutor/manage-appointments"
-            component={Dashboard}
-          />
+        <PrivateRoute
+          exact
+          path="/tutor/appointments-calendar/lesson/:lessonID"
+          component={LessonInfo}
+        />
 
-          <PrivateRoute
-            exact
-            path="/tutor/appointments-calendar"
-            component={TutorCalendar}
-          />
+        <PrivateRoute
+          path="/tutor/students-list/:id?"
+          component={StudentsList}
+        />
 
-          <PrivateRoute
-            path="/tutor/past-lessons"
-            component={TutorPastLessons}
-          />
+        <PrivateRoute
+          path="/tutor/edit-profile"
+          component={TutorsPages.EditTutorProfile}
+        />
 
-          <PrivateRoute
-            path="/tutor/availability"
-            component={AvailabilityLayout}
-          />
+        <PrivateRoute
+          path="/tutor/edit-profiles/submit-video"
+          component={TutorsPages.SubmitVideo}
+        />
 
-          <PrivateRoute
-            path="/tutor/avail/settings"
-            component={AvailabilitySettings}
-          />
+        <PrivateRoute
+          path="/tutor/edit-profiles/submit-videos/submited"
+          component={TutorsPages.Submited}
+        />
 
-          <PrivateRoute path="/tutor/payment-page" component={PaymentLayout} />
-
-          <PrivateRoute
-            exact
-            path="/tutor/students"
-            component={TutorStudentList}
-          />
-
-          <PrivateRoute
-            exact
-            path="/tutor/appointments-calendar/lesson/:lessonID"
-            component={LessonInfo}
-          />
-
-          <PrivateRoute
-            path="/tutor/students-list/:id?"
-            component={StudentsList}
-          />
-
-          <PrivateRoute
-            path="/tutor/edit-profile"
-            component={TutorsPages.EditTutorProfile}
-          />
-
-          <PrivateRoute
-            path="/tutor/edit-profiles/submit-video"
-            component={TutorsPages.SubmitVideo}
-          />
-
-          <PrivateRoute
-            path="/tutor/edit-profiles/submit-videos/submited"
-            component={TutorsPages.Submited}
-          />
-
-          {/* <PrivateRoute path="/messages" component={TutorsPages.Messanger} /> */}
-        </div>
+        {/* <PrivateRoute path="/messages" component={TutorsPages.Messanger} /> */}
       </Router>
       <ToastContainer />
     </Provider>
