@@ -1,16 +1,16 @@
 import React from 'react';
-import Layout from '../../components/Layout';
-import { Link , useHistory } from 'react-router-dom';
+import Layout from '../../../components/Layout';
+import { Link, useHistory } from 'react-router-dom';
 
-import FavIcon from '../../assets/images/Favorite.png';
+import FavIcon from '../../../assets/images/Favorite.png';
 
 import './Mentors.scss';
 import { useQuery } from '@apollo/client';
-import { MENTORS_QUERY } from '../../modules/auth/graphql';
+import { MENTORS_QUERY } from '../../../modules/auth/graphql';
 import MentorsModal from './MentorsModal';
-import Loader from '../../components/Loader/Loader';
-import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../../assets/images/avatars/img_avatar_male.png';
+import Loader from '../../../components/Loader/Loader';
+import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
+import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 import { useTranslation } from 'react-i18next';
 
 const Mentors = () => {

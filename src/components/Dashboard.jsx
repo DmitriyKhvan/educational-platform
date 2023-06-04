@@ -1,9 +1,9 @@
 import React from 'react';
-import Layout from '../../components/Layout';
-import TutorDashboard from './mentor/MentorDashboard';
+import Layout from './Layout';
+import TutorDashboard from '../pages/Tutors/MentorDashboard';
 import { Redirect } from 'react-router-dom';
-import { useAuth } from '../../modules/auth';
-import '../../assets/styles/dashboard.scss';
+import { useAuth } from '../modules/auth';
+import '../assets/styles/dashboard.scss';
 
 const Dashboard = () => {
   const { user } = useAuth();

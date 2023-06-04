@@ -13,7 +13,9 @@ const ENV_PREFIX = 'REACT_APP_';
 export default defineConfig({
   plugins: [
     react(),
-    eslint(),
+    eslint({
+      useEslintrc: true,
+    }),
     viteTsconfigPaths(),
     svgrPlugin(),
     envCompatible({ prefix: ENV_PREFIX }),

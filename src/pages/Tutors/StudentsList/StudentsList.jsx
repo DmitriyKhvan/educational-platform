@@ -1,14 +1,14 @@
 import React from 'react';
-import Layout from '../../components/Layout';
+import Layout from '../../../components/Layout';
 
-import FavIcon from '../../assets/images/Favorite.png';
-import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../../assets/images/avatars/img_avatar_male.png';
+import FavIcon from '../../../assets/images/Favorite.png';
+import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
+import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 import './Students.scss';
 import { useHistory } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { STUDENTS_QUERY } from '../../modules/auth/graphql';
-import Loader from '../../components/Loader/Loader';
+import { STUDENTS_QUERY } from '../../../modules/auth/graphql';
+import Loader from '../../../components/Loader/Loader';
 import StudentsModal from './StudentsModal';
 import { useTranslation } from 'react-i18next';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import FavIcon from '../../assets/images/Favorite.png';
+import FavIcon from '../../../assets/images/Favorite.png';
 
 import './StudentsModal.scss';
 
@@ -20,7 +20,7 @@ const StudentsModal = ({
   return (
     <div className="student_alfa">
       <div className="tutor_modal">
-        <p className="close-sh" onClick={() => setShowStudentModal(false)}>
+        <p className="close-sh p-2" onClick={() => setShowStudentModal(false)}>
           &times;
         </p>
           {!avatar && (

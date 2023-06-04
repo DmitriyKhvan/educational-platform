@@ -1,18 +1,18 @@
-import '../../assets/styles/referal.scss';
+import '../../../assets/styles/referal.scss';
 
 import React from 'react';
 
-import card from '../../assets/images/card.png';
-import email from '../../assets/images/email.svg';
-import facebook from '../../assets/images/facebook.png';
-import instagram from '../../assets/images/instagram.png';
-import linkedin from '../../assets/images/linkedin.png';
-import Message from '../../assets/images/message.svg';
-import present from '../../assets/images/present.png';
-import videotut from '../../assets/images/videoTut.png';
-import whatsapp from '../../assets/images/whatsapp.svg';
-import Layout from '../../components/Layout';
-import { useAuth } from '../../modules/auth';
+import card from '../../../assets/images/card.png';
+import email from '../../../assets/images/email.svg';
+import facebook from '../../../assets/images/facebook.png';
+import instagram from '../../../assets/images/instagram.png';
+import linkedin from '../../../assets/images/linkedin.png';
+import Message from '../../../assets/images/message.svg';
+import present from '../../../assets/images/present.png';
+import videotut from '../../../assets/images/videoTut.png';
+import whatsapp from '../../../assets/images/whatsapp.svg';
+import Layout from '../../../components/Layout';
+import { useAuth } from '../../../modules/auth';
 import { useTranslation } from 'react-i18next';
 
 const Referal = () => {

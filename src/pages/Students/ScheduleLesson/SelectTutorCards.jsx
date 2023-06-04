@@ -6,7 +6,7 @@ import Layout from '../../../components/Layout';
 import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 import { useQuery, gql } from '@apollo/client';
-import MentorsModal from '../../../newPages/mentors-list/MentorsModal';
+import MentorsModal from '../MentorsList/MentorsModal';
 import TutorApi from '../../../api/TutorApi';
 Modal.setAppElement('#root');
 

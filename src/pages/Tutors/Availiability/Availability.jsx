@@ -233,9 +233,9 @@ const Availability = ({ user_id }) => {
   return (
     <React.Fragment>
       <div className="border-availabilities">
-        <div className="container-fluid mx-0 ">
+        <div className="container-fluid py-3">
           <div className="row ms-4">
-            <div className="col-xs-12 col-md-8 p">
+            <div className="col-xs-12 col-md-8">
               <h1 className="title">
                 {t('set_your_availability', { ns: 'availability' })}
               </h1>
@@ -254,7 +254,7 @@ const Availability = ({ user_id }) => {
           </div>
         </div>
       </div>
-      <div className="container ms-3 align-width_Availability">
+      <div className="container py-3 align-width_Availability">
         <h2 className="date_override_title">
           {t('set_your_teaching_hours', { ns: 'availability' })}
         </h2>

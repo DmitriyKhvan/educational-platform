@@ -3,16 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import ImgCalendar from '../../../assets/images/calendar_icon.svg';
-import { getAppointments } from '../../../actions/appointment';
-import ScheduleCard from '../../../components/student-dashboard/ScheduleCard';
-import { getUserInfo } from '../../../actions/user';
-import { getTutorInfo } from '../../../actions/tutor';
-import Loader from '../../../components/common/Loader';
-import { useAuth } from '../../../modules/auth';
-import FeedbackLessonModal from '../../../pages/Tutors/FeedbackLessonModal';
+import ImgCalendar from '../../assets/images/calendar_icon.svg';
+import { getAppointments } from '../../actions/appointment';
+import ScheduleCard from '../../components/student-dashboard/ScheduleCard';
+import { getUserInfo } from '../../actions/user';
+import { getTutorInfo } from '../../actions/tutor';
+import Loader from '../../components/common/Loader';
+import { useAuth } from '../../modules/auth';
+import FeedbackLessonModal from './FeedbackLessonModal';
 import { useQuery } from '@apollo/client';
-import { STUDENTS_QUERY } from '../../../modules/auth/graphql';
+import { STUDENTS_QUERY } from '../../modules/auth/graphql';
 
 const TutorDashboard = () => {
   const [t] = useTranslation('dashboard');
@@ -124,20 +124,20 @@ const TutorDashboard = () => {
             <div className="schedule-lesson-select pt-3">
               <div className="page-card purple large-card py-5 flex flex-col gap-4">
                 <div className="flex gap-4">
-                  <div className="min-w-[4rem] max-h-fit m-auto">
+                  <div className="max-w-32 max-h-fit m-auto">
                     <img
                       src={ImgCalendar}
                       alt=""
                       className="img-fluid large-card-icon self-center"
                     />
                   </div>
-                  <div className="col-7">
+                  <div className="w-full">
                     <div className="titles_align_desktop">
                       <p className="titles mt-1  laptop-title mobile_align_dash">
                         {t('review_my_schedule')}
                       </p>
                     </div>
-                    <div className="row mobile-view-buttons ">
+                    <div className="row mobile-view-buttons mt-4">
                       <div className="col-6 desktop schedule-dashboard-button">
                         <Link
                           to="/tutor/appointments-calendar"

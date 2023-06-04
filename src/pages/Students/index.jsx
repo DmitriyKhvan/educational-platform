@@ -5,11 +5,14 @@ import StudentCalendar from './Calendar';
 import ClassMaterials from './ClassMaterials';
 import FavouriteTutors from './FavoriteTutors';
 import GroupScheduleLesson from './GroupLessons';
-import StudentListAppointments from '../../newPages/dashboard/student/StudentDashboard';
+import StudentListAppointments from './StudentDashboard';
 import { Packages } from './Packages';
 import ScheduleLesson from './ScheduleLesson';
-import * as StudentPages from '../../newPages/profile/student/export';
+import EditTopics from './Profile/editTopics/EditTopics';
+import EditProflileStudent from './Profile/editInfo/EditStudentProfile';
 import ScheduleLessonSteps from './ScheduleLesson/ScheduleLessonSteps';
+import Referal from './Referal/Referal';
+import Mentors from './MentorsList/Mentors';
 
 export default function StudentRoutes() {
   let { path } = useRouteMatch();
@@ -61,19 +64,19 @@ export default function StudentRoutes() {
       </Route>
 
       <Route path={`${path}/profiles/edit-topics`}>
-        <StudentPages.EditTopics />
+        <EditTopics />
       </Route>
 
       <Route path={`${path}/profiles/edit-information`}>
-        <StudentPages.EditProflileStudent />
+        <EditProflileStudent />
       </Route>
 
       <Route path={`${path}/referal`}>
-        <StudentPages.Referal />
+        <Referal />
       </Route>
 
       <Route path={`${path}/mentors-list/:id?`}>
-        <StudentPages.Mentors />
+        <Mentors />
       </Route>
     </Switch>
   );

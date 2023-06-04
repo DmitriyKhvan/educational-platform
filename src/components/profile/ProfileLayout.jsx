@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 
 import { useHistory } from 'react-router-dom';
 
-import Layout from '../../components/Layout';
+import Layout from '../Layout';
 import { useAuth } from '../../modules/auth';
 import SwitchProfile from './SwitchProfile';
 

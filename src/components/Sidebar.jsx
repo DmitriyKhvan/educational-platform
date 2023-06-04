@@ -167,10 +167,6 @@ const Sidebar = () => {
     dispatch({ type: 'HIDE_SIDEBAR' });
   };
 
-  console.log(navLinks);
-
-  console.log(t(navLinks?.[1]?.label, { ns: 'sidebar' }));
-
   return (
     <>
       <div className="side-bar desktop-version">

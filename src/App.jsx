@@ -16,40 +16,24 @@ import {
 
 import { useAuth } from './modules/auth';
 
-import EmailVerifyText from './newPages/Auth/EmailVerifyText';
-import ForgotPassword from './newPages/Auth/ForgotPassword';
-import ForgotPasswordText from './newPages/Auth/ForgotPasswordText';
-import LessonInfo from './pages/Tutors/LessonInfo';
+import EmailVerifyText from './pages/Auth/EmailVerifyText';
+import ForgotPassword from './pages/Auth/ForgotPassword';
+import ForgotPasswordText from './pages/Auth/ForgotPasswordText';
 // Authentication Path
-import Login from './newPages/Auth/Login';
-import ResetPassword from './newPages/Auth/ResetPassword';
-import VerifyEmail from './newPages/Auth/VerifyEmail';
+import Login from './pages/Auth/Login';
+import ResetPassword from './pages/Auth/ResetPassword';
+import VerifyEmail from './pages/Auth/VerifyEmail';
 // Common Dashboard
-import Dashboard from './newPages/dashboard/Dashboard';
+import Dashboard from './components/Dashboard';
 // import Messages from './pages/Messages';
-import { ProfileLayout } from './newPages/profile/ProfileLayout';
+import { ProfileLayout } from './components/profile/ProfileLayout';
 import ApproveRequest from './pages/Tutors/ApproveRequest';
-import AvailabilityLayout from './pages/Tutors/Availiability';
-import AvailabilitySettings from './pages/Tutors/Availiability/AvailabilitySettings';
-// Tutor Path
-import TutorCalendar from './pages/Tutors/Calendar';
-import TutorPastLessons from './pages/Tutors/PastLessons';
-import { PaymentLayout } from './pages/Tutors/Payment';
-import TutorStudentList from './pages/Tutors/StudentList';
 import configureStore from './store';
-
 import './App.scss';
 import { ToastContainer } from 'react-toastify';
 
-// TUTORS PAGES
-
-import * as TutorsPages from './newPages/profile/Tutors/export';
-
-// STUDENT PAGES
-
-import { IsReferal } from './newPages/profile/student/export';
+import IsReferal from './pages/Students/Referal/isReferal';
 import Loader from './components/Loader/Loader';
-import StudentsList from './newPages/students-list/StudentsList';
 
 const store = configureStore({});
 
@@ -110,7 +94,6 @@ function App() {
         <ReactNotifications />
         <div className="App"></div>
         <PublicRoute exact path="/" component={Login} />
-
         <PublicRoute path="/forgot-password" component={ForgotPassword} />
         <PublicRoute
           path="/forgot-password-guide"
@@ -121,19 +104,13 @@ function App() {
         <PublicRoute path="/verify-email" component={VerifyEmail} />
         <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
-
         <PrivateRoute path="/approve-requests" component={ApproveRequest} />
 
         <PublicRoute path="/referral/:referalcode" component={IsReferal} />
-
-        {/* PROFILE */}
-
         <PrivateRoute
           path="/:mode(student|tutor)/profile"
           component={ProfileLayout}
         />
-
-        {/* STUDENT PAGES */}
 
         <Suspense
           fallback={
@@ -146,65 +123,11 @@ function App() {
             path="/student"
             component={lazy(() => import('./pages/Students'))}
           />
+          <PrivateRoute
+            path="/tutor"
+            component={lazy(() => import('./pages/Tutors'))}
+          />
         </Suspense>
-
-        {/* TUTORS PAGES */}
-
-        <PrivateRoute path="/tutor/manage-appointments" component={Dashboard} />
-
-        <PrivateRoute
-          exact
-          path="/tutor/appointments-calendar"
-          component={TutorCalendar}
-        />
-
-        <PrivateRoute path="/tutor/past-lessons" component={TutorPastLessons} />
-
-        <PrivateRoute
-          path="/tutor/availability"
-          component={AvailabilityLayout}
-        />
-
-        <PrivateRoute
-          path="/tutor/avail/settings"
-          component={AvailabilitySettings}
-        />
-
-        <PrivateRoute path="/tutor/payment-page" component={PaymentLayout} />
-
-        <PrivateRoute
-          exact
-          path="/tutor/students"
-          component={TutorStudentList}
-        />
-
-        <PrivateRoute
-          exact
-          path="/tutor/appointments-calendar/lesson/:lessonID"
-          component={LessonInfo}
-        />
-
-        <PrivateRoute
-          path="/tutor/students-list/:id?"
-          component={StudentsList}
-        />
-
-        <PrivateRoute
-          path="/tutor/edit-profile"
-          component={TutorsPages.EditTutorProfile}
-        />
-
-        <PrivateRoute
-          path="/tutor/edit-profiles/submit-video"
-          component={TutorsPages.SubmitVideo}
-        />
-
-        <PrivateRoute
-          path="/tutor/edit-profiles/submit-videos/submited"
-          component={TutorsPages.Submited}
-        />
-
-        {/* <PrivateRoute path="/messages" component={TutorsPages.Messanger} /> */}
       </Router>
       <ToastContainer />
     </Provider>

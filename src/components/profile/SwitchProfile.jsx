@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 
 import Loader from 'react-loader-spinner';
 
-import GeneralProfile from './student/StudentProfile';
+import GeneralProfile from '../../pages/Students/Profile/StudentProfile';
 
-import TutorProfile from './Tutors/TutorProfile';
+import TutorProfile from '../../pages/Tutors/Profile/TutorProfile';
 
 const SwitchProfile = ({ user, isAdmin = false }) => {
   const [isTutor, setIsTutor] = useState(null);
