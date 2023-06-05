@@ -261,7 +261,7 @@ const ScheduleSelector = ({
       <React.Fragment>
         {isAfterToday && (
           <div
-            className={`day-selector text-center my-3 ${
+            className={`day-selector bg-white rounded-md border-2 text-center my-3 ${
               i === dayClicked || i === timeClicked
                 ? 'schedule_lesson_day'
                 : 'schedule_lesson_day_unselect'
@@ -331,7 +331,7 @@ const ScheduleSelector = ({
 
     return (
       <div
-        className={`time-card grey-border bg-white small-card pt-2 mt-4 media_align_width`}
+        className={`time-card space-y-2 grey-border bg-white small-card pt-4 mt-4 media_align_width`}
       >
         <div className="row container ms-1">
           <div className="col-12 align_schedule_texts">

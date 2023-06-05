@@ -252,7 +252,7 @@ const LessonConfirmation = ({
               <p className="welcome-subtitle pt-4 confirm-tutor-subtitle">
                 {t('lesson_topic', { ns: 'lessons' })}
               </p>
-              <div className="lesson_card-inline">
+              <div className="">
                 <LessonCard
                   lesson={plan?.lesson_type}
                   duration={`${plan?.duration} ${t('minutes', {

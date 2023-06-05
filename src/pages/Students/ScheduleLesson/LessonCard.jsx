@@ -13,7 +13,7 @@ const LessonCard = ({ lesson, duration, remaining }) => {
   return (
     <div
       className={
-        'time-card schedule-lesson-border schedule-lesson-border-width bg-white small-card schedule_change_padd'
+        'time-card shadow-lg border schedule-lesson-border schedule-lesson-border-width bg-grey-100 small-card schedule_change_padd'
       }
     >
       <div className="ms-2">
@@ -21,7 +21,7 @@ const LessonCard = ({ lesson, duration, remaining }) => {
           <h1 className="my-1 inside-align-title">{lessonTitle}</h1>
         </div>
         <div className="row mt-3">
-          <div className="col-auto schedule-lesson-border schedule-lesson-border-widthss">
+          <div className="col-auto rounded-lg schedule-lesson-border schedule-lesson-border-widthss">
             <p className="m-2 time-style">
               <div className="time-style">{lessonDuration}</div>
             </p>

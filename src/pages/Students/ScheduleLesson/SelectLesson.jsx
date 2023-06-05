@@ -31,31 +31,26 @@ const SelectLesson = ({
 
   const LessonCard = ({ lesson, duration, remaining, data, i }) => {
     return (
-      <div className="pe-2 col-lg-4 main-container schedule-lesson">
+      <div className="px-2">
         <div
-          className={`schedule-card small-card lesson-container pt-2 ${
+          className={`schedule-card small-card lesson-container rounded-xl px-3 pt-3 ${
             i === clicked
-              ? 'purple-border'
-              : 'schedule-card small-card lesson-container pt-2'
+              ? 'border-[#6133af] border'
+              : 'schedule-card small-card lesson-container p-2'
           }`}
           onClick={() => {
             setClicked(i);
             setSelectedPlan(data);
           }}
         >
-          <div className="container-fluid">
-            <div className="row mb-3">
-              <h1
-                className={`${
-                  i === clicked
-                    ? 'text-black lessontext'
-                    : 'text-black lessontext'
-                }`}
-              >
-                {lesson.charAt(0).toUpperCase() + lesson.slice(1)}
-              </h1>
-            </div>
-            <div className="row mb-1">
+          <div className="">
+            <h1
+              className={`mb-2 ${i === clicked ? 'text-black' : 'text-black'}`}
+            >
+              {lesson.charAt(0).toUpperCase() + lesson.slice(1)}
+            </h1>
+
+            <div className="flex">
               <div className="time_remaining">
                 {duration} {t('minutes', { ns: 'common' })}
               </div>
@@ -74,7 +69,7 @@ const SelectLesson = ({
       <div className="scroll-layout  schedule-lesson">
         <div className="flex-container">
           <div className="custom-children-container m-0 schedule_changess max-select_lesson">
-            <div className="flex-left">
+            <div className="flex flex-col gap-3">
               <h1 className="title mt-0 title_aligns_slesson">
                 {!id ? t('schedule_lesson') : t('reschedule_lesson')}
               </h1>
@@ -84,8 +79,8 @@ const SelectLesson = ({
                   : t('reschedule_lesson_subtitle')}
               </p>
             </div>
-            <div className="ExpWidth-con">
-              <div className="lesson_card-inline">
+            <div className="">
+              <div className="">
                 {planStatus.map((x, i) => (
                   <LessonCard
                     lesson={x.lesson_type}
