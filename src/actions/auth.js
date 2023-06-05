@@ -45,7 +45,7 @@ export function signup(
       user_role,
       referal_code,
     )
-      .then((resp) => {
+      .then(() => {
         return dispatch(success());
       })
       .catch((error) => {
@@ -68,7 +68,7 @@ export function emailVerify(token) {
   return async (dispatch) => {
     dispatch(request());
     return AuthApi.verifyEmail(token)
-      .then((resp) => {
+      .then(() => {
         localStorage.setItem('access_token', token);
         return dispatch(success());
       })
@@ -92,7 +92,7 @@ export function forgotPassword(email) {
   return async (dispatch) => {
     dispatch(request());
     return AuthApi.forgotPassword(email)
-      .then((resp) => {
+      .then(() => {
         return dispatch(success());
       })
       .catch((error) => {
@@ -115,7 +115,7 @@ export function resetPassword(password, token) {
   return async (dispatch) => {
     dispatch(request());
     return AuthApi.resetPassword(password, token)
-      .then((resp) => {
+      .then(() => {
         return dispatch(success());
       })
       .catch((error) => {

@@ -1,13 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 import Layout from '../../../components/Layout';
-// import "../../assets/styles/tutor.scss";
-import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-import Modal from '../../../components/Modal';
-import TimeSelect from '../../../components/TimeSelect';
-import NotificationManager from '../../../components/NotificationManager';
-import { createAppointment } from '../../../actions/appointment';
 import { useTranslation } from 'react-i18next';
 import SelectLessonType from './SelectLessonType';
 import SelectTimeOfLesson from './SelectTimeOfLesson';
@@ -20,17 +13,9 @@ import ModalConfirmLesson from './ModalConfirmLesson';
  * Constants
  */
 
-const tabs = [
-  'select_lesson_type',
-  'select_lesson_time',
-  'select_tutor',
-  'overview_confirmation',
-];
-
 const ScheduleLessonSteps = () => {
-  const dispatch = useDispatch();
   const history = useHistory();
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
 
   const [tabs, setTabs] = useState([]);
 

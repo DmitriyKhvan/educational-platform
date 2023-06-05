@@ -1,14 +1,11 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
 const ScheduleCard = ({ startTime, endTime, date }) => {
-  const [t] = useTranslation('common');
-
   return (
     <div
       className={`schedule_change_padd time-card schedule-lesson-border bg-white small-card pt-2 mt-1 schedule-lesson-border-widths`}
     >
-      <div className="row alignmobile">
+      <div className="row alignmobile py-2 flex gap-2">
         <div className="col-auto schedule_card_aligns">
           <h3 className={`inside-align-title-time ms-3`}>
             {startTime} → {endTime}

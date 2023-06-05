@@ -6,7 +6,7 @@ import Layout from '../../../components/Layout';
 import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 import { useQuery, gql } from '@apollo/client';
-import MentorsModal from '../../../newPages/mentors-list/MentorsModal';
+import MentorsModal from '../MentorsList/MentorsModal';
 import TutorApi from '../../../api/TutorApi';
 Modal.setAppElement('#root');
 
@@ -135,132 +135,6 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
       setAvailableTutors([...tempTutors]);
     }
   }, [tutors]);
-
-  const handleSearchTutor = (e) => {
-    const { value } = e.target;
-    const tempTutors = tutors.filter(
-      (eachTutor) =>
-        eachTutor.first_name.toLowerCase().includes(value.toLowerCase()) ||
-        eachTutor.last_name?.toLowerCase().includes(value.toLowerCase()),
-    );
-    setAvailableTutors([...tempTutors]);
-  };
-
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      zIndex: 9999,
-      background: 'none',
-      border: 'none',
-      backgroundColor: 'rgba(255, 255, 255, 0.25)',
-    },
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-    setModalSelectTutor({});
-    setSelectTutor({});
-  };
-
-  const LearnMoreModal = () => {
-    const onClick = () => {
-      setSelectTutor(modalSelectTutor);
-      setTabIndex(3);
-    };
-    const name =
-      modalSelectTutor.first_name +
-      ' ' +
-      modalSelectTutor.last_name.charAt(0) +
-      '.';
-    return (
-      <div style={{ zIndex: 9999 }} className="container">
-        <Modal
-          isOpen={isOpen}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Learn More"
-        >
-          <div
-            className="container page-card tutor-desc grey-border bg-white pt-2 mt-4 p-4"
-            style={{ width: '40vw' }}
-          >
-            <div className="p-4">
-              <div className="row">
-                <h1>{name}</h1>
-                <h3>{t('introduction')}</h3>
-                <p className="learn-more-text">
-                  {modalSelectTutor.introduction}
-                </p>
-              </div>
-              <div className="row">
-                <h3>{t('experience')}</h3>
-                <p className="learn-more-text">
-                  {modalSelectTutor.relevant_experience}
-                </p>
-              </div>
-              <div className="row">
-                <h3>{t('facts')}</h3>
-                <p className="learn-more-text">
-                  {modalSelectTutor.unique_facts}
-                </p>
-              </div>
-              <div className="row ps-2 pt-4">
-                <div className="col-4">
-                  <div>
-                    <p className="learn-more-text mb-1">{t('school')}</p>
-                    <p>
-                      <strong>{modalSelectTutor.university}</strong>
-                    </p>
-                  </div>
-                </div>
-                <div className="col-4">
-                  <div>
-                    <p className="learn-more-text mb-1">{t('degree_major')}</p>
-                    <p>
-                      <strong>{modalSelectTutor.degree}</strong>
-                    </p>
-                  </div>
-                </div>
-                <div className="col-4">
-                  <div>
-                    <p className="learn-more-text mb-1">
-                      {t('tutor_certificates')}
-                    </p>
-                    <p>
-                      <strong>{modalSelectTutor.certificates}</strong>
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-6 pe-3">
-                  <button
-                    className="enter-btn grey-border w-100 ms-0"
-                    onClick={closeModal}
-                  >
-                    {t('cancel')}
-                  </button>
-                </div>
-                <div className="col-6 pe-3">
-                  <button
-                    className="enter-btn btn-primary w-100"
-                    onClick={onClick}
-                  >
-                    {t('select_tutor')}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Modal>
-      </div>
-    );
-  };
 
   const SelectTutors = ({ tutor }) => {
     const last_name = tutor.last_name ? tutor.last_name.charAt(0) + '.' : '';

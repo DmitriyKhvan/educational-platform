@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../../../assets/styles/dashboard.scss';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import ImgArrowBack from '../../../assets/images/arrow_back.svg';
 import { Checkbox } from '../../../components/Checkbox';
@@ -15,9 +15,9 @@ import NotificationManager from '../../../components/NotificationManager';
 import FavouriteIcon from '../../../components/FavouriteIcon';
 import { useHistory } from 'react-router-dom';
 
-const LessonConfirmation = ({ tutor, time, lesson, onBack, onContinue }) => {
+const LessonConfirmation = ({ tutor, time, lesson, onBack }) => {
   const dispatch = useDispatch();
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   const [checkStates, setCheckStates] = useState([false, false, false]);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
 

@@ -4,7 +4,7 @@ const RadioGroup = ({ onChange, className, options, name }) => {
   return (
     <div className={'radio-group ' + className}>
       {options.map((option) => (
-        <label htmlFor={option.name}>
+        <label htmlFor={option.name} key={option.name}>
           <input
             onChange={(e) => onChange(e.target.value)}
             id={option.name}

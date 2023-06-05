@@ -5,7 +5,6 @@ import { AiOutlineCheck } from 'react-icons/ai';
 export default function FeedbackLessonModal({
   isOpen,
   closeModal,
-  modalState = '',
 }) {
   const [showSectionName, setSectionName] = React.useState(false);
   const [pageState, setPageState] = React.useState(1);
@@ -137,7 +136,7 @@ export default function FeedbackLessonModal({
             </div>
 
             <div className="student_key">
-              <h4>Student's key strength:</h4>
+              <h4>Student&apos;s key strength:</h4>
 
               <textarea
                 value={

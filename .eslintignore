@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.prettierrc.js
+.eslintrc.js
+env.d.ts
+tailwind.config.js
+vite.config.ts
+
+src/actions
+src/api
+src/utils
+src/store
+src/reducers

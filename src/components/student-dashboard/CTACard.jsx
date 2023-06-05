@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-const CTACard = ({ icon, title, subtitle, bl, button, color, disabled }) => (
+const CTACard = ({ icon, title, subtitle, button, color, disabled }) => (
   <div
     style={{ background: color }}
     className={`page-card dash-card  ${title} ${

@@ -11,7 +11,6 @@ import Stars from '../../components/Stars';
 import ModalTutorBrief from './ModalTutorBrief';
 import { fetchFavoriteTutors } from '../../actions/students';
 import FavouriteIcon from '../../components/FavouriteIcon';
-import TutorCard from './TutorCard';
 
 const FavoriateTutor = (props) => {
   const { tutor, onSelect, t } = props;
@@ -51,7 +50,7 @@ const FavoriateTutor = (props) => {
 };
 
 const FavouriteTutors = () => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   const [selectedTutor, setSelectedTutor] = useState(false);
   const onDismiss = () => setSelectedTutor(null);
 

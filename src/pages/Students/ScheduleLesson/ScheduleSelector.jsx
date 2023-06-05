@@ -5,9 +5,8 @@ import Layout from '../../../components/Layout';
 import custom_back_arrow from '../../../assets/images/custom_back_arrow.svg';
 import prev_arrow from '../../../assets/images/prev_arrow.svg';
 import forward_arrow from '../../../assets/images/forward_arrow.svg';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import { getTutorList } from '../../../actions/tutor';
 import Loader from 'react-loader-spinner';
 import TutorApi from '../../../api/TutorApi';
 
@@ -27,15 +26,11 @@ const ScheduleSelector = ({
   step,
   setSchedule,
   lesson,
-  tabIndex,
-  schedule,
-  setTutorIdList,
   selectedTutor,
 }) => {
   const [t] = useTranslation(['lessons', 'common', 'modals']);
   const user = useSelector((state) => state.users.user);
   const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useDispatch();
   const [counter, setCounter] = useState(0);
   const [dayClicked, setDayClicked] = useState(null);
   const [timeClicked, setTimeClicked] = useState(null);

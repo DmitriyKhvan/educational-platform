@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Logo from '../assets/images/auth-logo.svg';
-import SettingImg from '../assets/images/setting_icon.svg';
 import FlagUsa from '../assets/images/flag-usa.svg';
 import FlagKorea from '../assets/images/flag-korea.svg';
 import LogoutImg from '../assets/images/logout_icon.svg';
@@ -12,10 +11,6 @@ import Dropdown from './Dropdown';
 
 import IconMyprofile from '../assets/images/sidebar/icon-myprofile.svg';
 import IconUser from '../assets/images/user.svg';
-import IconNavigate from '../assets/images/navigate.svg';
-import IconNotification from '../assets/images/notification.svg';
-import IconMyprofileActive from '../assets/images/sidebar/active-myprofile.svg';
-import { readNotification } from '../actions/notification';
 import {
   getItemToLocalStorage,
   setItemToLocalStorage,
@@ -23,11 +18,9 @@ import {
 import { useAuth } from '../modules/auth';
 
 const Navbar = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const isShowSidebar = useSelector((state) => state.settings.isShowSidebar);
   const { user, logout } = useAuth();
-  const notifications = useSelector((state) => state.notification.list);
   const user_role = user.roles && user.roles[0]?.role_name;
   const [language, setLanguage] = useState(
     parseInt(getItemToLocalStorage('language', 1)),
@@ -49,13 +42,6 @@ const Navbar = () => {
   const onChangeLanguage = (lang) => {
     setItemToLocalStorage('language', lang);
     setLanguage(lang);
-  };
-
-  const onHandle = ({ data, id }) => {
-    dispatch(readNotification);
-    if (!data.type || data.type === 'complete_lesson') {
-      history.push(`/student/lesson-complete/${data.group.group_id}`);
-    }
   };
 
   useEffect(() => {

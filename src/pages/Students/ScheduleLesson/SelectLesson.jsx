@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../../components/Layout';
-import scheduleTick from '../../../assets/images/scheduleTick.svg';
 import continue_arrow from '../../../assets/images/continue_arrow.svg';
 
 const SelectLesson = ({
@@ -30,14 +29,7 @@ const SelectLesson = ({
     history.push('/student/manage-lessons');
   };
 
-  const LessonCard = ({
-    lesson,
-    duration,
-    remaining,
-    data,
-    i,
-    expirationDate,
-  }) => {
+  const LessonCard = ({ lesson, duration, remaining, data, i }) => {
     return (
       <div className="pe-2 col-lg-4 main-container schedule-lesson">
         <div

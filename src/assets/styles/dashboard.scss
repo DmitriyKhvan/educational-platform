@@ -4,10 +4,6 @@
   font-weight: 600 !important;
 }
 
-.secblock{
-  
-}
-
 .searchbox input {
   border: 0.5px solid $color-grey3;
   box-sizing: border-box;
@@ -557,6 +553,7 @@ select {
 }
 
 .page-card {
+  color: white;
   border: 0.5px solid $color-grey3;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
   padding: 31px 57px 26px 57px;
@@ -579,10 +576,6 @@ select {
     font-size: 30px;
     line-height: 36px;
     letter-spacing: -0.6px;
-  }
-
-  img {
-    margin-bottom: 31px;
   }
 }
 
@@ -1065,10 +1058,6 @@ div.time-style {
 }
 
 @media screen and (max-width: 900px) {
-  .mobilefinal-laptop {
-    width: auto;
-    padding-right: 20px;
-  }
   .align-flex-direction {
     padding-bottom: 15px;
   }
@@ -1171,6 +1160,12 @@ div.time-style {
   margin-top: 30px;
 }
 .page-card_schedule {
+  &.purple {
+    color: white;
+    a {
+      color: #7048e8 !important;
+    }
+  }
   border-radius: 16px;
   padding: 20px 22px !important;
   display: flex;
@@ -1228,9 +1223,6 @@ div.time-style {
   justify-content: space-around;
 }
 @media screen and (max-width: 600px) {
-  .mobilefinal-image {
-    margin-right: 0 !important;
-  }
   .font_schedule_text {
     padding-top: 15px;
   }
@@ -1387,7 +1379,6 @@ div.time-style {
 
 .main-dashboard {
   height: 100%;
-  overflow: auto;
   position: relative;
 
   .summary-information {
@@ -1647,7 +1638,7 @@ div.time-style {
     display: flex;
     justify-content: center;
   }
- 
+
   div {
     position: relative;
   }
@@ -1666,12 +1657,6 @@ div.time-style {
     line-height: 36px;
     letter-spacing: -0.6px;
   }
-
-  img {
-    margin-bottom: 31px;
-    width: 80px;
-    // border-radius: 100%;
-  }
 }
 
 .schedule-lesson-select {
@@ -1684,9 +1669,7 @@ div.time-style {
   overflow: auto;
   // height: calc(100vh - 80px);
   height: auto;
-  border: 1px solid rgba(0, 0, 0, 0.1);
   .sub-title {
-
     font-family: Noto Serif;
     font-style: normal;
     font-weight: normal;
@@ -1715,26 +1698,23 @@ div.time-style {
         justify-content: center;
         background-blend-mode: overlay;
         background-color: rgba(0, 0, 0, 0.5);
-  
+
         img {
           width: 40px;
           height: 36px;
         }
       }
-
     }
 
     h3 {
       width: 60%;
     }
-
   }
 
-  .page-card{
+  .page-card {
     padding: 15px 30px 30px 30px;
-
   }
-  
+
   .dash-card {
     border: 0.5px solid $color-grey3;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
@@ -1746,7 +1726,7 @@ div.time-style {
       position: relative;
     }
 
-    .secblock{
+    .secblock {
       height: 100px;
     }
 
@@ -1809,8 +1789,6 @@ div.time-style {
       width: 100%;
       flex-direction: column;
 
-      
-
       div {
         position: relative;
       }
@@ -1834,9 +1812,7 @@ div.time-style {
         line-height: 36px;
         letter-spacing: -0.6px;
       }
-      img {
-        margin-bottom: 31px;
-      }
+
       .enter-btn {
         background: $color-white;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);

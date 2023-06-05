@@ -8,7 +8,6 @@ import maleAvatar from '../assets/images/avatars/img_avatar_male.png';
 import Swal from 'sweetalert2';
 
 const CalendarModal = ({
-  event,
   index,
   lesson,
   startTime,
@@ -71,7 +70,7 @@ const CalendarModal = ({
       key={index}
       style={{ maxWidth: '33vw', zIndex: '-1' }}
     >
-      <p className="close-sh" onClick={closeModal}>
+      <p className="close-sh p-2" onClick={closeModal}>
         &times;
       </p>
       <div className="container">

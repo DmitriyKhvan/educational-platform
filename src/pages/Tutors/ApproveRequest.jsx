@@ -1,11 +1,6 @@
-import CustomTable from '../../components/CustomTable';
-
-import CalendarIcon from '../../assets/images/calendar.svg';
-import CheckIcon from '../../assets/images/check.svg';
-import ManIcon from '../../assets/images/man.svg';
 import Layout from '../../components/Layout';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import moment from 'moment-timezone';
 import {
   approveAppointment,
@@ -14,8 +9,6 @@ import {
 } from '../../actions/appointment';
 import Loader from 'react-loader-spinner';
 import { useTranslation } from 'react-i18next';
-import { getTutorInfo } from '../../actions/tutor';
-import { getUserInfo } from '../../actions/user';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../modules/auth';
 
@@ -29,15 +22,6 @@ const ApproveRequest = () => {
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
-  // useEffect(() => {
-  //   dispatch(getUserInfo())
-  // }, [dispatch])
-
-  // useEffect(() => {
-  //   if (user && user.tutor) {
-  //     dispatch(getTutorInfo(user.tutor?.id))
-  //   }
-  // }, [user])
 
   useEffect(() => {
     if (user) {
@@ -46,37 +30,6 @@ const ApproveRequest = () => {
       );
     }
   }, [user]);
-
-  const columns = [
-    {
-      title: t('student'),
-      dataKey: 'studentName',
-      width: 25,
-    },
-    {
-      title: t('lesson'),
-      dataKey: 'lessonNumber',
-      width: 25,
-    },
-    {
-      title: t('lesson_date'),
-      dataKey: 'lessonDate',
-      width: 25,
-    },
-    {
-      title: '',
-      dataKey: 'actions',
-      width: 25,
-      render: (item, record) => (
-        <div className="actions">
-          <a onClick={() => onClickApprove(record)} className="outlined">
-            {t('approve')}
-          </a>
-          <a onClick={() => onClickCancel(record)}>{t('cancel')}</a>
-        </div>
-      ),
-    },
-  ];
 
   const onClickApprove = async ({ id }) => {
     await dispatch(approveAppointment(id));

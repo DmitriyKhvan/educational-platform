@@ -9,12 +9,11 @@ import FavouriteIcon from '../../components/FavouriteIcon';
 
 const TutorCard = ({
   tutor,
-  onCreateAppointment,
   selected,
   onSelect,
   onShowTutorBrief,
 }) => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   return (
     <div className={`tutor-card ${selected ? 'selected' : ''}`}>
       <div>

@@ -133,8 +133,15 @@
 }
 
 .student-list-appointments-wrapper {
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: #f7f7fa;
+  @media screen and (min-width: 1201px) {
+    border: none;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: 0;
+  }
+  border: none;
+  margin-top: 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+
   .sub-title {
     font-family: Noto Serif;
     font-style: normal;
@@ -3741,18 +3748,18 @@
   .body {
     padding: 0 5px;
 
-    .rating{
-      .stars{
+    .rating {
+      .stars {
         display: flex;
         gap: 5px;
 
-        img{
+        img {
           height: 20px;
         }
       }
     }
 
-    textarea{
+    textarea {
       resize: none;
       border: 1px solid $color-border-grey;
       height: 120px;
@@ -3763,12 +3770,12 @@
       font-family: inherit;
       margin: 0;
       line-height: 20px;
-      &::placeholder{
+      &::placeholder {
         color: $color-light-grey;
       }
     }
 
-    button[type="submit"]{
+    button[type='submit'] {
       margin-top: 20px;
       padding: 10px;
       width: 100%;
@@ -3790,7 +3797,7 @@
   backdrop-filter: brightness(0.2);
 }
 
-.review-modal-open{
+.review-modal-open {
   overflow: hidden;
   width: 100vw;
   height: 100vh;

@@ -1,11 +1,8 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
-import Menu, { Item as MenuItem } from 'rc-menu';
 import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../assets/images/avatars/img_avatar_male.png';
-import 'rc-dropdown/assets/index.css';
 import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
 import { useAuth } from '../../modules/auth';
@@ -19,7 +16,6 @@ const ScheduleCard = ({
   date,
   mentors,
   data,
-  setIdLesson,
   fetchAppointments,
   cancelled,
 }) => {
@@ -70,18 +66,6 @@ const ScheduleCard = ({
       setModalType('cancel');
     }
   };
-
-  const menu = (
-    <Menu onSelect={onSelect}>
-      {/* <MenuItem key='1'>
-        <p>Reschedule with my tutor</p>
-      </MenuItem>
-      <Divider /> */}
-      <MenuItem key="2">
-        <p>Reschedule with any tutor</p>
-      </MenuItem>
-    </Menu>
-  );
 
   const today = moment();
   const tenMinuteBeforeStart = moment(date).subtract(10, 'minutes');
@@ -170,7 +154,6 @@ const ScheduleCard = ({
           </a>
         </div>
         <div className="">
-          {/* <Dropdown trigger={['click']} overlay={menu} animation='slide-up'> */}
           <a
             className={`schedule_copy-button ${
               isLate
@@ -181,7 +164,6 @@ const ScheduleCard = ({
           >
             {t('reschedule')}
           </a>
-          {/* </Dropdown> */}
         </div>
         <div className="">
           <a

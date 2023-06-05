@@ -1,8 +1,6 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import ImgStarOutline from '../assets/images/star_outline_red.svg';
 import ImgStarFill from '../assets/images/star_fill_red.svg';
-import { useEffect } from 'react';
 
 export default function ReviewRating({ onChange }) {
   const [starIndex, setStarIndex] = useState();

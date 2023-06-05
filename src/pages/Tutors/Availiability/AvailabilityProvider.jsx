@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+// This file uses vars and i'm afraid to delete them
+
 import { createContext, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import moment from 'moment';
@@ -95,8 +98,6 @@ export const AvailabilityProvider = ({
           LastToTime = data.slots[0].to;
         }
         var allLast = data.slots[0].to;
-        if (allLast >= '23:00') {
-        }
         fromTime = LastToTime;
         if (fromTime >= '23:00') {
           toTime = moment(fromTime, 'HH:mm:ss')

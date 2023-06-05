@@ -21,3 +21,5 @@ export const TextInput = React.forwardRef(
     );
   },
 );
+
+TextInput.displayName = 'TextInput2';
