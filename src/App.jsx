@@ -25,7 +25,6 @@ import ResetPassword from './pages/Auth/ResetPassword';
 import VerifyEmail from './pages/Auth/VerifyEmail';
 // Common Dashboard
 import Dashboard from './components/Dashboard';
-// import Messages from './pages/Messages';
 import { ProfileLayout } from './components/profile/ProfileLayout';
 import ApproveRequest from './pages/Tutors/ApproveRequest';
 import configureStore from './store';
@@ -34,6 +33,7 @@ import { ToastContainer } from 'react-toastify';
 
 import IsReferal from './pages/Students/Referal/isReferal';
 import Loader from './components/Loader/Loader';
+import Onboarding from './pages/Students/Onboarding';
 
 const store = configureStore({});
 
@@ -107,6 +107,7 @@ function App() {
         <PublicRoute path="/welcome-set-password" component={ResetPassword} />
         <PublicRoute path="/verify-email" component={VerifyEmail} />
         <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
+        <PublicRoute path="/onboarding" component={Onboarding} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/approve-requests" component={ApproveRequest} />
 
@@ -137,5 +138,5 @@ function App() {
     </Provider>
   );
 }
-
+  
 export default App;
