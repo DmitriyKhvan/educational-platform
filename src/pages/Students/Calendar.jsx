@@ -218,15 +218,17 @@ const Calendar = () => {
 
   async function onCancel(id) {
     dispatch(cancelAppointment(id));
+    setTimeout(
+      () =>
+        dispatch(
+          getAppointments({
+            student_id: user.student?.id,
+            status: 'scheduled,paid,completed,in_progress',
+          }),
+        ),
+      1000,
+    );
     setIsOpen(false);
-    setTimeout(() => {
-      dispatch(
-        getAppointments({
-          student_id: user?.student?.id,
-          status: 'scheduled',
-        }),
-      );
-    }, 1000);
     setIsCalendar(true);
   }
 
@@ -328,7 +330,9 @@ const Calendar = () => {
                 <thead>
                   <tr>
                     {tableHead.map((x, ind) => (
-                      <th scope="col" key={`row-${ind}`}>{x}</th>
+                      <th scope="col" key={`row-${ind}`}>
+                        {x}
+                      </th>
                     ))}
                   </tr>
                 </thead>
@@ -355,7 +359,7 @@ const Calendar = () => {
                         new Date(b.dateTime.startTime),
                     )
                     .map((event) => (
-                      <tr className="tr-center" key={event.start_at}>
+                      <tr className="tr-center" key={event.toString()}>
                         <td className="td-item">
                           <p className="td-lesson">{event.lesson}</p>
                         </td>
