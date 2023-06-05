@@ -1,9 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { TextInput } from './TextInput';
-
-import Verify from '../../../../assets/Verif.png';
-import ExportArrow from '../../../../assets/ExportArrow.png';
 import Submit from './Submit';
 import { useMutation } from '@apollo/client';
 import { MUTATION_UPDATE_TUTOR } from '../../../../modules/auth/graphql';
@@ -17,7 +14,7 @@ const Education = ({ cls }) => {
   const [updateTutor] = useMutation(MUTATION_UPDATE_TUTOR);
 
   const notify = () => toast('Education information is changed!');
-  const [file, setFile] = React.useState({});
+  const [file] = React.useState({});
 
   const history = useHistory();
 

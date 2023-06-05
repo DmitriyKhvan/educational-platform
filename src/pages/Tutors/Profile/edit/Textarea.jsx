@@ -1,5 +1,4 @@
 import cls from '../EditTutorProfile.module.scss';
-import { useTranslation } from 'react-i18next';
 import { forwardRef, useState, useEffect } from 'react';
 
 export const Textarea = forwardRef(
@@ -15,8 +14,7 @@ export const Textarea = forwardRef(
     },
     ref,
   ) => {
-    const [count, setCount] = useState(0);
-    const [t] = useTranslation('profile');
+    const [, setCount] = useState(0);
 
     function renderCount() {
       if (state !== 0) {

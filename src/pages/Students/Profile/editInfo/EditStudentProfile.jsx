@@ -142,7 +142,7 @@ const EditProflileStudent = () => {
                 <button onClick={removePreviewImage}>&times;</button>
               </>
             ) : (
-              <label for="inputTag" className="file_upload">
+              <label htmlFor="inputTag" className="file_upload">
                 <input
                   id="inputTag"
                   multiple

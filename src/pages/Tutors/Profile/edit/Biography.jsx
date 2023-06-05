@@ -24,8 +24,7 @@ const Biography = ({ cls }) => {
   const history = useHistory();
   const {
     register,
-    handleSubmit,
-    formState: { errors },
+    handleSubmit
   } = useForm({
     mode: 'onBlur',
     defaultValues: {

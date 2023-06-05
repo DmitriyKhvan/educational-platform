@@ -19,9 +19,9 @@ const EditAvatarModal = ({ isOpen, closeModal, profileImage }) => {
   const notify = () => toast('Avatar is changed!');
   const [file, setFile] = React.useState(null);
 
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit } = useForm();
 
-  const updateAvatar = async (area) => {
+  const updateAvatar = async () => {
     if (file) {
       const { data } = await updateTutor({
         variables: {
@@ -73,7 +73,7 @@ const EditAvatarModal = ({ isOpen, closeModal, profileImage }) => {
                 </label>
               </>
             ) : (
-              <label for="input">
+              <label htmlFor="input">
                 <input
                   id="input"
                   multiple
