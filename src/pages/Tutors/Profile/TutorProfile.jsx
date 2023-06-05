@@ -12,7 +12,7 @@ const TutorProfile = () => {
   const [profileImage, setProfileImage] = useState('');
   const [videoLink, setVideoLink] = React.useState('');
 
-  const [aboutText, setAbout] = React.useState('');
+  const [, setAbout] = React.useState('');
 
   const actions = useAuth();
 

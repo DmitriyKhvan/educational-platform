@@ -231,8 +231,6 @@ const Calendar = () => {
     });
     const studentsList = data?.students;
 
-    const studentLessonLevel = students.level || 0;
-
     const studentAvatar = studentsList?.find((i) => +i.id === +students?.id);
     const tutorAvatar = user.tutor?.avatar?.url;
 
