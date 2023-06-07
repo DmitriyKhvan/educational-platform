@@ -34,6 +34,7 @@ import { ToastContainer } from 'react-toastify';
 import IsReferal from './pages/Students/Referal/isReferal';
 import Loader from './components/Loader/Loader';
 import Onboarding from './pages/Students/Onboarding';
+import OnboardingPackage from './pages/Students/PackagePricing';
 
 const store = configureStore({});
 
@@ -108,6 +109,7 @@ function App() {
         <PublicRoute path="/verify-email" component={VerifyEmail} />
         <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
         <PublicRoute path="/onboarding" component={Onboarding} />
+        <PublicRoute path="/onboarding-package" component={OnboardingPackage} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/approve-requests" component={ApproveRequest} />
 
@@ -138,5 +140,5 @@ function App() {
     </Provider>
   );
 }
-  
+
 export default App;

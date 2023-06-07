@@ -14,7 +14,9 @@ export default function Onboarding() {
     formState: { errors },
   } = useForm();
 
-  const [parent] = useAutoAnimate();
+  const [parent] = useAutoAnimate({
+    duration: 300,
+  });
 
   const { step, currentStepIndex, steps, next, back, isFirst, isLast } =
     useMultistepForm([
@@ -24,23 +26,25 @@ export default function Onboarding() {
     ]);
 
   const onSubmit = (data) => {
-    console.log(currentStepIndex);
     if (!isLast) return next();
-    console.log(data);
-    alert(data);
+    alert(JSON.stringify(data));
   };
 
   return (
-    <>
-      <div className="max-w-2xl px-4 m-auto flex flex-col justify-center items-center min-h-screen gap-4">
-        <img className="w-64 mb-8" src={Logo} alt="naonow-logo" />
+    <main className="flex flex-col relative items-center">
+      <img
+        className="w-48 md:w-64 my-[8vh] md:my-[12.5vh]"
+        src={Logo}
+        alt="naonow-logo"
+      />
+      <div className="max-w-2xl gap-4 w-full px-4">
         <form
           ref={parent}
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-3 w-full min-h-[16rem] justify-center"
+          className="w-full block py-8"
         >
           {step}
-          <div className="flex flex-row justify-start self-start gap-4 mt-8">
+          <div className="self-start mt-8 flex flex-row gap-4">
             <button
               className="py-2 px-4 bg-purple-800 text-white rounded-md font-bold disabled:bg-opacity-50 disabled:text-gray-200 disabled:cursor-not-allowed duration-200 hover:opacity-75 active:brightness-75 active:scale-95"
               type="button"
@@ -61,12 +65,12 @@ export default function Onboarding() {
       </div>
       <div className="absolute flex top-0 w-full bg-purple-200">
         <span
-          className={`h-2 bg-purple-800 duration-300 ease-in-out z-10`}
+          className={`h-2 bg-purple-800 duration-500 ease-in-out z-10`}
           style={{
             width: `${(currentStepIndex / (steps.length - 1)) * 100}%`,
           }}
         ></span>
       </div>
-    </>
+    </main>
   );
 }

@@ -28,6 +28,7 @@ export default function CredentialsForm({ register, errors }) {
               return emailRegex.test(value) || 'Invalid email address';
             },
           },
+          focus: true,
         })}
       />
       <label className="font-bold flex gap-2" htmlFor="phone" ref={parent}>
