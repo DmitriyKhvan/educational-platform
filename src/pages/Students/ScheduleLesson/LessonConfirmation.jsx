@@ -261,7 +261,7 @@ const LessonConfirmation = ({
               <p className="welcome-subtitle pt-4 confirm-tutor-subtitle">
                 {t('date_time', { ns: 'lessons' })}
               </p>
-              <div className="row container ps-2 mobile-width-subtitle">
+              <div className="mobile-width-subtitle">
                 <ScheduleCard
                   startTime={scheduleStartTime}
                   endTime={scheduleEndTime}

@@ -134,7 +134,7 @@ const Referal = () => {
           <div className="share_info">
             <h2>{t('share_how')}</h2>
 
-            <div className="share_col">
+            <div className="share_col space-y-6">
               <div className="share_list">
                 <img src={present} alt="" />
 

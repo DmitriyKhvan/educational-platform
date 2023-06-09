@@ -1,398 +1,390 @@
 @import './variable.scss';
 
 .referal-wrapper {
-    padding: 50px 66px;
+  padding: 50px 66px;
+  font-family: 'Inter';
+  .title {
     font-family: 'Inter';
-    .title{
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 400;
-      font-size: 40px;
-      line-height: 48px;
-      letter-spacing: -1px;
-      margin-top: 0;
-      margin-bottom: 0;
-      /* Dark Purple */
-      
-      color: #261A45;
-      
-      @media screen and (max-width: 375px) {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: -1px;
+    margin-top: 0;
+    margin-bottom: 0;
+    /* Dark Purple */
+
+    color: #261a45;
+
+    @media screen and (max-width: 375px) {
+      font-size: 24px;
+    }
+  }
+  .description {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -0.6px;
+    margin-top: 10px;
+    /* Light Gray */
+
+    color: #646481;
+    @media screen and (max-width: 768px) {
+      align-self: center;
+      text-align: center;
+    }
+    @media screen and (max-width: 375px) {
+      font-size: 16px;
+    }
+  }
+
+  .main_section {
+    border-radius: 10px;
+    background: rgba(247, 247, 250, 0.5);
+    padding: 0px 58px;
+    margin-top: 30px;
+
+    .main_section-row {
+      display: flex;
+      align-items: center;
+      .left_side {
+        width: 30%;
+
+        .refer_card {
+          background: #ffffff;
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
+          border-radius: 10px;
+          width: 315px;
+          padding: 26px 30px;
+          cursor: pointer;
+
+          &:nth-child(2) {
+            margin-top: 35px;
+          }
+
+          h2 {
+            margin-top: 0;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 600;
             font-size: 24px;
+            line-height: 29px;
+            /* identical to box height */
+            margin-bottom: 0;
+            letter-spacing: -0.6px;
 
-      }
-    }
-    .description {
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 600;
-      font-size: 20px;
-      line-height: 24px;
-      letter-spacing: -0.6px;
-      margin-top: 10px;
-      /* Light Gray */
-      
-      color: #646481;
-      @media screen and (max-width:768px) {
-        align-self: center;
-        text-align: center;
-      }
-      @media screen and (max-width: 375px) {
-        font-size: 16px;
-      }
-    }
-    
-    .main_section {
-      border-radius: 10px;
-      background: rgba(247, 247, 250, 0.5);
-      padding: 0px 58px;
-      margin-top: 30px;
+            /* Purple */
 
-      .main_section-row {
-        display: flex;
-        align-items: center;
-        .left_side {
-          width: 30%;
-
-          .refer_card {
-            background: #FFFFFF;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
-            border-radius: 10px;
-            width: 315px;
-            padding: 26px 30px;
-            cursor: pointer;
-
-            &:nth-child(2) {
-              margin-top: 35px;
-            }
-
-            h2 {
-              margin-top: 0;
-              font-family: 'Inter';
-              font-style: normal;
-              font-weight: 600;
-              font-size: 24px;
-              line-height: 29px;
-              /* identical to box height */
-              margin-bottom: 0;
-              letter-spacing: -0.6px;
-
-              /* Purple */
-
-              color: #6133AF;
-            }
-
-            p {
-              font-family: 'Inter';
-              font-style: normal;
-              font-weight: 500;
-              font-size: 16px;
-              line-height: 19px;
-              letter-spacing: -0.6px;
-
-              /* Dark Purple */
-
-              color: #261A45;
-
-            }
-
-            span {
-              font-family: 'Inter';
-              font-style: normal;
-              font-weight: 500;
-              font-size: 12px;
-              line-height: 15px;
-              letter-spacing: -0.6px;
-
-              /* Light Gray */
-
-              color: #646481;
-
-            }
+            color: #6133af;
           }
-        }
 
-        .right_side {
-          width: 60%;
-
-          .gift_banner {
-            background: url("../../assets/images/AdobeStock_393541820_VIOLETA_3_1-removebg.png") center / cover;
-            width: 750px;
-            height: 485px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            .link_card {
-              width: 215px;
-              transform: translateY(20px);
-              position: absolute;
-              padding: 18px 25px;
-              background: #FFFFFF;
-              text-align: center;
-              border: 1px solid #FFFFFF;
-              box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-              border-radius: 5px;
-              h3 {
-                font-family: 'Inter';
-                font-style: normal;
-                font-weight: 600;
-                margin-bottom: 9px;
-                margin-top: 0;
-                font-size: 15px;
-                line-height: 20px;
-                /* or 133% */
-
-                text-align: center;
-                letter-spacing: -0.2px;
-
-                /* Purple */
-
-                color: #6133AF;
-
-              }
-
-              span {
-                overflow-wrap: break-word;
-                font-family: 'Inter';
-                font-style: normal;
-                font-weight: 600;
-                font-size: 14px;
-                line-height: 20px;
-                /* or 143% */
-                cursor: pointer;
-                text-align: center;
-                letter-spacing: -0.2px;
-
-                /* Purple */
-
-                color: #6133AF;
-
-              }
-            }
-          }
-        }
-      }
-    }
-    
-    .sociel_section {
-      margin-top: 30px;
-
-      .sociel_title {
-        h2 {
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 500;
-          font-size: 20px;
-          line-height: 24px;
-          letter-spacing: -0.6px;
-          margin-bottom: 10px;
-          /* Dark Purple */
-
-          color: #261A45;
-        }
-
-        p {
-          font-family: 'Inter';
-          font-style: normal;
-          margin-top: 0;
-          font-weight: 500;
-          font-size: 15px;
-          line-height: 18px;
-          letter-spacing: -0.6px;
-
-          /* Light Gray */
-
-          color: #646481;
-        }
-      }
-
-      .share_link-input {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-
-        .left_share {
-          position: relative;
-          border: 1px solid #DEDEE1;
-          border-radius: 5px;
-          width: min-content;
-          max-width: 450px;
-          display: flex;
-          flex-grow: 1;
-          input {
-            width: 100%;
-            padding: 15px 15px;
-            border-radius: inherit;
-            border: none;
-            background: #FFFFFF;
-            /* Border Gray */
+          p {
             font-family: 'Inter';
             font-style: normal;
-            font-weight: 400;
-            font-size: 15px;
-            line-height: 20px;
-            letter-spacing: -0.2px;
-            color: #261A45;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 19px;
+            letter-spacing: -0.6px;
+
+            /* Dark Purple */
+
+            color: #261a45;
           }
+
           span {
-            padding: 15px 0;
-            text-align: center;
-            width: 80px;
-            display: inline-block;
-            background-color: #6133AF;
-            color: white;
             font-family: 'Inter';
             font-style: normal;
-            font-weight: 400;
-            font-size: 15px;
-            line-height: 20px;
-            border-top-right-radius: inherit;
-            border-bottom-right-radius: inherit;
-            cursor: pointer;
-            letter-spacing: -0.2px;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 15px;
+            letter-spacing: -0.6px;
+
+            /* Light Gray */
+
+            color: #646481;
           }
         }
+      }
 
-        .right_share {
+      .right_side {
+        width: 60%;
+
+        .gift_banner {
+          background: url('../../assets/images/AdobeStock_393541820_VIOLETA_3_1-removebg.png')
+            center / cover;
+          width: 750px;
+          height: 485px;
+          position: relative;
           display: flex;
           align-items: center;
-          gap: 20px;
-          div {
-            cursor: pointer;
-            background-color: #6133AF;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+          justify-content: center;
+
+          .link_card {
+            width: 215px;
+            transform: translateY(20px);
+            position: absolute;
+            padding: 18px 25px;
+            background: #ffffff;
+            text-align: center;
+            border: 1px solid #ffffff;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
-          }
-          a{
-            height: 40px;
-          }
-          img {
-            cursor: pointer;
-          }
-        }
-      }
-
-      .share_title {
-        margin-top: 30px;
-
-        h2 {
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 500;
-          font-size: 20px;
-          line-height: 24px;
-          letter-spacing: -0.6px;
-          margin-bottom: 10px;
-          /* Dark Purple */
-
-          color: #261A45;
-
-        }
-
-        p {
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 500;
-          font-size: 15px;
-          line-height: 18px;
-          letter-spacing: -0.6px;
-          margin-top: 0;
-          /* Light Gray */
-
-          color: #646481;
-
-        }
-      }
-      
-
-      .share_button {
-        margin-top: 20px;
-        display: flex;
-        gap: 20px;
-
-        a {
-          height: 48px;
-          padding: 15px 15px;
-          background: #6133AF;
-          border-radius: 5px;
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 600;
-          font-size: 15px;
-          line-height: 18px;
-          letter-spacing: -0.2px;
-          cursor: pointer;
-          color: #FFFFFF;
-
-          img {
-            object-fit: contain;
-            width: 12px;
-            height: 12px;
-            margin-right: 10px;
-          }
-
-        }
-      }
-
-      .share_info {
-        margin-top: 30px;
-
-        h2 {
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 500;
-          font-size: 20px;
-          line-height: 24px;
-          letter-spacing: -0.6px;
-
-          /* Dark Purple */
-
-          color: #261A45;
-
-        }
-
-        .share_col {
-          margin-top: 19px;
-
-          .share_list {
-            display: flex;
-            align-items: center;
-            gap: 17px;
-
             h3 {
               font-family: 'Inter';
               font-style: normal;
-              font-weight: 500;
-              font-size: 20px;
-              line-height: 24px;
-              letter-spacing: -0.6px;
-              margin-bottom: 8px;
-              /* Dark Purple */
+              font-weight: 600;
+              margin-bottom: 9px;
+              margin-top: 0;
+              font-size: 15px;
+              line-height: 20px;
+              /* or 133% */
 
-              color: #261A45;
+              text-align: center;
+              letter-spacing: -0.2px;
+
+              /* Purple */
+
+              color: #6133af;
             }
 
-            p {
+            span {
+              overflow-wrap: break-word;
               font-family: 'Inter';
               font-style: normal;
-              font-weight: 500;
-              font-size: 15px;
-              line-height: 18px;
-              letter-spacing: -0.6px;
-              margin-top: 0;
-              /* Light Gray */
+              font-weight: 600;
+              font-size: 14px;
+              line-height: 20px;
+              /* or 143% */
+              cursor: pointer;
+              text-align: center;
+              letter-spacing: -0.2px;
 
-              color: #646481;
+              /* Purple */
 
+              color: #6133af;
             }
           }
         }
       }
     }
-}
+  }
 
+  .sociel_section {
+    margin-top: 30px;
+
+    .sociel_title {
+      h2 {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 24px;
+        letter-spacing: -0.6px;
+        margin-bottom: 10px;
+        /* Dark Purple */
+
+        color: #261a45;
+      }
+
+      p {
+        font-family: 'Inter';
+        font-style: normal;
+        margin-top: 0;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+        letter-spacing: -0.6px;
+
+        /* Light Gray */
+
+        color: #646481;
+      }
+    }
+
+    .share_link-input {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+
+      .left_share {
+        position: relative;
+        border: 1px solid #dedee1;
+        border-radius: 5px;
+        width: min-content;
+        max-width: 450px;
+        display: flex;
+        flex-grow: 1;
+        input {
+          width: 100%;
+          padding: 15px 15px;
+          border-radius: inherit;
+          border: none;
+          background: #ffffff;
+          /* Border Gray */
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 15px;
+          line-height: 20px;
+          letter-spacing: -0.2px;
+          color: #261a45;
+        }
+        span {
+          padding: 15px 0;
+          text-align: center;
+          width: 80px;
+          display: inline-block;
+          background-color: #6133af;
+          color: white;
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 15px;
+          line-height: 20px;
+          border-top-right-radius: inherit;
+          border-bottom-right-radius: inherit;
+          cursor: pointer;
+          letter-spacing: -0.2px;
+        }
+      }
+
+      .right_share {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        div {
+          cursor: pointer;
+          background-color: #6133af;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 5px;
+        }
+        a {
+          height: 40px;
+        }
+        img {
+          cursor: pointer;
+        }
+      }
+    }
+
+    .share_title {
+      margin-top: 30px;
+
+      h2 {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 24px;
+        letter-spacing: -0.6px;
+        margin-bottom: 10px;
+        /* Dark Purple */
+
+        color: #261a45;
+      }
+
+      p {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+        letter-spacing: -0.6px;
+        margin-top: 0;
+        /* Light Gray */
+
+        color: #646481;
+      }
+    }
+
+    .share_button {
+      margin-top: 20px;
+      display: flex;
+      gap: 20px;
+
+      a {
+        display: flex;
+        align-items: center;
+        height: 48px;
+        padding: 15px 15px;
+        background: #6133af;
+        border-radius: 5px;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 18px;
+        letter-spacing: -0.2px;
+        cursor: pointer;
+        color: #ffffff;
+
+        img {
+          object-fit: contain;
+          width: 12px;
+          height: 12px;
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .share_info {
+      margin-top: 30px;
+
+      h2 {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 24px;
+        letter-spacing: -0.6px;
+
+        /* Dark Purple */
+
+        color: #261a45;
+      }
+
+      .share_col {
+        margin-top: 19px;
+
+        .share_list {
+          display: flex;
+          align-items: center;
+          gap: 17px;
+
+          h3 {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 24px;
+            letter-spacing: -0.6px;
+            margin-bottom: 8px;
+            /* Dark Purple */
+
+            color: #261a45;
+          }
+
+          p {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 500;
+            font-size: 15px;
+            line-height: 18px;
+            letter-spacing: -0.6px;
+            margin-top: 0;
+            /* Light Gray */
+
+            color: #646481;
+          }
+        }
+      }
+    }
+  }
+}
