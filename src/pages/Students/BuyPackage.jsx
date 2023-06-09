@@ -3,8 +3,7 @@ import { ReactComponent as ArrowBack } from '../../assets/images/arrow_back.svg'
 import Loader from '../../components/Loader/Loader';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { useHistory } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 const getPricing = async () => {
   const data = new Promise((resolve) =>

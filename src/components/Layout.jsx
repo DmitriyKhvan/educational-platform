@@ -3,15 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import '../assets/styles/layout.scss';
-// import { Elements } from '@stripe/react-stripe-js'
-// import { loadStripe } from '@stripe/stripe-js'
 import io from 'socket.io-client';
 import { setNotification } from '../actions/notification';
 import ReferMessageModal from './ReferMessageModal';
 
 const Layout = ({ children, fluid }) => {
   const isShowSidebar = useSelector((state) => state.settings.isShowSidebar);
-  // const stripe = loadStripe(process.env.REACT_APP_STRIPE_KEY)
   const authed = useSelector((state) => state.auth.authenticated);
   const user = useSelector((state) => state.users.user);
   const [socket, setSocket] = useState(null);
