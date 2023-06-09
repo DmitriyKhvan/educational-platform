@@ -40,12 +40,6 @@ const tutorNavLinks = [
     activeIcon: ActiveIcon2,
   },
   {
-    label: 'students',
-    link: '/tutor/students-list',
-    icon: tutorIcon,
-    activeIcon: tutorActiveIcon,
-  },
-  {
     label: 'check_requests',
     link: '/approve-requests',
     icon: Icon11,
