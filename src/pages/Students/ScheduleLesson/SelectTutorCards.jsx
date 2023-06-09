@@ -155,7 +155,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
       ? femaleAvatar
       : maleAvatar;
     return (
-      <div className="col-12 col-xl-4 col-lg-6 col-md-6 col-sm-6 pt-3 schedulebottom">
+      <div className="">
         <div className="favImg">
           <img src={tutorProfile} className="img-fluid schedule" alt="" />
           {/* <img src={Favorite} alt='FavoriteSvg' className='FavoriteSvg' /> */}
@@ -244,7 +244,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
                 </div>
               </div>
               {availableTutors?.length ? (
-                <div className="row ps-2 pt-4 tutor-overflow-scroll tutor_schedule_widths ">
+                <div className="grid grid-cols-1 lg:grid-cols-2 items-center place-items-center lg:place-items-start 2xl:grid-cols-3 w-full gap-y-4">
                   {availableTutors.map((x, i) => (
                     <SelectTutors tutor={x} key={i} />
                   ))}
