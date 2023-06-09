@@ -36,7 +36,7 @@ const SelectLesson = ({
           className={`schedule-card small-card lesson-container rounded-xl px-3 pt-3 ${
             i === clicked
               ? 'border-[#6133af] border'
-              : 'schedule-card small-card lesson-container p-2'
+              : 'schedule-card small-card lesson-container rounded-xl px-3 pt-3'
           }`}
           onClick={() => {
             setClicked(i);
