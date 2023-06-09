@@ -85,7 +85,7 @@ const CalendarModal = ({
             {endTime}
           </h3>
         </div>
-        <div className="col-3">
+        <div className="max-w-[4rem]">
           <img src={profileImage} alt="" />
         </div>
       </div>
