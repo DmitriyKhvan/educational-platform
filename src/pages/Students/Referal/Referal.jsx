@@ -33,7 +33,7 @@ const Referal = () => {
 
   return (
     <Layout>
-      <div className="referal-wrapper overfl">
+      <div className="referal-wrapper">
         <h2 className="title">{t('refer')}</h2>
         <div className="description">{t('refer_desc')}</div>
         <div className="main_section">
