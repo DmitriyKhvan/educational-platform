@@ -66,36 +66,32 @@ const CalendarModal = ({
 
   return (
     <div
-      className={'page-card grey-border bg-white pt-2 mt-4'}
+      className="rounded-xl relative grey-border bg-white p-4"
       key={index}
       style={{ maxWidth: '33vw', zIndex: '-1' }}
     >
-      <p className="close-sh p-2" onClick={closeModal}>
+      <p
+        className="absolute top-0 right-0 py-1 px-2 cursor-pointer text-xl"
+        onClick={closeModal}
+      >
         &times;
       </p>
-      <div className="container">
-        <div className="row">
-          <div className="col-9">
-            <h1 className={'text-black'}>{lesson}</h1>
-            {/* TODO: add this to translation.json */}
-            <h3 className={'text-muted'}>
-              {isToday ? 'Today' : moment(time).format('ddd')} at {startTime} →{' '}
-              {endTime}
-            </h3>
-          </div>
-          <div className="col-3">
-            <img
-              src={profileImage}
-              className="img-fluid align-middle"
-              alt=""
-              style={{ padding: '25px 0px 0px 0px' }}
-            />
-          </div>
+      <div className="flex gap-2 items-start">
+        <div className="w-full flex-grow-[2]">
+          <h1 className="text-black text-2xl">{lesson}</h1>
+          {/* TODO: add this to translation.json */}
+          <h3 className="text-muted text-lg">
+            {isToday ? 'Today' : moment(time).format('ddd')} at {startTime} →{' '}
+            {endTime}
+          </h3>
+        </div>
+        <div className="col-3">
+          <img src={profileImage} alt="" />
         </div>
       </div>
-      <div className="schedule-modal-ls">
+      <div className="flex mt-4 gap-2 flex-wrap">
         <button
-          className="enter-btn grey-border text-black"
+          className="enter-btn m-0 p-0 py-2 px-3 text-sm grey-border text-black"
           onClick={() => {
             if (isLate) {
               closeModal();
@@ -114,7 +110,7 @@ const CalendarModal = ({
           to={
             '/student/schedule-lesson/select/' + data?.resource?.eventDate?.id
           }
-          className="enter-btn grey-border text-black"
+          className="enter-btn m-0 p-0 py-2 px-2 text-sm grey-border text-black"
           onClick={(e) => {
             if (isLate) {
               e.preventDefault();
@@ -134,7 +130,7 @@ const CalendarModal = ({
           onClick={joinLesson}
           target="_blank"
           rel="noreferrer"
-          className="enter-btn grey-border text-black"
+          className="enter-btn m-0 p-0 py-2 px-2 text-sm grey-border text-black"
         >
           {t('join_lesson')}
         </a>
