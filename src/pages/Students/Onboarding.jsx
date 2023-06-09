@@ -6,8 +6,10 @@ import SelectForm from '../../components/onboarding/SelectForm';
 import { useForm } from 'react-hook-form';
 import Logo from '../../assets/images/logo.png';
 import CredentialsForm from '../../components/onboarding/CredentialsForm';
+import { useHistory } from 'react-router-dom';
 
 export default function Onboarding() {
+  const history = useHistory();
   const {
     handleSubmit,
     register,
@@ -27,7 +29,9 @@ export default function Onboarding() {
 
   const onSubmit = (data) => {
     if (!isLast) return next();
-    alert(JSON.stringify(data));
+    // submit data, login user and redirect to dashboard
+    console.log(data);
+    history.push('/dashboard');
   };
 
   return (

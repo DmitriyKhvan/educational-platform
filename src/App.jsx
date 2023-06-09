@@ -1,7 +1,6 @@
 import 'react-notifications-component/dist/theme.css';
 import './assets/styles/global.scss';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-
 /* eslint-disable import/first */
 import React, { lazy, Suspense } from 'react';
 
@@ -34,7 +33,8 @@ import { ToastContainer } from 'react-toastify';
 import IsReferal from './pages/Students/Referal/isReferal';
 import Loader from './components/Loader/Loader';
 import Onboarding from './pages/Students/Onboarding';
-import OnboardingPackage from './pages/Students/PackagePricing';
+import BuyPackage from './pages/Students/BuyPackage';
+import StripePayment from './pages/Students/StripePayment';
 
 const store = configureStore({});
 
@@ -109,7 +109,12 @@ function App() {
         <PublicRoute path="/verify-email" component={VerifyEmail} />
         <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
         <PublicRoute path="/onboarding" component={Onboarding} />
-        <PublicRoute path="/onboarding-package" component={OnboardingPackage} />
+        <PublicRoute
+          path="/purchase/:packageId/payment/:clientSecret"
+          exact
+          component={StripePayment}
+        />
+        <PublicRoute exact path="/purchase/:packageId" component={BuyPackage} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/approve-requests" component={ApproveRequest} />
 

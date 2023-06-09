@@ -3,9 +3,8 @@ import { ReactComponent as ArrowBack } from '../../assets/images/arrow_back.svg'
 import Loader from '../../components/Loader/Loader';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import Stripe from 'stripe';
-
-const stripe = new Stripe(process.env.REACT_APP_STRIPE_SECRET);
+import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const getPricing = async () => {
   const data = new Promise((resolve) =>
@@ -74,16 +73,19 @@ const getPricing = async () => {
   return data;
 };
 
-export default function OnboardingPackage() {
+export default function BuyPackage() {
   const [lessonPackage, setLessonPackage] = useState(null);
   const [selectedLength, setSelectedLength] = useState(null);
   const [uniqueLength, setUniqueLength] = useState([]);
-  // const [selectedType, setSelectedType] = useState(null);
+  const [selectedType, setSelectedType] = useState(null);
 
   const [parent] = useAutoAnimate({
     duration: 450,
     easing: 'ease-in-out',
   });
+
+  const history = useHistory();
+  const { packageId } = useParams();
 
   useEffect(() => {
     getPricing().then((data) => {
@@ -95,29 +97,18 @@ export default function OnboardingPackage() {
     });
   }, []);
 
-  const handleClick = async () => {
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: 'krw',
-            product_data: {
-              name: lessonPackage.name,
-            },
-            unit_amount: lessonPackage.types.find(
-              (item) => item.length === selectedLength,
-            ).price,
-          },
-          quantity: 1,
-        },
-      ],
-      mode: 'payment',
-      success_url: 'https://example.com/success',
-      cancel_url: 'https://example.com/cancel',
-    });
+  const handleSubmit = async (e) => {
+    if (selectedType) {
+      e.preventDefault();
+      const response = await fetch(`http://localhost:3000/secret`);
+      const data = await response.json();
 
-    window.location.replace(session.url);
+      console.log(data);
+
+      if (response?.ok) {
+        history.replace(`${packageId}/payment/${data.client_secret}`);
+      }
+    }
   };
 
   if (!lessonPackage) return <Loader />;
@@ -145,7 +136,12 @@ export default function OnboardingPackage() {
           </p>
         </div>
         <hr className="border-gray-400/50 rounded-full border md:hidden" />
-        <div className="w-full flex flex-col gap-3">
+        <form
+          onSubmit={(e) => {
+            handleSubmit(e);
+          }}
+          className="w-full flex flex-col gap-3"
+        >
           <p className="text-lg font-bold text-gray-700/90">
             Choose the duration:
           </p>
@@ -187,6 +183,7 @@ export default function OnboardingPackage() {
                       id={lessonPackageType.id}
                       name="package"
                       value={lessonPackageType.id}
+                      onChange={() => setSelectedType(lessonPackageType)}
                       className="hidden peer"
                     />
                     <label
@@ -226,14 +223,11 @@ export default function OnboardingPackage() {
                 ),
             )}
           </div>
-          <button
-            className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200"
-            onClick={() => handleClick()}
-          >
+          <button className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200">
             Proceed to checkout
             <ArrowBack className="brightness-0 invert rotate-180 scale-125" />
           </button>
-        </div>
+        </form>
       </div>
     </main>
   );
