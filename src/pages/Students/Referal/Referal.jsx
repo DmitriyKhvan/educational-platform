@@ -33,7 +33,7 @@ const Referal = () => {
 
   return (
     <Layout>
-      <div className="referal-wrapper">
+      <div className="referal-wrapper overfl">
         <h2 className="title">{t('refer')}</h2>
         <div className="description">{t('refer_desc')}</div>
         <div className="main_section">
@@ -134,7 +134,7 @@ const Referal = () => {
           <div className="share_info">
             <h2>{t('share_how')}</h2>
 
-            <div className="share_col">
+            <div className="share_col space-y-6">
               <div className="share_list">
                 <img src={present} alt="" />
 
