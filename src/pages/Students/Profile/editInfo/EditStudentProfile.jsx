@@ -129,7 +129,7 @@ const EditProflileStudent = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="body">
-          <div className="avatar-block">
+          <div className="avatar-block relative max-w-fit">
             {!file && <img src={profileImage} alt={'userInfo.tutorName'} />}
 
             {file ? (
@@ -139,7 +139,12 @@ const EditProflileStudent = () => {
                   alt="Thumb"
                   className="previewImg"
                 />
-                <button onClick={removePreviewImage}>&times;</button>
+                <button
+                  className="absolute top-0 right-0 text-2xl cursor-pointer text-red-500"
+                  onClick={removePreviewImage}
+                >
+                  &times;
+                </button>
               </>
             ) : (
               <label htmlFor="inputTag" className="file_upload">
@@ -150,7 +155,7 @@ const EditProflileStudent = () => {
                   type={'file'}
                   onChange={(e) => setFile(e.target.files[0])}
                 />
-                <AiFillEdit className="edit-icon" />
+                <AiFillEdit className="absolute top-0 right-0 text-xl cursor-pointer" />
               </label>
             )}
           </div>
@@ -174,7 +179,7 @@ const EditProflileStudent = () => {
               </label>
             </section>
 
-            <div className="student_country">
+            <section className="space-y-2">
               <label>{t('time_zone', { ns: 'common' })}</label>
               <Controller
                 control={control}
@@ -189,8 +194,8 @@ const EditProflileStudent = () => {
                   />
                 )}
               />
-            </div>
-            <div className="student_country">
+            </section>
+            <section className="space-y-2">
               <label htmlFor="country">{t('country', { ns: 'common' })}</label>
               <Controller
                 control={control}
@@ -207,7 +212,7 @@ const EditProflileStudent = () => {
                   />
                 )}
               />
-            </div>
+            </section>
 
             <section>
               <TextInput
