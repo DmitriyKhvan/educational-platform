@@ -93,17 +93,11 @@ const LessonConfirmation = ({
 
     /* this means if the lesson ID exists, its going to be a reschedule */
     if (lessonId) {
-      const { payload } = dispatch(getAppointments());
-      const [oldAppointment] =
-        payload?.filter((v) => parseInt(v.id) === parseInt(lessonId)) ?? [];
-      if (!oldAppointment) {
-        NotificationManager.error(
-          'Something went wrong, please try again later',
-          t,
-        );
-        setIsLoading(false);
-        return;
-      }
+      const { payload } = await dispatch(getAppointments());
+      // eslint-disable-next-line no-unsafe-optional-chaining
+      const [oldAppointment] = payload?.filter(
+        (v) => parseInt(v.id) === parseInt(lessonId),
+      );
       const oldStartAt = moment(oldAppointment?.start_at);
       const duration = moment.duration(oldStartAt?.diff(moment())).asHours();
       const rescheduleData = {
@@ -114,13 +108,13 @@ const LessonConfirmation = ({
       setIsLoading(true);
       const res =
         duration < 24
-          ? dispatch(
+          ? await dispatch(
               updateAppointment(lessonId, {
                 ...rescheduleData,
                 payment_id: plan?.payment_id,
               }),
             )
-          : dispatch(
+          : await dispatch(
               updateAppointment(lessonId, {
                 ...rescheduleData,
               }),
@@ -128,7 +122,7 @@ const LessonConfirmation = ({
       setIsLoading(false);
 
       if (res.type === ActionTypes.UPDATE_APPOINTMENT_INFO.SUCCESS) {
-        const { payload } = dispatch(
+        const { payload } = await dispatch(
           getAppointments({ tutor_id: data?.tutor_id }),
         );
         setConfirmDisable(true);
@@ -252,7 +246,7 @@ const LessonConfirmation = ({
               <p className="welcome-subtitle pt-4 confirm-tutor-subtitle">
                 {t('lesson_topic', { ns: 'lessons' })}
               </p>
-              <div className="">
+              <div className="lesson_card-inline">
                 <LessonCard
                   lesson={plan?.lesson_type}
                   duration={`${plan?.duration} ${t('minutes', {
