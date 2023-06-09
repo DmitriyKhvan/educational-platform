@@ -102,8 +102,6 @@ export default function BuyPackage() {
       const response = await fetch(`http://localhost:3000/secret`);
       const data = await response.json();
 
-      console.log(data);
-
       if (response?.ok) {
         history.replace(`${packageId}/payment/${data.client_secret}`);
       }

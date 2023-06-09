@@ -48,13 +48,9 @@ const CheckoutForm = () => {
 export default function StripePayment() {
   const clientSecret = useParams().clientSecret;
 
-  console.log(clientSecret);
-
   const options = {
     clientSecret: clientSecret,
   };
-
-  console.log(stripePromise);
 
   return (
     <Elements stripe={stripePromise} options={options}>
