@@ -8,9 +8,6 @@ import Logo from '../assets/images/logo.png';
 import LogoutImg from '../assets/images/logout_icon.svg';
 import referActiveIcon from '../assets/images/referIconActive.png';
 import whiteCalendar from '../assets/images/sidebar/active-calendar.png';
-import Icon16 from '../assets/images/sidebar/icon16.svg';
-import Icon17 from '../assets/images/sidebar/icon17.svg';
-import Icon18 from '../assets/images/sidebar/icon18.svg';
 import Icon1 from '../assets/images/sidebar/purple_dashboard_icon.svg';
 import tutorIcon from '../assets/images/sidebar/purple_tutor_icon.svg';
 import tutorActiveIcon from '../assets/images/sidebar/white_tutor_icon.svg';
@@ -21,21 +18,18 @@ import ClassMaterialIcon from '../assets/images/sidebar/class_materials.svg';
 import ActiveIcon1 from '../assets/images/sidebar/white_dashboard_icon.svg';
 import ActiveIcon2 from '../assets/images/sidebar/white_lesson_icon.svg';
 import ActiveIcon11 from '../assets/images/sidebar/white_subscription_icon.svg';
-import ActiveIcon16 from '../assets/images/sidebar/active16.svg';
-import ActiveIcon17 from '../assets/images/sidebar/active17.svg';
-import ActiveIcon18 from '../assets/images/sidebar/active18.svg';
 import { classMaterialURL } from '../constants/global';
 
 const tutorNavLinks = [
   {
     label: 'manage_appointments',
-    link: '/tutor/manage-appointments',
+    link: '/mentor/manage-appointments',
     icon: Icon1,
     activeIcon: ActiveIcon1,
   },
   {
     label: 'lessons',
-    link: '/tutor/appointments-calendar',
+    link: '/mentor/appointments-calendar',
     icon: Icon2,
     activeIcon: ActiveIcon2,
   },
@@ -47,7 +41,7 @@ const tutorNavLinks = [
   },
   {
     label: 'my_availability',
-    link: '/tutor/availability',
+    link: '/mentor/availability',
     icon: purpleCalendar,
     activeIcon: whiteCalendar,
   },
@@ -87,33 +81,6 @@ const studentNavLinks = [
   },
 ];
 
-const adminNavLinks = [
-  {
-    label: 'tutor_list',
-    link: '/admin/tutor-list',
-    icon: Icon16,
-    activeIcon: ActiveIcon16,
-  },
-  {
-    label: 'student_list',
-    link: '/admin/student-list',
-    icon: Icon17,
-    activeIcon: ActiveIcon17,
-  },
-  {
-    label: 'admin',
-    link: '/admin/main',
-    icon: Icon18,
-    activeIcon: ActiveIcon18,
-  },
-  {
-    label: 'lessons',
-    link: '/admin/lesson-calendar',
-    icon: Icon2,
-    activeIcon: ActiveIcon2,
-  },
-];
-
 const Sidebar = () => {
   let location = useLocation();
   const history = useHistory();
@@ -135,20 +102,13 @@ const Sidebar = () => {
     return item;
   });
 
-  adminNavLinks.map((item) => {
-    item.is_selected = location.pathname.includes(item.link);
-    return item;
-  });
-
   const [navLinks, setNavLinks] = useState([]);
 
   useEffect(() => {
-    if (user_role === 'tutor') {
+    if (user_role === 'mentor') {
       setNavLinks(tutorNavLinks);
     } else if (user_role === 'student') {
       setNavLinks(studentNavLinks);
-    } else if (user_role === 'admin') {
-      setNavLinks(adminNavLinks);
     }
   }, [user_role]);
 

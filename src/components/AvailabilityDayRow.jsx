@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
-import AvailabilityPicker from '../pages/Tutors/Availiability/AvailabilityPicker';
-import { AvailProv } from '../pages/Tutors/Availiability/AvailabilityProvider';
+import AvailabilityPicker from '../pages/Mentors/Availiability/AvailabilityPicker';
+import { AvailProv } from '../pages/Mentors/Availiability/AvailabilityProvider';
 import plusIcon from '../assets/images/plus_icon.svg';
 import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';

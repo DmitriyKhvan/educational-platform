@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../../../modules/auth';
-import { MUTATION_UPDATE_TUTOR } from '../../../../modules/auth/graphql';
+import { MUTATION_UPDATE_MENTOR } from '../../../../modules/auth/graphql';
 import Submit from './Submit';
 import { Textarea } from './Textarea';
 
@@ -15,7 +15,7 @@ const Biography = ({ cls }) => {
   const [intro, setIntro] = React.useState(0);
   const [exp, setExp] = React.useState('');
   const [facts, setFacts] = React.useState('');
-  const [updateTutor] = useMutation(MUTATION_UPDATE_TUTOR);
+  const [updateMentor] = useMutation(MUTATION_UPDATE_MENTOR);
 
   const notify = () => toast('Biography information is changed!');
 
@@ -28,25 +28,24 @@ const Biography = ({ cls }) => {
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
-      introduction: user?.tutor?.introduction,
-      relevantExperience: user?.tutor?.relevantExperience,
-      uniqueFacts: user?.tutor?.uniqueFacts,
+      introduction: user?.mentor?.introduction,
+      relevantExperience: user?.mentor?.relevantExperience,
+      uniqueFacts: user?.mentor?.uniqueFacts,
     },
   });
 
   const handleEditBigraphy = async (area) => {
-    const { data } = await updateTutor({
+    console.log(area);
+    const { data } = await updateMentor({
       variables: {
-        where: {
-          id: parseInt(user?.tutor?.id),
-        },
+        id: parseInt(user?.mentor?.id),
         data: area,
       },
     });
 
     if (data) {
       notify();
-      history.push('/student/profile');
+      history.push('/mentor/profile');
     }
 
     await refetchUser();
@@ -81,7 +80,7 @@ const Biography = ({ cls }) => {
           label=""
           text={t('bio_intro')}
           setState={setIntro}
-          user={user?.tutor?.introduction?.length}
+          user={user?.mentor?.introduction?.length}
           state={intro}
           {...register(
             'introduction',
@@ -109,7 +108,7 @@ const Biography = ({ cls }) => {
           label={t('bio_experience_label')}
           text={t('bio_experience')}
           setState={setExp}
-          user={user?.tutor?.relevantExperience?.length}
+          user={user?.mentor?.relevantExperience?.length}
           state={exp}
           {...register(
             'relevantExperience',
@@ -136,7 +135,7 @@ const Biography = ({ cls }) => {
           label={t('bio_facts_label')}
           text={t('bio_facts')}
           setState={setFacts}
-          user={user.tutor?.uniqueFacts?.length}
+          user={user.mentor?.uniqueFacts?.length}
           state={facts}
           {...register(
             'uniqueFacts',

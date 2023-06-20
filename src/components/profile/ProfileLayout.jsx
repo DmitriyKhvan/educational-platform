@@ -10,22 +10,22 @@ import SwitchProfile from './SwitchProfile';
 
 export const ProfileLayout = () => {
   const history = useHistory();
-  const { user: CurrentUser } = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
-    if (CurrentUser && CurrentUser.role) {
-      if (CurrentUser.role === 'tutor') {
-        history.push('/tutor/profile');
-      } else if (CurrentUser.role === 'student') {
+    if (user && user.role) {
+      if (user.role === 'mentor') {
+        history.push('/mentor/profile');
+      } else if (user.role === 'student') {
         history.push('/student/profile');
       }
     }
-  }, [CurrentUser]);
+  }, [user]);
 
   return (
     <Layout fluid={true}>
       <div className="scroll-layout">
-        {CurrentUser && <SwitchProfile user={CurrentUser} />}
+        {user && <SwitchProfile user={user} />}
       </div>
     </Layout>
   );

@@ -8,8 +8,7 @@ import GroupScheduleLesson from './GroupLessons';
 import StudentListAppointments from './StudentDashboard';
 import { Packages } from './Packages';
 import ScheduleLesson from './ScheduleLesson';
-import EditTopics from './Profile/editTopics/EditTopics';
-import EditProflileStudent from './Profile/editInfo/EditStudentProfile';
+import Profile from './Profile';
 import ScheduleLessonSteps from './ScheduleLesson/ScheduleLessonSteps';
 import Referal from './Referal/Referal';
 import Mentors from './MentorsList/Mentors';
@@ -63,12 +62,8 @@ export default function StudentRoutes() {
         <BookTrialLesson />
       </Route>
 
-      <Route path={`${path}/profiles/edit-topics`}>
-        <EditTopics />
-      </Route>
-
-      <Route path={`${path}/profiles/edit-information`}>
-        <EditProflileStudent />
+      <Route path={`${path}/profile`}>
+        <Profile />
       </Route>
 
       <Route path={`${path}/referal`}>

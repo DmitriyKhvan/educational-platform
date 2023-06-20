@@ -21,7 +21,6 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const isShowSidebar = useSelector((state) => state.settings.isShowSidebar);
   const { user, logout } = useAuth();
-  const user_role = user.roles && user.roles[0]?.role_name;
   const [language, setLanguage] = useState(
     parseInt(getItemToLocalStorage('language', 1)),
   );
@@ -61,8 +60,7 @@ const Navbar = () => {
                 label: t('my_profile'),
                 icon: IconMyprofile,
                 activeIcon: IconMyprofile,
-                href:
-                  user_role === 'tutor' ? '/tutor/profile' : '/student/profile',
+                href: user.role === 'mentor' ? '/mentor/profile' : '/student/profile',
               },
               {
                 label: t('logout'),

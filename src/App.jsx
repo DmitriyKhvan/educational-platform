@@ -27,7 +27,7 @@ import VerifyEmail from './pages/Auth/VerifyEmail';
 import Dashboard from './components/Dashboard';
 // import Messages from './pages/Messages';
 import { ProfileLayout } from './components/profile/ProfileLayout';
-import ApproveRequest from './pages/Tutors/ApproveRequest';
+import ApproveRequest from './pages/Mentors/ApproveRequest';
 import configureStore from './store';
 import './App.scss';
 import { ToastContainer } from 'react-toastify';
@@ -64,7 +64,7 @@ function PublicRoute({ component: Component, ...rest }) {
   const { isAuthorized, user } = useAuth();
 
   function isSide() {
-    return user?.tutor ? user?.tutor?.isActive : user?.isActive;
+    return user?.mentor ? user?.mentor?.isActive : user?.isActive;
   }
 
   return (
@@ -112,7 +112,7 @@ function App() {
 
         <PublicRoute path="/referral/:referalcode" component={IsReferal} />
         <PrivateRoute
-          path="/:mode(student|tutor)/profile"
+          path="/:mode(stud|mentor)/profile"
           component={ProfileLayout}
         />
 
@@ -128,8 +128,8 @@ function App() {
             component={lazy(() => import('./pages/Students'))}
           />
           <PrivateRoute
-            path="/tutor"
-            component={lazy(() => import('./pages/Tutors'))}
+            path="/mentor"
+            component={lazy(() => import('./pages/Mentors'))}
           />
         </Suspense>
       </Router>
