@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { TextInput } from './TextInput';
 import Submit from './Submit';
 import { useMutation } from '@apollo/client';
-import { MUTATION_UPDATE_TUTOR } from '../../../../modules/auth/graphql';
+import { MUTATION_UPDATE_MENTOR } from '../../../../modules/auth/graphql';
 import { useAuth } from '../../../../modules/auth';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 
 const Education = ({ cls }) => {
   const [t] = useTranslation(['profile', 'common']);
-  const [updateTutor] = useMutation(MUTATION_UPDATE_TUTOR);
+  const [updateMentor] = useMutation(MUTATION_UPDATE_MENTOR);
 
   const notify = () => toast('Education information is changed!');
   const [file] = React.useState({});
@@ -23,21 +23,19 @@ const Education = ({ cls }) => {
   const { register, handleSubmit } = useForm({
     mode: 'onBlur',
     defaultValues: {
-      university: user?.tutor?.university,
-      graduatingYear: user?.tutor?.graduatingYear,
-      degree: user?.tutor?.degree,
-      major: user?.tutor?.major,
+      university: user?.mentor?.university,
+      graduatingYear: user?.mentor?.graduatingYear,
+      degree: user?.mentor?.degree,
+      major: user?.mentor?.major,
     },
   });
 
   const handleEditEdu = async (area) => {
     if (file) {
       const files = file.target?.files[0];
-      updateTutor({
+      updateMentor({
         variables: {
-          where: {
-            id: parseInt(user?.tutor?.id),
-          },
+          id: parseInt(user?.mentor?.id),
           data: { diplomaVerification: { upload: files } },
         },
       });
@@ -48,18 +46,16 @@ const Education = ({ cls }) => {
       graduatingYear: parseInt(area.graduatingYear),
     };
 
-    const { data } = await updateTutor({
+    const { data } = await updateMentor({
       variables: {
-        where: {
-          id: parseInt(user?.tutor?.id),
-        },
+        id: user?.mentor?.id,
         data: newData,
       },
     });
 
     if (data) {
       notify();
-      history.push('/student/profile');
+      history.push('/mentor/profile');
     }
 
     await refetchUser();

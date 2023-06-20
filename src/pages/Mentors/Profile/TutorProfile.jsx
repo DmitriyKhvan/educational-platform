@@ -131,7 +131,7 @@ const TutorProfile = () => {
         </div>
       </header>
       <main className={cls.profile_content}>
-        <Link to={'/tutor/edit-profile'}>{t('edit_profile')}</Link>
+        <Link to={'/mentor/edit-profile'}>{t('edit_profile')}</Link>
         <div className={cls.profile_content_row}>
           <div className={cls.profile_content_row_left}>
             <h2>{t('summary')}</h2>

@@ -115,7 +115,7 @@ const Lessons = ({
         ) : (
           <Link
             to={{
-              pathname: `/tutor/students/${record.studentId}`,
+              pathname: `/mentor/students/${record.studentId}`,
               state: { student: record.student },
             }}
           >

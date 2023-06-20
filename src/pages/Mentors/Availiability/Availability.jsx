@@ -243,7 +243,7 @@ const Availability = ({ user_id }) => {
             </div>
             <div className="col-xs-6 col-md-4 pe-5 text-end align-self-center">
               <Link
-                to="/tutor/avail/settings"
+                to="/mentor/avail/settings"
                 className="btn btn-default align-content-end"
                 type="button"
               >

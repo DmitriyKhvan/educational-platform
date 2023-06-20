@@ -69,7 +69,7 @@ const Students = ({ students, title, sort, setSort }) => {
         <div className="actions">
           <Link
             to={{
-              pathname: `/tutor/students/${record.id}`,
+              pathname: `/mentor/students/${record.id}`,
               state: { student: record },
             }}
           >

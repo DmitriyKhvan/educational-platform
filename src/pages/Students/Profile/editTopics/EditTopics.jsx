@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Layout from '../../../../components/Layout';
 
 import './EditTopics.scss';
 import Topics from './Topics';
@@ -65,25 +64,23 @@ const EditTopics = () => {
   };
 
   return (
-    <Layout>
-      <div className="edit_topics">
-        <div>
-          <h2>Select your interests</h2>
-          <p>You can select as many interests as you like.</p>
-        </div>
-
-        <div className="topics_inline">
-          {addTopic.map((item, ind) => (
-            <Topics item={item} key={`topic-${ind}`} onHandle={handleTopic} />
-          ))}
-        </div>
-
-        <div className="topics_footer">
-          <Link to={'/student/profile'}>Cancel</Link>
-          <Link to={'/student/profile'}>Save Changes</Link>
-        </div>
+    <div className="edit_topics">
+      <div>
+        <h2>Select your interests</h2>
+        <p>You can select as many interests as you like.</p>
       </div>
-    </Layout>
+
+      <div className="topics_inline">
+        {addTopic.map((item, ind) => (
+          <Topics item={item} key={`topic-${ind}`} onHandle={handleTopic} />
+        ))}
+      </div>
+
+      <div className="topics_footer">
+        <Link to={'/student/profile'}>Cancel</Link>
+        <Link to={'/student/profile'}>Save Changes</Link>
+      </div>
+    </div>
   );
 };
 

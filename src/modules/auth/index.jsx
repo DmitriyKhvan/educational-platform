@@ -25,8 +25,8 @@ export const AuthProvider = ({ children }) => {
     INVITE_SET_PASSWORD_MUTATION,
   );
   const me = {
-    ...user?.me,
-    student: user?.me?.students?.[0] ?? null,
+    ...user?.authenticatedUser,
+    student: user?.authenticatedUser?.students?.[0] ?? null,
   };
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }) => {
         newPassword,
         inviteSetPassword,
         isLoading: userLoading || loginLoading,
-        isAuthorized: !!user?.me,
+        isAuthorized: !!user,
         isAuthInProgress,
       }}
     >

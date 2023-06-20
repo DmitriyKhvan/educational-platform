@@ -53,14 +53,14 @@ export const Settings = () => {
       TutorApi.updateExceptionDates(FederalHolidays, tutor_id).then(
         (response) => {
           if (response.status === 200) {
-            history.push('/tutor/availability');
+            history.push('/mentor/availability');
           }
         },
       );
     } else {
       TutorApi.updateExceptionDates([], tutor_id).then((response) => {
         if (response.status === 200) {
-          history.push('/tutor/availability');
+          history.push('/mentor/availability');
         }
       });
     }

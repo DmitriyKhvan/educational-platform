@@ -36,7 +36,7 @@ function getOffsetBetweenTimezones(tzCode1, tzCode2) {
 const BasicForm = ({ cls }) => {
   const dispatch = useDispatch();
   const [t] = useTranslation(['common', 'profile']);
-  const [updateTutor] = useMutation(MUTATION_UPDATE_USER);
+  const [updateMentor] = useMutation(MUTATION_UPDATE_USER);
 
   const notify = () => toast('Basic information is changed!');
 
@@ -57,26 +57,25 @@ const BasicForm = ({ cls }) => {
     },
   });
 
-  const handleEditBasicInfo = async ({ convertAvailabilityTime, ...area }) => {
+  const handleEditBasicInfo = async ({ convertAvailabilityTime, ...values }) => {
     const oldTimezone = user?.timeZone;
-    const { data } = await updateTutor({
+    delete values.email;
+    const { data } = await updateMentor({
       variables: {
-        where: {
-          id: user?.id,
-        },
-        data: area,
+        id: user?.id,
+        data: values,
       },
     });
 
-    if (convertAvailabilityTime && oldTimezone !== area.timeZone) {
-      const offsetHours = getOffsetBetweenTimezones(oldTimezone, area.timeZone);
+    if (convertAvailabilityTime && oldTimezone !== values.timeZone) {
+      const offsetHours = getOffsetBetweenTimezones(oldTimezone, values.timeZone);
       await TutorApi.adjustTutorAvailability(offsetHours);
     }
 
     if (data) {
-      dispatch(getTutorInfo(user.tutor.id));
+      dispatch(getTutorInfo(user.mentor.id));
       notify();
-      history.push('/tutor/profile');
+      history.push('/mentor/profile');
     }
 
     await refetchUser();

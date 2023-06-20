@@ -4,23 +4,23 @@ import React, { useEffect, useState } from 'react';
 
 import Loader from 'react-loader-spinner';
 
-import GeneralProfile from '../../pages/Students/Profile/StudentProfile';
+import GeneralProfile from '../../pages/Students/Profile/profile/StudentProfile';
 
-import TutorProfile from '../../pages/Tutors/Profile/TutorProfile';
+import TutorProfile from '../../pages/Mentors/Profile/TutorProfile';
 
 const SwitchProfile = ({ user, isAdmin = false }) => {
-  const [isTutor, setIsTutor] = useState(null);
+  const [isMentor, setIsMentor] = useState(null);
 
   const roles = user && user.role && user.role;
 
   useEffect(() => {
     if (user && roles) {
-      if (roles === 'tutor') {
-        setIsTutor(true);
+      if (roles === 'mentor') {
+        setIsMentor(true);
       } else if (roles === 'student') {
-        setIsTutor(false);
+        setIsMentor(false);
       } else {
-        setIsTutor(null);
+        setIsMentor(null);
       }
     }
   }, [user, roles]);
@@ -31,15 +31,12 @@ const SwitchProfile = ({ user, isAdmin = false }) => {
         {user && user.role ? (
           <React.Fragment>
             <div className="profile-body">
-              {isTutor === false && roles === 'student' && !isAdmin && (
+              {isMentor === false && roles === 'student' && !isAdmin && (
                 <GeneralProfile currentUser={user} isAdmin={isAdmin} />
               )}
-              {isTutor === true && (
+              {isMentor === true && (
                 <TutorProfile user={user} isAdmin={isAdmin} />
               )}
-              {/* {isAdmin && (
-                // <StudentProfile selectedUser={selectedUser} user={user} update={update} isAdmin={isAdmin} />
-              )} */}
             </div>
           </React.Fragment>
         ) : (

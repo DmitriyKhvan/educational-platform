@@ -6,13 +6,13 @@ import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment-timezone';
 import Layout from '../../components/Layout';
 import { getAppointments } from '../../actions/appointment';
-import LessonTable from '../../components/tutor-dashboard/LessonTable';
+import LessonTable from '../../components/mentor-dashboard/LessonTable';
 import NotificationManager from '../../components/NotificationManager';
 import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../assets/images/avatars/img_avatar_male.png';
 import ZoomWarningModal from '../../components/student-dashboard/ZoomWarningModal';
 const ReviewLessonModal = lazy(() =>
-  import('../../components/tutor-dashboard/ReviewLessonModal'),
+  import('../../components/mentor-dashboard/ReviewLessonModal'),
 );
 
 import WeekHeader from '../../components/common/WeekHeader';
@@ -85,13 +85,7 @@ const Calendar = () => {
   };
 
   useEffect(() => {
-    if (user && user.role && user.role === 'admin') {
-      fetchData();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (user && user?.tutor?.id) {
+    if (user && user?.mentor?.id) {
       fetchData();
     }
   }, [user]);

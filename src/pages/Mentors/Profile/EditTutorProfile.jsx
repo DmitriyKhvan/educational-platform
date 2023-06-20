@@ -10,7 +10,7 @@ import Intro from './edit/Intro';
 import EditAvatarModal from './EditAvatarModal';
 import BasicForm from './edit/BasicForm';
 import { useAuth } from '../../../modules/auth';
-import { MUTATION_UPDATE_TUTOR } from '../../../modules/auth/graphql';
+import { MUTATION_UPDATE_MENTOR } from '../../../modules/auth/graphql';
 import { useMutation } from '@apollo/client';
 import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
@@ -22,7 +22,7 @@ const EditTutorProfile = () => {
   const [statusInfo, setStatusInfo] = React.useState('basic');
   const [showSample, setShowSample] = React.useState(false);
   const [showEditAvatar, setShowEditAvatar] = React.useState(false);
-  const [updateTutor] = useMutation(MUTATION_UPDATE_TUTOR);
+  const [updateMentor] = useMutation(MUTATION_UPDATE_MENTOR);
   const [profileImage, setProfileImage] = React.useState('');
   const { user, refetchUser } = useAuth();
 
@@ -50,8 +50,8 @@ const EditTutorProfile = () => {
   ];
 
   React.useEffect(() => {
-    if (user?.tutor?.avatar) {
-      setProfileImage(user?.tutor?.avatar?.url);
+    if (user?.mentor?.avatar) {
+      setProfileImage(user?.mentor?.avatar?.url);
     } else if (user.gender === 'female') {
       setProfileImage(femaleAvatar);
     } else if (user.gender === 'male') {
@@ -66,11 +66,9 @@ const EditTutorProfile = () => {
   const closeEditAvatarModal = () => setShowEditAvatar(false);
 
   const deleteAvatar = async () => {
-    const { data } = await updateTutor({
+    const { data } = await updateMentor({
       variables: {
-        where: {
-          id: parseInt(user?.tutor?.id),
-        },
+        id: parseInt(user?.mentor?.id),
         data: { avatar: null },
       },
     });

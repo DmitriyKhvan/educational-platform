@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const ME_QUERY = gql`
   {
-    me {
+    authenticatedUser {
       id
       firstName
       lastName
@@ -21,17 +21,17 @@ export const ME_QUERY = gql`
       students {
         id
         about
-        avatar {
-          id
-          filesize
-          width
-          height
-          extension
-          url
-        }
+        # avatar {
+        #   id
+        #   filesize
+        #   width
+        #   height
+        #   extension
+        #   url
+        # }
       }
-      tutor {
-        videoUrl
+      mentor {
+        # videoUrl
         id
         introduction
         relevantExperience
@@ -42,23 +42,23 @@ export const ME_QUERY = gql`
         graduatingYear
         degree
         major
-        avatar {
-          id
-          filesize
-          width
-          height
-          extension
-          url
-        }
+        # avatar {
+        #   id
+        #   filesize
+        #   width
+        #   height
+        #   extension
+        #   url
+        # }
       }
     }
   }
 `;
 
 export const MENTORS_QUERY = gql`
-  query tutors {
+  query mentors {
     # $skip: Int # $take: Int # $orderBy: [TutorOrderByInput!]! # # $where: TutorWhereInput!
-    tutors(take: null, where: { user: { isActive: { equals: true } } }) {
+    mentors(take: null, where: { user: { isActive: { equals: true } } }) {
       id
       user {
         id
@@ -73,7 +73,7 @@ export const MENTORS_QUERY = gql`
       acceptanceRate
       checked
       userName
-      videoUrl
+      # videoUrl
       totalRequests
       graduatingYear
       degree
@@ -87,22 +87,22 @@ export const MENTORS_QUERY = gql`
       facts
       createdAt
       updatedAt
-      avatar {
-        id
-        filesize
-        width
-        height
-        extension
-        url
-      }
-      picture {
-        id
-        filesize
-        width
-        height
-        extension
-        url
-      }
+      # avatar {
+      #   id
+      #   filesize
+      #   width
+      #   height
+      #   extension
+      #   url
+      # }
+      # picture {
+      #   id
+      #   filesize
+      #   width
+      #   height
+      #   extension
+      #   url
+      # }
     }
   }
 `;
@@ -117,18 +117,13 @@ export const USERS_QUERY = gql`
 
 export const LOGIN_MUTATION = gql`
   mutation login($email: String!, $password: String!) {
-    authResult: authenticateUserWithPassword(
+    authResult: signIn(
       email: $email
       password: $password
     ) {
-      ... on UserAuthenticationWithPasswordSuccess {
-        sessionToken
-        item {
-          id
-        }
-      }
-      ... on UserAuthenticationWithPasswordFailure {
-        message
+      sessionToken
+      user {
+        id
       }
     }
   }
@@ -175,20 +170,20 @@ export const INVITE_SET_PASSWORD_MUTATION = gql`
 `;
 
 export const MUTATION_UPDATE_USER = gql`
-  mutation updateUser($where: UserWhereUniqueInput!, $data: UserUpdateInput!) {
-    updateUser(where: $where, data: $data) {
+  mutation updateUser($id: ID!, $data: UserUpdateInput!) {
+    updateUser(id: $id, data: $data) {
       id
       firstName
     }
   }
 `;
 
-export const MUTATION_UPDATE_TUTOR = gql`
-  mutation updateTutor(
-    $data: TutorUpdateInput!
-    $where: TutorWhereUniqueInput!
+export const MUTATION_UPDATE_MENTOR = gql`
+  mutation updateMentor(
+    $id: ID!
+    $data: MentorUpdateInput!
   ) {
-    updateTutor(data: $data, where: $where) {
+    updateMentor(id: $id data: $data) {
       id
     }
   }
@@ -196,10 +191,10 @@ export const MUTATION_UPDATE_TUTOR = gql`
 
 export const MUTATION_UPDATE_STUDENT = gql`
   mutation updateStudent(
+    $id: ID!
     $data: StudentUpdateInput!
-    $where: StudentWhereUniqueInput!
   ) {
-    updateStudent(data: $data, where: $where) {
+    updateStudent(id: $id, data: $data) {
       id
     }
   }

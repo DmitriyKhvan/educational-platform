@@ -1,5 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import { I18nextProvider } from 'react-i18next';
 import i18next from 'i18next';
@@ -47,7 +46,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
-      authorization: localStorage.getItem('token') || null,
+      authorization: 'Bearer ' + localStorage.getItem('token') || null,
     },
   }));
 
@@ -88,13 +87,13 @@ i18next.init({
   },
 });
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root'));
+root.render(
   <ApolloProvider client={client}>
     <I18nextProvider i18n={i18next}>
       <AuthProvider>
         <App />
       </AuthProvider>
     </I18nextProvider>
-  </ApolloProvider>,
-  document.getElementById('root'),
+  </ApolloProvider>
 );

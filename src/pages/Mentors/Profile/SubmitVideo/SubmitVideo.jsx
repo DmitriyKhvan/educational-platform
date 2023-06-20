@@ -4,7 +4,7 @@ import Layout from '../../../../components/Layout';
 import cls from './SubmitVideo.module.scss';
 
 import { useHistory } from 'react-router-dom';
-import { MUTATION_UPDATE_TUTOR } from '../../../../modules/auth/graphql';
+import { MUTATION_UPDATE_MENTOR } from '../../../../modules/auth/graphql';
 import { useMutation } from '@apollo/client';
 import { useAuth } from '../../../../modules/auth';
 import { useForm } from 'react-hook-form';
@@ -15,7 +15,7 @@ const SubmitVideo = () => {
   const [typeVideo, setTypeVideo] = React.useState('yt');
 
   const [t] = useTranslation(['profile', 'common']);
-  const [updateTutor] = useMutation(MUTATION_UPDATE_TUTOR);
+  const [updateMentor] = useMutation(MUTATION_UPDATE_MENTOR);
 
   const { user, refetchUser } = useAuth();
 
@@ -25,17 +25,15 @@ const SubmitVideo = () => {
 
   const handleEditVideo = async (area) => {
     if (area.videoUrl) {
-      const { data } = await updateTutor({
+      const { data } = await updateMentor({
         variables: {
-          where: {
-            id: parseInt(user?.tutor?.id),
-          },
+          id: parseInt(user?.mentor?.id),
           data: { videoUrl: area.videoUrl },
         },
       });
 
       if (data) {
-        history.push('/tutor/edit-profiles/submit-videos/submited');
+        history.push('/mentor/edit-profiles/submit-videos/submited');
       }
     }
 

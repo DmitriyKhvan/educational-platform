@@ -26,7 +26,7 @@ export default function StudentsList() {
 
   const handleMoreTutor = (id) => {
     if (id) {
-      history.push(`/tutor/students-list/${id}`);
+      history.push(`/mentor/students-list/${id}`);
     }
 
     setShowStudentModal(true);
