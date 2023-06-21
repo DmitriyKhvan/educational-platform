@@ -35,6 +35,7 @@ import Loader from './components/Loader/Loader';
 import Onboarding from './pages/Students/Onboarding';
 import BuyPackage from './pages/Students/BuyPackage';
 import StripePayment from './pages/Students/StripePayment';
+import ConfirmPayment from './pages/ConfirmPayment';
 
 const store = configureStore({});
 
@@ -113,6 +114,11 @@ function App() {
           path="/purchase/:packageId/payment/:clientSecret"
           exact
           component={StripePayment}
+        />
+        <PublicRoute
+          path="/purchase/:packageId/complete"
+          exact
+          component={ConfirmPayment}
         />
         <PublicRoute exact path="/purchase/:packageId" component={BuyPackage} />
         <PrivateRoute path="/dashboard" component={Dashboard} />

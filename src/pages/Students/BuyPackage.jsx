@@ -122,9 +122,6 @@ export default function BuyPackage() {
             background: `linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url(${lessonPackage?.coverImage})`,
           }}
         >
-          <p className="text-lg font-bold text-gray-300/80">
-            Best package for you
-          </p>
           <h1 className="text-3xl font-bold text-transparent bg-clip-text drop-shadow-2xl bg-white">
             {lessonPackage.name}
           </h1>
