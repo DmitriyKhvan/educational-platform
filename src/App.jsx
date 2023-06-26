@@ -110,17 +110,17 @@ function App() {
         <PublicRoute path="/verify-email" component={VerifyEmail} />
         <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
         <PublicRoute path="/onboarding" component={Onboarding} />
-        <PublicRoute
+        <PrivateRoute
           path="/purchase/:packageId/payment/:clientSecret"
           exact
           component={StripePayment}
         />
-        <PublicRoute
+        <PrivateRoute
           path="/purchase/:packageId/complete"
           exact
           component={ConfirmPayment}
         />
-        <PublicRoute exact path="/purchase/:packageId" component={BuyPackage} />
+        <PrivateRoute exact path="/purchase/:packageId" component={BuyPackage} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/approve-requests" component={ApproveRequest} />
 

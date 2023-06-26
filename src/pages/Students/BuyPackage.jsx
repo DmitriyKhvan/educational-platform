@@ -35,6 +35,7 @@ const CREATE_PAYMENT_INTENT = gql`
 `;
 
 export default function BuyPackage() {
+  const [parent] = useAutoAnimate();
   const { packageId: courseId } = useParams();
 
   const { error, data } = useQuery(GET_COURSES, {
@@ -53,11 +54,6 @@ export default function BuyPackage() {
   const [selectedLength, setSelectedLength] = useState(null);
   const [uniqueLength, setUniqueLength] = useState([]);
   const [selectedPackage, setSelectedPackage] = useState(null);
-
-  const [parent] = useAutoAnimate({
-    duration: 450,
-    easing: 'ease-in-out',
-  });
 
   const history = useHistory();
 
@@ -82,7 +78,9 @@ export default function BuyPackage() {
         toast.error(response.errors[0].message);
       } else if (response?.data) {
         const { clientSecret } = response.data.createPaymentIntent;
-        history.replace(`/purchase/${courseId}/payment/${clientSecret}`);
+        history.replace(
+          `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
+        );
       }
     }
   };

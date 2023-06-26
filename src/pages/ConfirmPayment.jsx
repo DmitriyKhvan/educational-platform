@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import Loader from '../components/Loader/Loader';
-import { faCheckCircle, faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheckCircle,
+  faXmarkCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
@@ -15,16 +18,33 @@ export default function ConfirmPayment() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const stripe = stripePromise;
-    stripe.then((res) => {
-      res.confirmCardPayment(clientSecret).then((result) => {
-        if (result.error) {
-          setMessage(result.error.message);
+    stripePromise.then(async (stripe) => {
+      const { paymentIntent } = await stripe.retrievePaymentIntent(
+        clientSecret,
+      );
+
+      switch (paymentIntent.status) {
+        case 'succeeded':
+          setMessage('Success! Payment received.');
+          break;
+
+        case 'processing':
+          setMessage(
+            "Payment processing. We'll update you when payment is received.",
+          );
+
+          break;
+
+        case 'requires_payment_method':
+          setMessage('Payment failed. Please try another payment method.');
           setError(true);
-        } else {
-          setMessage('Your payment was successfull!');
-        }
-      });
+          break;
+
+        default:
+          setMessage('Something went wrong.');
+          setError(true);
+          break;
+      }
     });
   }, [clientSecret]);
 

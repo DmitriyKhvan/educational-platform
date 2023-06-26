@@ -6,17 +6,44 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
+import { useMutation, gql } from '@apollo/client';
+import { useAuth } from '../../modules/auth';
+
+const CREATE_PAYMENT = gql`
+  mutation CreatePayment(
+    $userId: Int!
+    $packageId: Int!
+    $provider: String
+    $metadata: JSON
+  ) {
+    createPayment(
+      userId: $userId
+      packageId: $packageId
+      provider: $provider
+      metadata: $metadata
+    ) {
+      payment {
+        id
+        status
+        provider
+        cancelReason
+        metadata
+      }
+    }
+  }
+`;
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
 const CheckoutForm = () => {
+  const [createPayment] = useMutation(CREATE_PAYMENT);
   const params = useParams();
   const stripe = useStripe();
   const elements = useElements();
-
-  console.log();
+  const { user } = useAuth();
+  const history = useHistory();
 
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -29,13 +56,31 @@ const CheckoutForm = () => {
 
     const { error } = await stripe.confirmPayment({
       elements,
-      confirmParams: {
-        return_url: `${process.env.REACT_APP_URL}/purchase/${params.packageId}/complete`,
-      },
+      redirect: 'if_required',
     });
+
+    const { paymentIntent } = await stripe.retrievePaymentIntent(
+      params.clientSecret,
+    );
 
     if (error) {
       setErrorMessage(error.message);
+      return;
+    }
+
+    if (paymentIntent.status === 'succeeded') {
+      await createPayment({
+        variables: {
+          userId: parseInt(user.id),
+          packageId: parseInt(params.packageId),
+          provider: 'stripe',
+          metadata: JSON.stringify(paymentIntent),
+        },
+      });
+
+      history.push(
+        `/purchase/${params.packageId}/complete?payment_intent_client_secret=${params.clientSecret}`,
+      );
     }
   };
 

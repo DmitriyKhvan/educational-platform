@@ -35,7 +35,6 @@ const Biography = ({ cls }) => {
   });
 
   const handleEditBigraphy = async (area) => {
-    console.log(area);
     const { data } = await updateMentor({
       variables: {
         id: parseInt(user?.mentor?.id),
