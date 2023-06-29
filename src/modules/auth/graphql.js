@@ -21,17 +21,8 @@ export const ME_QUERY = gql`
       students {
         id
         about
-        # avatar {
-        #   id
-        #   filesize
-        #   width
-        #   height
-        #   extension
-        #   url
-        # }
       }
       mentor {
-        # videoUrl
         id
         introduction
         relevantExperience
@@ -42,14 +33,6 @@ export const ME_QUERY = gql`
         graduatingYear
         degree
         major
-        # avatar {
-        #   id
-        #   filesize
-        #   width
-        #   height
-        #   extension
-        #   url
-        # }
       }
     }
   }

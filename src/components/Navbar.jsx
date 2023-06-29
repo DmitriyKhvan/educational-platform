@@ -26,8 +26,9 @@ const Navbar = () => {
   );
   const [t, i18n] = useTranslation('common');
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
+    window.location.reload(true);
   };
 
   const showSidebar = () => {
@@ -60,7 +61,10 @@ const Navbar = () => {
                 label: t('my_profile'),
                 icon: IconMyprofile,
                 activeIcon: IconMyprofile,
-                href: user.role === 'mentor' ? '/mentor/profile' : '/student/profile',
+                href:
+                  user.role === 'mentor'
+                    ? '/mentor/profile'
+                    : '/student/profile',
               },
               {
                 label: t('logout'),
