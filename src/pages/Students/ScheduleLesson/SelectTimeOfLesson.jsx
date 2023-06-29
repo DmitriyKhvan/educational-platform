@@ -57,7 +57,6 @@ const optionYears = [
 ];
 
 const SelectTimeOfLesson = ({
-  isTimeFirst,
   onContinue,
   selectedTutor,
   onBack,
@@ -104,32 +103,27 @@ const SelectTimeOfLesson = ({
   }, [selectedTutor]);
 
   useEffect(() => {
-    if (!isTimeFirst) {
-      // dispatch(getTutorInfo(selectedTutor.id));
-      // setAvailableHours([hours, hours, hours, hours, hours, hours, hours]);
-    } else {
-      if (startDate !== -1) {
-        let availableHours = [];
-        let minAvailableTime = addDays(new Date(), 2);
-        while (availableHours.length < 7) {
-          let dayAvailableHours = [];
-          let s = addDays(startDate, availableHours.length);
+    if (startDate !== -1) {
+      let availableHours = [];
+      let minAvailableTime = addDays(new Date(), 2);
+      while (availableHours.length < 7) {
+        let dayAvailableHours = [];
+        let s = addDays(startDate, availableHours.length);
 
-          for (let h of fullHours) {
-            s = setHours(s, Math.floor(h / 2));
-            s = setMinutes(s, (h % 2) * 30);
-            s = setSeconds(s, 0);
+        for (let h of fullHours) {
+          s = setHours(s, Math.floor(h / 2));
+          s = setMinutes(s, (h % 2) * 30);
+          s = setSeconds(s, 0);
 
-            if (isAfter(s, minAvailableTime)) {
-              dayAvailableHours.push(h);
-            }
+          if (isAfter(s, minAvailableTime)) {
+            dayAvailableHours.push(h);
           }
-
-          availableHours.push(dayAvailableHours);
         }
 
-        setAvailableHours(availableHours);
+        availableHours.push(dayAvailableHours);
       }
+
+      setAvailableHours(availableHours);
     }
   }, [dispatch, startDate]);
 

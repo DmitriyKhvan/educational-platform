@@ -22,7 +22,6 @@ import ForgotPasswordText from './pages/Auth/ForgotPasswordText';
 // Authentication Path
 import Login from './pages/Auth/Login';
 import ResetPassword from './pages/Auth/ResetPassword';
-import VerifyEmail from './pages/Auth/VerifyEmail';
 // Common Dashboard
 import Dashboard from './components/Dashboard';
 // import Messages from './pages/Messages';
@@ -101,7 +100,6 @@ function App() {
         />
         <PublicRoute path="/reset-password" component={ResetPassword} />
         <PublicRoute path="/welcome-set-password" component={ResetPassword} />
-        <PublicRoute path="/verify-email" component={VerifyEmail} />
         <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/approve-requests" component={ApproveRequest} />

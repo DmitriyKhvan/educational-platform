@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import ClipLoader from 'react-spinners/ClipLoader';
 import NotificationManager from '../../components/NotificationManager';
 import { useAuth } from '../../modules/auth';
@@ -31,7 +31,7 @@ const Login = () => {
     password: '',
   });
 
-  const error = useSelector((state) => state.auth.error);
+  // const error = useSelector((state) => state.auth.error);
 
   const validateInput = (value, stateName) => {
     if (!value) {
@@ -156,7 +156,7 @@ const Login = () => {
             </Link>
           </div>
 
-          {error && <p className="system-error-msg">{error}</p>}
+          {/* {error && <p className="system-error-msg">{error}</p>} */}
           <div className="d-grid gap-2">
             <button
               type="button"
