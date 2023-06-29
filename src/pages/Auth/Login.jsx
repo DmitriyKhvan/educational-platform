@@ -87,10 +87,10 @@ const Login = () => {
     if (isInvalid) {
       return;
     }
-    // const from = history.location.state?.from
-    const { data } = await login(formData.email, formData.password);
 
-    if (data?.authResult?.message) {
+    const { errors } = await login(formData.email, formData.password);
+
+    if (errors) {
       NotificationManager.error(t('login_failed'), t);
     }
   };
