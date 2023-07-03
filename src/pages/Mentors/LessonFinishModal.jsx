@@ -95,7 +95,7 @@ const LessonFinishModal = ({ visible, onDismiss, group, user }) => {
           },
           user: {
             name: `${user?.first_name} ${user?.last_name}`,
-            role: 'tutor',
+            role: 'mentor',
           },
         });
       }

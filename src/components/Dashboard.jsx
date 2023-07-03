@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from './Layout';
-import TutorDashboard from '../pages/Tutors/MentorDashboard';
+import TutorDashboard from '../pages/Mentors/MentorDashboard';
 import { Redirect } from 'react-router-dom';
 import { useAuth } from '../modules/auth';
 import '../assets/styles/dashboard.scss';
@@ -10,7 +10,7 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      {user.role === 'tutor' && <TutorDashboard />}
+      {user.role === 'mentor' && <TutorDashboard />}
       {user.role === 'student' && <Redirect to="/student/manage-lessons" />}
     </Layout>
   );

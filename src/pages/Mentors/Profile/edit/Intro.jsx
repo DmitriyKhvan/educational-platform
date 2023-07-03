@@ -11,7 +11,7 @@ const Intro = ({ cls }) => {
 
   const actions = useAuth();
 
-  const videoUrl = actions.user?.tutor?.videoUrl;
+  const videoUrl = actions.user?.mentor?.videoUrl;
 
   function renderVideo() {
     if (!videoUrl) {
@@ -105,7 +105,7 @@ const Intro = ({ cls }) => {
             </p> */}
 
             <button>
-              <Link to={'/tutor/edit-profiles/submit-video'}>
+              <Link to={'/mentor/edit-profiles/submit-video'}>
                 {t('submit_video')}
               </Link>
             </button>

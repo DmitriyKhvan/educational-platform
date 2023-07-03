@@ -4,7 +4,7 @@ import ExportArrow from '../../../assets/ExportArrow.png';
 
 import './EditAvatar.scss';
 import { useAuth } from '../../../modules/auth';
-import { MUTATION_UPDATE_TUTOR } from '../../../modules/auth/graphql';
+import { MUTATION_UPDATE_MENTOR } from '../../../modules/auth/graphql';
 import { useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 const EditAvatarModal = ({ isOpen, closeModal, profileImage }) => {
   const [t] = useTranslation('common');
   const { user, refetchUser } = useAuth();
-  const [updateTutor] = useMutation(MUTATION_UPDATE_TUTOR);
+  const [updateMentor] = useMutation(MUTATION_UPDATE_MENTOR);
   const history = useHistory();
   const notify = () => toast('Avatar is changed!');
   const [file, setFile] = React.useState(null);
@@ -23,12 +23,10 @@ const EditAvatarModal = ({ isOpen, closeModal, profileImage }) => {
 
   const updateAvatar = async () => {
     if (file) {
-      const { data } = await updateTutor({
+      const { data } = await updateMentor({
         variables: {
-          where: {
-            id: parseInt(user?.tutor?.id),
-          },
-          data: { avatar: { upload: file } },
+          id: parseInt(user?.mentor?.id),
+          data: { avatar: file },
         },
       });
 

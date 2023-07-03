@@ -140,7 +140,7 @@ const TutorDashboard = () => {
                     <div className="row mobile-view-buttons mt-4">
                       <div className="col-6 desktop schedule-dashboard-button">
                         <Link
-                          to="/tutor/appointments-calendar"
+                          to="/mentor/appointments-calendar"
                           className="enter-btn dashboard_cal-scl_button"
                         >
                           {t('calendar')}
@@ -148,7 +148,7 @@ const TutorDashboard = () => {
                       </div>
                       <div className="col-6 schedule-dashboard-button">
                         <Link
-                          to="/tutor/availability"
+                          to="/mentor/availability"
                           className="enter-btn dashboard_cal-scl_button"
                         >
                           {t('availability')}
@@ -173,7 +173,7 @@ const TutorDashboard = () => {
               t: upcomingLessons.length > 1 ? 's' : '',
             })}
             <Link
-              to="/tutor/appointments-calendar"
+              to="/mentor/appointments-calendar"
               className="enter-btn ms-0 tutor_cal_appoint"
             >
               {t('student_dashboard_view_all_lessons')}

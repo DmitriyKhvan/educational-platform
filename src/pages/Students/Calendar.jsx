@@ -14,7 +14,7 @@ import '../../assets/styles/calendar.scss';
 import { feedbackURL } from '../../constants/global';
 import ReviewLessonModal from '../../components/student-dashboard/ReviewLessonModal';
 import { useAuth } from '../../modules/auth';
-import FeedbackLessonModal from '../Tutors/FeedbackLessonModal';
+import FeedbackLessonModal from '../Mentors/FeedbackLessonModal';
 import WeekHeader from '../../components/common/WeekHeader';
 import { gql, useQuery } from '@apollo/client';
 import { MENTORS_QUERY } from '../../modules/auth/graphql';
