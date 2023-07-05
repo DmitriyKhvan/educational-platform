@@ -1,5 +1,4 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import '../assets/styles/layout.scss';
@@ -11,7 +10,7 @@ import '../assets/styles/layout.scss';
 // import ReferMessageModal from './ReferMessageModal';
 
 const Layout = ({ children }) => {
-  const isShowSidebar = useSelector((state) => state.settings.isShowSidebar);
+  const [isShowSidebar, setShowSidebar] = useState(false);
   // const { user } = useAuth();
   // const [socket, setSocket] = useState(null);
   // const dispatch = useDispatch();
@@ -60,9 +59,12 @@ const Layout = ({ children }) => {
         )} */}
         <div className="content">
           {isShowSidebar && <div className="mobile-fade-background" />}
-          <Sidebar />
+          <Sidebar
+            isShowSidebar={isShowSidebar}
+            setShowSidebar={setShowSidebar}
+          />
           <div className="children-page">
-            <Navbar />
+            <Navbar setShowSidebar={setShowSidebar} />
             <div>{children}</div>
           </div>
         </div>

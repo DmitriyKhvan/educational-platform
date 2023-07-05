@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useAuth } from '../modules/auth';
 import CloseIcon from '../assets/images/close.svg';
@@ -81,12 +80,10 @@ const studentNavLinks = [
   },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ isShowSidebar, setShowSidebar}) => {
   let location = useLocation();
   const history = useHistory();
   const [t] = useTranslation(['common', 'sidebar']);
-  const dispatch = useDispatch();
-  const isShowSidebar = useSelector((state) => state.settings.isShowSidebar);
 
   const { user: CurrentUser, logout } = useAuth();
 
@@ -115,10 +112,6 @@ const Sidebar = () => {
   const handleLogout = () => {
     logout();
     history.push('/');
-  };
-
-  const hideSidebar = () => {
-    dispatch({ type: 'HIDE_SIDEBAR' });
   };
 
   return (
@@ -190,7 +183,7 @@ const Sidebar = () => {
             src={CloseIcon}
             alt=""
             className="close-icon"
-            onClick={() => hideSidebar()}
+            onClick={() => setShowSidebar(false)}
           />
           <div className="divider" />
           <div className="link-list">
@@ -199,7 +192,7 @@ const Sidebar = () => {
                 className={`nav-item ${item.is_selected ? 'active' : ''}`}
                 key={index}
               >
-                <Link to={item.link} onClick={() => hideSidebar()}>
+                <Link to={item.link} onClick={() => setShowSidebar(false)}>
                   <div className="icon">
                     <img
                       src={item.activeIcon}
