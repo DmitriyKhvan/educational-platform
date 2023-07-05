@@ -6,7 +6,6 @@ import StudentsList from './StudentsList/StudentsList';
 import AvailabilityLayout from './Availiability';
 import AvailabilitySettings from './Availiability/AvailabilitySettings';
 import TutorCalendar from './Calendar';
-import TutorPastLessons from './PastLessons';
 import { PaymentLayout } from './Payment';
 import TutorStudentList from './StudentList';
 import LessonInfo from './LessonInfo';
@@ -24,10 +23,6 @@ export default function TutorPages() {
 
       <Route exact path={`${path}/appointments-calendar`}>
         <TutorCalendar />
-      </Route>
-
-      <Route path={`${path}/past-lessons`}>
-        <TutorPastLessons />
       </Route>
 
       <Route path={`${path}/availability`}>

@@ -6,8 +6,6 @@ import moment from 'moment';
 import ImgCalendar from '../../assets/images/calendar_icon.svg';
 import { getAppointments } from '../../actions/appointment';
 import ScheduleCard from '../../components/student-dashboard/ScheduleCard';
-import { getUserInfo } from '../../actions/user';
-import { getTutorInfo } from '../../actions/tutor';
 import Loader from '../../components/common/Loader';
 import { useAuth } from '../../modules/auth';
 import FeedbackLessonModal from './FeedbackLessonModal';
@@ -33,18 +31,6 @@ const TutorDashboard = () => {
 
   const { user: currentUser } = useAuth();
   const tutor = user.tutor;
-
-  useEffect(() => {
-    if (!user) {
-      dispatch(getUserInfo());
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (user && user.tutor && !tutor) {
-      dispatch(getTutorInfo(user.tutor?.id));
-    }
-  }, [user]);
 
   const fetchAppointments = async () => {
     if (tutor) {

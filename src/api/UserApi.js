@@ -3,13 +3,6 @@ import axios from 'axios';
 import BaseApi from './BaseApi';
 
 class UserApi extends BaseApi {
-  getUserInfo() {
-    return axios.get(this.REACT_APP_SERVER_URL + '/users/get', {
-      headers: {
-        Authorization: `Bearer ${this.getToken()}`,
-      },
-    });
-  }
 
   updateUserInfo(data) {
     return axios.put(this.REACT_APP_SERVER_URL + '/users/update', data, {
