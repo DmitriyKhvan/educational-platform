@@ -1,19 +1,28 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import ClipLoader from 'react-spinners/ClipLoader';
-import NotificationManager from '../../components/NotificationManager';
-import { useAuth } from '../../modules/auth';
-import AuthLayout from '../../components/AuthLayout';
-import { useTranslation } from 'react-i18next';
+import { useMutation } from '@apollo/client';
+import { LOGIN_MUTATION } from '../../modules/auth/graphql';
 import { useForm } from 'react-hook-form';
+
+import { useAuth } from '../../modules/auth';
+
+import { useTranslation } from 'react-i18next';
+import ClipLoader from 'react-spinners/ClipLoader';
+
+import NotificationManager from '../../components/NotificationManager';
+import AuthLayout from '../../components/AuthLayout';
 import InputField from '../../components/Form/InputField';
 import CheckboxField from '../../components/Form/CheckboxField';
 
 const Login = () => {
   const [t] = useTranslation('common');
-  const { login, isLoading } = useAuth();
+
+  const { refetchUser } = useAuth();
+
+  const [loginMutation, { loading }] = useMutation(LOGIN_MUTATION);
+
   const [isShowPassword, setIsShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -26,14 +35,20 @@ const Login = () => {
     },
   });
 
-  const error = useSelector((state) => state.auth.error);
-
-  const handleLogin = async ({ email, password }) => {
-    const { data } = await login(email, password);
-
-    if (data?.authResult?.message) {
-      NotificationManager.error(t('login_failed'), t);
-    }
+  // onCompleted to write the token
+  // onError so that the error is caught only after pressing the submit button
+  const handleLogin = ({ email, password }) => {
+    loginMutation({
+      variables: { email, password },
+      onCompleted: (data) => {
+        console.log(data);
+        localStorage.setItem('token', data.authResult.sessionToken);
+        refetchUser();
+      },
+      onError: () => {
+        NotificationManager.error(t('login_failed'), t);
+      },
+    });
   };
 
   return (
@@ -93,15 +108,14 @@ const Login = () => {
             </Link>
           </div>
 
-          {error && <p className="system-error-msg">{error}</p>}
           <div className="d-grid gap-2">
             <button
               disabled={!isValid}
               type="submit"
               className="btn btn-primary btn-lg p-3"
             >
-              {isLoading ? (
-                <ClipLoader loading={isLoading} size={20} color="white" />
+              {loading ? (
+                <ClipLoader loading={loading} size={20} color="white" />
               ) : (
                 t('sign_in')
               )}

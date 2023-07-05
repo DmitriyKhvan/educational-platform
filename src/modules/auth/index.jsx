@@ -17,8 +17,12 @@ export const AuthProvider = ({ children }) => {
     loading: userLoading,
     refetch: refetchUser,
   } = useQuery(ME_QUERY);
-  const [loginMutation, { loading: loginLoading }] =
-    useMutation(LOGIN_MUTATION);
+
+  const [
+    loginMutation,
+    // { loading: loginLoading, error: loginError, data: loginData },
+  ] = useMutation(LOGIN_MUTATION);
+
   const [sendUserPasswordResetLink] = useMutation(RESET_PASSWORD_MUTATION);
   const [redeemUserPasswordResetToken] = useMutation(NEW_PASSWORD_MUTATION);
   const [redeemInvitePasswordSetToken] = useMutation(
@@ -87,7 +91,7 @@ export const AuthProvider = ({ children }) => {
         resetPassword,
         newPassword,
         inviteSetPassword,
-        isLoading: userLoading || loginLoading,
+        isLoading: userLoading,
         isAuthorized: !!user,
         isAuthInProgress,
       }}
