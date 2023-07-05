@@ -4,14 +4,6 @@ import BaseApi from './BaseApi';
 
 class UserApi extends BaseApi {
 
-  updateUserInfo(data) {
-    return axios.put(this.REACT_APP_SERVER_URL + '/users/update', data, {
-      headers: {
-        Authorization: `Bearer ${this.getToken()}`,
-      },
-    });
-  }
-
   uploadAvatar(avatar, user_id) {
     return axios.post(
       this.REACT_APP_SERVER_URL + '/users/upload-avatar',

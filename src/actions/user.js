@@ -1,29 +1,6 @@
 import UserApi from '../api/UserApi';
 import ActionTypes from '../constants/actionTypes';
 
-export function updateUserInfo(data) {
-  return (dispatch) => {
-    dispatch(request());
-    return UserApi.updateUserInfo(data)
-      .then((resp) => {
-        return dispatch(success(resp.data));
-      })
-      .catch((error) => {
-        return dispatch(failure(error.reseponse?.data));
-      });
-  };
-
-  function request() {
-    return { type: ActionTypes.UPDATE_USER.REQUEST };
-  }
-  function success(data) {
-    return { type: ActionTypes.UPDATE_USER.SUCCESS, payload: data };
-  }
-  function failure(error) {
-    return { type: ActionTypes.UPDATE_USER.FAILURE, payload: error };
-  }
-}
-
 export function uploadAvatar(avatar, user_id) {
   return (dispatch) => {
     dispatch(request());
