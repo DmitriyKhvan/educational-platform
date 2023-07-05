@@ -3,7 +3,6 @@ import BookTrialLesson from './BookTrialLesson';
 // Student Path
 import StudentCalendar from './Calendar';
 import ClassMaterials from './ClassMaterials';
-import FavouriteTutors from './FavoriteTutors';
 import GroupScheduleLesson from './GroupLessons';
 import StudentListAppointments from './StudentDashboard';
 import ScheduleLesson from './ScheduleLesson';
@@ -43,10 +42,6 @@ export default function StudentRoutes() {
 
       <Route path={`${path}/lesson-calendar`}>
         <StudentCalendar />
-      </Route>
-
-      <Route path={`${path}/favorite-tutors`}>
-        <FavouriteTutors />
       </Route>
 
       <Route path={`${path}/class-materials`}>
