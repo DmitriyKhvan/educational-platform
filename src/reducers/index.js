@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import settings from './settings';
-import users from './users';
 import tutor from './tutor';
 import message from './message';
 import students from './students';
@@ -10,7 +9,6 @@ import notification from './notification';
 
 export default combineReducers({
   settings,
-  users,
   students,
   tutor,
   message,
