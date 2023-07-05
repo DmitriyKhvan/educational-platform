@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import '../../../assets/styles/dashboard.scss';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import { genders } from '../../../constants/global';
@@ -258,7 +257,6 @@ const tutors = [
 ];
 
 const SelectTutor = (props) => {
-  const dispatch = useDispatch();
   const [t] = useTranslation('translation');
   const [selectedTutor, setSelectedTutor] = useState(-1);
   const majors = [
@@ -281,7 +279,7 @@ const SelectTutor = (props) => {
     ];
     setGenders(genderAll);
     setGenderOption(genderAll[0]);
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     updateFilter();
