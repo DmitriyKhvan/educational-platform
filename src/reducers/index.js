@@ -4,7 +4,6 @@ import tutor from './tutor';
 import students from './students';
 import subscription from './subscription';
 import appointment from './appointment';
-import notification from './notification';
 
 export default combineReducers({
   settings,
@@ -12,5 +11,4 @@ export default combineReducers({
   tutor,
   subscription,
   appointment,
-  notification,
 });
