@@ -6,7 +6,6 @@ import ClassMaterials from './ClassMaterials';
 import FavouriteTutors from './FavoriteTutors';
 import GroupScheduleLesson from './GroupLessons';
 import StudentListAppointments from './StudentDashboard';
-import { Packages } from './Packages';
 import ScheduleLesson from './ScheduleLesson';
 import Profile from './Profile';
 import ScheduleLessonSteps from './ScheduleLesson/ScheduleLessonSteps';
@@ -40,10 +39,6 @@ export default function StudentRoutes() {
 
       <Route exact path={`${path}/appointments`}>
         <StudentListAppointments />
-      </Route>
-
-      <Route path={`${path}/packages`}>
-        <Packages />
       </Route>
 
       <Route path={`${path}/lesson-calendar`}>
