@@ -1,25 +1,17 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
-import { LOGIN_MUTATION } from '../../modules/auth/graphql';
 import { useForm } from 'react-hook-form';
-
-import { useAuth } from '../../modules/auth';
 
 import { useTranslation } from 'react-i18next';
 import ClipLoader from 'react-spinners/ClipLoader';
 
-import NotificationManager from '../../components/NotificationManager';
 import AuthLayout from '../../components/AuthLayout';
 import InputField from '../../components/Form/InputField';
 import CheckboxField from '../../components/Form/CheckboxField';
+import useLogin from '../../modules/auth/hooks/login';
 
 const Login = () => {
   const [t] = useTranslation('common');
-
-  const { refetchUser } = useAuth();
-
-  const [loginMutation, { loading }] = useMutation(LOGIN_MUTATION);
 
   const [isShowPassword, setIsShowPassword] = useState(false);
 
@@ -35,20 +27,10 @@ const Login = () => {
     },
   });
 
-  // onCompleted to write the token
-  // onError so that the error is caught only after pressing the submit button
+  const { login, loading } = useLogin();
+
   const handleLogin = ({ email, password }) => {
-    loginMutation({
-      variables: { email, password },
-      onCompleted: (data) => {
-        console.log(data);
-        localStorage.setItem('token', data.authResult.sessionToken);
-        refetchUser();
-      },
-      onError: () => {
-        NotificationManager.error(t('login_failed'), t);
-      },
-    });
+    login(email, password);
   };
 
   return (

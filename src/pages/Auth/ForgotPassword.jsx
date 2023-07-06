@@ -1,62 +1,34 @@
-import React, { useState } from 'react';
-import AuthLayout from '../../components/AuthLayout';
-import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../modules/auth';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { ToastContainer, toast } from 'react-toastify';
+
+import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
+import { ClipLoader } from 'react-spinners';
+
+import AuthLayout from '../../components/AuthLayout';
+import InputField from '../../components/Form/InputField';
+import useResetPassword from '../../modules/auth/hooks/resetPassword';
+
 import 'react-toastify/dist/ReactToastify.css';
 
-const ForgotPassword = () => {;
+const ForgotPassword = () => {
   const [t] = useTranslation('common');
-  const [error, setError] = useState('');
-  const { resetPassword } = useAuth();
-  const notify = () =>
-    toast(
-      'Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.',
-    );
 
-  const { register, handleSubmit } = useForm({
-    mode: 'onBlur',
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: 'all',
+    defaultValues: {
+      email: '',
+    },
   });
 
-  const validateEmail = (email) => {
-    if (!email) {
-      setError(t('error_empty_field'));
-      return false;
-    } else {
-      const re =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      const emailValid = re.test(email);
-      if (!emailValid) {
-        setError(t('error_invalid_email'));
-        return false;
-      } else {
-        setError('');
-        return true;
-      }
-    }
-  };
+  const { resetPassword, loading } = useResetPassword();
 
-  const handleForgotPassword = async ({ email }) => {
-    validateEmail(email);
-
-    const { data } = await resetPassword(email);
-
-    if (data) {
-      notify();
-    }
-
-    // let resp = await dispatch(forgotPassword(email))
-
-    // if (resp.type === 'AUTH_FORGOT_PASSWORD_SUCCESS') {
-    //   history.push('/forgot-password-guide')
-    // }
-
-    // if (resp.type === 'AUTH_FORGOT_PASSWORD_FAILURE') {
-    //   if (errorMsg) {
-    //     NotificationManager.error(t('forgot_password_failure'), t)
-    //   }
-    // }
+  const handleForgotPassword = ({ email }) => {
+    resetPassword(email);
   };
 
   return (
@@ -67,24 +39,35 @@ const ForgotPassword = () => {;
           onSubmit={handleSubmit(handleForgotPassword)}
           className="form-section"
         >
-          <div className="mb-3">
-            <div className="form-item-inner">
-              <label htmlFor="email" className="form-label">
-                <strong>{t('email')}</strong>
-              </label>
-              <input
-                className="form-control mt-3"
-                type="email"
-                id="email"
-                name="email"
-                {...register('email')}
-              />
-            </div>
-            {error && <p className="error-msg">{error}</p>}
+          <div className="mb-3 form-item-inner">
+            <InputField
+              label={t('email')}
+              placeholder="name@email.com"
+              autoComplete="on"
+              register={register('email', {
+                required: t('required_email'),
+                pattern: {
+                  value:
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                  message: t('error_invalid_email'),
+                },
+              })}
+            />
+            {errors?.email && (
+              <p className="error-msg">{errors?.email?.message}</p>
+            )}
           </div>
           <div className="d-grid gap-2 pt-4">
-            <button type="submit" className="btn btn-primary btn-lg p-3">
-              {t('reset_password')}
+            <button
+              disabled={!isValid}
+              type="submit"
+              className="btn btn-primary btn-lg p-3"
+            >
+              {loading ? (
+                <ClipLoader loading={loading} size={20} color="white" />
+              ) : (
+                t('reset_password')
+              )}
             </button>
           </div>
           <p className="mt-5">
