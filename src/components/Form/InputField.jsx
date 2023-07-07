@@ -1,10 +1,11 @@
-const InputField = (props) => {
+import { forwardRef } from 'react';
+
+const InputField = forwardRef(function InputField(props, ref) {
   const {
     label = '',
     type = 'text',
     placeholder = '',
     autoComplete = 'off',
-    register = {},
   } = props;
   return (
     <label className="form-label">
@@ -14,10 +15,11 @@ const InputField = (props) => {
         type={type}
         placeholder={placeholder}
         autoComplete={autoComplete}
-        {...register}
+        ref={ref}
+        {...props}
       />
     </label>
   );
-};
+});
 
 export default InputField;
