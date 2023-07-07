@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { cancelAppointment } from '../../actions/appointment';
 import { useMutation, gql } from '@apollo/client';
 
 const CANCEL_LESSON = gql`
@@ -23,7 +22,6 @@ const CancelLessonModal = ({
   setIsOpen,
   id,
   fetchAppointments,
-  cancelled,
 }) => {
   const [t] = useTranslation('common');
   const [cancel, setCancel] = useState({});
@@ -59,14 +57,10 @@ const CancelLessonModal = ({
   const onCancelLesson = async () => {
     const res = await cancelLesson();
     if (res.errors.length == 0) {
-
-        await fetchAppointments();
-      } else {
-        console.error(res.errors);
-      }
-     
+      await fetchAppointments();
+    } else {
+      console.error(res.errors);
     }
-  ]
   };
 
   return (
