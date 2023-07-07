@@ -12,16 +12,6 @@ import ImgStarOutline from '../../assets/images/star_outline.svg';
 import ImgStarFill from '../../assets/images/star_fill.svg';
 import FavouriteIcon from '../../components/FavouriteIcon';
 import { getAbbrName } from '../../constants/global';
-import StudentApi from '../../api/StudentApi';
-import TutorApi from '../../api/TutorApi';
-
-// const tutor = {
-//   name: 'Hudson Jaslyn',
-//   points: 0.7,
-//   isFavourite: false,
-//   major: 'MEDIA, CULTURE & BRANDING',
-//   avatar: "preset_0"
-// };
 
 const tutor_attendance = [
   { label: 'Tutor was on time', value: 'in_time' },
@@ -48,19 +38,11 @@ const ModalFeedback = ({ visible, onDismiss, appointment }) => {
   const { tutor } = appointment;
 
   useEffect(async () => {
-    if (tutor.id) {
-      let { data: reviewData } = await TutorApi.getReview(tutor.id);
-      setTutorReviewData(reviewData.tutor);
-    }
+    // replace with proper review graphql query later
   }, [tutor, setTutorReviewData]);
 
   const onSubmit = async () => {
-    await StudentApi.setTutorAttendance(appointment.id, { attendance });
-    await StudentApi.setReview({
-      tutor_id: tutor.id,
-      stars: starIndex + 1,
-      note: formData.review,
-    });
+    // replace with proper review graphql query later
     onDismiss();
   };
 
@@ -102,7 +84,7 @@ const ModalFeedback = ({ visible, onDismiss, appointment }) => {
         ))}
       </div>
 
-      <p className="p-write-review">2) {t('rate_tutor')}</p>
+      <p className="p-write-review">{t('rate_tutor')}</p>
       <div className="feedback-content">
         <div className="stars">
           {[0, 1, 2, 3, 4].map((value, index) => (
