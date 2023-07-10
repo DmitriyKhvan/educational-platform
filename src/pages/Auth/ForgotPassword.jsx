@@ -8,9 +8,8 @@ import { ClipLoader } from 'react-spinners';
 import NotificationManager from '../../components/NotificationManager';
 import useResetPassword from '../../modules/auth/hooks/resetPassword';
 import AuthLayout from '../../components/AuthLayout';
-import InputField from '../../components/Form/InputField';
-import InputFieldError from '../../components/Form/InputFieldError';
 import Button from '../../components/Form/Button';
+import InputWithError from '../../components/Form/InputWithError';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -58,21 +57,20 @@ const ForgotPassword = () => {
           className="form-section"
         >
           <div className="mb-3">
-            <InputFieldError errorsField={errors?.email}>
-              <InputField
-                label={t('email')}
-                placeholder="name@email.com"
-                autoComplete="on"
-                {...register('email', {
-                  required: t('required_email'),
-                  pattern: {
-                    value:
-                      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: t('error_invalid_email'),
-                  },
-                })}
-              />
-            </InputFieldError>
+            <InputWithError
+              errorsField={errors?.email}
+              label={t('email')}
+              placeholder="name@email.com"
+              autoComplete="on"
+              {...register('email', {
+                required: t('required_email'),
+                pattern: {
+                  value:
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                  message: t('error_invalid_email'),
+                },
+              })}
+            />
           </div>
 
           <div className="d-grid gap-2 pt-4">

@@ -12,6 +12,7 @@ import CheckboxField from '../../components/Form/CheckboxField';
 import useLogin from '../../modules/auth/hooks/login';
 import InputFieldError from '../../components/Form/InputFieldError';
 import Button from '../../components/Form/Button';
+import InputWithError from '../../components/Form/InputWithError';
 
 const Login = () => {
   const [t] = useTranslation('common');
@@ -51,21 +52,20 @@ const Login = () => {
           className="form-section"
         >
           <div className="mb-4">
-            <InputFieldError errorsField={errors?.email}>
-              <InputField
-                label={t('email')}
-                placeholder="name@email.com"
-                autoComplete="on"
-                {...register('email', {
-                  required: t('required_email'),
-                  pattern: {
-                    value:
-                      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                    message: t('error_invalid_email'),
-                  },
-                })}
-              />
-            </InputFieldError>
+            <InputWithError
+              errorsField={errors?.email}
+              label={t('email')}
+              placeholder="name@email.com"
+              autoComplete="on"
+              {...register('email', {
+                required: t('required_email'),
+                pattern: {
+                  value:
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                  message: t('error_invalid_email'),
+                },
+              })}
+            />
           </div>
 
           <div className="mb-4">
