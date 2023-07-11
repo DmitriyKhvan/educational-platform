@@ -58,7 +58,7 @@ const ForgotPassword = () => {
           className="form-section"
         >
           <div className="mb-3">
-            <InputWithError rrorsField={errors?.email}>
+            <InputWithError errorsField={errors?.email}>
               <InputField
                 label={t('email')}
                 placeholder="name@email.com"

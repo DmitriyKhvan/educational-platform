@@ -50,7 +50,7 @@ const Login = () => {
           )}
           className="form-section"
         >
-          <div className="mb-4">
+          <div className="mb-7">
             <InputWithError errorsField={errors?.email}>
               <InputField
                 label={t('email')}
@@ -68,7 +68,7 @@ const Login = () => {
             </InputWithError>
           </div>
 
-          <div className="mb-4">
+          <div className="mb-7">
             <InputWithError errorsField={errors?.password}>
               <InputField
                 label={t('password')}
@@ -88,7 +88,7 @@ const Login = () => {
             </InputWithError>
           </div>
 
-          <div className="mb-4 forget">
+          <div className="mb-7 mt-7">
             <Link to="/forgot-password" className="forgot-password">
               {t('forgot_password')}
             </Link>
