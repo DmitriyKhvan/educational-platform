@@ -10,7 +10,6 @@ import AuthLayout from '../../components/AuthLayout';
 import InputField from '../../components/Form/InputField';
 import CheckboxField from '../../components/Form/CheckboxField';
 import useLogin from '../../modules/auth/hooks/login';
-import InputFieldError from '../../components/Form/InputFieldError';
 import Button from '../../components/Form/Button';
 import InputWithError from '../../components/Form/InputWithError';
 
@@ -52,24 +51,25 @@ const Login = () => {
           className="form-section"
         >
           <div className="mb-4">
-            <InputWithError
-              errorsField={errors?.email}
-              label={t('email')}
-              placeholder="name@email.com"
-              autoComplete="on"
-              {...register('email', {
-                required: t('required_email'),
-                pattern: {
-                  value:
-                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                  message: t('error_invalid_email'),
-                },
-              })}
-            />
+            <InputWithError errorsField={errors?.email}>
+              <InputField
+                label={t('email')}
+                placeholder="name@email.com"
+                autoComplete="on"
+                {...register('email', {
+                  required: t('required_email'),
+                  pattern: {
+                    value:
+                      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    message: t('error_invalid_email'),
+                  },
+                })}
+              />
+            </InputWithError>
           </div>
 
           <div className="mb-4">
-            <InputFieldError errorsField={errors?.password}>
+            <InputWithError errorsField={errors?.password}>
               <InputField
                 label={t('password')}
                 type={isShowPassword ? 'text' : 'password'}
@@ -85,7 +85,7 @@ const Login = () => {
                   onChange={(check) => setIsShowPassword(check)}
                 />
               </div>
-            </InputFieldError>
+            </InputWithError>
           </div>
 
           <div className="mb-4 forget">
@@ -94,15 +94,15 @@ const Login = () => {
             </Link>
           </div>
 
-          <div className="d-grid gap-2">
-            <Button type="submit" disabled={!isValid}>
-              {loading ? (
-                <ClipLoader loading={loading} size={20} color="white" />
-              ) : (
-                t('sign_in')
-              )}
-            </Button>
-          </div>
+          {/* <div className="d-grid gap-2"> */}
+          <Button type="submit" disabled={!isValid}>
+            {loading ? (
+              <ClipLoader loading={loading} size={20} color="white" />
+            ) : (
+              t('sign_in')
+            )}
+          </Button>
+          {/* </div> */}
           {/* <div className='registered'>
             <p className='mt-5'>
               <a href='/signup' className='forgot-password'>

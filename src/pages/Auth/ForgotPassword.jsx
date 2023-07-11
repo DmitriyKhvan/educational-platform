@@ -12,6 +12,7 @@ import Button from '../../components/Form/Button';
 import InputWithError from '../../components/Form/InputWithError';
 
 import 'react-toastify/dist/ReactToastify.css';
+import InputField from '../../components/Form/InputField';
 
 const ForgotPassword = () => {
   const [t] = useTranslation('common');
@@ -57,20 +58,21 @@ const ForgotPassword = () => {
           className="form-section"
         >
           <div className="mb-3">
-            <InputWithError
-              errorsField={errors?.email}
-              label={t('email')}
-              placeholder="name@email.com"
-              autoComplete="on"
-              {...register('email', {
-                required: t('required_email'),
-                pattern: {
-                  value:
-                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                  message: t('error_invalid_email'),
-                },
-              })}
-            />
+            <InputWithError rrorsField={errors?.email}>
+              <InputField
+                label={t('email')}
+                placeholder="name@email.com"
+                autoComplete="on"
+                {...register('email', {
+                  required: t('required_email'),
+                  pattern: {
+                    value:
+                      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    message: t('error_invalid_email'),
+                  },
+                })}
+              />
+            </InputWithError>
           </div>
 
           <div className="d-grid gap-2 pt-4">

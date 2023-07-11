@@ -11,10 +11,22 @@ const InputField = forwardRef(function InputField(
   ref,
 ) {
   return (
-    <label className="form-label">
-      <div className="label">{label}</div>
+    <label>
+      <div className="mb-2">{label}</div>
       <input
-        className="form-control"
+        className="
+          block 
+          w-full 
+          p-3 
+          text-base 
+          border 
+          border-solid 
+          border-color-border 
+          rounded-md outline-none 
+          focus:border-color-light-blue 
+          focus:shadow-[0_0_0_0.25rem_rgba(13,110,253,0.25)]
+          transition ease-in-out duration-300
+        "
         type={type}
         placeholder={placeholder}
         autoComplete={autoComplete}

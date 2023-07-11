@@ -1,4 +1,9 @@
 @import './variable.scss';
+
+// .btn-submit {
+//   @apply text-color-white bg-color-purple p-5 w-full rounded-md font-semibold text-base disabled:opacity-60 cursor-pointer;
+// }
+
 ::placeholder {
   color: $color-light-grey;
   font-family: 'Inter';

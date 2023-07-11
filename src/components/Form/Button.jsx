@@ -5,7 +5,16 @@ const Button = (props) => {
     <button
       disabled={disabled}
       type={type}
-      className="btn btn-primary btn-lg p-3"
+      className="
+          w-full p-5 
+          text-color-white 
+          bg-color-purple 
+          rounded-md 
+          font-semibold 
+          text-base 
+          disabled:opacity-60 
+          cursor-pointer
+        "
     >
       {children}
     </button>

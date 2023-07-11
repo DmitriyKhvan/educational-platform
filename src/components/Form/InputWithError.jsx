@@ -1,30 +1,21 @@
-import { forwardRef } from 'react';
-import InputField from './InputField';
-import InputFieldError from './InputFieldError';
-
-const InputWithError = forwardRef(function InputWithError(
-  {
-    errorsField = {},
-    label = '',
-    placeholder = '',
-    type = 'text',
-    autoComplete = 'off',
-    ...props
-  },
-  ref,
-) {
+const InputWithError = ({ errorsField, children }) => {
   return (
-    <InputFieldError errorsField={errorsField}>
-      <InputField
-        type={type}
-        label={label}
-        placeholder={placeholder}
-        autoComplete={autoComplete}
-        ref={ref}
-        {...props}
-      />
-    </InputFieldError>
+    <div
+      className="
+      text-color-dark-purple
+      font-inter
+      text-sm
+      font-semibold
+      leading-5
+    "
+    >
+      {children}
+
+      {errorsField && (
+        <p className="text-color-magenta mt-1">{errorsField.message}</p>
+      )}
+    </div>
   );
-});
+};
 
 export default InputWithError;

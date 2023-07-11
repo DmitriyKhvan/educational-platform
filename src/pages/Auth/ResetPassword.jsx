@@ -16,6 +16,8 @@ const ResetPassword = () => {
   const queryToken = params.get('token');
   const queryEmail = params.get('email');
 
+  console.log('queryToken', queryToken);
+
   const isWelcome = location.pathname.includes('welcome-set-password');
 
   const { newPassword, inviteSetPassword, refetchUser } = useAuth();
