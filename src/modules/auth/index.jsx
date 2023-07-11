@@ -2,8 +2,6 @@ import { createContext, useState, useEffect, useContext } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import {
   ME_QUERY,
-  LOGIN_MUTATION,
-  RESET_PASSWORD_MUTATION,
   NEW_PASSWORD_MUTATION,
   INVITE_SET_PASSWORD_MUTATION,
 } from './graphql';
@@ -12,14 +10,8 @@ export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [isAuthInProgress, setIsAuthInProgress] = useState(true);
-  const {
-    data: user,
-    loading: userLoading,
-    refetch: refetchUser,
-  } = useQuery(ME_QUERY);
-  const [loginMutation, { loading: loginLoading }] =
-    useMutation(LOGIN_MUTATION);
-  const [sendUserPasswordResetLink] = useMutation(RESET_PASSWORD_MUTATION);
+  const { data: user, loading, refetch: refetchUser } = useQuery(ME_QUERY);
+
   const [redeemUserPasswordResetToken] = useMutation(NEW_PASSWORD_MUTATION);
   const [redeemInvitePasswordSetToken] = useMutation(
     INVITE_SET_PASSWORD_MUTATION,
@@ -30,31 +22,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (!userLoading && isAuthInProgress) {
+    if (!loading && isAuthInProgress) {
       setIsAuthInProgress(false);
     }
-  }, [userLoading, isAuthInProgress]);
-
-  const login = async (email, password) => {
-    const { data, errors, loading } = await loginMutation({
-      variables: { email, password },
-    });
-
-    if (data.authResult) {
-      localStorage.setItem('token', data.authResult.sessionToken);
-      await refetchUser();
-    }
-
-    return { data, errors, loading };
-  };
-
-  const resetPassword = async (email) => {
-    const { data } = await sendUserPasswordResetLink({
-      variables: { email },
-    });
-
-    return { data };
-  };
+  }, [loading, isAuthInProgress]);
 
   const newPassword = async (email, token, password) => {
     const { data } = await redeemUserPasswordResetToken({
@@ -82,12 +53,10 @@ export const AuthProvider = ({ children }) => {
       value={{
         user: me || null,
         refetchUser,
-        login,
         logout,
-        resetPassword,
         newPassword,
         inviteSetPassword,
-        isLoading: userLoading || loginLoading,
+        isLoading: loading,
         isAuthorized: !!user,
         isAuthInProgress,
       }}
