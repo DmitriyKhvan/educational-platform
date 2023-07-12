@@ -1,10 +1,6 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import {
-  ME_QUERY,
-  NEW_PASSWORD_MUTATION,
-  INVITE_SET_PASSWORD_MUTATION,
-} from './graphql';
+import { ME_QUERY, INVITE_SET_PASSWORD_MUTATION } from './graphql';
 
 export const AuthContext = createContext({});
 
@@ -12,7 +8,6 @@ export const AuthProvider = ({ children }) => {
   const [isAuthInProgress, setIsAuthInProgress] = useState(true);
   const { data: user, loading, refetch: refetchUser } = useQuery(ME_QUERY);
 
-  const [redeemUserPasswordResetToken] = useMutation(NEW_PASSWORD_MUTATION);
   const [redeemInvitePasswordSetToken] = useMutation(
     INVITE_SET_PASSWORD_MUTATION,
   );
@@ -26,14 +21,6 @@ export const AuthProvider = ({ children }) => {
       setIsAuthInProgress(false);
     }
   }, [loading, isAuthInProgress]);
-
-  const newPassword = async (email, token, password) => {
-    const { data } = await redeemUserPasswordResetToken({
-      variables: { email, token, password },
-    });
-
-    return { data };
-  };
 
   const inviteSetPassword = async (email, token, password) => {
     const { data } = await redeemInvitePasswordSetToken({
@@ -54,7 +41,6 @@ export const AuthProvider = ({ children }) => {
         user: me || null,
         refetchUser,
         logout,
-        newPassword,
         inviteSetPassword,
         isLoading: loading,
         isAuthorized: !!user,

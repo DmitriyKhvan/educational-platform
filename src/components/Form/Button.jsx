@@ -14,6 +14,9 @@ const Button = (props) => {
           text-base 
           disabled:opacity-60 
           cursor-pointer
+          focus:border-color-light-blue 
+          focus:shadow-[0_0_0_0.25rem_rgba(13,110,253,0.25)]
+          transition ease-in-out duration-300
         "
     >
       {children}
