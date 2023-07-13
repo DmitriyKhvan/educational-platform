@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import { ClipLoader } from 'react-spinners';
 
 // import NotificationManager from '../../components/NotificationManager';
@@ -13,6 +12,7 @@ import InputWithError from '../../components/Form/InputWithError';
 
 import 'react-toastify/dist/ReactToastify.css';
 import InputField from '../../components/Form/InputField';
+import toastCustom from '../../utils/toastCustom';
 
 const ForgotPassword = () => {
   const [t] = useTranslation('common');
@@ -32,31 +32,13 @@ const ForgotPassword = () => {
 
   useEffect(() => {
     if (data) {
-      toast.success(t('reset_password_message'), {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored',
-      });
+      toastCustom('success', t('reset_password_message'));
     }
   }, [data]);
 
   useEffect(() => {
     if (error) {
-      toast.error(t('login_failed'), {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored',
-      });
+      toastCustom('error', t('login_failed'));
     }
   }, [error]);
 

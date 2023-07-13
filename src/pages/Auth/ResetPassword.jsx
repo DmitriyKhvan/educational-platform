@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import AuthLayout from '../../components/AuthLayout';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import ClipLoader from 'react-spinners/ClipLoader';
 
 import InputWithError from '../../components/Form/InputWithError';
@@ -12,6 +11,7 @@ import useNewPassword from '../../modules/auth/hooks/newPassword';
 import Button from '../../components/Form/Button';
 
 import 'react-toastify/dist/ReactToastify.css';
+import toastCustom from '../../utils/toastCustom';
 
 const ResetPassword = () => {
   const history = useHistory();
@@ -40,32 +40,14 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (data) {
-      toast.success(t('reset_password'), {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored',
-      });
+      toastCustom('success', t('reset_password'));
       history.push('/');
     }
   }, [data]);
 
   useEffect(() => {
     if (error) {
-      toast.error(t('invalid_expired_token'), {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored',
-      });
+      toastCustom('error', t('invalid_expired_token'));
     }
   }, [error]);
 
