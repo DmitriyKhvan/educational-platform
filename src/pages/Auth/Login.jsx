@@ -11,7 +11,7 @@ import CheckboxField from '../../components/Form/CheckboxField';
 import useLogin from '../../modules/auth/hooks/login';
 import Button from '../../components/Form/Button';
 import InputWithError from '../../components/Form/InputWithError';
-import toastCustom from '../../utils/toastCustom';
+import notify from '../../utils/notify';
 
 const Login = () => {
   const [t] = useTranslation('common');
@@ -34,7 +34,7 @@ const Login = () => {
 
   useEffect(() => {
     if (error) {
-      toastCustom('error', t('login_failed'));
+      notify('error', t('login_failed'));
     }
   }, [error]);
 

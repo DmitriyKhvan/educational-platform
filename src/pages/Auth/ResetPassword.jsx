@@ -11,7 +11,7 @@ import useNewPassword from '../../modules/auth/hooks/newPassword';
 import Button from '../../components/Form/Button';
 
 import 'react-toastify/dist/ReactToastify.css';
-import toastCustom from '../../utils/toastCustom';
+import notify from '../../utils/notify';
 
 const ResetPassword = () => {
   const history = useHistory();
@@ -40,14 +40,14 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (data) {
-      toastCustom('success', t('reset_password'));
+      notify('success', t('reset_password'));
       history.push('/');
     }
   }, [data]);
 
   useEffect(() => {
     if (error) {
-      toastCustom('error', t('invalid_expired_token'));
+      notify('error', t('invalid_expired_token'));
     }
   }, [error]);
 

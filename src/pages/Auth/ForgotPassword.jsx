@@ -12,7 +12,7 @@ import InputWithError from '../../components/Form/InputWithError';
 
 import 'react-toastify/dist/ReactToastify.css';
 import InputField from '../../components/Form/InputField';
-import toastCustom from '../../utils/toastCustom';
+import notify from '../../utils/notify';
 
 const ForgotPassword = () => {
   const [t] = useTranslation('common');
@@ -32,13 +32,13 @@ const ForgotPassword = () => {
 
   useEffect(() => {
     if (data) {
-      toastCustom('success', t('reset_password_message'));
+      notify('success', t('reset_password_message'));
     }
   }, [data]);
 
   useEffect(() => {
     if (error) {
-      toastCustom('error', t('login_failed'));
+      notify('error', t('login_failed'));
     }
   }, [error]);
 
