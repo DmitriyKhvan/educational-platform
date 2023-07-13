@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { ClipLoader } from 'react-spinners';
 
-import NotificationManager from '../../components/NotificationManager';
+// import NotificationManager from '../../components/NotificationManager';
 import useResetPassword from '../../modules/auth/hooks/resetPassword';
 import AuthLayout from '../../components/AuthLayout';
 import Button from '../../components/Form/Button';
@@ -30,22 +30,33 @@ const ForgotPassword = () => {
 
   const { resetPassword, loading, error, data } = useResetPassword();
 
-  // const notify = () =>
-  //   toast(
-  //     'Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.',
-  //   );
-
   useEffect(() => {
     if (data) {
-      toast(
-        'Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.',
-      );
+      toast.success(t('reset_password_message'), {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored',
+      });
     }
   }, [data]);
 
   useEffect(() => {
     if (error) {
-      NotificationManager.error(t('login_failed'), t);
+      toast.error(t('login_failed'), {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored',
+      });
     }
   }, [error]);
 

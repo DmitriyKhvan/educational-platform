@@ -4,8 +4,9 @@ import { useForm } from 'react-hook-form';
 
 import { useTranslation } from 'react-i18next';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { toast } from 'react-toastify';
 
-import NotificationManager from '../../components/NotificationManager';
+// import NotificationManager from '../../components/NotificationManager';
 import AuthLayout from '../../components/AuthLayout';
 import InputField from '../../components/Form/InputField';
 import CheckboxField from '../../components/Form/CheckboxField';
@@ -34,7 +35,17 @@ const Login = () => {
 
   useEffect(() => {
     if (error) {
-      NotificationManager.error(t('login_failed'), t);
+      // NotificationManager.error(t('login_failed'), t);
+      toast.error(t('login_failed'), {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored',
+      });
     }
   }, [error]);
 

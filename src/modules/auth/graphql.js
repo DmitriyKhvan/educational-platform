@@ -117,10 +117,7 @@ export const USERS_QUERY = gql`
 
 export const LOGIN_MUTATION = gql`
   mutation login($email: String!, $password: String!) {
-    authResult: signIn(
-      email: $email
-      password: $password
-    ) {
+    authResult: signIn(email: $email, password: $password) {
       sessionToken
       user {
         id
@@ -136,19 +133,11 @@ export const RESET_PASSWORD_MUTATION = gql`
 `;
 
 export const NEW_PASSWORD_MUTATION = gql`
-  mutation redeemUserPasswordResetToken(
-    $email: String!
-    $token: String!
-    $password: String!
-  ) {
+  mutation redeemUserPasswordResetToken($token: String!, $password: String!) {
     resetResult: redeemUserPasswordResetToken(
-      email: $email
       token: $token
       password: $password
-    ) {
-      code
-      message
-    }
+    )
   }
 `;
 
@@ -179,21 +168,15 @@ export const MUTATION_UPDATE_USER = gql`
 `;
 
 export const MUTATION_UPDATE_MENTOR = gql`
-  mutation updateMentor(
-    $id: ID!
-    $data: MentorUpdateInput!
-  ) {
-    updateMentor(id: $id data: $data) {
+  mutation updateMentor($id: ID!, $data: MentorUpdateInput!) {
+    updateMentor(id: $id, data: $data) {
       id
     }
   }
 `;
 
 export const MUTATION_UPDATE_STUDENT = gql`
-  mutation updateStudent(
-    $id: ID!
-    $data: StudentUpdateInput!
-  ) {
+  mutation updateStudent($id: ID!, $data: StudentUpdateInput!) {
     updateStudent(id: $id, data: $data) {
       id
     }
