@@ -6,7 +6,6 @@ import StudentsList from './StudentsList/StudentsList';
 import AvailabilityLayout from './Availiability';
 import AvailabilitySettings from './Availiability/AvailabilitySettings';
 import TutorCalendar from './Calendar';
-import TutorStudentList from './StudentList';
 import LessonInfo from './LessonInfo';
 import Dashboard from '../../components/Dashboard.jsx';
 import { Switch, useRouteMatch, Route } from 'react-router-dom';
@@ -30,10 +29,6 @@ export default function TutorPages() {
 
       <Route path={`${path}/avail/settings`}>
         <AvailabilitySettings />
-      </Route>
-
-      <Route exact path={`${path}/students`}>
-        <TutorStudentList />
       </Route>
 
       <Route exact path={`${path}/appointments-calendar/lesson/:lessonID`}>
