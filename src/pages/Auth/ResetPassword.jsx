@@ -40,7 +40,7 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (data) {
-      toast.success('Password has been reset!', {
+      toast.success(t('reset_password'), {
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
@@ -56,7 +56,7 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (error) {
-      toast.error(error.message, {
+      toast.error(t('invalid_expired_token'), {
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
@@ -115,7 +115,7 @@ const ResetPassword = () => {
             {loading ? (
               <ClipLoader loading={loading} size={20} color="white" />
             ) : (
-              t('continue_')
+              t('continue_button')
             )}
           </Button>
 

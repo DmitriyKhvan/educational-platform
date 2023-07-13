@@ -11,6 +11,8 @@
   "logout": "Logout",
   "sign_in": "Sign In",
   "login": "Welcome back to Nao Now",
+  "login_success": "You are logged in!",
+  "login_failed": "Login Failed",
   "email": "Your Email",
   "password": "Password",
   "not_registered": "Don't have an account?",
@@ -67,6 +69,7 @@
   "welcome_set_password": "Set New Password",
   "error_field_not_empty": " should not be empty.",
   "reset_password": "Password Reset",
+  "reset_password_message": "Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.",
   "new_password": "Enter New Password",
   "confirm_new_password": "Confirm New Password",
   "confirm_password_error": "Please make sure your passwords match.",
@@ -85,5 +88,6 @@
   "lessons": "Lessons",
   "select": "Select",
   "schedule": "Schedule",
-  "continue_": "Continue"
+  "continue_button": "Continue",
+  "invalid_expired_token": "Invalid or expired token"
 }
