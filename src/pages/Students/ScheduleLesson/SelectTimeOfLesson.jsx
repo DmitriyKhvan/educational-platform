@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import Loader from 'react-loader-spinner';
 import {
   startOfWeek,
@@ -14,15 +13,16 @@ import {
 import { format } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
-
 import '../../../assets/styles/dashboard.scss';
 import { DAYS, getTimezoneValue } from '../../../constants/global';
 import LeftArrow from '../../../assets/images/left-arrow.svg';
 import RightArrow from '../../../assets/images/right-arrow.svg';
 import { Checkbox } from '../../../components/Checkbox';
 import Icon2 from '../../../assets/images/sidebar/icon2.svg';
-import { getTutorInfo } from '../../../actions/tutor';
 import ImgArrowBack from '../../../assets/images/arrow_back.svg';
+import { useLazyQuery } from '@apollo/client';
+import { GET_MENTOR } from '../../../modules/auth/graphql';
+import { useAuth } from '../../../modules/auth';
 
 const customStyles = {
   option: (styles, { isFocused, isSelected }) => ({
@@ -56,15 +56,10 @@ const optionYears = [
   { value: today.getFullYear() + 2, label: today.getFullYear() + 2 },
 ];
 
-const SelectTimeOfLesson = ({
-  onContinue,
-  selectedTutor,
-  onBack,
-}) => {
-  const dispatch = useDispatch();
+const SelectTimeOfLesson = ({ onContinue, selectedTutor, onBack }) => {
   const [t] = useTranslation('translation');
 
-  const user = useSelector((state) => state.users.user);
+  const { user } = useAuth();
 
   const optionMonths = [
     { value: 'january', label: t('january') },
@@ -91,14 +86,17 @@ const SelectTimeOfLesson = ({
   const [yearOption, setYearOption] = useState(optionYears[0]);
   const [selectedHour, setSelectedHour] = useState(-1);
   const [selectedDateIndex, setSelectedDateIndex] = useState(-1);
-  const tutor = useSelector((state) => state.tutor.info);
-  const loading = useSelector((state) => state.tutor.loading);
+  const [getTutorInfo, { data: tutor, loading }] = useLazyQuery(GET_MENTOR);
 
   const [availableHours, setAvailableHours] = useState();
 
   useEffect(() => {
     if (selectedTutor) {
-      dispatch(getTutorInfo(selectedTutor.id));
+      getTutorInfo({
+        variables: {
+          id: selectedTutor.id,
+        },
+      });
     }
   }, [selectedTutor]);
 
@@ -125,7 +123,7 @@ const SelectTimeOfLesson = ({
 
       setAvailableHours(availableHours);
     }
-  }, [dispatch, startDate]);
+  }, [startDate]);
 
   useEffect(() => {
     if (tutor && user && startDate !== -1) {

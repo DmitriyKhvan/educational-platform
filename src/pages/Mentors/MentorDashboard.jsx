@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import ImgCalendar from '../../assets/images/calendar_icon.svg';
-import { getAppointments } from '../../actions/appointment';
 import ScheduleCard from '../../components/student-dashboard/ScheduleCard';
 import Loader from '../../components/common/Loader';
 import { useAuth } from '../../modules/auth';
 import FeedbackLessonModal from './FeedbackLessonModal';
 import { useQuery } from '@apollo/client';
-import { STUDENTS_QUERY } from '../../modules/auth/graphql';
+import { STUDENTS_QUERY, APPOINTMENTS_QUERY } from '../../modules/auth/graphql';
 
 const TutorDashboard = () => {
   const [t] = useTranslation('dashboard');
-  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
-  const appointments = useSelector((state) => state.appointment);
   const [upcomingLessons, setUpcomingLessons] = useState([]);
   const [, setLessonApprovals] = useState([]);
   const [StId, setStID] = React.useState(null);
+
+  const { data: appointments, refetch } = useQuery(APPOINTMENTS_QUERY, {
+    variables: {
+      tutorId: user?.tutor?.id,
+      status: 'scheduled,paid,completed,in_progress',
+    },
+  });
 
   const { data } = useQuery(STUDENTS_QUERY, {
     errorPolicy: 'ignore',
@@ -34,9 +37,7 @@ const TutorDashboard = () => {
 
   const fetchAppointments = async () => {
     if (tutor) {
-      await dispatch(
-        getAppointments({ tutor_id: tutor?.id, status: 'scheduled' }),
-      );
+      refetch();
       setIsLoading(false);
     }
   };
