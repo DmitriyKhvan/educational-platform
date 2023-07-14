@@ -3,7 +3,7 @@ import BookTrialLesson from './BookTrialLesson';
 // Student Path
 import StudentCalendar from './Calendar';
 import ClassMaterials from './ClassMaterials';
-import GroupScheduleLesson from './GroupLessons';
+// import GroupScheduleLesson from './GroupLessons';
 import StudentListAppointments from './StudentDashboard';
 import ScheduleLesson from './ScheduleLesson';
 import Profile from './Profile';
@@ -28,9 +28,9 @@ export default function StudentRoutes() {
         <ScheduleLesson />
       </Route>
 
-      <Route path={`${path}/schedule-lesson/group-select`}>
+      {/* <Route path={`${path}/schedule-lesson/group-select`}>
         <GroupScheduleLesson />
-      </Route>
+      </Route> */}
 
       <Route exact path={`${path}/schedule-lesson`}>
         <ScheduleLessonSteps />
