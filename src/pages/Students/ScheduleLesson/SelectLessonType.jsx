@@ -15,7 +15,9 @@ const SelectLessonType = ({ onContinue }) => {
   const [t] = useTranslation('translation');
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const loading = useSelector((state) => state.students.loading);
-  const { data: planStatus } = useQuery(PACKAGE_QUERY, {
+  const {
+    data: { packageSubscriptions: planStatus },
+  } = useQuery(PACKAGE_QUERY, {
     variables: {
       id: user?.student?.id,
     },
