@@ -100,10 +100,7 @@ export const USERS_QUERY = gql`
 
 export const LOGIN_MUTATION = gql`
   mutation login($email: String!, $password: String!) {
-    authResult: signIn(
-      email: $email
-      password: $password
-    ) {
+    authResult: signIn(email: $email, password: $password) {
       sessionToken
       user {
         id
@@ -162,21 +159,15 @@ export const MUTATION_UPDATE_USER = gql`
 `;
 
 export const MUTATION_UPDATE_MENTOR = gql`
-  mutation updateMentor(
-    $id: ID!
-    $data: MentorUpdateInput!
-  ) {
-    updateMentor(id: $id data: $data) {
+  mutation updateMentor($id: ID!, $data: MentorUpdateInput!) {
+    updateMentor(id: $id, data: $data) {
       id
     }
   }
 `;
 
 export const MUTATION_UPDATE_STUDENT = gql`
-  mutation updateStudent(
-    $id: ID!
-    $data: StudentUpdateInput!
-  ) {
+  mutation updateStudent($id: ID!, $data: StudentUpdateInput!) {
     updateStudent(id: $id, data: $data) {
       id
     }
@@ -263,6 +254,38 @@ export const STUDENTS_QUERY = gql`
       isActive
       createdAt
       updatedAt
+    }
+  }
+`;
+
+export const PACKAGE_QUERY = gql`
+  query LESSON_INFO {
+    packageSubscriptions(userId: 1) {
+      id
+      periodStart
+      periodEnd
+      credits
+      package {
+        id
+        totalSessions
+        sessionsPerWeek
+        sessionTime
+        price
+        period
+        discount
+        course {
+          id
+          title
+          description
+        }
+      }
+      payment {
+        id
+        status
+        provider
+        cancelReason
+        metadata
+      }
     }
   }
 `;
