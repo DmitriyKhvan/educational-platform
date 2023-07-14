@@ -1,36 +1,78 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import LessonConfirmation from './LessonConfirmation';
 import ScheduleSelector from './ScheduleSelector';
 import SelectLesson from './SelectLesson';
 import SelectTutorCards from './SelectTutorCards';
-import { getPlanStatus } from '../../../actions/subscription';
 import { useQuery, gql } from '@apollo/client';
 
 import '../../../assets/styles/tutor.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
-const GET_GROUP_INFO = gql`
-  query ($id: ID) {
-    group(where: { id: $id }) {
+const GET_LESSON_INFO = gql`
+  query GET_LESSON($id: Int!) {
+    lesson(id: $id) {
       id
-      tutorId
-      lessonId
-      lessonType
-      lessonTitle
-      lessonDesc
-      seatCount
       startAt
       duration
       status
-      completed
-      cancelAction
-      lessonTopic
-      lastPartLesson
+      cancelActionType
       zoomlinkId
-      createdAt
-      updatedAt
+      mentor {
+        id
+        major
+        language
+        university
+        graduatingYear
+        degree
+        introduction
+        about
+        experience
+        relevantExperience
+        isActive
+        hourlyRate
+        facts
+        uniqueFacts
+        avatarId
+        avatar {
+          id
+          name
+          mimetype
+          url
+          path
+          width
+          height
+          createdAt
+          updatedAt
+        }
+      }
+      student {
+        id
+        parentName
+        level
+        langLevel
+        birthday
+        about
+        pronouns
+        isActive
+        avatarId
+        avatar {
+          id
+          name
+          mimetype
+          url
+          path
+          width
+          height
+          createdAt
+          updatedAt
+        }
+      }
+      course {
+        id
+        title
+        description
+      }
     }
   }
 `;
@@ -38,21 +80,16 @@ const GET_GROUP_INFO = gql`
 const ScheduleLesson = () => {
   const { id = null } = useParams();
   const location = useLocation();
-  const { data, loading } = useQuery(GET_GROUP_INFO, {
+  const { data, loading } = useQuery(GET_LESSON_INFO, {
     variables: { id },
     skip: !id,
   });
 
-  const dispatch = useDispatch();
   const [clicked, setClicked] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState({});
   const [schedule, setSchedule] = useState();
   const [tabIndex, setTabIndex] = useState(0);
   const [selectTutor, setSelectTutor] = useState();
-
-  useEffect(() => {
-    dispatch(getPlanStatus());
-  }, [dispatch, schedule]);
 
   const scheduledLesson = data?.group || null;
 

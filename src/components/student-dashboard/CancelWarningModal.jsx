@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useQuery } from '@apollo/client';
 import moment from 'moment';
-import { getPlanStatus } from '../../actions/subscription';
+import { PACKAGE_QUERY } from '../../modules/auth/graphql';
+import { useAuth } from '../../modules/auth';
 
 const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
+  const { user } = useAuth();
   const [t] = useTranslation('modals');
-  const dispatch = useDispatch();
+  const { data: payload, loading } = useQuery(PACKAGE_QUERY, {
+    variables: {
+      id: user.id,
+    },
+  });
   const [planLength, setPlanLength] = useState(0);
   const [isChecked, setIsChecked] = useState(false);
 
   useEffect(async () => {
-    const { payload } = await dispatch(getPlanStatus());
-    const [{ plan_start, plan_end }] = payload.results.filter(
-      (x) => parseInt(x.duration, 10) === duration,
+    const [{ periodStart, periodEnd }] = payload.results.filter(
+      (x) => parseInt(x.package.period, 10) === duration,
     );
     const diff = Math.round(
-      (moment(plan_end).unix() - moment(plan_start).unix()) / 2592000,
+      (moment(periodStart).unix() - moment(periodEnd).unix()) / 2592000,
     );
     setPlanLength(diff);
-  }, []);
+  }, [loading]);
 
   const cancellationDots = [];
   for (let i = 0; i < planLength; i++) {
