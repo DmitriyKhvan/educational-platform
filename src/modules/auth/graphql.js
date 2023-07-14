@@ -418,5 +418,3 @@ export const UPDATE_APPOINTMENT = gql`
     }
   }
 `;
-
-export const 
