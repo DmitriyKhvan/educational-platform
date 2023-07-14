@@ -418,3 +418,33 @@ export const UPDATE_APPOINTMENT = gql`
     }
   }
 `;
+
+export const APPROVE_APPOINTMENT = gql`
+  mutation APPROVE_LESSON($id: Int!, $mentorId: Int!) {
+    approveLesson(id: $id, mentorId: $mentorId) {
+      lesson {
+        id
+        startAt
+        duration
+        status
+        cancelActionType
+        zoomlinkId
+      }
+    }
+  }
+`;
+
+export const CANCEL_APPOINTMENT = gql`
+  mutation CANCEL_LESSON($id: Int!) {
+    cancelLesson(id: $id) {
+      lesson {
+        id
+        startAt
+        duration
+        status
+        cancelActionType
+        zoomlinkId
+      }
+    }
+  }
+`;

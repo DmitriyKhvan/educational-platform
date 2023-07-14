@@ -1,48 +1,57 @@
 import Layout from '../../components/Layout';
-import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import moment from 'moment-timezone';
-import {
-  approveAppointment,
-  cancelAppointment,
-  getAppointments,
-} from '../../actions/appointment';
-import Loader from 'react-loader-spinner';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../modules/auth';
+import { useLazyQuery } from '@apollo/client';
+import {
+  APPOINTMENTS_QUERY,
+  APPROVE_APPOINTMENT,
+  CANCEL_APPOINTMENT,
+} from '../../modules/auth/graphql';
 
 const ApproveRequest = () => {
-  const appointments = useSelector((state) => state.appointment.list);
   const { user } = useAuth();
-  const loading = useSelector((state) => state.tutor.loading);
-  // const tutor = useSelector(state => state.tutor.info)
-  const dispatch = useDispatch();
   const [t] = useTranslation(['lessons', 'common']);
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+  const [getAppointments, {data: appointments}] = useLazyQuery(APPOINTMENTS_QUERY);
+  const [approveAppointment] = useLazyQuery(APPROVE_APPOINTMENT);
+  const [cancelAppointment] = useLazyQuery(CANCEL_APPOINTMENT);
+
   useEffect(() => {
-    if (user) {
-      dispatch(
-        getAppointments({ tutor_id: user?.tutor?.id, status: 'scheduled,paid,completed,in_progress' }),
-      );
-    }
+    getAppointments({
+      mentorId: user?.tutor?.id,
+      status: 'scheduled,paid,completed,in_progress',
+    });
   }, [user]);
 
   const onClickApprove = async ({ id }) => {
-    await dispatch(approveAppointment(id));
-    dispatch(
-      getAppointments({ tutor_id: user?.tutor?.id, status: 'scheduled' }),
-    );
+    approveAppointment({
+      variables: {
+        id: parseInt(id),
+        mentorId: user?.mentor?.id,
+      },
+    });
+    getAppointments({
+      mentorId: user?.tutor?.id,
+      status: 'scheduled',
+    });
   };
 
   const onClickCancel = async ({ id }) => {
-    await dispatch(cancelAppointment(id));
-    dispatch(
-      getAppointments({ tutor_id: user?.tutor?.id, status: 'scheduled' }),
-    );
+    cancelAppointment({
+      variables: {
+        id: parseInt(id)
+      }
+    });
+    getAppointments({
+      mentorId: user?.tutor?.id,
+      status: 'scheduled',
+    });
   };
 
   const displayLessonRequestTable = () => {
@@ -55,9 +64,9 @@ const ApproveRequest = () => {
             return {
               id: event.id,
               img: event.students[0].user.avatar,
-              studentName: `${event.students[0].user.first_name} ${event.students[0].user.last_name}`,
-              lessonNumber: event.lesson.type,
-              lessonDate: event.start_at,
+              studentName: `${event.students[0].user.firstName} ${event.students[0].user.lastName}`,
+              lessonNumber: event.lesson.id,
+              lessonDate: event.startAt,
               duration: event.duration,
             };
           })) ||
@@ -148,15 +157,6 @@ const ApproveRequest = () => {
             ))}
           </tbody>
         </table>
-        {loading && (
-          <Loader
-            className="align-center"
-            type="BallTriangle"
-            color="#00BFFF"
-            height={100}
-            width={100}
-          />
-        )}
       </div>
     </Layout>
   );
