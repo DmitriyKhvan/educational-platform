@@ -38,6 +38,67 @@ export const ME_QUERY = gql`
   }
 `;
 
+export const GET_MENTOR = gql`
+  query GET_MENTOR($id: Int!) {
+    mentor(id: $id) {
+      id
+      major
+      language
+      university
+      graduatingYear
+      degree
+      introduction
+      about
+      experience
+      relevantExperience
+      isActive
+      hourlyRate
+      facts
+      uniqueFacts
+      user {
+        id
+        email
+        firstName
+        lastName
+        fullName
+        koreanEquivalent
+        phoneNumber
+        address
+        gender
+        timeZone
+        country
+        avatar
+        role
+        referalCode
+        referalId
+        isActive
+        createdAt
+        updatedAt
+      }
+      lessons {
+        id
+        startAt
+        duration
+        status
+        cancelActionType
+        zoomlinkId
+      }
+      avatarId
+      avatar {
+        id
+        name
+        mimetype
+        url
+        path
+        width
+        height
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
 export const MENTORS_QUERY = gql`
   query mentors {
     # $skip: Int # $take: Int # $orderBy: [TutorOrderByInput!]! # # $where: TutorWhereInput!
