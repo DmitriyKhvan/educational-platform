@@ -1,3 +1,8 @@
+// need to replace with graphql
+
+/* eslint-disable import/no-unresolved */
+/* eslint-disable no-undef  */
+
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -80,7 +85,10 @@ const Calendar = () => {
 
   const fetchData = () => {
     dispatch(
-      getAppointments({ tutor_id: user.tutor?.id, status: 'scheduled,paid,completed,in_progress' }),
+      getAppointments({
+        tutor_id: user.tutor?.id,
+        status: 'scheduled,paid,completed,in_progress',
+      }),
     );
   };
 

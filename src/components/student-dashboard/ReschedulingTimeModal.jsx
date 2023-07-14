@@ -1,3 +1,8 @@
+// need to replace with graphql
+
+/* eslint-disable import/no-unresolved */
+/* eslint-disable no-undef  */
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';

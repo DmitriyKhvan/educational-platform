@@ -1,3 +1,8 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable no-undef  */
+
+// need to replace with graphql
+
 import { useMutation } from '@apollo/client';
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
