@@ -1,35 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import ChatsApi from '../../api/ChatsApi';
 // import deleteIcon from '../../assets/images/trash.png'
 import DropzoneMessage from './Dropzone';
 import MessageItem from './MessageItem';
 import find from 'lodash-es/find';
 import io from 'socket.io-client';
+import { useAuth } from '../../modules/auth';
 
 let interval = null;
 
 const MessageChat = () => {
-  const currentUser = useSelector((state) => state.users.user);
+  const currentUser = useAuth().user;
   const { chatId } = useParams();
 
   const [socket, setSocket] = useState(null);
 
-  const [chats, setChats] = useState([]);
+  const [chats] = useState([]);
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     (async () => {
-      const { data } = await ChatsApi.getChats();
-      setChats(data.chats);
+      // const { data } = await ChatsApi.getChats();
+      // setChats(data.chats);
     })();
 
     interval = setInterval(() => {
       (async () => {
         try {
-          const { data } = await ChatsApi.getMessages(chatId);
-          setMessages(data.messages);
+          // const { data } = await ChatsApi.getMessages(chatId);
+          // setMessages(data.messages);
         } catch (e) {
           console.error(e);
         }

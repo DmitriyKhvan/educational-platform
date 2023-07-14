@@ -6,7 +6,6 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import React, { lazy, Suspense } from 'react';
 
 import { ReactNotifications } from 'react-notifications-component';
-import { Provider } from 'react-redux';
 import {
   BrowserRouter as Router,
   Redirect,
@@ -27,14 +26,11 @@ import Dashboard from './components/Dashboard';
 // import Messages from './pages/Messages';
 import { ProfileLayout } from './components/profile/ProfileLayout';
 import ApproveRequest from './pages/Mentors/ApproveRequest';
-import configureStore from './store';
 import './App.scss';
 import { ToastContainer } from 'react-toastify';
 
 import IsReferal from './pages/Students/Referal/isReferal';
 import Loader from './components/Loader/Loader';
-
-const store = configureStore({});
 
 function PrivateRoute({ component: Component, ...rest }) {
   const { isAuthorized } = useAuth();
@@ -88,7 +84,7 @@ function App() {
   });
 
   return (
-    <Provider store={store}>
+    <>
       <Router>
         <ReactNotifications />
         <div className="App"></div>
@@ -128,7 +124,7 @@ function App() {
         </Suspense>
       </Router>
       <ToastContainer />
-    </Provider>
+    </>
   );
 }
 

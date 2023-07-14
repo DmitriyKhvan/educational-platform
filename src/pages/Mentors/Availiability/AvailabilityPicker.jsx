@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { AvailProv } from './AvailabilityProvider';
 import trashCan from '../../../assets/images/trash_can.svg';
 import Alert from '../../../components/Popup/Alert';
 import Select from 'react-select';
 import findIndex from 'lodash-es/findIndex';
+import { useAuth } from '../../../modules/auth';
 
 const formatTime = (time) => {
   return moment.utc(time * 1000).format('HH:mm');
@@ -43,10 +43,10 @@ const AvailabilityPicker = ({
 }) => {
   const { removeAvailabilityRow } = useContext(AvailProv);
   const { t } = useTranslation('modals');
-  const tutorInfo = useSelector((state) => state.tutor.info);
   const [fromTime, setFromTime] = useState(frmTime);
   const [toTime, setToTime] = useState(tTime);
   const [currentData, setCurrentData] = useState([]);
+  const tutorInfo = useAuth().user.mentor;
 
   useEffect(() => {
     setCurrentData(tutorInfo.availabilities[day]);

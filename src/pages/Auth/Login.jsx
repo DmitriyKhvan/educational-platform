@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
 import ClipLoader from 'react-spinners/ClipLoader';
 import NotificationManager from '../../components/NotificationManager';
 import { useAuth } from '../../modules/auth';
@@ -30,8 +29,6 @@ const Login = () => {
     email: '',
     password: '',
   });
-
-  // const error = useSelector((state) => state.auth.error);
 
   const validateInput = (value, stateName) => {
     if (!value) {

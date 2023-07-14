@@ -5,10 +5,10 @@ import Layout from '../../../components/Layout';
 import custom_back_arrow from '../../../assets/images/custom_back_arrow.svg';
 import prev_arrow from '../../../assets/images/prev_arrow.svg';
 import forward_arrow from '../../../assets/images/forward_arrow.svg';
-import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import Loader from 'react-loader-spinner';
 import TutorApi from '../../../api/TutorApi';
+import { useAuth } from '../../../modules/auth';
 
 const useTimesheets = (body) => {
   const [data, setData] = useState({});
@@ -29,7 +29,7 @@ const ScheduleSelector = ({
   selectedTutor,
 }) => {
   const [t] = useTranslation(['lessons', 'common', 'modals']);
-  const user = useSelector((state) => state.users.user);
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [counter, setCounter] = useState(0);
   const [dayClicked, setDayClicked] = useState(null);

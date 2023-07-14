@@ -4,13 +4,13 @@
 /* eslint-disable no-undef  */
 
 import React, { Suspense, lazy, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Modal from 'react-modal';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment-timezone';
 import Layout from '../../components/Layout';
-import { getAppointments } from '../../actions/appointment';
+// import { getAppointments } from '../../actions/appointment';
 import LessonTable from '../../components/mentor-dashboard/LessonTable';
 import NotificationManager from '../../components/NotificationManager';
 import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
@@ -22,7 +22,7 @@ const ReviewLessonModal = lazy(() =>
 
 import WeekHeader from '../../components/common/WeekHeader';
 import '../../assets/styles/calendar.scss';
-import AppointmentApi from '../../api/AppointmentApi';
+// import AppointmentApi from '../../api/AppointmentApi';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';

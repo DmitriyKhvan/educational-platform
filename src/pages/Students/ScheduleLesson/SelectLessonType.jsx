@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import '../../../assets/styles/tutor.scss';
-import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import ImgChecked from '../../../assets/images/checked_sm.svg';
 import { differenceInDays } from 'date-fns';
@@ -14,7 +12,6 @@ const SelectLessonType = ({ onContinue }) => {
   const { user } = useAuth();
   const [t] = useTranslation('translation');
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const loading = useSelector((state) => state.students.loading);
   const {
     data: { packageSubscriptions: planStatus },
   } = useQuery(PACKAGE_QUERY, {
@@ -129,15 +126,7 @@ const SelectLessonType = ({ onContinue }) => {
     <div className="schedule-lesson-layout">
       <h4 className="main-title">{t('schedule_lesson')}</h4>
       <div className="divider" />
-      {loading ? (
-        <Loader
-          className="align-center"
-          type="Audio"
-          color="#00BFFF"
-          height={50}
-          width={50}
-        />
-      ) : planStatus.length === 0 ? (
+      {planStatus.length === 0 ? (
         <span className="no-data">{t('no_lessons')}</span>
       ) : (
         <>

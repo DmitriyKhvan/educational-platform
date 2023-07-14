@@ -1,12 +1,9 @@
-/* eslint-disable import/no-unresolved */
-/* eslint-disable no-undef  */
 
 // need to replace with graphql
 
 import { useMutation } from '@apollo/client';
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { useAuth } from '../../../../modules/auth';
 import { MUTATION_UPDATE_USER } from '../../../../modules/auth/graphql';
 import Submit from './Submit';
@@ -20,7 +17,7 @@ import { getData } from 'country-list';
 import { useTranslation } from 'react-i18next';
 import { getTimezoneOffset } from 'date-fns-tz';
 import TutorApi from '../../../../api/TutorApi';
-import { getTutorInfo } from '../../../../actions/tutor';
+// import { getTutorInfo } from '../../../../actions/tutor';
 
 const timezoneOptions = timezones.map(({ label, tzCode }) => ({
   label,
@@ -39,7 +36,6 @@ function getOffsetBetweenTimezones(tzCode1, tzCode2) {
 }
 
 const BasicForm = ({ cls }) => {
-  const dispatch = useDispatch();
   const [t] = useTranslation(['common', 'profile']);
   const [updateMentor] = useMutation(MUTATION_UPDATE_USER);
 
@@ -78,7 +74,7 @@ const BasicForm = ({ cls }) => {
     }
 
     if (data) {
-      dispatch(getTutorInfo(user.mentor.id));
+      //getTutorInfo
       notify();
       history.push('/mentor/profile');
     }

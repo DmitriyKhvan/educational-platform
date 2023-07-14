@@ -5,13 +5,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import Modal from 'react-modal';
 import moment from 'moment-timezone';
 import CalendarModal from '../../components/CalendarModal';
 import Layout from '../../components/Layout';
-import { getAppointments, cancelAppointment } from '../../actions/appointment';
+// import { getAppointments, cancelAppointment } from '../../actions/appointment';
 import Loader from '../../components/common/Loader';
 import { useLocation } from 'react-router-dom';
 
