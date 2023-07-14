@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../modules/auth';
-import { useLazyQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import {
   APPOINTMENTS_QUERY,
   APPROVE_APPOINTMENT,
@@ -18,15 +18,15 @@ const ApproveRequest = () => {
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const [getAppointments, {data: appointments}] = useLazyQuery(APPOINTMENTS_QUERY);
-  const [approveAppointment] = useLazyQuery(APPROVE_APPOINTMENT);
-  const [cancelAppointment] = useLazyQuery(CANCEL_APPOINTMENT);
+  const { data: appointments, refetch } = useQuery(APPOINTMENTS_QUERY, {
+    mentorId: user?.tutor?.id,
+    status: 'scheduled,paid,completed,in_progress',
+  });
+  const [approveAppointment] = useMutation(APPROVE_APPOINTMENT);
+  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT);
 
   useEffect(() => {
-    getAppointments({
-      mentorId: user?.tutor?.id,
-      status: 'scheduled,paid,completed,in_progress',
-    });
+    refetch();
   }, [user]);
 
   const onClickApprove = async ({ id }) => {
@@ -36,41 +36,31 @@ const ApproveRequest = () => {
         mentorId: user?.mentor?.id,
       },
     });
-    getAppointments({
-      mentorId: user?.tutor?.id,
-      status: 'scheduled',
-    });
+    refetch();
   };
 
   const onClickCancel = async ({ id }) => {
     cancelAppointment({
       variables: {
-        id: parseInt(id)
-      }
+        id: parseInt(id),
+      },
     });
-    getAppointments({
-      mentorId: user?.tutor?.id,
-      status: 'scheduled',
-    });
+    refetch();
   };
 
   const displayLessonRequestTable = () => {
+    if (!appointments) return [];
     const data =
-      (appointments &&
-        appointments
-          .filter((event) => event.students.length > 0)
-          .filter((event) => !event.students[0].GroupStudent.approved)
-          .map((event) => {
-            return {
-              id: event.id,
-              img: event.students[0].user.avatar,
-              studentName: `${event.students[0].user.firstName} ${event.students[0].user.lastName}`,
-              lessonNumber: event.lesson.id,
-              lessonDate: event.startAt,
-              duration: event.duration,
-            };
-          })) ||
-      [];
+      appointments?.lessons.map((event) => {
+        return {
+          id: event.id,
+          img: event.students[0].user.avatar,
+          studentName: `${event.student.user.firstName} ${event.students.user.lastName}`,
+          lessonNumber: event.lesson.id,
+          lessonDate: event.startAt,
+          duration: event.duration,
+        };
+      }) || [];
     // return <CustomTable timezone={userTimezone} data={data} columns={columns} />
     return data;
   };
@@ -82,8 +72,11 @@ const ApproveRequest = () => {
     t('lesson_date', { ns: 'lessons' }),
   ];
 
-  const renderTable = () =>
-    displayLessonRequestTable().length !== 0 ? displayLessonRequestTable() : [];
+  const renderTable = () => {
+    const data = displayLessonRequestTable();
+
+    return data;
+  };
 
   return (
     <Layout>
