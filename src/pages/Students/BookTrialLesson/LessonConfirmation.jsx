@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import '../../../assets/styles/dashboard.scss';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import ImgArrowBack from '../../../assets/images/arrow_back.svg';
 import { Avatar } from '../../../components/Avatar';
@@ -10,10 +9,7 @@ import FavouriteIcon from '../../../components/FavouriteIcon';
 import { getAbbrName } from '../../../constants/global';
 
 const LessonConfirmation = ({ tutor, time, onBack, onContinue }) => {
-  const dispatch = useDispatch();
   const [t] = useTranslation('translation');
-
-  useEffect(() => {}, [dispatch]);
 
   return (
     <div className="overview-confirmation">
