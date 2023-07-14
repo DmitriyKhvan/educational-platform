@@ -100,53 +100,62 @@ export const GET_MENTOR = gql`
 `;
 
 export const MENTORS_QUERY = gql`
-  query mentors {
-    # $skip: Int # $take: Int # $orderBy: [TutorOrderByInput!]! # # $where: TutorWhereInput!
-    mentors(take: null, where: { user: { isActive: { equals: true } } }) {
+  query Mentors {
+    mentors {
       id
-      user {
-        id
-        firstName
-        lastName
-        gender
-        isActive
-      }
       major
       language
       university
-      acceptanceRate
-      checked
-      userName
-      # videoUrl
-      totalRequests
       graduatingYear
       degree
-      certificates
       introduction
-      relevantExperience
-      uniqueFacts
       about
-      isActive
       experience
+      relevantExperience
+      isActive
+      hourlyRate
       facts
-      createdAt
-      updatedAt
-      # avatar {
-      #   id
-      #   filesize
-      #   width
-      #   height
-      #   extension
-      #   url
-      # }
-      # picture {
-      #   id
-      #   filesize
-      #   width
-      #   height
-      #   extension
-      #   url
-      # }
+      uniqueFacts
+      user {
+        id
+        email
+        firstName
+        lastName
+        fullName
+        koreanEquivalent
+        phoneNumber
+        address
+        gender
+        timeZone
+        country
+        avatar
+        role
+        referalCode
+        referalId
+        isActive
+        createdAt
+        updatedAt
+      }
+      lessons {
+        id
+        startAt
+        duration
+        status
+        cancelActionType
+        zoomlinkId
+      }
+      avatarId
+      avatar {
+        id
+        name
+        mimetype
+        url
+        path
+        width
+        height
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -350,3 +359,64 @@ export const PACKAGE_QUERY = gql`
     }
   }
 `;
+
+export const APPOINTMENTS_QUERY = gql`
+  query GET_APPOINTMENTS($studentId: Int, $mentorId: Int, $status: String) {
+    lessons(status: $status, studentId: $studentId, mentorId: $mentorId) {
+      id
+      startAt
+      duration
+      status
+      cancelActionType
+      zoomlinkId
+      mentor {
+        id
+        major
+        language
+        university
+        graduatingYear
+        degree
+        introduction
+        about
+        experience
+        relevantExperience
+        isActive
+        hourlyRate
+        facts
+        uniqueFacts
+      }
+      student {
+        id
+        parentName
+        level
+        langLevel
+        birthday
+        about
+        pronouns
+        isActive
+      }
+      course {
+        id
+        title
+        description
+      }
+    }
+  }
+`;
+
+export const UPDATE_APPOINTMENT = gql`
+  mutation UPDATE_LESSON($id: Int!, $startAt: DateTime!, $mentorId: Int!) {
+    updateLesson(id: $id, startAt: $startAt, mentorId: $mentorId) {
+      lesson {
+        id
+        startAt
+        duration
+        status
+        cancelActionType
+        zoomlinkId
+      }
+    }
+  }
+`;
+
+export const 

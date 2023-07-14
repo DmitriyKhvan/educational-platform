@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment-timezone';
 import { useTranslation } from 'react-i18next';
 import LessonCard from '../../pages/Students/ScheduleLesson/LessonCard';
 import ScheduleCard from '../../pages/Students/ScheduleLesson/ScheduleCard';
 import TutorImageRow from '../../pages/Students/ScheduleLesson/TutorImageRow';
-import { updateAppointment, getAppointments } from '../../actions/appointment';
 import ActionTypes from '../../constants/actionTypes';
 import NotificationManager from '../NotificationManager';
 import Loader from '../common/Loader';
+import { useAuth } from '../../modules/auth';
+import { useLazyQuery } from '@apollo/client';
+import {
+  APPOINTMENTS_QUERY,
+  UPDATE_APPOINTMENT,
+} from '../../modules/auth/graphql';
 
 const RescheduleConfirmationModal = ({
   setTabIndex,
@@ -18,11 +22,14 @@ const RescheduleConfirmationModal = ({
   closeModal,
 }) => {
   const [t] = useTranslation();
-  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const user = useSelector((state) => state.users.user);
 
-  const userTimezone = user?.time_zone?.split(' ')[0];
+  const { user } = useAuth();
+
+  const [getAppointments] = useLazyQuery(APPOINTMENTS_QUERY);
+  const [updateAppointment] = useLazyQuery(UPDATE_APPOINTMENT);
+
+  const userTimezone = user?.timeZone?.split(' ')[0];
   const { duration, id, lesson } = data;
   const start_at = moment.utc(schedule).format('YYYY-MM-DDTHH:mm:ss');
   const scheduleDate = moment(schedule).tz(userTimezone).format('dddd, MMM DD');
@@ -33,24 +40,28 @@ const RescheduleConfirmationModal = ({
     .format('hh:mm A');
 
   const fetchAppointments = () => {
-    let queryObj = {};
-    if (user.student_profile) {
-      queryObj.student_id = user.student_profile.id;
-    } else {
-      return;
+    let studentId;
+    if (user.students.length > 0) {
+      studentId = user.students[0].id;
     }
-    queryObj.from = new Date();
-    dispatch(getAppointments(queryObj));
+
+    getAppointments({
+      variables: {
+        status: 'scheduled,paid,completed,in_progress',
+        studentId: studentId,
+      },
+    });
   };
 
   const confirmReschedule = async () => {
     setIsLoading(true);
-    const rescheduleData = {
-      tutor_id: tutor.id,
-      start_at: start_at,
-      duration: data.duration,
-    };
-    const res = await dispatch(updateAppointment(id, rescheduleData));
+    const res = await updateAppointment({
+      variables: {
+        id: id,
+        startAt: start_at,
+        mentorId: tutor.id,
+      },
+    });
 
     if (res.type === ActionTypes.UPDATE_APPOINTMENT_INFO.SUCCESS) {
       fetchAppointments();
