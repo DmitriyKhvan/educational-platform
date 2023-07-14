@@ -67,29 +67,6 @@ class SubscriptionApi extends BaseApi {
       },
     });
   }
-
-  validateCoupon(data) {
-    return axios.get(
-      `${this.REACT_APP_SERVER_URL}/payments/validate-code/${data}`,
-      {
-        headers: {
-          Authorization: `Bearer ${this.getToken()}`,
-        },
-      },
-    );
-  }
-
-  addCreditCard(payment_method) {
-    return axios.post(
-      this.REACT_APP_SERVER_URL + '/payments/',
-      { payment_method },
-      {
-        headers: {
-          Authorization: `Bearer ${this.getToken()}`,
-        },
-      },
-    );
-  }
 }
 
 export default new SubscriptionApi();
