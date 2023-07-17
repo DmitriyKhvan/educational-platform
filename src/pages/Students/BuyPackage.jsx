@@ -6,6 +6,17 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '../../components/AlertDialog';
 
 const GET_COURSES = gql`
   query GetCourse($id: Int!) {
@@ -66,25 +77,6 @@ export default function BuyPackage() {
     setSelectedLength(data?.course?.packages[0]?.sessionTime);
   }, [data]);
 
-  const handleSubmit = async (e) => {
-    if (selectedPackage) {
-      e.preventDefault();
-      const response = await getSecret({
-        variables: {
-          id: parseInt(selectedPackage.id),
-        },
-      });
-      if (response?.errors) {
-        toast.error(response.errors[0].message);
-      } else if (response?.data) {
-        const { clientSecret } = response.data.createPaymentIntent;
-        history.replace(
-          `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
-        );
-      }
-    }
-  };
-
   if (!courseData) return <Loader />;
 
   if (error) {
@@ -113,9 +105,6 @@ export default function BuyPackage() {
           </div>
           <hr className="border-gray-400/50 rounded-full border md:hidden" />
           <form
-            onSubmit={(e) => {
-              handleSubmit(e);
-            }}
             className="w-full flex flex-col gap-3"
           >
             <p className="text-lg font-bold text-gray-700/90">
@@ -232,13 +221,61 @@ export default function BuyPackage() {
                   ),
               )}
             </div>
-            <button
-              className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
-              disabled={selectedPackage === null}
-            >
-              Proceed to checkout
-              <ArrowBack className="brightness-0 invert rotate-180 scale-125" />
-            </button>
+
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <button
+                  className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
+                  disabled={selectedPackage === null}
+                  type="button"
+                >
+                  Proceed to checkout
+                  <ArrowBack className="brightness-0 invert rotate-180 scale-125" />
+                </button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Website Agreement</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    By clicking continue, you agree to our{' '}
+                    <a href="#" className="text-purple-600 hover:underline">
+                      Terms of Service
+                    </a>{' '}
+                    and{' '}
+                    <a href="#" className="text-purple-600 hover:underline">
+                      Privacy Policy
+                    </a>
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction>
+                    <button
+                      onClick={async () => {
+                        if (selectedPackage) {
+                          const response = await getSecret({
+                            variables: {
+                              id: parseInt(selectedPackage.id),
+                            },
+                          });
+                          if (response?.errors) {
+                            toast.error(response.errors[0].message);
+                          } else if (response?.data) {
+                            const { clientSecret } =
+                              response.data.createPaymentIntent;
+                            history.replace(
+                              `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
+                            );
+                          }
+                        }
+                      }}
+                    >
+                      Continue
+                    </button>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </form>
         </div>
       </div>
