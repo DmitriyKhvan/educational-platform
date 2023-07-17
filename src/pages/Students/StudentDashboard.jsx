@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment-timezone';
 import Layout from '../../components/Layout';
 import '../../assets/styles/student.scss';
@@ -7,9 +6,7 @@ import { Link, useParams, useHistory } from 'react-router-dom';
 import { ModalCancelLesson } from '../../components/ModalCancelLesson';
 import { useTranslation } from 'react-i18next';
 import { cancel_lesson_reasons_student } from '../../constants/global';
-import { getAppointments } from '../../actions/appointment';
 import ImgCalendar from '../../assets/images/calendar_icon.svg';
-import AppointmentApi from '../../api/AppointmentApi';
 import NotificationManager from '../../components/NotificationManager';
 import ModalFeedback from './ModalFeedback';
 import CTACard from '../../components/student-dashboard/CTACard';
@@ -18,8 +15,12 @@ import whiteSubscriptionIcon from '../../assets/images/white_subscription_icon.s
 import whiteBookingIcon from '../../assets/images/white_book_trial_icon.svg';
 import smileIcon from '../../assets/images/smile_icon.svg';
 import { useAuth } from '../../modules/auth';
-import { MENTORS_QUERY } from '../../modules/auth/graphql';
-import { useQuery } from '@apollo/client';
+import {
+  MENTORS_QUERY,
+  CANCEL_APPOINTMENT,
+  APPOINTMENTS_QUERY,
+} from '../../modules/auth/graphql';
+import { useQuery, useLazyQuery } from '@apollo/client';
 
 const options = [
   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
@@ -32,21 +33,30 @@ const StudentListAppointments = () => {
   });
 
   const { complete_appoint_id } = useParams();
-  const dispatch = useDispatch();
   const [t] = useTranslation('dashboard');
   const [selectedOption] = useState(options[0]);
   const [selectedLesson, setSelectedLesson] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const appointments = useSelector((state) => state.appointment.list) ?? [];
   const { user } = useAuth();
+  const { data: appointments, refetch } = useQuery(APPOINTMENTS_QUERY, {
+    variables: {
+      status: 'scheduled,paid,completed,in_progress',
+      studentId: user?.student?.id,
+    },
+  });
   const [completedAppointment, setCompleteAppointment] = useState(null);
   const history = useHistory();
   const onDismiss = () => setCompleteAppointment(null);
+  const [cancelAppointment] = useLazyQuery(CANCEL_APPOINTMENT);
 
   const onCancel = async ({ id }) => {
     setIsLoading(true);
     try {
-      await AppointmentApi.cancelAppointment(id);
+      cancelAppointment({
+        variables: {
+          id: parseInt(id),
+        },
+      });
       await fetchAppointments();
     } catch (e) {
       NotificationManager.error(e.response?.data?.message || 'Server Issue', t);
@@ -76,24 +86,7 @@ const StudentListAppointments = () => {
   }, [appointments, complete_appoint_id]);
 
   const fetchAppointments = async () => {
-    let queryObj = { status: 'scheduled' };
-
-    if (user.role === 'student') {
-      queryObj.student_id = user.student?.id;
-    } else {
-      return;
-    }
-
-    if (selectedOption === options[1]) {
-      queryObj.completed = true;
-    }
-
-    dispatch(
-      getAppointments({
-        ...queryObj,
-        status: 'scheduled,paid,completed,in_progress',
-      }),
-    );
+    refetch();
     setIsLoading(false);
   };
 

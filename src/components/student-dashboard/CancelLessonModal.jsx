@@ -1,17 +1,29 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { cancelAppointment } from '../../actions/appointment';
+import { useMutation, gql } from '@apollo/client';
+
+const CANCEL_LESSON = gql`
+  mutation CancelLesson($id: Int!) {
+    cancelLesson(id: $id) {
+      lesson {
+        id
+        startAt
+        duration
+        status
+        cancelActionType
+        zoomlinkId
+      }
+    }
+  }
+`;
 
 const CancelLessonModal = ({
   setTabIndex,
   setIsOpen,
   id,
   fetchAppointments,
-  cancelled,
 }) => {
   const [t] = useTranslation('common');
-  const dispatch = useDispatch();
   const [cancel, setCancel] = useState({});
   const [isChecked, setIsChecked] = useState(false);
   const cancellationArr = [
@@ -36,18 +48,18 @@ const CancelLessonModal = ({
     }
   };
 
+  const [cancelLesson] = useMutation(CANCEL_LESSON, {
+    variables: {
+      id: parseInt(id),
+    },
+  });
+
   const onCancelLesson = async () => {
-    const res = await dispatch(cancelAppointment(id));
-    if (res.type === 'CANCEL_APPOINTMENT_INFO_SUCCESS') {
-      try {
-        await fetchAppointments();
-      } catch (error) {
-        console.error(error);
-      }
-      setIsOpen(false);
-      if (cancelled) {
-        await cancelled();
-      }
+    const res = await cancelLesson();
+    if (res.errors.length == 0) {
+      await fetchAppointments();
+    } else {
+      console.error(res.errors);
     }
   };
 

@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [redeemInvitePasswordSetToken] = useMutation(
     INVITE_SET_PASSWORD_MUTATION,
   );
+
   const me = {
     ...user?.authenticatedUser,
     student: user?.authenticatedUser?.students?.[0] ?? null,
@@ -32,7 +33,6 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     localStorage.removeItem('token');
-    await refetchUser();
   };
 
   return (

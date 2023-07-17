@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
-import {
-  createLessonExist,
-  createAppointment,
-  getAppointments,
-  updateAppointment,
-} from '../../../actions/appointment';
-import ActionTypes from '../../../constants/actionTypes';
 import NotificationManager from '../../../components/NotificationManager';
 import Layout from '../../../components/Layout';
 import ScheduleCard from './ScheduleCard';
@@ -18,6 +10,8 @@ import ScheduleCardComponent from '../../../components/student-dashboard/Schedul
 import Loader from '../../../components/common/Loader';
 import { useAuth } from '../../../modules/auth';
 import LessonCard from './LessonCard';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { APPOINTMENTS_QUERY, CREATE_APPOINTMENT, UPDATE_APPOINTMENT } from '../../../modules/auth/graphql';
 
 const LessonConfirmation = ({
   plan,
@@ -27,7 +21,6 @@ const LessonConfirmation = ({
   lessonId = null,
   isMentorScheduled = false,
 }) => {
-  const dispatch = useDispatch();
   const [t] = useTranslation(['common', 'lessons', 'dashboard']);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
@@ -35,18 +28,28 @@ const LessonConfirmation = ({
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [, setDate] = useState();
   const [confirmDisable, setConfirmDisable] = useState(false);
+  const [getAppointments] = useLazyQuery(APPOINTMENTS_QUERY);
+  const [createAppointment] = useMutation(CREATE_APPOINTMENT);
+  const [updateAppointment] = useMutation(UPDATE_APPOINTMENT);
+
   const fetchAppointments = async () => {
-    return await dispatch(getAppointments());
+    return (await getAppointments()).data;
   };
   const history = useHistory();
 
-  useEffect(() => {}, [dispatch]);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const cancelled = async () => {
-    const { payload } = await dispatch(getAppointments());
+    const { payload } = await (
+      await getAppointments({
+        variables: {
+          studentId: user?.students[0]?.id,
+          status: 'scheduled,paid,completed,in_progress',
+        },
+      })
+    ).data;
     if (!payload.find((appointment) => appointment.id === newAppointment.id)) {
       setIsConfirmed(false);
       setNewAppointment({});
@@ -93,38 +96,25 @@ const LessonConfirmation = ({
 
     /* this means if the lesson ID exists, its going to be a reschedule */
     if (lessonId) {
-      const { payload } = await dispatch(getAppointments());
-      // eslint-disable-next-line no-unsafe-optional-chaining
-      const [oldAppointment] = payload?.filter(
-        (v) => parseInt(v.id) === parseInt(lessonId),
-      );
-      const oldStartAt = moment(oldAppointment?.start_at);
-      const duration = moment.duration(oldStartAt?.diff(moment())).asHours();
-      const rescheduleData = {
-        tutor_id: data?.tutor_id,
-        start_at: data?.start_at,
-        duration: data?.duration,
-      };
       setIsLoading(true);
-      const res =
-        duration < 24
-          ? await dispatch(
-              updateAppointment(lessonId, {
-                ...rescheduleData,
-                payment_id: plan?.payment_id,
-              }),
-            )
-          : await dispatch(
-              updateAppointment(lessonId, {
-                ...rescheduleData,
-              }),
-            );
+      const res = await updateAppointment({
+        variables: {
+          id: lessonId,
+          mentorId: data?.tutor_id,
+          startAt: data?.start_at,
+        }
+      })
       setIsLoading(false);
 
-      if (res.type === ActionTypes.UPDATE_APPOINTMENT_INFO.SUCCESS) {
-        const { payload } = await dispatch(
-          getAppointments({ tutor_id: data?.tutor_id }),
-        );
+      if (res) {
+        const { payload } = await (
+          await {
+            variables: {
+              mentorId: data?.tutor_id,
+              status: 'scheduled,paid,completed,in_progress',
+            },
+          }
+        ).data;
         setConfirmDisable(true);
         const newAppt = payload.filter((x) => x.id === parseInt(lessonId))[0];
 
@@ -148,30 +138,19 @@ const LessonConfirmation = ({
         setIsLoading(false);
       }
     } else {
-      let lesson_data = ``;
-      if (!data.lesson_id) {
-        const { payload } = await dispatch(
-          createLessonExist({
-            title: plan.title || plan.lesson_type,
-            description: plan.lesson_type,
-            type: plan.lesson_type,
-            lesson_guid: plan.payment_id,
-          }),
-        );
-        lesson_data = payload;
-      }
 
-      let createAppointmentData = { ...data, payment_id: plan?.payment_id };
-      createAppointmentData.lesson_id = lesson_data?.id;
-      createAppointmentData.lesson_title = lesson_data?.title;
-      createAppointmentData.lesson_desc = lesson_data?.description;
-      createAppointmentData.lesson_type = lesson_data?.type;
-      createAppointmentData.email = user?.email;
-      createAppointmentData.package_type = plan?.package_type;
+      const res = await createAppointment({
+        variables: {
+          mentorId: data.tutor_id,
+          studentId: user.students[0].id,
+          courseId: plan?.course_id,
+          packageId: plan?.package_id,
+          startAt: data.start_at,
+          duration: data.duration,
+        }
+      });
 
-      const res = await dispatch(createAppointment(createAppointmentData));
-
-      if (res.type === ActionTypes.CREATE_APPOINTMENT_INFO.SUCCESS) {
+      if (res) {
         const { payload } = await fetchAppointments();
         const newAppt = payload?.filter(
           (x) => x?.id === parseInt(res.payload?.groups[0].id),

@@ -1,11 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
+import { useAuth } from '../../modules/auth';
 
 const MessagesUsers = ({ chat }) => {
-  const currentUser = useSelector((state) => state.users.user);
+  const currentUser = useAuth().user;
 
   let chatName = chat.name;
   if (!chatName) {

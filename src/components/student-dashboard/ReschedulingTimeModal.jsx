@@ -1,19 +1,22 @@
+// need to replace with graphql
+
+/* eslint-disable import/no-unresolved */
+/* eslint-disable no-undef  */
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
 import Loader from '../common/Loader';
-import { getTutorList } from '../../actions/tutor';
-import { useDispatch } from 'react-redux';
-import Swal from 'sweetalert2';
+// import { getTutorList } from '../../actions/tutor';
+// import Swal from 'sweetalert2';
 
 const ReschedulingTimeModal = ({
   setSchedule,
-  setTabIndex,
+  // setTabIndex,
   duration,
 }) => {
   const [t] = useTranslation(['lessons', 'common', 'modals']);
   const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useDispatch();
   const [counter, setCounter] = useState(0);
   const [dayClicked, setDayClicked] = useState(null);
   const [timeClicked, setTimeClicked] = useState(null);
@@ -267,25 +270,25 @@ const ReschedulingTimeModal = ({
                 .date(dayMoment.date());
               setIsLoading(true);
               setSchedule(selectedSchedule.toString());
-              dispatch(getTutorList(selectedSchedule.toString())).then(
-                (response) => {
-                  const tutorlist = response.payload.tutors;
-                  if (tutorlist.length > 0) {
-                    setTabIndex(3);
-                  }
-                  if (tutorlist.length === 0) {
-                    Swal.fire({
-                      title: 'No Tutors Available for selected Time',
-                      text: '',
-                      icon: 'warning',
-                      confirmButtonColor: '#6133af',
-                      cancelButtonColor: '#d33',
-                      target: 'body > div.ReactModalPortal > div > div',
-                    });
-                  }
-                  setIsLoading(false);
-                },
-              );
+              // dispatch(getTutorList(selectedSchedule.toString())).then(
+              //   (response) => {
+              //     const tutorlist = response.payload.tutors;
+              //     if (tutorlist.length > 0) {
+              //       setTabIndex(3);
+              //     }
+              //     if (tutorlist.length === 0) {
+              //       Swal.fire({
+              //         title: 'No Tutors Available for selected Time',
+              //         text: '',
+              //         icon: 'warning',
+              //         confirmButtonColor: '#6133af',
+              //         cancelButtonColor: '#d33',
+              //         target: 'body > div.ReactModalPortal > div > div',
+              //       });
+              //     }
+              //     setIsLoading(false);
+              //   },
+              // );
             }}
           >
             {t('confirm_lesson')}

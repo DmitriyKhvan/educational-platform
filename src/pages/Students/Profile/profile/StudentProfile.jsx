@@ -3,15 +3,11 @@ import '../../../../assets/styles/student.scss';
 import '../style/StudentProfile.scss';
 import '../style/GeneralProfile.scss';
 import { useAuth } from '../../../../modules/auth';
-import { useMutation } from '@apollo/client';
-import {
-  MUTATION_UPDATE_STUDENT,
-} from '../../../../modules/auth/graphql';
+import { useMutation, useQuery } from '@apollo/client';
+import { MUTATION_UPDATE_STUDENT , PACKAGE_QUERY } from '../../../../modules/auth/graphql';
 import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
 import femaleAvatar from '../../../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../../../assets/images/avatars/img_avatar_male.png';
-import { getPlanStatus } from '../../../../actions/subscription';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Introduction from './Introduction';
@@ -21,13 +17,17 @@ const StudentProfile = () => {
 
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
 
-  const planStatus = useSelector((state) => state.students.planStatus);
   const [profileImage, setProfileImage] = React.useState('');
-  const dispatch = useDispatch();
   const navigate = useHistory();
 
   const { user, refetchUser } = useAuth();
   const avatar = user?.student?.avatar?.url;
+
+  const {data: {packageSubscriptions: planStatus}} = useQuery(PACKAGE_QUERY, {
+    variables: {
+      id: user?.student?.id,
+    },
+  });
 
   React.useEffect(() => {
     if (avatar) {
@@ -61,10 +61,6 @@ const StudentProfile = () => {
     }
   };
 
-  React.useEffect(() => {
-    dispatch(getPlanStatus());
-  }, [dispatch]);
-
   return (
     <div className="scroll-layout">
       <div className="profile-layout">
@@ -94,15 +90,15 @@ const StudentProfile = () => {
                             })}
                           </p> */}
                           <span>
-                            {user?.timeZone
-                              ? user?.timeZone
-                              : 'PST (GMT-8)'}
+                            {user?.timeZone ? user?.timeZone : 'PST (GMT-8)'}
                           </span>
                         </div>
                         <div className="main_info-right">
                           <button
                             onClick={() => {
-                              navigate.push('/student/profile/edit-information');
+                              navigate.push(
+                                '/student/profile/edit-information',
+                              );
                             }}
                           >
                             {t('edit_profile')}
@@ -112,7 +108,10 @@ const StudentProfile = () => {
                     </div>
                   </div>
 
-                  <Introduction text={user?.student?.about} onChange={saveIntroduction} />
+                  <Introduction
+                    text={user?.student?.about}
+                    onChange={saveIntroduction}
+                  />
 
                   <div className="enrolled_course">
                     <h2>{t('enrolled_courses')}</h2>
@@ -169,9 +168,7 @@ const StudentProfile = () => {
                     {user?.country && (
                       <div className="details_list">
                         <h4>{t('country', { ns: 'common' })}</h4>
-                        <p>
-                          {user?.country ? user?.country : 'Korea'}
-                        </p>
+                        <p>{user?.country ? user?.country : 'Korea'}</p>
                       </div>
                     )}
 

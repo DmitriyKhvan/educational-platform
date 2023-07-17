@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import subLessonIcon from '../../../assets/images/sub_lessons_icon.svg';
-import TutorApi from '../../../api/TutorApi';
-import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import fedHolidays from '@18f/us-federal-holidays';
 export const Settings = () => {
   const [t] = useTranslation('availability');
-  const history = useHistory();
   // states for handling switch toggled
   const [subBookings, setSubBookings] = useState(false);
   const [holidayBookings, setHolidayBookings] = useState(false);
-  const [FederalHolidays, setFederalHolidays] = useState(false);
-  const tutor_id = useSelector(
-    (state) => state?.users?.user?.tutor_profile?.id,
-  );
   useEffect(() => {
     const currentYear = new Date().getFullYear();
     const options = { shiftSaturdayHolidays: true, shiftSundayHolidays: true };
@@ -31,16 +23,7 @@ export const Settings = () => {
       ];
       all_holidays.push(temp);
     });
-
-    setFederalHolidays(all_holidays);
-    if (tutor_id !== undefined) {
-      TutorApi.getExceptionDate(tutor_id).then((response) => {
-        if (response?.data?.tutor?.exceptiondates.length > 0) {
-          setHolidayBookings(true);
-        }
-      });
-    }
-  }, [tutor_id]);
+  }, []);
 
   const toggleSubBookings = () => {
     setSubBookings(!subBookings);
@@ -49,21 +32,7 @@ export const Settings = () => {
     setHolidayBookings(!holidayBookings);
   };
   const saveSettings = () => {
-    if (holidayBookings === true) {
-      TutorApi.updateExceptionDates(FederalHolidays, tutor_id).then(
-        (response) => {
-          if (response.status === 200) {
-            history.push('/mentor/availability');
-          }
-        },
-      );
-    } else {
-      TutorApi.updateExceptionDates([], tutor_id).then((response) => {
-        if (response.status === 200) {
-          history.push('/mentor/availability');
-        }
-      });
-    }
+    // not implemented
   };
   return (
     <React.Fragment>

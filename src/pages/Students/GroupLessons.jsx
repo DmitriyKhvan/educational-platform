@@ -1,5 +1,5 @@
+/* eslint-disable no-undef */
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import LeftArrow from '../../assets/images/left-arrow.svg';
@@ -18,15 +18,15 @@ import {
 import CustomTable from '../../components/CustomTable';
 import { useTranslation } from 'react-i18next';
 import { Avatar } from '../../components/Avatar';
-import { getAppointments } from '../../actions/appointment';
-import AppointmentApi from '../../api/AppointmentApi';
+// import { getAppointments } from '../../actions/appointment';
+// import AppointmentApi from '../../api/AppointmentApi';
 import NotificationManager from '../../components/NotificationManager';
 import ModalConfirmLesson from './ScheduleLesson/ModalConfirmLesson';
 
 const GroupLessons = () => {
   const [t] = useTranslation('translation');
 
-  const user = useSelector((state) => state.users.user);
+  // const user = useSelector((state) => state.users.user);
 
   const dispatch = useDispatch();
   const [isConfirmModal, setIsConfirmModal] = useState(false);

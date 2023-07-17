@@ -1,67 +1,66 @@
 import Layout from '../../components/Layout';
-import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import moment from 'moment-timezone';
-import {
-  approveAppointment,
-  cancelAppointment,
-  getAppointments,
-} from '../../actions/appointment';
-import Loader from 'react-loader-spinner';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../modules/auth';
+import { useMutation, useQuery } from '@apollo/client';
+import {
+  APPOINTMENTS_QUERY,
+  APPROVE_APPOINTMENT,
+  CANCEL_APPOINTMENT,
+} from '../../modules/auth/graphql';
 
 const ApproveRequest = () => {
-  const appointments = useSelector((state) => state.appointment.list);
   const { user } = useAuth();
-  const loading = useSelector((state) => state.tutor.loading);
-  // const tutor = useSelector(state => state.tutor.info)
-  const dispatch = useDispatch();
   const [t] = useTranslation(['lessons', 'common']);
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+  const { data: appointments, refetch } = useQuery(APPOINTMENTS_QUERY, {
+    mentorId: user?.tutor?.id,
+    status: 'scheduled,paid,completed,in_progress',
+  });
+  const [approveAppointment] = useMutation(APPROVE_APPOINTMENT);
+  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT);
+
   useEffect(() => {
-    if (user) {
-      dispatch(
-        getAppointments({ tutor_id: user?.tutor?.id, status: 'scheduled,paid,completed,in_progress' }),
-      );
-    }
+    refetch();
   }, [user]);
 
   const onClickApprove = async ({ id }) => {
-    await dispatch(approveAppointment(id));
-    dispatch(
-      getAppointments({ tutor_id: user?.tutor?.id, status: 'scheduled' }),
-    );
+    approveAppointment({
+      variables: {
+        id: parseInt(id),
+        mentorId: user?.mentor?.id,
+      },
+    });
+    refetch();
   };
 
   const onClickCancel = async ({ id }) => {
-    await dispatch(cancelAppointment(id));
-    dispatch(
-      getAppointments({ tutor_id: user?.tutor?.id, status: 'scheduled' }),
-    );
+    cancelAppointment({
+      variables: {
+        id: parseInt(id),
+      },
+    });
+    refetch();
   };
 
   const displayLessonRequestTable = () => {
+    if (!appointments) return [];
     const data =
-      (appointments &&
-        appointments
-          .filter((event) => event.students.length > 0)
-          .filter((event) => !event.students[0].GroupStudent.approved)
-          .map((event) => {
-            return {
-              id: event.id,
-              img: event.students[0].user.avatar,
-              studentName: `${event.students[0].user.first_name} ${event.students[0].user.last_name}`,
-              lessonNumber: event.lesson.type,
-              lessonDate: event.start_at,
-              duration: event.duration,
-            };
-          })) ||
-      [];
+      appointments?.lessons.map((event) => {
+        return {
+          id: event.id,
+          img: event.students[0].user.avatar,
+          studentName: `${event.student.user.firstName} ${event.students.user.lastName}`,
+          lessonNumber: event.lesson.id,
+          lessonDate: event.startAt,
+          duration: event.duration,
+        };
+      }) || [];
     // return <CustomTable timezone={userTimezone} data={data} columns={columns} />
     return data;
   };
@@ -73,8 +72,11 @@ const ApproveRequest = () => {
     t('lesson_date', { ns: 'lessons' }),
   ];
 
-  const renderTable = () =>
-    displayLessonRequestTable().length !== 0 ? displayLessonRequestTable() : [];
+  const renderTable = () => {
+    const data = displayLessonRequestTable();
+
+    return data;
+  };
 
   return (
     <Layout>
@@ -148,15 +150,6 @@ const ApproveRequest = () => {
             ))}
           </tbody>
         </table>
-        {loading && (
-          <Loader
-            className="align-center"
-            type="BallTriangle"
-            color="#00BFFF"
-            height={100}
-            width={100}
-          />
-        )}
       </div>
     </Layout>
   );

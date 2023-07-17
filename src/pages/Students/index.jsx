@@ -3,10 +3,8 @@ import BookTrialLesson from './BookTrialLesson';
 // Student Path
 import StudentCalendar from './Calendar';
 import ClassMaterials from './ClassMaterials';
-import FavouriteTutors from './FavoriteTutors';
-import GroupScheduleLesson from './GroupLessons';
+// import GroupScheduleLesson from './GroupLessons';
 import StudentListAppointments from './StudentDashboard';
-import { Packages } from './Packages';
 import ScheduleLesson from './ScheduleLesson';
 import Profile from './Profile';
 import ScheduleLessonSteps from './ScheduleLesson/ScheduleLessonSteps';
@@ -30,9 +28,9 @@ export default function StudentRoutes() {
         <ScheduleLesson />
       </Route>
 
-      <Route path={`${path}/schedule-lesson/group-select`}>
+      {/* <Route path={`${path}/schedule-lesson/group-select`}>
         <GroupScheduleLesson />
-      </Route>
+      </Route> */}
 
       <Route exact path={`${path}/schedule-lesson`}>
         <ScheduleLessonSteps />
@@ -42,16 +40,8 @@ export default function StudentRoutes() {
         <StudentListAppointments />
       </Route>
 
-      <Route path={`${path}/packages`}>
-        <Packages />
-      </Route>
-
       <Route path={`${path}/lesson-calendar`}>
         <StudentCalendar />
-      </Route>
-
-      <Route path={`${path}/favorite-tutors`}>
-        <FavouriteTutors />
       </Route>
 
       <Route path={`${path}/class-materials`}>

@@ -1,9 +1,13 @@
+// no alternative in graphql yet
+
+/* eslint-disable import/no-unresolved */
+/* eslint-disable no-undef  */
+
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 import { DAY } from '../../../constants/global';
 
-import { getTutorInfo, updateTutorAvailability } from '../../../actions/tutor';
+// import { updateTutorAvailability } from '../../../actions/tutor';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import AvailabilityDayRow from '../../../components/AvailabilityDayRow';
@@ -13,8 +17,10 @@ import { v4 as uuid } from 'uuid';
 import { useAuth } from '../../../modules/auth';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { useQuery } from '@apollo/client';
+import { GET_MENTOR } from '../../../modules/auth/graphql';
 
-const Availability = ({ user_id }) => {
+const Availability = (/*{ user_id  }*/) => {
   const [t] = useTranslation(['common', 'availability']);
   const [gatherAvailabilities, setGatherAvailabilities] = useState({
     exceptiondates: [],
@@ -31,14 +37,14 @@ const Availability = ({ user_id }) => {
   // tutor policies state and handler
   const [, setIsMonthCheck] = useState(false);
   // tutor policies state and handler
-  const dispatch = useDispatch();
-  const tutorInfo = useSelector((state) => state.tutor.info);
   const { user } = useAuth();
-  const [currentToTime, setCurrentToTime] = useState('16:00');
+  const {
+    data: { mentor: tutorInfo },
+  } = useQuery(GET_MENTOR, {
+    variables: { id: user?.tutor?.id },
+  });
 
-  useEffect(() => {
-    if (user && user?.tutor) dispatch(getTutorInfo(user?.tutor?.id));
-  }, [user]);
+  const [currentToTime, setCurrentToTime] = useState('16:00');
 
   useEffect(() => {
     setInitialId(uuid);
@@ -132,9 +138,8 @@ const Availability = ({ user_id }) => {
     setLoaded(!loaded);
     setTimeout(() => {
       setLoaded(true);
-      dispatch(
-        updateTutorAvailability(gatherAvailabilities.availability, user_id),
-      );
+
+      // updateTutorAvailability(gatherAvailabilities.availability, user_id),
       e.target.blur();
       handleDisableSave(true);
     }, 1000);

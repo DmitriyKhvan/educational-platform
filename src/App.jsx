@@ -6,7 +6,6 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import React, { lazy, Suspense } from 'react';
 
 import { ReactNotifications } from 'react-notifications-component';
-import { Provider } from 'react-redux';
 import {
   BrowserRouter as Router,
   Redirect,
@@ -22,21 +21,17 @@ import ForgotPasswordText from './pages/Auth/ForgotPasswordText';
 // Authentication Path
 import Login from './pages/Auth/Login';
 import ResetPassword from './pages/Auth/ResetPassword';
-import VerifyEmail from './pages/Auth/VerifyEmail';
 // Common Dashboard
 import Dashboard from './components/Dashboard';
 // import Messages from './pages/Messages';
 import { ProfileLayout } from './components/profile/ProfileLayout';
 import ApproveRequest from './pages/Mentors/ApproveRequest';
-import configureStore from './store';
 import './App.scss';
 
 import { Toaster } from 'react-hot-toast';
 
 import IsReferal from './pages/Students/Referal/isReferal';
 import Loader from './components/Loader/Loader';
-
-const store = configureStore({});
 
 function PrivateRoute({ component: Component, ...rest }) {
   const { isAuthorized } = useAuth();
@@ -83,18 +78,14 @@ function PublicRoute({ component: Component, ...rest }) {
 }
 
 function App() {
-  const { isAuthInProgress, isLoading } = useAuth();
-
   React.useEffect(() => {
     window.scrollTo({
       top: 0,
     });
   });
 
-  if (isLoading || isAuthInProgress) return <Loader height={'100vh'} />;
-
   return (
-    <Provider store={store}>
+    <>
       <Router>
         <ReactNotifications />
         <div className="App"></div>
@@ -106,7 +97,6 @@ function App() {
         />
         <PublicRoute path="/reset-password" component={ResetPassword} />
         <PublicRoute path="/welcome-set-password" component={ResetPassword} />
-        <PublicRoute path="/verify-email" component={VerifyEmail} />
         <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/approve-requests" component={ApproveRequest} />
@@ -135,7 +125,7 @@ function App() {
         </Suspense>
       </Router>
       <Toaster />
-    </Provider>
+    </>
   );
 }
 
