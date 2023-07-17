@@ -8,7 +8,6 @@ import Stars from '../../../components/Stars';
 import { format } from 'date-fns';
 import { getAbbrName, getAvatarName } from '../../../constants/global';
 import ModalConfirmLesson from './ModalConfirmLesson';
-import ActionTypes from '../../../constants/actionTypes';
 import NotificationManager from '../../../components/NotificationManager';
 import FavouriteIcon from '../../../components/FavouriteIcon';
 import { useHistory } from 'react-router-dom';
@@ -71,7 +70,7 @@ const LessonConfirmation = ({ tutor, time, lesson, onBack }) => {
         duration: data.duration,
       },
     });
-    if (res.type === ActionTypes.CREATE_APPOINTMENT_INFO.SUCCESS) {
+    if (res) {
       setIsConfirmModal(true);
     } else {
       if (res.payload.error.messages && res.payload.error.messages.length) {
