@@ -37,6 +37,19 @@ export default function LoginForm({ register, errors }) {
         type="text"
         {...register('lastName', { required: 'Last name is required' })}
       />
+      <label className="font-bold flex gap-2" htmlFor="gender" ref={parent}>
+        Gender
+        {errors.gender && (
+          <span className="text-red-500 font-normal">
+            * {errors.gender.message}
+          </span>
+        )}
+      </label>
+      <input
+        className="rounded-md ring-purple-800 duration-200 border border-gray-300"
+        type="text"
+        {...register('gender', { required: 'Gender is required' })}
+      />
     </fieldset>
   );
 }

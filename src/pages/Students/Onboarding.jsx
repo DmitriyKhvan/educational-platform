@@ -6,6 +6,9 @@ import SelectForm from '../../components/onboarding/SelectForm';
 import { useForm } from 'react-hook-form';
 import Logo from '../../assets/images/logo.png';
 import CredentialsForm from '../../components/onboarding/CredentialsForm';
+import { useMutation } from '@apollo/client';
+import { SIGN_UP } from '../../modules/auth/graphql';
+import { useHistory } from 'react-router-dom';
 
 export default function Onboarding() {
   const {
@@ -14,7 +17,15 @@ export default function Onboarding() {
     formState: { errors },
   } = useForm();
 
+  const history = useHistory();
+
   const [parent] = useAutoAnimate();
+
+  const [signUp] = useMutation(SIGN_UP, {
+    onCompleted: () => {
+      history.push('/');
+    },
+  });
 
   const { step, currentStepIndex, steps, next, back, isFirst, isLast } =
     useMultistepForm([
@@ -27,7 +38,9 @@ export default function Onboarding() {
     console.log(currentStepIndex);
     if (!isLast) return next();
     console.log(data);
-    alert(data);
+    signUp({
+      variables: data,
+    });
   };
 
   return (
