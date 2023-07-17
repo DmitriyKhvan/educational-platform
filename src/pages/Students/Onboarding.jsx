@@ -11,7 +11,6 @@ import { SIGN_UP } from '../../modules/auth/graphql';
 import { useHistory } from 'react-router-dom';
 
 export default function Onboarding() {
-  const history = useHistory();
   const {
     handleSubmit,
     register,
