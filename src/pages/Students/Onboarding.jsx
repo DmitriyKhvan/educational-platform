@@ -22,8 +22,6 @@ export default function Onboarding() {
     duration: 300,
   });
 
-  const history = useHistory();
-
   const [signUp] = useMutation(SIGN_UP, {
     onCompleted: () => {
       history.push('/');
