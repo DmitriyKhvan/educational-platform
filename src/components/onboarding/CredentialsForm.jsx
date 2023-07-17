@@ -20,6 +20,7 @@ export default function CredentialsForm({ register, errors }) {
         className="rounded-md ring-purple-800 duration-200 border border-gray-300"
         type="text"
         placeholder="010-1234-5678"
+        autoFocus
         {...register('phone', {
           required: 'Phone number is required',
           validate: {
@@ -52,7 +53,6 @@ export default function CredentialsForm({ register, errors }) {
       <input
         className="rounded-md ring-purple-800 duration-200 border border-gray-300"
         type="email"
-        autoFocus
         placeholder="student@example.com"
         {...register('email', {
           required: 'Email is required',
@@ -75,7 +75,6 @@ export default function CredentialsForm({ register, errors }) {
       <input
         className="rounded-md ring-purple-800 duration-200 border border-gray-300"
         type="password"
-        autoFocus
         placeholder="**********"
         {...register('password', {
           required: 'Password is required',
