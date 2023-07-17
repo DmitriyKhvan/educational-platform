@@ -18,9 +18,9 @@ export default function Onboarding() {
     formState: { errors },
   } = useForm();
 
-  const [parent] = useAutoAnimate({
-    duration: 300,
-  });
+  const history = useHistory();
+
+  const [parent] = useAutoAnimate();
 
   const [signUp] = useMutation(SIGN_UP, {
     onCompleted: () => {
