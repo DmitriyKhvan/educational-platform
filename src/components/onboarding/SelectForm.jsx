@@ -3,7 +3,13 @@ import React, { useMemo } from 'react';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { createMultiSelect } from './createMultiSelect';
 
-const options = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const options = [
+  'Instagram/Facebook Ads',
+  'Influencers (Youtube/Instagram)',
+  'Search (Naver, Google, Daum, etc.)',
+  'Referrals',
+  'Other',
+];
 
 export default function LoginForm({ register, errors }) {
   const [parent] = useAutoAnimate();
@@ -12,7 +18,7 @@ export default function LoginForm({ register, errors }) {
     () =>
       createMultiSelect(
         options,
-        'englishLevel',
+        'marketingChannel',
         register,
         'English level is required',
       ),
@@ -21,15 +27,13 @@ export default function LoginForm({ register, errors }) {
 
   return (
     <fieldset className="flex flex-col space-y-4 w-full" ref={parent}>
-      <legend className="text-2xl font-bold">
-        What&apos;s your English level?
-      </legend>
+      <legend className="text-2xl font-bold">How did you hear about us?</legend>
 
       {components}
 
-      {errors.englishLevel && (
+      {errors.marketingChannel && (
         <span className="text-red-500 font-normal">
-          * {errors.englishLevel.message}
+          * {errors.marketingChannel.message}
         </span>
       )}
     </fieldset>

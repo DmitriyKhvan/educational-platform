@@ -283,3 +283,71 @@ export const STUDENTS_QUERY = gql`
     }
   }
 `;
+
+export const SIGN_UP = gql`
+  mutation SignUp(
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $password: String!
+    $gender: String
+    $marketingChannel: String
+  ) {
+    signUp(
+      data: {
+        firstName: $firstName
+        lastName: $lastName
+        email: $email
+        password: $password
+        gender: $gender
+        marketingChannel: $marketingChannel
+      }
+    ) {
+      id
+      email
+      firstName
+      lastName
+      fullName
+      koreanEquivalent
+      phoneNumber
+      address
+      gender
+      timeZone
+      country
+      avatar
+      role
+      referalCode
+      referalId
+      students {
+        id
+        parentName
+        level
+        langLevel
+        birthday
+        about
+        pronouns
+        isActive
+        avatarId
+      }
+      mentor {
+        id
+        major
+        language
+        university
+        graduatingYear
+        degree
+        introduction
+        about
+        experience
+        relevantExperience
+        isActive
+        hourlyRate
+        facts
+        uniqueFacts
+      }
+      isActive
+      createdAt
+      updatedAt
+    }
+  }
+`;

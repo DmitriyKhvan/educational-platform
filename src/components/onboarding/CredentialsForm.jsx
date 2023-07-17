@@ -8,29 +8,6 @@ export default function CredentialsForm({ register, errors }) {
   return (
     <fieldset className="flex flex-col space-y-4">
       <legend className="text-2xl font-bold">Let&apos;s get started!</legend>
-      <label className="font-bold flex gap-2" htmlFor="email" ref={parent}>
-        Email
-        {errors.email && (
-          <span className="text-red-500 font-normal flex-grow">
-            * {errors.email.message}
-          </span>
-        )}
-      </label>
-      <input
-        className="rounded-md ring-purple-800 duration-200 border border-gray-300"
-        type="email"
-        autoFocus
-        {...register('email', {
-          required: 'Email is required',
-          validate: {
-            isEmail: (value) => {
-              const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-              return emailRegex.test(value) || 'Invalid email address';
-            },
-          },
-          focus: true,
-        })}
-      />
       <label className="font-bold flex gap-2" htmlFor="phone" ref={parent}>
         Phone number
         {errors.phone && (
@@ -62,6 +39,46 @@ export default function CredentialsForm({ register, errors }) {
             e.target.value = value;
           },
           setValueAs: (value) => value.replace(/-/g, ''),
+        })}
+      />
+      <label className="font-bold flex gap-2" htmlFor="email" ref={parent}>
+        Email
+        {errors.email && (
+          <span className="text-red-500 font-normal flex-grow">
+            * {errors.email.message}
+          </span>
+        )}
+      </label>
+      <input
+        className="rounded-md ring-purple-800 duration-200 border border-gray-300"
+        type="email"
+        autoFocus
+        placeholder="student@example.com"
+        {...register('email', {
+          required: 'Email is required',
+          validate: {
+            isEmail: (value) => {
+              const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+              return emailRegex.test(value) || 'Invalid email address';
+            },
+          },
+        })}
+      />
+      <label className="font-bold flex gap-2" htmlFor="password" ref={parent}>
+        Password
+        {errors.password && (
+          <span className="text-red-500 font-normal flex-grow">
+            * {errors.password.message}
+          </span>
+        )}
+      </label>
+      <input
+        className="rounded-md ring-purple-800 duration-200 border border-gray-300"
+        type="password"
+        autoFocus
+        placeholder="**********"
+        {...register('password', {
+          required: 'Password is required',
         })}
       />
     </fieldset>
