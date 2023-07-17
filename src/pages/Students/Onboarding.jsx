@@ -36,7 +36,6 @@ export default function Onboarding() {
 
   const onSubmit = (data) => {
     if (!isLast) return next();
-    // submit data, login user and redirect to dashboard
     console.log(data);
     signUp({
       variables: data,
