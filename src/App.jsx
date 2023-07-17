@@ -23,7 +23,6 @@ import Login from './pages/Auth/Login';
 import ResetPassword from './pages/Auth/ResetPassword';
 // Common Dashboard
 import Dashboard from './components/Dashboard';
-// import Messages from './pages/Messages';
 import { ProfileLayout } from './components/profile/ProfileLayout';
 import ApproveRequest from './pages/Mentors/ApproveRequest';
 import './App.scss';
@@ -32,6 +31,7 @@ import { Toaster } from 'react-hot-toast';
 
 import IsReferal from './pages/Students/Referal/isReferal';
 import Loader from './components/Loader/Loader';
+import Onboarding from './pages/Students/Onboarding';
 
 function PrivateRoute({ component: Component, ...rest }) {
   const { isAuthorized } = useAuth();
@@ -98,6 +98,7 @@ function App() {
         <PublicRoute path="/reset-password" component={ResetPassword} />
         <PublicRoute path="/welcome-set-password" component={ResetPassword} />
         <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
+        <PublicRoute path="/onboarding" component={Onboarding} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/approve-requests" component={ApproveRequest} />
 
@@ -128,5 +129,5 @@ function App() {
     </>
   );
 }
-
+  
 export default App;
