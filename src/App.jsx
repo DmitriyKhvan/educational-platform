@@ -1,7 +1,6 @@
 import 'react-notifications-component/dist/theme.css';
 import './assets/styles/global.scss';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-
 /* eslint-disable import/first */
 import React, { lazy, Suspense } from 'react';
 
@@ -32,6 +31,9 @@ import { Toaster } from 'react-hot-toast';
 import IsReferal from './pages/Students/Referal/isReferal';
 import Loader from './components/Loader/Loader';
 import Onboarding from './pages/Students/Onboarding';
+import BuyPackage from './pages/Students/BuyPackage';
+import StripePayment from './pages/Students/StripePayment';
+import ConfirmPayment from './pages/ConfirmPayment';
 
 function PrivateRoute({ component: Component, ...rest }) {
   const { isAuthorized } = useAuth();
@@ -99,6 +101,17 @@ function App() {
         <PublicRoute path="/welcome-set-password" component={ResetPassword} />
         <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
         <PublicRoute path="/onboarding" component={Onboarding} />
+        <PrivateRoute
+          path="/purchase/:packageId/payment/:clientSecret"
+          exact
+          component={StripePayment}
+        />
+        <PrivateRoute
+          path="/purchase/:packageId/complete"
+          exact
+          component={ConfirmPayment}
+        />
+        <PrivateRoute exact path="/purchase/:packageId" component={BuyPackage} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/approve-requests" component={ApproveRequest} />
 
@@ -129,5 +142,5 @@ function App() {
     </>
   );
 }
-  
+
 export default App;

@@ -26,7 +26,7 @@ const EditAvatarModal = ({ isOpen, closeModal, profileImage }) => {
       const { data } = await updateMentor({
         variables: {
           id: parseInt(user?.mentor?.id),
-          data: { avatar: file },
+          data: { avatar: { upload: file } },
         },
       });
 

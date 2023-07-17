@@ -5,6 +5,14 @@
 @import './variable.scss';
 @import url(https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900);
 
+@layer components {
+  .cool-shadow {
+    box-shadow: 0 0 0 0.5px rgba(189, 189, 189, 0.24),
+      0 4px 60px 8px rgba(0, 0, 0, 0.15),
+      inset 0 0.5px 0 hsla(0, 0%, 100%, 0.05);
+  }
+}
+
 /**
  * until https://github.com/facebook/create-react-app/issues/11771
  * gets fixed, let's hide the problem and not address it
@@ -1486,7 +1494,7 @@ textarea.form-control-lg {
   -moz-appearance: none;
   appearance: none;
   -webkit-print-color-adjust: exact;
-  color-adjust: exact;
+  print-color-adjust: exact;
 }
 .form-check-input[type='checkbox'] {
   border-radius: 0.25em;

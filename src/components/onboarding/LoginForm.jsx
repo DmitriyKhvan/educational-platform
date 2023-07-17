@@ -19,6 +19,7 @@ export default function LoginForm({ register, errors }) {
       <input
         className="rounded-md ring-purple-800 duration-200 border border-gray-300"
         type="text"
+        autoFocus
         {...register('firstName', {
           required: 'First name is required',
           focus: true,

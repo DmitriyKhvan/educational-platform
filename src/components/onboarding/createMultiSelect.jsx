@@ -9,7 +9,6 @@ export function createMultiSelect(options, field, register, errorMessage = '') {
         onClick={() => {
           document.querySelector('form').requestSubmit();
         }}
-        defaultChecked={i === 0}
         {...register(field, {
           required: errorMessage,
         })}
