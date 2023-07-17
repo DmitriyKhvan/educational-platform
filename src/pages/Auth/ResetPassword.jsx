@@ -1,28 +1,36 @@
 import { useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import AuthLayout from '../../components/AuthLayout';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import { useAuth } from '../../modules/auth';
-import { ToastContainer, toast } from 'react-toastify';
+import ClipLoader from 'react-spinners/ClipLoader';
+
+import InputWithError from '../../components/Form/InputWithError';
+import InputField from '../../components/Form/InputField';
+import useNewPassword from '../../modules/auth/hooks/newPassword';
+import Button from '../../components/Form/Button';
+
 import 'react-toastify/dist/ReactToastify.css';
+import notify from '../../utils/notify';
 
 const ResetPassword = () => {
   const history = useHistory();
   const [t] = useTranslation('common');
   const [token, setToken] = useState();
-  const location = useLocation();
-  const params = new URLSearchParams(window.location.search);
-  const queryToken = params.get('token');
-  const queryEmail = params.get('email');
 
-  const isWelcome = location.pathname.includes('welcome-set-password');
+  const { newPassword, loading, error, data } = useNewPassword();
 
-  const { newPassword, inviteSetPassword, refetchUser } = useAuth();
-  const notify = () => toast('Password has been reset!');
-
-  const { register, handleSubmit } = useForm({
-    mode: 'onBlur',
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: 'all',
+    defaultValues: {
+      password: '',
+      confirmPassword: '',
+    },
   });
 
   useEffect(() => {
@@ -30,95 +38,77 @@ const ResetPassword = () => {
     setToken(urlParams.get('token'));
   }, [token]);
 
-  const [error, setError] = useState('');
-
-  const handleResetPassword = async ({ password, confirmPassword }) => {
-    if (!password) {
-      setError(t('error_field_not_empty'));
-      return false;
+  useEffect(() => {
+    if (data) {
+      notify('success', t('reset_password'));
+      history.push('/');
     }
+  }, [data]);
 
-    if (password !== confirmPassword) {
-      setError(t('confirm_password_error'));
-      return false;
+  useEffect(() => {
+    if (error) {
+      notify('error', t('invalid_expired_token'));
     }
-
-    if (password === confirmPassword) {
-      const resetPassword = isWelcome ? inviteSetPassword : newPassword;
-      const { data } = await resetPassword(queryEmail, queryToken, password);
-
-      if (data.resetResult === null) {
-        notify();
-        history.push('/');
-      } else {
-        setError(data.resetResult.message);
-      }
-    }
-
-    await refetchUser();
-  };
+  }, [error]);
 
   return (
     <AuthLayout>
       <div className="auth-login">
-        <p className="title text-center mb-3">
-          {t(isWelcome ? 'welcome_set_password' : 'reset_password')}
-        </p>
+        <p className="title text-center mb-3">{t('reset_password')}</p>
         <form
-          onSubmit={handleSubmit(handleResetPassword)}
+          onSubmit={handleSubmit(({ password }) =>
+            newPassword(token, password),
+          )}
           className="form-section"
         >
-          <div className="mb-3">
-            <div className="form-item-inner">
-              <label htmlFor="password" className="form-label">
-                <strong>{t('new_password')}</strong>
-              </label>
-              <input
-                className="form-control"
+          <div className="mb-7">
+            <InputWithError errorsField={errors?.password}>
+              <InputField
+                label={t('new_password')}
                 type="password"
-                id="password"
-                name="password"
-                {...register('password')}
+                {...register('password', {
+                  required: t('required_password'),
+                })}
               />
-            </div>
+            </InputWithError>
           </div>
 
-          <div className="form-item-inner">
-            <label htmlFor="confirmPassword" className="form-label">
-              <strong>{t('confirm_new_password')}</strong>
-            </label>
-            <input
-              className="form-control"
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              {...register('confirmPassword')}
-            />
+          <div className="mb-10">
+            <InputWithError errorsField={errors?.confirmPassword}>
+              <InputField
+                label={t('confirm_new_password')}
+                type="password"
+                {...register('confirmPassword', {
+                  required: t('required_password'),
+                  validate: {
+                    samePass: (fieldValue) => {
+                      return (
+                        fieldValue === getValues('password') ||
+                        t('confirm_password_error')
+                      );
+                    },
+                  },
+                })}
+              />
+            </InputWithError>
           </div>
-          {error && <p className="error-msg">{error}</p>}
 
-          <div className="d-grid gap-2 pt-4">
-            <button className="btn btn-primary btn-lg p-3" type="submit">
-              {isWelcome ? 'Set Password' : 'Reset'}
-              {/* {loading ? (
-                <ClipLoader loading={loading} size={20} color='white' />
-              ) : (
-                t('reset_password')
-              )} */}
-            </button>
-          </div>
-          {isWelcome ? null : (
-            <p className="mt-5">
-              {t('already_have_account')}{' '}
-              <a href="/" className="forgot-password">
-                {t('sign_in')}
-              </a>
-            </p>
-          )}
+          <Button type="submit" disabled={!isValid}>
+            {loading ? (
+              <ClipLoader loading={loading} size={20} color="white" />
+            ) : (
+              t('continue_button')
+            )}
+          </Button>
+
+          <p className="mt-10">
+            {t('already_have_account')}{' '}
+            <a href="/" className="forgot-password">
+              {t('sign_in')}
+            </a>
+          </p>
         </form>
       </div>
-
-      <ToastContainer />
     </AuthLayout>
   );
 };

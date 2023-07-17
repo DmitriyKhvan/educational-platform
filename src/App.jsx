@@ -27,7 +27,8 @@ import Dashboard from './components/Dashboard';
 import { ProfileLayout } from './components/profile/ProfileLayout';
 import ApproveRequest from './pages/Mentors/ApproveRequest';
 import './App.scss';
-import { ToastContainer } from 'react-toastify';
+
+import { Toaster } from 'react-hot-toast';
 
 import IsReferal from './pages/Students/Referal/isReferal';
 import Loader from './components/Loader/Loader';
@@ -123,7 +124,7 @@ function App() {
           />
         </Suspense>
       </Router>
-      <ToastContainer />
+      <Toaster />
     </>
   );
 }

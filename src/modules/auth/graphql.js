@@ -186,19 +186,11 @@ export const RESET_PASSWORD_MUTATION = gql`
 `;
 
 export const NEW_PASSWORD_MUTATION = gql`
-  mutation redeemUserPasswordResetToken(
-    $email: String!
-    $token: String!
-    $password: String!
-  ) {
+  mutation redeemUserPasswordResetToken($token: String!, $password: String!) {
     resetResult: redeemUserPasswordResetToken(
-      email: $email
       token: $token
       password: $password
-    ) {
-      code
-      message
-    }
+    )
   }
 `;
 
