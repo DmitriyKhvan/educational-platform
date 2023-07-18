@@ -60,29 +60,21 @@ const LessonConfirmation = ({ tutor, time, lesson, onBack }) => {
     };
 
     if (studentId) data = { ...data, studentId };
-    const res = await createAppointment({
-      variables: {
-        mentorId: tutor.id,
-        studentId: user.students[0].id,
-        packageId: lesson.package_id,
-        courseId: lesson.course_id,
-        startAt: data.start_at,
-        duration: data.duration,
-      },
-    });
-    if (res) {
+    try {
+      await createAppointment({
+        variables: {
+          mentorId: tutor.id,
+          studentId: user.students[0].id,
+          packageId: lesson.package_id,
+          courseId: lesson.course_id,
+          startAt: data.start_at,
+          duration: data.duration,
+        },
+      });
       setIsConfirmModal(true);
-    } else {
-      if (res.payload.error.messages && res.payload.error.messages.length) {
-        NotificationManager.error(
-          res.payload.error.messages.map((msg) => msg.title).join('\n'),
-          t,
-        );
-      } else if (res.payload.error.message) {
-        NotificationManager.error(res.payload.error.message, t);
-      } else {
-        NotificationManager.error('Server Error', t);
-      }
+    }
+    catch (error) {
+      NotificationManager.error(error.message, t);
     }
   };
 

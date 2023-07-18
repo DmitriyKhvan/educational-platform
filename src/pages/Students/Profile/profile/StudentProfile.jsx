@@ -23,7 +23,7 @@ const StudentProfile = () => {
   const { user, refetchUser } = useAuth();
   const avatar = user?.student?.avatar?.url;
 
-  const {data: {packageSubscriptions: planStatus}} = useQuery(PACKAGE_QUERY, {
+  const {data: {packageSubscriptions: planStatus} = {}} = useQuery(PACKAGE_QUERY, {
     variables: {
       id: user?.student?.id,
     },

@@ -23,7 +23,7 @@ const Mentors = () => {
     errorPolicy: 'ignore',
   });
 
-  const mentors = data?.tutors;
+  const mentors = data?.mentors;
 
   React.useEffect(() => {
     setTutor(mentors);
@@ -40,17 +40,15 @@ const Mentors = () => {
   };
 
   const handleFilter = (e) => {
-    const tutors = [...mentors];
-
-    const newT = tutors.filter((i) =>
+    const newMentors = mentors.filter((i) =>
       i.userName.toLowerCase().includes(e.toLowerCase()),
     );
 
-    setTutor(newT);
+    setTutor(newMentors);
   };
 
   function resizerUsername(name) {
-    return name.length > 9 ? name.slice(0, 9 - 1) + '...' : name;
+    return name && name.length > 9 ? name.slice(0, 9 - 1) + '...' : name;
   }
 
   return (
