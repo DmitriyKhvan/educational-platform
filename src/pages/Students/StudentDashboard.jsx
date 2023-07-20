@@ -20,7 +20,7 @@ import {
   CANCEL_APPOINTMENT,
   APPOINTMENTS_QUERY,
 } from '../../modules/auth/graphql';
-import { useQuery, useLazyQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 
 const options = [
   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
@@ -47,12 +47,12 @@ const StudentListAppointments = () => {
   const [completedAppointment, setCompleteAppointment] = useState(null);
   const history = useHistory();
   const onDismiss = () => setCompleteAppointment(null);
-  const [cancelAppointment] = useLazyQuery(CANCEL_APPOINTMENT);
+  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT);
 
   const onCancel = async ({ id }) => {
     setIsLoading(true);
     try {
-      cancelAppointment({
+      await cancelAppointment({
         variables: {
           id: parseInt(id),
         },
@@ -133,7 +133,7 @@ const StudentListAppointments = () => {
     });
 
   const callToAction =
-    appointments.length >= 0
+    appointments?.length >= 0
       ? [
           {
             icon: smileIcon,
@@ -258,8 +258,8 @@ const StudentListAppointments = () => {
                 <div className="weekly-schedule-subtitle dash_weekly-schedule-subtitle">
                   {t('student_dashboard_total_lessons', {
                     ns: 'dashboard',
-                    total_lessons: isWithinAweek.length,
-                    t: isWithinAweek.length > 1 ? 's' : '',
+                    total_lessons: isWithinAweek?.length || 0,
+                    t: isWithinAweek?.length > 1 ? 's' : '',
                   })}
                 </div>
                 <div>
@@ -288,7 +288,7 @@ const StudentListAppointments = () => {
                 </div>
 
                 <div className="weekly-schedule-scroll align_schedule-width-dash weekly-schedule-grid">
-                  {appointments.length ? <>{ScheduleArr}</> : ''}
+                  {appointments?.length ? <>{ScheduleArr}</> : ''}
                 </div>
               </div>
             )}

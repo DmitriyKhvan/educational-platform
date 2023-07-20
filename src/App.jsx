@@ -80,11 +80,15 @@ function PublicRoute({ component: Component, ...rest }) {
 }
 
 function App() {
+  const { isAuthInProgress } = useAuth();
+
   React.useEffect(() => {
     window.scrollTo({
       top: 0,
     });
   });
+
+  if (isAuthInProgress) return <Loader height={'100vh'} />;
 
   return (
     <>

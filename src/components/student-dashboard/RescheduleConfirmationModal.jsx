@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import LessonCard from '../../pages/Students/ScheduleLesson/LessonCard';
 import ScheduleCard from '../../pages/Students/ScheduleLesson/ScheduleCard';
 import TutorImageRow from '../../pages/Students/ScheduleLesson/TutorImageRow';
-// import ActionTypes from '../../constants/actionTypes';
 import NotificationManager from '../NotificationManager';
 import Loader from '../common/Loader';
 import { useAuth } from '../../modules/auth';

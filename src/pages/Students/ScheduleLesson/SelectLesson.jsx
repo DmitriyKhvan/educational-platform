@@ -19,7 +19,7 @@ const SelectLesson = ({
   const { id } = useParams();
   const { user } = useAuth();
   const {
-    data: { packageSubscriptions: planStatus },
+    data: { packageSubscriptions: planStatus = [] } = {},
   } = useQuery(PACKAGE_QUERY, {
     variables: {
       id: user?.student?.id,
