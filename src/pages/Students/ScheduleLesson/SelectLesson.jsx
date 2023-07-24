@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../../components/Layout';
+import capitalize from 'lodash/capitalize';
 import continue_arrow from '../../../assets/images/continue_arrow.svg';
 import { useQuery } from '@apollo/client';
 import { PACKAGE_QUERY } from '../../../modules/auth/graphql';
@@ -22,7 +23,7 @@ const SelectLesson = ({
     data: { packageSubscriptions: planStatus = [] } = {},
   } = useQuery(PACKAGE_QUERY, {
     variables: {
-      id: user?.student?.id,
+      userId: user?.student?.id,
     },
   });
   const disabled = clicked === null ? true : false;
@@ -38,11 +39,11 @@ const SelectLesson = ({
     history.push('/student/manage-lessons');
   };
 
-  const LessonCard = ({ lesson, duration, remaining, data, i }) => {
+  const LessonCard = ({ title, duration, remaining, data, i }) => {
     return (
       <div className="px-2">
         <div
-          className={`schedule-card small-card lesson-container rounded-xl px-3 pt-3 ${
+          className={`schedule-card small-card lesson-container rounded-xl px-3 pt-3 cursor-pointer ${
             i === clicked
               ? 'border-[#6133af] border'
               : 'schedule-card small-card lesson-container rounded-xl px-3 pt-3'
@@ -56,7 +57,7 @@ const SelectLesson = ({
             <h1
               className={`mb-2 ${i === clicked ? 'text-black' : 'text-black'}`}
             >
-              {lesson.charAt(0).toUpperCase() + lesson.slice(1)}
+              {capitalize(title)}
             </h1>
 
             <div className="flex">
@@ -92,13 +93,13 @@ const SelectLesson = ({
               <div className="">
                 {planStatus.map((x, i) => (
                   <LessonCard
-                    lesson={x.lesson_type}
-                    duration={x.duration}
-                    remaining={x.total_lessons}
+                    title={x.package?.course?.title}
+                    duration={x.package?.sessionTime}
+                    remaining={x.credits}
                     data={x}
                     i={i}
                     key={i}
-                    expirationDate={x.plan_end}
+                    expirationDate={x.periodEnd}
                   />
                 ))}
               </div>

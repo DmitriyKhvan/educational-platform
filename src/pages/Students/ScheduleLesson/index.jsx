@@ -10,7 +10,7 @@ import '../../../assets/styles/tutor.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 const GET_LESSON_INFO = gql`
-  query GET_LESSON($id: Int!) {
+  query GET_LESSON($id: ID!) {
     lesson(id: $id) {
       id
       startAt
@@ -95,6 +95,8 @@ const ScheduleLesson = () => {
 
   if (loading) return null;
 
+  // console.log('selectedPlan', selectedPlan);
+
   return (
     <React.Fragment>
       {tabIndex === 0 ? (
@@ -108,8 +110,8 @@ const ScheduleLesson = () => {
       ) : tabIndex === 1 ? (
         <ScheduleSelector
           setTabIndex={setTabIndex}
-          duration={selectedPlan?.duration}
-          step={selectedPlan?.duration === 25 ? 30 : 60}
+          duration={selectedPlan?.package?.sessionTime}
+          step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
           setSchedule={setSchedule}
           schedule={schedule}
           tabIndex={tabIndex}
@@ -124,7 +126,7 @@ const ScheduleLesson = () => {
           setSelectTutor={setSelectTutor}
           lesson={scheduledLesson}
           schedule={schedule}
-          step={selectedPlan?.duration === 25 ? 30 : 60}
+          step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
         />
       ) : (
         (tabIndex === 3 || location?.state?.tutor) && (

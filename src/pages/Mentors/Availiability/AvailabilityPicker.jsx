@@ -49,7 +49,8 @@ const AvailabilityPicker = ({
   const tutorInfo = useAuth().user.mentor;
 
   useEffect(() => {
-    setCurrentData(tutorInfo.availabilities[day]);
+    if (tutorInfo.availabilities)
+      setCurrentData(tutorInfo.availabilities[day]);
   }, [tutorInfo]);
 
   const onChangeTime = (time, iteration, timeType) => {

@@ -7,7 +7,6 @@ import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 import { useQuery, gql } from '@apollo/client';
 import MentorsModal from '../MentorsList/MentorsModal';
-import TutorApi from '../../../api/TutorApi';
 Modal.setAppElement('#root');
 
 const GET_TUTORS_BY_ID = gql`
@@ -85,15 +84,49 @@ const GET_TUTORS_BY_ID = gql`
   }
 `;
 
-const useAvailableMentors = (isoTime, duration) => {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    TutorApi.getAvailableForTime(isoTime, duration).then(({ data }) => {
-      setData(data?.mentors);
-    });
-  }, [isoTime, duration]);
+const GET_AVAILABLE_MENTORS = gql`
+query GetAvailableMentors($time: String!, $duration: Int!){
+  availableMentors(time: $time, duration: $duration) {
+    filterSlot {
+      day
+      from
+      to
+      fromSeconds
+      toSeconds
+    }
+    mentors {
+      id
+      major
+      language
+      university
+      graduatingYear
+      degree
+      introduction
+      about
+      experience
+      relevantExperience
+      isActive
+      hourlyRate
+      facts
+      uniqueFacts
+      userId
+      avatar {
+        id
+        url
+      }
+    }
+  }
+}
+`;
 
-  return data;
+const useAvailableMentors = (isoTime, duration) => {
+  const { data: { availableMentors } = {} } = useQuery(GET_AVAILABLE_MENTORS, {
+    variables: {
+      time: isoTime,
+      duration,
+    },
+  });
+  return availableMentors?.mentors || [];
 };
 
 const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
@@ -105,6 +138,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
     moment(schedule, 'ddd MMM DD YYYY HH:mm:ss ZZ').toISOString(),
     step,
   );
+  console.log(availableMentors);
 
   const availableTutorIds = availableMentors.map((mentor) => mentor.id);
 

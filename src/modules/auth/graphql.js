@@ -107,7 +107,7 @@ export const ME_QUERY = gql`
 `;
 
 export const GET_MENTOR = gql`
-  query GET_MENTOR($id: Int!) {
+  query GET_MENTOR($id: ID!) {
     mentor(id: $id) {
       id
       major
@@ -123,6 +123,12 @@ export const GET_MENTOR = gql`
       hourlyRate
       facts
       uniqueFacts
+      availabilities {
+        id
+        day
+        from
+        to
+      }
       user {
         id
         email
@@ -389,8 +395,8 @@ export const STUDENTS_QUERY = gql`
 `;
 
 export const PACKAGE_QUERY = gql`
-  query LESSON_INFO {
-    packageSubscriptions(userId: 1) {
+  query packageSubscriptions($userId: ID!) {
+    packageSubscriptions: activePackageSubscriptions(userId: $userId) {
       id
       periodStart
       periodEnd
@@ -421,7 +427,7 @@ export const PACKAGE_QUERY = gql`
 `;
 
 export const APPOINTMENTS_QUERY = gql`
-  query GET_APPOINTMENTS($studentId: Int, $mentorId: Int, $status: String) {
+  query GET_APPOINTMENTS($studentId: ID, $mentorId: ID, $status: String) {
     lessons(status: $status, studentId: $studentId, mentorId: $mentorId) {
       id
       startAt
