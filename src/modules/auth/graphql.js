@@ -473,14 +473,12 @@ export const APPOINTMENTS_QUERY = gql`
 export const APPROVE_APPOINTMENT = gql`
   mutation APPROVE_LESSON($id: Int!, $mentorId: Int!) {
     approveLesson(id: $id, mentorId: $mentorId) {
-      lesson {
-        id
-        startAt
-        duration
-        status
-        cancelActionType
-        zoomlinkId
-      }
+      id
+      startAt
+      duration
+      status
+      cancelActionType
+      zoomlinkId
     }
   }
 `;
@@ -488,24 +486,22 @@ export const APPROVE_APPOINTMENT = gql`
 export const CANCEL_APPOINTMENT = gql`
   mutation CANCEL_LESSON($id: Int!) {
     cancelLesson(id: $id) {
-      lesson {
-        id
-        startAt
-        duration
-        status
-        cancelActionType
-        zoomlinkId
-      }
+      id
+      startAt
+      duration
+      status
+      cancelActionType
+      zoomlinkId
     }
   }
 `;
 
 export const CREATE_APPOINTMENT = gql`
   mutation CREATE_LESSON(
-    $mentorId: Int!
-    $studentId: Int!
-    $courseId: Int!
-    $packageId: Int!
+    $mentorId: ID!
+    $studentId: ID!
+    $courseId: ID!
+    $packageId: ID!
     $startAt: DateTime!
     $duration: Int!
   ) {
@@ -517,14 +513,12 @@ export const CREATE_APPOINTMENT = gql`
       startAt: $startAt
       duration: $duration
     ) {
-      lesson {
-        id
-        startAt
-        duration
-        status
-        cancelActionType
-        zoomlinkId
-      }
+      id
+      startAt
+      duration
+      status
+      cancelActionType
+      zoomlinkId
     }
   }
 `;
@@ -532,14 +526,12 @@ export const CREATE_APPOINTMENT = gql`
 export const UPDATE_APPOINTMENT = gql`
   mutation UPDATE_LESSON($id: Int!, $startAt: DateTime!, $mentorId: Int!) {
     updateLesson(id: $id, startAt: $startAt, mentorId: $mentorId) {
-      lesson {
-        id
-        startAt
-        duration
-        status
-        cancelActionType
-        zoomlinkId
-      }
+      id
+      startAt
+      duration
+      status
+      cancelActionType
+      zoomlinkId
     }
   }
 `;
