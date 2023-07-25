@@ -17,8 +17,9 @@ import { v4 as uuid } from 'uuid';
 import { useAuth } from '../../../modules/auth';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { GET_MENTOR } from '../../../modules/auth/graphql';
+import { UPSERT_AVAILIABILITY } from './graphql'; 
 
 const Availability = (/*{ user_id  }*/) => {
   const [t] = useTranslation(['common', 'availability']);
@@ -39,10 +40,11 @@ const Availability = (/*{ user_id  }*/) => {
   // tutor policies state and handler
   const { user } = useAuth();
   const {
-    data: { mentor: tutorInfo },
+    data: { mentor: tutorInfo } = {},
   } = useQuery(GET_MENTOR, {
-    variables: { id: user?.tutor?.id },
+    variables: { id: user?.mentor?.id },
   });
+  const [upsertAvailiability] = useMutation(UPSERT_AVAILIABILITY);
 
   const [currentToTime, setCurrentToTime] = useState('16:00');
 
@@ -53,26 +55,17 @@ const Availability = (/*{ user_id  }*/) => {
   useEffect(() => {
     var savedData = [];
     if (tutorInfo?.availabilities) {
-      let count = 0;
-      for (const property in tutorInfo.availabilities) {
-        if (tutorInfo.availabilities[property].length === 1) {
-          var temp = {};
-          temp.id = String(count++);
-          temp.day = property;
-          temp.slots = tutorInfo.availabilities[property];
-          savedData.push(temp);
-        }
-        if (tutorInfo.availabilities[property].length > 1) {
-          tutorInfo.availabilities[property].map((data) => {
-            var temp = {};
-            temp.id = String(count++);
-            temp.day = property;
-            var array = [];
-            array.push(data);
-            temp.slots = array;
-            savedData.push(temp);
-          });
-        }
+      const slotsMap = tutorInfo.availabilities.reduce((map, slot) => {
+        if (map[slot.day] === undefined) map[slot.day] = [slot];
+        else map[slot.day] = [...map[slot.day], slot];
+        return map;
+      }, {});
+      for (const day in slotsMap) {
+        savedData.push({
+          id: day,
+          day,
+          slots: slotsMap[day],
+        });
       }
     }
     const tempData = [
@@ -96,7 +89,11 @@ const Availability = (/*{ user_id  }*/) => {
       setCurrentDatas(withId);
     }
     const unique = [
-      ...new Set(tutorInfo?.exceptiondates.map((item) => item.date)),
+      ...(
+        tutorInfo?.exceptiondates
+          ? new Set(tutorInfo?.exceptiondates.map((item) => item.date))
+          : []
+      ),
     ];
     if (unique.length >= 9) {
       setIsMonthCheck(true);
@@ -115,7 +112,12 @@ const Availability = (/*{ user_id  }*/) => {
 
     let isError = false;
 
+    const slotsToSave = [];
     for (const day in days) {
+      slotsToSave.push({
+        day,
+        slots: [...days[day]],
+      });
       days[day].map((slot, ind) => {
         if (
           slot.from >= slot.to ||
@@ -139,7 +141,14 @@ const Availability = (/*{ user_id  }*/) => {
     setTimeout(() => {
       setLoaded(true);
 
-      // updateTutorAvailability(gatherAvailabilities.availability, user_id),
+      upsertAvailiability({
+        variables: {
+          data: {
+            mentorId: tutorInfo.id,
+            availabilities: slotsToSave,
+          },
+        },
+      });
       e.target.blur();
       handleDisableSave(true);
     }, 1000);

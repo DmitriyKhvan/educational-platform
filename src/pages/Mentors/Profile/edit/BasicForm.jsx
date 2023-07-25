@@ -15,25 +15,11 @@ import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getData } from 'country-list';
 import { useTranslation } from 'react-i18next';
-import { getTimezoneOffset } from 'date-fns-tz';
-import TutorApi from '../../../../api/TutorApi';
-// import { getTutorInfo } from '../../../../actions/tutor';
 
 const timezoneOptions = timezones.map(({ label, tzCode }) => ({
   label,
   value: tzCode,
 }));
-
-function getIntHoursOffset(tzCode) {
-  return getTimezoneOffset(tzCode) / 60 / 60 / 1000;
-}
-
-function getOffsetBetweenTimezones(tzCode1, tzCode2) {
-  const utcTz1 = getIntHoursOffset(tzCode1);
-  const utcTz2 = getIntHoursOffset(tzCode2);
-
-  return utcTz1 - utcTz2;
-}
 
 const BasicForm = ({ cls }) => {
   const [t] = useTranslation(['common', 'profile']);
@@ -58,8 +44,9 @@ const BasicForm = ({ cls }) => {
     },
   });
 
-  const handleEditBasicInfo = async ({ convertAvailabilityTime, ...values }) => {
-    const oldTimezone = user?.timeZone;
+  const handleEditBasicInfo = async (values) => {
+
+    delete values.convertAvailabilityTime;
     delete values.email;
     const { data } = await updateMentor({
       variables: {
@@ -68,13 +55,7 @@ const BasicForm = ({ cls }) => {
       },
     });
 
-    if (convertAvailabilityTime && oldTimezone !== values.timeZone) {
-      const offsetHours = getOffsetBetweenTimezones(oldTimezone, values.timeZone);
-      await TutorApi.adjustTutorAvailability(offsetHours);
-    }
-
     if (data) {
-      //getTutorInfo
       notify();
       history.push('/mentor/profile');
     }

@@ -139,14 +139,17 @@ const LessonConfirmation = ({
       }
     } else {
 
+      console.log(time);
       const res = await createAppointment({
         variables: {
-          mentorId: data.tutor_id,
+          mentorId: tutor.id,
           studentId: user.students[0].id,
-          courseId: plan?.course_id,
-          packageId: plan?.package_id,
-          startAt: data.start_at,
-          duration: data.duration,
+          courseId: plan?.package?.course.id,
+          packageId: plan?.package?.id,
+          startAt: moment
+            .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
+            .toISOString(),
+          duration: plan?.package?.sessionTime,
         }
       });
 
@@ -227,13 +230,13 @@ const LessonConfirmation = ({
               </p>
               <div className="lesson_card-inline">
                 <LessonCard
-                  lesson={plan?.lesson_type}
-                  duration={`${plan?.duration} ${t('minutes', {
+                  lesson={plan?.package?.course.title}
+                  duration={`${plan?.package?.period} ${t('minutes', {
                     ns: 'common',
                   })}`}
                   remaining={t('lessons_remaining', {
                     ns: 'lessons',
-                    count: plan?.total_lessons,
+                    count: plan?.credits,
                   })}
                 />
               </div>

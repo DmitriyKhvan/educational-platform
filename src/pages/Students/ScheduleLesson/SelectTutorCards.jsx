@@ -7,138 +7,70 @@ import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 import { useQuery, gql } from '@apollo/client';
 import MentorsModal from '../MentorsList/MentorsModal';
-import TutorApi from '../../../api/TutorApi';
 Modal.setAppElement('#root');
 
-const GET_TUTORS_BY_ID = gql`
-  query GetTutors($ids: [ID!]) {
-    tutors(
-      where: { id: { in: $ids }, user: { isActive: { equals: true } } }
-      orderBy: []
-      take: null
-      skip: 0
-    ) {
+const GET_AVAILABLE_MENTORS = gql`
+query GetAvailableMentors($time: String!, $duration: Int!){
+  availableMentors(time: $time, duration: $duration) {
+    filterSlot {
+      day
+      from
+      to
+      fromSeconds
+      toSeconds
+    }
+    mentors {
       id
-      userName
       major
       language
       university
-      acceptanceRate
-      checked
-      videoUrl
-      totalRequests
       graduatingYear
       degree
-      certificates
       introduction
-      relevantExperience
-      uniqueFacts
       about
       experience
+      relevantExperience
+      isActive
+      hourlyRate
       facts
+      uniqueFacts
+      userId
+      fullName
       avatar {
         id
-        filesize
-        width
-        height
-        extension
         url
       }
-      picture {
-        id
-        filesize
-        width
-        height
-        extension
-        url
-      }
-      diplomaVerification {
-        filename
-        filesize
-        url
-      }
-      user {
-        id
-        firstName
-        lastName
-        koreanEquivalent
-        phoneNumber
-        address
-        gender
-        timeZone
-        country
-        avatar
-        emailVerificationToken
-        resetPasswordExpires
-        resetPasswordToken
-        referalId
-        referalConfirmed
-        fullName
-        role
-        email
-        passwordResetIssuedAt
-        passwordResetRedeemedAt
-      }
-      createdAt
-      updatedAt
     }
   }
+}
 `;
 
 const useAvailableMentors = (isoTime, duration) => {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    TutorApi.getAvailableForTime(isoTime, duration).then(({ data }) => {
-      setData(data?.mentors);
-    });
-  }, [isoTime, duration]);
-
-  return data;
+  const { data: { availableMentors } = {} } = useQuery(GET_AVAILABLE_MENTORS, {
+    variables: {
+      time: isoTime,
+      duration,
+    },
+  });
+  return availableMentors?.mentors || [];
 };
 
 const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
   const [t] = useTranslation(['lessons', 'common']);
   const [isOpen, setIsOpen] = useState(false);
   const [modalSelectTutor, setModalSelectTutor] = useState({});
-  const [availableTutors, setAvailableTutors] = useState([]);
   const availableMentors = useAvailableMentors(
     moment(schedule, 'ddd MMM DD YYYY HH:mm:ss ZZ').toISOString(),
     step,
   );
-
-  const availableTutorIds = availableMentors.map((mentor) => mentor.id);
-
-  const [tutors, setTutors] = useState([]);
-
-  const { data: tutorsData } = useQuery(GET_TUTORS_BY_ID, {
-    variables: { ids: availableTutorIds },
-    onCompleted: (tutorsData) => {
-      const data = tutorsData?.tutors.map((tutor) => {
-        return {
-          id: tutor.id,
-          avatar: tutor?.avatar?.url ?? '',
-          first_name: tutor.user.firstName,
-          last_name: tutor.user.lastName,
-        };
-      });
-      setTutors(data);
-    },
-    skip: !availableTutorIds.length,
-  });
+  console.log(availableMentors);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (tutors && tutors.length) {
-      const tempTutors = tutors.sort((a, b) =>
-        a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1,
-      );
-      setAvailableTutors([...tempTutors]);
-    }
-  }, [tutors]);
+  }, [availableMentors]);
 
   const SelectTutors = ({ tutor }) => {
-    const last_name = tutor.last_name ? tutor.last_name.charAt(0) + '.' : '';
-    const name = tutor.first_name + ' ' + last_name;
+    const name = tutor.fullName;
     const onClick = () => {
       setSelectTutor(tutor);
       setTabIndex(3);
@@ -149,11 +81,11 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
       setIsOpen(true);
     };
 
-    const tutorProfile = tutor.avatar
-      ? tutor.avatar
+    const tutorProfile = tutor.avatar?.url
+      ? tutor.avatar.url
       : tutor.gender === 'female'
-      ? femaleAvatar
-      : maleAvatar;
+        ? femaleAvatar
+        : maleAvatar;
     return (
       <div className="">
         <div className="favImg">
@@ -243,9 +175,9 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
                   </div>
                 </div>
               </div>
-              {availableTutors?.length ? (
+              {availableMentors?.length ? (
                 <div className="grid grid-cols-1 lg:grid-cols-2 items-center place-items-center lg:place-items-start 2xl:grid-cols-3 w-full gap-y-4">
-                  {availableTutors.map((x, i) => (
+                  {availableMentors.map((x, i) => (
                     <SelectTutors tutor={x} key={i} />
                   ))}
                 </div>
@@ -260,7 +192,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
         <MentorsModal
           setShowTutorModal={setIsOpen}
           tutorId={modalSelectTutor}
-          tutorsList={tutorsData.tutors}
+          tutorsList={availableMentors}
         />
       )}
     </Layout>

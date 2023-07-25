@@ -38,7 +38,7 @@ const StudentListAppointments = () => {
   const [selectedLesson, setSelectedLesson] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
-  const { data: appointments, refetch } = useQuery(APPOINTMENTS_QUERY, {
+  const { data: { lessons: appointments } = {}, refetch } = useQuery(APPOINTMENTS_QUERY, {
     variables: {
       status: 'scheduled,paid,completed,in_progress',
       studentId: user?.student?.id,

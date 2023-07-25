@@ -249,29 +249,27 @@ export default function BuyPackage() {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>
-                    <button
-                      onClick={async () => {
-                        if (selectedPackage) {
-                          const response = await getSecret({
-                            variables: {
-                              id: parseInt(selectedPackage.id),
-                            },
-                          });
-                          if (response?.errors) {
-                            toast.error(response.errors[0].message);
-                          } else if (response?.data) {
-                            const { clientSecret } =
-                              response.data.createPaymentIntent;
-                            history.replace(
-                              `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
-                            );
-                          }
+                  <AlertDialogAction
+                    onClick={async () => {
+                      if (selectedPackage) {
+                        const response = await getSecret({
+                          variables: {
+                            id: parseInt(selectedPackage.id),
+                          },
+                        });
+                        if (response?.errors) {
+                          toast.error(response.errors[0].message);
+                        } else if (response?.data) {
+                          const { clientSecret } =
+                            response.data.createPaymentIntent;
+                          history.replace(
+                            `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
+                          );
                         }
-                      }}
-                    >
-                      Continue
-                    </button>
+                      }
+                    }}
+                  >
+                    Continue
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>

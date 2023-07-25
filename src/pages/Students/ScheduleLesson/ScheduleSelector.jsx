@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
 import Layout from '../../../components/Layout';
@@ -7,17 +7,27 @@ import prev_arrow from '../../../assets/images/prev_arrow.svg';
 import forward_arrow from '../../../assets/images/forward_arrow.svg';
 import Swal from 'sweetalert2';
 import Loader from 'react-loader-spinner';
-import TutorApi from '../../../api/TutorApi';
 import { useAuth } from '../../../modules/auth';
+import { gql, useQuery } from '@apollo/client';
+
+const GET_TIMESHEETS = gql`
+query timesheets($tz: String!, $date: String!) {
+  timesheets(tz: $tz, date: $date) {
+    id
+    day
+    from
+    to
+  }
+}
+`;
 
 const useTimesheets = (body) => {
-  const [data, setData] = useState({});
-  useEffect(() => {
-    TutorApi.getTimesheets(body).then(({ data }) => {
-      setData(data);
-    });
-  }, [body.date]);
-  return { data };
+  const res = useQuery(GET_TIMESHEETS, {
+    variables: {
+      ...body,
+    },
+  });
+  return res;
 };
 
 const ScheduleSelector = ({
@@ -135,24 +145,15 @@ const ScheduleSelector = ({
     }
   }
 
-  // const {
-  //   data: timesheetsData
-  // } = useQuery(GET_TIMESHEETS, {
-  //   variables: {
-  //     day: moment(day).format('dddd'),
-  //   },
-  // });
-
   const { data: timesheetsData } = useTimesheets({
     tz: userTimezone,
     date: moment(day).format('YYYY-MM-DD'),
-    step,
     ...(selectedTutor && {
       tutorId: selectedTutor.id,
     }),
   });
 
-  //Loop over the times - only pushes time with 30 minutes interval
+  //Loop over the times - only pushes time with 30 oor 60 minutes interval
   while (startTime.isBefore(endTime) || startTime.isSame(endTime)) {
     const tempTime = moment(startTime.format('HH:mm'), 'HH:mm');
     timesheetsData?.timesheets.map((timesheet) => {
@@ -167,6 +168,7 @@ const ScheduleSelector = ({
     });
     startTime.add(step, 'minutes');
   }
+  console.log(step, allTimes);
 
   for (let i = 0; i <= 6; i++) {
     const dayOfTheWeek = {
