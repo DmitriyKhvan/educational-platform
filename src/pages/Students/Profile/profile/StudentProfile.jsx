@@ -4,7 +4,10 @@ import '../style/StudentProfile.scss';
 import '../style/GeneralProfile.scss';
 import { useAuth } from '../../../../modules/auth';
 import { useMutation, useQuery } from '@apollo/client';
-import { MUTATION_UPDATE_STUDENT , PACKAGE_QUERY } from '../../../../modules/auth/graphql';
+import {
+  MUTATION_UPDATE_STUDENT,
+  PACKAGE_QUERY,
+} from '../../../../modules/auth/graphql';
 import { toast } from 'react-toastify';
 import femaleAvatar from '../../../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../../../assets/images/avatars/img_avatar_male.png';
@@ -23,11 +26,14 @@ const StudentProfile = () => {
   const { user, refetchUser } = useAuth();
   const avatar = user?.student?.avatar?.url;
 
-  const {data: {packageSubscriptions: planStatus} = {}} = useQuery(PACKAGE_QUERY, {
-    variables: {
-      id: user?.student?.id,
+  const { data: { packageSubscriptions: planStatus } = {} } = useQuery(
+    PACKAGE_QUERY,
+    {
+      variables: {
+        id: user?.id,
+      },
     },
-  });
+  );
 
   React.useEffect(() => {
     if (avatar) {

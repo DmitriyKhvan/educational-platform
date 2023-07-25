@@ -16,7 +16,7 @@ const SelectLessonType = ({ onContinue }) => {
     data: { packageSubscriptions: planStatus },
   } = useQuery(PACKAGE_QUERY, {
     variables: {
-      id: user?.student?.id,
+      id: user?.id,
     },
   });
 

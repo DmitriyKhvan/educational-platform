@@ -23,7 +23,7 @@ const SelectLesson = ({
     data: { packageSubscriptions: planStatus = [] } = {},
   } = useQuery(PACKAGE_QUERY, {
     variables: {
-      userId: user?.student?.id,
+      userId: user?.id,
     },
   });
   const disabled = clicked === null ? true : false;
