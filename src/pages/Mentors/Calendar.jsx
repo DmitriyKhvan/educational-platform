@@ -1,16 +1,9 @@
-// need to replace with graphql
-
-/* eslint-disable import/no-unresolved */
-/* eslint-disable no-undef  */
-
 import React, { Suspense, lazy, useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Modal from 'react-modal';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment-timezone';
 import Layout from '../../components/Layout';
-// import { getAppointments } from '../../actions/appointment';
 import LessonTable from '../../components/mentor-dashboard/LessonTable';
 import NotificationManager from '../../components/NotificationManager';
 import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
@@ -19,27 +12,121 @@ import ZoomWarningModal from '../../components/student-dashboard/ZoomWarningModa
 const ReviewLessonModal = lazy(() =>
   import('../../components/mentor-dashboard/ReviewLessonModal'),
 );
-
+import { format, utcToZonedTime } from 'date-fns-tz';
 import WeekHeader from '../../components/common/WeekHeader';
 import '../../assets/styles/calendar.scss';
-// import AppointmentApi from '../../api/AppointmentApi';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
-import { STUDENTS_QUERY } from '../../modules/auth/graphql';
-import { useQuery } from '@apollo/client';
+import {
+  STUDENTS_QUERY,
+  CANCEL_APPOINTMENT,
+  APPOINTMENTS_QUERY,
+} from '../../modules/auth/graphql';
+import { useQuery, useMutation } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
+
+const sortCalendarEvents = (data) => {
+  const timeZone = 'Asia/Seoul';
+  let eventDates = {};
+  data
+    .filter((apt) => apt.students.length > 0)
+    .forEach((apt) => {
+      let start_at = new Date(apt.start_at);
+      let date = format(utcToZonedTime(start_at, timeZone), 'yyyy-MM-dd');
+      if (eventDates[date]) {
+        eventDates[date].push(apt);
+      } else {
+        eventDates[date] = [apt];
+      }
+    });
+  const eventKeys = Object.keys(eventDates);
+  const calendarEvents = [];
+  eventKeys.forEach((key) => {
+    for (const eventDate of eventDates[key]) {
+      const date = moment(eventDate.start_at).utc(0, true).unix();
+      const endEpoch = date + eventDate.duration * 60;
+      const start_at = moment.unix(date).utc(0, true);
+      const end_at = moment.unix(endEpoch).utc(0, true);
+      const iterateEvents = {
+        zoomLink: eventDate.zoomlink,
+        lesson: eventDate.lesson,
+        start_at,
+        end_at,
+        type: eventDate.type,
+        tutor: eventDate.tutor,
+        student: eventDate.students,
+        eventDate,
+      };
+
+      calendarEvents.push(iterateEvents);
+    }
+  });
+  const tablularEventData = [];
+  for (const eventKey of eventKeys) {
+    for (const eventDate of eventDates[eventKey]) {
+      const date = moment(eventDate.start_at).utc(0, true).unix();
+      const tutor = eventDate.tutor
+        ? eventDate.tutor.user.first_name +
+          ' ' +
+          eventDate.tutor.user.last_name.charAt(0).toUpperCase() +
+          '.'
+        : '';
+      const startTime = moment.unix(date).utc(0, true).format('hh:mm a');
+      const tableRow = {
+        lesson:
+          eventDate.lesson.type.charAt(0).toUpperCase() +
+          eventDate.lesson.type.slice(1),
+        topic: eventDate.lesson.description,
+        level: eventDate.students[0].level,
+        dateTime: {
+          startTime,
+          endTime: moment
+            .unix(date)
+            .utc(0, true)
+            .add(eventDate.duration, 'minutes')
+            .format('hh:mm a'),
+          date: moment.unix(date).utc(0, true).format('ddd, MMM D'),
+        },
+        sessionTime: new Date(
+          `${moment.unix(date).utc(0, true).format('ddd, MMM D')},${startTime}`,
+        ),
+        onClick: {
+          date,
+        },
+        tutor,
+        tutorFeedback: eventDate.students[0].feedbacks,
+        resource: eventDate,
+      };
+      tablularEventData.push(tableRow);
+    }
+  }
+  return { tablularEventData, calendarEvents };
+};
 
 const Calendar = () => {
   const [t] = useTranslation(['lessons', 'modals']);
-  const dispatch = useDispatch();
-  const calendarAppointments = useSelector(
-    (state) => state.appointment.calendarEvents,
+
+  const { refetch: getAppointments, data: appointments } = useQuery(
+    APPOINTMENTS_QUERY,
+    {
+      variables: {
+        studentId: user?.students[0]?.id,
+        status: 'scheduled,paid,completed,in_progress',
+      },
+    },
   );
 
-  const tableAppointments = useSelector(
-    (state) => state.appointment.tablularEventData,
-  );
+  const [calendarAppointments, setCalendarAppointments] = useState([]);
+  const [tableAppointments, setTableAppointments] = useState([]);
+
+  useEffect(() => {
+    sortCalendarEvents(appointments?.appointments).then((data) => {
+      setCalendarAppointments(data.calendarEvents);
+      setTableAppointments(data.tablularEventData);
+    });
+  }, [appointments]);
+
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [pastLessons, setPastLessons] = useState([]);
   const [upcomingLessons, setUpcomingLessons] = useState([]);
@@ -52,6 +139,8 @@ const Calendar = () => {
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
   const [isCancelLessonModalOpen, setIsCancelLessonModalOpen] = useState(false);
   const [isWarningOpen, setIsWarningOpen] = useState(false);
+
+  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT);
 
   const { user } = useAuth();
 
@@ -84,12 +173,7 @@ const Calendar = () => {
   };
 
   const fetchData = () => {
-    dispatch(
-      getAppointments({
-        tutor_id: user.tutor?.id,
-        status: 'scheduled,paid,completed,in_progress',
-      }),
-    );
+    getAppointments();
   };
 
   useEffect(() => {
@@ -118,7 +202,6 @@ const Calendar = () => {
         tempEvents.push(event);
       });
       setCalendarEvents([...tempEvents]);
-      // setIsLoading(false)
     }
   }, [calendarAppointments]);
 
@@ -205,7 +288,7 @@ const Calendar = () => {
       });
     } else {
       try {
-        await AppointmentApi.cancelAppointment(id);
+        await cancelAppointment(id);
         fetchData();
       } catch (error) {
         NotificationManager.error(
@@ -329,35 +412,6 @@ const Calendar = () => {
                 <div className="my-3">
                   {displayModalEventDate(selectedEvent)}
                 </div>
-
-                {/* <div className="my-3">
-                  <div className="row">
-                    <h4 className="text-primary">{t('current_topic')}</h4>
-                  </div>
-                  <div className="row">
-                    <h4>
-                      {t('tutor_calendar_current_topic', {
-                        level: studentLessonLevel,
-                        current_topic: eventDate.lesson_topic,
-                      })}
-                    </h4>
-                  </div>
-                </div>
-
-                <div className="my-3">
-                  <div className="row">
-                    <h4 className="text-primary">{t('previous_topic')}</h4>
-                  </div>
-                  <div className="row">
-                    <h4>
-                      {t('tutor_calendar_previous_topic', {
-                        level: studentLessonLevel,
-                        previous: eventDate.last_part_lesson,
-                      })}
-                    </h4>
-                  </div>
-                </div> */}
-
                 <div className="my-3 attends">
                   <div className="row">
                     <h4 className="text-primary">{t('attendants')}</h4>
