@@ -28,7 +28,12 @@ const LessonConfirmation = ({
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [, setDate] = useState();
   const [confirmDisable, setConfirmDisable] = useState(false);
-  const [getAppointments] = useLazyQuery(APPOINTMENTS_QUERY);
+  const [getAppointments] = useLazyQuery(APPOINTMENTS_QUERY, {
+    variables: {
+      studentId: user?.students[0]?.id,
+      status: 'scheduled',
+    },
+  });
   const [createAppointment] = useMutation(CREATE_APPOINTMENT);
   const [updateAppointment] = useMutation(UPDATE_APPOINTMENT);
 
@@ -91,6 +96,8 @@ const LessonConfirmation = ({
   // }
   data = { ...data, student_id: 26 };
 
+  console.log(tutor, plan, time, data);
+
   const confirmLesson = async () => {
     setIsLoading(true);
 
@@ -140,12 +147,11 @@ const LessonConfirmation = ({
     } else {
 
       console.log(time);
-      const res = await createAppointment({
+      const { data: { lesson } = {} } = await createAppointment({
         variables: {
           mentorId: tutor.id,
           studentId: user.students[0].id,
-          courseId: plan?.package?.course.id,
-          packageId: plan?.package?.id,
+          subscriptionId: plan?.id,
           startAt: moment
             .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
             .toISOString(),
@@ -153,29 +159,14 @@ const LessonConfirmation = ({
         }
       });
 
-      if (res) {
-        const { payload } = await fetchAppointments();
-        const newAppt = payload?.filter(
-          (x) => x?.id === parseInt(res.payload?.groups[0].id),
-        )[0];
-        if (newAppt) {
-          setConfirmDisable(true);
-          setNewAppointment(newAppt);
-          setDate(moment(newAppt.start_at).unix());
-          setIsConfirmed(true);
-          window.scrollTo(0, 0);
-        }
+      if (lesson) {
+        setConfirmDisable(true);
+        setNewAppointment(lesson);
+        setDate(moment(lesson.startAt).unix());
+        setIsConfirmed(true);
+        window.scrollTo(0, 0);
       } else {
-        if (res.payload.error.messages && res.payload.error.messages.length) {
-          NotificationManager.error(
-            res.payload.error.messages.map((msg) => msg.title).join('\n'),
-            t,
-          );
-        } else if (res.payload.error.message) {
-          NotificationManager.error(res.payload.error.message, t);
-        } else {
-          NotificationManager.error('Server Error', t);
-        }
+        NotificationManager.error('Server Error', t);
         setIsLoading(false);
       }
     }
@@ -368,11 +359,12 @@ const LessonConfirmation = ({
                 </div>
                 <ScheduleCardComponent
                   index={0}
-                  lesson={newAppointment.lesson.description}
+                  lesson={newAppointment.course.title}
                   zoomlink={newAppointment.zoomlink}
                   date={time}
                   mentors={men}
                   data={newAppointment}
+                  subscription={plan}
                   fetchAppointments={fetchAppointments}
                   cancelled={cancelled}
                 />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
-import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
+// import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../assets/images/avatars/img_avatar_male.png';
 import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
@@ -12,12 +12,13 @@ import { useHistory } from 'react-router-dom';
 const ScheduleCard = ({
   index,
   lesson,
-  zoomlink,
+  // zoomlink,
   date,
-  mentors,
+  mentor,
   data,
   fetchAppointments,
   cancelled,
+  subscription,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [t] = useTranslation('modals');
@@ -67,22 +68,22 @@ const ScheduleCard = ({
     }
   };
 
-  const today = moment();
-  const tenMinuteBeforeStart = moment(date).subtract(10, 'minutes');
-  const fiveMinuteBeforeEnd = moment(date).add(data.duration - 5, 'minutes');
+  // const today = moment();
+  // const tenMinuteBeforeStart = moment(date).subtract(10, 'minutes');
+  // const fiveMinuteBeforeEnd = moment(date).add(data.duration - 5, 'minutes');
 
-  const isBetween = moment(today).isBetween(
-    tenMinuteBeforeStart,
-    fiveMinuteBeforeEnd,
-  );
+  // const isBetween = moment(today).isBetween(
+  //   tenMinuteBeforeStart,
+  //   fiveMinuteBeforeEnd,
+  // );
 
-  const joinLesson = async () => {
-    if (isBetween) {
-      window.location.href = zoomlink.url;
-    } else {
-      setIsWarningOpen(true);
-    }
-  };
+  // const joinLesson = async () => {
+  //   if (isBetween) {
+  //     window.location.href = zoomlink.url;
+  //   } else {
+  //     setIsWarningOpen(true);
+  //   }
+  // };
 
   const displayDate = () => {
     const eventDate = moment(date).tz(userTimezone).format('MMM Do');
@@ -90,7 +91,7 @@ const ScheduleCard = ({
 
     const end = moment(date)
       .tz(userTimezone)
-      .add(data.duration, 'minutes')
+      .add(subscription?.duration, 'minutes')
       .format('hh:mm A');
     return `${eventDate} at ${start} → ${end}`;
   };
@@ -123,11 +124,11 @@ const ScheduleCard = ({
           <div className="col-2 cols-image-schedule mobile-schedule_dash">
             <img
               src={
-                mentors?.avatar
-                  ? mentors?.avatar?.url
-                  : data.tutor?.user?.gender === 'male'
-                  ? maleAvatar
-                  : femaleAvatar
+                mentor?.avatar
+                  ? mentor?.avatar?.url
+                  : maleAvatar
+                  // ? maleAvatar
+                  // : femaleAvatar
               }
               className={`img-fluid align-middle schedule_images-width ${
                 index === 0
@@ -141,7 +142,7 @@ const ScheduleCard = ({
       </div>
 
       <div className="row-schedule-btns">
-        <div className="">
+        {/* <div className="">
           <a
             onClick={joinLesson}
             className={`schedule_copy-button ${
@@ -152,7 +153,7 @@ const ScheduleCard = ({
           >
             {t('join_lesson')}
           </a>
-        </div>
+        </div> */}
         <div className="">
           <a
             className={`schedule_copy-button ${
@@ -189,7 +190,7 @@ const ScheduleCard = ({
           tabIndex={tabIndex}
           type={modalType}
           cancelled={cancelled}
-          duration={data.duration}
+          duration={subscription?.duration}
         />
       )}
       {isWarningOpen && (
