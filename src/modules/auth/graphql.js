@@ -504,7 +504,7 @@ export const CREATE_APPOINTMENT = gql`
     $startAt: DateTime!
     $duration: Int!
   ) {
-    createLesson(
+    lesson: createLesson(
       mentorId: $mentorId
       studentId: $studentId
       packageSubscriptionId: $subscriptionId
@@ -517,6 +517,10 @@ export const CREATE_APPOINTMENT = gql`
       status
       cancelAction
       zoomlinkId
+      course {
+        id
+        title
+      }
     }
   }
 `;
