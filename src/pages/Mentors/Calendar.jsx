@@ -27,6 +27,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
 
 const sortCalendarEvents = (data) => {
+  if (!data) return;
   const timeZone = 'Asia/Seoul';
   let eventDates = {};
   data
@@ -106,12 +107,13 @@ const sortCalendarEvents = (data) => {
 
 const Calendar = () => {
   const [t] = useTranslation(['lessons', 'modals']);
+  const { user } = useAuth();
 
   const { refetch: getAppointments, data: appointments } = useQuery(
     APPOINTMENTS_QUERY,
     {
       variables: {
-        studentId: user?.students[0]?.id,
+        studentId: user?.mentor?.id,
         status: 'scheduled,paid,completed,in_progress',
       },
     },
@@ -121,10 +123,14 @@ const Calendar = () => {
   const [tableAppointments, setTableAppointments] = useState([]);
 
   useEffect(() => {
-    sortCalendarEvents(appointments?.appointments).then((data) => {
-      setCalendarAppointments(data.calendarEvents);
-      setTableAppointments(data.tablularEventData);
-    });
+    if (!appointments) return;
+    else {
+      const { calendarEvents, tablularEventData } = sortCalendarEvents(
+        appointments?.lessons,
+      );
+      setCalendarAppointments(calendarEvents);
+      setTableAppointments(tablularEventData);
+    }
   }, [appointments]);
 
   const [calendarEvents, setCalendarEvents] = useState([]);
@@ -141,8 +147,6 @@ const Calendar = () => {
   const [isWarningOpen, setIsWarningOpen] = useState(false);
 
   const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT);
-
-  const { user } = useAuth();
 
   const customStyles = {
     content: {
