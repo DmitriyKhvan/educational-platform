@@ -537,3 +537,72 @@ export const UPDATE_APPOINTMENT = gql`
     }
   }
 `;
+
+export const LESSON_QUERY = gql`
+  query GET_LESSON($id: ID!) {
+    lesson(id: $id) {
+      id
+      startAt
+      duration
+      status
+      cancelActionType
+      zoomlinkId
+      mentor {
+        id
+        major
+        language
+        university
+        graduatingYear
+        degree
+        introduction
+        about
+        experience
+        relevantExperience
+        isActive
+        hourlyRate
+        facts
+        uniqueFacts
+        userId
+        avatarId
+        avatar {
+          id
+          name
+          mimetype
+          url
+          path
+          width
+          height
+          createdAt
+          updatedAt
+        }
+      }
+      student {
+        id
+        parentName
+        level
+        langLevel
+        birthday
+        about
+        pronouns
+        isActive
+        avatarId
+        avatar {
+          id
+          name
+          mimetype
+          url
+          path
+          width
+          height
+          createdAt
+          updatedAt
+        }
+      }
+      course {
+        id
+        title
+        description
+      }
+    }
+  }
+`;

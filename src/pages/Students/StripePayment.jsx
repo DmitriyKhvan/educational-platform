@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Elements,
   PaymentElement,
@@ -47,6 +47,24 @@ const CheckoutForm = () => {
 
   const [errorMessage, setErrorMessage] = useState(null);
 
+  useEffect(async () => {
+    if (!stripe || !elements) {
+      return;
+    }
+
+    const { paymentIntent } = await stripe.retrievePaymentIntent(
+      params.clientSecret,
+    );
+
+    if (
+      paymentIntent.status === 'succeeded' ||
+      paymentIntent.status === 'canceled' ||
+      paymentIntent.status === 'processing'
+    ) {
+      history.push(`/`);
+    }
+  });
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -59,14 +77,14 @@ const CheckoutForm = () => {
       redirect: 'if_required',
     });
 
-    const { paymentIntent } = await stripe.retrievePaymentIntent(
-      params.clientSecret,
-    );
-
     if (error) {
       setErrorMessage(error.message);
       return;
     }
+
+    const { paymentIntent } = await stripe.retrievePaymentIntent(
+      params.clientSecret,
+    );
 
     if (paymentIntent.status === 'succeeded') {
       await createPayment({

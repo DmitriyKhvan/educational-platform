@@ -10,39 +10,39 @@ import MentorsModal from '../MentorsList/MentorsModal';
 Modal.setAppElement('#root');
 
 const GET_AVAILABLE_MENTORS = gql`
-query GetAvailableMentors($time: String!, $duration: Int!){
-  availableMentors(time: $time, duration: $duration) {
-    filterSlot {
-      day
-      from
-      to
-      fromSeconds
-      toSeconds
-    }
-    mentors {
-      id
-      major
-      language
-      university
-      graduatingYear
-      degree
-      introduction
-      about
-      experience
-      relevantExperience
-      isActive
-      hourlyRate
-      facts
-      uniqueFacts
-      userId
-      fullName
-      avatar {
+  query GetAvailableMentors($time: String!, $duration: Int!) {
+    availableMentors(time: $time, duration: $duration) {
+      filterSlot {
+        day
+        from
+        to
+        fromSeconds
+        toSeconds
+      }
+      mentors {
         id
-        url
+        major
+        language
+        university
+        graduatingYear
+        degree
+        introduction
+        about
+        experience
+        relevantExperience
+        isActive
+        hourlyRate
+        facts
+        uniqueFacts
+        userId
+        fullName
+        avatar {
+          id
+          url
+        }
       }
     }
   }
-}
 `;
 
 const useAvailableMentors = (isoTime, duration) => {
@@ -63,7 +63,6 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
     moment(schedule, 'ddd MMM DD YYYY HH:mm:ss ZZ').toISOString(),
     step,
   );
-  console.log(availableMentors);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -84,8 +83,8 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
     const tutorProfile = tutor.avatar?.url
       ? tutor.avatar.url
       : tutor.gender === 'female'
-        ? femaleAvatar
-        : maleAvatar;
+      ? femaleAvatar
+      : maleAvatar;
     return (
       <div className="">
         <div className="favImg">

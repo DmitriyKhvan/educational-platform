@@ -47,7 +47,7 @@ const CREATE_PAYMENT_INTENT = gql`
 
 export default function BuyPackage() {
   const [parent] = useAutoAnimate();
-  const { packageId: courseId } = useParams();
+  const { courseId } = useParams();
 
   const { error, data } = useQuery(GET_COURSES, {
     variables: {
@@ -104,9 +104,7 @@ export default function BuyPackage() {
             </p>
           </div>
           <hr className="border-gray-400/50 rounded-full border md:hidden" />
-          <form
-            className="w-full flex flex-col gap-3"
-          >
+          <form className="w-full flex flex-col gap-3">
             <p className="text-lg font-bold text-gray-700/90">
               Choose the duration:
             </p>

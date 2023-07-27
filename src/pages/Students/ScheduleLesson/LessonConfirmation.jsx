@@ -11,7 +11,11 @@ import Loader from '../../../components/common/Loader';
 import { useAuth } from '../../../modules/auth';
 import LessonCard from './LessonCard';
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { APPOINTMENTS_QUERY, CREATE_APPOINTMENT, UPDATE_APPOINTMENT } from '../../../modules/auth/graphql';
+import {
+  APPOINTMENTS_QUERY,
+  CREATE_APPOINTMENT,
+  UPDATE_APPOINTMENT,
+} from '../../../modules/auth/graphql';
 
 const LessonConfirmation = ({
   plan,
@@ -109,8 +113,8 @@ const LessonConfirmation = ({
           id: lessonId,
           mentorId: data?.tutor_id,
           startAt: data?.start_at,
-        }
-      })
+        },
+      });
       setIsLoading(false);
 
       if (res) {
@@ -156,7 +160,7 @@ const LessonConfirmation = ({
             .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
             .toISOString(),
           duration: plan?.package?.sessionTime,
-        }
+        },
       });
 
       if (lesson) {
