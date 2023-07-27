@@ -12,6 +12,7 @@ import useLogin from '../../modules/auth/hooks/login';
 import Button from '../../components/Form/Button';
 import InputWithError from '../../components/Form/InputWithError';
 import notify from '../../utils/notify';
+import { useLocation, useHistory } from 'react-router-dom';
 
 const Login = () => {
   const [t] = useTranslation('common');
@@ -30,7 +31,25 @@ const Login = () => {
     },
   });
 
+  const { search } = useLocation();
+  const history = useHistory();
+
+  const queryParams = new URLSearchParams(search);
+  const redirectPath = queryParams.get('redirect');
+
   const { login, loading, error } = useLogin();
+
+  const handleLogin = async ({ email, password }) => {
+    await login(email, password);
+
+    if (!error) {
+      if (redirectPath) {
+        history.push(redirectPath);
+      } else {
+        history.push('/');
+      }
+    }
+  };
 
   useEffect(() => {
     if (error) {
@@ -44,12 +63,7 @@ const Login = () => {
         <div className="text-center">
           <h1 className="title text-center">{t('login')}</h1>
         </div>
-        <form
-          onSubmit={handleSubmit(({ email, password }) =>
-            login(email, password),
-          )}
-          className="form-section"
-        >
+        <form onSubmit={handleSubmit(handleLogin)} className="form-section">
           <div className="mb-7">
             <InputWithError errorsField={errors?.email}>
               <InputField
