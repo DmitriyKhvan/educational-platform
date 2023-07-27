@@ -1,3 +1,8 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable no-undef  */
+
+// need to replace with graphql
+
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 // import { useDispatch, useSelector } from 'react-redux';
@@ -16,136 +21,58 @@ import ReviewLessonModal from '../../components/student-dashboard/ReviewLessonMo
 import { useAuth } from '../../modules/auth';
 import FeedbackLessonModal from '../Mentors/FeedbackLessonModal';
 import WeekHeader from '../../components/common/WeekHeader';
-import { useQuery, useMutation } from '@apollo/client';
-import {
-  MENTORS_QUERY,
-  LESSON_QUERY,
-  APPOINTMENTS_QUERY,
-  CANCEL_APPOINTMENT,
-} from '../../modules/auth/graphql';
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { gql, useQuery } from '@apollo/client';
+import { MENTORS_QUERY } from '../../modules/auth/graphql';
 
-const sortCalendarEvents = (data) => {
-  if (!data) return;
-  const timeZone = 'Asia/Seoul';
-  let eventDates = {};
-  data
-    .filter((apt) => apt.students.length > 0)
-    .forEach((apt) => {
-      let start_at = new Date(apt.start_at);
-      let date = format(utcToZonedTime(start_at, timeZone), 'yyyy-MM-dd');
-      if (eventDates[date]) {
-        eventDates[date].push(apt);
-      } else {
-        eventDates[date] = [apt];
-      }
-    });
-  const eventKeys = Object.keys(eventDates);
-  const calendarEvents = [];
-  eventKeys.forEach((key) => {
-    for (const eventDate of eventDates[key]) {
-      const date = moment(eventDate.start_at).utc(0, true).unix();
-      const endEpoch = date + eventDate.duration * 60;
-      const start_at = moment.unix(date).utc(0, true);
-      const end_at = moment.unix(endEpoch).utc(0, true);
-      const iterateEvents = {
-        zoomLink: eventDate.zoomlink,
-        lesson: eventDate.lesson,
-        start_at,
-        end_at,
-        type: eventDate.type,
-        tutor: eventDate.tutor,
-        student: eventDate.students,
-        eventDate,
-      };
-
-      calendarEvents.push(iterateEvents);
-    }
-  });
-  const tablularEventData = [];
-  for (const eventKey of eventKeys) {
-    for (const eventDate of eventDates[eventKey]) {
-      const date = moment(eventDate.start_at).utc(0, true).unix();
-      const tutor = eventDate.tutor
-        ? eventDate.tutor.user.first_name +
-          ' ' +
-          eventDate.tutor.user.last_name.charAt(0).toUpperCase() +
-          '.'
-        : '';
-      const startTime = moment.unix(date).utc(0, true).format('hh:mm a');
-      const tableRow = {
-        lesson:
-          eventDate.lesson.type.charAt(0).toUpperCase() +
-          eventDate.lesson.type.slice(1),
-        topic: eventDate.lesson.description,
-        level: eventDate.students[0].level,
-        dateTime: {
-          startTime,
-          endTime: moment
-            .unix(date)
-            .utc(0, true)
-            .add(eventDate.duration, 'minutes')
-            .format('hh:mm a'),
-          date: moment.unix(date).utc(0, true).format('ddd, MMM D'),
-        },
-        sessionTime: new Date(
-          `${moment.unix(date).utc(0, true).format('ddd, MMM D')},${startTime}`,
-        ),
-        onClick: {
-          date,
-        },
-        tutor,
-        tutorFeedback: eventDate.students[0].feedbacks,
-        resource: eventDate,
-      };
-      tablularEventData.push(tableRow);
+const GET_GROUP_INFO = gql`
+  query ($id: ID) {
+    group(where: { id: $id }) {
+      id
+      tutorId
+      lessonId
+      lessonType
+      lessonTitle
+      lessonDesc
+      seatCount
+      startAt
+      duration
+      status
+      completed
+      cancelAction
+      lessonTopic
+      lastPartLesson
+      zoomlinkId
+      createdAt
+      updatedAt
     }
   }
-  return { tablularEventData, calendarEvents };
-};
+`;
 
 const Calendar = () => {
   const [idOfLesson, setIdLesson] = React.useState(null);
-  const { data } = useQuery(LESSON_QUERY, {
+  const { data } = useQuery(GET_GROUP_INFO, {
     variables: { id: idOfLesson },
+    skip: !idOfLesson,
   });
   const { data: mentorsList } = useQuery(MENTORS_QUERY, {
     errorPolicy: 'ignore',
   });
 
-  const mentors = mentorsList?.mentors?.find(
-    (i) => +i?.id === +data?.lesson?.mentor?.id,
+  const mentors = mentorsList?.tutors?.find(
+    (i) => +i?.id === +data?.group?.tutorId,
   );
 
   const [t] = useTranslation(['lessons']);
   const location = useLocation();
   const { user } = useAuth();
 
-  const { refetch: getAppointments, data: appointments } = useQuery(
-    APPOINTMENTS_QUERY,
-    {
-      variables: {
-        studentId: user?.mentor?.id,
-        status: 'scheduled,paid,completed,in_progress',
-      },
-    },
+  const calendarAppointments = useSelector(
+    (state) => state.appointment.calendarEvents,
   );
 
-  const [calendarAppointments, setCalendarAppointments] = useState([]);
-  const [tableAppointments, setTableAppointments] = useState([]);
-
-  useEffect(() => {
-    if (!appointments) return;
-    else {
-      const { calendarEvents, tablularEventData } = sortCalendarEvents(
-        appointments?.lessons,
-      );
-      setCalendarAppointments(calendarEvents);
-      setTableAppointments(tablularEventData);
-    }
-  }, [appointments]);
-
-  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT);
+  const tableAppointments = useSelector(
+    (state) => state.appointment.tablularEventData,
+  );
 
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [pastLessons, setPastLessons] = useState([]);
@@ -161,6 +88,7 @@ const Calendar = () => {
     setCalendarEvent({});
     setIsOpen(false);
   };
+  const dispatch = useDispatch();
 
   const customStyles = {
     content: {
@@ -179,10 +107,12 @@ const Calendar = () => {
   useEffect(() => {
     (async () => {
       if (user && user?.student) {
-        getAppointments({
-          student_id: user.student?.id,
-          status: 'scheduled,paid,completed,in_progress',
-        });
+        dispatch(
+          getAppointments({
+            student_id: user.student?.id,
+            status: 'scheduled,paid,completed,in_progress',
+          }),
+        );
       }
     })();
   }, [user]);
@@ -292,12 +222,17 @@ const Calendar = () => {
   };
 
   async function onCancel(id) {
-    cancelAppointment({
-      variables: {
-        id: id,
-      },
-    });
-    getAppointments();
+    dispatch(cancelAppointment(id));
+    setTimeout(
+      () =>
+        dispatch(
+          getAppointments({
+            student_id: user.student?.id,
+            status: 'scheduled,paid,completed,in_progress',
+          }),
+        ),
+      1000,
+    );
     setIsOpen(false);
     setIsCalendar(true);
   }

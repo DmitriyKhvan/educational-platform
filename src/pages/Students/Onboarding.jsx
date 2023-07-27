@@ -36,7 +36,7 @@ export default function Onboarding() {
 
   const onSubmit = (data) => {
     if (!isLast) return next();
-
+    console.log(data);
     signUp({
       variables: data,
     });
