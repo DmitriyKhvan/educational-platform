@@ -77,14 +77,14 @@ const CheckoutForm = () => {
       redirect: 'if_required',
     });
 
+    const { paymentIntent } = await stripe.retrievePaymentIntent(
+      params.clientSecret,
+    );
+
     if (error) {
       setErrorMessage(error.message);
       return;
     }
-
-    const { paymentIntent } = await stripe.retrievePaymentIntent(
-      params.clientSecret,
-    );
 
     if (paymentIntent.status === 'succeeded') {
       await createPayment({
