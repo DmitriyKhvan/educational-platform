@@ -16,7 +16,7 @@ const GET_LESSON_INFO = gql`
       startAt
       duration
       status
-      cancelActionType
+      cancelAction
       zoomlinkId
       mentor {
         id

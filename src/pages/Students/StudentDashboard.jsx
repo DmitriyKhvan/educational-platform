@@ -11,7 +11,6 @@ import NotificationManager from '../../components/NotificationManager';
 import ModalFeedback from './ModalFeedback';
 import CTACard from '../../components/student-dashboard/CTACard';
 import ScheduleCard from '../../components/student-dashboard/ScheduleCard';
-import whiteSubscriptionIcon from '../../assets/images/white_subscription_icon.svg';
 import whiteBookingIcon from '../../assets/images/white_book_trial_icon.svg';
 import smileIcon from '../../assets/images/smile_icon.svg';
 import { useAuth } from '../../modules/auth';
@@ -38,12 +37,15 @@ const StudentListAppointments = () => {
   const [selectedLesson, setSelectedLesson] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
-  const { data: { lessons: appointments } = {}, refetch } = useQuery(APPOINTMENTS_QUERY, {
-    variables: {
-      status: 'scheduled,paid,completed,in_progress',
-      studentId: user?.student?.id,
+  const { data: { lessons: appointments } = {}, refetch } = useQuery(
+    APPOINTMENTS_QUERY,
+    {
+      variables: {
+        status: 'scheduled,paid,completed,in_progress',
+        studentId: user?.student?.id,
+      },
     },
-  });
+  );
   const [completedAppointment, setCompleteAppointment] = useState(null);
   const history = useHistory();
   const onDismiss = () => setCompleteAppointment(null);
@@ -109,17 +111,17 @@ const StudentListAppointments = () => {
   );
 
   const ScheduleArr = (isWithinAweek || [])
-    .sort((a, b) => new Date(a.start_at) - new Date(b.start_at))
+    .sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
     .map((x, i) => {
-      const date = moment(x?.start_at);
-      const expiredDate = moment(x?.start_at).add(x?.duration, 'minutes');
+      const date = moment(x?.startAt);
+      const expiredDate = moment(x?.startAt).add(x?.duration, 'minutes');
       const currentDate = moment();
-      const mentors = mentorsList?.tutors?.find((i) => +i?.id === x?.tutor?.id);
+      const mentors = mentorsList?.mentors.find((i) => +i?.id === x?.mentor?.id);
       return (
         currentDate.isBefore(expiredDate) && (
           <div key={i}>
             <ScheduleCard
-              lesson={x.lesson?.description}
+              lesson={x?.course?.title}
               mentors={mentors}
               zoomlink={x?.zoomlink}
               date={date}
@@ -132,48 +134,32 @@ const StudentListAppointments = () => {
       );
     });
 
-  const callToAction =
-    appointments?.length >= 0
-      ? [
-          {
-            icon: smileIcon,
-            title: t('student_dashboard_feedback', { ns: 'dashboard' }),
-            disabled: true,
-            button: {
-              to: '',
-              text: t('student_dashboard_submit_feedback_btn', {
-                ns: 'dashboard',
-              }),
-            },
-            color: '#D6336C',
-            cl: '',
-          },
-          {
-            icon: whiteBookingIcon,
-            title: t('student_dashboard_progress', { ns: 'dashboard' }),
-            bl: 'secblock',
-            button: {
-              to: '/student/lesson-calendar?completed',
-              text: t('completed_lessons', { ns: 'dashboard' }),
-            },
-            color: '#1482DA',
-            cl: 'blue-progress',
-          },
-        ]
-      : [
-          {
-            icon: whiteBookingIcon,
-            title: t('book_trial', { ns: 'dashboard' }),
-            subtitle: t('book_trial_subtitle', { ns: 'dashboard' }),
-            color: '#1482DA',
-          },
-          {
-            icon: whiteSubscriptionIcon,
-            title: t('purchase_subscription'),
-            subtitle: t('purchase_subscription_subtitle', { ns: 'dashboard' }),
-            color: '#D6336C',
-          },
-        ];
+  const callToAction = [
+    {
+      icon: smileIcon,
+      title: t('student_dashboard_feedback', { ns: 'dashboard' }),
+      disabled: true,
+      button: {
+        to: '',
+        text: t('student_dashboard_submit_feedback_btn', {
+          ns: 'dashboard',
+        }),
+      },
+      color: '#D6336C',
+      cl: '',
+    },
+    {
+      icon: whiteBookingIcon,
+      title: t('student_dashboard_progress', { ns: 'dashboard' }),
+      bl: 'secblock',
+      button: {
+        to: '/student/lesson-calendar?completed',
+        text: t('completed_lessons', { ns: 'dashboard' }),
+      },
+      color: '#1482DA',
+      cl: 'blue-progress',
+    },
+  ];
 
   return (
     <Layout>

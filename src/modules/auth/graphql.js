@@ -154,7 +154,7 @@ export const GET_MENTOR = gql`
         startAt
         duration
         status
-        cancelActionType
+        cancelAction
         zoomlinkId
       }
       avatarId
@@ -215,7 +215,7 @@ export const MENTORS_QUERY = gql`
         startAt
         duration
         status
-        cancelActionType
+        cancelAction
         zoomlinkId
       }
       avatarId
@@ -433,7 +433,7 @@ export const APPOINTMENTS_QUERY = gql`
       startAt
       duration
       status
-      cancelActionType
+      cancelAction
       zoomlinkId
       mentor {
         id
@@ -477,7 +477,7 @@ export const APPROVE_APPOINTMENT = gql`
       startAt
       duration
       status
-      cancelActionType
+      cancelAction
       zoomlinkId
     }
   }
@@ -490,7 +490,7 @@ export const CANCEL_APPOINTMENT = gql`
       startAt
       duration
       status
-      cancelActionType
+      cancelAction
       zoomlinkId
     }
   }
@@ -507,7 +507,7 @@ export const CREATE_APPOINTMENT = gql`
     lesson: createLesson(
       mentorId: $mentorId
       studentId: $studentId
-      subscriptionId: $subscriptionId
+      packageSubscriptionId: $subscriptionId
       startAt: $startAt
       duration: $duration
     ) {
@@ -515,7 +515,7 @@ export const CREATE_APPOINTMENT = gql`
       startAt
       duration
       status
-      cancelActionType
+      cancelAction
       zoomlinkId
       course {
         id
@@ -532,8 +532,77 @@ export const UPDATE_APPOINTMENT = gql`
       startAt
       duration
       status
-      cancelActionType
+      cancelAction
       zoomlinkId
+    }
+  }
+`;
+
+export const LESSON_QUERY = gql`
+  query GET_LESSON($id: ID!) {
+    lesson(id: $id) {
+      id
+      startAt
+      duration
+      status
+      cancelAction
+      zoomlinkId
+      mentor {
+        id
+        major
+        language
+        university
+        graduatingYear
+        degree
+        introduction
+        about
+        experience
+        relevantExperience
+        isActive
+        hourlyRate
+        facts
+        uniqueFacts
+        userId
+        avatarId
+        avatar {
+          id
+          name
+          mimetype
+          url
+          path
+          width
+          height
+          createdAt
+          updatedAt
+        }
+      }
+      student {
+        id
+        parentName
+        level
+        langLevel
+        birthday
+        about
+        pronouns
+        isActive
+        avatarId
+        avatar {
+          id
+          name
+          mimetype
+          url
+          path
+          width
+          height
+          createdAt
+          updatedAt
+        }
+      }
+      course {
+        id
+        title
+        description
+      }
     }
   }
 `;

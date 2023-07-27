@@ -152,9 +152,7 @@ const LessonConfirmation = ({
           mentorId: tutor.id,
           studentId: user.students[0].id,
           subscriptionId: plan?.id,
-          startAt: moment
-            .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
-            .toISOString(),
+          startAt: moment.utc(time, 'ddd MMM DD YYYY HH:mm:ssZ').toISOString(),
           duration: plan?.package?.sessionTime,
         }
       });

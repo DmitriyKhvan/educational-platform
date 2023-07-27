@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-
 import { useTranslation } from 'react-i18next';
 import ClipLoader from 'react-spinners/ClipLoader';
-
 import AuthLayout from '../../components/AuthLayout';
 import InputField from '../../components/Form/InputField';
 import CheckboxField from '../../components/Form/CheckboxField';
@@ -12,6 +9,7 @@ import useLogin from '../../modules/auth/hooks/login';
 import Button from '../../components/Form/Button';
 import InputWithError from '../../components/Form/InputWithError';
 import notify from '../../utils/notify';
+import { useLocation, Link } from 'react-router-dom';
 
 const Login = () => {
   const [t] = useTranslation('common');
@@ -30,7 +28,17 @@ const Login = () => {
     },
   });
 
+  const { search } = useLocation();
+
+  const queryParams = new URLSearchParams(search);
+  const redirectPath = queryParams.get('redirect');
+  console.log(redirectPath);
+
   const { login, loading, error } = useLogin();
+
+  const handleLogin = async ({ email, password }) => {
+    await login(email, password, redirectPath || '/');
+  };
 
   useEffect(() => {
     if (error) {
@@ -44,12 +52,7 @@ const Login = () => {
         <div className="text-center">
           <h1 className="title text-center">{t('login')}</h1>
         </div>
-        <form
-          onSubmit={handleSubmit(({ email, password }) =>
-            login(email, password),
-          )}
-          className="form-section"
-        >
+        <form onSubmit={handleSubmit(handleLogin)} className="form-section">
           <div className="mb-7">
             <InputWithError errorsField={errors?.email}>
               <InputField

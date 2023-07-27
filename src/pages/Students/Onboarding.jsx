@@ -23,7 +23,10 @@ export default function Onboarding() {
 
   const [signUp] = useMutation(SIGN_UP, {
     onCompleted: () => {
-      history.push('/');
+      history.push({
+        pathname: '/',
+        search: '?redirect=purchase/1',
+      });
     },
   });
 
