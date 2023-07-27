@@ -115,7 +115,7 @@ function App() {
           exact
           component={ConfirmPayment}
         />
-        <PrivateRoute exact path="/purchase/:courseId" component={BuyPackage} />
+        <PrivateRoute exact path="/purchase/:packageId" component={BuyPackage} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/approve-requests" component={ApproveRequest} />
 

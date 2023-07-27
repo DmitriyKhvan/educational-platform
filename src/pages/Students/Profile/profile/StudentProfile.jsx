@@ -49,6 +49,7 @@ const StudentProfile = () => {
 
   const saveIntroduction = async (text) => {
     if (text !== '') {
+      console.log(user);
       const { data } = await updateStudent({
         variables: {
           id: parseInt(user?.student?.id),

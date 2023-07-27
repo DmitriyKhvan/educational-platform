@@ -500,16 +500,14 @@ export const CREATE_APPOINTMENT = gql`
   mutation CREATE_LESSON(
     $mentorId: ID!
     $studentId: ID!
-    $courseId: ID!
-    $packageId: ID!
+    $subscriptionId: ID!
     $startAt: DateTime!
     $duration: Int!
   ) {
-    createLesson(
+    lesson: createLesson(
       mentorId: $mentorId
       studentId: $studentId
-      courseId: $courseId
-      packageId: $packageId
+      subscriptionId: $subscriptionId
       startAt: $startAt
       duration: $duration
     ) {
@@ -519,6 +517,10 @@ export const CREATE_APPOINTMENT = gql`
       status
       cancelActionType
       zoomlinkId
+      course {
+        id
+        title
+      }
     }
   }
 `;
@@ -532,75 +534,6 @@ export const UPDATE_APPOINTMENT = gql`
       status
       cancelActionType
       zoomlinkId
-    }
-  }
-`;
-
-export const LESSON_QUERY = gql`
-  query GET_LESSON($id: ID!) {
-    lesson(id: $id) {
-      id
-      startAt
-      duration
-      status
-      cancelActionType
-      zoomlinkId
-      mentor {
-        id
-        major
-        language
-        university
-        graduatingYear
-        degree
-        introduction
-        about
-        experience
-        relevantExperience
-        isActive
-        hourlyRate
-        facts
-        uniqueFacts
-        userId
-        avatarId
-        avatar {
-          id
-          name
-          mimetype
-          url
-          path
-          width
-          height
-          createdAt
-          updatedAt
-        }
-      }
-      student {
-        id
-        parentName
-        level
-        langLevel
-        birthday
-        about
-        pronouns
-        isActive
-        avatarId
-        avatar {
-          id
-          name
-          mimetype
-          url
-          path
-          width
-          height
-          createdAt
-          updatedAt
-        }
-      }
-      course {
-        id
-        title
-        description
-      }
     }
   }
 `;
