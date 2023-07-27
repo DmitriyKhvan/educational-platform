@@ -25,7 +25,7 @@ export default function Onboarding() {
     onCompleted: () => {
       history.push({
         pathname: '/',
-        search: '?redirect=purchase?package=1',
+        search: '?redirect=purchase/1',
       });
     },
   });
