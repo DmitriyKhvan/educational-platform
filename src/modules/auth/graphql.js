@@ -154,7 +154,7 @@ export const GET_MENTOR = gql`
         startAt
         duration
         status
-        cancelActionType
+        cancelAction
         zoomlinkId
       }
       avatarId
@@ -215,7 +215,7 @@ export const MENTORS_QUERY = gql`
         startAt
         duration
         status
-        cancelActionType
+        cancelAction
         zoomlinkId
       }
       avatarId
@@ -433,7 +433,7 @@ export const APPOINTMENTS_QUERY = gql`
       startAt
       duration
       status
-      cancelActionType
+      cancelAction
       zoomlinkId
       mentor {
         id
@@ -477,7 +477,7 @@ export const APPROVE_APPOINTMENT = gql`
       startAt
       duration
       status
-      cancelActionType
+      cancelAction
       zoomlinkId
     }
   }
@@ -490,7 +490,7 @@ export const CANCEL_APPOINTMENT = gql`
       startAt
       duration
       status
-      cancelActionType
+      cancelAction
       zoomlinkId
     }
   }
@@ -500,16 +500,14 @@ export const CREATE_APPOINTMENT = gql`
   mutation CREATE_LESSON(
     $mentorId: ID!
     $studentId: ID!
-    $courseId: ID!
-    $packageId: ID!
+    $subscriptionId: ID!
     $startAt: DateTime!
     $duration: Int!
   ) {
     createLesson(
       mentorId: $mentorId
       studentId: $studentId
-      courseId: $courseId
-      packageId: $packageId
+      packageSubscriptionId: $subscriptionId
       startAt: $startAt
       duration: $duration
     ) {
@@ -517,7 +515,7 @@ export const CREATE_APPOINTMENT = gql`
       startAt
       duration
       status
-      cancelActionType
+      cancelAction
       zoomlinkId
     }
   }
@@ -530,7 +528,7 @@ export const UPDATE_APPOINTMENT = gql`
       startAt
       duration
       status
-      cancelActionType
+      cancelAction
       zoomlinkId
     }
   }
@@ -543,7 +541,7 @@ export const LESSON_QUERY = gql`
       startAt
       duration
       status
-      cancelActionType
+      cancelAction
       zoomlinkId
       mentor {
         id

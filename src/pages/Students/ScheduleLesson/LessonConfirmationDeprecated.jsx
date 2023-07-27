@@ -20,6 +20,8 @@ const LessonConfirmation = ({ tutor, time, lesson, onBack }) => {
   const [checkStates, setCheckStates] = useState([false, false, false]);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
 
+  console.log(lesson)
+
   const {user} = useAuth();
 
   const [createAppointment] = useMutation(CREATE_APPOINTMENT);

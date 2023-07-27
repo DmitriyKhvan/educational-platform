@@ -10,7 +10,7 @@ const CANCEL_LESSON = gql`
         startAt
         duration
         status
-        cancelActionType
+        cancelAction
         zoomlinkId
       }
     }
