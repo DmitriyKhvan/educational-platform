@@ -111,17 +111,17 @@ const StudentListAppointments = () => {
   );
 
   const ScheduleArr = (isWithinAweek || [])
-    .sort((a, b) => new Date(a.start_at) - new Date(b.start_at))
+    .sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
     .map((x, i) => {
-      const date = moment(x?.start_at);
-      const expiredDate = moment(x?.start_at).add(x?.duration, 'minutes');
+      const date = moment(x?.startAt);
+      const expiredDate = moment(x?.startAt).add(x?.duration, 'minutes');
       const currentDate = moment();
-      const mentors = mentorsList?.tutors?.find((i) => +i?.id === x?.tutor?.id);
+      const mentors = mentorsList?.mentors.find((i) => +i?.id === x?.mentor?.id);
       return (
         currentDate.isBefore(expiredDate) && (
           <div key={i}>
             <ScheduleCard
-              lesson={x.lesson?.description}
+              lesson={x?.course?.title}
               mentors={mentors}
               zoomlink={x?.zoomlink}
               date={date}
