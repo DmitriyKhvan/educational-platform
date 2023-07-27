@@ -113,7 +113,7 @@ const Calendar = () => {
     APPOINTMENTS_QUERY,
     {
       variables: {
-        studentId: user?.mentor?.id,
+        mentorId: user?.mentor?.id,
         status: 'scheduled,paid,completed,in_progress',
       },
     },
