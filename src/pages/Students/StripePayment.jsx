@@ -48,24 +48,6 @@ const CheckoutForm = () => {
 
   const [errorMessage, setErrorMessage] = useState(null);
 
-  // useEffect(async () => {
-  //   if (!stripe || !elements) {
-  //     return;
-  //   }
-
-  //   const { paymentIntent } = await stripe.retrievePaymentIntent(
-  //     params.clientSecret,
-  //   );
-
-  //   if (
-  //     paymentIntent.status === 'succeeded' ||
-  //     paymentIntent.status === 'canceled' ||
-  //     paymentIntent.status === 'processing'
-  //   ) {
-  //     history.push(`/`);
-  //   }
-  // });
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
