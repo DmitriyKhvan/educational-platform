@@ -24,13 +24,11 @@ const CREATE_PAYMENT = gql`
       provider: $provider
       metadata: $metadata
     ) {
-      payment {
-        id
-        status
-        provider
-        cancelReason
-        metadata
-      }
+      id
+      status
+      provider
+      cancelReason
+      metadata
     }
   }
 `;
@@ -50,8 +48,7 @@ const CheckoutForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    setLoading(true);
+    setLoading(() => true);
 
     if (!stripe || !elements) {
       return;
@@ -68,7 +65,7 @@ const CheckoutForm = () => {
 
     if (error) {
       setErrorMessage(error.message);
-      setLoading(false);
+      setLoading(() => false);
       return;
     }
 
@@ -87,7 +84,7 @@ const CheckoutForm = () => {
       );
     }
 
-    setLoading(false);
+    setLoading(() => false);
   };
 
   return (
@@ -101,8 +98,8 @@ const CheckoutForm = () => {
           {errorMessage && <div>*{errorMessage}</div>}
         </p>
         <button
-          disabled={!stripe && isLoading}
-          className="py-2 px-3 rounded text-white mt-4 bg-purple-500"
+          disabled={isLoading}
+          className="py-2 px-3 rounded text-white mt-4 bg-purple-500 disabled:bg-gray-300"
         >
           Continue
         </button>
