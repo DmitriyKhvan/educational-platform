@@ -46,11 +46,13 @@ export default function LoginForm({ register, errors }) {
           </span>
         )}
       </label>
-      <input
-        className="rounded-md ring-purple-800 duration-200 border border-gray-300"
-        type="text"
+      <select
         {...register('gender', { required: 'Gender is required' })}
-      />
+        className="rounded-md ring-purple-800 duration-200 border border-gray-300"
+      >
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
     </fieldset>
   );
 }
