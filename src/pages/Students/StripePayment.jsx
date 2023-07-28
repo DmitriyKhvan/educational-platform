@@ -44,6 +44,7 @@ const CheckoutForm = () => {
   const elements = useElements();
   const { user } = useAuth();
   const history = useHistory();
+  const [isLoading, setLoading] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -68,6 +69,8 @@ const CheckoutForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    setLoading(true);
+
     if (!stripe || !elements) {
       return;
     }
@@ -83,6 +86,7 @@ const CheckoutForm = () => {
 
     if (error) {
       setErrorMessage(error.message);
+      setLoading(false);
       return;
     }
 
@@ -100,6 +104,8 @@ const CheckoutForm = () => {
         `/purchase/${params.packageId}/complete?payment_intent_client_secret=${params.clientSecret}`,
       );
     }
+
+    setLoading(false);
   };
 
   return (
@@ -113,7 +119,7 @@ const CheckoutForm = () => {
           {errorMessage && <div>*{errorMessage}</div>}
         </p>
         <button
-          disabled={!stripe}
+          disabled={!stripe && isLoading}
           className="py-2 px-3 rounded text-white mt-4 bg-purple-500"
         >
           Continue
