@@ -8,7 +8,7 @@ import Logo from '../../assets/images/logo.png';
 import CredentialsForm from '../../components/onboarding/CredentialsForm';
 import { useMutation } from '@apollo/client';
 import { SIGN_UP } from '../../modules/auth/graphql';
-import { useHistory } from 'react-router-dom';
+import useLogin from '../../modules/auth/hooks/login';
 
 export default function Onboarding() {
   const {
@@ -17,18 +17,11 @@ export default function Onboarding() {
     formState: { errors },
   } = useForm();
 
-  const history = useHistory();
+  const { login } = useLogin();
 
   const [parent] = useAutoAnimate();
 
-  const [signUp] = useMutation(SIGN_UP, {
-    onCompleted: () => {
-      history.push({
-        pathname: '/',
-        search: '?redirect=purchase/1',
-      });
-    },
-  });
+  const [signUp] = useMutation(SIGN_UP);
 
   const { step, currentStepIndex, steps, next, back, isFirst, isLast } =
     useMultistepForm([
@@ -37,12 +30,14 @@ export default function Onboarding() {
       <CredentialsForm register={register} errors={errors} key="credentials" />,
     ]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (!isLast) return next();
     console.log(data);
-    signUp({
+    await signUp({
       variables: data,
     });
+
+    login(data.email, data.password, '/purchase/1');
   };
 
   return (
