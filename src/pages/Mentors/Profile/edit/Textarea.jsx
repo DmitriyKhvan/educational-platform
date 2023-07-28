@@ -1,4 +1,4 @@
-import cls from '../EditTutorProfile.module.scss';
+import cls from '../EditMentorProfile.module.scss';
 import { forwardRef, useState, useEffect } from 'react';
 
 export const Textarea = forwardRef(

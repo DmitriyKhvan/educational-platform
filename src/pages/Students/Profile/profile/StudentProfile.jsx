@@ -30,7 +30,7 @@ const StudentProfile = () => {
     PACKAGE_QUERY,
     {
       variables: {
-        id: user?.id,
+        userId: user?.id,
       },
     },
   );
@@ -125,17 +125,17 @@ const StudentProfile = () => {
                       planStatus.map((item) => (
                         <div key={item.id} className="enrolled_col">
                           <div className="course_card">
-                            <h3>{item.lesson_type}</h3>
+                            <h3>{item.package.course.title}</h3>
                             <button className="lesson_button">
                               {t('lesson_type')}
                             </button>
                             <button className="time_button">
-                              {item.duration} {t('minutes', { ns: 'common' })}
+                              {item.package.sessionTime} {t('minutes', { ns: 'common' })}
                             </button>
                             <button className="remaining_button">
                               {t('lessons_remaining', {
                                 ns: 'lessons',
-                                count: item.total_lessons,
+                                count: item.credits,
                               })}
                             </button>
                           </div>

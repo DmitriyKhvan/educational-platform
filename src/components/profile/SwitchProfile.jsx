@@ -6,7 +6,7 @@ import Loader from 'react-loader-spinner';
 
 import GeneralProfile from '../../pages/Students/Profile/profile/StudentProfile';
 
-import TutorProfile from '../../pages/Mentors/Profile/TutorProfile';
+import MentorProfile from '../../pages/Mentors/Profile/MentorProfile';
 
 const SwitchProfile = ({ user, isAdmin = false }) => {
   const [isMentor, setIsMentor] = useState(null);
@@ -35,7 +35,7 @@ const SwitchProfile = ({ user, isAdmin = false }) => {
                 <GeneralProfile currentUser={user} isAdmin={isAdmin} />
               )}
               {isMentor === true && (
-                <TutorProfile user={user} isAdmin={isAdmin} />
+                <MentorProfile user={user} isAdmin={isAdmin} />
               )}
             </div>
           </React.Fragment>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '../../../components/Layout';
-import cls from './EditTutorProfile.module.scss';
+import cls from './EditMentorProfile.module.scss';
 import DelIcon from '../../../assets/del.png';
 import Stick from '../../../assets/stick.png';
 import SampleModal from './SampleModal';
@@ -17,7 +17,7 @@ import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 import { Link } from 'react-scroll';
 import { useTranslation } from 'react-i18next';
 
-const EditTutorProfile = () => {
+const EditMentorProfile = () => {
   const [t] = useTranslation(['profile', 'common']);
   const [statusInfo, setStatusInfo] = React.useState('basic');
   const [showSample, setShowSample] = React.useState(false);
@@ -25,6 +25,7 @@ const EditTutorProfile = () => {
   const [updateMentor] = useMutation(MUTATION_UPDATE_MENTOR);
   const [profileImage, setProfileImage] = React.useState('');
   const { user, refetchUser } = useAuth();
+  console.log(user);
 
   const hooks = [
     {
@@ -177,4 +178,4 @@ const EditTutorProfile = () => {
   );
 };
 
-export default EditTutorProfile;
+export default EditMentorProfile;
