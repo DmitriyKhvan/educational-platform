@@ -11,7 +11,11 @@ import Loader from '../../../components/common/Loader';
 import { useAuth } from '../../../modules/auth';
 import LessonCard from './LessonCard';
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { APPOINTMENTS_QUERY, CREATE_APPOINTMENT, UPDATE_APPOINTMENT } from '../../../modules/auth/graphql';
+import {
+  APPOINTMENTS_QUERY,
+  CREATE_APPOINTMENT,
+  UPDATE_APPOINTMENT,
+} from '../../../modules/auth/graphql';
 
 const LessonConfirmation = ({
   plan,
@@ -75,8 +79,10 @@ const LessonConfirmation = ({
   const scheduleStartTime = moment(time).tz(userTimezone).format('hh:mm A');
   const scheduleEndTime = moment(time)
     .tz(userTimezone)
-    .add(plan?.duration, 'minutes')
+    .add(plan?.package?.sessionTime, 'minutes')
     .format('hh:mm A');
+
+  console.log(plan);
 
   let data = {
     lesson_title: plan?.lesson_title,
@@ -96,8 +102,6 @@ const LessonConfirmation = ({
   // }
   data = { ...data, student_id: 26 };
 
-  console.log(tutor, plan, time, data);
-
   const confirmLesson = async () => {
     setIsLoading(true);
 
@@ -109,18 +113,18 @@ const LessonConfirmation = ({
           id: lessonId,
           mentorId: data?.tutor_id,
           startAt: data?.start_at,
-        }
-      })
+        },
+      });
       setIsLoading(false);
 
       if (res) {
-        const { payload } = await (
-          await {
+        const payload = await (
+          await getAppointments({
             variables: {
               mentorId: data?.tutor_id,
               status: 'scheduled,paid,completed,in_progress',
             },
-          }
+          })
         ).data;
         setConfirmDisable(true);
         const newAppt = payload.filter((x) => x.id === parseInt(lessonId))[0];
@@ -145,8 +149,6 @@ const LessonConfirmation = ({
         setIsLoading(false);
       }
     } else {
-
-      console.log(time);
       const { data: { lesson } = {} } = await createAppointment({
         variables: {
           mentorId: tutor.id,
@@ -154,10 +156,13 @@ const LessonConfirmation = ({
           subscriptionId: plan?.id,
           startAt: moment.utc(time, 'ddd MMM DD YYYY HH:mm:ssZ').toISOString(),
           duration: plan?.package?.sessionTime,
-        }
+        },
       });
 
+      console.log(lesson, 'lesson');
+
       if (lesson) {
+        console.log('hey');
         setConfirmDisable(true);
         setNewAppointment(lesson);
         setDate(moment(lesson.startAt).unix());
@@ -170,6 +175,10 @@ const LessonConfirmation = ({
     }
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    console.log(newAppointment, 'new appointment');
+  }, [newAppointment]);
 
   return (
     <Layout>
@@ -357,11 +366,11 @@ const LessonConfirmation = ({
                 </div>
                 <ScheduleCardComponent
                   index={0}
-                  lesson={newAppointment.course.title}
-                  zoomlink={newAppointment.zoomlink}
+                  lesson={newAppointment?.course?.title}
+                  zoomlink={newAppointment?.zoomlink}
                   date={time}
                   mentors={men}
-                  data={newAppointment}
+                  data={newAppointment ?? {}}
                   subscription={plan}
                   fetchAppointments={fetchAppointments}
                   cancelled={cancelled}
