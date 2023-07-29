@@ -20,7 +20,7 @@ export default function LoginForm({ register, errors }) {
         options,
         'marketingChannel',
         register,
-        'English level is required',
+        'Please choose one of the options',
       ),
     [options],
   );
