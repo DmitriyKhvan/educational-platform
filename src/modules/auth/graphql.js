@@ -89,6 +89,10 @@ export const ME_QUERY = gql`
       students {
         id
         about
+        avatar {
+          id
+          url
+        }
       }
       mentor {
         id
@@ -101,6 +105,11 @@ export const ME_QUERY = gql`
         graduatingYear
         degree
         major
+        videoUrl
+        avatar {
+          id
+          url
+        }
       }
     }
   }
@@ -123,6 +132,7 @@ export const GET_MENTOR = gql`
       hourlyRate
       facts
       uniqueFacts
+      videoUrl
       availabilities {
         id
         day

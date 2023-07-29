@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 
-import cls from './TutorProfile.module.scss';
+import cls from './MentorProfile.module.scss';
 import { useAuth } from '../../../modules/auth';
 
-const TutorProfile = () => {
+const MentorProfile = () => {
   const [t] = useTranslation(['profile', 'common']);
   const [profileImage, setProfileImage] = useState('');
   const [videoLink, setVideoLink] = React.useState('');
@@ -19,8 +19,8 @@ const TutorProfile = () => {
   const user = actions?.user;
 
   useEffect(() => {
-    if (user?.tutor?.avatar) {
-      setProfileImage(user?.tutor?.avatar?.url);
+    if (user?.mentor?.avatar?.url) {
+      setProfileImage(user?.mentor?.avatar?.url);
     } else if (user.gender === 'female') {
       setProfileImage(femaleAvatar);
     } else if (user.gender === 'male') {
@@ -30,19 +30,18 @@ const TutorProfile = () => {
     }
   }, [user]);
 
-  const videoUrl = actions.user?.tutor?.videoUrl;
+  const videoUrl = actions.user?.mentor?.videoUrl;
 
   function renderVideo() {
     if (!videoUrl) {
       return;
     }
     const url = videoUrl?.split('');
-    var yt = ['y', 'o', 'u', 't', 'u', 'b', 'e'];
     var codeURL = [];
     var isVideo = null;
 
     for (var i = 0; i < url.length; i++) {
-      if (yt.includes(url[i])) {
+      if (videoUrl.includes('youtu')) {
         isVideo = true;
         if (url.includes('=')) {
           for (var l = 0; i < url.length; i++) {
@@ -74,8 +73,8 @@ const TutorProfile = () => {
   }
 
   function renderAbout() {
-    var text = actions.user?.tutor?.introduction;
-    var textLength = actions.user?.tutor?.introduction?.length;
+    var text = actions.user?.mentor?.introduction;
+    var textLength = actions.user?.mentor?.introduction?.length;
     var news = '';
     if (textLength) {
       for (var i = 0; i < textLength; i++) {
@@ -120,10 +119,10 @@ const TutorProfile = () => {
               {actions?.user?.fullName ? actions?.user.fullName : 'Nickname'}
             </h1>
             <h2 className={cls.text_primary}>
-              {actions?.user?.tutor?.degree && actions?.user?.tutor?.university
+              {actions?.user?.mentor?.degree && actions?.user?.mentor?.university
                 ? `
-                          ${actions?.user?.tutor?.degree},
-                          ${actions?.user?.tutor?.university}
+                          ${actions?.user?.mentor?.degree},
+                          ${actions?.user?.mentor?.university}
                         `
                 : ''}
             </h2>
@@ -137,8 +136,8 @@ const TutorProfile = () => {
             <h2>{t('summary')}</h2>
 
             <p>
-              {actions.user?.tutor?.introduction &&
-                actions.user?.tutor?.introduction}
+              {actions.user?.mentor?.introduction &&
+                actions.user?.mentor?.introduction}
             </p>
           </div>
 
@@ -180,10 +179,10 @@ const TutorProfile = () => {
               </div>
 
               <div className="">
-                {actions.user?.tutor?.university && (
+                {actions.user?.mentor?.university && (
                   <>
                     <h1>{t('university')}</h1>
-                    <h2>{actions.user?.tutor?.university}</h2>
+                    <h2>{actions.user?.mentor?.university}</h2>
                   </>
                 )}
               </div>
@@ -267,4 +266,4 @@ const TutorProfile = () => {
   );
 };
 
-export default TutorProfile;
+export default MentorProfile;

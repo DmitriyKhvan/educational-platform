@@ -32,7 +32,7 @@ const Submited = () => {
 
           <button
             onClick={() => {
-              history.push('/student/profile');
+              history.push('/mentor/profile');
               notify();
             }}
           >

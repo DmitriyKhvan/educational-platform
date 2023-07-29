@@ -1,5 +1,5 @@
 import React from 'react';
-import EditTutorProfile from './Profile/EditTutorProfile';
+import EditMentorProfile from './Profile/EditMentorProfile';
 import SubmitVideo from './Profile/SubmitVideo/SubmitVideo';
 import Submited from './Profile/SubmitVideo/Submited';
 import StudentsList from './StudentsList/StudentsList';
@@ -40,7 +40,7 @@ export default function TutorPages() {
       </Route>
 
       <Route path={`${path}/edit-profile`}>
-        <EditTutorProfile />
+        <EditMentorProfile />
       </Route>
 
       <Route path={`${path}/edit-profiles/submit-video`}>

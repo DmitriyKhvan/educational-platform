@@ -1,4 +1,4 @@
-import cls from '../EditTutorProfile.module.scss';
+import cls from '../EditMentorProfile.module.scss';
 import { forwardRef } from 'react';
 
 export const TextInput = forwardRef(

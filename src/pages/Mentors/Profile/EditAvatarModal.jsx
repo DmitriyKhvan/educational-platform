@@ -11,6 +11,8 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+Modal.setAppElement('#root');
+
 const EditAvatarModal = ({ isOpen, closeModal, profileImage }) => {
   const [t] = useTranslation('common');
   const { user, refetchUser } = useAuth();
@@ -26,13 +28,13 @@ const EditAvatarModal = ({ isOpen, closeModal, profileImage }) => {
       const { data } = await updateMentor({
         variables: {
           id: parseInt(user?.mentor?.id),
-          data: { avatar: { upload: file } },
+          data: { avatar: file },
         },
       });
 
       if (data) {
         notify();
-        history.push('/student/profile');
+        history.push('/mentor/profile');
         closeModal();
       }
 

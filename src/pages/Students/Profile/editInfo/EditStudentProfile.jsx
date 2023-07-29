@@ -18,7 +18,7 @@ import { toast } from 'react-toastify';
 import { getData } from 'country-list';
 
 import { AiFillEdit } from 'react-icons/ai';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const timezoneOptions = timezones.map(({ label, tzCode }) => ({
@@ -32,10 +32,10 @@ const EditProflileStudent = () => {
   const [profileImage, setProfileImage] = React.useState('');
   const [file, setFile] = React.useState(null);
 
-  // const history = useHistory();
+  const history = useHistory();
   const [, setPreview] = React.useState({});
 
-  const notifyAvatar = () => toast('Avatar is changed!');
+  // const notifyAvatar = () => toast('Avatar is changed!');
   const notify = () => toast('Student information is changed!');
 
   const [updateUser] = useMutation(MUTATION_UPDATE_USER);
@@ -71,7 +71,7 @@ const EditProflileStudent = () => {
     if (file) {
       setPreview(area.avatar);
 
-      const { data } = await updateStudent({
+      const { error } = await updateStudent({
         variables: {
           id: parseInt(user?.student?.id),
           data: {
@@ -80,12 +80,9 @@ const EditProflileStudent = () => {
         },
       });
 
-      if (data) {
-        notifyAvatar();
-        // history.push('/student/profile');
+      if (error) {
+        console.log('Avatar upload failed: ', error);
       }
-      return;
-      // await refetchUser();
     }
 
     const { data: userData } = await updateUser({
