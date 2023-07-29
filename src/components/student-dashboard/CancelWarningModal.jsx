@@ -8,23 +8,25 @@ import { useAuth } from '../../modules/auth';
 const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
   const { user } = useAuth();
   const [t] = useTranslation('modals');
-  const { data: payload, loading } = useQuery(PACKAGE_QUERY, {
+  const { data: payload } = useQuery(PACKAGE_QUERY, {
     variables: {
-      id: user.id,
+      userId: user.id,
     },
   });
   const [planLength, setPlanLength] = useState(0);
   const [isChecked, setIsChecked] = useState(false);
 
   useEffect(async () => {
-    const [{ periodStart, periodEnd }] = payload.results.filter(
-      (x) => parseInt(x.package.period, 10) === duration,
-    );
-    const diff = Math.round(
-      (moment(periodStart).unix() - moment(periodEnd).unix()) / 2592000,
-    );
-    setPlanLength(diff);
-  }, [loading]);
+    if (payload && payload.results) {
+      const [{ periodStart, periodEnd }] = payload.results.filter(
+        (x) => parseInt(x.package.period, 10) === duration,
+      );
+      const diff = Math.round(
+        (moment(periodStart).unix() - moment(periodEnd).unix()) / 2592000,
+      );
+      setPlanLength(diff);
+    }
+  }, [payload]);
 
   const cancellationDots = [];
   for (let i = 0; i < planLength; i++) {
