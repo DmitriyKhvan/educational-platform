@@ -31,8 +31,8 @@ const sortCalendarEvents = (data) => {
   const timeZone = 'Asia/Seoul';
   let eventDates = {};
   data.forEach((apt) => {
-    let start_at = new Date(apt.startAt);
-    let date = format(utcToZonedTime(start_at, timeZone), 'yyyy-MM-dd');
+    let startAt = new Date(apt.startAt);
+    let date = format(utcToZonedTime(startAt, timeZone), 'yyyy-MM-dd');
     if (eventDates[date]) {
       eventDates[date].push(apt);
     } else {
@@ -45,12 +45,12 @@ const sortCalendarEvents = (data) => {
     for (const eventDate of eventDates[key]) {
       const date = moment(eventDate.startAt).utc(0, true).unix();
       const endEpoch = date + eventDate.duration * 60;
-      const start_at = moment.unix(date).utc(0, true);
+      const startAt = moment.unix(date).utc(0, true);
       const end_at = moment.unix(endEpoch).utc(0, true);
       const iterateEvents = {
         zoomLink: eventDate.zoomLink,
         lesson: eventDate.lesson,
-        start_at,
+        startAt,
         end_at,
         type: eventDate.type,
         mentor: eventDate.mentor,
@@ -64,7 +64,7 @@ const sortCalendarEvents = (data) => {
   const tablularEventData = [];
   for (const eventKey of eventKeys) {
     for (const eventDate of eventDates[eventKey]) {
-      const date = moment(eventDate.start_at).utc(0, true).unix();
+      const date = moment(eventDate.startAt).utc(0, true).unix();
       const mentor = eventDate.mentor
         ? eventDate.mentor?.user?.firstName +
           ' ' +
@@ -184,7 +184,7 @@ const Calendar = () => {
     if (calendarAppointments) {
       const tempEvents = [];
       calendarAppointments.forEach((_, index) => {
-        const start = moment(calendarAppointments[index].start_at).tz(
+        const start = moment(calendarAppointments[index].startAt).tz(
           userTimezone,
         );
         const end = moment(calendarAppointments[index].end_at).tz(userTimezone);
@@ -209,7 +209,7 @@ const Calendar = () => {
       const tempUpcomingLessons = [];
       const tempPastLessons = [];
       tableAppointments.map((each) => {
-        if (new Date(each.resource.start_at) > new Date()) {
+        if (new Date(each.resource.startAt) > new Date()) {
           tempUpcomingLessons.push(each);
         } else {
           tempPastLessons.push(each);
@@ -229,10 +229,10 @@ const Calendar = () => {
       setIdLesson(selectedEvent.resource?.eventDate?.id);
     }
 
-    const scheduledTime = moment(selectedEvent?.resource?.start_at).tz(
+    const scheduledTime = moment(selectedEvent?.resource?.startAt).tz(
       userTimezone,
     );
-    const startTime = moment(selectedEvent.resource?.start_at)
+    const startTime = moment(selectedEvent.resource?.startAt)
       .tz(userTimezone)
       .format('hh:mm A');
     const endTime = moment(selectedEvent.resource?.end_at)
@@ -420,7 +420,6 @@ const Calendar = () => {
                         new Date(b.dateTime.startTime),
                     )
                     .map((event) => {
-                      console.log(event, '1');
                       return (
                         <tr className="tr-center" key={event.toString()}>
                           <td className="td-item">
@@ -450,11 +449,11 @@ const Calendar = () => {
                       </td> */}
                           <td className="td-item">
                             <p className="td-datetime td-datetime-border ps-3">
-                              {moment(event.resource.start_at)
+                              {moment(event.resource.startAt)
                                 .tz(userTimezone)
                                 .format('ddd, MMM Do hh:mm A')}
                               {' → '}
-                              {moment(event.resource.start_at)
+                              {moment(event.resource.startAt)
                                 .tz(userTimezone)
                                 .add(event.resource.duration, 'minutes')
                                 .format('hh:mm A')}
