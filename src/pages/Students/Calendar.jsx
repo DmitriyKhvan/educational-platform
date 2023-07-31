@@ -1,8 +1,3 @@
-/* eslint-disable import/no-unresolved */
-/* eslint-disable no-undef  */
-
-// need to replace with graphql
-
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 // import { useDispatch, useSelector } from 'react-redux';
@@ -21,58 +16,129 @@ import ReviewLessonModal from '../../components/student-dashboard/ReviewLessonMo
 import { useAuth } from '../../modules/auth';
 import FeedbackLessonModal from '../Mentors/FeedbackLessonModal';
 import WeekHeader from '../../components/common/WeekHeader';
-import { gql, useQuery } from '@apollo/client';
-import { MENTORS_QUERY } from '../../modules/auth/graphql';
+import { useQuery, useMutation } from '@apollo/client';
+import {
+  MENTORS_QUERY,
+  LESSON_QUERY,
+  APPOINTMENTS_QUERY,
+  CANCEL_APPOINTMENT,
+} from '../../modules/auth/graphql';
+import { format, utcToZonedTime } from 'date-fns-tz';
 
-const GET_GROUP_INFO = gql`
-  query ($id: ID) {
-    group(where: { id: $id }) {
-      id
-      tutorId
-      lessonId
-      lessonType
-      lessonTitle
-      lessonDesc
-      seatCount
-      startAt
-      duration
-      status
-      completed
-      cancelAction
-      lessonTopic
-      lastPartLesson
-      zoomlinkId
-      createdAt
-      updatedAt
+const sortCalendarEvents = (data) => {
+  console.log(data);
+  if (!data) return;
+  const timeZone = 'Asia/Seoul';
+  let eventDates = {};
+  data.forEach((apt) => {
+    let startAt = new Date(apt.startAt);
+    let date = format(utcToZonedTime(startAt, timeZone), 'yyyy-MM-dd');
+    if (eventDates[date]) {
+      eventDates[date].push(apt);
+    } else {
+      eventDates[date] = [apt];
+    }
+  });
+  const eventKeys = Object.keys(eventDates);
+  const calendarEvents = [];
+  eventKeys.forEach((key) => {
+    for (const eventDate of eventDates[key]) {
+      const date = moment(eventDate.startAt).utc(0, true).unix();
+      const endEpoch = date + eventDate.duration * 60;
+      const startAt = moment.unix(date).utc(0, true);
+      const end_at = moment.unix(endEpoch).utc(0, true);
+      const iterateEvents = {
+        zoomLink: eventDate.zoomLink,
+        lesson: eventDate.lesson,
+        startAt,
+        end_at,
+        type: eventDate.type,
+        mentor: eventDate.mentor,
+        student: eventDate.student,
+        eventDate,
+      };
+
+      calendarEvents.push(iterateEvents);
+    }
+  });
+  const tablularEventData = [];
+  for (const eventKey of eventKeys) {
+    for (const eventDate of eventDates[eventKey]) {
+      const date = moment(eventDate.startAt).utc(0, true).unix();
+      const mentor = eventDate.mentor
+        ? eventDate.mentor?.user?.firstName +
+          ' ' +
+          eventDate.mentor?.user?.lastName?.charAt(0)?.toUpperCase() +
+          '.'
+        : '';
+      const startTime = moment.unix(date).utc(0, true).format('hh:mm a');
+      const tableRow = {
+        dateTime: {
+          startTime,
+          endTime: moment
+            .unix(date)
+            .utc(0, true)
+            .add(eventDate.duration, 'minutes')
+            .format('hh:mm a'),
+          date: moment.unix(date).utc(0, true).format('ddd, MMM D'),
+        },
+        sessionTime: new Date(
+          `${moment.unix(date).utc(0, true).format('ddd, MMM D')},${startTime}`,
+        ),
+        onClick: {
+          date,
+        },
+        mentor,
+        resource: eventDate,
+      };
+      tablularEventData.push(tableRow);
     }
   }
-`;
+  return { tablularEventData, calendarEvents };
+};
 
 const Calendar = () => {
   const [idOfLesson, setIdLesson] = React.useState(null);
-  const { data } = useQuery(GET_GROUP_INFO, {
+  const { data } = useQuery(LESSON_QUERY, {
     variables: { id: idOfLesson },
-    skip: !idOfLesson,
   });
   const { data: mentorsList } = useQuery(MENTORS_QUERY, {
     errorPolicy: 'ignore',
   });
 
-  const mentors = mentorsList?.tutors?.find(
-    (i) => +i?.id === +data?.group?.tutorId,
+  const mentors = mentorsList?.mentors?.find(
+    (i) => +i?.id === +data?.lesson?.mentor?.id,
   );
 
   const [t] = useTranslation(['lessons']);
   const location = useLocation();
   const { user } = useAuth();
 
-  const calendarAppointments = useSelector(
-    (state) => state.appointment.calendarEvents,
+  const { refetch: getAppointments, data: appointments } = useQuery(
+    APPOINTMENTS_QUERY,
+    {
+      variables: {
+        studentId: user?.mentor?.id,
+        status: 'scheduled,paid,completed,in_progress',
+      },
+    },
   );
 
-  const tableAppointments = useSelector(
-    (state) => state.appointment.tablularEventData,
-  );
+  const [calendarAppointments, setCalendarAppointments] = useState([]);
+  const [tableAppointments, setTableAppointments] = useState([]);
+
+  useEffect(() => {
+    if (!appointments) return;
+    else {
+      const { calendarEvents, tablularEventData } = sortCalendarEvents(
+        appointments?.lessons,
+      );
+      setCalendarAppointments(calendarEvents);
+      setTableAppointments(tablularEventData);
+    }
+  }, [appointments]);
+
+  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT);
 
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [pastLessons, setPastLessons] = useState([]);
@@ -88,7 +154,6 @@ const Calendar = () => {
     setCalendarEvent({});
     setIsOpen(false);
   };
-  const dispatch = useDispatch();
 
   const customStyles = {
     content: {
@@ -107,12 +172,10 @@ const Calendar = () => {
   useEffect(() => {
     (async () => {
       if (user && user?.student) {
-        dispatch(
-          getAppointments({
-            student_id: user.student?.id,
-            status: 'scheduled,paid,completed,in_progress',
-          }),
-        );
+        getAppointments({
+          student_id: user.student?.id,
+          status: 'scheduled,paid,completed,in_progress',
+        });
       }
     })();
   }, [user]);
@@ -121,15 +184,13 @@ const Calendar = () => {
     if (calendarAppointments) {
       const tempEvents = [];
       calendarAppointments.forEach((_, index) => {
-        const start = moment(calendarAppointments[index].start_at).tz(
+        const start = moment(calendarAppointments[index].startAt).tz(
           userTimezone,
         );
         const end = moment(calendarAppointments[index].end_at).tz(userTimezone);
         const event = {
           id: index,
-          title:
-            calendarAppointments[index].lesson.type.charAt(0).toUpperCase() +
-            calendarAppointments[index].lesson.type.slice(1),
+          title: calendarAppointments[index]?.course?.title,
           start: start.toDate(),
           end: end.toDate(),
           resource: calendarAppointments[index],
@@ -148,7 +209,7 @@ const Calendar = () => {
       const tempUpcomingLessons = [];
       const tempPastLessons = [];
       tableAppointments.map((each) => {
-        if (new Date(each.resource.start_at) > new Date()) {
+        if (new Date(each.resource.startAt) > new Date()) {
           tempUpcomingLessons.push(each);
         } else {
           tempPastLessons.push(each);
@@ -168,10 +229,10 @@ const Calendar = () => {
       setIdLesson(selectedEvent.resource?.eventDate?.id);
     }
 
-    const scheduledTime = moment(selectedEvent?.resource?.start_at).tz(
+    const scheduledTime = moment(selectedEvent?.resource?.startAt).tz(
       userTimezone,
     );
-    const startTime = moment(selectedEvent.resource?.start_at)
+    const startTime = moment(selectedEvent.resource?.startAt)
       .tz(userTimezone)
       .format('hh:mm A');
     const endTime = moment(selectedEvent.resource?.end_at)
@@ -222,17 +283,12 @@ const Calendar = () => {
   };
 
   async function onCancel(id) {
-    dispatch(cancelAppointment(id));
-    setTimeout(
-      () =>
-        dispatch(
-          getAppointments({
-            student_id: user.student?.id,
-            status: 'scheduled,paid,completed,in_progress',
-          }),
-        ),
-      1000,
-    );
+    cancelAppointment({
+      variables: {
+        id: id,
+      },
+    });
+    getAppointments();
     setIsOpen(false);
     setIsCalendar(true);
   }
@@ -363,60 +419,64 @@ const Calendar = () => {
                         new Date(a.dateTime.startTime) -
                         new Date(b.dateTime.startTime),
                     )
-                    .map((event) => (
-                      <tr className="tr-center" key={event.toString()}>
-                        <td className="td-item">
-                          <p className="td-lesson">{event.lesson}</p>
-                        </td>
-                        <td className="td-item">
-                          <p className="td-lesson">{event.resource.duration}</p>
-                        </td>
+                    .map((event) => {
+                      return (
+                        <tr className="tr-center" key={event.toString()}>
+                          <td className="td-item">
+                            <p className="td-lesson">{event.lesson}</p>
+                          </td>
+                          <td className="td-item">
+                            <p className="td-lesson">
+                              {event.resource.duration}
+                            </p>
+                          </td>
 
-                        {/* Do not remove this code, it will be used in the future 
-                        <td className='td-item'>
-                          <p className='td-topic-level'>
-                            {event.level}
-                          </p>
-                        </td>
-                        <td className='td-item'>
-                          <p className='td-topic-level'>
-                            {` ${event.currentTopic}`}
-                          </p>
-                        </td>
-                        <td className='td-item'>
-                          <p className='td-topic-level'>
-                            {` ${event.nextTopic}`}
-                          </p>
-                        </td> */}
-                        <td className="td-item">
-                          <p className="td-datetime td-datetime-border ps-3">
-                            {moment(event.resource.start_at)
-                              .tz(userTimezone)
-                              .format('ddd, MMM Do hh:mm A')}
-                            {' → '}
-                            {moment(event.resource.start_at)
-                              .tz(userTimezone)
-                              .add(event.resource.duration, 'minutes')
-                              .format('hh:mm A')}
-                          </p>
-                        </td>
-                        <td className="td-item">
-                          <p className="td-tutor">{event.tutor}</p>
-                        </td>
-                        <td className="td-item">
-                          <button
-                            className={`btn ${
-                              event.tutorFeedback?.length
-                                ? 'btn-primary'
-                                : 'btn-tutor-feedback-disabled'
-                            }`}
-                            onClick={handleFeedback}
-                          >
-                            Feedback
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                          {/* Do not remove this code, it will be used in the future 
+                      <td className='td-item'>
+                        <p className='td-topic-level'>
+                          {event.level}
+                        </p>
+                      </td>
+                      <td className='td-item'>
+                        <p className='td-topic-level'>
+                          {` ${event.currentTopic}`}
+                        </p>
+                      </td>
+                      <td className='td-item'>
+                        <p className='td-topic-level'>
+                          {` ${event.nextTopic}`}
+                        </p>
+                      </td> */}
+                          <td className="td-item">
+                            <p className="td-datetime td-datetime-border ps-3">
+                              {moment(event.resource.startAt)
+                                .tz(userTimezone)
+                                .format('ddd, MMM Do hh:mm A')}
+                              {' → '}
+                              {moment(event.resource.startAt)
+                                .tz(userTimezone)
+                                .add(event.resource.duration, 'minutes')
+                                .format('hh:mm A')}
+                            </p>
+                          </td>
+                          <td className="td-item">
+                            <p className="td-tutor">{event.tutor}</p>
+                          </td>
+                          <td className="td-item">
+                            <button
+                              className={`btn ${
+                                event.tutorFeedback?.length
+                                  ? 'btn-primary'
+                                  : 'btn-tutor-feedback-disabled'
+                              }`}
+                              onClick={handleFeedback}
+                            >
+                              Feedback
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             )}
