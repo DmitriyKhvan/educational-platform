@@ -536,14 +536,18 @@ export const CREATE_APPOINTMENT = gql`
 `;
 
 export const UPDATE_APPOINTMENT = gql`
-  mutation UPDATE_LESSON($id: Int!, $startAt: DateTime!, $mentorId: Int!) {
-    updateLesson(id: $id, startAt: $startAt, mentorId: $mentorId) {
+  mutation UPDATE_LESSON($id: ID!, $startAt: DateTime!, $mentorId: ID!) {
+    lesson: rescheduleLesson(id: $id, startAt: $startAt, mentorId: $mentorId) {
       id
       startAt
       duration
       status
       cancelAction
       zoomlinkId
+      course {
+        id
+        title
+      }
     }
   }
 `;
