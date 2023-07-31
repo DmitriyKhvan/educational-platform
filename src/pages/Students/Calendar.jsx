@@ -49,7 +49,7 @@ const sortCalendarEvents = (data) => {
       const end_at = moment.unix(endEpoch).utc(0, true);
       const iterateEvents = {
         zoomLink: eventDate.zoomLink,
-        lesson: eventDate.lesson,
+        lesson: eventDate?.course?.title,
         startAt,
         end_at,
         type: eventDate.type,
