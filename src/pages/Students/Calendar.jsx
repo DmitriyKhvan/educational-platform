@@ -26,20 +26,19 @@ import {
 import { format, utcToZonedTime } from 'date-fns-tz';
 
 const sortCalendarEvents = (data) => {
+  console.log(data)
   if (!data) return;
   const timeZone = 'Asia/Seoul';
   let eventDates = {};
-  data
-    .filter((apt) => apt.students.length > 0)
-    .forEach((apt) => {
-      let start_at = new Date(apt.start_at);
-      let date = format(utcToZonedTime(start_at, timeZone), 'yyyy-MM-dd');
-      if (eventDates[date]) {
-        eventDates[date].push(apt);
-      } else {
-        eventDates[date] = [apt];
-      }
-    });
+  data.forEach((apt) => {
+    let start_at = new Date(apt.startAt);
+    let date = format(utcToZonedTime(start_at, timeZone), 'yyyy-MM-dd');
+    if (eventDates[date]) {
+      eventDates[date].push(apt);
+    } else {
+      eventDates[date] = [apt];
+    }
+  });
   const eventKeys = Object.keys(eventDates);
   const calendarEvents = [];
   eventKeys.forEach((key) => {
@@ -49,13 +48,13 @@ const sortCalendarEvents = (data) => {
       const start_at = moment.unix(date).utc(0, true);
       const end_at = moment.unix(endEpoch).utc(0, true);
       const iterateEvents = {
-        zoomLink: eventDate.zoomlink,
+        zoomLink: eventDate.zoomLink,
         lesson: eventDate.lesson,
         start_at,
         end_at,
         type: eventDate.type,
-        tutor: eventDate.tutor,
-        student: eventDate.students,
+        mentor: eventDate.mentor,
+        student: eventDate.student,
         eventDate,
       };
 
@@ -66,19 +65,14 @@ const sortCalendarEvents = (data) => {
   for (const eventKey of eventKeys) {
     for (const eventDate of eventDates[eventKey]) {
       const date = moment(eventDate.start_at).utc(0, true).unix();
-      const tutor = eventDate.tutor
-        ? eventDate.tutor.user.first_name +
+      const mentor = eventDate.mentor
+        ? eventDate.mentor?.user?.firstName +
           ' ' +
-          eventDate.tutor.user.last_name.charAt(0).toUpperCase() +
+          eventDate.mentor?.user?.lastName?.charAt(0)?.toUpperCase() +
           '.'
         : '';
       const startTime = moment.unix(date).utc(0, true).format('hh:mm a');
       const tableRow = {
-        lesson:
-          eventDate.lesson.type.charAt(0).toUpperCase() +
-          eventDate.lesson.type.slice(1),
-        topic: eventDate.lesson.description,
-        level: eventDate.students[0].level,
         dateTime: {
           startTime,
           endTime: moment
@@ -94,8 +88,7 @@ const sortCalendarEvents = (data) => {
         onClick: {
           date,
         },
-        tutor,
-        tutorFeedback: eventDate.students[0].feedbacks,
+        mentor,
         resource: eventDate,
       };
       tablularEventData.push(tableRow);
@@ -197,9 +190,7 @@ const Calendar = () => {
         const end = moment(calendarAppointments[index].end_at).tz(userTimezone);
         const event = {
           id: index,
-          title:
-            calendarAppointments[index].lesson.type.charAt(0).toUpperCase() +
-            calendarAppointments[index].lesson.type.slice(1),
+          title: calendarAppointments[index]?.course?.title,
           start: start.toDate(),
           end: end.toDate(),
           resource: calendarAppointments[index],
