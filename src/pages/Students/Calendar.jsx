@@ -26,7 +26,7 @@ import {
 import { format, utcToZonedTime } from 'date-fns-tz';
 
 const sortCalendarEvents = (data) => {
-  console.log(data)
+  console.log(data);
   if (!data) return;
   const timeZone = 'Asia/Seoul';
   let eventDates = {};
@@ -43,7 +43,7 @@ const sortCalendarEvents = (data) => {
   const calendarEvents = [];
   eventKeys.forEach((key) => {
     for (const eventDate of eventDates[key]) {
-      const date = moment(eventDate.start_at).utc(0, true).unix();
+      const date = moment(eventDate.startAt).utc(0, true).unix();
       const endEpoch = date + eventDate.duration * 60;
       const start_at = moment.unix(date).utc(0, true);
       const end_at = moment.unix(endEpoch).utc(0, true);
@@ -419,60 +419,65 @@ const Calendar = () => {
                         new Date(a.dateTime.startTime) -
                         new Date(b.dateTime.startTime),
                     )
-                    .map((event) => (
-                      <tr className="tr-center" key={event.toString()}>
-                        <td className="td-item">
-                          <p className="td-lesson">{event.lesson}</p>
-                        </td>
-                        <td className="td-item">
-                          <p className="td-lesson">{event.resource.duration}</p>
-                        </td>
+                    .map((event) => {
+                      console.log(event, '1');
+                      return (
+                        <tr className="tr-center" key={event.toString()}>
+                          <td className="td-item">
+                            <p className="td-lesson">{event.lesson}</p>
+                          </td>
+                          <td className="td-item">
+                            <p className="td-lesson">
+                              {event.resource.duration}
+                            </p>
+                          </td>
 
-                        {/* Do not remove this code, it will be used in the future 
-                        <td className='td-item'>
-                          <p className='td-topic-level'>
-                            {event.level}
-                          </p>
-                        </td>
-                        <td className='td-item'>
-                          <p className='td-topic-level'>
-                            {` ${event.currentTopic}`}
-                          </p>
-                        </td>
-                        <td className='td-item'>
-                          <p className='td-topic-level'>
-                            {` ${event.nextTopic}`}
-                          </p>
-                        </td> */}
-                        <td className="td-item">
-                          <p className="td-datetime td-datetime-border ps-3">
-                            {moment(event.resource.start_at)
-                              .tz(userTimezone)
-                              .format('ddd, MMM Do hh:mm A')}
-                            {' → '}
-                            {moment(event.resource.start_at)
-                              .tz(userTimezone)
-                              .add(event.resource.duration, 'minutes')
-                              .format('hh:mm A')}
-                          </p>
-                        </td>
-                        <td className="td-item">
-                          <p className="td-tutor">{event.tutor}</p>
-                        </td>
-                        <td className="td-item">
-                          <button
-                            className={`btn ${
-                              event.tutorFeedback?.length
-                                ? 'btn-primary'
-                                : 'btn-tutor-feedback-disabled'
-                            }`}
-                            onClick={handleFeedback}
-                          >
-                            Feedback
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                          {/* Do not remove this code, it will be used in the future 
+                      <td className='td-item'>
+                        <p className='td-topic-level'>
+                          {event.level}
+                        </p>
+                      </td>
+                      <td className='td-item'>
+                        <p className='td-topic-level'>
+                          {` ${event.currentTopic}`}
+                        </p>
+                      </td>
+                      <td className='td-item'>
+                        <p className='td-topic-level'>
+                          {` ${event.nextTopic}`}
+                        </p>
+                      </td> */}
+                          <td className="td-item">
+                            <p className="td-datetime td-datetime-border ps-3">
+                              {moment(event.resource.start_at)
+                                .tz(userTimezone)
+                                .format('ddd, MMM Do hh:mm A')}
+                              {' → '}
+                              {moment(event.resource.start_at)
+                                .tz(userTimezone)
+                                .add(event.resource.duration, 'minutes')
+                                .format('hh:mm A')}
+                            </p>
+                          </td>
+                          <td className="td-item">
+                            <p className="td-tutor">{event.tutor}</p>
+                          </td>
+                          <td className="td-item">
+                            <button
+                              className={`btn ${
+                                event.tutorFeedback?.length
+                                  ? 'btn-primary'
+                                  : 'btn-tutor-feedback-disabled'
+                              }`}
+                              onClick={handleFeedback}
+                            >
+                              Feedback
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             )}
