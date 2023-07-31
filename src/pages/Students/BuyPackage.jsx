@@ -262,9 +262,11 @@ export default function BuyPackage() {
                     toast.error(response.errors[0].message);
                   } else if (response?.data) {
                     const { clientSecret } = response.data.createPaymentIntent;
-                    history.replace(
-                      `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
-                    );
+                    if (selectedPackage && clientSecret) {
+                      history.replace(
+                        `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
+                      );
+                    }
                   }
                 }
               }}
