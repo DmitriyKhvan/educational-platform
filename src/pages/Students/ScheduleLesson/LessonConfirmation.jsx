@@ -82,74 +82,23 @@ const LessonConfirmation = ({
     .add(plan?.package?.sessionTime, 'minutes')
     .format('hh:mm A');
 
-  console.log(plan);
-
-  let data = {
-    lesson_title: plan?.lesson_title,
-    lesson_desc: plan?.description,
-    lesson_type: plan?.lesson_type,
-    type: plan?.type,
-    lesson_id: plan?.lesson_id,
-    tutor_id: tutor?.id,
-    duration: plan?.duration,
-    start_at: moment
-      .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
-      .format('YYYY-MM-DDTHH:mm:ss'),
-    cancel_action: 'assign_new_tutor',
-  };
-  // if (user.student_profile.id) {
-  //   // data = { ...data, student_id: user.student_profile.id }
-  // }
-  data = { ...data, student_id: 26 };
-
   const confirmLesson = async () => {
     setIsLoading(true);
 
     /* this means if the lesson ID exists, its going to be a reschedule */
+    let lesson = null;
     if (lessonId) {
       setIsLoading(true);
-      const res = await updateAppointment({
+      const { data: { lesson: updatedLesson } = {} } = await updateAppointment({
         variables: {
           id: lessonId,
-          mentorId: data?.tutor_id,
-          startAt: data?.start_at,
+          mentorId: tutor.id,
+          startAt: moment.utc(time, 'ddd MMM DD YYYY HH:mm:ssZ').toISOString(),
         },
       });
-      setIsLoading(false);
-
-      if (res) {
-        const payload = await (
-          await getAppointments({
-            variables: {
-              mentorId: data?.tutor_id,
-              status: 'scheduled,paid,completed,in_progress',
-            },
-          })
-        ).data;
-        setConfirmDisable(true);
-        const newAppt = payload.filter((x) => x.id === parseInt(lessonId))[0];
-
-        if (newAppt) {
-          setNewAppointment(newAppt);
-          setDate(moment(res.payload?.group?.start_at).unix());
-          setIsConfirmed(true);
-          window.scrollTo(0, 0);
-        }
-      } else {
-        if (res.payload.error.messages && res.payload.error.messages.length) {
-          NotificationManager.error(
-            res.payload.error.messages.map((msg) => msg.title).join('\n'),
-            t,
-          );
-        } else if (res.payload.error.message) {
-          NotificationManager.error(res.payload.error.message, t);
-        } else {
-          NotificationManager.error('Server Error', t);
-        }
-        setIsLoading(false);
-      }
+      lesson = updatedLesson;
     } else {
-      const { data: { lesson } = {} } = await createAppointment({
+      const { data: { lesson: createdLesson } = {} } = await createAppointment({
         variables: {
           mentorId: tutor.id,
           studentId: user.students[0].id,
@@ -158,20 +107,16 @@ const LessonConfirmation = ({
           duration: plan?.package?.sessionTime,
         },
       });
-
-      console.log(lesson, 'lesson');
-
-      if (lesson) {
-        console.log('hey');
-        setConfirmDisable(true);
-        setNewAppointment(lesson);
-        setDate(moment(lesson.startAt).unix());
-        setIsConfirmed(true);
-        window.scrollTo(0, 0);
-      } else {
-        NotificationManager.error('Server Error', t);
-        setIsLoading(false);
-      }
+      lesson = createdLesson;
+    }
+    if (lesson) {
+      setConfirmDisable(true);
+      setNewAppointment(lesson);
+      setDate(moment(lesson.startAt).unix());
+      setIsConfirmed(true);
+      window.scrollTo(0, 0);
+    } else {
+      NotificationManager.error('Server Error', t);
     }
     setIsLoading(false);
   };

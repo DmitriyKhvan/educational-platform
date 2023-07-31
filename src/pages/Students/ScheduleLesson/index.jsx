@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import LessonConfirmation from './LessonConfirmation';
 import ScheduleSelector from './ScheduleSelector';
@@ -73,6 +73,19 @@ const GET_LESSON_INFO = gql`
         title
         description
       }
+      packageSubscription {
+        id
+        credits
+        package {
+          id
+          period
+          sessionTime
+          course {
+            id
+            title
+          }
+        }
+      }
     }
   }
 `;
@@ -91,11 +104,15 @@ const ScheduleLesson = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [selectTutor, setSelectTutor] = useState();
 
-  const scheduledLesson = data?.group || null;
+  const scheduledLesson = data?.lesson || null;
+
+  useEffect(() => {
+    if (data?.lesson) {
+      setSelectedPlan(data?.lesson?.packageSubscription);
+    }
+  }, [data?.lesson]);
 
   if (loading) return null;
-
-  // console.log('selectedPlan', selectedPlan);
 
   return (
     <React.Fragment>
