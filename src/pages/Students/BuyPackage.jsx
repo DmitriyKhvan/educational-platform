@@ -104,9 +104,7 @@ export default function BuyPackage() {
             </p>
           </div>
           <hr className="border-gray-400/50 rounded-full border md:hidden" />
-          <form
-            className="w-full flex flex-col gap-3"
-          >
+          <form className="w-full flex flex-col gap-3">
             <p className="text-lg font-bold text-gray-700/90">
               Choose the duration:
             </p>
@@ -221,62 +219,61 @@ export default function BuyPackage() {
                   ),
               )}
             </div>
-
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <button
-                  className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
-                  disabled={selectedPackage === null}
-                  type="button"
-                >
-                  Proceed to checkout
-                  <ArrowBack className="brightness-0 invert rotate-180 scale-125" />
-                </button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Website Agreement</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    By clicking continue, you agree to our{' '}
-                    <a href="#" className="text-purple-600 hover:underline">
-                      Terms of Service
-                    </a>{' '}
-                    and{' '}
-                    <a href="#" className="text-purple-600 hover:underline">
-                      Privacy Policy
-                    </a>
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={async () => {
-                      if (selectedPackage) {
-                        const response = await getSecret({
-                          variables: {
-                            id: parseInt(selectedPackage.id),
-                          },
-                        });
-                        if (response?.errors) {
-                          toast.error(response.errors[0].message);
-                        } else if (response?.data) {
-                          const { clientSecret } =
-                            response.data.createPaymentIntent;
-                          history.replace(
-                            `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
-                          );
-                        }
-                      }
-                    }}
-                  >
-                    Continue
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
           </form>
         </div>
       </div>
+
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <button
+            className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed fixed bottom-2 right-2"
+            disabled={selectedPackage === null}
+            type="button"
+          >
+            Proceed to checkout
+            <ArrowBack className="brightness-0 invert rotate-180 scale-125" />
+          </button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Website Agreement</AlertDialogTitle>
+            <AlertDialogDescription>
+              By clicking continue, you agree to our{' '}
+              <a href="#" className="text-purple-600 hover:underline">
+                Terms of Service
+              </a>{' '}
+              and{' '}
+              <a href="#" className="text-purple-600 hover:underline">
+                Privacy Policy
+              </a>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                if (selectedPackage) {
+                  const response = await getSecret({
+                    variables: {
+                      id: parseInt(selectedPackage.id),
+                    },
+                  });
+                  if (response?.errors) {
+                    toast.error(response.errors[0].message);
+                  } else if (response?.data) {
+                    const { clientSecret } = response.data.createPaymentIntent;
+                    history.replace(
+                      `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
+                    );
+                  }
+                }
+              }}
+            >
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </main>
   );
 }
