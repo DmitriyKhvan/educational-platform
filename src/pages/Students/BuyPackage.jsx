@@ -47,7 +47,7 @@ const CREATE_PAYMENT_INTENT = gql`
 
 export default function BuyPackage() {
   const [parent] = useAutoAnimate();
-  const { packageId: courseId } = useParams();
+  const { courseId } = useParams();
 
   const { error, data } = useQuery(GET_COURSES, {
     variables: {

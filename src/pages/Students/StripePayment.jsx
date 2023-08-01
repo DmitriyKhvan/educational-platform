@@ -13,8 +13,8 @@ import { useAuth } from '../../modules/auth';
 
 const CREATE_PAYMENT = gql`
   mutation CreatePayment(
-    $userId: Int!
-    $packageId: Int!
+    $userId: ID!
+    $packageId: ID!
     $provider: String
     $metadata: JSON
   ) {
@@ -70,18 +70,22 @@ const CheckoutForm = () => {
     }
 
     if (paymentIntent.status === 'succeeded') {
-      await createPayment({
-        variables: {
-          userId: parseInt(user.id),
-          packageId: parseInt(params.packageId),
-          provider: 'stripe',
-          metadata: JSON.stringify(paymentIntent),
-        },
-      });
+      try {
+        await createPayment({
+          variables: {
+            userId: parseInt(user.id),
+            packageId: parseInt(params.packageId),
+            provider: 'stripe',
+            metadata: JSON.stringify(paymentIntent),
+          },
+        });
 
-      history.push(
-        `/purchase/${params.packageId}/complete?payment_intent_client_secret=${params.clientSecret}`,
-      );
+        history.push(
+          `/purchase/${params.packageId}/complete?payment_intent_client_secret=${params.clientSecret}`,
+        );
+      } catch (error) {
+        setErrorMessage("Server error. Please try again later.");
+      }
     }
 
     setLoading(() => false);
