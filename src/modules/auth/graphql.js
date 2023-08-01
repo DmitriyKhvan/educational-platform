@@ -533,10 +533,6 @@ export const CREATE_APPOINTMENT = gql`
       status
       cancelAction
       zoomlinkId
-      course {
-        id
-        title
-      }
     }
   }
 `;
