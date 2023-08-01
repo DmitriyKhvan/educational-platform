@@ -262,7 +262,7 @@ export default function BuyPackage() {
                     toast.error(response.errors[0].message);
                   } else if (response?.data) {
                     const { clientSecret } = response.data.createPaymentIntent;
-                    if (selectedPackage && clientSecret) {
+                    if (clientSecret) {
                       history.replace(
                         `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
                       );
