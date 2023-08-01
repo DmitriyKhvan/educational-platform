@@ -15,17 +15,18 @@ const SelectLesson = ({
   setClicked,
   lesson,
 }) => {
-  const [t] = useTranslation(['lessons', 'common']);
+  const [t] = useTranslation(['lessons', 'common', 'modals']);
   const history = useHistory();
   const { id } = useParams();
   const { user } = useAuth();
-  const {
-    data: { packageSubscriptions: planStatus = [] } = {},
-  } = useQuery(PACKAGE_QUERY, {
-    variables: {
-      userId: user?.id,
+  const { data: { packageSubscriptions: planStatus = [] } = {} } = useQuery(
+    PACKAGE_QUERY,
+    {
+      variables: {
+        userId: user?.id,
+      },
     },
-  });
+  );
   const disabled = clicked === null ? true : false;
 
   useEffect(() => {
@@ -81,7 +82,9 @@ const SelectLesson = ({
           <div className="custom-children-container m-0 schedule_changess max-select_lesson">
             <div className="flex flex-col gap-3">
               <h1 className="title mt-0 title_aligns_slesson">
-                {!id ? t('schedule_lesson') : t('reschedule_lesson')}
+                {!id
+                  ? t('schedule_lesson')
+                  : t('reschedule_lesson', { ns: 'modals' })}
               </h1>
               <p className="welcome-subtitle">
                 {!id

@@ -22,6 +22,7 @@
   "appointment_requests": "예약 요청",
   "schedule_lesson": "레슨 일정 지정",
   "schedule_lesson_subtitle": "지금 1:1 수업을 예약할 수 있습니다.",
+  "reschedule_lesson_subtitle": "",
   "continue_custom": "계속하기",
   "custom_back": "뒤로 가기",
   "return_to_dash": "대시보드로 돌아가기",

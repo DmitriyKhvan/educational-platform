@@ -22,6 +22,7 @@
   "appointment_requests": "Lesson Requests",
   "schedule_lesson": "Schedule a Lesson",
   "schedule_lesson_subtitle": "You can schedule a 1-on-1 lesson now.",
+  "reschedule_lesson_subtitle": "",
   "continue_custom": "Continue",
   "custom_back": "Back",
   "return_to_dash": "Return to Dashboard",
