@@ -41,7 +41,7 @@ const Mentors = () => {
 
   const handleFilter = (e) => {
     const newMentors = mentors.filter((i) =>
-      i.userName.toLowerCase().includes(e.toLowerCase()),
+      i?.user?.fullName?.toLowerCase().includes(e.toLowerCase())
     );
 
     setTutor(newMentors);
