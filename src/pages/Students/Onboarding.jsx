@@ -6,9 +6,11 @@ import SelectForm from '../../components/onboarding/SelectForm';
 import { useForm } from 'react-hook-form';
 import Logo from '../../assets/images/logo.png';
 import CredentialsForm from '../../components/onboarding/CredentialsForm';
+import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { SIGN_UP } from '../../modules/auth/graphql';
 import useLogin from '../../modules/auth/hooks/login';
+import Loader from '../../components/Loader/Loader';
 
 export default function Onboarding() {
   const {
@@ -16,6 +18,8 @@ export default function Onboarding() {
     register,
     formState: { errors },
   } = useForm();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const { login } = useLogin();
 
@@ -33,15 +37,25 @@ export default function Onboarding() {
   const onSubmit = async (data) => {
     if (!isLast) return next();
     console.log(data);
+    setIsLoading(() => true);
     await signUp({
       variables: data,
     });
 
     login(data.email, data.password, '/purchase/1');
+
+    setIsLoading(() => false);
   };
 
   return (
     <main className="flex flex-col relative items-center">
+      {isLoading && (
+        <div className="absolute z-50 w-screen h-screen bg-black/20">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 ">
+            <Loader />
+          </div>
+        </div>
+      )}
       <img
         className="w-48 md:w-64 my-[8vh] md:my-[12.5vh]"
         src={Logo}

@@ -42,7 +42,7 @@ const StudentListAppointments = () => {
     {
       variables: {
         status: 'scheduled,paid,completed,in_progress',
-        studentId: user?.student?.id,
+        studentId: user?.students[0]?.id,
       },
     },
   );
