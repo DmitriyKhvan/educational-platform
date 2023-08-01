@@ -49,7 +49,7 @@ const sortCalendarEvents = (data) => {
       const end_at = moment.unix(endEpoch).utc(0, true);
       const iterateEvents = {
         zoomLink: eventDate.zoomLink,
-        lesson: eventDate?.course?.title,
+        lesson: eventDate?.packageSubscription?.package?.course?.title,
         startAt,
         end_at,
         type: eventDate.type,
@@ -190,11 +190,12 @@ const Calendar = () => {
         const end = moment(calendarAppointments[index].end_at).tz(userTimezone);
         const event = {
           id: index,
-          title: calendarAppointments[index]?.course?.title,
+          title: calendarAppointments[index]?.lesson,
           start: start.toDate(),
           end: end.toDate(),
           resource: calendarAppointments[index],
         };
+        console.log(event, '123');
         tempEvents.push(event);
       });
       setCalendarEvents([...tempEvents]);
