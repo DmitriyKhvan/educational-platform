@@ -118,7 +118,7 @@ const Calendar = () => {
     APPOINTMENTS_QUERY,
     {
       variables: {
-        studentId: user?.mentor?.id,
+        studentId: user?.students[0]?.id,
         status: 'scheduled,paid,completed,in_progress',
       },
     },
@@ -173,7 +173,7 @@ const Calendar = () => {
     (async () => {
       if (user && user?.student) {
         getAppointments({
-          student_id: user.student?.id,
+          studentId: user.students[0]?.id,
           status: 'scheduled,paid,completed,in_progress',
         });
       }

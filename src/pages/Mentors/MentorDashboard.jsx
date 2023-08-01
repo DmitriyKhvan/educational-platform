@@ -20,7 +20,7 @@ const TutorDashboard = () => {
 
   const { data: appointments, refetch } = useQuery(APPOINTMENTS_QUERY, {
     variables: {
-      tutorId: user?.tutor?.id,
+      mentorId: user?.mentor?.id,
       status: 'scheduled,paid,completed,in_progress',
     },
   });
