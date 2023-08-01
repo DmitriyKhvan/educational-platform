@@ -7,9 +7,9 @@ import { useForm } from 'react-hook-form';
 import Logo from '../../assets/images/logo.png';
 import CredentialsForm from '../../components/onboarding/CredentialsForm';
 import { useState } from 'react';
-// import { useMutation } from '@apollo/client';
-// import { SIGN_UP } from '../../modules/auth/graphql';
-// import useLogin from '../../modules/auth/hooks/login';
+import { useMutation } from '@apollo/client';
+import { SIGN_UP } from '../../modules/auth/graphql';
+import useLogin from '../../modules/auth/hooks/login';
 import Loader from '../../components/Loader/Loader';
 
 export default function Onboarding() {
@@ -21,11 +21,11 @@ export default function Onboarding() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  // const { login } = useLogin();
+  const { login } = useLogin();
 
   const [parent] = useAutoAnimate();
 
-  // const [signUp] = useMutation(SIGN_UP);
+  const [signUp] = useMutation(SIGN_UP);
 
   const { step, currentStepIndex, steps, next, back, isFirst, isLast } =
     useMultistepForm([
@@ -37,16 +37,12 @@ export default function Onboarding() {
   const onSubmit = async (data) => {
     if (!isLast) return next();
     console.log(data);
-    // await signUp({
-    //   variables: data,
-    // });
-
-    // login(data.email, data.password, '/purchase/1');
-
-    //write test promise to test loading state
     setIsLoading(() => true);
+    await signUp({
+      variables: data,
+    });
 
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    login(data.email, data.password, '/purchase/1');
 
     setIsLoading(() => false);
   };
