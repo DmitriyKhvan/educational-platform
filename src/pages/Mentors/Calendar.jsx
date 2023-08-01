@@ -292,7 +292,11 @@ const Calendar = () => {
       });
     } else {
       try {
-        await cancelAppointment(id);
+        await cancelAppointment({
+          variables: {
+            id,
+          },
+        });
         fetchData();
       } catch (error) {
         NotificationManager.error(
