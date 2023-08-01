@@ -471,10 +471,16 @@ export const APPOINTMENTS_QUERY = gql`
         pronouns
         isActive
       }
-      course {
+      packageSubscription {
         id
-        title
-        description
+        periodStart
+        periodEnd
+        credits
+        package {
+          course {
+            title
+          }
+        }
       }
     }
   }
