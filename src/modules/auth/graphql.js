@@ -500,7 +500,7 @@ export const APPROVE_APPOINTMENT = gql`
 `;
 
 export const CANCEL_APPOINTMENT = gql`
-  mutation CANCEL_LESSON($id: Int!) {
+  mutation CANCEL_LESSON($id: ID!) {
     cancelLesson(id: $id) {
       id
       startAt
