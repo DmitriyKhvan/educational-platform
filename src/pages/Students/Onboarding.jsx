@@ -11,6 +11,7 @@ import { useMutation } from '@apollo/client';
 import { SIGN_UP } from '../../modules/auth/graphql';
 import useLogin from '../../modules/auth/hooks/login';
 import Loader from '../../components/Loader/Loader';
+import toast from 'react-hot-toast';
 
 export default function Onboarding() {
   const {
@@ -25,7 +26,11 @@ export default function Onboarding() {
 
   const [parent] = useAutoAnimate();
 
-  const [signUp] = useMutation(SIGN_UP);
+  const [signUp] = useMutation(SIGN_UP, {
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   const { step, currentStepIndex, steps, next, back, isFirst, isLast } =
     useMultistepForm([
@@ -38,12 +43,14 @@ export default function Onboarding() {
     if (!isLast) return next();
     console.log(data);
     setIsLoading(() => true);
-    await signUp({
+    const { errors } = await signUp({
       variables: data,
     });
 
-    login(data.email, data.password, '/purchase/1');
-
+    if (errors?.length === 0) {
+      login(data.email, data.password, '/purchase/1');
+    }
+    
     setIsLoading(() => false);
   };
 

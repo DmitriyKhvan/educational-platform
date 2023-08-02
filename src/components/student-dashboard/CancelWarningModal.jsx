@@ -16,7 +16,7 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
   const [planLength, setPlanLength] = useState(0);
   const [isChecked, setIsChecked] = useState(false);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (payload && payload.results) {
       const [{ periodStart, periodEnd }] = payload.results.filter(
         (x) => parseInt(x.package.period, 10) === duration,

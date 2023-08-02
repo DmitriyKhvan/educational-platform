@@ -11,14 +11,14 @@ import { useAuth } from '../../../modules/auth';
 import { gql, useQuery } from '@apollo/client';
 
 const GET_TIMESHEETS = gql`
-query timesheets($tz: String!, $date: String!) {
-  timesheets(tz: $tz, date: $date) {
-    id
-    day
-    from
-    to
+  query timesheets($tz: String!, $date: String!) {
+    timesheets(tz: $tz, date: $date) {
+      id
+      day
+      from
+      to
+    }
   }
-}
 `;
 
 const useTimesheets = (body) => {

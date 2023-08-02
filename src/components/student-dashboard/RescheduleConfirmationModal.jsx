@@ -40,10 +40,9 @@ const RescheduleConfirmationModal = ({
 
   const fetchAppointments = () => {
     let studentId;
-    if (user.students.length > 0) {
-      studentId = user.students[0].id;
+    if (user?.students?.length > 0) {
+      studentId = user?.students?.[0]?.id;
     }
-
     getAppointments({
       variables: {
         status: 'scheduled,paid,completed,in_progress',
