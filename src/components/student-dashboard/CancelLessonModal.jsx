@@ -41,10 +41,10 @@ const CancelLessonModal = ({
   });
 
   const onCancelLesson = async () => {
-    console.log('lmao');
     const res = await cancelLesson();
-    if (res.errors.length == 0) {
+    if (res?.errors?.length == 0) {
       await fetchAppointments();
+      setIsOpen(false);
     } else {
       console.error(res.errors);
     }
