@@ -546,10 +546,6 @@ export const UPDATE_APPOINTMENT = gql`
       status
       cancelAction
       zoomlinkId
-      course {
-        id
-        title
-      }
     }
   }
 `;
@@ -613,11 +609,6 @@ export const LESSON_QUERY = gql`
           createdAt
           updatedAt
         }
-      }
-      course {
-        id
-        title
-        description
       }
     }
   }
