@@ -8,11 +8,11 @@ export default function CredentialsForm({ register, errors }) {
   return (
     <fieldset className="flex flex-col space-y-4">
       <legend className="text-2xl font-bold">Let&apos;s get started!</legend>
-      <label className="font-bold flex gap-2" htmlFor="phone" ref={parent}>
+      <label className="font-bold flex gap-2" htmlFor="phoneNumber" ref={parent}>
         Phone number
-        {errors.phone && (
+        {errors.phoneNumber && (
           <span className="text-red-500 font-normal flex-grow">
-            * {errors.phone.message}
+            * {errors.phoneNumber.message}
           </span>
         )}
       </label>
@@ -21,7 +21,7 @@ export default function CredentialsForm({ register, errors }) {
         type="text"
         placeholder="010-1234-5678"
         autoFocus
-        {...register('phone', {
+        {...register('phoneNumber', {
           required: 'Phone number is required',
           validate: {
             isPhoneNumber: (value) => {
