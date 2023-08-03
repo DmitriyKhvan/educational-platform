@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@apollo/client';
 import { CANCEL_APPOINTMENT } from '../../modules/auth/graphql';
+import { toast } from 'react-toastify';
 
 const CancelLessonModal = ({
   setTabIndex,
@@ -41,12 +42,13 @@ const CancelLessonModal = ({
   });
 
   const onCancelLesson = async () => {
-    const res = await cancelLesson();
-    if (res?.errors?.length == 0) {
+    const { errors } = await cancelLesson();
+    if (errors?.length == 0 || !errors) {
       await fetchAppointments();
       setIsOpen(false);
     } else {
-      console.error(res.errors);
+      toast.error(errors[0].message);
+      setIsOpen(false);
     }
   };
 
