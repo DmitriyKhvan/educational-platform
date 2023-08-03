@@ -18,15 +18,12 @@ import FeedbackLessonModal from '../Mentors/FeedbackLessonModal';
 import WeekHeader from '../../components/common/WeekHeader';
 import { useQuery, useMutation } from '@apollo/client';
 import {
-  MENTORS_QUERY,
-  LESSON_QUERY,
   APPOINTMENTS_QUERY,
   CANCEL_APPOINTMENT,
 } from '../../modules/auth/graphql';
 import { format, utcToZonedTime } from 'date-fns-tz';
 
 const sortCalendarEvents = (data) => {
-  console.log(data);
   if (!data) return;
   const timeZone = 'Asia/Seoul';
   let eventDates = {};
@@ -98,18 +95,6 @@ const sortCalendarEvents = (data) => {
 };
 
 const Calendar = () => {
-  const [idOfLesson, setIdLesson] = React.useState(null);
-  const { data } = useQuery(LESSON_QUERY, {
-    variables: { id: idOfLesson },
-  });
-  const { data: mentorsList } = useQuery(MENTORS_QUERY, {
-    errorPolicy: 'ignore',
-  });
-
-  const mentors = mentorsList?.mentors?.find(
-    (i) => +i?.id === +data?.lesson?.mentor?.id,
-  );
-
   const [t] = useTranslation(['lessons']);
   const location = useLocation();
   const { user } = useAuth();
@@ -195,7 +180,6 @@ const Calendar = () => {
           end: end.toDate(),
           resource: calendarAppointments[index],
         };
-        console.log(event, '123');
         tempEvents.push(event);
       });
       setCalendarEvents([...tempEvents]);
@@ -226,10 +210,6 @@ const Calendar = () => {
     const [selectedEvent] =
       calendarEvents?.filter((x) => x.id === calendarEvent.id) ?? [];
 
-    if (selectedEvent) {
-      setIdLesson(selectedEvent.resource?.eventDate?.id);
-    }
-
     const scheduledTime = moment(selectedEvent?.resource?.startAt).tz(
       userTimezone,
     );
@@ -249,10 +229,8 @@ const Calendar = () => {
           contentLabel="Example Modal"
         >
           <CalendarModal
-            setIdLesson={setIdLesson}
             event={selectedEvent}
             lesson={selectedEvent?.title}
-            mentors={mentors}
             startTime={startTime}
             endTime={endTime}
             zoomlink={selectedEvent.resource?.zoomLink}

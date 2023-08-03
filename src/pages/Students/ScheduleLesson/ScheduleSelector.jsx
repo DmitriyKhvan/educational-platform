@@ -167,7 +167,6 @@ const ScheduleSelector = ({
     });
     startTime.add(step, 'minutes');
   }
-  console.log(step, allTimes);
 
   for (let i = 0; i <= 6; i++) {
     const dayOfTheWeek = {
@@ -436,7 +435,11 @@ const ScheduleSelector = ({
                       setDayClicked(null);
                     }}
                   >
-                    <img style={{ transform: 'rotate(180deg)' }} src={forward_arrow} alt="" />
+                    <img
+                      style={{ transform: 'rotate(180deg)' }}
+                      src={forward_arrow}
+                      alt=""
+                    />
                   </button>
                 </div>
                 <div className="col-10">

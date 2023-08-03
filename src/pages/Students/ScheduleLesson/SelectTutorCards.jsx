@@ -70,7 +70,6 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
     moment(schedule, 'ddd MMM DD YYYY HH:mm:ss ZZ').toISOString(),
     step,
   );
-  console.log(availableMentors);
 
   useEffect(() => {
     window.scrollTo(0, 0);

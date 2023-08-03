@@ -52,7 +52,6 @@ const ApproveRequest = () => {
     if (!appointments) return [];
     const data =
       appointments?.lessons.map((event) => {
-        console.log(event);
         return {
           id: event.id,
           img: event?.student?.user?.avatar?.url,
