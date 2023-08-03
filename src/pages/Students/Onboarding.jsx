@@ -19,7 +19,7 @@ export default function Onboarding() {
     register,
     formState: { errors },
   } = useForm({
-    defaultValues: JSON.parse(localStorage.getItem('onboarding'))?.data || {},
+    defaultValues: JSON.parse(localStorage.getItem('onboarding'))?.data ?? {},
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +36,7 @@ export default function Onboarding() {
 
   useEffect(() => {
     setCurrentStepIndex(
-      JSON.parse(localStorage.getItem('onboarding'))?.currentStepIndex,
+      JSON.parse(localStorage.getItem('onboarding'))?.currentStepIndex ?? 0,
     );
   }, []);
 
