@@ -1,7 +1,6 @@
 import React from 'react';
 
 const LessonCard = ({ lesson, duration, remaining }) => {
-  console.log({lesson});
   const lessonTitle = lesson?.charAt(0).toUpperCase() + lesson?.slice(1);
   const lessonDuration = `${duration}`;
   const optionalDisplayLessons = remaining ? (
