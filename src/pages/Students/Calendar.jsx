@@ -123,7 +123,11 @@ const Calendar = () => {
     }
   }, [appointments]);
 
-  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT);
+  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT, {
+    onCompleted: () => {
+      getAppointments();
+    },
+  });
 
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [pastLessons, setPastLessons] = useState([]);
@@ -267,7 +271,6 @@ const Calendar = () => {
         id: id,
       },
     });
-    getAppointments();
     setIsOpen(false);
     setIsCalendar(true);
   }
