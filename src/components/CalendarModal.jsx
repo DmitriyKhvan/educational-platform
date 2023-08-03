@@ -42,11 +42,12 @@ const CalendarModal = ({
     }
   }, [avatar]);
 
+  console.log(data.resource.eventDate)
   const today = moment();
   const tenMinuteBeforeStart = moment(
-    data.resource.eventDate.start_at,
+    data.resource.eventDate.startAt,
   ).subtract(10, 'minutes');
-  const fiveMinuteBeforeEnd = moment(data.resource.eventDate.start_at).add(
+  const fiveMinuteBeforeEnd = moment(data.resource.eventDate.startAt).add(
     data.resource.eventDate.duration - 5,
     'minutes',
   );
@@ -93,6 +94,7 @@ const CalendarModal = ({
         <button
           className="enter-btn m-0 p-0 py-2 px-3 text-sm grey-border text-black"
           onClick={() => {
+            console.log(isLate)
             if (isLate) {
               closeModal();
               Swal.fire({
