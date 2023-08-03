@@ -12,14 +12,17 @@ import ModalFeedback from './ModalFeedback';
 import CTACard from '../../components/student-dashboard/CTACard';
 import ScheduleCard from '../../components/student-dashboard/ScheduleCard';
 import whiteBookingIcon from '../../assets/images/white_book_trial_icon.svg';
+import calendarIconMain from '../../assets/images/calendar_icon_main.svg';
 import smileIcon from '../../assets/images/smile_icon.svg';
 import { useAuth } from '../../modules/auth';
 import {
   MENTORS_QUERY,
   CANCEL_APPOINTMENT,
   APPOINTMENTS_QUERY,
+  PACKAGE_QUERY,
 } from '../../modules/auth/graphql';
 import { useQuery, useMutation } from '@apollo/client';
+import Loader from '../../components/Loader/Loader';
 
 const options = [
   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
@@ -116,7 +119,9 @@ const StudentListAppointments = () => {
       const date = moment(x?.startAt);
       const expiredDate = moment(x?.startAt).add(x?.duration, 'minutes');
       const currentDate = moment();
-      const mentors = mentorsList?.mentors.find((i) => +i?.id === x?.mentor?.id);
+      const mentors = mentorsList?.mentors.find(
+        (i) => +i?.id === x?.mentor?.id,
+      );
       return (
         currentDate.isBefore(expiredDate) && (
           <div key={i}>
@@ -134,32 +139,69 @@ const StudentListAppointments = () => {
       );
     });
 
-  const callToAction = [
-    {
-      icon: smileIcon,
-      title: t('student_dashboard_feedback', { ns: 'dashboard' }),
-      disabled: true,
-      button: {
-        to: '',
-        text: t('student_dashboard_submit_feedback_btn', {
-          ns: 'dashboard',
-        }),
-      },
-      color: '#D6336C',
-      cl: '',
+  const { data: packageInfo, loading } = useQuery(PACKAGE_QUERY, {
+    variables: {
+      userId: user.id,
     },
-    {
-      icon: whiteBookingIcon,
-      title: t('student_dashboard_progress', { ns: 'dashboard' }),
-      bl: 'secblock',
-      button: {
-        to: '/student/lesson-calendar?completed',
-        text: t('completed_lessons', { ns: 'dashboard' }),
+  });
+
+  let callToAction = [];
+
+  if (packageInfo?.packageSubscriptions.length === 0) {
+    callToAction = [
+      {
+        icon: calendarIconMain,
+        title: t('student_dashboard_no_package', { ns: 'dashboard' }),
+        bl: 'secblock',
+        button: {
+          to: '/purchase/1',
+          text: t('student_dashboard_no_package_desc', { ns: 'dashboard' }),
+        },
+        color: '#6134af',
+        cl: 'blue-progress',
       },
-      color: '#1482DA',
-      cl: 'blue-progress',
-    },
-  ];
+      {
+        icon: smileIcon,
+        title: t('student_dashboard_feedback', { ns: 'dashboard' }),
+        disabled: true,
+        button: {
+          to: '',
+          text: t('student_dashboard_submit_feedback_btn', {
+            ns: 'dashboard',
+          }),
+        },
+        color: '#D6336C',
+        cl: '',
+      },
+    ];
+  } else {
+    callToAction = [
+      {
+        icon: smileIcon,
+        title: t('student_dashboard_feedback', { ns: 'dashboard' }),
+        disabled: true,
+        button: {
+          to: '',
+          text: t('student_dashboard_submit_feedback_btn', {
+            ns: 'dashboard',
+          }),
+        },
+        color: '#D6336C',
+        cl: '',
+      },
+      {
+        icon: whiteBookingIcon,
+        title: t('student_dashboard_progress', { ns: 'dashboard' }),
+        bl: 'secblock',
+        button: {
+          to: '/student/lesson-calendar?completed',
+          text: t('completed_lessons', { ns: 'dashboard' }),
+        },
+        color: '#1482DA',
+        cl: 'blue-progress',
+      },
+    ];
+  }
 
   return (
     <Layout>
@@ -228,9 +270,13 @@ const StudentListAppointments = () => {
                   {t('already_lesson', { ns: 'dashboard' })}
                 </h4>
                 <div className="dashboard-cards-inline mt-5">
-                  {callToAction.map((props, i) => (
-                    <CTACard key={i} {...props} />
-                  ))}
+                  {loading ? (
+                    <Loader />
+                  ) : (
+                    callToAction.map((props, i) => (
+                      <CTACard key={i} {...props} />
+                    ))
+                  )}
                 </div>
               </div>
             </div>
