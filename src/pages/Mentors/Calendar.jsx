@@ -106,6 +106,7 @@ const Calendar = () => {
         mentorId: user?.mentor?.id,
         status: 'scheduled,paid,completed,in_progress',
       },
+      fetchPolicy: 'no-cache',
     },
   );
 
@@ -136,7 +137,11 @@ const Calendar = () => {
   const [isCancelLessonModalOpen, setIsCancelLessonModalOpen] = useState(false);
   const [isWarningOpen, setIsWarningOpen] = useState(false);
 
-  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT);
+  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT, {
+    onCompleted: () => {
+      getAppointments();
+    },
+  });
 
   const customStyles = {
     content: {
@@ -166,8 +171,8 @@ const Calendar = () => {
     timeGutterFormat: 'hA',
   };
 
-  const fetchData = () => {
-    getAppointments();
+  const fetchData = async () => {
+    await getAppointments();
   };
 
   useEffect(() => {
@@ -285,7 +290,6 @@ const Calendar = () => {
             id,
           },
         });
-        fetchData();
       } catch (error) {
         NotificationManager.error(
           error.response?.data?.message || 'Server Issue',
