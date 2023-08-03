@@ -5,7 +5,6 @@ import { useAuth } from '../modules/auth';
 import CloseIcon from '../assets/images/close.svg';
 import Logo from '../assets/images/logo.png';
 import LogoutImg from '../assets/images/logout_icon.svg';
-import referActiveIcon from '../assets/images/referIconActive.png';
 import whiteCalendar from '../assets/images/sidebar/active-calendar.png';
 import Icon1 from '../assets/images/sidebar/purple_dashboard_icon.svg';
 import tutorIcon from '../assets/images/sidebar/purple_tutor_icon.svg';
@@ -68,8 +67,8 @@ const studentNavLinks = [
   {
     label: 'refer',
     link: '/student/referal',
-    icon: Icon1,
-    activeIcon: referActiveIcon,
+    icon: Icon11,
+    activeIcon: ActiveIcon11,
   },
   {
     label: 'class_material',
