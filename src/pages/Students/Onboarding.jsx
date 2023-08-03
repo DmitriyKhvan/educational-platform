@@ -47,10 +47,10 @@ export default function Onboarding() {
       variables: data,
     });
 
-    if (errors?.length === 0) {
+    if (errors?.length === 0 || !errors) {
       login(data.email, data.password, '/purchase/1');
     }
-    
+
     setIsLoading(() => false);
   };
 
