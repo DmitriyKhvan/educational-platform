@@ -40,28 +40,41 @@
     }
   }
 
-  .main_section {
+  .cards-content {
     border-radius: 10px;
     background: rgba(247, 247, 250, 0.5);
-    padding: 0px 58px;
+    padding: 10px;
     margin-top: 30px;
-
-    .main_section-row {
+    width: 100%;
+    .content {
+      width: 40%;
       display: flex;
-      gap: 24px;
-      padding: 35px 0;
+      gap: 12px;
       flex-direction: column;
-      width: 100%;
-      align-items: start;
-      .no-items-content {
+      align-items: flex-start;
+      background: white;
+      padding: 16px 18px;
+      @media screen and (max-width: 768px) {
+        padding: 6px 8px;
         width: 100%;
       }
-      .no-subscriptions {
-        display: block;
-        text-align: center;
-        opacity: 0.7;
-        font-size: 24px;
+      @media screen and (max-width: 375px) {
+        padding: 3px 4px;
+        width: 100%;
       }
     }
+    @media screen and (max-width: 768px) {
+      padding: 6px 8px;
+    }
+  }
+  .no-items-content {
+    width: 100%;
+    text-align: center;
+  }
+  .no-subscriptions {
+    display: block;
+    text-align: center;
+    opacity: 0.7;
+    font-size: 16px;
   }
 }

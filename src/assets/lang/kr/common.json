@@ -88,5 +88,12 @@
   "select": "선택",
   "schedule": "예약하기",
   "continue_button": "계속하다",
-  "invalid_expired_token": "Invalid or expired token"
+  "invalid_expired_token": "Invalid or expired token",
+  "manage_subscriptions": "구독 관리",
+  "no_active_subscriptions": "활성 계획이 없습니다.",
+  "packages": "패키지",
+  "cost_per_class": "수업당 비용",
+  "lesson_per_week": "주당 수업",
+  "lesson_per_package": "패키지당 수업",
+  "payment_without_renewal": "자동갱신 없는 일회성 결제"
 }

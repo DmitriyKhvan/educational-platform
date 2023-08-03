@@ -18,6 +18,7 @@ import ClassMaterialIcon from '../assets/images/sidebar/class_materials.svg';
 import ActiveIcon1 from '../assets/images/sidebar/white_dashboard_icon.svg';
 import ActiveIcon2 from '../assets/images/sidebar/white_lesson_icon.svg';
 import ActiveIcon11 from '../assets/images/sidebar/white_subscription_icon.svg';
+import gift from '../assets/images/sidebar/gift.png';
 import { classMaterialURL } from '../constants/global';
 
 const tutorNavLinks = [
@@ -83,7 +84,7 @@ const studentNavLinks = [
     label: 'subscriptions',
     link: '/student/subscriptions',
     icon: ActivePayments,
-    activeIcon: referActiveIcon,
+    activeIcon: gift,
   },
 ];
 
