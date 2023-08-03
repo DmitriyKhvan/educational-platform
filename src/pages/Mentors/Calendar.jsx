@@ -317,13 +317,13 @@ const Calendar = () => {
 
     const displayStudentAvatar = studentAvatar?.avatar
       ? studentAvatar?.avatar?.url
-      : students?.[0]?.user?.gender === 'Male'
+      : students?.[0]?.user?.gender === 'male'
       ? maleAvatar
       : femaleAvatar;
 
     const displayTutorAvatar = tutorAvatar
       ? tutorAvatar
-      : eventDate.mentor?.user?.gender === 'Male'
+      : eventDate.mentor?.user?.gender === 'male'
       ? maleAvatar
       : femaleAvatar;
 
