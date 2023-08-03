@@ -8,6 +8,7 @@ export const SIGN_UP = gql`
     $password: String!
     $gender: String
     $marketingChannel: String
+    $phoneNumber: String
   ) {
     signUp(
       data: {
@@ -15,6 +16,7 @@ export const SIGN_UP = gql`
         lastName: $lastName
         email: $email
         password: $password
+        phoneNumber: $phoneNumber
         gender: $gender
         marketingChannel: $marketingChannel
       }
