@@ -26,6 +26,7 @@ const SelectLesson = ({
       variables: {
         userId: user?.id,
       },
+      fetchPolicy: 'network-only'
     },
   );
   const disabled = clicked === null ? true : false;
