@@ -7,6 +7,7 @@ import continue_arrow from '../../../assets/images/continue_arrow.svg';
 import { useQuery } from '@apollo/client';
 import { PACKAGE_QUERY } from '../../../modules/auth/graphql';
 import { useAuth } from '../../../modules/auth';
+import Loader from '../../../components/Loader/Loader';
 
 const SelectLesson = ({
   setSelectedPlan,
@@ -19,7 +20,7 @@ const SelectLesson = ({
   const history = useHistory();
   const { id } = useParams();
   const { user } = useAuth();
-  const { data: { packageSubscriptions: planStatus = [] } = {} } = useQuery(
+  const { data: { packageSubscriptions: planStatus = [] } = {}, loading: planStatusesLoading } = useQuery(
     PACKAGE_QUERY,
     {
       variables: {
@@ -94,7 +95,7 @@ const SelectLesson = ({
             </div>
             <div className="">
               <div className="">
-                {planStatus.map((x, i) => (
+                {planStatusesLoading ?  <Loader /> : planStatus.map((x, i) => (
                   <LessonCard
                     title={x.package?.course?.title}
                     duration={x.package?.sessionTime}
