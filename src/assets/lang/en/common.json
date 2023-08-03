@@ -89,5 +89,8 @@
   "select": "Select",
   "schedule": "Schedule",
   "continue_button": "Continue",
-  "invalid_expired_token": "Invalid or expired token"
+  "invalid_expired_token": "Invalid or expired token",
+  "manage_subscriptions": "Manage your subscriptions",
+  "no_active_subscriptions": "You have no active subscriptions",
+  "packages": "Packages"
 }

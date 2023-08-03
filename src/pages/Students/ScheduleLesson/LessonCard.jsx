@@ -1,6 +1,7 @@
 import React from 'react';
 
 const LessonCard = ({ lesson, duration, remaining }) => {
+  console.log({lesson});
   const lessonTitle = lesson?.charAt(0).toUpperCase() + lesson?.slice(1);
   const lessonDuration = `${duration}`;
   const optionalDisplayLessons = remaining ? (
@@ -18,7 +19,7 @@ const LessonCard = ({ lesson, duration, remaining }) => {
     >
       <div className="ms-2">
         <div className="col-auto inside-align-title-col">
-          <h1 className="my-1 inside-align-title">{lessonTitle}</h1>
+          <h1 className="my-1 inside-align-title">{lessonTitle || 'Title'}</h1>
         </div>
         <div className="flex mt-3 gap-2 items-center">
           <div className="col-auto rounded-lg schedule-lesson-border schedule-lesson-border-widthss h-full">

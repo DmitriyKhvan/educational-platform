@@ -12,6 +12,7 @@ import tutorIcon from '../assets/images/sidebar/purple_tutor_icon.svg';
 import tutorActiveIcon from '../assets/images/sidebar/white_tutor_icon.svg';
 import Icon2 from '../assets/images/sidebar/purple_lesson_icon.svg';
 import Icon11 from '../assets/images/sidebar/purple_subscription_icon.svg';
+import ActivePayments from '../assets/images/present.png';
 import purpleCalendar from '../assets/images/sidebar/calendar.png';
 import ClassMaterialIcon from '../assets/images/sidebar/class_materials.svg';
 import ActiveIcon1 from '../assets/images/sidebar/white_dashboard_icon.svg';
@@ -77,6 +78,12 @@ const studentNavLinks = [
     icon: ClassMaterialIcon,
     activeIcon: ClassMaterialIcon,
     external: true,
+  },
+  {
+    label: 'subscriptions',
+    link: '/student/subscriptions',
+    icon: ActivePayments,
+    activeIcon: referActiveIcon,
   },
 ];
 
