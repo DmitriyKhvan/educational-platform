@@ -6,19 +6,21 @@ import SelectForm from '../../components/onboarding/SelectForm';
 import { useForm } from 'react-hook-form';
 import Logo from '../../assets/images/logo.png';
 import CredentialsForm from '../../components/onboarding/CredentialsForm';
-import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { SIGN_UP } from '../../modules/auth/graphql';
 import useLogin from '../../modules/auth/hooks/login';
 import Loader from '../../components/Loader/Loader';
 import toast from 'react-hot-toast';
+import { useEffect, useState } from 'react';
 
 export default function Onboarding() {
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: JSON.parse(localStorage.getItem('onboarding'))?.data || {},
+  });
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -32,15 +34,38 @@ export default function Onboarding() {
     },
   });
 
-  const { step, currentStepIndex, steps, next, back, isFirst, isLast } =
-    useMultistepForm([
-      <LoginForm register={register} errors={errors} key="login" />,
-      <SelectForm register={register} errors={errors} key="select" />,
-      <CredentialsForm register={register} errors={errors} key="credentials" />,
-    ]);
+  useEffect(() => {
+    setCurrentStepIndex(
+      JSON.parse(localStorage.getItem('onboarding'))?.currentStepIndex,
+    );
+  }, []);
+
+  const {
+    step,
+    currentStepIndex,
+    steps,
+    next,
+    back,
+    isFirst,
+    isLast,
+    setCurrentStepIndex,
+  } = useMultistepForm([
+    <LoginForm register={register} errors={errors} key="login" />,
+    <SelectForm register={register} errors={errors} key="select" />,
+    <CredentialsForm register={register} errors={errors} key="credentials" />,
+  ]);
 
   const onSubmit = async (data) => {
-    if (!isLast) return next();
+    if (!isLast) {
+      localStorage.setItem(
+        'onboarding',
+        JSON.stringify({
+          data,
+          currentStepIndex,
+        }),
+      );
+      return next();
+    }
     console.log(data);
     setIsLoading(() => true);
     const { errors } = await signUp({
