@@ -20,9 +20,7 @@ const LessonConfirmation = ({ tutor, time, lesson, onBack }) => {
   const [checkStates, setCheckStates] = useState([false, false, false]);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
 
-  console.log(lesson)
-
-  const {user} = useAuth();
+  const { user } = useAuth();
 
   const [createAppointment] = useMutation(CREATE_APPOINTMENT);
 
@@ -74,8 +72,7 @@ const LessonConfirmation = ({ tutor, time, lesson, onBack }) => {
         },
       });
       setIsConfirmModal(true);
-    }
-    catch (error) {
+    } catch (error) {
       NotificationManager.error(error.message, t);
     }
   };

@@ -32,7 +32,6 @@ const Login = () => {
 
   const queryParams = new URLSearchParams(search);
   const redirectPath = queryParams.get('redirect');
-  console.log(redirectPath);
 
   const { login, loading, error } = useLogin();
 

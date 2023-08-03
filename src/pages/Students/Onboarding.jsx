@@ -66,7 +66,6 @@ export default function Onboarding() {
       );
       return next();
     }
-    console.log(data);
     setIsLoading(() => true);
     const { errors } = await signUp({
       variables: data,

@@ -24,7 +24,6 @@ import {
 import { format, utcToZonedTime } from 'date-fns-tz';
 
 const sortCalendarEvents = (data) => {
-  console.log(data);
   if (!data) return;
   const timeZone = 'Asia/Seoul';
   let eventDates = {};
@@ -181,7 +180,6 @@ const Calendar = () => {
           end: end.toDate(),
           resource: calendarAppointments[index],
         };
-        console.log(event, '123');
         tempEvents.push(event);
       });
       setCalendarEvents([...tempEvents]);

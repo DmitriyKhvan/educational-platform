@@ -125,10 +125,6 @@ const LessonConfirmation = ({
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    console.log(newAppointment, 'new appointment');
-  }, [newAppointment]);
-
   return (
     <Layout>
       <div className="scroll-layout">

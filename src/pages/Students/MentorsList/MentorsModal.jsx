@@ -8,9 +8,6 @@ const MentorsModal = ({ setShowTutorModal, tutorId, tutorsList }) => {
   const { id } = useParams();
   const [videoLink, setVideoLink] = React.useState('');
 
-  console.log('tutorId', tutorId);
-  console.log('tutorsList', tutorsList);
-
   const renderSelectedTutor = tutorsList?.find(
     (item) => item.id == (tutorId ? tutorId : id),
   );
