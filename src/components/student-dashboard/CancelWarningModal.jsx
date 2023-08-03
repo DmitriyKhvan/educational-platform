@@ -45,7 +45,7 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
     if (type === 'reschedule-time') {
       setTabIndex(2);
     }
-
+    
     if (type === 'cancel') {
       setTabIndex(1);
     }
