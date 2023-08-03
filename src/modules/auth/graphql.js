@@ -460,6 +460,17 @@ export const APPOINTMENTS_QUERY = gql`
         hourlyRate
         facts
         uniqueFacts
+        avatar {
+          id
+          name
+          mimetype
+          url
+          path
+          width
+          height
+          createdAt
+          updatedAt
+        }
       }
       student {
         id
@@ -470,6 +481,21 @@ export const APPOINTMENTS_QUERY = gql`
         about
         pronouns
         isActive
+        user {
+          firstName
+          lastName
+        }
+        avatar {
+          id
+          name
+          mimetype
+          url
+          path
+          width
+          height
+          createdAt
+          updatedAt
+        }
       }
       packageSubscription {
         id
@@ -608,6 +634,10 @@ export const LESSON_QUERY = gql`
           height
           createdAt
           updatedAt
+        }
+        user {
+          firstName
+          lastName
         }
       }
     }

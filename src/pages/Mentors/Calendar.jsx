@@ -30,29 +30,27 @@ const sortCalendarEvents = (data) => {
   if (!data) return;
   const timeZone = 'Asia/Seoul';
   let eventDates = {};
-  data
-    .filter((apt) => apt.students.length > 0)
-    .forEach((apt) => {
-      let start_at = new Date(apt.start_at);
-      let date = format(utcToZonedTime(start_at, timeZone), 'yyyy-MM-dd');
-      if (eventDates[date]) {
-        eventDates[date].push(apt);
-      } else {
-        eventDates[date] = [apt];
-      }
-    });
+  data.forEach((apt) => {
+    let startAt = new Date(apt.startAt);
+    let date = format(utcToZonedTime(startAt, timeZone), 'yyyy-MM-dd');
+    if (eventDates[date]) {
+      eventDates[date].push(apt);
+    } else {
+      eventDates[date] = [apt];
+    }
+  });
   const eventKeys = Object.keys(eventDates);
   const calendarEvents = [];
   eventKeys.forEach((key) => {
     for (const eventDate of eventDates[key]) {
-      const date = moment(eventDate.start_at).utc(0, true).unix();
+      const date = moment(eventDate.startAt).utc(0, true).unix();
       const endEpoch = date + eventDate.duration * 60;
-      const start_at = moment.unix(date).utc(0, true);
+      const startAt = moment.unix(date).utc(0, true);
       const end_at = moment.unix(endEpoch).utc(0, true);
       const iterateEvents = {
         zoomLink: eventDate.zoomlink,
-        lesson: eventDate.lesson,
-        start_at,
+        lesson: eventDate?.packageSubscription?.package?.course?.title,
+        startAt,
         end_at,
         type: eventDate.type,
         tutor: eventDate.tutor,
@@ -66,20 +64,12 @@ const sortCalendarEvents = (data) => {
   const tablularEventData = [];
   for (const eventKey of eventKeys) {
     for (const eventDate of eventDates[eventKey]) {
-      const date = moment(eventDate.start_at).utc(0, true).unix();
-      const tutor = eventDate.tutor
-        ? eventDate.tutor.user.first_name +
-          ' ' +
-          eventDate.tutor.user.last_name.charAt(0).toUpperCase() +
-          '.'
-        : '';
+      const date = moment(eventDate.startAt).utc(0, true).unix();
+      const mentor = eventDate.mentor.fullName || '';
       const startTime = moment.unix(date).utc(0, true).format('hh:mm a');
       const tableRow = {
-        lesson:
-          eventDate.lesson.type.charAt(0).toUpperCase() +
-          eventDate.lesson.type.slice(1),
-        topic: eventDate.lesson.description,
-        level: eventDate.students[0].level,
+        topic: eventDate?.package?.course?.title,
+        level: eventDate?.students?.[0]?.level,
         dateTime: {
           startTime,
           endTime: moment
@@ -95,8 +85,8 @@ const sortCalendarEvents = (data) => {
         onClick: {
           date,
         },
-        tutor,
-        tutorFeedback: eventDate.students[0].feedbacks,
+        mentor,
+
         resource: eventDate,
       };
       tablularEventData.push(tableRow);
@@ -190,15 +180,13 @@ const Calendar = () => {
     if (calendarAppointments) {
       const tempEvents = [];
       calendarAppointments.forEach((_, index) => {
-        const start = moment(calendarAppointments[index].start_at).tz(
+        const start = moment(calendarAppointments[index].startAt).tz(
           userTimezone,
         );
         const end = moment(calendarAppointments[index].end_at).tz(userTimezone);
         const event = {
           id: index,
-          title:
-            calendarAppointments[index].lesson.type.charAt(0).toUpperCase() +
-            calendarAppointments[index].lesson.type.slice(1),
+          title: calendarAppointments[index]?.lesson,
           start: start.toDate(),
           end: end.toDate(),
           resource: calendarAppointments[index],
@@ -214,7 +202,7 @@ const Calendar = () => {
       const tempUpcomingLessons = [];
       const tempPastLessons = [];
       tableAppointments.map((each) => {
-        if (new Date(each.resource.start_at) > new Date()) {
+        if (new Date(each.resource.startAt) > new Date()) {
           tempUpcomingLessons.push(each);
         } else {
           tempPastLessons.push(each);
@@ -274,7 +262,7 @@ const Calendar = () => {
       (x) => x.id === calendarEvent.id,
     );
 
-    const scheduledTime = moment(selectedEvent?.resource?.start_at).tz(
+    const scheduledTime = moment(selectedEvent?.resource?.startAt).tz(
       userTimezone,
     );
 
@@ -317,7 +305,7 @@ const Calendar = () => {
       (event) => event.id === calendarEvent.id,
     );
     const { eventDate } = selectedEvent.resource;
-    const [students] = eventDate.students;
+    const [students] = eventDate?.students || [];
 
     const { data } = useQuery(STUDENTS_QUERY, {
       errorPolicy: 'ignore',
@@ -329,22 +317,22 @@ const Calendar = () => {
 
     const displayStudentAvatar = studentAvatar?.avatar
       ? studentAvatar?.avatar?.url
-      : students.user?.gender === 'male'
+      : students?.[0]?.user?.gender === 'male'
       ? maleAvatar
       : femaleAvatar;
 
     const displayTutorAvatar = tutorAvatar
       ? tutorAvatar
-      : eventDate.tutor?.user?.gender === 'male'
+      : eventDate.mentor?.user?.gender === 'male'
       ? maleAvatar
       : femaleAvatar;
 
     const today = moment();
-    const tenMinuteBeforeStart = moment(eventDate.start_at).subtract(
+    const tenMinuteBeforeStart = moment(eventDate.startAt).subtract(
       10,
       'minutes',
     );
-    const fiveMinuteBeforeEnd = moment(eventDate.start_at).add(
+    const fiveMinuteBeforeEnd = moment(eventDate.startAt).add(
       eventDate.duration - 5,
       'minutes',
     );
@@ -360,16 +348,16 @@ const Calendar = () => {
     };
 
     const displayModalEventDate = ({ resource }) => {
-      const start = moment(resource?.start_at)
+      const start = moment(resource?.startAt)
         .tz(userTimezone)
         .format('hh:mm A');
-      const end = moment(resource?.start_at)
+      const end = moment(resource?.startAt)
         .tz(userTimezone)
         .add(resource?.eventDate?.duration, 'minutes')
         .format('hh:mm A');
 
       const timeSlot = `${start} → ${end}`;
-      const date = moment(resource?.start_at)
+      const date = moment(resource?.startAt)
         .tz(userTimezone)
         .format('dddd, MMMM Do');
 

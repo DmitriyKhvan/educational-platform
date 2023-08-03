@@ -52,11 +52,12 @@ const ApproveRequest = () => {
     if (!appointments) return [];
     const data =
       appointments?.lessons.map((event) => {
+        console.log(event);
         return {
           id: event.id,
-          img: event.students[0].user.avatar,
-          studentName: `${event.student.user.firstName} ${event.students.user.lastName}`,
-          lessonNumber: event.lesson.id,
+          img: event?.student?.user?.avatar?.url,
+          studentName: `${event?.student?.user?.firstName} ${event?.student?.user?.lastName}`,
+          lessonNumber: event.id,
           lessonDate: event.startAt,
           duration: event.duration,
         };
