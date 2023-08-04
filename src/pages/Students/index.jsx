@@ -10,6 +10,7 @@ import Profile from './Profile';
 import ScheduleLessonSteps from './ScheduleLesson/ScheduleLessonSteps';
 import Referal from './Referal/Referal';
 import Mentors from './MentorsList/Mentors';
+import Subscriptions from './Subscriptions/Subscriptions';
 
 export default function StudentRoutes() {
   let { path } = useRouteMatch();
@@ -62,6 +63,10 @@ export default function StudentRoutes() {
 
       <Route path={`${path}/mentors-list/:id?`}>
         <Mentors />
+      </Route>
+
+      <Route path={`${path}/subscriptions`}>
+        <Subscriptions />
       </Route>
     </Switch>
   );
