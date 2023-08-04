@@ -242,6 +242,12 @@ export const MENTORS_QUERY = gql`
         createdAt
         updatedAt
       }
+      availabilities {
+        id
+        day
+        from
+        to
+      }
     }
   }
 `;
