@@ -19,11 +19,32 @@ const ApproveRequest = () => {
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const { data: appointments, refetch } = useQuery(APPOINTMENTS_QUERY, {
-    mentorId: user?.tutor?.id,
-    status: 'scheduled,paid,completed,in_progress',
+    variables: {
+      mentorId: user?.mentor?.id,
+      status: 'scheduled',
+    },
+    fetchPolicy: 'no-cache',
   });
-  const [approveAppointment] = useMutation(APPROVE_APPOINTMENT);
-  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT);
+  const [approveAppointment] = useMutation(APPROVE_APPOINTMENT, {
+    onCompleted: () => {
+      refetch({
+        variables: {
+          mentorId: user?.mentor?.id,
+          status: 'scheduled',
+        },
+      });
+    },
+  });
+  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT, {
+    onCompleted: () => {
+      refetch({
+        variables: {
+          mentorId: user?.mentor?.id,
+          status: 'scheduled',
+        },
+      });
+    },
+  });
 
   useEffect(() => {
     refetch();
@@ -33,10 +54,9 @@ const ApproveRequest = () => {
     approveAppointment({
       variables: {
         id: parseInt(id),
-        mentorId: user?.mentor?.id,
+        mentorId: parseInt(user?.mentor?.id),
       },
     });
-    refetch();
   };
 
   const onClickCancel = async ({ id }) => {

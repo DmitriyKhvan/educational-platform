@@ -104,7 +104,7 @@ const Calendar = () => {
     {
       variables: {
         mentorId: user?.mentor?.id,
-        status: 'scheduled,paid,completed,in_progress',
+        status: 'approved,scheduled,paid,completed,in_progress',
       },
       fetchPolicy: 'no-cache',
     },
