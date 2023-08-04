@@ -1,18 +1,16 @@
 import { lowerCase } from 'lodash-es';
 import '../../../../assets/styles/subscription-card.scss';
-import flag from '../../../../assets/images/off-bg.svg';
 import { useTranslation } from 'react-i18next';
 
 export const SubscriptionCard = ({ title, sessionsPerWeek, totalSessions, price, costPerClass }) => {
     const [t] = useTranslation('common');
     return <div className='subscription-card relative'>
-        <div className='flag absolute right-2 -top-2'>
-            <img src={flag} width={42}/>
+        <div className='active absolute -right-1 -top-2 flag-content text-sm flex items-center justify-center'>
         </div>
         <div>
-            <div className='text-lg font-semibold capitalize'>{lowerCase(title)}</div>
+            <div className='text-lg font-semibold capitalize mb-2'>{lowerCase(title)}</div>
             <div className='flex justify-between'>
-                <div className='text-sm font-light'>
+                <div className='text-sm font-light leading-5'>
                     <div>{t('cost_per_class')}: {new Intl.NumberFormat('ko-KR', {
                         style: 'currency',
                         currency: 'KRW',
