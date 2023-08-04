@@ -25,7 +25,6 @@ const EditMentorProfile = () => {
   const [updateMentor] = useMutation(MUTATION_UPDATE_MENTOR);
   const [profileImage, setProfileImage] = React.useState('');
   const { user, refetchUser } = useAuth();
-  console.log(user);
 
   const hooks = [
     {

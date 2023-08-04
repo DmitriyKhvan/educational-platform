@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
 import Layout from '../../../components/Layout';
 import custom_back_arrow from '../../../assets/images/custom_back_arrow.svg';
-import prev_arrow from '../../../assets/images/prev_arrow.svg';
 import forward_arrow from '../../../assets/images/forward_arrow.svg';
 import Swal from 'sweetalert2';
 import Loader from 'react-loader-spinner';
@@ -11,14 +10,14 @@ import { useAuth } from '../../../modules/auth';
 import { gql, useQuery } from '@apollo/client';
 
 const GET_TIMESHEETS = gql`
-query timesheets($tz: String!, $date: String!) {
-  timesheets(tz: $tz, date: $date) {
-    id
-    day
-    from
-    to
+  query timesheets($tz: String!, $date: String!) {
+    timesheets(tz: $tz, date: $date) {
+      id
+      day
+      from
+      to
+    }
   }
-}
 `;
 
 const useTimesheets = (body) => {
@@ -168,7 +167,6 @@ const ScheduleSelector = ({
     });
     startTime.add(step, 'minutes');
   }
-  console.log(step, allTimes);
 
   for (let i = 0; i <= 6; i++) {
     const dayOfTheWeek = {
@@ -437,7 +435,11 @@ const ScheduleSelector = ({
                       setDayClicked(null);
                     }}
                   >
-                    <img src={prev_arrow} alt="" />
+                    <img
+                      style={{ transform: 'rotate(180deg)' }}
+                      src={forward_arrow}
+                      alt=""
+                    />
                   </button>
                 </div>
                 <div className="col-10">

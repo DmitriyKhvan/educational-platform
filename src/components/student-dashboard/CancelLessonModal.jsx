@@ -1,21 +1,8 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useMutation, gql } from '@apollo/client';
-
-const CANCEL_LESSON = gql`
-  mutation CancelLesson($id: Int!) {
-    cancelLesson(id: $id) {
-      lesson {
-        id
-        startAt
-        duration
-        status
-        cancelAction
-        zoomlinkId
-      }
-    }
-  }
-`;
+import { useMutation } from '@apollo/client';
+import { CANCEL_APPOINTMENT } from '../../modules/auth/graphql';
+import { toast } from 'react-toastify';
 
 const CancelLessonModal = ({
   setTabIndex,
@@ -48,18 +35,20 @@ const CancelLessonModal = ({
     }
   };
 
-  const [cancelLesson] = useMutation(CANCEL_LESSON, {
+  const [cancelLesson] = useMutation(CANCEL_APPOINTMENT, {
     variables: {
-      id: parseInt(id),
+      id: id,
     },
   });
 
   const onCancelLesson = async () => {
-    const res = await cancelLesson();
-    if (res.errors.length == 0) {
+    const { errors } = await cancelLesson();
+    if (errors?.length == 0 || !errors) {
       await fetchAppointments();
+      setIsOpen(false);
     } else {
-      console.error(res.errors);
+      toast.error(errors[0].message);
+      setIsOpen(false);
     }
   };
 

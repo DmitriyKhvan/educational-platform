@@ -81,7 +81,7 @@ const EditProflileStudent = () => {
       });
 
       if (error) {
-        console.log('Avatar upload failed: ', error);
+        toast.error('Avatar upload failed');
       }
     }
 

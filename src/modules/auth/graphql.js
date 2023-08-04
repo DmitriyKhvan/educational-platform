@@ -8,6 +8,7 @@ export const SIGN_UP = gql`
     $password: String!
     $gender: String
     $marketingChannel: String
+    $phoneNumber: String
   ) {
     signUp(
       data: {
@@ -15,6 +16,7 @@ export const SIGN_UP = gql`
         lastName: $lastName
         email: $email
         password: $password
+        phoneNumber: $phoneNumber
         gender: $gender
         marketingChannel: $marketingChannel
       }
@@ -460,6 +462,17 @@ export const APPOINTMENTS_QUERY = gql`
         hourlyRate
         facts
         uniqueFacts
+        avatar {
+          id
+          name
+          mimetype
+          url
+          path
+          width
+          height
+          createdAt
+          updatedAt
+        }
       }
       student {
         id
@@ -470,6 +483,21 @@ export const APPOINTMENTS_QUERY = gql`
         about
         pronouns
         isActive
+        user {
+          firstName
+          lastName
+        }
+        avatar {
+          id
+          name
+          mimetype
+          url
+          path
+          width
+          height
+          createdAt
+          updatedAt
+        }
       }
       packageSubscription {
         id
@@ -500,7 +528,7 @@ export const APPROVE_APPOINTMENT = gql`
 `;
 
 export const CANCEL_APPOINTMENT = gql`
-  mutation CANCEL_LESSON($id: Int!) {
+  mutation CANCEL_LESSON($id: ID!) {
     cancelLesson(id: $id) {
       id
       startAt
@@ -546,10 +574,6 @@ export const UPDATE_APPOINTMENT = gql`
       status
       cancelAction
       zoomlinkId
-      course {
-        id
-        title
-      }
     }
   }
 `;
@@ -613,11 +637,10 @@ export const LESSON_QUERY = gql`
           createdAt
           updatedAt
         }
-      }
-      course {
-        id
-        title
-        description
+        user {
+          firstName
+          lastName
+        }
       }
     }
   }

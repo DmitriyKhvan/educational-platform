@@ -29,3 +29,5 @@ yarn-error.log*
 /.vscode
 
 stats.html
+
+yarn.lock

@@ -4,16 +4,12 @@ import FavIcon from '../../../assets/images/Favorite.png';
 
 import './MentorsModal.scss';
 
-const MentorsModal = ({
-  setShowTutorModal,
-  tutorId,
-  tutorsList,
-}) => {
+const MentorsModal = ({ setShowTutorModal, tutorId, tutorsList }) => {
   const { id } = useParams();
   const [videoLink, setVideoLink] = React.useState('');
 
   const renderSelectedTutor = tutorsList?.find(
-    (item) => item.id === (tutorId ? tutorId : id),
+    (item) => item.id == (tutorId ? tutorId : id),
   );
 
   function renderVideo(videoUrl) {
@@ -90,7 +86,7 @@ const MentorsModal = ({
           {renderSelectedTutor?.isFavourite && (
             <img src={FavIcon} alt="" className="favTutorIcon" />
           )}
-          <h1>{`${renderSelectedTutor?.user.firstName} ${renderSelectedTutor?.user.lastName}`}</h1>
+          <h1>{`${renderSelectedTutor?.fullName}`}</h1>
 
           <div className="bottom_content">
             <div className="bottom_content-status">

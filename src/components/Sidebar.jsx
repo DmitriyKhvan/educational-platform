@@ -5,18 +5,19 @@ import { useAuth } from '../modules/auth';
 import CloseIcon from '../assets/images/close.svg';
 import Logo from '../assets/images/logo.png';
 import LogoutImg from '../assets/images/logout_icon.svg';
-import referActiveIcon from '../assets/images/referIconActive.png';
 import whiteCalendar from '../assets/images/sidebar/active-calendar.png';
 import Icon1 from '../assets/images/sidebar/purple_dashboard_icon.svg';
 import tutorIcon from '../assets/images/sidebar/purple_tutor_icon.svg';
 import tutorActiveIcon from '../assets/images/sidebar/white_tutor_icon.svg';
 import Icon2 from '../assets/images/sidebar/purple_lesson_icon.svg';
 import Icon11 from '../assets/images/sidebar/purple_subscription_icon.svg';
+import ActivePayments from '../assets/images/present.png';
 import purpleCalendar from '../assets/images/sidebar/calendar.png';
 import ClassMaterialIcon from '../assets/images/sidebar/class_materials.svg';
 import ActiveIcon1 from '../assets/images/sidebar/white_dashboard_icon.svg';
 import ActiveIcon2 from '../assets/images/sidebar/white_lesson_icon.svg';
 import ActiveIcon11 from '../assets/images/sidebar/white_subscription_icon.svg';
+import gift from '../assets/images/sidebar/gift.png';
 import { classMaterialURL } from '../constants/global';
 
 const tutorNavLinks = [
@@ -68,8 +69,8 @@ const studentNavLinks = [
   {
     label: 'refer',
     link: '/student/referal',
-    icon: Icon1,
-    activeIcon: referActiveIcon,
+    icon: Icon11,
+    activeIcon: ActiveIcon11,
   },
   {
     label: 'class_material',
@@ -77,6 +78,12 @@ const studentNavLinks = [
     icon: ClassMaterialIcon,
     activeIcon: ClassMaterialIcon,
     external: true,
+  },
+  {
+    label: 'subscriptions',
+    link: '/student/subscriptions',
+    icon: ActivePayments,
+    activeIcon: gift,
   },
 ];
 

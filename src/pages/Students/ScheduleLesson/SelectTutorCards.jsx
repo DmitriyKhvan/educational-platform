@@ -7,63 +7,69 @@ import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 import { useQuery, gql } from '@apollo/client';
 import MentorsModal from '../MentorsList/MentorsModal';
+import Loader from '../../../components/common/Loader';
 Modal.setAppElement('#root');
 
 const GET_AVAILABLE_MENTORS = gql`
-query GetAvailableMentors($time: String!, $duration: Int!){
-  availableMentors(time: $time, duration: $duration) {
-    filterSlot {
-      day
-      from
-      to
-      fromSeconds
-      toSeconds
-    }
-    mentors {
-      id
-      major
-      language
-      university
-      graduatingYear
-      degree
-      introduction
-      about
-      experience
-      relevantExperience
-      isActive
-      hourlyRate
-      facts
-      uniqueFacts
-      userId
-      fullName
-      avatar {
+  query GetAvailableMentors($time: String!, $duration: Int!) {
+    availableMentors(time: $time, duration: $duration) {
+      filterSlot {
+        day
+        from
+        to
+        fromSeconds
+        toSeconds
+      }
+      mentors {
         id
-        url
+        major
+        language
+        university
+        graduatingYear
+        degree
+        introduction
+        about
+        experience
+        relevantExperience
+        isActive
+        hourlyRate
+        facts
+        uniqueFacts
+        userId
+        fullName
+        avatar {
+          id
+          url
+        }
       }
     }
   }
-}
 `;
 
 const useAvailableMentors = (isoTime, duration) => {
-  const { data: { availableMentors } = {} } = useQuery(GET_AVAILABLE_MENTORS, {
-    variables: {
-      time: isoTime,
-      duration,
+  const { data: { availableMentors } = {}, loading } = useQuery(
+    GET_AVAILABLE_MENTORS,
+    {
+      variables: {
+        time: isoTime,
+        duration,
+      },
     },
-  });
-  return availableMentors?.mentors || [];
+  );
+  return {
+    availableMentors: availableMentors?.mentors || [],
+    loading: loading,
+  };
 };
 
 const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
   const [t] = useTranslation(['lessons', 'common']);
   const [isOpen, setIsOpen] = useState(false);
   const [modalSelectTutor, setModalSelectTutor] = useState({});
-  const availableMentors = useAvailableMentors(
+  const { availableMentors, loading } = useAvailableMentors(
     moment(schedule, 'ddd MMM DD YYYY HH:mm:ss ZZ').toISOString(),
     step,
   );
-  console.log(availableMentors);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -84,8 +90,8 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
     const tutorProfile = tutor.avatar?.url
       ? tutor.avatar.url
       : tutor.gender === 'female'
-        ? femaleAvatar
-        : maleAvatar;
+      ? femaleAvatar
+      : maleAvatar;
     return (
       <div className="">
         <div className="favImg">
@@ -181,6 +187,8 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
                     <SelectTutors tutor={x} key={i} />
                   ))}
                 </div>
+              ) : loading ? (
+                <Loader />
               ) : (
                 <div className="no_mentors">{t('no_mentors_available')}</div>
               )}

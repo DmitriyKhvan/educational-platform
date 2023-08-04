@@ -125,10 +125,6 @@ const LessonConfirmation = ({
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    console.log(newAppointment, 'new appointment');
-  }, [newAppointment]);
-
   return (
     <Layout>
       <div className="scroll-layout">
@@ -178,7 +174,7 @@ const LessonConfirmation = ({
               <div className="lesson_card-inline">
                 <LessonCard
                   lesson={plan?.package?.course.title}
-                  duration={`${plan?.package?.period} ${t('minutes', {
+                  duration={`${plan?.package?.sessionTime} ${t('minutes', {
                     ns: 'common',
                   })}`}
                   remaining={t('lessons_remaining', {
