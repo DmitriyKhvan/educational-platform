@@ -4,96 +4,16 @@ import LessonConfirmation from './LessonConfirmation';
 import ScheduleSelector from './ScheduleSelector';
 import SelectLesson from './SelectLesson';
 import SelectTutorCards from './SelectTutorCards';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { LESSON_QUERY } from '../../../modules/auth/graphql';
 
 import '../../../assets/styles/tutor.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
-const GET_LESSON_INFO = gql`
-  query GET_LESSON($id: ID!) {
-    lesson(id: $id) {
-      id
-      startAt
-      duration
-      status
-      cancelAction
-      zoomlinkId
-      mentor {
-        id
-        major
-        language
-        university
-        graduatingYear
-        degree
-        introduction
-        about
-        experience
-        relevantExperience
-        isActive
-        hourlyRate
-        facts
-        uniqueFacts
-        avatarId
-        avatar {
-          id
-          name
-          mimetype
-          url
-          path
-          width
-          height
-          createdAt
-          updatedAt
-        }
-      }
-      student {
-        id
-        parentName
-        level
-        langLevel
-        birthday
-        about
-        pronouns
-        isActive
-        avatarId
-        avatar {
-          id
-          name
-          mimetype
-          url
-          path
-          width
-          height
-          createdAt
-          updatedAt
-        }
-      }
-      course {
-        id
-        title
-        description
-      }
-      packageSubscription {
-        id
-        credits
-        package {
-          id
-          period
-          sessionTime
-          course {
-            id
-            title
-          }
-        }
-      }
-    }
-  }
-`;
-
 const ScheduleLesson = () => {
   const { id = null } = useParams();
   const location = useLocation();
-  const { data, loading } = useQuery(GET_LESSON_INFO, {
+  const { data, loading } = useQuery(LESSON_QUERY, {
     variables: { id },
     skip: !id,
   });

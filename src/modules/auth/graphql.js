@@ -642,6 +642,19 @@ export const LESSON_QUERY = gql`
           lastName
         }
       }
+      packageSubscription {
+        id
+        credits
+        package {
+          id
+          period
+          sessionTime
+          course {
+            id
+            title
+          }
+        }
+      }
     }
   }
 `;
