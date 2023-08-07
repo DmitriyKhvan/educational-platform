@@ -104,7 +104,7 @@ const Calendar = () => {
     {
       variables: {
         mentorId: user?.mentor?.id,
-        status: 'scheduled,paid,completed,in_progress,approved',
+        status: 'approved,scheduled,paid,completed,in_progress',
       },
       fetchPolicy: 'no-cache',
     },
@@ -377,6 +377,8 @@ const Calendar = () => {
       );
     };
 
+    console.log(eventDate);
+
     return (
       <div style={{ zIndex: 9999 }} className="container">
         <Modal
@@ -428,7 +430,11 @@ const Calendar = () => {
                           className="img-fluid rounded-corners"
                         />
                       </div>
-                      <p>{students?.user?.first_name}</p>
+                      <p>
+                        {eventDate?.student?.user?.firstName +
+                          ' ' +
+                          eventDate?.student?.user?.lastName}
+                      </p>
                     </div>
                     <div className="col-4">
                       <div>
@@ -441,7 +447,7 @@ const Calendar = () => {
                           className="img-fluid rounded-corners"
                         />
                       </div>
-                      <p>{eventDate?.tutor?.user?.first_name}</p>
+                      <p>{eventDate?.mentor?.user?.fullName}</p>
                     </div>
                   </div>
                 </div>
