@@ -109,8 +109,8 @@ const Mentors = () => {
                         state: {
                           tutor: {
                             id: item.id,
-                            first_name: item.user.firstName,
-                            last_name: item.user.lastName,
+                            firstName: item.user.firstName,
+                            lastName: item.user.lastName,
                             avatar: item.avatar?.url,
                           },
                         },
