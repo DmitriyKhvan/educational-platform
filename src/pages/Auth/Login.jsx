@@ -41,7 +41,7 @@ const Login = () => {
 
   useEffect(() => {
     if (error) {
-      notify('error', t('login_failed'));
+      notify(t('login_failed'), 'error');
     }
   }, [error]);
 

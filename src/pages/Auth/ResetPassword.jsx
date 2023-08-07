@@ -40,14 +40,14 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (data) {
-      notify('success', t('reset_password'));
+      notify(t('reset_password'), 'success');
       history.push('/');
     }
   }, [data]);
 
   useEffect(() => {
     if (error) {
-      notify('error', t('invalid_expired_token'));
+      notify(t('invalid_expired_token'), 'error');
     }
   }, [error]);
 

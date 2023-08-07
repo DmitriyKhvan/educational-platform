@@ -14,7 +14,7 @@ import {
 import { useMutation } from '@apollo/client';
 import timezones from 'timezones-list';
 import find from 'lodash-es/find';
-import { toast } from 'react-toastify';
+import notify from '../../../utils/notify';
 import { getData } from 'country-list';
 
 import { AiFillEdit } from 'react-icons/ai';
@@ -27,9 +27,6 @@ const timezoneOptions = timezones.map(({ label, tzCode }) => ({
 const EditProflileModal = ({ profileImage, isOpen, setIsOpen }) => {
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
   const [, setPreview] = React.useState({});
-
-  const notifyAvatar = () => toast('Avatar is changed!');
-  const notify = () => toast('Student information is changed!');
 
   const [updateUser] = useMutation(MUTATION_UPDATE_USER);
 
@@ -68,7 +65,7 @@ const EditProflileModal = ({ profileImage, isOpen, setIsOpen }) => {
 
       if (data) {
         closeModal();
-        notifyAvatar();
+        notify('Avatar is changed!');
       }
 
       await refetchUser();
@@ -94,7 +91,7 @@ const EditProflileModal = ({ profileImage, isOpen, setIsOpen }) => {
 
     if (userData) {
       closeModal();
-      notify();
+      notify('Student information is changed!');
     }
 
     await refetchUser();

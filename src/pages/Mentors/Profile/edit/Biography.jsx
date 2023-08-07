@@ -2,22 +2,17 @@ import { useMutation } from '@apollo/client';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { useAuth } from '../../../../modules/auth';
 import { MUTATION_UPDATE_MENTOR } from '../../../../modules/auth/graphql';
 import Submit from './Submit';
 import { Textarea } from './Textarea';
+import notify from '../../../../utils/notify';
 
 import { useTranslation } from 'react-i18next';
 
 const Biography = ({ cls }) => {
   const [t] = useTranslation('profile');
-  const [intro, setIntro] = React.useState(0);
-  const [exp, setExp] = React.useState('');
-  const [facts, setFacts] = React.useState('');
   const [updateMentor] = useMutation(MUTATION_UPDATE_MENTOR);
-
-  const notify = () => toast('Biography information is changed!');
 
   const { user, refetchUser } = useAuth();
 
@@ -26,7 +21,6 @@ const Biography = ({ cls }) => {
     register,
     handleSubmit
   } = useForm({
-    mode: 'onBlur',
     defaultValues: {
       introduction: user?.mentor?.introduction,
       relevantExperience: user?.mentor?.relevantExperience,
@@ -43,7 +37,7 @@ const Biography = ({ cls }) => {
     });
 
     if (data) {
-      notify();
+      notify('Biography information is changed!', 'success');
       history.push('/mentor/profile');
     }
 
@@ -54,7 +48,6 @@ const Biography = ({ cls }) => {
     <form
       onSubmit={handleSubmit(handleEditBigraphy)}
       className={cls.editProfile_container_forms_biography}
-      id="bio"
     >
       <div>
         <div className={cls.editProfile_container_forms_biography_title}>
@@ -78,16 +71,13 @@ const Biography = ({ cls }) => {
           placeholder={t('bio_intro')}
           label=""
           text={t('bio_intro')}
-          setState={setIntro}
-          user={user?.mentor?.introduction?.length}
-          state={intro}
           {...register(
             'introduction',
-            {
-              minLength: {
-                value: 400,
-              },
-            },
+            // {
+            //   minLength: {
+            //     value: 400,
+            //   },
+            // },
             // ,
             // {
             //   maxLength: {
@@ -106,16 +96,13 @@ const Biography = ({ cls }) => {
           placeholder={t('bio_experience')}
           label={t('bio_experience_label')}
           text={t('bio_experience')}
-          setState={setExp}
-          user={user?.mentor?.relevantExperience?.length}
-          state={exp}
           {...register(
             'relevantExperience',
-            {
-              minLength: {
-                value: 400,
-              },
-            },
+            // {
+            //   minLength: {
+            //     value: 400,
+            //   },
+            // },
             // , {
             // maxLength: {
             //   value: 400,
@@ -133,16 +120,13 @@ const Biography = ({ cls }) => {
           placeholder={t('bio_facts')}
           label={t('bio_facts_label')}
           text={t('bio_facts')}
-          setState={setFacts}
-          user={user.mentor?.uniqueFacts?.length}
-          state={facts}
           {...register(
             'uniqueFacts',
-            {
-              minLength: {
-                value: 400,
-              },
-            },
+            // {
+            //   minLength: {
+            //     value: 400,
+            //   },
+            // },
             // , {
             // maxLength: {
             //   value: 400,

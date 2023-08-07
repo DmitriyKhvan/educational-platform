@@ -12,9 +12,9 @@ import Select from 'react-select';
 import timezones from 'timezones-list';
 import find from 'lodash-es/find';
 import { useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { getData } from 'country-list';
 import { useTranslation } from 'react-i18next';
+import notify from '../../../../utils/notify';
 
 const timezoneOptions = timezones.map(({ label, tzCode }) => ({
   label,
@@ -24,8 +24,6 @@ const timezoneOptions = timezones.map(({ label, tzCode }) => ({
 const BasicForm = ({ cls }) => {
   const [t] = useTranslation(['common', 'profile']);
   const [updateMentor] = useMutation(MUTATION_UPDATE_USER);
-
-  const notify = () => toast('Basic information is changed!');
 
   const history = useHistory();
 
@@ -56,7 +54,7 @@ const BasicForm = ({ cls }) => {
     });
 
     if (data) {
-      notify();
+      notify('Basic information is changed!', 'success');
       history.push('/mentor/profile');
     }
 

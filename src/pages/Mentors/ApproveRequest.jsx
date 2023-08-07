@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../modules/auth';
 import { useMutation, useQuery } from '@apollo/client';
+import notify from '../../utils/notify';
 import {
   APPOINTMENTS_QUERY,
   APPROVE_APPOINTMENT,
@@ -19,11 +20,15 @@ const ApproveRequest = () => {
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const { data: appointments, refetch } = useQuery(APPOINTMENTS_QUERY, {
-    mentorId: user?.tutor?.id,
-    status: 'scheduled,paid,completed,in_progress',
+    variables: {
+      mentorId: user?.tutor?.id,
+      status: 'scheduled',
+    },
   });
   const [approveAppointment] = useMutation(APPROVE_APPOINTMENT);
   const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT);
+
+  console.log('appointments', appointments);
 
   useEffect(() => {
     refetch();
@@ -36,7 +41,10 @@ const ApproveRequest = () => {
         mentorId: user?.mentor?.id,
       },
     });
-    refetch();
+    notify('Lesson successfully approved', 'success')
+    setTimeout(() => {
+      refetch();  
+    }, 200);
   };
 
   const onClickCancel = async ({ id }) => {
@@ -45,7 +53,10 @@ const ApproveRequest = () => {
         id: parseInt(id),
       },
     });
-    refetch();
+    notify('Lesson successfully canceled', 'success')
+    setTimeout(() => {
+      refetch();  
+    }, 200);
   };
 
   const displayLessonRequestTable = () => {
