@@ -19,7 +19,6 @@ const CalendarModal = ({
   zoomlink,
   closeModal,
   time,
-  mentors,
   data,
   event,
   onCancel,
@@ -31,16 +30,16 @@ const CalendarModal = ({
 
   const isLate = moment.duration(moment(time).diff(moment())).asHours() <= 24;
 
-  const avatar = mentors?.avatar;
+  const avatar = data?.resource?.mentor?.avatar;
 
   React.useEffect(() => {
     if (avatar) {
       setProfileImage(avatar?.url);
     } else if (
-      data?.resource?.tutor?.user?.gender?.toLowerCase() === 'female'
+      data?.resource?.mentor?.user?.gender?.toLowerCase() === 'female'
     ) {
       setProfileImage(femaleAvatar);
-    } else if (data?.resource?.tutor?.user?.gender?.toLowerCase() === 'male') {
+    } else if (data?.resource?.mentor?.user?.gender?.toLowerCase() === 'male') {
       setProfileImage(maleAvatar);
     } else {
       setProfileImage(maleAvatar);
@@ -71,8 +70,6 @@ const CalendarModal = ({
   };
 
   const [isOpen, setIsOpen] = useState(false);
-
-  console.log(event);
 
   return (
     <>

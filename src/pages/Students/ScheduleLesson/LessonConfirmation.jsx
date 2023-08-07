@@ -65,12 +65,6 @@ const LessonConfirmation = ({
     }
   };
 
-  const men = {
-    avatar: {
-      url: tutor?.avatar,
-    },
-  };
-
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -314,7 +308,7 @@ const LessonConfirmation = ({
                   lesson={newAppointment?.course?.title}
                   zoomlink={newAppointment?.zoomlink}
                   date={time}
-                  mentors={men}
+                  mentor={tutor}
                   data={newAppointment ?? {}}
                   subscription={plan}
                   fetchAppointments={fetchAppointments}

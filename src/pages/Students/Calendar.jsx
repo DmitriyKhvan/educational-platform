@@ -326,7 +326,6 @@ const Calendar = () => {
   }, [pastLessons]);
 
   const eventPropGetter = useCallback((event) => {
-    console.log(event.resource.status == 'scheduled');
     return {
       ...(event.resource.status === 'scheduled' && {
         style: {

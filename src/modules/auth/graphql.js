@@ -479,6 +479,11 @@ export const APPOINTMENTS_QUERY = gql`
           createdAt
           updatedAt
         }
+        user {
+          id
+          gender
+          fullName
+        }
       }
       student {
         id

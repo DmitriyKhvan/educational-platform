@@ -16,7 +16,6 @@ import calendarIconMain from '../../assets/images/calendar_icon_main.svg';
 import smileIcon from '../../assets/images/smile_icon.svg';
 import { useAuth } from '../../modules/auth';
 import {
-  MENTORS_QUERY,
   CANCEL_APPOINTMENT,
   APPOINTMENTS_QUERY,
   PACKAGE_QUERY,
@@ -30,10 +29,6 @@ const options = [
 ];
 
 const StudentListAppointments = () => {
-  const { data: mentorsList } = useQuery(MENTORS_QUERY, {
-    errorPolicy: 'ignore',
-  });
-
   const { complete_appoint_id } = useParams();
   const [t] = useTranslation('dashboard');
   const [selectedOption] = useState(options[0]);
@@ -119,15 +114,12 @@ const StudentListAppointments = () => {
       const date = moment(x?.startAt);
       const expiredDate = moment(x?.startAt).add(x?.duration, 'minutes');
       const currentDate = moment();
-      const mentors = mentorsList?.mentors.find(
-        (i) => +i?.id === x?.mentor?.id,
-      );
       return (
         currentDate.isBefore(expiredDate) && (
           <div key={i}>
             <ScheduleCard
               lesson={x?.course?.title}
-              mentors={mentors}
+              mentor={x.mentor}
               zoomlink={x?.zoomlink}
               date={date}
               data={x}

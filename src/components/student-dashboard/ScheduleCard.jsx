@@ -121,7 +121,7 @@ const ScheduleCard = ({
               {displayDate()}
             </h3>
           </div>
-          <div className="col-2 cols-image-schedule mobile-schedule_dash">
+          <div className="col-2 cols-image-schedule mobile-schedule_dash overflow-hidden rounded-full relative">
             <img
               src={
                 mentor?.avatar
@@ -130,11 +130,7 @@ const ScheduleCard = ({
                   // ? maleAvatar
                   // : femaleAvatar
               }
-              className={`img-fluid align-middle schedule_images-width ${
-                index === 0
-                  ? 'img-fluid align-middle schedule_images-width round_schedule-width'
-                  : 'img-fluid align-middle schedule_images-width'
-              }`}
+              className="object-cover "
               alt=""
             />
           </div>
