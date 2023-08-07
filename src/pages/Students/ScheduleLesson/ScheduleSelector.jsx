@@ -428,7 +428,7 @@ const ScheduleSelector = ({
               <div className="row container ps-4 pe-0">
                 <div className="col-1 leftArrow">
                   <button
-                    className="btn btn-dash-return leftArrow-btn"
+                    className="btn btn-dash-return leftArrow-btn disabled:opacity-50"
                     disabled={disable}
                     onClick={() => {
                       setCounter(counter + 1);
@@ -449,11 +449,12 @@ const ScheduleSelector = ({
                 </div>
                 <div className="col-1 ps-0 rightArrow">
                   <button
-                    className="btn btn-dash-return rightArrow-btn"
+                    className="btn btn-dash-return rightArrow-btn disabled:brightness-50"
                     onClick={() => {
                       setCounter(counter - 1);
                       setDayClicked(null);
                     }}
+                    disabled={counter === -2}
                   >
                     <img src={forward_arrow} alt="" />
                   </button>
