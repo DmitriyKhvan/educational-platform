@@ -208,7 +208,9 @@ const Calendar = () => {
       const tempPastLessons = [];
       tableAppointments.map((each) => {
         if (new Date(each.resource.startAt) > new Date()) {
-          tempUpcomingLessons.push(each);
+          if (each.resource.status === 'approved') {
+            tempUpcomingLessons.push(each);
+          }
         } else {
           tempPastLessons.push(each);
         }

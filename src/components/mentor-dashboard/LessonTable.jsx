@@ -18,8 +18,7 @@ const LessonTable = ({ tabularData }) => {
           (a, b) =>
             new Date(a.dateTime.startTime) - new Date(b.dateTime.startTime),
         )
-        .map((x) => x)
-        .filter((lesson) => lesson.resource.status === 'approved');
+        .map((x) => x);
 
       const y = Object.assign({}, x);
       const z = [];
