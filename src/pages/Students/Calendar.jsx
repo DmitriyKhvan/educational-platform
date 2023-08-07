@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 // import { useDispatch, useSelector } from 'react-redux';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
@@ -53,6 +53,7 @@ const sortCalendarEvents = (data) => {
         mentor: eventDate.mentor,
         student: eventDate.student,
         eventDate,
+        status: eventDate.status,
       };
 
       calendarEvents.push(iterateEvents);
@@ -104,7 +105,7 @@ const Calendar = () => {
     {
       variables: {
         studentId: user?.students[0]?.id,
-        status: 'scheduled,paid,completed,in_progress',
+        status: 'approved,scheduled,paid,completed,in_progress',
       },
     },
   );
@@ -163,7 +164,7 @@ const Calendar = () => {
       if (user && user?.student) {
         getAppointments({
           studentId: user.students[0]?.id,
-          status: 'scheduled,paid,completed,in_progress',
+          status: 'approved,scheduled,paid,completed,in_progress',
         });
       }
     })();
@@ -324,6 +325,18 @@ const Calendar = () => {
     }
   }, [pastLessons]);
 
+  const eventPropGetter = useCallback((event) => {
+    console.log(event.resource.status == 'scheduled');
+    return {
+      ...(event.resource.status === 'scheduled' && {
+        style: {
+          background: "none",
+          backgroundColor: "#909090",
+        },
+      }),
+    };
+  }, []);
+
   return (
     <Layout>
       <div className="children-wrapper">
@@ -474,6 +487,7 @@ const Calendar = () => {
                   views={allViews}
                   showMultiDayTimes
                   startAccessor="start"
+                  eventPropGetter={eventPropGetter}
                   endAccessor="end"
                   components={{
                     month: {

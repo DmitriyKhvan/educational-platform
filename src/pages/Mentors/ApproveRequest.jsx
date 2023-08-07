@@ -21,12 +21,31 @@ const ApproveRequest = () => {
 
   const { data: appointments, refetch } = useQuery(APPOINTMENTS_QUERY, {
     variables: {
-      mentorId: user?.tutor?.id,
+      mentorId: user?.mentor?.id,
       status: 'scheduled',
     },
+    fetchPolicy: 'no-cache',
   });
-  const [approveAppointment] = useMutation(APPROVE_APPOINTMENT);
-  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT);
+  const [approveAppointment] = useMutation(APPROVE_APPOINTMENT, {
+    onCompleted: () => {
+      refetch({
+        variables: {
+          mentorId: user?.mentor?.id,
+          status: 'scheduled',
+        },
+      });
+    },
+  });
+  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT, {
+    onCompleted: () => {
+      refetch({
+        variables: {
+          mentorId: user?.mentor?.id,
+          status: 'scheduled',
+        },
+      });
+    },
+  });
 
   console.log('appointments', appointments);
 
@@ -38,13 +57,9 @@ const ApproveRequest = () => {
     approveAppointment({
       variables: {
         id: parseInt(id),
-        mentorId: user?.mentor?.id,
+        mentorId: parseInt(user?.mentor?.id),
       },
     });
-    notify('Lesson successfully approved', 'success')
-    setTimeout(() => {
-      refetch();  
-    }, 200);
   };
 
   const onClickCancel = async ({ id }) => {
