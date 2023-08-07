@@ -32,13 +32,13 @@ const ForgotPassword = () => {
 
   useEffect(() => {
     if (data) {
-      notify('success', t('reset_password_message'));
+      notify(t('reset_password_message'), 'success');
     }
   }, [data]);
 
   useEffect(() => {
     if (error) {
-      notify('error', t('login_failed'));
+      notify(t('login_failed'), 'error');
     }
   }, [error]);
 

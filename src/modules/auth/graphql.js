@@ -242,6 +242,12 @@ export const MENTORS_QUERY = gql`
         createdAt
         updatedAt
       }
+      availabilities {
+        id
+        day
+        from
+        to
+      }
     }
   }
 `;
@@ -515,7 +521,7 @@ export const APPOINTMENTS_QUERY = gql`
 `;
 
 export const APPROVE_APPOINTMENT = gql`
-  mutation APPROVE_LESSON($id: Int!, $mentorId: Int!) {
+  mutation APPROVE_LESSON($id: ID!, $mentorId: ID!) {
     approveLesson(id: $id, mentorId: $mentorId) {
       id
       startAt
