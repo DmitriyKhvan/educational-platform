@@ -104,7 +104,7 @@ const Calendar = () => {
     {
       variables: {
         mentorId: user?.mentor?.id,
-        status: 'scheduled,paid,completed,in_progress',
+        status: 'scheduled,paid,completed,in_progress,approved',
       },
       fetchPolicy: 'no-cache',
     },
@@ -601,7 +601,7 @@ const Calendar = () => {
               />
             ) : (
               <LessonTable
-                timezone={'America/New_York'}
+                // timezone={'Asia/Seoul'}
                 isUpcoming={isUpcoming}
                 tabularData={tabularData}
               />

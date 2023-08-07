@@ -21,14 +21,12 @@ const ApproveRequest = () => {
 
   const { data: appointments, refetch } = useQuery(APPOINTMENTS_QUERY, {
     variables: {
-      mentorId: user?.tutor?.id,
+      mentorId: user?.mentor?.id,
       status: 'scheduled',
     },
   });
   const [approveAppointment] = useMutation(APPROVE_APPOINTMENT);
   const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT);
-
-  console.log('appointments', appointments);
 
   useEffect(() => {
     refetch();
@@ -41,9 +39,9 @@ const ApproveRequest = () => {
         mentorId: user?.mentor?.id,
       },
     });
-    notify('Lesson successfully approved', 'success')
+    notify('Lesson successfully approved', 'success');
     setTimeout(() => {
-      refetch();  
+      refetch();
     }, 200);
   };
 
@@ -53,9 +51,9 @@ const ApproveRequest = () => {
         id: parseInt(id),
       },
     });
-    notify('Lesson successfully canceled', 'success')
+    notify('Lesson successfully canceled', 'success');
     setTimeout(() => {
-      refetch();  
+      refetch();
     }, 200);
   };
 
