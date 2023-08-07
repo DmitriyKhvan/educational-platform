@@ -1,13 +1,12 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import notify from '../../../../utils/notify';
 import Layout from '../../../../components/Layout';
 
 import cls from './Submited.module.scss';
 
 const Submited = () => {
   const history = useHistory();
-  const notify = () => toast('Introduction video is changed!');
 
   return (
     <Layout>
@@ -33,7 +32,7 @@ const Submited = () => {
           <button
             onClick={() => {
               history.push('/mentor/profile');
-              notify();
+              notify('Introduction video is changed!');
             }}
           >
             Return to My Profile

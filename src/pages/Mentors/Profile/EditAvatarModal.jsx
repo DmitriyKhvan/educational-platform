@@ -7,9 +7,9 @@ import { useAuth } from '../../../modules/auth';
 import { MUTATION_UPDATE_MENTOR } from '../../../modules/auth/graphql';
 import { useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import notify from '../../../utils/notify';
 
 Modal.setAppElement('#root');
 
@@ -18,7 +18,6 @@ const EditAvatarModal = ({ isOpen, closeModal, profileImage }) => {
   const { user, refetchUser } = useAuth();
   const [updateMentor] = useMutation(MUTATION_UPDATE_MENTOR);
   const history = useHistory();
-  const notify = () => toast('Avatar is changed!');
   const [file, setFile] = React.useState(null);
 
   const { handleSubmit } = useForm();
@@ -33,7 +32,7 @@ const EditAvatarModal = ({ isOpen, closeModal, profileImage }) => {
       });
 
       if (data) {
-        notify();
+        notify('Avatar is changed!');
         history.push('/mentor/profile');
         closeModal();
       }
