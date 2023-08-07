@@ -19,8 +19,8 @@ const CalendarModal = ({
   zoomlink,
   closeModal,
   time,
-  mentors,
   data,
+  event,
   onCancel,
 }) => {
   const [t] = useTranslation('modals');
@@ -30,16 +30,16 @@ const CalendarModal = ({
 
   const isLate = moment.duration(moment(time).diff(moment())).asHours() <= 24;
 
-  const avatar = mentors?.avatar;
+  const avatar = data?.resource?.mentor?.avatar;
 
   React.useEffect(() => {
     if (avatar) {
       setProfileImage(avatar?.url);
     } else if (
-      data?.resource?.tutor?.user?.gender?.toLowerCase() === 'female'
+      data?.resource?.mentor?.user?.gender?.toLowerCase() === 'female'
     ) {
       setProfileImage(femaleAvatar);
-    } else if (data?.resource?.tutor?.user?.gender?.toLowerCase() === 'male') {
+    } else if (data?.resource?.mentor?.user?.gender?.toLowerCase() === 'male') {
       setProfileImage(maleAvatar);
     } else {
       setProfileImage(maleAvatar);
@@ -92,6 +92,11 @@ const CalendarModal = ({
               {isToday ? 'Today' : moment(time).format('ddd')} at {startTime} →{' '}
               {endTime}
             </h3>
+            {event.resource.status === 'scheduled' && (
+              <p className="text-md text-red-500 font-bold">
+                Lesson has not been approved yet!
+              </p>
+            )}
           </div>
           <div className="max-w-[4rem]">
             <img src={profileImage} alt="" />
@@ -135,10 +140,11 @@ const CalendarModal = ({
             {t('reschedule')}
           </Link>
           <a
-            onClick={joinLesson}
+            onClick={event.resource.status !== 'scheduled' ? joinLesson : undefined}
             target="_blank"
             rel="noreferrer"
-            className="enter-btn m-0 p-0 py-2 px-2 text-sm grey-border text-black"
+            className="enter-btn m-0 p-0 py-2 px-2 text-sm grey-border text-black aria-disabled:brightness-75"
+            aria-disabled={event.resource.status === 'scheduled'}
           >
             {t('join_lesson')}
           </a>
