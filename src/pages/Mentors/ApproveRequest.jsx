@@ -47,8 +47,6 @@ const ApproveRequest = () => {
     },
   });
 
-  console.log('appointments', appointments);
-
   useEffect(() => {
     refetch();
   }, [user]);
@@ -60,6 +58,11 @@ const ApproveRequest = () => {
         mentorId: parseInt(user?.mentor?.id),
       },
     });
+
+    notify('Lesson successfully approved', 'success');
+    setTimeout(() => {
+      refetch();
+    }, 200);
   };
 
   const onClickCancel = async ({ id }) => {
@@ -68,9 +71,9 @@ const ApproveRequest = () => {
         id: parseInt(id),
       },
     });
-    notify('Lesson successfully canceled', 'success')
+    notify('Lesson successfully canceled', 'success');
     setTimeout(() => {
-      refetch();  
+      refetch();
     }, 200);
   };
 
