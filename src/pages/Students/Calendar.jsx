@@ -107,6 +107,7 @@ const Calendar = () => {
         studentId: user?.students[0]?.id,
         status: 'approved,scheduled,paid,completed,in_progress',
       },
+      fetchPolicy: 'no-cache',
     },
   );
 
@@ -329,8 +330,8 @@ const Calendar = () => {
     return {
       ...(event.resource.status === 'scheduled' && {
         style: {
-          background: "none",
-          backgroundColor: "#909090",
+          background: 'none',
+          backgroundColor: '#909090',
         },
       }),
     };
