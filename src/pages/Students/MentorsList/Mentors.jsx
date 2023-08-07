@@ -19,7 +19,7 @@ const Mentors = () => {
   const history = useHistory();
   const [tutor, setTutor] = React.useState([]);
   const [t] = useTranslation(['studentMentor', 'common']);
-  const { data } = useQuery(MENTORS_QUERY, {
+  const { data, loading } = useQuery(MENTORS_QUERY, {
     errorPolicy: 'ignore',
   });
 
@@ -41,7 +41,7 @@ const Mentors = () => {
 
   const handleFilter = (e) => {
     const newMentors = mentors.filter((i) =>
-      i?.user?.fullName?.toLowerCase().includes(e.toLowerCase())
+      i?.user?.fullName?.toLowerCase().includes(e.toLowerCase()),
     );
 
     setTutor(newMentors);
@@ -70,9 +70,9 @@ const Mentors = () => {
         </div>
 
         <div className="tutors_row">
-          {tutor?.length === 0 && <p>{t('cannot_find_mentors')}</p>}
+          {mentors?.length === 0 && <p>{t('cannot_find_mentors')}</p>}
 
-          {!mentors && <Loader height={'50vh'} />}
+          {loading && <Loader height={'50vh'} />}
 
           {mentors &&
             tutor?.map((item) => (
@@ -119,9 +119,20 @@ const Mentors = () => {
                         all: 'unset',
                         width: '100%',
                         height: '100%',
+                        pointerEvents:
+                          item.availabilities.length > 0 ? 'auto' : 'none',
                       }}
                     >
-                      <button>{t('schedule', { ns: 'common' })}</button>
+                      <button
+                        style={{
+                          filter:
+                            item.availabilities.length > 0
+                              ? 'none'
+                              : 'brightness(70%)',
+                        }}
+                      >
+                        {t('schedule', { ns: 'common' })}
+                      </button>
                     </Link>
                     {/* <button onClick={() => handleStatusTutor(item.id)}>
                       {item?.isFavourite ? 'Remove' : 'Favorite'}

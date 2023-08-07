@@ -449,7 +449,7 @@ const Calendar = () => {
 
               <div className="row">
                 <button
-                  className="btn col-5 enter-btn bg-primary text-white"
+                  className="btn col-5 enter-btn bg-primary"
                   onClick={joinLesson}
                   target="_blank"
                   rel="noreferrer"

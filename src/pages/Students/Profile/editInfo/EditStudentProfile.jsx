@@ -14,7 +14,7 @@ import {
 import { useMutation } from '@apollo/client';
 import timezones from 'timezones-list';
 import find from 'lodash-es/find';
-import { toast } from 'react-toastify';
+import notify from '../../../../utils/notify';
 import { getData } from 'country-list';
 
 import { AiFillEdit } from 'react-icons/ai';
@@ -34,9 +34,6 @@ const EditProflileStudent = () => {
 
   const history = useHistory();
   const [, setPreview] = React.useState({});
-
-  // const notifyAvatar = () => toast('Avatar is changed!');
-  const notify = () => toast('Student information is changed!');
 
   const [updateUser] = useMutation(MUTATION_UPDATE_USER);
 
@@ -81,7 +78,7 @@ const EditProflileStudent = () => {
       });
 
       if (error) {
-        toast.error('Avatar upload failed');
+        notify('Avatar upload failed', 'error');
       }
     }
 
@@ -102,7 +99,7 @@ const EditProflileStudent = () => {
     });
 
     if (userData) {
-      notify();
+      notify('Student information is changed!');
       history.push('/student/profile');
     }
 

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../modules/auth';
 import { useMutation, useQuery } from '@apollo/client';
+import notify from '../../utils/notify';
 import {
   APPOINTMENTS_QUERY,
   APPROVE_APPOINTMENT,
@@ -46,6 +47,8 @@ const ApproveRequest = () => {
     },
   });
 
+  console.log('appointments', appointments);
+
   useEffect(() => {
     refetch();
   }, [user]);
@@ -65,7 +68,10 @@ const ApproveRequest = () => {
         id: parseInt(id),
       },
     });
-    refetch();
+    notify('Lesson successfully canceled', 'success')
+    setTimeout(() => {
+      refetch();  
+    }, 200);
   };
 
   const displayLessonRequestTable = () => {
