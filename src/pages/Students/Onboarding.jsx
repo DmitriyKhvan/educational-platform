@@ -114,11 +114,17 @@ export default function Onboarding() {
         src={Logo}
         alt="naonow-logo"
       />
+      <select
+        name=""
+        id=""
+        onChange={onChangeLanguage}
+        defaultValue={language === 0 ? 'kr' : 'en'}
+        className="rounded border border-gray-300 text-sm"
+      >
+        <option value="en">English</option>
+        <option value="kr">한국어</option>
+      </select>
       <div className="max-w-2xl gap-4 w-full px-4">
-        <select name="" id="" onChange={onChangeLanguage}>
-          <option value="en">English</option>
-          <option value="kr">한국어</option>
-        </select>
         <form
           ref={parent}
           onSubmit={handleSubmit(onSubmit)}
