@@ -6,6 +6,7 @@ import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 
 import cls from './MentorProfile.module.scss';
 import { useAuth } from '../../../modules/auth';
+import { renderVideo } from '../../../utils/functions';
 
 const MentorProfile = () => {
   const [t] = useTranslation(['profile', 'common']);
@@ -31,46 +32,6 @@ const MentorProfile = () => {
   }, [user]);
 
   const videoUrl = actions.user?.mentor?.videoUrl;
-
-  function renderVideo() {
-    if (!videoUrl) {
-      return;
-    }
-    const url = videoUrl?.split('');
-    var codeURL = [];
-    var isVideo = null;
-
-    for (var i = 0; i < url.length; i++) {
-      if (videoUrl.includes('youtu')) {
-        isVideo = true;
-        if (url.includes('=')) {
-          for (var l = 0; i < url.length; i++) {
-            if (url[l] === '=') {
-              codeURL = url.slice(i + 1);
-            }
-          }
-        } else {
-          codeURL = url.slice(17);
-        }
-      } else {
-        isVideo = false;
-        codeURL = url.slice(18);
-      }
-    }
-
-    const prepareVideoToDB = codeURL.join('');
-    var video = '';
-
-    if (isVideo) {
-      video = 'https://www.youtube.com/embed/' + prepareVideoToDB;
-    } else {
-      video = 'https://player.vimeo.com/video/' + prepareVideoToDB;
-    }
-
-    if (video) {
-      setVideoLink(video);
-    }
-  }
 
   function renderAbout() {
     var text = actions.user?.mentor?.introduction;
@@ -105,7 +66,7 @@ const MentorProfile = () => {
 
   React.useEffect(() => {
     renderAbout();
-    renderVideo();
+    setVideoLink(renderVideo(videoUrl) || '');
   }, [user]);
 
   return (

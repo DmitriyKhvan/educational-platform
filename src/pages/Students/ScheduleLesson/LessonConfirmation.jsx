@@ -92,18 +92,21 @@ const LessonConfirmation = ({
       });
       lesson = updatedLesson;
     } else {
-      try{
-        const { data: { lesson: createdLesson } = {} } = await createAppointment({
-          variables: {
-            mentorId: tutor.id,
-            studentId: user.students[0].id,
-            subscriptionId: plan?.id,
-            startAt: moment.utc(time, 'ddd MMM DD YYYY HH:mm:ssZ').toISOString(),
-            duration: plan?.package?.sessionTime,
-          },
-        });
+      try {
+        const { data: { lesson: createdLesson } = {} } =
+          await createAppointment({
+            variables: {
+              mentorId: tutor.id,
+              studentId: user.students[0].id,
+              subscriptionId: plan?.id,
+              startAt: moment
+                .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
+                .toISOString(),
+              duration: plan?.package?.sessionTime,
+            },
+          });
         lesson = createdLesson;
-      } catch(error) {
+      } catch (error) {
         NotificationManager.error(error.message, t);
       } finally {
         setIsLoading(false);

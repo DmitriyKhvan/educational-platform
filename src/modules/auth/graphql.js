@@ -202,6 +202,7 @@ export const MENTORS_QUERY = gql`
       hourlyRate
       facts
       uniqueFacts
+      videoUrl
       user {
         id
         email
