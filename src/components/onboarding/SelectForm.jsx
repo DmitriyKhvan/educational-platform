@@ -2,17 +2,22 @@ import React, { useMemo } from 'react';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { createMultiSelect } from './createMultiSelect';
-
-const options = [
-  'Instagram/Facebook Ads',
-  'Influencers (Youtube/Instagram)',
-  'Search (Naver, Google, Daum, etc.)',
-  'Referrals',
-  'Other',
-];
+import { useTranslation } from 'react-i18next';
 
 export default function LoginForm({ register, errors }) {
   const [parent] = useAutoAnimate();
+  const [t, i18n] = useTranslation(['onboarding', 'common', 'translations']);
+
+  const options = useMemo(
+    () => [
+      t('facebook'),
+      t('influencers'),
+      t('search'),
+      t('referrals'),
+      t('other'),
+    ],
+    [i18n],
+  );
 
   const components = useMemo(
     () =>
@@ -27,7 +32,9 @@ export default function LoginForm({ register, errors }) {
 
   return (
     <fieldset className="flex flex-col space-y-4 w-full" ref={parent}>
-      <legend className="text-2xl font-bold">How did you hear about us?</legend>
+      <legend className="text-2xl font-bold">
+        {t('media_channel_question')}
+      </legend>
 
       {components}
 

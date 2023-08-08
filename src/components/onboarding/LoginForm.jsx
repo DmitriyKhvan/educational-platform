@@ -1,15 +1,17 @@
 import React from 'react';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { useTranslation } from 'react-i18next';
 
 export default function LoginForm({ register, errors }) {
   const [parent] = useAutoAnimate();
+  const [t] = useTranslation(['onboarding', 'common', 'translations']);
 
   return (
     <fieldset className="flex flex-col space-y-4">
       <legend className="text-2xl font-bold">Let&apos;s get started!</legend>
       <label className="font-bold flex gap-2" htmlFor="firstName" ref={parent}>
-        First Name
+        {t('first_name', { ns: 'common' })}
         {errors.firstName && (
           <span className="text-red-500 font-normal">
             * {errors.firstName.message}
@@ -21,12 +23,12 @@ export default function LoginForm({ register, errors }) {
         type="text"
         autoFocus
         {...register('firstName', {
-          required: 'First name is required',
+          required: t('required_first_name', { ns: 'translations' }),
           focus: true,
         })}
       />
       <label className="font-bold flex gap-2" htmlFor="lastName" ref={parent}>
-        Last Name
+        {t('last_name', { ns: 'common' })}
         {errors.lastName && (
           <span className="text-red-500 font-normal">
             * {errors.lastName.message}
@@ -36,10 +38,14 @@ export default function LoginForm({ register, errors }) {
       <input
         className="rounded-md ring-purple-800 duration-200 border border-gray-300"
         type="text"
-        {...register('lastName', { required: 'Last name is required' })}
+        {...register('lastName', {
+          required: t('required_last_name', { ns: 'translations' }),
+        })}
       />
       <label className="font-bold flex gap-2" htmlFor="gender" ref={parent}>
-        Gender
+        {t('gender', {
+          ns: 'translations',
+        })}
         {errors.gender && (
           <span className="text-red-500 font-normal">
             * {errors.gender.message}
@@ -50,8 +56,16 @@ export default function LoginForm({ register, errors }) {
         {...register('gender', { required: 'Gender is required' })}
         className="rounded-md ring-purple-800 duration-200 border border-gray-300"
       >
-        <option value="male">Male</option>
-        <option value="female">Female</option>
+        <option value="male">
+          {t('male', {
+            ns: 'translations',
+          })}
+        </option>
+        <option value="female">
+          {t('female', {
+            ns: 'translations',
+          })}
+        </option>
       </select>
     </fieldset>
   );

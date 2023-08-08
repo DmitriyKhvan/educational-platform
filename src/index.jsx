@@ -12,6 +12,8 @@ import {
   availabilityEn,
   referEn,
   profileEn,
+  onboardingEn,
+  translationsEn,
 } from './assets/lang/en';
 import {
   commonKr,
@@ -23,6 +25,8 @@ import {
   availabilityKr,
   referKr,
   profileKr,
+  onboardingKr,
+  translationsKr,
 } from './assets/lang/kr';
 import {
   ApolloClient,
@@ -72,6 +76,8 @@ i18next.init({
       availability: availabilityEn,
       refer: referEn,
       profile: profileEn,
+      onboarding: onboardingEn,
+      translations: translationsEn,
     },
     kr: {
       common: commonKr,
@@ -83,6 +89,8 @@ i18next.init({
       availability: availabilityKr,
       refer: referKr,
       profile: profileKr,
+      onboarding: onboardingKr,
+      translations: translationsKr,
     },
   },
 });
@@ -95,5 +103,5 @@ root.render(
         <App />
       </AuthProvider>
     </I18nextProvider>
-  </ApolloProvider>
+  </ApolloProvider>,
 );

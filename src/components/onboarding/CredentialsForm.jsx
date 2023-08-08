@@ -1,15 +1,21 @@
 import React from 'react';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { useTranslation } from 'react-i18next';
 
 export default function CredentialsForm({ register, errors }) {
   const [parent] = useAutoAnimate();
+  const [t] = useTranslation(['onboarding', 'common', 'translations']);
 
   return (
     <fieldset className="flex flex-col space-y-4">
-      <legend className="text-2xl font-bold">Let&apos;s get started!</legend>
-      <label className="font-bold flex gap-2" htmlFor="phoneNumber" ref={parent}>
-        Phone number
+      <legend className="text-2xl font-bold">{t('lets_get_started')}</legend>
+      <label
+        className="font-bold flex gap-2"
+        htmlFor="phoneNumber"
+        ref={parent}
+      >
+        {t('phone_number', { ns: 'common' })}
         {errors.phoneNumber && (
           <span className="text-red-500 font-normal flex-grow">
             * {errors.phoneNumber.message}
@@ -22,7 +28,7 @@ export default function CredentialsForm({ register, errors }) {
         placeholder="010-1234-5678"
         autoFocus
         {...register('phoneNumber', {
-          required: 'Phone number is required',
+          required: t('required_phone_number', { ns: 'translations' }),
           validate: {
             isPhoneNumber: (value) => {
               const phoneNumberRegex = /^[0-9]{3}([0-9]{3}|[0-9]{4})[0-9]{4}$/;
@@ -43,7 +49,7 @@ export default function CredentialsForm({ register, errors }) {
         })}
       />
       <label className="font-bold flex gap-2" htmlFor="email" ref={parent}>
-        Email
+        {t('email', { ns: 'common' })}
         {errors.email && (
           <span className="text-red-500 font-normal flex-grow">
             * {errors.email.message}
@@ -55,7 +61,7 @@ export default function CredentialsForm({ register, errors }) {
         type="email"
         placeholder="student@example.com"
         {...register('email', {
-          required: 'Email is required',
+          required: t('required_email', { ns: 'common' }),
           validate: {
             isEmail: (value) => {
               const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -65,7 +71,7 @@ export default function CredentialsForm({ register, errors }) {
         })}
       />
       <label className="font-bold flex gap-2" htmlFor="password" ref={parent}>
-        Password
+        {t('password', { ns: 'common' })}
         {errors.password && (
           <span className="text-red-500 font-normal flex-grow">
             * {errors.password.message}
@@ -77,7 +83,7 @@ export default function CredentialsForm({ register, errors }) {
         type="password"
         placeholder="**********"
         {...register('password', {
-          required: 'Password is required',
+          required: t('required_password', { ns: 'common' }),
         })}
       />
     </fieldset>
