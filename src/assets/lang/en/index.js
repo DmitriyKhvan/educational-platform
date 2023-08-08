@@ -7,3 +7,5 @@ export * as studentMentorEn from './student-mentor.json';
 export * as availabilityEn from './availability.json';
 export * as referEn from './refer.json';
 export * as profileEn from './profile.json';
+export * as onboardingEn from './onboarding.json';
+export * as translationsEn from './translations.json';

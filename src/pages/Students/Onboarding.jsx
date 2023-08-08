@@ -12,6 +12,11 @@ import useLogin from '../../modules/auth/hooks/login';
 import Loader from '../../components/Loader/Loader';
 import toast from 'react-hot-toast';
 import { useEffect, useState } from 'react';
+import {
+  getItemToLocalStorage,
+  setItemToLocalStorage,
+} from '../../constants/global';
+import { useTranslation } from 'react-i18next';
 
 export default function Onboarding() {
   const {
@@ -55,6 +60,23 @@ export default function Onboarding() {
     <CredentialsForm register={register} errors={errors} key="credentials" />,
   ]);
 
+  const [t, i18n] = useTranslation('onboarding');
+
+  const [language, setLanguage] = useState(
+    parseInt(getItemToLocalStorage('language', 1)),
+  );
+
+  const onChangeLanguage = (event) => {
+    const lang = event.target.value === 'en' ? 1 : 0;
+    setItemToLocalStorage('language', lang);
+    setLanguage(lang);
+  };
+
+  useEffect(() => {
+    console.log(i18n.language);
+    i18n.changeLanguage(language === 0 ? 'kr' : 'en');
+  }, [language]);
+
   const onSubmit = async (data) => {
     if (!isLast) {
       localStorage.setItem(
@@ -93,6 +115,10 @@ export default function Onboarding() {
         alt="naonow-logo"
       />
       <div className="max-w-2xl gap-4 w-full px-4">
+        <select name="" id="" onChange={onChangeLanguage}>
+          <option value="en">English</option>
+          <option value="kr">한국어</option>
+        </select>
         <form
           ref={parent}
           onSubmit={handleSubmit(onSubmit)}
@@ -108,12 +134,12 @@ export default function Onboarding() {
               }}
               disabled={isFirst}
             >
-              Back
+              {t('back')}
             </button>
             <input
               className="py-2 px-4 bg-purple-800 text-white rounded-md font-bold duration-200 transition-transform hover:opacity-75 active:brightness-75 active:scale-95"
               type="submit"
-              value={isLast ? 'Finish' : 'Next'}
+              value={isLast ? t('finish') : t('next')}
             />
           </div>
         </form>
