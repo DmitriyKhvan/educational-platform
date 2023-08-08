@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import FavIcon from '../../../assets/images/Favorite.png';
 
 import './MentorsModal.scss';
+import { renderVideo } from '../../../utils/functions';
 
 const MentorsModal = ({ setShowTutorModal, tutorId, tutorsList }) => {
   const { id } = useParams();
@@ -12,49 +13,8 @@ const MentorsModal = ({ setShowTutorModal, tutorId, tutorsList }) => {
     (item) => item.id == (tutorId ? tutorId : id),
   );
 
-  function renderVideo(videoUrl) {
-    if (!videoUrl) {
-      return;
-    }
-    const url = videoUrl?.split('');
-    var yt = ['y', 'o', 'u', 't', 'u', 'b', 'e'];
-    var codeURL = [];
-    var isVideo = null;
-
-    for (var i = 0; i < url?.length; i++) {
-      if (yt.includes(url[i])) {
-        isVideo = true;
-        if (url.includes('=')) {
-          for (var l = 0; i < url?.length; i++) {
-            if (url[l] === '=') {
-              codeURL = url.slice(i + 1);
-            }
-          }
-        } else {
-          codeURL = url?.slice(17);
-        }
-      } else {
-        isVideo = false;
-        codeURL = url?.slice(18);
-      }
-    }
-
-    const prepareVideoToDB = codeURL.join('');
-    var video = '';
-
-    if (isVideo) {
-      video = 'https://www.youtube.com/embed/' + prepareVideoToDB;
-    } else {
-      video = 'https://vimeo.com/' + prepareVideoToDB;
-    }
-
-    if (video) {
-      setVideoLink(video);
-    }
-  }
-
   React.useEffect(() => {
-    renderVideo(renderSelectedTutor?.videoUrl);
+    setVideoLink(renderVideo(renderSelectedTutor?.videoUrl) || '');
   }, [renderSelectedTutor]);
 
   return (
