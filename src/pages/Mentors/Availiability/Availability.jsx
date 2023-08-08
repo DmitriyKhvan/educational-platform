@@ -19,7 +19,7 @@ import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_MENTOR } from '../../../modules/auth/graphql';
-import { UPSERT_AVAILIABILITY } from './graphql'; 
+import { UPSERT_AVAILIABILITY } from './graphql';
 
 const Availability = (/*{ user_id  }*/) => {
   const [t] = useTranslation(['common', 'availability']);
@@ -39,9 +39,8 @@ const Availability = (/*{ user_id  }*/) => {
   const [, setIsMonthCheck] = useState(false);
   // tutor policies state and handler
   const { user } = useAuth();
-  const {
-    data: { mentor: tutorInfo } = {},
-  } = useQuery(GET_MENTOR, {
+  const { data: { mentor: tutorInfo } = {} } = useQuery(GET_MENTOR, {
+    fetchPolicy: 'no-cache',
     variables: { id: user?.mentor?.id },
   });
   const [upsertAvailiability] = useMutation(UPSERT_AVAILIABILITY);
@@ -89,11 +88,9 @@ const Availability = (/*{ user_id  }*/) => {
       setCurrentDatas(withId);
     }
     const unique = [
-      ...(
-        tutorInfo?.exceptiondates
-          ? new Set(tutorInfo?.exceptiondates.map((item) => item.date))
-          : []
-      ),
+      ...(tutorInfo?.exceptiondates
+        ? new Set(tutorInfo?.exceptiondates.map((item) => item.date))
+        : []),
     ];
     if (unique.length >= 9) {
       setIsMonthCheck(true);
