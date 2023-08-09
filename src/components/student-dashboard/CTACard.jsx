@@ -5,7 +5,7 @@ const CTACard = ({ icon, title, subtitle, button, color, disabled }) => (
     style={{ background: color }}
     className={`page-card dash-card  ${title} ${
       disabled && 'disCard'
-    } small-card  mx-4 ms-0`}
+    } small-card flex-1 ms-0`}
   >
     <div className="p-0 container">
       <section className={`small-card-inline secblock`}>

@@ -211,7 +211,7 @@ const StudentListAppointments = () => {
                 {t('student_dashboard_subtitle', { ns: 'dashboard' })}
               </p>
               <div className="schedule-lesson-select pt-3">
-                <div className="page-card purple large-card py-5 flex flex-col gap-4 max-w-2xl">
+                <div className="page-card purple large-card py-5 flex flex-col gap-4">
                   <div className="flex gap-4">
                     <div className="min-w-[4rem] max-h-fit m-auto">
                       <img
@@ -256,12 +256,12 @@ const StudentListAppointments = () => {
                 </div>
               </div>
             </div>
-            <div className="row container justify-content-center mt-5">
-              <div className="col px-[26px]">
+            <div className="mt-5">
+              <div className="cards-container">
                 <h4 className="welcome-message">
                   {t('already_lesson', { ns: 'dashboard' })}
                 </h4>
-                <div className="dashboard-cards-inline mt-5">
+                <div className="flex gap-4 justify-between mt-5">
                   {loading ? (
                     <Loader />
                   ) : (
