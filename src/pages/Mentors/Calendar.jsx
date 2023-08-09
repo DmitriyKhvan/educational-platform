@@ -137,9 +137,11 @@ const Calendar = () => {
   const [isCancelLessonModalOpen, setIsCancelLessonModalOpen] = useState(false);
   const [isWarningOpen, setIsWarningOpen] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT, {
-    onCompleted: () => {
-      getAppointments();
+    onCompleted: async () => {
+      await fetchData();
     },
   });
 
@@ -172,7 +174,16 @@ const Calendar = () => {
   };
 
   const fetchData = async () => {
-    await getAppointments();
+    try {
+      await getAppointments();
+    } catch (error) {
+      NotificationManager.error(
+        error.response?.data?.message || 'Server Issue',
+        t,
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -238,6 +249,9 @@ const Calendar = () => {
   };
 
   const onSelectEvent = (e) => {
+    if(isLoading) {
+      return
+    }
     const today = moment().format('MM/DD/YYYY hh:mm a');
     const closedDate = moment(e.end).format('MM/DD/YYYY hh:mm a');
     if (moment(today).isBefore(closedDate)) {
@@ -287,12 +301,14 @@ const Calendar = () => {
       });
     } else {
       try {
+        setIsLoading(true)
         await cancelAppointment({
           variables: {
             id,
           },
         });
       } catch (error) {
+        setIsLoading(false)
         NotificationManager.error(
           error.response?.data?.message || 'Server Issue',
           t,
@@ -577,7 +593,7 @@ const Calendar = () => {
         </div>
 
         <div className="scroll-layout">
-          <div className="mt-4">
+          <div className={`${isLoading ? 'loading' : ''} mt-4`}>
             {isCalendar ? (
               <BigCalendar
                 style={{ minHeight: '70vh' }}
