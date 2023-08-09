@@ -1,6 +1,3 @@
-
-// need to replace with graphql
-
 import { useMutation } from '@apollo/client';
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
@@ -8,6 +5,7 @@ import { useAuth } from '../../../../modules/auth';
 import { MUTATION_UPDATE_USER } from '../../../../modules/auth/graphql';
 import Submit from './Submit';
 import { TextInput } from './TextInput';
+import CheckboxField from '../../../../components/Form/CheckboxField';
 import Select from 'react-select';
 import timezones from 'timezones-list';
 import find from 'lodash-es/find';
@@ -43,8 +41,6 @@ const BasicForm = ({ cls }) => {
   });
 
   const handleEditBasicInfo = async (values) => {
-
-    delete values.convertAvailabilityTime;
     delete values.email;
     const { data } = await updateMentor({
       variables: {
@@ -162,14 +158,10 @@ const BasicForm = ({ cls }) => {
               )}
             />
           </div>
-          <div className="tutor_checkbox">
-            <label>
-              <input type="checkbox" {...register('convertAvailabilityTime')} />
-              <span>
-                Update mentor availability and calendar to reflect new timezone
-              </span>
-            </label>
-          </div>
+          <CheckboxField
+            label="Update mentor availability and calendar to reflect new timezone"
+            {...register('convertAvailabilityTime')}
+          />
         </div>
       </div>
 

@@ -84,7 +84,8 @@ const Login = () => {
               <div className="mt-3">
                 <CheckboxField
                   label="Show Password"
-                  onChange={(check) => setIsShowPassword(check)}
+                  name="isShowPassword"
+                  onChange={(e) => setIsShowPassword(e.target.checked)}
                 />
               </div>
             </InputWithError>
