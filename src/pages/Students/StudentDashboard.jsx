@@ -142,17 +142,6 @@ const StudentListAppointments = () => {
   if (packageInfo?.packageSubscriptions.length === 0) {
     callToAction = [
       {
-        icon: calendarIconMain,
-        title: t('student_dashboard_no_package', { ns: 'dashboard' }),
-        bl: 'secblock',
-        button: {
-          to: '/purchase/1',
-          text: t('student_dashboard_no_package_desc', { ns: 'dashboard' }),
-        },
-        color: '#6134af',
-        cl: 'blue-progress',
-      },
-      {
         icon: smileIcon,
         title: t('student_dashboard_feedback', { ns: 'dashboard' }),
         disabled: true,
@@ -164,6 +153,17 @@ const StudentListAppointments = () => {
         },
         color: '#D6336C',
         cl: '',
+      },
+      {
+        icon: calendarIconMain,
+        title: t('student_dashboard_no_package', { ns: 'dashboard' }),
+        bl: 'secblock',
+        button: {
+          to: '/purchase/1',
+          text: t('student_dashboard_no_package_desc', { ns: 'dashboard' }),
+        },
+        color: '#1482DA',
+        cl: 'blue-progress',
       },
     ];
   } else {
@@ -257,7 +257,7 @@ const StudentListAppointments = () => {
               </div>
             </div>
             <div className="row container justify-content-center mt-5">
-              <div className="col px-4">
+              <div className="col px-[26px]">
                 <h4 className="welcome-message">
                   {t('already_lesson', { ns: 'dashboard' })}
                 </h4>

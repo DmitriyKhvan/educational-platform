@@ -46,16 +46,16 @@ const MentorsModal = ({ setShowTutorModal, tutorId, tutorsList }) => {
           {renderSelectedTutor?.isFavourite && (
             <img src={FavIcon} alt="" className="favTutorIcon" />
           )}
-          <h1>{`${renderSelectedTutor?.user?.fullName}`}</h1>
+          <h1>{`${renderSelectedTutor?.fullName || renderSelectedTutor?.user?.fullName}`}</h1>
 
           <div className="bottom_content">
             <div className="bottom_content-status">
-              <div>
-                <p>University</p>
+              <div className="pb-3">
+                <p className="p-0 m-0">University</p>
                 <h3>{renderSelectedTutor?.university}</h3>
               </div>
-              <div>
-                <p>Degree / Major</p>
+              <div className="pb-3">
+                <p className="p-0 m-0">Degree / Major</p>
                 <h3>
                   {renderSelectedTutor?.degree}{' '}
                   {renderSelectedTutor.major
@@ -66,22 +66,22 @@ const MentorsModal = ({ setShowTutorModal, tutorId, tutorsList }) => {
             </div>
             <div className="modal_bio">
               {renderSelectedTutor?.introduction && (
-                <div>
-                  <p>Biography</p>
+                <div className="pb-3">
+                  <p className="p-0 m-0">Biography</p>
                   <span>{renderSelectedTutor?.introduction}</span>
                 </div>
               )}
 
               {renderSelectedTutor?.relevantExperience && (
-                <div>
-                  <p>Relevant Experience</p>
+                <div className="pb-3">
+                  <p className="p-0 m-0">Relevant Experience</p>
                   <span>{renderSelectedTutor?.relevantExperience}</span>
                 </div>
               )}
 
               {renderSelectedTutor?.uniqueFacts && (
-                <div>
-                  <p>Unique Facts</p>
+                <div className="pb-3">
+                  <p className="p-0 m-0">Unique Facts</p>
                   <span>{renderSelectedTutor?.uniqueFacts}</span>
                 </div>
               )}

@@ -27,7 +27,7 @@ const TutorImageRow = ({ tutor }) => {
       <div className="col-3 pt-4 Text-align-tutor">
         <div className="row">
           <h1 className="text-purple select_tutors_aligns">
-            {tutor.firstName + ' ' + tutor.lastName}
+            {tutor.fullName || tutor.firstName + ' ' + tutor.lastName}
           </h1>
         </div>
         <div className="row">

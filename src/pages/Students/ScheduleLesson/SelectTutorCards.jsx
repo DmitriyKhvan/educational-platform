@@ -37,6 +37,11 @@ const GET_AVAILABLE_MENTORS = gql`
         uniqueFacts
         userId
         fullName
+        user {
+          id
+          firstName
+          lastName
+        }
         avatar {
           id
           url
@@ -140,7 +145,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
                 <div className="col-auto">
                   <div className="combos ms-2">
                     <button
-                      className=" btn-dash-return combobutton"
+                      className="border btn-dash-return combobutton enter-btn btn-dash-return ms-0 back-btn-schedule"
                       onClick={() => setTabIndex(1)}
                     >
                       {t('back', { ns: 'common' })}

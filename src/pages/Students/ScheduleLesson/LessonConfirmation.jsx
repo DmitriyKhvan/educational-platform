@@ -134,8 +134,8 @@ const LessonConfirmation = ({
               <p className="welcome-subtitle confirm-tutor-subtitle">
                 {t('confirmation_subtitle', { ns: 'lessons' })}
               </p>
-              <div className="row ">
-                <div className="col-auto button-size">
+              <div className="flex gap-2 md:gap-2 lg:gap-3 ">
+                <div className="button-size">
                   <button
                     className="confirm-tutor-enter-btn mobile-width"
                     onClick={() => setTabIndex(0)}
@@ -143,7 +143,7 @@ const LessonConfirmation = ({
                     {t('edit_lesson', { ns: 'lessons' })}
                   </button>
                 </div>
-                <div className="col-auto button-size">
+                <div className="button-size">
                   <button
                     className="confirm-tutor-enter-btn mobile-width"
                     onClick={() => setTabIndex(1)}
@@ -151,7 +151,7 @@ const LessonConfirmation = ({
                     {t('edit_schedule', { ns: 'lessons' })}
                   </button>
                 </div>
-                <div className="col-auto button-size">
+                <div className="button-size">
                   <button
                     className="confirm-tutor-enter-btn mobile-width"
                     onClick={() =>
@@ -191,9 +191,9 @@ const LessonConfirmation = ({
                 />
               </div>
               <p className="welcome-subtitle pt-4 confirm-tutor-subtitle">
-                {t('mentor', { ns: 'lessons' })}
+                {t('mentor', { ns: 'lessons' })} 123
               </p>
-              <div className="row ps-2 tutor-image">
+              <div className="flex tutor-image">
                 <TutorImageRow tutor={tutor} />
               </div>
 
@@ -292,14 +292,14 @@ const LessonConfirmation = ({
                 <h4 className="text-purple weekly-schedule-subtitle">
                   {t('lesson_confirmation_subtitle', { ns: 'lessons' })}
                 </h4>
-                <div className="flex-container">
+                <div className="flex-container gap-2 mb-4">
                   <div>
-                    <Link to="/student/manage-lessons" className="enter-btn">
+                    <Link to="/student/manage-lessons" className="enter-btn m-0">
                       {t('return_to_dash', { ns: 'lessons' })}
                     </Link>
                   </div>
                   <div>
-                    <Link to="/student/lesson-calendar" className="enter-btn">
+                    <Link to="/student/lesson-calendar" className="enter-btn m-0">
                       {t('student_dashboard_view_all_lessons', {
                         ns: 'dashboard',
                       })}
