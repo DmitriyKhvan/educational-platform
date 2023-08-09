@@ -17,6 +17,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '../../components/AlertDialog';
+import { useTranslation } from 'react-i18next';
 
 const GET_COURSES = gql`
   query GetCourse($id: Int!) {
@@ -48,6 +49,8 @@ const CREATE_PAYMENT_INTENT = gql`
 export default function BuyPackage() {
   const [parent] = useAutoAnimate();
   const { courseId } = useParams();
+
+  const [t] = useTranslation(['purchase', 'minutes', 'translations']);
 
   const { error, data } = useQuery(GET_COURSES, {
     variables: {
@@ -106,7 +109,7 @@ export default function BuyPackage() {
           <hr className="border-gray-400/50 rounded-full border md:hidden" />
           <form className="w-full flex flex-col gap-3">
             <p className="text-lg font-bold text-gray-700/90">
-              Choose the duration:
+              {t('duration')}
             </p>
             <div className="flex gap-2">
               {uniqueLength?.map((length) => (
@@ -128,15 +131,18 @@ export default function BuyPackage() {
                     htmlFor={'length' + length}
                   >
                     <div className="flex flex-col">
-                      <p className="text-lg font-bold">{length} minutes</p>
+                      <p className="text-lg font-bold">
+                        {length}{' '}
+                        {t('minutes', {
+                          ns: 'common',
+                        })}
+                      </p>
                     </div>
                   </label>
                 </div>
               ))}
             </div>
-            <p className="text-lg font-bold text-gray-700/90">
-              Choose number of lessons per week:
-            </p>
+            <p className="text-lg font-bold text-gray-700/90">{t('length')}</p>
             <div className="flex flex-col gap-2" ref={parent}>
               {courseData?.packages?.map(
                 (pkg) =>
@@ -167,15 +173,21 @@ export default function BuyPackage() {
                           <div>
                             <p className="text-2xl font-bold w-full flex-grow">
                               {pkg.period}{' '}
-                              {pkg.period === 1 ? 'month' : 'months'}
+                              {t('months', {
+                                count: pkg.period,
+                              })}
                             </p>
                             <p className="text-sm opacity-75">
-                              {pkg.sessionsPerWeek}{' '}
-                              {pkg.sessionsPerWeek === 1 ? 'time' : 'times'} a
-                              week
+                              {t('times_per_week', {
+                                count: pkg.sessionsPerWeek,
+                                interpolation: {},
+                              })}
                             </p>
                             <p className="text-sm opacity-75">
-                              {pkg.totalSessions} lessons
+                              {pkg.totalSessions}{' '}
+                              {t('lessons', {
+                                ns: 'common',
+                              })}
                             </p>
                             <p className="text-sm opacity-75">
                               {new Intl.NumberFormat('ko-KR', {
@@ -187,7 +199,10 @@ export default function BuyPackage() {
                                     pkg.totalSessions,
                                 ),
                               )}{' '}
-                              per lesson
+                              /{' '}
+                              {t('lesson', {
+                                ns: 'translations',
+                              })}
                             </p>
                           </div>
                           {pkg?.discount ? (
@@ -236,20 +251,24 @@ export default function BuyPackage() {
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Website Agreement</AlertDialogTitle>
+            <AlertDialogTitle>{t('agreement')}</AlertDialogTitle>
             <AlertDialogDescription>
-              By clicking continue, you agree to our{' '}
+              {t('clicking')}{' '}
               <a href="#" className="text-purple-600 hover:underline">
-                Terms of Service
+                {t('terms')}
               </a>{' '}
-              and{' '}
+              {t('and')}{' '}
               <a href="#" className="text-purple-600 hover:underline">
-                Privacy Policy
+                {t('privacy')}
               </a>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>
+              {t('cancel', {
+                ns: 'common',
+              })}
+            </AlertDialogCancel>
             <AlertDialogAction
               className="bg-purple-600 px-2 py-1 text-white rounded cursor-pointer hover:brightness-75 duration-200"
               onClick={async () => {
@@ -272,7 +291,9 @@ export default function BuyPackage() {
                 }
               }}
             >
-              Continue
+              {t('continue_button', {
+                ns: 'common',
+              })}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

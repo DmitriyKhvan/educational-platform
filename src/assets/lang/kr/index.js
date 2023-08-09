@@ -9,3 +9,4 @@ export * as referKr from './refer.json';
 export * as profileKr from './profile.json';
 export * as onboardingKr from './onboarding.json';
 export * as translationsKr from './translations.json';
+export * as purchaseKr from './purchase.json';
