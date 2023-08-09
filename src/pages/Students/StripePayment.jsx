@@ -10,6 +10,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
 import { useMutation, gql } from '@apollo/client';
 import { useAuth } from '../../modules/auth';
+import { useTranslation } from 'react-i18next';
 
 const CREATE_PAYMENT = gql`
   mutation CreatePayment(
@@ -43,6 +44,8 @@ const CheckoutForm = () => {
   const { user } = useAuth();
   const history = useHistory();
   const [isLoading, setLoading] = useState(false);
+
+  const [t] = useTranslation("common")
 
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -105,7 +108,7 @@ const CheckoutForm = () => {
           disabled={isLoading}
           className="py-2 px-3 rounded text-white mt-4 bg-purple-500 disabled:bg-gray-300"
         >
-          Continue
+          {t("continue_button")}
         </button>
         {/* Show error message to your customers */}
       </form>

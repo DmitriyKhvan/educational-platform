@@ -14,6 +14,7 @@ import {
   profileEn,
   onboardingEn,
   translationsEn,
+  purchaseEn,
 } from './assets/lang/en';
 import {
   commonKr,
@@ -27,6 +28,7 @@ import {
   profileKr,
   onboardingKr,
   translationsKr,
+  purchaseKr,
 } from './assets/lang/kr';
 import {
   ApolloClient,
@@ -78,6 +80,7 @@ i18next.init({
       profile: profileEn,
       onboarding: onboardingEn,
       translations: translationsEn,
+      purchase: purchaseEn,
     },
     kr: {
       common: commonKr,
@@ -91,6 +94,7 @@ i18next.init({
       profile: profileKr,
       onboarding: onboardingKr,
       translations: translationsKr,
+      purchase: purchaseKr,
     },
   },
 });
