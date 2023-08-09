@@ -137,7 +137,7 @@ const ScheduleCard = ({
         </div>
       </div>
 
-      <div className="row-schedule-btns">
+      <div className=" flex gap-3">
         {/* <div className="">
           <a
             onClick={joinLesson}

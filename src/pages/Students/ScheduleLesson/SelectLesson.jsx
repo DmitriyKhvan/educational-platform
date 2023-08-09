@@ -44,7 +44,7 @@ const SelectLesson = ({
 
   const LessonCard = ({ title, duration, remaining, data, i }) => {
     return (
-      <div className="px-2">
+      <div>
         <div
           className={`schedule-card small-card lesson-container rounded-xl px-3 pt-3 cursor-pointer ${
             i === clicked
@@ -56,7 +56,7 @@ const SelectLesson = ({
             setSelectedPlan(data);
           }}
         >
-          <div className="">
+          <div>
             <h1
               className={`mb-2 ${i === clicked ? 'text-black' : 'text-black'}`}
             >

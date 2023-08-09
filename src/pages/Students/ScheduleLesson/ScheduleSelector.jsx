@@ -348,7 +348,7 @@ const ScheduleSelector = ({
             <div className="schedule-card-col">
               <p className={`enter-btn time-btn grey-border text-black`}>
                 {`${t(moment(day).format('dddd'), { ns: 'common' })}, ${t(
-                  moment(day).format('MMMM'),
+                  moment(day).format('MMM'),
                   { ns: 'common' },
                 )} ${moment(day).format('DD')}${t('kor_day', {
                   ns: 'common',
@@ -403,7 +403,7 @@ const ScheduleSelector = ({
         <div className="flex-container">
           <div className="lesson-wrapper flex-lefts student-dashboard">
             <div>
-              <div className="container title-container">
+              <div className="container title-container px-4">
                 <h1 className="title lelt-con">
                   {lesson
                     ? t('reschedule_lesson', { ns: 'modals' })
@@ -425,10 +425,11 @@ const ScheduleSelector = ({
                   )}
                 </p>
               </div>
-              <div className="row container ps-4 pe-0">
-                <div className="col-1 leftArrow">
+              <div className="flex w-full items-center justify-between px-4 mb-4">
+                
+                <div>
                   <button
-                    className="btn btn-dash-return leftArrow-btn disabled:opacity-50"
+                    className="btn btn-dash-return disabled:opacity-50"
                     disabled={disable}
                     onClick={() => {
                       setCounter(counter + 1);
@@ -442,25 +443,43 @@ const ScheduleSelector = ({
                     />
                   </button>
                 </div>
-                <div className="col-10">
+
+                <div>
                   <h1 className="justify-content-center mt-0">
                     {startOfWeekFormatted} to {endOfWeekFormatted}
                   </h1>
                 </div>
-                <div className="col-1 ps-0 rightArrow">
+
+                <div>
                   <button
-                    className="btn btn-dash-return rightArrow-btn disabled:brightness-50"
+                    className="btn btn-dash-return disabled:opacity-50"
                     onClick={() => {
                       setCounter(counter - 1);
                       setDayClicked(null);
                     }}
                     disabled={counter === -2}
                   >
-                    <img src={forward_arrow} alt="" />
+                    <img
+                      src={forward_arrow}
+                      alt=""
+                    />
                   </button>
                 </div>
+
+                {/* <div className="col-1">
+                  <button
+                    className="btn btn-dash-return disabled:opacity-50"
+                    onClick={() => {
+                      setCounter(counter - 1);
+                      setDayClicked(null);
+                    }}
+                  >
+                    <img src={forward_arrow} alt="" />
+                  </button>
+                </div> */}
               </div>
-              <div className="row customDay-select">
+
+              <div className="row customDay-select m-0">
                 <div className="col-6 px-4">
                   {days.map(
                     (x, i) =>
@@ -478,7 +497,7 @@ const ScheduleSelector = ({
                   })}
                 </div>
               </div>
-              <div className="row container pt-3">
+              <div className="p-4">
                 <div className="col-auto back-btn-container ">
                   <button
                     className="enter-btn btn-dash-return ms-0 back-btn-schedule"
