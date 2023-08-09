@@ -37,6 +37,11 @@ const GET_AVAILABLE_MENTORS = gql`
         uniqueFacts
         userId
         fullName
+        user {
+          id
+          firstName
+          lastName
+        }
         avatar {
           id
           url
