@@ -281,7 +281,7 @@
           color: #261A45;
         }
   
-        input {
+        input[type="text"], input[type="email"] {
           background: #FFFFFF;
           /* Border Gray */
           margin-top: 15px;
