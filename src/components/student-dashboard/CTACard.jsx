@@ -15,7 +15,7 @@ const CTACard = ({ icon, title, subtitle, button, color, disabled }) => (
         <h3 className={`text-white`}>{title}</h3>
       </section>
       {button ? (
-        <Link to={button.to} className={`schedule-dashboard-buttons`}>
+        <Link to={button.to} className='card-buttons'>
           {button.text}
         </Link>
       ) : null}

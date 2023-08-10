@@ -261,7 +261,7 @@ const StudentListAppointments = () => {
                 <h4 className="welcome-message">
                   {t('already_lesson', { ns: 'dashboard' })}
                 </h4>
-                <div className="flex gap-4 justify-between mt-5">
+                <div className="flex gap-4 justify-between mt-5 cards">
                   {loading ? (
                     <Loader />
                   ) : (
