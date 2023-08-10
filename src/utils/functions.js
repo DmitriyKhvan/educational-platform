@@ -37,6 +37,3 @@ export function renderVideo(videoUrl) {
        return video;
     }
   }
-
- const url1 = 'https://youtu.be/KzULxFRm35o';
- const url2 = 'https://www.youtube.com/watch?v=KzULxFRm35o'
