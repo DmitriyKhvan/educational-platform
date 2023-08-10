@@ -10,5 +10,10 @@
   "terms": "Terms of Service",
   "and": "and",
   "privacy": "Privacy Policy",
-  "checkout": "Continue to Checkout"
+  "checkout": "Continue to Checkout",
+  "payment_success": "Success! Payment received.",
+  "payment_fail": "Payment failed. Please try another payment method.",
+  "payment_processing": "Payment processing. We'll update you when payment is received.",
+  "payment_error": "Something went wrong. Please try again.",
+  "dashboard": "Go to dashboard"
 }

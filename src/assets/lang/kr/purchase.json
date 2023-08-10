@@ -8,5 +8,10 @@
   "terms": "",
   "and": "",
   "privacy": "",
-  "checkout": "계속하기"
+  "checkout": "계속하기",
+  "payment_success": "",
+  "payment_fail": "",
+  "payment_processing": "",
+  "payment_error": "",
+  "dashboard": ""
 }
