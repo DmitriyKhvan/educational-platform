@@ -49,8 +49,7 @@ const AvailabilityPicker = ({
   const tutorInfo = useAuth().user.mentor;
 
   useEffect(() => {
-    if (tutorInfo.availabilities)
-      setCurrentData(tutorInfo.availabilities[day]);
+    if (tutorInfo.availabilities) setCurrentData(tutorInfo.availabilities[day]);
   }, [tutorInfo]);
 
   const onChangeTime = (time, iteration, timeType) => {
@@ -144,7 +143,7 @@ const AvailabilityPicker = ({
       <div className="col-auto align-self-center ">
         <button
           type="button"
-          className="btn fa_trash_can ms-3 pb-0 align_delete"
+          className="btn fa_trash_can ms-3 align_delete"
           onClick={() => removeRowDown(type)}
         >
           <img src={trashCan} className="fa_icon" alt="" />

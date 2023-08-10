@@ -115,7 +115,7 @@ export const AvailabilityDayRow = ({
           </div>
           <div className="col-auto align_fa_trash">
             <button
-              className="btn fa_trash_can ms-3 pb-0"
+              className="btn fa_trash_can ms-3"
               onClick={() => addAvailRowUp(day, 'availability')}
               disabled={isTimeEndReached()}
             >

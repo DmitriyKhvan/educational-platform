@@ -25,6 +25,7 @@ import {
 import { useQuery, useMutation } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
 import { lowerCase } from 'lodash-es';
+import ReactLoader from '../../components/common/Loader';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -99,16 +100,17 @@ const Calendar = () => {
   const [t] = useTranslation(['lessons', 'modals']);
   const { user } = useAuth();
 
-  const { refetch: getAppointments, data: appointments } = useQuery(
-    APPOINTMENTS_QUERY,
-    {
-      variables: {
-        mentorId: user?.mentor?.id,
-        status: 'approved,scheduled,paid,completed,in_progress',
-      },
-      fetchPolicy: 'no-cache',
+  const {
+    refetch: getAppointments,
+    data: appointments,
+    loading: loadingAppointments,
+  } = useQuery(APPOINTMENTS_QUERY, {
+    variables: {
+      mentorId: user?.mentor?.id,
+      status: 'approved,scheduled,paid,completed,in_progress',
     },
-  );
+    fetchPolicy: 'no-cache',
+  });
 
   const [calendarAppointments, setCalendarAppointments] = useState([]);
   const [tableAppointments, setTableAppointments] = useState([]);
@@ -139,11 +141,12 @@ const Calendar = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT, {
-    onCompleted: async () => {
-      await fetchData();
-    },
-  });
+  const [cancelAppointment, { loading: loadingCancelAppointment }] =
+    useMutation(CANCEL_APPOINTMENT, {
+      onCompleted: async () => {
+        await fetchData();
+      },
+    });
 
   const customStyles = {
     content: {
@@ -561,11 +564,12 @@ const Calendar = () => {
 
   return (
     <Layout>
-      <div className="container-fluid">
+      {(loadingAppointments || loadingCancelAppointment) && <ReactLoader />}
+      <div className="container-fluid p-3">
         {/* <button onClick={() => setReviewLessonModal(true)}>
           Open ReviewLessonModal
         </button> */}
-        <h1 className="title m-0 mt-4 mb-3">{t('lessons')}</h1>
+        <h1 className="title m-0 mb-2">{t('lessons')}</h1>
         <div className="row container-fluid m-0 p-0">
           <div className="col-auto">
             <div className="btn-group" role="group">
