@@ -22,6 +22,7 @@ import {
   CANCEL_APPOINTMENT,
 } from '../../modules/auth/graphql';
 import { format, utcToZonedTime } from 'date-fns-tz';
+import { LessonTable } from '../../components/student-dashboard/LessonTable';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -201,7 +202,12 @@ const Calendar = () => {
       const tempPastLessons = [];
       tableAppointments.map((each) => {
         if (new Date(each.resource.startAt) > new Date()) {
-          tempUpcomingLessons.push(each);
+          if (
+            each.resource.status === 'approved' ||
+            each.resource.status === 'scheduled'
+          ) {
+            tempUpcomingLessons.push(each);
+          }
         } else {
           tempPastLessons.push(each);
         }
@@ -301,14 +307,6 @@ const Calendar = () => {
     window.open(feedbackURL);
   };
 
-  const tableHead = [
-    t('lesson_package', { ns: 'lessons' }),
-    t('duration', { ns: 'lessons' }),
-    t('date_time', { ns: 'lessons' }),
-    t('mentor', { ns: 'lessons' }),
-    t('class_feedback', { ns: 'lessons' }),
-  ];
-
   const [isReviewLessonModalOpen, setReviewLessonModal] = useState(false);
   const [isFeedbackModal, setFeedbackModal] = React.useState(false);
 
@@ -382,98 +380,12 @@ const Calendar = () => {
           </div>
           <div className="scroll-layout">
             {!isLoading && !isCalendar && (
-              <table className="table mt-4">
-                <thead>
-                  <tr>
-                    {tableHead.map((x, ind) => (
-                      <th scope="col" key={`row-${ind}`}>
-                        {x}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {displayTableData?.length === 0 && (
-                    <tr
-                      className="tr-center "
-                      style={{ transform: 'translateX(38%) translateY(30%)' }}
-                    >
-                      <td onClick={handleOpenFeedbackModal}>
-                        {t('no_lessons', { ns: 'lessons' })}
-                      </td>
-                    </tr>
-                  )}
-                  {displayTableData
-                    .sort(
-                      (a, b) =>
-                        new Date(a.dateTime.date) - new Date(b.dateTime.date),
-                    )
-                    .sort(
-                      (a, b) =>
-                        new Date(a.dateTime.startTime) -
-                        new Date(b.dateTime.startTime),
-                    )
-                    .map((event) => {
-                      return (
-                        <tr className="tr-center" key={event.toString()}>
-                          <td className="td-item">
-                            <p className="td-lesson">{event.lesson}</p>
-                          </td>
-                          <td className="td-item">
-                            <p className="td-lesson">
-                              {event.resource.duration}
-                            </p>
-                          </td>
-
-                          {/* Do not remove this code, it will be used in the future 
-                      <td className='td-item'>
-                        <p className='td-topic-level'>
-                          {event.level}
-                        </p>
-                      </td>
-                      <td className='td-item'>
-                        <p className='td-topic-level'>
-                          {` ${event.currentTopic}`}
-                        </p>
-                      </td>
-                      <td className='td-item'>
-                        <p className='td-topic-level'>
-                          {` ${event.nextTopic}`}
-                        </p>
-                      </td> */}
-                          <td className="td-item">
-                            <p className="td-datetime td-datetime-border ps-3">
-                              {moment(event.resource.startAt)
-                                .tz(userTimezone)
-                                .format('ddd, MMM Do hh:mm A')}
-                              {' → '}
-                              {moment(event.resource.startAt)
-                                .tz(userTimezone)
-                                .add(event.resource.duration, 'minutes')
-                                .format('hh:mm A')}
-                            </p>
-                          </td>
-                          <td className="td-item">
-                            <p className="td-tutor">{event.tutor}</p>
-                          </td>
-                          <td className="td-item">
-                            <button
-                              className={`btn ${
-                                event.tutorFeedback?.length
-                                  ? 'btn-primary'
-                                  : 'btn-tutor-feedback-disabled'
-                              }`}
-                              onClick={handleFeedback}
-                            >
-                              Feedback
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
+              <LessonTable
+                displayTableData={displayTableData}
+                userTimezone={userTimezone}
+                handleOpenFeedbackModal={handleOpenFeedbackModal}
+                handleFeedback={handleFeedback}
+              />
             )}
             {!isLoading && isCalendar && (
               <div className="mt-4">

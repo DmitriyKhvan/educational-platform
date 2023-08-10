@@ -54,5 +54,6 @@
   "classes": "수업 횟수",
   "class": "수업",
   "weeks_classes_each": "{{ duration }}분 수업 {{ weeks }}회",
-  "pay_every_weeks": "{{ weeks }}주마다 결제"
+  "pay_every_weeks": "{{ weeks }}주마다 결제",
+  "status": "상태"
 }

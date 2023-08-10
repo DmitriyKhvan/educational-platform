@@ -8,14 +8,14 @@ import { useTranslation } from 'react-i18next';
 import { DAY } from '../../../constants/global';
 
 // import { updateTutorAvailability } from '../../../actions/tutor';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faGear } from '@fortawesome/free-solid-svg-icons';
 import AvailabilityDayRow from '../../../components/AvailabilityDayRow';
 import { AvailabilityProvider } from './AvailabilityProvider';
 import NotificationManager from '../../../../src/components/NotificationManager';
 import { v4 as uuid } from 'uuid';
 import { useAuth } from '../../../modules/auth';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_MENTOR } from '../../../modules/auth/graphql';
@@ -252,7 +252,7 @@ const Availability = (/*{ user_id  }*/) => {
               </h1>
               <h3>{t('edit_your_shedule_below', { ns: 'availability' })}</h3>
             </div>
-            <div className="col-xs-6 col-md-4 pe-5 text-end align-self-center">
+            {/* <div className="col-xs-6 col-md-4 pe-5 text-end align-self-center">
               <Link
                 to="/mentor/avail/settings"
                 className="btn btn-default align-content-end"
@@ -261,7 +261,7 @@ const Availability = (/*{ user_id  }*/) => {
                 <FontAwesomeIcon icon={faGear} size="1x" className="me-2" />
                 <strong>{t('settings', { ns: 'common' })}</strong>
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
