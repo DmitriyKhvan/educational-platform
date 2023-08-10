@@ -101,16 +101,17 @@ const Calendar = () => {
   const location = useLocation();
   const { user } = useAuth();
 
-  const { refetch: getAppointments, data: appointments } = useQuery(
-    APPOINTMENTS_QUERY,
-    {
-      variables: {
-        studentId: user?.students[0]?.id,
-        status: 'approved,scheduled,paid,completed,in_progress',
-      },
-      fetchPolicy: 'no-cache',
+  const {
+    refetch: getAppointments,
+    data: appointments,
+    loading: loadingAppointments,
+  } = useQuery(APPOINTMENTS_QUERY, {
+    variables: {
+      studentId: user?.students[0]?.id,
+      status: 'approved,scheduled,paid,completed,in_progress',
     },
-  );
+    fetchPolicy: 'no-cache',
+  });
 
   const [calendarAppointments, setCalendarAppointments] = useState([]);
   const [tableAppointments, setTableAppointments] = useState([]);
@@ -126,11 +127,13 @@ const Calendar = () => {
     }
   }, [appointments]);
 
-  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT, {
-    onCompleted: () => {
-      getAppointments();
-    },
-  });
+  const [cancelAppointment, { loading: cancelAppointmentLoading }] =
+    useMutation(CANCEL_APPOINTMENT, {
+      onCompleted: async () => {
+        await getAppointments();
+        setIsOpen(false);
+      },
+    });
 
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [pastLessons, setPastLessons] = useState([]);
@@ -274,12 +277,11 @@ const Calendar = () => {
   };
 
   async function onCancel(id) {
-    cancelAppointment({
+    await cancelAppointment({
       variables: {
         id: id,
       },
     });
-    setIsOpen(false);
     setIsCalendar(true);
   }
 
@@ -337,6 +339,11 @@ const Calendar = () => {
 
   return (
     <Layout>
+      {(cancelAppointmentLoading || loadingAppointments) && (
+        <div className="absolute w-full h-full top-0 left-0 z-[10001] bg-black/40">
+          <Loader></Loader>
+        </div>
+      )}
       <div className="children-wrapper">
         {/* <button onClick={() => setReviewLessonModal(true)}>Hey</button> */}
         <div className="appointment-calendar container-fluid">
