@@ -15,8 +15,6 @@ import { AvailabilityProvider } from './AvailabilityProvider';
 import NotificationManager from '../../../../src/components/NotificationManager';
 import { v4 as uuid } from 'uuid';
 import { useAuth } from '../../../modules/auth';
-// import { Link } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_MENTOR } from '../../../modules/auth/graphql';
 import { UPSERT_AVAILIABILITY } from './graphql';
@@ -119,19 +117,6 @@ const Availability = (/*{ user_id  }*/) => {
       slotsToSave.push({
         day,
         slots: [...days[day].map((slot) => ({ from: slot.from, to: slot.to }))],
-      });
-      days[day].map((slot, ind) => {
-        if (
-          slot.from >= slot.to ||
-          (ind > 0 && days[day][ind - 1]?.to >= slot.from)
-        ) {
-          isError = true;
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Please check your time slots',
-          });
-        }
       });
     }
 
