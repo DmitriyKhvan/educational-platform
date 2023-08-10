@@ -10,8 +10,8 @@ import { useAuth } from '../../../modules/auth';
 import { gql, useQuery } from '@apollo/client';
 
 const GET_TIMESHEETS = gql`
-  query timesheets($tz: String!, $date: String!) {
-    timesheets(tz: $tz, date: $date) {
+  query timesheets($tz: String!, $date: String!, $mentorId: ID) {
+    timesheets(tz: $tz, date: $date, mentorId: $mentorId) {
       id
       day
       from
@@ -148,7 +148,7 @@ const ScheduleSelector = ({
     tz: userTimezone,
     date: moment(day).format('YYYY-MM-DD'),
     ...(selectedTutor && {
-      tutorId: selectedTutor.id,
+      mentorId: selectedTutor.id,
     }),
   });
 
@@ -426,7 +426,6 @@ const ScheduleSelector = ({
                 </p>
               </div>
               <div className="flex w-full items-center justify-between px-4 mb-4">
-                
                 <div>
                   <button
                     className="btn btn-dash-return disabled:opacity-50"
@@ -459,10 +458,7 @@ const ScheduleSelector = ({
                     }}
                     disabled={counter === -2}
                   >
-                    <img
-                      src={forward_arrow}
-                      alt=""
-                    />
+                    <img src={forward_arrow} alt="" />
                   </button>
                 </div>
 
