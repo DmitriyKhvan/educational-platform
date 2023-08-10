@@ -498,6 +498,7 @@ export const APPOINTMENTS_QUERY = gql`
         user {
           firstName
           lastName
+          gender
         }
         avatar {
           id

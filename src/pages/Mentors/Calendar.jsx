@@ -19,12 +19,12 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
 import {
-  STUDENTS_QUERY,
   CANCEL_APPOINTMENT,
   APPOINTMENTS_QUERY,
 } from '../../modules/auth/graphql';
 import { useQuery, useMutation } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
+import { lowerCase } from 'lodash-es';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -327,27 +327,20 @@ const Calendar = () => {
       (event) => event.id === calendarEvent.id,
     );
     const { eventDate } = selectedEvent.resource;
-    const [students] = eventDate?.students || [];
+    const student = eventDate.student;
+    const tutorAvatar = user.mentor?.avatar?.url;
 
-    const { data } = useQuery(STUDENTS_QUERY, {
-      errorPolicy: 'ignore',
-    });
-    const studentsList = data?.students;
-
-    const studentAvatar = studentsList?.find((i) => +i.id === +students?.id);
-    const tutorAvatar = user.tutor?.avatar?.url;
-
-    const displayStudentAvatar = studentAvatar?.avatar
-      ? studentAvatar?.avatar?.url
-      : students?.[0]?.user?.gender === 'male'
-      ? maleAvatar
-      : femaleAvatar;
+    const displayStudentAvatar = student?.avatar
+      ? student?.avatar?.url
+      : student?.user?.gender === 'male'
+        ? maleAvatar
+        : femaleAvatar;
 
     const displayTutorAvatar = tutorAvatar
       ? tutorAvatar
       : eventDate.mentor?.user?.gender === 'male'
-      ? maleAvatar
-      : femaleAvatar;
+        ? maleAvatar
+        : femaleAvatar;
 
     const today = moment();
     const tenMinuteBeforeStart = moment(eventDate.startAt).subtract(
@@ -395,8 +388,6 @@ const Calendar = () => {
       );
     };
 
-    console.log(eventDate);
-
     return (
       <div style={{ zIndex: 9999 }} className="container">
         <Modal
@@ -406,26 +397,20 @@ const Calendar = () => {
           contentLabel="Tutor Calendar Event"
         >
           <div
-            className="container page-card-modal grey-border bg-white pt-1 mt-4 p-2"
+            className="container page-card-modal grey-border rounded-lg bg-white mt-4 py-5 px-6"
             style={{ width: '30vw' }}
           >
-            <div className="px-4">
-              <div className="row">
-                <div className="col-10 mx-2 ps-2">
-                  <h1>
-                    <strong>{selectedEvent.title}</strong>
-                  </h1>
+            <div className="">
+              <div className="flex items-center justify-between">
+                <div className='text-xl font-bold capitalize'>
+                  {lowerCase(selectedEvent.title)}
                 </div>
-                <div className="col-1">
-                  <button
-                    style={{ backgroundColor: 'white', cursor: 'pointer' }}
-                    onClick={closeCalendarModal}
-                  >
-                    <h1>
-                      <i className="fa-solid fa-xmark text-secondary"></i>
-                    </h1>
-                  </button>
-                </div>
+                <button
+                  style={{ backgroundColor: 'white', cursor: 'pointer' }}
+                  onClick={closeCalendarModal}
+                >
+                  <i className="fa-solid fa-xmark text-secondary"></i>
+                </button>
               </div>
 
               <div className="ps-3">
@@ -564,7 +549,7 @@ const Calendar = () => {
                 onClick={onClickUpcomingLessons}
                 className={`btn grey-border ${
                   selectedTab === 'upcomingLessons' && 'btn-selected'
-                }`}
+                  }`}
               >
                 <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
               </button>
@@ -573,7 +558,7 @@ const Calendar = () => {
                 onClick={onClickPastLessons}
                 className={`btn grey-border ${
                   selectedTab === 'pastLessons' && 'btn-selected'
-                }`}
+                  }`}
               >
                 <span>{t('past_lessons', { ns: 'lessons' })}</span>
               </button>
@@ -584,7 +569,7 @@ const Calendar = () => {
               type="button"
               className={`btn grey-border ${
                 selectedTab === 'calendar' && 'btn-selected'
-              }`}
+                }`}
               onClick={onCalendarClick}
             >
               <span>{t('calendar_view', { ns: 'lessons' })}</span>
