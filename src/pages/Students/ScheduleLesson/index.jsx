@@ -16,6 +16,7 @@ const ScheduleLesson = () => {
   const { data, loading } = useQuery(LESSON_QUERY, {
     variables: { id },
     skip: !id,
+    fetchPolicy: 'network-only',
   });
 
   const [clicked, setClicked] = useState(null);

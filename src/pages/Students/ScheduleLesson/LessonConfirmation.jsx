@@ -37,6 +37,7 @@ const LessonConfirmation = ({
       studentId: user?.students[0]?.id,
       status: 'scheduled',
     },
+    fetchPolicy: 'network-only'
   });
   const [createAppointment] = useMutation(CREATE_APPOINTMENT);
   const [updateAppointment] = useMutation(UPDATE_APPOINTMENT);

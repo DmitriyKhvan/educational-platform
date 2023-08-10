@@ -13,7 +13,6 @@ export const AvailabilityProvider = ({
   setDisablePlusBtn,
   setIsTeachAddHours,
   AvailabilitySlots,
-  setNewRow,
   isteachAddHours,
   day,
   validateTimesSelected,
@@ -123,7 +122,6 @@ export const AvailabilityProvider = ({
         ],
       ],
     });
-    setNewRow(true);
   };
 
   return (

@@ -25,6 +25,7 @@ const useTimesheets = (body) => {
     variables: {
       ...body,
     },
+    fetchPolicy: 'network-only'
   });
   return res;
 };

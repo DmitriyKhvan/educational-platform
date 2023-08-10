@@ -59,6 +59,7 @@ const useAvailableMentors = (isoTime, duration) => {
         time: isoTime,
         duration,
       },
+      fetchPolicy: 'network-only'
     },
   );
   return {
