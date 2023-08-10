@@ -140,7 +140,9 @@ const CalendarModal = ({
             {t('reschedule')}
           </Link>
           <a
-            onClick={event.resource.status !== 'scheduled' ? joinLesson : undefined}
+            onClick={
+              event.resource.status !== 'scheduled' ? joinLesson : undefined
+            }
             target="_blank"
             rel="noreferrer"
             className="enter-btn m-0 p-0 py-2 px-2 text-sm grey-border text-black aria-disabled:brightness-75"
