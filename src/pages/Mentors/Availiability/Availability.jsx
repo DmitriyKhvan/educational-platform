@@ -20,6 +20,8 @@ import Swal from 'sweetalert2';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_MENTOR } from '../../../modules/auth/graphql';
 import { UPSERT_AVAILIABILITY } from './graphql';
+import ReactLoader from '../../../components/common/Loader';
+import Loader from '../../../components/Loader/Loader';
 
 const Availability = (/*{ user_id  }*/) => {
   const [t] = useTranslation(['common', 'availability']);
@@ -28,7 +30,6 @@ const Availability = (/*{ user_id  }*/) => {
     availability: [],
   });
   const [, setCurrentDatas] = useState([]);
-  const [loaded, setLoaded] = useState(true);
   // for debugging
   const [hasValidTimes, setHasValidTimes] = useState(false);
   const [disableSave, handleDisableSave] = useState(true);
@@ -39,11 +40,15 @@ const Availability = (/*{ user_id  }*/) => {
   const [, setIsMonthCheck] = useState(false);
   // tutor policies state and handler
   const { user } = useAuth();
-  const { data: { mentor: tutorInfo } = {} } = useQuery(GET_MENTOR, {
-    fetchPolicy: 'no-cache',
-    variables: { id: user?.mentor?.id },
-  });
-  const [upsertAvailiability] = useMutation(UPSERT_AVAILIABILITY);
+  const { data: { mentor: tutorInfo } = {}, loading: loadingMentor } = useQuery(
+    GET_MENTOR,
+    {
+      fetchPolicy: 'no-cache',
+      variables: { id: user?.mentor?.id },
+    },
+  );
+  const [upsertAvailiability, { loading: loadingUpsertAvailiability, error }] =
+    useMutation(UPSERT_AVAILIABILITY);
 
   const [currentToTime, setCurrentToTime] = useState('16:00');
 
@@ -134,10 +139,7 @@ const Availability = (/*{ user_id  }*/) => {
       return;
     }
 
-    setLoaded(!loaded);
     setTimeout(() => {
-      setLoaded(true);
-
       upsertAvailiability({
         variables: {
           data: {
@@ -148,7 +150,7 @@ const Availability = (/*{ user_id  }*/) => {
       });
       e.target.blur();
       handleDisableSave(true);
-    }, 1000);
+    }, 500);
   };
 
   const [, setUserData] = useState({
@@ -241,8 +243,18 @@ const Availability = (/*{ user_id  }*/) => {
       setGatherAvailabilities(data);
     }
   };
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
+
+  if (loadingMentor) {
+    return <Loader height="calc(100vh - 80px)" />;
+  }
+
   return (
     <React.Fragment>
+      {loadingUpsertAvailiability && <ReactLoader />}
       <div className="border-availabilities">
         <div className="container-fluid py-3">
           <div className="row ms-4">

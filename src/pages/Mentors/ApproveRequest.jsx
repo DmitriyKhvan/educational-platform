@@ -12,6 +12,9 @@ import {
   CANCEL_APPOINTMENT,
 } from '../../modules/auth/graphql';
 
+import '../../assets/styles/calendar.scss';
+import Loader from '../../components/Loader/Loader';
+
 const ApproveRequest = () => {
   const { user } = useAuth();
   const [t] = useTranslation(['lessons', 'common']);
@@ -19,7 +22,11 @@ const ApproveRequest = () => {
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const { data: appointments, refetch } = useQuery(APPOINTMENTS_QUERY, {
+  const {
+    data: appointments,
+    loading,
+    refetch,
+  } = useQuery(APPOINTMENTS_QUERY, {
     variables: {
       mentorId: user?.mentor?.id,
       status: 'scheduled',
@@ -109,8 +116,9 @@ const ApproveRequest = () => {
 
   return (
     <Layout>
-      <div className="main-dashboard p-5">
-        <h4 className="main-title">
+      {loading && <Loader height="calc(100vh - 80px)" />}
+      <div className="main-dashboard p-3">
+        <h4 className="title mb-2">
           {t('appointment_requests', { ns: 'lessons' })}
         </h4>
         <div className="divider" />

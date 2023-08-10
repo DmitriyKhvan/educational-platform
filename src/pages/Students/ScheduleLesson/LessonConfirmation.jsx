@@ -294,12 +294,18 @@ const LessonConfirmation = ({
                 </h4>
                 <div className="flex-container gap-2 mb-4">
                   <div>
-                    <Link to="/student/manage-lessons" className="enter-btn m-0">
+                    <Link
+                      to="/student/manage-lessons"
+                      className="enter-btn m-0"
+                    >
                       {t('return_to_dash', { ns: 'lessons' })}
                     </Link>
                   </div>
                   <div>
-                    <Link to="/student/lesson-calendar" className="enter-btn m-0">
+                    <Link
+                      to="/student/lesson-calendar"
+                      className="enter-btn m-0"
+                    >
                       {t('student_dashboard_view_all_lessons', {
                         ns: 'dashboard',
                       })}

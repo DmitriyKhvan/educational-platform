@@ -25,6 +25,7 @@ import {
 import { useQuery, useMutation } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
 import { lowerCase } from 'lodash-es';
+import ReactLoader from '../../components/common/Loader';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -99,16 +100,17 @@ const Calendar = () => {
   const [t] = useTranslation(['lessons', 'modals']);
   const { user } = useAuth();
 
-  const { refetch: getAppointments, data: appointments } = useQuery(
-    APPOINTMENTS_QUERY,
-    {
-      variables: {
-        mentorId: user?.mentor?.id,
-        status: 'approved,scheduled,paid,completed,in_progress',
-      },
-      fetchPolicy: 'no-cache',
+  const {
+    refetch: getAppointments,
+    data: appointments,
+    loading: loadingAppointments,
+  } = useQuery(APPOINTMENTS_QUERY, {
+    variables: {
+      mentorId: user?.mentor?.id,
+      status: 'approved,scheduled,paid,completed,in_progress',
     },
-  );
+    fetchPolicy: 'no-cache',
+  });
 
   const [calendarAppointments, setCalendarAppointments] = useState([]);
   const [tableAppointments, setTableAppointments] = useState([]);
@@ -139,11 +141,12 @@ const Calendar = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT, {
-    onCompleted: async () => {
-      await fetchData();
-    },
-  });
+  const [cancelAppointment, { loading: loadingCancelAppointment }] =
+    useMutation(CANCEL_APPOINTMENT, {
+      onCompleted: async () => {
+        await fetchData();
+      },
+    });
 
   const customStyles = {
     content: {
@@ -252,8 +255,8 @@ const Calendar = () => {
   };
 
   const onSelectEvent = (e) => {
-    if(isLoading) {
-      return
+    if (isLoading) {
+      return;
     }
     const today = moment().format('MM/DD/YYYY hh:mm a');
     const closedDate = moment(e.end).format('MM/DD/YYYY hh:mm a');
@@ -304,14 +307,14 @@ const Calendar = () => {
       });
     } else {
       try {
-        setIsLoading(true)
+        setIsLoading(true);
         await cancelAppointment({
           variables: {
             id,
           },
         });
       } catch (error) {
-        setIsLoading(false)
+        setIsLoading(false);
         NotificationManager.error(
           error.response?.data?.message || 'Server Issue',
           t,
@@ -336,14 +339,14 @@ const Calendar = () => {
     const displayStudentAvatar = student?.avatar
       ? student?.avatar?.url
       : student?.user?.gender === 'male'
-        ? maleAvatar
-        : femaleAvatar;
+      ? maleAvatar
+      : femaleAvatar;
 
     const displayTutorAvatar = tutorAvatar
       ? tutorAvatar
       : eventDate.mentor?.user?.gender === 'male'
-        ? maleAvatar
-        : femaleAvatar;
+      ? maleAvatar
+      : femaleAvatar;
 
     const today = moment();
     const tenMinuteBeforeStart = moment(eventDate.startAt).subtract(
@@ -405,7 +408,7 @@ const Calendar = () => {
           >
             <div className="">
               <div className="flex items-center justify-between">
-                <div className='text-xl font-bold capitalize'>
+                <div className="text-xl font-bold capitalize">
                   {lowerCase(selectedEvent.title)}
                 </div>
                 <button
@@ -539,11 +542,12 @@ const Calendar = () => {
 
   return (
     <Layout>
-      <div className="container-fluid">
+      {(loadingAppointments || loadingCancelAppointment) && <ReactLoader />}
+      <div className="container-fluid p-3">
         {/* <button onClick={() => setReviewLessonModal(true)}>
           Open ReviewLessonModal
         </button> */}
-        <h1 className="title m-0 mt-4 mb-3">{t('lessons')}</h1>
+        <h1 className="title m-0 mb-2">{t('lessons')}</h1>
         <div className="row container-fluid m-0 p-0">
           <div className="col-auto">
             <div className="btn-group" role="group">
@@ -552,7 +556,7 @@ const Calendar = () => {
                 onClick={onClickUpcomingLessons}
                 className={`btn grey-border ${
                   selectedTab === 'upcomingLessons' && 'btn-selected'
-                  }`}
+                }`}
               >
                 <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
               </button>
@@ -561,7 +565,7 @@ const Calendar = () => {
                 onClick={onClickPastLessons}
                 className={`btn grey-border ${
                   selectedTab === 'pastLessons' && 'btn-selected'
-                  }`}
+                }`}
               >
                 <span>{t('past_lessons', { ns: 'lessons' })}</span>
               </button>
@@ -572,7 +576,7 @@ const Calendar = () => {
               type="button"
               className={`btn grey-border ${
                 selectedTab === 'calendar' && 'btn-selected'
-                }`}
+              }`}
               onClick={onCalendarClick}
             >
               <span>{t('calendar_view', { ns: 'lessons' })}</span>
