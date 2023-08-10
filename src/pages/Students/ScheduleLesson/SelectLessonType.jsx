@@ -18,6 +18,7 @@ const SelectLessonType = ({ onContinue }) => {
     variables: {
       id: user?.id,
     },
+    fetchPolicy: 'network-only',
   });
 
   const onSelect = (key) => {
