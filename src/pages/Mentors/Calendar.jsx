@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import Modal from 'react-modal';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
@@ -252,8 +252,8 @@ const Calendar = () => {
   };
 
   const onSelectEvent = (e) => {
-    if(isLoading) {
-      return
+    if (isLoading) {
+      return;
     }
     const today = moment().format('MM/DD/YYYY hh:mm a');
     const closedDate = moment(e.end).format('MM/DD/YYYY hh:mm a');
@@ -304,14 +304,14 @@ const Calendar = () => {
       });
     } else {
       try {
-        setIsLoading(true)
+        setIsLoading(true);
         await cancelAppointment({
           variables: {
             id,
           },
         });
       } catch (error) {
-        setIsLoading(false)
+        setIsLoading(false);
         NotificationManager.error(
           error.response?.data?.message || 'Server Issue',
           t,
@@ -336,14 +336,14 @@ const Calendar = () => {
     const displayStudentAvatar = student?.avatar
       ? student?.avatar?.url
       : student?.user?.gender === 'male'
-        ? maleAvatar
-        : femaleAvatar;
+      ? maleAvatar
+      : femaleAvatar;
 
     const displayTutorAvatar = tutorAvatar
       ? tutorAvatar
       : eventDate.mentor?.user?.gender === 'male'
-        ? maleAvatar
-        : femaleAvatar;
+      ? maleAvatar
+      : femaleAvatar;
 
     const today = moment();
     const tenMinuteBeforeStart = moment(eventDate.startAt).subtract(
@@ -379,8 +379,15 @@ const Calendar = () => {
         .tz(userTimezone)
         .format('dddd, MMMM Do');
 
+      console.log(selectedEvent);
+
       return (
         <>
+        <div className='row'>
+          {selectedEvent.resource.eventDate.status === 'scheduled' && (
+            <h4 className='text-red-500'>This lesson haven&apos;t been approved yet!</h4>
+          )}
+        </div>
           <div className="row">
             <h4 className="text-primary">{date}</h4>
           </div>
@@ -405,7 +412,7 @@ const Calendar = () => {
           >
             <div className="">
               <div className="flex items-center justify-between">
-                <div className='text-xl font-bold capitalize'>
+                <div className="text-xl font-bold capitalize">
                   {lowerCase(selectedEvent.title)}
                 </div>
                 <button
@@ -464,6 +471,7 @@ const Calendar = () => {
                   className="btn col-5 enter-btn bg-primary"
                   onClick={joinLesson}
                   target="_blank"
+                  disabled={eventDate.status === 'scheduled'}
                   rel="noreferrer"
                 >
                   {t('start_lesson')}
@@ -535,6 +543,20 @@ const Calendar = () => {
     );
   };
 
+  const eventPropGetter = useCallback(
+    (event) => {
+      return {
+        ...(event.resource.eventDate.status === 'scheduled' && {
+          style: {
+            background: 'none',
+            backgroundColor: '#909090',
+          },
+        }),
+      };
+    },
+    [appointments],
+  );
+
   const [isReviewLessonModalOpen, setReviewLessonModal] = useState(false);
 
   return (
@@ -552,7 +574,7 @@ const Calendar = () => {
                 onClick={onClickUpcomingLessons}
                 className={`btn grey-border ${
                   selectedTab === 'upcomingLessons' && 'btn-selected'
-                  }`}
+                }`}
               >
                 <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
               </button>
@@ -561,7 +583,7 @@ const Calendar = () => {
                 onClick={onClickPastLessons}
                 className={`btn grey-border ${
                   selectedTab === 'pastLessons' && 'btn-selected'
-                  }`}
+                }`}
               >
                 <span>{t('past_lessons', { ns: 'lessons' })}</span>
               </button>
@@ -572,7 +594,7 @@ const Calendar = () => {
               type="button"
               className={`btn grey-border ${
                 selectedTab === 'calendar' && 'btn-selected'
-                }`}
+              }`}
               onClick={onCalendarClick}
             >
               <span>{t('calendar_view', { ns: 'lessons' })}</span>
@@ -592,6 +614,7 @@ const Calendar = () => {
                 onSelectEvent={onSelectEvent}
                 views={allViews}
                 showMultiDayTimes
+                eventPropGetter={eventPropGetter}
                 startAccessor="start"
                 endAccessor="end"
                 components={{
