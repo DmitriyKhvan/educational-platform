@@ -94,7 +94,7 @@ export default function Onboarding() {
     });
 
     if (errors?.length === 0 || !errors) {
-      login(data.email, data.password, '/purchase/1');
+      login(data.email, data.password, '/purchase');
     }
 
     setIsLoading(() => false);

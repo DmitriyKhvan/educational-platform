@@ -159,7 +159,7 @@ const StudentListAppointments = () => {
         title: t('student_dashboard_no_package', { ns: 'dashboard' }),
         bl: 'secblock',
         button: {
-          to: '/purchase/1',
+          to: '/purchase',
           text: t('student_dashboard_no_package_desc', { ns: 'dashboard' }),
         },
         color: '#1482DA',

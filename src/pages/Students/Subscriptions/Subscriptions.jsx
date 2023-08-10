@@ -25,7 +25,7 @@ const Subscriptions = () => {
     });
   
   const toPurchase = () => {
-    navigate.push('/purchase/1')
+    navigate.push('/purchase')
   }
 
   return (

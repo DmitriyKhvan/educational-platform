@@ -20,19 +20,20 @@ import {
 import { useTranslation } from 'react-i18next';
 
 const GET_COURSES = gql`
-  query GetCourse($id: Int!) {
-    course(id: $id) {
+  query GetCourses {
+    courses {
       id
       title
       description
       packages {
-        period
-        discount
         id
         totalSessions
         sessionsPerWeek
         sessionTime
         price
+        period
+        discount
+        courseId
       }
     }
   }
@@ -52,11 +53,17 @@ export default function BuyPackage() {
 
   const [t] = useTranslation(['purchase', 'minutes', 'translations']);
 
-  const { error, data } = useQuery(GET_COURSES, {
-    variables: {
-      id: parseInt(courseId),
+  const {
+    error,
+    data: allCourses,
+    loading,
+  } = useQuery(GET_COURSES, {
+    onCompleted: (data) => {
+      setData(data.courses.find((course) => course?.packages?.length > 0));
     },
   });
+
+  const [data, setData] = useState(null);
 
   const [getSecret] = useMutation(CREATE_PAYMENT_INTENT, {
     variables: {
@@ -72,15 +79,14 @@ export default function BuyPackage() {
   const history = useHistory();
 
   useEffect(() => {
-    if (!data?.course) return;
-    setCourseData(data.course);
+    setCourseData(data);
     setUniqueLength([
-      ...new Set(data.course?.packages?.map((item) => item.sessionTime) ?? []),
+      ...new Set(data?.packages?.map((item) => item.sessionTime) ?? []),
     ]);
-    setSelectedLength(data?.course?.packages[0]?.sessionTime);
+    setSelectedLength(data?.packages[0]?.sessionTime);
   }, [data]);
 
-  if (!courseData) return <Loader />;
+  if (loading) return <Loader />;
 
   if (error) {
     return <div>Something went wrong</div>;
@@ -93,18 +99,32 @@ export default function BuyPackage() {
           className="bg-gray-200/90 backdrop-blur-md backdrop-saturate-200 border-gray-100/40 border p-4 rounded-xl max-w-5xl w-full cool-shadow flex flex-col gap-8 md:gap-6 md:flex-row bg-center transition-transform duration-300"
           ref={parent}
         >
-          <div
-            className={`rounded-lg bg-cover aspect-square w-full h-full p-3 flex flex-col justify-between`}
-            style={{
-              background: `linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url(${courseData?.coverImage})`,
-            }}
-          >
-            <h1 className="text-3xl font-bold text-transparent bg-clip-text drop-shadow-2xl bg-white">
-              {courseData.title}
-            </h1>
-            <p className="text-gray-300 bg-gray-900/80 rounded-md p-2 text-sm max-w-4xl mt-auto">
-              {courseData.description}
-            </p>
+          <div className='flex flex-col gap-8 h-fit max-w-xs'>
+            {allCourses?.courses?.map((course) => {
+              return (
+                <div
+                  key={course.id}
+                  className={`rounded-lg bg-cover aspect-square w-full h-full p-3 flex flex-col justify-between ${
+                    course.packages.length < 1 &&
+                    'opacity-50 cursor-not-allowed'
+                  } ${data.id === course.id && 'border-2 border-purple-600'}`}
+                  style={{
+                    background: `linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url(${course?.coverImage})`,
+                  }}
+                  onClick={() => {
+                    if (course.packages.length > 0) setData(course);
+                  }}
+                  aria-disabled={course.packages.length < 1}
+                >
+                  <h1 className="text-3xl font-bold text-transparent bg-clip-text drop-shadow-2xl bg-white">
+                    {course.title}
+                  </h1>
+                  <p className="text-gray-300 bg-gray-900/80 rounded-md p-2 text-sm max-w-4xl mt-auto">
+                    {course.description}
+                  </p>
+                </div>
+              );
+            })}
           </div>
           <hr className="border-gray-400/50 rounded-full border md:hidden" />
           <form className="w-full flex flex-col gap-3">
