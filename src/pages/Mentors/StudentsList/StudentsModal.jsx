@@ -29,7 +29,7 @@ const StudentsModal = ({ setShowStudentModal, studentId, studentList }) => {
           <img
             src={renderSelectedTutor?.avatar?.url}
             width="500px"
-            className="student_image"
+            className="student_image pl-2"
             alt=""
           />
         )}

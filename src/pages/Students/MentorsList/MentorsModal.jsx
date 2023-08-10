@@ -20,7 +20,7 @@ const MentorsModal = ({ setShowTutorModal, tutorId, tutorsList }) => {
   return (
     <div className="tutor_alfa">
       <div className="tutor_modal">
-        <p className="close-sh p-2" onClick={() => setShowTutorModal(false)}>
+        <p className="close-sh pt-4" onClick={() => setShowTutorModal(false)}>
           &times;
         </p>
 
@@ -32,6 +32,7 @@ const MentorsModal = ({ setShowTutorModal, tutorId, tutorsList }) => {
 
         {videoLink?.length !== 0 && (
           <iframe
+            className='pl-4 py-4'
             width="560"
             height="100%"
             src={videoLink}
@@ -66,21 +67,21 @@ const MentorsModal = ({ setShowTutorModal, tutorId, tutorsList }) => {
             </div>
             <div className="modal_bio">
               {renderSelectedTutor?.introduction && (
-                <div className="pb-3">
+                <div className="py-3">
                   <p className="p-0 m-0">Biography</p>
                   <span>{renderSelectedTutor?.introduction}</span>
                 </div>
               )}
 
               {renderSelectedTutor?.relevantExperience && (
-                <div className="pb-3">
+                <div className="py-3">
                   <p className="p-0 m-0">Relevant Experience</p>
                   <span>{renderSelectedTutor?.relevantExperience}</span>
                 </div>
               )}
 
               {renderSelectedTutor?.uniqueFacts && (
-                <div className="pb-3">
+                <div className="py-3">
                   <p className="p-0 m-0">Unique Facts</p>
                   <span>{renderSelectedTutor?.uniqueFacts}</span>
                 </div>
