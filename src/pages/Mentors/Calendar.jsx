@@ -219,7 +219,10 @@ const Calendar = () => {
       const tempPastLessons = [];
       tableAppointments.map((each) => {
         if (new Date(each.resource.startAt) > new Date()) {
-          if (each.resource.status === 'approved') {
+          if (
+            each.resource.status === 'approved' ||
+            each.resource.status === 'scheduled'
+          ) {
             tempUpcomingLessons.push(each);
           }
         } else {

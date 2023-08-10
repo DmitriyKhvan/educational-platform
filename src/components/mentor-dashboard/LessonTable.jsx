@@ -36,6 +36,7 @@ const LessonTable = ({ tabularData }) => {
     t('duration'),
     t('date_time'),
     t('student_name'),
+    t('status'),
     // t('class_feedback'),
   ];
 
@@ -54,11 +55,10 @@ const LessonTable = ({ tabularData }) => {
 
         <tbody>
           {displayTableData?.length === 0 && (
-            <tr
-              className="tr-center "
-              style={{ transform: 'translateX(38%) translateY(30%)' }}
-            >
-              <td>{t('no_lessons')}</td>
+            <tr>
+              <td colSpan="5" align="center">
+                {t('no_lessons')}
+              </td>
             </tr>
           )}
           {displayTableData.map((event) => (
@@ -87,7 +87,7 @@ const LessonTable = ({ tabularData }) => {
               </td> */}
               <td className="td-item m-0">
                 <p className="td-topic-level">
-                  {`${event.resource.duration}m`}
+                  {`${event.resource.duration} min`}
                 </p>
               </td>
 
@@ -95,10 +95,7 @@ const LessonTable = ({ tabularData }) => {
                 <div className="td-datetime td-datetime-border p-3">
                   {moment(event.resource.startAt)
                     .tz(user.timeZone)
-                    .format('ddd, MMM Do') + ' | '}
-                  {moment(event.resource.startAt)
-                    .tz(user.timeZone)
-                    .format('hh:mm A')}
+                    .format('ddd, MMM Do | hh:mm A')}
                   {' → '}
                   {moment(event.resource.startAt)
                     .tz(user.timeZone)
@@ -111,6 +108,16 @@ const LessonTable = ({ tabularData }) => {
                   {(event.resource.student.user.firstName ?? '') +
                     ' ' +
                     (event.resource.student.user.lastName ?? '')}
+                </p>
+              </td>
+
+              <td className="td-item m-0">
+                <p className="td-topic-level">
+                  {event.resource.status === 'approved'
+                    ? 'Approved'
+                    : event.resource.status === 'scheduled'
+                    ? 'Peding Request'
+                    : event.resource.status}
                 </p>
               </td>
               {/* <td className="td-item m-0">
