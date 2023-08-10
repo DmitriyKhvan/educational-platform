@@ -103,7 +103,7 @@ const ScheduleCard = ({
       } small-card pt-2 mt-4`}
     >
       <div className="container">
-        <div className="row">
+        <div className="row justify-between">
           <div className="col-10 mobile-schedule_dash">
             <h1
               className={`${index === 0 ? 'text-white m-0' : 'text-black m-0'}`}

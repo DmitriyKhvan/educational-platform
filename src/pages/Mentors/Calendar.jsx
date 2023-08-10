@@ -510,7 +510,7 @@ const Calendar = () => {
               <div className="row">
                 <p>{t('cancellation_policy_notice', { ns: 'modals' })}</p>
               </div>
-              <div className="row">
+              <div className="row mb-3">
                 <ul>
                   <li>
                     {t('cancellation_policy_tutor_one', { ns: 'modals' })}
