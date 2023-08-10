@@ -14,11 +14,7 @@ export function renderVideo(videoUrl) {
       if (videoUrl.includes(YOUTUBE_PREFIX)) {
         isVideo = true;
         if (url.includes('=')) {
-          for (var l = 0; i < url.length; i++) {
-            if (url[l] === '=') {
-              codeURL = url.slice(i + 1);
-            }
-          }
+            codeURL = url.slice(videoUrl.indexOf('=') + 1);
         } else {
           codeURL = url.slice(17);
         }
@@ -41,3 +37,6 @@ export function renderVideo(videoUrl) {
        return video;
     }
   }
+
+ const url1 = 'https://youtu.be/KzULxFRm35o';
+ const url2 = 'https://www.youtube.com/watch?v=KzULxFRm35o'
