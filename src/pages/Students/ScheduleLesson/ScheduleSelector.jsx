@@ -378,9 +378,9 @@ const ScheduleSelector = ({
 
   const AvailableSpots = () => (
     <React.Fragment>
-      <div className="row ">
-        <h1 className="title right-con-title">{t('available_spots')}</h1>
-        <p className="welcome-subtitle right-con-subtitle">
+      <div>
+        <h1 className="title mb-2.5 available-text">{t('available_spots')}</h1>
+        <p className="welcome-subtitle available-text">
           {t('available_spots_subtitle')}
         </p>
       </div>
@@ -405,7 +405,7 @@ const ScheduleSelector = ({
           <div className="lesson-wrapper flex-lefts student-dashboard">
             <div>
               <div className="container title-container px-4">
-                <h1 className="title lelt-con">
+                <h1 className="title lelt-con mb-2.5">
                   {lesson
                     ? t('reschedule_lesson', { ns: 'modals' })
                     : t('schedule_lesson')}
