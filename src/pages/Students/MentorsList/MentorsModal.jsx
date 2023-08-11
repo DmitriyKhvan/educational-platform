@@ -47,7 +47,7 @@ const MentorsModal = ({ setShowTutorModal, tutorId, tutorsList }) => {
           {renderSelectedTutor?.isFavourite && (
             <img src={FavIcon} alt="" className="favTutorIcon" />
           )}
-          <h1>{`${renderSelectedTutor?.fullName || renderSelectedTutor?.user?.fullName}`}</h1>
+          <h1 className='mb-3'>{`${renderSelectedTutor?.fullName || renderSelectedTutor?.user?.fullName}`}</h1>
 
           <div className="bottom_content">
             <div className="bottom_content-status">
