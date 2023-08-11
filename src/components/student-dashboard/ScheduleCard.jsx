@@ -91,7 +91,7 @@ const ScheduleCard = ({
 
     const end = moment(date)
       .tz(userTimezone)
-      .add(subscription?.duration, 'minutes')
+      .add(subscription?.package?.sessionTime, 'minutes')
       .format('hh:mm A');
     return `${eventDate} at ${start} → ${end}`;
   };
@@ -124,11 +124,9 @@ const ScheduleCard = ({
           <div className="col-2 cols-image-schedule mobile-schedule_dash overflow-hidden rounded-full relative">
             <img
               src={
-                mentor?.avatar
-                  ? mentor?.avatar?.url
-                  : maleAvatar
-                  // ? maleAvatar
-                  // : femaleAvatar
+                mentor?.avatar ? mentor?.avatar?.url : maleAvatar
+                // ? maleAvatar
+                // : femaleAvatar
               }
               className="object-cover "
               alt=""
@@ -136,7 +134,6 @@ const ScheduleCard = ({
           </div>
         </div>
       </div>
-
       <div className=" flex gap-3">
         {/* <div className="">
           <a

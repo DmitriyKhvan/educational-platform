@@ -20,15 +20,15 @@ const SelectLesson = ({
   const history = useHistory();
   const { id } = useParams();
   const { user } = useAuth();
-  const { data: { packageSubscriptions: planStatus = [] } = {}, loading: planStatusesLoading } = useQuery(
-    PACKAGE_QUERY,
-    {
-      variables: {
-        userId: user?.id,
-      },
-      fetchPolicy: 'network-only'
+  const {
+    data: { packageSubscriptions: planStatus = [] } = {},
+    loading: planStatusesLoading,
+  } = useQuery(PACKAGE_QUERY, {
+    variables: {
+      userId: user?.id,
     },
-  );
+    fetchPolicy: 'network-only',
+  });
   const disabled = clicked === null ? true : false;
 
   useEffect(() => {
@@ -96,17 +96,21 @@ const SelectLesson = ({
             </div>
             <div className="">
               <div className="">
-                {planStatusesLoading ?  <Loader /> : planStatus.map((x, i) => (
-                  <LessonCard
-                    title={x.package?.course?.title}
-                    duration={x.package?.sessionTime}
-                    remaining={x.credits}
-                    data={x}
-                    i={i}
-                    key={i}
-                    expirationDate={x.periodEnd}
-                  />
-                ))}
+                {planStatusesLoading ? (
+                  <Loader />
+                ) : (
+                  planStatus.map((x, i) => (
+                    <LessonCard
+                      title={x.package?.course?.title}
+                      duration={x.package?.sessionTime}
+                      remaining={x.credits}
+                      data={x}
+                      i={i}
+                      key={i}
+                      expirationDate={x.periodEnd}
+                    />
+                  ))
+                )}
               </div>
             </div>
             <div className="row container pt-3 btn-custom ">

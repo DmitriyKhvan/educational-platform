@@ -426,7 +426,6 @@ const ScheduleSelector = ({
                 </p>
               </div>
               <div className="flex w-full items-center justify-between px-4 mb-4">
-                
                 <div>
                   <button
                     className="btn btn-dash-return disabled:opacity-50"
@@ -459,10 +458,7 @@ const ScheduleSelector = ({
                     }}
                     disabled={counter === -2}
                   >
-                    <img
-                      src={forward_arrow}
-                      alt=""
-                    />
+                    <img src={forward_arrow} alt="" />
                   </button>
                 </div>
 

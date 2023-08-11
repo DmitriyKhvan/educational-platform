@@ -73,10 +73,7 @@ const ScheduleLessonSteps = () => {
           />
         )}
         {tabIndex === 2 && (
-          <SelectTimeOfLesson
-            onContinue={onContinue}
-            onBack={onBack}
-          />
+          <SelectTimeOfLesson onContinue={onContinue} onBack={onBack} />
         )}
         {tabIndex === 3 && (
           <SelectTimeOfLesson

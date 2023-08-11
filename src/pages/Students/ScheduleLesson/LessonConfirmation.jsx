@@ -106,6 +106,7 @@ const LessonConfirmation = ({
             },
           });
         lesson = createdLesson;
+        debugger;
       } catch (error) {
         NotificationManager.error(error.message, t);
       } finally {
@@ -118,6 +119,7 @@ const LessonConfirmation = ({
       setDate(moment(lesson.startAt).unix());
       setIsConfirmed(true);
       window.scrollTo(0, 0);
+      debugger;
     }
     setIsLoading(false);
   };
@@ -314,7 +316,9 @@ const LessonConfirmation = ({
                 </div>
                 <ScheduleCardComponent
                   index={0}
-                  lesson={newAppointment?.course?.title}
+                  lesson={
+                    newAppointment?.packageSubscription?.package.course?.title
+                  }
                   zoomlink={newAppointment?.zoomlink}
                   date={time}
                   mentor={tutor}

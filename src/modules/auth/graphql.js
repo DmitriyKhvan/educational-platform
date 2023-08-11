@@ -574,6 +574,23 @@ export const CREATE_APPOINTMENT = gql`
       status
       cancelAction
       zoomlinkId
+      #mentor
+      #student
+      packageSubscription {
+        id
+        periodStart
+        periodEnd
+        credits
+        packageId
+        package {
+          course {
+            title
+          }
+        }
+        paymentId
+        # payment
+        # lessons
+      }
     }
   }
 `;
