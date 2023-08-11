@@ -12,7 +12,7 @@ import { useHistory } from 'react-router-dom';
 const ScheduleCard = ({
   index,
   lesson,
-  // zoomlink,
+  zoomlink,
   date,
   mentor,
   data,
@@ -68,22 +68,22 @@ const ScheduleCard = ({
     }
   };
 
-  // const today = moment();
-  // const tenMinuteBeforeStart = moment(date).subtract(10, 'minutes');
-  // const fiveMinuteBeforeEnd = moment(date).add(data.duration - 5, 'minutes');
+  const today = moment();
+  const tenMinuteBeforeStart = moment(date).subtract(10, 'minutes');
+  const fiveMinuteBeforeEnd = moment(date).add(data.duration - 5, 'minutes');
 
-  // const isBetween = moment(today).isBetween(
-  //   tenMinuteBeforeStart,
-  //   fiveMinuteBeforeEnd,
-  // );
+  const isBetween = moment(today).isBetween(
+    tenMinuteBeforeStart,
+    fiveMinuteBeforeEnd,
+  );
 
-  // const joinLesson = async () => {
-  //   if (isBetween) {
-  //     window.location.href = zoomlink.url;
-  //   } else {
-  //     setIsWarningOpen(true);
-  //   }
-  // };
+  const joinLesson = async () => {
+    if (isBetween) {
+      window.location.href = zoomlink.url;
+    } else {
+      setIsWarningOpen(true);
+    }
+  };
 
   const displayDate = () => {
     const eventDate = moment(date).tz(userTimezone).format('MMM Do');
@@ -102,7 +102,7 @@ const ScheduleCard = ({
         index === 0 ? 'purple' : 'grey-border bg-white'
       } small-card pt-2 mt-4`}
     >
-      <div className="container">
+      <div className="container mb-2">
         <div className="row justify-between">
           <div className="col-10 mobile-schedule_dash">
             <h1
@@ -134,7 +134,7 @@ const ScheduleCard = ({
           </div>
         </div>
       </div>
-      <div className=" flex gap-3">
+      <div className="flex lg:gap-2 xl:gap-3">
         {/* <div className="">
           <a
             onClick={joinLesson}
@@ -171,6 +171,20 @@ const ScheduleCard = ({
             {t('cancel_lesson')}
           </a>
         </div>
+          <a
+            onClick={
+              data.status !== 'scheduled' ? joinLesson : undefined
+            }
+            target="_blank"
+            rel="noreferrer"
+            className={`schedule_copy-button ${
+              data.status === 'scheduled'
+                ? 'text-purpless back_schedule-button m-0 mobile-schedule_dash'
+                : 'grey-border text-black m-0'
+            }`}
+          >
+            {t('join_lesson')}
+          </a>
       </div>
       {isOpen && (
         <RescheduleAndCancelModal

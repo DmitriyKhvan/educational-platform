@@ -287,7 +287,7 @@ const StudentListAppointments = () => {
                   })}
                 </div>
                 <div>
-                  <section className="d-flex align-button-dashboard">
+                  <section className="d-flex gap-2 align-button-dashboard">
                     <div>
                       <Link
                         to="/student/schedule-lesson/select"
