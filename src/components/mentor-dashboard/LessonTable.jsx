@@ -13,10 +13,8 @@ const LessonTable = ({ tabularData }) => {
   useEffect(() => {
     if (tabularData.length) {
       const x = tabularData
-        .sort((a, b) => new Date(a.dateTime.date) - new Date(b.dateTime.date))
         .sort(
-          (a, b) =>
-            new Date(a.dateTime.startTime) - new Date(b.dateTime.startTime),
+          (a, b) => new Date(a.resource.startAt) - new Date(b.resource.startAt),
         )
         .map((x) => x);
 

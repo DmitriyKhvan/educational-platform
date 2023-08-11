@@ -44,11 +44,8 @@ export const LessonTable = ({
           )}
           {displayTableData
             .sort(
-              (a, b) => new Date(a.dateTime.date) - new Date(b.dateTime.date),
-            )
-            .sort(
               (a, b) =>
-                new Date(a.dateTime.startTime) - new Date(b.dateTime.startTime),
+                new Date(a.resource.startAt) - new Date(b.resource.startAt),
             )
             .map((event) => {
               return (
@@ -101,7 +98,7 @@ export const LessonTable = ({
                       {event.resource.status === 'approved'
                         ? 'Approved'
                         : event.resource.status === 'scheduled'
-                        ? 'Peding Request'
+                        ? 'Peding Approval'
                         : event.resource.status}
                     </p>
                   </td>
