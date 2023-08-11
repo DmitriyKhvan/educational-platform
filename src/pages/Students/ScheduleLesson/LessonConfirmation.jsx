@@ -106,7 +106,6 @@ const LessonConfirmation = ({
             },
           });
         lesson = createdLesson;
-        debugger;
       } catch (error) {
         NotificationManager.error(error.message, t);
       } finally {
@@ -119,7 +118,6 @@ const LessonConfirmation = ({
       setDate(moment(lesson.startAt).unix());
       setIsConfirmed(true);
       window.scrollTo(0, 0);
-      debugger;
     }
     setIsLoading(false);
   };
