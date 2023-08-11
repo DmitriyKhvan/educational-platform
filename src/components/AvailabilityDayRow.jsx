@@ -82,7 +82,7 @@ export const AvailabilityDayRow = ({
         checked={toggle}
         onClick={onToggleDay}
       />
-      <div className="col-sm-1 ms-3 me-5 align_day">
+      <div className="col-sm-2 ms-3 me-5 align_day">
         <div>
           <strong>{t(day)}</strong>
         </div>
