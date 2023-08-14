@@ -549,7 +549,9 @@ const Calendar = () => {
   const eventPropGetter = useCallback(
     (event) => {
       return {
-        ...(event.resource.eventDate.status === 'scheduled' && {
+        ...((event.resource.eventDate.status === 'scheduled'
+        || event.resource.eventDate.status === 'completed')
+         && {
           style: {
             background: 'none',
             backgroundColor: '#909090',

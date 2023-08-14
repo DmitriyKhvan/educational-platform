@@ -413,9 +413,6 @@ const ScheduleSelector = ({
                 <p className="welcome-subtitle left-subtitle">
                   {lesson ? (
                     <>
-                      {t('choose_new_date', { ns: 'modals' })}
-                      <br />
-                      <br />
                       {t('currently_scheduled', { ns: 'modals' })}{' '}
                       {moment(lesson.startAt)
                         .tz(userTimezone)
