@@ -52,13 +52,12 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
   };
 
   return (
-    <div className="row">
-      <div className="col-auto">
-        <div className="row">
-          <div className="col-11 ps-2">
-            <h2>{t('warning')}</h2>
+    <div>
+        <div className="flex justify-between mb-2">
+          <div className="text-lg font-semibold">
+            {t('warning')}
           </div>
-          <div className="col-auto text-end pt-2 ps-4">
+          <div>
             <button
               type="button"
               className="btn-close"
@@ -68,9 +67,9 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
             ></button>
           </div>
         </div>
-        <p className="welcome-subtitle">{t('cancel_modal_desc')}</p>
+        <div className="text-center">{t('cancel_modal_desc')}</div>
         {cancellationDots}
-        <div className="form-check pt-3">
+        <div className="form-check pt-3 flex items-center">
           <input
             className="form-check-input"
             type="checkbox"
@@ -103,7 +102,6 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
             </button>
           </div>
         </div>
-      </div>
     </div>
   );
 };
