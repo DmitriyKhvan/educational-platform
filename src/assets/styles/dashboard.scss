@@ -693,16 +693,6 @@ div.time-style {
   height: 20px;
   margin-right: 10px;
 }
-.form-check-input:checked:after {
-  background: #6133af !important;
-  border-radius: 3px;
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  left: 4px;
-  top: 4px;
-  content: '';
-}
 .form-check {
   display: flex;
   min-height: 1.5rem;
