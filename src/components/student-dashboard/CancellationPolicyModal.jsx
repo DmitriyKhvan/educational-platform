@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 const CancellationPolicyModal = ({ setTabIndex, setIsOpen }) => {
   const [t] = useTranslation('modals');
   return (
-      <div className='flex flex-col'>
+      <div className='flex flex-col w-[680px]'>
           <div className='flex items-center justify-between'>
             <h2 className='text-lg font-bold mb-2'>Cancellation Policy</h2>
             <div>
