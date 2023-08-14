@@ -328,8 +328,8 @@ const Calendar = () => {
 
   const eventPropGetter = useCallback((event) => {
     return {
-      ...(event.resource.status === 'scheduled'
-        || new Date(event.resource.startAt) < new Date()
+      ...((event.resource.status === 'scheduled'
+      || event.resource.status === 'completed')
         && {
         style: {
           background: 'none',
