@@ -84,14 +84,18 @@ const ScheduleCard = ({
     }
   };
 
+  console.log('lesson', lesson);
+
   const displayDate = () => {
     const eventDate = moment(date).tz(userTimezone).format('MMM Do');
     const start = moment(date).tz(userTimezone).format('hh:mm A');
 
     const end = moment(date)
       .tz(userTimezone)
-      .add(duration, 'minutes')
+      .add(subscription?.package?.sessionTime, 'minutes')
       .format('hh:mm A');
+
+    console.log('end', end);
     return `${eventDate} at ${start} → ${end}`;
   };
 
