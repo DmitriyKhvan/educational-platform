@@ -382,15 +382,15 @@ const Calendar = () => {
         .tz(userTimezone)
         .format('dddd, MMMM Do');
 
-      console.log(selectedEvent);
-
       return (
         <>
-        <div className='row'>
-          {selectedEvent.resource.eventDate.status === 'scheduled' && (
-            <h4 className='text-red-500'>This lesson haven&apos;t been approved yet!</h4>
-          )}
-        </div>
+          <div className="row">
+            {selectedEvent.resource.eventDate.status === 'scheduled' && (
+              <h4 className="text-red-500">
+                This lesson haven&apos;t been approved yet!
+              </h4>
+            )}
+          </div>
           <div className="row">
             <h4 className="text-primary">{date}</h4>
           </div>
@@ -549,7 +549,9 @@ const Calendar = () => {
   const eventPropGetter = useCallback(
     (event) => {
       return {
-        ...(event.resource.eventDate.status === 'scheduled' && {
+        ...((event.resource.eventDate.status === 'scheduled'
+        || event.resource.eventDate.status === 'completed')
+         && {
           style: {
             background: 'none',
             backgroundColor: '#909090',

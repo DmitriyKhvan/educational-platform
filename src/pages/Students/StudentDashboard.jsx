@@ -39,7 +39,7 @@ const StudentListAppointments = () => {
     APPOINTMENTS_QUERY,
     {
       variables: {
-        status: 'scheduled,paid,completed,in_progress',
+        status: 'scheduled,paid,completed,in_progress,approved',
         studentId: user?.students[0]?.id,
       },
     },
@@ -97,7 +97,7 @@ const StudentListAppointments = () => {
         : moment().startOf('isoWeek');
 
       if (
-        moment(x.start_at).isBetween(startOfWeek, moment().endOf('isoWeek'))
+        moment(x.startAt).isBetween(startOfWeek, moment().endOf('isoWeek'))
       ) {
         return x;
       }
@@ -105,9 +105,9 @@ const StudentListAppointments = () => {
     .filter((x) => x);
 
   const isWithinAweek = isWithinAweekArr.filter(
-    (x, i, a) => a.findIndex((y) => y.start_at === x.start_at) === i,
+    (x, i, a) => a.findIndex((y) => y.startAt === x.startAt) === i,
   );
-
+  
   const ScheduleArr = (isWithinAweek || [])
     .sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
     .map((x, i) => {
@@ -118,6 +118,7 @@ const StudentListAppointments = () => {
         currentDate.isBefore(expiredDate) && (
           <div key={i}>
             <ScheduleCard
+              duration={x.duration}
               lesson={x?.course?.title}
               mentor={x.mentor}
               zoomlink={x?.zoomlink}
@@ -287,7 +288,7 @@ const StudentListAppointments = () => {
                   })}
                 </div>
                 <div>
-                  <section className="d-flex align-button-dashboard">
+                  <section className="d-flex gap-2 align-button-dashboard">
                     <div>
                       <Link
                         to="/student/schedule-lesson/select"

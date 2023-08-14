@@ -2184,6 +2184,9 @@ div.time-style {
 }
 
 @media screen and (min-width: 1200px) and (max-width: 1366px) {
+  .schedule_copy-button {
+    font-size: 13px;
+  }
   .dash-card {
     padding-left: 10px !important;
     padding-right: 10px !important;
@@ -2206,5 +2209,17 @@ div.time-style {
   .cols-image-schedule {
     width: 60px;
     height: 60px;
+  }
+}
+
+@media screen and (max-width: 1366px) {
+  .availability-wrapper {
+    padding: 25px;
+  }
+  .available-text {
+    padding: 0 16px;
+  }
+  .schedule-overflow-scroll {
+    padding: 0 28px;
   }
 }
