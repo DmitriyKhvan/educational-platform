@@ -40,6 +40,9 @@ const CancelLessonModal = ({
       id: id,
       cancelReason: cancel.value,
     },
+    onError: (error) => {
+      NotificationManager.error(error.message, t);
+    },
   });
 
   const onCancelLesson = async () => {
@@ -48,7 +51,6 @@ const CancelLessonModal = ({
       await fetchAppointments();
       setIsOpen(false);
     } else {
-      NotificationManager.error(errors.message, t);
       setIsOpen(false);
     }
   };
