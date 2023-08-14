@@ -192,7 +192,7 @@ const LessonConfirmation = ({
                 />
               </div>
               <p className="welcome-subtitle pt-4 confirm-tutor-subtitle">
-                {t('mentor', { ns: 'lessons' })} 123
+                {t('mentor', { ns: 'lessons' })}
               </p>
               <div className="flex tutor-image">
                 <TutorImageRow tutor={tutor} />
