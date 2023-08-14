@@ -4,27 +4,23 @@ import { useTranslation } from 'react-i18next';
 const CancellationPolicyModal = ({ setTabIndex, setIsOpen }) => {
   const [t] = useTranslation('modals');
   return (
-    <React.Fragment>
-      <div className="container">
-        <div className="row">
-          <div className="col-auto ps-2 pe-5">
-            <h2>Cancellation Policy</h2>
+      <div className='flex flex-col'>
+          <div className='flex items-center justify-between'>
+            <h2 className='text-lg font-bold mb-2'>Cancellation Policy</h2>
+            <div>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => setIsOpen(false)}
+              ></button>
+            </div>
           </div>
-          <div className="col-auto text-end pt-2 ps-5">
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-              onClick={() => setIsOpen(false)}
-            ></button>
+          <div className='font-semibold mb-2'>
+            {t('cancellation_policy')}
           </div>
-        </div>
-        <div style={{ width: '20rem' }}>
-          <p className="welcome-subtitle">{t('cancellation_policy')}</p>
-        </div>
-        <div className="row">
-          <div className="col-auto">
+          <div>
             <button
               className="enter-btn grey-border ms-0"
               onClick={() => setTabIndex(0)}
@@ -32,9 +28,7 @@ const CancellationPolicyModal = ({ setTabIndex, setIsOpen }) => {
               {t('back')}
             </button>
           </div>
-        </div>
       </div>
-    </React.Fragment>
   );
 };
 

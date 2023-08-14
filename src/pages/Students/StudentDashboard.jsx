@@ -97,7 +97,7 @@ const StudentListAppointments = () => {
         : moment().startOf('isoWeek');
 
       if (
-        moment(x.start_at).isBetween(startOfWeek, moment().endOf('isoWeek'))
+        moment(x.startAt).isBetween(startOfWeek, moment().endOf('isoWeek'))
       ) {
         return x;
       }
