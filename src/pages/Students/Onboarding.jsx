@@ -73,7 +73,6 @@ export default function Onboarding() {
   };
 
   useEffect(() => {
-    console.log(i18n.language);
     i18n.changeLanguage(language === 0 ? 'kr' : 'en');
   }, [language]);
 

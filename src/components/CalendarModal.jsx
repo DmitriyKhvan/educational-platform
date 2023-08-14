@@ -6,10 +6,20 @@ import ZoomWarningModal from './student-dashboard/ZoomWarningModal';
 import femaleAvatar from '../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../assets/images/avatars/img_avatar_male.png';
 import { createPortal } from 'react-dom';
-import { useQuery } from '@apollo/client';
+import { gql, useQuery, useLazyQuery } from '@apollo/client';
 import { PACKAGE_QUERY } from '../modules/auth/graphql';
 import { useAuth } from '../modules/auth';
 import Swal from 'sweetalert2';
+
+const GET_ZOOMLINK = gql`
+  query Get_Zoomlink($id: Int!) {
+    zoomLink(id: $id) {
+      id
+      url
+      isPaid
+    }
+  }
+`;
 
 const CalendarModal = ({
   index,
@@ -31,6 +41,8 @@ const CalendarModal = ({
   const isLate = moment.duration(moment(time).diff(moment())).asHours() <= 24;
 
   const avatar = data?.resource?.mentor?.avatar;
+
+  const [getZoomLink] = useLazyQuery(GET_ZOOMLINK);
 
   React.useEffect(() => {
     if (avatar) {
@@ -63,7 +75,12 @@ const CalendarModal = ({
 
   const joinLesson = async () => {
     if (isBetween) {
-      window.location.href = zoomlink.url;
+      const zoomLink = await getZoomLink({
+        variables: {
+          id: parseInt(zoomlink),
+        },
+      });
+      window.location.replace(zoomLink.data.zoomLink.url);
     } else {
       setIsWarningOpen(true);
     }
