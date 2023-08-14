@@ -7,7 +7,6 @@ import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
-import { useHistory } from 'react-router-dom';
 
 const ScheduleCard = ({
   index,
@@ -30,7 +29,6 @@ const ScheduleCard = ({
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const hist = useHistory();
 
   const isLate = moment.duration(moment(date).diff(moment())).asHours() <= 24;
 
@@ -44,7 +42,7 @@ const ScheduleCard = ({
       });
     } else {
       // setIsOpen(true);
-      hist.push('/student/lesson-calendar');
+      window.location.replace('/student/schedule-lesson/select/' + data.id);
       setModalType('reschedule-time');
     }
   }
@@ -172,20 +170,18 @@ const ScheduleCard = ({
             {t('cancel_lesson')}
           </a>
         </div>
-          <a
-            onClick={
-              data.status !== 'scheduled' ? joinLesson : undefined
-            }
-            target="_blank"
-            rel="noreferrer"
-            className={`schedule_copy-button ${
-              data.status === 'scheduled'
-                ? 'text-purpless back_schedule-button m-0 mobile-schedule_dash'
-                : 'grey-border text-black m-0'
-            }`}
-          >
-            {t('join_lesson')}
-          </a>
+        <a
+          onClick={data.status !== 'scheduled' ? joinLesson : undefined}
+          target="_blank"
+          rel="noreferrer"
+          className={`schedule_copy-button ${
+            data.status === 'scheduled'
+              ? 'text-purpless back_schedule-button m-0 mobile-schedule_dash'
+              : 'grey-border text-black m-0'
+          }`}
+        >
+          {t('join_lesson')}
+        </a>
       </div>
       {isOpen && (
         <RescheduleAndCancelModal

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@apollo/client';
 import { CANCEL_APPOINTMENT } from '../../modules/auth/graphql';
-import { toast } from 'react-toastify';
+import NotificationManager from '../NotificationManager';
 
 const CancelLessonModal = ({
   setTabIndex,
@@ -38,6 +38,10 @@ const CancelLessonModal = ({
   const [cancelLesson] = useMutation(CANCEL_APPOINTMENT, {
     variables: {
       id: id,
+      cancelReason: cancel.value,
+    },
+    onError: (error) => {
+      NotificationManager.error(error.message, t);
     },
   });
 
@@ -47,7 +51,6 @@ const CancelLessonModal = ({
       await fetchAppointments();
       setIsOpen(false);
     } else {
-      toast.error(errors[0].message);
       setIsOpen(false);
     }
   };
