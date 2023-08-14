@@ -328,7 +328,9 @@ const Calendar = () => {
 
   const eventPropGetter = useCallback((event) => {
     return {
-      ...(event.resource.status === 'scheduled' && {
+      ...(event.resource.status === 'scheduled'
+        || new Date(event.resource.startAt) < new Date()
+        && {
         style: {
           background: 'none',
           backgroundColor: '#909090',
