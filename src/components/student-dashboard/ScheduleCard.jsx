@@ -86,14 +86,18 @@ const ScheduleCard = ({
     }
   };
 
+  console.log('lesson', lesson);
+
   const displayDate = () => {
     const eventDate = moment(date).tz(userTimezone).format('MMM Do');
     const start = moment(date).tz(userTimezone).format('hh:mm A');
 
     const end = moment(date)
       .tz(userTimezone)
-      .add(duration, 'minutes')
+      .add(subscription?.package?.sessionTime, 'minutes')
       .format('hh:mm A');
+
+    console.log('end', end);
     return `${eventDate} at ${start} → ${end}`;
   };
 
@@ -172,20 +176,18 @@ const ScheduleCard = ({
             {t('cancel_lesson')}
           </a>
         </div>
-          <a
-            onClick={
-              data.status !== 'scheduled' ? joinLesson : undefined
-            }
-            target="_blank"
-            rel="noreferrer"
-            className={`schedule_copy-button ${
-              data.status === 'scheduled'
-                ? 'text-purpless back_schedule-button m-0 mobile-schedule_dash'
-                : 'grey-border text-black m-0'
-            }`}
-          >
-            {t('join_lesson')}
-          </a>
+        <a
+          onClick={data.status !== 'scheduled' ? joinLesson : undefined}
+          target="_blank"
+          rel="noreferrer"
+          className={`schedule_copy-button ${
+            data.status === 'scheduled'
+              ? 'text-purpless back_schedule-button m-0 mobile-schedule_dash'
+              : 'grey-border text-black m-0'
+          }`}
+        >
+          {t('join_lesson')}
+        </a>
       </div>
       {isOpen && (
         <RescheduleAndCancelModal
