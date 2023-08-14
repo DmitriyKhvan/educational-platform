@@ -133,6 +133,13 @@ const ApproveRequest = () => {
             </tr>
           </thead>
           <tbody>
+            {renderTable?.length === 0 && (
+              <tr>
+                <td colSpan={tableHead.length} align="center">
+                  {t('no_lessons')}
+                </td>
+              </tr>
+            )}
             {renderTable()?.map((event) => (
               <tr key={event.id} className="tr-center">
                 <td className="td-item m-0">

@@ -54,7 +54,7 @@ const LessonTable = ({ tabularData }) => {
         <tbody>
           {displayTableData?.length === 0 && (
             <tr>
-              <td colSpan="5" align="center">
+              <td colSpan={tableHead.length} align="center">
                 {t('no_lessons')}
               </td>
             </tr>
