@@ -18,7 +18,8 @@ const ScheduleCard = ({
   data,
   fetchAppointments,
   cancelled,
-  subscription,
+  duration,
+  subscription, // TODO no subscription given as a prop ???
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [t] = useTranslation('modals');
@@ -91,7 +92,7 @@ const ScheduleCard = ({
 
     const end = moment(date)
       .tz(userTimezone)
-      .add(subscription?.package?.sessionTime, 'minutes')
+      .add(duration, 'minutes')
       .format('hh:mm A');
     return `${eventDate} at ${start} → ${end}`;
   };
@@ -197,7 +198,7 @@ const ScheduleCard = ({
           tabIndex={tabIndex}
           type={modalType}
           cancelled={cancelled}
-          duration={subscription?.duration}
+          duration={subscription?.duration || duration}
         />
       )}
       {isWarningOpen && (
