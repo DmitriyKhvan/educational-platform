@@ -12,6 +12,7 @@ const formatTime = (time) => {
   return moment.utc(time * 1000).format('HH:mm');
 };
 
+//converting time to seconds
 const formatTimeToSeconds = (time) => {
   const [hours, minutes] = time.split(':');
   return parseInt(hours) * 60 * 60 + parseInt(minutes) * 60;
@@ -28,6 +29,7 @@ const times = Array.from({ length: 48 }, (_, i) => {
   };
 });
 
+// Dictionary time slots
 const timeOptions = times.map(({ timeType, time }) => {
   return { value: time, label: timeType };
 });
@@ -43,14 +45,14 @@ const AvailabilityPicker = ({
 }) => {
   const { removeAvailabilityRow } = useContext(AvailProv);
   const { t } = useTranslation('modals');
-  const [fromTime, setFromTime] = useState(frmTime);
-  const [toTime, setToTime] = useState(tTime);
-  const [currentData, setCurrentData] = useState([]);
+  const [currentData, setCurrentData] = useState([]); //Why is it needed?
   const tutorInfo = useAuth().user.mentor;
 
+  //Why is it needed?=======================
   useEffect(() => {
     if (tutorInfo.availabilities) setCurrentData(tutorInfo.availabilities[day]);
   }, [tutorInfo]);
+  //========================================
 
   const onChangeTime = (time, iteration, timeType) => {
     let t = parseInt(time);
@@ -60,14 +62,13 @@ const AvailabilityPicker = ({
 
       if (typeof t === 'number') {
         if (timeType === 'from') {
-          setFromTime(formatTime(t));
-          AvailabilitySlots(formatTime(t), toTime, String(id), day);
+          AvailabilitySlots(formatTime(t), tTime, String(id), day);
         } else {
-          setToTime(formatTime(t));
-          updateTime(formatTime(t));
-          AvailabilitySlots(fromTime, formatTime(t), String(id), day);
+          updateTime(formatTime(t)); //I don't know what this method is for
+          AvailabilitySlots(frmTime, formatTime(t), String(id), day);
         }
       }
+      //This code will never work. Why is it needed?========================
     } else {
       // New
       if (typeof t === 'number') {
@@ -82,6 +83,7 @@ const AvailabilityPicker = ({
         setCurrentData(cpyCurrentData || []);
       }
     }
+    //========================================================================
   };
 
   const removeRowDown = (type) => {
@@ -104,10 +106,10 @@ const AvailabilityPicker = ({
   };
 
   const fromTimeIndex = findIndex(timeOptions, {
-    value: formatTimeToSeconds(fromTime),
+    value: formatTimeToSeconds(frmTime),
   });
   const toTimeIndex = findIndex(timeOptions, {
-    value: formatTimeToSeconds(toTime),
+    value: formatTimeToSeconds(tTime),
   });
 
   return (

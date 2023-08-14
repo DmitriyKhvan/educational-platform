@@ -95,7 +95,7 @@ export const AvailabilityDayRow = ({
                 return (
                   <AvailabilityPicker
                     day={day}
-                    key={k.id + ' picker'}
+                    key={k.id}
                     id={k.id}
                     setGatherAvailabilities={setGatherAvailabilities}
                     gatherAvailabilities={gatherAvailabilities}
@@ -106,7 +106,7 @@ export const AvailabilityDayRow = ({
                     isteachAddHours={isteachAddHours}
                     setIsTeachAddHours={setIsTeachAddHours}
                     AvailabilitySlots={AvailabilitySlots}
-                    updateTime={setCurrentToTime}
+                    updateTime={setCurrentToTime} //I don't know what this method is for
                     type={type}
                   />
                 );

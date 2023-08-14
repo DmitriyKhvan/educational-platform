@@ -38,13 +38,14 @@ const Availability = (/*{ user_id  }*/) => {
   const [, setIsMonthCheck] = useState(false);
   // tutor policies state and handler
   const { user } = useAuth();
-  const { data: { mentor: tutorInfo } = {}, loading: loadingMentor } = useQuery(
-    GET_MENTOR,
-    {
-      fetchPolicy: 'no-cache',
-      variables: { id: user?.mentor?.id },
-    },
-  );
+  const {
+    data: { mentor: tutorInfo } = {},
+    loading: loadingMentor,
+    refetch: refetchMentor,
+  } = useQuery(GET_MENTOR, {
+    fetchPolicy: 'no-cache',
+    variables: { id: user?.mentor?.id },
+  });
   const [upsertAvailiability, { loading: loadingUpsertAvailiability, error }] =
     useMutation(UPSERT_AVAILIABILITY);
 
@@ -57,18 +58,26 @@ const Availability = (/*{ user_id  }*/) => {
   useEffect(() => {
     var savedData = [];
     if (tutorInfo?.availabilities) {
-      const slotsMap = tutorInfo.availabilities.reduce((map, slot) => {
-        if (map[slot.day] === undefined) map[slot.day] = [slot];
-        else map[slot.day] = [...map[slot.day], slot];
-        return map;
-      }, {});
-      for (const day in slotsMap) {
-        savedData.push({
-          id: day,
-          day,
-          slots: slotsMap[day],
-        });
-      }
+      // const slotsMap = tutorInfo.availabilities.reduce((map, slot) => {
+      //   if (map[slot.day] === undefined) map[slot.day] = [slot];
+      //   else map[slot.day] = [...map[slot.day], slot];
+      //   return map;
+      // }, {});
+      // for (const day in slotsMap) {
+      //   savedData.push({
+      //     id: day,
+      //     day,
+      //     slots: slotsMap[day],
+      //   });
+      // }
+
+      savedData = tutorInfo.availabilities.map((slot) => {
+        return {
+          id: uuid(),
+          day: slot.day,
+          slots: [slot],
+        };
+      });
     }
     const tempData = [
       {
@@ -132,6 +141,9 @@ const Availability = (/*{ user_id  }*/) => {
             availabilities: slotsToSave,
           },
         },
+        onCompleted: () => {
+          refetchMentor();
+        },
       });
       e.target.blur();
       handleDisableSave(true);
@@ -194,15 +206,21 @@ const Availability = (/*{ user_id  }*/) => {
     }
   };
 
+  //Adds, removes, updates timespans for days
   const AvailabilitySlots = (fromTime, toTime, id, day) => {
     const from = fromTime;
     const to = toTime;
     const avail = { id, day, slots: [{ from, to }] };
+
+    //Adds day with a time interval (new or existing)
     storeAvailablitiy(
       [...gatherAvailabilities.availability, ...[avail]],
       'availability',
     );
     const data = gatherAvailabilities.availability;
+
+    //Check if a day with a time interval exists,
+    //then update that interval and overwrite the array of intervals
     for (const availability of data) {
       const availId = availability.id;
       if (availId === id) {
@@ -290,8 +308,8 @@ const Availability = (/*{ user_id  }*/) => {
                 isteachAddHours={isteachAddHours}
                 setIsTeachAddHours={setIsTeachAddHours}
                 AvailabilitySlots={AvailabilitySlots}
-                setCurrentToTime={setCurrentToTime}
-                currentToTime={currentToTime}
+                setCurrentToTime={setCurrentToTime} //I don't know what this method is for
+                currentToTime={currentToTime} //I don't know what this variable is for
                 type={'availability'}
               />
             </AvailabilityProvider>
