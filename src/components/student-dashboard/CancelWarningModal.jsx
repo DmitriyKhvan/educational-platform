@@ -55,7 +55,7 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, type, modifyCredits }) => 
             ></button>
           </div>
         </div>
-        <div className="text-center">{t('cancel_modal_desc')}</div>
+        <div>{t('cancel_modal_desc')}</div>
         <div className='w-full flex items-center justify-center mt-3'>
           {cancellationDots}
         </div>
@@ -67,6 +67,7 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, type, modifyCredits }) => 
             value="cancel"
             onChange={checkboxEvent}
             checked={isChecked}
+            disabled={modifyCredits === 0}
           />
           <label className="form-check-label" htmlFor="cancel">
             {t('confirm_cancel')}
@@ -86,7 +87,7 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, type, modifyCredits }) => 
             <button
               className="enter-btn bg-pink text-white"
               onClick={onClick}
-              disabled={!isChecked && modifyCredits && modifyCredits > 0}
+              disabled={!isChecked || modifyCredits === 0}
             >
               {t('continue_cancel')}
             </button>

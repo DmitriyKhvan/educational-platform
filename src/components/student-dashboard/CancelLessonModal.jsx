@@ -57,60 +57,52 @@ const CancelLessonModal = ({
 
   return (
     <React.Fragment>
-      <div className="row">
-        <div className="col-auto">
-          <div className="row">
-            <div className="col-auto ps-2 pe-5">
-              <h2>Cancelling Lesson</h2>
-            </div>
-            <div className="col-auto text-end pt-2 ps-5">
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                onClick={() => setIsOpen(false)}
-              ></button>
-            </div>
-          </div>
-          <p className="welcome-subtitle mb-4">
-            Why are you cancelling this lesson?
-          </p>
-          {cancellationArr.map((x) => (
-            <div className="form-check pt-1" key={x}>
-              <input
-                className="form-check-input"
-                type="checkbox"
-                id={x}
-                value={x}
-                onChange={checkboxEvent}
-                checked={x === cancel.value ? true : false}
-              />
-              <label className="form-check-label" htmlFor={x}>
-                {x}
-              </label>
-            </div>
-          ))}
+      <div className="flex items-center justify-between mb-2">
+        <div className="text-lg font-semibold">
+          <h2>Cancelling Lesson</h2>
+        </div>
+        <div className="col-auto text-end pt-2 ps-5">
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            onClick={() => setIsOpen(false)}
+          ></button>
         </div>
       </div>
-      <div className="row pt-4">
-        <div className="col-auto">
-          <button
-            className="enter-btn grey-border ms-0"
-            onClick={() => setTabIndex(0)}
-          >
-            {t('back')}
-          </button>
+      <p className="welcome-subtitle mb-4">
+        Why are you cancelling this lesson?
+      </p>
+      {cancellationArr.map((x) => (
+        <div className='flex mt-0.5 items-center' key={x}>
+          <input
+            className="form-check-input"
+            type="checkbox"
+            id={x}
+            value={x}
+            onChange={checkboxEvent}
+            checked={x === cancel.value ? true : false}
+          />
+          <label className="form-check-label" htmlFor={x}>
+            {x}
+          </label>
         </div>
-        <div className="col-auto">
-          <button
-            className="enter-btn bg-pink text-white"
-            disabled={!isChecked}
-            onClick={onCancelLesson}
-          >
-            {t('confirm')}
-          </button>
-        </div>
+      ))}
+      <div className="flex gap-2 pt-4">
+        <button
+          className="enter-btn grey-border ms-0"
+          onClick={() => setTabIndex(0)}
+        >
+          {t('back')}
+        </button>
+        <button
+          className="enter-btn bg-pink text-white"
+          disabled={!isChecked}
+          onClick={onCancelLesson}
+        >
+          {t('confirm')}
+        </button>
       </div>
     </React.Fragment>
   );
