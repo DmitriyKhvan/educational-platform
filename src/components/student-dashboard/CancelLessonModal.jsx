@@ -9,6 +9,7 @@ const CancelLessonModal = ({
   setIsOpen,
   id,
   fetchAppointments,
+  cancelled
 }) => {
   const [t] = useTranslation('common');
   const [cancel, setCancel] = useState({});
@@ -50,6 +51,9 @@ const CancelLessonModal = ({
     setIsLoading(true);
     const { errors } = await cancelLesson();
     setIsLoading(false)
+    if(cancelled) {
+      cancelled()
+    }
     if (errors?.length == 0 || !errors) {
       await fetchAppointments();
       setIsOpen(false);
