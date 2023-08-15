@@ -18,7 +18,7 @@ const ScheduleCard = ({
   fetchAppointments,
   cancelled,
   duration,
-  subscription, // TODO no subscription given as a prop ???
+  subscription,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [t] = useTranslation('modals');
@@ -84,18 +84,15 @@ const ScheduleCard = ({
     }
   };
 
-  console.log('lesson', lesson);
-
   const displayDate = () => {
     const eventDate = moment(date).tz(userTimezone).format('MMM Do');
     const start = moment(date).tz(userTimezone).format('hh:mm A');
 
     const end = moment(date)
       .tz(userTimezone)
-      .add(subscription?.package?.sessionTime, 'minutes')
+      .add(subscription?.package?.sessionTime || duration, 'minutes')
       .format('hh:mm A');
 
-    console.log('end', end);
     return `${eventDate} at ${start} → ${end}`;
   };
 

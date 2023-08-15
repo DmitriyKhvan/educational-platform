@@ -56,7 +56,7 @@ const TutorDashboard = () => {
       return availableLessons?.map((event, i) => {
         return (
           <ScheduleCard
-            lesson={event?.course?.title}
+            lesson={event?.packageSubscription?.package?.course?.title}
             duration={event?.duration}
             zoomlink={event?.zoomlink}
             date={event?.startAt}

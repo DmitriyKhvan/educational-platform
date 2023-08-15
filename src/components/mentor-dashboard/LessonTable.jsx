@@ -114,7 +114,7 @@ const LessonTable = ({ tabularData }) => {
                   {event.resource.status === 'approved'
                     ? 'Approved'
                     : event.resource.status === 'scheduled'
-                    ? 'Peding Request'
+                    ? 'Pending Request'
                     : event.resource.status}
                 </p>
               </td>

@@ -119,7 +119,7 @@ const StudentListAppointments = () => {
           <div key={i}>
             <ScheduleCard
               duration={x.duration}
-              lesson={x?.course?.title}
+              lesson={x?.packageSubscription?.package?.course?.title}
               mentor={x.mentor}
               zoomlink={x?.zoomlink}
               date={date}

@@ -34,6 +34,7 @@ const RescheduleAndCancelModal = ({
           setIsOpen={setIsOpen}
           duration={data.duration}
           type={type}
+          modifyCredits={data?.packageSubscription?.modifyCredits}
         />
       ) : tabIndex === 1 ? (
         <CancelLessonModal
