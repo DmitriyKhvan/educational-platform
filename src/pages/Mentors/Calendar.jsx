@@ -22,10 +22,20 @@ import {
   CANCEL_APPOINTMENT,
   APPOINTMENTS_QUERY,
 } from '../../modules/auth/graphql';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation, gql, useLazyQuery } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
 import { lowerCase } from 'lodash-es';
 import ReactLoader from '../../components/common/Loader';
+
+const GET_ZOOMLINK = gql`
+  query Get_Zoomlink($id: Int!) {
+    zoomLink(id: $id) {
+      id
+      url
+      isPaid
+    }
+  }
+`;
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -49,7 +59,7 @@ const sortCalendarEvents = (data) => {
       const startAt = moment.unix(date).utc(0, true);
       const end_at = moment.unix(endEpoch).utc(0, true);
       const iterateEvents = {
-        zoomLink: eventDate.zoomlink,
+        zoomLink: eventDate.zoomlinkId,
         lesson: eventDate?.packageSubscription?.package?.course?.title,
         startAt,
         end_at,
@@ -363,8 +373,19 @@ const Calendar = () => {
       fiveMinuteBeforeEnd,
     );
 
+    const [getZoomLink] = useLazyQuery(GET_ZOOMLINK, {
+      fetchPolicy: 'no-cache',
+    });
+
     const joinLesson = async () => {
-      if (isBetween) window.location.href = eventDate.zoomlink.url;
+      if (isBetween) {
+        const zoomlink = await getZoomLink({
+          variables: {
+            id: parseInt(eventDate.zoomlinkId),
+          },
+        });
+        window.location.replace(zoomlink.data.zoomLink.url);
+      }
       if (!isBetween) setIsWarningOpen(true);
     };
 
@@ -549,9 +570,8 @@ const Calendar = () => {
   const eventPropGetter = useCallback(
     (event) => {
       return {
-        ...((event.resource.eventDate.status === 'scheduled'
-        || event.resource.eventDate.status === 'completed')
-         && {
+        ...((event.resource.eventDate.status === 'scheduled' ||
+          event.resource.eventDate.status === 'completed') && {
           style: {
             background: 'none',
             backgroundColor: '#909090',
