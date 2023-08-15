@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-// import { useDispatch, useSelector } from 'react-redux';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import Modal from 'react-modal';
 import moment from 'moment-timezone';
 import CalendarModal from '../../components/CalendarModal';
 import Layout from '../../components/Layout';
-// import { getAppointments, cancelAppointment } from '../../actions/appointment';
 import Loader from '../../components/common/Loader';
 import { useLocation } from 'react-router-dom';
 
@@ -16,10 +14,9 @@ import ReviewLessonModal from '../../components/student-dashboard/ReviewLessonMo
 import { useAuth } from '../../modules/auth';
 import FeedbackLessonModal from '../Mentors/FeedbackLessonModal';
 import WeekHeader from '../../components/common/WeekHeader';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import {
   APPOINTMENTS_QUERY,
-  CANCEL_APPOINTMENT,
 } from '../../modules/auth/graphql';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { LessonTable } from '../../components/student-dashboard/LessonTable';
@@ -127,14 +124,6 @@ const Calendar = () => {
     }
   }, [appointments]);
 
-  const [cancelAppointment, { loading: cancelAppointmentLoading }] =
-    useMutation(CANCEL_APPOINTMENT, {
-      onCompleted: async () => {
-        await getAppointments();
-        setIsOpen(false);
-      },
-    });
-
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [pastLessons, setPastLessons] = useState([]);
   const [upcomingLessons, setUpcomingLessons] = useState([]);
@@ -228,10 +217,10 @@ const Calendar = () => {
     const scheduledTime = moment(selectedEvent?.resource?.startAt).tz(
       userTimezone,
     );
-    const startTime = moment(selectedEvent.resource?.startAt)
+    const startTime = moment(selectedEvent?.resource?.startAt)
       .tz(userTimezone)
       .format('hh:mm A');
-    const endTime = moment(selectedEvent.resource?.end_at)
+    const endTime = moment(selectedEvent?.resource?.end_at)
       .tz(userTimezone)
       .format('hh:mm A');
 
@@ -251,8 +240,8 @@ const Calendar = () => {
             zoomlink={selectedEvent.resource?.zoomLink}
             time={scheduledTime}
             data={selectedEvent}
-            onCancel={onCancel}
             closeModal={closeModal}
+            getAppointments={getAppointments}
           />
         </Modal>
       </div>
@@ -275,15 +264,6 @@ const Calendar = () => {
     setIsCalendar(true);
     setSelectedTab('calendar');
   };
-
-  async function onCancel(id) {
-    await cancelAppointment({
-      variables: {
-        id: id,
-      },
-    });
-    setIsCalendar(true);
-  }
 
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
@@ -341,7 +321,7 @@ const Calendar = () => {
 
   return (
     <Layout>
-      {(cancelAppointmentLoading || loadingAppointments) && (
+      {loadingAppointments && (
         <div className="absolute w-full h-full top-0 left-0 z-[10001] bg-black/40">
           <Loader></Loader>
         </div>

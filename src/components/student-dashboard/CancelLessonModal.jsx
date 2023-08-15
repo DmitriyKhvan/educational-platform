@@ -13,6 +13,7 @@ const CancelLessonModal = ({
   const [t] = useTranslation('common');
   const [cancel, setCancel] = useState({});
   const [isChecked, setIsChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const cancellationArr = [
     'Need to reschedule the lesson',
     'Not prepared for the lesson',
@@ -46,7 +47,9 @@ const CancelLessonModal = ({
   });
 
   const onCancelLesson = async () => {
+    setIsLoading(true);
     const { errors } = await cancelLesson();
+    setIsLoading(false)
     if (errors?.length == 0 || !errors) {
       await fetchAppointments();
       setIsOpen(false);
@@ -91,6 +94,7 @@ const CancelLessonModal = ({
       ))}
       <div className="flex gap-2 pt-4">
         <button
+          disabled={isLoading}
           className="enter-btn grey-border ms-0"
           onClick={() => setTabIndex(0)}
         >
@@ -98,7 +102,7 @@ const CancelLessonModal = ({
         </button>
         <button
           className="enter-btn bg-pink text-white"
-          disabled={!isChecked}
+          disabled={!isChecked || isLoading}
           onClick={onCancelLesson}
         >
           {t('confirm')}
