@@ -517,6 +517,7 @@ export const APPOINTMENTS_QUERY = gql`
         periodStart
         periodEnd
         credits
+        modifyCredits
         package {
           course {
             title
