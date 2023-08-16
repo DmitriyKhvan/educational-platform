@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../modules/auth';
 import { ROLES } from '../../constants/global';
-// import { useHistory } from 'react-router-dom';
 
 const MAX_MODIFY_COUNT = 3;
 
@@ -17,7 +16,6 @@ const CancelWarningModal = ({
   const { user } = useAuth();
   const [isChecked, setIsChecked] = useState(false);
   const [cancellationDots, setCancellationDots] = useState([]);
-  // const navigate = useHistory();
 
   useEffect(() => {
     if (modifyCredits !== undefined) {
@@ -43,7 +41,7 @@ const CancelWarningModal = ({
 
   const onClick = () => {
     if (type === 'reschedule') {
-      // navigate.push(`/student/schedule-lesson/select/${data.id}`);
+      //We need exactly window.location, so that the page with this id is reloaded
       window.location.replace('/student/schedule-lesson/select/' + data.id);
     }
 

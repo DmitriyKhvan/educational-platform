@@ -141,30 +141,8 @@ const CalendarModal = ({
           >
             {t('cancel_lesson')}
           </button>
-          {/* <Link
-            to={
-              '/student/schedule-lesson/select/' + data?.resource?.eventDate?.id
-            }
-            className="enter-btn m-0 p-0 py-2 px-2 text-sm grey-border text-black"
-            onClick={(e) => {
-              if (isLate) {
-                e.preventDefault();
-                closeModal();
-                Swal.fire({
-                  title: t('cannot_reschedule'),
-                  text: t('reschedule_error'),
-                  icon: 'error',
-                  confirmButtonText: t('ok'),
-                });
-              }
-            }}
-          >
-            {t('reschedule')}
-          </Link> */}
+
           <a
-            // to={
-            //   '/student/schedule-lesson/select/' + data?.resource?.eventDate?.id
-            // }
             className="enter-btn m-0 p-0 py-2 px-2 text-sm grey-border text-black"
             onClick={(e) => {
               if (isLate) {
