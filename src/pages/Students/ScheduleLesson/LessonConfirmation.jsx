@@ -80,6 +80,9 @@ const LessonConfirmation = ({
           mentorId: tutor.id,
           startAt: moment.utc(time, 'ddd MMM DD YYYY HH:mm:ssZ').toISOString(),
         },
+        onError: (error) => {
+          NotificationManager.error(error.message, t);
+        }
       });
       lesson = updatedLesson;
     } else {
@@ -123,7 +126,7 @@ const LessonConfirmation = ({
                 {t('confirmation', { ns: 'lessons' })}
               </h1>
               <p className="welcome-subtitle confirm-tutor-subtitle">
-                {t('confirmation_subtitle', { ns: 'lessons' })}
+                {t('confirmation_subtitle', { ns: 'lessons' })} 12
               </p>
               <div className="flex gap-2 md:gap-2 lg:gap-3 ">
                 <div className="button-size">
