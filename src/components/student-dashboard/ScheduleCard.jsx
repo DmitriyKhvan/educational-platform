@@ -7,7 +7,6 @@ import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
-import { useHistory } from 'react-router-dom';
 
 const ScheduleCard = ({
   index,
@@ -19,7 +18,7 @@ const ScheduleCard = ({
   fetchAppointments,
   cancelled,
   duration,
-  subscription, // TODO no subscription given as a prop ???
+  subscription,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [t] = useTranslation('modals');
@@ -30,7 +29,6 @@ const ScheduleCard = ({
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const hist = useHistory();
 
   const isLate = moment.duration(moment(date).diff(moment())).asHours() <= 24;
 
@@ -44,7 +42,7 @@ const ScheduleCard = ({
       });
     } else {
       // setIsOpen(true);
-      hist.push('/student/lesson-calendar');
+      window.location.replace('/student/schedule-lesson/select/' + data.id);
       setModalType('reschedule-time');
     }
   }
@@ -86,18 +84,15 @@ const ScheduleCard = ({
     }
   };
 
-  console.log('lesson', lesson);
-
   const displayDate = () => {
     const eventDate = moment(date).tz(userTimezone).format('MMM Do');
     const start = moment(date).tz(userTimezone).format('hh:mm A');
 
     const end = moment(date)
       .tz(userTimezone)
-      .add(subscription?.package?.sessionTime, 'minutes')
+      .add(subscription?.package?.sessionTime || duration, 'minutes')
       .format('hh:mm A');
 
-    console.log('end', end);
     return `${eventDate} at ${start} → ${end}`;
   };
 

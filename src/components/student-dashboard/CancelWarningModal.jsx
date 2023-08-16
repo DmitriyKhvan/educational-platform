@@ -1,41 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useQuery } from '@apollo/client';
-import moment from 'moment';
-import { PACKAGE_QUERY } from '../../modules/auth/graphql';
-import { useAuth } from '../../modules/auth';
 
-const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
-  const { user } = useAuth();
+const MAX_MODIFY_COUNT = 3;
+
+const CancelWarningModal = ({ setTabIndex, setIsOpen, type, modifyCredits }) => {
   const [t] = useTranslation('modals');
-  const { data: payload } = useQuery(PACKAGE_QUERY, {
-    variables: {
-      userId: user.id,
-    },
-  });
-  const [planLength, setPlanLength] = useState(0);
+
   const [isChecked, setIsChecked] = useState(false);
-
+  const [cancellationDots, setCancellationDots] = useState([])
+  
   useEffect(() => {
-    if (payload && payload.results) {
-      const [{ periodStart, periodEnd }] = payload.results.filter(
-        (x) => parseInt(x.package.period, 10) === duration,
-      );
-      const diff = Math.round(
-        (moment(periodStart).unix() - moment(periodEnd).unix()) / 2592000,
-      );
-      setPlanLength(diff);
+    if(modifyCredits !== undefined) {
+      const cancellationDots = [];
+      for (let i = 0; i < MAX_MODIFY_COUNT; i++) {
+        if (i < modifyCredits) {
+          cancellationDots.push(<span className="dot dot-filled" key={i}></span>);
+        } else {
+          cancellationDots.push(<span className="dot dot-unfilled" key={i}></span>);
+        }
+      }
+      setCancellationDots(cancellationDots);
     }
-  }, [payload]);
+  }, [modifyCredits])
 
-  const cancellationDots = [];
-  for (let i = 0; i < planLength; i++) {
-    if (i <= planLength) {
-      cancellationDots.push(<span className="dot dot-filled" key={i}></span>);
-    } else {
-      cancellationDots.push(<span className="dot dot-unfilled" key={i}></span>);
-    }
-  }
 
   const checkboxEvent = () => {
     setIsChecked(!isChecked);
@@ -67,8 +55,10 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
             ></button>
           </div>
         </div>
-        <div className="text-center">{t('cancel_modal_desc')}</div>
-        {cancellationDots}
+        <div>{t('cancel_modal_desc')}</div>
+        <div className='w-full flex items-center justify-center mt-3'>
+          {cancellationDots}
+        </div>
         <div className="form-check pt-3 flex items-center">
           <input
             className="form-check-input"
@@ -77,6 +67,7 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
             value="cancel"
             onChange={checkboxEvent}
             checked={isChecked}
+            disabled={modifyCredits === 0}
           />
           <label className="form-check-label" htmlFor="cancel">
             {t('confirm_cancel')}
@@ -96,7 +87,7 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
             <button
               className="enter-btn bg-pink text-white"
               onClick={onClick}
-              disabled={!isChecked}
+              disabled={!isChecked || modifyCredits === 0}
             >
               {t('continue_cancel')}
             </button>

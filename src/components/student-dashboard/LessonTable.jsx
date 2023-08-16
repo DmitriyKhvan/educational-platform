@@ -98,7 +98,7 @@ export const LessonTable = ({
                       {event.resource.status === 'approved'
                         ? 'Approved'
                         : event.resource.status === 'scheduled'
-                        ? 'Peding Approval'
+                        ? 'Pending Approval'
                         : event.resource.status}
                     </p>
                   </td>

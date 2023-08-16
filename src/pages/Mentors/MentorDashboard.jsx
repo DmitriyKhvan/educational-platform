@@ -8,29 +8,20 @@ import Loader from '../../components/common/Loader';
 import { useAuth } from '../../modules/auth';
 import FeedbackLessonModal from './FeedbackLessonModal';
 import { useQuery } from '@apollo/client';
-import { STUDENTS_QUERY, APPOINTMENTS_QUERY } from '../../modules/auth/graphql';
+import { APPOINTMENTS_QUERY } from '../../modules/auth/graphql';
 
 const TutorDashboard = () => {
   const [t] = useTranslation('dashboard');
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
   const [upcomingLessons, setUpcomingLessons] = useState([]);
-  const [, setLessonApprovals] = useState([]);
-  const [StId, setStID] = React.useState(null);
 
   const { data: appointments, refetch } = useQuery(APPOINTMENTS_QUERY, {
     variables: {
       mentorId: user?.mentor?.id,
-      status: 'scheduled,paid,completed,in_progress',
+      status: 'scheduled,paid,completed,in_progress,approved',
     },
   });
-
-  const { data } = useQuery(STUDENTS_QUERY, {
-    errorPolicy: 'ignore',
-  });
-  const students = data?.students;
-
-  const founded = students?.find((i) => +i?.id === +StId);
 
   const { user: currentUser } = useAuth();
   const tutor = user.tutor;
@@ -49,41 +40,29 @@ const TutorDashboard = () => {
   }, [tutor]);
 
   useEffect(() => {
-    if (appointments && appointments?.list?.length > 0) {
+    if (appointments && appointments?.lessons?.length > 0) {
       const startOfDay = new moment().startOf('day');
       const endOfDay = new moment().endOf('day');
-      const ids = [];
-      for (const apt of appointments.list) {
-        if (ids.indexOf(apt.students[0].id) === -1)
-          ids.push(apt.students[0].id);
-      }
-
       setUpcomingLessons(
-        appointments.list?.filter((apt) => {
-          apt?.students?.forEach((i) => setStID(i?.id));
-          new moment(apt.start_at).isBefore(endOfDay) &&
-            new moment(apt.start_at).isAfter(startOfDay);
+        appointments.lessons?.filter((apt) => {
+          return new moment(apt.startAt).isBefore(endOfDay) && new moment(apt.startAt).isAfter(startOfDay);
         }),
-      );
-      setLessonApprovals(
-        appointments.list
-          .filter((apt) => apt.students.length > 0)
-          .filter((apt) => !apt.students[0].GroupStudent.approved)
-          .filter((apt) => new moment(apt.start_at).isAfter(new moment())),
       );
     }
   }, [appointments]);
 
-  const displayDailySchedule = (isAvailable) => {
-    if (isAvailable) {
-      return isAvailable?.map((event, i) => {
+  const displayDailySchedule = (availableLessons) => {
+    if (availableLessons) {
+      return availableLessons?.map((event, i) => {
         return (
           <ScheduleCard
-            lesson={event?.lesson.description}
+            lesson={event?.packageSubscription?.package?.course?.title}
+            duration={event?.duration}
             zoomlink={event?.zoomlink}
-            date={event?.start_at}
+            date={event?.startAt}
             data={event}
-            mentors={founded}
+            mentor={event.mentor}
+            index={i}
             key={i}
             fetchAppointments={fetchAppointments}
           />
