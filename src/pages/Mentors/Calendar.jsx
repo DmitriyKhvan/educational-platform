@@ -486,59 +486,6 @@ const Calendar = () => {
     );
   };
 
-  // const CancelLessonModal = () => {
-  //   return (
-  //     <div style={{ zIndex: 9999 }} className="container">
-  //       <Modal
-  //         isOpen={isCancelLessonModalOpen}
-  //         onRequestClose={closeCancelLessonModal}
-  //         style={customStyles}
-  //         contentLabel="Tutor Calendar Event"
-  //       >
-  //         <div
-  //           className="container page-card grey-border bg-white pt-2 mt-4 p-4"
-  //           style={{ width: '40vw' }}
-  //         >
-  //           <div className="px-4 pt-3">
-  //             <div className="row">
-  //               <h1 className="text-primary mb-2">
-  //                 {t('lesson_cancellation', { ns: 'modals' })}
-  //               </h1>
-  //             </div>
-  //             <div className="row">
-  //               {t('please_read_the_following', { ns: 'modals' })}
-  //             </div>
-  //             <div className="row mt-4">
-  //               <h2 className="mb-2">{t('warning', { ns: 'modals' })}</h2>
-  //             </div>
-  //             <div className="row">
-  //               <p>{t('cancellation_policy_notice', { ns: 'modals' })}</p>
-  //             </div>
-  //             <div className="row mb-3">
-  //               <ul>
-  //                 <li>
-  //                   {t('cancellation_policy_tutor_one', { ns: 'modals' })}
-  //                 </li>
-  //                 <li>
-  //                   {t('cancellation_policy_tutor_two', { ns: 'modals' })}
-  //                 </li>
-  //               </ul>
-  //             </div>
-  //             <div className="row">
-  //               <button
-  //                 className="btn btn-primary enter-btn m-0"
-  //                 onClick={onCancel}
-  //               >
-  //                 {t('cancel_lesson', { ns: 'modals' })}
-  //               </button>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </Modal>
-  //     </div>
-  //   );
-  // };
-
   const eventPropGetter = useCallback(
     (event) => {
       return {

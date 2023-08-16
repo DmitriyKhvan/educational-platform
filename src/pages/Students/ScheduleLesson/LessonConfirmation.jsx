@@ -126,7 +126,7 @@ const LessonConfirmation = ({
                 {t('confirmation', { ns: 'lessons' })}
               </h1>
               <p className="welcome-subtitle confirm-tutor-subtitle">
-                {t('confirmation_subtitle', { ns: 'lessons' })} 12
+                {t('confirmation_subtitle', { ns: 'lessons' })}
               </p>
               <div className="flex gap-2 md:gap-2 lg:gap-3 ">
                 <div className="button-size">
