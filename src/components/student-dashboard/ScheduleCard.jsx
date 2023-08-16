@@ -46,9 +46,9 @@ const ScheduleCard = ({
         confirmButtonText: t('ok'),
       });
     } else {
-      // setIsOpen(true);
-      window.location.replace('/student/schedule-lesson/select/' + data.id);
-      setModalType('reschedule-time');
+      setIsOpen(true);
+      // window.location.replace('/student/schedule-lesson/select/' + data.id);
+      setModalType('reschedule');
     }
   }
 

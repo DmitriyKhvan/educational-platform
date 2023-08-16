@@ -30,6 +30,7 @@ const RescheduleAndCancelModal = ({
     <ModalWrapper isOpen={isOpen} closeModal={closeModal}>
       {tabIndex === 0 ? (
         <CancelWarningModal
+          data={data}
           setTabIndex={setTabIndex}
           setIsOpen={setIsOpen}
           duration={data.duration}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 import ZoomWarningModal from './student-dashboard/ZoomWarningModal';
 import femaleAvatar from '../assets/images/avatars/img_avatar_female.png';
@@ -86,6 +86,7 @@ const CalendarModal = ({
   };
 
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  const [typeModal, setTypeModal] = useState('cancel');
 
   const onClose = () => {
     closeModal();
@@ -140,7 +141,7 @@ const CalendarModal = ({
           >
             {t('cancel_lesson')}
           </button>
-          <Link
+          {/* <Link
             to={
               '/student/schedule-lesson/select/' + data?.resource?.eventDate?.id
             }
@@ -159,7 +160,31 @@ const CalendarModal = ({
             }}
           >
             {t('reschedule')}
-          </Link>
+          </Link> */}
+          <a
+            // to={
+            //   '/student/schedule-lesson/select/' + data?.resource?.eventDate?.id
+            // }
+            className="enter-btn m-0 p-0 py-2 px-2 text-sm grey-border text-black"
+            onClick={(e) => {
+              if (isLate) {
+                debugger;
+                e.preventDefault();
+                closeModal();
+                Swal.fire({
+                  title: t('cannot_reschedule'),
+                  text: t('reschedule_error'),
+                  icon: 'error',
+                  confirmButtonText: t('ok'),
+                });
+              } else {
+                setIsCancelModalOpen(true);
+                setTypeModal('reschedule');
+              }
+            }}
+          >
+            {t('reschedule')}
+          </a>
           <a
             onClick={
               event.resource.status !== 'scheduled' ? joinLesson : undefined
@@ -189,7 +214,7 @@ const CalendarModal = ({
           setIsOpen={onClose}
           fetchAppointments={getAppointments}
           tabIndex={tabIndex}
-          type={'cancel'}
+          type={typeModal}
           duration={event.resource?.eventDate?.duration}
         />
       )}

@@ -334,7 +334,14 @@ const Calendar = () => {
       fiveMinuteBeforeEnd,
     );
 
-    const [approveAppointment] = useMutation(APPROVE_APPOINTMENT);
+    const [
+      approveAppointment,
+      {
+        loading: approveLessonLoading,
+        error: approveLessonError,
+        data: approveLessonData,
+      },
+    ] = useMutation(APPROVE_APPOINTMENT);
 
     const [getZoomLink] = useLazyQuery(GET_ZOOMLINK, {
       fetchPolicy: 'no-cache',
@@ -358,13 +365,11 @@ const Calendar = () => {
           id: parseInt(id),
           mentorId: parseInt(user?.mentor?.id),
         },
-        onCompleted: () => {
-          getAppointments();
-        },
+        // onCompleted: () => {
+        //   getAppointments();
+        //   setIsCalendarModalOpen(false);
+        // },
       });
-
-      setIsCalendarModalOpen(false);
-      notify('Lesson successfully approved', 'success');
     };
 
     const displayModalEventDate = ({ resource }) => {
@@ -400,8 +405,19 @@ const Calendar = () => {
       );
     };
 
+    if (approveLessonData) {
+      getAppointments();
+      setIsCalendarModalOpen(false);
+      notify('Lesson successfully approved', 'success');
+    }
+
+    if (approveLessonError) {
+      notify(approveLessonError.message, 'error');
+    }
+
     return (
       <div style={{ zIndex: 9999 }} className="container">
+        {approveLessonLoading && <ReactLoader />}
         <Modal
           isOpen={isCalendarModalOpen}
           onRequestClose={closeCalendarModal}
@@ -469,6 +485,7 @@ const Calendar = () => {
               </div>
 
               <div className="row">
+                {JSON.stringify(eventDate.status)}
                 {eventDate.status === 'approved' && (
                   <button
                     className="btn col-5 enter-btn bg-primary"
