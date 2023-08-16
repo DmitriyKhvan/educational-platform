@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 import ZoomWarningModal from './student-dashboard/ZoomWarningModal';
 import femaleAvatar from '../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../assets/images/avatars/img_avatar_male.png';
-import { createPortal } from 'react-dom';
-import { gql, useQuery, useLazyQuery } from '@apollo/client';
-import { PACKAGE_QUERY } from '../modules/auth/graphql';
-import { useAuth } from '../modules/auth';
+import { gql, useLazyQuery } from '@apollo/client';
 import Swal from 'sweetalert2';
+import RescheduleAndCancelModal from './student-dashboard/RescheduleAndCancelModal';
 
 const GET_ZOOMLINK = gql`
   query Get_Zoomlink($id: Int!) {
@@ -31,7 +29,7 @@ const CalendarModal = ({
   time,
   data,
   event,
-  onCancel,
+  getAppointments
 }) => {
   const [t] = useTranslation('modals');
   const [isWarningOpen, setIsWarningOpen] = useState(false);
@@ -43,6 +41,7 @@ const CalendarModal = ({
   const avatar = data?.resource?.mentor?.avatar;
 
   const [getZoomLink] = useLazyQuery(GET_ZOOMLINK);
+  const [tabIndex, setTabIndex] = useState(0);
 
   React.useEffect(() => {
     if (avatar) {
@@ -86,7 +85,12 @@ const CalendarModal = ({
     }
   };
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  
+  const onClose = () => {
+    closeModal()
+    setIsCancelModalOpen(false)
+  }
 
   return (
     <>
@@ -131,7 +135,7 @@ const CalendarModal = ({
                   icon: 'error',
                   confirmButtonText: t('ok'),
                 });
-              } else setIsOpen(true);
+              } else setIsCancelModalOpen(true);
             }}
           >
             {t('cancel_lesson')}
@@ -171,109 +175,25 @@ const CalendarModal = ({
         {isWarningOpen && (
           <ZoomWarningModal
             isWarningOpen={isWarningOpen}
-            closeModal={onCancel}
+            closeModal={closeModal}
             setIsWarningOpen={setIsWarningOpen}
           />
         )}
       </div>
-      {isOpen &&
-        createPortal(
-          <CancelWarningModal
-            onCancel={onCancel}
-            id={data?.resource?.eventDate?.id}
-            setIsOpen={setIsOpen}
-            duration={data?.resource?.eventDate?.duration}
-          />,
-          document.body,
-        )}
+      {isCancelModalOpen &&
+          <RescheduleAndCancelModal
+           data={event.resource?.eventDate}
+           isOpen={isCancelModalOpen}
+           closeModal={closeModal}
+           setTabIndex={setTabIndex}
+           setIsOpen={onClose}
+           fetchAppointments={getAppointments}
+           tabIndex={tabIndex}
+           type={'cancel'}
+           duration={event.resource?.eventDate?.duration}
+         />
+        }
     </>
-  );
-};
-
-const CancelWarningModal = ({ onCancel, setIsOpen, duration, id }) => {
-  const { user } = useAuth();
-  const [t] = useTranslation('modals');
-  const { data: payload } = useQuery(PACKAGE_QUERY, {
-    variables: {
-      userId: user.id,
-    },
-  });
-  const [planLength, setPlanLength] = useState(0);
-  const [isChecked, setIsChecked] = useState(false);
-
-  useEffect(() => {
-    if (payload && payload.results) {
-      const [{ periodStart, periodEnd }] = payload.results.filter(
-        (x) => parseInt(x.package.period, 10) === duration,
-      );
-      const diff = Math.round(
-        (moment(periodStart).unix() - moment(periodEnd).unix()) / 2592000,
-      );
-      setPlanLength(diff);
-    }
-  }, [payload]);
-
-  const cancellationDots = [];
-  for (let i = 0; i < planLength; i++) {
-    if (i <= planLength) {
-      cancellationDots.push(<span className="dot dot-filled" key={i}></span>);
-    } else {
-      cancellationDots.push(<span className="dot dot-unfilled" key={i}></span>);
-    }
-  }
-
-  const checkboxEvent = () => {
-    setIsChecked(!isChecked);
-  };
-
-  const onClick = () => {
-    onCancel(id);
-  };
-
-  return (
-    <div className="row bg-white absolute z-[10000] px-4 py-2 rounded-lg border border-black/10 shadow-md top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-      <div className="col-auto">
-        <div className="row">
-          <div className="col-11 ps-2">
-            <h2>{t('warning')}</h2>
-          </div>
-          <div className="col-auto text-end pt-2 absolute top-0 right-2">
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-              onClick={() => setIsOpen(false)}
-            ></button>
-          </div>
-        </div>
-        <div className="form-check pt-3">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="cancel"
-            value="cancel"
-            onChange={checkboxEvent}
-            checked={isChecked}
-          />
-          <label className="form-check-label" htmlFor="cancel">
-            {t('confirm_cancel')}
-          </label>
-        </div>
-
-        <div className="row pt-4">
-          <div className="col-auto">
-            <button
-              className="enter-btn bg-pink text-white"
-              onClick={onClick}
-              disabled={!isChecked}
-            >
-              {t('continue_cancel')}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
   );
 };
 

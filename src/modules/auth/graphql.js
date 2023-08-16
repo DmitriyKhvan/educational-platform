@@ -420,6 +420,7 @@ export const PACKAGE_QUERY = gql`
       periodStart
       periodEnd
       credits
+      modifyCredits
       package {
         id
         totalSessions
@@ -517,6 +518,7 @@ export const APPOINTMENTS_QUERY = gql`
         periodStart
         periodEnd
         credits
+        modifyCredits
         package {
           course {
             title
@@ -582,6 +584,7 @@ export const CREATE_APPOINTMENT = gql`
         periodEnd
         credits
         packageId
+        modifyCredits
         package {
           course {
             title

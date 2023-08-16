@@ -52,18 +52,8 @@ const LessonConfirmation = ({
   }, []);
 
   const cancelled = async () => {
-    const { payload } = await (
-      await getAppointments({
-        variables: {
-          studentId: user?.students[0]?.id,
-          status: 'scheduled,paid,completed,in_progress',
-        },
-      })
-    ).data;
-    if (!payload.find((appointment) => appointment.id === newAppointment.id)) {
-      setIsConfirmed(false);
-      setNewAppointment({});
-    }
+    setIsConfirmed(false);
+    setNewAppointment({});
   };
 
   const userTimezone =
