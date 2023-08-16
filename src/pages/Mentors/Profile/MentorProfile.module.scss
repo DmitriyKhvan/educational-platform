@@ -1,11 +1,11 @@
-
 .profile_page {
   .profile_header {
     width: 100%;
     height: 200px;
-    background: url("../../../assets/figma\ back\ butterfly_Mesa\ de\ trabajo\ 1\ copia\ 7\ 1.png") center / cover;
+    background: url('../../../assets/figma\ back\ butterfly_Mesa\ de\ trabajo\ 1\ copia\ 7\ 1.png')
+      center / cover;
     position: relative;
-  
+
     &_row {
       transform: translateY(110px);
       width: 50%;
@@ -16,18 +16,19 @@
         width: 190px;
         height: 190px;
         object-fit: cover;
-        background: #C4C4C4;
-        border: 8px solid #FFFFFF;
+        background: #c4c4c4;
+        border: 8px solid #ffffff;
         border-radius: 10px;
         object-position: top;
       }
-    
+
       .tutor_name {
         margin-left: 47px;
-        h1,h2 {
+        h1,
+        h2 {
           margin: 0;
         }
-  
+
         h1 {
           font-family: 'Inter';
           font-style: normal;
@@ -36,13 +37,12 @@
           line-height: 36px;
           letter-spacing: -0.7px;
           text-transform: capitalize;
-  
+
           /* Dark Purple */
-  
-          color: #261A45;
-  
+
+          color: #261a45;
         }
-  
+
         h2 {
           font-family: 'Inter';
           font-style: normal;
@@ -53,14 +53,13 @@
           text-transform: capitalize;
           margin-top: 10px;
           /* Purple */
-  
-          color: #6133AF;
+
+          color: #6133af;
         }
       }
     }
-    
   }
-  
+
   .profile_content {
     position: relative;
     margin-left: 44px;
@@ -69,29 +68,31 @@
       right: 50px;
       top: 30px;
       text-decoration: none;
-      background: #FFFFFF;
+      background: #ffffff;
       /* Border Gray */
       cursor: pointer;
-      border: 1px solid #DEDEE1;
+      border: 1px solid #dedee1;
       font-family: 'Inter';
       font-style: normal;
       font-weight: 600;
       font-size: 15px;
       line-height: 18px;
       letter-spacing: -0.2px;
-  
+
       /* Dark Purple */
       padding: 15px 20px;
-      color: #261A45;
+      color: #261a45;
       border-radius: 5px;
     }
-  
-    &_row{
+
+    &_row {
       display: flex;
       gap: 80px;
       &_left {
         width: 45%;
         margin-top: 170px;
+        word-wrap: break-word;
+        hyphens: auto;
         h2 {
           font-family: 'Inter';
           font-style: normal;
@@ -102,10 +103,10 @@
           letter-spacing: -0.6px;
           margin-bottom: 0;
           /* Dark Purple */
-  
-          color: #261A45;
+
+          color: #261a45;
         }
-  
+
         p {
           font-family: 'Inter';
           font-style: normal;
@@ -116,20 +117,17 @@
           white-space: pre-line;
           margin-top: 10px;
           letter-spacing: -0.5px;
-  
-          /* Light Gray */
-  
-          color: #646481;
 
-        
-  
+          /* Light Gray */
+
+          color: #646481;
         }
       }
-  
+
       &_right {
         display: flex;
         margin-top: 170px;
-        gap:60px;
+        gap: 60px;
         section {
           display: flex;
           flex-direction: column;
@@ -144,12 +142,12 @@
               /* identical to box height */
               margin: 0;
               letter-spacing: -0.6px;
-      
+
               /* Light Gray */
-      
+
               color: #646481;
             }
-      
+
             h2 {
               font-family: 'Inter';
               font-style: normal;
@@ -159,28 +157,28 @@
               font-size: 20px;
               line-height: 24px;
               letter-spacing: -0.6px;
-      
+
               /* Dark Purple */
-      
-              color: #261A45;
+
+              color: #261a45;
             }
           }
         }
       }
     }
   }
-  
+
   .profile_footer {
-    border-top: 1px solid #DEDEE1;
+    border-top: 1px solid #dedee1;
     margin-top: 40px;
-  
+
     padding-left: 44px;
     display: flex;
-  
+
     &_left {
-      border-right: 1px solid #DEDEE1;
+      border-right: 1px solid #dedee1;
       padding-right: 35px;
-  
+
       h2 {
         margin: 0;
         margin-top: 30px;
@@ -190,12 +188,12 @@
         font-size: 20px;
         line-height: 24px;
         letter-spacing: -0.6px;
-  
+
         /* Dark Purple */
-  
-        color: #261A45;
+
+        color: #261a45;
       }
-  
+
       .video {
         margin-top: 20px;
         width: 100%;
@@ -215,15 +213,15 @@
         }
       }
     }
-  
+
     &_right {
       width: 100%;
-  
+
       &_topics {
         padding-left: 35px;
-        border-bottom: 1px solid #DEDEE1;
+        border-bottom: 1px solid #dedee1;
         padding-bottom: 30px;
-  
+
         h2 {
           font-family: 'Inter';
           font-style: normal;
@@ -233,17 +231,17 @@
           font-size: 20px;
           line-height: 24px;
           letter-spacing: -0.6px;
-  
+
           /* Dark Purple */
-  
-          color: #261A45;
+
+          color: #261a45;
         }
-  
+
         .approved_row {
           gap: 10px;
           display: flex;
           .appr_topic {
-            background: #EBE4FF;
+            background: #ebe4ff;
             border-radius: 8.125px;
             font-family: 'Inter';
             font-style: normal;
@@ -255,16 +253,16 @@
             cursor: pointer;
             align-items: center;
             letter-spacing: -0.6px;
-  
+
             /* Purple */
-  
-            color: #6133AF;
+
+            color: #6133af;
           }
-  
+
           .appr_add {
             cursor: pointer;
-            background: #FFFFFF;
-  /* Border Gray */
+            background: #ffffff;
+            /* Border Gray */
             padding: 10px 20px;
             font-family: 'Inter';
             font-style: normal;
@@ -272,29 +270,28 @@
             font-size: 15px;
             line-height: 18px;
             letter-spacing: -0.2px;
-  
+
             /* Dark Purple */
-  
-            color: #261A45;
-  
-  
-            border: 1px solid #DEDEE1;
+
+            color: #261a45;
+
+            border: 1px solid #dedee1;
             border-radius: 5px;
           }
         }
       }
-  
+
       &_students {
         padding-left: 35px;
         width: 380px;
-  
+
         &_title {
           margin-top: 30px;
           display: flex;
           margin-bottom: 20px;
           align-items: center;
           justify-content: space-between;
-          h2 {  
+          h2 {
             margin: 0;
             margin-bottom: 0px;
             font-family: 'Inter';
@@ -303,12 +300,12 @@
             font-size: 20px;
             line-height: 24px;
             letter-spacing: -0.6px;
-  
+
             /* Dark Purple */
-  
-            color: #261A45;
+
+            color: #261a45;
           }
-  
+
           a {
             font-family: 'Inter';
             font-style: normal;
@@ -317,29 +314,29 @@
             text-decoration: none;
             line-height: 17px;
             /* identical to box height */
-  
+
             text-align: right;
             letter-spacing: -0.6px;
-  
+
             /* Purple */
-  
-            color: #6133AF;
+
+            color: #6133af;
           }
         }
-  
+
         &_card {
-          display: flex;  
+          display: flex;
           gap: 20px;
-  
+
           .st_card {
             img {
               width: 100px;
               height: 100px;
               object-fit: cover;
-              border: 4px solid #FFFFFF;
-              border-radius: 10px;  
+              border: 4px solid #ffffff;
+              border-radius: 10px;
             }
-  
+
             h3 {
               font-family: 'Inter';
               font-style: normal;
@@ -351,18 +348,17 @@
               margin: 0;
               /* Light Gray */
               color: #646481;
-  
             }
           }
         }
-  
+
         .randomizer {
           margin-top: 20px;
           button {
-            background: #FFFFFF;
+            background: #ffffff;
             /* Border Gray */
-  
-            border: 1px solid #DEDEE1;
+
+            border: 1px solid #dedee1;
             border-radius: 5px;
             font-family: 'Inter';
             font-style: normal;
@@ -374,14 +370,11 @@
             width: 100%;
             padding: 18px 0;
             /* Dark Purple */
-  
-            color: #261A45;
-  
-  
+
+            color: #261a45;
           }
         }
       }
     }
   }
 }
-

@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../../../modules/auth';
 import { MUTATION_UPDATE_MENTOR } from '../../../../modules/auth/graphql';
 import Submit from './Submit';
@@ -16,11 +16,8 @@ const Biography = ({ cls }) => {
 
   const { user, refetchUser } = useAuth();
 
-  const history = useHistory();
-  const {
-    register,
-    handleSubmit
-  } = useForm({
+  // const history = useHistory();
+  const { register, handleSubmit } = useForm({
     defaultValues: {
       introduction: user?.mentor?.introduction,
       relevantExperience: user?.mentor?.relevantExperience,
@@ -38,7 +35,7 @@ const Biography = ({ cls }) => {
 
     if (data) {
       notify('Biography information is changed!', 'success');
-      history.push('/mentor/profile');
+      // history.push('/mentor/profile');
     }
 
     await refetchUser();
@@ -48,6 +45,7 @@ const Biography = ({ cls }) => {
     <form
       onSubmit={handleSubmit(handleEditBigraphy)}
       className={cls.editProfile_container_forms_biography}
+      id="bio"
     >
       <div>
         <div className={cls.editProfile_container_forms_biography_title}>

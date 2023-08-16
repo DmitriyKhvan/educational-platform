@@ -9,7 +9,7 @@ import CheckboxField from '../../../../components/Form/CheckboxField';
 import Select from 'react-select';
 import timezones from 'timezones-list';
 import find from 'lodash-es/find';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import { getData } from 'country-list';
 import { useTranslation } from 'react-i18next';
 import notify from '../../../../utils/notify';
@@ -23,7 +23,7 @@ const BasicForm = ({ cls }) => {
   const [t] = useTranslation(['common', 'profile']);
   const [updateMentor] = useMutation(MUTATION_UPDATE_USER);
 
-  const history = useHistory();
+  // const history = useHistory();
 
   const { user, refetchUser } = useAuth();
 
@@ -51,7 +51,7 @@ const BasicForm = ({ cls }) => {
 
     if (data) {
       notify('Basic information is changed!', 'success');
-      history.push('/mentor/profile');
+      // history.push('/mentor/profile');
     }
 
     await refetchUser();
