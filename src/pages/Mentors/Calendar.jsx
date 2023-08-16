@@ -485,7 +485,6 @@ const Calendar = () => {
               </div>
 
               <div className="row">
-                {JSON.stringify(eventDate.status)}
                 {eventDate.status === 'approved' && (
                   <button
                     className="btn col-5 enter-btn bg-primary"
