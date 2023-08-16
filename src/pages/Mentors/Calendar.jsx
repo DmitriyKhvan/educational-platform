@@ -19,13 +19,13 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
 import {
-  CANCEL_APPOINTMENT,
   APPOINTMENTS_QUERY,
 } from '../../modules/auth/graphql';
-import { useQuery, useMutation, gql, useLazyQuery } from '@apollo/client';
+import { useQuery, gql, useLazyQuery } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
 import { lowerCase } from 'lodash-es';
 import ReactLoader from '../../components/common/Loader';
+import RescheduleAndCancelModal from '../../components/student-dashboard/RescheduleAndCancelModal';
 
 const GET_ZOOMLINK = gql`
   query Get_Zoomlink($id: Int!) {
@@ -150,13 +150,7 @@ const Calendar = () => {
   const [isWarningOpen, setIsWarningOpen] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
-
-  const [cancelAppointment, { loading: loadingCancelAppointment }] =
-    useMutation(CANCEL_APPOINTMENT, {
-      onCompleted: async () => {
-        await fetchData();
-      },
-    });
+  const [tabIndex, setTabIndex] = useState(0);
 
   const customStyles = {
     content: {
@@ -290,11 +284,6 @@ const Calendar = () => {
   };
 
   const onCancelLessonClick = () => {
-    setIsCalendarModalOpen(false);
-    setIsCancelLessonModalOpen(true);
-  };
-
-  const onCancel = async () => {
     const [selectedEvent] = calendarEvents.filter(
       (x) => x.id === calendarEvent.id,
     );
@@ -305,8 +294,6 @@ const Calendar = () => {
 
     const isLate =
       moment.duration(moment(scheduledTime).diff(moment())).asHours() <= 24;
-
-    const { id } = selectedEvent.resource.eventDate;
     if (isLate) {
       closeCancelLessonModal();
       Swal.fire({
@@ -316,23 +303,8 @@ const Calendar = () => {
         confirmButtonText: t('ok', { ns: 'modals' }),
       });
     } else {
-      try {
-        setIsLoading(true);
-        await cancelAppointment({
-          variables: {
-            id,
-          },
-        });
-      } catch (error) {
-        setIsLoading(false);
-        NotificationManager.error(
-          error.response?.data?.message || 'Server Issue',
-          t,
-        );
-      } finally {
-        closeCalendarModal();
-        closeCancelLessonModal();
-      }
+      setIsCalendarModalOpen(false);
+      setIsCancelLessonModalOpen(true);
     }
   };
 
@@ -514,58 +486,58 @@ const Calendar = () => {
     );
   };
 
-  const CancelLessonModal = () => {
-    return (
-      <div style={{ zIndex: 9999 }} className="container">
-        <Modal
-          isOpen={isCancelLessonModalOpen}
-          onRequestClose={closeCancelLessonModal}
-          style={customStyles}
-          contentLabel="Tutor Calendar Event"
-        >
-          <div
-            className="container page-card grey-border bg-white pt-2 mt-4 p-4"
-            style={{ width: '40vw' }}
-          >
-            <div className="px-4 pt-3">
-              <div className="row">
-                <h1 className="text-primary mb-2">
-                  {t('lesson_cancellation', { ns: 'modals' })}
-                </h1>
-              </div>
-              <div className="row">
-                {t('please_read_the_following', { ns: 'modals' })}
-              </div>
-              <div className="row mt-4">
-                <h2 className="mb-2">{t('warning', { ns: 'modals' })}</h2>
-              </div>
-              <div className="row">
-                <p>{t('cancellation_policy_notice', { ns: 'modals' })}</p>
-              </div>
-              <div className="row mb-3">
-                <ul>
-                  <li>
-                    {t('cancellation_policy_tutor_one', { ns: 'modals' })}
-                  </li>
-                  <li>
-                    {t('cancellation_policy_tutor_two', { ns: 'modals' })}
-                  </li>
-                </ul>
-              </div>
-              <div className="row">
-                <button
-                  className="btn btn-primary enter-btn m-0"
-                  onClick={onCancel}
-                >
-                  {t('cancel_lesson', { ns: 'modals' })}
-                </button>
-              </div>
-            </div>
-          </div>
-        </Modal>
-      </div>
-    );
-  };
+  // const CancelLessonModal = () => {
+  //   return (
+  //     <div style={{ zIndex: 9999 }} className="container">
+  //       <Modal
+  //         isOpen={isCancelLessonModalOpen}
+  //         onRequestClose={closeCancelLessonModal}
+  //         style={customStyles}
+  //         contentLabel="Tutor Calendar Event"
+  //       >
+  //         <div
+  //           className="container page-card grey-border bg-white pt-2 mt-4 p-4"
+  //           style={{ width: '40vw' }}
+  //         >
+  //           <div className="px-4 pt-3">
+  //             <div className="row">
+  //               <h1 className="text-primary mb-2">
+  //                 {t('lesson_cancellation', { ns: 'modals' })}
+  //               </h1>
+  //             </div>
+  //             <div className="row">
+  //               {t('please_read_the_following', { ns: 'modals' })}
+  //             </div>
+  //             <div className="row mt-4">
+  //               <h2 className="mb-2">{t('warning', { ns: 'modals' })}</h2>
+  //             </div>
+  //             <div className="row">
+  //               <p>{t('cancellation_policy_notice', { ns: 'modals' })}</p>
+  //             </div>
+  //             <div className="row mb-3">
+  //               <ul>
+  //                 <li>
+  //                   {t('cancellation_policy_tutor_one', { ns: 'modals' })}
+  //                 </li>
+  //                 <li>
+  //                   {t('cancellation_policy_tutor_two', { ns: 'modals' })}
+  //                 </li>
+  //               </ul>
+  //             </div>
+  //             <div className="row">
+  //               <button
+  //                 className="btn btn-primary enter-btn m-0"
+  //                 onClick={onCancel}
+  //               >
+  //                 {t('cancel_lesson', { ns: 'modals' })}
+  //               </button>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </Modal>
+  //     </div>
+  //   );
+  // };
 
   const eventPropGetter = useCallback(
     (event) => {
@@ -586,7 +558,7 @@ const Calendar = () => {
 
   return (
     <Layout>
-      {(loadingAppointments || loadingCancelAppointment) && <ReactLoader />}
+      {(loadingAppointments) && <ReactLoader />}
       <div className="container-fluid p-3">
         {/* <button onClick={() => setReviewLessonModal(true)}>
           Open ReviewLessonModal
@@ -671,11 +643,21 @@ const Calendar = () => {
         </div>
       </div>
       {isCalendarModalOpen && <CustomModal />}
-      {isCancelLessonModalOpen && <CancelLessonModal />}
+      {isCancelLessonModalOpen && <RescheduleAndCancelModal
+        data={calendarEvent.resource?.eventDate}
+        isOpen={isCancelLessonModalOpen}
+        setIsOpen={setIsCancelLessonModalOpen}
+        closeModal={closeCancelLessonModal}
+        tabIndex={tabIndex}
+        setTabIndex={setTabIndex}
+        fetchAppointments={fetchData}
+        type={'cancel'}
+        duration={calendarEvent.resource?.eventDate?.duration}
+      />}
       {isWarningOpen && (
         <ZoomWarningModal
           isWarningOpen={isWarningOpen}
-          closeModal={onCancel}
+          closeModal={() => setIsWarningOpen(false)}
           setIsWarningOpen={setIsWarningOpen}
         />
       )}
