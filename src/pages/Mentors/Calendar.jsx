@@ -182,7 +182,7 @@ const Calendar = () => {
       await getAppointments();
     } catch (error) {
       NotificationManager.error(
-        error.response?.data?.message || 'Server Issue',
+        error?.message || 'Server Issue',
         t,
       );
     } finally {
@@ -317,7 +317,7 @@ const Calendar = () => {
       } catch (error) {
         setIsLoading(false);
         NotificationManager.error(
-          error.response?.data?.message || 'Server Issue',
+          error?.message || 'Server Issue',
           t,
         );
       } finally {
