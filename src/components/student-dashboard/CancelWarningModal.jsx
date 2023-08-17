@@ -1,12 +1,14 @@
 import React, {useState } from 'react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../modules/auth';
+import { ROLES } from '../../constants/global';
 
 const MAX_MODIFY_COUNT = 3;
 
 const CancelWarningModal = ({ setTabIndex, setIsOpen, type, modifyCredits }) => {
   const [t] = useTranslation('modals');
-
+  const {user} = useAuth();
   const [isChecked, setIsChecked] = useState(false);
   const [cancellationDots, setCancellationDots] = useState([])
   
@@ -55,10 +57,10 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, type, modifyCredits }) => 
             ></button>
           </div>
         </div>
-        <div>{t('cancel_modal_desc')}</div>
-        <div className='w-full flex items-center justify-center mt-3'>
+        <div> {user.role !== ROLES.MENTOR ? t('cancel_modal_desc') : null}</div>
+        {user.role !== ROLES.MENTOR && <div className='w-full flex items-center justify-center mt-3'>
           {cancellationDots}
-        </div>
+        </div>}
         <div className="form-check pt-3 flex items-center">
           <input
             className="form-check-input"
@@ -67,7 +69,7 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, type, modifyCredits }) => 
             value="cancel"
             onChange={checkboxEvent}
             checked={isChecked}
-            disabled={modifyCredits === 0}
+            disabled={(user.role !== ROLES.MENTOR && modifyCredits === 0)}
           />
           <label className="form-check-label" htmlFor="cancel">
             {t('confirm_cancel')}
@@ -87,7 +89,7 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, type, modifyCredits }) => 
             <button
               className="enter-btn bg-pink text-white"
               onClick={onClick}
-              disabled={!isChecked || modifyCredits === 0}
+              disabled={!isChecked}
             >
               {t('continue_cancel')}
             </button>
