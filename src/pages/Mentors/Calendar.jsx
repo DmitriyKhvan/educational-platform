@@ -21,21 +21,12 @@ import Swal from 'sweetalert2';
 import {
   CANCEL_APPOINTMENT,
   APPOINTMENTS_QUERY,
+  GET_ZOOMLINK,
 } from '../../modules/auth/graphql';
-import { useQuery, useMutation, gql, useLazyQuery } from '@apollo/client';
+import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
 import { lowerCase } from 'lodash-es';
 import ReactLoader from '../../components/common/Loader';
-
-const GET_ZOOMLINK = gql`
-  query Get_Zoomlink($id: Int!) {
-    zoomLink(id: $id) {
-      id
-      url
-      isPaid
-    }
-  }
-`;
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
