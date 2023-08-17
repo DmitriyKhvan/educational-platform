@@ -11,6 +11,7 @@ import { GET_ZOOMLINK } from '../../modules/auth/graphql';
 import { useLazyQuery } from '@apollo/client';
 import ReactLoader from '../common/Loader';
 import notify from '../../utils/notify';
+import { ROLES } from '../../constants/global';
 
 const ScheduleCard = ({
   index,
@@ -171,7 +172,7 @@ const ScheduleCard = ({
             {t('join_lesson')}
           </a>
         </div> */}
-        <div className="">
+        {user.role !== ROLES.MENTOR && <div className="">
           <a
             className={`schedule_copy-button ${
               isLate
@@ -182,7 +183,7 @@ const ScheduleCard = ({
           >
             {t('reschedule')}
           </a>
-        </div>
+        </div>}
         <div className="">
           <a
             onClick={onCancel}
