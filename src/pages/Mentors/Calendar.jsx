@@ -18,10 +18,7 @@ import '../../assets/styles/calendar.scss';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
-import {
-  APPOINTMENTS_QUERY,
-  GET_ZOOMLINK,
-} from '../../modules/auth/graphql';
+import { APPOINTMENTS_QUERY, GET_ZOOMLINK } from '../../modules/auth/graphql';
 import { useQuery, useLazyQuery } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
 import { lowerCase } from 'lodash-es';
