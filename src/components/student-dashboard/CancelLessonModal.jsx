@@ -11,7 +11,7 @@ const CancelLessonModal = ({
   setIsOpen,
   id,
   fetchAppointments,
-  cancelled
+  cancelled,
 }) => {
   const [t] = useTranslation('common');
   const [cancel, setCancel] = useState({});
@@ -19,16 +19,19 @@ const CancelLessonModal = ({
   const [isLoading, setIsLoading] = useState(false);
   const [cancelReasons, setCancelReasons] = useState([]);
 
-  const {user} = useAuth();
+  const { user } = useAuth();
 
   useEffect(() => {
-    if(user && user.role === ROLES.MENTOR) {
-      cancellationArr.splice(5, 2);
-      setCancelReasons(cancellationArr)
+    if (user && user.role === ROLES.MENTOR) {
+      const cancellationArrMentor = [
+        ...cancellationArr.slice(0, 5),
+        ...cancellationArr.slice(7),
+      ];
+      setCancelReasons(cancellationArrMentor);
     } else {
       setCancelReasons(cancellationArr);
     }
-  }, [user])
+  }, [user]);
 
   const checkboxEvent = ({ target }) => {
     const { value } = target;
@@ -54,9 +57,9 @@ const CancelLessonModal = ({
   const onCancelLesson = async () => {
     setIsLoading(true);
     const { errors } = await cancelLesson();
-    setIsLoading(false)
-    if(cancelled) {
-      cancelled()
+    setIsLoading(false);
+    if (cancelled) {
+      cancelled();
     }
     if (errors?.length == 0 || !errors) {
       await fetchAppointments();
@@ -86,7 +89,7 @@ const CancelLessonModal = ({
         Why are you cancelling this lesson?
       </p>
       {cancelReasons.map((x) => (
-        <div className='flex mt-0.5 items-center' key={x}>
+        <div className="flex mt-0.5 items-center" key={x}>
           <input
             className="form-check-input"
             type="checkbox"
