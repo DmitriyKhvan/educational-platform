@@ -32,7 +32,7 @@ const MentorsModal = ({ setShowTutorModal, tutorId, tutorsList }) => {
 
         {videoLink?.length !== 0 && (
           <iframe
-            className='pl-4 py-4'
+            className="pl-4 py-4"
             width="560"
             height="100%"
             src={videoLink}
@@ -47,8 +47,9 @@ const MentorsModal = ({ setShowTutorModal, tutorId, tutorsList }) => {
           {renderSelectedTutor?.isFavourite && (
             <img src={FavIcon} alt="" className="favTutorIcon" />
           )}
-          <h1 className='mb-3'>{`${renderSelectedTutor?.fullName || renderSelectedTutor?.user?.fullName}`}</h1>
-
+          <h1 className="mb-3">{`${
+            renderSelectedTutor?.fullName || renderSelectedTutor?.user?.fullName
+          }`}</h1>
           <div className="bottom_content">
             <div className="bottom_content-status">
               <div className="pb-3">

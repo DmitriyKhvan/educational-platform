@@ -6,7 +6,7 @@ import { useMutation } from '@apollo/client';
 import { MUTATION_UPDATE_MENTOR } from '../../../../modules/auth/graphql';
 import { useAuth } from '../../../../modules/auth';
 import notify from '../../../../utils/notify';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const Education = ({ cls }) => {
@@ -15,7 +15,7 @@ const Education = ({ cls }) => {
 
   const [file] = React.useState({});
 
-  const history = useHistory();
+  // const history = useHistory();
 
   const { user, refetchUser } = useAuth();
 
@@ -54,7 +54,7 @@ const Education = ({ cls }) => {
 
     if (data) {
       notify('Education information is changed!');
-      history.push('/mentor/profile');
+      // history.push('/mentor/profile');
     }
 
     await refetchUser();

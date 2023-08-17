@@ -50,21 +50,31 @@ const TutorDashboard = () => {
 
   const displayDailySchedule = (availableLessons) => {
     if (availableLessons) {
-      return availableLessons?.map((event, i) => {
-        return (
-          <ScheduleCard
-            lesson={event?.packageSubscription?.package?.course?.title}
-            duration={event?.duration}
-            zoomlink={event?.zoomlink}
-            date={event?.startAt}
-            data={event}
-            mentor={event.mentor}
-            index={i}
-            key={i}
-            fetchAppointments={fetchAppointments}
-          />
-        );
-      });
+      return availableLessons
+        ?.sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
+        .filter((lesson) => {
+          const expiredDate = moment(lesson?.startAt).add(
+            lesson?.duration,
+            'minutes',
+          );
+          const currentDate = moment();
+          return currentDate.isBefore(expiredDate);
+        })
+        .map((event, i) => {
+          return (
+            <ScheduleCard
+              lesson={event?.packageSubscription?.package?.course?.title}
+              duration={event?.duration}
+              zoomlinkId={event?.zoomlinkId}
+              date={event?.startAt}
+              data={event}
+              mentor={event.mentor}
+              index={i}
+              key={i}
+              fetchAppointments={fetchAppointments}
+            />
+          );
+        });
     }
   };
 

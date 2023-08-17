@@ -20,22 +20,13 @@ import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
 import {
   APPOINTMENTS_QUERY,
+  GET_ZOOMLINK,
 } from '../../modules/auth/graphql';
-import { useQuery, gql, useLazyQuery } from '@apollo/client';
+import { useQuery, useLazyQuery } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
 import { lowerCase } from 'lodash-es';
 import ReactLoader from '../../components/common/Loader';
 import RescheduleAndCancelModal from '../../components/student-dashboard/RescheduleAndCancelModal';
-
-const GET_ZOOMLINK = gql`
-  query Get_Zoomlink($id: Int!) {
-    zoomLink(id: $id) {
-      id
-      url
-      isPaid
-    }
-  }
-`;
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -185,7 +176,7 @@ const Calendar = () => {
       await getAppointments();
     } catch (error) {
       NotificationManager.error(
-        error.response?.data?.message || 'Server Issue',
+        error?.message || 'Server Issue',
         t,
       );
     } finally {
