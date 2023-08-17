@@ -25,7 +25,7 @@ const useTimesheets = (body) => {
     variables: {
       ...body,
     },
-    fetchPolicy: 'network-only'
+    fetchPolicy: 'network-only',
   });
   return res;
 };
@@ -170,12 +170,19 @@ const ScheduleSelector = ({
   }
 
   for (let i = 0; i <= 6; i++) {
-    const dayOfTheWeek = {
-      day: moment(startOfWeekString).add(i, 'days').toString(),
-      format: 'day',
-    };
-    days.push(dayOfTheWeek);
+    if (
+      moment(startOfWeekString)
+        .add(i, 'days')
+        .isBetween(moment().subtract(1, 'days'), moment().add(12, 'days'))
+    ) {
+      const dayOfTheWeek = {
+        day: moment(startOfWeekString).add(i, 'days').toString(),
+        format: 'day',
+      };
+      days.push(dayOfTheWeek);
+    }
   }
+  console.log(days);
   const DaySelector = ({ data, i }) => {
     const checkDate = () => {
       if (data.format === 'day') {
