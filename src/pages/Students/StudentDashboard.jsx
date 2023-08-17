@@ -59,7 +59,7 @@ const StudentListAppointments = () => {
       });
       await fetchAppointments();
     } catch (e) {
-      NotificationManager.error(e.response?.data?.message || 'Server Issue', t);
+      NotificationManager.error(e?.message || 'Server Issue', t);
     }
     setSelectedLesson(false);
     setIsLoading(false);
@@ -96,9 +96,7 @@ const StudentListAppointments = () => {
         ? moment().startOf('day')
         : moment().startOf('isoWeek');
 
-      if (
-        moment(x.startAt).isBetween(startOfWeek, moment().endOf('isoWeek'))
-      ) {
+      if (moment(x.startAt).isBetween(startOfWeek, moment().endOf('isoWeek'))) {
         return x;
       }
     })
@@ -107,7 +105,7 @@ const StudentListAppointments = () => {
   const isWithinAweek = isWithinAweekArr.filter(
     (x, i, a) => a.findIndex((y) => y.startAt === x.startAt) === i,
   );
-  
+
   const ScheduleArr = (isWithinAweek || [])
     .sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
     .map((x, i) => {
