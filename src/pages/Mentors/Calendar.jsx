@@ -275,6 +275,7 @@ const Calendar = () => {
     const [selectedEvent] = calendarEvents.filter(
       (x) => x.id === calendarEvent.id,
     );
+    setIsCalendarModalOpen(false);
 
     const scheduledTime = moment(selectedEvent?.resource?.startAt).tz(
       userTimezone,
@@ -283,7 +284,6 @@ const Calendar = () => {
     const isLate =
       moment.duration(moment(scheduledTime).diff(moment())).asHours() <= 24;
     if (isLate) {
-      closeCancelLessonModal();
       Swal.fire({
         title: t('cannot_cancel', { ns: 'modals' }),
         text: t('cancel_error', { ns: 'modals' }),
@@ -291,7 +291,6 @@ const Calendar = () => {
         confirmButtonText: t('ok', { ns: 'modals' }),
       });
     } else {
-      setIsCalendarModalOpen(false);
       setIsCancelLessonModalOpen(true);
     }
   };
