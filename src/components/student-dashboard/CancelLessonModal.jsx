@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@apollo/client';
 import { CANCEL_APPOINTMENT } from '../../modules/auth/graphql';
 import NotificationManager from '../NotificationManager';
+import { useAuth } from '../../modules/auth';
+import { ROLES, cancellationArr } from '../../constants/global';
 
 const CancelLessonModal = ({
   setTabIndex,
@@ -15,16 +17,18 @@ const CancelLessonModal = ({
   const [cancel, setCancel] = useState({});
   const [isChecked, setIsChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const cancellationArr = [
-    'Need to reschedule the lesson',
-    'Not prepared for the lesson',
-    'Urgent personal matter',
-    'Technical or internet connection issues',
-    'Health related matter',
-    'Tutor has not confirmed the lesson',
-    'I do not like the matched tutor',
-    'Other',
-  ];
+  const [cancelReasons, setCancelReasons] = useState([]);
+
+  const {user} = useAuth();
+
+  useEffect(() => {
+    if(user && user.role === ROLES.MENTOR) {
+      cancellationArr.splice(5, 2);
+      setCancelReasons(cancellationArr)
+    } else {
+      setCancelReasons(cancellationArr);
+    }
+  }, [user])
 
   const checkboxEvent = ({ target }) => {
     const { value } = target;
@@ -81,7 +85,7 @@ const CancelLessonModal = ({
       <p className="welcome-subtitle mb-4">
         Why are you cancelling this lesson?
       </p>
-      {cancellationArr.map((x) => (
+      {cancelReasons.map((x) => (
         <div className='flex mt-0.5 items-center' key={x}>
           <input
             className="form-check-input"

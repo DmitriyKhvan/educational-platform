@@ -16,21 +16,18 @@ const TutorDashboard = () => {
   const { user } = useAuth();
   const [upcomingLessons, setUpcomingLessons] = useState([]);
 
-  const { data: appointments, refetch } = useQuery(APPOINTMENTS_QUERY, {
+  const { data: { lessons: appointments } = {}, refetch } = useQuery(APPOINTMENTS_QUERY, {
     variables: {
       mentorId: user?.mentor?.id,
       status: 'scheduled,paid,completed,in_progress,approved',
     },
   });
 
-  const { user: currentUser } = useAuth();
   const tutor = user.tutor;
 
   const fetchAppointments = async () => {
-    if (tutor) {
-      refetch();
-      setIsLoading(false);
-    }
+    refetch();
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -40,15 +37,12 @@ const TutorDashboard = () => {
   }, [tutor]);
 
   useEffect(() => {
-    if (appointments && appointments?.lessons?.length > 0) {
+    if (appointments && appointments?.length > 0) {
       const startOfDay = new moment().startOf('day');
       const endOfDay = new moment().endOf('day');
       setUpcomingLessons(
-        appointments.lessons?.filter((apt) => {
-          return (
-            new moment(apt.startAt).isBefore(endOfDay) &&
-            new moment(apt.startAt).isAfter(startOfDay)
-          );
+        appointments?.filter((apt) => {
+          return new moment(apt.startAt).isBefore(endOfDay) && new moment(apt.startAt).isAfter(startOfDay);
         }),
       );
     }
@@ -81,6 +75,7 @@ const TutorDashboard = () => {
             />
           );
         });
+
     }
   };
 
@@ -95,7 +90,7 @@ const TutorDashboard = () => {
           <div className="set-container">
             <h4 className="welcome-message">
               {t('student_dashboard_welcome', {
-                name: currentUser?.firstName,
+                name: user?.firstName,
               })}
             </h4>
             <p className="welcome-subtitle">{t('mentor_welcome_back')}</p>

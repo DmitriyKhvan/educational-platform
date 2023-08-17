@@ -479,3 +479,19 @@ export const getTimezoneValue = (timezone) => {
 export const feedbackURL = process.env.REACT_APP_FEEDBACK_URL;
 export const gameLinkURL = process.env.REACT_APP_GAME_URL;
 export const classMaterialURL = process.env.REACT_APP_CLASS_MATERIAL_URL;
+
+export const cancellationArr = [
+  'Need to reschedule the lesson',
+  'Not prepared for the lesson',
+  'Urgent personal matter',
+  'Technical or internet connection issues',
+  'Health related matter',
+  'Tutor has not confirmed the lesson',
+  'I do not like the matched tutor',
+  'Other',
+];
+
+export const ROLES = {
+  MENTOR: 'mentor',
+  STUDENT: 'student'
+}
