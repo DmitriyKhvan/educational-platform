@@ -80,6 +80,9 @@ const LessonConfirmation = ({
           mentorId: tutor.id,
           startAt: moment.utc(time, 'ddd MMM DD YYYY HH:mm:ssZ').toISOString(),
         },
+        onError: (error) => {
+          NotificationManager.error(error.message, t);
+        }
       });
       lesson = updatedLesson;
     } else {

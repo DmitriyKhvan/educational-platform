@@ -59,7 +59,7 @@ const StudentListAppointments = () => {
       });
       await fetchAppointments();
     } catch (e) {
-      NotificationManager.error(e.response?.data?.message || 'Server Issue', t);
+      NotificationManager.error(e?.message || 'Server Issue', t);
     }
     setSelectedLesson(false);
     setIsLoading(false);

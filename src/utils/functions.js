@@ -13,7 +13,16 @@ export function renderVideo(videoUrl) {
     for (var i = 0; i < url.length; i++) {
       if (videoUrl.includes(YOUTUBE_PREFIX)) {
         isVideo = true;
-        if (url.includes('=')) {
+        if (videoUrl.includes('shorts')) {
+            if(url.includes('?')) {
+                codeURL = url.slice(27, url.indexOf('?'))
+            } else {
+                codeURL = url.slice(31)
+            }
+        } else if (videoUrl.includes('live')) {
+            codeURL = url.slice(29, url.indexOf('?'))
+        }
+        else if (url.includes('=')) {
             codeURL = url.slice(videoUrl.indexOf('=') + 1);
         } else {
           codeURL = url.slice(17);
