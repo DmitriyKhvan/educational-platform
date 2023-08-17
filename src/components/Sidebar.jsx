@@ -67,12 +67,6 @@ const studentNavLinks = [
     activeIcon: tutorActiveIcon,
   },
   {
-    label: 'refer',
-    link: '/student/referal',
-    icon: Icon11,
-    activeIcon: ActiveIcon11,
-  },
-  {
     label: 'class_material',
     link: classMaterialURL || 'https://naonow.instructure.com/',
     icon: ClassMaterialIcon,
