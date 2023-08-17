@@ -75,11 +75,11 @@ const ScheduleCard = ({
   //Time period when you can go to the lesson
   const today = moment();
   const tenMinuteBeforeStart = moment(date).subtract(10, 'minutes');
-  const fiveMinuteBeforeEnd = moment(date).add(data.duration - 5, 'minutes');
+  const beforeEndLesson = moment(date).add(data.duration, 'minutes');
 
   const isBetween = moment(today).isBetween(
     tenMinuteBeforeStart,
-    fiveMinuteBeforeEnd,
+    beforeEndLesson,
   );
 
   const [getZoomLink, { loading, error }] = useLazyQuery(GET_ZOOMLINK, {

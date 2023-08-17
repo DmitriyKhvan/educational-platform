@@ -90,6 +90,7 @@ const StudentListAppointments = () => {
     setIsLoading(false);
   };
 
+  //Lessons within one week
   const isWithinAweekArr = (appointments || [])
     .map((x) => {
       const startOfWeek = moment().isAfter(moment().startOf('isoWeek'))
@@ -102,7 +103,7 @@ const StudentListAppointments = () => {
     })
     .filter((x) => x);
 
-  //What is this code for ==========================================
+  //leave only unique lessons by date ==========================================
   const isWithinAweek = isWithinAweekArr.filter(
     (x, i, a) => a.findIndex((y) => y.startAt === x.startAt) === i,
   );
