@@ -182,7 +182,7 @@ const ScheduleSelector = ({
       days.push(dayOfTheWeek);
     }
   }
-  console.log(days);
+
   const DaySelector = ({ data, i }) => {
     const checkDate = () => {
       if (data.format === 'day') {
