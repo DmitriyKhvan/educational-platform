@@ -87,16 +87,18 @@ const ApproveRequest = () => {
   const displayLessonRequestTable = () => {
     if (!appointments) return [];
     const data =
-      appointments?.lessons.map((event) => {
-        return {
-          id: event.id,
-          img: event?.student?.user?.avatar?.url,
-          studentName: `${event?.student?.user?.firstName} ${event?.student?.user?.lastName}`,
-          lessonNumber: event.id,
-          lessonDate: event.startAt,
-          duration: event.duration,
-        };
-      }) || [];
+      appointments?.lessons
+        .sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
+        .map((event) => {
+          return {
+            id: event.id,
+            img: event?.student?.user?.avatar?.url,
+            studentName: `${event?.student?.user?.firstName} ${event?.student?.user?.lastName}`,
+            lessonNumber: event.id,
+            lessonDate: event.startAt,
+            duration: event.duration,
+          };
+        }) || [];
     // return <CustomTable timezone={userTimezone} data={data} columns={columns} />
     return data;
   };
@@ -133,7 +135,7 @@ const ApproveRequest = () => {
             </tr>
           </thead>
           <tbody>
-            {renderTable?.length === 0 && (
+            {renderTable()?.length === 0 && (
               <tr>
                 <td colSpan={tableHead.length} align="center">
                   {t('no_lessons')}
