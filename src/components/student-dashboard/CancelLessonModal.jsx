@@ -5,6 +5,7 @@ import { CANCEL_APPOINTMENT } from '../../modules/auth/graphql';
 import NotificationManager from '../NotificationManager';
 import { useAuth } from '../../modules/auth';
 import { ROLES, cancellationArr } from '../../constants/global';
+import toast from 'react-hot-toast';
 
 const CancelLessonModal = ({
   setTabIndex,
@@ -51,6 +52,9 @@ const CancelLessonModal = ({
     },
     onError: (error) => {
       NotificationManager.error(error.message, t);
+    },
+    onCompleted: () => {
+      toast.success('Your lesson has been cancelled successfully');
     },
   });
 
