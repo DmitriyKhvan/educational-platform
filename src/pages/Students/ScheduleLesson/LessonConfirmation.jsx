@@ -15,6 +15,7 @@ import {
   APPOINTMENTS_QUERY,
   CREATE_APPOINTMENT,
   UPDATE_APPOINTMENT,
+  LESSON_QUERY,
 } from '../../../modules/auth/graphql';
 
 const LessonConfirmation = ({
@@ -41,6 +42,7 @@ const LessonConfirmation = ({
   });
   const [createAppointment] = useMutation(CREATE_APPOINTMENT);
   const [updateAppointment] = useMutation(UPDATE_APPOINTMENT);
+  const [getLesson] = useLazyQuery(LESSON_QUERY);
 
   const fetchAppointments = async () => {
     return (await getAppointments()).data;
@@ -74,17 +76,36 @@ const LessonConfirmation = ({
     let lesson = null;
     if (lessonId) {
       setIsLoading(true);
-      const { data: { lesson: updatedLesson } = {} } = await updateAppointment({
+      const oldLesson = await getLesson({
         variables: {
           id: lessonId,
-          mentorId: tutor.id,
-          startAt: moment.utc(time, 'ddd MMM DD YYYY HH:mm:ssZ').toISOString(),
         },
-        onError: (error) => {
-          NotificationManager.error(error.message, t);
-        }
       });
-      lesson = updatedLesson;
+      if (
+        !moment
+          .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
+          .isSame(oldLesson.data.lesson.startAt)
+      ) {
+        const { data: { lesson: updatedLesson } = {} } =
+          await updateAppointment({
+            variables: {
+              id: lessonId,
+              mentorId: tutor.id,
+              startAt: moment
+                .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
+                .toISOString(),
+            },
+            onError: (error) => {
+              NotificationManager.error(error.message, t);
+            },
+          });
+        lesson = updatedLesson;
+      } else {
+        NotificationManager.error(
+          'The reschedule date cannot be the old scheduled date!',
+          t,
+        );
+      }
     } else {
       try {
         const { data: { lesson: createdLesson } = {} } =

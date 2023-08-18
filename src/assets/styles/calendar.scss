@@ -136,6 +136,10 @@
   max-width: 1065px;
 }
 
+.rbc-selected {
+  background: #6133af !important;
+}
+
 .row {
   h4 {
     margin-top: 0;
@@ -455,6 +459,7 @@
   }
 }
 
-.loading .rbc-time-view, .loading .rbc-month-view {
+.loading .rbc-time-view,
+.loading .rbc-month-view {
   opacity: 0.5;
 }
