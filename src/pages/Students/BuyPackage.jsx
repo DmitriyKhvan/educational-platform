@@ -99,7 +99,7 @@ export default function BuyPackage() {
           className="bg-gray-200/90 backdrop-blur-md backdrop-saturate-200 border-gray-100/40 border p-4 rounded-xl max-w-5xl w-full cool-shadow flex flex-col gap-8 md:gap-6 md:flex-row bg-center transition-transform duration-300"
           ref={parent}
         >
-          <div className='flex flex-col gap-8 h-fit max-w-xs'>
+          <div className="flex flex-col gap-8 h-fit max-w-xs">
             {allCourses?.courses?.map((course) => {
               return (
                 <div
@@ -273,13 +273,12 @@ export default function BuyPackage() {
           <AlertDialogHeader>
             <AlertDialogTitle>{t('agreement')}</AlertDialogTitle>
             <AlertDialogDescription>
-              {t('clicking')}{' '}
-              <a href="#" className="text-purple-600 hover:underline">
+              {t('clicking')}
+              <a
+                href="https://www.naonow.com/terms-and-conditions"
+                className="text-purple-600 hover:underline"
+              >
                 {t('terms')}
-              </a>{' '}
-              {t('and')}{' '}
-              <a href="#" className="text-purple-600 hover:underline">
-                {t('privacy')}
               </a>
             </AlertDialogDescription>
           </AlertDialogHeader>
