@@ -29,7 +29,7 @@ const tutorNavLinks = [
   },
   {
     label: 'lessons',
-    link: '/mentor/appointments-calendar',
+    link: '/mentor/lesson-calendar',
     icon: Icon2,
     activeIcon: ActiveIcon2,
   },
@@ -81,7 +81,7 @@ const studentNavLinks = [
   },
 ];
 
-const Sidebar = ({ isShowSidebar, setShowSidebar}) => {
+const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
   let location = useLocation();
   const history = useHistory();
   const [t] = useTranslation(['common', 'sidebar']);

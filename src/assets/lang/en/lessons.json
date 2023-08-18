@@ -47,6 +47,7 @@
   "tutor_calendar_previous_topic": "Level {{ level }} / {{ previous_topic }}",
   "attendants": "Attendants",
   "start_lesson": "Start Lesson",
+  "approve_lesson": "Approve Lesson",
   "previous_topic": "Previous Topic",
   "lesson_time": "Lesson Time",
   "summer_discount": "summer discount",

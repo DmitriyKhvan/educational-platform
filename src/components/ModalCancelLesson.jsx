@@ -35,7 +35,7 @@ export const ModalCancelLesson = ({
         .filter((checked) => checked),
       id: lesson.id,
     });
-    history.push('/mentor/appointments-calendar');
+    history.push('/mentor/lesson-calendar');
   };
 
   return (

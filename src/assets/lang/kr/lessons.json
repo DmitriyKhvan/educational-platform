@@ -47,6 +47,7 @@
   "tutor_calendar_previous_topic": "레벨 {{ level }} / {{ previous_topic }}",
   "attendants": "참여자",
   "start_lesson": "레슨 시작",
+  "approve_lesson": "승인하다",
   "previous_topic": "이전 주제",
   "lesson_time": "레슨 시간",
   "level": "레벨",

@@ -29,7 +29,7 @@ const CalendarModal = ({
   time,
   data,
   event,
-  getAppointments
+  getAppointments,
 }) => {
   const [t] = useTranslation('modals');
   const [isWarningOpen, setIsWarningOpen] = useState(false);
@@ -79,18 +79,18 @@ const CalendarModal = ({
           id: parseInt(zoomlink),
         },
       });
-      window.location.replace(zoomLink.data.zoomLink.url);
+      window.open(zoomLink.data.zoomLink.url, '_blank');
     } else {
       setIsWarningOpen(true);
     }
   };
 
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
-  
+
   const onClose = () => {
-    closeModal()
-    setIsCancelModalOpen(false)
-  }
+    closeModal();
+    setIsCancelModalOpen(false);
+  };
 
   return (
     <>
@@ -180,19 +180,19 @@ const CalendarModal = ({
           />
         )}
       </div>
-      {isCancelModalOpen &&
-          <RescheduleAndCancelModal
-           data={event.resource?.eventDate}
-           isOpen={isCancelModalOpen}
-           closeModal={closeModal}
-           setTabIndex={setTabIndex}
-           setIsOpen={onClose}
-           fetchAppointments={getAppointments}
-           tabIndex={tabIndex}
-           type={'cancel'}
-           duration={event.resource?.eventDate?.duration}
-         />
-        }
+      {isCancelModalOpen && (
+        <RescheduleAndCancelModal
+          data={event.resource?.eventDate}
+          isOpen={isCancelModalOpen}
+          closeModal={closeModal}
+          setTabIndex={setTabIndex}
+          setIsOpen={onClose}
+          fetchAppointments={getAppointments}
+          tabIndex={tabIndex}
+          type={'cancel'}
+          duration={event.resource?.eventDate?.duration}
+        />
+      )}
     </>
   );
 };
