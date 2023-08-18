@@ -187,7 +187,7 @@ export const GET_MENTOR = gql`
 
 export const MENTORS_QUERY = gql`
   query Mentors {
-    mentors {
+    mentors(visibilityStatus: public) {
       id
       major
       language

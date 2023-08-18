@@ -110,11 +110,7 @@ const ApproveRequest = () => {
     t('lesson_date', { ns: 'lessons' }),
   ];
 
-  const renderTable = () => {
-    const data = displayLessonRequestTable();
-
-    return data;
-  };
+  const lessons = displayLessonRequestTable();
 
   return (
     <Layout>
@@ -135,14 +131,14 @@ const ApproveRequest = () => {
             </tr>
           </thead>
           <tbody>
-            {renderTable()?.length === 0 && (
+            {lessons.length === 0 && (
               <tr>
                 <td colSpan={tableHead.length} align="center">
                   {t('no_lessons')}
                 </td>
               </tr>
             )}
-            {renderTable()?.map((event) => (
+            {lessons.map((event) => (
               <tr key={event.id} className="tr-center">
                 <td className="td-item m-0">
                   <p className="td-lesson">{'#' + event.id}</p>
