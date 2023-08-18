@@ -45,29 +45,35 @@ const TutorDashboard = () => {
       const endOfDay = new moment().endOf('day');
       setUpcomingLessons(
         appointments.lessons?.filter((apt) => {
-          return new moment(apt.startAt).isBefore(endOfDay) && new moment(apt.startAt).isAfter(startOfDay);
+          return (
+            new moment(apt.startAt).isBefore(endOfDay) &&
+            new moment(apt.startAt).isAfter(startOfDay)
+          );
         }),
       );
     }
   }, [appointments]);
 
   const displayDailySchedule = (availableLessons) => {
+    console.log('availableLessons', availableLessons);
     if (availableLessons) {
-      return availableLessons?.map((event, i) => {
-        return (
-          <ScheduleCard
-            lesson={event?.packageSubscription?.package?.course?.title}
-            duration={event?.duration}
-            zoomlink={event?.zoomlink}
-            date={event?.startAt}
-            data={event}
-            mentor={event.mentor}
-            index={i}
-            key={i}
-            fetchAppointments={fetchAppointments}
-          />
-        );
-      });
+      return availableLessons
+        ?.sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
+        .map((event, i) => {
+          return (
+            <ScheduleCard
+              lesson={event?.packageSubscription?.package?.course?.title}
+              duration={event?.duration}
+              zoomlinkId={event?.zoomlinkId}
+              date={event?.startAt}
+              data={event}
+              mentor={event.mentor}
+              index={i}
+              key={i}
+              fetchAppointments={fetchAppointments}
+            />
+          );
+        });
     }
   };
 

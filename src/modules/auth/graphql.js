@@ -691,3 +691,13 @@ export const LESSON_QUERY = gql`
     }
   }
 `;
+
+export const GET_ZOOMLINK = gql`
+  query Get_Zoomlink($id: Int!) {
+    zoomLink(id: $id) {
+      id
+      url
+      isPaid
+    }
+  }
+`;

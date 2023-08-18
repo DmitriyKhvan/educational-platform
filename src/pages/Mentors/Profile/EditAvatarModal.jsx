@@ -23,7 +23,6 @@ const EditAvatarModal = ({ isOpen, closeModal, profileImage }) => {
   const { handleSubmit } = useForm();
 
   const updateAvatar = async () => {
-    console.log('file', file);
     if (file) {
       const { data } = await updateMentor({
         variables: {

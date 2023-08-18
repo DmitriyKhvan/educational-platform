@@ -7,11 +7,15 @@ import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
+import { GET_ZOOMLINK } from '../../modules/auth/graphql';
+import { useLazyQuery } from '@apollo/client';
+import ReactLoader from '../common/Loader';
+import notify from '../../utils/notify';
 
 const ScheduleCard = ({
   index,
   lesson,
-  zoomlink,
+  zoomlinkId,
   date,
   mentor,
   data,
@@ -76,9 +80,20 @@ const ScheduleCard = ({
     fiveMinuteBeforeEnd,
   );
 
-  const joinLesson = async () => {
+  const [getZoomLink, { loading, error }] = useLazyQuery(GET_ZOOMLINK, {
+    fetchPolicy: 'no-cache',
+  });
+
+  const joinLesson = () => {
     if (isBetween) {
-      window.location.href = zoomlink.url;
+      getZoomLink({
+        variables: {
+          id: parseInt(zoomlinkId),
+        },
+        onCompleted: (data) => {
+          window.location.replace(data.zoomLink.url);
+        },
+      });
     } else {
       setIsWarningOpen(true);
     }
@@ -95,6 +110,14 @@ const ScheduleCard = ({
 
     return `${eventDate} at ${start} → ${end}`;
   };
+
+  if (error) {
+    notify(error.message, 'error');
+  }
+
+  if (loading) {
+    return <ReactLoader />;
+  }
 
   return (
     <div
