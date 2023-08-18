@@ -102,33 +102,38 @@ const StudentListAppointments = () => {
     })
     .filter((x) => x);
 
+  //What is this code for ==========================================
   const isWithinAweek = isWithinAweekArr.filter(
     (x, i, a) => a.findIndex((y) => y.startAt === x.startAt) === i,
   );
-
-  console.log('isWithinAweek', isWithinAweek);
+  //================================================================
 
   const ScheduleArr = (isWithinAweek || [])
     .sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
+    .filter((lesson) => {
+      const expiredDate = moment(lesson?.startAt).add(
+        lesson?.duration,
+        'minutes',
+      );
+      const currentDate = moment();
+      return currentDate.isBefore(expiredDate);
+    })
     .map((x, i) => {
       const date = moment(x?.startAt);
-      const expiredDate = moment(x?.startAt).add(x?.duration, 'minutes');
-      const currentDate = moment();
+
       return (
-        currentDate.isBefore(expiredDate) && (
-          <div key={i}>
-            <ScheduleCard
-              duration={x.duration}
-              lesson={x?.packageSubscription?.package?.course?.title}
-              mentor={x.mentor}
-              zoomlinkId={x?.zoomlinkId}
-              date={date}
-              data={x}
-              index={i}
-              fetchAppointments={fetchAppointments}
-            />
-          </div>
-        )
+        <div key={i}>
+          <ScheduleCard
+            duration={x.duration}
+            lesson={x?.packageSubscription?.package?.course?.title}
+            mentor={x.mentor}
+            zoomlinkId={x?.zoomlinkId}
+            date={date}
+            data={x}
+            index={i}
+            fetchAppointments={fetchAppointments}
+          />
+        </div>
       );
     });
 

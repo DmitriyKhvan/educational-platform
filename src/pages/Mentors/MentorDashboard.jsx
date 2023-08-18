@@ -55,10 +55,17 @@ const TutorDashboard = () => {
   }, [appointments]);
 
   const displayDailySchedule = (availableLessons) => {
-    console.log('availableLessons', availableLessons);
     if (availableLessons) {
       return availableLessons
         ?.sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
+        .filter((lesson) => {
+          const expiredDate = moment(lesson?.startAt).add(
+            lesson?.duration,
+            'minutes',
+          );
+          const currentDate = moment();
+          return currentDate.isBefore(expiredDate);
+        })
         .map((event, i) => {
           return (
             <ScheduleCard
