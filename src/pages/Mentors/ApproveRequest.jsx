@@ -14,6 +14,7 @@ import {
 
 import '../../assets/styles/calendar.scss';
 import Loader from '../../components/Loader/Loader';
+import toast from 'react-hot-toast';
 
 const ApproveRequest = () => {
   const { user } = useAuth();
@@ -51,6 +52,7 @@ const ApproveRequest = () => {
           status: 'scheduled',
         },
       });
+      toast.success('Your lesson has been cancelled successfully');
     },
   });
 

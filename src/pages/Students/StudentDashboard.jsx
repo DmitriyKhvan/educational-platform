@@ -22,6 +22,7 @@ import {
 } from '../../modules/auth/graphql';
 import { useQuery, useMutation } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
+import toast from 'react-hot-toast';
 
 const options = [
   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
@@ -47,7 +48,14 @@ const StudentListAppointments = () => {
   const [completedAppointment, setCompleteAppointment] = useState(null);
   const history = useHistory();
   const onDismiss = () => setCompleteAppointment(null);
-  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT);
+  const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT, {
+    onError: (e) => {
+      NotificationManager.error(e?.message || "Couldn't cancel this lesson", t);
+    },
+    onCompleted: () => {
+      toast.success('Your lesson has been cancelled successfully');
+    },
+  });
 
   const onCancel = async ({ id }) => {
     setIsLoading(true);
