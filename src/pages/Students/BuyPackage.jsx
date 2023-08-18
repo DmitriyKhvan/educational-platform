@@ -273,9 +273,11 @@ export default function BuyPackage() {
           <AlertDialogHeader>
             <AlertDialogTitle>{t('agreement')}</AlertDialogTitle>
             <AlertDialogDescription>
-              {t('clicking')}
+              {t('clicking')}{" "}
               <a
                 href="https://www.naonow.com/terms-and-conditions"
+                target="_blank"
+                rel="noreferrer"
                 className="text-purple-600 hover:underline"
               >
                 {t('terms')}
