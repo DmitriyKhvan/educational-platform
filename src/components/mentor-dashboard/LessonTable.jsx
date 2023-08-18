@@ -121,7 +121,7 @@ const LessonTable = ({ tabularData }) => {
               {/* <td className="td-item m-0">
                 <Link
                   className="td-button"
-                  to={`appointments-calendar/lesson/${event.resource.id}`}
+                  to={`lesson-calendar/lesson/${event.resource.id}`}
                 >
                   Feedback
                 </Link>

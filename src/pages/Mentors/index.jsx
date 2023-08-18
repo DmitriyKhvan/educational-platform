@@ -19,7 +19,7 @@ export default function TutorPages() {
         <Dashboard />
       </Route>
 
-      <Route exact path={`${path}/appointments-calendar`}>
+      <Route exact path={`${path}/lesson-calendar`}>
         <TutorCalendar />
       </Route>
 
@@ -31,7 +31,7 @@ export default function TutorPages() {
         <AvailabilitySettings />
       </Route>
 
-      <Route exact path={`${path}/appointments-calendar/lesson/:lessonID`}>
+      <Route exact path={`${path}/lesson-calendar/lesson/:lessonID`}>
         <LessonInfo />
       </Route>
 

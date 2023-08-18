@@ -18,12 +18,17 @@ import '../../assets/styles/calendar.scss';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
-import { APPOINTMENTS_QUERY, GET_ZOOMLINK } from '../../modules/auth/graphql';
-import { useQuery, useLazyQuery } from '@apollo/client';
+import {
+  APPOINTMENTS_QUERY,
+  APPROVE_APPOINTMENT,
+  GET_ZOOMLINK,
+} from '../../modules/auth/graphql';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
 import { lowerCase } from 'lodash-es';
 import ReactLoader from '../../components/common/Loader';
 import RescheduleAndCancelModal from '../../components/student-dashboard/RescheduleAndCancelModal';
+import notify from '../../utils/notify';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -172,10 +177,7 @@ const Calendar = () => {
     try {
       await getAppointments();
     } catch (error) {
-      NotificationManager.error(
-        error?.message || 'Server Issue',
-        t,
-      );
+      NotificationManager.error(error?.message || 'Server Issue', t);
     } finally {
       setIsLoading(false);
     }
@@ -332,6 +334,8 @@ const Calendar = () => {
       fiveMinuteBeforeEnd,
     );
 
+    const [approveAppointment] = useMutation(APPROVE_APPOINTMENT);
+
     const [getZoomLink] = useLazyQuery(GET_ZOOMLINK, {
       fetchPolicy: 'no-cache',
     });
@@ -343,9 +347,24 @@ const Calendar = () => {
             id: parseInt(eventDate.zoomlinkId),
           },
         });
-        window.location.replace(zoomlink.data.zoomLink.url);
+        window.open(zoomlink.data.zoomLink.url, '_blank');
       }
       if (!isBetween) setIsWarningOpen(true);
+    };
+
+    const approveLesson = ({ id }) => {
+      approveAppointment({
+        variables: {
+          id: parseInt(id),
+          mentorId: parseInt(user?.mentor?.id),
+        },
+        onCompleted: () => {
+          getAppointments();
+        },
+      });
+
+      setIsCalendarModalOpen(false);
+      notify('Lesson successfully approved', 'success');
     };
 
     const displayModalEventDate = ({ resource }) => {
@@ -450,15 +469,29 @@ const Calendar = () => {
               </div>
 
               <div className="row">
-                <button
-                  className="btn col-5 enter-btn bg-primary"
-                  onClick={joinLesson}
-                  target="_blank"
-                  disabled={eventDate.status === 'scheduled'}
-                  rel="noreferrer"
-                >
-                  {t('start_lesson')}
-                </button>
+                {eventDate.status === 'approved' && (
+                  <button
+                    className="btn col-5 enter-btn bg-primary"
+                    onClick={joinLesson}
+                    target="_blank"
+                    // disabled={eventDate.status === 'scheduled'}
+                    rel="noreferrer"
+                  >
+                    {t('start_lesson')}
+                  </button>
+                )}
+
+                {eventDate.status === 'scheduled' && (
+                  <button
+                    className="btn col-5 enter-btn bg-primary"
+                    onClick={() => approveLesson(eventDate)}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {t('approve_lesson')}
+                  </button>
+                )}
+
                 <button
                   className="btn col-5 enter-btn"
                   onClick={onCancelLessonClick}
@@ -492,7 +525,7 @@ const Calendar = () => {
 
   return (
     <Layout>
-      {(loadingAppointments) && <ReactLoader />}
+      {loadingAppointments && <ReactLoader />}
       <div className="container-fluid p-3">
         {/* <button onClick={() => setReviewLessonModal(true)}>
           Open ReviewLessonModal
@@ -577,17 +610,19 @@ const Calendar = () => {
         </div>
       </div>
       {isCalendarModalOpen && <CustomModal />}
-      {isCancelLessonModalOpen && <RescheduleAndCancelModal
-        data={calendarEvent.resource?.eventDate}
-        isOpen={isCancelLessonModalOpen}
-        setIsOpen={setIsCancelLessonModalOpen}
-        closeModal={closeCancelLessonModal}
-        tabIndex={tabIndex}
-        setTabIndex={setTabIndex}
-        fetchAppointments={fetchData}
-        type={'cancel'}
-        duration={calendarEvent.resource?.eventDate?.duration}
-      />}
+      {isCancelLessonModalOpen && (
+        <RescheduleAndCancelModal
+          data={calendarEvent.resource?.eventDate}
+          isOpen={isCancelLessonModalOpen}
+          setIsOpen={setIsCancelLessonModalOpen}
+          closeModal={closeCancelLessonModal}
+          tabIndex={tabIndex}
+          setTabIndex={setTabIndex}
+          fetchAppointments={fetchData}
+          type={'cancel'}
+          duration={calendarEvent.resource?.eventDate?.duration}
+        />
+      )}
       {isWarningOpen && (
         <ZoomWarningModal
           isWarningOpen={isWarningOpen}

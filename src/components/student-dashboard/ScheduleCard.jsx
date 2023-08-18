@@ -93,7 +93,7 @@ const ScheduleCard = ({
           id: parseInt(zoomlinkId),
         },
         onCompleted: (data) => {
-          window.location.replace(data.zoomLink.url);
+          window.open(data.zoomLink.url, '_blank');
         },
       });
     } else {
@@ -172,18 +172,20 @@ const ScheduleCard = ({
             {t('join_lesson')}
           </a>
         </div> */}
-        {user.role !== ROLES.MENTOR && <div className="">
-          <a
-            className={`schedule_copy-button ${
-              isLate
-                ? 'text-purpless back_schedule-button mobile-schedule_dash'
-                : 'grey-border text-black'
-            }`}
-            onClick={onSelect}
-          >
-            {t('reschedule')}
-          </a>
-        </div>}
+        {user.role !== ROLES.MENTOR && (
+          <div className="">
+            <a
+              className={`schedule_copy-button ${
+                isLate
+                  ? 'text-purpless back_schedule-button mobile-schedule_dash'
+                  : 'grey-border text-black'
+              }`}
+              onClick={onSelect}
+            >
+              {t('reschedule')}
+            </a>
+          </div>
+        )}
         <div className="">
           <a
             onClick={onCancel}

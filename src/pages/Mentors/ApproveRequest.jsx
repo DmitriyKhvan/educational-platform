@@ -171,7 +171,7 @@ const ApproveRequest = () => {
                 <td className="td-item m-0">
                   <Link
                     className="td-button"
-                    to={`appointments-calendar/lesson/${event.id}`}
+                    to={`lesson-calendar/lesson/${event.id}`}
                     onClick={(e) => {
                       e.preventDefault();
                       onClickCancel(event);
@@ -183,7 +183,7 @@ const ApproveRequest = () => {
                 <td className="td-item m-0">
                   <Link
                     className="td-button"
-                    to={`appointments-calendar/lesson/${event.id}`}
+                    to={`lesson-calendar/lesson/${event.id}`}
                     onClick={(e) => {
                       e.preventDefault();
                       onClickApprove(event);

@@ -16,12 +16,15 @@ const TutorDashboard = () => {
   const { user } = useAuth();
   const [upcomingLessons, setUpcomingLessons] = useState([]);
 
-  const { data: { lessons: appointments } = {}, refetch } = useQuery(APPOINTMENTS_QUERY, {
-    variables: {
-      mentorId: user?.mentor?.id,
-      status: 'scheduled,paid,completed,in_progress,approved',
+  const { data: { lessons: appointments } = {}, refetch } = useQuery(
+    APPOINTMENTS_QUERY,
+    {
+      variables: {
+        mentorId: user?.mentor?.id,
+        status: 'scheduled,paid,completed,in_progress,approved',
+      },
     },
-  });
+  );
 
   const tutor = user.tutor;
 
@@ -42,7 +45,10 @@ const TutorDashboard = () => {
       const endOfDay = new moment().endOf('day');
       setUpcomingLessons(
         appointments?.filter((apt) => {
-          return new moment(apt.startAt).isBefore(endOfDay) && new moment(apt.startAt).isAfter(startOfDay);
+          return (
+            new moment(apt.startAt).isBefore(endOfDay) &&
+            new moment(apt.startAt).isAfter(startOfDay)
+          );
         }),
       );
     }
@@ -75,7 +81,6 @@ const TutorDashboard = () => {
             />
           );
         });
-
     }
   };
 
@@ -114,7 +119,7 @@ const TutorDashboard = () => {
                     <div className="row mobile-view-buttons mt-4">
                       <div className="col-6 desktop schedule-dashboard-button">
                         <Link
-                          to="/mentor/appointments-calendar"
+                          to="/mentor/lesson-calendar"
                           className="enter-btn dashboard_cal-scl_button"
                         >
                           {t('calendar')}
@@ -147,7 +152,7 @@ const TutorDashboard = () => {
               t: upcomingLessons.length > 1 ? 's' : '',
             })}
             <Link
-              to="/mentor/appointments-calendar"
+              to="/mentor/lesson-calendar"
               className="enter-btn ms-0 tutor_cal_appoint"
             >
               {t('student_dashboard_view_all_lessons')}
