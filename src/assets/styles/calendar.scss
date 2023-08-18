@@ -17,7 +17,7 @@
   letter-spacing: -0.6px;
 }
 .rbc-event {
-  background-color: $color-purple1;
+  background-color: $color-purple1 !important;
   font-family: Inter;
   font-style: normal;
   justify-content: center;
@@ -134,11 +134,6 @@
 
 .rbc-calendar {
   max-width: 1065px;
-}
-
-.rbc-selected {
-  all: unset;
-  filter: brightness(0.75);
 }
 
 .row {

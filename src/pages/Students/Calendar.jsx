@@ -15,9 +15,7 @@ import { useAuth } from '../../modules/auth';
 import FeedbackLessonModal from '../Mentors/FeedbackLessonModal';
 import WeekHeader from '../../components/common/WeekHeader';
 import { useQuery } from '@apollo/client';
-import {
-  APPOINTMENTS_QUERY,
-} from '../../modules/auth/graphql';
+import { APPOINTMENTS_QUERY } from '../../modules/auth/graphql';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { LessonTable } from '../../components/student-dashboard/LessonTable';
 
@@ -308,12 +306,10 @@ const Calendar = () => {
 
   const eventPropGetter = useCallback((event) => {
     return {
-      ...((event.resource.status === 'scheduled'
-      || event.resource.status === 'completed')
-        && {
+      ...((event.resource.status === 'scheduled' ||
+        event.resource.status === 'completed') && {
         style: {
-          background: 'none',
-          backgroundColor: '#909090',
+          filter: 'grayscale(100%) opacity(0.8)',
         },
       }),
     };
