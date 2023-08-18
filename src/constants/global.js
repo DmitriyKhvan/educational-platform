@@ -16,36 +16,15 @@ export const timezones = [
   { label: '(UTC-06:00) Central Time (US & Canada)', value: 'UTC-6' },
   { label: '(UTC-07:00) Mountain Time (US & Canada)', value: 'UTC-6' },
   { label: '(UTC-08:00) Pacific Time (US & Canada)', value: 'UTC-8' },
-
   { label: '(UTC+09:00) Seoul', value: 'UTC+9' },
-
   { label: '(UTC-12:00) International Date Line West', value: 'UTC-12' },
   { label: '(UTC-11:00) Midway Island, Samoa', value: 'UTC-11' },
   { label: '(UTC-10:00) Hawaii', value: 'UTC-10' },
   { label: '(UTC-09:00) Alaska', value: 'UTC-9' },
-  // { label: "(UTC-08:00) Tijuana, Baja California", value: "UTC-8" },
-  // { label: "(UTC-07:00) Arizona", value: "UTC-7" },
-  // { label: "(UTC-07:00) Chihuahua, La Paz, Mazatlan", value: "UTC-7" },
-  // { label: "(UTC-07:00) Mountain Time (US & Canada)", value: "UTC-7" },
-
-  // { label: "(UTC-06:00) Guadalajara, Mexico City, Monterrey", value: "UTC-6" },
-  // { label: "(UTC-06:00) Saskatchewan", value: "UTC-6" },
-  // { label: "(UTC-05:00) Bogota, Lima, Quito, Rio Branco", value: "UTC-5" },
-  // { label: "(UTC-05:00) Eastern Time (US & Canada)", value: "UTC-5" },
-  // { label: "(UTC-05:00) Indiana (East)", value: "UTC-5" },
-
   { label: '(UTC-04:00) Caracas, La Paz', value: 'UTC-4' },
-  // { label: "(UTC-04:00) Manaus", value: "UTC-4" },
-  // { label: "(UTC-04:00) Santiago", value: "UTC-4" },
-  // { label: "(UTC-03:30) Newfoundland", value: "UTC-3" },
-  // { label: "(UTC-03:00) Brasilia", value: "UTC-3" },
   { label: '(UTC-03:00) Buenos Aires, Georgetown', value: 'UTC-3' },
-  // { label: "(UTC-03:00) Greenland", value: "UTC-3" },
-  // { label: "(UTC-03:00) Montevideo", value: "UTC-3" },
   { label: '(UTC-02:00) Mid-Atlantic', value: 'UTC-2' },
   { label: '(UTC-01:00) Cape Verde Is.', value: 'UTC-1' },
-  // { label: "(UTC-01:00) Azores", value: "UTC-1" },
-  // { label: "(UTC+00:00) Casablanca, Monrovia, Reykjavik", value: "UTC+0" },
   {
     label:
       '(UTC+00:00) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London',
@@ -55,65 +34,26 @@ export const timezones = [
     label: '(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna',
     value: 'UTC+1',
   },
-  // {
-  //   label: "(UTC+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague",
-  //   value: "UTC+1",
-  // },
-  // { label: "(UTC+01:00) Brussels, Copenhagen, Madrid, Paris", value: "UTC+1" },
-  // { label: "(UTC+01:00) Sarajevo, Skopje, Warsaw, Zagreb", value: "UTC+1" },
-  // { label: "(UTC+01:00) West Central Africa", value: "UTC+1" },
-  // { label: "(UTC+02:00) Amman", value: "UTC+2" },
   { label: '(UTC+02:00) Athens, Bucharest, Istanbul', value: 'UTC+2' },
-  // { label: "(UTC+02:00) Beirut", value: "UTC+2" },
-  // { label: "(UTC+02:00) Cairo", value: "UTC+2" },
-  // { label: "(UTC+02:00) Harare, Pretoria", value: "UTC+2" },
-  // {
-  //   label: "(UTC+02:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius",
-  //   value: "UTC+2",
-  // },
-  // { label: "(UTC+02:00) Jerusalem", value: "UTC+2" },
-  // { label: "(UTC+02:00) Minsk", value: "UTC+2" },
-  // { label: "(UTC+02:00) Windhoek", value: "UTC+2" },
   { label: '(UTC+03:00) Kuwait, Riyadh, Baghdad', value: 'UTC+3' },
-  // { label: "(UTC+03:00) Moscow, St. Petersburg, Volgograd", value: "UTC+3" },
-  // { label: "(UTC+03:00) Nairobi", value: "UTC+3" },
-  // { label: "(UTC+03:00) Tbilisi", value: "UTC+3" },
   { label: '(UTC+03:30) Tehran', value: 'UTC+03:30' },
   { label: '(UTC+04:00) Abu Dhabi, Muscat', value: 'UTC+4' },
-  // { label: "(UTC+04:00) Baku", value: "UTC+4" },
-  // { label: "(UTC+04:00) Yerevan", value: "UTC+4" },
   { label: '(UTC+04:30) Kabul', value: 'UTC+04:30' },
   { label: '(UTC+05:00) Yekaterinburg', value: 'UTC+5' },
-  // { label: "(UTC+05:00) Islamabad, Karachi, Tashkent", value: "UTC+5" },
   {
     label: '(UTC+05:30) Chennai, Kolkata, Mumbai, New Delhi',
     value: 'UTC+05:30',
   },
-  // { label: "(UTC+05:30) Sri Jayawardenapura", value: "UTC+05:30" },
   { label: '(UTC+05:45) Kathmandu', value: 'UTC+05:45' },
   { label: '(UTC+06:00) Almaty, Novosibirsk', value: 'UTC+6' },
-  // { label: "(UTC+06:00) Astana, Dhaka", value: "UTC+6" },
   { label: '(UTC+06:30) Yangon (Rangoon)', value: 'UTC+06:30' },
   { label: '(UTC+07:00) Bangkok, Hanoi, Jakarta', value: 'UTC+7' },
-  // { label: "(UTC+07:00) Krasnoyarsk", value: "UTC+7" },
   {
     label: '(UTC+08:00) Beijing, Chongqing, Hong Kong, Urumqi',
     value: 'UTC+8',
   },
-  // { label: "(UTC+08:00) Kuala Lumpur, Singapore", value: "UTC+8" },
-  // { label: "(UTC+08:00) Irkutsk, Ulaan Bataar", value: "UTC+8" },
-  // { label: "(UTC+08:00) Perth", value: "UTC+8" },
-  // { label: "(UTC+08:00) Taipei", value: "UTC+8" },
-  // { label: "(UTC+09:00) Osaka, Sapporo, Tokyo", value: "UTC+9" },
-
-  // { label: "(UTC+09:00) Yakutsk", value: "UTC+9" },
   { label: '(UTC+09:30) Adelaide', value: 'UTC+09:30' },
-  // { label: "(UTC+09:30) Darwin", value: "UTC+09:30" },
   { label: '(UTC+10:00) Brisbane', value: 'UTC+10' },
-  // { label: "(UTC+10:00) Canberra, Melbourne, Sydney", value: "UTC+10" },
-  // { label: "(UTC+10:00) Hobart", value: "UTC+10" },
-  // { label: "(UTC+10:00) Guam, Port Moresby", value: "UTC+10" },
-  // { label: "(UTC+10:00) Vladivostok", value: "UTC+10" },
   { label: '(UTC+11:00) Magadan, Solomon Is., New Caledonia', value: 'UTC+11' },
   { label: '(UTC+12:00) Auckland, Wellington', value: 'UTC+12' },
   { label: '(UTC+12:00) Fiji, Kamchatka, Marshall Is.', value: 'UTC+12' },
@@ -427,14 +367,8 @@ export const course_options = [
   { label: 'Group Lesson', value: 'group' },
 ];
 export const courses = [
-  // { value: 'interview_prep', options: [0, 1] },
   { value: 'english', package: 'english', label: 'english', options: [0, 1] },
   { value: 'writing', package: 'writing', label: 'writing', options: [0, 1] },
-  // { value: 'winter_camps', options: [1] },
-  // { value: 'summer_camps', options: [1] },
-  // { value: 'spanish', options: [0, 1] },
-  // { value: 'debate', package: 'debate', label: 'debate', options: [1] },
-  // { value: 'chit_chat', options: [0] }
 ];
 
 export const class_durations = ['30min', '60min'];
@@ -545,3 +479,19 @@ export const getTimezoneValue = (timezone) => {
 export const feedbackURL = process.env.REACT_APP_FEEDBACK_URL;
 export const gameLinkURL = process.env.REACT_APP_GAME_URL;
 export const classMaterialURL = process.env.REACT_APP_CLASS_MATERIAL_URL;
+
+export const cancellationArr = [
+  'Need to reschedule the lesson',
+  'Not prepared for the lesson',
+  'Urgent personal matter',
+  'Technical or internet connection issues',
+  'Health related matter',
+  'Tutor has not confirmed the lesson',
+  'I do not like the matched tutor',
+  'Other',
+];
+
+export const ROLES = {
+  MENTOR: 'mentor',
+  STUDENT: 'student'
+}

@@ -1,4 +1,3 @@
-import PhoneInput from 'react-phone-input-2';
 import Select from 'react-select';
 
 const customStyles = {
@@ -88,27 +87,6 @@ export const renderSelect = (
           rules={rules}
           getOptionValue={(option) => option.value}
           getOptionLabel={(option) => option.label}
-        />
-      </div>
-      {errorMsg && <p className="error-msg">{errorMsg}</p>}
-    </div>
-  </div>
-);
-
-export const renderPhonenumber = (onChange, formData, errorMsg, label) => (
-  <div className="form-row">
-    <div className="form-item">
-      <div className="form-item-inner">
-        <label htmlFor="email">{label}</label>
-        <PhoneInput
-          specialLabel={label}
-          country={'us'}
-          value={formData.phone_number}
-          onChange={(phone) => onChange(`+${phone}`, 'phone_number')}
-          inputProps={{
-            name: 'phone_number',
-            required: true,
-          }}
         />
       </div>
       {errorMsg && <p className="error-msg">{errorMsg}</p>}

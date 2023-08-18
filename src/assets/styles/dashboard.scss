@@ -4,10 +4,6 @@
   font-weight: 600 !important;
 }
 
-.secblock{
-  
-}
-
 .searchbox input {
   border: 0.5px solid $color-grey3;
   box-sizing: border-box;
@@ -557,6 +553,7 @@ select {
 }
 
 .page-card {
+  // color: white;
   border: 0.5px solid $color-grey3;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
   padding: 31px 57px 26px 57px;
@@ -579,10 +576,6 @@ select {
     font-size: 30px;
     line-height: 36px;
     letter-spacing: -0.6px;
-  }
-
-  img {
-    margin-bottom: 31px;
   }
 }
 
@@ -648,8 +641,6 @@ div.time-style {
 .schedule-lesson-border-widthss {
   background: #ebe4ff;
   max-width: 97px;
-  margin-left: 5px;
-  margin-right: 7px;
 }
 .Lesson-styles {
   text-align: 'center';
@@ -701,16 +692,6 @@ div.time-style {
   width: 20px;
   height: 20px;
   margin-right: 10px;
-}
-.form-check-input:checked:after {
-  background: #6133af !important;
-  border-radius: 3px;
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  left: 4px;
-  top: 4px;
-  content: '';
 }
 .form-check {
   display: flex;
@@ -789,7 +770,7 @@ div.time-style {
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 15px;  
   line-height: 18px;
 
   color: #261a45;
@@ -799,20 +780,13 @@ div.time-style {
   align-items: center;
   padding: 10px 15px;
   text-decoration: none;
-  margin-right: 2px;
   flex-wrap: nowrap;
-  margin-left: 9px;
-  max-width: 155px;
+  max-width: 100%;
 }
 .ReactModal__Overlay {
   background-color: rgba(255, 255, 255, 0.25) !important;
 }
 
-.td-item {
-  .pt-0 {
-    padding-top: 0rem !important;
-  }
-}
 .weekly-schedule-subtitle {
   margin-bottom: 30px;
 }
@@ -857,6 +831,9 @@ div.time-style {
   }
   .titles_align_desktop {
     padding: 0;
+  }
+  .flex-right {
+    padding: 0 25px !important;
   }
 }
 @media screen and (max-width: 900px) {
@@ -928,12 +905,11 @@ div.time-style {
   .alignmobile {
     align-items: center;
   }
-
-  .child-set_container {
-    padding: 20px;
-  }
   .set-container {
     padding: 20px 50px 57px 50px !important;
+  }
+  .cards-container {
+    padding: 0 50px !important;
   }
 }
 @media screen and (max-width: 1120px) {
@@ -1065,10 +1041,6 @@ div.time-style {
 }
 
 @media screen and (max-width: 900px) {
-  .mobilefinal-laptop {
-    width: auto;
-    padding-right: 20px;
-  }
   .align-flex-direction {
     padding-bottom: 15px;
   }
@@ -1171,6 +1143,12 @@ div.time-style {
   margin-top: 30px;
 }
 .page-card_schedule {
+  &.purple {
+    color: white;
+    a {
+      color: #7048e8 !important;
+    }
+  }
   border-radius: 16px;
   padding: 20px 22px !important;
   display: flex;
@@ -1228,8 +1206,8 @@ div.time-style {
   justify-content: space-around;
 }
 @media screen and (max-width: 600px) {
-  .mobilefinal-image {
-    margin-right: 0 !important;
+  .flex-right {
+    padding: 0 20px !important;
   }
   .font_schedule_text {
     padding-top: 15px;
@@ -1387,7 +1365,6 @@ div.time-style {
 
 .main-dashboard {
   height: 100%;
-  overflow: auto;
   position: relative;
 
   .summary-information {
@@ -1474,20 +1451,11 @@ div.time-style {
   .inside-align-title-time {
     margin-left: 0 !important;
   }
-  .confirm-tutor-enter-btn {
-    margin-right: 8px;
-  }
   .schedule_card_aligns {
     width: 100%;
   }
-  .dash_child-set_container {
-    padding: 20px !important;
-  }
   .flex-container .ps-0 {
     justify-content: center;
-  }
-  .child-set_container {
-    padding: 0;
   }
   .weekly-schedule-subtitle {
     font-size: 25px;
@@ -1558,7 +1526,11 @@ div.time-style {
     flex-wrap: nowrap;
   }
 }
-
+@media screen and (max-width: 1200px) {
+  .child-set_container {
+    padding: 0;
+  }
+}
 @media screen and (min-width: 601px) {
   .summary-information {
     grid-template-columns: repeat(3, 1fr);
@@ -1647,7 +1619,7 @@ div.time-style {
     display: flex;
     justify-content: center;
   }
- 
+
   div {
     position: relative;
   }
@@ -1666,12 +1638,6 @@ div.time-style {
     line-height: 36px;
     letter-spacing: -0.6px;
   }
-
-  img {
-    margin-bottom: 31px;
-    width: 80px;
-    // border-radius: 100%;
-  }
 }
 
 .schedule-lesson-select {
@@ -1684,9 +1650,7 @@ div.time-style {
   overflow: auto;
   // height: calc(100vh - 80px);
   height: auto;
-  border: 1px solid rgba(0, 0, 0, 0.1);
   .sub-title {
-
     font-family: Noto Serif;
     font-style: normal;
     font-weight: normal;
@@ -1699,8 +1663,6 @@ div.time-style {
     }
   }
   .small-card {
-    width: 285px;
-
     .small-card-inline {
       display: flex;
       align-items: center;
@@ -1715,26 +1677,23 @@ div.time-style {
         justify-content: center;
         background-blend-mode: overlay;
         background-color: rgba(0, 0, 0, 0.5);
-  
+
         img {
           width: 40px;
           height: 36px;
         }
       }
-
     }
 
     h3 {
       width: 60%;
     }
-
   }
 
-  .page-card{
+  .page-card {
     padding: 15px 30px 30px 30px;
-
   }
-  
+
   .dash-card {
     border: 0.5px solid $color-grey3;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
@@ -1746,7 +1705,7 @@ div.time-style {
       position: relative;
     }
 
-    .secblock{
+    .secblock {
       height: 100px;
     }
 
@@ -1809,8 +1768,6 @@ div.time-style {
       width: 100%;
       flex-direction: column;
 
-      
-
       div {
         position: relative;
       }
@@ -1834,9 +1791,7 @@ div.time-style {
         line-height: 36px;
         letter-spacing: -0.6px;
       }
-      img {
-        margin-bottom: 31px;
-      }
+
       .enter-btn {
         background: $color-white;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
@@ -2195,5 +2150,66 @@ div.time-style {
         }
       }
     }
+  }
+}
+
+.card-buttons {
+  background: #ffffff;
+  border-radius: 5px;
+  font-family: 'Inter';
+  width: 80%;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.2px;
+  color: #261a45;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1366px) {
+  .schedule_copy-button {
+    font-size: 13px;
+  }
+  .dash-card {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+  .cards-container .cards {
+    gap: 12px !important;
+  }
+  .card-buttons {
+    width: 90% !important;
+  }
+  .student-dashboard .small-card .small-card-inline {
+    gap: 18px;
+  }
+  .font_schedule_text {
+    font-size: 16px !important;
+  }
+  .page-card_schedule {
+    padding: 18px 8px !important;
+  }
+  .cols-image-schedule {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media screen and (max-width: 1366px) {
+  .availability-wrapper {
+    padding: 25px;
+  }
+  .available-text {
+    padding: 0 16px;
+  }
+  .schedule-overflow-scroll {
+    padding: 0 28px;
   }
 }

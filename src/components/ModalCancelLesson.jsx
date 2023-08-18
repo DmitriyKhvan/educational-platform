@@ -14,11 +14,11 @@ export const ModalCancelLesson = ({
   lesson,
 }) => {
   const history = useHistory();
-  const [t] = useTranslation('translation');
+  const [t] = useTranslation('modals');
   const [checked, setChecked] = useState([]);
   const [fupdate, setFupdate] = useState(false);
   useEffect(() => {
-    const checked = reasons.map((reason) => false);
+    const checked = reasons.map(() => false);
     setChecked(checked);
   }, [reasons]);
 
@@ -35,7 +35,7 @@ export const ModalCancelLesson = ({
         .filter((checked) => checked),
       id: lesson.id,
     });
-    history.push('/tutor/appointments-calendar');
+    history.push('/mentor/lesson-calendar');
   };
 
   return (

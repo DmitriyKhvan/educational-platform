@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import '../../../assets/styles/dashboard.scss';
-import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { DAYS } from '../../../constants/global';
 import LeftArrow from '../../../assets/images/left-arrow.svg';
 import RightArrow from '../../../assets/images/right-arrow.svg';
 import {
   format,
-  startOfMonth,
-  endOfMonth,
   startOfWeek,
   endOfWeek,
-  isSameMonth,
-  isSameDay,
   addDays,
-  addMonths,
-  subMonths,
-  parseISO,
   subDays,
 } from 'date-fns';
 import { Checkbox } from '../../../components/Checkbox';
@@ -47,8 +39,7 @@ const optionYears = [
 ];
 
 const BookTimeTrial = (props) => {
-  const dispatch = useDispatch();
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
 
   const optionMonths = [
     { value: 'january', label: t('january') },

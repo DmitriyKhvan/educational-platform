@@ -28,6 +28,10 @@
   letter-spacing: -0.2px;
 }
 
+.rbc-month-row {
+  overflow: visible !important;
+}
+
 .rbc-header {
   font-family: Inter;
   font-style: normal;
@@ -91,7 +95,6 @@
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
-  font-size: 20px;
   line-height: 24px;
   letter-spacing: -0.6px;
   color: $color-white;
@@ -141,6 +144,7 @@
 }
 
 .td-lesson {
+  margin-top: 1rem;
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
@@ -151,6 +155,7 @@
 }
 
 .td-topic-level {
+  margin-top: 1rem;
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
@@ -175,6 +180,7 @@
 }
 
 .td-tutor {
+  margin-top: 1rem;
   font-family: Inter;
   font-style: normal;
   font-weight: normal;
@@ -447,4 +453,9 @@
       }
     }
   }
+}
+
+.loading .rbc-time-view,
+.loading .rbc-month-view {
+  opacity: 0.5;
 }

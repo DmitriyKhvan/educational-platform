@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import '../../../assets/styles/dashboard.scss';
-import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import ImgArrowBack from '../../../assets/images/arrow_back.svg';
 import { Checkbox } from '../../../components/Checkbox';
@@ -8,22 +7,24 @@ import { Avatar } from '../../../components/Avatar';
 import Stars from '../../../components/Stars';
 import { format } from 'date-fns';
 import { getAbbrName, getAvatarName } from '../../../constants/global';
-import { createAppointment } from '../../../actions/appointment';
 import ModalConfirmLesson from './ModalConfirmLesson';
-import ActionTypes from '../../../constants/actionTypes';
 import NotificationManager from '../../../components/NotificationManager';
 import FavouriteIcon from '../../../components/FavouriteIcon';
 import { useHistory } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { CREATE_APPOINTMENT } from '../../../modules/auth/graphql';
+import { useAuth } from '../../../modules/auth';
 
-const LessonConfirmation = ({ tutor, time, lesson, onBack, onContinue }) => {
-  const dispatch = useDispatch();
-  const [t, i18n] = useTranslation('translation');
+const LessonConfirmation = ({ tutor, time, lesson, onBack }) => {
+  const [t] = useTranslation('translation');
   const [checkStates, setCheckStates] = useState([false, false, false]);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
 
-  const history = useHistory();
+  const { user } = useAuth();
 
-  useEffect(() => {}, [dispatch]);
+  const [createAppointment] = useMutation(CREATE_APPOINTMENT);
+
+  const history = useHistory();
 
   const onChangeChecked = (index) => {
     let checked = [...checkStates];
@@ -59,20 +60,20 @@ const LessonConfirmation = ({ tutor, time, lesson, onBack, onContinue }) => {
     };
 
     if (studentId) data = { ...data, studentId };
-    const res = await dispatch(createAppointment(data));
-    if (res.type === ActionTypes.CREATE_APPOINTMENT_INFO.SUCCESS) {
+    try {
+      await createAppointment({
+        variables: {
+          mentorId: tutor.id,
+          studentId: user.students[0].id,
+          packageId: lesson.package_id,
+          courseId: lesson.course_id,
+          startAt: data.start_at,
+          duration: data.duration,
+        },
+      });
       setIsConfirmModal(true);
-    } else {
-      if (res.payload.error.messages && res.payload.error.messages.length) {
-        NotificationManager.error(
-          res.payload.error.messages.map((msg) => msg.title).join('\n'),
-          t,
-        );
-      } else if (res.payload.error.message) {
-        NotificationManager.error(res.payload.error.message, t);
-      } else {
-        NotificationManager.error('Server Error', t);
-      }
+    } catch (error) {
+      NotificationManager.error(error.message, t);
     }
   };
 

@@ -29,7 +29,7 @@ const customStyles = {
 };
 
 const Students = ({ students, title, sort, setSort }) => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
 
   const columns = [
     {
@@ -69,7 +69,7 @@ const Students = ({ students, title, sort, setSort }) => {
         <div className="actions">
           <Link
             to={{
-              pathname: `/tutor/students/${record.id}`,
+              pathname: `/mentor/students/${record.id}`,
               state: { student: record },
             }}
           >

@@ -1,20 +1,22 @@
+// need to replace with graphql
+
+/* eslint-disable import/no-unresolved */
+/* eslint-disable no-undef  */
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
 import Loader from '../common/Loader';
-import { getTutorList } from '../../actions/tutor';
-import { useDispatch } from 'react-redux';
-import Swal from 'sweetalert2';
+// import { getTutorList } from '../../actions/tutor';
+// import Swal from 'sweetalert2';
 
 const ReschedulingTimeModal = ({
   setSchedule,
-  setTabIndex,
-  type,
+  // setTabIndex,
   duration,
 }) => {
-  const [t] = useTranslation('translation');
+  const [t] = useTranslation(['lessons', 'common', 'modals']);
   const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useDispatch();
   const [counter, setCounter] = useState(0);
   const [dayClicked, setDayClicked] = useState(null);
   const [timeClicked, setTimeClicked] = useState(null);
@@ -268,25 +270,25 @@ const ReschedulingTimeModal = ({
                 .date(dayMoment.date());
               setIsLoading(true);
               setSchedule(selectedSchedule.toString());
-              dispatch(getTutorList(selectedSchedule.toString())).then(
-                (response) => {
-                  const tutorlist = response.payload.tutors;
-                  if (tutorlist.length > 0) {
-                    setTabIndex(3);
-                  }
-                  if (tutorlist.length === 0) {
-                    Swal.fire({
-                      title: 'No Tutors Available for selected Time',
-                      text: '',
-                      icon: 'warning',
-                      confirmButtonColor: '#6133af',
-                      cancelButtonColor: '#d33',
-                      target: 'body > div.ReactModalPortal > div > div',
-                    });
-                  }
-                  setIsLoading(false);
-                },
-              );
+              // dispatch(getTutorList(selectedSchedule.toString())).then(
+              //   (response) => {
+              //     const tutorlist = response.payload.tutors;
+              //     if (tutorlist.length > 0) {
+              //       setTabIndex(3);
+              //     }
+              //     if (tutorlist.length === 0) {
+              //       Swal.fire({
+              //         title: 'No Tutors Available for selected Time',
+              //         text: '',
+              //         icon: 'warning',
+              //         confirmButtonColor: '#6133af',
+              //         cancelButtonColor: '#d33',
+              //         target: 'body > div.ReactModalPortal > div > div',
+              //       });
+              //     }
+              //     setIsLoading(false);
+              //   },
+              // );
             }}
           >
             {t('confirm_lesson')}
@@ -318,7 +320,7 @@ const ReschedulingTimeModal = ({
       <div className="container" style={{ width: '75vw' }}>
         <div className="row">
           <div className="col pe-4">
-            <h2>{t('reschedule_lesson')}</h2>
+            <h2>{t('reschedule_lesson', { ns: 'modals' })}</h2>
             <div className="row align-items-start">
               <div className="col-1">
                 <button
@@ -352,7 +354,9 @@ const ReschedulingTimeModal = ({
 
             <div className="row">
               <div className="col px-4">
-                <p className="text-muted text-center">{t('date')}</p>
+                <p className="text-muted text-center">
+                  {t('date', { ns: 'common' })}
+                </p>
                 {days.map(
                   (x, i) =>
                     x.format === 'day' && (
@@ -362,7 +366,9 @@ const ReschedulingTimeModal = ({
               </div>
               <div className="col px-4">
                 {dayClicked !== null ? (
-                  <p className="text-muted text-center">{t('time')}</p>
+                  <p className="text-muted text-center">
+                    {t('time', { ns: 'common' })}
+                  </p>
                 ) : (
                   ''
                 )}

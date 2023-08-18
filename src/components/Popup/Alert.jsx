@@ -1,6 +1,4 @@
-import React from 'react';
 import Swal from 'sweetalert2';
-import { useTranslation } from 'react-i18next';
 
 const Alert = (
   title,
@@ -15,7 +13,6 @@ const Alert = (
   successMsg3,
   customButtons,
   showCancel = true,
-  ...rest
 ) => {
   Swal.fire({
     title: title,

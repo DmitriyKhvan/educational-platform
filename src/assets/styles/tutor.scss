@@ -105,7 +105,6 @@
 }
 
 .schedule_height {
-  height: calc(100vh - 80px);
   overflow: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -2389,6 +2388,7 @@ span.continue-arrow {
 @media screen and (max-width: 1200px) {
   .flex-right {
     width: 100%;
+    padding: 0 50px;
   }
 
   .flex-left {
@@ -3114,9 +3114,9 @@ span.continue-arrow {
     width: 15px;
     font-weight: bold;
     font-size: 15px;
-    color: $color-purple
+    color: $color-purple;
   }
-  
+
   .title-input {
     border: none;
     border: 1px solid $color-border-grey !important;
@@ -3239,4 +3239,12 @@ span.continue-arrow {
   overflow: hidden;
   width: 100vw;
   height: 100vh;
+}
+
+.no_mentors {
+  width: 100%;
+  display: block;
+  text-align: center;
+  color: $color-light-grey2;
+  text-transform: uppercase;
 }

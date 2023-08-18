@@ -24,5 +24,9 @@
   "availability": "Availability →",
   "daily_schedule": "Daily Schedule",
   "upcoming_lessons": "UPCOMING Lessons",
-  "mentor_dashboard_total_lessons": "You have {{total_lessons}} upcoming lesson(s) today."
+  "mentor_dashboard_total_lessons": "You have {{total_lessons}} upcoming lesson(s) today.",
+  "schedule_by_time": "Schedule by Time",
+  "schedule_by_mentor": "Schedule by Mentor",
+  "student_dashboard_no_package": "No purchased packages yet.",
+  "student_dashboard_no_package_desc": "Purchase a package →"
 }

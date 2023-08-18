@@ -41,6 +41,18 @@ class TutorApi extends BaseApi {
     );
   }
 
+  adjustTutorAvailability(offsetHours) {
+    return axios.post(
+      this.REACT_APP_SERVER_URL + '/tutors/availability-adjust',
+      { offsetHours },
+      {
+        headers: {
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      },
+    );
+  }
+
   updateExceptionDates(exceptiondates, tutor_id) {
     return axios.post(
       this.REACT_APP_SERVER_URL + '/tutors/exceptiondates',
@@ -110,6 +122,29 @@ class TutorApi extends BaseApi {
         Authorization: `Bearer ${this.getToken()}`,
       },
     });
+  }
+
+  getTimesheets(body) {
+    return axios.post(`${this.REACT_APP_SERVER_URL}/tutor-timesheets`, body, {
+      headers: {
+        Authorization: `Bearer ${this.getToken()}`,
+      },
+    });
+  }
+
+  getAvailableForTime(isoTime, duration) {
+    return axios.post(
+      `${this.REACT_APP_SERVER_URL}/tutor-timesheets/list-available`,
+      {
+        time: isoTime,
+        duration,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      },
+    );
   }
 }
 

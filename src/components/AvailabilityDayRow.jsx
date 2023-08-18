@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import AvailabilityPicker from '../pages/Tutors/Availiability/AvailabilityPicker';
-import { AvailProv } from '../pages/Tutors/Availiability/AvailabilityProvider';
+import AvailabilityPicker from '../pages/Mentors/Availiability/AvailabilityPicker';
+import { AvailProv } from '../pages/Mentors/Availiability/AvailabilityProvider';
 import plusIcon from '../assets/images/plus_icon.svg';
 import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
@@ -13,24 +12,15 @@ export const AvailabilityDayRow = ({
   isteachAddHours,
   setIsTeachAddHours,
   newRow,
-  setNewRow,
   AvailabilitySlots,
   setCurrentToTime,
-  currentToTime,
   type,
 }) => {
   const [toggle, setToggle] = useState(false);
-  const [initialRow, setInitialRow] = useState();
-  const [ontoggle, setOntoggle] = useState(false);
-  const tutorInfo = useSelector((state) => state.tutor.info);
-  const { setAvailabilityRow, removeAvailabilityRow, availabilityRow } =
-    useContext(AvailProv);
+  const { removeAvailabilityRow } = useContext(AvailProv);
   const { addAvailRowUp } = useContext(AvailProv);
   const [t] = useTranslation('common');
 
-  useEffect(() => {
-    setInitialRow('0');
-  }, []);
   useEffect(() => {
     var days = [];
     if (gatherAvailabilities.length > 0) {
@@ -55,7 +45,6 @@ export const AvailabilityDayRow = ({
     }
   }, [gatherAvailabilities]);
   const onToggleDay = () => {
-    setOntoggle(true);
     setToggle(!toggle);
     if (!toggle) {
       removeAvailabilityRow({ day });
@@ -93,7 +82,7 @@ export const AvailabilityDayRow = ({
         checked={toggle}
         onClick={onToggleDay}
       />
-      <div className="col-sm-1 ms-3 me-5 align_day">
+      <div className="col-sm-2 ms-3 me-5 align_day">
         <div>
           <strong>{t(day)}</strong>
         </div>
@@ -101,12 +90,12 @@ export const AvailabilityDayRow = ({
       {toggle && (
         <>
           <div className="col-auto justify-content-md-center aligns_row_time">
-            {gatherAvailabilities.map((k, i) => {
+            {gatherAvailabilities.map((k) => {
               if (k.day === day) {
                 return (
                   <AvailabilityPicker
                     day={day}
-                    key={i}
+                    key={k.id}
                     id={k.id}
                     setGatherAvailabilities={setGatherAvailabilities}
                     gatherAvailabilities={gatherAvailabilities}
@@ -117,7 +106,7 @@ export const AvailabilityDayRow = ({
                     isteachAddHours={isteachAddHours}
                     setIsTeachAddHours={setIsTeachAddHours}
                     AvailabilitySlots={AvailabilitySlots}
-                    updateTime={setCurrentToTime}
+                    updateTime={setCurrentToTime} //I don't know what this method is for
                     type={type}
                   />
                 );
@@ -126,7 +115,7 @@ export const AvailabilityDayRow = ({
           </div>
           <div className="col-auto align_fa_trash">
             <button
-              className="btn fa_trash_can ms-3 pb-0"
+              className="btn fa_trash_can ms-3"
               onClick={() => addAvailRowUp(day, 'availability')}
               disabled={isTimeEndReached()}
             >

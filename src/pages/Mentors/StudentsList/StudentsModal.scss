@@ -1,0 +1,200 @@
+.student_alfa {
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 9999999;
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    top: 0;
+    left: 0;
+    display: inline-block;
+  }
+
+
+
+  .tutor_modal {
+    height: 80vh;
+    width: 70%;
+    position: fixed;
+    background-color: white;
+    top: 10%;
+    bottom: 10%;
+    border-radius: 5px;
+    left: 14%;
+    display: flex;
+    
+    .no_video {
+      width: 460px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+  
+      h2 {
+        color: gray;
+      }
+    }
+  
+
+    .close-sh {
+      position: absolute;
+      right: 3%;
+      top: 0%;
+      cursor: pointer;
+      font-size: 30px;
+    }
+
+    .student_image {
+      width: 40%;
+      height: 100%;
+      object-fit: cover;
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+
+    .favTutorIcon {
+      position: absolute;
+      right: 2%;
+      top: 3%;
+    }
+
+    .tutor_banner {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+      width: 40%;
+      height: 100%;
+    }
+
+    .tutor_more-content {
+      width: 60%;
+      overflow-y: auto;
+      height: 100%;
+      padding: 35px 65px;
+      padding-left: 24px;
+      h1 {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 30px;
+        cursor: pointer;
+        line-height: 48px;
+        letter-spacing: -1px;
+
+        /* Dark Purple */
+
+        color: #261a45;
+      }
+
+      p {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 21px;
+        margin-right: 10px;
+        letter-spacing: -0.6px;
+
+        /* Light Gray */
+
+        color: #646481;
+      }
+
+      .bottom_content {
+        margin-top: 0px;
+        p {
+          font-family: 'Inter';
+          font-style: normal;
+          font-weight: 500;
+          font-size: 15px;
+          line-height: 21px;
+          letter-spacing: -0.6px;
+          margin-bottom: 30px;
+          /* Light Gray */
+
+          color: #646481;
+          span {
+            color: #261a45;
+          }
+        }
+      }
+
+      .modal_bio {
+        p {
+          font-family: 'Inter';
+          cursor: pointer;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 15px;
+          line-height: 18px;
+          letter-spacing: -0.2px;
+          margin-bottom: 10px;
+          /* Light Gray */  
+
+          color: #646481;
+
+        }
+      }
+
+      .bottom_content-status {
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 20px;
+
+        p {
+          font-family: 'Inter';
+          cursor: pointer;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 15px;
+          line-height: 18px;
+          letter-spacing: -0.2px;
+          margin-bottom: 0;
+          /* Light Gray */
+
+          color: #646481;
+        }
+        h3 {
+          font-family: 'Inter';
+          margin-top: 5px;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 15px;
+          line-height: 18px;
+          letter-spacing: -0.2px;
+
+          /* Dark Purple */
+
+          color: #261a45;
+        }
+      }
+
+      .bottom_content-button {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 15px;
+        gap: 10px;
+        button {
+          height: 38px;
+          padding: 0px 15px;
+          /* White */
+          cursor: pointer;
+          background: #ffffff;
+          /* Border Gray */
+
+          border: 1px solid #dedee1;
+          border-radius: 5px;
+          &:hover {
+            background: #6133af;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}

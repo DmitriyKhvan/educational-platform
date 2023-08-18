@@ -1,10 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import { I18nextProvider } from 'react-i18next';
 import i18next from 'i18next';
-import translation_en from './assets/lang/en/translations.json';
-import translation_kr from './assets/lang/kr/translations.json';
 import {
   commonEn,
   sidebarEn,
@@ -15,6 +12,9 @@ import {
   availabilityEn,
   referEn,
   profileEn,
+  onboardingEn,
+  translationsEn,
+  purchaseEn,
 } from './assets/lang/en';
 import {
   commonKr,
@@ -26,6 +26,9 @@ import {
   availabilityKr,
   referKr,
   profileKr,
+  onboardingKr,
+  translationsKr,
+  purchaseKr,
 } from './assets/lang/kr';
 import {
   ApolloClient,
@@ -39,7 +42,7 @@ import { createUploadLink } from 'apollo-upload-client';
 import './index.css';
 
 const httpLink = createUploadLink({
-  uri: `${process.env.REACT_APP_SERVER_URL}/api/graphql`,
+  uri: `${process.env.REACT_APP_SERVER_URL}/graphql`,
   headers: {
     'Apollo-Require-Preflight': 'true',
   },
@@ -49,7 +52,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
-      authorization: localStorage.getItem('token') || null,
+      authorization: 'Bearer ' + localStorage.getItem('token') || null,
     },
   }));
 
@@ -66,7 +69,6 @@ i18next.init({
   lng: 'en', // language to use
   resources: {
     en: {
-      // translation: translation_en, // 'common' is our custom namespace,
       common: commonEn,
       sidebar: sidebarEn,
       lessons: lessonsEn,
@@ -76,9 +78,11 @@ i18next.init({
       availability: availabilityEn,
       refer: referEn,
       profile: profileEn,
+      onboarding: onboardingEn,
+      translations: translationsEn,
+      purchase: purchaseEn,
     },
     kr: {
-      // translation: translation_kr, // 'common' is our custom namespace
       common: commonKr,
       sidebar: sidebarKr,
       lessons: lessonsKr,
@@ -88,11 +92,15 @@ i18next.init({
       availability: availabilityKr,
       refer: referKr,
       profile: profileKr,
+      onboarding: onboardingKr,
+      translations: translationsKr,
+      purchase: purchaseKr,
     },
   },
 });
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root'));
+root.render(
   <ApolloProvider client={client}>
     <I18nextProvider i18n={i18next}>
       <AuthProvider>
@@ -100,5 +108,4 @@ ReactDOM.render(
       </AuthProvider>
     </I18nextProvider>
   </ApolloProvider>,
-  document.getElementById('root'),
 );

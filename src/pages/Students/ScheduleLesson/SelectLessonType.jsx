@@ -1,31 +1,27 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 import '../../../assets/styles/tutor.scss';
-import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import ImgChecked from '../../../assets/images/checked_sm.svg';
 import { differenceInDays } from 'date-fns';
-import { getPlanStatus } from '../../../actions/subscription';
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { useAuth } from '../../../modules/auth';
+import { useQuery } from '@apollo/client';
+import { PACKAGE_QUERY } from '../../../modules/auth/graphql';
 
 const SelectLessonType = ({ onContinue }) => {
-  const dispatch = useDispatch();
-  const [t, i18n] = useTranslation('translation');
+  const { user } = useAuth();
+  const [t] = useTranslation('translation');
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const planStatus = useSelector((state) => state.students.planStatus);
-  const loading = useSelector((state) => state.students.loading);
-  const history = useHistory();
+  const {
+    data: { packageSubscriptions: planStatus },
+  } = useQuery(PACKAGE_QUERY, {
+    variables: {
+      id: user?.id,
+    },
+    fetchPolicy: 'network-only',
+  });
 
-  useEffect(() => {
-    let data = {};
-    const studentId =
-      history.location.state && history.location.state.studentId;
-    if (studentId) data = { student_id: studentId };
-    dispatch(getPlanStatus(data));
-  }, [dispatch]);
-
-  const onSelect = (key, lesson) => {
+  const onSelect = (key) => {
     setSelectedIndex(key);
   };
 
@@ -33,14 +29,16 @@ const SelectLessonType = ({ onContinue }) => {
     if (selectedIndex === -1) return;
 
     const lesson = planStatus[selectedIndex];
-    const course =
-      lesson.lesson_type.indexOf('english') > -1
-        ? 'english'
-        : lesson.lesson_type.toLowerCase();
-    const { duration, lesson_id } = lesson;
+    const {
+      package: {
+        id: packageId,
+        course: { title: courseTitle },
+        period: duration,
+      },
+    } = lesson;
     onContinue({
-      lesson_id,
-      course,
+      packageId,
+      courseTitle,
       duration,
     });
   };
@@ -51,24 +49,24 @@ const SelectLessonType = ({ onContinue }) => {
       <div className={`lesson-card ${selected ? 'active' : ''}`}>
         <div>
           <div className="lesson-info">
-            <p className="class">{lesson.lesson_type}</p>
-            <p className="type">({lesson.group_type})</p>
+            {/* <p className="class">{lesson.lesson_type}</p>
+            <p className="type">({lesson.group_type})</p> */}
           </div>
           <div>
             <div className="duration-box">
               <div className="divider" />
               <div className="first">
-                <span className={`duration d-${lesson.duration}m`}>
-                  {lesson.duration}m
+                <span className={`duration d-${lesson.package.period}m`}>
+                  {lesson.package.period}m
                 </span>
                 <div>
                   <span>
-                    {lesson.total_lessons - lesson.lessons} {t('lessons')}
+                    {lesson.credits} {t('lessons')}
                   </span>
                   <span>
                     {t('expired_in_days', {
                       n: differenceInDays(
-                        new Date(lesson.plan_end),
+                        new Date(lesson.periodEnd),
                         new Date(),
                       ),
                     })}
@@ -83,7 +81,7 @@ const SelectLessonType = ({ onContinue }) => {
                     style={{
                       width:
                         Math.floor(
-                          (lesson.lessons / lesson.total_lessons) * 100,
+                          (lesson.credits / lesson.package.totalSessions) * 100,
                         ) + '%',
                     }}
                   />
@@ -91,14 +89,14 @@ const SelectLessonType = ({ onContinue }) => {
                 <div className="plan">
                   {/* <span>{duration.plan} {t('plan')}</span> */}
                   <span>
-                    {t('times_used', { n: lesson.lessons })}/{' '}
-                    {lesson.total_lessons}
+                    {t('times_used', { n: lesson.credits })}/{' '}
+                    {lesson.package.totalSessions}
                   </span>
                 </div>
               </div>
             </div>
           </div>
-          {lesson.total_lessons > lesson.lessons ? (
+          {lesson.package.totalSessions > lesson.credits ? (
             <>
               {!selected && (
                 <div
@@ -129,28 +127,18 @@ const SelectLessonType = ({ onContinue }) => {
     <div className="schedule-lesson-layout">
       <h4 className="main-title">{t('schedule_lesson')}</h4>
       <div className="divider" />
-      {loading ? (
-        <Loader
-          className="align-center"
-          type="Audio"
-          color="#00BFFF"
-          height={50}
-          width={50}
-        />
-      ) : planStatus.length === 0 ? (
+      {planStatus.length === 0 ? (
         <span className="no-data">{t('no_lessons')}</span>
       ) : (
         <>
           <div className="lesson-detail-wraper">
-            {planStatus
-              .filter((p) => p.group_type === '1-on-1')
-              .map((lesson, index) => (
-                <LessonCard
-                  key={`lesson-card-${index}`}
-                  index={index}
-                  lesson={lesson}
-                />
-              ))}
+            {planStatus.map((lesson, index) => (
+              <LessonCard
+                key={`lesson-card-${index}`}
+                index={index}
+                lesson={lesson}
+              />
+            ))}
           </div>
           <div className="btn-continue" onClick={onClickContinue}>
             {t('continue')}

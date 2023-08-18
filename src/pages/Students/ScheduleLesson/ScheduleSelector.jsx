@@ -1,48 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
 import Layout from '../../../components/Layout';
 import custom_back_arrow from '../../../assets/images/custom_back_arrow.svg';
-import prev_arrow from '../../../assets/images/prev_arrow.svg';
 import forward_arrow from '../../../assets/images/forward_arrow.svg';
-import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import { getTutorList } from '../../../actions/tutor';
 import Loader from 'react-loader-spinner';
-import { useQuery, gql } from '@apollo/client';
+import { useAuth } from '../../../modules/auth';
+import { gql, useQuery } from '@apollo/client';
 
 const GET_TIMESHEETS = gql`
-  query GetTimesheets($day: String) {
-    timesheets(
-      where: { day: { equals: $day } }
-      orderBy: []
-      take: null
-      skip: 0
-    ) {
+  query timesheets($tz: String!, $date: String!, $mentorId: ID) {
+    timesheets(tz: $tz, date: $date, mentorId: $mentorId) {
       id
-      tutorId
       day
       from
       to
-      createdAt
-      updatedAt
     }
   }
 `;
 
+const useTimesheets = (body) => {
+  const res = useQuery(GET_TIMESHEETS, {
+    variables: {
+      ...body,
+    },
+    fetchPolicy: 'network-only',
+  });
+  return res;
+};
+
 const ScheduleSelector = ({
   setTabIndex,
   duration,
+  step,
   setSchedule,
   lesson,
-  tabIndex,
-  schedule,
-  setTutorIdList,
+  selectedTutor,
 }) => {
-  const [t] = useTranslation(['lessons', 'common', 'modal']);
-  const user = useSelector((state) => state.users.user);
+  const [t] = useTranslation(['lessons', 'common', 'modals']);
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useDispatch();
   const [counter, setCounter] = useState(0);
   const [dayClicked, setDayClicked] = useState(null);
   const [timeClicked, setTimeClicked] = useState(null);
@@ -84,17 +82,17 @@ const ScheduleSelector = ({
 
   const morningCheck = [
     moment('00:00:00', timeFormatter),
-    moment(duration === 30 ? '11:30:00' : '11:00:00', timeFormatter),
+    moment(step === 30 ? '11:30:00' : '11:00:00', timeFormatter),
   ];
 
   const afternoonCheck = [
-    moment(duration === 30 ? '11:30:00' : '11:00:00', timeFormatter),
-    moment(duration ? '17:30:00' : '17:00:00', timeFormatter),
+    moment(step === 30 ? '11:30:00' : '11:00:00', timeFormatter),
+    moment(step ? '17:30:00' : '17:00:00', timeFormatter),
   ];
 
   const eveningCheck = [
-    moment(duration ? '17:30:00' : '17:00:00', timeFormatter),
-    moment(duration === 30 ? '23:30:00' : '23:00:00', timeFormatter),
+    moment(step ? '17:30:00' : '17:00:00', timeFormatter),
+    moment(step === 30 ? '23:30:00' : '23:00:00', timeFormatter),
   ];
 
   if (day) {
@@ -147,18 +145,16 @@ const ScheduleSelector = ({
     }
   }
 
-  const {
-    data: timesheetsData,
-    loading,
-    errors,
-  } = useQuery(GET_TIMESHEETS, {
-    variables: {
-      day: moment(day).format('dddd'),
-    },
+  const { data: timesheetsData } = useTimesheets({
+    tz: userTimezone,
+    date: moment(day).format('YYYY-MM-DD'),
+    ...(selectedTutor && {
+      mentorId: selectedTutor.id,
+    }),
   });
 
-  //Loop over the times - only pushes time with 30 minutes interval
-  while (startTime.isBefore(endTime)) {
+  //Loop over the times - only pushes time with 30 oor 60 minutes interval
+  while (startTime.isBefore(endTime) || startTime.isSame(endTime)) {
     const tempTime = moment(startTime.format('HH:mm'), 'HH:mm');
     timesheetsData?.timesheets.map((timesheet) => {
       const timesheetFrom = moment(timesheet.from, 'HH:mm');
@@ -167,19 +163,26 @@ const ScheduleSelector = ({
       // Fourth parameter '[)' means that the end time is not included
       if (tempTime.isBetween(timesheetFrom, timesheetTo, null, '[)')) {
         allTimes.push(startTime.format('HH:mm'));
-        return timesheet.tutorId;
+        return timesheet;
       }
     });
-    startTime.add(duration, 'minutes');
+    startTime.add(step, 'minutes');
   }
 
   for (let i = 0; i <= 6; i++) {
-    const dayOfTheWeek = {
-      day: moment(startOfWeekString).add(i, 'days').toString(),
-      format: 'day',
-    };
-    days.push(dayOfTheWeek);
+    if (
+      moment(startOfWeekString)
+        .add(i, 'days')
+        .isBetween(moment().subtract(1, 'days'), moment().add(12, 'days'))
+    ) {
+      const dayOfTheWeek = {
+        day: moment(startOfWeekString).add(i, 'days').toString(),
+        format: 'day',
+      };
+      days.push(dayOfTheWeek);
+    }
   }
+
   const DaySelector = ({ data, i }) => {
     const checkDate = () => {
       if (data.format === 'day') {
@@ -200,7 +203,7 @@ const ScheduleSelector = ({
         if (isAfterToday) {
           setDayClicked(i);
           setDay(data.day);
-          setTimeOfDay({ slotInterval: duration, startTime: '', endTime: '' });
+          setTimeOfDay({ slotInterval: step, startTime: '', endTime: '' });
           timeArr = [];
           setTimeClicked(null);
         }
@@ -218,14 +221,14 @@ const ScheduleSelector = ({
         if (data.time === 'Morning') {
           if (checkAgainstToday.isBetween(...morningCheck) && isSame) {
             setTimeOfDay({
-              slotInterval: duration,
+              slotInterval: step,
               startTime: roundUp.format('HH:mm'),
               endTime: '11:30',
             });
           } else {
             setTimeOfDay({
-              slotInterval: duration,
-              startTime: '09:00',
+              slotInterval: step,
+              startTime: '00:00',
               endTime: '11:30',
             });
           }
@@ -233,13 +236,13 @@ const ScheduleSelector = ({
         if (data.time === 'Afternoon') {
           if (checkAgainstToday.isBetween(...afternoonCheck) && isSame) {
             setTimeOfDay({
-              slotInterval: duration,
+              slotInterval: step,
               startTime: roundUp.format('HH:mm'),
               endTime: '17:30',
             });
           } else {
             setTimeOfDay({
-              slotInterval: duration,
+              slotInterval: step,
               startTime: '12:00',
               endTime: '17:30',
             });
@@ -248,13 +251,13 @@ const ScheduleSelector = ({
         if (data.time === 'Evening') {
           if (checkAgainstToday.isBetween(...eveningCheck) && isSame) {
             setTimeOfDay({
-              slotInterval: duration,
+              slotInterval: step,
               startTime: roundUp.format('HH:mm'),
               endTime: '23:30',
             });
           } else {
             setTimeOfDay({
-              slotInterval: duration,
+              slotInterval: step,
               startTime: '18:00',
               endTime: '23:30',
             });
@@ -266,7 +269,7 @@ const ScheduleSelector = ({
       <React.Fragment>
         {isAfterToday && (
           <div
-            className={`day-selector text-center my-3 ${
+            className={`day-selector bg-white rounded-md border-2 text-center my-3 ${
               i === dayClicked || i === timeClicked
                 ? 'schedule_lesson_day'
                 : 'schedule_lesson_day_unselect'
@@ -321,35 +324,8 @@ const ScheduleSelector = ({
     if (todayDate.isBefore(preScreen)) {
       setIsLoading(true);
       setSchedule(selectedSchedule.toString());
-      dispatch(getTutorList(selectedSchedule.toString())).then((response) => {
-        // const tutorlist = response.payload.tutors
-        const tutorlist = [
-          {
-            id: 1,
-            name: 'Tutor 1',
-            isFavourite: true,
-            univer: 'University of California',
-            lang: 'English',
-            image: 'https://picsum.photos/200/300',
-            rating: 4.5,
-            price: 100,
-            currency: 'USD',
-          },
-        ];
-
-        if (Array.isArray(tutorlist) && tutorlist.length > 0) {
-          setTabIndex(2);
-        } else if (Array.isArray(tutorlist) && tutorlist.length === 0) {
-          Swal.fire({
-            title: 'No Tutors Available for selected Time',
-            text: '',
-            icon: 'warning',
-            confirmButtonColor: '#6133af',
-            cancelButtonColor: '#d33',
-          });
-        }
-        setIsLoading(false);
-      });
+      setTabIndex(2);
+      setIsLoading(false);
     }
   };
 
@@ -363,7 +339,7 @@ const ScheduleSelector = ({
 
     return (
       <div
-        className={`time-card grey-border bg-white small-card pt-2 mt-4 media_align_width`}
+        className={`time-card space-y-2 grey-border bg-white small-card pt-4 mt-4 media_align_width`}
       >
         <div className="row container ms-1">
           <div className="col-12 align_schedule_texts">
@@ -380,7 +356,7 @@ const ScheduleSelector = ({
             <div className="schedule-card-col">
               <p className={`enter-btn time-btn grey-border text-black`}>
                 {`${t(moment(day).format('dddd'), { ns: 'common' })}, ${t(
-                  moment(day).format('MMMM'),
+                  moment(day).format('MMM'),
                   { ns: 'common' },
                 )} ${moment(day).format('DD')}${t('kor_day', {
                   ns: 'common',
@@ -409,9 +385,9 @@ const ScheduleSelector = ({
 
   const AvailableSpots = () => (
     <React.Fragment>
-      <div className="row ">
-        <h1 className="title right-con-title">{t('available_spots')}</h1>
-        <p className="welcome-subtitle right-con-subtitle">
+      <div>
+        <h1 className="title mb-2.5 available-text">{t('available_spots')}</h1>
+        <p className="welcome-subtitle available-text">
           {t('available_spots_subtitle')}
         </p>
       </div>
@@ -435,17 +411,16 @@ const ScheduleSelector = ({
         <div className="flex-container">
           <div className="lesson-wrapper flex-lefts student-dashboard">
             <div>
-              <div className="container title-container">
-                <h1 className="title lelt-con">
-                  {lesson ? t('reschedule_lesson') : t('schedule_lesson')}
+              <div className="container title-container px-4">
+                <h1 className="title lelt-con mb-2.5">
+                  {lesson
+                    ? t('reschedule_lesson', { ns: 'modals' })
+                    : t('schedule_lesson')}
                 </h1>
                 <p className="welcome-subtitle left-subtitle">
                   {lesson ? (
                     <>
-                      {t('choose_new_date')}
-                      <br />
-                      <br />
-                      Currently lesson scheduled at{' '}
+                      {t('currently_scheduled', { ns: 'modals' })}{' '}
                       {moment(lesson.startAt)
                         .tz(userTimezone)
                         .format('dddd, MMM DD hh:mm A')}
@@ -455,27 +430,46 @@ const ScheduleSelector = ({
                   )}
                 </p>
               </div>
-              <div className="row container ps-4 pe-0">
-                <div className="col-1 leftArrow">
+              <div className="flex w-full items-center justify-between px-4 mb-4">
+                <div>
                   <button
-                    className="btn btn-dash-return leftArrow-btn"
+                    className="btn btn-dash-return disabled:opacity-50"
                     disabled={disable}
                     onClick={() => {
                       setCounter(counter + 1);
                       setDayClicked(null);
                     }}
                   >
-                    <img src={prev_arrow} alt="" />
+                    <img
+                      style={{ transform: 'rotate(180deg)' }}
+                      src={forward_arrow}
+                      alt=""
+                    />
                   </button>
                 </div>
-                <div className="col-10">
+
+                <div>
                   <h1 className="justify-content-center mt-0">
                     {startOfWeekFormatted} to {endOfWeekFormatted}
                   </h1>
                 </div>
-                <div className="col-1 ps-0 rightArrow">
+
+                <div>
                   <button
-                    className="btn btn-dash-return rightArrow-btn"
+                    className="btn btn-dash-return disabled:opacity-50"
+                    onClick={() => {
+                      setCounter(counter - 1);
+                      setDayClicked(null);
+                    }}
+                    disabled={counter === -2}
+                  >
+                    <img src={forward_arrow} alt="" />
+                  </button>
+                </div>
+
+                {/* <div className="col-1">
+                  <button
+                    className="btn btn-dash-return disabled:opacity-50"
                     onClick={() => {
                       setCounter(counter - 1);
                       setDayClicked(null);
@@ -483,9 +477,10 @@ const ScheduleSelector = ({
                   >
                     <img src={forward_arrow} alt="" />
                   </button>
-                </div>
+                </div> */}
               </div>
-              <div className="row customDay-select">
+
+              <div className="row customDay-select m-0">
                 <div className="col-6 px-4">
                   {days.map(
                     (x, i) =>
@@ -503,7 +498,7 @@ const ScheduleSelector = ({
                   })}
                 </div>
               </div>
-              <div className="row container pt-3">
+              <div className="p-4">
                 <div className="col-auto back-btn-container ">
                   <button
                     className="enter-btn btn-dash-return ms-0 back-btn-schedule"

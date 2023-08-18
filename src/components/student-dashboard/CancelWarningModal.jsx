@@ -1,41 +1,50 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import moment from 'moment';
-import { getPlanStatus } from '../../actions/subscription';
+import { useAuth } from '../../modules/auth';
+import { ROLES } from '../../constants/global';
 
-const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
+const MAX_MODIFY_COUNT = 3;
+
+const CancelWarningModal = ({
+  data,
+  setTabIndex,
+  setIsOpen,
+  type,
+  modifyCredits,
+}) => {
   const [t] = useTranslation('modals');
-  const dispatch = useDispatch();
-  const [planLength, setPlanLength] = useState(0);
+  const { user } = useAuth();
   const [isChecked, setIsChecked] = useState(false);
+  const [cancellationDots, setCancellationDots] = useState([]);
 
-  useEffect(async () => {
-    const { payload } = await dispatch(getPlanStatus());
-    const [{ plan_start, plan_end }] = payload.results.filter(
-      (x) => parseInt(x.duration, 10) === duration,
-    );
-    const diff = Math.round(
-      (moment(plan_end).unix() - moment(plan_start).unix()) / 2592000,
-    );
-    setPlanLength(diff);
-  }, []);
-
-  const cancellationDots = [];
-  for (let i = 0; i < planLength; i++) {
-    if (i <= planLength) {
-      cancellationDots.push(<span className="dot dot-filled" key={i}></span>);
-    } else {
-      cancellationDots.push(<span className="dot dot-unfilled" key={i}></span>);
+  useEffect(() => {
+    if (modifyCredits !== undefined) {
+      const cancellationDots = [];
+      for (let i = 0; i < MAX_MODIFY_COUNT; i++) {
+        if (i < modifyCredits) {
+          cancellationDots.push(
+            <span className="dot dot-filled" key={i}></span>,
+          );
+        } else {
+          cancellationDots.push(
+            <span className="dot dot-unfilled" key={i}></span>,
+          );
+        }
+      }
+      setCancellationDots(cancellationDots);
     }
-  }
+  }, [modifyCredits]);
 
   const checkboxEvent = () => {
     setIsChecked(!isChecked);
   };
 
   const onClick = () => {
+    if (type === 'reschedule') {
+      //We need exactly window.location, so that the page with this id is reloaded
+      window.location.replace('/student/schedule-lesson/select/' + data.id);
+    }
+
     if (type === 'reschedule-time') {
       setTabIndex(2);
     }
@@ -46,25 +55,28 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
   };
 
   return (
-    <div className="row">
-      <div className="col-auto">
-        <div className="row">
-          <div className="col-11 ps-2">
-            <h2>{t('warning')}</h2>
-          </div>
-          <div className="col-auto text-end pt-2 ps-4">
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-              onClick={() => setIsOpen(false)}
-            ></button>
-          </div>
+    <div>
+      <div className="flex justify-between mb-2">
+        <div className="text-lg font-semibold">{t('warning')}</div>
+        <div>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            onClick={() => setIsOpen(false)}
+          ></button>
         </div>
-        <p className="welcome-subtitle">{t('cancel_modal_desc')}</p>
-        {cancellationDots}
-        <div className="form-check pt-3">
+      </div>
+      <div> {user.role !== ROLES.MENTOR ? t('cancel_modal_desc') : null}</div>
+      {user.role !== ROLES.MENTOR && (
+        <div className="w-full flex items-center justify-center mt-3">
+          {cancellationDots}
+        </div>
+      )}
+
+      {type !== 'reschedule' && (
+        <div className="form-check pt-3 flex items-center">
           <input
             className="form-check-input"
             type="checkbox"
@@ -72,13 +84,16 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
             value="cancel"
             onChange={checkboxEvent}
             checked={isChecked}
+            disabled={user.role !== ROLES.MENTOR && modifyCredits === 0}
           />
           <label className="form-check-label" htmlFor="cancel">
             {t('confirm_cancel')}
           </label>
         </div>
+      )}
 
-        <div className="row pt-4">
+      <div className="row pt-4">
+        {type !== 'reschedule' && (
           <div className="col-auto">
             <button
               className="enter-btn grey-border"
@@ -87,15 +102,16 @@ const CancelWarningModal = ({ setTabIndex, setIsOpen, duration, type }) => {
               {t('review_cancellation_policy')}
             </button>
           </div>
-          <div className="col-auto">
-            <button
-              className="enter-btn bg-pink text-white"
-              onClick={onClick}
-              disabled={!isChecked}
-            >
-              {t('continue_cancel')}
-            </button>
-          </div>
+        )}
+
+        <div className="col-auto">
+          <button
+            className="enter-btn bg-pink text-white"
+            onClick={onClick}
+            disabled={!isChecked && type !== 'reschedule'}
+          >
+            {t('continue_cancel')}
+          </button>
         </div>
       </div>
     </div>

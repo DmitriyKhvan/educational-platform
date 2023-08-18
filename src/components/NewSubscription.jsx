@@ -12,7 +12,7 @@ const NewSubscription = ({
   loading,
 }) => {
   const [planIndex, setPlanIndex] = useState(-1);
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation(['lessons', 'common']);
   const [currencySymbol, setCurrencySymbol] = useState('$');
 
   const [coupon, setCoupon] = useState([]);
@@ -85,7 +85,7 @@ const NewSubscription = ({
                         >
                           <path d="M11.5 1L0.5 35" stroke="#C4C4C4" />
                         </svg>
-                        <span>{t('week')}</span>
+                        <span>{t('week', { ns: 'common' })}</span>
                       </div>
                       {hasDiscount && (
                         <div className="origin-price">
@@ -147,12 +147,12 @@ const NewSubscription = ({
                   }
                 >
                   {!selected
-                    ? t('select')
+                    ? t('select', { ns: 'common' })
                     : subscription.payment_id === selected
-                    ? t('selected')
+                    ? t('selected', { ns: 'common' })
                     : index < planIndex
-                    ? t('downgrade')
-                    : t('upgrade')}
+                    ? t('downgrade', { ns: 'common' })
+                    : t('upgrade', { ns: 'common' })}
                 </div>
               </div>
             </div>

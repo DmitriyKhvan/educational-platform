@@ -9,7 +9,7 @@ import FavouriteIcon from '../../components/FavouriteIcon';
 import { getAbbrName } from '../../constants/global';
 
 const ModalTutorBrief = ({ visible, tutor, onSelect, onDismiss }) => {
-  const [t, i18n] = useTranslation('translation');
+  const [t] = useTranslation('translation');
   const [expand, setExpand] = useState(false);
 
   return (
@@ -111,8 +111,8 @@ const ModalTutorBrief = ({ visible, tutor, onSelect, onDismiss }) => {
                 {t('tutor_reviews_n', { n: tutor.reviews?.length })}
               </p>
               <div className="wrapper">
-                {tutor.reviews?.map((review) => (
-                  <div className="review">
+                {tutor.reviews?.map((review, ind) => (
+                  <div className="review" key={`review-${ind}`}>
                     <div className="text">{review.review}</div>
                     <div className="provider">
                       <Stars points={review.points} />

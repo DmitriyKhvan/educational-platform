@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import CancellationPolicyModal from './CancellationPolicyModal';
 import CancelLessonModal from './CancelLessonModal';
 import CancelWarningModal from './CancelWarningModal';
@@ -7,6 +6,8 @@ import ModalWrapper from '../ModalWrapper';
 import ReschedulingTimeModal from './ReschedulingTimeModal';
 import ReschedulingTutorModal from './ReschedulingTutorModal';
 import RescheduleConfirmationModal from './RescheduleConfirmationModal';
+import { useQuery } from '@apollo/client';
+import { MENTORS_QUERY } from '../../modules/auth/graphql';
 
 const RescheduleAndCancelModal = ({
   data,
@@ -22,17 +23,19 @@ const RescheduleAndCancelModal = ({
 }) => {
   const [schedule, setSchedule] = useState();
   const [selectTutor, setSelectTutor] = useState();
-  const tutors = useSelector((state) => state.tutor.list);
-  const [isLoading, setIsLoading] = useState(false);
+  const { data: tutors } = useQuery(MENTORS_QUERY);
+  const [isLoading] = useState(false);
 
   return (
     <ModalWrapper isOpen={isOpen} closeModal={closeModal}>
       {tabIndex === 0 ? (
         <CancelWarningModal
+          data={data}
           setTabIndex={setTabIndex}
           setIsOpen={setIsOpen}
           duration={data.duration}
           type={type}
+          modifyCredits={data?.packageSubscription?.modifyCredits}
         />
       ) : tabIndex === 1 ? (
         <CancelLessonModal

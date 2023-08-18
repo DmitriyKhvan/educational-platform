@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-const Label = ({ date, label, drilldownView, onDrillDown }) => {
+const Label = ({ label, drilldownView, onDrillDown }) => {
   const [t] = useTranslation('common');
   if (!drilldownView) {
     return <span>{t(label.replace(/[^A-Za-z]+/g, ''))}</span>;
