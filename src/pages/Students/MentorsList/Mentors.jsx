@@ -77,20 +77,23 @@ const Mentors = () => {
           {mentors &&
             tutor?.map((item) => (
               <div key={item.id} className="tutors_card">
-                <div
-                  className="tutors_card-img"
-                  style={{
-                    background: `url("${
-                      item?.avatar
-                        ? item.avatar?.url
-                        : item?.user?.gender === 'male'
-                        ? maleAvatar
-                        : femaleAvatar
-                    }") center / cover`,
-                  }}
-                >
-                  {item.isFavourite && <img src={FavIcon} alt="" />}
+                <div className="w-full h-4/5 overflow-hidden rounded-lg">
+                  <div
+                    className="tutors_card-img"
+                    style={{
+                      background: `url("${
+                        item?.avatar
+                          ? item.avatar?.url
+                          : item?.user?.gender === 'male'
+                          ? maleAvatar
+                          : femaleAvatar
+                      }") center / cover`,
+                    }}
+                  >
+                    {item.isFavourite && <img src={FavIcon} alt="" />}
+                  </div>
                 </div>
+
                 <div className="tutors_card-body">
                   <div className="tutors_info">
                     <h2>{resizerUsername(item?.user?.firstName)}</h2>
