@@ -59,6 +59,7 @@ export default function BuyPackage() {
     loading,
   } = useQuery(GET_COURSES, {
     onCompleted: (data) => {
+      console.log('data', data);
       setData(data.courses.find((course) => course?.packages?.length > 0));
     },
   });
@@ -100,7 +101,7 @@ export default function BuyPackage() {
           ref={parent}
         >
           <div className="flex flex-col gap-8 h-fit max-w-xs">
-            {allCourses?.courses?.map((course) => {
+            {allCourses?.courses?.map((course, index) => {
               return (
                 <div
                   key={course.id}
@@ -109,7 +110,8 @@ export default function BuyPackage() {
                     'opacity-50 cursor-not-allowed'
                   } ${data?.id === course.id && 'border-2 border-purple-600'}`}
                   style={{
-                    background: `linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url(${course?.coverImage})`,
+                    // background: `linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url(${course?.coverImage})`,
+                    background: `url('/src/assets/images/courses/${index}.png')`,
                   }}
                   onClick={() => {
                     if (course.packages.length > 0) setData(course);
