@@ -19,6 +19,11 @@ import {
 } from '../../components/AlertDialog';
 import { useTranslation } from 'react-i18next';
 
+import course0 from '../../assets/images/courses/0.png';
+import course1 from '../../assets/images/courses/1.png';
+import course2 from '../../assets/images/courses/2.png';
+import course3 from '../../assets/images/courses/3.png';
+
 const GET_COURSES = gql`
   query GetCourses {
     courses {
@@ -79,6 +84,8 @@ export default function BuyPackage() {
 
   const history = useHistory();
 
+  const courses = [course0, course1, course2, course3];
+
   useEffect(() => {
     setCourseData(data);
     setUniqueLength([
@@ -111,7 +118,7 @@ export default function BuyPackage() {
                   } ${data?.id === course.id && 'border-2 border-purple-600'}`}
                   style={{
                     // background: `linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url(${course?.coverImage})`,
-                    background: `url('/src/assets/images/courses/${index}.png')`,
+                    background: `url(${courses[index]})`,
                   }}
                   onClick={() => {
                     if (course.packages.length > 0) setData(course);
