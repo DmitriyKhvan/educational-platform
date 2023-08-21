@@ -107,7 +107,7 @@ export default function BuyPackage() {
                   className={`rounded-lg bg-cover aspect-square w-full h-full p-3 flex flex-col justify-between ${
                     course.packages.length < 1 &&
                     'opacity-50 cursor-not-allowed'
-                  } ${data.id === course.id && 'border-2 border-purple-600'}`}
+                  } ${data?.id === course.id && 'border-2 border-purple-600'}`}
                   style={{
                     background: `linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url(${course?.coverImage})`,
                   }}
@@ -273,7 +273,7 @@ export default function BuyPackage() {
           <AlertDialogHeader>
             <AlertDialogTitle>{t('agreement')}</AlertDialogTitle>
             <AlertDialogDescription>
-              {t('clicking')}{" "}
+              {t('clicking')}{' '}
               <a
                 href="https://www.naonow.com/terms-and-conditions"
                 target="_blank"
