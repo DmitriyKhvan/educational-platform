@@ -6,18 +6,17 @@ import { useTranslation } from 'react-i18next';
 
 export default function LoginForm({ register, errors }) {
   const [parent] = useAutoAnimate();
-  const [t, i18n] = useTranslation(['onboarding', 'common', 'translations']);
+  const [t] = useTranslation('onboarding');
 
-  const options = useMemo(
-    () => [
-      t('facebook'),
+  const options = useMemo(() => {
+    return [
+      t('instagram_facebook'),
       t('influencers'),
       t('search'),
       t('referrals'),
       t('other'),
-    ],
-    [i18n],
-  );
+    ];
+  }, [t]);
 
   const components = useMemo(
     () =>
