@@ -9,7 +9,9 @@ export default function LoginForm({ register, errors }) {
 
   return (
     <fieldset className="flex flex-col space-y-4">
-      <legend className="text-2xl font-bold">Let&apos;s get started!</legend>
+      <legend className="text-2xl font-bold">
+        {t('lets_get_started', { ns: 'onboarding' })}
+      </legend>
       <label className="font-bold flex gap-2" htmlFor="firstName" ref={parent}>
         {t('first_name', { ns: 'common' })}
         {errors.firstName && (

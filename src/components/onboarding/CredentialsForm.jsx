@@ -32,7 +32,10 @@ export default function CredentialsForm({ register, errors }) {
           validate: {
             isPhoneNumber: (value) => {
               const phoneNumberRegex = /^[0-9]{3}([0-9]{3}|[0-9]{4})[0-9]{4}$/;
-              return phoneNumberRegex.test(value) || 'Invalid phone number';
+              return (
+                phoneNumberRegex.test(value) ||
+                t('invalid_phone_number', { ns: 'onboarding' })
+              );
             },
           },
           onChange: (e) => {
@@ -65,7 +68,10 @@ export default function CredentialsForm({ register, errors }) {
           validate: {
             isEmail: (value) => {
               const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-              return emailRegex.test(value) || 'Invalid email address';
+              return (
+                emailRegex.test(value) ||
+                t('invalid_email', { ns: 'onboarding' })
+              );
             },
           },
         })}
