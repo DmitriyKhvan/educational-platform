@@ -146,7 +146,6 @@ const CalendarModal = ({
             className="enter-btn m-0 p-0 py-2 px-2 text-sm grey-border text-black"
             onClick={(e) => {
               if (isLate) {
-                debugger;
                 e.preventDefault();
                 closeModal();
                 Swal.fire({
