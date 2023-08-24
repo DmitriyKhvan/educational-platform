@@ -1,6 +1,5 @@
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { TextInput } from '../../../../components/TextInput';
 import { useAuth } from '../../../../modules/auth';
 import Select from 'react-select';
 import femaleAvatar from '../../../../assets/images/avatars/img_avatar_female.png';
@@ -23,6 +22,7 @@ import {
 } from '../../../../constants/global';
 import Button from '../../../../components/Form/Button';
 import ReactLoader from '../../../../components/common/Loader';
+import InputField from '../../../../components/Form/InputField';
 
 const EditProflileStudent = () => {
   const [t] = useTranslation(['profile', 'common']);
@@ -67,21 +67,20 @@ const EditProflileStudent = () => {
     if (file) {
       setPreview(area.avatar);
 
-      const { error } = await updateStudent({
+      updateStudent({
         variables: {
           id: parseInt(user?.student?.id),
           data: {
             avatar: file,
           },
         },
+        onError: () => {
+          notify(t('error_avatar_upload', { ns: 'profile' }), 'error');
+        },
       });
-
-      if (error) {
-        notify('Avatar upload failed', 'error');
-      }
     }
 
-    const { data: userData } = await updateUser({
+    updateUser({
       variables: {
         id: parseInt(user?.id),
         data: {
@@ -95,14 +94,18 @@ const EditProflileStudent = () => {
           address: area.address,
         },
       },
+      onCompleted: () => {
+        notify('Student information is changed!');
+        history.push('/student/profile');
+        refetchUser();
+      },
+      onError: () => {
+        notify(
+          t('error_student_information_changed', { ns: 'profile' }),
+          'error',
+        );
+      },
     });
-
-    if (userData) {
-      notify('Student information is changed!');
-      history.push('/student/profile');
-    }
-
-    await refetchUser();
   };
 
   const removePreviewImage = () => setFile(null);
@@ -154,7 +157,7 @@ const EditProflileStudent = () => {
           </div>
           <section>
             <section className="mt-4">
-              <TextInput
+              <InputField
                 label={t('korean_name', { ns: 'profile' })}
                 type={'text'}
                 placeholder={'알렉스'}
@@ -229,7 +232,7 @@ const EditProflileStudent = () => {
             </section>
 
             <section className="mt-4">
-              <TextInput
+              <InputField
                 label={t('last_name', { ns: 'common' })}
                 type={'text'}
                 placeholder={'Addison'}
@@ -238,7 +241,7 @@ const EditProflileStudent = () => {
             </section>
 
             <section className="mt-4">
-              <TextInput
+              <InputField
                 label={t('first_name', { ns: 'common' })}
                 type={'text'}
                 placeholder={'Alisa'}
@@ -247,7 +250,7 @@ const EditProflileStudent = () => {
             </section>
 
             <section className="mt-4">
-              <TextInput
+              <InputField
                 label={t('phone_number', { ns: 'common' })}
                 type={'text'}
                 placeholder="+1(555)555-5555"
@@ -256,7 +259,7 @@ const EditProflileStudent = () => {
             </section>
 
             <section className="mt-4">
-              <TextInput
+              <InputField
                 label={t('address', { ns: 'common' })}
                 type={'text'}
                 placeholder={'Bakarov 98'}
