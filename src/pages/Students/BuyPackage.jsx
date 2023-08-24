@@ -5,7 +5,7 @@ import Loader from '../../components/Loader/Loader';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useQuery, gql, useMutation } from '@apollo/client';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,11 +18,35 @@ import {
   AlertDialogTrigger,
 } from '../../components/AlertDialog';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../modules/auth';
 
 import course0 from '../../assets/images/courses/0.png';
 import course1 from '../../assets/images/courses/1.png';
 import course2 from '../../assets/images/courses/2.png';
 import course3 from '../../assets/images/courses/3.png';
+import { v4 as uuidv4 } from 'uuid';
+
+const CREATE_PAYMENT = gql`
+  mutation CreatePayment(
+    $userId: ID!
+    $packageId: ID!
+    $provider: String
+    $metadata: JSON
+  ) {
+    createPayment(
+      userId: $userId
+      packageId: $packageId
+      provider: $provider
+      metadata: $metadata
+    ) {
+      id
+      status
+      provider
+      cancelReason
+      metadata
+    }
+  }
+`;
 
 const GET_COURSES = gql`
   query GetCourses {
@@ -55,6 +79,9 @@ const CREATE_PAYMENT_INTENT = gql`
 export default function BuyPackage() {
   const [parent] = useAutoAnimate();
   const { courseId } = useParams();
+  const { user } = useAuth();
+
+  const [createPayment] = useMutation(CREATE_PAYMENT);
 
   const [t] = useTranslation(['purchase', 'minutes', 'translations']);
 
@@ -294,13 +321,13 @@ export default function BuyPackage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>
+            <AlertDialogCancel className="mr-2">
               {t('cancel', {
                 ns: 'common',
               })}
             </AlertDialogCancel>
             <AlertDialogAction
-              className="bg-purple-600 px-2 py-1 text-white rounded cursor-pointer hover:brightness-75 duration-200"
+              className="bg-blue-600 px-2 py-1 text-white rounded cursor-pointer hover:brightness-75 duration-200"
               onClick={async () => {
                 if (selectedPackage) {
                   const response = await getSecret({
@@ -321,7 +348,60 @@ export default function BuyPackage() {
                 }
               }}
             >
-              {t('continue_button', {
+              {t('continue_button_stripe', {
+                ns: 'common',
+              })}
+            </AlertDialogAction>
+            <AlertDialogAction
+              className="bg-purple-600 px-2 py-1 text-white rounded cursor-pointer hover:brightness-75 duration-200"
+              onClick={async () => {
+                if (!selectedPackage) return;
+
+                const IMP = window.IMP;
+                IMP.init(process.env.REACT_APP_PORTONE_USER_CODE);
+                const merchant_uid = uuidv4();
+
+                function requestPay() {
+                  IMP.request_pay(
+                    {
+                      pg: 'nice',
+                      pay_method: 'card',
+                      merchant_uid: merchant_uid,
+                      name: '테스트 결제',
+                      amount:
+                        selectedPackage.price *
+                        (1 - selectedPackage.discount / 100),
+                      buyer_name: user.fullName,
+                      buyer_tel: user.phoneNumber,
+                      buyer_email: user.email,
+                    },
+                    async (rsp) => {
+                      if (rsp.success) {
+                        await createPayment({
+                          variables: {
+                            userId: parseInt(user.id),
+                            packageId: parseInt(selectedPackage.id),
+                            provider: 'NICE',
+                            metadata: JSON.stringify({
+                              ...rsp,
+                              merchant_uid: merchant_uid,
+                            }),
+                          },
+                        });
+                        history.replace(
+                          `/purchase/${selectedPackage.id}/confirm?success=true`,
+                        );
+                      } else {
+                        toast.error(rsp.error_msg);
+                      }
+                    },
+                  );
+                }
+
+                requestPay();
+              }}
+            >
+              {t('continue_button_nice', {
                 ns: 'common',
               })}
             </AlertDialogAction>
