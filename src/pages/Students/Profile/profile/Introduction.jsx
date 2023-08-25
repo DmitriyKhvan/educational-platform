@@ -16,20 +16,31 @@ export default function Introduction({ text: baseText, onChange }) {
   };
 
   return (
-    <div className="edit_summary">
-      <header>
-        <h2>{t('summary')}</h2>
+    <div className="edit_summary mt-8">
+      <header className="flex items-center justify-between mb-5">
+        <h2 className="m-0 text-xl font-medium text-color-dark-purple">
+          {t('summary')}
+        </h2>
         {isEdit ? (
           <div>
-            <button onClick={save}>
+            <button
+              className="bg-white p-[10px] leading-4 cursor-pointer font-semibold text-color-dark-purple border border-solid border-color-border-grey rounded-md"
+              onClick={save}
+            >
               {t('save', { ns: 'common' })}
             </button>
-            <button onClick={toggleEdit}>
+            <button
+              className="bg-white p-[10px] leading-4 cursor-pointer font-semibold text-color-dark-purple border border-solid border-color-border-grey rounded-md"
+              onClick={toggleEdit}
+            >
               {t('cancel', { ns: 'common' })}
             </button>
           </div>
         ) : (
-          <button onClick={toggleEdit}>
+          <button
+            className="bg-white p-[10px] leading-4 cursor-pointer font-semibold text-color-dark-purple border border-solid border-color-border-grey rounded-md"
+            onClick={toggleEdit}
+          >
             {t('edit', { ns: 'common' })}
           </button>
         )}
@@ -38,16 +49,19 @@ export default function Introduction({ text: baseText, onChange }) {
       {isEdit ? (
         <textarea
           onChange={(e) => setText(e.target.value)}
-          className="edit_summary_textarea"
+          className="h-60 border border-solid border-color-border-grey p-5 leading-6"
           defaultValue={text}
         ></textarea>
       ) : !text ? (
-        <button className='underline decoration-dotted cursor-pointer' onClick={toggleEdit}>
+        <button
+          className="underline decoration-dotted cursor-pointer"
+          onClick={toggleEdit}
+        >
           Add introduction about yourself
         </button>
       ) : (
         <p>{text}</p>
       )}
     </div>
-  )
+  );
 }
