@@ -1,7 +1,6 @@
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useAuth } from '../../../../modules/auth';
-import Select from 'react-select';
 import femaleAvatar from '../../../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../../../assets/images/avatars/img_avatar_male.png';
 
@@ -23,6 +22,7 @@ import {
 import Button from '../../../../components/Form/Button';
 import ReactLoader from '../../../../components/common/Loader';
 import InputField from '../../../../components/Form/InputField';
+import { SelectField } from '../../../../components/Form/SelectField';
 
 const EditProflileStudent = () => {
   const [t] = useTranslation(['profile', 'common']);
@@ -173,14 +173,11 @@ const EditProflileStudent = () => {
                   defaultValue={user?.gender}
                   name="gender"
                   render={({ field: { ref, value, onChange } }) => (
-                    <Select
-                      className="mt-[10px]"
-                      inputRef={ref}
-                      defaultValue={genders.find(
-                        (gender) => gender.value === value,
-                      )}
+                    <SelectField
+                      ref={ref}
+                      value={value}
                       options={genders}
-                      onChange={(e) => onChange(e.value)}
+                      onChange={onChange}
                     />
                   )}
                 />
@@ -196,15 +193,11 @@ const EditProflileStudent = () => {
                   defaultValue={user?.timeZone}
                   name="timeZone"
                   render={({ field: { ref, value, onChange } }) => (
-                    <Select
-                      className="mt-[10px]"
-                      inputRef={ref}
-                      // value={find(timezoneOptions, { value })}
-                      defaultValue={timezoneOptions.find(
-                        (zone) => zone.value === value,
-                      )}
+                    <SelectField
+                      ref={ref}
+                      value={value}
                       options={timezoneOptions}
-                      onChange={(e) => onChange(e.value)}
+                      onChange={onChange}
                     />
                   )}
                 />
@@ -219,12 +212,11 @@ const EditProflileStudent = () => {
                   defaultValue={user?.country}
                   name="country"
                   render={({ field: { ref, value, onChange } }) => (
-                    <Select
-                      className="mt-[10px]"
-                      inputRef={ref}
-                      value={{ label: value, value: value }}
+                    <SelectField
+                      ref={ref}
+                      value={value}
                       options={countries}
-                      onChange={(e) => onChange(e.value)}
+                      onChange={onChange}
                     />
                   )}
                 />
