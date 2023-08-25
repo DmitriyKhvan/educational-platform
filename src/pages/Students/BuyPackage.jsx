@@ -166,7 +166,7 @@ export default function BuyPackage() {
     function requestPay() {
       IMP.request_pay(
         {
-          pg: 'html5_inicis',
+          pg: `nice.${process.env.REACT_APP_PORTONE_MID}`,
           pay_method: 'card',
           merchant_uid: merchant_uid,
           name: '테스트 결제',
