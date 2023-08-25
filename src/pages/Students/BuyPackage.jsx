@@ -25,6 +25,14 @@ import course1 from '../../assets/images/courses/1.png';
 import course2 from '../../assets/images/courses/2.png';
 import course3 from '../../assets/images/courses/3.png';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  Select,
+  SelectItem,
+  SelectTrigger,
+  SelectContent,
+  SelectGroup,
+  SelectValue,
+} from '../../components/SelectAction';
 
 const CREATE_PAYMENT = gql`
   mutation CreatePayment(
@@ -108,6 +116,7 @@ export default function BuyPackage() {
   const [selectedLength, setSelectedLength] = useState(null);
   const [uniqueLength, setUniqueLength] = useState([]);
   const [selectedPackage, setSelectedPackage] = useState(null);
+  const [selectedProvider, setSelectedProvider] = useState('nice');
 
   const history = useHistory();
 
@@ -126,6 +135,71 @@ export default function BuyPackage() {
   if (error) {
     return <div>Something went wrong</div>;
   }
+
+  const submitStripe = async () => {
+    if (selectedPackage) {
+      const response = await getSecret({
+        variables: {
+          id: parseInt(selectedPackage.id),
+        },
+      });
+      if (response?.errors) {
+        toast.error(response.errors[0].message);
+      } else if (response?.data) {
+        const { clientSecret } = response.data.createPaymentIntent;
+        if (clientSecret) {
+          history.replace(
+            `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
+          );
+        }
+      }
+    }
+  };
+
+  const submitNice = async () => {
+    if (!selectedPackage) return;
+
+    const IMP = window.IMP;
+    IMP.init(process.env.REACT_APP_PORTONE_USER_CODE);
+    const merchant_uid = uuidv4();
+
+    function requestPay() {
+      IMP.request_pay(
+        {
+          pg: 'html5_inicis',
+          pay_method: 'card',
+          merchant_uid: merchant_uid,
+          name: '테스트 결제',
+          amount: selectedPackage.price * (1 - selectedPackage.discount / 100),
+          buyer_name: user.fullName,
+          buyer_tel: user.phoneNumber,
+          buyer_email: user.email,
+        },
+        async (rsp) => {
+          if (rsp.success) {
+            await createPayment({
+              variables: {
+                userId: parseInt(user.id),
+                packageId: parseInt(selectedPackage.id),
+                provider: 'NICE',
+                metadata: JSON.stringify({
+                  ...rsp,
+                  merchant_uid: merchant_uid,
+                }),
+              },
+            });
+            history.replace(
+              `/purchase/${selectedPackage.id}/confirm?success=true`,
+            );
+          } else {
+            toast.error(rsp.error_msg);
+          }
+        },
+      );
+    }
+
+    requestPay();
+  };
 
   return (
     <main className="bg-[url(https://dev.naonow.com/img/20210605-NAONOW-FINAL-2%202.png)] bg-cover h-screen overflow-auto">
@@ -321,90 +395,35 @@ export default function BuyPackage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="mr-2">
+            <AlertDialogCancel className="mr-4">
               {t('cancel', {
                 ns: 'common',
               })}
             </AlertDialogCancel>
-            <AlertDialogAction
-              className="bg-blue-600 px-2 py-1 text-white rounded cursor-pointer hover:brightness-75 duration-200"
-              onClick={async () => {
-                if (selectedPackage) {
-                  const response = await getSecret({
-                    variables: {
-                      id: parseInt(selectedPackage.id),
-                    },
-                  });
-                  if (response?.errors) {
-                    toast.error(response.errors[0].message);
-                  } else if (response?.data) {
-                    const { clientSecret } = response.data.createPaymentIntent;
-                    if (clientSecret) {
-                      history.replace(
-                        `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
-                      );
-                    }
-                  }
-                }
-              }}
+            <Select
+              defaultValue={selectedProvider}
+              onValueChange={setSelectedProvider}
             >
-              {t('continue_button_stripe', {
-                ns: 'common',
-              })}
-            </AlertDialogAction>
-            <AlertDialogAction
-              className="bg-purple-600 px-2 py-1 text-white rounded cursor-pointer hover:brightness-75 duration-200"
-              onClick={async () => {
-                if (!selectedPackage) return;
-
-                const IMP = window.IMP;
-                IMP.init(process.env.REACT_APP_PORTONE_USER_CODE);
-                const merchant_uid = uuidv4();
-
-                function requestPay() {
-                  IMP.request_pay(
-                    {
-                      pg: 'nice',
-                      pay_method: 'card',
-                      merchant_uid: merchant_uid,
-                      name: '테스트 결제',
-                      amount:
-                        selectedPackage.price *
-                        (1 - selectedPackage.discount / 100),
-                      buyer_name: user.fullName,
-                      buyer_tel: user.phoneNumber,
-                      buyer_email: user.email,
-                    },
-                    async (rsp) => {
-                      if (rsp.success) {
-                        await createPayment({
-                          variables: {
-                            userId: parseInt(user.id),
-                            packageId: parseInt(selectedPackage.id),
-                            provider: 'NICE',
-                            metadata: JSON.stringify({
-                              ...rsp,
-                              merchant_uid: merchant_uid,
-                            }),
-                          },
-                        });
-                        history.replace(
-                          `/purchase/${selectedPackage.id}/confirm?success=true`,
-                        );
-                      } else {
-                        toast.error(rsp.error_msg);
-                      }
-                    },
-                  );
-                }
-
-                requestPay();
-              }}
-            >
-              {t('continue_button_nice', {
-                ns: 'common',
-              })}
-            </AlertDialogAction>
+              <div className="flex flex-row bg-purple-400 rounded-md">
+                <AlertDialogAction
+                  onClick={() => {
+                    if (selectedProvider === 'nice') submitNice();
+                    else submitStripe();
+                  }}
+                >
+                  <button className="rounded-tl-md rounded-bl-md h-full font-semibold bg-purple-600 text-white text-sm py-1 px-4 min-w-[9rem]">
+                    Pay with <SelectValue />
+                  </button>
+                </AlertDialogAction>
+                <SelectTrigger className="rounded-tr-md rounded-br-md ml-[1px]"></SelectTrigger>
+                <SelectContent className="bg-white">
+                  <SelectGroup>
+                    <SelectItem value="stripe">Stripe</SelectItem>
+                    <SelectItem value="nice">Nice</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </div>
+            </Select>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
