@@ -410,6 +410,7 @@ export default function BuyPackage() {
                     if (selectedProvider === 'nice') submitNice();
                     else submitStripe();
                   }}
+                  asChild
                 >
                   <button className="rounded-tl-md rounded-bl-md h-full font-semibold bg-purple-600 text-white text-sm py-1 px-4 min-w-[9rem]">
                     Pay with <SelectValue />
