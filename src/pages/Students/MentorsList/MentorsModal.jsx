@@ -8,8 +8,6 @@ import { Avatar } from '../../../widgets/Avatar/Avatar';
 const MentorsModal = ({ setShowMentorModal, mentor }) => {
   const [videoLink, setVideoLink] = React.useState('');
 
-  console.log('mentor', mentor);
-
   React.useEffect(() => {
     setVideoLink(renderVideo(mentor?.videoUrl) || '');
   }, [mentor]);

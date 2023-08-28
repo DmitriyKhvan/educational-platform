@@ -8,8 +8,6 @@ export const Avatar = ({ avatarUrl, className }) => {
   const { user } = useAuth();
   const [profileImage, setProfileImage] = useState(maleAvatar);
 
-  console.log('user', user);
-
   useEffect(() => {
     if (avatarUrl) {
       setProfileImage(avatarUrl);
