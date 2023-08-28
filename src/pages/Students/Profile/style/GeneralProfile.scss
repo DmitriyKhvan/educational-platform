@@ -1,29 +1,25 @@
-.profile-wrapper {
-  margin-bottom: 0 !important;
-}
-
 .main-dashboard {
   padding-bottom: 0 !important;
   .flex-container {
     .profile_section {
       padding: 9px 30px;
       .profile_banner {
-        .profile_banner-top {
-          background: #7048e8;
-          border-radius: 10px 10px 0px 0px;
-          width: 100%;
-          height: 150px;
-          position: relative;
-          img {
-            position: absolute;
-            width: 140px;
-            height: 140px;
-            left: 5%;
-            cursor: pointer;
-            top: 55%;
-            object-fit: cover;
-          }
-        }
+        // .profile_banner-top {
+        //   background: #7048e8;
+        //   border-radius: 10px 10px 0px 0px;
+        //   width: 100%;
+        //   height: 150px;
+        //   position: relative;
+        //   img {
+        //     position: absolute;
+        //     width: 140px;
+        //     height: 140px;
+        //     left: 5%;
+        //     cursor: pointer;
+        //     top: 55%;
+        //     object-fit: cover;
+        //   }
+        // }
 
         .profile_banner-bottom {
           width: 100%;
@@ -33,149 +29,65 @@
           padding-top: 15px;
           padding-bottom: 15px;
 
-          .profile_main-info {
-            width: 68%;
-            margin-left: auto;
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
+          // .profile_main-info {
+          //   width: 68%;
+          //   margin-left: auto;
+          //   display: flex;
+          //   align-items: flex-start;
+          //   justify-content: space-between;
 
-            .main_info-left {
-              h2 {
-                cursor: pointer;
-                margin-top: 0;
-                font-family: 'Inter';
-                font-style: normal;
-                font-weight: 400;
-                font-size: 30px;
-                line-height: 36px;
-                letter-spacing: -1px;
-                /* Dark Purple */
-                color: #261a45;
-                margin-bottom: 10px;
-              }
+          // .main_info-left {
+          // h2 {
+          //   cursor: pointer;
+          //   margin-top: 0;
+          //   // font-family: 'Inter';
+          //   // font-style: normal;
+          //   // font-weight: 400;
+          //   font-size: 30px;
+          //   line-height: 36px;
+          //   letter-spacing: -1px;
+          //   /* Dark Purple */
+          //   color: #261a45;
+          //   margin-bottom: 10px;
+          // }
 
-              p {
-                font-family: 'Inter';
-                font-style: normal;
-                font-weight: 600;
-                font-size: 20px;
-                margin-top: 0;
-                line-height: 24px;
-                letter-spacing: -0.6px;
-                margin-bottom: 10px;
-                /* Purple */
+          // span {
+          //   font-family: 'Inter';
+          //   font-style: normal;
+          //   font-weight: 600;
+          //   font-size: 15px;
+          //   // line-height: 18px;
+          //   letter-spacing: -0.6px;
 
-                color: #6133af;
-              }
+          //   /* Light Gray */
 
-              span {
-                font-family: 'Inter';
-                font-style: normal;
-                font-weight: 600;
-                font-size: 15px;
-                line-height: 18px;
-                letter-spacing: -0.6px;
+          //   color: #646481;
+          // }
+          // }
 
-                /* Light Gray */
+          // .main_info-right {
+          // button {
+          //   margin-right: 15px;
+          //   background: #ffffff;
+          //   /* Border Gray */
+          //   white-space: nowrap;
+          //   cursor: pointer;
+          //   padding: 15px 15px;
+          //   border: 1px solid #dedee1;
+          //   border-radius: 5px;
+          //   font-family: 'Inter';
+          //   font-style: normal;
+          //   font-weight: 600;
+          //   font-size: 15px;
+          //   line-height: 18px;
+          //   letter-spacing: -0.2px;
 
-                color: #646481;
-              }
-            }
+          //   /* Dark Purple */
 
-            .main_info-right {
-              button {
-                margin-right: 15px;
-                background: #ffffff;
-                /* Border Gray */
-                white-space: nowrap;
-                cursor: pointer;
-                padding: 15px 15px;
-                border: 1px solid #dedee1;
-                border-radius: 5px;
-                font-family: 'Inter';
-                font-style: normal;
-                font-weight: 600;
-                font-size: 15px;
-                line-height: 18px;
-                letter-spacing: -0.2px;
-
-                /* Dark Purple */
-
-                color: #261a45;
-              }
-            }
-          }
-        }
-      }
-
-      .edit_interests {
-        margin-top: 30px;
-        h2 {
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 500;
-          margin-top: 0;
-          margin-bottom: 0;
-          font-size: 20px;
-          line-height: 24px;
-          letter-spacing: -0.6px;
-
-          /* Dark Purple */
-
-          color: #261a45;
-        }
-
-        .row_interests {
-          margin-top: 20px;
-          display: flex;
-          gap: 20px;
-          .topics {
-            display: flex;
-            gap: 20px;
-            button {
-              height: 38px;
-              font-family: 'Inter';
-              font-style: normal;
-              font-weight: 600;
-              font-size: 15px;
-              line-height: 18px;
-              display: flex;
-              cursor: pointer;
-              align-items: center;
-              letter-spacing: -0.6px;
-              padding: 10px;
-              /* White */
-
-              color: #ffffff;
-
-              /* Light Gray */
-
-              background: #646481;
-              border-radius: 8.125px;
-            }
-          }
-          a {
-            background: #ffffff;
-            /* Border Gray */
-            text-decoration: none;
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 600;
-            font-size: 15px;
-            line-height: 18px;
-            display: flex;
-            align-items: center;
-            letter-spacing: -0.6px;
-
-            /* Dark Purple */
-
-            color: #261a45;
-            cursor: pointer;
-            padding: 10px;
-            border: 1px solid #dedee1;
-            border-radius: 8.125px;
-          }
+          //   color: #261a45;
+          // }
+          // }
+          // }
         }
       }
 
