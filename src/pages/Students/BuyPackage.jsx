@@ -174,6 +174,8 @@ export default function BuyPackage() {
           buyer_name: user.fullName,
           buyer_tel: user.phoneNumber,
           buyer_email: user.email,
+          buyer_addr: user?.address ?? 'South Korea',
+          buyer_postcode: user?.postcode ?? '00000',
         },
         async (rsp) => {
           if (rsp.success) {
@@ -189,7 +191,7 @@ export default function BuyPackage() {
               },
             });
             history.replace(
-              `/purchase/${selectedPackage.id}/confirm?success=true`,
+              `/purchase/${selectedPackage.id}/complete?success=true`,
             );
           } else {
             toast.error(rsp.error_msg);
