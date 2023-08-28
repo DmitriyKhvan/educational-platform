@@ -1,32 +1,29 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import FavIcon from '../../../assets/images/Favorite.png';
 
 import './MentorsModal.scss';
 import { renderVideo } from '../../../utils/functions';
+import { Avatar } from '../../../widgets/Avatar/Avatar';
 
-const MentorsModal = ({ setShowTutorModal, tutorId, tutorsList }) => {
-  const { id } = useParams();
+const MentorsModal = ({ setShowMentorModal, mentor }) => {
   const [videoLink, setVideoLink] = React.useState('');
 
-  const renderSelectedTutor = tutorsList?.find(
-    (item) => item.id == (tutorId ? tutorId : id),
-  );
+  console.log('mentor', mentor);
 
   React.useEffect(() => {
-    setVideoLink(renderVideo(renderSelectedTutor?.videoUrl) || '');
-  }, [renderSelectedTutor]);
+    setVideoLink(renderVideo(mentor?.videoUrl) || '');
+  }, [mentor]);
 
   return (
     <div className="tutor_alfa">
       <div className="tutor_modal">
-        <p className="close-sh pt-4" onClick={() => setShowTutorModal(false)}>
+        <p className="close-sh pt-4" onClick={() => setShowMentorModal(false)}>
           &times;
         </p>
 
         {videoLink?.length === 0 && (
-          <div className="no_video">
-            <h2>No video!</h2>
+          <div className="no_video pl-4 py-4">
+            <Avatar avatarUrl={mentor?.avatar?.url} />
           </div>
         )}
 
@@ -44,47 +41,44 @@ const MentorsModal = ({ setShowTutorModal, tutorId, tutorsList }) => {
         )}
 
         <div className="tutor_more-content">
-          {renderSelectedTutor?.isFavourite && (
+          {mentor?.isFavourite && (
             <img src={FavIcon} alt="" className="favTutorIcon" />
           )}
           <h1 className="mb-3">{`${
-            renderSelectedTutor?.fullName || renderSelectedTutor?.user?.fullName
+            mentor?.fullName || mentor?.user?.fullName
           }`}</h1>
           <div className="bottom_content">
             <div className="bottom_content-status">
               <div className="pb-3">
                 <p className="p-0 m-0">University</p>
-                <h3>{renderSelectedTutor?.university}</h3>
+                <h3>{mentor?.university}</h3>
               </div>
               <div className="pb-3">
                 <p className="p-0 m-0">Degree / Major</p>
                 <h3>
-                  {renderSelectedTutor?.degree}{' '}
-                  {renderSelectedTutor.major
-                    ? '/ ' + renderSelectedTutor.major
-                    : null}
+                  {mentor?.degree} {mentor.major ? '/ ' + mentor.major : null}
                 </h3>
               </div>
             </div>
             <div className="modal_bio">
-              {renderSelectedTutor?.introduction && (
+              {mentor?.introduction && (
                 <div className="py-3">
                   <p className="p-0 m-0">Biography</p>
-                  <span>{renderSelectedTutor?.introduction}</span>
+                  <span>{mentor?.introduction}</span>
                 </div>
               )}
 
-              {renderSelectedTutor?.relevantExperience && (
+              {mentor?.relevantExperience && (
                 <div className="py-3">
                   <p className="p-0 m-0">Relevant Experience</p>
-                  <span>{renderSelectedTutor?.relevantExperience}</span>
+                  <span>{mentor?.relevantExperience}</span>
                 </div>
               )}
 
-              {renderSelectedTutor?.uniqueFacts && (
+              {mentor?.uniqueFacts && (
                 <div className="py-3">
                   <p className="p-0 m-0">Unique Facts</p>
-                  <span>{renderSelectedTutor?.uniqueFacts}</span>
+                  <span>{mentor?.uniqueFacts}</span>
                 </div>
               )}
             </div>
@@ -92,7 +86,7 @@ const MentorsModal = ({ setShowTutorModal, tutorId, tutorsList }) => {
               {/* <button onClick={() => setShowTutorModal(false)}>Cancel</button> */}
               {/* <button>Message</button> */}
               {/* <button onClick={() => handleStatusTutor(parseInt(tutorId))}>
-                {renderSelectedTutor?.isFavourite ? 'Remove' : 'Favorite'}
+                {mentor?.isFavourite ? 'Remove' : 'Favorite'}
               </button> */}
             </div>
           </div>
