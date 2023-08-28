@@ -47,5 +47,7 @@
   "edu_verification_subtitle2": "졸업장, 대학 성적증명서, 증명서 또는 학생증을 포함하십시오.",
   "upload_limits": "JPG, PNG 또는 PDF 형식, 최대 파일 크기는 20MB입니다.",
   "prerecorded": "유튜브나 비메오에 미리 녹화된 영상이 있습니까?",
-  "textarea_limits": "최소 400자입니다. 현재 {{count}}자입니다."
+  "textarea_limits": "최소 400자입니다. 현재 {{count}}자입니다.",
+  "error_avatar_upload": "Avatar upload failed",
+  "error_student_information_changed": "Student information is not changed"
 }

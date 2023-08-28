@@ -95,5 +95,6 @@
   "cost_per_class": "수업당 비용",
   "lesson_per_week": "주당 수업",
   "lesson_per_package": "패키지당 수업",
-  "payment_without_renewal": "자동갱신 없는 일회성 결제"
+  "payment_without_renewal": "자동갱신 없는 일회성 결제",
+  "remaining_credits": "남은 크레딧"
 }

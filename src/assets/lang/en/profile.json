@@ -47,5 +47,7 @@
   "edu_verification_subtitle2": "Options include a Diploma, University Transcript, Certificates or Student ID.",
   "upload_limits": "JPG, PNG, or PDF format; maximum file size of 20MB.",
   "prerecorded": "Have a pre-recorded video on Youtube or Vimeo?",
-  "textarea_limits": "400 characters minimum. {{count}} characters currrently."
+  "textarea_limits": "400 characters minimum. {{count}} characters currrently.",
+  "error_avatar_upload": "Avatar upload failed",
+  "error_student_information_changed": "Student information is not changed"
 }

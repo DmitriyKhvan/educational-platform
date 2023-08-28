@@ -86,9 +86,7 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
   const history = useHistory();
   const [t] = useTranslation(['common', 'sidebar']);
 
-  const { user: CurrentUser, logout } = useAuth();
-
-  const user_role = CurrentUser.role && CurrentUser.role;
+  const { user: currentUser, logout } = useAuth();
 
   tutorNavLinks.map((item) => {
     item.is_selected = location.pathname.includes(item.link);
@@ -103,16 +101,16 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
   const [navLinks, setNavLinks] = useState([]);
 
   useEffect(() => {
-    if (user_role === 'mentor') {
+    if (currentUser.role === 'mentor') {
       setNavLinks(tutorNavLinks);
-    } else if (user_role === 'student') {
+    } else if (currentUser.role === 'student') {
       setNavLinks(studentNavLinks);
     }
-  }, [user_role]);
+  }, [currentUser]);
 
   const handleLogout = () => {
     logout();
-    history.push('/');
+    window.location.reload(true);
   };
 
   return (
