@@ -21,6 +21,7 @@ const StudentProfile = () => {
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
 
   const [profileImage, setProfileImage] = React.useState('');
+  console.log('profileImage', profileImage);
   const navigate = useHistory();
 
   const { user, refetchUser } = useAuth();
