@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import Select from 'react-select';
 
-export const SelectField = ({ ref, value, options, onChange }) => {
+export const SelectField = forwardRef(function SelectField(
+  { value, options, onChange },
+  ref,
+) {
   const defaultValue = options.find((item) => item.value === value);
   return (
     <Select
@@ -19,10 +22,10 @@ export const SelectField = ({ ref, value, options, onChange }) => {
           transition: '0.3s ease-in-out',
         }),
       }}
-      inputRef={ref}
+      ref={ref}
       defaultValue={defaultValue}
       options={options}
       onChange={(e) => onChange(e.value)}
     />
   );
-};
+});

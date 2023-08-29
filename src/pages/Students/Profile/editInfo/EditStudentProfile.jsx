@@ -19,7 +19,7 @@ import {
   genders,
   timezoneOptions,
 } from '../../../../constants/global';
-import Button from '../../../../components/Form/Button';
+import Button from '../../../../components/Form/Button/Button';
 import ReactLoader from '../../../../components/common/Loader';
 import InputField from '../../../../components/Form/InputField';
 import { SelectField } from '../../../../components/Form/SelectField';
@@ -172,9 +172,8 @@ const EditProflileStudent = () => {
                   control={control}
                   defaultValue={user?.gender}
                   name="gender"
-                  render={({ field: { ref, value, onChange } }) => (
+                  render={({ field: { value, onChange } }) => (
                     <SelectField
-                      ref={ref}
                       value={value}
                       options={genders}
                       onChange={onChange}
@@ -192,9 +191,8 @@ const EditProflileStudent = () => {
                   control={control}
                   defaultValue={user?.timeZone}
                   name="timeZone"
-                  render={({ field: { ref, value, onChange } }) => (
+                  render={({ field: { value, onChange } }) => (
                     <SelectField
-                      ref={ref}
                       value={value}
                       options={timezoneOptions}
                       onChange={onChange}
@@ -211,9 +209,8 @@ const EditProflileStudent = () => {
                   control={control}
                   defaultValue={user?.country}
                   name="country"
-                  render={({ field: { ref, value, onChange } }) => (
+                  render={({ field: { value, onChange } }) => (
                     <SelectField
-                      ref={ref}
                       value={value}
                       options={countries}
                       onChange={onChange}
@@ -260,7 +257,7 @@ const EditProflileStudent = () => {
             </section>
           </section>
 
-          <Button className="mt-10" type="submit">
+          <Button className="mt-10 w-full" type="submit" theme="purple">
             {t('save', { ns: 'common' })}
           </Button>
         </form>
