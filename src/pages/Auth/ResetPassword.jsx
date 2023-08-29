@@ -8,7 +8,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import InputWithError from '../../components/Form/InputWithError';
 import InputField from '../../components/Form/InputField';
 import useNewPassword from '../../modules/auth/hooks/newPassword';
-import Button from '../../components/Form/Button';
+import Button from '../../components/Form/Button/Button';
 
 import 'react-toastify/dist/ReactToastify.css';
 import notify from '../../utils/notify';
@@ -93,7 +93,12 @@ const ResetPassword = () => {
             </InputWithError>
           </div>
 
-          <Button type="submit" disabled={!isValid}>
+          <Button
+            type="submit"
+            disabled={!isValid}
+            theme="purple"
+            className="w-full"
+          >
             {loading ? (
               <ClipLoader loading={loading} size={20} color="white" />
             ) : (

@@ -13,6 +13,7 @@ import maleAvatar from '../../../../assets/images/avatars/img_avatar_male.png';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Introduction from './Introduction';
+import Button from '../../../../components/Form/Button/Button';
 
 const StudentProfile = () => {
   const [t] = useTranslation(['profile', 'common', 'lessons']);
@@ -67,42 +68,41 @@ const StudentProfile = () => {
   };
 
   return (
-    <div className="main-dashboard scroll-layout">
+    <div className="main-dashboard h-full overflow-auto">
       <div className="flex-container">
         <div className="flex-left children-wrapper flex-change ">
           <div className="profile_section">
             <div className="profile_banner">
-              <div className="profile_banner-top">
+              <div className="relative w-full h-[150px] bg-color-purple rounded-t-[10px]">
                 <img
-                  style={{ objectPosition: 'top' }}
+                  className="absolute left-[5%] top-[55%] w-[140px] h-[140px] object-cover object-top cursor-pointer"
                   src={profileImage}
-                  alt=""
+                  alt="avatar"
                 />
               </div>
               <div className="profile_banner-bottom">
-                <div className="profile_main-info">
-                  <div className="main_info-left">
-                    <h2>
+                <div className="flex justify-between w-[68%] ml-auto">
+                  <div>
+                    <h2 className="mt-0 mb-[10px] text-3xl leading-9 tracking-[-1px] text-color-dark-purple">
                       {user?.firstName + ' '}
                       {user?.lastName}
                     </h2>
-                    {/* <p>
-                            {t('student_level', {
-                              level: 3,
-                            })}
-                          </p> */}
-                    <span>
+
+                    <span className="text-base font-semibold tracking-[-0.6px] text-color-light-grey">
                       {user?.timeZone ? user?.timeZone : 'PST (GMT-8)'}
                     </span>
                   </div>
-                  <div className="main_info-right">
-                    <button
+
+                  <div>
+                    <Button
+                      className="mr-4"
+                      theme="outline"
                       onClick={() => {
                         navigate.push('/student/profile/edit-information');
                       }}
                     >
                       {t('edit_profile')}
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
