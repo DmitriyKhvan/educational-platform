@@ -1,8 +1,6 @@
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useAuth } from '../../../../modules/auth';
-import femaleAvatar from '../../../../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../../../../assets/images/avatars/img_avatar_male.png';
 
 import {
   MUTATION_UPDATE_STUDENT,
@@ -23,18 +21,20 @@ import Button from '../../../../components/Form/Button/Button';
 import ReactLoader from '../../../../components/common/Loader';
 import InputField from '../../../../components/Form/InputField';
 import { SelectField } from '../../../../components/Form/SelectField';
+import { Avatar } from '../../../../widgets/Avatar/Avatar';
 
 const EditProflileStudent = () => {
+  const [updateStudent, { loading: updateStudentLoading }] = useMutation(
+    MUTATION_UPDATE_STUDENT,
+  );
+  const [updateUser, { loading: updateUserLoading }] =
+    useMutation(MUTATION_UPDATE_USER);
+
   const [t] = useTranslation(['profile', 'common']);
-  const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
-  const [profileImage, setProfileImage] = React.useState('');
   const [file, setFile] = React.useState(null);
 
   const history = useHistory();
   const [, setPreview] = React.useState({});
-
-  const [updateUser, { loading: updateUserLoading }] =
-    useMutation(MUTATION_UPDATE_USER);
 
   const { user, refetchUser } = useAuth();
 
@@ -49,25 +49,11 @@ const EditProflileStudent = () => {
     },
   });
 
-  const avatar = user?.student?.avatar?.url;
-
-  React.useEffect(() => {
-    if (avatar) {
-      setProfileImage(avatar);
-    } else if (user?.gender === 'female') {
-      setProfileImage(femaleAvatar);
-    } else if (user?.gender === 'male') {
-      setProfileImage(maleAvatar);
-    } else {
-      setProfileImage(maleAvatar);
-    }
-  }, [user, avatar]);
-
   const onSubmit = async (area) => {
     if (file) {
       setPreview(area.avatar);
 
-      updateStudent({
+      await updateStudent({
         variables: {
           id: parseInt(user?.student?.id),
           data: {
@@ -80,7 +66,7 @@ const EditProflileStudent = () => {
       });
     }
 
-    updateUser({
+    await updateUser({
       variables: {
         id: parseInt(user?.id),
         data: {
@@ -94,10 +80,10 @@ const EditProflileStudent = () => {
           address: area.address,
         },
       },
-      onCompleted: () => {
+      onCompleted: async () => {
         notify('Student information is changed!');
+        await refetchUser();
         history.push('/student/profile');
-        refetchUser();
       },
       onError: () => {
         notify(
@@ -112,7 +98,7 @@ const EditProflileStudent = () => {
 
   return (
     <>
-      {updateUserLoading && <ReactLoader />}
+      {(updateUserLoading || updateStudentLoading) && <ReactLoader />}
       <section className="w-[500px] p-[60px]">
         <div className="mb-5">
           <h3 className="text-black m-0 text-[20px]">{t('edit_profile')}</h3>
@@ -121,11 +107,9 @@ const EditProflileStudent = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="relative max-w-fit">
             {!file && (
-              <img
-                className="w-[150px] h-[150px] cursor-pointer rounded-full object-cover"
-                src={profileImage}
-                alt={'userInfo.tutorName'}
-              />
+              <div className="w-[150px] h-[150px] rounded-full overflow-hidden">
+                <Avatar avatarUrl={user?.student?.avatar?.url} />
+              </div>
             )}
 
             {file ? (

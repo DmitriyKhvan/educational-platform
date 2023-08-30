@@ -65,7 +65,6 @@ export default function BuyPackage() {
     loading,
   } = useQuery(GET_COURSES, {
     onCompleted: (data) => {
-      console.log('data', data);
       setData(data.courses.find((course) => course?.packages?.length > 0));
     },
   });
