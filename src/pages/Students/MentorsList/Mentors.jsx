@@ -64,7 +64,7 @@ const Mentors = () => {
           </div>
         </div>
 
-        <div className="tutors_row">
+        <div className="tutors_row gap-y-5">
           {mentors?.length === 0 && <p>{t('cannot_find_mentors')}</p>}
 
           {loading && <Loader height={'50vh'} />}
@@ -72,7 +72,7 @@ const Mentors = () => {
           {mentors &&
             mentors?.map((item) => (
               <div key={item.id} className="tutors_card">
-                <div className="w-full h-4/5 overflow-hidden rounded-lg">
+                <div className="w-full h-[400px] overflow-hidden rounded-lg">
                   <div
                     className="tutors_card-img"
                     style={{
@@ -89,7 +89,7 @@ const Mentors = () => {
                   </div>
                 </div>
 
-                <div className="tutors_card-body">
+                <div className="tutors_card-body h-[120px] overflow-hidden">
                   <div className="tutors_info">
                     <h2>{resizerUsername(item?.user?.firstName)}</h2>
                     <h4>{item.university}</h4>
