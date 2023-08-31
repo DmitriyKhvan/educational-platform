@@ -56,5 +56,6 @@
   "class": "Class",
   "weeks_classes_each": "{{ weeks }} Classes of {{ duration }} each",
   "pay_every_weeks": "Pay every {{ weeks }} weeks",
-  "status": "Status"
+  "status": "Status",
+  "lessons_remaining_schedule": "Lessons To Schedule"
 }

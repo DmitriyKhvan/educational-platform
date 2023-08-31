@@ -44,12 +44,12 @@ const SelectLesson = ({
 
   const LessonCard = ({ title, duration, remaining, data, i }) => {
     return (
-      <div>
+      <div className='md:max-w-xs flex-grow'>
         <div
-          className={`schedule-card small-card lesson-container rounded-xl px-3 pt-3 cursor-pointer ${
+          className={`cursor-pointer p-5 border rounded-lg ${
             i === clicked
-              ? 'border-[#6133af] border'
-              : 'schedule-card small-card lesson-container rounded-xl px-3 pt-3'
+              ? 'border-[#6133af] border-2 shadow-[0_0_0_4px_#F0EBF7] '
+              : 'color-border-grey'
           }`}
           onClick={() => {
             setClicked(i);
@@ -58,17 +58,17 @@ const SelectLesson = ({
         >
           <div>
             <h1
-              className={`mb-2 ${i === clicked ? 'text-black' : 'text-black'}`}
+              className="color-dark-purple font-inter text-xl tracking-tight font-semibold mb-4"
             >
               {capitalize(title)}
             </h1>
 
-            <div className="flex">
-              <div className="time_remaining">
-                {duration} {t('minutes', { ns: 'common' })}
-              </div>
-              <div className="remaining-lsn">
+            <div className="flex gap-2 flex-row">
+              <div className="font-inter color-dark-purple font-medium text-[17px] border color-border-grey rounded px-2.5 py-[5px] flex-grow text-center">
                 {t('lessons_remaining', { ns: 'lessons', count: remaining })}
+              </div>
+              <div className="font-inter font-medium text-[17px] px-2.5 py-[5px] text-[#6133AF] bg-[#ebe4ff] rounded">
+                {duration}{t('minutes_short', { ns: 'common' })}
               </div>
             </div>
           </div>
@@ -79,63 +79,53 @@ const SelectLesson = ({
 
   return (
     <Layout>
-      <div className="scroll-layout  schedule-lesson">
-        <div className="flex-container">
-          <div className="custom-children-container m-0 schedule_changess max-select_lesson">
-            <div className="flex flex-col gap-3">
-              <h1 className="title mt-0 title_aligns_slesson">
-                {!id
-                  ? t('schedule_lesson')
-                  : t('reschedule_lesson', { ns: 'modals' })}
-              </h1>
-              <p className="welcome-subtitle">
-                {!id
-                  ? t('schedule_lesson_subtitle')
-                  : t('reschedule_lesson_subtitle')}
-              </p>
-            </div>
-            <div className="">
-              <div className="">
-                {planStatusesLoading ? (
-                  <Loader />
-                ) : (
-                  planStatus.map((x, i) => (
-                    <LessonCard
-                      title={x.package?.course?.title}
-                      duration={x.package?.sessionTime}
-                      remaining={x.credits}
-                      data={x}
-                      i={i}
-                      key={i}
-                      expirationDate={x.periodEnd}
-                    />
-                  ))
-                )}
-              </div>
-            </div>
-            <div className="row container pt-3 btn-custom ">
-              <div className="col-auto">
-                <button
-                  className="enter-btn btn-dash-return ms-0 button_schedule"
-                  onClick={returnToDashboard}
-                >
-                  {t('return_to_dash')}
-                </button>
-              </div>
-              <div className="col-auto">
-                <button
-                  className="enter-btn btn-primary button_schedule custom-btn-primary"
-                  disabled={disabled}
-                  onClick={() => setTabIndex(1)}
-                >
-                  <span className="me-2">{t('continue_custom')}</span>
-                  <span className="continue-arrow">
-                    <img src={continue_arrow} alt="" />
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>
+      <div className="h-full overflow-y-auto sm:px-10 sm:py-8 lg:pt-12 lg:px-12 xl:pl-[65px] xl:pr-[90px]">
+        <div className="flex flex-col gap-2.5 mb-[27px]">
+          <h1 className="font-inter text-[40px] color-dark-purple leading-normal tracking-tight">
+            {!id
+              ? t('schedule_lesson')
+              : t('reschedule_lesson', { ns: 'modals' })}
+          </h1>
+          <p className="font-inter text-xl text-[#646481] font-medium tracking-tight">
+            {!id
+              ? t('schedule_lesson_subtitle')
+              : t('reschedule_lesson_subtitle')}
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-x-[29px] gap-y-6 mb-10">
+          {planStatusesLoading ? (
+            <Loader />
+          ) : (
+            planStatus.map((x, i) => (
+              <LessonCard
+                title={x.package?.course?.title}
+                duration={x.package?.sessionTime}
+                remaining={x.credits}
+                data={x}
+                i={i}
+                key={i}
+                expirationDate={x.periodEnd}
+              />
+            ))
+          )}
+        </div>
+        <div className='flex gap-5'>
+            <button
+              className="border border-solid border-[#DEDEE1] p-[15px] text-[15px] font-semibold rounded-[5px]"
+              onClick={returnToDashboard}
+            >
+              {t('return_to_dash')}
+            </button>
+            <button
+              className="bg-[#6133AF] p-[15px] flex flex-row items-center gap-1.5 text-white font-semibold rounded-[5px]"
+              disabled={disabled}
+              onClick={() => setTabIndex(1)}
+            >
+              <span>{t('continue_custom')}</span>
+              <span >
+                <img src={continue_arrow} alt="arrow" />
+              </span>
+            </button>
         </div>
       </div>
     </Layout>
