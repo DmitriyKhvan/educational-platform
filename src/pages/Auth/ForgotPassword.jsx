@@ -53,6 +53,7 @@ const ForgotPassword = () => {
           <div className="mb-3">
             <InputWithError errorsField={errors?.email}>
               <InputField
+                className="w-full"
                 label={t('email')}
                 placeholder="name@email.com"
                 autoComplete="on"

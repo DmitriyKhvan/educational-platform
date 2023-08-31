@@ -17,7 +17,6 @@ const InputField = forwardRef(function InputField(
       <input
         className={`
           block 
-          w-full 
           p-2 
           text-base 
           bg-white
