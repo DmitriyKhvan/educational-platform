@@ -79,7 +79,9 @@ export default function BuyPackage() {
 
   const [courseData, setCourseData] = useState(null);
   const [selectedLength, setSelectedLength] = useState(null);
+  const [selectedSessionsPerWeek, setSelectedSessionsPerWeek] = useState(null);
   const [uniqueLength, setUniqueLength] = useState([]);
+  const [uniqueSessionsPerWeek, setUniqueSessionsPerWeek] = useState([]);
   const [selectedPackage, setSelectedPackage] = useState(null);
 
   const history = useHistory();
@@ -91,7 +93,13 @@ export default function BuyPackage() {
     setUniqueLength([
       ...new Set(data?.packages?.map((item) => item.sessionTime) ?? []),
     ]);
+    setUniqueSessionsPerWeek(
+      [
+        ...new Set(data?.packages?.map((item) => item.sessionsPerWeek) ?? []),
+      ].sort((a, b) => a - b),
+    );
     setSelectedLength(data?.packages[0]?.sessionTime);
+    setSelectedSessionsPerWeek(data?.packages[0]?.sessionsPerWeek);
   }, [data]);
 
   if (loading) return <Loader />;
@@ -174,11 +182,43 @@ export default function BuyPackage() {
                 </div>
               ))}
             </div>
+            <div className="flex gap-2">
+              {uniqueSessionsPerWeek?.map((sessionsPerWeek) => (
+                <div key={'sessionsPerWeekKey' + sessionsPerWeek}>
+                  <input
+                    type="radio"
+                    id={'sessionsPerWeek' + sessionsPerWeek}
+                    name="sessionsPerWeekInput"
+                    value={'sessionsPerWeek' + sessionsPerWeek}
+                    defaultChecked={selectedSessionsPerWeek === sessionsPerWeek}
+                    className="hidden peer"
+                    onChange={() => {
+                      setSelectedSessionsPerWeek(sessionsPerWeek);
+                      setSelectedPackage(null);
+                    }}
+                  />
+                  <label
+                    className="flex flex-row justify-between items-center bg-gray-100/80 backdrop-blur-md text-gray-700/90 backdrop-saturate-200 border-gray-100/40 border-2 py-2 px-4 rounded-xl hover:border-purple-300 duration-300 peer-checked:border-purple-600 hover:shadow-gray-900/5 hover:shadow-xl"
+                    htmlFor={'sessionsPerWeek' + sessionsPerWeek}
+                  >
+                    <div className="flex flex-col">
+                      <p className="text-lg font-bold">
+                        {t('times_per_week', {
+                          count: sessionsPerWeek,
+                          interpolation: {},
+                        })}
+                      </p>
+                    </div>
+                  </label>
+                </div>
+              ))}
+            </div>
             <p className="text-lg font-bold text-gray-700/90">{t('length')}</p>
             <div className="flex flex-col gap-2" ref={parent}>
               {courseData?.packages?.map(
                 (pkg) =>
-                  pkg.sessionTime === selectedLength && (
+                  pkg.sessionTime === selectedLength &&
+                  pkg.sessionsPerWeek === selectedSessionsPerWeek && (
                     <div key={pkg.id}>
                       <input
                         type="radio"
