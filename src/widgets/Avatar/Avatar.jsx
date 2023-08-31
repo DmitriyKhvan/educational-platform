@@ -4,7 +4,7 @@ import { useAuth } from '../../modules/auth';
 import maleAvatar from '../../assets/images/avatars/img_avatar_male.png';
 import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
 
-export const Avatar = ({ avatarUrl, className }) => {
+export const Avatar = ({ avatarUrl, className = '' }) => {
   const { user } = useAuth();
   const [profileImage, setProfileImage] = useState(maleAvatar);
 

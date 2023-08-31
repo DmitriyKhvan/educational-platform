@@ -6,6 +6,7 @@ const InputField = forwardRef(function InputField(
     type = 'text',
     placeholder = '',
     autoComplete = 'off',
+    className,
     ...props
   },
   ref,
@@ -14,7 +15,7 @@ const InputField = forwardRef(function InputField(
     <label>
       <div className="mb-2">{label}</div>
       <input
-        className="
+        className={`
           block 
           w-full 
           p-2 
@@ -27,7 +28,8 @@ const InputField = forwardRef(function InputField(
           focus:border-color-light-blue 
           focus:shadow-[0_0_0_0.25rem_rgba(13,110,253,0.25)]
           transition ease-in-out duration-300
-        "
+          ${className}
+        `}
         type={type}
         placeholder={placeholder}
         autoComplete={autoComplete}
