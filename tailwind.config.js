@@ -22,8 +22,8 @@ module.exports = {
         'color-border': '#e1e1e1',
         'color-transparent': 'transparent',
         'color-purple': '#6134af',
+        'color-light-purple': '#ebe4ff',
         'color-dark-purple': '#261A45',
-        'color-purple1': '#6133af',
         'color-light-blue': '#86b7fe',
       },
       fontFamily: {

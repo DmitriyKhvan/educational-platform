@@ -17,8 +17,9 @@ const InputField = forwardRef(function InputField(
         className="
           block 
           w-full 
-          p-3 
+          p-2 
           text-base 
+          bg-white
           border 
           border-solid 
           border-color-border 

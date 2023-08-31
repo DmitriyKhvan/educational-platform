@@ -68,7 +68,7 @@ const SelectLesson = ({
                 {duration} {t('minutes', { ns: 'common' })}
               </div>
               <div className="remaining-lsn">
-                {remaining} {t('lessons_remaining')}
+                {t('lessons_remaining', { ns: 'lessons', count: remaining })}
               </div>
             </div>
           </div>

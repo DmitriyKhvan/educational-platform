@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '../../../components/Layout';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import FavIcon from '../../../assets/images/Favorite.png';
 
@@ -14,29 +14,24 @@ import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 import { useTranslation } from 'react-i18next';
 
 const Mentors = () => {
-  const [showTutorModal, setShowTutorModal] = React.useState(false);
+  const [showMentorModal, setShowMentorModal] = React.useState(false);
+  const [mentor, setMentor] = React.useState({});
 
-  const history = useHistory();
-  const [tutor, setTutor] = React.useState([]);
+  const [mentors, setMentors] = React.useState([]);
   const [t] = useTranslation(['studentMentor', 'common']);
   const { data, loading } = useQuery(MENTORS_QUERY, {
     errorPolicy: 'ignore',
   });
 
-  const mentors = data?.mentors;
-
   React.useEffect(() => {
-    setTutor(mentors);
-  }, [mentors]);
+    setMentors(data?.mentors);
+  }, [data]);
 
   const handleStatusTutor = () => {};
 
-  const handleMoreTutor = (id) => {
-    if (id) {
-      history.push(`/student/mentors-list/${id}`);
-    }
-
-    setShowTutorModal(true);
+  const handleMoreMentor = (mentor) => {
+    setMentor(mentor);
+    setShowMentorModal(true);
   };
 
   const handleFilter = (e) => {
@@ -44,7 +39,7 @@ const Mentors = () => {
       i?.user?.fullName?.toLowerCase().includes(e.toLowerCase()),
     );
 
-    setTutor(newMentors);
+    setMentors(newMentors);
   };
 
   function resizerUsername(name) {
@@ -69,15 +64,15 @@ const Mentors = () => {
           </div>
         </div>
 
-        <div className="tutors_row">
+        <div className="tutors_row gap-y-5">
           {mentors?.length === 0 && <p>{t('cannot_find_mentors')}</p>}
 
           {loading && <Loader height={'50vh'} />}
 
           {mentors &&
-            tutor?.map((item) => (
+            mentors?.map((item) => (
               <div key={item.id} className="tutors_card">
-                <div className="w-full h-4/5 overflow-hidden rounded-lg">
+                <div className="w-full h-[400px] overflow-hidden rounded-lg">
                   <div
                     className="tutors_card-img"
                     style={{
@@ -94,7 +89,7 @@ const Mentors = () => {
                   </div>
                 </div>
 
-                <div className="tutors_card-body">
+                <div className="tutors_card-body h-[120px] overflow-hidden">
                   <div className="tutors_info">
                     <h2>{resizerUsername(item?.user?.firstName)}</h2>
                     <h4>{item.university}</h4>
@@ -103,7 +98,7 @@ const Mentors = () => {
                     </span>
                   </div>
                   <div className="tutors_control-buttons">
-                    <button onClick={() => handleMoreTutor(item.id)}>
+                    <button onClick={() => handleMoreMentor(item)}>
                       {t('learn_more', { ns: 'common' })}
                     </button>
                     <Link
@@ -147,11 +142,11 @@ const Mentors = () => {
         </div>
       </div>
 
-      {showTutorModal && (
+      {showMentorModal && (
         <MentorsModal
-          tutorsList={mentors}
+          mentor={mentor}
           handleStatusTutor={handleStatusTutor}
-          setShowTutorModal={setShowTutorModal}
+          setShowMentorModal={setShowMentorModal}
         />
       )}
     </Layout>

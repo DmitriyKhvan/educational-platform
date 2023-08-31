@@ -7,7 +7,7 @@ import { ClipLoader } from 'react-spinners';
 // import NotificationManager from '../../components/NotificationManager';
 import useResetPassword from '../../modules/auth/hooks/resetPassword';
 import AuthLayout from '../../components/AuthLayout';
-import Button from '../../components/Form/Button';
+import Button from '../../components/Form/Button/Button';
 import InputWithError from '../../components/Form/InputWithError';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -69,7 +69,12 @@ const ForgotPassword = () => {
           </div>
 
           <div className="d-grid gap-2 pt-4">
-            <Button type="submit" disabled={!isValid}>
+            <Button
+              type="submit"
+              disabled={!isValid}
+              theme="purple"
+              className="w-full"
+            >
               {loading ? (
                 <ClipLoader loading={loading} size={20} color="white" />
               ) : (

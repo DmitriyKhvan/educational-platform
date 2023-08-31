@@ -1,10 +1,6 @@
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { TextInput } from '../../../../components/TextInput';
 import { useAuth } from '../../../../modules/auth';
-import Select from 'react-select';
-import femaleAvatar from '../../../../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../../../../assets/images/avatars/img_avatar_male.png';
 
 import {
   MUTATION_UPDATE_STUDENT,
@@ -21,20 +17,24 @@ import {
   genders,
   timezoneOptions,
 } from '../../../../constants/global';
-import Button from '../../../../components/Form/Button';
+import Button from '../../../../components/Form/Button/Button';
 import ReactLoader from '../../../../components/common/Loader';
+import InputField from '../../../../components/Form/InputField';
+import { SelectField } from '../../../../components/Form/SelectField';
+import { Avatar } from '../../../../widgets/Avatar/Avatar';
 
 const EditProflileStudent = () => {
+  const [updateStudent, { loading: updateStudentLoading }] = useMutation(
+    MUTATION_UPDATE_STUDENT,
+  );
+  const [updateUser, { loading: updateUserLoading }] =
+    useMutation(MUTATION_UPDATE_USER);
+
   const [t] = useTranslation(['profile', 'common']);
-  const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
-  const [profileImage, setProfileImage] = React.useState('');
   const [file, setFile] = React.useState(null);
 
   const history = useHistory();
   const [, setPreview] = React.useState({});
-
-  const [updateUser, { loading: updateUserLoading }] =
-    useMutation(MUTATION_UPDATE_USER);
 
   const { user, refetchUser } = useAuth();
 
@@ -49,39 +49,24 @@ const EditProflileStudent = () => {
     },
   });
 
-  const avatar = user?.student?.avatar?.url;
-
-  React.useEffect(() => {
-    if (avatar) {
-      setProfileImage(avatar);
-    } else if (user?.gender === 'female') {
-      setProfileImage(femaleAvatar);
-    } else if (user?.gender === 'male') {
-      setProfileImage(maleAvatar);
-    } else {
-      setProfileImage(maleAvatar);
-    }
-  }, [user, avatar]);
-
   const onSubmit = async (area) => {
     if (file) {
       setPreview(area.avatar);
 
-      const { error } = await updateStudent({
+      await updateStudent({
         variables: {
           id: parseInt(user?.student?.id),
           data: {
             avatar: file,
           },
         },
+        onError: () => {
+          notify(t('error_avatar_upload', { ns: 'profile' }), 'error');
+        },
       });
-
-      if (error) {
-        notify('Avatar upload failed', 'error');
-      }
     }
 
-    const { data: userData } = await updateUser({
+    await updateUser({
       variables: {
         id: parseInt(user?.id),
         data: {
@@ -95,21 +80,25 @@ const EditProflileStudent = () => {
           address: area.address,
         },
       },
+      onCompleted: async () => {
+        notify('Student information is changed!');
+        await refetchUser();
+        history.push('/student/profile');
+      },
+      onError: () => {
+        notify(
+          t('error_student_information_changed', { ns: 'profile' }),
+          'error',
+        );
+      },
     });
-
-    if (userData) {
-      notify('Student information is changed!');
-      history.push('/student/profile');
-    }
-
-    await refetchUser();
   };
 
   const removePreviewImage = () => setFile(null);
 
   return (
     <>
-      {updateUserLoading && <ReactLoader />}
+      {(updateUserLoading || updateStudentLoading) && <ReactLoader />}
       <section className="w-[500px] p-[60px]">
         <div className="mb-5">
           <h3 className="text-black m-0 text-[20px]">{t('edit_profile')}</h3>
@@ -118,11 +107,9 @@ const EditProflileStudent = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="relative max-w-fit">
             {!file && (
-              <img
-                className="w-[150px] h-[150px] cursor-pointer rounded-full object-cover"
-                src={profileImage}
-                alt={'userInfo.tutorName'}
-              />
+              <div className="w-[150px] h-[150px] rounded-full overflow-hidden">
+                <Avatar avatarUrl={user?.student?.avatar?.url} />
+              </div>
             )}
 
             {file ? (
@@ -154,7 +141,7 @@ const EditProflileStudent = () => {
           </div>
           <section>
             <section className="mt-4">
-              <TextInput
+              <InputField
                 label={t('korean_name', { ns: 'profile' })}
                 type={'text'}
                 placeholder={'알렉스'}
@@ -169,15 +156,11 @@ const EditProflileStudent = () => {
                   control={control}
                   defaultValue={user?.gender}
                   name="gender"
-                  render={({ field: { ref, value, onChange } }) => (
-                    <Select
-                      className="mt-[10px]"
-                      inputRef={ref}
-                      defaultValue={genders.find(
-                        (gender) => gender.value === value,
-                      )}
+                  render={({ field: { value, onChange } }) => (
+                    <SelectField
+                      value={value}
                       options={genders}
-                      onChange={(e) => onChange(e.value)}
+                      onChange={onChange}
                     />
                   )}
                 />
@@ -192,16 +175,11 @@ const EditProflileStudent = () => {
                   control={control}
                   defaultValue={user?.timeZone}
                   name="timeZone"
-                  render={({ field: { ref, value, onChange } }) => (
-                    <Select
-                      className="mt-[10px]"
-                      inputRef={ref}
-                      // value={find(timezoneOptions, { value })}
-                      defaultValue={timezoneOptions.find(
-                        (zone) => zone.value === value,
-                      )}
+                  render={({ field: { value, onChange } }) => (
+                    <SelectField
+                      value={value}
                       options={timezoneOptions}
-                      onChange={(e) => onChange(e.value)}
+                      onChange={onChange}
                     />
                   )}
                 />
@@ -215,13 +193,11 @@ const EditProflileStudent = () => {
                   control={control}
                   defaultValue={user?.country}
                   name="country"
-                  render={({ field: { ref, value, onChange } }) => (
-                    <Select
-                      className="mt-[10px]"
-                      inputRef={ref}
-                      value={{ label: value, value: value }}
+                  render={({ field: { value, onChange } }) => (
+                    <SelectField
+                      value={value}
                       options={countries}
-                      onChange={(e) => onChange(e.value)}
+                      onChange={onChange}
                     />
                   )}
                 />
@@ -229,7 +205,7 @@ const EditProflileStudent = () => {
             </section>
 
             <section className="mt-4">
-              <TextInput
+              <InputField
                 label={t('last_name', { ns: 'common' })}
                 type={'text'}
                 placeholder={'Addison'}
@@ -238,7 +214,7 @@ const EditProflileStudent = () => {
             </section>
 
             <section className="mt-4">
-              <TextInput
+              <InputField
                 label={t('first_name', { ns: 'common' })}
                 type={'text'}
                 placeholder={'Alisa'}
@@ -247,7 +223,7 @@ const EditProflileStudent = () => {
             </section>
 
             <section className="mt-4">
-              <TextInput
+              <InputField
                 label={t('phone_number', { ns: 'common' })}
                 type={'text'}
                 placeholder="+1(555)555-5555"
@@ -256,7 +232,7 @@ const EditProflileStudent = () => {
             </section>
 
             <section className="mt-4">
-              <TextInput
+              <InputField
                 label={t('address', { ns: 'common' })}
                 type={'text'}
                 placeholder={'Bakarov 98'}
@@ -265,7 +241,7 @@ const EditProflileStudent = () => {
             </section>
           </section>
 
-          <Button className="mt-10" type="submit">
+          <Button className="mt-10 w-full" type="submit" theme="purple">
             {t('save', { ns: 'common' })}
           </Button>
         </form>

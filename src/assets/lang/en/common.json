@@ -98,5 +98,6 @@
   "cost_per_class": "Cost per class",
   "lesson_per_week": "Lesson(s) per week",
   "lesson_per_package": "Lessons per Package",
-  "payment_without_renewal": "One-time payment without auto renewal"
+  "payment_without_renewal": "One-time payment without auto renewal",
+  "remaining_credits": "Remaining credits"
 }

@@ -20,10 +20,11 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../modules/auth';
 
-import course0 from '../../assets/images/courses/0.png';
-import course1 from '../../assets/images/courses/1.png';
-import course2 from '../../assets/images/courses/2.png';
-import course3 from '../../assets/images/courses/3.png';
+import purchaseBack from '../../assets/images/purchase/purchaseBack.png';
+import course0 from '../../assets/images/purchase/0.png';
+import course1 from '../../assets/images/purchase/1.png';
+import course2 from '../../assets/images/purchase/2.png';
+import course3 from '../../assets/images/purchase/3.png';
 import { v4 as uuidv4 } from 'uuid';
 import {
   Select,
@@ -99,7 +100,6 @@ export default function BuyPackage() {
     loading,
   } = useQuery(GET_COURSES, {
     onCompleted: (data) => {
-      console.log('data', data);
       setData(data.courses.find((course) => course?.packages?.length > 0));
     },
   });
@@ -204,7 +204,10 @@ export default function BuyPackage() {
   };
 
   return (
-    <main className="bg-[url(https://dev.naonow.com/img/20210605-NAONOW-FINAL-2%202.png)] bg-cover h-screen overflow-auto">
+    <main
+      style={{ background: `url('${purchaseBack}')` }}
+      className={`bg-cover h-screen overflow-auto`}
+    >
       <div className="flex flex-col justify-center items-center p-4 transition-all duration-300">
         <div
           className="bg-gray-200/90 backdrop-blur-md backdrop-saturate-200 border-gray-100/40 border p-4 rounded-xl max-w-5xl w-full cool-shadow flex flex-col gap-8 md:gap-6 md:flex-row bg-center transition-transform duration-300"
