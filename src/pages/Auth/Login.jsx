@@ -55,6 +55,7 @@ const Login = () => {
           <div className="mb-7">
             <InputWithError errorsField={errors?.email}>
               <InputField
+                className="w-full"
                 label={t('email')}
                 placeholder="name@email.com"
                 autoComplete="on"
@@ -73,6 +74,7 @@ const Login = () => {
           <div className="mb-7">
             <InputWithError errorsField={errors?.password}>
               <InputField
+                className="w-full"
                 label={t('password')}
                 type={isShowPassword ? 'text' : 'password'}
                 placeholder="at least 8 characters"

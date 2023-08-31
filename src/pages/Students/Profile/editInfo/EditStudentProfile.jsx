@@ -142,6 +142,7 @@ const EditProflileStudent = () => {
           <section>
             <section className="mt-4">
               <InputField
+                className="w-full"
                 label={t('korean_name', { ns: 'profile' })}
                 type={'text'}
                 placeholder={'알렉스'}
@@ -206,6 +207,7 @@ const EditProflileStudent = () => {
 
             <section className="mt-4">
               <InputField
+                className="w-full"
                 label={t('last_name', { ns: 'common' })}
                 type={'text'}
                 placeholder={'Addison'}
@@ -215,6 +217,7 @@ const EditProflileStudent = () => {
 
             <section className="mt-4">
               <InputField
+                className="w-full"
                 label={t('first_name', { ns: 'common' })}
                 type={'text'}
                 placeholder={'Alisa'}
@@ -224,6 +227,7 @@ const EditProflileStudent = () => {
 
             <section className="mt-4">
               <InputField
+                className="w-full"
                 label={t('phone_number', { ns: 'common' })}
                 type={'text'}
                 placeholder="+1(555)555-5555"
@@ -233,6 +237,7 @@ const EditProflileStudent = () => {
 
             <section className="mt-4">
               <InputField
+                className="w-full"
                 label={t('address', { ns: 'common' })}
                 type={'text'}
                 placeholder={'Bakarov 98'}

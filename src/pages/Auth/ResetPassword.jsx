@@ -64,6 +64,7 @@ const ResetPassword = () => {
           <div className="mb-7">
             <InputWithError errorsField={errors?.password}>
               <InputField
+                className="w-full"
                 label={t('new_password')}
                 type="password"
                 {...register('password', {
@@ -76,6 +77,7 @@ const ResetPassword = () => {
           <div className="mb-10">
             <InputWithError errorsField={errors?.confirmPassword}>
               <InputField
+                className="w-full"
                 label={t('confirm_new_password')}
                 type="password"
                 {...register('confirmPassword', {
