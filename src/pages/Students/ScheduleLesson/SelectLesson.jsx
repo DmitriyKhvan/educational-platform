@@ -48,8 +48,8 @@ const SelectLesson = ({
         <div
           className={`cursor-pointer p-5 border rounded-lg ${
             i === clicked
-              ? 'border-[#6133af] border-2 shadow-[0_0_0_4px_#F0EBF7] '
-              : 'color-border-grey'
+              ? 'border-color-purple border-2 shadow-[0_0_0_4px_#F0EBF7] '
+              : 'border-color-border-grey'
           }`}
           onClick={() => {
             setClicked(i);
@@ -58,16 +58,16 @@ const SelectLesson = ({
         >
           <div>
             <h1
-              className="color-dark-purple font-inter text-xl tracking-tight font-semibold mb-4"
+              className="text-color-dark-purple text-xl tracking-tight font-semibold mb-4"
             >
               {capitalize(title)}
             </h1>
 
             <div className="flex gap-2 flex-row">
-              <div className="font-inter color-dark-purple font-medium text-[17px] border color-border-grey rounded px-2.5 py-[5px] flex-grow text-center">
+              <div className="text-color-dark-purple font-medium text-[17px] border border-color-border-grey rounded px-2.5 py-[5px] flex-grow text-center">
                 {t('lessons_remaining', { ns: 'lessons', count: remaining })}
               </div>
-              <div className="font-inter font-medium text-[17px] px-2.5 py-[5px] text-[#6133AF] bg-[#ebe4ff] rounded">
+              <div className="font-medium text-[17px] px-2.5 py-[5px] text-color-purple bg-color-light-purple rounded">
                 {duration}{t('minutes_short', { ns: 'common' })}
               </div>
             </div>
@@ -81,12 +81,12 @@ const SelectLesson = ({
     <Layout>
       <div className="h-full overflow-y-auto sm:px-10 sm:py-8 lg:pt-12 lg:px-12 xl:pl-[65px] xl:pr-[90px]">
         <div className="flex flex-col gap-2.5 mb-[27px]">
-          <h1 className="font-inter text-[40px] color-dark-purple leading-normal tracking-tight">
+          <h1 className="text-[40px] text-color-dark-purple leading-normal tracking-tight">
             {!id
               ? t('schedule_lesson')
               : t('reschedule_lesson', { ns: 'modals' })}
           </h1>
-          <p className="font-inter text-xl text-[#646481] font-medium tracking-tight">
+          <p className="text-xl text-color-light-grey font-medium tracking-tight">
             {!id
               ? t('schedule_lesson_subtitle')
               : t('reschedule_lesson_subtitle')}
@@ -111,13 +111,13 @@ const SelectLesson = ({
         </div>
         <div className='flex gap-5'>
             <button
-              className="border border-solid border-[#DEDEE1] p-[15px] text-[15px] font-semibold rounded-[5px]"
+              className="border border-solid border-color-border-grey p-[15px] text-[15px] font-semibold rounded-[5px]"
               onClick={returnToDashboard}
             >
               {t('return_to_dash')}
             </button>
             <button
-              className="bg-[#6133AF] p-[15px] flex flex-row items-center gap-1.5 text-white font-semibold rounded-[5px]"
+              className="bg-color-purple p-[15px] flex flex-row items-center gap-1.5 text-white font-semibold rounded-[5px]"
               disabled={disabled}
               onClick={() => setTabIndex(1)}
             >
