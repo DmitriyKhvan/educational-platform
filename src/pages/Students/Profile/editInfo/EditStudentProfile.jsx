@@ -9,7 +9,8 @@ import {
 import { useMutation } from '@apollo/client';
 import notify from '../../../../utils/notify';
 
-import { AiFillEdit } from 'react-icons/ai';
+// import { AiFillEdit } from 'react-icons/ai';
+
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -22,6 +23,7 @@ import ReactLoader from '../../../../components/common/Loader';
 import InputField from '../../../../components/Form/InputField';
 import { SelectField } from '../../../../components/Form/SelectField';
 import { Avatar } from '../../../../widgets/Avatar/Avatar';
+// import editIcon from '../../../../assets/images/EditIcon.png';
 
 const EditProflileStudent = () => {
   const [updateStudent, { loading: updateStudentLoading }] = useMutation(
@@ -81,7 +83,7 @@ const EditProflileStudent = () => {
         },
       },
       onCompleted: async () => {
-        notify('Student information is changed!');
+        notify(t('student_information_changed', { ns: 'profile' }));
         await refetchUser();
         history.push('/student/profile');
       },
@@ -135,7 +137,29 @@ const EditProflileStudent = () => {
                   type={'file'}
                   onChange={(e) => setFile(e.target.files[0])}
                 />
-                <AiFillEdit className="absolute top-0 right-0 text-xl cursor-pointer" />
+                {/* <AiFillEdit className="absolute top-0 right-0 text-xl cursor-pointer" /> */}
+                {/* <img
+                  className="absolute bottom-0 right-0 cursor-pointer"
+                  src={editIcon}
+                  alt="edit"
+                /> */}
+
+                <div className="group p-[6px] rounded-full border-solid border-4 border-white absolute bottom-0 right-0 cursor-pointer bg-color-light-purple hover:bg-color-purple duration-300">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-5 h-5 text-color-purple group-hover:text-white"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                    />
+                  </svg>
+                </div>
               </label>
             )}
           </div>
@@ -240,7 +264,7 @@ const EditProflileStudent = () => {
                 className="w-full"
                 label={t('address', { ns: 'common' })}
                 type={'text'}
-                placeholder={'Bakarov 98'}
+                placeholder="123 Street, City, State"
                 {...register('address')}
               />
             </section>

@@ -5,12 +5,12 @@ import {
   MUTATION_UPDATE_STUDENT,
   PACKAGE_QUERY,
 } from '../../../../modules/auth/graphql';
-import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Introduction from './Introduction';
 import Button from '../../../../components/Form/Button/Button';
 import { Avatar } from '../../../../widgets/Avatar/Avatar';
+import notify from '../../../../utils/notify';
 
 const StudentProfile = () => {
   const [t] = useTranslation(['profile', 'common', 'lessons']);
@@ -42,7 +42,7 @@ const StudentProfile = () => {
       });
 
       if (data) {
-        toast('Introduction is changed!');
+        notify(t('introduction_changed', { ns: 'profile' }));
       }
 
       await refetchUser();
@@ -51,7 +51,7 @@ const StudentProfile = () => {
 
   return (
     <div className="flex flex-wrap h-[calc(100vh-80px)] overflow-auto ">
-      <div className="sm:w-full xl:w-3/5 p-[30px]">
+      <div className="sm:w-full xl:w-3/5 p-[30px] sm:p-[60px]">
         <div>
           <div className="relative w-full h-[150px] bg-color-purple rounded-t-[10px]">
             <div className="absolute left-[5%] top-[55%] w-[140px] h-[140px] border-8 border-solid border-white rounded-[10px]">
@@ -125,7 +125,7 @@ const StudentProfile = () => {
         </div>
       </div>
 
-      <div className="w-full xl:w-2/5 p-[30px] border-t xl:border-t-0 xl:border-l border-solid border-color-border-grey">
+      <div className="w-full xl:w-2/5 p-[30px] sm:p-[60px] border-t xl:border-t-0 xl:border-l border-solid border-color-border-grey bg-[#F7F7FA]">
         <h2 className="font-medium text-2xl text-color-light-grey tracking-[-0.6px]">
           {t('add_details')}
         </h2>
