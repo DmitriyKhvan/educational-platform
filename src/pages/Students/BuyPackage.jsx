@@ -217,6 +217,7 @@ export default function BuyPackage() {
             <div className="flex flex-col gap-2" ref={parent}>
               {courseData?.packages?.map(
                 (pkg) =>
+                  pkg.period !== 1 &&
                   pkg.sessionTime === selectedLength &&
                   pkg.sessionsPerWeek === selectedSessionsPerWeek && (
                     <div key={pkg.id}>
