@@ -9,7 +9,7 @@ import {
 import { useMutation } from '@apollo/client';
 import notify from '../../../../utils/notify';
 
-// import { AiFillEdit } from 'react-icons/ai';
+import { BsPencil } from 'react-icons/bs';
 
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +23,6 @@ import ReactLoader from '../../../../components/common/Loader';
 import InputField from '../../../../components/Form/InputField';
 import { SelectField } from '../../../../components/Form/SelectField';
 import { Avatar } from '../../../../widgets/Avatar/Avatar';
-// import editIcon from '../../../../assets/images/EditIcon.png';
 
 const EditProflileStudent = () => {
   const [updateStudent, { loading: updateStudentLoading }] = useMutation(
@@ -101,67 +100,50 @@ const EditProflileStudent = () => {
   return (
     <>
       {(updateUserLoading || updateStudentLoading) && <ReactLoader />}
-      <section className="w-[500px] p-[60px]">
+      <section>
         <div className="mb-5">
           <h3 className="text-black m-0 text-[20px]">{t('edit_profile')}</h3>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="relative max-w-fit">
-            {!file && (
-              <div className="w-[150px] h-[150px] rounded-full overflow-hidden">
-                <Avatar avatarUrl={user?.student?.avatar?.url} />
-              </div>
-            )}
-
-            {file ? (
-              <>
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt="Thumb"
-                  className="w-[150px] h-[150px] cursor-pointer rounded-full object-cover"
+          <div className="flex items-center justify-center">
+            <div className="relative w-[150px] h-[150px] rounded-full">
+              {!file && (
+                <Avatar
+                  className="rounded-full"
+                  avatarUrl={user?.student?.avatar?.url}
                 />
-                <button
-                  className="absolute top-0 right-0 text-2xl cursor-pointer text-red-500"
-                  onClick={removePreviewImage}
-                >
-                  &times;
-                </button>
-              </>
-            ) : (
-              <label>
-                <input
-                  className="hidden"
-                  multiple
-                  accept="image/*"
-                  type={'file'}
-                  onChange={(e) => setFile(e.target.files[0])}
-                />
-                {/* <AiFillEdit className="absolute top-0 right-0 text-xl cursor-pointer" /> */}
-                {/* <img
-                  className="absolute bottom-0 right-0 cursor-pointer"
-                  src={editIcon}
-                  alt="edit"
-                /> */}
+              )}
 
-                <div className="group p-[6px] rounded-full border-solid border-4 border-white absolute bottom-0 right-0 cursor-pointer bg-color-light-purple hover:bg-color-purple duration-300">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-5 h-5 text-color-purple group-hover:text-white"
+              {file ? (
+                <>
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt="Thumb"
+                    className="w-[150px] h-[150px] cursor-pointer rounded-full object-cover"
+                  />
+                  <button
+                    className="absolute top-0 right-0 text-2xl cursor-pointer text-red-500"
+                    onClick={removePreviewImage}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
-                    />
-                  </svg>
-                </div>
-              </label>
-            )}
+                    &times;
+                  </button>
+                </>
+              ) : (
+                <label>
+                  <input
+                    className="hidden"
+                    multiple
+                    accept="image/*"
+                    type={'file'}
+                    onChange={(e) => setFile(e.target.files[0])}
+                  />
+                  <div className="group p-[6px] rounded-full border-solid border-4 border-white absolute bottom-0 right-0 cursor-pointer bg-color-light-purple hover:bg-color-purple duration-300">
+                    <BsPencil className="w-5 h-5 text-color-purple group-hover:text-white" />
+                  </div>
+                </label>
+              )}
+            </div>
           </div>
           <section>
             <section className="mt-4">

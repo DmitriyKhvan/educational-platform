@@ -79,15 +79,6 @@ const CancelLessonModal = ({
         <div className="text-lg font-semibold">
           <h2>Cancelling Lesson</h2>
         </div>
-        <div className="col-auto text-end pt-2 ps-5">
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            onClick={() => setIsOpen(false)}
-          ></button>
-        </div>
       </div>
       <p className="welcome-subtitle mb-4">
         Why are you cancelling this lesson?

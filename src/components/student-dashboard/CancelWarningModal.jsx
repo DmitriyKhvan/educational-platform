@@ -8,7 +8,7 @@ const MAX_MODIFY_COUNT = 3;
 const CancelWarningModal = ({
   data,
   setTabIndex,
-  setIsOpen,
+  // setIsOpen,
   type,
   modifyCredits,
 }) => {
@@ -57,16 +57,7 @@ const CancelWarningModal = ({
   return (
     <div>
       <div className="flex justify-between mb-2">
-        <div className="text-lg font-semibold">{t('warning')}</div>
-        <div>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            onClick={() => setIsOpen(false)}
-          ></button>
-        </div>
+        <div className="text-lg font-semibold">{t('warning')}dddd</div>
       </div>
       <div> {user.role !== ROLES.MENTOR ? t('cancel_modal_desc') : null}</div>
       {user.role !== ROLES.MENTOR && (
