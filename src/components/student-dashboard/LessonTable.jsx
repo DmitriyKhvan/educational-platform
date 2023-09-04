@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import moment from 'moment-timezone';
+import { format, utcToZonedTime } from 'date-fns-tz';
+import { addMinutes } from 'date-fns';
 
 export const LessonTable = ({
   displayTableData,
@@ -25,7 +26,7 @@ export const LessonTable = ({
         <thead>
           <tr>
             {tableHead.map((x, ind) => (
-              <th scope="col" key={`row-${ind}`}>
+              <th className='py-5 lg:first:pl-16' scope="col" key={`row-${ind}`}>
                 {x}
               </th>
             ))}
@@ -49,14 +50,14 @@ export const LessonTable = ({
             )
             .map((event) => {
               return (
-                <tr className="tr-center" key={event.resource.id}>
-                  <td className="td-item">
-                    <p className="td-lesson">
+                <tr className="h-[80px] m-auto text-center" key={event.resource.id}>
+                  <td className="pt-4 border-b text-left lg:pl-16">
+                    <p className="mt-4 font-semibold text-color-light-grey tracking-tight text-[15px] leading-normal">
                       {event.resource.packageSubscription.package.course.title}
                     </p>
                   </td>
-                  <td className="td-item">
-                    <p className="td-lesson">{event.resource.duration} min</p>
+                  <td className="pt-4 border-b text-left">
+                    <p className="mt-4 font-semibold text-color-light-grey tracking-tight text-[15px] leading-normal">{event.resource.duration} min</p>
                   </td>
 
                   {/* Do not remove this code, it will be used in the future 
@@ -75,26 +76,40 @@ export const LessonTable = ({
                           {` ${event.nextTopic}`}
                         </p>
                       </td> */}
-                  <td className="td-item">
-                    <p className="td-datetime td-datetime-border ps-3">
-                      {moment(event.resource.startAt)
-                        .tz(userTimezone)
-                        .format('ddd, MMM Do | hh:mm A')}
+                  <td className="py-[25px] border-b text-left">
+                    <span className="border inline-block border-color-border-grey rounded-[10px] pr-2.5 pl-[15px] text-color-light-grey font-medium text-[15px] h-10 border-box leading-10">
+                      <span className='h-full inline-block border-r border-color-border-grey pr-2.5 mr-2.5'>
+                      {
+                        format(
+                          utcToZonedTime(new Date(event.resource.startAt), userTimezone), 'eee, MMM do'
+                        )
+                      }
+                      </span>
+                      <span className='inline-block'>
+                      {
+                        format(
+                          utcToZonedTime(new Date(event.resource.startAt), userTimezone), 'hh:mm a'
+                        )
+                      }
                       {' → '}
-                      {moment(event.resource.startAt)
-                        .tz(userTimezone)
-                        .add(event.resource.duration, 'minutes')
-                        .format('hh:mm A')}
-                    </p>
+                      {
+                        format(
+                          addMinutes(utcToZonedTime(new Date(event.resource.startAt), userTimezone), event.resource.duration),
+                          'hh:mm a',
+                          { timeZone: userTimezone }
+                        )
+                      }
+                      </span>
+                    </span>
                   </td>
-                  <td className="td-item">
-                    <p className="td-topic-level">
+                  <td className="pt-4 border-b text-left">
+                    <p className="mt-4 text-color-light-grey tracking-tight text-[15px] leading-normal">
                       {event.resource.mentor.user.fullName}
                     </p>
                   </td>
 
-                  <td className="td-item m-0">
-                    <p className="td-topic-level">
+                  <td className="pt-4 border-b m-0 text-left">
+                    <p className="mt-4 text-color-light-grey tracking-tight text-[15px] leading-normal">
                       {event.resource.status === 'approved'
                         ? 'Approved'
                         : event.resource.status === 'scheduled'
