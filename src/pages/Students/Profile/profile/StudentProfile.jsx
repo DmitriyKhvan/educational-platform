@@ -50,7 +50,7 @@ const StudentProfile = () => {
   };
 
   return (
-    <div className="flex flex-wrap h-full overflow-auto">
+    <div className="flex flex-wrap h-[calc(100vh-80px)] overflow-auto ">
       <div className="sm:w-full xl:w-3/5 p-[30px]">
         <div>
           <div className="relative w-full h-[150px] bg-color-purple rounded-t-[10px]">
