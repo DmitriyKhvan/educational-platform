@@ -9,8 +9,9 @@ import {
 import { useMutation } from '@apollo/client';
 import notify from '../../../../utils/notify';
 
-import { AiFillEdit } from 'react-icons/ai';
-import { useHistory } from 'react-router-dom';
+import { BsPencil } from 'react-icons/bs';
+
+// import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   countries,
@@ -23,7 +24,7 @@ import InputField from '../../../../components/Form/InputField';
 import { SelectField } from '../../../../components/Form/SelectField';
 import { Avatar } from '../../../../widgets/Avatar/Avatar';
 
-const EditProflileStudent = () => {
+const EditProflileStudent = ({ closeModal }) => {
   const [updateStudent, { loading: updateStudentLoading }] = useMutation(
     MUTATION_UPDATE_STUDENT,
   );
@@ -33,7 +34,7 @@ const EditProflileStudent = () => {
   const [t] = useTranslation(['profile', 'common']);
   const [file, setFile] = React.useState(null);
 
-  const history = useHistory();
+  // const history = useHistory();
   const [, setPreview] = React.useState({});
 
   const { user, refetchUser } = useAuth();
@@ -81,9 +82,10 @@ const EditProflileStudent = () => {
         },
       },
       onCompleted: async () => {
-        notify('Student information is changed!');
+        notify(t('student_information_changed', { ns: 'profile' }));
         await refetchUser();
-        history.push('/student/profile');
+        closeModal(false);
+        // history.push('/student/profile');
       },
       onError: () => {
         notify(
@@ -99,45 +101,50 @@ const EditProflileStudent = () => {
   return (
     <>
       {(updateUserLoading || updateStudentLoading) && <ReactLoader />}
-      <section className="w-[500px] p-[60px]">
+      <section>
         <div className="mb-5">
           <h3 className="text-black m-0 text-[20px]">{t('edit_profile')}</h3>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="relative max-w-fit">
-            {!file && (
-              <div className="w-[150px] h-[150px] rounded-full overflow-hidden">
-                <Avatar avatarUrl={user?.student?.avatar?.url} />
-              </div>
-            )}
+          <div className="flex items-center justify-center">
+            <div className="relative w-[150px] h-[150px] rounded-full">
+              {!file && (
+                <Avatar
+                  className="rounded-full"
+                  avatarUrl={user?.student?.avatar?.url}
+                />
+              )}
 
-            {file ? (
-              <>
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt="Thumb"
-                  className="w-[150px] h-[150px] cursor-pointer rounded-full object-cover"
-                />
-                <button
-                  className="absolute top-0 right-0 text-2xl cursor-pointer text-red-500"
-                  onClick={removePreviewImage}
-                >
-                  &times;
-                </button>
-              </>
-            ) : (
-              <label>
-                <input
-                  className="hidden"
-                  multiple
-                  accept="image/*"
-                  type={'file'}
-                  onChange={(e) => setFile(e.target.files[0])}
-                />
-                <AiFillEdit className="absolute top-0 right-0 text-xl cursor-pointer" />
-              </label>
-            )}
+              {file ? (
+                <>
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt="Thumb"
+                    className="w-[150px] h-[150px] cursor-pointer rounded-full object-cover"
+                  />
+                  <button
+                    className="absolute top-0 right-0 text-2xl cursor-pointer text-red-500"
+                    onClick={removePreviewImage}
+                  >
+                    &times;
+                  </button>
+                </>
+              ) : (
+                <label>
+                  <input
+                    className="hidden"
+                    multiple
+                    accept="image/*"
+                    type={'file'}
+                    onChange={(e) => setFile(e.target.files[0])}
+                  />
+                  <div className="group p-[6px] rounded-full border-solid border-4 border-white absolute bottom-0 right-0 cursor-pointer bg-color-light-purple hover:bg-color-purple duration-300">
+                    <BsPencil className="w-5 h-5 text-color-purple group-hover:text-white" />
+                  </div>
+                </label>
+              )}
+            </div>
           </div>
           <section>
             <section className="mt-4">
@@ -240,7 +247,7 @@ const EditProflileStudent = () => {
                 className="w-full"
                 label={t('address', { ns: 'common' })}
                 type={'text'}
-                placeholder={'Bakarov 98'}
+                placeholder="123 Street, City, State"
                 {...register('address')}
               />
             </section>

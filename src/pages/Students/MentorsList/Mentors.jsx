@@ -63,7 +63,7 @@ const Mentors = () => {
           </p>
         </div>
 
-        <div>
+        <div className="mt-3">
           <InputField
             className="w-[420px]"
             placeholder="Search..."

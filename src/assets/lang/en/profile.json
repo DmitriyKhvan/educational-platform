@@ -49,5 +49,7 @@
   "prerecorded": "Have a pre-recorded video on Youtube or Vimeo?",
   "textarea_limits": "400 characters minimum. {{count}} characters currrently.",
   "error_avatar_upload": "Avatar upload failed",
-  "error_student_information_changed": "Student information is not changed"
+  "error_student_information_changed": "Student information is not changed",
+  "student_information_changed": "Student information is changed!",
+  "introduction_changed": "Introduction is changed!"
 }

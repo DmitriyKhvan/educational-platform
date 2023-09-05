@@ -15,37 +15,48 @@ export default function ConfirmPayment() {
     'payment_intent_client_secret',
   );
 
+  const isNiceSuccess = new URLSearchParams(window.location.search).get(
+    'success',
+  );
+
   const [t] = useTranslation('purchase');
 
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    stripePromise.then(async (stripe) => {
-      const { paymentIntent } = await stripe.retrievePaymentIntent(
-        clientSecret,
-      );
+    if (isNiceSuccess) {
+      setMessage(t('payment_success'));
+    }
+  }, [isNiceSuccess]);
 
-      switch (paymentIntent.status) {
-        case 'succeeded':
-          setMessage(t('payment_success'));
-          break;
+  useEffect(() => {
+    if (clientSecret)
+      stripePromise.then(async (stripe) => {
+        const { paymentIntent } = await stripe.retrievePaymentIntent(
+          clientSecret,
+        );
 
-        case 'processing':
-          setMessage(t('payment_processing'));
-          break;
+        switch (paymentIntent.status) {
+          case 'succeeded':
+            setMessage(t('payment_success'));
+            break;
 
-        case 'requires_payment_method':
-          setMessage(t("payment_failed"));
-          setError(true);
-          break;
+          case 'processing':
+            setMessage(t('payment_processing'));
+            break;
 
-        default:
-          setMessage(t("payment_error"));
-          setError(true);
-          break;
-      }
-    });
+          case 'requires_payment_method':
+            setMessage(t('payment_failed'));
+            setError(true);
+            break;
+
+          default:
+            setMessage(t('payment_error'));
+            setError(true);
+            break;
+        }
+      });
   }, [clientSecret]);
 
   if (!message) return <Loader />;
@@ -63,7 +74,7 @@ export default function ConfirmPayment() {
             href="/dashboard"
             className="text-white bg-purple-500 px-4 py-2 rounded font-bold"
           >
-            {t("dashboard")}
+            {t('dashboard')}
           </a>
         </div>
       </main>
@@ -81,7 +92,7 @@ export default function ConfirmPayment() {
           href="/dashboard"
           className="text-white bg-purple-500 px-4 py-2 rounded font-bold"
         >
-          {t("dashboard")}
+          {t('dashboard')}
         </a>
       </div>
     </main>

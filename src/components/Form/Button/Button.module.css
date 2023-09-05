@@ -15,7 +15,8 @@
     transition 
     ease-in-out 
     duration-300
-    select-none;
+    select-none
+    outline-none;
   }
 
   .purple {
