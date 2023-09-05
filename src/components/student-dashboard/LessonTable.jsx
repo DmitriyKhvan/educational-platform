@@ -81,14 +81,16 @@ export const LessonTable = ({
                       <span className='h-full inline-block border-r border-color-border-grey pr-2.5 mr-2.5'>
                       {
                         format(
-                          utcToZonedTime(new Date(event.resource.startAt), userTimezone), 'eee, MMM do'
+                          utcToZonedTime(new Date(event.resource.startAt), userTimezone), 'eee, MMM do', 
+                          { timeZone: userTimezone }
                         )
                       }
                       </span>
                       <span className='inline-block'>
                       {
                         format(
-                          utcToZonedTime(new Date(event.resource.startAt), userTimezone), 'hh:mm a'
+                          utcToZonedTime(new Date(event.resource.startAt), userTimezone), 'hh:mm a', 
+                          { timeZone: userTimezone }
                         )
                       }
                       {' → '}
