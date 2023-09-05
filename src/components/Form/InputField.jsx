@@ -13,10 +13,9 @@ const InputField = forwardRef(function InputField(
 ) {
   return (
     <label>
-      <div className="mb-2">{label}</div>
+      {label && <div className="mb-2">{label}</div>}
       <input
         className={`
-          block 
           p-2 
           text-base 
           bg-white
