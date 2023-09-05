@@ -11,7 +11,7 @@ import notify from '../../../../utils/notify';
 
 import { BsPencil } from 'react-icons/bs';
 
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   countries,
@@ -24,7 +24,7 @@ import InputField from '../../../../components/Form/InputField';
 import { SelectField } from '../../../../components/Form/SelectField';
 import { Avatar } from '../../../../widgets/Avatar/Avatar';
 
-const EditProflileStudent = () => {
+const EditProflileStudent = ({ closeModal }) => {
   const [updateStudent, { loading: updateStudentLoading }] = useMutation(
     MUTATION_UPDATE_STUDENT,
   );
@@ -34,7 +34,7 @@ const EditProflileStudent = () => {
   const [t] = useTranslation(['profile', 'common']);
   const [file, setFile] = React.useState(null);
 
-  const history = useHistory();
+  // const history = useHistory();
   const [, setPreview] = React.useState({});
 
   const { user, refetchUser } = useAuth();
@@ -84,7 +84,8 @@ const EditProflileStudent = () => {
       onCompleted: async () => {
         notify(t('student_information_changed', { ns: 'profile' }));
         await refetchUser();
-        history.push('/student/profile');
+        closeModal(false);
+        // history.push('/student/profile');
       },
       onError: () => {
         notify(

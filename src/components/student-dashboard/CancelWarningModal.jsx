@@ -57,7 +57,7 @@ const CancelWarningModal = ({
   return (
     <div>
       <div className="flex justify-between mb-2">
-        <div className="text-lg font-semibold">{t('warning')}dddd</div>
+        <div className="text-lg font-semibold">{t('warning')}</div>
       </div>
       <div> {user.role !== ROLES.MENTOR ? t('cancel_modal_desc') : null}</div>
       {user.role !== ROLES.MENTOR && (

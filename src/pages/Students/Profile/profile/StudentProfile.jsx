@@ -208,7 +208,7 @@ const StudentProfile = () => {
       </div>
 
       <ModalWrapper isOpen={isOpen} closeModal={setIsOpen}>
-        <EditProflileStudent />
+        <EditProflileStudent closeModal={setIsOpen} />
       </ModalWrapper>
     </>
   );
