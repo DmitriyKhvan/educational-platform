@@ -5,7 +5,6 @@ import {
   MUTATION_UPDATE_STUDENT,
   PACKAGE_QUERY,
 } from '../../../../modules/auth/graphql';
-// import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Introduction from './Introduction';
 import Button from '../../../../components/Form/Button/Button';
@@ -13,15 +12,15 @@ import { Avatar } from '../../../../widgets/Avatar/Avatar';
 import notify from '../../../../utils/notify';
 import ModalWrapper from '../../../../components/ModalWrapper/ModalWrapper';
 import EditProflileStudent from '../editInfo/EditStudentProfile';
+import ReactLoader from '../../../../components/common/Loader';
 
 const StudentProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [t] = useTranslation(['profile', 'common', 'lessons']);
 
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
-
-  // const navigate = useHistory();
 
   const { user, refetchUser } = useAuth();
 
@@ -55,6 +54,7 @@ const StudentProfile = () => {
 
   return (
     <>
+      {loading && <ReactLoader className="fixed !important" />}
       <div className="flex flex-wrap h-[calc(100vh-80px)] overflow-auto ">
         <div className="sm:w-full xl:w-3/5 p-[30px] sm:p-[60px]">
           <div>
@@ -81,7 +81,6 @@ const StudentProfile = () => {
                     className="mr-4"
                     theme="outline"
                     onClick={() => {
-                      // navigate.push('/student/profile/edit-information');
                       setIsOpen(true);
                     }}
                   >
@@ -208,7 +207,7 @@ const StudentProfile = () => {
       </div>
 
       <ModalWrapper isOpen={isOpen} closeModal={setIsOpen}>
-        <EditProflileStudent closeModal={setIsOpen} />
+        <EditProflileStudent closeModal={setIsOpen} setLoading={setLoading} />
       </ModalWrapper>
     </>
   );
