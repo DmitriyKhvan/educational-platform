@@ -45,31 +45,29 @@ const SelectLesson = ({
 
   const LessonCard = ({ title, duration, remaining, data, i }) => {
     return (
-      <div className="md:max-w-xs flex-grow">
-        <div
-          className={`cursor-pointer p-5 border rounded-lg ${
-            i === clicked
-              ? 'border-color-purple border-2 shadow-[0_0_0_4px_#F0EBF7] '
-              : 'border-color-border-grey'
-          }`}
-          onClick={() => {
-            setClicked(i);
-            setSelectedPlan(data);
-          }}
-        >
-          <div>
-            <h1 className="text-color-dark-purple text-xl tracking-tight font-semibold mb-4">
-              {capitalize(title)}
-            </h1>
+      <div
+        className={`cursor-pointer p-5 border rounded-lg ${
+          i === clicked
+            ? 'border-color-purple border-2 shadow-[0_0_0_4px_#F0EBF7] '
+            : 'border-color-border-grey'
+        }`}
+        onClick={() => {
+          setClicked(i);
+          setSelectedPlan(data);
+        }}
+      >
+        <div>
+          <h1 className="text-color-dark-purple text-xl tracking-tight font-semibold mb-4">
+            {capitalize(title)}
+          </h1>
 
-            <div className="flex gap-2 flex-row">
-              <div className="text-color-dark-purple font-medium text-[17px] border border-color-border-grey rounded px-2.5 py-[5px] flex-grow text-center">
-                {t('lessons_remaining', { ns: 'lessons', count: remaining })}
-              </div>
-              <div className="flex items-center justify-center font-medium text-[17px] px-2.5 py-[5px] text-color-purple bg-color-light-purple rounded">
-                {duration}
-                {t('minutes_short', { ns: 'common' })}
-              </div>
+          <div className="flex gap-2 flex-row">
+            <div className="text-color-dark-purple font-medium text-[17px] border border-color-border-grey rounded px-2.5 py-[5px] flex-grow text-center">
+              {t('lessons_remaining', { ns: 'lessons', count: remaining })}
+            </div>
+            <div className="flex items-center justify-center font-medium text-[17px] px-2.5 py-[5px] text-color-purple bg-color-light-purple rounded">
+              {duration}
+              {t('minutes_short', { ns: 'common' })}
             </div>
           </div>
         </div>
@@ -110,12 +108,6 @@ const SelectLesson = ({
           )}
         </div>
         <div className="flex gap-5">
-          {/* <button
-            className="border border-solid border-color-border-grey p-[15px] text-[15px] font-semibold rounded-[5px]"
-            onClick={returnToDashboard}
-          >
-            {t('return_to_dash')}
-          </button> */}
           <Button theme="outline" onClick={returnToDashboard}>
             {t('return_to_dash')}
           </Button>
@@ -125,7 +117,7 @@ const SelectLesson = ({
             disabled={disabled}
             onClick={() => setTabIndex(1)}
           >
-            <span className="flex items-center justify-start gap-x-2">
+            <span className="flex flex-row items-center justify-center gap-x-2">
               <span>{t('continue_custom')}</span>
               <FaArrowRight />
             </span>
