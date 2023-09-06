@@ -562,6 +562,7 @@ export const CREATE_APPOINTMENT = gql`
     $subscriptionId: ID!
     $startAt: DateTime!
     $duration: Int!
+    $repeat: Boolean
   ) {
     lesson: createLesson(
       mentorId: $mentorId
@@ -569,6 +570,7 @@ export const CREATE_APPOINTMENT = gql`
       packageSubscriptionId: $subscriptionId
       startAt: $startAt
       duration: $duration
+      repeat: $repeat
     ) {
       id
       startAt

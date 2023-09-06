@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../modules/auth';
 import { ROLES } from '../../constants/global';
+import CheckboxField from '../Form/CheckboxField';
 
 const MAX_MODIFY_COUNT = 3;
 
@@ -63,6 +64,26 @@ const CancelWarningModal = ({
       {user.role !== ROLES.MENTOR && (
         <div className="w-full flex items-center justify-center mt-3">
           {cancellationDots}
+        </div>
+      )}
+
+      {type === 'reschedule' && (
+        <div className="mt-7">
+          <p className="font-semibold leading-[18px] tracking-[-0.2px] mb-3">
+            Choose Below:
+          </p>
+          <div>
+            <CheckboxField
+              label="Reschedule This Lesson"
+              type="radio"
+              name="lesson"
+            />
+            <CheckboxField
+              label="Rescchedule All Upcoming Lessons"
+              type="radio"
+              name="lesson"
+            />
+          </div>
         </div>
       )}
 

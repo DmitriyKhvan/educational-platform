@@ -18,6 +18,8 @@ import {
   LESSON_QUERY,
 } from '../../../modules/auth/graphql';
 
+import CheckboxField from '../../../components/Form/CheckboxField';
+
 const LessonConfirmation = ({
   plan,
   tutor,
@@ -26,7 +28,14 @@ const LessonConfirmation = ({
   lessonId = null,
   isMentorScheduled = false,
 }) => {
-  const [t] = useTranslation(['common', 'lessons', 'dashboard']);
+  const [t] = useTranslation([
+    'common',
+    'lessons',
+    'dashboard',
+    'translations',
+  ]);
+  const [repeat, setRepeat] = useState(false);
+  console.log(repeat);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
   const [newAppointment, setNewAppointment] = useState({});
@@ -118,6 +127,7 @@ const LessonConfirmation = ({
                 .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
                 .toISOString(),
               duration: plan?.package?.sessionTime,
+              repeat: repeat,
             },
           });
         lesson = createdLesson;
@@ -210,6 +220,13 @@ const LessonConfirmation = ({
               </p>
               <div className="flex tutor-image">
                 <TutorImageRow tutor={tutor} />
+              </div>
+
+              <div className="mt-3">
+                <CheckboxField
+                  label={t('repeating_lesson', { ns: 'translations' })}
+                  onChange={(e) => setRepeat(e.target.checked)}
+                />
               </div>
 
               {/* <p className='welcome-subtitle-fonts'>{t('repeating_lesson')}</p> */}
