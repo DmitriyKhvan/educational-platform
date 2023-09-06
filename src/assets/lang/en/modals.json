@@ -1,6 +1,6 @@
 {
   "zoom_modal_title": "Are you ready to begin the class?",
-  "zoom_modal_desc": "Your zoom link will become active 10 minutes before the start of class.",
+  "zoom_modal_desc": "Your zoom link will become active when the class starts.",
   "warning": "Warning",
   "cancel_modal_desc": "Number of lessons left in your package that you can reschedule or cancel:",
   "confirm_cancel": "Are you sure you want to cancel?",
