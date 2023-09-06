@@ -3,11 +3,12 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../../components/Layout';
 import capitalize from 'lodash/capitalize';
-import continue_arrow from '../../../assets/images/continue_arrow.svg';
 import { useQuery } from '@apollo/client';
 import { PACKAGE_QUERY } from '../../../modules/auth/graphql';
 import { useAuth } from '../../../modules/auth';
 import Loader from '../../../components/Loader/Loader';
+import Button from '../../../components/Form/Button/Button';
+import { FaArrowRight } from 'react-icons/fa6';
 
 const SelectLesson = ({
   setSelectedPlan,
@@ -44,32 +45,29 @@ const SelectLesson = ({
 
   const LessonCard = ({ title, duration, remaining, data, i }) => {
     return (
-      <div>
-        <div
-          className={`schedule-card small-card lesson-container rounded-xl px-3 pt-3 cursor-pointer ${
-            i === clicked
-              ? 'border-[#6133af] border'
-              : 'schedule-card small-card lesson-container rounded-xl px-3 pt-3'
-          }`}
-          onClick={() => {
-            setClicked(i);
-            setSelectedPlan(data);
-          }}
-        >
-          <div>
-            <h1
-              className={`mb-2 ${i === clicked ? 'text-black' : 'text-black'}`}
-            >
-              {capitalize(title)}
-            </h1>
+      <div
+        className={`cursor-pointer p-5 border rounded-lg ${
+          i === clicked
+            ? 'border-color-purple border-2 shadow-[0_0_0_4px_#F0EBF7] '
+            : 'border-color-border-grey'
+        }`}
+        onClick={() => {
+          setClicked(i);
+          setSelectedPlan(data);
+        }}
+      >
+        <div>
+          <h1 className="text-color-dark-purple text-xl tracking-tight font-semibold mb-4">
+            {capitalize(title)}
+          </h1>
 
-            <div className="flex">
-              <div className="time_remaining">
-                {duration} {t('minutes', { ns: 'common' })}
-              </div>
-              <div className="remaining-lsn">
-                {remaining} {t('lessons_remaining')}
-              </div>
+          <div className="flex gap-2 flex-row">
+            <div className="text-color-dark-purple font-medium text-[17px] border border-color-border-grey rounded px-2.5 py-[5px] flex-grow text-center">
+              {t('lessons_remaining', { ns: 'lessons', count: remaining })}
+            </div>
+            <div className="flex items-center justify-center font-medium text-[17px] px-2.5 py-[5px] text-color-purple bg-color-light-purple rounded">
+              {duration}
+              {t('minutes_short', { ns: 'common' })}
             </div>
           </div>
         </div>
@@ -79,63 +77,51 @@ const SelectLesson = ({
 
   return (
     <Layout>
-      <div className="scroll-layout  schedule-lesson">
-        <div className="flex-container">
-          <div className="custom-children-container m-0 schedule_changess max-select_lesson">
-            <div className="flex flex-col gap-3">
-              <h1 className="title mt-0 title_aligns_slesson">
-                {!id
-                  ? t('schedule_lesson')
-                  : t('reschedule_lesson', { ns: 'modals' })}
-              </h1>
-              <p className="welcome-subtitle">
-                {!id
-                  ? t('schedule_lesson_subtitle')
-                  : t('reschedule_lesson_subtitle')}
-              </p>
-            </div>
-            <div className="">
-              <div className="">
-                {planStatusesLoading ? (
-                  <Loader />
-                ) : (
-                  planStatus.map((x, i) => (
-                    <LessonCard
-                      title={x.package?.course?.title}
-                      duration={x.package?.sessionTime}
-                      remaining={x.credits}
-                      data={x}
-                      i={i}
-                      key={i}
-                      expirationDate={x.periodEnd}
-                    />
-                  ))
-                )}
-              </div>
-            </div>
-            <div className="row container pt-3 btn-custom ">
-              <div className="col-auto">
-                <button
-                  className="enter-btn btn-dash-return ms-0 button_schedule"
-                  onClick={returnToDashboard}
-                >
-                  {t('return_to_dash')}
-                </button>
-              </div>
-              <div className="col-auto">
-                <button
-                  className="enter-btn btn-primary button_schedule custom-btn-primary"
-                  disabled={disabled}
-                  onClick={() => setTabIndex(1)}
-                >
-                  <span className="me-2">{t('continue_custom')}</span>
-                  <span className="continue-arrow">
-                    <img src={continue_arrow} alt="" />
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>
+      <div className="h-full overflow-y-auto sm:px-10 sm:py-8 lg:pt-12 lg:px-12 xl:pl-[65px] xl:pr-[90px]">
+        <div className="flex flex-col gap-2.5 mb-[27px]">
+          <h1 className="text-[40px] text-color-dark-purple leading-normal tracking-tight">
+            {!id
+              ? t('schedule_lesson')
+              : t('reschedule_lesson', { ns: 'modals' })}
+          </h1>
+          <p className="text-xl text-color-light-grey font-medium tracking-tight">
+            {!id
+              ? t('schedule_lesson_subtitle')
+              : t('reschedule_lesson_subtitle')}
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-x-[29px] gap-y-6 mb-10">
+          {planStatusesLoading ? (
+            <Loader />
+          ) : (
+            planStatus.map((x, i) => (
+              <LessonCard
+                title={x.package?.course?.title}
+                duration={x.package?.sessionTime}
+                remaining={x.credits}
+                data={x}
+                i={i}
+                key={i}
+                expirationDate={x.periodEnd}
+              />
+            ))
+          )}
+        </div>
+        <div className="flex gap-5">
+          <Button theme="outline" onClick={returnToDashboard}>
+            {t('return_to_dash')}
+          </Button>
+
+          <Button
+            theme="purple"
+            disabled={disabled}
+            onClick={() => setTabIndex(1)}
+          >
+            <span className="flex flex-row items-center justify-center gap-x-2">
+              <span>{t('continue_custom')}</span>
+              <FaArrowRight />
+            </span>
+          </Button>
         </div>
       </div>
     </Layout>

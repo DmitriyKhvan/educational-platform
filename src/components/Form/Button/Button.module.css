@@ -1,0 +1,38 @@
+@tailwind components;
+
+@layer components {
+  .btn {
+    @apply cursor-pointer 
+    p-3
+    rounded-md
+    font-semibold 
+    text-base 
+    tracking-[-0.6px]
+    leading-6
+    disabled:opacity-60 
+    focus:border-color-light-blue 
+    focus:shadow-[0_0_0_0.25rem_rgba(13,110,253,0.25)]
+    transition 
+    ease-in-out 
+    duration-300
+    select-none
+    outline-none;
+  }
+
+  .purple {
+    @apply text-color-white 
+    bg-color-purple;
+  }
+
+  .outline {
+    @apply bg-white 
+      text-color-dark-purple 
+      border 
+      border-solid 
+      border-color-border-grey
+      leading-4
+
+      hover:enabled:bg-color-purple
+      hover:enabled:text-white;
+  }
+}

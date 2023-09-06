@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import CancellationPolicyModal from './CancellationPolicyModal';
 import CancelLessonModal from './CancelLessonModal';
 import CancelWarningModal from './CancelWarningModal';
-import ModalWrapper from '../ModalWrapper';
 import ReschedulingTimeModal from './ReschedulingTimeModal';
 import ReschedulingTutorModal from './ReschedulingTutorModal';
 import RescheduleConfirmationModal from './RescheduleConfirmationModal';
 import { useQuery } from '@apollo/client';
 import { MENTORS_QUERY } from '../../modules/auth/graphql';
+import ModalWrapper from '../ModalWrapper/ModalWrapper';
 
 const RescheduleAndCancelModal = ({
   data,

@@ -30,7 +30,8 @@
   "available_spots_subtitle": "Select one of these lesson slots to continue.",
   "no_available_slots": "No Available Slots",
   "confirm_lesson": "Confirm Lesson",
-  "lessons_remaining": "{{count}} Lessons Remaining",
+  "lessons_remaining": "{{count}} Lesson Remaining",
+  "lessons_remaining_plural": "{{count}} Lessons Remaining",
   "select_mentor": "Select mentor",
   "select_mentor_subtitle": "Based on your lesson and availability, we recommend these mentors.",
   "no_mentors_available": "No mentors available at the moment",
@@ -55,5 +56,6 @@
   "class": "Class",
   "weeks_classes_each": "{{ weeks }} Classes of {{ duration }} each",
   "pay_every_weeks": "Pay every {{ weeks }} weeks",
-  "status": "Status"
+  "status": "Status",
+  "lessons_remaining_schedule": "Lessons To Schedule"
 }

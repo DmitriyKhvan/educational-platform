@@ -42,6 +42,7 @@ const GET_AVAILABLE_MENTORS = gql`
           firstName
           lastName
         }
+        videoUrl
         avatar {
           id
           url
@@ -59,7 +60,7 @@ const useAvailableMentors = (isoTime, duration) => {
         time: isoTime,
         duration,
       },
-      fetchPolicy: 'network-only'
+      fetchPolicy: 'network-only',
     },
   );
   return {
@@ -89,7 +90,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
     };
 
     const onClickLearnMore = () => {
-      setModalSelectTutor(tutor.id);
+      setModalSelectTutor(tutor);
       setIsOpen(true);
     };
 
@@ -204,9 +205,8 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
       </div>
       {isOpen && (
         <MentorsModal
-          setShowTutorModal={setIsOpen}
-          tutorId={modalSelectTutor}
-          tutorsList={availableMentors}
+          setShowMentorModal={setIsOpen}
+          mentor={modalSelectTutor}
         />
       )}
     </Layout>

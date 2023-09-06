@@ -6,7 +6,7 @@ import AuthLayout from '../../components/AuthLayout';
 import InputField from '../../components/Form/InputField';
 import CheckboxField from '../../components/Form/CheckboxField';
 import useLogin from '../../modules/auth/hooks/login';
-import Button from '../../components/Form/Button';
+import Button from '../../components/Form/Button/Button';
 import InputWithError from '../../components/Form/InputWithError';
 import notify from '../../utils/notify';
 import { useLocation, Link } from 'react-router-dom';
@@ -55,6 +55,7 @@ const Login = () => {
           <div className="mb-7">
             <InputWithError errorsField={errors?.email}>
               <InputField
+                className="w-full"
                 label={t('email')}
                 placeholder="name@email.com"
                 autoComplete="on"
@@ -73,6 +74,7 @@ const Login = () => {
           <div className="mb-7">
             <InputWithError errorsField={errors?.password}>
               <InputField
+                className="w-full"
                 label={t('password')}
                 type={isShowPassword ? 'text' : 'password'}
                 placeholder="at least 8 characters"
@@ -98,7 +100,12 @@ const Login = () => {
           </div>
 
           {/* <div className="d-grid gap-2"> */}
-          <Button type="submit" disabled={!isValid}>
+          <Button
+            type="submit"
+            disabled={!isValid}
+            theme="purple"
+            className="w-full"
+          >
             {loading ? (
               <ClipLoader loading={loading} size={20} color="white" />
             ) : (

@@ -1,8 +1,6 @@
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useAuth } from '../../../../modules/auth';
-import femaleAvatar from '../../../../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../../../../assets/images/avatars/img_avatar_male.png';
 
 import {
   MUTATION_UPDATE_STUDENT,
@@ -11,30 +9,33 @@ import {
 import { useMutation } from '@apollo/client';
 import notify from '../../../../utils/notify';
 
-import { AiFillEdit } from 'react-icons/ai';
-import { useHistory } from 'react-router-dom';
+import { BsPencil } from 'react-icons/bs';
+
+// import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   countries,
   genders,
   timezoneOptions,
 } from '../../../../constants/global';
-import Button from '../../../../components/Form/Button';
+import Button from '../../../../components/Form/Button/Button';
 import ReactLoader from '../../../../components/common/Loader';
 import InputField from '../../../../components/Form/InputField';
 import { SelectField } from '../../../../components/Form/SelectField';
+import { Avatar } from '../../../../widgets/Avatar/Avatar';
 
-const EditProflileStudent = () => {
-  const [t] = useTranslation(['profile', 'common']);
-  const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
-  const [profileImage, setProfileImage] = React.useState('');
-  const [file, setFile] = React.useState(null);
-
-  const history = useHistory();
-  const [, setPreview] = React.useState({});
-
+const EditProflileStudent = ({ closeModal }) => {
+  const [updateStudent, { loading: updateStudentLoading }] = useMutation(
+    MUTATION_UPDATE_STUDENT,
+  );
   const [updateUser, { loading: updateUserLoading }] =
     useMutation(MUTATION_UPDATE_USER);
+
+  const [t] = useTranslation(['profile', 'common']);
+  const [file, setFile] = React.useState(null);
+
+  // const history = useHistory();
+  const [, setPreview] = React.useState({});
 
   const { user, refetchUser } = useAuth();
 
@@ -49,25 +50,11 @@ const EditProflileStudent = () => {
     },
   });
 
-  const avatar = user?.student?.avatar?.url;
-
-  React.useEffect(() => {
-    if (avatar) {
-      setProfileImage(avatar);
-    } else if (user?.gender === 'female') {
-      setProfileImage(femaleAvatar);
-    } else if (user?.gender === 'male') {
-      setProfileImage(maleAvatar);
-    } else {
-      setProfileImage(maleAvatar);
-    }
-  }, [user, avatar]);
-
   const onSubmit = async (area) => {
     if (file) {
       setPreview(area.avatar);
 
-      updateStudent({
+      await updateStudent({
         variables: {
           id: parseInt(user?.student?.id),
           data: {
@@ -80,7 +67,7 @@ const EditProflileStudent = () => {
       });
     }
 
-    updateUser({
+    await updateUser({
       variables: {
         id: parseInt(user?.id),
         data: {
@@ -94,10 +81,11 @@ const EditProflileStudent = () => {
           address: area.address,
         },
       },
-      onCompleted: () => {
-        notify('Student information is changed!');
-        history.push('/student/profile');
-        refetchUser();
+      onCompleted: async () => {
+        notify(t('student_information_changed', { ns: 'profile' }));
+        await refetchUser();
+        closeModal(false);
+        // history.push('/student/profile');
       },
       onError: () => {
         notify(
@@ -112,52 +100,56 @@ const EditProflileStudent = () => {
 
   return (
     <>
-      {updateUserLoading && <ReactLoader />}
-      <section className="w-[500px] p-[60px]">
+      {(updateUserLoading || updateStudentLoading) && <ReactLoader />}
+      <section>
         <div className="mb-5">
           <h3 className="text-black m-0 text-[20px]">{t('edit_profile')}</h3>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="relative max-w-fit">
-            {!file && (
-              <img
-                className="w-[150px] h-[150px] cursor-pointer rounded-full object-cover"
-                src={profileImage}
-                alt={'userInfo.tutorName'}
-              />
-            )}
+          <div className="flex items-center justify-center">
+            <div className="relative w-[150px] h-[150px] rounded-full">
+              {!file && (
+                <Avatar
+                  className="rounded-full"
+                  avatarUrl={user?.student?.avatar?.url}
+                />
+              )}
 
-            {file ? (
-              <>
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt="Thumb"
-                  className="w-[150px] h-[150px] cursor-pointer rounded-full object-cover"
-                />
-                <button
-                  className="absolute top-0 right-0 text-2xl cursor-pointer text-red-500"
-                  onClick={removePreviewImage}
-                >
-                  &times;
-                </button>
-              </>
-            ) : (
-              <label>
-                <input
-                  className="hidden"
-                  multiple
-                  accept="image/*"
-                  type={'file'}
-                  onChange={(e) => setFile(e.target.files[0])}
-                />
-                <AiFillEdit className="absolute top-0 right-0 text-xl cursor-pointer" />
-              </label>
-            )}
+              {file ? (
+                <>
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt="Thumb"
+                    className="w-[150px] h-[150px] cursor-pointer rounded-full object-cover"
+                  />
+                  <button
+                    className="absolute top-0 right-0 text-2xl cursor-pointer text-red-500"
+                    onClick={removePreviewImage}
+                  >
+                    &times;
+                  </button>
+                </>
+              ) : (
+                <label>
+                  <input
+                    className="hidden"
+                    multiple
+                    accept="image/*"
+                    type={'file'}
+                    onChange={(e) => setFile(e.target.files[0])}
+                  />
+                  <div className="group p-[6px] rounded-full border-solid border-4 border-white absolute bottom-0 right-0 cursor-pointer bg-color-light-purple hover:bg-color-purple duration-300">
+                    <BsPencil className="w-5 h-5 text-color-purple group-hover:text-white" />
+                  </div>
+                </label>
+              )}
+            </div>
           </div>
           <section>
             <section className="mt-4">
               <InputField
+                className="w-full"
                 label={t('korean_name', { ns: 'profile' })}
                 type={'text'}
                 placeholder={'알렉스'}
@@ -172,9 +164,8 @@ const EditProflileStudent = () => {
                   control={control}
                   defaultValue={user?.gender}
                   name="gender"
-                  render={({ field: { ref, value, onChange } }) => (
+                  render={({ field: { value, onChange } }) => (
                     <SelectField
-                      ref={ref}
                       value={value}
                       options={genders}
                       onChange={onChange}
@@ -192,9 +183,8 @@ const EditProflileStudent = () => {
                   control={control}
                   defaultValue={user?.timeZone}
                   name="timeZone"
-                  render={({ field: { ref, value, onChange } }) => (
+                  render={({ field: { value, onChange } }) => (
                     <SelectField
-                      ref={ref}
                       value={value}
                       options={timezoneOptions}
                       onChange={onChange}
@@ -211,9 +201,8 @@ const EditProflileStudent = () => {
                   control={control}
                   defaultValue={user?.country}
                   name="country"
-                  render={({ field: { ref, value, onChange } }) => (
+                  render={({ field: { value, onChange } }) => (
                     <SelectField
-                      ref={ref}
                       value={value}
                       options={countries}
                       onChange={onChange}
@@ -225,6 +214,7 @@ const EditProflileStudent = () => {
 
             <section className="mt-4">
               <InputField
+                className="w-full"
                 label={t('last_name', { ns: 'common' })}
                 type={'text'}
                 placeholder={'Addison'}
@@ -234,6 +224,7 @@ const EditProflileStudent = () => {
 
             <section className="mt-4">
               <InputField
+                className="w-full"
                 label={t('first_name', { ns: 'common' })}
                 type={'text'}
                 placeholder={'Alisa'}
@@ -243,6 +234,7 @@ const EditProflileStudent = () => {
 
             <section className="mt-4">
               <InputField
+                className="w-full"
                 label={t('phone_number', { ns: 'common' })}
                 type={'text'}
                 placeholder="+1(555)555-5555"
@@ -252,15 +244,16 @@ const EditProflileStudent = () => {
 
             <section className="mt-4">
               <InputField
+                className="w-full"
                 label={t('address', { ns: 'common' })}
                 type={'text'}
-                placeholder={'Bakarov 98'}
+                placeholder="123 Street, City, State"
                 {...register('address')}
               />
             </section>
           </section>
 
-          <Button className="mt-10" type="submit">
+          <Button className="mt-10 w-full" type="submit" theme="purple">
             {t('save', { ns: 'common' })}
           </Button>
         </form>

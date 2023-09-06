@@ -8,7 +8,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import InputWithError from '../../components/Form/InputWithError';
 import InputField from '../../components/Form/InputField';
 import useNewPassword from '../../modules/auth/hooks/newPassword';
-import Button from '../../components/Form/Button';
+import Button from '../../components/Form/Button/Button';
 
 import 'react-toastify/dist/ReactToastify.css';
 import notify from '../../utils/notify';
@@ -64,6 +64,7 @@ const ResetPassword = () => {
           <div className="mb-7">
             <InputWithError errorsField={errors?.password}>
               <InputField
+                className="w-full"
                 label={t('new_password')}
                 type="password"
                 {...register('password', {
@@ -76,6 +77,7 @@ const ResetPassword = () => {
           <div className="mb-10">
             <InputWithError errorsField={errors?.confirmPassword}>
               <InputField
+                className="w-full"
                 label={t('confirm_new_password')}
                 type="password"
                 {...register('confirmPassword', {
@@ -93,7 +95,12 @@ const ResetPassword = () => {
             </InputWithError>
           </div>
 
-          <Button type="submit" disabled={!isValid}>
+          <Button
+            type="submit"
+            disabled={!isValid}
+            theme="purple"
+            className="w-full"
+          >
             {loading ? (
               <ClipLoader loading={loading} size={20} color="white" />
             ) : (

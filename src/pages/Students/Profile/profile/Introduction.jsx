@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import Button from '../../../../components/Form/Button/Button';
 
 export default function Introduction({ text: baseText, onChange }) {
   const [t] = useTranslation(['profile', 'common', 'lessons']);
@@ -22,27 +23,19 @@ export default function Introduction({ text: baseText, onChange }) {
           {t('summary')}
         </h2>
         {isEdit ? (
-          <div>
-            <button
-              className="bg-white p-[10px] leading-4 cursor-pointer font-semibold text-color-dark-purple border border-solid border-color-border-grey rounded-md"
-              onClick={save}
-            >
+          <div className="flex gap-7">
+            <Button theme="outline" onClick={save}>
               {t('save', { ns: 'common' })}
-            </button>
-            <button
-              className="bg-white p-[10px] leading-4 cursor-pointer font-semibold text-color-dark-purple border border-solid border-color-border-grey rounded-md"
-              onClick={toggleEdit}
-            >
+            </Button>
+
+            <Button theme="outline" onClick={toggleEdit}>
               {t('cancel', { ns: 'common' })}
-            </button>
+            </Button>
           </div>
         ) : (
-          <button
-            className="bg-white p-[10px] leading-4 cursor-pointer font-semibold text-color-dark-purple border border-solid border-color-border-grey rounded-md"
-            onClick={toggleEdit}
-          >
+          <Button theme="outline" onClick={toggleEdit}>
             {t('edit', { ns: 'common' })}
-          </button>
+          </Button>
         )}
       </header>
 

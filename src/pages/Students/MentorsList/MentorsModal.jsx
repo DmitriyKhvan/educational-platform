@@ -54,7 +54,7 @@ const MentorsModal = ({ setShowMentorModal, mentor }) => {
               <div className="pb-3">
                 <p className="p-0 m-0">Degree / Major</p>
                 <h3>
-                  {mentor?.degree} {mentor.major ? '/ ' + mentor.major : null}
+                  {mentor?.degree} {mentor?.major ? '/ ' + mentor?.major : null}
                 </h3>
               </div>
             </div>
