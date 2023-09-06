@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ReactComponent as ArrowBack } from '../../assets/images/arrow_back.svg';
-import Loader from '../../components/Loader/Loader';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { useQuery, gql } from '@apollo/client';
 import { toast } from 'react-hot-toast';
 import {
   AlertDialog,
@@ -33,42 +31,57 @@ import {
   SelectValue,
 } from '../../components/SelectAction';
 
-const GET_COURSES = gql`
-  query GetCourses {
-    courses {
-      id
-      title
-      description
-      packages {
-        id
-        totalSessions
-        sessionsPerWeek
-        sessionTime
-        price
-        period
-        discount
-        courseId
-      }
-    }
-  }
-`;
-
 export default function BuyPackageTest() {
   const [parent] = useAutoAnimate();
 
   const [t] = useTranslation(['purchase', 'minutes', 'translations']);
+  
+  const allCourses = useMemo(
+    () => ({
+      courses: [
+        {
+          id: '1',
+          title: '1-on-1 English',
+          description: '1-on-1 English',
+          packages: [
+            {
+              id: '1',
+              courseId: '1',
+              period: 3,
+              sessionTime: 30,
+              sessionsPerWeek: 1,
+              totalSessions: 12,
+              price: 120000,
+              discount: 0,
+            },
+            {
+              id: '2',
+              courseId: '2',
+              period: 6,
+              sessionTime: 30,
+              sessionsPerWeek: 1,
+              totalSessions: 24,
+              price: 240000,
+              discount: 0,
+            },
+            {
+              id: '3',
+              courseId: '3',
+              period: 9,
+              sessionTime: 30,
+              sessionsPerWeek: 1,
+              totalSessions: 36,
+              price: 360000,
+              discount: 0,
+            },
+          ],
+        },
+      ],
+    }),
+    [],
+  );
 
-  const {
-    error,
-    data: allCourses,
-    loading,
-  } = useQuery(GET_COURSES, {
-    onCompleted: (data) => {
-      setData(data.courses.find((course) => course?.packages?.length > 0));
-    },
-  });
-
-  const [data, setData] = useState(null);
+  const [data, setData] = useState(allCourses.courses.find((course) => course?.packages?.length > 0));
 
   const [courseData, setCourseData] = useState(null);
   const [selectedLength, setSelectedLength] = useState(null);
@@ -93,12 +106,6 @@ export default function BuyPackageTest() {
     setSelectedLength(data?.packages[0]?.sessionTime);
     setSelectedSessionsPerWeek(data?.packages[0]?.sessionsPerWeek);
   }, [data]);
-
-  if (loading) return <Loader />;
-
-  if (error) {
-    return <div>Something went wrong</div>;
-  }
 
   const submitNice = async () => {
     if (!selectedPackage) return;
