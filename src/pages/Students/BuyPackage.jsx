@@ -120,6 +120,7 @@ export default function BuyPackage() {
   const [selectedPackage, setSelectedPackage] = useState(null);
   // const [selectedProvider, setSelectedProvider] = useState('nice');
 
+
   const history = useHistory();
 
   const courses = [course0, course1, course2, course3];
@@ -481,7 +482,7 @@ export default function BuyPackage() {
                           <SelectContent className="bg-white">
                             <SelectGroup>
                               <SelectItem value="stripe">Stripe</SelectItem>
-                              <SelectItem value="nice">Nice</SelectItem>
+                              {/* <SelectItem value="nice">Nice</SelectItem> */}
                             </SelectGroup>
                           </SelectContent>
                         </div>
