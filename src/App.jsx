@@ -106,7 +106,7 @@ function App() {
         <PublicRoute path="/welcome-set-password" component={ResetPassword} />
         <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
         <PublicRoute path="/onboarding" component={Onboarding} />
-        <PrivateRoute path="/d3gKtqEEDhJE5Z" component={BuyPackageTest} />
+        <PublicRoute path="/d3gKtqEEDhJE5Z" component={BuyPackageTest} />
         <PrivateRoute
           path="/purchase/:packageId/payment/:clientSecret"
           exact

@@ -58,17 +58,14 @@ const CalendarModal = ({
   }, [avatar]);
 
   const today = moment();
-  const tenMinuteBeforeStart = moment(data.resource.eventDate.startAt).subtract(
-    10,
-    'minutes',
-  );
+  const eventStartDate = moment(data.resource.eventDate.startAt);
   const fiveMinuteBeforeEnd = moment(data.resource.eventDate.startAt).add(
     data.resource.eventDate.duration - 5,
     'minutes',
   );
 
   const isBetween = moment(today).isBetween(
-    tenMinuteBeforeStart,
+    eventStartDate,
     fiveMinuteBeforeEnd,
   );
 
