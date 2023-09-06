@@ -1,61 +1,37 @@
 import React, { useEffect, useState } from 'react';
-// import { ReactComponent as ArrowBack } from '../../assets/images/arrow_back.svg';
+import { ReactComponent as ArrowBack } from '../../assets/images/arrow_back.svg';
 import Loader from '../../components/Loader/Loader';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { useHistory, useParams } from 'react-router-dom';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
 import { toast } from 'react-hot-toast';
-// import {
-//   AlertDialog,
-//   AlertDialogAction,
-//   AlertDialogCancel,
-//   AlertDialogContent,
-//   AlertDialogDescription,
-//   AlertDialogFooter,
-//   AlertDialogHeader,
-//   AlertDialogTitle,
-//   AlertDialogTrigger,
-// } from '../../components/AlertDialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '../../components/AlertDialog';
 import { useTranslation } from 'react-i18next';
-// import { useAuth } from '../../modules/auth';
 
 import purchaseBack from '../../assets/images/purchase/purchaseBack.png';
 import course0 from '../../assets/images/purchase/0.png';
 import course1 from '../../assets/images/purchase/1.png';
 import course2 from '../../assets/images/purchase/2.png';
 import course3 from '../../assets/images/purchase/3.png';
-// import { v4 as uuidv4 } from 'uuid';
-// import {
-//   Select,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectContent,
-//   SelectGroup,
-//   SelectValue,
-// } from '../../components/SelectAction';
-
-// const CREATE_PAYMENT = gql`
-//   mutation CreatePayment(
-//     $userId: ID!
-//     $packageId: ID!
-//     $provider: String
-//     $metadata: JSON
-//   ) {
-//     createPayment(
-//       userId: $userId
-//       packageId: $packageId
-//       provider: $provider
-//       metadata: $metadata
-//     ) {
-//       id
-//       status
-//       provider
-//       cancelReason
-//       metadata
-//     }
-//   }
-// `;
+import { v4 as uuidv4 } from 'uuid';
+import {
+  Select,
+  SelectItem,
+  SelectTrigger,
+  SelectContent,
+  SelectGroup,
+  SelectValue,
+} from '../../components/SelectAction';
 
 const GET_COURSES = gql`
   query GetCourses {
@@ -77,20 +53,8 @@ const GET_COURSES = gql`
   }
 `;
 
-const CREATE_PAYMENT_INTENT = gql`
-  mutation CreatePaymentIntent($id: Int!) {
-    createPaymentIntent(packageId: $id) {
-      clientSecret
-    }
-  }
-`;
-
-export default function BuyPackage() {
+export default function BuyPackageTest() {
   const [parent] = useAutoAnimate();
-  const { courseId } = useParams();
-  // const { user } = useAuth();
-
-  // const [createPayment] = useMutation(CREATE_PAYMENT);
 
   const [t] = useTranslation(['purchase', 'minutes', 'translations']);
 
@@ -106,22 +70,13 @@ export default function BuyPackage() {
 
   const [data, setData] = useState(null);
 
-  const [getSecret] = useMutation(CREATE_PAYMENT_INTENT, {
-    variables: {
-      id: parseInt(courseId),
-    },
-  });
-
   const [courseData, setCourseData] = useState(null);
   const [selectedLength, setSelectedLength] = useState(null);
   const [selectedSessionsPerWeek, setSelectedSessionsPerWeek] = useState(null);
   const [uniqueLength, setUniqueLength] = useState([]);
   const [uniqueSessionsPerWeek, setUniqueSessionsPerWeek] = useState([]);
   const [selectedPackage, setSelectedPackage] = useState(null);
-  // const [selectedProvider, setSelectedProvider] = useState('nice');
-
-
-  const history = useHistory();
+  const [selectedProvider, setSelectedProvider] = useState('nice');
 
   const courses = [course0, course1, course2, course3];
 
@@ -145,84 +100,48 @@ export default function BuyPackage() {
     return <div>Something went wrong</div>;
   }
 
-  const submitStripe = async () => {
-    if (selectedPackage) {
-      const response = await getSecret({
-        variables: {
-          id: parseInt(selectedPackage.id),
+  const submitNice = async () => {
+    if (!selectedPackage) return;
+
+    const IMP = window.IMP;
+    IMP.init(process.env.REACT_APP_PORTONE_USER_CODE);
+    const merchant_uid = uuidv4();
+
+    function requestPay() {
+      IMP.request_pay(
+        {
+          pg: `nice.${process.env.REACT_APP_PORTONE_MID}`,
+          pay_method: 'card',
+          merchant_uid: merchant_uid,
+          name: `${
+            allCourses?.courses.find(
+              (course) => course.id === selectedPackage.courseId,
+            ).title
+          }`,
+          amount: selectedPackage.price * (1 - selectedPackage.discount / 100),
+          buyer_name: 'TEST',
+          buyer_tel: '010-0000-0000',
+          buyer_email: 'TEST@naonow.com',
+          niceMobileV2: true,
+          display: {
+            card_quota: Array.from(
+              Array(Math.floor(selectedPackage.period / 3)).keys(),
+              (x) => (x < 4 ? (x + 1) * 3 : false),
+            ).filter((x) => x),
+          },
         },
-      });
-      if (response?.errors) {
-        toast.error(response.errors[0].message);
-      } else if (response?.data) {
-        const { clientSecret } = response.data.createPaymentIntent;
-        if (clientSecret) {
-          history.replace(
-            `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
-          );
-        }
-      }
+        async (rsp) => {
+          if (rsp.success) {
+            alert(JSON.stringify(rsp));
+          } else {
+            toast.error(rsp.error_msg);
+          }
+        },
+      );
     }
+
+    requestPay();
   };
-
-  // const submitNice = async () => {
-  //   if (!selectedPackage) return;
-
-  //   const IMP = window.IMP;
-  //   IMP.init(process.env.REACT_APP_PORTONE_USER_CODE);
-  //   const merchant_uid = uuidv4();
-
-  //   function requestPay() {
-  //     IMP.request_pay(
-  //       {
-  //         pg: `nice.${process.env.REACT_APP_PORTONE_MID}`,
-  //         pay_method: 'card',
-  //         merchant_uid: merchant_uid,
-  //         name: `${
-  //           allCourses?.courses.find(
-  //             (course) => course.id === selectedPackage.courseId,
-  //           ).title
-  //         }`,
-  //         amount: selectedPackage.price * (1 - selectedPackage.discount / 100),
-  //         buyer_name: user.fullName,
-  //         buyer_tel: user.phoneNumber,
-  //         buyer_email: user.email,
-  //         niceMobileV2: true,
-  //         display: {
-  //           card_quota: [selectedPackage.period],
-  //           display: {
-  //             card_quota: Array.from(
-  //               Array(Math.floor(selectedPackage.period / 3)).keys(),
-  //               (x) => (x < 4 ? (x + 1) * 3 : false),
-  //             ).filter((x) => x),
-  //           },
-  //         },
-  //       },
-  //       async (rsp) => {
-  //         if (rsp.success) {
-  //           await createPayment({
-  //             variables: {
-  //               userId: parseInt(user.id),
-  //               packageId: parseInt(selectedPackage.id),
-  //               provider: 'NICE',
-  //               metadata: JSON.stringify({
-  //                 ...rsp,
-  //                 merchant_uid: merchant_uid,
-  //               }),
-  //             },
-  //           });
-  //           history.replace(
-  //             `/purchase/${selectedPackage.id}/complete?success=true`,
-  //           );
-  //         } else {
-  //           toast.error(rsp.error_msg);
-  //         }
-  //       },
-  //     );
-  //   }
-
-  //   requestPay();
-  // };
 
   return (
     <main
@@ -422,15 +341,7 @@ export default function BuyPackage() {
                     </div>
                   ),
               )}
-              {
-                selectedPackage === null && (
-                  <button className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
-                  type="button" onClick={submitStripe}>
-                    Proceed to checkout
-                  </button>
-                )
-              }
-              {/* {selectedPackage !== null && (
+              {selectedPackage !== null && (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <button
@@ -470,7 +381,6 @@ export default function BuyPackage() {
                           <AlertDialogAction
                             onClick={() => {
                               if (selectedProvider === 'nice') submitNice();
-                              else submitStripe();
                             }}
                             asChild
                           >
@@ -481,8 +391,7 @@ export default function BuyPackage() {
                           <SelectTrigger className="rounded-tr-md rounded-br-md ml-[1px]"></SelectTrigger>
                           <SelectContent className="bg-white">
                             <SelectGroup>
-                              <SelectItem value="stripe">Stripe</SelectItem>
-                              {/* <SelectItem value="nice">Nice</SelectItem> */}
+                              <SelectItem value="nice">Nice</SelectItem>
                             </SelectGroup>
                           </SelectContent>
                         </div>
@@ -490,7 +399,7 @@ export default function BuyPackage() {
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
-              )} */}
+              )}
             </div>
           </form>
         </div>

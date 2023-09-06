@@ -34,6 +34,7 @@ import Onboarding from './pages/Students/Onboarding';
 import BuyPackage from './pages/Students/BuyPackage';
 import StripePayment from './pages/Students/StripePayment';
 import ConfirmPayment from './pages/ConfirmPayment';
+import BuyPackageTest from './pages/Students/BuyPackageTest';
 
 function PrivateRoute({ component: Component, ...rest }) {
   const { isAuthorized } = useAuth();
@@ -105,6 +106,7 @@ function App() {
         <PublicRoute path="/welcome-set-password" component={ResetPassword} />
         <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
         <PublicRoute path="/onboarding" component={Onboarding} />
+        <PrivateRoute path="/d3gKtqEEDhJE5Z" component={BuyPackageTest} />
         <PrivateRoute
           path="/purchase/:packageId/payment/:clientSecret"
           exact
