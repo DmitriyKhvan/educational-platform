@@ -17,6 +17,7 @@ const CancelWarningModal = ({
   const { user } = useAuth();
   const [isChecked, setIsChecked] = useState(false);
   const [cancellationDots, setCancellationDots] = useState([]);
+  const [repeat, setRepeat] = useState(false);
 
   useEffect(() => {
     if (modifyCredits !== undefined) {
@@ -43,7 +44,9 @@ const CancelWarningModal = ({
   const onClick = () => {
     if (type === 'reschedule') {
       //We need exactly window.location, so that the page with this id is reloaded
-      window.location.replace('/student/schedule-lesson/select/' + data.id);
+      window.location.replace(
+        `/student/schedule-lesson/select/${data.id}/?repeatLessons=${repeat}`,
+      );
     }
 
     if (type === 'reschedule-time') {
@@ -77,11 +80,13 @@ const CancelWarningModal = ({
               label="Reschedule This Lesson"
               type="radio"
               name="lesson"
+              onChange={() => setRepeat(false)}
             />
             <CheckboxField
               label="Rescchedule All Upcoming Lessons"
               type="radio"
               name="lesson"
+              onChange={() => setRepeat(true)}
             />
           </div>
         </div>

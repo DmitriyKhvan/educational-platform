@@ -34,7 +34,12 @@ const LessonConfirmation = ({
     'dashboard',
     'translations',
   ]);
-  const [repeat, setRepeat] = useState(false);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const [repeat, setRepeat] = useState(
+    JSON.parse(urlParams.get('repeatLessons')),
+  );
+
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
   const [newAppointment, setNewAppointment] = useState({});
@@ -225,6 +230,7 @@ const LessonConfirmation = ({
                 <CheckboxField
                   label={t('repeating_lesson', { ns: 'translations' })}
                   onChange={(e) => setRepeat(e.target.checked)}
+                  checked={repeat}
                 />
               </div>
 
