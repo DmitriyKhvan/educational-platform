@@ -196,6 +196,12 @@ export default function BuyPackage() {
   //             ).filter((x) => x),
   //           },
   //         },
+          //  period: {
+          //    from: moment().format('YYYYMMDD'),
+          //    to: moment()
+          //      .add(selectedPackage.period, 'months')
+          //      .format('YYYYMMDD'),
+          //  },
   //       },
   //       async (rsp) => {
   //         if (rsp.success) {
