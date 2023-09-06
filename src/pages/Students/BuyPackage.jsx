@@ -171,8 +171,6 @@ export default function BuyPackage() {
     IMP.init(process.env.REACT_APP_PORTONE_USER_CODE);
     const merchant_uid = uuidv4();
 
-    console.log(process.env.REACT_APP_PORTONE_MID, user);
-
     function requestPay() {
       IMP.request_pay(
         {
