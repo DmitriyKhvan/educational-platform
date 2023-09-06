@@ -15,7 +15,6 @@ import {
   AlertDialogTrigger,
 } from '../../components/AlertDialog';
 import { useTranslation } from 'react-i18next';
-
 import purchaseBack from '../../assets/images/purchase/purchaseBack.png';
 import course0 from '../../assets/images/purchase/0.png';
 import course1 from '../../assets/images/purchase/1.png';
@@ -30,12 +29,13 @@ import {
   SelectGroup,
   SelectValue,
 } from '../../components/SelectAction';
+import moment from 'moment';
 
 export default function BuyPackageTest() {
   const [parent] = useAutoAnimate();
 
   const [t] = useTranslation(['purchase', 'minutes', 'translations']);
-  
+
   const allCourses = useMemo(
     () => ({
       courses: [
@@ -56,7 +56,7 @@ export default function BuyPackageTest() {
             },
             {
               id: '2',
-              courseId: '2',
+              courseId: '1',
               period: 6,
               sessionTime: 30,
               sessionsPerWeek: 1,
@@ -66,7 +66,7 @@ export default function BuyPackageTest() {
             },
             {
               id: '3',
-              courseId: '3',
+              courseId: '1',
               period: 9,
               sessionTime: 30,
               sessionsPerWeek: 1,
@@ -81,7 +81,9 @@ export default function BuyPackageTest() {
     [],
   );
 
-  const [data, setData] = useState(allCourses.courses.find((course) => course?.packages?.length > 0));
+  const [data, setData] = useState(
+    allCourses.courses.find((course) => course?.packages?.length > 0),
+  );
 
   const [courseData, setCourseData] = useState(null);
   const [selectedLength, setSelectedLength] = useState(null);
@@ -135,6 +137,12 @@ export default function BuyPackageTest() {
               Array(Math.floor(selectedPackage.period / 3)).keys(),
               (x) => (x < 4 ? (x + 1) * 3 : false),
             ).filter((x) => x),
+          },
+          period: {
+            from: moment().format('YYYYMMDD'),
+            to: moment()
+              .add(selectedPackage.period, 'months')
+              .format('YYYYMMDD'),
           },
         },
         async (rsp) => {
