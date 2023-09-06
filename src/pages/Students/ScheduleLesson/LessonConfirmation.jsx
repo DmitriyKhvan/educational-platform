@@ -6,13 +6,13 @@ import NotificationManager from '../../../components/NotificationManager';
 import Layout from '../../../components/Layout';
 import ScheduleCard from './ScheduleCard';
 import TutorImageRow from './TutorImageRow';
-// import ScheduleCardComponent from '../../../components/student-dashboard/ScheduleCard';
+import ScheduleCardComponent from '../../../components/student-dashboard/ScheduleCard';
 import Loader from '../../../components/common/Loader';
 import { useAuth } from '../../../modules/auth';
 import LessonCard from './LessonCard';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import {
-  // APPOINTMENTS_QUERY,
+  APPOINTMENTS_QUERY,
   CREATE_APPOINTMENT,
   UPDATE_APPOINTMENT,
   LESSON_QUERY,
@@ -37,34 +37,34 @@ const LessonConfirmation = ({
   const [repeat, setRepeat] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
-  // const [newAppointment, setNewAppointment] = useState({});
+  const [newAppointment, setNewAppointment] = useState({});
   const [isConfirmed, setIsConfirmed] = useState(false);
   // const [, setDate] = useState();
   const [confirmDisable, setConfirmDisable] = useState(false);
-  // const [getAppointments] = useLazyQuery(APPOINTMENTS_QUERY, {
-  //   variables: {
-  //     studentId: user?.students[0]?.id,
-  //     status: 'scheduled',
-  //   },
-  //   fetchPolicy: 'network-only',
-  // });
+  const [getAppointments] = useLazyQuery(APPOINTMENTS_QUERY, {
+    variables: {
+      studentId: user?.students[0]?.id,
+      status: 'scheduled',
+    },
+    fetchPolicy: 'network-only',
+  });
   const [createAppointment] = useMutation(CREATE_APPOINTMENT);
   const [updateAppointment] = useMutation(UPDATE_APPOINTMENT);
   const [getLesson] = useLazyQuery(LESSON_QUERY);
 
-  // const fetchAppointments = async () => {
-  //   return (await getAppointments()).data;
-  // };
+  const fetchAppointments = async () => {
+    return (await getAppointments()).data;
+  };
   const history = useHistory();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // const cancelled = async () => {
-  //   setIsConfirmed(false);
-  //   setNewAppointment({});
-  // };
+  const cancelled = async () => {
+    setIsConfirmed(false);
+    setNewAppointment({});
+  };
 
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
@@ -138,7 +138,7 @@ const LessonConfirmation = ({
     }
     if (lesson) {
       setConfirmDisable(true);
-      // setNewAppointment(lesson);
+      setNewAppointment(lesson);
       // setDate(moment(lesson.startAt).unix());
       setIsConfirmed(true);
       window.scrollTo(0, 0);
@@ -343,6 +343,24 @@ const LessonConfirmation = ({
                     </Link>
                   </div>
                 </div>
+                {newAppointment.map((appointment, index) => {
+                  return (
+                    <ScheduleCardComponent
+                      key={index}
+                      index={index}
+                      lesson={
+                        appointment?.packageSubscription?.package.course?.title
+                      }
+                      zoomlink={appointment?.zoomlink}
+                      date={time}
+                      mentor={tutor}
+                      data={appointment ?? {}}
+                      subscription={plan}
+                      fetchAppointments={fetchAppointments}
+                      cancelled={cancelled}
+                    />
+                  );
+                })}
 
                 {/* <ScheduleCardComponent
                   index={0}
