@@ -120,7 +120,6 @@ export default function BuyPackage() {
   const [selectedPackage, setSelectedPackage] = useState(null);
   // const [selectedProvider, setSelectedProvider] = useState('nice');
 
-
   const history = useHistory();
 
   const courses = [course0, course1, course2, course3];
@@ -422,14 +421,15 @@ export default function BuyPackage() {
                     </div>
                   ),
               )}
-              {
-                selectedPackage === null && (
-                  <button className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
-                  type="button" onClick={submitStripe}>
-                    Proceed to checkout
-                  </button>
-                )
-              }
+              {selectedPackage === null && (
+                <button
+                  className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
+                  type="button"
+                  onClick={submitStripe}
+                >
+                  Proceed to checkout
+                </button>
+              )}
               {/* {selectedPackage !== null && (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
@@ -482,7 +482,7 @@ export default function BuyPackage() {
                           <SelectContent className="bg-white">
                             <SelectGroup>
                               <SelectItem value="stripe">Stripe</SelectItem>
-                              {/* <SelectItem value="nice">Nice</SelectItem> */}
+                              { <SelectItem value="nice">Nice</SelectItem> }
                             </SelectGroup>
                           </SelectContent>
                         </div>
@@ -490,7 +490,7 @@ export default function BuyPackage() {
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
-              )} */}
+              )}*/}
             </div>
           </form>
         </div>
