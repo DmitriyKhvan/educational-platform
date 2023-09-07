@@ -75,8 +75,8 @@ const ScheduleCard = ({
 
   //Time period when you can go to the lesson
   const today = new Date();
-  const tenMinuteBeforeStart = subMinutes(today, 10);
-  const beforeEndLesson = addMinutes(today, data.duration)
+  const tenMinuteBeforeStart = subMinutes(date, 10);
+  const beforeEndLesson = addMinutes(date, data.duration)
 
   const isBetween = isWithinInterval(today, {start: tenMinuteBeforeStart, end: beforeEndLesson});
   const [getZoomLink, { loading, error }] = useLazyQuery(GET_ZOOMLINK, {

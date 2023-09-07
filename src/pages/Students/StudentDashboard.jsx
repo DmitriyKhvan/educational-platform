@@ -274,7 +274,7 @@ const StudentListAppointments = () => {
               </div>
             </div>
           </div>
-          <div className="w-full px-[22px] lg:pt-[30px] 2xl:pt-[50px] 2xl:pl-[30px] border-t mt-8 xl:w-2/5 xl:border-none 2xl:w-[35%] bg-[#F7F7FA]">
+          <div className="w-full px-[22px] lg:pt-[30px] 2xl:pt-[50px] 2xl:pl-[30px] border-t mt-8 xl:mt-0 xl:w-2/5 xl:border-none 2xl:w-[35%] bg-[#F7F7FA]">
             {!isLoading && (
               <div className="mt-4">
                 <h4 className="text-[30px] tracking-tight font-normal mb-2.5">
