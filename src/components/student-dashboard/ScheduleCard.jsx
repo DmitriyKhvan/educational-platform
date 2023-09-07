@@ -193,7 +193,7 @@ const ScheduleCard = ({
           className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px]
           ${index === 0 ? 'text-color-purple': 'border border-color-border-grey text-black'} ${
             data.status === 'scheduled'
-              ? 'text-color-purple bg-[#b099d7]'
+              ? 'text-color-purple bg-[#b099d7] opacity-50'
               : 'grey-border text-black'
           }`}
         >
