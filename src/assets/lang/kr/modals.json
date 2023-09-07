@@ -45,5 +45,7 @@
   "cancel_condition_1": "레슨 24시간 전에 레슨을 취소하거나 변경하면 레슨 크레딧이 소멸되지 않습니다.",
   "cancel_condition_2": "24시간 이내에 취소하거나 변경하는 경우 레슨 크레딧이 소멸됩니다.",
   "cancel_condition_3": "레슨에 지각하는 경우에도 레슨은 예정된 시간에 시작하고 종료됩니다.",
-  "cancel_condition_4": "레슨 시간 전에 수업을 취소하면 해당 레슨 일정에 다른 학생이 예약할 수 있습니다."
+  "cancel_condition_4": "레슨 시간 전에 수업을 취소하면 해당 레슨 일정에 다른 학생이 예약할 수 있습니다.",
+  "reschedule_this_lesson": "Reschedule This Lesson",
+  "reschedule_lessons": "Rescchedule All Upcoming Lessons"
 }

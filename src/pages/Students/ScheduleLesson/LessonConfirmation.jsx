@@ -37,7 +37,7 @@ const LessonConfirmation = ({
 
   const urlParams = new URLSearchParams(window.location.search);
   const [repeat, setRepeat] = useState(
-    JSON.parse(urlParams.get('repeatLessons')),
+    JSON.parse(urlParams.get('repeatLessons') || false),
   );
 
   const [isLoading, setIsLoading] = useState(false);
