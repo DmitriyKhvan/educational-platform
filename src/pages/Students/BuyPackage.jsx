@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
-// import { ReactComponent as ArrowBack } from '../../assets/images/arrow_back.svg';
+import { ReactComponent as ArrowBack } from '../../assets/images/arrow_back.svg';
 import Loader from '../../components/Loader/Loader';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { toast } from 'react-hot-toast';
-// import {
-//   AlertDialog,
-//   AlertDialogAction,
-//   AlertDialogCancel,
-//   AlertDialogContent,
-//   AlertDialogDescription,
-//   AlertDialogFooter,
-//   AlertDialogHeader,
-//   AlertDialogTitle,
-//   AlertDialogTrigger,
-// } from '../../components/AlertDialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '../../components/AlertDialog';
 import { useTranslation } from 'react-i18next';
 // import { useAuth } from '../../modules/auth';
 
@@ -26,14 +26,14 @@ import course1 from '../../assets/images/purchase/1.png';
 import course2 from '../../assets/images/purchase/2.png';
 import course3 from '../../assets/images/purchase/3.png';
 // import { v4 as uuidv4 } from 'uuid';
-// import {
-//   Select,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectContent,
-//   SelectGroup,
-//   SelectValue,
-// } from '../../components/SelectAction';
+import {
+  Select,
+  SelectItem,
+  SelectTrigger,
+  SelectContent,
+  SelectGroup,
+  SelectValue,
+} from '../../components/SelectAction';
 
 // const CREATE_PAYMENT = gql`
 //   mutation CreatePayment(
@@ -118,7 +118,7 @@ export default function BuyPackage() {
   const [uniqueLength, setUniqueLength] = useState([]);
   const [uniqueSessionsPerWeek, setUniqueSessionsPerWeek] = useState([]);
   const [selectedPackage, setSelectedPackage] = useState(null);
-  // const [selectedProvider, setSelectedProvider] = useState('nice');
+  const [selectedProvider, setSelectedProvider] = useState('nice');
 
   const history = useHistory();
 
@@ -164,6 +164,10 @@ export default function BuyPackage() {
     }
   };
 
+  const submitNice = () => {
+    history.replace(`/purchase/${selectedPackage.id}/nice-payment`);
+  };
+
   // const submitNice = async () => {
   //   if (!selectedPackage) return;
 
@@ -196,12 +200,12 @@ export default function BuyPackage() {
   //             ).filter((x) => x),
   //           },
   //         },
-          //  period: {
-          //    from: moment().format('YYYYMMDD'),
-          //    to: moment()
-          //      .add(selectedPackage.period, 'months')
-          //      .format('YYYYMMDD'),
-          //  },
+  //  period: {
+  //    from: moment().format('YYYYMMDD'),
+  //    to: moment()
+  //      .add(selectedPackage.period, 'months')
+  //      .format('YYYYMMDD'),
+  //  },
   //       },
   //       async (rsp) => {
   //         if (rsp.success) {
@@ -427,7 +431,7 @@ export default function BuyPackage() {
                     </div>
                   ),
               )}
-              {selectedPackage === null && (
+              {/* {selectedPackage !== null && (
                 <button
                   className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
                   type="button"
@@ -435,8 +439,8 @@ export default function BuyPackage() {
                 >
                   Proceed to checkout
                 </button>
-              )}
-              {/* {selectedPackage !== null && (
+              )} */}
+              {selectedPackage !== null && (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <button
@@ -488,7 +492,7 @@ export default function BuyPackage() {
                           <SelectContent className="bg-white">
                             <SelectGroup>
                               <SelectItem value="stripe">Stripe</SelectItem>
-                              { <SelectItem value="nice">Nice</SelectItem> }
+                              {<SelectItem value="nice">Nice</SelectItem>}
                             </SelectGroup>
                           </SelectContent>
                         </div>
@@ -496,7 +500,7 @@ export default function BuyPackage() {
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
-              )}*/}
+              )}
             </div>
           </form>
         </div>
