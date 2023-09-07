@@ -11,7 +11,12 @@ import { useLazyQuery } from '@apollo/client';
 import ReactLoader from '../common/Loader';
 import notify from '../../utils/notify';
 import { ROLES } from '../../constants/global';
-import { addMinutes, differenceInHours, isWithinInterval, subMinutes } from 'date-fns';
+import {
+  addMinutes,
+  differenceInHours,
+  isWithinInterval,
+  subMinutes,
+} from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
 
 const ScheduleCard = ({
@@ -76,9 +81,12 @@ const ScheduleCard = ({
   //Time period when you can go to the lesson
   const today = new Date();
   const tenMinuteBeforeStart = subMinutes(date, 10);
-  const beforeEndLesson = addMinutes(date, data.duration)
+  const beforeEndLesson = addMinutes(date, data.duration);
 
-  const isBetween = isWithinInterval(today, {start: tenMinuteBeforeStart, end: beforeEndLesson});
+  const isBetween = isWithinInterval(today, {
+    start: tenMinuteBeforeStart,
+    end: beforeEndLesson,
+  });
   const [getZoomLink, { loading, error }] = useLazyQuery(GET_ZOOMLINK, {
     fetchPolicy: 'no-cache',
   });
@@ -99,21 +107,25 @@ const ScheduleCard = ({
   };
 
   const displayDate = () => {
-    
     const eventDate = format(
-      utcToZonedTime(new Date(date), userTimezone), 'MMM do', 
-      { timeZone: userTimezone }
+      utcToZonedTime(new Date(date), userTimezone),
+      'MMM do',
+      { timeZone: userTimezone },
     );
     const start = format(
-      utcToZonedTime(new Date(date), userTimezone), 'hh:mm a', 
-      { timeZone: userTimezone }
-    )
+      utcToZonedTime(new Date(date), userTimezone),
+      'hh:mm a',
+      { timeZone: userTimezone },
+    );
 
     const end = format(
-        addMinutes(utcToZonedTime(new Date(date), userTimezone), subscription?.package?.sessionTime || duration),
-        'hh:mm a',
-        { timeZone: userTimezone }
-      )
+      addMinutes(
+        utcToZonedTime(new Date(date), userTimezone),
+        subscription?.package?.sessionTime || duration,
+      ),
+      'hh:mm a',
+      { timeZone: userTimezone },
+    );
     return `${eventDate} at ${start} → ${end}`;
   };
 
@@ -128,14 +140,18 @@ const ScheduleCard = ({
   return (
     <div
       className={`mb-5 rounded-[10px] p-5 shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)] ${
-        index === 0 ? 'bg-color-purple' : 'border border-color-border-grey bg-white'
+        index === 0
+          ? 'bg-color-purple'
+          : 'border border-color-border-grey bg-white'
       }`}
     >
       <div className="mb-2">
         <div className="flex items-center justify-between">
           <div>
             <h1
-              className={`text-[30px] font-normal ${index === 0 ? 'text-white m-0' : 'text-black m-0'}`}
+              className={`text-[30px] font-normal ${
+                index === 0 ? 'text-white m-0' : 'text-black m-0'
+              }`}
             >
               {lesson}
             </h1>
@@ -166,35 +182,39 @@ const ScheduleCard = ({
       <div className="flex items-center gap-2 xl:gap-3">
         {user.role !== ROLES.MENTOR && (
           <a
-            className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px] ${index === 0 ? 'text-color-purple': 'border border-color-border-grey text-black'} ${
-              isLate
-                ? 'opacity-50'
-                : ''
-            }`}
+            className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px] ${
+              index === 0
+                ? 'text-color-purple'
+                : 'border border-color-border-grey text-black'
+            } ${isLate ? 'opacity-50' : ''}`}
             onClick={onSelect}
           >
             {t('reschedule')}
           </a>
         )}
-          <a
-            onClick={onCancel}
-            className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px] ${index === 0 ? 'text-color-purple': 'border border-color-border-grey text-black'} ${
-              isLate
-                ? 'opacity-50'
-                : ''
-            }`}
-          >
-            {t('cancel', {ns: 'common'})}
-          </a>
+        <a
+          onClick={onCancel}
+          className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px] ${
+            index === 0
+              ? 'text-color-purple'
+              : 'border border-color-border-grey text-black'
+          } ${isLate ? 'opacity-50' : ''}`}
+        >
+          {t('cancel', { ns: 'common' })}
+        </a>
         <a
           onClick={data.status !== 'scheduled' ? joinLesson : undefined}
           target="_blank"
           rel="noreferrer"
-          className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px]
-          ${index === 0 ? 'text-color-purple': 'border border-color-border-grey text-black'} ${
+          className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px]  rounded-[5px]
+          ${
+            index === 0
+              ? 'text-color-purple'
+              : 'border border-color-border-grey text-black'
+          } ${
             data.status === 'scheduled'
-              ? 'text-color-purple bg-[#b099d7] opacity-50'
-              : 'grey-border text-black'
+              ? 'text-color-purple bg-[#b099d7]'
+              : 'grey-border text-black bg-white'
           }`}
         >
           {t('join_lesson')}
