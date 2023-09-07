@@ -12,6 +12,8 @@ jobs:
     env:
       REACT_APP_SERVER_URL: ${{ secrets.REACT_APP_SERVER_URL }}
       REACT_APP_STRIPE_KEY: ${{ secrets.REACT_APP_STRIPE_KEY }}
+      REACT_APP_PORTONE_USER_CODE: ${{ secrets.REACT_APP_PORTONE_USER_CODE }}
+      REACT_APP_PORTONE_MID: ${{ secrets.REACT_APP_PORTONE_MID }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
