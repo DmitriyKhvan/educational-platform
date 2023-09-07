@@ -196,12 +196,12 @@ export default function BuyPackage() {
   //             ).filter((x) => x),
   //           },
   //         },
-          //  period: {
-          //    from: moment().format('YYYYMMDD'),
-          //    to: moment()
-          //      .add(selectedPackage.period, 'months')
-          //      .format('YYYYMMDD'),
-          //  },
+  //  period: {
+  //    from: moment().format('YYYYMMDD'),
+  //    to: moment()
+  //      .add(selectedPackage.period, 'months')
+  //      .format('YYYYMMDD'),
+  //  },
   //       },
   //       async (rsp) => {
   //         if (rsp.success) {
@@ -427,7 +427,7 @@ export default function BuyPackage() {
                     </div>
                   ),
               )}
-              {selectedPackage === null && (
+              {selectedPackage !== null && (
                 <button
                   className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
                   type="button"
