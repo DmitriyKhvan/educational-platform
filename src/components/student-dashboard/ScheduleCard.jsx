@@ -41,7 +41,9 @@ const ScheduleCard = ({
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const isLate = differenceInHours(date, new Date()) <= 24;
+  const dateLesson = new Date(date);
+
+  const isLate = differenceInHours(dateLesson, new Date()) <= 24;
 
   function onSelect() {
     if (isLate) {
@@ -80,8 +82,8 @@ const ScheduleCard = ({
 
   //Time period when you can go to the lesson
   const today = new Date();
-  const tenMinuteBeforeStart = subMinutes(date, 10);
-  const beforeEndLesson = addMinutes(date, data.duration);
+  const tenMinuteBeforeStart = subMinutes(dateLesson, 10);
+  const beforeEndLesson = addMinutes(dateLesson, data.duration);
 
   const isBetween = isWithinInterval(today, {
     start: tenMinuteBeforeStart,
@@ -108,19 +110,17 @@ const ScheduleCard = ({
 
   const displayDate = () => {
     const eventDate = format(
-      utcToZonedTime(new Date(date), userTimezone),
+      utcToZonedTime(dateLesson, userTimezone),
       'MMM do',
       { timeZone: userTimezone },
     );
-    const start = format(
-      utcToZonedTime(new Date(date), userTimezone),
-      'hh:mm a',
-      { timeZone: userTimezone },
-    );
+    const start = format(utcToZonedTime(dateLesson, userTimezone), 'hh:mm a', {
+      timeZone: userTimezone,
+    });
 
     const end = format(
       addMinutes(
-        utcToZonedTime(new Date(date), userTimezone),
+        utcToZonedTime(dateLesson, userTimezone),
         subscription?.package?.sessionTime || duration,
       ),
       'hh:mm a',
