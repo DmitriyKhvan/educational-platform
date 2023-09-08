@@ -101,5 +101,11 @@
   "payment_without_renewal": "One-time payment without auto renewal",
   "remaining_credits": "Remaining credits",
   "minutes_short": "M",
-  "expiry": "Expiration Date"
+  "expiry": "Expiration Date",
+  "required_expiry": "Expiration Date is required",
+  "error_invalid_expiry": "Invalid Expiration Date",
+  "required_card_number": "Card number is required",
+  "card_number_invalid": "Invalid Card number",
+  "error_invalid_password": "Invalid password",
+  "credit_card_expired": "The credit card has expired"
 }
