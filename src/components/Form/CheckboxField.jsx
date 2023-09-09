@@ -3,10 +3,9 @@ import { forwardRef } from 'react';
 const CheckboxField = forwardRef(
   ({ label = '', type = 'checkbox', name = '', ...props }, ref) => {
     return (
-      <div className="relative flex items-start">
-        <div className="flex h-6 items-center">
-          <input
-            className={`
+      <label className="relative inline-flex items-center cursor-pointer">
+        <input
+          className={`
             appearance-none
             relative
             h-5
@@ -14,6 +13,7 @@ const CheckboxField = forwardRef(
             rounded 
             text-transparent
             border-gray-300 
+            cursor-pointer
             focus:ring-transparent
             checked:bg-none
             checked:after:content-['']
@@ -27,21 +27,17 @@ const CheckboxField = forwardRef(
             checked:after:h-[10px]
             checked:after:bg-color-purple
             checked:after:rounded
-
           `}
-            type={type}
-            name={name}
-            id={props.name}
-            ref={ref}
-            {...props}
-          />
-        </div>
-        <div className="ml-3 text-base leading-6">
-          <label htmlFor={props.name} className="font-medium text-gray-900">
-            {label}
-          </label>
-        </div>
-      </div>
+          type={type}
+          name={name}
+          id={name}
+          ref={ref}
+          {...props}
+        />
+        <p className="ml-3 text-base leading-6 font-medium text-gray-900">
+          {label}
+        </p>
+      </label>
     );
   },
 );
