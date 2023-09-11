@@ -47,5 +47,7 @@
   "cancel_condition_3": "If you are late for lesson, lesson still starts and ends at expected time.",
   "cancel_condition_4": "If you cancel class before lesson time, lesson spot is open for another student to book.",
   "reschedule_this_lesson": "Reschedule This Lesson",
-  "reschedule_lessons": "Rescchedule All Upcoming Lessons"
+  "reschedule_lessons": "Reschedule All Upcoming Lessons",
+  "cancel_this_lesson": "Cancel This Lesson",
+  "cancel_lessons": "Cancel All Upcoming Lessons"
 }

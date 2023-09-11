@@ -8,12 +8,18 @@ import Button from '../Form/Button/Button';
 
 const MAX_MODIFY_COUNT = 3;
 
-const CancelWarningModal = ({ data, setTabIndex, type, modifyCredits }) => {
+const CancelWarningModal = ({
+  data,
+  setTabIndex,
+  type,
+  modifyCredits,
+  setRepeatLessons,
+  repeatLessons,
+}) => {
   const [t] = useTranslation('modals');
   const { user } = useAuth();
   const [isChecked, setIsChecked] = useState(false);
   const [cancellationDots, setCancellationDots] = useState([]);
-  const [repeat, setRepeat] = useState(false);
 
   useEffect(() => {
     if (modifyCredits !== undefined) {
@@ -49,7 +55,7 @@ const CancelWarningModal = ({ data, setTabIndex, type, modifyCredits }) => {
     if (type === 'reschedule') {
       //We need exactly window.location, so that the page with this id is reloaded
       window.location.replace(
-        `/student/schedule-lesson/select/${data.id}/?repeatLessons=${repeat}`,
+        `/student/schedule-lesson/select/${data.id}/?repeatLessons=${repeatLessons}`,
       );
     }
 
@@ -74,28 +80,6 @@ const CancelWarningModal = ({ data, setTabIndex, type, modifyCredits }) => {
         </div>
       )}
 
-      {type === 'reschedule' && (
-        <div className="mt-8">
-          <p className="font-semibold leading-[18px] tracking-[-0.2px] mb-3">
-            Choose Below:
-          </p>
-          <div className="flex flex-col gap-y-1">
-            <CheckboxField
-              label={t('reschedule_this_lesson')}
-              type="radio"
-              name="lesson"
-              onChange={() => setRepeat(false)}
-            />
-            <CheckboxField
-              label={t('reschedule_lessons')}
-              type="radio"
-              name="lesson"
-              onChange={() => setRepeat(true)}
-            />
-          </div>
-        </div>
-      )}
-
       {type !== 'reschedule' && (
         <div className="mt-8">
           <CheckboxField
@@ -108,6 +92,32 @@ const CancelWarningModal = ({ data, setTabIndex, type, modifyCredits }) => {
           />
         </div>
       )}
+
+      <div className="mt-8">
+        <p className="font-semibold leading-[18px] tracking-[-0.2px] mb-3">
+          Choose Below:
+        </p>
+        <div className="flex flex-col gap-y-1">
+          <CheckboxField
+            label={
+              type === 'cancel'
+                ? t('cancel_this_lesson')
+                : t('reschedule_this_lesson')
+            }
+            type="radio"
+            name="lesson"
+            onChange={() => setRepeatLessons(false)}
+          />
+          <CheckboxField
+            label={
+              type === 'cancel' ? t('cancel_lessons') : t('reschedule_lessons')
+            }
+            type="radio"
+            name="lesson"
+            onChange={() => setRepeatLessons(true)}
+          />
+        </div>
+      </div>
 
       <div className="flex items-center gap-x-8 mt-4">
         {type !== 'reschedule' && (

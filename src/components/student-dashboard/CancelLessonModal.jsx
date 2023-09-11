@@ -13,6 +13,7 @@ const CancelLessonModal = ({
   id,
   fetchAppointments,
   cancelled,
+  repeatLessons,
 }) => {
   const [t] = useTranslation('common');
   const [cancel, setCancel] = useState({});
@@ -49,6 +50,7 @@ const CancelLessonModal = ({
     variables: {
       id: id,
       cancelReason: cancel.value,
+      repeat: repeatLessons,
     },
     onError: (error) => {
       NotificationManager.error(error.message, t);

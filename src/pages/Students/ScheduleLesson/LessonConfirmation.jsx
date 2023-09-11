@@ -107,6 +107,7 @@ const LessonConfirmation = ({
               startAt: moment
                 .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
                 .toISOString(),
+              repeat: repeat,
             },
             onError: (error) => {
               NotificationManager.error(error.message, t);
@@ -349,6 +350,7 @@ const LessonConfirmation = ({
                     </Link>
                   </div>
                 </div>
+
                 {newAppointment.map((appointment, index) => {
                   return (
                     <ScheduleCardComponent
@@ -358,7 +360,8 @@ const LessonConfirmation = ({
                         appointment?.packageSubscription?.package.course?.title
                       }
                       zoomlink={appointment?.zoomlink}
-                      date={time}
+                      // date={time}
+                      date={appointment?.startAt}
                       mentor={tutor}
                       data={appointment ?? {}}
                       subscription={plan}

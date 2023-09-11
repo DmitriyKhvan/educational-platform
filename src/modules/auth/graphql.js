@@ -524,6 +524,7 @@ export const APPOINTMENTS_QUERY = gql`
             title
           }
         }
+        paymentId
       }
     }
   }
@@ -543,8 +544,8 @@ export const APPROVE_APPOINTMENT = gql`
 `;
 
 export const CANCEL_APPOINTMENT = gql`
-  mutation CANCEL_LESSON($id: ID!) {
-    cancelLesson(id: $id) {
+  mutation CANCEL_LESSON($id: ID!, $cancelReason: String, $repeat: Boolean) {
+    cancelLesson(id: $id, cancelReason: $cancelReason, repeat: $repeat) {
       id
       startAt
       duration
@@ -601,14 +602,40 @@ export const CREATE_APPOINTMENT = gql`
 `;
 
 export const UPDATE_APPOINTMENT = gql`
-  mutation UPDATE_LESSON($id: ID!, $startAt: DateTime!, $mentorId: ID!) {
-    lesson: rescheduleLesson(id: $id, startAt: $startAt, mentorId: $mentorId) {
+  mutation UPDATE_LESSON(
+    $id: ID!
+    $startAt: DateTime!
+    $mentorId: ID!
+    $repeat: Boolean
+  ) {
+    lesson: rescheduleLesson(
+      id: $id
+      startAt: $startAt
+      mentorId: $mentorId
+      repeat: $repeat
+    ) {
       id
       startAt
       duration
       status
       cancelAction
       zoomlinkId
+      packageSubscription {
+        id
+        periodStart
+        periodEnd
+        credits
+        packageId
+        modifyCredits
+        package {
+          course {
+            title
+          }
+        }
+        paymentId
+        # payment
+        # lessons
+      }
     }
   }
 `;

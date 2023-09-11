@@ -25,6 +25,7 @@ const RescheduleAndCancelModal = ({
   const [selectTutor, setSelectTutor] = useState();
   const { data: tutors } = useQuery(MENTORS_QUERY);
   const [isLoading] = useState(false);
+  const [repeatLessons, setRepeatLessons] = useState(false);
 
   return (
     <ModalWrapper isOpen={isOpen} closeModal={closeModal}>
@@ -36,6 +37,8 @@ const RescheduleAndCancelModal = ({
           duration={data.duration}
           type={type}
           modifyCredits={data?.packageSubscription?.modifyCredits}
+          setRepeatLessons={setRepeatLessons}
+          repeatLessons={repeatLessons}
         />
       ) : tabIndex === 1 ? (
         <CancelLessonModal
@@ -44,6 +47,7 @@ const RescheduleAndCancelModal = ({
           id={data.id}
           fetchAppointments={fetchAppointments}
           cancelled={cancelled}
+          repeatLessons={repeatLessons}
         />
       ) : tabIndex === 2 ? (
         <ReschedulingTimeModal

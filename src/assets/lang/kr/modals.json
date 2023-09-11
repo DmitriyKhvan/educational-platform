@@ -47,5 +47,7 @@
   "cancel_condition_3": "레슨에 지각하는 경우에도 레슨은 예정된 시간에 시작하고 종료됩니다.",
   "cancel_condition_4": "레슨 시간 전에 수업을 취소하면 해당 레슨 일정에 다른 학생이 예약할 수 있습니다.",
   "reschedule_this_lesson": "Reschedule This Lesson",
-  "reschedule_lessons": "Rescchedule All Upcoming Lessons"
+  "reschedule_lessons": "Reschedule All Upcoming Lessons",
+  "cancel_this_lesson": "Cancel This Lesson",
+  "cancel_lessons": "Cancel All Upcoming Lessons"
 }
