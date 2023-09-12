@@ -620,6 +620,7 @@ export const UPDATE_APPOINTMENT = gql`
       duration
       status
       cancelAction
+      cancelReason
       zoomlinkId
       packageSubscription {
         id

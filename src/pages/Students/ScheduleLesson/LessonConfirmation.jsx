@@ -15,7 +15,7 @@ import {
   APPOINTMENTS_QUERY,
   CREATE_APPOINTMENT,
   UPDATE_APPOINTMENT,
-  LESSON_QUERY,
+  // LESSON_QUERY,
 } from '../../../modules/auth/graphql';
 
 import CheckboxField from '../../../components/Form/CheckboxField';
@@ -42,7 +42,7 @@ const LessonConfirmation = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
-  const [newAppointment, setNewAppointment] = useState({});
+  const [newAppointment, setNewAppointment] = useState([]);
   const [isConfirmed, setIsConfirmed] = useState(false);
   // const [, setDate] = useState();
   const [confirmDisable, setConfirmDisable] = useState(false);
@@ -55,7 +55,7 @@ const LessonConfirmation = ({
   });
   const [createAppointment] = useMutation(CREATE_APPOINTMENT);
   const [updateAppointment] = useMutation(UPDATE_APPOINTMENT);
-  const [getLesson] = useLazyQuery(LESSON_QUERY);
+  // const [getLesson] = useLazyQuery(LESSON_QUERY);
 
   const fetchAppointments = async () => {
     return (await getAppointments()).data;
@@ -68,7 +68,7 @@ const LessonConfirmation = ({
 
   const cancelled = async () => {
     setIsConfirmed(false);
-    setNewAppointment({});
+    setNewAppointment([]);
   };
 
   const userTimezone =
@@ -89,37 +89,49 @@ const LessonConfirmation = ({
     let lesson = null;
     if (lessonId) {
       setIsLoading(true);
-      const oldLesson = await getLesson({
+      // const oldLesson = await getLesson({
+      //   variables: {
+      //     id: lessonId,
+      //   },
+      // });
+      // if (
+      //   !moment
+      //     .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
+      //     .isSame(oldLesson.data.lesson.startAt)
+      // ) {
+      //   const { data: { lesson: updatedLesson } = {} } =
+      //     await updateAppointment({
+      //       variables: {
+      //         id: lessonId,
+      //         mentorId: tutor.id,
+      //         startAt: moment
+      //           .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
+      //           .toISOString(),
+      //         repeat: repeat,
+      //       },
+      //       onError: (error) => {
+      //         NotificationManager.error(error.message, t);
+      //       },
+      //     });
+      //   lesson = updatedLesson;
+      // } else {
+      //   NotificationManager.error(
+      //     'The reschedule date cannot be the old scheduled date!',
+      //     t,
+      //   );
+      // }
+      const { data: { lesson: updatedLesson } = {} } = await updateAppointment({
         variables: {
           id: lessonId,
+          mentorId: tutor.id,
+          startAt: moment.utc(time, 'ddd MMM DD YYYY HH:mm:ssZ').toISOString(),
+          repeat: repeat,
+        },
+        onError: (error) => {
+          NotificationManager.error(error.message, t);
         },
       });
-      if (
-        !moment
-          .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
-          .isSame(oldLesson.data.lesson.startAt)
-      ) {
-        const { data: { lesson: updatedLesson } = {} } =
-          await updateAppointment({
-            variables: {
-              id: lessonId,
-              mentorId: tutor.id,
-              startAt: moment
-                .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
-                .toISOString(),
-              repeat: repeat,
-            },
-            onError: (error) => {
-              NotificationManager.error(error.message, t);
-            },
-          });
-        lesson = updatedLesson;
-      } else {
-        NotificationManager.error(
-          'The reschedule date cannot be the old scheduled date!',
-          t,
-        );
-      }
+      lesson = updatedLesson;
     } else {
       try {
         const { data: { lesson: createdLesson } = {} } =

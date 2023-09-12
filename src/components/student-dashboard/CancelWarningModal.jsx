@@ -107,6 +107,7 @@ const CancelWarningModal = ({
             type="radio"
             name="lesson"
             onChange={() => setRepeatLessons(false)}
+            disabled={modifyCredits === 0}
           />
           <CheckboxField
             label={
@@ -115,6 +116,7 @@ const CancelWarningModal = ({
             type="radio"
             name="lesson"
             onChange={() => setRepeatLessons(true)}
+            disabled={modifyCredits === 0}
           />
         </div>
       </div>
@@ -129,7 +131,9 @@ const CancelWarningModal = ({
         <Button
           theme="purple"
           onClick={onClick}
-          disabled={!isChecked && type !== 'reschedule'}
+          disabled={
+            (!isChecked && type !== 'reschedule') || modifyCredits === 0
+          }
         >
           {t('continue_cancel')}
         </Button>

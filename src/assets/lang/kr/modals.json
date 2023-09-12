@@ -1,6 +1,6 @@
 {
   "zoom_modal_title": "수업할 준비가 되셨습니까?",
-  "zoom_modal_desc": "줌 링크는 수업 시작 10분 전에 활성화됩니다.",
+  "zoom_modal_desc": "줌 링크는 수업 시작시간에 활성화됩니다.",
   "warning": "경고",
   "cancel_modal_desc": "패키지에 남아 일정을 변경하거나 취소할 수 있는 강의 수:",
   "confirm_cancel": "취소하시겠습니까?",
