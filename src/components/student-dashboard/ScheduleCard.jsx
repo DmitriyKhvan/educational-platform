@@ -10,7 +10,7 @@ import { GET_ZOOMLINK } from '../../modules/auth/graphql';
 import { useLazyQuery } from '@apollo/client';
 import ReactLoader from '../common/Loader';
 import notify from '../../utils/notify';
-import { LESSONS_TATUS_TYPE, ROLES } from '../../constants/global';
+import { LESSONS_STATUS_TYPE, ROLES } from '../../constants/global';
 import {
   addMinutes,
   differenceInHours,
@@ -27,7 +27,8 @@ const ScheduleCard = ({
   mentor,
   data,
   fetchAppointments,
-  cancelled,
+  // cancelled,
+  setCanceledLessons,
   duration,
   subscription,
 }) => {
@@ -140,7 +141,7 @@ const ScheduleCard = ({
   return (
     <div
       className={`mb-5 rounded-[10px] p-5 shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)] ${
-        !LESSONS_TATUS_TYPE[data?.status?.toUpperCase()]
+        !LESSONS_STATUS_TYPE[data?.status?.toUpperCase()]
           ? 'bg-color-light-grey2 opacity-60'
           : index === 0
           ? 'bg-color-purple'
@@ -152,7 +153,7 @@ const ScheduleCard = ({
           <div>
             <h1
               className={`text-[30px] font-normal ${
-                index === 0 && LESSONS_TATUS_TYPE[data?.status?.toUpperCase()]
+                index === 0 && LESSONS_STATUS_TYPE[data?.status?.toUpperCase()]
                   ? 'text-white m-0'
                   : 'text-black m-0'
               }`}
@@ -162,7 +163,7 @@ const ScheduleCard = ({
             {/* TODO: add this to translation.json */}
             <h3
               className={`text-base font-semibold tracking-tight ${
-                index === 0 && LESSONS_TATUS_TYPE[data?.status?.toUpperCase()]
+                index === 0 && LESSONS_STATUS_TYPE[data?.status?.toUpperCase()]
                   ? 'text-color-light-purple'
                   : 'text-color-light-grey'
               }`}
@@ -183,7 +184,7 @@ const ScheduleCard = ({
           </div>
         </div>
       </div>
-      {LESSONS_TATUS_TYPE[data?.status?.toUpperCase()] ? (
+      {LESSONS_STATUS_TYPE[data?.status?.toUpperCase()] ? (
         <div className="flex items-center gap-2 xl:gap-3">
           {user.role !== ROLES.MENTOR && (
             <a
@@ -229,7 +230,7 @@ const ScheduleCard = ({
         <div>
           <h1
             className={`text-[30px] font-normal ${
-              index === 0 && LESSONS_TATUS_TYPE[data?.status?.toUpperCase()]
+              index === 0 && LESSONS_STATUS_TYPE[data?.status?.toUpperCase()]
                 ? 'text-white m-0'
                 : 'text-black m-0'
             }`}
@@ -248,7 +249,8 @@ const ScheduleCard = ({
           fetchAppointments={fetchAppointments}
           tabIndex={tabIndex}
           type={modalType}
-          cancelled={cancelled}
+          // cancelled={cancelled}
+          setCanceledLessons={setCanceledLessons}
           duration={subscription?.duration || duration}
         />
       )}

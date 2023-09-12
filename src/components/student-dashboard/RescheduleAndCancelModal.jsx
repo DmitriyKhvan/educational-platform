@@ -18,7 +18,8 @@ const RescheduleAndCancelModal = ({
   fetchAppointments,
   tabIndex,
   type,
-  cancelled,
+  // cancelled,
+  setCanceledLessons,
   duration,
 }) => {
   const [schedule, setSchedule] = useState();
@@ -46,7 +47,8 @@ const RescheduleAndCancelModal = ({
           setIsOpen={setIsOpen}
           id={data.id}
           fetchAppointments={fetchAppointments}
-          cancelled={cancelled}
+          // cancelled={cancelled}
+          setCanceledLessons={setCanceledLessons}
           repeatLessons={repeatLessons}
         />
       ) : tabIndex === 2 ? (

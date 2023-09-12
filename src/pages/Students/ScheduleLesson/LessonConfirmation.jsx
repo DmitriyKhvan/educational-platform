@@ -15,7 +15,6 @@ import {
   APPOINTMENTS_QUERY,
   CREATE_APPOINTMENT,
   UPDATE_APPOINTMENT,
-  // LESSON_QUERY,
 } from '../../../modules/auth/graphql';
 
 import CheckboxField from '../../../components/Form/CheckboxField';
@@ -40,9 +39,13 @@ const LessonConfirmation = ({
     JSON.parse(urlParams.get('repeatLessons') || false),
   );
 
+  const [credits, setCredits] = useState(plan?.credits);
+  const [canceledLessons, setCanceledLessons] = useState(null);
+
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
   const [newAppointment, setNewAppointment] = useState([]);
+
   const [isConfirmed, setIsConfirmed] = useState(false);
   // const [, setDate] = useState();
   const [confirmDisable, setConfirmDisable] = useState(false);
@@ -55,7 +58,6 @@ const LessonConfirmation = ({
   });
   const [createAppointment] = useMutation(CREATE_APPOINTMENT);
   const [updateAppointment] = useMutation(UPDATE_APPOINTMENT);
-  // const [getLesson] = useLazyQuery(LESSON_QUERY);
 
   const fetchAppointments = async () => {
     return (await getAppointments()).data;
@@ -63,13 +65,27 @@ const LessonConfirmation = ({
   const history = useHistory();
 
   useEffect(() => {
+    // leave only scheduled lessons
+    if (canceledLessons) {
+      const appointments = newAppointment.filter(
+        (appointment) =>
+          !canceledLessons.some((lesson) => lesson.id === appointment.id),
+      );
+      setNewAppointment(appointments);
+
+      // remaining credits
+      setCredits((prev) => prev + canceledLessons.length);
+    }
+  }, [canceledLessons]);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const cancelled = async () => {
-    setIsConfirmed(false);
-    setNewAppointment([]);
-  };
+  // const cancelled = async () => {
+  //   setIsConfirmed(false);
+  //   setNewAppointment([]);
+  // };
 
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
@@ -86,40 +102,9 @@ const LessonConfirmation = ({
     setIsLoading(true);
 
     /* this means if the lesson ID exists, its going to be a reschedule */
-    let lesson = null;
+    let lesson = [];
     if (lessonId) {
       setIsLoading(true);
-      // const oldLesson = await getLesson({
-      //   variables: {
-      //     id: lessonId,
-      //   },
-      // });
-      // if (
-      //   !moment
-      //     .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
-      //     .isSame(oldLesson.data.lesson.startAt)
-      // ) {
-      //   const { data: { lesson: updatedLesson } = {} } =
-      //     await updateAppointment({
-      //       variables: {
-      //         id: lessonId,
-      //         mentorId: tutor.id,
-      //         startAt: moment
-      //           .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
-      //           .toISOString(),
-      //         repeat: repeat,
-      //       },
-      //       onError: (error) => {
-      //         NotificationManager.error(error.message, t);
-      //       },
-      //     });
-      //   lesson = updatedLesson;
-      // } else {
-      //   NotificationManager.error(
-      //     'The reschedule date cannot be the old scheduled date!',
-      //     t,
-      //   );
-      // }
       const { data: { lesson: updatedLesson } = {} } = await updateAppointment({
         variables: {
           id: lessonId,
@@ -147,6 +132,12 @@ const LessonConfirmation = ({
               repeat: repeat,
             },
           });
+
+        const scheduledLessons = createdLesson.filter(
+          (lesson) => lesson.status === 'scheduled',
+        );
+        setCredits(credits - scheduledLessons.length);
+
         lesson = createdLesson;
       } catch (error) {
         NotificationManager.error(error.message, t);
@@ -218,7 +209,8 @@ const LessonConfirmation = ({
                   })}`}
                   remaining={t('lessons_remaining', {
                     ns: 'lessons',
-                    count: plan?.credits,
+                    // count: plan?.credits,
+                    count: credits,
                   })}
                 />
               </div>
@@ -378,7 +370,8 @@ const LessonConfirmation = ({
                       data={appointment ?? {}}
                       subscription={plan}
                       fetchAppointments={fetchAppointments}
-                      cancelled={cancelled}
+                      // cancelled={cancelled}
+                      setCanceledLessons={setCanceledLessons}
                     />
                   );
                 })}

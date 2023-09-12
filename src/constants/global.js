@@ -514,7 +514,7 @@ export const ROLES = {
   STUDENT: 'student',
 };
 
-export const LESSONS_TATUS_TYPE = {
+export const LESSONS_STATUS_TYPE = {
   SCHEDULED: 'scheduled',
   APPROVED: 'approved',
   IN_PROGRESS: 'in_progress',
