@@ -513,3 +513,12 @@ export const ROLES = {
   MENTOR: 'mentor',
   STUDENT: 'student',
 };
+
+export const LESSONS_TATUS_TYPE = {
+  SCHEDULED: 'scheduled',
+  APPROVED: 'approved',
+  IN_PROGRESS: 'in_progress',
+  CANCELED: 'canceled',
+  COMPLETED: 'completed',
+  PAID: 'paid',
+};

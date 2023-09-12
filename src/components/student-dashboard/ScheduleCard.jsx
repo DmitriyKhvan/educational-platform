@@ -11,7 +11,7 @@ import { GET_ZOOMLINK } from '../../modules/auth/graphql';
 import { useLazyQuery } from '@apollo/client';
 import ReactLoader from '../common/Loader';
 import notify from '../../utils/notify';
-import { ROLES } from '../../constants/global';
+import { LESSONS_TATUS_TYPE, ROLES } from '../../constants/global';
 
 const ScheduleCard = ({
   index,
@@ -159,58 +159,52 @@ const ScheduleCard = ({
           </div>
         </div>
       </div>
-      <div className="flex lg:gap-2 xl:gap-3">
-        {/* <div className="">
-          <a
-            onClick={joinLesson}
-            className={`schedule_copy-button ${
-              index === 0
-                ? 'text-purple mobile-schedule_dash'
-                : 'grey-border text-black'
-            }`}
-          >
-            {t('join_lesson')}
-          </a>
-        </div> */}
-        {user.role !== ROLES.MENTOR && (
+
+      {LESSONS_TATUS_TYPE[data?.status?.toUpperCase()] ? (
+        <div className="flex lg:gap-2 xl:gap-3">
+          {user.role !== ROLES.MENTOR && (
+            <div className="">
+              <a
+                className={`schedule_copy-button ${
+                  isLate
+                    ? 'text-purpless back_schedule-button mobile-schedule_dash'
+                    : 'grey-border text-black'
+                }`}
+                onClick={onSelect}
+              >
+                {t('reschedule')}
+              </a>
+            </div>
+          )}
           <div className="">
             <a
+              onClick={onCancel}
               className={`schedule_copy-button ${
                 isLate
-                  ? 'text-purpless back_schedule-button mobile-schedule_dash'
-                  : 'grey-border text-black'
+                  ? 'text-purpless back_schedule-button m-0 mobile-schedule_dash'
+                  : 'grey-border text-black m-0'
               }`}
-              onClick={onSelect}
             >
-              {t('reschedule')}
+              {t('cancel_lesson')}
             </a>
           </div>
-        )}
-        <div className="">
           <a
-            onClick={onCancel}
+            onClick={data.status !== 'scheduled' ? joinLesson : undefined}
+            target="_blank"
+            rel="noreferrer"
             className={`schedule_copy-button ${
-              isLate
+              data.status === 'scheduled'
                 ? 'text-purpless back_schedule-button m-0 mobile-schedule_dash'
                 : 'grey-border text-black m-0'
             }`}
           >
-            {t('cancel_lesson')}
+            {t('join_lesson')}
           </a>
         </div>
-        <a
-          onClick={data.status !== 'scheduled' ? joinLesson : undefined}
-          target="_blank"
-          rel="noreferrer"
-          className={`schedule_copy-button ${
-            data.status === 'scheduled'
-              ? 'text-purpless back_schedule-button m-0 mobile-schedule_dash'
-              : 'grey-border text-black m-0'
-          }`}
-        >
-          {t('join_lesson')}
-        </a>
-      </div>
+      ) : (
+        <div>{t(data.cancelReason)}</div>
+      )}
+
       {isOpen && (
         <RescheduleAndCancelModal
           data={data}

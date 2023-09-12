@@ -49,5 +49,11 @@
   "reschedule_this_lesson": "Reschedule This Lesson",
   "reschedule_lessons": "Reschedule All Upcoming Lessons",
   "cancel_this_lesson": "Cancel This Lesson",
-  "cancel_lessons": "Cancel All Upcoming Lessons"
+  "cancel_lessons": "Cancel All Upcoming Lessons",
+  "no_credits": "No credits",
+  "invalid_status": "Invalid status",
+  "lesson_not_updated": "Lesson not updated",
+  "invalid_date": "Invalid date",
+  "same_date": "Same date",
+  "lesson_not_created": "Lesson not created"
 }

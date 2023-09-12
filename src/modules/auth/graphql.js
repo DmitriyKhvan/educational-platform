@@ -578,6 +578,7 @@ export const CREATE_APPOINTMENT = gql`
       duration
       status
       cancelAction
+      cancelReason
       zoomlinkId
       #mentor
       #student
