@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom';
 import { useAuth } from '../../modules/auth';
 import { useMutation, gql } from '@apollo/client';
 import notify from '../../utils/notify';
+// import ClipLoader from 'react-spinners/ClipLoader';
 
 const CREATE_NICE_PAYMENT = gql`
   mutation CREATE_NICE_PAYMENT(
@@ -95,7 +96,8 @@ const CREATE_NICE_PAYMENT = gql`
 `;
 
 export const NicePayment = () => {
-  const [createNicePayment] = useMutation(CREATE_NICE_PAYMENT);
+  const [createNicePayment, { loading, error }] =
+    useMutation(CREATE_NICE_PAYMENT);
   const { user } = useAuth();
   const params = useParams();
   const urlParams = new URLSearchParams(window.location.search);
@@ -106,7 +108,7 @@ export const NicePayment = () => {
     const { card_number, expiry, birth, password } = data;
 
     const cardNumberTransform = card_number.replaceAll(' ', '-');
-    const birthTransform = birth.replaceAll('/', '');
+    const birthTransform = birth.replaceAll('/', '').slice(2);
 
     const parts = expiry.split('/');
     const expiryTransform = `20${parts[1]}-${parts[0]}`;
@@ -173,7 +175,7 @@ export const NicePayment = () => {
         <img src={Logo} alt="logo" className="w-24" />
       </div>
       <form
-        className="flex flex-col w-96 gap-y-4"
+        className="flex flex-col w-[300px] gap-y-4"
         onSubmit={handleSubmit(submit)}
       >
         <div>
@@ -226,7 +228,8 @@ export const NicePayment = () => {
               maskChar=""
               className="w-full"
               type="password"
-              label={t('password', { ns: 'common' })}
+              label={`${t('password', { ns: 'common' })} 
+                       (${t('digits', { ns: 'common', count: 2 })})`}
               placeholder={t('password', { ns: 'common' })}
               {...register('password', {
                 required: t('required_password', { ns: 'common' }),
@@ -244,17 +247,18 @@ export const NicePayment = () => {
         <div>
           <InputWithError errorsField={errors?.birth}>
             <InputMask
-              mask="99/99/99"
+              mask="9999/99/99"
               maskChar=""
               className="w-full"
               label={t('birth', { ns: 'common' })}
-              placeholder="YY/MM/DD"
+              placeholder="YYYY/MM/DD"
               {...register('birth', {
                 required: t('required_birth', { ns: 'common' }),
-                // pattern: {
-                //   value: /\d{4} \d{4} \d{4} \d{4}/,
-                //   message: t('card_number_invalid', { ns: 'common' }),
-                // },
+                pattern: {
+                  value:
+                    /^(?:19|20)\d\d\/(?:(?:0[1-9]|1[0-2])\/(?:0[1-9]|1\d|2[0-9])|(?:0[13-9]|1[0-2])\/(?:30)|(?:0[14578]|1[02])\/(?:3[01]))$/,
+                  message: t('birth_invalid', { ns: 'common' }),
+                },
               })}
             >
               {(inputProps) => <InputField {...inputProps} />}
@@ -262,17 +266,20 @@ export const NicePayment = () => {
           </InputWithError>
         </div>
 
+        {error && <div className="text-red-500 mt-2">*{error.message}</div>}
+
         <Button
           type="submit"
-          disabled={!isValid}
-          theme="purple"
-          className="w-full"
+          disabled={!isValid || loading}
+          // theme="purple"
+          // className="w-full"
+          className="self-start py-2 px-3 rounded text-white mt-4 bg-purple-500"
         >
           {/* {loading ? (
-              <ClipLoader loading={loading} size={20} color="white" />
-            ) : (
-              t('sign_in')
-            )} */}
+            <ClipLoader loading={loading} size={20} color="white" />
+          ) : (
+            t('continue_button', { ns: 'common' })
+          )} */}
           {t('continue_button', { ns: 'common' })}
         </Button>
       </form>

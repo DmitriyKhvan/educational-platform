@@ -1,13 +1,13 @@
-const InputWithError = ({ errorsField, children }) => {
+const InputWithError = ({ errorsField, children, className = '' }) => {
   return (
     <div
-      className="
-      text-color-dark-purple
-      font-inter
-      text-sm
-      font-semibold
-      leading-5
-    "
+      className={`
+        text-color-dark-purple
+        font-inter
+        text-sm
+        leading-5
+        ${className}
+      `}
     >
       {children}
 

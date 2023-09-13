@@ -109,5 +109,6 @@
   "error_invalid_password": "Invalid password",
   "credit_card_expired": "The credit card has expired",
   "birth": "Birthday",
-  "required_birth": "Birthday is required"
+  "required_birth": "Birthday is required",
+  "digits": "{{count}} digits"
 }

@@ -15,7 +15,7 @@ const InputField = forwardRef(function InputField(
 ) {
   return (
     <label>
-      {label && <div className="mb-2">{label}</div>}
+      {label && <div className="mb-1">{label}</div>}
       <div className="flex items-center">
         {icon && positionIcon === 'left' && (
           <div
@@ -47,7 +47,8 @@ const InputField = forwardRef(function InputField(
           
           outline-none 
           focus:border-color-light-blue 
-          focus:shadow-[0_0_0_0.25rem_rgba(13,110,253,0.25)]
+        
+          focus:shadow-[0_0_0_0.25rem_hsla(210,96%,45%,25%)]
           transition ease-in-out duration-300
           ${className}
           ${
