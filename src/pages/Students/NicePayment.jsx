@@ -104,15 +104,20 @@ export const NicePayment = () => {
 
   const submit = (data) => {
     const { card_number, expiry, birth, password } = data;
+
+    const cardNumberTransform = card_number.replaceAll(' ', '-');
+    const expiryTransform = '20' + expiry.replaceAll('/', '-');
+    const birthTransform = birth.replaceAll('/', '');
+
     createNicePayment({
       variables: {
         userId: parseInt(user.id),
         packageId: parseInt(params.packageId),
         amount: parseInt(urlParams.get('amount')),
         courseTitle: urlParams.get('courseTitle'),
-        cardNumber: card_number,
-        expiry: expiry,
-        birth: birth,
+        cardNumber: cardNumberTransform,
+        expiry: expiryTransform,
+        birth: birthTransform,
         pwd2Digit: password,
       },
       onCompleted: (data) => {
