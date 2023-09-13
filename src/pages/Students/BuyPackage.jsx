@@ -165,7 +165,9 @@ export default function BuyPackage() {
   };
 
   const submitNice = () => {
-    history.replace(`/purchase/${selectedPackage.id}/nice-payment`);
+    history.replace(
+      `/purchase/${selectedPackage.id}/nice-payment?courseTitle=${courseData.title}&amount=${selectedPackage.price}`,
+    );
   };
 
   // const submitNice = async () => {
@@ -340,6 +342,7 @@ export default function BuyPackage() {
             </div>
             <p className="text-lg font-bold text-gray-700/90">{t('length')}</p>
             <div className="flex flex-col gap-2" ref={parent}>
+              {/* <pre>{JSON.stringify(courseData, null, 2)}</pre> */}
               {courseData?.packages?.map(
                 (pkg) =>
                   pkg.period !== 1 &&

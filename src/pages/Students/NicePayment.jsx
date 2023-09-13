@@ -8,12 +8,120 @@ import InputWithError from '../../components/Form/InputWithError';
 import Logo from '../../assets/images/logo.png';
 // import { HiOutlineCreditCard } from 'react-icons/hi2';
 import nicePayment from '../../assets/images/purchase/nicePayment.png';
+import { useParams } from 'react-router-dom';
+import { useAuth } from '../../modules/auth';
+import { useMutation, gql } from '@apollo/client';
+import notify from '../../utils/notify';
+
+const CREATE_NICE_PAYMENT = gql`
+  mutation CREATE_NICE_PAYMENT(
+    $userId: ID!
+    $packageId: ID!
+    $amount: Int!
+    $courseTitle: String!
+    $cardNumber: String!
+    $expiry: String!
+    $birth: String!
+    $pwd2Digit: String!
+  ) {
+    createNicePayment(
+      userId: $userId
+      packageId: $packageId
+      amount: $amount
+      courseTitle: $courseTitle
+      cardNumber: $cardNumber
+      expiry: $expiry
+      birth: $birth
+      pwd2Digit: $pwd2Digit
+    ) {
+      id
+      status
+      provider
+      cancelReason
+      metadata
+      user {
+        id
+        email
+        firstName
+        lastName
+        fullName
+        koreanEquivalent
+        phoneNumber
+        address
+        gender
+        timeZone
+        country
+        avatar
+        referalCode
+        referalId
+        # students
+        # mentor
+        # packageSubscriptions
+        # activeSubscriptions
+        isActive
+        role
+        createdAt
+        updatedAt
+      }
+      package {
+        id
+        totalSessions
+        sessionsPerWeek
+        sessionTime
+        price
+        period
+        discount
+        courseId
+        # course
+        # student
+        # packageSubscription
+      }
+      packageSubscription {
+        id
+        periodStart
+        periodEnd
+        credits
+        modifyCredits
+        packageId
+        # package
+        paymentId
+        # payment
+        # lessons
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 
 export const NicePayment = () => {
+  const [createNicePayment] = useMutation(CREATE_NICE_PAYMENT);
+  const { user } = useAuth();
+  const params = useParams();
+  const urlParams = new URLSearchParams(window.location.search);
+
   const [t] = useTranslation(['translations', 'common']);
 
   const submit = (data) => {
-    console.log(data);
+    const { card_number, expiry, birth, password } = data;
+    createNicePayment({
+      variables: {
+        userId: parseInt(user.id),
+        packageId: parseInt(params.packageId),
+        amount: parseInt(urlParams.get('amount')),
+        courseTitle: urlParams.get('courseTitle'),
+        cardNumber: card_number,
+        expiry: expiry,
+        birth: birth,
+        pwd2Digit: password,
+      },
+      onCompleted: (data) => {
+        console.log('data', data);
+      },
+      onError: (error) => {
+        notify(error.message, 'error');
+      },
+    });
   };
 
   const {
@@ -24,6 +132,7 @@ export const NicePayment = () => {
     mode: 'all',
     defaultValues: {
       card_number: '',
+      birth: '',
       expiry: '',
       password: '',
     },
@@ -76,6 +185,27 @@ export const NicePayment = () => {
                   value: /\d{4} \d{4} \d{4} \d{4}/,
                   message: t('card_number_invalid', { ns: 'common' }),
                 },
+              })}
+            >
+              {(inputProps) => <InputField {...inputProps} />}
+            </InputMask>
+          </InputWithError>
+        </div>
+
+        <div>
+          <InputWithError errorsField={errors?.card_number}>
+            <InputMask
+              mask="99/99/99"
+              maskChar="_"
+              className="w-full"
+              label={t('birth')}
+              placeholder="YY/MM/DD"
+              {...register('birth', {
+                required: t('required_birth', { ns: 'common' }),
+                // pattern: {
+                //   value: /\d{4} \d{4} \d{4} \d{4}/,
+                //   message: t('card_number_invalid', { ns: 'common' }),
+                // },
               })}
             >
               {(inputProps) => <InputField {...inputProps} />}
