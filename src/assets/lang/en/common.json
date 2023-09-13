@@ -107,5 +107,7 @@
   "required_card_number": "Card number is required",
   "card_number_invalid": "Invalid Card number",
   "error_invalid_password": "Invalid password",
-  "credit_card_expired": "The credit card has expired"
+  "credit_card_expired": "The credit card has expired",
+  "birth": "Birthday",
+  "required_birth": "Birthday is required"
 }

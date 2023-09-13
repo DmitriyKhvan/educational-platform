@@ -198,12 +198,12 @@ export const NicePayment = () => {
         </div>
 
         <div>
-          <InputWithError errorsField={errors?.card_number}>
+          <InputWithError errorsField={errors?.birth}>
             <InputMask
               mask="99/99/99"
               maskChar="_"
               className="w-full"
-              label={t('birth')}
+              label={t('birth', { ns: 'common' })}
               placeholder="YY/MM/DD"
               {...register('birth', {
                 required: t('required_birth', { ns: 'common' }),
