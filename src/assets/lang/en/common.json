@@ -110,5 +110,6 @@
   "credit_card_expired": "The credit card has expired",
   "birth": "Birthday",
   "required_birth": "Birthday is required",
+  "birth_invalid": "Invalid Birthday",
   "digits": "{{count}} digits"
 }

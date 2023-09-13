@@ -184,6 +184,7 @@ export const NicePayment = () => {
               mask="9999 9999 9999 9999"
               maskChar=""
               // icon={<HiOutlineCreditCard className="text-3xl" />}
+              // positionIcon="left"
               icon={<img className="w-14" src={nicePayment} alt="payment" />}
               className="w-full"
               label={t('card_number')}

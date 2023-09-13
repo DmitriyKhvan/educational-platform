@@ -12,7 +12,7 @@ const InputWithError = ({ errorsField, children, className = '' }) => {
       {children}
 
       {errorsField && (
-        <p className="text-color-magenta mt-1">{errorsField.message}</p>
+        <p className="text-[#df1b41] mt-1">{errorsField.message}</p>
       )}
       {/* {JSON.stringify(errorsField, null, 2)} */}
     </div>
