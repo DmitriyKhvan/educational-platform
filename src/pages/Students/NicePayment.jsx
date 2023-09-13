@@ -106,8 +106,10 @@ export const NicePayment = () => {
     const { card_number, expiry, birth, password } = data;
 
     const cardNumberTransform = card_number.replaceAll(' ', '-');
-    const expiryTransform = '20' + expiry.replaceAll('/', '-');
     const birthTransform = birth.replaceAll('/', '');
+
+    const parts = expiry.split('/');
+    const expiryTransform = `20${parts[1]}-${parts[0]}`;
 
     createNicePayment({
       variables: {
@@ -145,15 +147,15 @@ export const NicePayment = () => {
 
   const isCardExpiryValid = (creditCardDate) => {
     // Getting the current date
-    var currentDate = new Date();
+    const currentDate = new Date();
 
     // We divide the credit card expiration date into a month and a year
-    var parts = creditCardDate.split('/');
-    var month = parseInt(parts[0], 10); // Convert month to number
-    var year = parseInt(parts[1], 10); // Convert year to number
+    const parts = creditCardDate.split('/');
+    const month = parseInt(parts[0], 10); // Convert month to number
+    const year = parseInt(parts[1], 10); // Convert year to number
 
     // Create a Date object for the credit card expiration date
-    var cardExpiryDate = new Date(year + 2000, month - 1, 1); // Months in JavaScript start at 0 (January is 0, February is 1, etc.)
+    const cardExpiryDate = new Date(year + 2000, month - 1, 1); // Months in JavaScript start at 0 (January is 0, February is 1, etc.)
 
     // Comparing the credit card expiration date with the current date
     if (cardExpiryDate > currentDate) {
@@ -178,7 +180,7 @@ export const NicePayment = () => {
           <InputWithError errorsField={errors?.card_number}>
             <InputMask
               mask="9999 9999 9999 9999"
-              maskChar="_"
+              maskChar=""
               // icon={<HiOutlineCreditCard className="text-3xl" />}
               icon={<img className="w-14" src={nicePayment} alt="payment" />}
               className="w-full"
@@ -197,32 +199,11 @@ export const NicePayment = () => {
           </InputWithError>
         </div>
 
-        <div>
-          <InputWithError errorsField={errors?.birth}>
-            <InputMask
-              mask="99/99/99"
-              maskChar="_"
-              className="w-full"
-              label={t('birth', { ns: 'common' })}
-              placeholder="YY/MM/DD"
-              {...register('birth', {
-                required: t('required_birth', { ns: 'common' }),
-                // pattern: {
-                //   value: /\d{4} \d{4} \d{4} \d{4}/,
-                //   message: t('card_number_invalid', { ns: 'common' }),
-                // },
-              })}
-            >
-              {(inputProps) => <InputField {...inputProps} />}
-            </InputMask>
-          </InputWithError>
-        </div>
-
         <div className="flex items-start gap-x-4">
           <InputWithError errorsField={errors?.expiry}>
             <InputMask
               mask="99/99"
-              maskChar="_"
+              maskChar=""
               className="w-full"
               label={t('expiry', { ns: 'common' })}
               placeholder="MM/YY"
@@ -242,8 +223,9 @@ export const NicePayment = () => {
           <InputWithError errorsField={errors?.password}>
             <InputMask
               mask="99"
-              maskChar="_"
+              maskChar=""
               className="w-full"
+              type="password"
               label={t('password', { ns: 'common' })}
               placeholder={t('password', { ns: 'common' })}
               {...register('password', {
@@ -252,6 +234,27 @@ export const NicePayment = () => {
                   value: /^[0-9]{2}$/,
                   message: t('error_invalid_password', { ns: 'common' }),
                 },
+              })}
+            >
+              {(inputProps) => <InputField {...inputProps} />}
+            </InputMask>
+          </InputWithError>
+        </div>
+
+        <div>
+          <InputWithError errorsField={errors?.birth}>
+            <InputMask
+              mask="99/99/99"
+              maskChar=""
+              className="w-full"
+              label={t('birth', { ns: 'common' })}
+              placeholder="YY/MM/DD"
+              {...register('birth', {
+                required: t('required_birth', { ns: 'common' }),
+                // pattern: {
+                //   value: /\d{4} \d{4} \d{4} \d{4}/,
+                //   message: t('card_number_invalid', { ns: 'common' }),
+                // },
               })}
             >
               {(inputProps) => <InputField {...inputProps} />}
