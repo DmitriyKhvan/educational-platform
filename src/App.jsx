@@ -114,7 +114,7 @@ function App() {
           component={StripePayment}
         />
         <PrivateRoute
-          path="/purchase/:packageId/nice-payment"
+          path="/purchase/nice-payment"
           exact
           component={NicePayment}
         />

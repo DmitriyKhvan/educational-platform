@@ -165,9 +165,11 @@ export default function BuyPackage() {
   };
 
   const submitNice = () => {
-    history.replace(
-      `/purchase/${selectedPackage.id}/nice-payment?courseTitle=${courseData.title}&amount=${selectedPackage.price}`,
-    );
+    history.replace(`/purchase/nice-payment`, {
+      packageId: selectedPackage.id,
+      courseTitle: courseData.title,
+      amount: selectedPackage.price,
+    });
   };
 
   // const submitNice = async () => {

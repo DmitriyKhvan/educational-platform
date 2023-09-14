@@ -33,6 +33,8 @@ const InputField = forwardRef(function InputField(
           focus:ring-[#2563eb00]
           focus:shadow-[0px_1px_1px_rgba(0,_0,_0,_0.03),_0_0_0_3px_hsla(210,_96%,_45%,_25%),_0_1px_1px_0_rgba(0,_0,_0,_0.08)]
           transition ease-in-out duration-300
+          placeholder:text-slate-400
+          placeholder:font-normal
           ${className}
           ${
             icon && positionIcon === 'right'

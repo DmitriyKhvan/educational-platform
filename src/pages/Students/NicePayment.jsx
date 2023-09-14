@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useMutation, gql } from '@apollo/client';
+// eslint-disable-next-line import/no-unresolved
+import { useAutoAnimate } from '@formkit/auto-animate/react';
+
 import InputMask from 'react-input-mask';
+import notify from '../../utils/notify';
+
+import { useAuth } from '../../modules/auth';
 import Button from '../../components/Form/Button/Button';
 import InputField from '../../components/Form/InputField';
 import InputWithError from '../../components/Form/InputWithError';
+import CheckboxField from '../../components/Form/CheckboxField';
+
 import Logo from '../../assets/images/logo.png';
 // import { HiOutlineCreditCard } from 'react-icons/hi2';
 import nicePayment from '../../assets/images/purchase/nicePayment.png';
-import { useParams } from 'react-router-dom';
-import { useAuth } from '../../modules/auth';
-import { useMutation, gql } from '@apollo/client';
-import notify from '../../utils/notify';
+
 // import ClipLoader from 'react-spinners/ClipLoader';
 
 const CREATE_NICE_PAYMENT = gql`
@@ -96,29 +103,42 @@ const CREATE_NICE_PAYMENT = gql`
 `;
 
 export const NicePayment = () => {
+  const [parent] = useAutoAnimate();
+
   const [createNicePayment, { loading, error }] =
     useMutation(CREATE_NICE_PAYMENT);
   const { user } = useAuth();
-  const params = useParams();
-  const urlParams = new URLSearchParams(window.location.search);
+  const history = useHistory();
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location.state) {
+      history.push('/purchase');
+    }
+  }, [location]);
 
   const [t] = useTranslation(['translations', 'common']);
+
+  const [cardType, setCardType] = useState('oldCard');
 
   const submit = (data) => {
     const { card_number, expiry, birth, password } = data;
 
-    const cardNumberTransform = card_number.replaceAll(' ', '-');
-    const birthTransform = birth.replaceAll('/', '').slice(2);
+    const cardNumberTransform = card_number?.replaceAll(' ', '-');
+    const birthTransform = birth?.replaceAll('/', '').slice(2);
 
-    const parts = expiry.split('/');
-    const expiryTransform = `20${parts[1]}-${parts[0]}`;
+    const parts = expiry?.split('/');
+    const expiryTransform = expiry ? `20${parts[1]}-${parts[0]}` : '';
+
+    const { packageId, amount, courseTitle } = location.state;
 
     createNicePayment({
       variables: {
         userId: parseInt(user.id),
-        packageId: parseInt(params.packageId),
-        amount: parseInt(urlParams.get('amount')),
-        courseTitle: urlParams.get('courseTitle'),
+        packageId: parseInt(packageId),
+        amount,
+        courseTitle,
         cardNumber: cardNumberTransform,
         expiry: expiryTransform,
         birth: birthTransform,
@@ -136,6 +156,7 @@ export const NicePayment = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isValid },
   } = useForm({
     mode: 'all',
@@ -146,6 +167,12 @@ export const NicePayment = () => {
       password: '',
     },
   });
+
+  useEffect(() => {
+    if (cardType === 'oldCard') {
+      reset();
+    }
+  }, [cardType]);
 
   const isCardExpiryValid = (creditCardDate) => {
     // Getting the current date
@@ -174,120 +201,153 @@ export const NicePayment = () => {
       <div className="absolute top-0 left-0 p-4">
         <img src={Logo} alt="logo" className="w-24" />
       </div>
-      <form
-        className="flex flex-col w-[300px] gap-y-4"
-        onSubmit={handleSubmit(submit)}
-      >
-        <div>
-          <InputWithError errorsField={errors?.card_number}>
-            <InputMask
-              mask="9999 9999 9999 9999"
-              maskChar=""
-              // icon={<HiOutlineCreditCard className="text-3xl" />}
-              // positionIcon="left"
-              icon={<img className="w-14" src={nicePayment} alt="payment" />}
-              className="w-full"
-              label={t('card_number')}
-              placeholder={t('card_number')}
-              {...register('card_number', {
-                required: t('required_card_number', { ns: 'common' }),
-                pattern: {
-                  value: /\d{4} \d{4} \d{4} \d{4}/,
-                  message: t('card_number_invalid', { ns: 'common' }),
-                },
-              })}
-            >
-              {(inputProps) => <InputField {...inputProps} />}
-            </InputMask>
-          </InputWithError>
-        </div>
 
-        <div className="flex items-start gap-x-4">
-          <InputWithError errorsField={errors?.expiry}>
-            <InputMask
-              mask="99/99"
-              maskChar=""
-              className="w-full"
-              label={t('expiry', { ns: 'common' })}
-              placeholder="MM/YY"
-              {...register('expiry', {
-                required: t('required_expiry', { ns: 'common' }),
-                pattern: {
-                  value: /^(0[1-9]|1[0-2])\/[0-9]{2}$/,
-                  message: t('error_invalid_expiry', { ns: 'common' }),
-                },
-                validate: isCardExpiryValid,
-              })}
-            >
-              {(inputProps) => <InputField {...inputProps} />}
-            </InputMask>
-          </InputWithError>
-
-          <InputWithError errorsField={errors?.password}>
-            <InputMask
-              mask="99"
-              maskChar=""
-              className="w-full"
-              type="password"
-              label={`${t('password', { ns: 'common' })} 
-                       (${t('digits', { ns: 'common', count: 2 })})`}
-              placeholder={t('password', { ns: 'common' })}
-              {...register('password', {
-                required: t('required_password', { ns: 'common' }),
-                pattern: {
-                  value: /^[0-9]{2}$/,
-                  message: t('error_invalid_password', { ns: 'common' }),
-                },
-              })}
-            >
-              {(inputProps) => <InputField {...inputProps} />}
-            </InputMask>
-          </InputWithError>
-        </div>
-
-        <div>
-          <InputWithError errorsField={errors?.birth}>
-            <InputMask
-              mask="9999/99/99"
-              maskChar=""
-              className="w-full"
-              label={t('birth', { ns: 'common' })}
-              placeholder="YYYY/MM/DD"
-              {...register('birth', {
-                required: t('required_birth', { ns: 'common' }),
-                pattern: {
-                  value:
-                    /^(?:19|20)\d\d\/(?:(?:0[1-9]|1[0-2])\/(?:0[1-9]|1\d|2[0-9])|(?:0[13-9]|1[0-2])\/(?:30)|(?:0[14578]|1[02])\/(?:3[01]))$/,
-                  message: t('birth_invalid', { ns: 'common' }),
-                },
-              })}
-            >
-              {(inputProps) => <InputField {...inputProps} />}
-            </InputMask>
-          </InputWithError>
-        </div>
-
-        <p className="text-color-dark-purple">
-          * {t('automatically_renews', { ns: 'common' })}
+      <div className="w-[300px]">
+        <p className="text-color-dark-purple mb-7">
+          Pay with your credit card via NICE
         </p>
 
-        {error && <div className="text-red-500 mt-2">*{error.message}</div>}
+        <div className="mb-6">
+          <CheckboxField
+            label="Card ending in ****4242"
+            type="radio"
+            name="card"
+            checked={cardType === 'oldCard'}
+            value="oldCard"
+            onChange={(e) => setCardType(e.target.value)}
+          />
+          <CheckboxField
+            label="Use a new card"
+            type="radio"
+            name="card"
+            checked={cardType === 'newCard'}
+            value="newCard"
+            onChange={(e) => setCardType(e.target.value)}
+          />
+        </div>
 
-        <Button
-          type="submit"
-          disabled={!isValid || loading}
-          // theme="purple"
-          // className="w-full"
-          className="self-start py-2 px-3 rounded text-white mt-4 bg-purple-500"
+        <form
+          className="flex flex-col w-full gap-y-4"
+          onSubmit={handleSubmit(submit)}
+          ref={parent}
         >
-          {/* {loading ? (
+          {cardType === 'newCard' && (
+            <>
+              <div>
+                <InputWithError errorsField={errors?.card_number}>
+                  <InputMask
+                    mask="9999 9999 9999 9999"
+                    maskChar=""
+                    // icon={<HiOutlineCreditCard className="text-3xl" />}
+                    // positionIcon="left"
+                    icon={
+                      <img className="w-14" src={nicePayment} alt="payment" />
+                    }
+                    className="w-full"
+                    label={t('card_number')}
+                    // placeholder={t('card_number')}
+                    placeholder="1234 1234 1234 1234"
+                    {...register('card_number', {
+                      required: t('required_card_number', { ns: 'common' }),
+                      pattern: {
+                        value: /\d{4} \d{4} \d{4} \d{4}/,
+                        message: t('card_number_invalid', { ns: 'common' }),
+                      },
+                    })}
+                  >
+                    {(inputProps) => <InputField {...inputProps} />}
+                  </InputMask>
+                </InputWithError>
+              </div>
+
+              <div className="flex items-start gap-x-4">
+                <InputWithError errorsField={errors?.expiry}>
+                  <InputMask
+                    mask="99/99"
+                    maskChar=""
+                    className="w-full"
+                    label={t('expiry', { ns: 'common' })}
+                    placeholder="MM/YY"
+                    {...register('expiry', {
+                      required: t('required_expiry', { ns: 'common' }),
+                      pattern: {
+                        value: /^(0[1-9]|1[0-2])\/[0-9]{2}$/,
+                        message: t('error_invalid_expiry', { ns: 'common' }),
+                      },
+                      validate: isCardExpiryValid,
+                    })}
+                  >
+                    {(inputProps) => <InputField {...inputProps} />}
+                  </InputMask>
+                </InputWithError>
+
+                <InputWithError errorsField={errors?.password}>
+                  <InputMask
+                    mask="99"
+                    maskChar=""
+                    className="w-full"
+                    type="password"
+                    label={`${t('password', { ns: 'common' })} 
+                       (${t('digits', { ns: 'common', count: 2 })})`}
+                    placeholder={t('password', { ns: 'common' })}
+                    {...register('password', {
+                      required: t('required_password', { ns: 'common' }),
+                      pattern: {
+                        value: /^[0-9]{2}$/,
+                        message: t('error_invalid_password', { ns: 'common' }),
+                      },
+                    })}
+                  >
+                    {(inputProps) => <InputField {...inputProps} />}
+                  </InputMask>
+                </InputWithError>
+              </div>
+
+              <div>
+                <InputWithError errorsField={errors?.birth}>
+                  <InputMask
+                    mask="9999/99/99"
+                    maskChar=""
+                    className="w-full"
+                    label={t('birth', { ns: 'common' })}
+                    placeholder="YYYY/MM/DD"
+                    {...register('birth', {
+                      required: t('required_birth', { ns: 'common' }),
+                      pattern: {
+                        value:
+                          /^(?:19|20)\d\d\/(?:(?:0[1-9]|1[0-2])\/(?:0[1-9]|1\d|2[0-9])|(?:0[13-9]|1[0-2])\/(?:30)|(?:0[14578]|1[02])\/(?:3[01]))$/,
+                        message: t('birth_invalid', { ns: 'common' }),
+                      },
+                    })}
+                  >
+                    {(inputProps) => <InputField {...inputProps} />}
+                  </InputMask>
+                </InputWithError>
+              </div>
+            </>
+          )}
+          <p className="text-color-dark-purple">
+            * {t('automatically_renews', { ns: 'common' })}
+          </p>
+
+          {error && <div className="text-red-500 mt-2">*{error.message}</div>}
+
+          <Button
+            type="submit"
+            disabled={!isValid || loading}
+            // theme="purple"
+            // className="w-full"
+            className="self-start rounded text-white mt-4 bg-purple-500"
+          >
+            {/* {loading ? (
             <ClipLoader loading={loading} size={20} color="white" />
           ) : (
             t('continue_button', { ns: 'common' })
           )} */}
-          {t('continue_button', { ns: 'common' })}
-        </Button>
-      </form>
+            {t('continue_button', { ns: 'common' })}
+          </Button>
+        </form>
+      </div>
     </main>
   );
 };
