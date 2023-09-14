@@ -495,7 +495,7 @@ export default function BuyPackage() {
                           <SelectContent className="bg-white">
                             <SelectGroup>
                               <SelectItem value="stripe">Stripe</SelectItem>
-                              {<SelectItem value="nice">Nice</SelectItem>}
+                              {<SelectItem value="nice">NICE</SelectItem>}
                             </SelectGroup>
                           </SelectContent>
                         </div>

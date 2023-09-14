@@ -111,5 +111,6 @@
   "birth": "Birthday",
   "required_birth": "Birthday is required",
   "birth_invalid": "Invalid Birthday",
-  "digits": "{{count}} digits"
+  "digits": "{{count}} digits",
+  "automatically_renews": "Automatically renews every month"
 }

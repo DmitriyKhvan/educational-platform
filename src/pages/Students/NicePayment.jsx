@@ -267,6 +267,10 @@ export const NicePayment = () => {
           </InputWithError>
         </div>
 
+        <p className="text-color-dark-purple">
+          * {t('automatically_renews', { ns: 'common' })}
+        </p>
+
         {error && <div className="text-red-500 mt-2">*{error.message}</div>}
 
         <Button
