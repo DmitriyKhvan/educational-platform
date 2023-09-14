@@ -6,7 +6,14 @@ import './ModalWrapper.css';
 
 Modal.setAppElement('#root');
 
-const ModalWrapper = ({ children, isOpen, closeModal }) => {
+const ModalWrapper = ({
+  children,
+  isOpen,
+  closeModal,
+  widthContent,
+  heightContent,
+  paddingContent = '25px 20px',
+}) => {
   const customStyles = {
     overlay: {
       position: 'fixed',
@@ -28,11 +35,14 @@ const ModalWrapper = ({ children, isOpen, closeModal }) => {
       zIndex: 100,
       border: '0.5px solid #b2b2b2',
       boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.01)',
-      borderRadius: '16px',
-      padding: '25px 20px',
+      borderRadius: '10px',
+      // padding: '25px 20px',
+      padding: paddingContent,
       minWidth: '400px',
       maxHeight: 'calc(100vh - 100px)',
       background: '#fff',
+      width: widthContent,
+      height: heightContent,
     },
   };
 
