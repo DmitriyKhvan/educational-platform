@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import moment from 'moment-timezone';
 import Layout from '../../components/Layout';
-import '../../assets/styles/student.scss';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { ModalCancelLesson } from '../../components/ModalCancelLesson';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +21,7 @@ import {
 import { useQuery, useMutation } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
 import toast from 'react-hot-toast';
+import { addMinutes, endOfISOWeek, isAfter, isBefore, isWithinInterval, startOfDay, startOfISOWeek } from 'date-fns';
 
 const options = [
   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
@@ -99,20 +98,19 @@ const StudentListAppointments = () => {
   };
 
   //Lessons within one week
-  const isWithinAweekArr = (appointments || [])
-    .map((x) => {
-      const startOfWeek = moment().isAfter(moment().startOf('isoWeek'))
-        ? moment().startOf('day')
-        : moment().startOf('isoWeek');
+  const isWithinAweekArr = (appointments = []) => {
+    const now = new Date();
+    
+    const startOfWeek = isAfter(now, startOfISOWeek(now))
+      ? startOfDay(now)
+      : startOfISOWeek(now);
 
-      if (moment(x.startAt).isBetween(startOfWeek, moment().endOf('isoWeek'))) {
-        return x;
-      }
-    })
-    .filter((x) => x);
+      return appointments
+        .filter((x) => isWithinInterval(new Date(x.startAt), { start: startOfWeek, end: endOfISOWeek(now) }));
+  };
 
   //leave only unique lessons by date ==========================================
-  const isWithinAweek = isWithinAweekArr.filter(
+  const isWithinAweek = isWithinAweekArr(appointments).filter(
     (x, i, a) => a.findIndex((y) => y.startAt === x.startAt) === i,
   );
   //================================================================
@@ -120,15 +118,11 @@ const StudentListAppointments = () => {
   const ScheduleArr = (isWithinAweek || [])
     .sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
     .filter((lesson) => {
-      const expiredDate = moment(lesson?.startAt).add(
-        lesson?.duration,
-        'minutes',
-      );
-      const currentDate = moment();
-      return currentDate.isBefore(expiredDate);
+      const expiredDate = addMinutes(new Date(lesson?.startAt), lesson?.duration || 0)
+      return isBefore(new Date(), expiredDate)
     })
     .map((x, i) => {
-      const date = moment(x?.startAt);
+      const date = new Date(x?.startAt);
 
       return (
         <div key={i}>
@@ -195,6 +189,7 @@ const StudentListAppointments = () => {
         },
         color: '#D6336C',
         cl: '',
+        bgIcon: '#A60B00'
       },
       {
         icon: whiteBookingIcon,
@@ -206,59 +201,52 @@ const StudentListAppointments = () => {
         },
         color: '#1482DA',
         cl: 'blue-progress',
+        bgIcon: '#040EB7'
       },
     ];
   }
 
   return (
     <Layout>
-      <div className="main-dashboard">
-        <div className="flex-container">
-          <div className="student-dashboard flex-left children-wrapper flex-change childern-padding">
-            <div className="set-container">
-              <h4 className="welcome-message">
+      <div className="relative h-full">
+        <div className="flex flex-wrap 2xl:flex-nowrap">
+          <div className="w-full px-[22px] pt-5 lg:pt-[30px] lg:px-[35px] xl:w-3/5 2xl:w-[65%] 2xl:pt-[50px] 2xl:px-[65px]">
+            <div>
+              <h4 className="text-[30px] font-semibold tracking-tight mb-2.5">
                 {t('student_dashboard_welcome', {
                   ns: 'dashboard',
                   name: user.firstName,
                 })}
               </h4>
-              <p className="welcome-subtitle">
+              <p className="text-[17px] text-color-light-grey font-semibold tracking-tight mb-[50px]">
                 {t('student_dashboard_subtitle', { ns: 'dashboard' })}
               </p>
-              <div className="schedule-lesson-select pt-3">
-                <div className="page-card purple large-card py-5 flex flex-col gap-4">
-                  <div className="flex gap-4">
-                    <div className="min-w-[4rem] max-h-fit m-auto">
+              <div className="border rounded-[10px] bg-color-purple p-[30px]">
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col gap-4 items-center sm:items-start sm:flex-row">
+                    <div className="min-w-[65px] w-[65px] h-[65px] rounded-lg bg-[#04005f] flex items-center justify-center">
                       <img
                         src={ImgCalendar}
-                        alt=""
-                        className="img-fluid large-card-icon self-center"
+                        alt="calendar"
                       />
                     </div>
-                    <p className="title mt-1 laptop-title mobile_dash">
+                    <p className="text-[30px] font-semibold tracking-tight text-white leading-normal">
                       {t('schedule_card', { ns: 'dashboard' })}
                     </p>
                   </div>
-                  <div>
-                    <div
-                      className="desktop schedule-dashboard-button flex justify-center items-center"
-                      style={{
-                        width: '100%',
-                      }}
+                  <div className='flex flex-col justify-center gap-3 sm:flex-row sm:gap-[30px] md:w-11/12'>
+                    <Link
+                      to="/student/schedule-lesson/select"
+                      className="rounded bg-white p-3.5 text-[#261A45] font-semibold text-[15px] leading-normal flex-grow text-center flex justify-center items-center"
                     >
-                      <Link
-                        to="/student/schedule-lesson/select"
-                        className="schedule-dashboard-buttons"
-                      >
-                        {t('schedule_by_time', { ns: 'dashboard' })}
-                      </Link>
-                      <Link
-                        to="/student/mentors-list"
-                        className="schedule-dashboard-buttons"
-                      >
-                        {t('schedule_by_mentor', { ns: 'dashboard' })}
-                      </Link>
-                    </div>
+                      {t('schedule_by_time', { ns: 'dashboard' })}
+                    </Link>
+                    <Link
+                      to="/student/mentors-list"
+                      className="rounded bg-white p-3.5 text-[#261A45] font-semibold text-[15px] leading-normal flex-grow text-center flex justify-center items-center"
+                    >
+                      {t('schedule_by_mentor', { ns: 'dashboard' })}
+                    </Link>
                     {/* <div className='col-6 schedule-dashboard-button'>
                         <Link
                           to='/student/schedule-lesson/group-select'
@@ -271,62 +259,56 @@ const StudentListAppointments = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-5">
-              <div className="cards-container">
-                <h4 className="welcome-message">
-                  {t('already_lesson', { ns: 'dashboard' })}
-                </h4>
-                <div className="flex gap-4 justify-between mt-5 cards">
-                  {loading ? (
-                    <Loader />
-                  ) : (
-                    callToAction.map((props, i) => (
-                      <CTACard key={i} {...props} />
-                    ))
-                  )}
-                </div>
+            <div className="mt-[50px]">
+              <h4 className="text-[30px] font-semibold tracking-tight mb-[30px]">
+                {t('already_lesson', { ns: 'dashboard' })}
+              </h4>
+              <div className="flex gap-4 md:gap-[30px] justify-between">
+                {loading ? (
+                  <Loader />
+                ) : (
+                  callToAction.map((props, i) => (
+                    <CTACard key={i} {...props} />
+                  ))
+                )}
               </div>
             </div>
           </div>
-          <div className="student-list-appointments-wrapper flex-right changes-container">
+          <div className="w-full px-[22px] lg:pt-[30px] 2xl:pt-[50px] 2xl:pl-[30px] border-t mt-8 xl:mt-0 xl:w-2/5 xl:border-none 2xl:w-[35%] bg-[#F7F7FA]">
             {!isLoading && (
-              <div className="child-set_container dash_child-set_container ">
-                <h4 className="weekly-schedule">
+              <div className="mt-4">
+                <h4 className="text-[30px] tracking-tight font-normal mb-2.5">
                   {t('weekly_schedule', { ns: 'dashboard' })}
                 </h4>
-                <div className="weekly-schedule-subtitle dash_weekly-schedule-subtitle">
+                <div className="text-[#7048E8] text-[17px] font-semibold">
                   {t('student_dashboard_total_lessons', {
                     ns: 'dashboard',
                     total_lessons: isWithinAweek?.length || 0,
                     t: isWithinAweek?.length > 1 ? 's' : '',
                   })}
                 </div>
-                <div>
-                  <section className="d-flex gap-2 align-button-dashboard">
-                    <div>
+                <div className='mt-5'>
+                  <section className="flex flex-row gap-2.5">
                       <Link
                         to="/student/schedule-lesson/select"
-                        className="buttonsdash"
+                        className="inline-block p-4 rounded-[5px] bg-white text-[15px] font-semibold text-color-dark-violet shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)]"
                       >
                         {t('student_dashboard_edit_schedule', {
                           ns: 'dashboard',
                         })}
                       </Link>
-                    </div>
-                    <div>
                       <Link
                         to="/student/lesson-calendar"
-                        className="buttonsdash-second"
+                        className="inline-block p-4 rounded-[5px] bg-white text-[15px] font-semibold text-color-dark-violet shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)]"
                       >
                         {t('student_dashboard_view_all_lessons', {
                           ns: 'dashboard',
                         })}
                       </Link>
-                    </div>
                   </section>
                 </div>
 
-                <div className="weekly-schedule-scroll align_schedule-width-dash weekly-schedule-grid">
+                <div className="mt-[30px] h-[65vh] overflow-y-auto scroll-hidden">
                   {appointments?.length ? <>{ScheduleArr}</> : ''}
                 </div>
               </div>

@@ -173,7 +173,7 @@ const ScheduleSelector = ({
     if (
       moment(startOfWeekString)
         .add(i, 'days')
-        .isBetween(moment().subtract(1, 'days'), moment().add(12, 'days'))
+        .isBetween(moment().subtract(1, 'days'), moment().add(28, 'days'))
     ) {
       const dayOfTheWeek = {
         day: moment(startOfWeekString).add(i, 'days').toString(),
@@ -461,7 +461,7 @@ const ScheduleSelector = ({
                       setCounter(counter - 1);
                       setDayClicked(null);
                     }}
-                    disabled={counter === -2}
+                    disabled={counter === -4}
                   >
                     <img src={forward_arrow} alt="" />
                   </button>
