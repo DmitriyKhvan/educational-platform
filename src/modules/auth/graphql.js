@@ -545,7 +545,7 @@ export const APPROVE_APPOINTMENT = gql`
 
 export const CANCEL_APPOINTMENT = gql`
   mutation CANCEL_LESSON($id: ID!, $cancelReason: String, $repeat: Boolean) {
-    cancelLesson(id: $id, cancelReason: $cancelReason, repeat: $repeat) {
+    cancelLessons(id: $id, cancelReason: $cancelReason, repeat: $repeat) {
       id
       startAt
       duration
@@ -565,7 +565,7 @@ export const CREATE_APPOINTMENT = gql`
     $duration: Int!
     $repeat: Boolean
   ) {
-    lesson: createLesson(
+    lesson: createLessons(
       mentorId: $mentorId
       studentId: $studentId
       packageSubscriptionId: $subscriptionId
@@ -609,7 +609,7 @@ export const UPDATE_APPOINTMENT = gql`
     $mentorId: ID!
     $repeat: Boolean
   ) {
-    lesson: rescheduleLesson(
+    lesson: rescheduleLessons(
       id: $id
       startAt: $startAt
       mentorId: $mentorId
