@@ -425,10 +425,22 @@ export default function BuyPackage() {
                             </div>
                           ) : (
                             <div className="text-2xl font-bold">
-                              {new Intl.NumberFormat('ko-KR', {
-                                style: 'currency',
-                                currency: 'KRW',
-                              }).format(pkg.price * (1 - pkg.discount / 100))}
+                              <div>
+                                {new Intl.NumberFormat('ko-KR', {
+                                  style: 'currency',
+                                  currency: 'KRW',
+                                }).format(pkg.price * (1 - pkg.discount / 100))}
+                              </div>
+                              <div>
+                                {new Intl.NumberFormat('ko-KR', {
+                                  style: 'currency',
+                                  currency: 'KRW',
+                                }).format(
+                                  (pkg.price * (1 - pkg.discount / 100)) /
+                                    pkg.period,
+                                )}{' '}
+                                / month
+                              </div>
                             </div>
                           )}
                         </div>

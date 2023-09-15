@@ -88,6 +88,7 @@ export const ME_QUERY = gql`
       timeZone
       phoneNumber
       koreanEquivalent
+      cardLast4
       students {
         id
         about
@@ -113,7 +114,107 @@ export const ME_QUERY = gql`
           url
         }
       }
+      activeSubscriptions {
+        id
+        periodStart
+        periodEnd
+        credits
+        modifyCredits
+        packageId
+        # package
+        paymentId
+        # payment
+        # lessons
+        active
+      }
     }
+  }
+`;
+
+export const CREATE_NICE_PAYMENT = gql`
+  mutation CREATE_NICE_PAYMENT(
+    $userId: ID!
+    $packageId: ID!
+    $amount: Int!
+    $courseTitle: String!
+    $cardNumber: String!
+    $expiry: String!
+    $birth: String!
+    $pwd2Digit: String!
+  ) {
+    createNicePayment(
+      userId: $userId
+      packageId: $packageId
+      amount: $amount
+      courseTitle: $courseTitle
+      cardNumber: $cardNumber
+      expiry: $expiry
+      birth: $birth
+      pwd2Digit: $pwd2Digit
+    ) {
+      id
+      status
+      provider
+      cancelReason
+      metadata
+      user {
+        id
+        email
+        firstName
+        lastName
+        fullName
+        koreanEquivalent
+        phoneNumber
+        address
+        gender
+        timeZone
+        country
+        avatar
+        referalCode
+        referalId
+        # students
+        # mentor
+        # packageSubscriptions
+        # activeSubscriptions
+        isActive
+        role
+        createdAt
+        updatedAt
+      }
+      package {
+        id
+        totalSessions
+        sessionsPerWeek
+        sessionTime
+        price
+        period
+        discount
+        courseId
+        # course
+        # student
+        # packageSubscription
+      }
+      packageSubscription {
+        id
+        periodStart
+        periodEnd
+        credits
+        modifyCredits
+        packageId
+        # package
+        paymentId
+        # payment
+        # lessons
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const CHECK_NICE_SUBSCRIPTION_STATUS = gql`
+  mutation CHECK_NICE_SUBSCRIPTION_STATUS($userId: ID!) {
+    checkNiceSubscriptionStatus(userId: $userId)
   }
 `;
 
@@ -442,6 +543,7 @@ export const PACKAGE_QUERY = gql`
         cancelReason
         metadata
       }
+      active
     }
   }
 `;

@@ -3,8 +3,11 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../../components/Layout';
 import capitalize from 'lodash/capitalize';
-import { useQuery } from '@apollo/client';
-import { PACKAGE_QUERY } from '../../../modules/auth/graphql';
+import { useMutation, useQuery } from '@apollo/client';
+import {
+  CHECK_NICE_SUBSCRIPTION_STATUS,
+  PACKAGE_QUERY,
+} from '../../../modules/auth/graphql';
 import { useAuth } from '../../../modules/auth';
 import Loader from '../../../components/Loader/Loader';
 import Button from '../../../components/Form/Button/Button';
@@ -12,6 +15,7 @@ import { FaArrowRight } from 'react-icons/fa6';
 
 const SelectLesson = ({
   setSelectedPlan,
+  selectedPlan,
   setTabIndex,
   clicked,
   setClicked,
@@ -21,10 +25,25 @@ const SelectLesson = ({
   const history = useHistory();
   const { id } = useParams();
   const { user } = useAuth();
+
+  const [checkNiceSubscriptionStatus, { data: niceSubscriptionStatus }] =
+    useMutation(CHECK_NICE_SUBSCRIPTION_STATUS);
+
+  // first check the relevance of the NICE subscription
+  useEffect(() => {
+    checkNiceSubscriptionStatus({
+      variables: {
+        userId: user?.id,
+      },
+    });
+  }, []);
+
+  // second, getting active subscriptions
   const {
     data: { packageSubscriptions: planStatus = [] } = {},
     loading: planStatusesLoading,
   } = useQuery(PACKAGE_QUERY, {
+    skip: !niceSubscriptionStatus,
     variables: {
       userId: user?.id,
     },
@@ -43,18 +62,21 @@ const SelectLesson = ({
     history.push('/student/manage-lessons');
   };
 
-  const LessonCard = ({ title, duration, remaining, data, i }) => {
+  const LessonCard = ({ title, duration, remaining, data, i, active }) => {
     return (
       <div
         className={`cursor-pointer p-5 border rounded-lg ${
-          i === clicked
+          !active
+            ? 'bg-color-border-grey opacity-75'
+            : i === clicked && active
             ? 'border-color-purple border-2 shadow-[0_0_0_4px_#F0EBF7] '
             : 'border-color-border-grey'
         }`}
-        onClick={() => {
-          setClicked(i);
-          setSelectedPlan(data);
-        }}
+        // onClick={() => {
+        //   setClicked(i);
+        //   setSelectedPlan(data);
+        // }}
+        onClick={active ? () => selectPlan(i, data) : undefined}
       >
         <div>
           <h1 className="text-color-dark-purple text-xl tracking-tight font-semibold mb-4">
@@ -73,6 +95,17 @@ const SelectLesson = ({
         </div>
       </div>
     );
+  };
+
+  const selectPlan = (idx, plan) => {
+    setClicked(idx);
+    setSelectedPlan(plan);
+  };
+
+  const sheduleLesson = () => {
+    if (selectedPlan?.active) {
+      setTabIndex(1);
+    }
   };
 
   return (
@@ -103,6 +136,7 @@ const SelectLesson = ({
                 i={i}
                 key={i}
                 expirationDate={x.periodEnd}
+                active={x.active}
               />
             ))
           )}
@@ -115,7 +149,8 @@ const SelectLesson = ({
           <Button
             theme="purple"
             disabled={disabled}
-            onClick={() => setTabIndex(1)}
+            // onClick={() => setTabIndex(1)}
+            onClick={sheduleLesson}
           >
             <span className="flex flex-row items-center justify-center gap-x-2">
               <span>{t('continue_custom')}</span>

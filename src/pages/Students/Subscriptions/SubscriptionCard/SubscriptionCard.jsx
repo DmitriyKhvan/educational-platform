@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { FaCircleXmark } from 'react-icons/fa6';
 import icon from '../../../../assets/images/white-checkmark.png';
 
 export const SubscriptionCard = ({
@@ -8,22 +9,27 @@ export const SubscriptionCard = ({
   price,
   costPerClass,
   credits,
+  active,
 }) => {
   const [t] = useTranslation('common');
   return (
     <div
       className={`${
-        credits > 0
+        credits > 0 && active
           ? 'text-white bg-color-purple'
           : 'text-color-purple bg-white border border-solid border-color-darker-grey'
       } relative w-full py-2 px-[10px] rounded-[10px]`}
     >
-      {credits > 0 && (
-        <div
-          style={{ background: `url('${icon}')` }}
-          className={`absolute -right-1 -top-2 bg-[size:100%_100%] bg-center bg-no-repeat rounded-full w-8 h-8 bg-[rgb(22_236_22)]`}
-        ></div>
-      )}
+      <div className="absolute -right-1 -top-2">
+        {credits > 0 && active ? (
+          <div
+            style={{ background: `url('${icon}')` }}
+            className={` bg-[size:100%_100%] bg-center bg-no-repeat rounded-full w-8 h-8 bg-[rgb(22_236_22)]`}
+          ></div>
+        ) : (
+          <FaCircleXmark className="text-2xl text-color-magenta bg-white" />
+        )}
+      </div>
       <div>
         <div className="text-lg font-semibold capitalize mb-2">{title}</div>
         <div className="flex justify-between">

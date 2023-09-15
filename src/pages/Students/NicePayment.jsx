@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 
@@ -18,89 +18,9 @@ import CheckboxField from '../../components/Form/CheckboxField';
 import Logo from '../../assets/images/logo.png';
 // import { HiOutlineCreditCard } from 'react-icons/hi2';
 import nicePayment from '../../assets/images/purchase/nicePayment.png';
+import { CREATE_NICE_PAYMENT } from '../../modules/auth/graphql';
 
 // import ClipLoader from 'react-spinners/ClipLoader';
-
-const CREATE_NICE_PAYMENT = gql`
-  mutation CREATE_NICE_PAYMENT(
-    $userId: ID!
-    $packageId: ID!
-    $amount: Int!
-    $courseTitle: String!
-    $cardNumber: String!
-    $expiry: String!
-    $birth: String!
-    $pwd2Digit: String!
-  ) {
-    createNicePayment(
-      userId: $userId
-      packageId: $packageId
-      amount: $amount
-      courseTitle: $courseTitle
-      cardNumber: $cardNumber
-      expiry: $expiry
-      birth: $birth
-      pwd2Digit: $pwd2Digit
-    ) {
-      id
-      status
-      provider
-      cancelReason
-      metadata
-      user {
-        id
-        email
-        firstName
-        lastName
-        fullName
-        koreanEquivalent
-        phoneNumber
-        address
-        gender
-        timeZone
-        country
-        avatar
-        referalCode
-        referalId
-        # students
-        # mentor
-        # packageSubscriptions
-        # activeSubscriptions
-        isActive
-        role
-        createdAt
-        updatedAt
-      }
-      package {
-        id
-        totalSessions
-        sessionsPerWeek
-        sessionTime
-        price
-        period
-        discount
-        courseId
-        # course
-        # student
-        # packageSubscription
-      }
-      packageSubscription {
-        id
-        periodStart
-        periodEnd
-        credits
-        modifyCredits
-        packageId
-        # package
-        paymentId
-        # payment
-        # lessons
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
 
 export const NicePayment = () => {
   const [parent] = useAutoAnimate();
@@ -120,7 +40,7 @@ export const NicePayment = () => {
 
   const [t] = useTranslation(['translations', 'common']);
 
-  const [cardType, setCardType] = useState('oldCard');
+  const [cardType, setCardType] = useState('newCard');
 
   const submit = (data) => {
     const { card_number, expiry, birth, password } = data;
@@ -146,6 +66,7 @@ export const NicePayment = () => {
       },
       onCompleted: (data) => {
         console.log('data', data);
+        history.push('/');
       },
       onError: (error) => {
         notify(error.message, 'error');
@@ -173,6 +94,12 @@ export const NicePayment = () => {
       reset();
     }
   }, [cardType]);
+
+  useEffect(() => {
+    if (user.cardLast4) {
+      setCardType('oldCard');
+    }
+  }, []);
 
   const isCardExpiryValid = (creditCardDate) => {
     // Getting the current date
@@ -207,24 +134,26 @@ export const NicePayment = () => {
           Pay with your credit card via NICE
         </p>
 
-        <div className="mb-6">
-          <CheckboxField
-            label="Card ending in ****4242"
-            type="radio"
-            name="card"
-            checked={cardType === 'oldCard'}
-            value="oldCard"
-            onChange={(e) => setCardType(e.target.value)}
-          />
-          <CheckboxField
-            label="Use a new card"
-            type="radio"
-            name="card"
-            checked={cardType === 'newCard'}
-            value="newCard"
-            onChange={(e) => setCardType(e.target.value)}
-          />
-        </div>
+        {user.cardLast4 && (
+          <div className="mb-6">
+            <CheckboxField
+              label={`Card ending in ****${user.cardLast4}`}
+              type="radio"
+              name="card"
+              checked={cardType === 'oldCard'}
+              value="oldCard"
+              onChange={(e) => setCardType(e.target.value)}
+            />
+            <CheckboxField
+              label="Use a new card"
+              type="radio"
+              name="card"
+              checked={cardType === 'newCard'}
+              value="newCard"
+              onChange={(e) => setCardType(e.target.value)}
+            />
+          </div>
+        )}
 
         <form
           className="flex flex-col w-full gap-y-4"
@@ -294,7 +223,9 @@ export const NicePayment = () => {
                       required: t('required_password', { ns: 'common' }),
                       pattern: {
                         value: /^[0-9]{2}$/,
-                        message: t('error_invalid_password', { ns: 'common' }),
+                        message: t('error_invalid_password', {
+                          ns: 'common',
+                        }),
                       },
                     })}
                   >
