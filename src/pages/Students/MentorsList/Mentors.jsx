@@ -153,14 +153,6 @@ const Mentors = () => {
         </div>
       </div>
 
-      {/* {showMentorModal && (
-        <MentorsModal
-          mentor={mentor}
-          handleStatusTutor={handleStatusTutor}
-          setShowMentorModal={setShowMentorModal}
-        />
-      )} */}
-
       <ModalWrapper
         isOpen={showMentorModal}
         closeModal={setShowMentorModal}

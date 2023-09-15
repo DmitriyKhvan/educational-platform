@@ -10,7 +10,7 @@ import FavIcon from '../../../assets/images/Favorite.png';
 import { HiCheckBadge } from 'react-icons/hi2';
 
 const MentorsModal = ({ mentor, setShowMentorModal }) => {
-  const [t] = useTranslation('common');
+  const [t] = useTranslation(['common', 'profile']);
 
   const [videoLink, setVideoLink] = React.useState('');
 
@@ -49,7 +49,7 @@ const MentorsModal = ({ mentor, setShowMentorModal }) => {
         <div className="flex gap-[25px]">
           <div className="pb-3">
             <h3 className="flex items-center justify-between font-medium text-color-light-grey text-[15px] leading-[28px] tracking-[-0.2px]">
-              <span>University</span>
+              <span>{t('university', { ns: 'profile' })}</span>
               <HiCheckBadge className="text-color-purple text-xl" />
             </h3>
             <p className="font-semibold text-color-dark-purple text-[15px] leading-[18px] tracking-[-0.2px]">
@@ -58,7 +58,8 @@ const MentorsModal = ({ mentor, setShowMentorModal }) => {
           </div>
           <div className="pb-3">
             <h3 className="font-medium text-color-light-grey text-[15px] leading-[28px] tracking-[-0.2px]">
-              Degree / Major
+              {t('university_degree', { ns: 'profile' })} /{' '}
+              {t('university_major', { ns: 'profile' })}
             </h3>
             <p className="font-semibold text-color-dark-purple text-[15px] leading-[18px] tracking-[-0.2px]">
               {mentor?.degree} {mentor?.major ? '/ ' + mentor?.major : null}
@@ -69,7 +70,7 @@ const MentorsModal = ({ mentor, setShowMentorModal }) => {
         {mentor?.introduction && (
           <div className="py-3">
             <h3 className="font-semibold text-[15px] leading-[18px] tracking-[-0.2px] text-color-light-grey">
-              Biography
+              {t('biography', { ns: 'profile' })}
             </h3>
             <p className="font-medium text-color-dark-purple mt-2 text-[15px] leading-[21px] tracking-[-0.6px]">
               {mentor?.introduction}
@@ -80,7 +81,7 @@ const MentorsModal = ({ mentor, setShowMentorModal }) => {
         {mentor?.relevantExperience && (
           <div className="py-3">
             <h3 className="font-semibold text-[15px] leading-[18px] tracking-[-0.2px] text-color-light-grey">
-              Relevant Experience
+              {t('bio_experience_label', { ns: 'profile' })}
             </h3>
             <p className="font-medium text-color-dark-purple mt-2 text-[15px] leading-[21px] tracking-[-0.6px]">
               {mentor?.relevantExperience}
@@ -91,7 +92,7 @@ const MentorsModal = ({ mentor, setShowMentorModal }) => {
         {mentor?.uniqueFacts && (
           <div className="py-3">
             <h3 className="font-semibold text-[15px] leading-[18px] tracking-[-0.2px] text-color-light-grey">
-              Unique Facts
+              {t('bio_facts_label', { ns: 'profile' })}
             </h3>
             <p className="font-medium text-color-dark-purple mt-2 text-[15px] leading-[21px] tracking-[-0.6px]">
               {mentor?.uniqueFacts}
@@ -105,7 +106,7 @@ const MentorsModal = ({ mentor, setShowMentorModal }) => {
             theme="outline"
             onClick={() => setShowMentorModal(false)}
           >
-            {t('cancel')}
+            {t('cancel', { ns: 'common' })}
           </Button>
           <Button
             theme="purple"
