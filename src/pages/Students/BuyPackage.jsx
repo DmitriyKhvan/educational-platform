@@ -424,14 +424,14 @@ export default function BuyPackage() {
                               </div>
                             </div>
                           ) : (
-                            <div className="text-2xl font-bold">
+                            <div className="text-2xl font-bold text-right">
                               <div>
                                 {new Intl.NumberFormat('ko-KR', {
                                   style: 'currency',
                                   currency: 'KRW',
                                 }).format(pkg.price * (1 - pkg.discount / 100))}
                               </div>
-                              <div>
+                              <div className='text-sm opacity-75 font-normal'>
                                 {new Intl.NumberFormat('ko-KR', {
                                   style: 'currency',
                                   currency: 'KRW',
