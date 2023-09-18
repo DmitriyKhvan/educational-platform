@@ -40,7 +40,7 @@ export const SubscriptionCard = ({
           {!active && (
             <TooltipContent>
               <div className="text-center">
-                <p className="text-color-dark-purple text-sm font-semibold max-w-[8rem]">
+                <p className="text-color-dark-purple text-sm font-semibold max-w-[16rem]">
                   {t('disabled_package', {
                     ns: 'lessons',
                   })}
