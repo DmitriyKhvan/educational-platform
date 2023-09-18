@@ -12,6 +12,7 @@ import { useAuth } from '../../../modules/auth';
 import Loader from '../../../components/Loader/Loader';
 import Button from '../../../components/Form/Button/Button';
 import { FaArrowRight } from 'react-icons/fa6';
+import { cn } from '../../../components/AlertDialog';
 
 const SelectLesson = ({
   setSelectedPlan,
@@ -65,13 +66,14 @@ const SelectLesson = ({
   const LessonCard = ({ title, duration, remaining, data, i, active }) => {
     return (
       <div
-        className={`cursor-pointer p-5 border rounded-lg ${
-          !active
-            ? 'bg-color-border-grey opacity-75'
-            : i === clicked && active
-            ? 'border-color-purple border-2 shadow-[0_0_0_4px_#F0EBF7] '
-            : 'border-color-border-grey'
-        }`}
+        className={cn(
+          `cursor-pointer p-5 border rounded-lg`,
+          !active &&
+            'grayscale bg-white brightness-75 opacity-80 cursor-not-allowed',
+          i === clicked &&
+            active &&
+            'border-color-purple border-2 shadow-[0_0_0_4px_#F0EBF7]',
+        )}
         // onClick={() => {
         //   setClicked(i);
         //   setSelectedPlan(data);
