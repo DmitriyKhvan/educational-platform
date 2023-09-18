@@ -12,7 +12,13 @@ import { useAuth } from '../../../modules/auth';
 import Loader from '../../../components/Loader/Loader';
 import Button from '../../../components/Form/Button/Button';
 import { FaArrowRight } from 'react-icons/fa6';
-import { cn } from '../../../components/AlertDialog';
+import { cn } from '../../../utils/functions';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../../../components/Tooltip';
 
 const SelectLesson = ({
   setSelectedPlan,
@@ -65,37 +71,55 @@ const SelectLesson = ({
 
   const LessonCard = ({ title, duration, remaining, data, i, active }) => {
     return (
-      <div
-        className={cn(
-          `cursor-pointer p-5 border rounded-lg`,
-          !active &&
-            'grayscale bg-white brightness-75 opacity-80 cursor-not-allowed',
-          i === clicked &&
-            active &&
-            'border-color-purple border-2 shadow-[0_0_0_4px_#F0EBF7]',
-        )}
-        // onClick={() => {
-        //   setClicked(i);
-        //   setSelectedPlan(data);
-        // }}
-        onClick={active ? () => selectPlan(i, data) : undefined}
-      >
-        <div>
-          <h1 className="text-color-dark-purple text-xl tracking-tight font-semibold mb-4">
-            {capitalize(title)}
-          </h1>
+      <TooltipProvider>
+        <Tooltip delayDuration={200}>
+          <TooltipTrigger>
+            <div
+              className={cn(
+                `cursor-pointer p-5 border rounded-lg`,
+                !active &&
+                  'grayscale bg-white brightness-75 opacity-80 cursor-not-allowed',
+                i === clicked &&
+                  active &&
+                  'border-color-purple border-2 shadow-[0_0_0_4px_#F0EBF7]',
+              )}
+              // onClick={() => {
+              //   setClicked(i);
+              //   setSelectedPlan(data);
+              // }}
+              onClick={active ? () => selectPlan(i, data) : undefined}
+            >
+              <div>
+                <h1 className="text-color-dark-purple text-xl tracking-tight font-semibold mb-4">
+                  {capitalize(title)}
+                </h1>
 
-          <div className="flex gap-2 flex-row">
-            <div className="text-color-dark-purple font-medium text-[17px] border border-color-border-grey rounded px-2.5 py-[5px] flex-grow text-center">
-              {t('lessons_remaining', { ns: 'lessons', count: remaining })}
+                <div className="flex gap-2 flex-row">
+                  <div className="text-color-dark-purple font-medium text-[17px] border border-color-border-grey rounded px-2.5 py-[5px] flex-grow text-center">
+                    {t('lessons_remaining', {
+                      ns: 'lessons',
+                      count: remaining,
+                    })}
+                  </div>
+                  <div className="flex items-center justify-center font-medium text-[17px] px-2.5 py-[5px] text-color-purple bg-color-light-purple rounded">
+                    {duration}
+                    {t('minutes_short', { ns: 'common' })}
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center justify-center font-medium text-[17px] px-2.5 py-[5px] text-color-purple bg-color-light-purple rounded">
-              {duration}
-              {t('minutes_short', { ns: 'common' })}
-            </div>
-          </div>
-        </div>
-      </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            {!active && (
+              <div className="text-center">
+                <p className="text-color-dark-purple text-sm font-semibold max-w-[8rem]">
+                  {t('disabled_package')}
+                </p>
+              </div>
+            )}
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     );
   };
 
