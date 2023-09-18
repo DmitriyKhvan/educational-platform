@@ -19,7 +19,7 @@ export const SubscriptionCard = ({
   const [t] = useTranslation(['common', 'lessons']);
   return (
     <TooltipProvider>
-      <div className={'relative w-full max-w-[14rem]'}>
+      <div className={'relative w-full max-w-[18rem]'}>
         <Tooltip delayDuration={200} disableHoverableContent={active}>
           <TooltipTrigger asChild>
             <div className="absolute -right-1 -top-2 z-10 shadow-lg rounded-full">
@@ -37,8 +37,8 @@ export const SubscriptionCard = ({
               )}
             </div>
           </TooltipTrigger>
-          <TooltipContent>
-            {!active && (
+          {!active && (
+            <TooltipContent>
               <div className="text-center">
                 <p className="text-color-dark-purple text-sm font-semibold max-w-[8rem]">
                   {t('disabled_package', {
@@ -46,8 +46,8 @@ export const SubscriptionCard = ({
                   })}
                 </p>
               </div>
-            )}
-          </TooltipContent>
+            </TooltipContent>
+          )}
         </Tooltip>
         <div
           className={`py-2 px-[10px] rounded-[10px] ${

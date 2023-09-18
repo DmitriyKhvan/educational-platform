@@ -76,7 +76,7 @@ const SelectLesson = ({
           <TooltipTrigger>
             <div
               className={cn(
-                `cursor-pointer p-5 border rounded-lg`,
+                `cursor-pointer p-5 border rounded-lg min-w-[18rem]`,
                 !active &&
                   'grayscale bg-white brightness-75 opacity-80 cursor-not-allowed',
                 i === clicked &&
@@ -109,15 +109,15 @@ const SelectLesson = ({
               </div>
             </div>
           </TooltipTrigger>
-          <TooltipContent>
-            {!active && (
+          {!active && (
+            <TooltipContent>
               <div className="text-center">
                 <p className="text-color-dark-purple text-sm font-semibold max-w-[8rem]">
                   {t('disabled_package')}
                 </p>
               </div>
-            )}
-          </TooltipContent>
+            </TooltipContent>
+          )}
         </Tooltip>
       </TooltipProvider>
     );
