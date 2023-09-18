@@ -4,6 +4,7 @@
   .btn {
     @apply cursor-pointer 
     p-3
+    m-1
     rounded-md
     font-semibold 
     text-base 

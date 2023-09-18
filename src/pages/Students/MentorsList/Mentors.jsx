@@ -13,6 +13,7 @@ import Button from '../../../components/Form/Button/Button';
 import { Avatar } from '../../../widgets/Avatar/Avatar';
 
 import FavIcon from '../../../assets/images/Favorite.png';
+import ModalWrapper from '../../../components/ModalWrapper/ModalWrapper';
 
 const Mentors = () => {
   const [showMentorModal, setShowMentorModal] = React.useState(false);
@@ -152,13 +153,19 @@ const Mentors = () => {
         </div>
       </div>
 
-      {showMentorModal && (
+      <ModalWrapper
+        isOpen={showMentorModal}
+        closeModal={setShowMentorModal}
+        widthContent="70%"
+        heightContent="80vh"
+        paddingContent="0"
+      >
         <MentorsModal
           mentor={mentor}
-          handleStatusTutor={handleStatusTutor}
           setShowMentorModal={setShowMentorModal}
+          handleStatusTutor={handleStatusTutor}
         />
-      )}
+      </ModalWrapper>
     </Layout>
   );
 };

@@ -4,7 +4,6 @@ import Layout from '../../../components/Layout';
 import { useAuth } from '../../../modules/auth';
 import StudentProfile from './profile/StudentProfile';
 import EditTopics from './editTopics/EditTopics';
-import EditProflileStudent from './editInfo/EditStudentProfile';
 
 export const Profile = () => {
   let { path } = useRouteMatch();
@@ -18,10 +17,6 @@ export const Profile = () => {
         </Route>
         <Route path={`${path}/edit-topics`}>
           <EditTopics />
-        </Route>
-
-        <Route path={`${path}/edit-information`}>
-          <EditProflileStudent />
         </Route>
       </Switch>
     </Layout>
