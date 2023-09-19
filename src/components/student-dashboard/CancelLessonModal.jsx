@@ -57,7 +57,7 @@ const CancelLessonModal = ({
       onCompleted: async (data) => {
         if (setCanceledLessons) {
           // To update lessons in confirm lessons if you cancel lessons from the confirm lessons page
-          setCanceledLessons(data.cancelLesson);
+          setCanceledLessons(data.cancelLessons);
         } else {
           // To update lessons in the calendar if you cancel lessons from the calendar
           await fetchAppointments();
