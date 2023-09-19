@@ -13,11 +13,17 @@ const InputField = forwardRef(function InputField(
 ) {
   return (
     <label>
-      {label && <div className="mb-2">{label}</div>}
+      {label && (
+        <div className="mb-[10px] font-semibold text-[15px] leading-5 tracking-[-0.2px]">
+          {label}
+        </div>
+      )}
       <input
         className={`
-          p-2 
-          text-base 
+          p-[14px] 
+          text-[15px]
+          text-color-light-grey 
+          font-medium
           bg-white
           border 
           border-solid 
@@ -26,6 +32,8 @@ const InputField = forwardRef(function InputField(
           focus:border-color-light-blue 
           focus:shadow-[0_0_0_0.25rem_rgba(13,110,253,0.25)]
           transition ease-in-out duration-300
+          leading-5
+          tracking-[-0.2px]
           ${className}
         `}
         type={type}

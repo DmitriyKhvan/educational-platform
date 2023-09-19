@@ -1,18 +1,10 @@
 const InputWithError = ({ errorsField, children }) => {
   return (
-    <div
-      className="
-      text-color-dark-purple
-      font-inter
-      text-sm
-      font-semibold
-      leading-5
-    "
-    >
+    <div>
       {children}
 
       {errorsField && (
-        <p className="text-color-magenta mt-1">{errorsField.message}</p>
+        <p className="text-sm text-color-magenta mt-1">{errorsField.message}</p>
       )}
     </div>
   );
