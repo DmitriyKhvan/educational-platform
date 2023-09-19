@@ -15,8 +15,9 @@ import {
   APPOINTMENTS_QUERY,
   CREATE_APPOINTMENT,
   UPDATE_APPOINTMENT,
-  LESSON_QUERY,
 } from '../../../modules/auth/graphql';
+
+import CheckboxField from '../../../components/Form/CheckboxField';
 
 const LessonConfirmation = ({
   plan,
@@ -26,12 +27,27 @@ const LessonConfirmation = ({
   lessonId = null,
   isMentorScheduled = false,
 }) => {
-  const [t] = useTranslation(['common', 'lessons', 'dashboard']);
+  const [t] = useTranslation([
+    'common',
+    'lessons',
+    'dashboard',
+    'translations',
+  ]);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const [repeat, setRepeat] = useState(
+    JSON.parse(urlParams.get('repeatLessons') || false),
+  );
+
+  const [credits, setCredits] = useState(plan?.credits);
+  const [canceledLessons, setCanceledLessons] = useState(null);
+
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
-  const [newAppointment, setNewAppointment] = useState({});
+  const [newAppointment, setNewAppointment] = useState([]);
+
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [, setDate] = useState();
+  // const [, setDate] = useState();
   const [confirmDisable, setConfirmDisable] = useState(false);
   const [getAppointments] = useLazyQuery(APPOINTMENTS_QUERY, {
     variables: {
@@ -42,7 +58,6 @@ const LessonConfirmation = ({
   });
   const [createAppointment] = useMutation(CREATE_APPOINTMENT);
   const [updateAppointment] = useMutation(UPDATE_APPOINTMENT);
-  const [getLesson] = useLazyQuery(LESSON_QUERY);
 
   const fetchAppointments = async () => {
     return (await getAppointments()).data;
@@ -50,13 +65,27 @@ const LessonConfirmation = ({
   const history = useHistory();
 
   useEffect(() => {
+    // leave only scheduled lessons
+    if (canceledLessons) {
+      const appointments = newAppointment.filter(
+        (appointment) =>
+          !canceledLessons.some((lesson) => lesson.id === appointment.id),
+      );
+      setNewAppointment(appointments);
+
+      // remaining credits
+      setCredits((prev) => prev + canceledLessons.length);
+    }
+  }, [canceledLessons]);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const cancelled = async () => {
-    setIsConfirmed(false);
-    setNewAppointment({});
-  };
+  // const cancelled = async () => {
+  //   setIsConfirmed(false);
+  //   setNewAppointment([]);
+  // };
 
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
@@ -73,39 +102,21 @@ const LessonConfirmation = ({
     setIsLoading(true);
 
     /* this means if the lesson ID exists, its going to be a reschedule */
-    let lesson = null;
+    let lesson = [];
     if (lessonId) {
       setIsLoading(true);
-      const oldLesson = await getLesson({
+      const { data: { lesson: updatedLesson } = {} } = await updateAppointment({
         variables: {
           id: lessonId,
+          mentorId: tutor.id,
+          startAt: moment.utc(time, 'ddd MMM DD YYYY HH:mm:ssZ').toISOString(),
+          repeat: repeat,
+        },
+        onError: (error) => {
+          NotificationManager.error(error.message, t);
         },
       });
-      if (
-        !moment
-          .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
-          .isSame(oldLesson.data.lesson.startAt)
-      ) {
-        const { data: { lesson: updatedLesson } = {} } =
-          await updateAppointment({
-            variables: {
-              id: lessonId,
-              mentorId: tutor.id,
-              startAt: moment
-                .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
-                .toISOString(),
-            },
-            onError: (error) => {
-              NotificationManager.error(error.message, t);
-            },
-          });
-        lesson = updatedLesson;
-      } else {
-        NotificationManager.error(
-          'The reschedule date cannot be the old scheduled date!',
-          t,
-        );
-      }
+      lesson = updatedLesson;
     } else {
       try {
         const { data: { lesson: createdLesson } = {} } =
@@ -118,8 +129,15 @@ const LessonConfirmation = ({
                 .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
                 .toISOString(),
               duration: plan?.package?.sessionTime,
+              repeat: repeat,
             },
           });
+
+        const scheduledLessons = createdLesson.filter(
+          (lesson) => lesson.status === 'scheduled',
+        );
+        setCredits(credits - scheduledLessons.length);
+
         lesson = createdLesson;
       } catch (error) {
         NotificationManager.error(error.message, t);
@@ -130,7 +148,7 @@ const LessonConfirmation = ({
     if (lesson) {
       setConfirmDisable(true);
       setNewAppointment(lesson);
-      setDate(moment(lesson.startAt).unix());
+      // setDate(moment(lesson.startAt).unix());
       setIsConfirmed(true);
       window.scrollTo(0, 0);
     }
@@ -191,7 +209,8 @@ const LessonConfirmation = ({
                   })}`}
                   remaining={t('lessons_remaining', {
                     ns: 'lessons',
-                    count: plan?.credits,
+                    // count: plan?.credits,
+                    count: credits,
                   })}
                 />
               </div>
@@ -210,6 +229,14 @@ const LessonConfirmation = ({
               </p>
               <div className="flex tutor-image">
                 <TutorImageRow tutor={tutor} />
+              </div>
+
+              <div className="mt-3">
+                <CheckboxField
+                  label={t('repeating_lesson', { ns: 'translations' })}
+                  onChange={(e) => setRepeat(e.target.checked)}
+                  checked={repeat}
+                />
               </div>
 
               {/* <p className='welcome-subtitle-fonts'>{t('repeating_lesson')}</p> */}
@@ -327,7 +354,29 @@ const LessonConfirmation = ({
                     </Link>
                   </div>
                 </div>
-                <ScheduleCardComponent
+
+                {newAppointment.map((appointment, index) => {
+                  return (
+                    <ScheduleCardComponent
+                      key={index}
+                      index={index}
+                      lesson={
+                        appointment?.packageSubscription?.package.course?.title
+                      }
+                      zoomlink={appointment?.zoomlink}
+                      // date={time}
+                      date={appointment?.startAt}
+                      mentor={tutor}
+                      data={appointment ?? {}}
+                      subscription={plan}
+                      fetchAppointments={fetchAppointments}
+                      // cancelled={cancelled}
+                      setCanceledLessons={setCanceledLessons}
+                    />
+                  );
+                })}
+
+                {/* <ScheduleCardComponent
                   index={0}
                   lesson={
                     newAppointment?.packageSubscription?.package.course?.title
@@ -339,7 +388,7 @@ const LessonConfirmation = ({
                   subscription={plan}
                   fetchAppointments={fetchAppointments}
                   cancelled={cancelled}
-                />
+                /> */}
               </React.Fragment>
             ) : (
               ''

@@ -2,15 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../modules/auth';
 import { ROLES } from '../../constants/global';
+import CheckboxField from '../Form/CheckboxField';
+import { FaXmark } from 'react-icons/fa6';
+import Button from '../Form/Button/Button';
 
 const MAX_MODIFY_COUNT = 3;
 
 const CancelWarningModal = ({
   data,
   setTabIndex,
-  // setIsOpen,
   type,
   modifyCredits,
+  setRepeatLessons,
+  repeatLessons,
 }) => {
   const [t] = useTranslation('modals');
   const { user } = useAuth();
@@ -22,12 +26,20 @@ const CancelWarningModal = ({
       const cancellationDots = [];
       for (let i = 0; i < MAX_MODIFY_COUNT; i++) {
         if (i < modifyCredits) {
-          cancellationDots.push(
-            <span className="dot dot-filled" key={i}></span>,
+          cancellationDots.unshift(
+            <span
+              className="w-5 h-5 mr-[6px] rounded-full border-2 border-solid border-color-purple"
+              key={i}
+            ></span>,
           );
         } else {
-          cancellationDots.push(
-            <span className="dot dot-unfilled" key={i}></span>,
+          cancellationDots.unshift(
+            <span
+              className="flex items-center justify-center w-5 h-5 mr-[6px] bg-color-light-purple rounded-full border border-color-purple"
+              key={i}
+            >
+              <FaXmark className="text-color-purple" />
+            </span>,
           );
         }
       }
@@ -42,7 +54,9 @@ const CancelWarningModal = ({
   const onClick = () => {
     if (type === 'reschedule') {
       //We need exactly window.location, so that the page with this id is reloaded
-      window.location.replace('/student/schedule-lesson/select/' + data.id);
+      window.location.replace(
+        `/student/schedule-lesson/select/${data.id}/?repeatLessons=${repeatLessons}`,
+      );
     }
 
     if (type === 'reschedule-time') {
@@ -55,55 +69,74 @@ const CancelWarningModal = ({
   };
 
   return (
-    <div>
-      <div className="flex justify-between mb-2">
-        <div className="text-lg font-semibold">{t('warning')}</div>
+    <div className="w-[360px]">
+      <div className="mb-5 text-xl font-semibold">{t('warning')}</div>
+      <div className="font-semibold leading-[18px] tracking-[-0.2px]">
+        {user.role !== ROLES.MENTOR ? t('cancel_modal_desc') : null}
       </div>
-      <div> {user.role !== ROLES.MENTOR ? t('cancel_modal_desc') : null}</div>
       {user.role !== ROLES.MENTOR && (
-        <div className="w-full flex items-center justify-center mt-3">
+        <div className="w-full flex items-center justify-center mt-5">
           {cancellationDots}
         </div>
       )}
 
       {type !== 'reschedule' && (
-        <div className="form-check pt-3 flex items-center">
-          <input
-            className="form-check-input"
-            type="checkbox"
+        <div className="mt-8">
+          <CheckboxField
+            label={t('confirm_cancel')}
             id="cancel"
             value="cancel"
             onChange={checkboxEvent}
             checked={isChecked}
             disabled={user.role !== ROLES.MENTOR && modifyCredits === 0}
           />
-          <label className="form-check-label" htmlFor="cancel">
-            {t('confirm_cancel')}
-          </label>
         </div>
       )}
 
-      <div className="row pt-4">
+      <div className="mt-8">
+        <p className="font-semibold leading-[18px] tracking-[-0.2px] mb-3">
+          Choose Below:
+        </p>
+        <div className="flex flex-col gap-y-1">
+          <CheckboxField
+            label={
+              type === 'cancel'
+                ? t('cancel_this_lesson')
+                : t('reschedule_this_lesson')
+            }
+            type="radio"
+            name="lesson"
+            onChange={() => setRepeatLessons(false)}
+            disabled={modifyCredits === 0}
+          />
+          <CheckboxField
+            label={
+              type === 'cancel' ? t('cancel_lessons') : t('reschedule_lessons')
+            }
+            type="radio"
+            name="lesson"
+            onChange={() => setRepeatLessons(true)}
+            disabled={modifyCredits === 0}
+          />
+        </div>
+      </div>
+
+      <div className="flex items-center gap-x-8 mt-4">
         {type !== 'reschedule' && (
-          <div className="col-auto">
-            <button
-              className="enter-btn grey-border"
-              onClick={() => setTabIndex(10)}
-            >
-              {t('review_cancellation_policy')}
-            </button>
-          </div>
+          <Button theme="outline" onClick={() => setTabIndex(10)}>
+            {t('review_cancellation_policy')}
+          </Button>
         )}
 
-        <div className="col-auto">
-          <button
-            className="enter-btn bg-pink text-white"
-            onClick={onClick}
-            disabled={!isChecked && type !== 'reschedule'}
-          >
-            {t('continue_cancel')}
-          </button>
-        </div>
+        <Button
+          theme="purple"
+          onClick={onClick}
+          disabled={
+            (!isChecked && type !== 'reschedule') || modifyCredits === 0
+          }
+        >
+          {t('continue_cancel')}
+        </Button>
       </div>
     </div>
   );
