@@ -153,61 +153,6 @@ export const CREATE_NICE_PAYMENT = gql`
       pwd2Digit: $pwd2Digit
     ) {
       id
-      status
-      provider
-      cancelReason
-      metadata
-      user {
-        id
-        email
-        firstName
-        lastName
-        fullName
-        koreanEquivalent
-        phoneNumber
-        address
-        gender
-        timeZone
-        country
-        avatar
-        referalCode
-        referalId
-        # students
-        # mentor
-        # packageSubscriptions
-        # activeSubscriptions
-        isActive
-        role
-        createdAt
-        updatedAt
-      }
-      package {
-        id
-        totalSessions
-        sessionsPerWeek
-        sessionTime
-        price
-        period
-        discount
-        courseId
-        # course
-        # student
-        # packageSubscription
-      }
-      packageSubscription {
-        id
-        periodStart
-        periodEnd
-        credits
-        modifyCredits
-        packageId
-        # package
-        paymentId
-        # payment
-        # lessons
-      }
-      createdAt
-      updatedAt
     }
   }
 `;

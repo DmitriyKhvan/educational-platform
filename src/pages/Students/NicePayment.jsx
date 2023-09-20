@@ -16,11 +16,8 @@ import InputWithError from '../../components/Form/InputWithError';
 import CheckboxField from '../../components/Form/CheckboxField';
 
 import Logo from '../../assets/images/logo.png';
-// import { HiOutlineCreditCard } from 'react-icons/hi2';
 import nicePayment from '../../assets/images/purchase/nicePayment.png';
 import { CREATE_NICE_PAYMENT } from '../../modules/auth/graphql';
-
-// import ClipLoader from 'react-spinners/ClipLoader';
 
 export const NicePayment = () => {
   const [parent] = useAutoAnimate();
@@ -64,8 +61,7 @@ export const NicePayment = () => {
         birth: birthTransform,
         pwd2Digit: password,
       },
-      onCompleted: (data) => {
-        console.log('data', data);
+      onCompleted: () => {
         history.push('/');
       },
       onError: (error) => {
@@ -266,15 +262,8 @@ export const NicePayment = () => {
           <Button
             type="submit"
             disabled={!isValid || loading}
-            // theme="purple"
-            // className="w-full"
             className="self-start rounded text-white mt-4 bg-purple-500"
           >
-            {/* {loading ? (
-            <ClipLoader loading={loading} size={20} color="white" />
-          ) : (
-            t('continue_button', { ns: 'common' })
-          )} */}
             {t('continue_button', { ns: 'common' })}
           </Button>
         </form>
