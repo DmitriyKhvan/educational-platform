@@ -172,71 +172,6 @@ export default function BuyPackage() {
     });
   };
 
-  // const submitNice = async () => {
-  //   if (!selectedPackage) return;
-
-  //   const IMP = window.IMP;
-  //   IMP.init(process.env.REACT_APP_PORTONE_USER_CODE);
-  //   const merchant_uid = uuidv4();
-
-  //   function requestPay() {
-  //     IMP.request_pay(
-  //       {
-  //         pg: `nice.${process.env.REACT_APP_PORTONE_MID}`,
-  //         pay_method: 'card',
-  //         merchant_uid: merchant_uid,
-  //         name: `${
-  //           allCourses?.courses.find(
-  //             (course) => course.id === selectedPackage.courseId,
-  //           ).title
-  //         }`,
-  //         amount: selectedPackage.price * (1 - selectedPackage.discount / 100),
-  //         buyer_name: user.fullName,
-  //         buyer_tel: user.phoneNumber,
-  //         buyer_email: user.email,
-  //         niceMobileV2: true,
-  //         display: {
-  //           card_quota: [selectedPackage.period],
-  //           display: {
-  //             card_quota: Array.from(
-  //               Array(Math.floor(selectedPackage.period / 3)).keys(),
-  //               (x) => (x < 4 ? (x + 1) * 3 : false),
-  //             ).filter((x) => x),
-  //           },
-  //         },
-  //  period: {
-  //    from: moment().format('YYYYMMDD'),
-  //    to: moment()
-  //      .add(selectedPackage.period, 'months')
-  //      .format('YYYYMMDD'),
-  //  },
-  //       },
-  //       async (rsp) => {
-  //         if (rsp.success) {
-  //           await createPayment({
-  //             variables: {
-  //               userId: parseInt(user.id),
-  //               packageId: parseInt(selectedPackage.id),
-  //               provider: 'NICE',
-  //               metadata: JSON.stringify({
-  //                 ...rsp,
-  //                 merchant_uid: merchant_uid,
-  //               }),
-  //             },
-  //           });
-  //           history.replace(
-  //             `/purchase/${selectedPackage.id}/complete?success=true`,
-  //           );
-  //         } else {
-  //           toast.error(rsp.error_msg);
-  //         }
-  //       },
-  //     );
-  //   }
-
-  //   requestPay();
-  // };
-
   return (
     <main
       style={{ background: `url('${purchaseBack}')` }}
@@ -431,7 +366,7 @@ export default function BuyPackage() {
                                   currency: 'KRW',
                                 }).format(pkg.price * (1 - pkg.discount / 100))}
                               </div>
-                              <div className='text-sm opacity-75 font-normal'>
+                              <div className="text-sm opacity-75 font-normal">
                                 {new Intl.NumberFormat('ko-KR', {
                                   style: 'currency',
                                   currency: 'KRW',
