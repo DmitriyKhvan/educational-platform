@@ -35,6 +35,7 @@ import BuyPackage from './pages/Students/BuyPackage';
 import StripePayment from './pages/Students/StripePayment';
 import ConfirmPayment from './pages/ConfirmPayment';
 import BuyPackageTest from './pages/Students/BuyPackageTest';
+import { NicePayment } from './pages/Students/NicePayment';
 
 function PrivateRoute({ component: Component, ...rest }) {
   const { isAuthorized } = useAuth();
@@ -111,6 +112,11 @@ function App() {
           path="/purchase/:packageId/payment/:clientSecret"
           exact
           component={StripePayment}
+        />
+        <PrivateRoute
+          path="/purchase/nice-payment"
+          exact
+          component={NicePayment}
         />
         <PrivateRoute
           path="/purchase/:packageId/complete"
