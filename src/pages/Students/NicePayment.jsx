@@ -62,7 +62,7 @@ export const NicePayment = () => {
         pwd2Digit: password,
       },
       onCompleted: () => {
-        history.push('/');
+        history.push(`/purchase/${packageId}/complete?success=true`);
       },
       onError: (error) => {
         notify(error.message, 'error');
