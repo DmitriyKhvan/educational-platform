@@ -75,15 +75,6 @@ const Education = () => {
           {t('bio_education')}
         </h2>
 
-        {/* <div className={cls.edu_guild_card}>
-          <img src={Stick} alt='' />
-          <h3>Guidelines on being honest.</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit
-            amet ligula nisi.
-          </p>
-        </div> */}
-
         <InputField
           className="w-[420px] mb-6"
           label={t('university')}
