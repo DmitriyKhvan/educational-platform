@@ -40,6 +40,7 @@ const ScheduleLesson = () => {
       {tabIndex === 0 ? (
         <SelectLesson
           setSelectedPlan={setSelectedPlan}
+          selectedPlan={selectedPlan}
           setTabIndex={setTabIndex}
           clicked={clicked}
           setClicked={setClicked}

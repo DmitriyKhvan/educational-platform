@@ -1,24 +1,27 @@
 import React from 'react';
-import { useMutation } from '@apollo/client';
 import { useForm, Controller } from 'react-hook-form';
 import { useAuth } from '../../../../modules/auth';
+import { useMutation } from '@apollo/client';
 import { MUTATION_UPDATE_USER } from '../../../../modules/auth/graphql';
-import CheckboxField from '../../../../components/Form/CheckboxField';
 // import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import notify from '../../../../utils/notify';
-import InputField from '../../../../components/Form/InputField';
-import { SelectField } from '../../../../components/Form/SelectField';
+
 import {
-  genders,
+  // genders,
   countries,
   timezoneOptions,
+  useGenderDic,
 } from '../../../../constants/global';
+import notify from '../../../../utils/notify';
+import CheckboxField from '../../../../components/Form/CheckboxField';
+import InputField from '../../../../components/Form/InputField';
+import { SelectField } from '../../../../components/Form/SelectField';
 import Button from '../../../../components/Form/Button/Button';
+import ReactLoader from '../../../../components/common/Loader';
 
 const BasicForm = () => {
   const [t] = useTranslation(['common', 'profile']);
-  const [updateMentor] = useMutation(MUTATION_UPDATE_USER);
+  const [updateMentor, { loading }] = useMutation(MUTATION_UPDATE_USER);
 
   // const history = useHistory();
 
@@ -39,139 +42,134 @@ const BasicForm = () => {
 
   const handleEditBasicInfo = async (values) => {
     delete values.email;
-    const { data } = await updateMentor({
+    await updateMentor({
       variables: {
         id: user?.id,
         data: values,
       },
+      onCompleted: () => {
+        notify('Basic information is changed!');
+        // history.push('/mentor/profile');
+      },
+      onError: (error) => {
+        notify(error.message, 'error');
+      },
     });
-
-    if (data) {
-      notify('Basic information is changed!', 'success');
-      // history.push('/mentor/profile');
-    }
 
     await refetchUser();
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(handleEditBasicInfo)}
-      className="py-[50px] pl-[66px] border-b border-solid border-color-border-grey"
-      id="basic"
-    >
-      <h2 className="mb-5 text-[27px] font-medium leading-[33px] tracking-[-1px] text-color-dark-purple">
-        {t('basic_info', { ns: 'profile' })}
-      </h2>
+    <>
+      {loading && <ReactLoader />}
+      <form
+        onSubmit={handleSubmit(handleEditBasicInfo)}
+        className="h-[1102px] py-[50px] pl-[66px] border-b border-solid border-color-border-grey"
+        id="basic"
+      >
+        <h2 className="mb-5 text-[27px] font-medium leading-[33px] tracking-[-1px] text-color-dark-purple">
+          {t('basic_info', { ns: 'profile' })}
+        </h2>
 
-      <div>
-        <InputField
-          className="w-[420px] mb-6"
-          label={t('first_name')}
-          placeholder={'Alice'}
-          {...register('firstName')}
-        />
-
-        <InputField
-          className="w-[420px] mb-6"
-          label={t('last_name')}
-          placeholder={'Addison'}
-          {...register('lastName')}
-        />
-
-        {/* <div className={cls.form_divider}>
-          <p>{t('gender', { ns: 'profile' })}</p>
-
-          <select {...register('gender')}>
-            <option value={'male'}>{t('male', { ns: 'profile' })}</option>
-            <option value={'female'}>{t('female', { ns: 'profile' })}</option>
-            <option value={'non-binary'}>Non-binary</option>
-          </select>
-        </div> */}
-
-        <label className="block w-[420px] mb-6 not-italic font-semibold text-base text-color-dark-purple">
-          {t('gender', { ns: 'profile' })}{' '}
-          <Controller
-            control={control}
-            defaultValue={user?.gender}
-            name="gender"
-            render={({ field: { value, onChange } }) => (
-              <SelectField
-                value={value}
-                options={genders}
-                onChange={onChange}
-              />
-            )}
+        <div>
+          <InputField
+            className="w-[420px] mb-6"
+            label={t('first_name')}
+            placeholder={'Alice'}
+            {...register('firstName')}
           />
-        </label>
 
-        <InputField
-          className="w-[420px] mb-6"
-          label={t('email', { ns: 'profile' })}
-          type="email"
-          placeholder={'example@gmail.com'}
-          disabled={true}
-          {...register('email')}
-        />
-
-        <InputField
-          className="w-[420px] mb-6"
-          label={t('phone_number')}
-          placeholder={'+123456789'}
-          {...register('phoneNumber')}
-        />
-
-        <label className="block w-[420px] mb-6 not-italic font-semibold text-base text-color-dark-purple">
-          {t('country')}{' '}
-          <Controller
-            control={control}
-            defaultValue={user?.country}
-            name="country"
-            render={({ field: { value, onChange } }) => (
-              <SelectField
-                value={value}
-                options={countries}
-                onChange={onChange}
-              />
-            )}
+          <InputField
+            className="w-[420px] mb-6"
+            label={t('last_name')}
+            placeholder={'Addison'}
+            {...register('lastName')}
           />
-        </label>
 
-        <InputField
-          className="w-[420px] mb-6"
-          label={t('address')}
-          placeholder={'Cupertino 1337'}
-          {...register('address')}
-        />
+          <label className="block w-[420px] mb-6 not-italic font-semibold text-base text-color-dark-purple">
+            {t('gender', { ns: 'profile' })}{' '}
+            <Controller
+              control={control}
+              defaultValue={user?.gender}
+              name="gender"
+              render={({ field: { value, onChange } }) => (
+                <SelectField
+                  value={value}
+                  options={useGenderDic()}
+                  onChange={onChange}
+                />
+              )}
+            />
+          </label>
 
-        <label className="block w-[420px] mb-6 not-italic font-semibold text-base text-color-dark-purple">
-          {t('time_zone')}
-
-          <Controller
-            control={control}
-            defaultValue={user?.timeZone}
-            name="timeZone"
-            render={({ field: { value, onChange } }) => (
-              <SelectField
-                value={value}
-                options={timezoneOptions}
-                onChange={onChange}
-              />
-            )}
+          <InputField
+            className="w-[420px] mb-6"
+            label={t('email', { ns: 'profile' })}
+            type="email"
+            placeholder={'example@gmail.com'}
+            disabled={true}
+            {...register('email')}
           />
-        </label>
 
-        <CheckboxField
-          className="mb-6"
-          label="Update mentor availability and calendar to reflect new timezone"
-          {...register('convertAvailabilityTime')}
-        />
-      </div>
+          <InputField
+            className="w-[420px] mb-6"
+            label={t('phone_number')}
+            placeholder={'+123456789'}
+            {...register('phoneNumber')}
+          />
 
-      <Button className="w-[420px]" theme="purple" type="submit">
-        {t('save')}
-      </Button>
-    </form>
+          <label className="block w-[420px] mb-6 not-italic font-semibold text-base text-color-dark-purple">
+            {t('country')}{' '}
+            <Controller
+              control={control}
+              defaultValue={user?.country}
+              name="country"
+              render={({ field: { value, onChange } }) => (
+                <SelectField
+                  value={value}
+                  options={countries}
+                  onChange={onChange}
+                />
+              )}
+            />
+          </label>
+
+          <InputField
+            className="w-[420px] mb-6"
+            label={t('address')}
+            placeholder={'Cupertino 1337'}
+            {...register('address')}
+          />
+
+          <label className="block w-[420px] mb-6 not-italic font-semibold text-base text-color-dark-purple">
+            {t('time_zone')}
+
+            <Controller
+              control={control}
+              defaultValue={user?.timeZone}
+              name="timeZone"
+              render={({ field: { value, onChange } }) => (
+                <SelectField
+                  value={value}
+                  options={timezoneOptions}
+                  onChange={onChange}
+                />
+              )}
+            />
+          </label>
+
+          <CheckboxField
+            className="mb-6"
+            label="Update mentor availability and calendar to reflect new timezone"
+            {...register('convertAvailabilityTime')}
+          />
+        </div>
+
+        <Button className="w-[420px]" type="submit">
+          {t('save')}
+        </Button>
+      </form>
+    </>
   );
 };
 

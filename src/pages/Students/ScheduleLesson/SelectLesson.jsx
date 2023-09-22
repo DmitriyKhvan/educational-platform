@@ -3,15 +3,26 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../../components/Layout';
 import capitalize from 'lodash/capitalize';
-import { useQuery } from '@apollo/client';
-import { PACKAGE_QUERY } from '../../../modules/auth/graphql';
+import { useMutation, useQuery } from '@apollo/client';
+import {
+  CHECK_NICE_SUBSCRIPTION_STATUS,
+  PACKAGE_QUERY,
+} from '../../../modules/auth/graphql';
 import { useAuth } from '../../../modules/auth';
 import Loader from '../../../components/Loader/Loader';
 import Button from '../../../components/Form/Button/Button';
 import { FaArrowRight } from 'react-icons/fa6';
+import { cn } from '../../../utils/functions';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../../../components/Tooltip';
 
 const SelectLesson = ({
   setSelectedPlan,
+  selectedPlan,
   setTabIndex,
   clicked,
   setClicked,
@@ -21,10 +32,25 @@ const SelectLesson = ({
   const history = useHistory();
   const { id } = useParams();
   const { user } = useAuth();
+
+  const [checkNiceSubscriptionStatus, { data: niceSubscriptionStatus }] =
+    useMutation(CHECK_NICE_SUBSCRIPTION_STATUS);
+
+  // first check the relevance of the NICE subscription
+  useEffect(() => {
+    checkNiceSubscriptionStatus({
+      variables: {
+        userId: user?.id,
+      },
+    });
+  }, []);
+
+  // second, getting active subscriptions
   const {
     data: { packageSubscriptions: planStatus = [] } = {},
     loading: planStatusesLoading,
   } = useQuery(PACKAGE_QUERY, {
+    skip: !niceSubscriptionStatus,
     variables: {
       userId: user?.id,
     },
@@ -43,36 +69,69 @@ const SelectLesson = ({
     history.push('/student/manage-lessons');
   };
 
-  const LessonCard = ({ title, duration, remaining, data, i }) => {
+  const LessonCard = ({ title, duration, remaining, data, i, active }) => {
     return (
-      <div
-        className={`cursor-pointer p-5 border rounded-lg ${
-          i === clicked
-            ? 'border-color-purple border-2 shadow-[0_0_0_4px_#F0EBF7] '
-            : 'border-color-border-grey'
-        }`}
-        onClick={() => {
-          setClicked(i);
-          setSelectedPlan(data);
-        }}
-      >
-        <div>
-          <h1 className="text-color-dark-purple text-xl tracking-tight font-semibold mb-4">
-            {capitalize(title)}
-          </h1>
+      <TooltipProvider>
+        <Tooltip delayDuration={200}>
+          <TooltipTrigger>
+            <div
+              className={cn(
+                `cursor-pointer p-5 border rounded-lg min-w-[18rem]`,
+                !active &&
+                  'grayscale bg-white brightness-75 opacity-80 cursor-not-allowed',
+                i === clicked &&
+                  active &&
+                  'border-color-purple border-2 shadow-[0_0_0_4px_#F0EBF7]',
+              )}
+              // onClick={() => {
+              //   setClicked(i);
+              //   setSelectedPlan(data);
+              // }}
+              onClick={active ? () => selectPlan(i, data) : undefined}
+            >
+              <div>
+                <h1 className="text-color-dark-purple text-xl tracking-tight font-semibold mb-4">
+                  {capitalize(title)}
+                </h1>
 
-          <div className="flex gap-2 flex-row">
-            <div className="text-color-dark-purple font-medium text-[17px] border border-color-border-grey rounded px-2.5 py-[5px] flex-grow text-center">
-              {t('lessons_remaining', { ns: 'lessons', count: remaining })}
+                <div className="flex gap-2 flex-row">
+                  <div className="text-color-dark-purple font-medium text-[17px] border border-color-border-grey rounded px-2.5 py-[5px] flex-grow text-center">
+                    {t('lessons_remaining', {
+                      ns: 'lessons',
+                      count: remaining,
+                    })}
+                  </div>
+                  <div className="flex items-center justify-center font-medium text-[17px] px-2.5 py-[5px] text-color-purple bg-color-light-purple rounded">
+                    {duration}
+                    {t('minutes_short', { ns: 'common' })}
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center justify-center font-medium text-[17px] px-2.5 py-[5px] text-color-purple bg-color-light-purple rounded">
-              {duration}
-              {t('minutes_short', { ns: 'common' })}
-            </div>
-          </div>
-        </div>
-      </div>
+          </TooltipTrigger>
+          {!active && (
+            <TooltipContent>
+              <div className="text-center">
+                <p className="text-color-dark-purple text-sm font-semibold max-w-[16rem]">
+                  {t('disabled_package')}
+                </p>
+              </div>
+            </TooltipContent>
+          )}
+        </Tooltip>
+      </TooltipProvider>
     );
+  };
+
+  const selectPlan = (idx, plan) => {
+    setClicked(idx);
+    setSelectedPlan(plan);
+  };
+
+  const sheduleLesson = () => {
+    if (selectedPlan?.active) {
+      setTabIndex(1);
+    }
   };
 
   return (
@@ -103,6 +162,7 @@ const SelectLesson = ({
                 i={i}
                 key={i}
                 expirationDate={x.periodEnd}
+                active={x.active}
               />
             ))
           )}
@@ -115,7 +175,8 @@ const SelectLesson = ({
           <Button
             theme="purple"
             disabled={disabled}
-            onClick={() => setTabIndex(1)}
+            // onClick={() => setTabIndex(1)}
+            onClick={sheduleLesson}
           >
             <span className="flex flex-row items-center justify-center gap-x-2">
               <span>{t('continue_custom')}</span>

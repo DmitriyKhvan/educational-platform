@@ -6,7 +6,7 @@ const Button = (props) => {
     disabled = false,
     children,
     className,
-    theme,
+    theme = 'purple',
     ...otherProps
   } = props;
 

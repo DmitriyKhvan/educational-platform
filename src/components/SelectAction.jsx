@@ -1,11 +1,6 @@
 import * as React from 'react';
 import * as SelectPrimitive from '@radix-ui/react-select';
-import clsx from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
-export function cn(...inputs) {
-  return twMerge(clsx(inputs));
-}
+import { cn } from '../utils/functions';
 
 const Select = SelectPrimitive.Root;
 

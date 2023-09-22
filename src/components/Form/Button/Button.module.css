@@ -3,7 +3,8 @@
 @layer components {
   .btn {
     @apply cursor-pointer 
-    p-[15px]
+    px-[15px]
+    h-12
     m-1
     rounded-md
     font-semibold 

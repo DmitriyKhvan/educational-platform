@@ -4,8 +4,9 @@ const InputWithError = ({ errorsField, children }) => {
       {children}
 
       {errorsField && (
-        <p className="text-sm text-color-magenta mt-1">{errorsField.message}</p>
+        <p className="text-[#df1b41] mt-1">{errorsField.message}</p>
       )}
+      {/* {JSON.stringify(errorsField, null, 2)} */}
     </div>
   );
 };
