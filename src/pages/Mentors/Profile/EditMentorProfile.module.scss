@@ -528,299 +528,299 @@
       }
     }
 
-    &_edu {
-      padding-left: 66px;
-      padding-top: 50px;
-      padding-bottom: 50px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    // &_edu {
+    //   padding-left: 66px;
+    //   padding-top: 50px;
+    //   padding-bottom: 50px;
+    //   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
-      &_title {
-        h2 {
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 500;
-          font-size: 27px;
-          line-height: 33px;
-          /* identical to box height */
-          margin: 0;
-          letter-spacing: -1px;
-          /* Dark Purple */
+    //   &_title {
+    //     h2 {
+    //       font-family: 'Inter';
+    //       font-style: normal;
+    //       font-weight: 500;
+    //       font-size: 27px;
+    //       line-height: 33px;
+    //       /* identical to box height */
+    //       margin: 0;
+    //       letter-spacing: -1px;
+    //       /* Dark Purple */
 
-          color: #261a45;
-        }
-      }
+    //       color: #261a45;
+    //     }
+    //   }
 
-      .edu_guild_card {
-        background: #ffffff;
-        /* Border Gray */
-        margin-top: 25px;
-        width: 440px;
-        border: 1px solid #dedee1;
-        border-radius: 10px;
-        padding: 15px 30px 30px 30px;
-        margin-bottom: 25px;
-        img {
-          width: 33px;
-          height: 33px;
-          object-fit: contain;
-        }
+    //   // .edu_guild_card {
+    //   //   background: #ffffff;
+    //   //   /* Border Gray */
+    //   //   margin-top: 25px;
+    //   //   width: 440px;
+    //   //   border: 1px solid #dedee1;
+    //   //   border-radius: 10px;
+    //   //   padding: 15px 30px 30px 30px;
+    //   //   margin-bottom: 25px;
+    //   //   img {
+    //   //     width: 33px;
+    //   //     height: 33px;
+    //   //     object-fit: contain;
+    //   //   }
 
-        h3 {
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 600;
-          font-size: 20px;
-          line-height: 24px;
-          letter-spacing: -0.6px;
+    //   //   h3 {
+    //   //     font-family: 'Inter';
+    //   //     font-style: normal;
+    //   //     font-weight: 600;
+    //   //     font-size: 20px;
+    //   //     line-height: 24px;
+    //   //     letter-spacing: -0.6px;
 
-          /* Dark Purple */
-          margin-top: 20px;
-          color: #261a45;
-        }
+    //   //     /* Dark Purple */
+    //   //     margin-top: 20px;
+    //   //     color: #261a45;
+    //   //   }
 
-        p {
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 500;
-          font-size: 18px;
-          line-height: 26px;
-          /* or 144% */
+    //   //   p {
+    //   //     font-family: 'Inter';
+    //   //     font-style: normal;
+    //   //     font-weight: 500;
+    //   //     font-size: 18px;
+    //   //     line-height: 26px;
+    //   //     /* or 144% */
 
-          letter-spacing: -0.7px;
+    //   //     letter-spacing: -0.7px;
 
-          /* Light Gray */
+    //   //     /* Light Gray */
 
-          color: #646481;
-        }
-      }
+    //   //     color: #646481;
+    //   //   }
+    //   // }
 
-      .form_divider {
-        margin-bottom: 25px;
-        p {
-          margin: 0;
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 600;
+    //   .form_divider {
+    //     margin-bottom: 25px;
+    //     p {
+    //       margin: 0;
+    //       font-family: 'Inter';
+    //       font-style: normal;
+    //       font-weight: 600;
 
-          font-size: 17px;
-          line-height: 21px;
-          /* identical to box height */
-          width: 360px;
-          letter-spacing: -0.6px;
+    //       font-size: 17px;
+    //       line-height: 21px;
+    //       /* identical to box height */
+    //       width: 360px;
+    //       letter-spacing: -0.6px;
 
-          /* Dark Purple */
+    //       /* Dark Purple */
 
-          color: #261a45;
-        }
+    //       color: #261a45;
+    //     }
 
-        input {
-          background: #ffffff;
-          /* Border Gray */
-          margin-top: 15px;
-          border: 1px solid #dedee1;
-          border-radius: 10px;
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 500;
-          font-size: 18px;
-          line-height: 22px;
-          /* identical to box height */
-          padding: 15px;
-          width: 420px;
-          letter-spacing: -0.5px;
-        }
+    //     input {
+    //       background: #ffffff;
+    //       /* Border Gray */
+    //       margin-top: 15px;
+    //       border: 1px solid #dedee1;
+    //       border-radius: 10px;
+    //       font-family: 'Inter';
+    //       font-style: normal;
+    //       font-weight: 500;
+    //       font-size: 18px;
+    //       line-height: 22px;
+    //       /* identical to box height */
+    //       padding: 15px;
+    //       width: 420px;
+    //       letter-spacing: -0.5px;
+    //     }
 
-        select {
-          background: #ffffff;
-          /* Border Gray */
-          margin-top: 15px;
-          border: 1px solid #dedee1;
-          border-radius: 10px;
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 500;
-          font-size: 18px;
-          line-height: 22px;
-          /* identical to box height */
-          padding: 15px;
-          width: 420px;
-          letter-spacing: -0.5px;
-        }
-      }
+    //     select {
+    //       background: #ffffff;
+    //       /* Border Gray */
+    //       margin-top: 15px;
+    //       border: 1px solid #dedee1;
+    //       border-radius: 10px;
+    //       font-family: 'Inter';
+    //       font-style: normal;
+    //       font-weight: 500;
+    //       font-size: 18px;
+    //       line-height: 22px;
+    //       /* identical to box height */
+    //       padding: 15px;
+    //       width: 420px;
+    //       letter-spacing: -0.5px;
+    //     }
+    //   }
 
-      .form_divider_edu {
-        margin-bottom: 25px;
-        p {
-          margin: 0;
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 600;
+    //   .form_divider_edu {
+    //     margin-bottom: 25px;
+    //     p {
+    //       margin: 0;
+    //       font-family: 'Inter';
+    //       font-style: normal;
+    //       font-weight: 600;
 
-          font-size: 17px;
-          line-height: 21px;
-          /* identical to box height */
-          width: 360px;
-          letter-spacing: -0.6px;
+    //       font-size: 17px;
+    //       line-height: 21px;
+    //       /* identical to box height */
+    //       width: 360px;
+    //       letter-spacing: -0.6px;
 
-          /* Dark Purple */
+    //       /* Dark Purple */
 
-          color: #261a45;
-        }
+    //       color: #261a45;
+    //     }
 
-        input {
-          background: #ffffff;
-          /* Border Gray */
-          margin-top: 15px;
-          border: 1px solid #dedee1;
-          border-radius: 10px;
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 500;
-          font-size: 18px;
-          line-height: 22px;
-          /* identical to box height */
-          padding: 15px;
-          width: 420px;
-          letter-spacing: -0.5px;
-        }
+    //     input {
+    //       background: #ffffff;
+    //       /* Border Gray */
+    //       margin-top: 15px;
+    //       border: 1px solid #dedee1;
+    //       border-radius: 10px;
+    //       font-family: 'Inter';
+    //       font-style: normal;
+    //       font-weight: 500;
+    //       font-size: 18px;
+    //       line-height: 22px;
+    //       /* identical to box height */
+    //       padding: 15px;
+    //       width: 420px;
+    //       letter-spacing: -0.5px;
+    //     }
 
-        select {
-          background: #ffffff;
-          /* Border Gray */
-          margin-top: 0px;
-          border: 1px solid #dedee1;
-          border-radius: 10px;
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 500;
-          font-size: 18px;
-          line-height: 22px;
-          /* identical to box height */
-          padding: 15px;
-          width: 420px;
-          letter-spacing: -0.5px;
-        }
-      }
+    //     select {
+    //       background: #ffffff;
+    //       /* Border Gray */
+    //       margin-top: 0px;
+    //       border: 1px solid #dedee1;
+    //       border-radius: 10px;
+    //       font-family: 'Inter';
+    //       font-style: normal;
+    //       font-weight: 500;
+    //       font-size: 18px;
+    //       line-height: 22px;
+    //       /* identical to box height */
+    //       padding: 15px;
+    //       width: 420px;
+    //       letter-spacing: -0.5px;
+    //     }
+    //   }
 
-      .edu_verify_card {
-        background: #ffffff;
-        /* Border Gray */
+    //   .edu_verify_card {
+    //     background: #ffffff;
+    //     /* Border Gray */
 
-        border: 1px solid #dedee1;
-        border-radius: 10px;
-        width: 420px;
-        height: 388px;
-        padding: 15px 30px 20px 30px;
+    //     border: 1px solid #dedee1;
+    //     border-radius: 10px;
+    //     width: 420px;
+    //     height: 388px;
+    //     padding: 15px 30px 20px 30px;
 
-        img {
-          width: 52px;
-          height: 40px;
-          object-fit: contain;
-        }
+    //     img {
+    //       width: 52px;
+    //       height: 40px;
+    //       object-fit: contain;
+    //     }
 
-        h3 {
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 600;
-          font-size: 20px;
-          line-height: 24px;
-          letter-spacing: -0.6px;
-          margin-top: 20px;
-          /* Purple */
-          margin-bottom: 15px;
-          color: #6133af;
-        }
+    //     h3 {
+    //       font-family: 'Inter';
+    //       font-style: normal;
+    //       font-weight: 600;
+    //       font-size: 20px;
+    //       line-height: 24px;
+    //       letter-spacing: -0.6px;
+    //       margin-top: 20px;
+    //       /* Purple */
+    //       margin-bottom: 15px;
+    //       color: #6133af;
+    //     }
 
-        p {
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 500;
-          font-size: 18px;
-          line-height: 26px;
-          /* or 144% */
+    //     p {
+    //       font-family: 'Inter';
+    //       font-style: normal;
+    //       font-weight: 500;
+    //       font-size: 18px;
+    //       line-height: 26px;
+    //       /* or 144% */
 
-          letter-spacing: -0.7px;
+    //       letter-spacing: -0.7px;
 
-          /* Dark Purple */
+    //       /* Dark Purple */
 
-          color: #261a45;
-        }
+    //       color: #261a45;
+    //     }
 
-        .avatar_block {
-          label {
-            background: #ffffff;
-            /* Border Gray */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px 0;
-            width: 100%;
-            border: 1px solid #dedee1;
-            border-radius: 10px;
-            gap: 10px;
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 600;
-            font-size: 15px;
-            line-height: 18px;
-            letter-spacing: -0.2px;
-            margin-bottom: 20px;
-            /* Dark Purple */
+    //     .avatar_block {
+    //       label {
+    //         background: #ffffff;
+    //         /* Border Gray */
+    //         display: flex;
+    //         align-items: center;
+    //         justify-content: center;
+    //         padding: 15px 0;
+    //         width: 100%;
+    //         border: 1px solid #dedee1;
+    //         border-radius: 10px;
+    //         gap: 10px;
+    //         font-family: 'Inter';
+    //         font-style: normal;
+    //         font-weight: 600;
+    //         font-size: 15px;
+    //         line-height: 18px;
+    //         letter-spacing: -0.2px;
+    //         margin-bottom: 20px;
+    //         /* Dark Purple */
 
-            color: #261a45;
-            cursor: pointer;
-            img {
-              width: 14px;
-              height: 14px;
+    //         color: #261a45;
+    //         cursor: pointer;
+    //         img {
+    //           width: 14px;
+    //           height: 14px;
 
-              object-fit: contain;
-            }
-            input {
-              display: none;
-            }
-          }
-        }
+    //           object-fit: contain;
+    //         }
+    //         input {
+    //           display: none;
+    //         }
+    //       }
+    //     }
 
-        div {
-          text-align: center;
-          span {
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 500;
-            font-size: 13px;
-            line-height: 26px;
-            /* identical to box height, or 200% */
+    //     div {
+    //       text-align: center;
+    //       span {
+    //         font-family: 'Inter';
+    //         font-style: normal;
+    //         font-weight: 500;
+    //         font-size: 13px;
+    //         line-height: 26px;
+    //         /* identical to box height, or 200% */
 
-            text-align: center;
-            letter-spacing: -0.3px;
+    //         text-align: center;
+    //         letter-spacing: -0.3px;
 
-            /* Light Gray */
+    //         /* Light Gray */
 
-            color: #646481;
-          }
-        }
-      }
+    //         color: #646481;
+    //       }
+    //     }
+    //   }
 
-      button {
-        background: #6133af;
-        /* Border Gray */
+    //   button {
+    //     background: #6133af;
+    //     /* Border Gray */
 
-        border: 1px solid #dedee1;
-        border-radius: 10px;
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 600;
-        font-size: 15px;
-        line-height: 18px;
-        letter-spacing: -0.2px;
-        cursor: pointer;
-        /* Dark Purple */
-        padding: 15px 0;
-        width: 420px;
-        margin-top: 25px;
-        color: white;
-      }
-    }
+    //     border: 1px solid #dedee1;
+    //     border-radius: 10px;
+    //     font-family: 'Inter';
+    //     font-style: normal;
+    //     font-weight: 600;
+    //     font-size: 15px;
+    //     line-height: 18px;
+    //     letter-spacing: -0.2px;
+    //     cursor: pointer;
+    //     /* Dark Purple */
+    //     padding: 15px 0;
+    //     width: 420px;
+    //     margin-top: 25px;
+    //     color: white;
+    //   }
+    // }
 
     &_intro {
       padding-left: 66px;

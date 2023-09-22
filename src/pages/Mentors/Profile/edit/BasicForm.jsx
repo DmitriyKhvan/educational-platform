@@ -64,7 +64,7 @@ const BasicForm = () => {
       {loading && <ReactLoader />}
       <form
         onSubmit={handleSubmit(handleEditBasicInfo)}
-        className="h-[1102px] py-[50px] pl-[66px] border-b border-solid border-color-border-grey"
+        className="py-[50px] pl-[66px] border-b border-solid border-color-border-grey"
         id="basic"
       >
         <h2 className="mb-5 text-[27px] font-medium leading-[33px] tracking-[-1px] text-color-dark-purple">
