@@ -36,6 +36,7 @@ import StripePayment from './pages/Students/StripePayment';
 import ConfirmPayment from './pages/ConfirmPayment';
 import BuyPackageTest from './pages/Students/BuyPackageTest';
 import { NicePayment } from './pages/Students/NicePayment';
+import Messanger from './pages/Messanger/Messanger';
 
 function PrivateRoute({ component: Component, ...rest }) {
   const { isAuthorized } = useAuth();
@@ -132,6 +133,7 @@ function App() {
           path="/:mode(stud|mentor)/profile"
           component={ProfileLayout}
         />
+        <PrivateRoute path="/messages" component={Messanger} />
 
         <Suspense
           fallback={
