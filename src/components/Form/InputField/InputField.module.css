@@ -1,0 +1,38 @@
+@tailwind components;
+
+@layer components {
+  .inputStyle {
+    @apply text-[15px]
+          h-[50px]
+          text-color-light-grey 
+          font-medium
+          leading-5
+          tracking-[-0.2px]
+          bg-white
+          border-solid 
+          border-[#e6e6e6] 
+          focus:border-[hsla(210,_96%,_45%,_50%)] 
+          focus:ring-[#2563eb00]
+          focus:shadow-[0px_1px_1px_rgba(0,_0,_0,_0.03),_0_0_0_3px_hsla(210,_96%,_45%,_25%),_0_1px_1px_0_rgba(0,_0,_0,_0.08)]
+          transition ease-in-out duration-300
+          placeholder:text-slate-400
+          placeholder:font-normal;
+  }
+
+  .iconStyle {
+    @apply flex
+    items-center
+    justify-center
+    px-2
+    h-[50px]
+    border-y 
+    border-solid 
+    border-[#e6e6e6] 
+    transition ease-in-out duration-300
+    select-none;
+  }
+
+  .labelStyle {
+    @apply mb-[10px] font-semibold text-[15px] leading-5 tracking-[-0.2px];
+  }
+}

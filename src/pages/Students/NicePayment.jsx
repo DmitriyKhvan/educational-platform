@@ -168,9 +168,10 @@ export const NicePayment = () => {
                     icon={
                       <img className="w-14" src={nicePayment} alt="payment" />
                     }
-                    className="w-full"
+                    className="w-full h-[44px]"
+                    classNameIcon="h-[44px]"
+                    classNameLabel="font-normal"
                     label={t('card_number')}
-                    // placeholder={t('card_number')}
                     placeholder="1234 1234 1234 1234"
                     {...register('card_number', {
                       required: t('required_card_number', { ns: 'common' }),
@@ -190,7 +191,9 @@ export const NicePayment = () => {
                   <InputMask
                     mask="99/99"
                     maskChar=""
-                    className="w-full"
+                    className="w-full h-[44px]"
+                    classNameIcon="h-[44px]"
+                    classNameLabel="font-normal"
                     label={t('expiry', { ns: 'common' })}
                     placeholder="MM/YY"
                     {...register('expiry', {
@@ -210,7 +213,9 @@ export const NicePayment = () => {
                   <InputMask
                     mask="99"
                     maskChar=""
-                    className="w-full"
+                    className="w-full h-[44px]"
+                    classNameIcon="h-[44px]"
+                    classNameLabel="font-normal"
                     type="password"
                     label={`${t('password', { ns: 'common' })} 
                        (${t('digits', { ns: 'common', count: 2 })})`}
@@ -235,7 +240,9 @@ export const NicePayment = () => {
                   <InputMask
                     mask="9999/99/99"
                     maskChar=""
-                    className="w-full"
+                    className="w-full h-[44px]"
+                    classNameIcon="h-[44px]"
+                    classNameLabel="font-normal"
                     label={t('birth', { ns: 'common' })}
                     placeholder="YYYY/MM/DD"
                     {...register('birth', {
@@ -262,7 +269,7 @@ export const NicePayment = () => {
           <Button
             type="submit"
             disabled={!isValid || loading}
-            className="self-start rounded text-white mt-4 bg-purple-500"
+            className="h-10 self-start rounded text-white mt-4 bg-purple-500"
           >
             {t('continue_button', { ns: 'common' })}
           </Button>

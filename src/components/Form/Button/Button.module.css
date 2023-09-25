@@ -3,13 +3,14 @@
 @layer components {
   .btn {
     @apply cursor-pointer 
-    p-3
+    px-[15px]
+    h-12
     m-1
     rounded-md
     font-semibold 
     text-base 
     tracking-[-0.2px]
-    leading-4
+    leading-[18px]
     disabled:opacity-60 
     focus:border-color-light-blue 
     focus:shadow-[0_0_0_0.25rem_rgba(13,110,253,0.25)]

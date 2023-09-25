@@ -1,9 +1,11 @@
 import { forwardRef } from 'react';
 
 const CheckboxField = forwardRef(
-  ({ label = '', type = 'checkbox', name = '', ...props }, ref) => {
+  ({ label = '', type = 'checkbox', name = '', className, ...props }, ref) => {
     return (
-      <label className="relative inline-flex items-center cursor-pointer">
+      <label
+        className={`relative inline-flex items-center cursor-pointer ${className}`}
+      >
         <input
           className={`
             appearance-none

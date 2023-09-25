@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import cls from './InputField.module.css';
 
 const InputField = forwardRef(function InputField(
   {
@@ -7,6 +8,8 @@ const InputField = forwardRef(function InputField(
     placeholder = '',
     autoComplete = 'off',
     className,
+    classNameIcon,
+    classNameLabel,
     icon,
     positionIcon = 'right',
     ...props
@@ -15,7 +18,9 @@ const InputField = forwardRef(function InputField(
 ) {
   return (
     <label>
-      {label && <div className="mb-1">{label}</div>}
+      {label && (
+        <div className={`${cls.labelStyle} ${classNameLabel}`}>{label}</div>
+      )}
       <div
         className={`flex items-center ${
           positionIcon === 'left' ? 'flex-row-reverse' : ''
@@ -24,23 +29,13 @@ const InputField = forwardRef(function InputField(
         <input
           className={`
           peer
-          p-2 
-          text-base 
-          bg-white
-          border-solid 
-          border-[#e6e6e6] 
-          focus:border-[hsla(210,_96%,_45%,_50%)] 
-          focus:ring-[#2563eb00]
-          focus:shadow-[0px_1px_1px_rgba(0,_0,_0,_0.03),_0_0_0_3px_hsla(210,_96%,_45%,_25%),_0_1px_1px_0_rgba(0,_0,_0,_0.08)]
-          transition ease-in-out duration-300
-          placeholder:text-slate-400
-          placeholder:font-normal
+          ${cls.inputStyle}
           ${className}
           ${
             icon && positionIcon === 'right'
-              ? ' rounded-l-md border-l border-y border-r-0 [clip-path:inset(-3px_0px_-3px_-3px)]'
+              ? ' rounded-l-md border-l border-y border-r-0 [clip-path:inset(-3px_1px_-3px_-3px)]'
               : icon && positionIcon === 'left'
-              ? 'rounded-r-md border-r border-y border-l-0 [clip-path:inset(-3px_-3px_-3px_0px)]'
+              ? 'rounded-r-md border-r border-y border-l-0 [clip-path:inset(-3px_-3px_-3px_1px)]'
               : 'rounded-md border'
           }
         `}
@@ -54,23 +49,15 @@ const InputField = forwardRef(function InputField(
         {icon && (
           <div
             className={`
-            flex
-            items-center
-            justify-center
-            h-[42px]
-            px-2
-            border-y 
-            border-solid 
-            border-[#e6e6e6] 
+            ${cls.iconStyle}
             peer-focus:border-[hsla(210,_96%,_45%,_50%)] 
             peer-focus:ring-[#2563eb00]
             peer-focus:shadow-[0px_1px_1px_rgba(0,_0,_0,_0.03),_0_0_0_3px_hsla(210,_96%,_45%,_25%),_0_1px_1px_0_rgba(0,_0,_0,_0.08)]
-            transition ease-in-out duration-300
-            select-none
+            ${classNameIcon}
             ${
               positionIcon === 'right'
-                ? 'border-r rounded-r-md [clip-path:inset(-3px_-3px_-3px_0px)]'
-                : 'border-l rounded-l-md [clip-path:inset(-3px_0px_-3px_-3px)]'
+                ? 'border-r rounded-r-md [clip-path:inset(-3px_-3px_-3px_1px)] ml-[-2px]'
+                : 'border-l rounded-l-md [clip-path:inset(-3px_1px_-3px_-3px)] mr-[-2px]'
             }
             `}
           >
