@@ -36,6 +36,7 @@ import StripePayment from './pages/Students/StripePayment';
 import ConfirmPayment from './pages/ConfirmPayment';
 import BuyPackageTest from './pages/Students/BuyPackageTest';
 import { NicePayment } from './pages/Students/NicePayment';
+import { SelectProfile } from './pages/Auth/SelectProfile';
 
 function PrivateRoute({ component: Component, ...rest }) {
   const { isAuthorized } = useAuth();
@@ -126,6 +127,8 @@ function App() {
         <PrivateRoute exact path="/purchase" component={BuyPackage} />
         <PrivateRoute path="/dashboard" component={Dashboard} />
         <PrivateRoute path="/approve-requests" component={ApproveRequest} />
+
+        <PrivateRoute path="/select-profile" component={SelectProfile} />
 
         <PublicRoute path="/referral/:referalcode" component={IsReferal} />
         <PrivateRoute
