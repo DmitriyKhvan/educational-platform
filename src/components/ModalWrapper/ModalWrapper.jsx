@@ -55,7 +55,7 @@ const ModalWrapper = ({
       onRequestClose={() => closeModal(false)}
     >
       <button
-        className="absolute right-5 top-[25px]"
+        className="absolute right-5 top-[25px] z-50"
         onClick={() => closeModal(false)}
       >
         <FaXmark className="text-2xl text-color-light-grey" />
