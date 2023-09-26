@@ -176,11 +176,13 @@ const EditMentorProfile = () => {
         }
 
         {
-          <EditAvatarModal
-            profileImage={profileImage}
-            closeModal={closeEditAvatarModal}
+          <ModalWrapper
             isOpen={showEditAvatar}
-          />
+            closeModal={closeEditAvatarModal}
+            paddingContent="0"
+          >
+            <EditAvatarModal closeModal={closeEditAvatarModal} />
+          </ModalWrapper>
         }
       </div>
     </Layout>
