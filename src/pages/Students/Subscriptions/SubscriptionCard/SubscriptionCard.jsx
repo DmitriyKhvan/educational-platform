@@ -19,7 +19,7 @@ export const SubscriptionCard = ({
   const [t] = useTranslation(['common', 'lessons']);
   return (
     <TooltipProvider>
-      <div className={'relative w-full max-w-[18rem]'}>
+      <div className="relative w-full w-[20rem]">
         <Tooltip delayDuration={200} disableHoverableContent={active}>
           <TooltipTrigger asChild>
             <div className="absolute -right-1 -top-2 z-10 shadow-lg rounded-full">
