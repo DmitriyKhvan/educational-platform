@@ -88,6 +88,7 @@ export const ME_QUERY = gql`
       timeZone
       phoneNumber
       koreanEquivalent
+      cardLast4
       students {
         id
         about
@@ -113,7 +114,52 @@ export const ME_QUERY = gql`
           url
         }
       }
+      activeSubscriptions {
+        id
+        periodStart
+        periodEnd
+        credits
+        modifyCredits
+        packageId
+        # package
+        paymentId
+        # payment
+        # lessons
+        active
+      }
     }
+  }
+`;
+
+export const CREATE_NICE_PAYMENT = gql`
+  mutation CREATE_NICE_PAYMENT(
+    $userId: ID!
+    $packageId: ID!
+    $amount: Int!
+    $courseTitle: String!
+    $cardNumber: String!
+    $expiry: String!
+    $birth: String!
+    $pwd2Digit: String!
+  ) {
+    createNicePayment(
+      userId: $userId
+      packageId: $packageId
+      amount: $amount
+      courseTitle: $courseTitle
+      cardNumber: $cardNumber
+      expiry: $expiry
+      birth: $birth
+      pwd2Digit: $pwd2Digit
+    ) {
+      id
+    }
+  }
+`;
+
+export const CHECK_NICE_SUBSCRIPTION_STATUS = gql`
+  mutation CHECK_NICE_SUBSCRIPTION_STATUS($userId: ID!) {
+    checkNiceSubscriptionStatus(userId: $userId)
   }
 `;
 
@@ -442,6 +488,7 @@ export const PACKAGE_QUERY = gql`
         cancelReason
         metadata
       }
+      active
     }
   }
 `;
@@ -524,6 +571,7 @@ export const APPOINTMENTS_QUERY = gql`
             title
           }
         }
+        paymentId
       }
     }
   }
@@ -543,8 +591,8 @@ export const APPROVE_APPOINTMENT = gql`
 `;
 
 export const CANCEL_APPOINTMENT = gql`
-  mutation CANCEL_LESSON($id: ID!) {
-    cancelLesson(id: $id) {
+  mutation CANCEL_LESSON($id: ID!, $cancelReason: String, $repeat: Boolean) {
+    cancelLessons(id: $id, cancelReason: $cancelReason, repeat: $repeat) {
       id
       startAt
       duration
@@ -562,19 +610,22 @@ export const CREATE_APPOINTMENT = gql`
     $subscriptionId: ID!
     $startAt: DateTime!
     $duration: Int!
+    $repeat: Boolean
   ) {
-    lesson: createLesson(
+    lesson: createLessons(
       mentorId: $mentorId
       studentId: $studentId
       packageSubscriptionId: $subscriptionId
       startAt: $startAt
       duration: $duration
+      repeat: $repeat
     ) {
       id
       startAt
       duration
       status
       cancelAction
+      cancelReason
       zoomlinkId
       #mentor
       #student
@@ -599,14 +650,41 @@ export const CREATE_APPOINTMENT = gql`
 `;
 
 export const UPDATE_APPOINTMENT = gql`
-  mutation UPDATE_LESSON($id: ID!, $startAt: DateTime!, $mentorId: ID!) {
-    lesson: rescheduleLesson(id: $id, startAt: $startAt, mentorId: $mentorId) {
+  mutation UPDATE_LESSON(
+    $id: ID!
+    $startAt: DateTime!
+    $mentorId: ID!
+    $repeat: Boolean
+  ) {
+    lesson: rescheduleLessons(
+      id: $id
+      startAt: $startAt
+      mentorId: $mentorId
+      repeat: $repeat
+    ) {
       id
       startAt
       duration
       status
       cancelAction
+      cancelReason
       zoomlinkId
+      packageSubscription {
+        id
+        periodStart
+        periodEnd
+        credits
+        packageId
+        modifyCredits
+        package {
+          course {
+            title
+          }
+        }
+        paymentId
+        # payment
+        # lessons
+      }
     }
   }
 `;

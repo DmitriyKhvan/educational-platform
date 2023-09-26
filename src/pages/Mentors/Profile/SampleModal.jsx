@@ -1,19 +1,15 @@
 import React from 'react';
 
-import cls from './Sample.module.scss';
-
-// import PlaceImg from '../../../assets/Placeholder.png';
-
-import Modal from 'react-modal';
-import Check from '../../../assets/check.png';
 import { useTranslation } from 'react-i18next';
+
+import { FaRegCircleCheck } from 'react-icons/fa6';
 
 const images = import.meta.glob('../../../assets/samples/*', {
   eager: true,
   as: 'url',
 });
 
-const SampleModal = ({ isOpen, closeModal }) => {
+const SampleModal = () => {
   const [t] = useTranslation('profile');
   const sampleInfo = [
     {
@@ -47,41 +43,38 @@ const SampleModal = ({ isOpen, closeModal }) => {
   ];
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={closeModal}
-      overlayClassName="edit-profile-modal-overlay"
-      className={cls.sample_modal}
-      bodyOpenClassName={'edit-modal-open'}
-    >
-      <div className={cls.sample_card}>
-        <div className={cls.sample_card_row}>
-          <div className={cls.sample_card_row_left}>
-            <section className={cls.sample_card_row_left_title}>
-              <h2>{t('photo_tips')}</h2>
-            </section>
-            <section className={cls.sample_types_row}>
-              <div>
-                {Object.values(images).map((item, idx) => (
-                  <img key={idx} src={item} alt="" />
-                ))}
-              </div>
-            </section>
+    <div className="sm:flex">
+      <div className="border-b sm:border-r border-solid border-color-border-grey w-full sm:w-1/2">
+        <section className="border-b border-solid border-color-border-grey">
+          <h2 className="p-[30px] font-semibold text-2xl leading-[29px] tracking-[-0.7px] text-color-purple">
+            {t('photo_tips')}
+          </h2>
+        </section>
+        <section className="flex p-[30px]">
+          <div className="flex justify-between gap-y-[20px] flex-wrap w-[350px]">
+            {Object.values(images).map((item, idx) => (
+              <img
+                className="w-[100px] h-[100px]"
+                key={idx}
+                src={item}
+                alt=""
+              />
+            ))}
           </div>
-          <div className={cls.sample_card_row_right}>
-            <span onClick={closeModal}>&times;</span>
-            <ul>
-              {sampleInfo.map((item) => (
-                <li key={item.id}>
-                  <img src={Check} alt="" />
-                  {item.text}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        </section>
       </div>
-    </Modal>
+
+      <div className="w-full sm:w-1/2">
+        <ul className="py-6 px-[30px]">
+          {sampleInfo.map((item) => (
+            <li className="flex my-4 items-center gap-[10px]" key={item.id}>
+              <FaRegCircleCheck className="text-2xl text-color-purple" />
+              {item.text}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 };
 

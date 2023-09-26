@@ -1,11 +1,25 @@
 import timezones from 'timezones-list';
 import { getData } from 'country-list';
+import { useTranslation } from 'react-i18next';
+// import { useMemo } from 'react';
 
 export const genders = [
   { label: 'Male', value: 'male' },
   { label: 'Female', value: 'female' },
   { label: 'Non-binary', value: 'non-binary' },
 ];
+
+export const useGenderDic = () => {
+  const { t } = useTranslation('profile');
+
+  const genders = [
+    { label: t('male'), value: 'male' },
+    { label: t('female'), value: 'female' },
+    { label: 'Non-binary', value: 'non-binary' },
+  ];
+
+  return genders;
+};
 
 export const pronouns = [
   { label: 'He/Him/His', value: 'male' },
@@ -512,4 +526,13 @@ export const cancellationArr = [
 export const ROLES = {
   MENTOR: 'mentor',
   STUDENT: 'student',
+};
+
+export const LESSONS_STATUS_TYPE = {
+  SCHEDULED: 'scheduled',
+  APPROVED: 'approved',
+  IN_PROGRESS: 'in_progress',
+  CANCELED: 'canceled',
+  COMPLETED: 'completed',
+  PAID: 'paid',
 };

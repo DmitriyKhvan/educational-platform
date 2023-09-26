@@ -16,7 +16,7 @@ import {
 } from '../constants/global';
 import { useAuth } from '../modules/auth';
 
-const Navbar = ({setShowSidebar}) => {
+const Navbar = ({ setShowSidebar }) => {
   const { user, logout } = useAuth();
   const [language, setLanguage] = useState(
     parseInt(getItemToLocalStorage('language', 1)),
@@ -83,7 +83,11 @@ const Navbar = ({setShowSidebar}) => {
           </Link>
         </div>
         <div className="mobile-menu">
-          <img src={MobileMenuIcon} alt="" onClick={() => setShowSidebar(state => !state)} />
+          <img
+            src={MobileMenuIcon}
+            alt=""
+            onClick={() => setShowSidebar((state) => !state)}
+          />
         </div>
       </div>
     </div>

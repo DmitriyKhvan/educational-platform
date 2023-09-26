@@ -22,9 +22,9 @@ const LessonCard = ({ lesson, duration, remaining }) => {
         </div>
         <div className="flex mt-3 gap-2 items-center">
           <div className="col-auto rounded-lg schedule-lesson-border schedule-lesson-border-widthss h-full">
-            <p className="m-2 time-style flex items-center justify-center">
-              <div className="time-style">{lessonDuration}</div>
-            </p>
+            <div className="m-2 time-style flex items-center justify-center">
+              {lessonDuration}
+            </div>
           </div>
           {optionalDisplayLessons}
         </div>
