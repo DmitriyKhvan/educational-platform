@@ -16,7 +16,7 @@ const CREATE_PAYMENT = gql`
   mutation CreatePayment(
     $userId: ID!
     $packageId: ID!
-    $provider: String
+    $provider: PaymentProviderType
     $metadata: JSON
   ) {
     createPayment(
@@ -45,7 +45,7 @@ const CheckoutForm = () => {
   const history = useHistory();
   const [isLoading, setLoading] = useState(false);
 
-  const [t] = useTranslation("common")
+  const [t] = useTranslation('common');
 
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -87,7 +87,7 @@ const CheckoutForm = () => {
           `/purchase/${params.packageId}/complete?payment_intent_client_secret=${params.clientSecret}`,
         );
       } catch (error) {
-        setErrorMessage("Server error. Please try again later.");
+        setErrorMessage('Server error. Please try again later.');
       }
     }
 
@@ -108,7 +108,7 @@ const CheckoutForm = () => {
           disabled={isLoading}
           className="py-2 px-3 rounded text-white mt-4 bg-purple-500 disabled:bg-gray-300"
         >
-          {t("continue_button")}
+          {t('continue_button')}
         </button>
         {/* Show error message to your customers */}
       </form>
