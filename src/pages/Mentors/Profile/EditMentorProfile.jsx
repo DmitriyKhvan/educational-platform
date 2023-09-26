@@ -16,6 +16,7 @@ import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 import { Link } from 'react-scroll';
 import { useTranslation } from 'react-i18next';
+import ModalWrapper from '../../../components/ModalWrapper/ModalWrapper';
 
 const EditMentorProfile = () => {
   const [t] = useTranslation(['profile', 'common']);
@@ -146,7 +147,7 @@ const EditMentorProfile = () => {
           </section>
         </div>
 
-        <div className={cls.editProfile_container_forms}>
+        <div>
           {/* Basic Info */}
 
           <BasicForm cls={cls} />
@@ -164,7 +165,16 @@ const EditMentorProfile = () => {
           <Intro cls={cls} />
         </div>
 
-        {<SampleModal isOpen={showSample} closeModal={closeSampleModal} />}
+        {
+          <ModalWrapper
+            isOpen={showSample}
+            closeModal={closeSampleModal}
+            paddingContent="0"
+          >
+            <SampleModal />
+          </ModalWrapper>
+        }
+
         {
           <EditAvatarModal
             profileImage={profileImage}
