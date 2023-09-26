@@ -19,7 +19,7 @@ export const SubscriptionCard = ({
   const [t] = useTranslation(['common', 'lessons']);
   return (
     <TooltipProvider>
-      <div className={'relative'}>
+      <div className="relative w-full w-[20rem]">
         <Tooltip delayDuration={200} disableHoverableContent={active}>
           <TooltipTrigger asChild>
             <div className="absolute -right-1 -top-2 z-10 shadow-lg rounded-full">
@@ -57,7 +57,7 @@ export const SubscriptionCard = ({
           }`}
         >
           <div className="text-lg font-semibold capitalize mb-2">{title}</div>
-          <div className="flex gap-x-8 justify-between">
+          <div className="flex justify-between">
             <div className="text-sm font-light leading-5">
               <div>
                 {t('cost_per_class')}:{' '}
