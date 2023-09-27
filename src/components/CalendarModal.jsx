@@ -8,6 +8,7 @@ import maleAvatar from '../assets/images/avatars/img_avatar_male.png';
 import { gql, useLazyQuery } from '@apollo/client';
 import Swal from 'sweetalert2';
 import RescheduleAndCancelModal from './student-dashboard/RescheduleAndCancelModal';
+import { isBetween } from '../utils/isBetween';
 
 const GET_ZOOMLINK = gql`
   query Get_Zoomlink($id: Int!) {
@@ -57,20 +58,14 @@ const CalendarModal = ({
     }
   }, [avatar]);
 
-  const today = moment();
-  const eventStartDate = moment(data.resource.eventDate.startAt);
-  const fiveMinuteBeforeEnd = moment(data.resource.eventDate.startAt).add(
-    data.resource.eventDate.duration - 5,
-    'minutes',
-  );
-
-  const isBetween = moment(today).isBetween(
-    eventStartDate,
-    fiveMinuteBeforeEnd,
-  );
-
   const joinLesson = async () => {
-    if (isBetween) {
+    //Time period when you can go to the lesson
+    if (
+      isBetween(
+        data.resource.eventDate.startAt,
+        data.resource.eventDate.duration,
+      )
+    ) {
       const zoomLink = await getZoomLink({
         variables: {
           id: parseInt(zoomlink),

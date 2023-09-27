@@ -14,10 +14,11 @@ import { LESSONS_STATUS_TYPE, ROLES } from '../../constants/global';
 import {
   addMinutes,
   differenceInHours,
-  isWithinInterval,
-  subMinutes,
+  // isWithinInterval,
+  // subMinutes,
 } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
+import { isBetween } from '../../utils/isBetween';
 
 const ScheduleCard = ({
   index,
@@ -81,21 +82,13 @@ const ScheduleCard = ({
     }
   };
 
-  //Time period when you can go to the lesson
-  const today = new Date();
-  const tenMinuteBeforeStart = subMinutes(dateLesson, 10);
-  const beforeEndLesson = addMinutes(dateLesson, data.duration);
-
-  const isBetween = isWithinInterval(today, {
-    start: tenMinuteBeforeStart,
-    end: beforeEndLesson,
-  });
   const [getZoomLink, { loading, error }] = useLazyQuery(GET_ZOOMLINK, {
     fetchPolicy: 'no-cache',
   });
 
   const joinLesson = () => {
-    if (isBetween) {
+    //Time period when you can go to the lesson
+    if (isBetween(dateLesson, data.duration)) {
       getZoomLink({
         variables: {
           id: parseInt(zoomlinkId),
