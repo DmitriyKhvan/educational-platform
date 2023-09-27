@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { addMinutes } from 'date-fns';
 
 import { BsPlayCircle } from 'react-icons/bs';
 import ModalWrapper from '../ModalWrapper/ModalWrapper';
-import { ZoomRecordingModal } from './ZoomRecordingModal';
-import { useState } from 'react';
+import { ZoomRecordingModal } from '../ZoomRecordingModal';
 
 export const LessonTable = ({
   displayTableData,
