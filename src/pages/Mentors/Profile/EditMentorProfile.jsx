@@ -12,11 +12,10 @@ import BasicForm from './edit/BasicForm';
 import { useAuth } from '../../../modules/auth';
 import { MUTATION_UPDATE_MENTOR } from '../../../modules/auth/graphql';
 import { useMutation } from '@apollo/client';
-import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 import { Link } from 'react-scroll';
 import { useTranslation } from 'react-i18next';
 import ModalWrapper from '../../../components/ModalWrapper/ModalWrapper';
+import { Avatar } from '../../../widgets/Avatar/Avatar';
 
 const EditMentorProfile = () => {
   const [t] = useTranslation(['profile', 'common']);
@@ -24,7 +23,6 @@ const EditMentorProfile = () => {
   const [showSample, setShowSample] = React.useState(false);
   const [showEditAvatar, setShowEditAvatar] = React.useState(false);
   const [updateMentor] = useMutation(MUTATION_UPDATE_MENTOR);
-  const [profileImage, setProfileImage] = React.useState('');
   const { user, refetchUser } = useAuth();
 
   const hooks = [
@@ -49,18 +47,6 @@ const EditMentorProfile = () => {
       count: 5120,
     },
   ];
-
-  React.useEffect(() => {
-    if (user?.mentor?.avatar) {
-      setProfileImage(user?.mentor?.avatar?.url);
-    } else if (user.gender === 'female') {
-      setProfileImage(femaleAvatar);
-    } else if (user.gender === 'male') {
-      setProfileImage(maleAvatar);
-    } else {
-      setProfileImage(maleAvatar);
-    }
-  }, [user]);
 
   const closeSampleModal = () => setShowSample(false);
 
@@ -96,7 +82,8 @@ const EditMentorProfile = () => {
 
             <div className={cls.editProfile_left_avatar}>
               <div className={cls.avatar_left}>
-                {<img src={profileImage} alt="" />}
+                {/* {<img src={profileImage} alt="" />} */}
+                <Avatar avatarUrl={user?.mentor?.avatar?.url} />
               </div>
               <div className={cls.avatar_right}>
                 <button onClick={() => setShowEditAvatar(true)}>
