@@ -58,5 +58,6 @@
   "pay_every_weeks": "Pay every {{ weeks }} weeks",
   "status": "Status",
   "lessons_remaining_schedule": "Lessons To Schedule",
-  "disabled_package": "Sorry, your service subscription has expired or is invalid. You can contact an administrator for further assistance."
+  "disabled_package": "Sorry, your service subscription has expired or is invalid. You can contact an administrator for further assistance.",
+  "recording": "Recording"
 }
