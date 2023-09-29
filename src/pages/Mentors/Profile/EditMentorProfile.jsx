@@ -1,6 +1,5 @@
 import React from 'react';
 import Layout from '../../../components/Layout';
-import cls from './EditMentorProfile.module.scss';
 import Stick from '../../../assets/stick.png';
 import SampleModal from './SampleModal';
 import Biography from './edit/Biography';
@@ -70,9 +69,9 @@ const EditMentorProfile = () => {
 
   return (
     <Layout>
-      <div className={cls.editProfile_container}>
-        <div className={cls.editProfile_container_row}>
-          <section className="ml-[65px]">
+      <div>
+        <div className="pl-[65px] flex flex-wrap gap-10 2xl:gap-[90px] py-[50px] border-b border-color-border-grey">
+          <section className="">
             <h2 className="text-[40px] text-color-dark-purple leading-[48px] tracking-[-1px]">
               {t('edit_profile')}
             </h2>
@@ -114,7 +113,7 @@ const EditMentorProfile = () => {
             </p>
           </section>
 
-          <section className={cls.editProfile_right}>
+          <section>
             <div className="flex">
               {hooks.map((item) => (
                 <Link
@@ -138,9 +137,13 @@ const EditMentorProfile = () => {
               ))}
             </div>
 
-            <div className={cls.editProfile_right_guild}>
+            <div>
               <div className="w-[440px] bg-white mt-[85px] border border-color-border-grey rounded-[10px] pt-[15px] px-[30px] pb-[30px]">
-                <img src={Stick} alt="" />
+                <img
+                  className="w-[33px] h-[33px] object-contain"
+                  src={Stick}
+                  alt=""
+                />
 
                 <h2 className="mt-[20px] font-semibold text-[20px] text-color-dark-purple leading-[24px] tracking-[-0.6px]">
                   {t('photo_guidelines')}
@@ -161,19 +164,19 @@ const EditMentorProfile = () => {
         <div>
           {/* Basic Info */}
 
-          <BasicForm cls={cls} />
+          <BasicForm />
 
           {/* Biography info */}
 
-          <Biography cls={cls} />
+          <Biography />
 
           {/* Edu */}
 
-          <Education cls={cls} />
+          <Education />
 
           {/* Intro */}
 
-          <Intro cls={cls} />
+          <Intro />
         </div>
 
         {
