@@ -5,173 +5,173 @@
     gap: 90px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding-bottom: 50px;
-    .editProfile_left {
-      margin-left: 65px;
+    // .editProfile_left {
+    //   margin-left: 65px;
 
-      &_title {
-        h2 {
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 400;
-          font-size: 40px;
-          line-height: 48px;
-          letter-spacing: -1px;
-          margin-top: 0;
-          /* Dark Purple */
+    // &_title {
+    //   h2 {
+    //     font-family: 'Inter';
+    //     font-style: normal;
+    //     font-weight: 400;
+    //     font-size: 40px;
+    //     line-height: 48px;
+    //     letter-spacing: -1px;
+    //     margin-top: 0;
+    //     /* Dark Purple */
 
-          color: #261a45;
-        }
-      }
+    //     color: #261a45;
+    //   }
+    // }
 
-      &_photo {
-        margin-top: 50px;
-        &_title {
-          h2 {
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 500;
-            font-size: 27px;
-            line-height: 33px;
-            /* identical to box height */
+    // &_photo {
+    //   margin-top: 50px;
+    //   &_title {
+    //     h2 {
+    //       font-family: 'Inter';
+    //       font-style: normal;
+    //       font-weight: 500;
+    //       font-size: 27px;
+    //       line-height: 33px;
+    //       /* identical to box height */
 
-            letter-spacing: -1px;
-            margin: 0;
-            /* Dark Purple */
+    //       letter-spacing: -1px;
+    //       margin: 0;
+    //       /* Dark Purple */
 
-            color: #261a45;
-          }
-        }
-      }
+    //       color: #261a45;
+    //     }
+    //   }
+    // }
 
-      &_avatar {
-        display: flex;
-        margin-top: 30px;
-        align-items: center;
-        gap: 30px;
+    // &_avatar {
+    //   display: flex;
+    //   margin-top: 30px;
+    //   align-items: center;
+    //   gap: 30px;
 
-        .avatar_left {
-          img {
-            width: 150px;
-            height: 150px;
-            background: #c4c4c4;
-            border-radius: 10px;
-            object-position: top;
-            object-fit: cover;
-          }
-        }
+    // .avatar_left {
+    // img {
+    //   width: 150px;
+    //   height: 150px;
+    //   background: #c4c4c4;
+    //   border-radius: 10px;
+    //   object-position: top;
+    //   object-fit: cover;
+    // }
+    // }
 
-        .avatar_right {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
+    // .avatar_right {
+    //   display: flex;
+    //   flex-direction: column;
+    //   gap: 10px;
 
-          button {
-            background: #ffffff;
-            /* Border Gray */
-            cursor: pointer;
-            padding: 16px 30px;
-            border: 1px solid #dedee1;
-            border-radius: 10px;
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 600;
-            font-size: 15px;
-            line-height: 18px;
-            letter-spacing: -0.2px;
-            display: flex;
-            align-items: center;
-            /* Dark Purple */
-            gap: 10px;
-            color: #261a45;
+    //   button {
+    //     background: #ffffff;
+    //     /* Border Gray */
+    //     cursor: pointer;
+    //     padding: 16px 30px;
+    //     border: 1px solid #dedee1;
+    //     border-radius: 10px;
+    //     font-family: 'Inter';
+    //     font-style: normal;
+    //     font-weight: 600;
+    //     font-size: 15px;
+    //     line-height: 18px;
+    //     letter-spacing: -0.2px;
+    //     display: flex;
+    //     align-items: center;
+    //     /* Dark Purple */
+    //     gap: 10px;
+    //     color: #261a45;
 
-            img {
-              width: 18px;
-              height: 18px;
-            }
-          }
-        }
-      }
+    //     img {
+    //       width: 18px;
+    //       height: 18px;
+    //     }
+    //   }
+    // }
+    // }
 
-      &_content {
-        margin-top: 30px;
+    // &_content {
+    //   margin-top: 30px;
 
-        p {
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 500;
-          font-size: 15px;
-          line-height: 18px;
-          letter-spacing: -0.7px;
+    //   p {
+    //     font-family: 'Inter';
+    //     font-style: normal;
+    //     font-weight: 500;
+    //     font-size: 15px;
+    //     line-height: 18px;
+    //     letter-spacing: -0.7px;
 
-          /* Light Gray */
+    //     /* Light Gray */
 
-          color: #646481;
-          margin: 0;
-        }
-      }
-    }
+    //     color: #646481;
+    //     margin: 0;
+    //   }
+    // }
+    // }
 
     .editProfile_right {
-      &_hooks {
-        display: flex;
-        a {
-          background: #ffffff;
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 600;
-          cursor: pointer;
-          font-size: 15px;
-          line-height: 18px;
-          letter-spacing: -0.7px;
-          text-decoration: none;
-          /* Dark Purple */
+      // &_hooks {s
+      // display: flex;
+      // a {
+      //   background: #ffffff;
+      //   font-family: 'Inter';
+      //   font-style: normal;
+      //   font-weight: 600;
+      //   cursor: pointer;
+      //   font-size: 15px;
+      //   line-height: 18px;
+      //   letter-spacing: -0.7px;
+      //   text-decoration: none;
+      //   /* Dark Purple */
 
-          color: #261a45;
-          /* Border Gray */
-          padding: 11px 15px;
-          border: 1px solid #dedee1;
+      //   color: #261a45;
+      //   /* Border Gray */
+      //   padding: 11px 15px;
+      //   border: 1px solid #dedee1;
 
-          &:nth-child(4) {
-            /* Border Gray */
+      //   &:nth-child(4) {
+      //     /* Border Gray */
 
-            border-radius: 0px 10px 10px 0px;
-          }
-          &:nth-child(1) {
-            /* Border Gray */
+      //     border-radius: 0px 10px 10px 0px;
+      //   }
+      //   &:nth-child(1) {
+      //     /* Border Gray */
 
-            border-radius: 10px 0px 0px 10px;
-          }
-        }
+      //     border-radius: 10px 0px 0px 10px;
+      //   }
+      // }
 
-        .active_hook {
-          /* Purple Light */
-          background: #ebe4ff;
-          /* Purple */
-          font-family: 'Inter';
-          font-style: normal;
-          font-weight: 600;
-          font-size: 15px;
-          line-height: 18px;
-          letter-spacing: -0.7px;
+      // .active_hook {
+      //   /* Purple Light */
+      //   background: #ebe4ff;
+      //   /* Purple */
+      //   font-family: 'Inter';
+      //   font-style: normal;
+      //   font-weight: 600;
+      //   font-size: 15px;
+      //   line-height: 18px;
+      //   letter-spacing: -0.7px;
 
-          /* Purple */
+      //   /* Purple */
 
-          color: #6133af;
+      //   color: #6133af;
 
-          border: 1px solid #6133af;
-        }
-      }
+      //   border: 1px solid #6133af;
+      // }
+      // }
 
       &_guild {
         .guild_card {
           /* White */
-          width: 440px;
-          background: #ffffff;
-          /* Border Gray */
-          margin-top: 85px;
-          border: 1px solid #dedee1;
-          border-radius: 10px;
-          padding: 15px 40px 30px 30px;
+          // width: 440px;
+          // background: #ffffff;
+          // /* Border Gray */
+          // margin-top: 85px;
+          // border: 1px solid #dedee1;
+          // border-radius: 10px;
+          // padding: 15px 40px 30px 30px;
 
           img {
             width: 33px;
@@ -179,56 +179,56 @@
             object-fit: contain;
           }
 
-          h2 {
-            font-family: 'Inter';
-            font-style: normal;
-            margin-top: 20px;
-            font-weight: 600;
-            font-size: 20px;
-            line-height: 24px;
-            letter-spacing: -0.6px;
+          // h2 {
+          //   font-family: 'Inter';
+          //   font-style: normal;
+          //   margin-top: 20px;
+          //   font-weight: 600;
+          //   font-size: 20px;
+          //   line-height: 24px;
+          //   letter-spacing: -0.6px;
 
-            /* Dark Purple */
-            margin-bottom: 0;
-            color: #261a45;
-          }
+          //   /* Dark Purple */
+          //   margin-bottom: 0;
+          //   color: #261a45;
+          // }
 
-          p {
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 500;
-            font-size: 18px;
-            line-height: 26px;
-            /* identical to box height, or 144% */
-            margin-top: 6px;
-            letter-spacing: -0.7px;
+          // p {
+          //   font-family: 'Inter';
+          //   font-style: normal;
+          //   font-weight: 500;
+          //   font-size: 18px;
+          //   line-height: 26px;
+          //   /* identical to box height, or 144% */
+          //   margin-top: 6px;
+          //   letter-spacing: -0.7px;
 
-            /* Light Gray */
-            margin-bottom: 0;
-            color: #646481;
-          }
+          //   /* Light Gray */
+          //   margin-bottom: 0;
+          //   color: #646481;
+          // }
 
-          button {
-            /* White */
+          // button {
+          //   /* White */
 
-            background: #ffffff;
-            /* Border Gray */
-            padding: 15px 0;
-            width: 100%;
-            border: 1px solid #dedee1;
-            border-radius: 10px;
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 600;
-            font-size: 15px;
-            line-height: 18px;
-            cursor: pointer;
-            letter-spacing: -0.2px;
-            margin-top: 25px;
-            /* Dark Purple */
+          //   background: #ffffff;
+          //   /* Border Gray */
+          //   padding: 15px 0;
+          //   width: 100%;
+          //   border: 1px solid #dedee1;
+          //   border-radius: 10px;
+          //   font-family: 'Inter';
+          //   font-style: normal;
+          //   font-weight: 600;
+          //   font-size: 15px;
+          //   line-height: 18px;
+          //   cursor: pointer;
+          //   letter-spacing: -0.2px;
+          //   margin-top: 25px;
+          //   /* Dark Purple */
 
-            color: #261a45;
-          }
+          //   color: #261a45;
+          // }
         }
       }
     }
