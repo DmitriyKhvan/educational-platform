@@ -573,6 +573,13 @@ export const APPOINTMENTS_QUERY = gql`
         }
         paymentId
       }
+      zoom {
+        id
+        meetingId
+        startUrl
+        joinUrl
+        recordingUrl
+      }
     }
   }
 `;

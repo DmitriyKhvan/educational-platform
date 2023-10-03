@@ -6,23 +6,21 @@ import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
-import { GET_ZOOMLINK } from '../../modules/auth/graphql';
-import { useLazyQuery } from '@apollo/client';
-import ReactLoader from '../common/Loader';
-import notify from '../../utils/notify';
+
 import { LESSONS_STATUS_TYPE, ROLES } from '../../constants/global';
 import {
   addMinutes,
   differenceInHours,
-  isWithinInterval,
-  subMinutes,
+  // isWithinInterval,
+  // subMinutes,
 } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
+import { isBetween } from '../../utils/isBetween';
 
 const ScheduleCard = ({
   index,
   lesson,
-  zoomlinkId,
+  zoom,
   date,
   mentor,
   data,
@@ -81,29 +79,13 @@ const ScheduleCard = ({
     }
   };
 
-  //Time period when you can go to the lesson
-  const today = new Date();
-  const tenMinuteBeforeStart = subMinutes(dateLesson, 10);
-  const beforeEndLesson = addMinutes(dateLesson, data.duration);
-
-  const isBetween = isWithinInterval(today, {
-    start: tenMinuteBeforeStart,
-    end: beforeEndLesson,
-  });
-  const [getZoomLink, { loading, error }] = useLazyQuery(GET_ZOOMLINK, {
-    fetchPolicy: 'no-cache',
-  });
-
   const joinLesson = () => {
-    if (isBetween) {
-      getZoomLink({
-        variables: {
-          id: parseInt(zoomlinkId),
-        },
-        onCompleted: (data) => {
-          window.open(data.zoomLink.url, '_blank');
-        },
-      });
+    //Time period when you can go to the lesson
+    if (isBetween(dateLesson, data.duration)) {
+      window.open(
+        user.role === 'mentor' ? zoom.startUrl : zoom.joinUrl,
+        '_blank',
+      );
     } else {
       setIsWarningOpen(true);
     }
@@ -129,14 +111,6 @@ const ScheduleCard = ({
     );
     return `${eventDate} at ${start} → ${end}`;
   };
-
-  if (error) {
-    notify(error.message, 'error');
-  }
-
-  if (loading) {
-    return <ReactLoader />;
-  }
 
   return (
     <div

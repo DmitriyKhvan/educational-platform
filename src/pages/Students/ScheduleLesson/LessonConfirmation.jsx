@@ -145,7 +145,7 @@ const LessonConfirmation = ({
         setIsLoading(false);
       }
     }
-    if (lesson) {
+    if (lesson.length) {
       setConfirmDisable(true);
       setNewAppointment(lesson);
       // setDate(moment(lesson.startAt).unix());

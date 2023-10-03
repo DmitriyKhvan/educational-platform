@@ -5,7 +5,6 @@ export const SelectField = forwardRef(function SelectField(
   { value, options, onChange },
   ref,
 ) {
-  // console.log('defaultValue', defaultValue);
   const defaultValue = useMemo(() => {
     return options.find((item) => item.value === value);
   }, [options]);

@@ -41,6 +41,7 @@ const sortCalendarEvents = (data) => {
       const startAt = moment.unix(date).utc(0, true);
       const end_at = moment.unix(endEpoch).utc(0, true);
       const iterateEvents = {
+        zoom: eventDate.zoom,
         zoomLink: eventDate.zoomlinkId,
         lesson: eventDate?.packageSubscription?.package?.course?.title,
         startAt,
@@ -235,7 +236,8 @@ const Calendar = () => {
             lesson={selectedEvent?.title}
             startTime={startTime}
             endTime={endTime}
-            zoomlink={selectedEvent.resource?.zoomLink}
+            // zoomlink={selectedEvent.resource?.zoomLink}
+            zoom={selectedEvent.resource?.zoom}
             time={scheduledTime}
             data={selectedEvent}
             closeModal={closeModal}
