@@ -6,10 +6,7 @@ import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
-import { GET_ZOOMLINK } from '../../modules/auth/graphql';
-import { useLazyQuery } from '@apollo/client';
-import ReactLoader from '../common/Loader';
-import notify from '../../utils/notify';
+
 import { LESSONS_STATUS_TYPE, ROLES } from '../../constants/global';
 import {
   addMinutes,
@@ -23,7 +20,7 @@ import { isBetween } from '../../utils/isBetween';
 const ScheduleCard = ({
   index,
   lesson,
-  zoomlinkId,
+  zoom,
   date,
   mentor,
   data,
@@ -82,21 +79,13 @@ const ScheduleCard = ({
     }
   };
 
-  const [getZoomLink, { loading, error }] = useLazyQuery(GET_ZOOMLINK, {
-    fetchPolicy: 'no-cache',
-  });
-
   const joinLesson = () => {
     //Time period when you can go to the lesson
     if (isBetween(dateLesson, data.duration)) {
-      getZoomLink({
-        variables: {
-          id: parseInt(zoomlinkId),
-        },
-        onCompleted: (data) => {
-          window.open(data.zoomLink.url, '_blank');
-        },
-      });
+      window.open(
+        user.role === 'mentor' ? zoom.startUrl : zoom.joinUrl,
+        '_blank',
+      );
     } else {
       setIsWarningOpen(true);
     }
@@ -122,14 +111,6 @@ const ScheduleCard = ({
     );
     return `${eventDate} at ${start} → ${end}`;
   };
-
-  if (error) {
-    notify(error.message, 'error');
-  }
-
-  if (loading) {
-    return <ReactLoader />;
-  }
 
   return (
     <div

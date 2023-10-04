@@ -151,10 +151,14 @@ export const LessonTable = ({
                     </p>
                   </td>
                   <td className="pt-4 border-b m-0">
-                    <BsPlayCircle
-                      onClick={() => playRecording()}
-                      className="mt-4 text-2xl text-color-purple cursor-pointer text-center"
-                    />
+                    {event.resource?.zoom?.recordingUrl && (
+                      <BsPlayCircle
+                        onClick={() =>
+                          playRecording(event.resource?.zoom?.recordingUrl)
+                        }
+                        className="mt-4 text-2xl text-color-purple cursor-pointer text-center"
+                      />
+                    )}
                   </td>
 
                   {/* <td className="td-item">

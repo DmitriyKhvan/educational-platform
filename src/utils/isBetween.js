@@ -6,6 +6,12 @@ export const isBetween = (date, duration) => {
   const tenMinuteBeforeStart = subMinutes(dateLesson, 10);
   const beforeEndLesson = addMinutes(dateLesson, duration);
 
+  // console.log('today', today);
+  // console.log('date', date);
+  // console.log('dateLesson', dateLesson);
+  // console.log('tenMinuteBeforeStart', tenMinuteBeforeStart);
+  // console.log('beforeEndLesson', beforeEndLesson);
+
   const isBetween = isWithinInterval(today, {
     start: tenMinuteBeforeStart,
     end: beforeEndLesson,
