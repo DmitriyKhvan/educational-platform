@@ -1,154 +1,136 @@
 import React from 'react';
 import Layout from '../../../../components/Layout';
 
-import cls from './SubmitVideo.module.scss';
-
 import { useHistory } from 'react-router-dom';
 import { MUTATION_UPDATE_MENTOR } from '../../../../modules/auth/graphql';
 import { useMutation } from '@apollo/client';
 import { useAuth } from '../../../../modules/auth';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import ClipLoader from 'react-spinners/ClipLoader';
+import Button from '../../../../components/Form/Button';
+import { FaVimeo, FaYoutube } from 'react-icons/fa';
+import InputField from '../../../../components/Form/InputField';
+import InputWithError from '../../../../components/Form/InputWithError';
+import notify from '../../../../utils/notify';
 
 const SubmitVideo = () => {
   const history = useHistory();
   const [typeVideo, setTypeVideo] = React.useState('yt');
 
   const [t] = useTranslation(['profile', 'common']);
-  const [updateMentor] = useMutation(MUTATION_UPDATE_MENTOR);
+  const [updateMentor, { loading, error }] = useMutation(
+    MUTATION_UPDATE_MENTOR,
+  );
 
   const { user, refetchUser } = useAuth();
 
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
     mode: 'onBlur',
   });
 
   const handleEditVideo = async (area) => {
     if (area.videoUrl) {
-      const { data } = await updateMentor({
+      await updateMentor({
         variables: {
           id: parseInt(user?.mentor?.id),
           data: { videoUrl: area.videoUrl },
         },
+        onCompleted: () => {
+          history.push('/mentor/edit-profiles/submit-videos/submited');
+        },
       });
-
-      if (data) {
-        history.push('/mentor/edit-profiles/submit-videos/submited');
-      }
     }
 
     await refetchUser();
   };
 
+  if (error) {
+    notify(error.message, 'error');
+  }
+
   return (
     <Layout>
-      <div className={cls.submitVideo_container}>
-        <div className={cls.submitVideo_container_title}>
-          <h2>{t('edit_profile')}</h2>
-          <br />
-        </div>
+      <div className="p-[50px]">
+        <h2 className="text-[40px] leading-[48px] trackign-[-1px]">
+          {t('edit_profile')}
+        </h2>
 
-        <div className={cls.submitVideo_container_record}>
-          {/* <h2>Record your video</h2> */}
+        <form
+          onSubmit={handleSubmit(handleEditVideo)}
+          className="sm:w-1/2 xl:w-[380px]"
+        >
+          <div>
+            <p className="text-[15px] text-color-light-grey font-semibold leading-[18px] tracking-[-0.3px] mb-[15px]">
+              {t('prerecorded')}
+            </p>
+            <p className="text-[15px] text-color-light-grey font-semibold leading-[18px] tracking-[-0.3px] mb-[15px]">
+              Upload video via youtube share!
+            </p>
 
-          <div className={cls.submitVideo_container_record_row}>
-            <form
-              onSubmit={handleSubmit(handleEditVideo)}
-              className={cls.record_left}
-            >
-              {/* <div
-                className={cls.video_player_background}
-                style={{
-                  background: `url("${VideoContainer}") center / cover`
-                }}
+            <div className="flex gap-5 mb-5">
+              <Button
+                onClick={() => setTypeVideo('vm')}
+                theme="outline"
+                className={typeVideo === 'vm' && 'bg-color-purple text-white'}
               >
-                <img src={VideoLayer} alt='' />
-              </div>
+                <span className="flex items-center justify-center gap-[10px]">
+                  <span>Vimeo</span>
+                  <FaVimeo className="text-2xl text-color-pale-blue" />
+                </span>
+              </Button>
 
-              <button className={cls.recording_button}>
-                <span className={cls.record_icon}></span>
-                Start Recording
-              </button> */}
+              <Button
+                onClick={() => setTypeVideo('yt')}
+                theme="outline"
+                className={typeVideo === 'yt' && 'bg-color-purple text-white'}
+              >
+                <span className="flex items-center justify-center gap-[10px]">
+                  <span>Youtube</span>
+                  <FaYoutube className="text-2xl text-red-500" />
+                </span>
+              </Button>
+            </div>
 
-              <div className={cls.record_youtube}>
-                <p>{t('prerecorded')}</p>
-                <p>Upload video via youtube share!</p>
-
-                <div className={cls.type_video_btn}>
-                  <button
-                    onClick={() => setTypeVideo('vm')}
-                    className={typeVideo === 'vm' ? cls.activeBtn : ''}
-                  >
-                    Vimeo
-                    <img
-                      src="https://www.oxfordbachsoloists.com/wp-content/uploads/2022/04/vimeo-icon-logo-441934AEB1-seeklogo.com_.png"
-                      alt=""
-                    />
-                  </button>
-                  <button
-                    onClick={() => setTypeVideo('yt')}
-                    className={typeVideo === 'yt' ? cls.activeBtn : ''}
-                  >
-                    Youtube
-                    <img
-                      src="https://img.freepik.com/free-icon/youtube_318-566773.jpg"
-                      alt=""
-                    />
-                  </button>
-                </div>
-
-                <div className={cls.record_youtube_row}>
-                  {typeVideo === 'yt' ? (
-                    <input
-                      type={'text'}
-                      placeholder="youtube.com/video"
-                      {...register('videoUrl')}
-                    />
-                  ) : (
-                    <input
-                      type={'text'}
-                      placeholder="vimeo.com/video"
-                      {...register('videoUrl')}
-                    />
-                  )}
-                  <button type="submit">{t('submit', { ns: 'common' })}</button>
-                </div>
-              </div>
-
-              {/* <div className={cls.record_footer_buttons}>
-                <button onClick={cancelVideo}>Cancel and Return</button>
-                <button type='submit'>Submit My Video</button>
-              </div> */}
-            </form>
-
-            {/* <div className={cls.record_right}>
-              <div className={cls.instruction_card}>
-                <h3>Instructions</h3>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  sit amet ligula nisi.
-                </p>
-                <p>
-                  Aliquam ultrices, dui quis convallis aliquam, erat odio
-                  rhoncus purus, quis posuere leo tellus.
-                </p>
-                <p>
-                  Quisque luctus arcu nec scelerisque consectetur. Mauris dictum
-                  lacus nec feugiat placerat.
-                </p>
-                <iframe
-                  width='560'
-                  height='315'
-                  src='https://www.youtube.com/embed/cwbC8rJ9TPA'
-                  title='YouTube video player'
-                  frameborder='0'
-                  allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-                  allowfullscreen
-                ></iframe>
-              </div>
-            </div> */}
+            <InputWithError errorsField={errors?.videoUrl}>
+              <InputField
+                className="w-full"
+                placeholder={
+                  typeVideo === 'yt' ? 'youtube.com/video' : 'vimeo.com/video'
+                }
+                {...register('videoUrl', {
+                  required: 'Video is required',
+                })}
+              />
+            </InputWithError>
           </div>
-        </div>
+
+          <div className="flex gap-[10px] mt-[35px]">
+            <Button
+              onClick={() => history.push('/mentor/edit-profile')}
+              className="w-full"
+              theme="outline"
+            >
+              Cancel and Return
+            </Button>
+            <Button
+              className="w-full"
+              theme="outline"
+              type="submit"
+              disabled={!isValid}
+            >
+              {loading ? (
+                <ClipLoader loading={loading} size={20} color="white" />
+              ) : (
+                'Submit My Video'
+              )}
+            </Button>
+          </div>
+        </form>
       </div>
     </Layout>
   );

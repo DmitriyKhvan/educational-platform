@@ -21,14 +21,14 @@ import Swal from 'sweetalert2';
 import {
   APPOINTMENTS_QUERY,
   APPROVE_APPOINTMENT,
-  GET_ZOOMLINK,
 } from '../../modules/auth/graphql';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
 import { lowerCase } from 'lodash-es';
 import ReactLoader from '../../components/common/Loader';
 import RescheduleAndCancelModal from '../../components/student-dashboard/RescheduleAndCancelModal';
 import notify from '../../utils/notify';
+import { isBetween } from '../../utils/isBetween';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -52,6 +52,7 @@ const sortCalendarEvents = (data) => {
       const startAt = moment.unix(date).utc(0, true);
       const end_at = moment.unix(endEpoch).utc(0, true);
       const iterateEvents = {
+        zoom: eventDate.zoom,
         zoomLink: eventDate.zoomlinkId,
         lesson: eventDate?.packageSubscription?.package?.course?.title,
         startAt,
@@ -319,20 +320,20 @@ const Calendar = () => {
       ? maleAvatar
       : femaleAvatar;
 
-    const today = moment();
-    const tenMinuteBeforeStart = moment(eventDate.startAt).subtract(
-      10,
-      'minutes',
-    );
-    const fiveMinuteBeforeEnd = moment(eventDate.startAt).add(
-      eventDate.duration - 5,
-      'minutes',
-    );
+    // const today = moment();
+    // const tenMinuteBeforeStart = moment(eventDate.startAt).subtract(
+    //   10,
+    //   'minutes',
+    // );
+    // const fiveMinuteBeforeEnd = moment(eventDate.startAt).add(
+    //   eventDate.duration - 5,
+    //   'minutes',
+    // );
 
-    const isBetween = moment(today).isBetween(
-      tenMinuteBeforeStart,
-      fiveMinuteBeforeEnd,
-    );
+    // const isBetween = moment(today).isBetween(
+    //   tenMinuteBeforeStart,
+    //   fiveMinuteBeforeEnd,
+    // );
 
     const [
       approveAppointment,
@@ -343,20 +344,12 @@ const Calendar = () => {
       },
     ] = useMutation(APPROVE_APPOINTMENT);
 
-    const [getZoomLink] = useLazyQuery(GET_ZOOMLINK, {
-      fetchPolicy: 'no-cache',
-    });
-
-    const joinLesson = async () => {
-      if (isBetween) {
-        const zoomlink = await getZoomLink({
-          variables: {
-            id: parseInt(eventDate.zoomlinkId),
-          },
-        });
-        window.open(zoomlink.data.zoomLink.url, '_blank');
+    const joinLesson = () => {
+      if (isBetween(eventDate.startAt, eventDate.duration)) {
+        window.open(eventDate.zoom.startUrl, '_blank');
+      } else {
+        setIsWarningOpen(true);
       }
-      if (!isBetween) setIsWarningOpen(true);
     };
 
     const approveLesson = ({ id }) => {

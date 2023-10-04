@@ -68,14 +68,14 @@ body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.dot {
-  height: 25px;
-  width: 25px;
-  background-color: #ffffff;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 0.5rem;
-}
+// .dot {
+//   height: 25px;
+//   width: 25px;
+//   background-color: #ffffff;
+//   border-radius: 50%;
+//   display: inline-block;
+//   margin-right: 0.5rem;
+// }
 
 .bg-pink {
   background-color: #d6336c !important  ;
@@ -93,18 +93,18 @@ body {
   color: var(--grey-700);
 }
 
-.dot-filled {
-  border: 2px solid #d6336c;
-  background: #ffc0da !important;
-}
+// .dot-filled {
+//   border: 2px solid #d6336c;
+//   background: #ffc0da !important;
+// }
 
-.dot-unfilled {
-  border: 3px solid #d6336c;
-}
+// .dot-unfilled {
+//   border: 3px solid #d6336c;
+// }
 
-.dot-disabled {
-  border: 2px solid #dedee1;
-}
+// .dot-disabled {
+//   border: 2px solid #dedee1;
+// }
 
 .dropdown,
 .dropend,
