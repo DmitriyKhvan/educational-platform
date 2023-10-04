@@ -1,7 +1,5 @@
 import React from 'react';
 import Layout from '../../../components/Layout';
-import cls from './EditMentorProfile.module.scss';
-import DelIcon from '../../../assets/del.png';
 import Stick from '../../../assets/stick.png';
 import SampleModal from './SampleModal';
 import Biography from './edit/Biography';
@@ -12,11 +10,14 @@ import BasicForm from './edit/BasicForm';
 import { useAuth } from '../../../modules/auth';
 import { MUTATION_UPDATE_MENTOR } from '../../../modules/auth/graphql';
 import { useMutation } from '@apollo/client';
-import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 import { Link } from 'react-scroll';
 import { useTranslation } from 'react-i18next';
 import ModalWrapper from '../../../components/ModalWrapper/ModalWrapper';
+import { Avatar } from '../../../widgets/Avatar/Avatar';
+import Button from '../../../components/Form/Button/Button';
+
+import { FaTrashAlt } from 'react-icons/fa';
+import { cn } from '../../../utils/functions';
 
 const EditMentorProfile = () => {
   const [t] = useTranslation(['profile', 'common']);
@@ -24,7 +25,6 @@ const EditMentorProfile = () => {
   const [showSample, setShowSample] = React.useState(false);
   const [showEditAvatar, setShowEditAvatar] = React.useState(false);
   const [updateMentor] = useMutation(MUTATION_UPDATE_MENTOR);
-  const [profileImage, setProfileImage] = React.useState('');
   const { user, refetchUser } = useAuth();
 
   const hooks = [
@@ -50,18 +50,6 @@ const EditMentorProfile = () => {
     },
   ];
 
-  React.useEffect(() => {
-    if (user?.mentor?.avatar) {
-      setProfileImage(user?.mentor?.avatar?.url);
-    } else if (user.gender === 'female') {
-      setProfileImage(femaleAvatar);
-    } else if (user.gender === 'male') {
-      setProfileImage(maleAvatar);
-    } else {
-      setProfileImage(maleAvatar);
-    }
-  }, [user]);
-
   const closeSampleModal = () => setShowSample(false);
 
   const closeEditAvatarModal = () => setShowEditAvatar(false);
@@ -81,40 +69,52 @@ const EditMentorProfile = () => {
 
   return (
     <Layout>
-      <div className={cls.editProfile_container}>
-        <div className={cls.editProfile_container_row}>
-          <section className={cls.editProfile_left}>
-            <div className={cls.editProfile_left_title}>
-              <h2>{t('edit_profile')}</h2>
-            </div>
+      <div>
+        <div className="pl-[65px] flex flex-wrap gap-10 2xl:gap-[90px] py-[50px] border-b border-color-border-grey">
+          <section className="">
+            <h2 className="text-[40px] text-color-dark-purple leading-[48px] tracking-[-1px]">
+              {t('edit_profile')}
+            </h2>
 
-            <div className={cls.editProfile_left_photo}>
-              <div className={cls.editProfile_left_photo_title}>
-                <h2>{t('change_photo')}</h2>
-              </div>
-            </div>
+            <h2 className="mt-[50px] text-[27px] text-color-dark-purple font-medium leading-[33px] tracking-[-1px]">
+              {t('change_photo')}
+            </h2>
 
-            <div className={cls.editProfile_left_avatar}>
-              <div className={cls.avatar_left}>
-                {<img src={profileImage} alt="" />}
+            <div className="flex items-center gap-[30px] mt-[30px]">
+              <div>
+                <Avatar
+                  avatarUrl={user?.mentor?.avatar?.url}
+                  className="w-[150px] h-[150px] rounded-[10px]"
+                />
               </div>
-              <div className={cls.avatar_right}>
-                <button onClick={() => setShowEditAvatar(true)}>
+
+              <div className="flex flex-col gap-[10pxs]">
+                <Button
+                  theme="outline"
+                  onClick={() => setShowEditAvatar(true)}
+                  className="text-[15px] px-[30px] h-[50px]"
+                >
                   {t('upload_photo')}
-                </button>
-                <button onClick={deleteAvatar}>
-                  <img src={DelIcon} alt="" />
+                </Button>
+
+                <Button
+                  theme="outline"
+                  onClick={deleteAvatar}
+                  className="flex items-center justify-center gap-[10px] text-[15px] px-[30px] h-[50px]"
+                >
+                  <FaTrashAlt className="text-lg" />
                   {t('delete_photo')}
-                </button>
+                </Button>
               </div>
             </div>
 
-            <div className={cls.editProfile_left_content}>
-              <p>{t('photo_recommendations')}</p>
-            </div>
+            <p className="mt-[30px] font-medium text-[15px] text-color-light-grey leading-[18px] tracking-[-0.7px]">
+              {t('photo_recommendations')}
+            </p>
           </section>
-          <section className={cls.editProfile_right}>
-            <div className={cls.editProfile_right_hooks}>
+
+          <section>
+            <div className="flex">
               {hooks.map((item) => (
                 <Link
                   to={item.route}
@@ -126,22 +126,36 @@ const EditMentorProfile = () => {
                   smooth={true}
                   offset={-80}
                   duration={500}
-                  className={statusInfo === item.route ? cls.active_hook : ''}
+                  className={cn(
+                    'bg-white font-semibold text-[15px] leading-[18px] tracking-[-0.7px] text-color-dark-purple px-[15px] py-[11px] border border-solid border-color-border-grey cursor-pointer [&:nth-child(1)]:rounded-l-[10px] [&:nth-child(4)]:rounded-r-[10px]',
+                    statusInfo === item.route &&
+                      'bg-color-light-purple text-color-purple border-color-purple',
+                  )}
                 >
                   {item.caption}
                 </Link>
               ))}
             </div>
 
-            <div className={cls.editProfile_right_guild}>
-              <div className={cls.guild_card}>
-                <img src={Stick} alt="" />
+            <div>
+              <div className="w-[440px] bg-white mt-[85px] border border-color-border-grey rounded-[10px] pt-[15px] px-[30px] pb-[30px]">
+                <img
+                  className="w-[33px] h-[33px] object-contain"
+                  src={Stick}
+                  alt=""
+                />
 
-                <h2>{t('photo_guidelines')}</h2>
+                <h2 className="mt-[20px] font-semibold text-[20px] text-color-dark-purple leading-[24px] tracking-[-0.6px]">
+                  {t('photo_guidelines')}
+                </h2>
 
-                <button onClick={() => setShowSample(true)}>
+                <Button
+                  onClick={() => setShowSample(true)}
+                  theme="outline"
+                  className="mt-[25px] w-full"
+                >
                   {t('view_sample')}
-                </button>
+                </Button>
               </div>
             </div>
           </section>
@@ -150,19 +164,19 @@ const EditMentorProfile = () => {
         <div>
           {/* Basic Info */}
 
-          <BasicForm cls={cls} />
+          <BasicForm />
 
           {/* Biography info */}
 
-          <Biography cls={cls} />
+          <Biography />
 
           {/* Edu */}
 
-          <Education cls={cls} />
+          <Education />
 
           {/* Intro */}
 
-          <Intro cls={cls} />
+          <Intro />
         </div>
 
         {
@@ -176,11 +190,13 @@ const EditMentorProfile = () => {
         }
 
         {
-          <EditAvatarModal
-            profileImage={profileImage}
-            closeModal={closeEditAvatarModal}
+          <ModalWrapper
             isOpen={showEditAvatar}
-          />
+            closeModal={closeEditAvatarModal}
+            paddingContent="0"
+          >
+            <EditAvatarModal closeModal={closeEditAvatarModal} />
+          </ModalWrapper>
         }
       </div>
     </Layout>

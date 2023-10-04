@@ -108,5 +108,6 @@
   "birth": "Birthday",
   "required_birth": "Birthday is required",
   "digits": "{{count}} digits",
-  "automatically_renews": "매 월 결제 자동 갱신"
+  "automatically_renews": "매 월 결제 자동 갱신",
+  "changed_avatar": "Avatar is changed"
 }
