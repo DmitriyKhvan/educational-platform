@@ -27,7 +27,6 @@ const BasicForm = () => {
   // const history = useHistory();
 
   const { user, refetchUser } = useAuth();
-  console.log('user', user);
 
   const { register, handleSubmit, control } = useForm({
     mode: 'onBlur',
