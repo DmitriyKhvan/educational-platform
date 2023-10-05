@@ -10,7 +10,6 @@ import FavIcon from '../../../assets/images/Favorite.png';
 import { HiCheckBadge } from 'react-icons/hi2';
 
 const MentorsModal = ({ mentor, setShowMentorModal }) => {
-  console.log('mentor', mentor);
   const [t] = useTranslation(['common', 'profile']);
 
   const [videoLink, setVideoLink] = React.useState('');

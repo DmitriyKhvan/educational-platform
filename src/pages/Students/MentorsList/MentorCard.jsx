@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { Avatar } from '../../../widgets/Avatar/Avatar';
-import FavIcon from '../../../assets/images/Favorite.png';
+import { Avatar } from 'src/widgets/Avatar/Avatar';
+import FavIcon from 'src/assets/images/Favorite.png';
 import Button from 'src/components/Form/Button';
 
 export const MentorCard = ({
