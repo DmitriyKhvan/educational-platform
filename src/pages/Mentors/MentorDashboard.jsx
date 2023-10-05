@@ -46,7 +46,6 @@ const TutorDashboard = () => {
 
       setUpcomingLessons(
         appointments?.filter((apt) => {
-          console.log('new moment(apt.startAt)', new moment(apt.startAt));
           return (
             new moment(apt.startAt).isBefore(endOfDay) &&
             new moment(apt.startAt).isAfter(startOfDay)
@@ -73,7 +72,6 @@ const TutorDashboard = () => {
             <ScheduleCard
               lesson={event?.packageSubscription?.package?.course?.title}
               duration={event?.duration}
-              // zoomlinkId={event?.zoomlinkId}
               zoom={event?.zoom}
               date={event?.startAt}
               data={event}
