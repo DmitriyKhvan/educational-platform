@@ -213,7 +213,6 @@ export const GET_MENTOR = gql`
         duration
         status
         cancelAction
-        zoomlinkId
       }
       avatarId
       avatar {
@@ -275,7 +274,6 @@ export const MENTORS_QUERY = gql`
         duration
         status
         cancelAction
-        zoomlinkId
       }
       avatarId
       avatar {
@@ -391,7 +389,6 @@ export const GROUPS_QUERY = gql`
       cancelAction
       lessonTopic
       lastPartLesson
-      zoomlinkId
     }
   }
 `;
@@ -501,7 +498,6 @@ export const APPOINTMENTS_QUERY = gql`
       duration
       status
       cancelAction
-      zoomlinkId
       mentor {
         id
         major
@@ -592,7 +588,6 @@ export const APPROVE_APPOINTMENT = gql`
       duration
       status
       cancelAction
-      zoomlinkId
     }
   }
 `;
@@ -605,7 +600,6 @@ export const CANCEL_APPOINTMENT = gql`
       duration
       status
       cancelAction
-      zoomlinkId
     }
   }
 `;
@@ -633,7 +627,6 @@ export const CREATE_APPOINTMENT = gql`
       status
       cancelAction
       cancelReason
-      zoomlinkId
       #mentor
       #student
       packageSubscription {
@@ -675,7 +668,6 @@ export const UPDATE_APPOINTMENT = gql`
       status
       cancelAction
       cancelReason
-      zoomlinkId
       packageSubscription {
         id
         periodStart
@@ -704,7 +696,6 @@ export const LESSON_QUERY = gql`
       duration
       status
       cancelAction
-      zoomlinkId
       mentor {
         id
         major

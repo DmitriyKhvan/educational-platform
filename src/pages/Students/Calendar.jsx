@@ -42,7 +42,6 @@ const sortCalendarEvents = (data) => {
       const end_at = moment.unix(endEpoch).utc(0, true);
       const iterateEvents = {
         zoom: eventDate.zoom,
-        zoomLink: eventDate.zoomlinkId,
         lesson: eventDate?.packageSubscription?.package?.course?.title,
         startAt,
         end_at,
