@@ -37,4 +37,10 @@ export default defineConfig({
   build: {
     reportCompressedSize: true,
   },
+
+  resolve: {
+    alias: {
+      src: '/src',
+    },
+  },
 });
