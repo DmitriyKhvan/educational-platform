@@ -45,6 +45,7 @@ const sortCalendarEvents = (data) => {
   });
   const eventKeys = Object.keys(eventDates);
   const calendarEvents = [];
+
   eventKeys.forEach((key) => {
     for (const eventDate of eventDates[key]) {
       const date = moment(eventDate.startAt).utc(0, true).unix();
