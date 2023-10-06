@@ -1,30 +1,19 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-// import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 import ZoomWarningModal from './student-dashboard/ZoomWarningModal';
 import femaleAvatar from '../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../assets/images/avatars/img_avatar_male.png';
-import { gql, useLazyQuery } from '@apollo/client';
 import Swal from 'sweetalert2';
 import RescheduleAndCancelModal from './student-dashboard/RescheduleAndCancelModal';
-
-const GET_ZOOMLINK = gql`
-  query Get_Zoomlink($id: Int!) {
-    zoomLink(id: $id) {
-      id
-      url
-      isPaid
-    }
-  }
-`;
+import { isBetween } from '../utils/isBetween';
 
 const CalendarModal = ({
   index,
   lesson,
   startTime,
   endTime,
-  zoomlink,
+  zoom,
   closeModal,
   time,
   data,
@@ -40,7 +29,6 @@ const CalendarModal = ({
 
   const avatar = data?.resource?.mentor?.avatar;
 
-  const [getZoomLink] = useLazyQuery(GET_ZOOMLINK);
   const [tabIndex, setTabIndex] = useState(0);
 
   React.useEffect(() => {
@@ -57,26 +45,15 @@ const CalendarModal = ({
     }
   }, [avatar]);
 
-  const today = moment();
-  const eventStartDate = moment(data.resource.eventDate.startAt);
-  const fiveMinuteBeforeEnd = moment(data.resource.eventDate.startAt).add(
-    data.resource.eventDate.duration - 5,
-    'minutes',
-  );
-
-  const isBetween = moment(today).isBetween(
-    eventStartDate,
-    fiveMinuteBeforeEnd,
-  );
-
   const joinLesson = async () => {
-    if (isBetween) {
-      const zoomLink = await getZoomLink({
-        variables: {
-          id: parseInt(zoomlink),
-        },
-      });
-      window.open(zoomLink.data.zoomLink.url, '_blank');
+    //Time period when you can go to the lesson
+    if (
+      isBetween(
+        data.resource.eventDate.startAt,
+        data.resource.eventDate.duration,
+      )
+    ) {
+      window.open(zoom?.joinUrl, '_blank');
     } else {
       setIsWarningOpen(true);
     }

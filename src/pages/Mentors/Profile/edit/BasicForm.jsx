@@ -7,7 +7,6 @@ import { MUTATION_UPDATE_USER } from '../../../../modules/auth/graphql';
 import { useTranslation } from 'react-i18next';
 
 import {
-  // genders,
   countries,
   timezoneOptions,
   useGenderDic,
@@ -23,6 +22,8 @@ const BasicForm = () => {
   const [t] = useTranslation(['common', 'profile']);
   const [updateMentor, { loading }] = useMutation(MUTATION_UPDATE_USER);
 
+  const genders = useGenderDic();
+
   // const history = useHistory();
 
   const { user, refetchUser } = useAuth();
@@ -34,6 +35,7 @@ const BasicForm = () => {
       lastName: user?.lastName,
       email: user?.email,
       phoneNumber: user?.phoneNumber,
+      country: user?.country,
       address: user?.address,
       gender: user?.gender,
       convertAvailabilityTime: true,
@@ -95,7 +97,7 @@ const BasicForm = () => {
               render={({ field: { value, onChange } }) => (
                 <SelectField
                   value={value}
-                  options={useGenderDic()}
+                  options={genders}
                   onChange={onChange}
                 />
               )}

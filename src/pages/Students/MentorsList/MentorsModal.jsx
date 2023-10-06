@@ -111,7 +111,7 @@ const MentorsModal = ({ mentor, setShowMentorModal }) => {
           <Button
             theme="purple"
             className="px-[15px] py-[10px]"
-            disabled={mentor.availabilities.length === 0}
+            disabled={mentor?.availabilities?.length === 0}
           >
             <Link
               to={{
@@ -126,11 +126,8 @@ const MentorsModal = ({ mentor, setShowMentorModal }) => {
                 },
               }}
               style={{
-                all: 'unset',
-                width: '100%',
-                height: '100%',
                 pointerEvents:
-                  mentor.availabilities.length > 0 ? 'auto' : 'none',
+                  mentor?.availabilities?.length > 0 ? 'auto' : 'none',
               }}
             >
               {t('schedule')}

@@ -41,8 +41,9 @@ const TutorDashboard = () => {
 
   useEffect(() => {
     if (appointments && appointments?.length > 0) {
-      const startOfDay = new moment().startOf('day');
+      const startOfDay = new moment().startOf('day').subtract(1, 'minutes');
       const endOfDay = new moment().endOf('day');
+
       setUpcomingLessons(
         appointments?.filter((apt) => {
           return (
@@ -71,7 +72,7 @@ const TutorDashboard = () => {
             <ScheduleCard
               lesson={event?.packageSubscription?.package?.course?.title}
               duration={event?.duration}
-              zoomlinkId={event?.zoomlinkId}
+              zoom={event?.zoom}
               date={event?.startAt}
               data={event}
               mentor={event.mentor}
