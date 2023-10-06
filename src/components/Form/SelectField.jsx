@@ -7,8 +7,6 @@ export const SelectField = forwardRef(function SelectField(
 ) {
   const defaultValue = options.find((item) => item.value === value);
 
-  console.log('defaultValue', defaultValue);
-
   return (
     <Select
       styles={{
