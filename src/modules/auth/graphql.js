@@ -92,6 +92,10 @@ export const ME_QUERY = gql`
       students {
         id
         about
+        user {
+          firstName
+          lastName
+        }
         avatar {
           id
           url
@@ -109,6 +113,10 @@ export const ME_QUERY = gql`
         degree
         major
         videoUrl
+        user {
+          firstName
+          lastName
+        }
         avatar {
           id
           url

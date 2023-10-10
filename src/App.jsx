@@ -21,8 +21,8 @@ import ForgotPasswordText from './pages/Auth/ForgotPasswordText';
 import Login from './pages/Auth/Login';
 import ResetPassword from './pages/Auth/ResetPassword';
 // Common Dashboard
-import Dashboard from './components/Dashboard';
-import { ProfileLayout } from './components/profile/ProfileLayout';
+// import Dashboard from './components/Dashboard';
+// import { ProfileLayout } from './components/profile/ProfileLayout';
 import ApproveRequest from './pages/Mentors/ApproveRequest';
 import './App.scss';
 
@@ -37,16 +37,29 @@ import ConfirmPayment from './pages/ConfirmPayment';
 import BuyPackageTest from './pages/Students/BuyPackageTest';
 import { NicePayment } from './pages/Students/NicePayment';
 import { SelectProfile } from './pages/Auth/SelectProfile';
+import { getItemToLocalStorage } from './constants/global';
+import previousURL from './utils/previousURL';
+import MentorProfile from './pages/Mentors/Profile/MentorProfile';
 
-function PrivateRoute({ component: Component, ...rest }) {
-  const { isAuthorized } = useAuth();
+// import TutorDashboard from './pages/Mentors/MentorDashboard';
+
+function PrivateRoute({ component: Component, role, ...rest }) {
+  const { user } = useAuth();
   const history = useHistory();
 
   return (
     <Route
       {...rest}
-      render={(props) =>
-        isAuthorized ? (
+      render={(props) => {
+        console.log('props', props);
+        console.log('role', role);
+        // debugger;
+
+        return user?.role === role &&
+          new URL(document.location.href).pathname !== '/select-profile' ? (
+          <Component {...props} />
+        ) : (user?.role === role && getItemToLocalStorage('studentId')) ||
+          (user?.role === role && previousURL() === '/') ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -55,29 +68,27 @@ function PrivateRoute({ component: Component, ...rest }) {
               state: { from: history.location.pathname },
             }}
           />
-        )
-      }
+        );
+      }}
     />
   );
 }
 
 function PublicRoute({ component: Component, ...rest }) {
-  const { isAuthorized, user } = useAuth();
-
-  function isSide() {
-    return user?.mentor ? user?.mentor?.isActive : user?.isActive;
-  }
+  const { user } = useAuth();
 
   return (
     <Route
       {...rest}
-      render={(props) =>
-        isAuthorized && isSide() ? (
-          <Redirect to={`/dashboard`} />
+      render={(props) => {
+        return user?.role === 'mentor' ? (
+          <Redirect to={`/mentor/manage-appointments`} />
+        ) : user?.role === 'student' && getItemToLocalStorage('studentId') ? (
+          <Redirect to={`/student/manage-lessons`} />
         ) : (
           <Component {...props} />
-        )
-      }
+        );
+      }}
     />
   );
 }
@@ -109,31 +120,57 @@ function App() {
         <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
         <PublicRoute path="/onboarding" component={Onboarding} />
         <PublicRoute path="/d3gKtqEEDhJE5Z" component={BuyPackageTest} />
-        <PrivateRoute
-          path="/purchase/:packageId/payment/:clientSecret"
-          exact
-          component={StripePayment}
-        />
-        <PrivateRoute
-          path="/purchase/nice-payment"
-          exact
-          component={NicePayment}
-        />
-        <PrivateRoute
-          path="/purchase/:packageId/complete"
-          exact
-          component={ConfirmPayment}
-        />
-        <PrivateRoute exact path="/purchase" component={BuyPackage} />
-        <PrivateRoute path="/dashboard" component={Dashboard} />
-        <PrivateRoute path="/approve-requests" component={ApproveRequest} />
-
-        <PrivateRoute path="/select-profile" component={SelectProfile} />
 
         <PublicRoute path="/referral/:referalcode" component={IsReferal} />
-        <PrivateRoute
+        {/* <PrivateRoute
           path="/:mode(stud|mentor)/profile"
           component={ProfileLayout}
+        /> */}
+
+        <PrivateRoute
+          role="student"
+          exact
+          path="/purchase/nice-payment"
+          component={NicePayment}
+        />
+
+        <PrivateRoute
+          role="student"
+          exact
+          path="/purchase"
+          component={BuyPackage}
+        />
+
+        <PrivateRoute
+          role="student"
+          exact
+          path="/purchase/:packageId/complete"
+          component={ConfirmPayment}
+        />
+
+        <PrivateRoute
+          role="student"
+          exact
+          path="/purchase/:packageId/payment/:clientSecret"
+          component={StripePayment}
+        />
+
+        <PrivateRoute
+          role="student"
+          path="/select-profile"
+          component={SelectProfile}
+        />
+
+        <PrivateRoute
+          role="mentor"
+          path="/mentor/profile"
+          component={MentorProfile}
+        />
+
+        <PrivateRoute
+          role="mentor"
+          path="/approve-requests"
+          component={ApproveRequest}
         />
 
         <Suspense
@@ -144,10 +181,12 @@ function App() {
           }
         >
           <PrivateRoute
+            role="student"
             path="/student"
             component={lazy(() => import('./pages/Students'))}
           />
           <PrivateRoute
+            role="mentor"
             path="/mentor"
             component={lazy(() => import('./pages/Mentors'))}
           />

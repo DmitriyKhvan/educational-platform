@@ -9,7 +9,7 @@ import useLogin from '../../modules/auth/hooks/login';
 import Button from '../../components/Form/Button/Button';
 import InputWithError from '../../components/Form/InputWithError';
 import notify from '../../utils/notify';
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const [t] = useTranslation('common');
@@ -28,15 +28,15 @@ const Login = () => {
     },
   });
 
-  const { search } = useLocation();
+  // const { search } = useLocation();
 
-  const queryParams = new URLSearchParams(search);
-  const redirectPath = queryParams.get('redirect');
+  // const queryParams = new URLSearchParams(search);
+  // const redirectPath = queryParams.get('redirect');
 
   const { login, loading, error } = useLogin();
 
   const handleLogin = async ({ email, password }) => {
-    await login(email, password, redirectPath || '/');
+    await login(email, password, '/select-profile');
   };
 
   useEffect(() => {
