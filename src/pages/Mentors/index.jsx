@@ -3,12 +3,14 @@ import EditMentorProfile from './Profile/EditMentorProfile';
 import SubmitVideo from './Profile/SubmitVideo/SubmitVideo';
 import Submited from './Profile/SubmitVideo/Submited';
 import StudentsList from './StudentsList/StudentsList';
-import AvailabilityLayout from './Availiability';
 import AvailabilitySettings from './Availiability/AvailabilitySettings';
 import TutorCalendar from './Calendar';
 import LessonInfo from './LessonInfo';
-import Dashboard from '../../components/Dashboard.jsx';
+// import Dashboard from '../../components/Dashboard.jsx';
 import { Switch, useRouteMatch, Route } from 'react-router-dom';
+import TutorDashboard from './MentorDashboard';
+import AvailabilityLayout from './Availiability';
+import Layout from 'src/components/Layout';
 
 export default function TutorPages() {
   let { path } = useRouteMatch();
@@ -16,7 +18,10 @@ export default function TutorPages() {
   return (
     <Switch>
       <Route path={`${path}/manage-appointments`}>
-        <Dashboard />
+        {/* <Dashboard /> */}
+        <Layout>
+          <TutorDashboard />
+        </Layout>
       </Route>
 
       <Route exact path={`${path}/lesson-calendar`}>

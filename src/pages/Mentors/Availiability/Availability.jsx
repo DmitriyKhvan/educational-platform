@@ -137,7 +137,7 @@ const Availability = (/*{ user_id  }*/) => {
       upsertAvailiability({
         variables: {
           data: {
-            mentorId: tutorInfo.id,
+            mentorId: tutorInfo?.id,
             availabilities: slotsToSave,
           },
         },

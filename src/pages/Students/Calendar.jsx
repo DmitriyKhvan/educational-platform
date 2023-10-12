@@ -9,7 +9,7 @@ import Loader from '../../components/common/Loader';
 import { useLocation } from 'react-router-dom';
 
 import '../../assets/styles/calendar.scss';
-import { feedbackURL } from '../../constants/global';
+import { feedbackURL, getItemToLocalStorage } from '../../constants/global';
 import ReviewLessonModal from '../../components/student-dashboard/ReviewLessonModal';
 import { useAuth } from '../../modules/auth';
 import FeedbackLessonModal from '../Mentors/FeedbackLessonModal';
@@ -102,7 +102,8 @@ const Calendar = () => {
     loading: loadingAppointments,
   } = useQuery(APPOINTMENTS_QUERY, {
     variables: {
-      studentId: user?.students[0]?.id,
+      // studentId: user?.students[0]?.id,
+      studentId: getItemToLocalStorage('studentId'),
       status: 'approved,scheduled,paid,completed,in_progress',
     },
     fetchPolicy: 'no-cache',
@@ -155,7 +156,8 @@ const Calendar = () => {
     (async () => {
       if (user && user?.student) {
         getAppointments({
-          studentId: user.students[0]?.id,
+          // studentId: user.students[0]?.id,
+          studentId: getItemToLocalStorage('studentId'),
           status: 'approved,scheduled,paid,completed,in_progress',
         });
       }

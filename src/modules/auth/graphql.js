@@ -23,21 +23,17 @@ export const SIGN_UP = gql`
     ) {
       id
       email
-      firstName
-      lastName
-      fullName
-      koreanEquivalent
       phoneNumber
       address
-      gender
       timeZone
       country
-      avatar
-      role
       referalCode
       referalId
       students {
         id
+        firstName
+        lastName
+        gender
         parentName
         level
         langLevel
@@ -45,10 +41,16 @@ export const SIGN_UP = gql`
         about
         pronouns
         isActive
+        # user
+        # lessons
         avatarId
+        # avatar
       }
       mentor {
         id
+        firstName
+        lastName
+        gender
         major
         language
         university
@@ -62,65 +64,30 @@ export const SIGN_UP = gql`
         hourlyRate
         facts
         uniqueFacts
-      }
-      isActive
-      createdAt
-      updatedAt
-    }
-  }
-`;
-
-export const ME_QUERY = gql`
-  {
-    authenticatedUser {
-      id
-      firstName
-      lastName
-      fullName
-      role
-      email
-      gender
-      address
-      referalCode
-      referalId
-      isActive
-      country
-      timeZone
-      phoneNumber
-      koreanEquivalent
-      cardLast4
-      students {
-        id
-        about
-        user {
-          firstName
-          lastName
-        }
-        avatar {
-          id
-          url
-        }
-      }
-      mentor {
-        id
-        introduction
-        relevantExperience
-        uniqueFacts
-        degree
-        isActive
-        university
-        graduatingYear
-        degree
-        major
+        fullName
+        userId
+        # user
+        # lessons
         videoUrl
-        user {
-          firstName
-          lastName
-        }
-        avatar {
-          id
-          url
-        }
+        avatarId
+        visibilityStatus
+        # avatar
+        # availabilities
+        zoomUserId
+        zoomEmail
+      }
+      packageSubscriptions {
+        id
+        periodStart
+        periodEnd
+        credits
+        modifyCredits
+        packageId
+        # package
+        paymentId
+        # payment
+        # lessons
+        active
       }
       activeSubscriptions {
         id
@@ -135,6 +102,92 @@ export const ME_QUERY = gql`
         # lessons
         active
       }
+      isActive
+      role
+      cardLast4
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const ME_QUERY = gql`
+  query ME_QUERY($studentId: ID) {
+    authenticatedUser(studentId: $studentId) {
+      id
+      firstName
+      lastName
+      email
+      timeZone
+      phoneNumber
+      address
+      country
+      students {
+        id
+        firstName
+        lastName
+        parentName
+        level
+        langLevel
+        birthday
+        about
+        pronouns
+        isActive
+        # user
+        # lessons
+        avatarId
+        avatar {
+          id
+          url
+        }
+      }
+      mentor {
+        id
+        firstName
+        lastName
+        major
+        language
+        university
+        graduatingYear
+        degree
+        introduction
+        about
+        experience
+        relevantExperience
+        isActive
+        hourlyRate
+        facts
+        uniqueFacts
+        fullName
+        userId
+        # user
+        # lessons
+        videoUrl
+        avatarId
+        visibilityStatus
+        avatar {
+          id
+          url
+        }
+        # availabilities
+        zoomUserId
+        zoomEmail
+      }
+      avatarId
+      avatar {
+        id
+        name
+        mimetype
+        url
+        path
+        width
+        height
+        createdAt
+        updatedAt
+      }
+      isActive
+      role
+      cardLast4
     }
   }
 `;
@@ -319,6 +372,13 @@ export const LOGIN_MUTATION = gql`
       sessionToken
       user {
         id
+        students {
+          id
+          firstName
+          lastName
+          parentName
+        }
+        role
       }
     }
   }
@@ -506,8 +566,12 @@ export const APPOINTMENTS_QUERY = gql`
       duration
       status
       cancelAction
+      cancelReason
+      canceledBy
       mentor {
         id
+        firstName
+        lastName
         major
         language
         university
@@ -521,25 +585,22 @@ export const APPOINTMENTS_QUERY = gql`
         hourlyRate
         facts
         uniqueFacts
-        avatar {
-          id
-          name
-          mimetype
-          url
-          path
-          width
-          height
-          createdAt
-          updatedAt
-        }
-        user {
-          id
-          gender
-          fullName
-        }
+        fullName
+        userId
+        # user
+        # lessons
+        videoUrl
+        avatarId
+        visibilityStatus
+        # avatar
+        # availabilities
+        zoomUserId
+        zoomEmail
       }
       student {
         id
+        firstName
+        lastName
         parentName
         level
         langLevel
@@ -547,22 +608,10 @@ export const APPOINTMENTS_QUERY = gql`
         about
         pronouns
         isActive
-        user {
-          firstName
-          lastName
-          gender
-        }
-        avatar {
-          id
-          name
-          mimetype
-          url
-          path
-          width
-          height
-          createdAt
-          updatedAt
-        }
+        # user
+        # lessons
+        avatarId
+        # avatar
       }
       packageSubscription {
         id
@@ -570,12 +619,12 @@ export const APPOINTMENTS_QUERY = gql`
         periodEnd
         credits
         modifyCredits
-        package {
-          course {
-            title
-          }
-        }
+        packageId
+        # package
         paymentId
+        # payment
+        # lessons
+        active
       }
       zoom {
         id

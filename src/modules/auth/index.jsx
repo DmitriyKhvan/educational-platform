@@ -1,12 +1,22 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { ME_QUERY, INVITE_SET_PASSWORD_MUTATION } from './graphql';
+import { getItemToLocalStorage } from 'src/constants/global';
 
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [isAuthInProgress, setIsAuthInProgress] = useState(true);
-  const { data: user, loading, refetch: refetchUser } = useQuery(ME_QUERY);
+
+  const {
+    data: user,
+    loading,
+    refetch: refetchUser,
+  } = useQuery(ME_QUERY, {
+    variables: {
+      studentId: getItemToLocalStorage('studentId'),
+    },
+  });
 
   const [redeemInvitePasswordSetToken] = useMutation(
     INVITE_SET_PASSWORD_MUTATION,
@@ -33,6 +43,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('studentId');
   };
 
   return (

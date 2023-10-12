@@ -9,6 +9,7 @@ import { useAuth } from '../../modules/auth';
 import FeedbackLessonModal from './FeedbackLessonModal';
 import { useQuery } from '@apollo/client';
 import { APPOINTMENTS_QUERY } from '../../modules/auth/graphql';
+import 'src/assets/styles/dashboard.scss';
 
 const TutorDashboard = () => {
   const [t] = useTranslation('dashboard');

@@ -29,7 +29,7 @@ export default function Onboarding() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const { login } = useLogin();
+  const { login, data: loginData } = useLogin();
 
   const [parent] = useAutoAnimate();
 
@@ -77,6 +77,8 @@ export default function Onboarding() {
   }, [language]);
 
   const onSubmit = async (data) => {
+    console.log('data', data);
+
     if (!isLast) {
       localStorage.setItem(
         'onboarding',
@@ -93,11 +95,17 @@ export default function Onboarding() {
     });
 
     if (errors?.length === 0 || !errors) {
-      login(data.email, data.password, '/purchase');
+      login(data.email, data.password);
     }
 
     setIsLoading(() => false);
   };
+
+  useEffect(() => {
+    if (loginData) {
+      location.href = '/purchase';
+    }
+  }, [loginData]);
 
   return (
     <main className="flex flex-col relative items-center">

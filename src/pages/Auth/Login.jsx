@@ -33,11 +33,18 @@ const Login = () => {
   // const queryParams = new URLSearchParams(search);
   // const redirectPath = queryParams.get('redirect');
 
-  const { login, loading, error } = useLogin();
+  const { login, loading, error, data } = useLogin();
 
   const handleLogin = async ({ email, password }) => {
-    await login(email, password, '/select-profile');
+    await login(email, password);
   };
+
+  useEffect(() => {
+    if (data) {
+      location.href =
+        data.authResult.user.role === 'student' ? '/select-profile' : '/';
+    }
+  }, [data]);
 
   useEffect(() => {
     if (error) {

@@ -13,7 +13,6 @@ import notify from '../../../../utils/notify';
 import ModalWrapper from '../../../../components/ModalWrapper/ModalWrapper';
 import EditProflileStudent from '../editInfo/EditStudentProfile';
 import ReactLoader from '../../../../components/common/Loader';
-import Layout from 'src/components/Layout';
 
 const StudentProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,7 +53,7 @@ const StudentProfile = () => {
   };
 
   return (
-    <Layout fluid={true}>
+    <>
       {loading && <ReactLoader className="fixed !important" />}
       <div className="flex flex-wrap h-[calc(100vh-80px)] overflow-auto ">
         <div className="sm:w-full xl:w-3/5 p-[30px] sm:p-[60px]">
@@ -210,7 +209,7 @@ const StudentProfile = () => {
       <ModalWrapper isOpen={isOpen} closeModal={setIsOpen}>
         <EditProflileStudent closeModal={setIsOpen} setLoading={setLoading} />
       </ModalWrapper>
-    </Layout>
+    </>
   );
 };
 export default StudentProfile;

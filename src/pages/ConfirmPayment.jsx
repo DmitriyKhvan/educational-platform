@@ -89,10 +89,12 @@ export default function ConfirmPayment() {
         />
         <h1 className="font-bold">{message}</h1>
         <a
-          href="/dashboard"
+          // href="/dashboard"
+          href="/select-profile"
           className="text-white bg-purple-500 px-4 py-2 rounded font-bold"
         >
-          {t('dashboard')}
+          {/* {t('dashboard')} */}
+          {t('select_profile')}
         </a>
       </div>
     </main>

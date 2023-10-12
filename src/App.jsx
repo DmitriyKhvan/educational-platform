@@ -36,9 +36,8 @@ import StripePayment from './pages/Students/StripePayment';
 import ConfirmPayment from './pages/ConfirmPayment';
 import BuyPackageTest from './pages/Students/BuyPackageTest';
 import { NicePayment } from './pages/Students/NicePayment';
-import { SelectProfile } from './pages/Auth/SelectProfile';
+import { SelectProfile } from './pages/Auth/SelectProfile/SelectProfile';
 import { getItemToLocalStorage } from './constants/global';
-import previousURL from './utils/previousURL';
 import MentorProfile from './pages/Mentors/Profile/MentorProfile';
 
 // import TutorDashboard from './pages/Mentors/MentorDashboard';
@@ -46,20 +45,25 @@ import MentorProfile from './pages/Mentors/Profile/MentorProfile';
 function PrivateRoute({ component: Component, role, ...rest }) {
   const { user } = useAuth();
   const history = useHistory();
+  const currentUrl = new URL(document.location.href).pathname;
 
   return (
     <Route
       {...rest}
       render={(props) => {
-        console.log('props', props);
-        console.log('role', role);
-        // debugger;
+        debugger;
 
-        return user?.role === role &&
-          new URL(document.location.href).pathname !== '/select-profile' ? (
+        return user?.role === 'mentor' && user?.role === role ? (
           <Component {...props} />
-        ) : (user?.role === role && getItemToLocalStorage('studentId')) ||
-          (user?.role === role && previousURL() === '/') ? (
+        ) : (user?.role === 'student' &&
+            user?.role === role &&
+            getItemToLocalStorage('studentId')) ||
+          (user?.role === 'student' &&
+            user?.role === role &&
+            currentUrl === '/select-profile') ||
+          (user?.role === 'student' &&
+            user?.role === role &&
+            currentUrl.includes('/purchase')) ? (
           <Component {...props} />
         ) : (
           <Redirect

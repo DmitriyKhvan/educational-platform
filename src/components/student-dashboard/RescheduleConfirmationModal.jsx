@@ -12,6 +12,7 @@ import {
   APPOINTMENTS_QUERY,
   UPDATE_APPOINTMENT,
 } from '../../modules/auth/graphql';
+import { getItemToLocalStorage } from 'src/constants/global';
 
 const RescheduleConfirmationModal = ({
   setTabIndex,
@@ -39,14 +40,15 @@ const RescheduleConfirmationModal = ({
     .format('hh:mm A');
 
   const fetchAppointments = () => {
-    let studentId;
-    if (user?.students?.length > 0) {
-      studentId = user?.students?.[0]?.id;
-    }
+    // let studentId;
+    // if (user?.students?.length > 0) {
+    //   studentId = user?.students?.[0]?.id;
+    // }
     getAppointments({
       variables: {
         status: 'scheduled,paid,completed,in_progress',
-        studentId: studentId,
+        // studentId: studentId,
+        studentId: getItemToLocalStorage('studentId'),
       },
     });
   };
