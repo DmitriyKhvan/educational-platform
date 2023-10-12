@@ -62,7 +62,7 @@ const StudentProfile = () => {
           <div>
             <div className="relative w-full h-[150px] bg-color-purple rounded-t-[10px]">
               <div className="absolute left-[5%] top-[55%] w-[140px] h-[140px] border-8 border-solid border-white rounded-[10px]">
-                <Avatar avatarUrl={user?.student?.avatar?.url} />
+                <Avatar avatarUrl={user?.avatar?.url} />
               </div>
             </div>
             <div className="w-full h-auto py-4 border border-solid border-color-border-grey rounded-b-[10px]">
