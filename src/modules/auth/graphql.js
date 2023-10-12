@@ -119,6 +119,7 @@ export const ME_QUERY = gql`
       lastName
       email
       timeZone
+      gender
       phoneNumber
       address
       country
@@ -176,14 +177,7 @@ export const ME_QUERY = gql`
       avatarId
       avatar {
         id
-        name
-        mimetype
         url
-        path
-        width
-        height
-        createdAt
-        updatedAt
       }
       isActive
       role
@@ -438,7 +432,6 @@ export const MUTATION_UPDATE_USER = gql`
   mutation updateUser($id: ID!, $data: UserUpdateInput!) {
     updateUser(id: $id, data: $data) {
       id
-      firstName
     }
   }
 `;

@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import {
   countries,
   genders,
+  getItemToLocalStorage,
   timezoneOptions,
 } from '../../../../constants/global';
 import Button from '../../../../components/Form/Button/Button';
@@ -50,40 +51,42 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
   });
 
   const onSubmit = async (area) => {
-    if (file) {
-      setPreview(area.avatar);
+    // if (file) {
+    setPreview(area.avatar);
 
-      await updateStudent({
-        variables: {
-          id: parseInt(user?.student?.id),
-          data: {
-            avatar: file,
-          },
+    await updateStudent({
+      variables: {
+        // id: parseInt(user?.student?.id),
+        id: parseInt(getItemToLocalStorage('studentId')),
+        data: {
+          avatar: file,
+          firstName: area.firstName,
+          lastName: area.lastName,
+          koreanEquivalent: area.koreanEquivalent,
+          gender: area.gender,
         },
-        onError: () => {
-          notify(t('error_avatar_upload', { ns: 'profile' }), 'error');
-        },
-      });
-    }
+      },
+      onError: () => {
+        notify(t('error_avatar_upload', { ns: 'profile' }), 'error');
+      },
+    });
+    // }
 
     await updateUser({
       variables: {
         id: parseInt(user?.id),
         data: {
-          koreanEquivalent: area.koreanEquivalent,
-          lastName: area.lastName,
-          gender: area.gender,
-          timeZone: area.timeZone,
-          phoneNumber: area.phoneNumber,
-          firstName: area.firstName,
           country: area.country,
           address: area.address,
+          phoneNumber: area.phoneNumber,
+          timeZone: area.timeZone,
         },
       },
       onCompleted: async () => {
         notify(t('student_information_changed', { ns: 'profile' }));
-        await refetchUser();
+
         closeModal(false);
+        await refetchUser();
         setLoading(false);
         // history.push('/student/profile');
       },
@@ -112,10 +115,7 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
         <div className="flex items-center justify-center">
           <div className="relative w-[150px] h-[150px] rounded-full">
             {!file && (
-              <Avatar
-                className="rounded-full"
-                avatarUrl={user?.student?.avatar?.url}
-              />
+              <Avatar className="rounded-full" avatarUrl={user?.avatar?.url} />
             )}
 
             {file ? (

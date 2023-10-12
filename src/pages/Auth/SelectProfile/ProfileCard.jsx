@@ -3,6 +3,7 @@ import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { cn } from 'src/utils/functions';
 
 export const ProfileCard = ({ student, studentId, selectProfile }) => {
+  console.log('student', student);
   return (
     <div
       onClick={() => selectProfile(student.id)}
@@ -10,6 +11,7 @@ export const ProfileCard = ({ student, studentId, selectProfile }) => {
     >
       <div className="w-[150px] h-[150px] ">
         <Avatar
+          avatarUrl={student.avatar?.url}
           className={cn(
             'rounded-full cursor-pointer hover:border-color-purple border-2 hover:shadow-[0_0_0_4px_#F0EBF7] transition duration-300 ease-in-out',
             student.id === studentId &&
