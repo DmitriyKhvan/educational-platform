@@ -83,8 +83,8 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
       onCompleted: async () => {
         notify(t('student_information_changed', { ns: 'profile' }));
         closeModal(false);
-        await refetchUser();
         setLoading(false);
+        await refetchUser();
         // history.push('/student/profile');
       },
       onError: () => {

@@ -75,7 +75,7 @@ const TutorDashboard = () => {
               zoom={event?.zoom}
               date={event?.startAt}
               data={event}
-              mentor={event.mentor}
+              student={event.student}
               index={i}
               key={i}
               fetchAppointments={fetchAppointments}
