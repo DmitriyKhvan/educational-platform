@@ -51,8 +51,6 @@ function PrivateRoute({ component: Component, role, ...rest }) {
     <Route
       {...rest}
       render={(props) => {
-        debugger;
-
         return user?.role === 'mentor' && user?.role === role ? (
           <Component {...props} />
         ) : (user?.role === 'student' &&
