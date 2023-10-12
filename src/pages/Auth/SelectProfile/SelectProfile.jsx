@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AuthLayout from '../../../components/AuthLayout';
 // import Button from '../../../components/Form/Button/Button';
 import { HiMiniPlusSmall } from 'react-icons/hi2';
 import { useAuth } from 'src/modules/auth';
 import { ProfileCard } from './ProfileCard';
-import { useState } from 'react';
 import { setItemToLocalStorage } from 'src/constants/global';
 
 export const SelectProfile = () => {
@@ -25,7 +24,7 @@ export const SelectProfile = () => {
           Select a Profile
         </h1>
 
-        <div className="flex items-center justify-center gap-x-[50px]">
+        <div className="flex flex-wrap items-center justify-center gap-[50px]">
           {user.students.map((student) => (
             <ProfileCard
               key={student.id}
@@ -35,8 +34,11 @@ export const SelectProfile = () => {
             />
           ))}
 
-          <div className="flex flex-col items-center gap-y-5">
-            <HiMiniPlusSmall className="text-[150px] text-color-purple rounded-full bg-color-light-purple cursor-pointer" />
+          <div
+            onClick={() => (location.href = '/add-student-profile')}
+            className="flex flex-col items-center gap-y-5"
+          >
+            <HiMiniPlusSmall className="text-[150px] text-color-purple rounded-full bg-color-light-purple cursor-pointer hover:border-color-purple border-2 hover:shadow-[0_0_0_4px_#F0EBF7] transition duration-300 ease-in-out" />
             <span className="font-semibold text-[20px] text-color-light-grey leading-6 tracking-[-0.2px]">
               Add Account
             </span>

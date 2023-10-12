@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -35,22 +35,18 @@ const Login = () => {
 
   const { login, loading, error, data } = useLogin();
 
-  const handleLogin = async ({ email, password }) => {
-    await login(email, password);
+  const handleLogin = ({ email, password }) => {
+    login(email, password);
   };
 
-  useEffect(() => {
-    if (data) {
-      location.href =
-        data.authResult.user.role === 'student' ? '/select-profile' : '/';
-    }
-  }, [data]);
+  if (data) {
+    location.href =
+      data.authResult.user.role === 'student' ? '/select-profile' : '/';
+  }
 
-  useEffect(() => {
-    if (error) {
-      notify(t('login_failed'), 'error');
-    }
-  }, [error]);
+  if (error) {
+    notify(t('login_failed'), 'error');
+  }
 
   return (
     <AuthLayout>

@@ -39,13 +39,13 @@ import { NicePayment } from './pages/Students/NicePayment';
 import { SelectProfile } from './pages/Auth/SelectProfile/SelectProfile';
 import { getItemToLocalStorage } from './constants/global';
 import MentorProfile from './pages/Mentors/Profile/MentorProfile';
+import { AddStudentProfile } from './pages/Auth/SelectProfile/AddProfile';
 
 // import TutorDashboard from './pages/Mentors/MentorDashboard';
 
 function PrivateRoute({ component: Component, role, ...rest }) {
   const { user } = useAuth();
   const history = useHistory();
-  const currentUrl = new URL(document.location.href).pathname;
 
   return (
     <Route
@@ -56,12 +56,7 @@ function PrivateRoute({ component: Component, role, ...rest }) {
         ) : (user?.role === 'student' &&
             user?.role === role &&
             getItemToLocalStorage('studentId')) ||
-          (user?.role === 'student' &&
-            user?.role === role &&
-            currentUrl === '/select-profile') ||
-          (user?.role === 'student' &&
-            user?.role === role &&
-            currentUrl.includes('/purchase')) ? (
+          (user?.role === 'student' && role === 'student_parent') ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -130,35 +125,42 @@ function App() {
         /> */}
 
         <PrivateRoute
-          role="student"
+          role="student_parent"
+          exact
+          path="/add-student-profile"
+          component={AddStudentProfile}
+        />
+
+        <PrivateRoute
+          role="student_parent"
           exact
           path="/purchase/nice-payment"
           component={NicePayment}
         />
 
         <PrivateRoute
-          role="student"
+          role="student_parent"
           exact
           path="/purchase"
           component={BuyPackage}
         />
 
         <PrivateRoute
-          role="student"
+          role="student_parent"
           exact
           path="/purchase/:packageId/complete"
           component={ConfirmPayment}
         />
 
         <PrivateRoute
-          role="student"
+          role="student_parent"
           exact
           path="/purchase/:packageId/payment/:clientSecret"
           component={StripePayment}
         />
 
         <PrivateRoute
-          role="student"
+          role="student_parent"
           path="/select-profile"
           component={SelectProfile}
         />

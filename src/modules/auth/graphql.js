@@ -192,6 +192,24 @@ export const ME_QUERY = gql`
   }
 `;
 
+export const ATTACH_STUDENT_TO_USER = gql`
+  mutation ATTACH_STUDENT_TO_USER(
+    $userId: ID!
+    $firstName: String!
+    $lastName: String!
+    $gender: String!
+  ) {
+    attachStudentToUser(
+      userId: $userId
+      firstName: $firstName
+      lastName: $lastName
+      gender: $gender
+    ) {
+      id
+    }
+  }
+`;
+
 export const CREATE_NICE_PAYMENT = gql`
   mutation CREATE_NICE_PAYMENT(
     $userId: ID!

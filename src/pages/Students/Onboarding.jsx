@@ -77,8 +77,6 @@ export default function Onboarding() {
   }, [language]);
 
   const onSubmit = async (data) => {
-    console.log('data', data);
-
     if (!isLast) {
       localStorage.setItem(
         'onboarding',
