@@ -11,16 +11,17 @@ import Logo from '../../assets/images/logo.png';
 import { useMutation, gql } from '@apollo/client';
 import { useAuth } from '../../modules/auth';
 import { useTranslation } from 'react-i18next';
+import { getItemToLocalStorage } from 'src/constants/global';
 
 const CREATE_PAYMENT = gql`
   mutation CreatePayment(
-    $userId: ID!
+    $studentId: ID!
     $packageId: ID!
     $provider: PaymentProviderType
     $metadata: JSON
   ) {
     createPayment(
-      userId: $userId
+      studentId: $studentId
       packageId: $packageId
       provider: $provider
       metadata: $metadata
@@ -76,7 +77,11 @@ const CheckoutForm = () => {
       try {
         await createPayment({
           variables: {
-            userId: parseInt(user.id),
+            studentId: parseInt(
+              getItemToLocalStorage('studentId')
+                ? getItemToLocalStorage('studentId')
+                : user.students[0].id,
+            ),
             packageId: parseInt(params.packageId),
             provider: 'stripe',
             metadata: JSON.stringify(paymentIntent),

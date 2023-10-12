@@ -206,7 +206,7 @@ export const ATTACH_STUDENT_TO_USER = gql`
 
 export const CREATE_NICE_PAYMENT = gql`
   mutation CREATE_NICE_PAYMENT(
-    $userId: ID!
+    $studentId: ID!
     $packageId: ID!
     $amount: Int!
     $courseTitle: String!
@@ -216,7 +216,7 @@ export const CREATE_NICE_PAYMENT = gql`
     $pwd2Digit: String!
   ) {
     createNicePayment(
-      userId: $userId
+      studentId: $studentId
       packageId: $packageId
       amount: $amount
       courseTitle: $courseTitle

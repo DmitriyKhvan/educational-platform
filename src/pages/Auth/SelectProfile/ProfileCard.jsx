@@ -3,7 +3,6 @@ import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { cn } from 'src/utils/functions';
 
 export const ProfileCard = ({ student, studentId, selectProfile }) => {
-  console.log('student', student);
   return (
     <div
       onClick={() => selectProfile(student.id)}
