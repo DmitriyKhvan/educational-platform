@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-// import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../../assets/images/avatars/img_avatar_male.png';
 import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
 import { useAuth } from '../../modules/auth';
@@ -16,12 +14,14 @@ import {
 } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { isBetween } from '../../utils/isBetween';
+import { Avatar } from 'src/widgets/Avatar/Avatar';
 
 const ScheduleCard = ({
   index,
   lesson,
   zoom,
   date,
+  student,
   mentor,
   data,
   fetchAppointments,
@@ -146,14 +146,12 @@ const ScheduleCard = ({
             </h3>
           </div>
           <div className="w-[65px] h-[65px] overflow-hidden rounded-full relative">
-            <img
-              src={
-                mentor?.avatar ? mentor?.avatar?.url : maleAvatar
-                // ? maleAvatar
-                // : femaleAvatar
+            <Avatar
+              avatarUrl={
+                user.role === 'mentor'
+                  ? student?.avatar?.url
+                  : mentor?.avatar?.url
               }
-              className="object-cover "
-              alt=""
             />
           </div>
         </div>
