@@ -7,6 +7,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { getItemToLocalStorage } from 'src/constants/global';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
@@ -88,14 +90,12 @@ export default function ConfirmPayment() {
           className="w-16 h-16 text-green-500"
         />
         <h1 className="font-bold">{message}</h1>
-        <a
-          // href="/dashboard"
-          href="/select-profile"
+        <Link
+          to={getItemToLocalStorage('studentId') ? '/select-profile' : '/'}
           className="text-white bg-purple-500 px-4 py-2 rounded font-bold"
         >
-          {/* {t('dashboard')} */}
           {t('select_profile')}
-        </a>
+        </Link>
       </div>
     </main>
   );

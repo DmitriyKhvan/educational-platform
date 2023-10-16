@@ -79,7 +79,8 @@ const MentorProfile = () => {
 
             <div className={cls.tutor_name}>
               <h1>
-                {actions?.user?.fullName ? actions?.user.fullName : 'Nickname'}
+                {/* {actions?.user?.fullName ? actions?.user.fullName : 'Nickname'} */}
+                {actions?.user?.firstName} {actions?.user?.lastName}
               </h1>
               <h2 className={cls.text_primary}>
                 {actions?.user?.mentor?.degree &&

@@ -12,6 +12,8 @@ import notify from '../../utils/notify';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
+  localStorage.removeItem('studentId');
+
   const [t] = useTranslation('common');
 
   const [isShowPassword, setIsShowPassword] = useState(false);

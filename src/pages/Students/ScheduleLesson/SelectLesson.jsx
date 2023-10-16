@@ -19,6 +19,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '../../../components/Tooltip';
+import { getItemToLocalStorage } from 'src/constants/global';
 
 const SelectLesson = ({
   setSelectedPlan,
@@ -52,7 +53,7 @@ const SelectLesson = ({
   } = useQuery(PACKAGE_QUERY, {
     skip: !niceSubscriptionStatus,
     variables: {
-      userId: user?.id,
+      studentId: getItemToLocalStorage('studentId'),
     },
     fetchPolicy: 'network-only',
   });

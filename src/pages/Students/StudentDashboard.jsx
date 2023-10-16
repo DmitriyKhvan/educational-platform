@@ -161,7 +161,7 @@ const StudentListAppointments = () => {
 
   const { data: packageInfo, loading } = useQuery(PACKAGE_QUERY, {
     variables: {
-      userId: user.id,
+      studentId: getItemToLocalStorage('studentId'),
     },
   });
 

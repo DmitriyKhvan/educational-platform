@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Dropdown = ({
   icon,
+  customIcon,
   className,
   items,
   onClick,
@@ -39,12 +40,17 @@ const Dropdown = ({
 
   return (
     <div className="dropdown">
-      <img
-        src={icon}
-        alt=""
-        className={className}
-        onClick={() => (onClick ? onClick() : setVisible(!visible))}
-      />
+      {typeof icon === 'string' ? (
+        <img
+          src={icon}
+          alt=""
+          className={className}
+          onClick={() => (onClick ? onClick() : setVisible(!visible))}
+        />
+      ) : (
+        customIcon(onClick, setVisible, visible)
+      )}
+
       {badge > 0 && <span className="badge">{badge}</span>}
       {visible && (
         <>
@@ -58,7 +64,10 @@ const Dropdown = ({
                   <Link
                     key={index}
                     to={item.href || '#'}
-                    className={`menu-item ${active === index ? 'active' : ''}`}
+                    // className={`menu-item ${active === index ? 'active' : ''}`}
+                    className={`flex items-center justify-between p-[13px] font-semibold text-[15px] cursor-pointer ${
+                      active === index ? 'active' : ''
+                    }`}
                     onClick={() => {
                       setActive(index);
                       setVisible(false);
@@ -68,8 +77,9 @@ const Dropdown = ({
                     }}
                   >
                     <span>{item.label}</span>
-                    <span className="icon">
+                    <span>
                       <img
+                        className="w-[20px] h-auto"
                         src={
                           item.activeIcon && active === index
                             ? item.activeIcon

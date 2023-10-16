@@ -240,6 +240,9 @@ export const GET_MENTOR = gql`
   query GET_MENTOR($id: ID!) {
     mentor(id: $id) {
       id
+      firstName
+      lastName
+      gender
       major
       language
       university
@@ -253,30 +256,20 @@ export const GET_MENTOR = gql`
       hourlyRate
       facts
       uniqueFacts
-      videoUrl
-      availabilities {
-        id
-        day
-        from
-        to
-      }
+      fullName
+      userId
       user {
         id
         email
-        firstName
-        lastName
-        fullName
-        koreanEquivalent
         phoneNumber
         address
-        gender
         timeZone
         country
-        avatar
-        role
         referalCode
         referalId
         isActive
+        role
+        cardLast4
         createdAt
         updatedAt
       }
@@ -286,19 +279,24 @@ export const GET_MENTOR = gql`
         duration
         status
         cancelAction
+        cancelReason
+        canceledBy
       }
+      videoUrl
       avatarId
+      visibilityStatus
       avatar {
         id
-        name
-        mimetype
         url
-        path
-        width
-        height
-        createdAt
-        updatedAt
       }
+      availabilities {
+        id
+        day
+        from
+        to
+      }
+      zoomUserId
+      zoomEmail
     }
   }
 `;
@@ -536,8 +534,8 @@ export const STUDENTS_QUERY = gql`
 `;
 
 export const PACKAGE_QUERY = gql`
-  query packageSubscriptions($userId: ID!) {
-    packageSubscriptions: activePackageSubscriptions(userId: $userId) {
+  query packageSubscriptions($studentId: ID!) {
+    packageSubscriptions: activePackageSubscriptions(studentId: $studentId) {
       id
       periodStart
       periodEnd
@@ -603,7 +601,10 @@ export const APPOINTMENTS_QUERY = gql`
         videoUrl
         avatarId
         visibilityStatus
-        # avatar
+        avatar {
+          id
+          url
+        }
         # availabilities
         zoomUserId
         zoomEmail
@@ -622,7 +623,10 @@ export const APPOINTMENTS_QUERY = gql`
         # user
         # lessons
         avatarId
-        # avatar
+        avatar {
+          id
+          url
+        }
       }
       packageSubscription {
         id
@@ -630,12 +634,12 @@ export const APPOINTMENTS_QUERY = gql`
         periodEnd
         credits
         modifyCredits
-        packageId
-        # package
+        package {
+          course {
+            title
+          }
+        }
         paymentId
-        # payment
-        # lessons
-        active
       }
       zoom {
         id

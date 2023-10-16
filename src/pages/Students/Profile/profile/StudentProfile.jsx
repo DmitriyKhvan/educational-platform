@@ -29,7 +29,7 @@ const StudentProfile = () => {
     PACKAGE_QUERY,
     {
       variables: {
-        userId: user?.id,
+        studentId: getItemToLocalStorage('studentId'),
       },
     },
   );

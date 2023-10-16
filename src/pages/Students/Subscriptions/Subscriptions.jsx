@@ -14,6 +14,7 @@ import {
   PACKAGE_QUERY,
 } from '../../../modules/auth/graphql';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
+import { getItemToLocalStorage } from 'src/constants/global';
 
 const Subscriptions = () => {
   const [t] = useTranslation(['common', 'sidebar']);
@@ -37,7 +38,7 @@ const Subscriptions = () => {
     useQuery(PACKAGE_QUERY, {
       skip: !niceSubscriptionStatus,
       variables: {
-        userId: user?.id,
+        studentId: getItemToLocalStorage('studentId'),
       },
     });
 
