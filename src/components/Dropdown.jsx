@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
 
 const Dropdown = ({
   icon,
-  customIcon,
+  label,
   className,
   items,
   onClick,
@@ -39,17 +40,37 @@ const Dropdown = ({
   }, [items]);
 
   return (
-    <div className="dropdown">
-      {typeof icon === 'string' ? (
-        <img
-          src={icon}
-          alt=""
-          className={className}
-          onClick={() => (onClick ? onClick() : setVisible(!visible))}
-        />
-      ) : (
-        customIcon(onClick, setVisible, visible)
-      )}
+    <div className="dropdown ml-[20px]">
+      <div
+        onClick={() => (onClick ? onClick() : setVisible(!visible))}
+        className="flex items-center cursor-pointer"
+      >
+        {typeof icon === 'string' ? (
+          <img
+            src={icon}
+            alt=""
+            className={className}
+            onClick={() => (onClick ? onClick() : setVisible(!visible))}
+          />
+        ) : (
+          (
+            <div onClick={() => (onClick ? onClick() : setVisible(!visible))}>
+              {icon}
+            </div>
+          ) || null
+        )}
+
+        {label && (
+          <>
+            <span className="font-bold mr-[5px]">{label}</span>
+            {visible ? (
+              <FaAngleUp className="text-2xl" />
+            ) : (
+              <FaAngleDown className="text-2xl" />
+            )}
+          </>
+        )}
+      </div>
 
       {badge > 0 && <span className="badge">{badge}</span>}
       {visible && (
@@ -65,7 +86,7 @@ const Dropdown = ({
                     key={index}
                     to={item.href || '#'}
                     // className={`menu-item ${active === index ? 'active' : ''}`}
-                    className={`flex items-center justify-between p-[13px] font-semibold text-[15px] cursor-pointer ${
+                    className={`flex items-center justify-between px-[15px] py-[7px] font-semibold text-[15px] cursor-pointer group hover:bg-color-purple ${
                       active === index ? 'active' : ''
                     }`}
                     onClick={() => {
@@ -76,17 +97,22 @@ const Dropdown = ({
                       }
                     }}
                   >
-                    <span>{item.label}</span>
+                    <span className="group-hover:text-white">{item.label}</span>
                     <span>
-                      <img
-                        className="w-[20px] h-auto"
-                        src={
-                          item.activeIcon && active === index
-                            ? item.activeIcon
-                            : item.icon
-                        }
-                        alt=""
-                      />
+                      {typeof item.activeIcon === 'string' ||
+                      typeof item.icon === 'string' ? (
+                        <img
+                          className="w-[24px] h-auto"
+                          src={
+                            item.activeIcon && active === index
+                              ? item.activeIcon
+                              : item.icon
+                          }
+                          alt=""
+                        />
+                      ) : (
+                        item.customIcon
+                      )}
                     </span>
                   </Link>
                 ),

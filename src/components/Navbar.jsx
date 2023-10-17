@@ -4,12 +4,10 @@ import { useTranslation } from 'react-i18next';
 import Logo from '../assets/images/auth-logo.svg';
 import FlagUsa from '../assets/images/flag-usa.svg';
 import FlagKorea from '../assets/images/flag-korea.svg';
-import LogoutImg from '../assets/images/logout_icon.svg';
 import MobileMenuIcon from '../assets/images/mobile-menu.svg';
 import Dropdown from './Dropdown';
 
 import IconMyprofile from '../assets/images/sidebar/icon-myprofile.svg';
-import IconUser from '../assets/images/user.svg';
 import {
   getItemToLocalStorage,
   setItemToLocalStorage,
@@ -17,9 +15,14 @@ import {
 import { useAuth } from '../modules/auth';
 
 import { HiUserCircle } from 'react-icons/hi2';
-import { cn } from 'src/utils/functions';
+import { FiLogOut } from 'react-icons/fi';
+
+// import LogoutImg from '../assets/images/logout_icon.svg';
+// import IconUser from '../assets/images/user.svg';
 
 const Navbar = ({ setShowSidebar }) => {
+  console.log(typeof IconMyprofile);
+
   const { user, logout } = useAuth();
   const [language, setLanguage] = useState(
     parseInt(getItemToLocalStorage('language', 1)),
@@ -51,7 +54,7 @@ const Navbar = ({ setShowSidebar }) => {
       <Link
         key={index}
         to={item.href || '#'}
-        className={`flex items-center justify-between p-[13px] font-semibold text-[15px] cursor-pointer group hover:bg-color-purple`}
+        className={`flex items-center justify-between px-[15px] py-[7px]  font-semibold text-[15px] cursor-pointer group hover:bg-color-purple`}
         onClick={() => {
           setActive(index);
           setVisible(false);
@@ -77,27 +80,21 @@ const Navbar = ({ setShowSidebar }) => {
     );
   };
 
-  const customIcon = (onClick, setVisible, visible) => {
-    return (
-      <HiUserCircle
-        className="text-[30px] text-color-purple mr-[10px]"
-        onClick={() => (onClick ? onClick() : setVisible(!visible))}
-      />
-    );
-  };
-
   return (
     <div className="nav-bar">
       <div className="desktop-version">
         <div className="left-part"></div>
         <div className="right-part">
           <Dropdown
-            className={cn(
-              'w-[30px] h-[30px] mr-[10px]',
-              user?.avatar && 'rounded-full object-center object-cover',
-            )}
-            icon={user?.avatar ? user?.avatar?.url : null}
-            customIcon={customIcon}
+            icon={
+              user?.avatar ? (
+                user?.avatar.url
+              ) : (
+                <HiUserCircle className="text-[30px] text-color-purple mr-[5px]" />
+              )
+            }
+            label={user?.firstName}
+            className="w-[30px] h-[30px] rounded-full border-2 border-color-white object-center object-cover mr-[5px]"
             renderChild={students}
             items={user.students
               .filter(
@@ -114,13 +111,17 @@ const Navbar = ({ setShowSidebar }) => {
           />
 
           <Dropdown
-            className="w-[20px] h-[20px] mr-[10px]"
-            icon={IconUser}
+            className="w-[20px] h-[20px]"
+            // icon={IconUser}
+            label="My Account"
             items={[
               {
                 label: t('my_profile'),
-                icon: IconMyprofile,
-                activeIcon: IconMyprofile,
+                // icon: IconMyprofile,
+                // activeIcon: IconMyprofile,
+                customIcon: (
+                  <HiUserCircle className="text-[30px] text-color-purple group-hover:text-white" />
+                ),
                 href:
                   user.role === 'mentor'
                     ? '/mentor/profile'
@@ -128,7 +129,10 @@ const Navbar = ({ setShowSidebar }) => {
               },
               {
                 label: t('logout'),
-                icon: LogoutImg,
+                // icon: LogoutImg,
+                customIcon: (
+                  <FiLogOut className="text-[24px] text-color-purple group-hover:text-white" />
+                ),
                 onClick: handleLogout,
               },
             ]}
@@ -136,6 +140,7 @@ const Navbar = ({ setShowSidebar }) => {
           <Dropdown
             className="language"
             icon={language === 1 ? FlagUsa : FlagKorea}
+            label={language === 1 ? t('english') : t('korean')}
             items={[
               {
                 label: t('korean'),

@@ -40,6 +40,7 @@ import { SelectProfile } from './pages/Auth/SelectProfile/SelectProfile';
 import { getItemToLocalStorage } from './constants/global';
 import MentorProfile from './pages/Mentors/Profile/MentorProfile';
 import { AddStudentProfile } from './pages/Auth/SelectProfile/AddProfile';
+// import { ErrorPage } from './pages/ErrorPage';
 
 // import TutorDashboard from './pages/Mentors/MentorDashboard';
 
@@ -195,6 +196,10 @@ function App() {
             component={lazy(() => import('./pages/Mentors'))}
           />
         </Suspense>
+
+        {/* <Route path="**">
+          <ErrorPage />
+        </Route> */}
       </Router>
       <Toaster />
     </>
