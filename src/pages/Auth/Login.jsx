@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -9,9 +9,11 @@ import useLogin from '../../modules/auth/hooks/login';
 import Button from '../../components/Form/Button/Button';
 import InputWithError from '../../components/Form/InputWithError';
 import notify from '../../utils/notify';
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
+  localStorage.removeItem('studentId');
+
   const [t] = useTranslation('common');
 
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -28,22 +30,27 @@ const Login = () => {
     },
   });
 
-  const { search } = useLocation();
+  // const { search } = useLocation();
 
-  const queryParams = new URLSearchParams(search);
-  const redirectPath = queryParams.get('redirect');
+  // const queryParams = new URLSearchParams(search);
+  // const redirectPath = queryParams.get('redirect');
 
-  const { login, loading, error } = useLogin();
+  const { login, loading, error, data } = useLogin();
 
-  const handleLogin = async ({ email, password }) => {
-    await login(email, password, redirectPath || '/');
+  const handleLogin = ({ email, password }) => {
+    login(email, password);
   };
 
-  useEffect(() => {
-    if (error) {
-      notify(t('login_failed'), 'error');
-    }
-  }, [error]);
+  if (data) {
+    location.href =
+      data.authResult.user.role === 'student'
+        ? '/select-profile'
+        : '/mentor/manage-appointments';
+  }
+
+  if (error) {
+    notify(t('login_failed'), 'error');
+  }
 
   return (
     <AuthLayout>

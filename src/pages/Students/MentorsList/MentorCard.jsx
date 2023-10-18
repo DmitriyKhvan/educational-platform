@@ -33,9 +33,7 @@ export const MentorCard = ({
       <div className="flex justify-between items-start mt-[30px] h-[120px] overflow-hidden">
         <div>
           <h2 className="text-2xl sm:text-[30px] text-color-purple tracking-[-0.6px] mb-4 ">
-            {resizerUsername(
-              mentor?.user ? mentor?.user?.firstName : mentor.fullName,
-            )}
+            {resizerUsername(mentor?.firstName)}
           </h2>
 
           <h4 className="font-semibold text-[15px] text-color-light-grey leading-[18px] tracking-[-0.2px]">
@@ -63,8 +61,8 @@ export const MentorCard = ({
                 state: {
                   tutor: {
                     id: mentor.id,
-                    firstName: mentor.user?.firstName,
-                    lastName: mentor.user?.lastName,
+                    firstName: mentor?.firstName,
+                    lastName: mentor?.lastName,
                     avatar: mentor.avatar?.url,
                   },
                 },

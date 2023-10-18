@@ -3,7 +3,10 @@ import Layout from '../../components/Layout';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { ModalCancelLesson } from '../../components/ModalCancelLesson';
 import { useTranslation } from 'react-i18next';
-import { cancel_lesson_reasons_student } from '../../constants/global';
+import {
+  cancel_lesson_reasons_student,
+  getItemToLocalStorage,
+} from '../../constants/global';
 import ImgCalendar from '../../assets/images/calendar_icon.svg';
 import NotificationManager from '../../components/NotificationManager';
 import ModalFeedback from './ModalFeedback';
@@ -48,7 +51,8 @@ const StudentListAppointments = () => {
     {
       variables: {
         status: 'scheduled,paid,completed,in_progress,approved',
-        studentId: user?.students[0]?.id,
+        // studentId: user?.students[0]?.id,
+        studentId: getItemToLocalStorage('studentId'),
       },
     },
   );
@@ -157,7 +161,7 @@ const StudentListAppointments = () => {
 
   const { data: packageInfo, loading } = useQuery(PACKAGE_QUERY, {
     variables: {
-      userId: user.id,
+      studentId: getItemToLocalStorage('studentId'),
     },
   });
 

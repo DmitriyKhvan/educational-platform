@@ -94,8 +94,8 @@ const ApproveRequest = () => {
         .map((event) => {
           return {
             id: event.id,
-            img: event?.student?.user?.avatar?.url,
-            studentName: `${event?.student?.user?.firstName} ${event?.student?.user?.lastName}`,
+            img: event?.student?.avatar?.url,
+            studentName: `${event?.student?.firstName} ${event?.student?.lastName}`,
             lessonNumber: event.id,
             lessonDate: event.startAt,
             duration: event.duration,

@@ -13,6 +13,7 @@ import notify from '../../../../utils/notify';
 import ModalWrapper from '../../../../components/ModalWrapper/ModalWrapper';
 import EditProflileStudent from '../editInfo/EditStudentProfile';
 import ReactLoader from '../../../../components/common/Loader';
+import { getItemToLocalStorage } from 'src/constants/global';
 
 const StudentProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +29,7 @@ const StudentProfile = () => {
     PACKAGE_QUERY,
     {
       variables: {
-        userId: user?.id,
+        studentId: getItemToLocalStorage('studentId'),
       },
     },
   );
@@ -37,7 +38,8 @@ const StudentProfile = () => {
     if (text !== '') {
       const { data } = await updateStudent({
         variables: {
-          id: parseInt(user?.student?.id),
+          // id: parseInt(user?.student?.id),
+          id: parseInt(getItemToLocalStorage('studentId')),
           data: {
             about: text,
           },
@@ -60,7 +62,7 @@ const StudentProfile = () => {
           <div>
             <div className="relative w-full h-[150px] bg-color-purple rounded-t-[10px]">
               <div className="absolute left-[5%] top-[55%] w-[140px] h-[140px] border-8 border-solid border-white rounded-[10px]">
-                <Avatar avatarUrl={user?.student?.avatar?.url} />
+                <Avatar avatarUrl={user?.avatar?.url} />
               </div>
             </div>
             <div className="w-full h-auto py-4 border border-solid border-color-border-grey rounded-b-[10px]">

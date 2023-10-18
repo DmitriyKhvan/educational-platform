@@ -45,6 +45,8 @@ const ModalWrapper = ({
       height: heightContent,
     },
   };
+  console.log('isOpen', isOpen);
+  // debugger;
 
   return (
     <Modal

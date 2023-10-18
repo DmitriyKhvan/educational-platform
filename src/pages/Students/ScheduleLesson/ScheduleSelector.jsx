@@ -295,9 +295,11 @@ const ScheduleSelector = ({
       userTimezone,
     );
     const hoursPrior = 48;
-    const preScreen = moment
-      .tz(formattedDay + ' ' + scheduleStartTime, userTimezone)
-      .subtract(hoursPrior, 'hours');
+    const preScreen = moment.tz(
+      formattedDay + ' ' + scheduleStartTime,
+      userTimezone,
+    );
+    // .subtract(hoursPrior, 'hours'); Return to prod!!!!
     const todayDate = moment();
 
     if (!todayDate.isBefore(preScreen)) {
@@ -310,7 +312,8 @@ const ScheduleSelector = ({
 
       Swal.fire({
         title: t('swal_fire_title_schedule_prescreen', { ns: 'modals' }),
-        text: t('swal_fire_text_schedule_prescreen', { ns: 'modals' }),
+        // text: t('swal_fire_text_schedule_prescreen', { ns: 'modals' }), Return to prod!!!
+        text: t('swal_fire_footer_schedule_prescreen', { ns: 'modals' }),
         icon: 'warning',
         width: '36em',
         confirmButtonColor: '#6133af',

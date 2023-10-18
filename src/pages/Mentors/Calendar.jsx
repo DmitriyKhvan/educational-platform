@@ -455,9 +455,9 @@ const Calendar = () => {
                         />
                       </div>
                       <p>
-                        {eventDate?.student?.user?.firstName +
+                        {eventDate?.student?.firstName +
                           ' ' +
-                          eventDate?.student?.user?.lastName}
+                          eventDate?.student?.lastName}
                       </p>
                     </div>
                     <div className="col-4">
