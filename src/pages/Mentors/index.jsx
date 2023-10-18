@@ -11,6 +11,7 @@ import { Switch, useRouteMatch, Route } from 'react-router-dom';
 import TutorDashboard from './MentorDashboard';
 import AvailabilityLayout from './Availiability';
 import Layout from 'src/components/Layout';
+import MentorProfile from './Profile/MentorProfile';
 
 export default function TutorPages() {
   let { path } = useRouteMatch();
@@ -42,6 +43,10 @@ export default function TutorPages() {
 
       <Route path={`${path}/students-list/:id?`}>
         <StudentsList />
+      </Route>
+
+      <Route path={`${path}/profile`}>
+        <MentorProfile />
       </Route>
 
       <Route path={`${path}/edit-profile`}>

@@ -2,12 +2,13 @@ import 'react-notifications-component/dist/theme.css';
 import './assets/styles/global.scss';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 /* eslint-disable import/first */
-import React, { lazy, Suspense } from 'react';
+import React, { Suspense, lazy } from 'react';
 
 import { ReactNotifications } from 'react-notifications-component';
 import {
   BrowserRouter as Router,
   Redirect,
+  Switch,
   Route,
   useHistory,
 } from 'react-router-dom';
@@ -38,11 +39,8 @@ import BuyPackageTest from './pages/Students/BuyPackageTest';
 import { NicePayment } from './pages/Students/NicePayment';
 import { SelectProfile } from './pages/Auth/SelectProfile/SelectProfile';
 import { getItemToLocalStorage } from './constants/global';
-import MentorProfile from './pages/Mentors/Profile/MentorProfile';
 import { AddStudentProfile } from './pages/Auth/SelectProfile/AddProfile';
-// import { ErrorPage } from './pages/ErrorPage';
-
-// import TutorDashboard from './pages/Mentors/MentorDashboard';
+import { ErrorPage } from './pages/ErrorPage';
 
 function PrivateRoute({ component: Component, role, ...rest }) {
   const { user } = useAuth();
@@ -73,19 +71,11 @@ function PrivateRoute({ component: Component, role, ...rest }) {
 }
 
 function PublicRoute({ component: Component, ...rest }) {
-  const { user } = useAuth();
-
   return (
     <Route
       {...rest}
       render={(props) => {
-        return user?.role === 'mentor' ? (
-          <Redirect to={`/mentor/manage-appointments`} />
-        ) : user?.role === 'student' && getItemToLocalStorage('studentId') ? (
-          <Redirect to={`/student/manage-lessons`} />
-        ) : (
-          <Component {...props} />
-        );
+        return <Component {...props} />;
       }}
     />
   );
@@ -107,99 +97,97 @@ function App() {
       <Router>
         <ReactNotifications />
         <div className="App"></div>
-        <PublicRoute exact path="/" component={Login} />
-        <PublicRoute path="/forgot-password" component={ForgotPassword} />
-        <PublicRoute
-          path="/forgot-password-guide"
-          component={ForgotPasswordText}
-        />
-        <PublicRoute path="/reset-password" component={ResetPassword} />
-        <PublicRoute path="/welcome-set-password" component={ResetPassword} />
-        <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
-        <PublicRoute path="/onboarding" component={Onboarding} />
-        <PublicRoute path="/d3gKtqEEDhJE5Z" component={BuyPackageTest} />
+        <Switch>
+          <PublicRoute exact path="/" component={Login} />
+          <PublicRoute path="/forgot-password" component={ForgotPassword} />
+          <PublicRoute
+            path="/forgot-password-guide"
+            component={ForgotPasswordText}
+          />
+          <PublicRoute path="/reset-password" component={ResetPassword} />
+          <PublicRoute path="/welcome-set-password" component={ResetPassword} />
+          <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
+          <PublicRoute path="/onboarding" component={Onboarding} />
 
-        <PublicRoute path="/referral/:referalcode" component={IsReferal} />
-        {/* <PrivateRoute
+          <PublicRoute path="/d3gKtqEEDhJE5Z" component={BuyPackageTest} />
+
+          <PublicRoute path="/referral/:referalcode" component={IsReferal} />
+          {/* <PrivateRoute
           path="/:mode(stud|mentor)/profile"
           component={ProfileLayout}
         /> */}
 
-        <PrivateRoute
-          role="student_parent"
-          exact
-          path="/add-student-profile"
-          component={AddStudentProfile}
-        />
-
-        <PrivateRoute
-          role="student_parent"
-          exact
-          path="/purchase/nice-payment"
-          component={NicePayment}
-        />
-
-        <PrivateRoute
-          role="student_parent"
-          exact
-          path="/purchase"
-          component={BuyPackage}
-        />
-
-        <PrivateRoute
-          role="student_parent"
-          exact
-          path="/purchase/:packageId/complete"
-          component={ConfirmPayment}
-        />
-
-        <PrivateRoute
-          role="student_parent"
-          exact
-          path="/purchase/:packageId/payment/:clientSecret"
-          component={StripePayment}
-        />
-
-        <PrivateRoute
-          role="student_parent"
-          path="/select-profile"
-          component={SelectProfile}
-        />
-
-        <PrivateRoute
-          role="mentor"
-          path="/mentor/profile"
-          component={MentorProfile}
-        />
-
-        <PrivateRoute
-          role="mentor"
-          path="/approve-requests"
-          component={ApproveRequest}
-        />
-
-        <Suspense
-          fallback={
-            <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
-              <Loader />
-            </div>
-          }
-        >
           <PrivateRoute
-            role="student"
-            path="/student"
-            component={lazy(() => import('./pages/Students'))}
+            role="student_parent"
+            exact
+            path="/add-student-profile"
+            component={AddStudentProfile}
           />
+
+          <PrivateRoute
+            role="student_parent"
+            exact
+            path="/purchase/nice-payment"
+            component={NicePayment}
+          />
+
+          <PrivateRoute
+            role="student_parent"
+            exact
+            path="/purchase"
+            component={BuyPackage}
+          />
+
+          <PrivateRoute
+            role="student_parent"
+            exact
+            path="/purchase/:packageId/complete"
+            component={ConfirmPayment}
+          />
+
+          <PrivateRoute
+            role="student_parent"
+            exact
+            path="/purchase/:packageId/payment/:clientSecret"
+            component={StripePayment}
+          />
+
+          <PrivateRoute
+            role="student_parent"
+            path="/select-profile"
+            component={SelectProfile}
+          />
+
           <PrivateRoute
             role="mentor"
-            path="/mentor"
-            component={lazy(() => import('./pages/Mentors'))}
+            path="/approve-requests"
+            component={ApproveRequest}
           />
-        </Suspense>
 
-        {/* <Route path="**">
-          <ErrorPage />
-        </Route> */}
+          <Suspense
+            fallback={
+              <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
+                <Loader />
+              </div>
+            }
+          >
+            <PrivateRoute
+              role="student"
+              path="/student"
+              component={lazy(() => import('./pages/Students'))}
+            />
+            <PrivateRoute
+              role="mentor"
+              path="/mentor"
+              component={lazy(() => import('./pages/Mentors'))}
+            />
+          </Suspense>
+
+          <Route exact={true} path="/404">
+            <ErrorPage />
+          </Route>
+          <Redirect to="/404" />
+        </Switch>
       </Router>
       <Toaster />
     </>

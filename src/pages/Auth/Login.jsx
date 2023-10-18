@@ -43,7 +43,9 @@ const Login = () => {
 
   if (data) {
     location.href =
-      data.authResult.user.role === 'student' ? '/select-profile' : '/';
+      data.authResult.user.role === 'student'
+        ? '/select-profile'
+        : '/mentor/manage-appointments';
   }
 
   if (error) {

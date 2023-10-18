@@ -14,7 +14,7 @@ export const SelectProfile = () => {
   const selectProfile = (id) => {
     setStudentId(id);
     setItemToLocalStorage('studentId', id);
-    location.href = '/';
+    location.href = '/student/manage-lessons';
   };
 
   return (

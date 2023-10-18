@@ -23,7 +23,7 @@ import { FiLogOut } from 'react-icons/fi';
 const Navbar = ({ setShowSidebar }) => {
   console.log(typeof IconMyprofile);
 
-  const { user, logout } = useAuth();
+  const { user, logout, refetchUser } = useAuth();
   const [language, setLanguage] = useState(
     parseInt(getItemToLocalStorage('language', 1)),
   );
@@ -31,8 +31,7 @@ const Navbar = ({ setShowSidebar }) => {
 
   const onChangeStudentProfile = (id) => {
     setItemToLocalStorage('studentId', id);
-    window.location.reload(true);
-    // refetchUser({ studentId: id });
+    refetchUser({ studentId: id });
   };
 
   const handleLogout = async () => {
@@ -54,7 +53,7 @@ const Navbar = ({ setShowSidebar }) => {
       <Link
         key={index}
         to={item.href || '#'}
-        className={`flex items-center justify-between px-[15px] py-[7px]  font-semibold text-[15px] cursor-pointer group hover:bg-color-purple`}
+        className={`flex items-center justify-between px-[15px] py-[7px]  font-semibold text-[15px] cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple`}
         onClick={() => {
           setActive(index);
           setVisible(false);
@@ -63,7 +62,9 @@ const Navbar = ({ setShowSidebar }) => {
           }
         }}
       >
-        <span className="group-hover:text-white">{item.label}</span>
+        <span className="transition ease-in-out delay-150 group-hover:text-white">
+          {item.label}
+        </span>
 
         {item.activeIcon ? (
           <span>
@@ -74,7 +75,7 @@ const Navbar = ({ setShowSidebar }) => {
             />
           </span>
         ) : (
-          <HiUserCircle className="text-[30px] text-color-purple group-hover:text-white" />
+          <HiUserCircle className="text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
         )}
       </Link>
     );
@@ -85,29 +86,46 @@ const Navbar = ({ setShowSidebar }) => {
       <div className="desktop-version">
         <div className="left-part"></div>
         <div className="right-part">
+          {user.role === 'student' && (
+            <Dropdown
+              icon={
+                user?.avatar ? (
+                  user?.avatar.url
+                ) : (
+                  <HiUserCircle className="text-[30px] text-color-purple mr-[5px]" />
+                )
+              }
+              label={user?.firstName}
+              className="w-[30px] h-[30px] rounded-full border-2 border-color-white object-center object-cover mr-[5px]"
+              renderChild={students}
+              items={user.students
+                .filter(
+                  (student) =>
+                    student.id !== getItemToLocalStorage('studentId'),
+                )
+                .map((student) => {
+                  return {
+                    label: student.firstName,
+                    icon: student?.avatar?.url,
+                    activeIcon: student?.avatar?.url,
+                    onClick: () => onChangeStudentProfile(student.id),
+                  };
+                })}
+            />
+          )}
+
           <Dropdown
-            icon={
-              user?.avatar ? (
-                user?.avatar.url
-              ) : (
-                <HiUserCircle className="text-[30px] text-color-purple mr-[5px]" />
-              )
-            }
-            label={user?.firstName}
-            className="w-[30px] h-[30px] rounded-full border-2 border-color-white object-center object-cover mr-[5px]"
-            renderChild={students}
-            items={user.students
-              .filter(
-                (student) => student.id !== getItemToLocalStorage('studentId'),
-              )
-              .map((student) => {
-                return {
-                  label: student.firstName,
-                  icon: student?.avatar?.url,
-                  activeIcon: student?.avatar?.url,
-                  onClick: () => onChangeStudentProfile(student.id),
-                };
-              })}
+            className="language"
+            icon={language === 1 ? FlagUsa : FlagKorea}
+            label={language === 1 ? t('english') : t('korean')}
+            items={[
+              {
+                label: t('korean'),
+                icon: FlagKorea,
+                onClick: onChangeLanguage,
+              },
+              { label: t('english'), icon: FlagUsa, onClick: onChangeLanguage },
+            ]}
           />
 
           <Dropdown
@@ -120,7 +138,10 @@ const Navbar = ({ setShowSidebar }) => {
                 // icon: IconMyprofile,
                 // activeIcon: IconMyprofile,
                 customIcon: (
-                  <HiUserCircle className="text-[30px] text-color-purple group-hover:text-white" />
+                  <HiUserCircle className="text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
+                ),
+                customIconActive: (
+                  <HiUserCircle className="text-[30px] text-white" />
                 ),
                 href:
                   user.role === 'mentor'
@@ -131,23 +152,11 @@ const Navbar = ({ setShowSidebar }) => {
                 label: t('logout'),
                 // icon: LogoutImg,
                 customIcon: (
-                  <FiLogOut className="text-[24px] text-color-purple group-hover:text-white" />
+                  <FiLogOut className="text-[24px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
                 ),
+
                 onClick: handleLogout,
               },
-            ]}
-          />
-          <Dropdown
-            className="language"
-            icon={language === 1 ? FlagUsa : FlagKorea}
-            label={language === 1 ? t('english') : t('korean')}
-            items={[
-              {
-                label: t('korean'),
-                icon: FlagKorea,
-                onClick: onChangeLanguage,
-              },
-              { label: t('english'), icon: FlagUsa, onClick: onChangeLanguage },
             ]}
           />
         </div>
