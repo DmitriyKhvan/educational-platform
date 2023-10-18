@@ -15,6 +15,8 @@ import {
   setItemToLocalStorage,
 } from '../constants/global';
 import { useAuth } from '../modules/auth';
+import { useSubscription } from '@apollo/client';
+import { MESSAGE_SUBSCRIPTIONS } from '../utils/subscriptions';
 
 const Navbar = ({ setShowSidebar }) => {
   const { user, logout } = useAuth();
@@ -36,6 +38,7 @@ const Navbar = ({ setShowSidebar }) => {
   useEffect(() => {
     i18n.changeLanguage(language === 0 ? 'kr' : 'en');
   }, [language]);
+  const {data} = useSubscription(MESSAGE_SUBSCRIPTIONS);
 
   return (
     <div className="nav-bar">
@@ -82,7 +85,7 @@ const Navbar = ({ setShowSidebar }) => {
             <img src={Logo} alt="" />
           </Link>
         </div>
-        <div className="mobile-menu">
+        <div className={`mobile-menu ${data?.newMessages?.meta?.dashboard ? 'ws-notification-mobile' : ''}`}>
           <img
             src={MobileMenuIcon}
             alt=""

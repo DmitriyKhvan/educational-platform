@@ -71,7 +71,7 @@ const TutorDashboard = () => {
             <ScheduleCard
               lesson={event?.packageSubscription?.package?.course?.title}
               duration={event?.duration}
-              zoomlinkId={event?.zoomlinkId}
+              // zoomlinkId={event?.zoomlinkId}
               date={event?.startAt}
               data={event}
               mentor={event.mentor}

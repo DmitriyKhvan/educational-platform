@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../modules/auth';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery, useSubscription } from '@apollo/client';
 import notify from '../../utils/notify';
 import {
   APPOINTMENTS_QUERY,
@@ -15,8 +15,10 @@ import {
 import '../../assets/styles/calendar.scss';
 import Loader from '../../components/Loader/Loader';
 import toast from 'react-hot-toast';
+import { MESSAGE_SUBSCRIPTIONS } from '../../utils/subscriptions';
 
 const ApproveRequest = () => {
+  let wsData = useSubscription(MESSAGE_SUBSCRIPTIONS);
   const { user } = useAuth();
   const [t] = useTranslation(['lessons', 'common']);
   const userTimezone =
@@ -37,28 +39,26 @@ const ApproveRequest = () => {
   const [approveAppointment] = useMutation(APPROVE_APPOINTMENT, {
     onCompleted: () => {
       refetch({
-        variables: {
           mentorId: user?.mentor?.id,
           status: 'scheduled',
-        },
       });
     },
   });
   const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT, {
     onCompleted: () => {
       refetch({
-        variables: {
           mentorId: user?.mentor?.id,
           status: 'scheduled',
-        },
-      });
+        });
       toast.success('Your lesson has been cancelled successfully');
     },
   });
 
+  
+  // console.log(data);
   useEffect(() => {
     refetch();
-  }, [user]);
+  }, [user, wsData]);
 
   const onClickApprove = async ({ id }) => {
     approveAppointment({
@@ -112,8 +112,8 @@ const ApproveRequest = () => {
     t('lesson_date', { ns: 'lessons' }),
   ];
 
-  const lessons = displayLessonRequestTable();
-
+  let lessons = displayLessonRequestTable();
+  
   return (
     <Layout>
       {loading && <Loader height="calc(100vh - 80px)" />}

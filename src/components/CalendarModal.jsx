@@ -5,26 +5,26 @@ import moment from 'moment-timezone';
 import ZoomWarningModal from './student-dashboard/ZoomWarningModal';
 import femaleAvatar from '../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../assets/images/avatars/img_avatar_male.png';
-import { gql, useLazyQuery } from '@apollo/client';
+// import { gql, useLazyQuery } from '@apollo/client';
 import Swal from 'sweetalert2';
 import RescheduleAndCancelModal from './student-dashboard/RescheduleAndCancelModal';
 
-const GET_ZOOMLINK = gql`
-  query Get_Zoomlink($id: Int!) {
-    zoomLink(id: $id) {
-      id
-      url
-      isPaid
-    }
-  }
-`;
+// const GET_ZOOMLINK = gql`
+//   query Get_Zoomlink($id: Int!) {
+//     zoomLink(id: $id) {
+//       id
+//       url
+//       isPaid
+//     }
+//   }
+// `;
 
 const CalendarModal = ({
   index,
   lesson,
   startTime,
   endTime,
-  zoomlink,
+  // zoomlink,
   closeModal,
   time,
   data,
@@ -40,7 +40,7 @@ const CalendarModal = ({
 
   const avatar = data?.resource?.mentor?.avatar;
 
-  const [getZoomLink] = useLazyQuery(GET_ZOOMLINK);
+  // const [getZoomLink] = useLazyQuery(GET_ZOOMLINK);
   const [tabIndex, setTabIndex] = useState(0);
 
   React.useEffect(() => {
@@ -71,12 +71,13 @@ const CalendarModal = ({
 
   const joinLesson = async () => {
     if (isBetween) {
-      const zoomLink = await getZoomLink({
-        variables: {
-          id: parseInt(zoomlink),
-        },
-      });
-      window.open(zoomLink.data.zoomLink.url, '_blank');
+      console.log();
+      // const zoomLink = await getZoomLink({
+      //   variables: {
+      //     id: parseInt(zoomlink),
+      //   },
+      // });
+      // window.open(zoomLink.data.zoomLink.url, '_blank');
     } else {
       setIsWarningOpen(true);
     }

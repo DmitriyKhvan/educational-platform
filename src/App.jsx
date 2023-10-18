@@ -37,6 +37,8 @@ import ConfirmPayment from './pages/ConfirmPayment';
 import BuyPackageTest from './pages/Students/BuyPackageTest';
 import { NicePayment } from './pages/Students/NicePayment';
 import Messanger from './pages/Messanger/Messanger';
+import { useSubscription } from '@apollo/client';
+import { MESSAGE_SUBSCRIPTIONS } from './utils/subscriptions';
 
 function PrivateRoute({ component: Component, ...rest }) {
   const { isAuthorized } = useAuth();
@@ -91,6 +93,8 @@ function App() {
     });
   });
 
+  useSubscription(MESSAGE_SUBSCRIPTIONS);
+  
   if (isAuthInProgress) return <Loader height={'100vh'} />;
 
   return (

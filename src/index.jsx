@@ -36,10 +36,13 @@ import {
   InMemoryCache,
   ApolloProvider,
   concat,
+  split,
 } from '@apollo/client';
 import { AuthProvider } from './modules/auth';
 import { createUploadLink } from 'apollo-upload-client';
 import './index.css';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { createWsLink } from './utils/subscriptions';
 
 const httpLink = createUploadLink({
   uri: `${process.env.REACT_APP_SERVER_URL}/graphql`,
@@ -59,11 +62,23 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
+const wsLink = createWsLink(process.env.REACT_APP_SERVER_WS_URL);
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  concat(authMiddleware, httpLink),
+);
+
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: concat(authMiddleware, httpLink),
+  link: splitLink,
 });
-
 i18next.init({
   interpolation: { escapeValue: false }, // React already does escaping
   lng: 'en', // language to use
