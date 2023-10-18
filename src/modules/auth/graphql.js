@@ -305,6 +305,15 @@ export const MENTORS_QUERY = gql`
   query Mentors {
     mentors(visibilityStatus: public) {
       id
+      firstName
+      lastName
+      fullName
+      #koreanEquivalent
+      gender
+      avatar {
+        id
+        url
+      }
       major
       language
       university
@@ -322,16 +331,13 @@ export const MENTORS_QUERY = gql`
       user {
         id
         email
-        firstName
-        lastName
-        fullName
-        koreanEquivalent
+
         phoneNumber
         address
-        gender
+
         timeZone
         country
-        avatar
+
         role
         referalCode
         referalId
