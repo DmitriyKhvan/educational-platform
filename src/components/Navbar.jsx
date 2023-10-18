@@ -23,7 +23,7 @@ import { FiLogOut } from 'react-icons/fi';
 const Navbar = ({ setShowSidebar }) => {
   console.log(typeof IconMyprofile);
 
-  const { user, logout, refetchUser } = useAuth();
+  const { user, logout } = useAuth();
   const [language, setLanguage] = useState(
     parseInt(getItemToLocalStorage('language', 1)),
   );
@@ -31,7 +31,7 @@ const Navbar = ({ setShowSidebar }) => {
 
   const onChangeStudentProfile = (id) => {
     setItemToLocalStorage('studentId', id);
-    refetchUser({ studentId: id });
+    window.location.reload(true);
   };
 
   const handleLogout = async () => {
