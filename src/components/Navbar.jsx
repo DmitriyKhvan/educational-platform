@@ -10,6 +10,8 @@ import Dropdown from './Dropdown';
 
 import IconMyprofile from '../assets/images/sidebar/icon-myprofile.svg';
 import IconUser from '../assets/images/user.svg';
+import IconNotification from '../assets/images/notification.svg';
+import IconTrashCan from '../assets/images/trash_can.svg';
 import {
   getItemToLocalStorage,
   setItemToLocalStorage,
@@ -19,7 +21,9 @@ import { useSubscription } from '@apollo/client';
 import { MESSAGE_SUBSCRIPTIONS } from '../utils/subscriptions';
 
 const Navbar = ({ setShowSidebar }) => {
+  const systemNotificationLimit = 5;
   const { user, logout } = useAuth();
+  let systemNotifications = [];
   const [language, setLanguage] = useState(
     parseInt(getItemToLocalStorage('language', 1)),
   );
@@ -38,13 +42,31 @@ const Navbar = ({ setShowSidebar }) => {
   useEffect(() => {
     i18n.changeLanguage(language === 0 ? 'kr' : 'en');
   }, [language]);
+  
   const {data} = useSubscription(MESSAGE_SUBSCRIPTIONS);
+
+  if (data?.newMessages?.body) {
+    systemNotifications.unshift({
+      label: data.newMessages.body,
+      icon: IconTrashCan,
+      activeIcon: IconTrashCan
+    })
+    if (systemNotifications.length > systemNotificationLimit) {
+      systemNotifications = systemNotifications.slice(0,systemNotificationLimit-1)
+    }
+  }
 
   return (
     <div className="nav-bar">
       <div className="desktop-version">
         <div className="left-part"></div>
         <div className="right-part">
+          <Dropdown
+            className="settings"
+            icon={IconNotification}
+            items={systemNotifications}
+            showNotification={true}
+          />
           <Dropdown
             className="settings"
             icon={IconUser}

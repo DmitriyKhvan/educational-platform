@@ -27,6 +27,17 @@
     top: -2px;
 }
 
+.ws-notification-bell::after {
+    content: ' ';
+    background-color: $color-red;
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 7px;
+    position: absolute;
+    right: 7px;
+    top: -4px;
+}
 .content .side-bar .link-list li {
     position: relative;
 }

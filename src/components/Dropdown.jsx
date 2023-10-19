@@ -12,6 +12,7 @@ const Dropdown = ({
   maxCount,
   renderChild,
   popupClassName,
+  showNotification,
 }) => {
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState(-1);
@@ -27,7 +28,7 @@ const Dropdown = ({
         items.filter((item, index) => index < (maxCount ? maxCount : 1000)),
       );
     }
-  }, [isViewTotal]);
+  }, [isViewTotal, items]);
 
   useEffect(() => {
     if (items) {
@@ -36,9 +37,8 @@ const Dropdown = ({
       });
     }
   }, [items]);
-
   return (
-    <div className="dropdown">
+    <div className={`dropdown ${showNotification && items.length > 0 ? 'ws-notification-bell' : ''}`}>
       <img
         src={icon}
         alt=""
