@@ -9,10 +9,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { getItemToLocalStorage } from 'src/constants/global';
+import { useAuth } from 'src/modules/auth';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
 export default function ConfirmPayment() {
+  const { user } = useAuth();
+
   const clientSecret = new URLSearchParams(window.location.search).get(
     'payment_intent_client_secret',
   );
@@ -73,7 +76,7 @@ export default function ConfirmPayment() {
           />
           <h1 className="font-bold">{message}</h1>
           <a
-            href="/dashboard"
+            href="/student/manage-lessons"
             className="text-white bg-purple-500 px-4 py-2 rounded font-bold"
           >
             {t('dashboard')}
@@ -91,10 +94,16 @@ export default function ConfirmPayment() {
         />
         <h1 className="font-bold">{message}</h1>
         <Link
-          to={getItemToLocalStorage('studentId') ? '/select-profile' : '/'}
+          to={
+            !getItemToLocalStorage('studentId') && user.students[0].id
+              ? '/select-profile'
+              : '/student/manage-lessons'
+          }
           className="text-white bg-purple-500 px-4 py-2 rounded font-bold"
         >
-          {t('select_profile')}
+          {!getItemToLocalStorage('studentId') && user.students[0].id
+            ? t('select_profile')
+            : t('dashboard')}
         </Link>
       </div>
     </main>

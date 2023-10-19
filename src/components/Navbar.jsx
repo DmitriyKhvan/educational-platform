@@ -7,7 +7,6 @@ import FlagKorea from '../assets/images/flag-korea.svg';
 import MobileMenuIcon from '../assets/images/mobile-menu.svg';
 import Dropdown from './Dropdown';
 
-import IconMyprofile from '../assets/images/sidebar/icon-myprofile.svg';
 import {
   getItemToLocalStorage,
   setItemToLocalStorage,
@@ -16,14 +15,13 @@ import { useAuth } from '../modules/auth';
 
 import { HiUserCircle } from 'react-icons/hi2';
 import { FiLogOut } from 'react-icons/fi';
+import { MdAddCircleOutline } from 'react-icons/md';
 
 // import LogoutImg from '../assets/images/logout_icon.svg';
 // import IconUser from '../assets/images/user.svg';
 
 const Navbar = ({ setShowSidebar }) => {
-  console.log(typeof IconMyprofile);
-
-  const { user, logout, refetchUser } = useAuth();
+  const { user, logout } = useAuth();
   const [language, setLanguage] = useState(
     parseInt(getItemToLocalStorage('language', 1)),
   );
@@ -31,7 +29,7 @@ const Navbar = ({ setShowSidebar }) => {
 
   const onChangeStudentProfile = (id) => {
     setItemToLocalStorage('studentId', id);
-    refetchUser({ studentId: id });
+    window.location.reload(true);
   };
 
   const handleLogout = async () => {
@@ -48,7 +46,7 @@ const Navbar = ({ setShowSidebar }) => {
     i18n.changeLanguage(language === 0 ? 'kr' : 'en');
   }, [language]);
 
-  const students = (item, index, active, setActive, setVisible) => {
+  const studentsRender = (item, index, active, setActive, setVisible) => {
     return (
       <Link
         key={index}
@@ -75,11 +73,28 @@ const Navbar = ({ setShowSidebar }) => {
             />
           </span>
         ) : (
-          <HiUserCircle className="text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
+          <item.customIcon className="text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
         )}
       </Link>
     );
   };
+
+  const studentList = user.students
+    .filter((student) => student.id !== getItemToLocalStorage('studentId'))
+    .map((student) => {
+      return {
+        label: student.firstName,
+        customIcon: HiUserCircle,
+        activeIcon: student?.avatar?.url,
+        onClick: () => onChangeStudentProfile(student.id),
+      };
+    });
+
+  studentList.push({
+    label: 'Add Account',
+    href: '/add-student-profile',
+    customIcon: MdAddCircleOutline,
+  });
 
   return (
     <div className="nav-bar">
@@ -97,20 +112,8 @@ const Navbar = ({ setShowSidebar }) => {
               }
               label={user?.firstName}
               className="w-[30px] h-[30px] rounded-full border-2 border-color-white object-center object-cover mr-[5px]"
-              renderChild={students}
-              items={user.students
-                .filter(
-                  (student) =>
-                    student.id !== getItemToLocalStorage('studentId'),
-                )
-                .map((student) => {
-                  return {
-                    label: student.firstName,
-                    icon: student?.avatar?.url,
-                    activeIcon: student?.avatar?.url,
-                    onClick: () => onChangeStudentProfile(student.id),
-                  };
-                })}
+              renderChild={studentsRender}
+              items={studentList}
             />
           )}
 
