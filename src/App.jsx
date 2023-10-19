@@ -38,7 +38,7 @@ import ConfirmPayment from './pages/ConfirmPayment';
 import BuyPackageTest from './pages/Students/BuyPackageTest';
 import { NicePayment } from './pages/Students/NicePayment';
 import { SelectProfile } from './pages/Auth/SelectProfile/SelectProfile';
-import { getItemToLocalStorage } from './constants/global';
+import { getItemToLocalStorage, ROLES } from './constants/global';
 import { AddStudentProfile } from './pages/Auth/SelectProfile/AddProfile';
 import { ErrorPage } from './pages/ErrorPage';
 
@@ -50,12 +50,12 @@ function PrivateRoute({ component: Component, role, ...rest }) {
     <Route
       {...rest}
       render={(props) => {
-        return user?.role === 'mentor' && user?.role === role ? (
+        return user?.role === ROLES.MENTOR && user?.role === role ? (
           <Component {...props} />
-        ) : (user?.role === 'student' &&
+        ) : (user?.role === ROLES.STUDENT &&
             user?.role === role &&
             getItemToLocalStorage('studentId')) ||
-          (user?.role === 'student' && role === 'student_parent') ? (
+          (user?.role === ROLES.STUDENT && role === 'student_parent') ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -172,7 +172,7 @@ function App() {
             }
           >
             <PrivateRoute
-              role="student"
+              role={ROLES.STUDENT}
               path="/student"
               component={lazy(() => import('./pages/Students'))}
             />

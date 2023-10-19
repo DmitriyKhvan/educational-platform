@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import Layout from '../Layout';
 import { useAuth } from '../../modules/auth';
 import SwitchProfile from './SwitchProfile';
+import { ROLES } from 'src/constants/global';
 
 export const ProfileLayout = () => {
   const history = useHistory();
@@ -14,9 +15,9 @@ export const ProfileLayout = () => {
 
   useEffect(() => {
     if (user && user.role) {
-      if (user.role === 'mentor') {
+      if (user.role === ROLES.MENTOR) {
         history.push('/mentor/profile');
-      } else if (user.role === 'student') {
+      } else if (user.role === ROLES.STUDENT) {
         history.push('/student/profile');
       }
     }

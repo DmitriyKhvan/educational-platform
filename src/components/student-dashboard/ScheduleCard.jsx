@@ -83,7 +83,7 @@ const ScheduleCard = ({
     //Time period when you can go to the lesson
     if (isBetween(dateLesson, data.duration)) {
       window.open(
-        user.role === 'mentor' ? zoom.startUrl : zoom.joinUrl,
+        user.role === ROLES.MENTOR ? zoom.startUrl : zoom.joinUrl,
         '_blank',
       );
     } else {
@@ -148,7 +148,7 @@ const ScheduleCard = ({
           <div className="w-[65px] h-[65px] overflow-hidden rounded-full relative">
             <Avatar
               avatarUrl={
-                user.role === 'mentor'
+                user.role === ROLES.MENTOR
                   ? student?.avatar?.url
                   : mentor?.avatar?.url
               }

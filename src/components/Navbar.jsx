@@ -9,6 +9,7 @@ import Dropdown from './Dropdown';
 
 import {
   getItemToLocalStorage,
+  ROLES,
   setItemToLocalStorage,
 } from '../constants/global';
 import { useAuth } from '../modules/auth';
@@ -60,7 +61,7 @@ const Navbar = ({ setShowSidebar }) => {
           }
         }}
       >
-        <span className="transition ease-in-out delay-150 group-hover:text-white">
+        <span className="w-3/4 truncate transition ease-in-out delay-150 group-hover:text-white">
           {item.label}
         </span>
 
@@ -101,7 +102,7 @@ const Navbar = ({ setShowSidebar }) => {
       <div className="desktop-version">
         <div className="left-part"></div>
         <div className="right-part">
-          {user.role === 'student' && (
+          {user.role === ROLES.STUDENT && (
             <Dropdown
               icon={
                 user?.avatar ? (
@@ -147,7 +148,7 @@ const Navbar = ({ setShowSidebar }) => {
                   <HiUserCircle className="text-[30px] text-white" />
                 ),
                 href:
-                  user.role === 'mentor'
+                  user.role === ROLES.MENTOR
                     ? '/mentor/profile'
                     : '/student/profile',
               },

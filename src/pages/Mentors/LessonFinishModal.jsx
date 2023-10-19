@@ -13,6 +13,7 @@ import NotificationManager from '../../components/NotificationManager';
 
 import '../../assets/styles/student.scss';
 import AppointmentApi from '../../api/AppointmentApi';
+import { ROLES } from 'src/constants/global';
 
 const LessonFinishModal = ({ visible, onDismiss, group, user }) => {
   const [t] = useTranslation('translation');
@@ -95,7 +96,7 @@ const LessonFinishModal = ({ visible, onDismiss, group, user }) => {
           },
           user: {
             name: `${user?.first_name} ${user?.last_name}`,
-            role: 'mentor',
+            role: ROLES.MENTOR,
           },
         });
       }

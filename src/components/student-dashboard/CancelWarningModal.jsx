@@ -68,6 +68,9 @@ const CancelWarningModal = ({
     }
   };
 
+  const disableCancelLesson =
+    user.role === ROLES.MENTOR || modifyCredits !== 0 ? false : true;
+
   return (
     <div className="w-[360px]">
       <div className="mb-5 text-xl font-semibold">{t('warning')}</div>
@@ -88,7 +91,7 @@ const CancelWarningModal = ({
             value="cancel"
             onChange={checkboxEvent}
             checked={isChecked}
-            disabled={user.role !== ROLES.MENTOR && modifyCredits === 0}
+            disabled={disableCancelLesson}
           />
         </div>
       )}
@@ -107,7 +110,7 @@ const CancelWarningModal = ({
             type="radio"
             name="lesson"
             onChange={() => setRepeatLessons(false)}
-            disabled={modifyCredits === 0}
+            disabled={disableCancelLesson}
           />
           <CheckboxField
             label={
@@ -116,7 +119,7 @@ const CancelWarningModal = ({
             type="radio"
             name="lesson"
             onChange={() => setRepeatLessons(true)}
-            disabled={modifyCredits === 0}
+            disabled={disableCancelLesson}
           />
         </div>
       </div>
@@ -131,9 +134,7 @@ const CancelWarningModal = ({
         <Button
           theme="purple"
           onClick={onClick}
-          disabled={
-            (!isChecked && type !== 'reschedule') || modifyCredits === 0
-          }
+          disabled={!isChecked && type !== 'reschedule'}
         >
           {t('continue_cancel')}
         </Button>

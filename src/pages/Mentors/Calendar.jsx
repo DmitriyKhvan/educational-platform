@@ -275,6 +275,7 @@ const Calendar = () => {
   };
 
   const onCancelLessonClick = () => {
+    setTabIndex(0);
     const [selectedEvent] = calendarEvents.filter(
       (x) => x.id === calendarEvent.id,
     );
@@ -304,7 +305,9 @@ const Calendar = () => {
     const [selectedEvent] = calendarEvents.filter(
       (event) => event.id === calendarEvent.id,
     );
+
     const { eventDate } = selectedEvent.resource;
+
     const student = eventDate.student;
     const tutorAvatar = user.mentor?.avatar?.url;
 
@@ -471,7 +474,7 @@ const Calendar = () => {
                           className="img-fluid rounded-corners"
                         />
                       </div>
-                      <p>{eventDate?.mentor?.user?.fullName}</p>
+                      <p>{eventDate?.mentor?.fullName}</p>
                     </div>
                   </div>
                 </div>

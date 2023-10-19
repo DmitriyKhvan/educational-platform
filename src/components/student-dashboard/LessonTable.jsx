@@ -136,7 +136,8 @@ export const LessonTable = ({
                   </td>
                   <td className="pt-4 border-b text-left">
                     <p className="mt-4 text-color-light-grey tracking-tight text-[15px] leading-normal">
-                      {event.resource.mentor.user.fullName}
+                      {event.resource.mentor.firstName}{' '}
+                      {event.resource.mentor.lastName}
                     </p>
                   </td>
 
