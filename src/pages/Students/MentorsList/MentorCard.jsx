@@ -66,21 +66,21 @@ export const MentorCard = ({
               <Tooltip delayDuration={200}>
                 <TooltipTrigger asChild>
                   <Link
-                    to={{
-                      pathname: `/student/schedule-lesson/select`,
-                      state: {
-                        tutor: {
-                          id: mentor.id,
-                          firstName: mentor?.firstName,
-                          lastName: mentor?.lastName,
-                          avatar: mentor.avatar?.url,
-                        },
-                      },
-                    }}
-                    style={{
-                      pointerEvents:
-                        mentor?.availabilities?.length > 0 ? 'auto' : 'none',
-                    }}
+                    to={
+                      mentor?.availabilities?.length > 0
+                        ? {
+                            pathname: `/student/schedule-lesson/select`,
+                            state: {
+                              tutor: {
+                                id: mentor.id,
+                                firstName: mentor?.firstName,
+                                lastName: mentor?.lastName,
+                                avatar: mentor.avatar?.url,
+                              },
+                            },
+                          }
+                        : '#'
+                    }
                   >
                     <Button
                       theme="outline"
