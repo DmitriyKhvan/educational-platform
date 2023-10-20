@@ -34,11 +34,9 @@ const CalendarModal = ({
   React.useEffect(() => {
     if (avatar) {
       setProfileImage(avatar?.url);
-    } else if (
-      data?.resource?.mentor?.user?.gender?.toLowerCase() === 'female'
-    ) {
+    } else if (data?.resource?.mentor?.gender?.toLowerCase() === 'female') {
       setProfileImage(femaleAvatar);
-    } else if (data?.resource?.mentor?.user?.gender?.toLowerCase() === 'male') {
+    } else if (data?.resource?.mentor?.gender?.toLowerCase() === 'male') {
       setProfileImage(maleAvatar);
     } else {
       setProfileImage(maleAvatar);
