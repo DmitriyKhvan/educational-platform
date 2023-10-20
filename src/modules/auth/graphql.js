@@ -587,6 +587,7 @@ export const APPOINTMENTS_QUERY = gql`
         id
         firstName
         lastName
+        gender
         major
         language
         university
@@ -619,6 +620,7 @@ export const APPOINTMENTS_QUERY = gql`
         id
         firstName
         lastName
+        gender
         parentName
         level
         langLevel

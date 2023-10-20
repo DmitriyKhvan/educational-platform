@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 export const genders = [
   { label: 'Male', value: 'male' },
   { label: 'Female', value: 'female' },
-  { label: 'Non-binary', value: 'non-binary' },
+  { label: 'Non-binary', value: 'nonbinary' },
 ];
 
 export const useGenderDic = () => {
@@ -15,7 +15,7 @@ export const useGenderDic = () => {
   const genders = [
     { label: t('male'), value: 'male' },
     { label: t('female'), value: 'female' },
-    { label: 'Non-binary', value: 'non-binary' },
+    { label: 'Non-binary', value: 'nonbinary' },
   ];
 
   return genders;
@@ -25,7 +25,7 @@ export const pronouns = [
   { label: 'He/Him/His', value: 'male' },
   { label: 'She/Her/Hers', value: 'female' },
   { label: 'They/Them/Theirs', value: 'transgender' },
-  { label: 'She and/or He', value: 'non-binary' },
+  { label: 'She and/or He', value: 'nonbinary' },
   { label: 'Other', value: 'other' },
 ];
 

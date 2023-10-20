@@ -307,19 +307,18 @@ const Calendar = () => {
     );
 
     const { eventDate } = selectedEvent.resource;
-
     const student = eventDate.student;
     const tutorAvatar = user.mentor?.avatar?.url;
 
     const displayStudentAvatar = student?.avatar
       ? student?.avatar?.url
-      : student?.user?.gender === 'male'
+      : student?.gender === 'male'
       ? maleAvatar
       : femaleAvatar;
 
     const displayTutorAvatar = tutorAvatar
       ? tutorAvatar
-      : eventDate.mentor?.user?.gender === 'male'
+      : eventDate.mentor?.gender === 'male'
       ? maleAvatar
       : femaleAvatar;
 

@@ -5,6 +5,13 @@ import { useTranslation } from 'react-i18next';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import FavIcon from 'src/assets/images/Favorite.png';
 import Button from 'src/components/Form/Button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipPortal,
+  TooltipProvider,
+  TooltipTrigger,
+} from 'src/components/Tooltip';
 
 export const MentorCard = ({
   mentor,
@@ -55,31 +62,49 @@ export const MentorCard = ({
           </Button>
 
           {mentor?.availabilities ? (
-            <Link
-              to={{
-                pathname: `/student/schedule-lesson/select`,
-                state: {
-                  tutor: {
-                    id: mentor.id,
-                    firstName: mentor?.firstName,
-                    lastName: mentor?.lastName,
-                    avatar: mentor.avatar?.url,
-                  },
-                },
-              }}
-              style={{
-                pointerEvents:
-                  mentor?.availabilities?.length > 0 ? 'auto' : 'none',
-              }}
-            >
-              <Button
-                theme="outline"
-                className="w-[115px] p-0"
-                disabled={mentor?.availabilities?.length === 0}
-              >
-                {t('schedule', { ns: 'common' })}
-              </Button>
-            </Link>
+            <TooltipProvider>
+              <Tooltip delayDuration={200}>
+                <TooltipTrigger asChild>
+                  <Link
+                    to={
+                      mentor?.availabilities?.length > 0
+                        ? {
+                            pathname: `/student/schedule-lesson/select`,
+                            state: {
+                              tutor: {
+                                id: mentor.id,
+                                firstName: mentor?.firstName,
+                                lastName: mentor?.lastName,
+                                avatar: mentor.avatar?.url,
+                              },
+                            },
+                          }
+                        : '#'
+                    }
+                  >
+                    <Button
+                      theme="outline"
+                      className="w-[115px] p-0"
+                      disabled={mentor?.availabilities?.length === 0}
+                    >
+                      {t('schedule', { ns: 'common' })}
+                    </Button>
+                  </Link>
+                </TooltipTrigger>
+
+                {mentor?.availabilities?.length === 0 && (
+                  <TooltipPortal>
+                    <TooltipContent>
+                      <div className="text-center">
+                        <p className="text-color-dark-purple text-sm font-semibold max-w-[16rem]">
+                          We apologize, but this mentor has no availability
+                        </p>
+                      </div>
+                    </TooltipContent>
+                  </TooltipPortal>
+                )}
+              </Tooltip>
+            </TooltipProvider>
           ) : (
             <Button
               theme="outline"
