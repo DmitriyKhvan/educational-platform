@@ -10,7 +10,7 @@ import {
   filterLessonsByStatus,
   getAbbrName,
   getAvatarName,
-  ROLES,
+  Roles,
 } from '../../constants/global';
 
 const options = [
@@ -56,7 +56,7 @@ const Lessons = ({
   const columns = [
     {
       title: t('student_name'),
-      dataKey: ROLES.STUDENT,
+      dataKey: Roles.STUDENT,
       width: 30,
       render: (text, record) => (
         <div className="with-avatar">

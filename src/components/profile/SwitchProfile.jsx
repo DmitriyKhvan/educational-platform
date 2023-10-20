@@ -7,7 +7,7 @@ import Loader from 'react-loader-spinner';
 import GeneralProfile from '../../pages/Students/Profile/profile/StudentProfile';
 
 import MentorProfile from '../../pages/Mentors/Profile/MentorProfile';
-import { ROLES } from 'src/constants/global';
+import { Roles } from 'src/constants/global';
 
 const SwitchProfile = ({ user, isAdmin = false }) => {
   const [isMentor, setIsMentor] = useState(null);
@@ -16,9 +16,9 @@ const SwitchProfile = ({ user, isAdmin = false }) => {
 
   useEffect(() => {
     if (user && roles) {
-      if (roles === ROLES.MENTOR) {
+      if (roles === Roles.MENTOR) {
         setIsMentor(true);
-      } else if (roles === ROLES.STUDENT) {
+      } else if (roles === Roles.STUDENT) {
         setIsMentor(false);
       } else {
         setIsMentor(null);
@@ -32,7 +32,7 @@ const SwitchProfile = ({ user, isAdmin = false }) => {
         {user && user.role ? (
           <React.Fragment>
             <div className="profile-body">
-              {isMentor === false && roles === ROLES.STUDENT && !isAdmin && (
+              {isMentor === false && roles === Roles.STUDENT && !isAdmin && (
                 <GeneralProfile currentUser={user} isAdmin={isAdmin} />
               )}
               {isMentor === true && (

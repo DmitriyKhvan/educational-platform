@@ -9,7 +9,7 @@ import Dropdown from './Dropdown';
 
 import {
   getItemToLocalStorage,
-  ROLES,
+  Roles,
   setItemToLocalStorage,
 } from '../constants/global';
 import { useAuth } from '../modules/auth';
@@ -102,7 +102,7 @@ const Navbar = ({ setShowSidebar }) => {
       <div className="desktop-version">
         <div className="left-part"></div>
         <div className="right-part">
-          {user.role === ROLES.STUDENT && (
+          {user.role === Roles.STUDENT && (
             <Dropdown
               icon={
                 user?.avatar ? (
@@ -148,7 +148,7 @@ const Navbar = ({ setShowSidebar }) => {
                   <HiUserCircle className="text-[30px] text-white" />
                 ),
                 href:
-                  user.role === ROLES.MENTOR
+                  user.role === Roles.MENTOR
                     ? '/mentor/profile'
                     : '/student/profile',
               },

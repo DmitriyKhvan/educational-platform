@@ -1005,7 +1005,7 @@ export const cancellationArr = [
   'Other',
 ];
 
-export const ROLES = {
+export const Roles = {
   MENTOR: 'mentor',
   STUDENT: 'student',
 };

@@ -5,7 +5,7 @@ import ZoomWarningModal from './ZoomWarningModal';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
 
-import { LESSONS_STATUS_TYPE, ROLES } from '../../constants/global';
+import { LESSONS_STATUS_TYPE, Roles } from '../../constants/global';
 import {
   addMinutes,
   differenceInHours,
@@ -83,7 +83,7 @@ const ScheduleCard = ({
     //Time period when you can go to the lesson
     if (isBetween(dateLesson, data.duration)) {
       window.open(
-        user.role === ROLES.MENTOR ? zoom.startUrl : zoom.joinUrl,
+        user.role === Roles.MENTOR ? zoom.startUrl : zoom.joinUrl,
         '_blank',
       );
     } else {
@@ -148,7 +148,7 @@ const ScheduleCard = ({
           <div className="w-[65px] h-[65px] overflow-hidden rounded-full relative">
             <Avatar
               avatarUrl={
-                user.role === ROLES.MENTOR
+                user.role === Roles.MENTOR
                   ? student?.avatar?.url
                   : mentor?.avatar?.url
               }
@@ -158,7 +158,7 @@ const ScheduleCard = ({
       </div>
       {LESSONS_STATUS_TYPE[data?.status?.toUpperCase()] ? (
         <div className="flex items-center gap-2 xl:gap-3">
-          {user.role !== ROLES.MENTOR && (
+          {user.role !== Roles.MENTOR && (
             <a
               className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px] ${
                 index === 0

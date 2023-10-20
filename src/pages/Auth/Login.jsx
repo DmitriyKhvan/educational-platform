@@ -10,7 +10,7 @@ import Button from '../../components/Form/Button/Button';
 import InputWithError from '../../components/Form/InputWithError';
 import notify from '../../utils/notify';
 import { Link } from 'react-router-dom';
-import { ROLES } from 'src/constants/global';
+import { Roles } from 'src/constants/global';
 
 const Login = () => {
   localStorage.removeItem('studentId');
@@ -44,7 +44,7 @@ const Login = () => {
 
   if (data) {
     location.href =
-      data.authResult.user.role === ROLES.STUDENT
+      data.authResult.user.role === Roles.STUDENT
         ? '/select-profile'
         : '/mentor/manage-appointments';
   }
