@@ -66,7 +66,7 @@ const StudentProfile = () => {
               </div>
             </div>
             <div className="w-full h-auto py-4 border border-solid border-color-border-grey rounded-b-[10px]">
-              <div className="flex justify-between w-[68%] ml-auto">
+              <div className="flex justify-between w-[65%] ml-auto">
                 <div>
                   <h2 className="mt-0 mb-[10px] text-3xl leading-9 tracking-[-1px] text-color-dark-purple">
                     {user?.firstName + ' '}

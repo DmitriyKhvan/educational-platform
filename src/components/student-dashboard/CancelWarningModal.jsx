@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../modules/auth';
-import { ROLES } from '../../constants/global';
+import { Roles } from '../../constants/global';
 import CheckboxField from '../Form/CheckboxField';
 import { FaXmark } from 'react-icons/fa6';
 import Button from '../Form/Button/Button';
@@ -68,13 +68,16 @@ const CancelWarningModal = ({
     }
   };
 
+  const disableCancelLesson =
+    user.role === Roles.MENTOR || modifyCredits !== 0 ? false : true;
+
   return (
     <div className="w-[360px]">
       <div className="mb-5 text-xl font-semibold">{t('warning')}</div>
       <div className="font-semibold leading-[18px] tracking-[-0.2px]">
-        {user.role !== ROLES.MENTOR ? t('cancel_modal_desc') : null}
+        {user.role !== Roles.MENTOR ? t('cancel_modal_desc') : null}
       </div>
-      {user.role !== ROLES.MENTOR && (
+      {user.role !== Roles.MENTOR && (
         <div className="w-full flex items-center justify-center mt-5">
           {cancellationDots}
         </div>
@@ -88,7 +91,7 @@ const CancelWarningModal = ({
             value="cancel"
             onChange={checkboxEvent}
             checked={isChecked}
-            disabled={user.role !== ROLES.MENTOR && modifyCredits === 0}
+            disabled={disableCancelLesson}
           />
         </div>
       )}
@@ -107,7 +110,7 @@ const CancelWarningModal = ({
             type="radio"
             name="lesson"
             onChange={() => setRepeatLessons(false)}
-            disabled={modifyCredits === 0}
+            disabled={disableCancelLesson}
           />
           <CheckboxField
             label={
@@ -116,7 +119,7 @@ const CancelWarningModal = ({
             type="radio"
             name="lesson"
             onChange={() => setRepeatLessons(true)}
-            disabled={modifyCredits === 0}
+            disabled={disableCancelLesson}
           />
         </div>
       </div>
@@ -131,9 +134,7 @@ const CancelWarningModal = ({
         <Button
           theme="purple"
           onClick={onClick}
-          disabled={
-            (!isChecked && type !== 'reschedule') || modifyCredits === 0
-          }
+          disabled={!isChecked && type !== 'reschedule'}
         >
           {t('continue_cancel')}
         </Button>
