@@ -7,6 +7,7 @@ import ModalWrapper from '../ModalWrapper/ModalWrapper';
 import { ZoomRecordingModal } from '../ZoomRecordingModal';
 
 import { BsPlayCircle } from 'react-icons/bs';
+import { ucFirst } from 'src/utils/ucFirst';
 
 const LessonTable = ({ tabularData }) => {
   const [showRecording, setShowRecording] = useState(false);
@@ -150,11 +151,9 @@ const LessonTable = ({ tabularData }) => {
 
               <td className="pt-4 border-b text-left">
                 <p className="mt-4 text-color-light-grey tracking-tight text-[15px] leading-normal">
-                  {event.resource.status === 'approved'
-                    ? 'Approved'
-                    : event.resource.status === 'scheduled'
+                  {event.resource.status === 'scheduled'
                     ? 'Pending Request'
-                    : event.resource.status}
+                    : ucFirst(event.resource.status)}
                 </p>
               </td>
               <td className="pt-4 border-b m-0">

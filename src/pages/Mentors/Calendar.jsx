@@ -29,6 +29,7 @@ import ReactLoader from '../../components/common/Loader';
 import RescheduleAndCancelModal from '../../components/student-dashboard/RescheduleAndCancelModal';
 import notify from '../../utils/notify';
 import { isBetween } from '../../utils/isBetween';
+import { addMinutes, isAfter } from 'date-fns';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -215,16 +216,20 @@ const Calendar = () => {
     if (tableAppointments) {
       const tempUpcomingLessons = [];
       const tempPastLessons = [];
+
       tableAppointments.map((each) => {
-        if (new Date(each.resource.startAt) > new Date()) {
-          if (
-            each.resource.status === 'approved' ||
-            each.resource.status === 'scheduled'
-          ) {
-            tempUpcomingLessons.push(each);
-          }
-        } else {
+        const endLesson = addMinutes(
+          new Date(each.resource.startAt),
+          each.resource.duration,
+        );
+
+        if (isAfter(new Date(), endLesson)) {
           tempPastLessons.push(each);
+        } else if (
+          each.resource.status === 'approved' ||
+          each.resource.status === 'scheduled'
+        ) {
+          tempUpcomingLessons.push(each);
         }
       });
       setUpcomingLessons([...tempUpcomingLessons]);
