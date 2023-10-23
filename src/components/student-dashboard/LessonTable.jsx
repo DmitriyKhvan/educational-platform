@@ -6,6 +6,7 @@ import { addMinutes } from 'date-fns';
 import { BsPlayCircle } from 'react-icons/bs';
 import ModalWrapper from '../ModalWrapper/ModalWrapper';
 import { ZoomRecordingModal } from '../ZoomRecordingModal';
+import { ucFirst } from 'src/utils/ucFirst';
 
 export const LessonTable = ({
   displayTableData,
@@ -143,11 +144,9 @@ export const LessonTable = ({
 
                   <td className="pt-4 border-b m-0 text-left">
                     <p className="mt-4 text-color-light-grey tracking-tight text-[15px] leading-normal">
-                      {event.resource.status === 'approved'
-                        ? 'Approved'
-                        : event.resource.status === 'scheduled'
+                      {event.resource.status === 'scheduled'
                         ? 'Pending Approval'
-                        : event.resource.status}
+                        : ucFirst(event.resource.status)}
                     </p>
                   </td>
                   <td className="pt-4 border-b m-0">
