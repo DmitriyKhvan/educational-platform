@@ -25,7 +25,8 @@ export const MentorCard = ({
   };
 
   return (
-    <div className="w-full sm:w-[300px] md:w-1/3">
+    // <div className="w-full sm:w-[300px] lg:w-[260px] 2xl:w-[300px]">
+    <div className="w-full sm:w-[45%] xl:w-[30%] 2xl:w-[300px]">
       <div className="relative w-full h-[400px] overflow-hidden rounded-lg">
         <Avatar avatarUrl={mentor.avatar?.url} gender={mentor.gender} />
         {mentor.isFavourite && (
@@ -37,7 +38,7 @@ export const MentorCard = ({
         )}
       </div>
 
-      <div className="flex justify-between items-start mt-[30px] h-[120px] overflow-hidden">
+      <div className="flex justify-between items-start mt-[30px] h-[115px] overflow-hidden">
         <div>
           <h2 className="text-2xl sm:text-[30px] text-color-purple tracking-[-0.6px] mb-4 ">
             {resizerUsername(mentor?.firstName)}
@@ -52,7 +53,7 @@ export const MentorCard = ({
           </span>
         </div>
 
-        <div className="flex flex-col gap-[10px]">
+        <div className="flex flex-col gap-[2px]">
           <Button
             theme="outline"
             className="w-[115px] p-0"
