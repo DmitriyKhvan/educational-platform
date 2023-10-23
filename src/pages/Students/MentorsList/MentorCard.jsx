@@ -25,9 +25,9 @@ export const MentorCard = ({
   };
 
   return (
-    <div className="w-full sm:w-[300px]">
+    <div className="w-full sm:w-[300px] md:w-1/3">
       <div className="relative w-full h-[400px] overflow-hidden rounded-lg">
-        <Avatar avatarUrl={mentor.avatar?.url} />
+        <Avatar avatarUrl={mentor.avatar?.url} gender={mentor.gender} />
         {mentor.isFavourite && (
           <img
             className="absolute top-[5%] right-[5%] w-10 h-10 object-cover"
