@@ -6,7 +6,7 @@ export const SIGN_UP = gql`
     $lastName: String!
     $email: String!
     $password: String!
-    $gender: String
+    $gender: GenderType
     $marketingChannel: String
     $phoneNumber: String
   ) {

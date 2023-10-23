@@ -19,6 +19,8 @@ import {
 import { useTranslation } from 'react-i18next';
 
 export default function Onboarding() {
+  localStorage.removeItem('studentId');
+
   const {
     handleSubmit,
     register,
@@ -94,6 +96,7 @@ export default function Onboarding() {
 
     if (errors?.length === 0 || !errors) {
       login(data.email, data.password);
+      localStorage.removeItem('onboarding');
     }
 
     setIsLoading(() => false);
