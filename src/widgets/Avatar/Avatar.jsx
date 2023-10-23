@@ -13,8 +13,6 @@ export const Avatar = ({ avatarUrl, gender, className = '' }) => {
 
   const [profileImage, setProfileImage] = useState(maleAvatar);
 
-  console.log('user', user);
-
   useEffect(() => {
     if (avatarUrl) {
       setProfileImage(avatarUrl);
