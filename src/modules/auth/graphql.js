@@ -191,7 +191,7 @@ export const ATTACH_STUDENT_TO_USER = gql`
     $userId: ID!
     $firstName: String!
     $lastName: String!
-    $gender: String!
+    $gender: GenderType!
   ) {
     attachStudentToUser(
       userId: $userId
