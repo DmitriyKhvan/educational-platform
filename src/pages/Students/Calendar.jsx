@@ -9,7 +9,7 @@ import Loader from '../../components/common/Loader';
 import { useLocation } from 'react-router-dom';
 
 import '../../assets/styles/calendar.scss';
-import { feedbackURL } from '../../constants/global';
+import { feedbackURL, getItemToLocalStorage } from '../../constants/global';
 import ReviewLessonModal from '../../components/student-dashboard/ReviewLessonModal';
 import { useAuth } from '../../modules/auth';
 import FeedbackLessonModal from '../Mentors/FeedbackLessonModal';
@@ -18,6 +18,7 @@ import { useQuery } from '@apollo/client';
 import { APPOINTMENTS_QUERY } from '../../modules/auth/graphql';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { LessonTable } from '../../components/student-dashboard/LessonTable';
+import { addMinutes, isAfter } from 'date-fns';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -41,7 +42,7 @@ const sortCalendarEvents = (data) => {
       const startAt = moment.unix(date).utc(0, true);
       const end_at = moment.unix(endEpoch).utc(0, true);
       const iterateEvents = {
-        zoomLink: eventDate.zoomlinkId,
+        zoom: eventDate.zoom,
         lesson: eventDate?.packageSubscription?.package?.course?.title,
         startAt,
         end_at,
@@ -102,7 +103,8 @@ const Calendar = () => {
     loading: loadingAppointments,
   } = useQuery(APPOINTMENTS_QUERY, {
     variables: {
-      studentId: user?.students[0]?.id,
+      // studentId: user?.students[0]?.id,
+      studentId: getItemToLocalStorage('studentId'),
       status: 'approved,scheduled,paid,completed,in_progress',
     },
     fetchPolicy: 'no-cache',
@@ -155,7 +157,8 @@ const Calendar = () => {
     (async () => {
       if (user && user?.student) {
         getAppointments({
-          studentId: user.students[0]?.id,
+          // studentId: user.students[0]?.id,
+          studentId: getItemToLocalStorage('studentId'),
           status: 'approved,scheduled,paid,completed,in_progress',
         });
       }
@@ -190,16 +193,20 @@ const Calendar = () => {
     if (tableAppointments) {
       const tempUpcomingLessons = [];
       const tempPastLessons = [];
+
       tableAppointments.map((each) => {
-        if (new Date(each.resource.startAt) > new Date()) {
-          if (
-            each.resource.status === 'approved' ||
-            each.resource.status === 'scheduled'
-          ) {
-            tempUpcomingLessons.push(each);
-          }
-        } else {
+        const endLesson = addMinutes(
+          new Date(each.resource.startAt),
+          each.resource.duration,
+        );
+
+        if (isAfter(new Date(), endLesson)) {
           tempPastLessons.push(each);
+        } else if (
+          each.resource.status === 'approved' ||
+          each.resource.status === 'scheduled'
+        ) {
+          tempUpcomingLessons.push(each);
         }
       });
       setUpcomingLessons([...tempUpcomingLessons]);
@@ -235,7 +242,8 @@ const Calendar = () => {
             lesson={selectedEvent?.title}
             startTime={startTime}
             endTime={endTime}
-            zoomlink={selectedEvent.resource?.zoomLink}
+            // zoomlink={selectedEvent.resource?.zoomLink}
+            zoom={selectedEvent.resource?.zoom}
             time={scheduledTime}
             data={selectedEvent}
             closeModal={closeModal}

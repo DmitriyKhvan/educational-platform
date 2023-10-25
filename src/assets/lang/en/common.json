@@ -100,5 +100,18 @@
   "lesson_per_package": "Lessons per Package",
   "payment_without_renewal": "One-time payment without auto renewal",
   "remaining_credits": "Remaining credits",
-  "minutes_short": "M"
+  "minutes_short": "M",
+  "expiry": "Expiration Date",
+  "required_expiry": "Expiration Date is required",
+  "error_invalid_expiry": "Invalid Expiration Date",
+  "required_card_number": "Card number is required",
+  "card_number_invalid": "Invalid Card number",
+  "error_invalid_password": "Invalid password",
+  "credit_card_expired": "The credit card has expired",
+  "birth": "Birthday",
+  "required_birth": "Birthday is required",
+  "birth_invalid": "Invalid Birthday",
+  "digits": "{{count}} digits",
+  "automatically_renews": "Automatically renews every month",
+  "changed_avatar": "Avatar is changed"
 }

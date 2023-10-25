@@ -97,5 +97,17 @@
   "lesson_per_package": "패키지당 수업",
   "payment_without_renewal": "자동갱신 없는 일회성 결제",
   "remaining_credits": "남은 크레딧",
-  "minutes_short": "분"
+  "minutes_short": "분",
+  "expiry": "Expiration Date",
+  "required_expiry": "Expiration Date is required",
+  "error_invalid_expiry": "Invalid Expiration Date",
+  "required_card_number": "Card number is required",
+  "card_number_invalid": "Invalid Card number",
+  "error_invalid_password": "Invalid password",
+  "credit_card_expired": "The credit card has expired",
+  "birth": "Birthday",
+  "required_birth": "Birthday is required",
+  "digits": "{{count}} digits",
+  "automatically_renews": "매 월 결제 자동 갱신",
+  "changed_avatar": "Avatar is changed"
 }

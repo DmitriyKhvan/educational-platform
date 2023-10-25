@@ -9,6 +9,7 @@ import { useAuth } from '../../modules/auth';
 import FeedbackLessonModal from './FeedbackLessonModal';
 import { useQuery } from '@apollo/client';
 import { APPOINTMENTS_QUERY } from '../../modules/auth/graphql';
+import 'src/assets/styles/dashboard.scss';
 
 const TutorDashboard = () => {
   const [t] = useTranslation('dashboard');
@@ -41,8 +42,9 @@ const TutorDashboard = () => {
 
   useEffect(() => {
     if (appointments && appointments?.length > 0) {
-      const startOfDay = new moment().startOf('day');
+      const startOfDay = new moment().startOf('day').subtract(1, 'minutes');
       const endOfDay = new moment().endOf('day');
+
       setUpcomingLessons(
         appointments?.filter((apt) => {
           return (
@@ -71,10 +73,10 @@ const TutorDashboard = () => {
             <ScheduleCard
               lesson={event?.packageSubscription?.package?.course?.title}
               duration={event?.duration}
-              zoomlinkId={event?.zoomlinkId}
+              zoom={event?.zoom}
               date={event?.startAt}
               data={event}
-              mentor={event.mentor}
+              student={event.student}
               index={i}
               key={i}
               fetchAppointments={fetchAppointments}

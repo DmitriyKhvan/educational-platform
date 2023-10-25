@@ -5,7 +5,6 @@ import {
   MUTATION_UPDATE_STUDENT,
   PACKAGE_QUERY,
 } from '../../../../modules/auth/graphql';
-// import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Introduction from './Introduction';
 import Button from '../../../../components/Form/Button/Button';
@@ -13,15 +12,16 @@ import { Avatar } from '../../../../widgets/Avatar/Avatar';
 import notify from '../../../../utils/notify';
 import ModalWrapper from '../../../../components/ModalWrapper/ModalWrapper';
 import EditProflileStudent from '../editInfo/EditStudentProfile';
+import ReactLoader from '../../../../components/common/Loader';
+import { getItemToLocalStorage } from 'src/constants/global';
 
 const StudentProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [t] = useTranslation(['profile', 'common', 'lessons']);
 
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
-
-  // const navigate = useHistory();
 
   const { user, refetchUser } = useAuth();
 
@@ -29,7 +29,7 @@ const StudentProfile = () => {
     PACKAGE_QUERY,
     {
       variables: {
-        userId: user?.id,
+        studentId: getItemToLocalStorage('studentId'),
       },
     },
   );
@@ -38,7 +38,8 @@ const StudentProfile = () => {
     if (text !== '') {
       const { data } = await updateStudent({
         variables: {
-          id: parseInt(user?.student?.id),
+          // id: parseInt(user?.student?.id),
+          id: parseInt(getItemToLocalStorage('studentId')),
           data: {
             about: text,
           },
@@ -55,16 +56,17 @@ const StudentProfile = () => {
 
   return (
     <>
+      {loading && <ReactLoader className="fixed !important" />}
       <div className="flex flex-wrap h-[calc(100vh-80px)] overflow-auto ">
         <div className="sm:w-full xl:w-3/5 p-[30px] sm:p-[60px]">
           <div>
             <div className="relative w-full h-[150px] bg-color-purple rounded-t-[10px]">
               <div className="absolute left-[5%] top-[55%] w-[140px] h-[140px] border-8 border-solid border-white rounded-[10px]">
-                <Avatar avatarUrl={user?.student?.avatar?.url} />
+                <Avatar avatarUrl={user?.avatar?.url} />
               </div>
             </div>
             <div className="w-full h-auto py-4 border border-solid border-color-border-grey rounded-b-[10px]">
-              <div className="flex justify-between w-[68%] ml-auto">
+              <div className="flex justify-between w-[65%] ml-auto">
                 <div>
                   <h2 className="mt-0 mb-[10px] text-3xl leading-9 tracking-[-1px] text-color-dark-purple">
                     {user?.firstName + ' '}
@@ -81,7 +83,6 @@ const StudentProfile = () => {
                     className="mr-4"
                     theme="outline"
                     onClick={() => {
-                      // navigate.push('/student/profile/edit-information');
                       setIsOpen(true);
                     }}
                   >
@@ -208,7 +209,7 @@ const StudentProfile = () => {
       </div>
 
       <ModalWrapper isOpen={isOpen} closeModal={setIsOpen}>
-        <EditProflileStudent closeModal={setIsOpen} />
+        <EditProflileStudent closeModal={setIsOpen} setLoading={setLoading} />
       </ModalWrapper>
     </>
   );

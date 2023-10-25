@@ -3,7 +3,10 @@ import Layout from '../../components/Layout';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { ModalCancelLesson } from '../../components/ModalCancelLesson';
 import { useTranslation } from 'react-i18next';
-import { cancel_lesson_reasons_student } from '../../constants/global';
+import {
+  cancel_lesson_reasons_student,
+  getItemToLocalStorage,
+} from '../../constants/global';
 import ImgCalendar from '../../assets/images/calendar_icon.svg';
 import NotificationManager from '../../components/NotificationManager';
 import ModalFeedback from './ModalFeedback';
@@ -21,7 +24,15 @@ import {
 import { useQuery, useMutation } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
 import toast from 'react-hot-toast';
-import { addMinutes, endOfISOWeek, isAfter, isBefore, isWithinInterval, startOfDay, startOfISOWeek } from 'date-fns';
+import {
+  addMinutes,
+  endOfISOWeek,
+  isAfter,
+  isBefore,
+  isWithinInterval,
+  startOfDay,
+  startOfISOWeek,
+} from 'date-fns';
 
 const options = [
   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
@@ -40,7 +51,8 @@ const StudentListAppointments = () => {
     {
       variables: {
         status: 'scheduled,paid,completed,in_progress,approved',
-        studentId: user?.students[0]?.id,
+        // studentId: user?.students[0]?.id,
+        studentId: getItemToLocalStorage('studentId'),
       },
     },
   );
@@ -100,13 +112,17 @@ const StudentListAppointments = () => {
   //Lessons within one week
   const isWithinAweekArr = (appointments = []) => {
     const now = new Date();
-    
+
     const startOfWeek = isAfter(now, startOfISOWeek(now))
       ? startOfDay(now)
       : startOfISOWeek(now);
 
-      return appointments
-        .filter((x) => isWithinInterval(new Date(x.startAt), { start: startOfWeek, end: endOfISOWeek(now) }));
+    return appointments.filter((x) =>
+      isWithinInterval(new Date(x.startAt), {
+        start: startOfWeek,
+        end: endOfISOWeek(now),
+      }),
+    );
   };
 
   //leave only unique lessons by date ==========================================
@@ -118,8 +134,11 @@ const StudentListAppointments = () => {
   const ScheduleArr = (isWithinAweek || [])
     .sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
     .filter((lesson) => {
-      const expiredDate = addMinutes(new Date(lesson?.startAt), lesson?.duration || 0)
-      return isBefore(new Date(), expiredDate)
+      const expiredDate = addMinutes(
+        new Date(lesson?.startAt),
+        lesson?.duration || 0,
+      );
+      return isBefore(new Date(), expiredDate);
     })
     .map((x, i) => {
       const date = new Date(x?.startAt);
@@ -130,7 +149,7 @@ const StudentListAppointments = () => {
             duration={x.duration}
             lesson={x?.packageSubscription?.package?.course?.title}
             mentor={x.mentor}
-            zoomlinkId={x?.zoomlinkId}
+            zoom={x?.zoom}
             date={date}
             data={x}
             index={i}
@@ -142,7 +161,7 @@ const StudentListAppointments = () => {
 
   const { data: packageInfo, loading } = useQuery(PACKAGE_QUERY, {
     variables: {
-      userId: user.id,
+      studentId: getItemToLocalStorage('studentId'),
     },
   });
 
@@ -189,7 +208,7 @@ const StudentListAppointments = () => {
         },
         color: '#D6336C',
         cl: '',
-        bgIcon: '#A60B00'
+        bgIcon: '#A60B00',
       },
       {
         icon: whiteBookingIcon,
@@ -201,7 +220,7 @@ const StudentListAppointments = () => {
         },
         color: '#1482DA',
         cl: 'blue-progress',
-        bgIcon: '#040EB7'
+        bgIcon: '#040EB7',
       },
     ];
   }
@@ -225,16 +244,13 @@ const StudentListAppointments = () => {
                 <div className="flex flex-col gap-6">
                   <div className="flex flex-col gap-4 items-center sm:items-start sm:flex-row">
                     <div className="min-w-[65px] w-[65px] h-[65px] rounded-lg bg-[#04005f] flex items-center justify-center">
-                      <img
-                        src={ImgCalendar}
-                        alt="calendar"
-                      />
+                      <img src={ImgCalendar} alt="calendar" />
                     </div>
                     <p className="text-[30px] font-semibold tracking-tight text-white leading-normal">
                       {t('schedule_card', { ns: 'dashboard' })}
                     </p>
                   </div>
-                  <div className='flex flex-col justify-center gap-3 sm:flex-row sm:gap-[30px] md:w-11/12'>
+                  <div className="flex flex-col justify-center gap-3 sm:flex-row sm:gap-[30px] md:w-11/12">
                     <Link
                       to="/student/schedule-lesson/select"
                       className="rounded bg-white p-3.5 text-[#261A45] font-semibold text-[15px] leading-normal flex-grow text-center flex justify-center items-center"
@@ -267,9 +283,7 @@ const StudentListAppointments = () => {
                 {loading ? (
                   <Loader />
                 ) : (
-                  callToAction.map((props, i) => (
-                    <CTACard key={i} {...props} />
-                  ))
+                  callToAction.map((props, i) => <CTACard key={i} {...props} />)
                 )}
               </div>
             </div>
@@ -287,24 +301,24 @@ const StudentListAppointments = () => {
                     t: isWithinAweek?.length > 1 ? 's' : '',
                   })}
                 </div>
-                <div className='mt-5'>
+                <div className="mt-5">
                   <section className="flex flex-row gap-2.5">
-                      <Link
-                        to="/student/schedule-lesson/select"
-                        className="inline-block p-4 rounded-[5px] bg-white text-[15px] font-semibold text-color-dark-violet shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)]"
-                      >
-                        {t('student_dashboard_edit_schedule', {
-                          ns: 'dashboard',
-                        })}
-                      </Link>
-                      <Link
-                        to="/student/lesson-calendar"
-                        className="inline-block p-4 rounded-[5px] bg-white text-[15px] font-semibold text-color-dark-violet shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)]"
-                      >
-                        {t('student_dashboard_view_all_lessons', {
-                          ns: 'dashboard',
-                        })}
-                      </Link>
+                    <Link
+                      to="/student/schedule-lesson/select"
+                      className="inline-block p-4 rounded-[5px] bg-white text-[15px] font-semibold text-color-dark-violet shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)]"
+                    >
+                      {t('student_dashboard_edit_schedule', {
+                        ns: 'dashboard',
+                      })}
+                    </Link>
+                    <Link
+                      to="/student/lesson-calendar"
+                      className="inline-block p-4 rounded-[5px] bg-white text-[15px] font-semibold text-color-dark-violet shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)]"
+                    >
+                      {t('student_dashboard_view_all_lessons', {
+                        ns: 'dashboard',
+                      })}
+                    </Link>
                   </section>
                 </div>
 

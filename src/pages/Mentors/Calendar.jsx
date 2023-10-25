@@ -21,14 +21,15 @@ import Swal from 'sweetalert2';
 import {
   APPOINTMENTS_QUERY,
   APPROVE_APPOINTMENT,
-  GET_ZOOMLINK,
 } from '../../modules/auth/graphql';
-import { useQuery, useLazyQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import Loader from '../../components/Loader/Loader';
 import { lowerCase } from 'lodash-es';
 import ReactLoader from '../../components/common/Loader';
 import RescheduleAndCancelModal from '../../components/student-dashboard/RescheduleAndCancelModal';
 import notify from '../../utils/notify';
+import { isBetween } from '../../utils/isBetween';
+import { addMinutes, isAfter } from 'date-fns';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -45,6 +46,7 @@ const sortCalendarEvents = (data) => {
   });
   const eventKeys = Object.keys(eventDates);
   const calendarEvents = [];
+
   eventKeys.forEach((key) => {
     for (const eventDate of eventDates[key]) {
       const date = moment(eventDate.startAt).utc(0, true).unix();
@@ -52,7 +54,7 @@ const sortCalendarEvents = (data) => {
       const startAt = moment.unix(date).utc(0, true);
       const end_at = moment.unix(endEpoch).utc(0, true);
       const iterateEvents = {
-        zoomLink: eventDate.zoomlinkId,
+        zoom: eventDate.zoom,
         lesson: eventDate?.packageSubscription?.package?.course?.title,
         startAt,
         end_at,
@@ -214,16 +216,20 @@ const Calendar = () => {
     if (tableAppointments) {
       const tempUpcomingLessons = [];
       const tempPastLessons = [];
+
       tableAppointments.map((each) => {
-        if (new Date(each.resource.startAt) > new Date()) {
-          if (
-            each.resource.status === 'approved' ||
-            each.resource.status === 'scheduled'
-          ) {
-            tempUpcomingLessons.push(each);
-          }
-        } else {
+        const endLesson = addMinutes(
+          new Date(each.resource.startAt),
+          each.resource.duration,
+        );
+
+        if (isAfter(new Date(), endLesson)) {
           tempPastLessons.push(each);
+        } else if (
+          each.resource.status === 'approved' ||
+          each.resource.status === 'scheduled'
+        ) {
+          tempUpcomingLessons.push(each);
         }
       });
       setUpcomingLessons([...tempUpcomingLessons]);
@@ -274,6 +280,7 @@ const Calendar = () => {
   };
 
   const onCancelLessonClick = () => {
+    setTabIndex(0);
     const [selectedEvent] = calendarEvents.filter(
       (x) => x.id === calendarEvent.id,
     );
@@ -303,36 +310,37 @@ const Calendar = () => {
     const [selectedEvent] = calendarEvents.filter(
       (event) => event.id === calendarEvent.id,
     );
+
     const { eventDate } = selectedEvent.resource;
     const student = eventDate.student;
     const tutorAvatar = user.mentor?.avatar?.url;
 
     const displayStudentAvatar = student?.avatar
       ? student?.avatar?.url
-      : student?.user?.gender === 'male'
+      : student?.gender === 'male'
       ? maleAvatar
       : femaleAvatar;
 
     const displayTutorAvatar = tutorAvatar
       ? tutorAvatar
-      : eventDate.mentor?.user?.gender === 'male'
+      : eventDate.mentor?.gender === 'male'
       ? maleAvatar
       : femaleAvatar;
 
-    const today = moment();
-    const tenMinuteBeforeStart = moment(eventDate.startAt).subtract(
-      10,
-      'minutes',
-    );
-    const fiveMinuteBeforeEnd = moment(eventDate.startAt).add(
-      eventDate.duration - 5,
-      'minutes',
-    );
+    // const today = moment();
+    // const tenMinuteBeforeStart = moment(eventDate.startAt).subtract(
+    //   10,
+    //   'minutes',
+    // );
+    // const fiveMinuteBeforeEnd = moment(eventDate.startAt).add(
+    //   eventDate.duration - 5,
+    //   'minutes',
+    // );
 
-    const isBetween = moment(today).isBetween(
-      tenMinuteBeforeStart,
-      fiveMinuteBeforeEnd,
-    );
+    // const isBetween = moment(today).isBetween(
+    //   tenMinuteBeforeStart,
+    //   fiveMinuteBeforeEnd,
+    // );
 
     const [
       approveAppointment,
@@ -343,20 +351,12 @@ const Calendar = () => {
       },
     ] = useMutation(APPROVE_APPOINTMENT);
 
-    const [getZoomLink] = useLazyQuery(GET_ZOOMLINK, {
-      fetchPolicy: 'no-cache',
-    });
-
-    const joinLesson = async () => {
-      if (isBetween) {
-        const zoomlink = await getZoomLink({
-          variables: {
-            id: parseInt(eventDate.zoomlinkId),
-          },
-        });
-        window.open(zoomlink.data.zoomLink.url, '_blank');
+    const joinLesson = () => {
+      if (isBetween(eventDate.startAt, eventDate.duration)) {
+        window.open(eventDate.zoom.startUrl, '_blank');
+      } else {
+        setIsWarningOpen(true);
       }
-      if (!isBetween) setIsWarningOpen(true);
     };
 
     const approveLesson = ({ id }) => {
@@ -462,9 +462,9 @@ const Calendar = () => {
                         />
                       </div>
                       <p>
-                        {eventDate?.student?.user?.firstName +
+                        {eventDate?.student?.firstName +
                           ' ' +
-                          eventDate?.student?.user?.lastName}
+                          eventDate?.student?.lastName}
                       </p>
                     </div>
                     <div className="col-4">
@@ -478,7 +478,7 @@ const Calendar = () => {
                           className="img-fluid rounded-corners"
                         />
                       </div>
-                      <p>{eventDate?.mentor?.user?.fullName}</p>
+                      <p>{eventDate?.mentor?.fullName}</p>
                     </div>
                   </div>
                 </div>

@@ -199,31 +199,31 @@
         border-color: transparent $color-white $color-white transparent;
         z-index: -1;
       }
-      a.menu-item {
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 13px;
-        cursor: pointer;
-        font-family: Source Sans Pro;
-        font-style: normal;
-        font-weight: 300;
-        font-size: 14px;
-        line-height: 18px;
-        color: $color-black;
-        .icon {
-          display: flex;
-          width: 26px;
-          height: 15px;
-          justify-content: flex-end;
-        }
-        &.active {
-          span {
-            font-weight: 400;
-          }
-        }
-      }
+      // a.menu-item {
+      //   text-decoration: none;
+      //   display: flex;
+      //   align-items: center;
+      //   justify-content: space-between;
+      //   padding: 13px;
+      //   cursor: pointer;
+      //   font-family: Source Sans Pro;
+      //   font-style: normal;
+      //   font-weight: 300;
+      //   font-size: 14px;
+      //   line-height: 18px;
+      //   color: $color-black;
+      //   .icon {
+      //     display: flex;
+      //     width: 26px;
+      //     height: 15px;
+      //     justify-content: flex-end;
+      //   }
+      //   &.active {
+      //     span {
+      //       font-weight: 400;
+      //     }
+      //   }
+      // }
     }
     .notifications {
       width: 185px;
@@ -613,9 +613,9 @@
     .rows-align {
       flex-wrap: nowrap;
     }
-    .text-white {
-      padding-top: 5px;
-    }
+    // .text-white {
+    //   padding-top: 5px;
+    // }
     .text-muted {
       padding-top: 10px;
     }

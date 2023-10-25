@@ -1,33 +1,32 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-// import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../../assets/images/avatars/img_avatar_male.png';
 import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
-import { GET_ZOOMLINK } from '../../modules/auth/graphql';
-import { useLazyQuery } from '@apollo/client';
-import ReactLoader from '../common/Loader';
-import notify from '../../utils/notify';
-import { ROLES } from '../../constants/global';
+
+import { LESSONS_STATUS_TYPE, Roles } from '../../constants/global';
 import {
   addMinutes,
   differenceInHours,
-  isWithinInterval,
-  subMinutes,
+  // isWithinInterval,
+  // subMinutes,
 } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
+import { isBetween } from '../../utils/isBetween';
+import { Avatar } from 'src/widgets/Avatar/Avatar';
 
 const ScheduleCard = ({
   index,
   lesson,
-  zoomlinkId,
+  zoom,
   date,
+  student,
   mentor,
   data,
   fetchAppointments,
-  cancelled,
+  // cancelled,
+  setCanceledLessons,
   duration,
   subscription,
 }) => {
@@ -80,29 +79,13 @@ const ScheduleCard = ({
     }
   };
 
-  //Time period when you can go to the lesson
-  const today = new Date();
-  const tenMinuteBeforeStart = subMinutes(dateLesson, 10);
-  const beforeEndLesson = addMinutes(dateLesson, data.duration);
-
-  const isBetween = isWithinInterval(today, {
-    start: tenMinuteBeforeStart,
-    end: beforeEndLesson,
-  });
-  const [getZoomLink, { loading, error }] = useLazyQuery(GET_ZOOMLINK, {
-    fetchPolicy: 'no-cache',
-  });
-
   const joinLesson = () => {
-    if (isBetween) {
-      getZoomLink({
-        variables: {
-          id: parseInt(zoomlinkId),
-        },
-        onCompleted: (data) => {
-          window.open(data.zoomLink.url, '_blank');
-        },
-      });
+    //Time period when you can go to the lesson
+    if (isBetween(dateLesson, data.duration)) {
+      window.open(
+        user.role === Roles.MENTOR ? zoom.startUrl : zoom.joinUrl,
+        '_blank',
+      );
     } else {
       setIsWarningOpen(true);
     }
@@ -129,18 +112,12 @@ const ScheduleCard = ({
     return `${eventDate} at ${start} → ${end}`;
   };
 
-  if (error) {
-    notify(error.message, 'error');
-  }
-
-  if (loading) {
-    return <ReactLoader />;
-  }
-
   return (
     <div
       className={`mb-5 rounded-[10px] p-5 shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)] ${
-        index === 0
+        !LESSONS_STATUS_TYPE[data?.status?.toUpperCase()]
+          ? 'bg-color-light-grey2 opacity-60'
+          : index === 0
           ? 'bg-color-purple'
           : 'border border-color-border-grey bg-white'
       }`}
@@ -150,7 +127,9 @@ const ScheduleCard = ({
           <div>
             <h1
               className={`text-[30px] font-normal ${
-                index === 0 ? 'text-white m-0' : 'text-black m-0'
+                index === 0 && LESSONS_STATUS_TYPE[data?.status?.toUpperCase()]
+                  ? 'text-white m-0'
+                  : 'text-black m-0'
               }`}
             >
               {lesson}
@@ -158,7 +137,7 @@ const ScheduleCard = ({
             {/* TODO: add this to translation.json */}
             <h3
               className={`text-base font-semibold tracking-tight ${
-                index === 0
+                index === 0 && LESSONS_STATUS_TYPE[data?.status?.toUpperCase()]
                   ? 'text-color-light-purple'
                   : 'text-color-light-grey'
               }`}
@@ -167,59 +146,71 @@ const ScheduleCard = ({
             </h3>
           </div>
           <div className="w-[65px] h-[65px] overflow-hidden rounded-full relative">
-            <img
-              src={
-                mentor?.avatar ? mentor?.avatar?.url : maleAvatar
-                // ? maleAvatar
-                // : femaleAvatar
+            <Avatar
+              avatarUrl={
+                user.role === Roles.MENTOR
+                  ? student?.avatar?.url
+                  : mentor?.avatar?.url
               }
-              className="object-cover "
-              alt=""
             />
           </div>
         </div>
       </div>
-      <div className="flex items-center gap-2 xl:gap-3">
-        {user.role !== ROLES.MENTOR && (
+      {LESSONS_STATUS_TYPE[data?.status?.toUpperCase()] ? (
+        <div className="flex items-center gap-2 xl:gap-3">
+          {user.role !== Roles.MENTOR && (
+            <a
+              className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px] ${
+                index === 0
+                  ? 'text-color-purple'
+                  : 'border border-color-border-grey text-black'
+              } ${isLate ? 'opacity-50' : ''}`}
+              onClick={onSelect}
+            >
+              {t('reschedule')}
+            </a>
+          )}
           <a
+            onClick={onCancel}
             className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px] ${
               index === 0
                 ? 'text-color-purple'
                 : 'border border-color-border-grey text-black'
             } ${isLate ? 'opacity-50' : ''}`}
-            onClick={onSelect}
           >
-            {t('reschedule')}
+            {t('cancel', { ns: 'common' })}
           </a>
-        )}
-        <a
-          onClick={onCancel}
-          className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px] ${
-            index === 0
-              ? 'text-color-purple'
-              : 'border border-color-border-grey text-black'
-          } ${isLate ? 'opacity-50' : ''}`}
-        >
-          {t('cancel', { ns: 'common' })}
-        </a>
-        <a
-          onClick={data.status !== 'scheduled' ? joinLesson : undefined}
-          target="_blank"
-          rel="noreferrer"
-          className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px]  rounded-[5px]
+          <a
+            onClick={data.status !== 'scheduled' ? joinLesson : undefined}
+            target="_blank"
+            rel="noreferrer"
+            className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px]  rounded-[5px]
           ${
             index === 0
               ? 'text-color-purple'
               : 'border border-color-border-grey text-black'
           } ${
-            data.status === 'scheduled'
-              ? 'text-color-purple bg-[#b099d7]'
-              : 'grey-border text-black bg-white'
-          }`}
-        >
-          {t('join_lesson')}
-        </a>
-      </div>
+              data.status === 'scheduled'
+                ? 'text-color-purple bg-[#b099d7]'
+                : 'grey-border text-black bg-white'
+            }`}
+          >
+            {t('join_lesson')}
+          </a>
+        </div>
+      ) : (
+        <div>
+          <h1
+            className={`text-[30px] font-normal ${
+              index === 0 && LESSONS_STATUS_TYPE[data?.status?.toUpperCase()]
+                ? 'text-white m-0'
+                : 'text-black m-0'
+            }`}
+          >
+            {t(data.cancelReason)}
+          </h1>
+        </div>
+      )}
       {isOpen && (
         <RescheduleAndCancelModal
           data={data}
@@ -230,7 +221,8 @@ const ScheduleCard = ({
           fetchAppointments={fetchAppointments}
           tabIndex={tabIndex}
           type={modalType}
-          cancelled={cancelled}
+          // cancelled={cancelled}
+          setCanceledLessons={setCanceledLessons}
           duration={subscription?.duration || duration}
         />
       )}

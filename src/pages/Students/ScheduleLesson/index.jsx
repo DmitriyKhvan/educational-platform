@@ -22,7 +22,7 @@ const ScheduleLesson = () => {
   const [clicked, setClicked] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState({});
   const [schedule, setSchedule] = useState();
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState(id ? 1 : 0);
   const [selectTutor, setSelectTutor] = useState();
 
   const scheduledLesson = data?.lesson || null;
@@ -40,6 +40,7 @@ const ScheduleLesson = () => {
       {tabIndex === 0 ? (
         <SelectLesson
           setSelectedPlan={setSelectedPlan}
+          selectedPlan={selectedPlan}
           setTabIndex={setTabIndex}
           clicked={clicked}
           setClicked={setClicked}

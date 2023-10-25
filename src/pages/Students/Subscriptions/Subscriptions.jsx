@@ -1,26 +1,44 @@
 import '../../../assets/styles/subscriptions.scss';
 import continue_arrow from '../../../assets/images/continue_arrow.svg';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import Layout from '../../../components/Layout';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../../modules/auth';
 import Loader from '../../../components/Loader/Loader';
 import { SubscriptionCard } from './SubscriptionCard';
-import { PACKAGE_QUERY } from '../../../modules/auth/graphql';
+import {
+  CHECK_NICE_SUBSCRIPTION_STATUS,
+  PACKAGE_QUERY,
+} from '../../../modules/auth/graphql';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom';
+import { getItemToLocalStorage } from 'src/constants/global';
 
 const Subscriptions = () => {
   const [t] = useTranslation(['common', 'sidebar']);
   const { user } = useAuth();
   const navigate = useHistory();
 
-  const { data: { packageSubscriptions: planStatus = [], loading } = {} } =
-    useQuery(PACKAGE_QUERY, {
+  const [checkNiceSubscriptionStatus, { data: niceSubscriptionStatus }] =
+    useMutation(CHECK_NICE_SUBSCRIPTION_STATUS);
+
+  // first check the relevance of the NICE subscription
+  useEffect(() => {
+    checkNiceSubscriptionStatus({
       variables: {
         userId: user?.id,
+      },
+    });
+  }, []);
+
+  // second, getting active subscriptions
+  const { data: { packageSubscriptions: planStatus = [], loading } = {} } =
+    useQuery(PACKAGE_QUERY, {
+      skip: !niceSubscriptionStatus,
+      variables: {
+        studentId: getItemToLocalStorage('studentId'),
       },
     });
 
@@ -51,6 +69,7 @@ const Subscriptions = () => {
                       sessionsPerWeek={x.package?.sessionsPerWeek}
                       costPerClass={x.package?.price / x.package?.totalSessions}
                       credits={x.credits}
+                      active={x.active}
                     />
                   ))}
                 </div>

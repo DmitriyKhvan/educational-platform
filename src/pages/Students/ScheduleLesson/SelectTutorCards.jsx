@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Modal from 'react-modal';
 import moment from 'moment';
 import Layout from '../../../components/Layout';
-import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 import { useQuery, gql } from '@apollo/client';
 import MentorsModal from '../MentorsList/MentorsModal';
 import Loader from '../../../components/common/Loader';
-Modal.setAppElement('#root');
+import ModalWrapper from '../../../components/ModalWrapper/ModalWrapper';
+import { MentorCard } from '../MentorsList/MentorCard';
 
 const GET_AVAILABLE_MENTORS = gql`
   query GetAvailableMentors($time: String!, $duration: Int!) {
@@ -22,6 +20,9 @@ const GET_AVAILABLE_MENTORS = gql`
       }
       mentors {
         id
+        firstName
+        lastName
+        gender
         major
         language
         university
@@ -35,18 +36,22 @@ const GET_AVAILABLE_MENTORS = gql`
         hourlyRate
         facts
         uniqueFacts
-        userId
         fullName
-        user {
-          id
-          firstName
-          lastName
-        }
+        userId
+        # user
+        # lessons
         videoUrl
+        avatarId
+        visibilityStatus
         avatar {
           id
           url
         }
+        #availabilities {
+        #  id
+        #}
+        zoomUserId
+        zoomEmail
       }
     }
   }
@@ -82,59 +87,16 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
     window.scrollTo(0, 0);
   }, [availableMentors]);
 
-  const SelectTutors = ({ tutor }) => {
-    const name = tutor.fullName;
-    const onClick = () => {
-      setSelectTutor(tutor);
-      setTabIndex(3);
-    };
-
-    const onClickLearnMore = () => {
-      setModalSelectTutor(tutor);
-      setIsOpen(true);
-    };
-
-    const tutorProfile = tutor.avatar?.url
-      ? tutor.avatar.url
-      : tutor.gender === 'female'
-      ? femaleAvatar
-      : maleAvatar;
-    return (
-      <div className="">
-        <div className="favImg">
-          <img src={tutorProfile} className="img-fluid schedule" alt="" />
-          {/* <img src={Favorite} alt='FavoriteSvg' className='FavoriteSvg' /> */}
-        </div>
-        <div className="text-center">
-          <div className="Learn-name-university pt-3">
-            <h5 className="text-purple select_tutors_aligns">
-              <strong style={{ fontSize: '1.3rem' }}>{name}</strong>
-            </h5>
-            <h5 className="my-2 text-light-grey select_tutors_aligns">
-              <strong className="unversity-font">{tutor.university}</strong>
-            </h5>
-            <h5 className="text-light-grey select_tutors_aligns">
-              {tutor.major || '-'}
-            </h5>
-          </div>
-          <div className="Learn-buttons-style">
-            <button
-              className="enter-btn btn-dash-return buttonss"
-              onClick={onClickLearnMore}
-            >
-              {t('learn_more', { ns: 'common' })}
-            </button>
-            <button
-              className="enter-btn btn-primary buttonss"
-              onClick={onClick}
-            >
-              {t('select_mentor')}
-            </button>
-          </div>
-        </div>
-      </div>
-    );
+  const onClick = (mentor) => {
+    setSelectTutor(mentor);
+    setTabIndex(3);
   };
+
+  const onClickLearnMore = (mentor) => {
+    setModalSelectTutor(mentor);
+    setIsOpen(true);
+  };
+
   return (
     <Layout>
       <div className="scroll-layout">
@@ -189,9 +151,15 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
                 </div>
               </div>
               {availableMentors?.length ? (
-                <div className="grid grid-cols-1 lg:grid-cols-2 items-center place-items-center lg:place-items-start 2xl:grid-cols-3 w-full gap-y-4">
-                  {availableMentors.map((x, i) => (
-                    <SelectTutors tutor={x} key={i} />
+                // <div className="grid grid-cols-1 lg:grid-cols-2 items-center place-items-center lg:place-items-start 2xl:grid-cols-3 w-full gap-y-4">
+                <div className="flex flex-wrap mt-10 gap-x-8 gap-y-11">
+                  {availableMentors.map((mentor) => (
+                    <MentorCard
+                      key={mentor.id}
+                      mentor={mentor}
+                      handleMoreMentor={onClickLearnMore}
+                      handleSelectMentor={onClick}
+                    />
                   ))}
                 </div>
               ) : loading ? (
@@ -203,12 +171,19 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
           </div>
         </div>
       </div>
-      {isOpen && (
+
+      <ModalWrapper
+        isOpen={isOpen}
+        closeModal={setIsOpen}
+        widthContent="70%"
+        heightContent="80vh"
+        paddingContent="0"
+      >
         <MentorsModal
           setShowMentorModal={setIsOpen}
           mentor={modalSelectTutor}
         />
-      )}
+      </ModalWrapper>
     </Layout>
   );
 };

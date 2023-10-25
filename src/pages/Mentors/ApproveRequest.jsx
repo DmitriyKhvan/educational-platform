@@ -14,7 +14,6 @@ import {
 
 import '../../assets/styles/calendar.scss';
 import Loader from '../../components/Loader/Loader';
-import toast from 'react-hot-toast';
 
 const ApproveRequest = () => {
   const { user } = useAuth();
@@ -52,7 +51,7 @@ const ApproveRequest = () => {
           status: 'scheduled',
         },
       });
-      toast.success('Your lesson has been cancelled successfully');
+      notify('Lesson successfully canceled');
     },
   });
 
@@ -68,7 +67,7 @@ const ApproveRequest = () => {
       },
     });
 
-    notify('Lesson successfully approved', 'success');
+    notify('Lesson successfully approved');
     setTimeout(() => {
       refetch();
     }, 200);
@@ -80,7 +79,7 @@ const ApproveRequest = () => {
         id: parseInt(id),
       },
     });
-    notify('Lesson successfully canceled', 'success');
+
     setTimeout(() => {
       refetch();
     }, 200);
@@ -94,8 +93,8 @@ const ApproveRequest = () => {
         .map((event) => {
           return {
             id: event.id,
-            img: event?.student?.user?.avatar?.url,
-            studentName: `${event?.student?.user?.firstName} ${event?.student?.user?.lastName}`,
+            img: event?.student?.avatar?.url,
+            studentName: `${event?.student?.firstName} ${event?.student?.lastName}`,
             lessonNumber: event.id,
             lessonDate: event.startAt,
             duration: event.duration,

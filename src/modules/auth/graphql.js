@@ -6,7 +6,7 @@ export const SIGN_UP = gql`
     $lastName: String!
     $email: String!
     $password: String!
-    $gender: String
+    $gender: GenderType
     $marketingChannel: String
     $phoneNumber: String
   ) {
@@ -23,21 +23,17 @@ export const SIGN_UP = gql`
     ) {
       id
       email
-      firstName
-      lastName
-      fullName
-      koreanEquivalent
       phoneNumber
       address
-      gender
       timeZone
       country
-      avatar
-      role
       referalCode
       referalId
       students {
         id
+        firstName
+        lastName
+        gender
         parentName
         level
         langLevel
@@ -45,10 +41,16 @@ export const SIGN_UP = gql`
         about
         pronouns
         isActive
+        # user
+        # lessons
         avatarId
+        # avatar
       }
       mentor {
         id
+        firstName
+        lastName
+        gender
         major
         language
         university
@@ -62,8 +64,47 @@ export const SIGN_UP = gql`
         hourlyRate
         facts
         uniqueFacts
+        fullName
+        userId
+        # user
+        # lessons
+        videoUrl
+        avatarId
+        visibilityStatus
+        # avatar
+        # availabilities
+        zoomUserId
+        zoomEmail
+      }
+      packageSubscriptions {
+        id
+        periodStart
+        periodEnd
+        credits
+        modifyCredits
+        packageId
+        # package
+        paymentId
+        # payment
+        # lessons
+        active
+      }
+      activeSubscriptions {
+        id
+        periodStart
+        periodEnd
+        credits
+        modifyCredits
+        packageId
+        # package
+        paymentId
+        # payment
+        # lessons
+        active
       }
       isActive
+      role
+      cardLast4
       createdAt
       updatedAt
     }
@@ -71,26 +112,31 @@ export const SIGN_UP = gql`
 `;
 
 export const ME_QUERY = gql`
-  {
-    authenticatedUser {
+  query ME_QUERY($studentId: ID) {
+    authenticatedUser(studentId: $studentId) {
       id
       firstName
       lastName
-      fullName
-      role
       email
-      gender
-      address
-      referalCode
-      referalId
-      isActive
-      country
       timeZone
+      gender
       phoneNumber
-      koreanEquivalent
+      address
+      country
       students {
         id
+        firstName
+        lastName
+        parentName
+        level
+        langLevel
+        birthday
         about
+        pronouns
+        isActive
+        # user
+        # lessons
+        avatarId
         avatar {
           id
           url
@@ -98,22 +144,95 @@ export const ME_QUERY = gql`
       }
       mentor {
         id
-        introduction
-        relevantExperience
-        uniqueFacts
-        degree
-        isActive
+        firstName
+        lastName
+        major
+        language
         university
         graduatingYear
         degree
-        major
+        introduction
+        about
+        experience
+        relevantExperience
+        isActive
+        hourlyRate
+        facts
+        uniqueFacts
+        fullName
+        userId
+        # user
+        # lessons
         videoUrl
+        avatarId
+        visibilityStatus
         avatar {
           id
           url
         }
+        # availabilities
+        zoomUserId
+        zoomEmail
       }
+      avatarId
+      avatar {
+        id
+        url
+      }
+      isActive
+      role
+      cardLast4
     }
+  }
+`;
+
+export const ATTACH_STUDENT_TO_USER = gql`
+  mutation ATTACH_STUDENT_TO_USER(
+    $userId: ID!
+    $firstName: String!
+    $lastName: String!
+    $gender: GenderType!
+  ) {
+    attachStudentToUser(
+      userId: $userId
+      firstName: $firstName
+      lastName: $lastName
+      gender: $gender
+    ) {
+      id
+    }
+  }
+`;
+
+export const CREATE_NICE_PAYMENT = gql`
+  mutation CREATE_NICE_PAYMENT(
+    $studentId: ID!
+    $packageId: ID!
+    $amount: Int!
+    $courseTitle: String!
+    $cardNumber: String!
+    $expiry: String!
+    $birth: String!
+    $pwd2Digit: String!
+  ) {
+    createNicePayment(
+      studentId: $studentId
+      packageId: $packageId
+      amount: $amount
+      courseTitle: $courseTitle
+      cardNumber: $cardNumber
+      expiry: $expiry
+      birth: $birth
+      pwd2Digit: $pwd2Digit
+    ) {
+      id
+    }
+  }
+`;
+
+export const CHECK_NICE_SUBSCRIPTION_STATUS = gql`
+  mutation CHECK_NICE_SUBSCRIPTION_STATUS($userId: ID!) {
+    checkNiceSubscriptionStatus(userId: $userId)
   }
 `;
 
@@ -121,6 +240,9 @@ export const GET_MENTOR = gql`
   query GET_MENTOR($id: ID!) {
     mentor(id: $id) {
       id
+      firstName
+      lastName
+      gender
       major
       language
       university
@@ -134,30 +256,20 @@ export const GET_MENTOR = gql`
       hourlyRate
       facts
       uniqueFacts
-      videoUrl
-      availabilities {
-        id
-        day
-        from
-        to
-      }
+      fullName
+      userId
       user {
         id
         email
-        firstName
-        lastName
-        fullName
-        koreanEquivalent
         phoneNumber
         address
-        gender
         timeZone
         country
-        avatar
-        role
         referalCode
         referalId
         isActive
+        role
+        cardLast4
         createdAt
         updatedAt
       }
@@ -167,20 +279,24 @@ export const GET_MENTOR = gql`
         duration
         status
         cancelAction
-        zoomlinkId
+        cancelReason
+        canceledBy
       }
+      videoUrl
       avatarId
+      visibilityStatus
       avatar {
         id
-        name
-        mimetype
         url
-        path
-        width
-        height
-        createdAt
-        updatedAt
       }
+      availabilities {
+        id
+        day
+        from
+        to
+      }
+      zoomUserId
+      zoomEmail
     }
   }
 `;
@@ -189,6 +305,15 @@ export const MENTORS_QUERY = gql`
   query Mentors {
     mentors(visibilityStatus: public) {
       id
+      firstName
+      lastName
+      fullName
+      #koreanEquivalent
+      gender
+      avatar {
+        id
+        url
+      }
       major
       language
       university
@@ -206,16 +331,13 @@ export const MENTORS_QUERY = gql`
       user {
         id
         email
-        firstName
-        lastName
-        fullName
-        koreanEquivalent
+
         phoneNumber
         address
-        gender
+
         timeZone
         country
-        avatar
+
         role
         referalCode
         referalId
@@ -229,7 +351,6 @@ export const MENTORS_QUERY = gql`
         duration
         status
         cancelAction
-        zoomlinkId
       }
       avatarId
       avatar {
@@ -267,6 +388,13 @@ export const LOGIN_MUTATION = gql`
       sessionToken
       user {
         id
+        students {
+          id
+          firstName
+          lastName
+          parentName
+        }
+        role
       }
     }
   }
@@ -308,7 +436,6 @@ export const MUTATION_UPDATE_USER = gql`
   mutation updateUser($id: ID!, $data: UserUpdateInput!) {
     updateUser(id: $id, data: $data) {
       id
-      firstName
     }
   }
 `;
@@ -345,7 +472,6 @@ export const GROUPS_QUERY = gql`
       cancelAction
       lessonTopic
       lastPartLesson
-      zoomlinkId
     }
   }
 `;
@@ -414,8 +540,8 @@ export const STUDENTS_QUERY = gql`
 `;
 
 export const PACKAGE_QUERY = gql`
-  query packageSubscriptions($userId: ID!) {
-    packageSubscriptions: activePackageSubscriptions(userId: $userId) {
+  query packageSubscriptions($studentId: ID!) {
+    packageSubscriptions: activePackageSubscriptions(studentId: $studentId) {
       id
       periodStart
       periodEnd
@@ -442,6 +568,7 @@ export const PACKAGE_QUERY = gql`
         cancelReason
         metadata
       }
+      active
     }
   }
 `;
@@ -454,9 +581,13 @@ export const APPOINTMENTS_QUERY = gql`
       duration
       status
       cancelAction
-      zoomlinkId
+      cancelReason
+      canceledBy
       mentor {
         id
+        firstName
+        lastName
+        gender
         major
         language
         university
@@ -470,25 +601,26 @@ export const APPOINTMENTS_QUERY = gql`
         hourlyRate
         facts
         uniqueFacts
+        fullName
+        userId
+        # user
+        # lessons
+        videoUrl
+        avatarId
+        visibilityStatus
         avatar {
           id
-          name
-          mimetype
           url
-          path
-          width
-          height
-          createdAt
-          updatedAt
         }
-        user {
-          id
-          gender
-          fullName
-        }
+        # availabilities
+        zoomUserId
+        zoomEmail
       }
       student {
         id
+        firstName
+        lastName
+        gender
         parentName
         level
         langLevel
@@ -496,21 +628,12 @@ export const APPOINTMENTS_QUERY = gql`
         about
         pronouns
         isActive
-        user {
-          firstName
-          lastName
-          gender
-        }
+        # user
+        # lessons
+        avatarId
         avatar {
           id
-          name
-          mimetype
           url
-          path
-          width
-          height
-          createdAt
-          updatedAt
         }
       }
       packageSubscription {
@@ -524,6 +647,14 @@ export const APPOINTMENTS_QUERY = gql`
             title
           }
         }
+        paymentId
+      }
+      zoom {
+        id
+        meetingId
+        startUrl
+        joinUrl
+        recordingUrl
       }
     }
   }
@@ -537,20 +668,18 @@ export const APPROVE_APPOINTMENT = gql`
       duration
       status
       cancelAction
-      zoomlinkId
     }
   }
 `;
 
 export const CANCEL_APPOINTMENT = gql`
-  mutation CANCEL_LESSON($id: ID!) {
-    cancelLesson(id: $id) {
+  mutation CANCEL_LESSON($id: ID!, $cancelReason: String, $repeat: Boolean) {
+    cancelLessons(id: $id, cancelReason: $cancelReason, repeat: $repeat) {
       id
       startAt
       duration
       status
       cancelAction
-      zoomlinkId
     }
   }
 `;
@@ -562,20 +691,22 @@ export const CREATE_APPOINTMENT = gql`
     $subscriptionId: ID!
     $startAt: DateTime!
     $duration: Int!
+    $repeat: Boolean
   ) {
-    lesson: createLesson(
+    lesson: createLessons(
       mentorId: $mentorId
       studentId: $studentId
       packageSubscriptionId: $subscriptionId
       startAt: $startAt
       duration: $duration
+      repeat: $repeat
     ) {
       id
       startAt
       duration
       status
       cancelAction
-      zoomlinkId
+      cancelReason
       #mentor
       #student
       packageSubscription {
@@ -599,14 +730,40 @@ export const CREATE_APPOINTMENT = gql`
 `;
 
 export const UPDATE_APPOINTMENT = gql`
-  mutation UPDATE_LESSON($id: ID!, $startAt: DateTime!, $mentorId: ID!) {
-    lesson: rescheduleLesson(id: $id, startAt: $startAt, mentorId: $mentorId) {
+  mutation UPDATE_LESSON(
+    $id: ID!
+    $startAt: DateTime!
+    $mentorId: ID!
+    $repeat: Boolean
+  ) {
+    lesson: rescheduleLessons(
+      id: $id
+      startAt: $startAt
+      mentorId: $mentorId
+      repeat: $repeat
+    ) {
       id
       startAt
       duration
       status
       cancelAction
-      zoomlinkId
+      cancelReason
+      packageSubscription {
+        id
+        periodStart
+        periodEnd
+        credits
+        packageId
+        modifyCredits
+        package {
+          course {
+            title
+          }
+        }
+        paymentId
+        # payment
+        # lessons
+      }
     }
   }
 `;
@@ -619,7 +776,6 @@ export const LESSON_QUERY = gql`
       duration
       status
       cancelAction
-      zoomlinkId
       mentor {
         id
         major
@@ -688,16 +844,6 @@ export const LESSON_QUERY = gql`
           }
         }
       }
-    }
-  }
-`;
-
-export const GET_ZOOMLINK = gql`
-  query Get_Zoomlink($id: Int!) {
-    zoomLink(id: $id) {
-      id
-      url
-      isPaid
     }
   }
 `;

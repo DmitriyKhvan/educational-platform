@@ -58,5 +58,7 @@
   "weeks_classes_each": "{{ duration }}분 수업 {{ weeks }}회",
   "pay_every_weeks": "{{ weeks }}주마다 결제",
   "status": "상태",
-  "lessons_remaining_schedule": "일정을 잡을 수업"
+  "lessons_remaining_schedule": "일정을 잡을 수업",
+  "disabled_package": "죄송합니다, 귀하의 서비스 구독이 만료되었거나 유효하지 않습니다. 관리자에게 문의하여 추가 지원을 받으실 수 있습니다.",
+  "recording": "Recording"
 }

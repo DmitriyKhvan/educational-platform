@@ -1,26 +1,47 @@
 import { forwardRef } from 'react';
 
-const CheckboxField = forwardRef(({ label = '', ...props }, ref) => {
-  return (
-    <div className="relative flex items-start">
-      <div className="flex h-6 items-center">
+const CheckboxField = forwardRef(
+  ({ label = '', type = 'checkbox', name = '', className, ...props }, ref) => {
+    return (
+      <label
+        className={`relative inline-flex items-center cursor-pointer ${className}`}
+      >
         <input
-          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-          type="checkbox"
-          id={props.name}
+          className={`
+            appearance-none
+            relative
+            h-5
+            w-5 
+            rounded 
+            text-transparent
+            border-gray-300 
+            cursor-pointer
+            focus:ring-transparent
+            checked:bg-none
+            checked:after:content-['']
+            checked:after:block
+            checked:after:absolute
+            checked:after:left-2/4
+            checked:after:top-2/4
+            checked:after:-mt-[5px]
+            checked:after:-ml-[5px]
+            checked:after:w-[10px]
+            checked:after:h-[10px]
+            checked:after:bg-color-purple
+            checked:after:rounded
+          `}
+          type={type}
+          name={name}
+          id={name}
           ref={ref}
           {...props}
         />
-      </div>
-      <div className="ml-3 text-base leading-6">
-        <label htmlFor={props.name} className="font-medium text-gray-900">
-          {label}
-        </label>
-      </div>
-    </div>
-  );
-});
+        <p className="ml-3 leading-6 text-gray-900">{label}</p>
+      </label>
+    );
+  },
+);
 
-CheckboxField.displayName = "CheckboxField";
+CheckboxField.displayName = 'CheckboxField';
 
 export default CheckboxField;

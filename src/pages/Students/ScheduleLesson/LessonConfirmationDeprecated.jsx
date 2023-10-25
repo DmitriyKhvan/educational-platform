@@ -6,21 +6,25 @@ import { Checkbox } from '../../../components/Checkbox';
 import { Avatar } from '../../../components/Avatar';
 import Stars from '../../../components/Stars';
 import { format } from 'date-fns';
-import { getAbbrName, getAvatarName } from '../../../constants/global';
+import {
+  getAbbrName,
+  getAvatarName,
+  getItemToLocalStorage,
+} from '../../../constants/global';
 import ModalConfirmLesson from './ModalConfirmLesson';
 import NotificationManager from '../../../components/NotificationManager';
 import FavouriteIcon from '../../../components/FavouriteIcon';
 import { useHistory } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { CREATE_APPOINTMENT } from '../../../modules/auth/graphql';
-import { useAuth } from '../../../modules/auth';
+// import { useAuth } from '../../../modules/auth';
 
 const LessonConfirmation = ({ tutor, time, lesson, onBack }) => {
   const [t] = useTranslation('translation');
   const [checkStates, setCheckStates] = useState([false, false, false]);
   const [isConfirmModal, setIsConfirmModal] = useState(false);
 
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   const [createAppointment] = useMutation(CREATE_APPOINTMENT);
 
@@ -64,7 +68,8 @@ const LessonConfirmation = ({ tutor, time, lesson, onBack }) => {
       await createAppointment({
         variables: {
           mentorId: tutor.id,
-          studentId: user.students[0].id,
+          // studentId: user.students[0].id,
+          studentId: getItemToLocalStorage('studentId'),
           packageId: lesson.package_id,
           courseId: lesson.course_id,
           startAt: data.start_at,

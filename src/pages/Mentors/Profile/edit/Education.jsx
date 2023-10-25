@@ -1,19 +1,20 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { TextInput } from './TextInput';
-import Submit from './Submit';
 import { useMutation } from '@apollo/client';
 import { MUTATION_UPDATE_MENTOR } from '../../../../modules/auth/graphql';
 import { useAuth } from '../../../../modules/auth';
 import notify from '../../../../utils/notify';
 // import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import InputField from '../../../../components/Form/InputField';
+import Button from '../../../../components/Form/Button/Button';
+import ReactLoader from '../../../../components/common/Loader';
 
-const Education = ({ cls }) => {
+const Education = () => {
   const [t] = useTranslation(['profile', 'common']);
-  const [updateMentor] = useMutation(MUTATION_UPDATE_MENTOR);
+  const [updateMentor, { loading }] = useMutation(MUTATION_UPDATE_MENTOR);
 
-  const [file] = React.useState({});
+  // const [file] = React.useState({});
 
   // const history = useHistory();
 
@@ -30,92 +31,78 @@ const Education = ({ cls }) => {
   });
 
   const handleEditEdu = async (area) => {
-    if (file) {
-      const files = file.target?.files[0];
-      updateMentor({
-        variables: {
-          id: parseInt(user?.mentor?.id),
-          data: { diplomaVerification: { upload: files } },
-        },
-      });
-    }
+    // if (file) {
+    //   const files = file.target?.files[0];
+    //   updateMentor({
+    //     variables: {
+    //       id: parseInt(user?.mentor?.id),
+    //       data: { diplomaVerification: { upload: files } },
+    //     },
+    //   });
+    // }
 
     const newData = {
       ...area,
       graduatingYear: parseInt(area.graduatingYear),
     };
 
-    const { data } = await updateMentor({
+    await updateMentor({
       variables: {
         id: user?.mentor?.id,
         data: newData,
       },
+      onCompleted: () => {
+        notify('Education information is changed!');
+        // history.push('/mentor/profile');
+      },
+      onError: (error) => {
+        notify(error.message, 'error');
+      },
     });
-
-    if (data) {
-      notify('Education information is changed!');
-      // history.push('/mentor/profile');
-    }
 
     await refetchUser();
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(handleEditEdu)}
-      className={cls.editProfile_container_forms_edu}
-      id="edu"
-    >
-      <div>
-        <div className={cls.editProfile_container_forms_edu_title}>
-          <h2>{t('bio_education')}</h2>
-        </div>
-        <br />
+    <>
+      {loading && <ReactLoader />}
+      <form
+        onSubmit={handleSubmit(handleEditEdu)}
+        className="py-[50px] pl-[66px] border-b border-solid border-color-border-grey"
+        id="edu"
+      >
+        <h2 className="mb-5 text-[27px] font-medium leading-[33px] tracking-[-1px] text-color-dark-purple">
+          {t('bio_education')}
+        </h2>
 
-        {/* <div className={cls.edu_guild_card}>
-          <img src={Stick} alt='' />
-          <h3>Guidelines on being honest.</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit
-            amet ligula nisi.
-          </p>
-        </div> */}
+        <InputField
+          className="w-[420px] mb-6"
+          label={t('university')}
+          placeholder={t('university_placeholder')}
+          {...register('university')}
+        />
 
-        <div className={cls.form_divider}>
-          <p>{t('university')}</p>
+        <InputField
+          className="w-[420px] mb-6"
+          type="number"
+          label={t('grad_year')}
+          placeholder="2018"
+          {...register('graduatingYear')}
+        />
 
-          <TextInput
-            type="text"
-            placeholder={t('university_placeholder')}
-            {...register('university')}
-          />
-        </div>
+        <InputField
+          className="w-[420px] mb-6"
+          label={t('university_degree')}
+          placeholder="A.B English"
+          {...register('degree')}
+        />
 
-        <div className={cls.form_divider}>
-          <p>{t('grad_year')}</p>
-
-          <TextInput
-            type="number"
-            placeholder="2018"
-            {...register('graduatingYear')}
-          />
-        </div>
-
-        <div className={cls.form_divider}>
-          <p>{t('university_degree')}</p>
-
-          <TextInput
-            type="text"
-            placeholder="A.B English"
-            {...register('degree')}
-          />
-        </div>
-
-        <div className={cls.form_divider}>
-          <p>{t('university_major')}</p>
-
-          <TextInput type="text" placeholder="Major" {...register('major')} />
-        </div>
+        <InputField
+          className="w-[420px] mb-6"
+          label={t('university_major')}
+          placeholder="Major"
+          {...register('major')}
+        />
 
         {/* <div className={cls.form_divider}>
           <p>Certificates (optional)</p>
@@ -161,9 +148,11 @@ const Education = ({ cls }) => {
           </div>
         </div> */}
 
-        <Submit />
-      </div>
-    </form>
+        <Button className="w-[420px]" type="submit">
+          {t('save', { ns: 'common' })}
+        </Button>
+      </form>
+    </>
   );
 };
 

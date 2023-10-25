@@ -11,5 +11,6 @@
   "payment_fail": "",
   "payment_processing": "",
   "payment_error": "",
-  "dashboard": ""
+  "dashboard": "",
+  "select_profile": "Select profile"
 }
