@@ -23,7 +23,6 @@ import Login from './pages/Auth/Login';
 import ResetPassword from './pages/Auth/ResetPassword';
 // Common Dashboard
 // import Dashboard from './components/Dashboard';
-// import { ProfileLayout } ./pages/Mentors/ApproveRequest/ApproveRequestfileLayout';
 import ApproveRequest from './pages/Mentors/ApproveRequest/ApproveRequest';
 import './App.scss';
 
@@ -32,7 +31,6 @@ import { Toaster } from 'react-hot-toast';
 import IsReferal from './pages/Students/Referal/isReferal';
 import Loader from './components/Loader/Loader';
 import Onboarding from './pages/Students/Onboarding';
-// import BuyPackage from './pages/Students/BuyPackage';
 import StripePayment from './pages/Students/StripePayment';
 import ConfirmPayment from './pages/ConfirmPayment';
 import BuyPackageTest from './pages/Students/BuyPackageTest';
@@ -125,10 +123,6 @@ function App() {
             <PublicRoute path="/d3gKtqEEDhJE5Z" component={BuyPackageTest} />
 
             <PublicRoute path="/referral/:referalcode" component={IsReferal} />
-            {/* <PrivateRoute
-          path="/:mode(stud|mentor)/profile"
-          component={ProfileLayout}
-        /> */}
 
             <PrivateRoute
               role="student_parent"
