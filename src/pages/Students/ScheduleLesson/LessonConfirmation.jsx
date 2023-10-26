@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
+import { format } from 'date-fns';
 import NotificationManager from '../../../components/NotificationManager';
 import Layout from '../../../components/Layout';
 import ScheduleCard from './ScheduleCard';
@@ -19,6 +20,7 @@ import {
 
 import CheckboxField from '../../../components/Form/CheckboxField';
 import { getItemToLocalStorage, LessonsStatusType } from 'src/constants/global';
+import pluralizeWord from 'src/utils/pluralizeWord';
 
 const LessonConfirmation = ({
   plan,
@@ -158,6 +160,12 @@ const LessonConfirmation = ({
     setIsLoading(false);
   };
 
+  const WEEKS_IN_MONTH = 4;
+
+  const timeRepeatLessons = Math.floor(
+    (plan.credits / WEEKS_IN_MONTH) * plan.package.sessionsPerWeek,
+  );
+
   return (
     <Layout>
       <div className="scroll-layout">
@@ -236,7 +244,12 @@ const LessonConfirmation = ({
 
               <div className="mt-3">
                 <CheckboxField
-                  label={t('repeating_lesson', { ns: 'translations' })}
+                  label={`${t('repeating_lesson', {
+                    ns: 'translations',
+                  })} ${pluralizeWord(
+                    format(new Date(time), 'EEEE'),
+                    timeRepeatLessons,
+                  )} ${timeRepeatLessons}x`}
                   onChange={(e) => setRepeat(e.target.checked)}
                   checked={repeat}
                 />
