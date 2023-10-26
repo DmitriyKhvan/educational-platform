@@ -1010,8 +1010,9 @@ export const Roles = {
   STUDENT: 'student',
 };
 
-export const LESSONS_STATUS_TYPE = {
+export const LessonsStatusType = {
   SCHEDULED: 'scheduled',
+  RESCHEDULED: 'rescheduled',
   APPROVED: 'approved',
   IN_PROGRESS: 'in_progress',
   CANCELED: 'canceled',

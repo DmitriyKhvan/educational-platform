@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
+import { Roles } from 'src/constants/global';
+import { useAuth } from 'src/modules/auth';
 
 export function ErrorPage() {
+  const { user } = useAuth();
+
   return (
     <main className="grid h-screen place-items-center bg-white py-24 px-6 sm:py-32 lg:px-8">
       <div className="text-center">
@@ -13,10 +17,14 @@ export function ErrorPage() {
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <Link
-            to="/"
+            to={
+              user.role === Roles.MENTOR
+                ? '/mentor/manage-appointments'
+                : '/student/manage-lessons'
+            }
             className="rounded-md bg-color-purple px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-lighter focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Go back home
+            Go back dashboard
           </Link>
         </div>
       </div>
