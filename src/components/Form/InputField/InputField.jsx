@@ -11,6 +11,7 @@ const InputField = forwardRef(function InputField(
     classNameIcon,
     classNameLabel,
     icon,
+    iconHandler,
     positionIcon = 'right',
     ...props
   },
@@ -60,6 +61,7 @@ const InputField = forwardRef(function InputField(
                 : 'border-l rounded-l-md [clip-path:inset(-3px_1px_-3px_-3px)] mr-[-2px]'
             }
             `}
+            onClick={iconHandler}
           >
             {icon}
           </div>

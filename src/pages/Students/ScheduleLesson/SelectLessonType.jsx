@@ -4,19 +4,18 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import ImgChecked from '../../../assets/images/checked_sm.svg';
 import { differenceInDays } from 'date-fns';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../../modules/auth';
 import { useQuery } from '@apollo/client';
 import { PACKAGE_QUERY } from '../../../modules/auth/graphql';
+import { getItemToLocalStorage } from 'src/constants/global';
 
 const SelectLessonType = ({ onContinue }) => {
-  const { user } = useAuth();
   const [t] = useTranslation('translation');
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const {
     data: { packageSubscriptions: planStatus },
   } = useQuery(PACKAGE_QUERY, {
     variables: {
-      id: user?.id,
+      studentId: getItemToLocalStorage('studentId'),
     },
     fetchPolicy: 'network-only',
   });

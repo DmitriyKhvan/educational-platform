@@ -20,6 +20,9 @@ const GET_AVAILABLE_MENTORS = gql`
       }
       mentors {
         id
+        firstName
+        lastName
+        gender
         major
         language
         university
@@ -33,18 +36,22 @@ const GET_AVAILABLE_MENTORS = gql`
         hourlyRate
         facts
         uniqueFacts
-        userId
         fullName
-        user {
-          id
-          firstName
-          lastName
-        }
+        userId
+        # user
+        # lessons
         videoUrl
+        avatarId
+        visibilityStatus
         avatar {
           id
           url
         }
+        #availabilities {
+        #  id
+        #}
+        zoomUserId
+        zoomEmail
       }
     }
   }

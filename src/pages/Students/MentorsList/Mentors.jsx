@@ -31,12 +31,12 @@ const Mentors = () => {
     setShowMentorModal(true);
   };
 
-  const handleFilter = (value) => {
+  const searchMentors = (value) => {
     let newMentors = data?.mentors;
 
     if (value) {
-      newMentors = data?.mentors.filter((i) =>
-        i?.user?.fullName?.toLowerCase().includes(value.toLowerCase()),
+      newMentors = data?.mentors.filter((mentor) =>
+        mentor?.fullName?.toLowerCase().includes(value.toLowerCase()),
       );
     }
 
@@ -59,7 +59,7 @@ const Mentors = () => {
           <InputField
             className="w-[420px]"
             placeholder="Search..."
-            onChange={(e) => handleFilter(e.target.value)}
+            onChange={(e) => searchMentors(e.target.value)}
           />
         </div>
 

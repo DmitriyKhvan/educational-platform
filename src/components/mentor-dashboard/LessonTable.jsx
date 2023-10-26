@@ -7,6 +7,8 @@ import ModalWrapper from '../ModalWrapper/ModalWrapper';
 import { ZoomRecordingModal } from '../ZoomRecordingModal';
 
 import { BsPlayCircle } from 'react-icons/bs';
+import { ucFirst } from 'src/utils/ucFirst';
+import { LessonsStatusType } from 'src/constants/global';
 
 const LessonTable = ({ tabularData }) => {
   const [showRecording, setShowRecording] = useState(false);
@@ -79,7 +81,7 @@ const LessonTable = ({ tabularData }) => {
             <tr className="h-[80px] m-auto text-center" key={event.resource.id}>
               <td className="pt-4 border-b text-left lg:pl-16">
                 <p className="mt-4 font-semibold text-color-light-grey tracking-tight text-[15px] leading-normal">
-                  {event.resource.packageSubscription.package.course.title}
+                  {event.resource.packageSubscription.package?.course?.title}
                 </p>
               </td>
               {/* 
@@ -142,19 +144,18 @@ const LessonTable = ({ tabularData }) => {
               </td>
               <td className="pt-4 border-b text-left">
                 <p className="mt-4 text-color-light-grey tracking-tight text-[15px] leading-normal">
-                  {(event.resource.student.user.firstName ?? '') +
+                  {(event.resource.student.firstName ?? '') +
                     ' ' +
-                    (event.resource.student.user.lastName ?? '')}
+                    (event.resource.student.lastName ?? '')}
                 </p>
               </td>
 
               <td className="pt-4 border-b text-left">
                 <p className="mt-4 text-color-light-grey tracking-tight text-[15px] leading-normal">
-                  {event.resource.status === 'approved'
-                    ? 'Approved'
-                    : event.resource.status === 'scheduled'
+                  {event.resource.status === LessonsStatusType.SCHEDULED ||
+                  event.resource.status === LessonsStatusType.RESCHEDULED
                     ? 'Pending Request'
-                    : event.resource.status}
+                    : ucFirst(event.resource.status)}
                 </p>
               </td>
               <td className="pt-4 border-b m-0">

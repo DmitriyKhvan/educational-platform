@@ -11,11 +11,11 @@ import notify from '../../../../utils/notify';
 
 import { BsPencil } from 'react-icons/bs';
 
-// import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   countries,
   genders,
+  getItemToLocalStorage,
   timezoneOptions,
 } from '../../../../constants/global';
 import Button from '../../../../components/Form/Button/Button';
@@ -27,13 +27,11 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
   const [updateStudent, { loading: updateStudentLoading }] = useMutation(
     MUTATION_UPDATE_STUDENT,
   );
-  const [updateUser, { loading: updateUserLoading }] =
-    useMutation(MUTATION_UPDATE_USER);
+  const [updateUser] = useMutation(MUTATION_UPDATE_USER);
 
   const [t] = useTranslation(['profile', 'common']);
   const [file, setFile] = React.useState(null);
 
-  // const history = useHistory();
   const [, setPreview] = React.useState({});
 
   const { user, refetchUser } = useAuth();
@@ -50,42 +48,44 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
   });
 
   const onSubmit = async (area) => {
-    if (file) {
-      setPreview(area.avatar);
+    // if (file) {
+    setPreview(area.avatar);
 
-      await updateStudent({
-        variables: {
-          id: parseInt(user?.student?.id),
-          data: {
-            avatar: file,
-          },
+    await updateStudent({
+      variables: {
+        // id: parseInt(user?.student?.id),
+        id: parseInt(getItemToLocalStorage('studentId')),
+        data: {
+          avatar: file,
+          firstName: area.firstName,
+          lastName: area.lastName,
+          koreanEquivalent: area.koreanEquivalent,
+          gender: area.gender,
         },
-        onError: () => {
-          notify(t('error_avatar_upload', { ns: 'profile' }), 'error');
-        },
-      });
-    }
+      },
+      onError: () => {
+        notify(t('error_avatar_upload', { ns: 'profile' }), 'error');
+      },
+    });
+    // }
 
     await updateUser({
       variables: {
         id: parseInt(user?.id),
         data: {
-          koreanEquivalent: area.koreanEquivalent,
-          lastName: area.lastName,
-          gender: area.gender,
-          timeZone: area.timeZone,
-          phoneNumber: area.phoneNumber,
-          firstName: area.firstName,
           country: area.country,
           address: area.address,
+          phoneNumber: area.phoneNumber,
+          timeZone: area.timeZone,
         },
       },
       onCompleted: async () => {
         notify(t('student_information_changed', { ns: 'profile' }));
         closeModal(false);
         setLoading(false);
-        await refetchUser();
-        // history.push('/student/profile');
+        setTimeout(async () => {
+          await refetchUser();
+        }, 400);
       },
       onError: () => {
         notify(
@@ -98,7 +98,7 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
 
   const removePreviewImage = () => setFile(null);
 
-  if (updateUserLoading || updateStudentLoading) {
+  if (updateStudentLoading) {
     setLoading(true);
   }
 
@@ -112,10 +112,7 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
         <div className="flex items-center justify-center">
           <div className="relative w-[150px] h-[150px] rounded-full">
             {!file && (
-              <Avatar
-                className="rounded-full"
-                avatarUrl={user?.student?.avatar?.url}
-              />
+              <Avatar className="rounded-full" avatarUrl={user?.avatar?.url} />
             )}
 
             {file ? (

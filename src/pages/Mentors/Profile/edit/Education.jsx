@@ -14,7 +14,7 @@ const Education = () => {
   const [t] = useTranslation(['profile', 'common']);
   const [updateMentor, { loading }] = useMutation(MUTATION_UPDATE_MENTOR);
 
-  const [file] = React.useState({});
+  // const [file] = React.useState({});
 
   // const history = useHistory();
 
@@ -31,15 +31,15 @@ const Education = () => {
   });
 
   const handleEditEdu = async (area) => {
-    if (file) {
-      const files = file.target?.files[0];
-      updateMentor({
-        variables: {
-          id: parseInt(user?.mentor?.id),
-          data: { diplomaVerification: { upload: files } },
-        },
-      });
-    }
+    // if (file) {
+    //   const files = file.target?.files[0];
+    //   updateMentor({
+    //     variables: {
+    //       id: parseInt(user?.mentor?.id),
+    //       data: { diplomaVerification: { upload: files } },
+    //     },
+    //   });
+    // }
 
     const newData = {
       ...area,

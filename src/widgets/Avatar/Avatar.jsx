@@ -6,14 +6,17 @@ import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
 
 import cls from './Avatar.module.css';
 
-export const Avatar = ({ avatarUrl, className = '' }) => {
+export const Avatar = ({ avatarUrl, gender, className = '' }) => {
   const { user } = useAuth();
+
+  const genderAvatar = gender ? gender : user.gender;
+
   const [profileImage, setProfileImage] = useState(maleAvatar);
 
   useEffect(() => {
     if (avatarUrl) {
       setProfileImage(avatarUrl);
-    } else if (user?.gender === 'female') {
+    } else if (genderAvatar === 'female') {
       setProfileImage(femaleAvatar);
     }
   }, [avatarUrl]);

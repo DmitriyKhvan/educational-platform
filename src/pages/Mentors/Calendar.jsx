@@ -6,8 +6,6 @@ import moment from 'moment-timezone';
 import Layout from '../../components/Layout';
 import LessonTable from '../../components/mentor-dashboard/LessonTable';
 import NotificationManager from '../../components/NotificationManager';
-import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../../assets/images/avatars/img_avatar_male.png';
 import ZoomWarningModal from '../../components/student-dashboard/ZoomWarningModal';
 const ReviewLessonModal = lazy(() =>
   import('../../components/mentor-dashboard/ReviewLessonModal'),
@@ -29,6 +27,10 @@ import ReactLoader from '../../components/common/Loader';
 import RescheduleAndCancelModal from '../../components/student-dashboard/RescheduleAndCancelModal';
 import notify from '../../utils/notify';
 import { isBetween } from '../../utils/isBetween';
+import { addMinutes, isAfter } from 'date-fns';
+import { LessonsStatusType } from 'src/constants/global';
+import Button from 'src/components/Form/Button';
+import { Avatar } from 'src/widgets/Avatar/Avatar';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -111,7 +113,7 @@ const Calendar = () => {
   } = useQuery(APPOINTMENTS_QUERY, {
     variables: {
       mentorId: user?.mentor?.id,
-      status: 'approved,scheduled,paid,completed,in_progress',
+      status: 'approved,scheduled,rescheduled,paid,completed,in_progress',
     },
     fetchPolicy: 'no-cache',
   });
@@ -215,16 +217,21 @@ const Calendar = () => {
     if (tableAppointments) {
       const tempUpcomingLessons = [];
       const tempPastLessons = [];
+
       tableAppointments.map((each) => {
-        if (new Date(each.resource.startAt) > new Date()) {
-          if (
-            each.resource.status === 'approved' ||
-            each.resource.status === 'scheduled'
-          ) {
-            tempUpcomingLessons.push(each);
-          }
-        } else {
+        const endLesson = addMinutes(
+          new Date(each.resource.startAt),
+          each.resource.duration,
+        );
+
+        if (isAfter(new Date(), endLesson)) {
           tempPastLessons.push(each);
+        } else if (
+          each.resource.status === LessonsStatusType.APPROVED ||
+          each.resource.status === LessonsStatusType.SCHEDULED ||
+          each.resource.status === LessonsStatusType.RESCHEDULED
+        ) {
+          tempUpcomingLessons.push(each);
         }
       });
       setUpcomingLessons([...tempUpcomingLessons]);
@@ -275,6 +282,7 @@ const Calendar = () => {
   };
 
   const onCancelLessonClick = () => {
+    setTabIndex(0);
     const [selectedEvent] = calendarEvents.filter(
       (x) => x.id === calendarEvent.id,
     );
@@ -304,21 +312,8 @@ const Calendar = () => {
     const [selectedEvent] = calendarEvents.filter(
       (event) => event.id === calendarEvent.id,
     );
+
     const { eventDate } = selectedEvent.resource;
-    const student = eventDate.student;
-    const tutorAvatar = user.mentor?.avatar?.url;
-
-    const displayStudentAvatar = student?.avatar
-      ? student?.avatar?.url
-      : student?.user?.gender === 'male'
-      ? maleAvatar
-      : femaleAvatar;
-
-    const displayTutorAvatar = tutorAvatar
-      ? tutorAvatar
-      : eventDate.mentor?.user?.gender === 'male'
-      ? maleAvatar
-      : femaleAvatar;
 
     // const today = moment();
     // const tenMinuteBeforeStart = moment(eventDate.startAt).subtract(
@@ -382,7 +377,10 @@ const Calendar = () => {
       return (
         <>
           <div className="row">
-            {selectedEvent.resource.eventDate.status === 'scheduled' && (
+            {(selectedEvent.resource.eventDate.status ===
+              LessonsStatusType.SCHEDULED ||
+              selectedEvent.resource.eventDate.status ===
+                LessonsStatusType.RESCHEDULED) && (
               <h4 className="text-red-500">
                 This lesson haven&apos;t been approved yet!
               </h4>
@@ -448,16 +446,16 @@ const Calendar = () => {
                         <b>Student</b>
                       </div>
                       <div>
-                        <img
-                          src={displayStudentAvatar}
-                          alt="Student Avatar"
-                          className="img-fluid rounded-corners"
+                        <Avatar
+                          avatarUrl={eventDate?.student?.avatar?.url}
+                          gender={eventDate?.student?.gender}
+                          className="w-[70] h=[70] rounded-[15px] mt-[10px]"
                         />
                       </div>
                       <p>
-                        {eventDate?.student?.user?.firstName +
+                        {eventDate?.student?.firstName +
                           ' ' +
-                          eventDate?.student?.user?.lastName}
+                          eventDate?.student?.lastName}
                       </p>
                     </div>
                     <div className="col-4">
@@ -465,20 +463,20 @@ const Calendar = () => {
                         <b>Mentor</b>
                       </div>
                       <div>
-                        <img
-                          src={displayTutorAvatar}
-                          alt="Tutor Avatar"
-                          className="img-fluid rounded-corners"
+                        <Avatar
+                          avatarUrl={eventDate?.mentor?.avatar?.url}
+                          gender={eventDate?.mentor?.gender}
+                          className="w-[70] h=[70] rounded-[15px] mt-[10px]"
                         />
                       </div>
-                      <p>{eventDate?.mentor?.user?.fullName}</p>
+                      <p>{eventDate?.mentor?.fullName}</p>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div className="row">
-                {eventDate.status === 'approved' && (
+                {eventDate.status === LessonsStatusType.APPROVED && (
                   <button
                     className="btn col-5 enter-btn bg-primary"
                     onClick={joinLesson}
@@ -490,7 +488,8 @@ const Calendar = () => {
                   </button>
                 )}
 
-                {eventDate.status === 'scheduled' && (
+                {(eventDate.status === LessonsStatusType.SCHEDULED ||
+                  eventDate.status === LessonsStatusType.RESCHEDULED) && (
                   <button
                     className="btn col-5 enter-btn bg-primary"
                     onClick={() => approveLesson(eventDate)}
@@ -518,8 +517,9 @@ const Calendar = () => {
   const eventPropGetter = useCallback(
     (event) => {
       return {
-        ...((event.resource.eventDate.status === 'scheduled' ||
-          event.resource.eventDate.status === 'completed') && {
+        ...((event.resource.eventDate.status ===
+          LessonsStatusType.RESCHEDULED ||
+          event.resource.eventDate.status === LessonsStatusType.COMPLETED) && {
           style: {
             background: 'none',
             backgroundColor: '#909090',
@@ -542,37 +542,38 @@ const Calendar = () => {
         <h1 className="title m-0 mb-2">{t('lessons')}</h1>
         <div className="row container-fluid m-0 p-0">
           <div className="col-auto">
-            <div className="btn-group" role="group">
-              <button
-                type="button"
-                onClick={onClickUpcomingLessons}
-                className={`btn grey-border ${
-                  selectedTab === 'upcomingLessons' && 'btn-selected'
+            <div className="w-auto flex items-center mb-4">
+              <Button
+                theme="outline"
+                className={`ml-0 rounded-r-none focus:shadow-none ${
+                  selectedTab === 'upcomingLessons' &&
+                  'bg-color-purple text-white'
                 }`}
+                onClick={onClickUpcomingLessons}
               >
                 <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
-              </button>
-              <button
-                type="button"
-                onClick={onClickPastLessons}
-                className={`btn grey-border ${
-                  selectedTab === 'pastLessons' && 'btn-selected'
+              </Button>
+              <Button
+                theme="outline"
+                className={`ml-[-4px] rounded-l-none focus:shadow-none ${
+                  selectedTab === 'pastLessons' && 'bg-color-purple text-white'
                 }`}
+                onClick={onClickPastLessons}
               >
                 <span>{t('past_lessons', { ns: 'lessons' })}</span>
-              </button>
+              </Button>
             </div>
           </div>
           <div className="col-auto ps-3">
-            <button
-              type="button"
-              className={`btn grey-border ${
-                selectedTab === 'calendar' && 'btn-selected'
+            <Button
+              theme="outline"
+              className={`focus:shadow-none ${
+                selectedTab === 'calendar' && 'bg-color-purple text-white'
               }`}
               onClick={onCalendarClick}
             >
               <span>{t('calendar_view', { ns: 'lessons' })}</span>
-            </button>
+            </Button>
           </div>
         </div>
 

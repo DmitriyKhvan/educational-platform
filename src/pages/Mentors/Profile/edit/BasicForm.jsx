@@ -2,7 +2,10 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useAuth } from '../../../../modules/auth';
 import { useMutation } from '@apollo/client';
-import { MUTATION_UPDATE_USER } from '../../../../modules/auth/graphql';
+import {
+  MUTATION_UPDATE_MENTOR,
+  MUTATION_UPDATE_USER,
+} from '../../../../modules/auth/graphql';
 // import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -20,7 +23,8 @@ import ReactLoader from '../../../../components/common/Loader';
 
 const BasicForm = () => {
   const [t] = useTranslation(['common', 'profile']);
-  const [updateMentor, { loading }] = useMutation(MUTATION_UPDATE_USER);
+  const [updateUser] = useMutation(MUTATION_UPDATE_USER);
+  const [updateMentor, { loading }] = useMutation(MUTATION_UPDATE_MENTOR);
 
   const genders = useGenderDic();
 
@@ -34,20 +38,53 @@ const BasicForm = () => {
       firstName: user?.firstName,
       lastName: user?.lastName,
       email: user?.email,
+      gender: user?.gender,
       phoneNumber: user?.phoneNumber,
       country: user?.country,
+      timeZone: user?.timeZone,
       address: user?.address,
-      gender: user?.gender,
       convertAvailabilityTime: true,
     },
   });
 
   const handleEditBasicInfo = async (values) => {
-    delete values.email;
-    await updateMentor({
+    const {
+      firstName,
+      lastName,
+      gender,
+      phoneNumber,
+      country,
+      timeZone,
+      address,
+      convertAvailabilityTime,
+    } = values;
+    await updateUser({
       variables: {
         id: user?.id,
-        data: values,
+        data: {
+          phoneNumber: phoneNumber,
+          country: country,
+          timeZone: timeZone,
+          address: address,
+          convertAvailabilityTime: convertAvailabilityTime,
+        },
+      },
+      // onCompleted: () => {
+      //   notify('Basic information is changed!');
+      // },
+      onError: (error) => {
+        notify(error.message, 'error');
+      },
+    });
+
+    await updateMentor({
+      variables: {
+        id: user?.mentor?.id,
+        data: {
+          firstName: firstName,
+          lastName: lastName,
+          gender: gender,
+        },
       },
       onCompleted: () => {
         notify('Basic information is changed!');

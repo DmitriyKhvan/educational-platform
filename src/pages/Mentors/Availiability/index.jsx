@@ -1,4 +1,4 @@
-import '../../../assets/styles/availability.scss';
+// import '../../../assets/styles/availability.scss';
 import Layout from '../../../components/Layout';
 import Availability from './Availability';
 
