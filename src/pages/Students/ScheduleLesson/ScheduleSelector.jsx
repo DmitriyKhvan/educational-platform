@@ -311,7 +311,6 @@ const ScheduleSelector = ({
       Swal.fire({
         title: t('swal_fire_title_schedule_prescreen', { ns: 'modals' }),
         text: t('swal_fire_text_schedule_prescreen', { ns: 'modals' }),
-        // text: t('swal_fire_footer_schedule_prescreen', { ns: 'modals' }),
         icon: 'warning',
         width: '36em',
         confirmButtonColor: '#6133af',

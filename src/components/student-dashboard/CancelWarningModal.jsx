@@ -133,8 +133,8 @@ const CancelWarningModal = ({
 
         <Button
           theme="purple"
-          onClick={onClick}
-          disabled={!isChecked && type !== 'reschedule'}
+          onClick={!isChecked && disableCancelLesson ? undefined : onClick}
+          disabled={!isChecked && disableCancelLesson}
         >
           {t('continue_cancel')}
         </Button>

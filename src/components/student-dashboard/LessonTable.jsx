@@ -7,6 +7,7 @@ import { BsPlayCircle } from 'react-icons/bs';
 import ModalWrapper from '../ModalWrapper/ModalWrapper';
 import { ZoomRecordingModal } from '../ZoomRecordingModal';
 import { ucFirst } from 'src/utils/ucFirst';
+import { LessonsStatusType } from 'src/constants/global';
 
 export const LessonTable = ({
   displayTableData,
@@ -144,7 +145,8 @@ export const LessonTable = ({
 
                   <td className="pt-4 border-b m-0 text-left">
                     <p className="mt-4 text-color-light-grey tracking-tight text-[15px] leading-normal">
-                      {event.resource.status === 'scheduled'
+                      {event.resource.status === LessonsStatusType.SCHEDULED ||
+                      event.resource.status === LessonsStatusType.RESCHEDULED
                         ? 'Pending Approval'
                         : ucFirst(event.resource.status)}
                     </p>

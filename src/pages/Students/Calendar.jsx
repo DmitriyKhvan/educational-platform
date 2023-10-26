@@ -9,7 +9,11 @@ import Loader from '../../components/common/Loader';
 import { useLocation } from 'react-router-dom';
 
 import '../../assets/styles/calendar.scss';
-import { feedbackURL, getItemToLocalStorage } from '../../constants/global';
+import {
+  feedbackURL,
+  getItemToLocalStorage,
+  LessonsStatusType,
+} from '../../constants/global';
 import ReviewLessonModal from '../../components/student-dashboard/ReviewLessonModal';
 import { useAuth } from '../../modules/auth';
 import FeedbackLessonModal from '../Mentors/FeedbackLessonModal';
@@ -19,6 +23,7 @@ import { APPOINTMENTS_QUERY } from '../../modules/auth/graphql';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { LessonTable } from '../../components/student-dashboard/LessonTable';
 import { addMinutes, isAfter } from 'date-fns';
+import Button from 'src/components/Form/Button';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -105,7 +110,7 @@ const Calendar = () => {
     variables: {
       // studentId: user?.students[0]?.id,
       studentId: getItemToLocalStorage('studentId'),
-      status: 'approved,scheduled,paid,completed,in_progress',
+      status: 'approved,scheduled,rescheduled,paid,completed,in_progress',
     },
     fetchPolicy: 'no-cache',
   });
@@ -159,7 +164,7 @@ const Calendar = () => {
         getAppointments({
           // studentId: user.students[0]?.id,
           studentId: getItemToLocalStorage('studentId'),
-          status: 'approved,scheduled,paid,completed,in_progress',
+          status: 'approved,scheduled,rescheduled,paid,completed,in_progress',
         });
       }
     })();
@@ -203,8 +208,9 @@ const Calendar = () => {
         if (isAfter(new Date(), endLesson)) {
           tempPastLessons.push(each);
         } else if (
-          each.resource.status === 'approved' ||
-          each.resource.status === 'scheduled'
+          each.resource.status === LessonsStatusType.APPROVED ||
+          each.resource.status === LessonsStatusType.SCHEDULED ||
+          each.resource.status === LessonsStatusType.RESCHEDULED
         ) {
           tempUpcomingLessons.push(each);
         }
@@ -314,8 +320,9 @@ const Calendar = () => {
 
   const eventPropGetter = useCallback((event) => {
     return {
-      ...((event.resource.status === 'scheduled' ||
-        event.resource.status === 'completed') && {
+      ...((event.resource.status === LessonsStatusType.SCHEDULED ||
+        event.resource.status === LessonsStatusType.RESCHEDULED ||
+        event.resource.status === LessonsStatusType.COMPLETED) && {
         style: {
           filter: 'grayscale(100%) opacity(0.8)',
         },
@@ -338,37 +345,39 @@ const Calendar = () => {
           </h1>
           <div className="row container-fluid m-0 p-0">
             <div className="col-auto">
-              <div className="btn-group" role="group">
-                <button
-                  type="button"
-                  className={`btn grey-border ${
-                    selectedTab === 'upcomingLessons' && 'btn-selected'
+              <div className="w-auto flex items-center mb-4">
+                <Button
+                  theme="outline"
+                  className={`ml-0 rounded-r-none focus:shadow-none ${
+                    selectedTab === 'upcomingLessons' &&
+                    'bg-color-purple text-white'
                   }`}
                   onClick={onClickUpcomingLessons}
                 >
                   <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
-                </button>
-                <button
-                  type="button"
-                  className={`btn grey-border ${
-                    selectedTab === 'pastLessons' && 'btn-selected'
+                </Button>
+                <Button
+                  theme="outline"
+                  className={`ml-[-4px] rounded-l-none focus:shadow-none ${
+                    selectedTab === 'pastLessons' &&
+                    'bg-color-purple text-white'
                   }`}
                   onClick={onClickPastLessons}
                 >
                   <span>{t('past_lessons', { ns: 'lessons' })}</span>
-                </button>
+                </Button>
               </div>
             </div>
             <div className="col-auto ps-3">
-              <button
-                type="button"
-                className={`btn grey-border ${
-                  selectedTab === 'calendar' && 'btn-selected'
+              <Button
+                theme="outline"
+                className={`focus:shadow-none ${
+                  selectedTab === 'calendar' && 'bg-color-purple text-white'
                 }`}
                 onClick={onCalendarClick}
               >
                 <span>{t('calendar_view', { ns: 'lessons' })}</span>
-              </button>
+              </Button>
             </div>
           </div>
           <div className="scroll-layout">
