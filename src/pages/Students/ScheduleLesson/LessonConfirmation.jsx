@@ -18,7 +18,7 @@ import {
 } from '../../../modules/auth/graphql';
 
 import CheckboxField from '../../../components/Form/CheckboxField';
-import { getItemToLocalStorage } from 'src/constants/global';
+import { getItemToLocalStorage, LessonsStatusType } from 'src/constants/global';
 
 const LessonConfirmation = ({
   plan,
@@ -137,7 +137,7 @@ const LessonConfirmation = ({
           });
 
         const scheduledLessons = createdLesson.filter(
-          (lesson) => lesson.status === 'scheduled',
+          (lesson) => lesson.status === LessonsStatusType.SCHEDULED,
         );
         setCredits(credits - scheduledLessons.length);
 

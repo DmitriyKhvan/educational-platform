@@ -23,8 +23,7 @@ import Login from './pages/Auth/Login';
 import ResetPassword from './pages/Auth/ResetPassword';
 // Common Dashboard
 // import Dashboard from './components/Dashboard';
-// import { ProfileLayout } from './components/profile/ProfileLayout';
-import ApproveRequest from './pages/Mentors/ApproveRequest';
+import ApproveRequest from './pages/Mentors/ApproveRequest/ApproveRequest';
 import './App.scss';
 
 import { Toaster } from 'react-hot-toast';
@@ -32,7 +31,6 @@ import { Toaster } from 'react-hot-toast';
 import IsReferal from './pages/Students/Referal/isReferal';
 import Loader from './components/Loader/Loader';
 import Onboarding from './pages/Students/Onboarding';
-import BuyPackage from './pages/Students/BuyPackage';
 import StripePayment from './pages/Students/StripePayment';
 import ConfirmPayment from './pages/ConfirmPayment';
 import BuyPackageTest from './pages/Students/BuyPackageTest';
@@ -97,80 +95,83 @@ function App() {
       <Router>
         <ReactNotifications />
         <div className="App"></div>
-        <Switch>
-          <PublicRoute exact path="/" component={Login} />
-          <PublicRoute path="/forgot-password" component={ForgotPassword} />
-          <PublicRoute
-            path="/forgot-password-guide"
-            component={ForgotPasswordText}
-          />
-          <PublicRoute path="/reset-password" component={ResetPassword} />
-          <PublicRoute path="/welcome-set-password" component={ResetPassword} />
-          <PublicRoute path="/email-verify-guide" component={EmailVerifyText} />
-          <PublicRoute path="/onboarding" component={Onboarding} />
+        <Suspense
+          fallback={
+            <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
+              <Loader />
+            </div>
+          }
+        >
+          <Switch>
+            <PublicRoute exact path="/" component={Login} />
+            <PublicRoute path="/forgot-password" component={ForgotPassword} />
+            <PublicRoute
+              path="/forgot-password-guide"
+              component={ForgotPasswordText}
+            />
+            <PublicRoute path="/reset-password" component={ResetPassword} />
+            <PublicRoute
+              path="/welcome-set-password"
+              component={ResetPassword}
+            />
+            <PublicRoute
+              path="/email-verify-guide"
+              component={EmailVerifyText}
+            />
+            <PublicRoute path="/onboarding" component={Onboarding} />
 
-          <PublicRoute path="/d3gKtqEEDhJE5Z" component={BuyPackageTest} />
+            <PublicRoute path="/d3gKtqEEDhJE5Z" component={BuyPackageTest} />
 
-          <PublicRoute path="/referral/:referalcode" component={IsReferal} />
-          {/* <PrivateRoute
-          path="/:mode(stud|mentor)/profile"
-          component={ProfileLayout}
-        /> */}
+            <PublicRoute path="/referral/:referalcode" component={IsReferal} />
 
-          <PrivateRoute
-            role="student_parent"
-            exact
-            path="/add-student-profile"
-            component={AddStudentProfile}
-          />
+            <PrivateRoute
+              role="student_parent"
+              exact
+              path="/add-student-profile"
+              component={AddStudentProfile}
+            />
 
-          <PrivateRoute
-            role="student_parent"
-            exact
-            path="/purchase/nice-payment"
-            component={NicePayment}
-          />
+            <PrivateRoute
+              role="student_parent"
+              exact
+              path="/purchase/nice-payment"
+              component={NicePayment}
+            />
 
-          <PrivateRoute
-            role="student_parent"
-            exact
-            path="/purchase"
-            component={BuyPackage}
-          />
+            <PrivateRoute
+              role="student_parent"
+              exact
+              path="/purchase"
+              // component={BuyPackage}
+              component={lazy(() => import('./pages/Students/BuyPackage'))}
+            />
 
-          <PrivateRoute
-            role="student_parent"
-            exact
-            path="/purchase/:packageId/complete"
-            component={ConfirmPayment}
-          />
+            <PrivateRoute
+              role="student_parent"
+              exact
+              path="/purchase/:packageId/complete"
+              component={ConfirmPayment}
+            />
 
-          <PrivateRoute
-            role="student_parent"
-            exact
-            path="/purchase/:packageId/payment/:clientSecret"
-            component={StripePayment}
-          />
+            <PrivateRoute
+              role="student_parent"
+              exact
+              path="/purchase/:packageId/payment/:clientSecret"
+              component={StripePayment}
+            />
 
-          <PrivateRoute
-            role="student_parent"
-            path="/select-profile"
-            component={SelectProfile}
-          />
+            <PrivateRoute
+              role="student_parent"
+              path="/select-profile"
+              component={SelectProfile}
+            />
 
-          <PrivateRoute
-            role="mentor"
-            path="/approve-requests"
-            component={ApproveRequest}
-          />
+            <PrivateRoute
+              role="mentor"
+              path="/approve-requests"
+              component={ApproveRequest}
+            />
 
-          <Suspense
-            fallback={
-              <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
-                <Loader />
-              </div>
-            }
-          >
             <PrivateRoute
               role={Roles.STUDENT}
               path="/student"
@@ -181,13 +182,10 @@ function App() {
               path="/mentor"
               component={lazy(() => import('./pages/Mentors'))}
             />
-          </Suspense>
 
-          <Route exact={true} path="/404">
-            <ErrorPage />
-          </Route>
-          <Redirect to="/404" />
-        </Switch>
+            <Route component={ErrorPage} />
+          </Switch>
+        </Suspense>
       </Router>
       <Toaster />
     </>

@@ -117,9 +117,9 @@ export const ME_QUERY = gql`
       id
       firstName
       lastName
+      gender
       email
       timeZone
-      gender
       phoneNumber
       address
       country
@@ -127,6 +127,7 @@ export const ME_QUERY = gql`
         id
         firstName
         lastName
+        gender
         parentName
         level
         langLevel
@@ -146,6 +147,7 @@ export const ME_QUERY = gql`
         id
         firstName
         lastName
+        gender
         major
         language
         university
@@ -778,6 +780,9 @@ export const LESSON_QUERY = gql`
       cancelAction
       mentor {
         id
+        firstName
+        lastName
+        gender
         major
         language
         university
@@ -795,18 +800,14 @@ export const LESSON_QUERY = gql`
         avatarId
         avatar {
           id
-          name
-          mimetype
           url
-          path
-          width
-          height
-          createdAt
-          updatedAt
         }
       }
       student {
         id
+        firstName
+        lastName
+        gender
         parentName
         level
         langLevel
@@ -817,18 +818,7 @@ export const LESSON_QUERY = gql`
         avatarId
         avatar {
           id
-          name
-          mimetype
           url
-          path
-          width
-          height
-          createdAt
-          updatedAt
-        }
-        user {
-          firstName
-          lastName
         }
       }
       packageSubscription {
