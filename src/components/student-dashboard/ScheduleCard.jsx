@@ -1,29 +1,27 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-// import femaleAvatar from '../../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../../assets/images/avatars/img_avatar_male.png';
 import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
-// import { GET_ZOOMLINK } from '../../modules/auth/graphql';
-// import { useLazyQuery } from '@apollo/client';
-// import ReactLoader from '../common/Loader';
-// import notify from '../../utils/notify';
-import { LESSONS_STATUS_TYPE, ROLES } from '../../constants/global';
+
+import { LessonsStatusType, Roles } from '../../constants/global';
 import {
   addMinutes,
   differenceInHours,
-  isWithinInterval,
-  subMinutes,
+  // isWithinInterval,
+  // subMinutes,
 } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
+import { isBetween } from '../../utils/isBetween';
+import { Avatar } from 'src/widgets/Avatar/Avatar';
 
 const ScheduleCard = ({
   index,
   lesson,
-  // zoomlinkId,
+  zoom,
   date,
+  student,
   mentor,
   data,
   fetchAppointments,
@@ -81,30 +79,13 @@ const ScheduleCard = ({
     }
   };
 
-  //Time period when you can go to the lesson
-  const today = new Date();
-  const tenMinuteBeforeStart = subMinutes(dateLesson, 10);
-  const beforeEndLesson = addMinutes(dateLesson, data.duration);
-
-  const isBetween = isWithinInterval(today, {
-    start: tenMinuteBeforeStart,
-    end: beforeEndLesson,
-  });
-  // const [getZoomLink, { loading, error }] = useLazyQuery(GET_ZOOMLINK, {
-  //   fetchPolicy: 'no-cache',
-  // });
-
   const joinLesson = () => {
-    if (isBetween) {
-      console.log();
-      // getZoomLink({
-      //   variables: {
-      //     id: parseInt(zoomlinkId),
-      //   },
-      //   onCompleted: (data) => {
-      //     window.open(data.zoomLink.url, '_blank');
-      //   },
-      // });
+    //Time period when you can go to the lesson
+    if (isBetween(dateLesson, data.duration)) {
+      window.open(
+        user.role === Roles.MENTOR ? zoom.startUrl : zoom.joinUrl,
+        '_blank',
+      );
     } else {
       setIsWarningOpen(true);
     }
@@ -131,18 +112,10 @@ const ScheduleCard = ({
     return `${eventDate} at ${start} → ${end}`;
   };
 
-  // if (error) {
-  //   notify(error.message, 'error');
-  // }
-
-  // if (loading) {
-  //   return <ReactLoader />;
-  // }
-
   return (
     <div
       className={`mb-5 rounded-[10px] p-5 shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)] ${
-        !LESSONS_STATUS_TYPE[data?.status?.toUpperCase()]
+        !LessonsStatusType[data?.status?.toUpperCase()]
           ? 'bg-color-light-grey2 opacity-60'
           : index === 0
           ? 'bg-color-purple'
@@ -154,7 +127,7 @@ const ScheduleCard = ({
           <div>
             <h1
               className={`text-[30px] font-normal ${
-                index === 0 && LESSONS_STATUS_TYPE[data?.status?.toUpperCase()]
+                index === 0 && LessonsStatusType[data?.status?.toUpperCase()]
                   ? 'text-white m-0'
                   : 'text-black m-0'
               }`}
@@ -164,7 +137,7 @@ const ScheduleCard = ({
             {/* TODO: add this to translation.json */}
             <h3
               className={`text-base font-semibold tracking-tight ${
-                index === 0 && LESSONS_STATUS_TYPE[data?.status?.toUpperCase()]
+                index === 0 && LessonsStatusType[data?.status?.toUpperCase()]
                   ? 'text-color-light-purple'
                   : 'text-color-light-grey'
               }`}
@@ -173,21 +146,22 @@ const ScheduleCard = ({
             </h3>
           </div>
           <div className="w-[65px] h-[65px] overflow-hidden rounded-full relative">
-            <img
-              src={
-                mentor?.avatar ? mentor?.avatar?.url : maleAvatar
-                // ? maleAvatar
-                // : femaleAvatar
+            <Avatar
+              gender={
+                user.role === Roles.MENTOR ? student?.gender : mentor?.gender
               }
-              className="object-cover "
-              alt=""
+              avatarUrl={
+                user.role === Roles.MENTOR
+                  ? student?.avatar?.url
+                  : mentor?.avatar?.url
+              }
             />
           </div>
         </div>
       </div>
-      {LESSONS_STATUS_TYPE[data?.status?.toUpperCase()] ? (
+      {LessonsStatusType[data?.status?.toUpperCase()] ? (
         <div className="flex items-center gap-2 xl:gap-3">
-          {user.role !== ROLES.MENTOR && (
+          {user.role !== Roles.MENTOR && (
             <a
               className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px] ${
                 index === 0
@@ -210,7 +184,12 @@ const ScheduleCard = ({
             {t('cancel', { ns: 'common' })}
           </a>
           <a
-            onClick={data.status !== 'scheduled' ? joinLesson : undefined}
+            onClick={
+              data.status !== LessonsStatusType.SCHEDULED &&
+              data.status !== LessonsStatusType.RESCHEDULED
+                ? joinLesson
+                : undefined
+            }
             target="_blank"
             rel="noreferrer"
             className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px]  rounded-[5px]
@@ -219,7 +198,8 @@ const ScheduleCard = ({
               ? 'text-color-purple'
               : 'border border-color-border-grey text-black'
           } ${
-              data.status === 'scheduled'
+              data.status === LessonsStatusType.SCHEDULED ||
+              data.status === LessonsStatusType.RESCHEDULED
                 ? 'text-color-purple bg-[#b099d7]'
                 : 'grey-border text-black bg-white'
             }`}
@@ -231,7 +211,7 @@ const ScheduleCard = ({
         <div>
           <h1
             className={`text-[30px] font-normal ${
-              index === 0 && LESSONS_STATUS_TYPE[data?.status?.toUpperCase()]
+              index === 0 && LessonsStatusType[data?.status?.toUpperCase()]
                 ? 'text-white m-0'
                 : 'text-black m-0'
             }`}

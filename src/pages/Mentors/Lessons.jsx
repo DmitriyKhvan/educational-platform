@@ -10,6 +10,7 @@ import {
   filterLessonsByStatus,
   getAbbrName,
   getAvatarName,
+  Roles,
 } from '../../constants/global';
 
 const options = [
@@ -55,7 +56,7 @@ const Lessons = ({
   const columns = [
     {
       title: t('student_name'),
-      dataKey: 'student',
+      dataKey: Roles.STUDENT,
       width: 30,
       render: (text, record) => (
         <div className="with-avatar">
@@ -148,8 +149,8 @@ const Lessons = ({
     switch (option.value) {
       case 'studentName':
         students.sort(function (a, b) {
-          const aa = a.student.user.first_name + a.student.user.last_name;
-          const bb = b.student.user.first_name + b.student.user.last_name;
+          const aa = a.student.first_name + a.student.last_name;
+          const bb = b.student.first_name + b.student.last_name;
           return aa.localeCompare(bb);
         });
         break;

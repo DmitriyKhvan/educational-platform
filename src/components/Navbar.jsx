@@ -4,21 +4,26 @@ import { useTranslation } from 'react-i18next';
 import Logo from '../assets/images/auth-logo.svg';
 import FlagUsa from '../assets/images/flag-usa.svg';
 import FlagKorea from '../assets/images/flag-korea.svg';
-import LogoutImg from '../assets/images/logout_icon.svg';
 import MobileMenuIcon from '../assets/images/mobile-menu.svg';
 import Dropdown from './Dropdown';
 
-import IconMyprofile from '../assets/images/sidebar/icon-myprofile.svg';
-import IconUser from '../assets/images/user.svg';
 import IconNotification from '../assets/images/notification.svg';
 import IconTrashCan from '../assets/images/trash_can.svg';
 import {
   getItemToLocalStorage,
+  Roles,
   setItemToLocalStorage,
 } from '../constants/global';
 import { useAuth } from '../modules/auth';
 import { useSubscription } from '@apollo/client';
 import { MESSAGE_SUBSCRIPTIONS } from '../utils/subscriptions';
+
+import { HiUserCircle } from 'react-icons/hi2';
+import { FiLogOut } from 'react-icons/fi';
+import { MdAddCircleOutline } from 'react-icons/md';
+
+// import LogoutImg from '../assets/images/logout_icon.svg';
+// import IconUser from '../assets/images/user.svg';
 
 const Navbar = ({ setShowSidebar }) => {
   const systemNotificationLimit = 5;
@@ -28,6 +33,11 @@ const Navbar = ({ setShowSidebar }) => {
     parseInt(getItemToLocalStorage('language', 1)),
   );
   const [t, i18n] = useTranslation('common');
+
+  const onChangeStudentProfile = (id) => {
+    setItemToLocalStorage('studentId', id);
+    window.location.reload(true);
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -42,19 +52,74 @@ const Navbar = ({ setShowSidebar }) => {
   useEffect(() => {
     i18n.changeLanguage(language === 0 ? 'kr' : 'en');
   }, [language]);
-  
-  const {data} = useSubscription(MESSAGE_SUBSCRIPTIONS);
+
+  const { data } = useSubscription(MESSAGE_SUBSCRIPTIONS);
+
+  console.log('data', data);
 
   if (data?.newMessages?.body) {
     systemNotifications.unshift({
       label: data.newMessages.body,
       icon: IconTrashCan,
-      activeIcon: IconTrashCan
-    })
+      activeIcon: IconTrashCan,
+    });
     if (systemNotifications.length > systemNotificationLimit) {
-      systemNotifications = systemNotifications.slice(0,systemNotificationLimit-1)
+      systemNotifications = systemNotifications.slice(
+        0,
+        systemNotificationLimit - 1,
+      );
     }
   }
+
+  const studentsRender = (item, index, active, setActive, setVisible) => {
+    return (
+      <Link
+        key={index}
+        to={item.href || '#'}
+        className={`flex items-center justify-between px-[15px] py-[7px]  font-semibold text-[15px] cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple`}
+        onClick={() => {
+          setActive(index);
+          setVisible(false);
+          if (item.onClick) {
+            item.onClick(index);
+          }
+        }}
+      >
+        <span className="w-3/4 truncate transition ease-in-out delay-150 group-hover:text-white">
+          {item.label}
+        </span>
+
+        {item.activeIcon ? (
+          <span>
+            <img
+              className="w-[30px] h-[30px] rounded-full border-2 border-color-white object-center object-cover"
+              src={item.activeIcon}
+              alt=""
+            />
+          </span>
+        ) : (
+          <item.customIcon className="text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
+        )}
+      </Link>
+    );
+  };
+
+  const studentList = user.students
+    .filter((student) => student.id !== getItemToLocalStorage('studentId'))
+    .map((student) => {
+      return {
+        label: student.firstName,
+        customIcon: HiUserCircle,
+        activeIcon: student?.avatar?.url,
+        onClick: () => onChangeStudentProfile(student.id),
+      };
+    });
+
+  studentList.push({
+    label: 'Add Account',
+    href: '/add-student-profile',
+    customIcon: MdAddCircleOutline,
+  });
 
   return (
     <div className="nav-bar">
@@ -67,29 +132,27 @@ const Navbar = ({ setShowSidebar }) => {
             items={systemNotifications}
             showNotification={true}
           />
-          <Dropdown
-            className="settings"
-            icon={IconUser}
-            items={[
-              {
-                label: t('my_profile'),
-                icon: IconMyprofile,
-                activeIcon: IconMyprofile,
-                href:
-                  user.role === 'mentor'
-                    ? '/mentor/profile'
-                    : '/student/profile',
-              },
-              {
-                label: t('logout'),
-                icon: LogoutImg,
-                onClick: handleLogout,
-              },
-            ]}
-          />
+
+          {user.role === Roles.STUDENT && (
+            <Dropdown
+              icon={
+                user?.avatar ? (
+                  user?.avatar.url
+                ) : (
+                  <HiUserCircle className="text-[30px] text-color-purple mr-[5px]" />
+                )
+              }
+              label={user?.firstName}
+              className="w-[30px] h-[30px] rounded-full border-2 border-color-white object-center object-cover mr-[5px]"
+              renderChild={studentsRender}
+              items={studentList}
+            />
+          )}
+
           <Dropdown
             className="language"
             icon={language === 1 ? FlagUsa : FlagKorea}
+            label={language === 1 ? t('english') : t('korean')}
             items={[
               {
                 label: t('korean'),
@@ -97,6 +160,38 @@ const Navbar = ({ setShowSidebar }) => {
                 onClick: onChangeLanguage,
               },
               { label: t('english'), icon: FlagUsa, onClick: onChangeLanguage },
+            ]}
+          />
+
+          <Dropdown
+            className="w-[20px] h-[20px]"
+            // icon={IconUser}
+            label="My Account"
+            items={[
+              {
+                label: t('my_profile'),
+                // icon: IconMyprofile,
+                // activeIcon: IconMyprofile,
+                customIcon: (
+                  <HiUserCircle className="text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
+                ),
+                customIconActive: (
+                  <HiUserCircle className="text-[30px] text-white" />
+                ),
+                href:
+                  user.role === Roles.MENTOR
+                    ? '/mentor/profile'
+                    : '/student/profile',
+              },
+              {
+                label: t('logout'),
+                // icon: LogoutImg,
+                customIcon: (
+                  <FiLogOut className="text-[24px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
+                ),
+
+                onClick: handleLogout,
+              },
             ]}
           />
         </div>
@@ -107,7 +202,11 @@ const Navbar = ({ setShowSidebar }) => {
             <img src={Logo} alt="" />
           </Link>
         </div>
-        <div className={`mobile-menu ${data?.newMessages?.meta?.dashboard ? 'ws-notification-mobile' : ''}`}>
+        <div
+          className={`mobile-menu ${
+            data?.newMessages?.meta?.dashboard ? 'ws-notification-mobile' : ''
+          }`}
+        >
           <img
             src={MobileMenuIcon}
             alt=""

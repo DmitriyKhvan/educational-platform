@@ -2,7 +2,10 @@
 
 @layer components {
   .btn {
-    @apply cursor-pointer 
+    @apply flex
+    items-center
+    justify-center
+    cursor-pointer 
     px-[15px]
     h-12
     m-1

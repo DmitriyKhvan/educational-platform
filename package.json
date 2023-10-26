@@ -39,6 +39,7 @@
     "react-loader-spinner": "4.0.0",
     "react-modal": "^3.14.3",
     "react-notifications-component": "^4.0.1",
+    "react-player": "^2.13.0",
     "react-router-dom": "^5.2.0",
     "react-scroll": "^1.8.9",
     "react-select": "^5.2.1",

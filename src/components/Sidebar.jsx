@@ -20,9 +20,9 @@ import ActiveIcon1 from '../assets/images/sidebar/white_dashboard_icon.svg';
 import ActiveIcon2 from '../assets/images/sidebar/white_lesson_icon.svg';
 import ActiveIcon11 from '../assets/images/sidebar/white_subscription_icon.svg';
 import gift from '../assets/images/sidebar/gift.png';
-import { classMaterialURL } from '../constants/global';
 import { useSubscription } from '@apollo/client';
 import { MESSAGE_SUBSCRIPTIONS } from '../utils/subscriptions';
+import { classMaterialURL, Roles } from '../constants/global';
 
 const tutorNavLinks = [
   {
@@ -98,7 +98,7 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
 
   const { user: currentUser, logout } = useAuth();
 
-  const {data} = useSubscription(MESSAGE_SUBSCRIPTIONS);
+  const { data } = useSubscription(MESSAGE_SUBSCRIPTIONS);
   tutorNavLinks.map((item) => {
     item.is_selected = location.pathname.includes(item.link);
     return item;
@@ -112,9 +112,9 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
   const [navLinks, setNavLinks] = useState([]);
 
   useEffect(() => {
-    if (currentUser.role === 'mentor') {
+    if (currentUser.role === Roles.MENTOR) {
       setNavLinks(tutorNavLinks);
-    } else if (currentUser.role === 'student') {
+    } else if (currentUser.role === Roles.STUDENT) {
       setNavLinks(studentNavLinks);
     }
   }, [currentUser]);
@@ -139,7 +139,11 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
               <div key={`divider-${index}`} className="divider" />
             ) : (
               <li
-                className={`nav-item ${item.is_selected ? 'active' : ''} ${data?.newMessages?.meta?.dashboard == item.label ? 'ws-notification' : ''}`}
+                className={`nav-item ${item.is_selected ? 'active' : ''} ${
+                  data?.newMessages?.meta?.dashboard == item.label
+                    ? 'ws-notification'
+                    : ''
+                }`}
                 key={index}
               >
                 {item.external ? (
@@ -199,7 +203,11 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
           <div className="link-list">
             {navLinks?.map((item, index) => (
               <li
-                className={`nav-item ${item.is_selected ? 'active' : ''} ${data?.newMessages?.meta?.dashboard == item.label ? 'ws-notification' : ''}`}
+                className={`nav-item ${item.is_selected ? 'active' : ''} ${
+                  data?.newMessages?.meta?.dashboard == item.label
+                    ? 'ws-notification'
+                    : ''
+                }`}
                 key={index}
               >
                 <Link to={item.link} onClick={() => setShowSidebar(false)}>

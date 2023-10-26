@@ -1,30 +1,19 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-// import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 import ZoomWarningModal from './student-dashboard/ZoomWarningModal';
-import femaleAvatar from '../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../assets/images/avatars/img_avatar_male.png';
-// import { gql, useLazyQuery } from '@apollo/client';
 import Swal from 'sweetalert2';
 import RescheduleAndCancelModal from './student-dashboard/RescheduleAndCancelModal';
-
-// const GET_ZOOMLINK = gql`
-//   query Get_Zoomlink($id: Int!) {
-//     zoomLink(id: $id) {
-//       id
-//       url
-//       isPaid
-//     }
-//   }
-// `;
+import { isBetween } from '../utils/isBetween';
+import { LessonsStatusType } from 'src/constants/global';
+import { Avatar } from 'src/widgets/Avatar/Avatar';
 
 const CalendarModal = ({
   index,
   lesson,
   startTime,
   endTime,
-  // zoomlink,
+  zoom,
   closeModal,
   time,
   data,
@@ -34,50 +23,20 @@ const CalendarModal = ({
   const [t] = useTranslation('modals');
   const [isWarningOpen, setIsWarningOpen] = useState(false);
   const isToday = moment(time).isSame(moment(), 'day');
-  const [profileImage, setProfileImage] = React.useState('');
 
   const isLate = moment.duration(moment(time).diff(moment())).asHours() <= 24;
 
-  const avatar = data?.resource?.mentor?.avatar;
-
-  // const [getZoomLink] = useLazyQuery(GET_ZOOMLINK);
   const [tabIndex, setTabIndex] = useState(0);
 
-  React.useEffect(() => {
-    if (avatar) {
-      setProfileImage(avatar?.url);
-    } else if (
-      data?.resource?.mentor?.user?.gender?.toLowerCase() === 'female'
-    ) {
-      setProfileImage(femaleAvatar);
-    } else if (data?.resource?.mentor?.user?.gender?.toLowerCase() === 'male') {
-      setProfileImage(maleAvatar);
-    } else {
-      setProfileImage(maleAvatar);
-    }
-  }, [avatar]);
-
-  const today = moment();
-  const eventStartDate = moment(data.resource.eventDate.startAt);
-  const fiveMinuteBeforeEnd = moment(data.resource.eventDate.startAt).add(
-    data.resource.eventDate.duration - 5,
-    'minutes',
-  );
-
-  const isBetween = moment(today).isBetween(
-    eventStartDate,
-    fiveMinuteBeforeEnd,
-  );
-
   const joinLesson = async () => {
-    if (isBetween) {
-      console.log();
-      // const zoomLink = await getZoomLink({
-      //   variables: {
-      //     id: parseInt(zoomlink),
-      //   },
-      // });
-      // window.open(zoomLink.data.zoomLink.url, '_blank');
+    //Time period when you can go to the lesson
+    if (
+      isBetween(
+        data.resource.eventDate.startAt,
+        data.resource.eventDate.duration,
+      )
+    ) {
+      window.open(zoom?.joinUrl, '_blank');
     } else {
       setIsWarningOpen(true);
     }
@@ -112,14 +71,19 @@ const CalendarModal = ({
               {isToday ? 'Today' : moment(time).format('ddd')} at {startTime} →{' '}
               {endTime}
             </h3>
-            {event.resource.status === 'scheduled' && (
+            {(event.resource.status === LessonsStatusType.SCHEDULED ||
+              event.resource.status === LessonsStatusType.SCHEDULED) && (
               <p className="text-md text-red-500 font-bold">
                 Lesson has not been approved yet!
               </p>
             )}
           </div>
-          <div className="max-w-[4rem]">
-            <img src={profileImage} alt="" />
+          <div className="w-[65px]">
+            <Avatar
+              avatarUrl={data?.resource?.mentor?.avatar?.url}
+              gender={data?.resource?.mentor?.gender}
+              className="rounded-full"
+            />
           </div>
         </div>
         <div className="flex mt-4 gap-2 flex-wrap">
@@ -162,12 +126,18 @@ const CalendarModal = ({
           </a>
           <a
             onClick={
-              event.resource.status !== 'scheduled' ? joinLesson : undefined
+              event.resource.status !== LessonsStatusType.SCHEDULED &&
+              event.resource.status !== LessonsStatusType.RESCHEDULED
+                ? joinLesson
+                : undefined
             }
             target="_blank"
             rel="noreferrer"
             className="enter-btn m-0 p-0 py-2 px-2 text-sm grey-border text-black aria-disabled:brightness-75"
-            aria-disabled={event.resource.status === 'scheduled'}
+            aria-disabled={
+              event.resource.status === LessonsStatusType.SCHEDULED ||
+              event.resource.status === LessonsStatusType.RESCHEDULED
+            }
           >
             {t('join_lesson')}
           </a>

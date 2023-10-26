@@ -20,12 +20,12 @@ const Intro = () => {
   }, [actions]);
 
   return (
-    <div className="pl-[66px] py-[50px]" id={'intro'}>
+    <div className="px-[66px] py-[50px]" id={'intro'}>
       <h2 className="mb-5 text-[27px] font-medium leading-[33px] tracking-[-1px] text-color-dark-purple">
         {t('intro_video')}
       </h2>
 
-      <div className="flex gap-10">
+      <div className="flex flex-wrap gap-10">
         <div>
           {videoLink?.length === 0 && (
             <div className="w-[420px] h-[342px] flex items-center justify-center">

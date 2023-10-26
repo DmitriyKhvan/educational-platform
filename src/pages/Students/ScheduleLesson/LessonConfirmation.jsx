@@ -18,6 +18,7 @@ import {
 } from '../../../modules/auth/graphql';
 
 import CheckboxField from '../../../components/Form/CheckboxField';
+import { getItemToLocalStorage, LessonsStatusType } from 'src/constants/global';
 
 const LessonConfirmation = ({
   plan,
@@ -51,7 +52,8 @@ const LessonConfirmation = ({
   const [confirmDisable, setConfirmDisable] = useState(false);
   const [getAppointments] = useLazyQuery(APPOINTMENTS_QUERY, {
     variables: {
-      studentId: user?.students[0]?.id,
+      // studentId: user?.students[0]?.id,
+      studentId: getItemToLocalStorage('studentId'),
       status: 'scheduled',
     },
     fetchPolicy: 'network-only',
@@ -123,7 +125,8 @@ const LessonConfirmation = ({
           await createAppointment({
             variables: {
               mentorId: tutor.id,
-              studentId: user.students[0].id,
+              // studentId: user.students[0].id,
+              studentId: getItemToLocalStorage('studentId'),
               subscriptionId: plan?.id,
               startAt: moment
                 .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
@@ -134,7 +137,7 @@ const LessonConfirmation = ({
           });
 
         const scheduledLessons = createdLesson.filter(
-          (lesson) => lesson.status === 'scheduled',
+          (lesson) => lesson.status === LessonsStatusType.SCHEDULED,
         );
         setCredits(credits - scheduledLessons.length);
 
@@ -145,7 +148,7 @@ const LessonConfirmation = ({
         setIsLoading(false);
       }
     }
-    if (lesson) {
+    if (lesson.length) {
       setConfirmDisable(true);
       setNewAppointment(lesson);
       // setDate(moment(lesson.startAt).unix());

@@ -43,6 +43,7 @@ import { createUploadLink } from 'apollo-upload-client';
 import './index.css';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { createWsLink } from './utils/subscriptions';
+import { getItemToLocalStorage } from './constants/global';
 
 const httpLink = createUploadLink({
   uri: `${process.env.REACT_APP_SERVER_URL}/graphql`,
@@ -81,7 +82,7 @@ const client = new ApolloClient({
 });
 i18next.init({
   interpolation: { escapeValue: false }, // React already does escaping
-  lng: 'en', // language to use
+  lng: parseInt(getItemToLocalStorage('language', 1)) === 0 ? 'kr' : 'en', // language to use
   resources: {
     en: {
       common: commonEn,

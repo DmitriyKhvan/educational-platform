@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useMutation } from '@apollo/client';
 import { CANCEL_APPOINTMENT } from '../../modules/auth/graphql';
 import { useAuth } from '../../modules/auth';
-import { ROLES, cancellationArr } from '../../constants/global';
+import { Roles, cancellationArr } from '../../constants/global';
 import notify from '../../utils/notify';
 
 const CancelLessonModal = ({
@@ -22,7 +22,7 @@ const CancelLessonModal = ({
   const { user } = useAuth();
 
   useEffect(() => {
-    if (user && user.role === ROLES.MENTOR) {
+    if (user && user.role === Roles.MENTOR) {
       const cancellationArrMentor = [
         ...cancellationArr.slice(0, 5),
         ...cancellationArr.slice(7),

@@ -4,6 +4,8 @@ import { AvailProv } from '../pages/Mentors/Availiability/AvailabilityProvider';
 import plusIcon from '../assets/images/plus_icon.svg';
 import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
+import '../assets/styles/availability.scss';
+
 export const AvailabilityDayRow = ({
   day,
   setGatherAvailabilities,
@@ -80,7 +82,7 @@ export const AvailabilityDayRow = ({
         type="checkbox"
         name={day}
         checked={toggle}
-        onClick={onToggleDay}
+        onChange={onToggleDay}
       />
       <div className="col-sm-2 ms-3 me-5 align_day">
         <div>

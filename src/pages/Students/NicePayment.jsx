@@ -18,6 +18,7 @@ import CheckboxField from '../../components/Form/CheckboxField';
 import Logo from '../../assets/images/logo.png';
 import nicePayment from '../../assets/images/purchase/nicePayment.png';
 import { CREATE_NICE_PAYMENT } from '../../modules/auth/graphql';
+import { getItemToLocalStorage } from 'src/constants/global';
 
 export const NicePayment = () => {
   const [parent] = useAutoAnimate();
@@ -52,7 +53,11 @@ export const NicePayment = () => {
 
     createNicePayment({
       variables: {
-        userId: parseInt(user.id),
+        studentId: parseInt(
+          getItemToLocalStorage('studentId')
+            ? getItemToLocalStorage('studentId')
+            : user.students[0].id,
+        ),
         packageId: parseInt(packageId),
         amount,
         courseTitle,

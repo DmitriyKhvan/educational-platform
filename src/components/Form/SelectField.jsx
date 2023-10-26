@@ -1,14 +1,11 @@
-import React, { forwardRef, useMemo } from 'react';
+import React, { forwardRef } from 'react';
 import Select from 'react-select';
 
 export const SelectField = forwardRef(function SelectField(
   { value, options, onChange },
   ref,
 ) {
-  // console.log('defaultValue', defaultValue);
-  const defaultValue = useMemo(() => {
-    return options.find((item) => item.value === value);
-  }, [options]);
+  const defaultValue = options.find((item) => item.value === value);
 
   return (
     <Select
