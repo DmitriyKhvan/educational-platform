@@ -64,7 +64,7 @@ const CalendarModal = ({
           &times;
         </p>
         <div className="flex gap-2 items-start">
-          <div className="w-full flex-grow-[2]">
+          <div className="flex-grow-[2]">
             <h1 className="text-black text-2xl">{lesson}</h1>
             {/* TODO: add this to translation.json */}
             <h3 className="text-muted text-lg">
@@ -78,7 +78,7 @@ const CalendarModal = ({
               </p>
             )}
           </div>
-          <div className="w-[65px]">
+          <div className="w-[65px] h-[65px] rounded-full overflow-hidden">
             <Avatar
               avatarUrl={data?.resource?.mentor?.avatar?.url}
               gender={data?.resource?.mentor?.gender}

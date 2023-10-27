@@ -445,11 +445,10 @@ const Calendar = () => {
                       <div>
                         <b>Student</b>
                       </div>
-                      <div>
+                      <div className="w-[70px] h-[70px] rounded-[15px] mt-[10px]">
                         <Avatar
                           avatarUrl={eventDate?.student?.avatar?.url}
                           gender={eventDate?.student?.gender}
-                          className="w-[70] h=[70] rounded-[15px] mt-[10px]"
                         />
                       </div>
                       <p>
@@ -462,11 +461,10 @@ const Calendar = () => {
                       <div>
                         <b>Mentor</b>
                       </div>
-                      <div>
+                      <div className="w-[70px] h-[70px] rounded-[15px] mt-[10px]">
                         <Avatar
                           avatarUrl={eventDate?.mentor?.avatar?.url}
                           gender={eventDate?.mentor?.gender}
-                          className="w-[70] h=[70] rounded-[15px] mt-[10px]"
                         />
                       </div>
                       <p>{eventDate?.mentor?.fullName}</p>
