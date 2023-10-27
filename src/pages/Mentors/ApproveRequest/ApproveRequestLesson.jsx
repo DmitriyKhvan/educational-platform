@@ -15,7 +15,6 @@ import { differenceInHours } from 'date-fns';
 import Swal from 'sweetalert2';
 
 export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
-  console.log('lesson', lesson);
   const [isOpen, setIsOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
 
