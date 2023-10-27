@@ -150,19 +150,18 @@ const CalendarModal = ({
           />
         )}
       </div>
-      {isCancelModalOpen && (
-        <RescheduleAndCancelModal
-          data={event.resource?.eventDate}
-          isOpen={isCancelModalOpen}
-          closeModal={closeModal}
-          setTabIndex={setTabIndex}
-          setIsOpen={onClose}
-          fetchAppointments={getAppointments}
-          tabIndex={tabIndex}
-          type={typeModal}
-          duration={event.resource?.eventDate?.duration}
-        />
-      )}
+
+      <RescheduleAndCancelModal
+        data={event.resource?.eventDate}
+        isOpen={isCancelModalOpen}
+        closeModal={closeModal}
+        setTabIndex={setTabIndex}
+        setIsOpen={onClose}
+        fetchAppointments={getAppointments}
+        tabIndex={tabIndex}
+        type={typeModal}
+        duration={event.resource?.eventDate?.duration}
+      />
     </>
   );
 };

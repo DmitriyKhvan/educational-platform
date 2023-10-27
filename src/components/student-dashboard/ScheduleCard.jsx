@@ -5,7 +5,7 @@ import ZoomWarningModal from './ZoomWarningModal';
 import { useAuth } from '../../modules/auth';
 import Swal from 'sweetalert2';
 
-import { LessonsStatusType, Roles } from '../../constants/global';
+import { LessonsStatusType, ModalType, Roles } from '../../constants/global';
 import {
   addMinutes,
   differenceInHours,
@@ -55,7 +55,7 @@ const ScheduleCard = ({
     } else {
       setIsOpen(true);
       // window.location.replace('/student/schedule-lesson/select/' + data.id);
-      setModalType('reschedule');
+      setModalType(ModalType.RESCHEDULE);
     }
   }
 
@@ -75,7 +75,7 @@ const ScheduleCard = ({
       });
     } else {
       setIsOpen(true);
-      setModalType('cancel');
+      setModalType(ModalType.CANCEL);
     }
   };
 
@@ -220,21 +220,21 @@ const ScheduleCard = ({
           </h1>
         </div>
       )}
-      {isOpen && (
-        <RescheduleAndCancelModal
-          data={data}
-          isOpen={isOpen}
-          closeModal={closeModal}
-          setTabIndex={setTabIndex}
-          setIsOpen={setIsOpen}
-          fetchAppointments={fetchAppointments}
-          tabIndex={tabIndex}
-          type={modalType}
-          // cancelled={cancelled}
-          setCanceledLessons={setCanceledLessons}
-          duration={subscription?.duration || duration}
-        />
-      )}
+
+      <RescheduleAndCancelModal
+        data={data}
+        isOpen={isOpen}
+        closeModal={closeModal}
+        setTabIndex={setTabIndex}
+        setIsOpen={setIsOpen}
+        fetchAppointments={fetchAppointments}
+        tabIndex={tabIndex}
+        type={modalType}
+        // cancelled={cancelled}
+        setCanceledLessons={setCanceledLessons}
+        duration={subscription?.duration || duration}
+      />
+
       {isWarningOpen && (
         <ZoomWarningModal
           isWarningOpen={isWarningOpen}

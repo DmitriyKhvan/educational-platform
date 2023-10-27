@@ -1019,3 +1019,8 @@ export const LessonsStatusType = {
   COMPLETED: 'completed',
   PAID: 'paid',
 };
+
+export const ModalType = {
+  CANCEL: 'cancel',
+  RESCHEDULE: 'reschedule',
+};
