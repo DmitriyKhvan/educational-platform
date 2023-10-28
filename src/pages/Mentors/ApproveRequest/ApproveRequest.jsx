@@ -51,18 +51,10 @@ const ApproveRequest = () => {
       appointments?.lessons
         .sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
         .forEach((lesson) => {
-          const lessonTansform = {
-            id: lesson.id,
-            img: lesson?.student?.avatar?.url,
-            studentName: `${lesson?.student?.firstName} ${lesson?.student?.lastName}`,
-            lessonNumber: lesson.id,
-            lessonDate: lesson.startAt,
-            duration: lesson.duration,
-          };
           if (lesson.status === LessonsStatusType.SCHEDULED) {
-            newLessons.push(lessonTansform);
+            newLessons.push(lesson);
           } else {
-            rescheduleLessons.push(lessonTansform);
+            rescheduleLessons.push(lesson);
           }
         });
       setCurrentLessons(

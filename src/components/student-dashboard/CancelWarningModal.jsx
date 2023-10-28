@@ -126,15 +126,20 @@ const CancelWarningModal = ({
 
       <div className="flex items-center gap-x-8 mt-4">
         {type !== 'reschedule' && (
-          <Button theme="outline" onClick={() => setTabIndex(10)}>
+          <Button
+            className="h-[38px] px-[10px]"
+            theme="outline"
+            onClick={() => setTabIndex(10)}
+          >
             {t('review_cancellation_policy')}
           </Button>
         )}
 
         <Button
+          className="h-[38px] px-[10px]"
           theme="purple"
-          onClick={!isChecked && disableCancelLesson ? undefined : onClick}
-          disabled={!isChecked && disableCancelLesson}
+          onClick={disableCancelLesson ? undefined : onClick}
+          disabled={!isChecked || disableCancelLesson}
         >
           {t('continue_cancel')}
         </Button>

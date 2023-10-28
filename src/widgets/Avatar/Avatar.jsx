@@ -16,11 +16,17 @@ export const Avatar = ({ avatarUrl, gender, className = '' }) => {
 
   useEffect(() => {
     if (avatarUrl) {
-      setProfileImage(avatarUrl);
+      setTimeout(() => {
+        setProfileImage(avatarUrl);
+      }, 300);
     } else if (genderAvatar === 'female') {
-      setProfileImage(femaleAvatar);
+      setTimeout(() => {
+        setProfileImage(femaleAvatar);
+      }, 300);
     } else {
-      setProfileImage(maleAvatar);
+      setTimeout(() => {
+        setProfileImage(maleAvatar);
+      }, 300);
     }
   }, [avatarUrl]);
 
