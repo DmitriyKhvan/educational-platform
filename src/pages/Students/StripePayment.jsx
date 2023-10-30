@@ -7,11 +7,11 @@ import {
 } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { useParams, useHistory } from 'react-router-dom';
-import Logo from '../../assets/images/logo.png';
 import { useMutation, gql } from '@apollo/client';
 import { useAuth } from '../../modules/auth';
 import { useTranslation } from 'react-i18next';
 import { getItemToLocalStorage } from 'src/constants/global';
+import { PaymentLayout } from 'src/layouts/PaymentLayout';
 
 const CREATE_PAYMENT = gql`
   mutation CreatePayment(
@@ -100,10 +100,7 @@ const CheckoutForm = () => {
   };
 
   return (
-    <main className="flex items-center justify-center h-screen">
-      <div className="absolute top-0 left-0 p-4">
-        <img src={Logo} alt="logo" className="w-24" />
-      </div>
+    <PaymentLayout>
       <form onSubmit={handleSubmit}>
         <PaymentElement />
         <p className="text-red-500 mt-2">
@@ -117,7 +114,7 @@ const CheckoutForm = () => {
         </button>
         {/* Show error message to your customers */}
       </form>
-    </main>
+    </PaymentLayout>
   );
 };
 
