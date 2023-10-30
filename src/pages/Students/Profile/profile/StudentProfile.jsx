@@ -61,7 +61,7 @@ const StudentProfile = () => {
         <div className="sm:w-full xl:w-3/5 p-[30px] sm:p-[60px]">
           <div>
             <div className="relative w-full h-[150px] bg-color-purple rounded-t-[10px]">
-              <div className="absolute left-[5%] top-[55%] w-[140px] h-[140px] border-8 border-solid border-white rounded-[10px]">
+              <div className="absolute left-[5%] top-[55%] w-[140px] h-[140px] bg-white border-8 border-solid border-white rounded-[10px]">
                 <Avatar avatarUrl={user?.avatar?.url} />
               </div>
             </div>
@@ -112,15 +112,21 @@ const StudentProfile = () => {
                     {item.package.course.title}
                   </h3>
 
-                  <Button className="text-sm p-[10px]" theme="purple">
+                  <Button
+                    className="text-sm p-[10px] cursor-auto"
+                    theme="purple"
+                  >
                     {t('lesson_type', { ns: 'profile' })}
                   </Button>
 
-                  <Button className="text-sm p-[10px] text-color-purple bg-color-light-purple">
+                  <Button className="text-sm p-[10px] text-color-purple bg-color-light-purple cursor-auto">
                     {item.package.sessionTime} {t('minutes', { ns: 'common' })}
                   </Button>
 
-                  <Button className="text-sm p-[10px]" theme="outline">
+                  <Button
+                    className="text-sm p-[10px] cursor-auto hover:bg-white hover:text-black"
+                    theme="outline"
+                  >
                     {t('lessons_remaining', {
                       ns: 'lessons',
                       count: item.credits,

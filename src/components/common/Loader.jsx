@@ -3,9 +3,10 @@ import Loader from 'react-loader-spinner';
 
 const ReactLoader = ({ className = 'absolute' }) => {
   return (
-    <Loader
-      color="#00BFFF"
-      className={`
+    <div className="relative w-full h-full">
+      <Loader
+        color="#00BFFF"
+        className={`
         w-full 
         h-full 
         bg-slate-400/20 
@@ -17,10 +18,11 @@ const ReactLoader = ({ className = 'absolute' }) => {
         justify-center
         ${className}
         `}
-      type="TailSpin"
-      height={80}
-      width={80}
-    />
+        type="TailSpin"
+        height={80}
+        width={80}
+      />
+    </div>
   );
 };
 

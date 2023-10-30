@@ -436,7 +436,7 @@ const Calendar = () => {
                 <div className="my-3">
                   {displayModalEventDate(selectedEvent)}
                 </div>
-                <div className="my-3 attends">
+                <div className="my-3">
                   <div className="row">
                     <h4 className="text-primary">{t('attendants')}</h4>
                   </div>
@@ -445,11 +445,10 @@ const Calendar = () => {
                       <div>
                         <b>Student</b>
                       </div>
-                      <div>
+                      <div className="w-[70px] h-[70px] rounded-[15px] mt-[10px] overflow-hidden">
                         <Avatar
                           avatarUrl={eventDate?.student?.avatar?.url}
                           gender={eventDate?.student?.gender}
-                          className="w-[70] h=[70] rounded-[15px] mt-[10px]"
                         />
                       </div>
                       <p>
@@ -462,11 +461,10 @@ const Calendar = () => {
                       <div>
                         <b>Mentor</b>
                       </div>
-                      <div>
+                      <div className="w-[70px] h-[70px] rounded-[15px] mt-[10px] overflow-hidden">
                         <Avatar
                           avatarUrl={eventDate?.mentor?.avatar?.url}
                           gender={eventDate?.mentor?.gender}
-                          className="w-[70] h=[70] rounded-[15px] mt-[10px]"
                         />
                       </div>
                       <p>{eventDate?.mentor?.fullName}</p>
@@ -620,19 +618,19 @@ const Calendar = () => {
         </div>
       </div>
       {isCalendarModalOpen && <CustomModal />}
-      {isCancelLessonModalOpen && (
-        <RescheduleAndCancelModal
-          data={calendarEvent.resource?.eventDate}
-          isOpen={isCancelLessonModalOpen}
-          setIsOpen={setIsCancelLessonModalOpen}
-          closeModal={closeCancelLessonModal}
-          tabIndex={tabIndex}
-          setTabIndex={setTabIndex}
-          fetchAppointments={fetchData}
-          type={'cancel'}
-          duration={calendarEvent.resource?.eventDate?.duration}
-        />
-      )}
+
+      <RescheduleAndCancelModal
+        data={calendarEvent.resource?.eventDate}
+        isOpen={isCancelLessonModalOpen}
+        setIsOpen={setIsCancelLessonModalOpen}
+        closeModal={closeCancelLessonModal}
+        tabIndex={tabIndex}
+        setTabIndex={setTabIndex}
+        fetchAppointments={fetchData}
+        type={'cancel'}
+        duration={calendarEvent.resource?.eventDate?.duration}
+      />
+
       {isWarningOpen && (
         <ZoomWarningModal
           isWarningOpen={isWarningOpen}

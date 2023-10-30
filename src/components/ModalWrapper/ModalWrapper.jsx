@@ -52,7 +52,7 @@ const ModalWrapper = ({
       isOpen={isOpen}
       contentLabel="modal"
       style={customStyles}
-      onRequestClose={() => closeModal(false)}
+      onRequestClose={closeModal}
     >
       <button
         className="absolute right-5 top-[25px] z-50"

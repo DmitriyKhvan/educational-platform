@@ -81,18 +81,15 @@ const EditMentorProfile = () => {
             </h2>
 
             <div className="flex items-center gap-[30px] mt-[30px]">
-              <div>
-                <Avatar
-                  avatarUrl={user?.mentor?.avatar?.url}
-                  className="w-[150px] h-[150px] rounded-[10px]"
-                />
+              <div className="w-[150px] h-[150px] rounded-[10px] overflow-hidden">
+                <Avatar avatarUrl={user?.mentor?.avatar?.url} />
               </div>
 
               <div className="flex flex-col gap-[10pxs]">
                 <Button
                   theme="outline"
                   onClick={() => setShowEditAvatar(true)}
-                  className="text-[15px] px-[30px] h-[50px]"
+                  className="text-[15px] px-[30px] h-[50px] mb-3"
                 >
                   {t('upload_photo')}
                 </Button>
