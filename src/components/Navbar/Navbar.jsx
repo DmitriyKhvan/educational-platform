@@ -20,8 +20,8 @@ import { MESSAGE_SUBSCRIPTIONS } from '../../utils/subscriptions';
 
 import { HiUserCircle } from 'react-icons/hi2';
 import { FiLogOut } from 'react-icons/fi';
-import { MdAddCircleOutline } from 'react-icons/md';
 import { IoNotifications } from 'react-icons/io5';
+import { useStudentsDropdown } from './useStudentsDropdown';
 
 // import LogoutImg from '../assets/images/logout_icon.svg';
 // import IconUser from '../assets/images/user.svg';
@@ -35,10 +35,7 @@ const Navbar = ({ setShowSidebar }) => {
   );
   const [t, i18n] = useTranslation('common');
 
-  const onChangeStudentProfile = (id) => {
-    setItemToLocalStorage('studentId', id);
-    window.location.reload(true);
-  };
+  const { studentsRender, studentList } = useStudentsDropdown();
 
   const handleLogout = async () => {
     await logout();
@@ -56,8 +53,6 @@ const Navbar = ({ setShowSidebar }) => {
 
   const { data } = useSubscription(MESSAGE_SUBSCRIPTIONS);
 
-  console.log('data', data);
-
   if (data?.newMessages?.body) {
     systemNotifications.unshift({
       label: data.newMessages.body,
@@ -71,56 +66,6 @@ const Navbar = ({ setShowSidebar }) => {
       );
     }
   }
-
-  const studentsRender = (item, index, active, setActive, setVisible) => {
-    return (
-      <Link
-        key={index}
-        to={item.href || '#'}
-        className={`flex items-center justify-between px-[15px] py-[7px]  font-semibold text-[15px] cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple`}
-        onClick={() => {
-          setActive(index);
-          setVisible(false);
-          if (item.onClick) {
-            item.onClick(index);
-          }
-        }}
-      >
-        <span className="w-3/4 truncate transition ease-in-out delay-150 group-hover:text-white">
-          {item.label}
-        </span>
-
-        {item.activeIcon ? (
-          <span>
-            <img
-              className="w-[30px] h-[30px] rounded-full border-2 border-color-white object-center object-cover"
-              src={item.activeIcon}
-              alt=""
-            />
-          </span>
-        ) : (
-          <item.customIcon className="text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
-        )}
-      </Link>
-    );
-  };
-
-  const studentList = user.students
-    .filter((student) => student.id !== getItemToLocalStorage('studentId'))
-    .map((student) => {
-      return {
-        label: student.firstName,
-        customIcon: HiUserCircle,
-        activeIcon: student?.avatar?.url,
-        onClick: () => onChangeStudentProfile(student.id),
-      };
-    });
-
-  studentList.push({
-    label: 'Add Account',
-    href: '/add-student-profile',
-    customIcon: MdAddCircleOutline,
-  });
 
   return (
     <div className="nav-bar">
