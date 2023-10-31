@@ -16,7 +16,6 @@ const Dropdown = ({
   maxCount,
   renderChild,
   popupClassName,
-  showNotification,
 }) => {
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState(-1);
@@ -44,15 +43,11 @@ const Dropdown = ({
     }
   }, [items]);
   return (
-    <div
-      className={`dropdown ml-[20px] ${
-        showNotification && items.length > 0 ? 'ws-notification-bell' : ''
-      }`}
-    >
+    <div className={`dropdown ml-[20px]`}>
       <div
         // ref={ref}
         onClick={() => (onClick ? onClick() : setVisible(!visible))}
-        className="flex items-center cursor-pointer"
+        className="flex relative items-center cursor-pointer"
       >
         {typeof icon === 'string' ? (
           <img src={icon} alt="" className={className} />
@@ -73,7 +68,7 @@ const Dropdown = ({
       </div>
 
       {badge > 0 && <span className="badge">{badge}</span>}
-      {visible && (
+      {visible && filterItems.length > 0 && (
         <>
           <div className="background" onClick={() => setVisible(false)} />
           <div className={!popupClassName ? 'menu' : popupClassName}>
