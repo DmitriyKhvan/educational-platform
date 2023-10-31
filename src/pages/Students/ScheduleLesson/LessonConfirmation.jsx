@@ -162,9 +162,10 @@ const LessonConfirmation = ({
 
   const WEEKS_IN_MONTH = 4;
 
-  const timeRepeatLessons = Math.floor(
-    (plan.credits / WEEKS_IN_MONTH) * plan.package.sessionsPerWeek,
-  );
+  const timeRepeatLessons =
+    plan.credits < plan.package.sessionsPerWeek * WEEKS_IN_MONTH
+      ? Math.ceil(plan.credits / plan.package.sessionsPerWeek)
+      : WEEKS_IN_MONTH;
 
   return (
     <Layout>
