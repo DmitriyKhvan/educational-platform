@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Logo from '../assets/images/auth-logo.svg';
-import FlagUsa from '../assets/images/flag-usa.svg';
-import FlagKorea from '../assets/images/flag-korea.svg';
-import MobileMenuIcon from '../assets/images/mobile-menu.svg';
-import Dropdown from './Dropdown';
+import Logo from 'src/assets/images/auth-logo.svg';
+import FlagUsa from 'src/assets/images/flag-usa.svg';
+import FlagKorea from 'src/assets/images/flag-korea.svg';
+import MobileMenuIcon from 'src/assets/images/mobile-menu.svg';
+import Dropdown from '../Dropdown';
 
-import IconNotification from '../assets/images/notification.svg';
-import IconTrashCan from '../assets/images/trash_can.svg';
+import IconNotification from 'src/assets/images/notification.svg';
+import IconTrashCan from 'src/assets/images/trash_can.svg';
 import {
   getItemToLocalStorage,
   Roles,
   setItemToLocalStorage,
-} from '../constants/global';
-import { useAuth } from '../modules/auth';
+} from '../../constants/global';
+import { useAuth } from '../../modules/auth';
 import { useSubscription } from '@apollo/client';
-import { MESSAGE_SUBSCRIPTIONS } from '../utils/subscriptions';
+import { MESSAGE_SUBSCRIPTIONS } from '../../utils/subscriptions';
 
 import { HiUserCircle } from 'react-icons/hi2';
 import { FiLogOut } from 'react-icons/fi';

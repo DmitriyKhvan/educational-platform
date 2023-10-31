@@ -139,7 +139,9 @@ const CancelWarningModal = ({
           className="h-[38px] px-[10px]"
           theme="purple"
           onClick={disableCancelLesson ? undefined : onClick}
-          disabled={!isChecked || disableCancelLesson}
+          disabled={
+            (!isChecked && type !== 'reschedule') || disableCancelLesson
+          }
         >
           {t('continue_cancel')}
         </Button>
