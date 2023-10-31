@@ -15,10 +15,10 @@ import InputField from '../../components/Form/InputField';
 import InputWithError from '../../components/Form/InputWithError';
 import CheckboxField from '../../components/Form/CheckboxField';
 
-import Logo from '../../assets/images/logo.png';
 import nicePayment from '../../assets/images/purchase/nicePayment.png';
 import { CREATE_NICE_PAYMENT } from '../../modules/auth/graphql';
 import { getItemToLocalStorage } from 'src/constants/global';
+import { PaymentLayout } from 'src/layouts/PaymentLayout';
 
 export const NicePayment = () => {
   const [parent] = useAutoAnimate();
@@ -125,11 +125,7 @@ export const NicePayment = () => {
   };
 
   return (
-    <main className="flex items-center justify-center h-screen">
-      <div className="absolute top-0 left-0 p-4">
-        <img src={Logo} alt="logo" className="w-24" />
-      </div>
-
+    <PaymentLayout>
       <div className="w-[300px]">
         <p className="text-color-dark-purple mb-7">
           Pay with your credit card via NICE
@@ -280,6 +276,6 @@ export const NicePayment = () => {
           </Button>
         </form>
       </div>
-    </main>
+    </PaymentLayout>
   );
 };

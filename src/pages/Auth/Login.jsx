@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -43,16 +43,21 @@ const Login = () => {
     login(email, password);
   };
 
-  if (data) {
-    location.href =
-      data.authResult.user.role === Roles.STUDENT
-        ? '/select-profile'
-        : '/mentor/manage-appointments';
-  }
+  useEffect(() => {
+    if (data) {
+      location.href =
+        data.authResult.user.role === Roles.STUDENT
+          ? '/select-profile'
+          : '/mentor/manage-appointments';
+    }
+  }, [data]);
 
-  if (error) {
-    notify(t('login_failed'), 'error');
-  }
+  useEffect(() => {
+    if (error) {
+      // notify(t('login_failed'), 'error');
+      notify(error.message, 'error');
+    }
+  }, [error]);
 
   return (
     <AuthLayout>
