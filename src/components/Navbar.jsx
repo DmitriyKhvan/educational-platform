@@ -21,6 +21,7 @@ import { MESSAGE_SUBSCRIPTIONS } from '../utils/subscriptions';
 import { HiUserCircle } from 'react-icons/hi2';
 import { FiLogOut } from 'react-icons/fi';
 import { MdAddCircleOutline } from 'react-icons/md';
+import { IoNotifications } from 'react-icons/io5';
 
 // import LogoutImg from '../assets/images/logout_icon.svg';
 // import IconUser from '../assets/images/user.svg';
@@ -129,6 +130,13 @@ const Navbar = ({ setShowSidebar }) => {
           <Dropdown
             className="settings"
             icon={IconNotification}
+            items={systemNotifications}
+            showNotification={true}
+          />
+
+          <Dropdown
+            className="settings"
+            icon={<IoNotifications className="text-2xl" />}
             items={systemNotifications}
             showNotification={true}
           />
