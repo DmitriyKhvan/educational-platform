@@ -46,7 +46,7 @@ const CheckoutForm = () => {
   const history = useHistory();
   const [isLoading, setLoading] = useState(false);
 
-  const [t] = useTranslation('common');
+  const [t] = useTranslation('purchase');
 
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -110,7 +110,7 @@ const CheckoutForm = () => {
           disabled={isLoading}
           className="py-2 px-3 rounded text-white mt-4 bg-purple-500 disabled:bg-gray-300"
         >
-          {t('continue_button')}
+          {t('pay')}
         </button>
         {/* Show error message to your customers */}
       </form>
