@@ -56,7 +56,7 @@ export const MentorCard = ({
         <div className="flex flex-col gap-[2px]">
           <Button
             theme="outline"
-            className="w-[115px] p-0"
+            className="w-[115px] p-0 m-1"
             onClick={() => handleMoreMentor(mentor)}
           >
             {t('learn_more', { ns: 'common' })}
@@ -85,7 +85,7 @@ export const MentorCard = ({
                   >
                     <Button
                       theme="outline"
-                      className="w-[115px] p-0"
+                      className="w-[115px] p-0 m-1"
                       disabled={mentor?.availabilities?.length === 0}
                     >
                       {t('schedule', { ns: 'common' })}
@@ -109,7 +109,7 @@ export const MentorCard = ({
           ) : (
             <Button
               theme="outline"
-              className="w-[115px] p-2"
+              className="w-[115px] p-2 m-1"
               onClick={() => handleSelectMentor(mentor)}
             >
               {t('select_mentor', { ns: 'lessons' })}

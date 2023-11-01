@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../modules/auth';
-import { Roles } from '../../constants/global';
+import { MAX_MODIFY_COUNT, Roles } from '../../constants/global';
 import CheckboxField from '../Form/CheckboxField';
 import { FaXmark } from 'react-icons/fa6';
 import Button from '../Form/Button/Button';
-
-const MAX_MODIFY_COUNT = 3;
 
 const CancelWarningModal = ({
   data,
@@ -126,15 +124,22 @@ const CancelWarningModal = ({
 
       <div className="flex items-center gap-x-8 mt-4">
         {type !== 'reschedule' && (
-          <Button theme="outline" onClick={() => setTabIndex(10)}>
+          <Button
+            className="h-[38px] px-[10px]"
+            theme="outline"
+            onClick={() => setTabIndex(10)}
+          >
             {t('review_cancellation_policy')}
           </Button>
         )}
 
         <Button
+          className="h-[38px] px-[10px]"
           theme="purple"
-          onClick={!isChecked && disableCancelLesson ? undefined : onClick}
-          disabled={!isChecked && disableCancelLesson}
+          onClick={disableCancelLesson ? undefined : onClick}
+          disabled={
+            (!isChecked && type !== 'reschedule') || disableCancelLesson
+          }
         >
           {t('continue_cancel')}
         </Button>

@@ -49,10 +49,12 @@ const EditAvatarModal = ({ closeModal }) => {
         className="w-[500px] h-auto bg-white rounded-[10px] pt-[30px] pb-[20px] shadow-[0px_2px_15px_rgba(0,_0,_0,_0.06)]"
       >
         {!file ? (
-          <Avatar
-            className="object-contain h-[250px] px-[30px]"
-            avatarUrl={user?.mentor?.avatar?.url}
-          />
+          <div className="h-[250px] px-[30px] overflow-hidden">
+            <Avatar
+              className="object-contain "
+              avatarUrl={user?.mentor?.avatar?.url}
+            />
+          </div>
         ) : (
           <img
             src={URL.createObjectURL(file)}

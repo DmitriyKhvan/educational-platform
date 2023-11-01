@@ -5,6 +5,8 @@ import { CANCEL_APPOINTMENT } from '../../modules/auth/graphql';
 import { useAuth } from '../../modules/auth';
 import { Roles, cancellationArr } from '../../constants/global';
 import notify from '../../utils/notify';
+import Button from '../Form/Button';
+import CheckboxField from '../Form/CheckboxField';
 
 const CancelLessonModal = ({
   setTabIndex,
@@ -14,7 +16,7 @@ const CancelLessonModal = ({
   setCanceledLessons,
   repeatLessons,
 }) => {
-  const [t] = useTranslation('common');
+  const [t] = useTranslation(['common', 'lessons']);
   const [cancel, setCancel] = useState({});
   const [isChecked, setIsChecked] = useState(false);
   const [cancelReasons, setCancelReasons] = useState([]);
@@ -81,38 +83,39 @@ const CancelLessonModal = ({
         </div>
       </div>
       <p className="welcome-subtitle mb-4">
-        Why are you cancelling this lesson?
+        {t('reason_subtitle', { ns: 'lessons' })}
       </p>
-      {cancelReasons.map((x) => (
-        <div className="flex mt-0.5 items-center" key={x}>
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id={x}
-            value={x}
+      <div className="flex flex-col gap-y-1">
+        {cancelReasons.map((reason) => (
+          <CheckboxField
+            key={reason}
+            label={t(reason, { ns: 'lessons' })}
+            value={t(reason, { ns: 'lessons' })}
+            name="reason"
+            type="radio"
             onChange={checkboxEvent}
-            checked={x === cancel.value ? true : false}
+            checked={
+              t(reason, { ns: 'lessons' }) === cancel.value ? true : false
+            }
           />
-          <label className="form-check-label" htmlFor={x}>
-            {x}
-          </label>
-        </div>
-      ))}
-      <div className="flex gap-2 pt-4">
-        <button
+        ))}
+      </div>
+      <div className="flex gap-x-8 pt-4">
+        <Button
           disabled={isLoading}
-          className="enter-btn grey-border ms-0"
+          theme="outline"
+          className="h-[38px] px-[10px]"
           onClick={() => setTabIndex(0)}
         >
           {t('back')}
-        </button>
-        <button
-          className="enter-btn bg-pink text-white"
+        </Button>
+        <Button
+          className="h-[38px] px-[10px]"
           disabled={!isChecked || isLoading}
           onClick={onCancelLesson}
         >
           {t('confirm')}
-        </button>
+        </Button>
       </div>
     </React.Fragment>
   );

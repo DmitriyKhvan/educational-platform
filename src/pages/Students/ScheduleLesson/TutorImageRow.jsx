@@ -1,28 +1,13 @@
 import React from 'react';
-import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
+import { Avatar } from 'src/widgets/Avatar/Avatar';
 
 const TutorImageRow = ({ tutor }) => {
-  const tutorProfile = tutor.avatar?.url
-    ? tutor.avatar.url
-    : tutor.avatar
-    ? tutor.avatar
-    : tutor.gender === 'female'
-    ? femaleAvatar
-    : maleAvatar;
   return (
     <React.Fragment>
       <div className="col-3 pe-3 me-3 image-align-tutor">
-        <img
-          className="img-fluid rounded-corners ps-0"
-          src={tutorProfile}
-          alt=""
-          style={{
-            objectFit: 'cover',
-            height: '150px',
-            width: '150px',
-          }}
-        />
+        <div className="w-[150px] h-[150px] rounded-[15px] overflow-hidden">
+          <Avatar avatarUrl={tutor.avatar?.url} gender={tutor.gender} />
+        </div>
       </div>
       <div className="col-3 pt-4 Text-align-tutor">
         <div className="row">

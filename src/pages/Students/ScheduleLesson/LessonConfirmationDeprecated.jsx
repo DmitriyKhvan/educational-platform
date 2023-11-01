@@ -159,7 +159,7 @@ const LessonConfirmation = ({ tutor, time, lesson, onBack }) => {
         />
       </div>
       <div className="btn-confirm" onClick={onClickConfirm}>
-        {t('confirm_lesson')}
+        {t('booking_lesson')}
       </div>
       <ModalConfirmLesson
         visible={isConfirmModal}

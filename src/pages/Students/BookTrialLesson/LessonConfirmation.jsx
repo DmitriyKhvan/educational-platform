@@ -56,7 +56,7 @@ const LessonConfirmation = ({ tutor, time, onBack, onContinue }) => {
       <p className="enroll-description">{t('find_trial_lesson_in_upcoming')}</p>
 
       <div className="btn-confirm" onClick={onContinue}>
-        {t('confirm_lesson')}
+        {t('booking_lesson')}
       </div>
     </div>
   );

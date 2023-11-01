@@ -294,7 +294,8 @@ const ScheduleSelector = ({
       formattedDay + ' ' + scheduleStartTime,
       userTimezone,
     );
-    const hoursPrior = 48;
+    const hoursPrior = JSON.parse(process.env.REACT_APP_PRODUCTION) ? 48 : 0;
+
     const preScreen = moment
       .tz(formattedDay + ' ' + scheduleStartTime, userTimezone)
       .subtract(hoursPrior, 'hours');
@@ -310,7 +311,9 @@ const ScheduleSelector = ({
 
       Swal.fire({
         title: t('swal_fire_title_schedule_prescreen', { ns: 'modals' }),
-        text: t('swal_fire_text_schedule_prescreen', { ns: 'modals' }),
+        text: JSON.parse(process.env.REACT_APP_PRODUCTION)
+          ? t('swal_fire_text_schedule_prescreen', { ns: 'modals' })
+          : t('swal_fire_footer_schedule_prescreen', { ns: 'modals' }),
         icon: 'warning',
         width: '36em',
         confirmButtonColor: '#6133af',
@@ -372,7 +375,7 @@ const ScheduleSelector = ({
                   handleConfirmLesson(scheduleStartTime);
                 }}
               >
-                {t('confirm_lesson')}
+                {t('booking_lesson')}
               </div>
             </div>
           </div>

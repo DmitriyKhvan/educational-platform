@@ -19,8 +19,11 @@ import {
 } from '../../../modules/auth/graphql';
 
 import CheckboxField from '../../../components/Form/CheckboxField';
-import { getItemToLocalStorage, LessonsStatusType } from 'src/constants/global';
-import pluralizeWord from 'src/utils/pluralizeWord';
+import {
+  getItemToLocalStorage,
+  LessonsStatusType,
+  WEEKS_IN_MONTH,
+} from 'src/constants/global';
 
 const LessonConfirmation = ({
   plan,
@@ -160,11 +163,18 @@ const LessonConfirmation = ({
     setIsLoading(false);
   };
 
-  const WEEKS_IN_MONTH = 4;
+  const timeRepeatLesson =
+    plan.credits < plan.package.sessionsPerWeek * WEEKS_IN_MONTH
+      ? Math.ceil(plan.credits / plan.package.sessionsPerWeek)
+      : WEEKS_IN_MONTH;
 
-  const timeRepeatLessons = Math.floor(
-    (plan.credits / WEEKS_IN_MONTH) * plan.package.sessionsPerWeek,
-  );
+  const repeatLesson = `
+    ${t('repeat_lesson', { ns: 'lessons' })} 
+    ${t(format(new Date(time), 'eee'), {
+      ns: 'translations',
+    })} ${timeRepeatLesson}x
+    (${t('max_month', { ns: 'lessons' })})
+  `;
 
   return (
     <Layout>
@@ -244,12 +254,7 @@ const LessonConfirmation = ({
 
               <div className="mt-3">
                 <CheckboxField
-                  label={`${t('repeating_lesson', {
-                    ns: 'translations',
-                  })} ${pluralizeWord(
-                    format(new Date(time), 'EEEE'),
-                    timeRepeatLessons,
-                  )} ${timeRepeatLessons}x`}
+                  label={repeatLesson}
                   onChange={(e) => setRepeat(e.target.checked)}
                   checked={repeat}
                 />
@@ -335,7 +340,7 @@ const LessonConfirmation = ({
                 >
                   {confirmDisable
                     ? t('lesson_confirmation', { ns: 'lessons' })
-                    : t('confirm_lesson', { ns: 'lessons' })}
+                    : t('booking_lesson', { ns: 'lessons' })}
                 </button>
               </div>
             </div>
