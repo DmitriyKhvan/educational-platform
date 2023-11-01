@@ -399,7 +399,7 @@ export default function BuyPackage() {
                       className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
                       type="button"
                     >
-                      Proceed to checkout
+                      {t('proceed_checkout')}
                       <ArrowBack className="brightness-0 invert rotate-180 scale-125" />
                     </button>
                   </AlertDialogTrigger>

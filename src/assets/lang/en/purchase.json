@@ -14,5 +14,7 @@
   "payment_processing": "Payment processing. We'll update you when payment is received.",
   "payment_error": "Something went wrong. Please try again.",
   "dashboard": "Go to dashboard",
-  "select_profile": "Select profile"
+  "select_profile": "Select profile",
+  "proceed_checkout": "Proceed to checkout",
+  "pay": "Pay"
 }

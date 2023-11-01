@@ -36,7 +36,7 @@ export const NicePayment = () => {
     }
   }, [location]);
 
-  const [t] = useTranslation(['translations', 'common']);
+  const [t] = useTranslation(['purchase', 'common']);
 
   const [cardType, setCardType] = useState('newCard');
 
@@ -272,7 +272,7 @@ export const NicePayment = () => {
             disabled={!isValid || loading}
             className="h-10 self-start rounded text-white mt-4 bg-purple-500"
           >
-            {t('continue_button', { ns: 'common' })}
+            {t('pay')}
           </Button>
         </form>
       </div>
