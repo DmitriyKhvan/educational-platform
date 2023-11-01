@@ -7,15 +7,12 @@ import FlagKorea from 'src/assets/images/flag-korea.svg';
 import MobileMenuIcon from 'src/assets/images/mobile-menu.svg';
 import Dropdown from '../Dropdown';
 
-// import IconTrashCan from 'src/assets/images/trash_can.svg';
 import {
   getItemToLocalStorage,
   Roles,
   setItemToLocalStorage,
 } from '../../constants/global';
 import { useAuth } from '../../modules/auth';
-// import { useSubscription } from '@apollo/client';
-// import { MESSAGE_SUBSCRIPTIONS } from '../../utils/subscriptions';
 
 import { HiUserCircle } from 'react-icons/hi2';
 import { FiLogOut } from 'react-icons/fi';
@@ -23,13 +20,8 @@ import { IoNotifications } from 'react-icons/io5';
 import { useStudentsDropdown } from './useStudentsDropdown';
 import { useNotificationsDropdown } from './useNotificationsDropdown';
 
-// import LogoutImg from '../assets/images/logout_icon.svg';
-// import IconUser from '../assets/images/user.svg';
-
 const Navbar = ({ setShowSidebar }) => {
-  // const systemNotificationLimit = 5;
   const { user, logout } = useAuth();
-  // let systemNotifications = [];
   const [language, setLanguage] = useState(
     parseInt(getItemToLocalStorage('language', 1)),
   );
@@ -51,25 +43,6 @@ const Navbar = ({ setShowSidebar }) => {
   useEffect(() => {
     i18n.changeLanguage(language === 0 ? 'kr' : 'en');
   }, [language]);
-
-  // const { data } = useSubscription(MESSAGE_SUBSCRIPTIONS);
-
-  // console.log('data', data);
-  // console.log('systemNotifications', systemNotifications);
-
-  // if (data?.newMessages?.body) {
-  //   systemNotifications.unshift({
-  //     label: data.newMessages.body,
-  //     icon: IconTrashCan,
-  //     activeIcon: IconTrashCan,
-  //   });
-  //   if (systemNotifications.length > systemNotificationLimit) {
-  //     systemNotifications = systemNotifications.slice(
-  //       0,
-  //       systemNotificationLimit - 1,
-  //     );
-  //   }
-  // }
 
   return (
     <div className="nav-bar">
