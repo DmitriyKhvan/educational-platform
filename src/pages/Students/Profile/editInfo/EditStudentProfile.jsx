@@ -24,9 +24,7 @@ import { SelectField } from '../../../../components/Form/SelectField';
 import { Avatar } from '../../../../widgets/Avatar/Avatar';
 
 const EditProflileStudent = ({ closeModal, setLoading }) => {
-  const [updateStudent, { loading: updateStudentLoading }] = useMutation(
-    MUTATION_UPDATE_STUDENT,
-  );
+  const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
   const [updateUser] = useMutation(MUTATION_UPDATE_USER);
 
   const [t] = useTranslation(['profile', 'common']);
@@ -48,6 +46,7 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
   });
 
   const onSubmit = async (area) => {
+    setLoading(true);
     // if (file) {
     setPreview(area.avatar);
 
@@ -80,11 +79,12 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
         },
       },
       onCompleted: async () => {
-        notify(t('student_information_changed', { ns: 'profile' }));
         closeModal(false);
-        setLoading(false);
+
         setTimeout(async () => {
           await refetchUser();
+          setLoading(false);
+          notify(t('student_information_changed', { ns: 'profile' }));
         }, 400);
       },
       onError: () => {
@@ -97,10 +97,6 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
   };
 
   const removePreviewImage = () => setFile(null);
-
-  if (updateStudentLoading) {
-    setLoading(true);
-  }
 
   return (
     <section>

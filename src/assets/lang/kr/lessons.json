@@ -30,6 +30,7 @@
   "available_spots_subtitle": "진행하려면 레슨 슬롯 하나를 선택해 주세요.",
   "no_available_slots": "사용 가능한 시간대가 없습니다.",
   "confirm_lesson": "레슨 승인",
+  "booking_lesson": "레슨 예약",
   "lessons_remaining": "남은 레슨 {{count}}",
   "lessons_remaining_plural": "남은 레슨 {{count}}",
   "select_mentor": "멘토 선택",
@@ -60,5 +61,16 @@
   "status": "상태",
   "lessons_remaining_schedule": "일정을 잡을 수업",
   "disabled_package": "죄송합니다, 귀하의 서비스 구독이 만료되었거나 유효하지 않습니다. 관리자에게 문의하여 추가 지원을 받으실 수 있습니다.",
-  "recording": "Recording"
+  "recording": "Recording",
+  "repeat_lesson": "동일한 수업 일정 반복 예약",
+  "max_month": "최대 1달",
+  "lesson_not_approved": "멘토 선생님의 예약확정을 기다리고 있습니다.",
+  "reason_subtitle": "예약 취소 사유를 말씀해주세요?",
+  "reason_1": "수업 일정을 변경해야 합니다",
+  "reason_2": "수업 준비를 충분히 하지 못했습니다",
+  "reason_3": "급한 개인 일정이 생겼습니다",
+  "reason_4": "수업을 위한 인터넷 및 기술적 환경이 준비되지 않았습니다",
+  "reason_5": "건강이 좋지 않습니다",
+  "reason_6": "매칭된 멘토가 맘에들지 않습니다",
+  "reason_7": "기타"
 }

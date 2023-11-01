@@ -375,7 +375,7 @@ const ScheduleSelector = ({
                   handleConfirmLesson(scheduleStartTime);
                 }}
               >
-                {t('confirm_lesson')}
+                {t('booking_lesson')}
               </div>
             </div>
           </div>

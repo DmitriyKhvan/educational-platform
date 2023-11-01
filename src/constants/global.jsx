@@ -994,15 +994,17 @@ export const feedbackURL = process.env.REACT_APP_FEEDBACK_URL;
 export const gameLinkURL = process.env.REACT_APP_GAME_URL;
 export const classMaterialURL = process.env.REACT_APP_CLASS_MATERIAL_URL;
 
+export const WEEKS_IN_MONTH = 4;
+export const MAX_MODIFY_COUNT = 3;
+
 export const cancellationArr = [
-  'Need to reschedule the lesson',
-  'Not prepared for the lesson',
-  'Urgent personal matter',
-  'Technical or internet connection issues',
-  'Health related matter',
-  'Tutor has not confirmed the lesson',
-  'I do not like the matched tutor',
-  'Other',
+  'reason_1',
+  'reason_2',
+  'reason_3',
+  'reason_4',
+  'reason_5',
+  'reason_6',
+  'reason_7',
 ];
 
 export const Roles = {

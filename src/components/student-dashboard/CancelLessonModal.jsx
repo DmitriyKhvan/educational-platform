@@ -16,7 +16,7 @@ const CancelLessonModal = ({
   setCanceledLessons,
   repeatLessons,
 }) => {
-  const [t] = useTranslation('common');
+  const [t] = useTranslation(['common', 'lessons']);
   const [cancel, setCancel] = useState({});
   const [isChecked, setIsChecked] = useState(false);
   const [cancelReasons, setCancelReasons] = useState([]);
@@ -83,17 +83,20 @@ const CancelLessonModal = ({
         </div>
       </div>
       <p className="welcome-subtitle mb-4">
-        Why are you cancelling this lesson?
+        {t('reason_subtitle', { ns: 'lessons' })}
       </p>
       <div className="flex flex-col gap-y-1">
         {cancelReasons.map((reason) => (
           <CheckboxField
             key={reason}
-            label={reason}
-            value={reason}
+            label={t(reason, { ns: 'lessons' })}
+            value={t(reason, { ns: 'lessons' })}
             name="reason"
+            type="radio"
             onChange={checkboxEvent}
-            checked={reason === cancel.value ? true : false}
+            checked={
+              t(reason, { ns: 'lessons' }) === cancel.value ? true : false
+            }
           />
         ))}
       </div>
