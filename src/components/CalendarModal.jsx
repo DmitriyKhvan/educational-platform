@@ -20,7 +20,7 @@ const CalendarModal = ({
   event,
   getAppointments,
 }) => {
-  const [t] = useTranslation('modals');
+  const [t] = useTranslation(['modals', 'lessons']);
   const [isWarningOpen, setIsWarningOpen] = useState(false);
   const isToday = moment(time).isSame(moment(), 'day');
 
@@ -74,7 +74,7 @@ const CalendarModal = ({
             {(event.resource.status === LessonsStatusType.SCHEDULED ||
               event.resource.status === LessonsStatusType.SCHEDULED) && (
               <p className="text-md text-red-500 font-bold">
-                Lesson has not been approved yet!
+                {t('lesson_not_approved', { ns: 'lessons' })}
               </p>
             )}
           </div>

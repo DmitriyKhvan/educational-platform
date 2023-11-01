@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../modules/auth';
-import { Roles } from '../../constants/global';
+import { MAX_MODIFY_COUNT, Roles } from '../../constants/global';
 import CheckboxField from '../Form/CheckboxField';
 import { FaXmark } from 'react-icons/fa6';
 import Button from '../Form/Button/Button';
-
-const MAX_MODIFY_COUNT = 3;
 
 const CancelWarningModal = ({
   data,

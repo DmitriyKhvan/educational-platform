@@ -30,6 +30,7 @@
   "available_spots_subtitle": "Select one of these lesson slots to continue.",
   "no_available_slots": "No Available Slots",
   "confirm_lesson": "Confirm Lesson",
+  "booking_lesson": "Lesson Booking",
   "lessons_remaining": "{{count}} Lesson Remaining",
   "lessons_remaining_plural": "{{count}} Lessons Remaining",
   "select_mentor": "Select mentor",
@@ -59,5 +60,16 @@
   "status": "Status",
   "lessons_remaining_schedule": "Lessons To Schedule",
   "disabled_package": "Sorry, your service subscription has expired or is invalid. You can contact an administrator for further assistance.",
-  "recording": "Recording"
+  "recording": "Recording",
+  "repeat_lesson": "Repeat lesson schedule",
+  "max_month": "max. 1 month",
+  "lesson_not_approved": "Lesson has not been approved yet.",
+  "reason_subtitle": "Why are you cancelling this lesson?",
+  "reason_1": "Need to reschedule the lesson",
+  "reason_2": "Not prepared for the lesson",
+  "reason_3": "Urgent personal matter",
+  "reason_4": "Technical or internet connection issues",
+  "reason_5": "Health related matter",
+  "reason_6": "I do not like the matched mentor",
+  "reason_7": "Other"
 }
