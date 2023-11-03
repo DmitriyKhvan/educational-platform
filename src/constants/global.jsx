@@ -1026,3 +1026,10 @@ export const ModalType = {
   CANCEL: 'cancel',
   RESCHEDULE: 'reschedule',
 };
+
+export const YOUTUBE_EMBED = 'https://www.youtube.com/embed/';
+export const VIMEO_EMBED = 'https://player.vimeo.com/video';
+export const Host = {
+  YOUTUBE: 'www.youtube.com',
+  VIMEO: 'vimeo.com',
+};
