@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { useAuth } from '../../../../modules/auth';
 import { useTranslation } from 'react-i18next';
-import { renderVideo } from '../../../../utils/functions';
+
 import Button from '../../../../components/Form/Button/Button';
 import { HiOutlineVideoCamera } from 'react-icons/hi2';
 
@@ -16,7 +16,7 @@ const Intro = () => {
   const videoUrl = actions.user?.mentor?.videoUrl;
 
   React.useEffect(() => {
-    setVideoLink(renderVideo(videoUrl) || '');
+    setVideoLink(videoUrl || '');
   }, [actions]);
 
   return (
