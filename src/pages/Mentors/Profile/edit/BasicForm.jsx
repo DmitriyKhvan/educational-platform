@@ -20,6 +20,7 @@ import InputField from '../../../../components/Form/InputField';
 import { SelectField } from '../../../../components/Form/SelectField';
 import Button from '../../../../components/Form/Button/Button';
 import ReactLoader from '../../../../components/common/Loader';
+import { trimSpaces } from 'src/utils/trimSpaces';
 
 const BasicForm = () => {
   const [t] = useTranslation(['common', 'profile']);
@@ -57,7 +58,8 @@ const BasicForm = () => {
       timeZone,
       address,
       convertAvailabilityTime,
-    } = values;
+    } = trimSpaces(values);
+
     await updateUser({
       variables: {
         id: user?.id,

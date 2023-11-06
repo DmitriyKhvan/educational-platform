@@ -22,6 +22,7 @@ import Button from '../../../../components/Form/Button/Button';
 import InputField from '../../../../components/Form/InputField';
 import { SelectField } from '../../../../components/Form/SelectField';
 import { Avatar } from '../../../../widgets/Avatar/Avatar';
+import { trimSpaces } from 'src/utils/trimSpaces';
 
 const EditProflileStudent = ({ closeModal, setLoading }) => {
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
@@ -29,8 +30,6 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
 
   const [t] = useTranslation(['profile', 'common']);
   const [file, setFile] = React.useState(null);
-
-  const [, setPreview] = React.useState({});
 
   const { user, refetchUser } = useAuth();
 
@@ -47,8 +46,17 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
 
   const onSubmit = async (area) => {
     setLoading(true);
-    // if (file) {
-    setPreview(area.avatar);
+
+    const {
+      firstName,
+      lastName,
+      koreanEquivalent,
+      gender,
+      country,
+      address,
+      phoneNumber,
+      timeZone,
+    } = trimSpaces(area);
 
     await updateStudent({
       variables: {
@@ -56,10 +64,10 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
         id: parseInt(getItemToLocalStorage('studentId')),
         data: {
           avatar: file,
-          firstName: area.firstName,
-          lastName: area.lastName,
-          koreanEquivalent: area.koreanEquivalent,
-          gender: area.gender,
+          firstName: firstName,
+          lastName: lastName,
+          koreanEquivalent: koreanEquivalent,
+          gender: gender,
         },
       },
       onError: () => {
@@ -72,10 +80,10 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
       variables: {
         id: parseInt(user?.id),
         data: {
-          country: area.country,
-          address: area.address,
-          phoneNumber: area.phoneNumber,
-          timeZone: area.timeZone,
+          country: country,
+          address: address,
+          phoneNumber: phoneNumber,
+          timeZone: timeZone,
         },
       },
       onCompleted: async () => {
