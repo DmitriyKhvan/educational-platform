@@ -7,14 +7,38 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getItemToLocalStorage } from 'src/constants/global';
 import { useAuth } from 'src/modules/auth';
+import { useMutation, gql } from '@apollo/client';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
+const CREATE_PAYMENT = gql`
+  mutation CreatePayment(
+    $studentId: ID!
+    $packageId: ID!
+    $provider: PaymentProviderType
+    $metadata: JSON
+  ) {
+    createPayment(
+      studentId: $studentId
+      packageId: $packageId
+      provider: $provider
+      metadata: $metadata
+    ) {
+      id
+      status
+      provider
+      cancelReason
+      metadata
+    }
+  }
+`;
 
 export default function ConfirmPayment() {
   const { user } = useAuth();
+  const params = useParams();
+  const [createPayment] = useMutation(CREATE_PAYMENT);
 
   const clientSecret = new URLSearchParams(window.location.search).get(
     'payment_intent_client_secret',
@@ -44,6 +68,18 @@ export default function ConfirmPayment() {
 
         switch (paymentIntent.status) {
           case 'succeeded':
+            await createPayment({
+              variables: {
+                studentId: parseInt(
+                  getItemToLocalStorage('studentId')
+                    ? getItemToLocalStorage('studentId')
+                    : user.students[0].id,
+                ),
+                packageId: parseInt(params.packageId),
+                provider: 'stripe',
+                metadata: JSON.stringify(paymentIntent),
+              },
+            });
             setMessage(t('payment_success'));
             break;
 
