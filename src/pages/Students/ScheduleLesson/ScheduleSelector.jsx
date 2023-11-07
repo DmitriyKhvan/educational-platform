@@ -20,17 +20,6 @@ const GET_TIMESHEETS = gql`
     }
   }
 `;
-// const GET_TIMESHEETS = gql`
-//   query timesheets($tz: String!, $date: String!, $duration: String!, $mentorId: ID) {
-//     timesheets(tz: $tz, date: $date, duration: $duration, mentorId: $mentorId, ) {
-//       id
-//       day
-//       from
-//       to
-//       reserved
-//     }
-//   }
-// `;
 const useTimesheets = (body) => {
   const res = useQuery(GET_TIMESHEETS, {
     variables: {
