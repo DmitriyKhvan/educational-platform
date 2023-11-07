@@ -12,7 +12,7 @@
   "payment_processing": "결제 진행중. 결제가 승인되면 안내 메세지를 드리겠습니다",
   "payment_error": "에러가 발생했습니다! 다시 시도해주세요.",
   "dashboard": "대시보드 바로가기",
-  "select_profile": "Select profile",
+  "select_profile": "프로필 선택",
   "proceed_checkout": "계속하기",
   "pay": "결제하기"
 }

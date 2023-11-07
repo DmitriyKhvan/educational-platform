@@ -88,7 +88,7 @@ export default function ConfirmPayment() {
             break;
 
           case 'requires_payment_method':
-            setMessage(t('payment_failed'));
+            setMessage(t('payment_fail'));
             setError(true);
             break;
 
