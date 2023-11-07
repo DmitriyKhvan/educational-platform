@@ -7,6 +7,7 @@ import { useOutsideClick } from 'src/utils/useOutsideClick';
 import { IoNotifications } from 'react-icons/io5';
 import { NOTIFICATION_LIMIT } from 'src/constants/global';
 import { NotificationItem } from './NotificationItem';
+import { Link } from 'react-router-dom';
 
 // eslint-disable-next-line react/display-name
 export const NotificationDropdownMenu = memo(() => {
@@ -47,7 +48,7 @@ export const NotificationDropdownMenu = memo(() => {
       {visible && notifications.length > 0 && (
         <>
           {/* <div className="background" onClick={() => setVisible(false)} /> */}
-          <div className="absolute right-0 top-[40px] w-[500px] bg-white rounded-[9px] py-[6px] border-[0.5px] border-color-border-grey shadow-[1px_3px_5px_rgba(0,0,0,0.1)] z-[3001]">
+          <div className="menu absolute right-0 top-[40px] w-[500px] bg-white rounded-[9px] py-[6px] border-[0.5px] border-color-border-grey shadow-[1px_3px_5px_rgba(0,0,0,0.1)] z-[3001]">
             {notifications.map((notification) => (
               <NotificationItem
                 key={notification.id}
@@ -55,7 +56,12 @@ export const NotificationDropdownMenu = memo(() => {
                 notification={notification}
               />
             ))}
-            <p className="view-more">SEE ALL ACTIVITIES</p>
+            <Link
+              to="#"
+              className="flex p-4 border-t border-border-color-border-grey"
+            >
+              SEE ALL ACTIVITIES
+            </Link>
           </div>
         </>
       )}
