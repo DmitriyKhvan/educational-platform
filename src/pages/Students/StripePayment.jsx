@@ -6,23 +6,16 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PaymentLayout } from 'src/layouts/PaymentLayout';
-import { getItemToLocalStorage } from 'src/constants/global';
-import { useMutation } from '@apollo/client';
-import { useAuth } from '../../modules/auth';
-import { CREATE_PAYMENT } from '../ConfirmPayment';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
 const CheckoutForm = () => {
-  const params = useParams();
-  const [createPayment] = useMutation(CREATE_PAYMENT);
   const stripe = useStripe();
+  const params = useParams();
   const elements = useElements();
-  const { user } = useAuth();
-  const history = useHistory();
   const [isLoading, setLoading] = useState(false);
 
   const [t] = useTranslation('purchase');
@@ -31,54 +24,24 @@ const CheckoutForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     setLoading(() => true);
 
     if (!stripe || !elements) {
       return;
     }
 
-    const { error: confirmError } = await stripe.confirmPayment({
+    const { error } = await stripe.confirmPayment({
       elements,
-      redirect: 'if_required',
+      redirect: 'always',
       confirmParams: {
         return_url: `${window.location.origin}/purchase/${params.packageId}/complete`,
       },
     });
-    if (confirmError) {
-      setErrorMessage(confirmError.message);
+    if (error) {
+      setErrorMessage(error.message);
       setLoading(() => false);
       return;
-    }
-
-    const { paymentIntent, error: paymentIntentError } =
-      await stripe.retrievePaymentIntent(params.clientSecret);
-    if (paymentIntentError) {
-      setErrorMessage(paymentIntentError.message);
-      setLoading(() => false);
-      return;
-    }
-
-    if (paymentIntent.status === 'succeeded') {
-      try {
-        await createPayment({
-          variables: {
-            studentId: parseInt(
-              getItemToLocalStorage('studentId')
-                ? getItemToLocalStorage('studentId')
-                : user.students[0].id,
-            ),
-            packageId: parseInt(params.packageId),
-            provider: 'stripe',
-            metadata: JSON.stringify(paymentIntent),
-          },
-        });
-
-        history.push(
-          `/purchase/${params.packageId}/complete?payment_intent_client_secret=${params.clientSecret}`,
-        );
-      } catch (error) {
-        setErrorMessage('Server error. Please try again later.');
-      }
     }
 
     setLoading(() => false);
@@ -97,7 +60,6 @@ const CheckoutForm = () => {
         >
           {t('pay')}
         </button>
-        {/* Show error message to your customers */}
       </form>
     </PaymentLayout>
   );
