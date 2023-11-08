@@ -6,7 +6,7 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PaymentLayout } from 'src/layouts/PaymentLayout';
 import { getItemToLocalStorage } from 'src/constants/global';
@@ -22,6 +22,7 @@ const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const { user } = useAuth();
+  const history = useHistory();
   const [isLoading, setLoading] = useState(false);
 
   const [t] = useTranslation('purchase');
