@@ -10,10 +10,17 @@ import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { getItemToLocalStorage } from 'src/constants/global';
 import { useAuth } from 'src/modules/auth';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation, useQuery, gql } from '@apollo/client';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
-export const CREATE_PAYMENT = gql`
+
+const CHECK_STRIPE_PAYMENT = gql`
+  query checkStripePaymentStatus($paymentIntentId: String!) {
+    checkStripePaymentStatus(paymentIntentId: $paymentIntentId)
+  }
+`;
+
+const CREATE_PAYMENT = gql`
   mutation CreatePayment(
     $studentId: ID!
     $packageId: ID!
@@ -39,10 +46,15 @@ export default function ConfirmPayment() {
   const { user } = useAuth();
   const params = useParams();
   const [createPayment] = useMutation(CREATE_PAYMENT);
-
   const clientSecret = new URLSearchParams(window.location.search).get(
     'payment_intent_client_secret',
   );
+  const paymentIntentId = new URLSearchParams(window.location.search).get(
+    'payment_intent',
+  );
+  const { data } = useQuery(CHECK_STRIPE_PAYMENT, {
+    variables: { paymentIntentId: paymentIntentId },
+  });
 
   const isNiceSuccess = new URLSearchParams(window.location.search).get(
     'success',
@@ -60,45 +72,56 @@ export default function ConfirmPayment() {
   }, [isNiceSuccess]);
 
   useEffect(() => {
-    if (clientSecret)
-      stripePromise.then(async (stripe) => {
-        const { paymentIntent } = await stripe.retrievePaymentIntent(
-          clientSecret,
-        );
+    if (!clientSecret || !data) {
+      return;
+    }
+    const { checkStripePaymentStatus: alreadyPaid } = data;
+    stripePromise.then((stripe) => {
+      stripe
+        .retrievePaymentIntent(clientSecret)
+        .then(async ({ paymentIntent }) => {
+          switch (paymentIntent.status) {
+            case 'succeeded': {
+              if (alreadyPaid) {
+                setMessage('You have already paid for this package.');
+                return;
+              }
 
-        switch (paymentIntent.status) {
-          case 'succeeded':
-            await createPayment({
-              variables: {
-                studentId: parseInt(
-                  getItemToLocalStorage('studentId')
-                    ? getItemToLocalStorage('studentId')
-                    : user.students[0].id,
-                ),
-                packageId: parseInt(params.packageId),
-                provider: 'stripe',
-                metadata: JSON.stringify(paymentIntent),
-              },
-            });
-            setMessage(t('payment_success'));
-            break;
+              createPayment({
+                variables: {
+                  studentId: parseInt(
+                    getItemToLocalStorage('studentId')
+                      ? getItemToLocalStorage('studentId')
+                      : user.students[0].id,
+                  ),
+                  packageId: parseInt(params.packageId),
+                  provider: 'stripe',
+                  metadata: JSON.stringify(paymentIntent),
+                },
+              }).then(() => {
+                setMessage(t('payment_success'));
+              });
 
-          case 'processing':
-            setMessage(t('payment_processing'));
-            break;
+              break;
+            }
 
-          case 'requires_payment_method':
-            setMessage(t('payment_failed'));
-            setError(true);
-            break;
+            case 'processing':
+              setMessage(t('payment_processing'));
+              break;
 
-          default:
-            setMessage(t('payment_error'));
-            setError(true);
-            break;
-        }
-      });
-  }, [clientSecret]);
+            case 'requires_payment_method':
+              setMessage(t('payment_fail'));
+              setError(true);
+              break;
+
+            default:
+              setMessage(t('payment_error'));
+              setError(true);
+              break;
+          }
+        });
+    });
+  }, [clientSecret, data]);
 
   if (!message) return <Loader />;
 
