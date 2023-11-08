@@ -13,7 +13,7 @@ import { useAuth } from 'src/modules/auth';
 import { useMutation, gql } from '@apollo/client';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
-const CREATE_PAYMENT = gql`
+export const CREATE_PAYMENT = gql`
   mutation CreatePayment(
     $studentId: ID!
     $packageId: ID!
