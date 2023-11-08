@@ -25,7 +25,7 @@ const CREATE_PAYMENT = gql`
     $studentId: ID!
     $packageId: ID!
     $provider: PaymentProviderType
-    $metadata: JSON
+    $metadata: String
   ) {
     createPayment(
       studentId: $studentId
