@@ -52,10 +52,14 @@ const Navbar = ({ setShowSidebar }) => {
       <Link
         key={index}
         to={item.href || '#'}
-        className={`flex items-center justify-between px-[15px] py-[7px]  font-semibold text-[15px] cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple`}
+        className={`flex items-center justify-between px-[15px] py-[7px] font-semibold text-[15px] ${
+          item.isActive
+            ? 'cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple'
+            : 'cursor-no-drop grayscale-[70%] opacity-50'
+        }`}
         onClick={() => {
           setActive(index);
-          setVisible(false);
+          item.isActive ? setVisible(false) : undefined;
           if (item.onClick) {
             item.onClick(index);
           }
@@ -87,13 +91,16 @@ const Navbar = ({ setShowSidebar }) => {
         label: student.firstName,
         customIcon: HiUserCircle,
         activeIcon: student?.avatar?.url,
-        onClick: () => onChangeStudentProfile(student.id),
+        isActive: student.isActive,
+        onClick: () =>
+          student.isActive ? onChangeStudentProfile(student.id) : undefined,
       };
     });
 
   studentList.push({
     label: 'Add Account',
     href: '/add-student-profile',
+    isActive: true,
     customIcon: MdAddCircleOutline,
   });
 
