@@ -15,8 +15,8 @@ const GET_AVAILABLE_MENTORS = gql`
         day
         from
         to
-        fromSeconds
-        toSeconds
+        # fromSeconds
+        # toSeconds
       }
       mentors {
         id
