@@ -13,6 +13,7 @@ import { FaVimeo, FaYoutube } from 'react-icons/fa';
 import InputField from '../../../../components/Form/InputField';
 import InputWithError from '../../../../components/Form/InputWithError';
 import notify from '../../../../utils/notify';
+import { renderVideo } from 'src/utils/renderVideo';
 
 const SubmitVideo = () => {
   const history = useHistory();
@@ -38,7 +39,7 @@ const SubmitVideo = () => {
       await updateMentor({
         variables: {
           id: parseInt(user?.mentor?.id),
-          data: { videoUrl: area.videoUrl },
+          data: { videoUrl: renderVideo(area.videoUrl) },
         },
         onCompleted: () => {
           history.push('/mentor/edit-profiles/submit-videos/submited');
@@ -104,6 +105,10 @@ const SubmitVideo = () => {
                 }
                 {...register('videoUrl', {
                   required: 'Video is required',
+                  pattern: {
+                    value: /^(https?:\/\/)?(www\.)?(youtube\.com|vimeo\.com)/,
+                    message: 'Invalid URL. It should be a YouTube or Vimeo URL',
+                  },
                 })}
               />
             </InputWithError>

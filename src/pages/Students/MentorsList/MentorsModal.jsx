@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { useTranslation } from 'react-i18next';
-import { renderVideo } from '../../../utils/functions';
 
 import { Avatar } from '../../../widgets/Avatar/Avatar';
 import Button from '../../../components/Form/Button/Button';
@@ -15,7 +14,7 @@ const MentorsModal = ({ mentor, setShowMentorModal }) => {
   const [videoLink, setVideoLink] = React.useState('');
 
   React.useEffect(() => {
-    setVideoLink(renderVideo(mentor?.videoUrl) || '');
+    setVideoLink(mentor?.videoUrl || '');
   }, [mentor]);
 
   return (
