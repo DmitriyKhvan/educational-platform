@@ -1,34 +1,19 @@
-import React, { useState, useEffect, memo } from 'react';
-
-import { MESSAGE_SUBSCRIPTIONS } from 'src/utils/subscriptions';
-import { useSubscription } from '@apollo/client';
+import React, { useState, memo } from 'react';
 
 import { useOutsideClick } from 'src/utils/useOutsideClick';
 import { IoNotifications } from 'react-icons/io5';
-import { NOTIFICATION_LIMIT } from 'src/constants/global';
 import { NotificationItem } from './NotificationItem';
 import { Link } from 'react-router-dom';
+import { useNotifications } from 'src/modules/notifications';
+import { Badge } from 'src/components/Badge';
 
 // eslint-disable-next-line react/display-name
 export const NotificationDropdownMenu = memo(() => {
+  const { notifications } = useNotifications();
+
   const [visible, setVisible] = useState(false);
-  const [notifications, setNotification] = useState([]);
 
   const ref = useOutsideClick(() => setVisible(false));
-
-  const { data } = useSubscription(MESSAGE_SUBSCRIPTIONS);
-
-  console.log('data', data);
-  console.log('notifications', notifications);
-
-  useEffect(() => {
-    if (data?.newMessages) {
-      setNotification([
-        data.newMessages,
-        ...notifications.slice(0, NOTIFICATION_LIMIT - 1),
-      ]);
-    }
-  }, [data]);
 
   return (
     <div ref={ref} className={`dropdown ml-[20px]`}>
@@ -41,9 +26,7 @@ export const NotificationDropdownMenu = memo(() => {
         <IoNotifications className="text-2xl" />
       </div>
 
-      {notifications.length > 0 && (
-        <span className="badge">{notifications.length}</span>
-      )}
+      {notifications.length > 0 && <Badge count={notifications.length} />}
 
       {visible && notifications.length > 0 && (
         <>

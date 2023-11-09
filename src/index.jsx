@@ -44,6 +44,7 @@ import './index.css';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { createWsLink } from './utils/subscriptions';
 import { getItemToLocalStorage } from './constants/global';
+import { NotificationsProvider } from './modules/notifications';
 
 const httpLink = createUploadLink({
   uri: `${process.env.REACT_APP_SERVER_URL}/graphql`,
@@ -120,7 +121,9 @@ root.render(
   <ApolloProvider client={client}>
     <I18nextProvider i18n={i18next}>
       <AuthProvider>
-        <App />
+        <NotificationsProvider>
+          <App />
+        </NotificationsProvider>
       </AuthProvider>
     </I18nextProvider>
   </ApolloProvider>,

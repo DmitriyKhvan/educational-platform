@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useAuth } from '../modules/auth';
 import '../assets/styles/referal.scss';
-import '../assets/styles/sidebar.scss';
 import CloseIcon from '../assets/images/close.svg';
 import Logo from '../assets/images/logo.png';
 import LogoutImg from '../assets/images/logout_icon.svg';
@@ -20,9 +19,11 @@ import ActiveIcon1 from '../assets/images/sidebar/white_dashboard_icon.svg';
 import ActiveIcon2 from '../assets/images/sidebar/white_lesson_icon.svg';
 import ActiveIcon11 from '../assets/images/sidebar/white_subscription_icon.svg';
 import gift from '../assets/images/sidebar/gift.png';
-import { useSubscription } from '@apollo/client';
-import { MESSAGE_SUBSCRIPTIONS } from '../utils/subscriptions';
 import { classMaterialURL, Roles } from '../constants/global';
+import { Badge } from './Badge';
+import { useNotifications } from 'src/modules/notifications';
+import { useMutation } from '@apollo/client';
+import { MARK_MESSAGE_AS_READ } from 'src/modules/graphql/mutations/notifications';
 
 const tutorNavLinks = [
   {
@@ -98,7 +99,10 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
 
   const { user: currentUser, logout } = useAuth();
 
-  const { data } = useSubscription(MESSAGE_SUBSCRIPTIONS);
+  const { notifications, refetchNotifications } = useNotifications();
+
+  const [markMessageAsRead] = useMutation(MARK_MESSAGE_AS_READ);
+
   tutorNavLinks.map((item) => {
     item.is_selected = location.pathname.includes(item.link);
     return item;
@@ -124,6 +128,32 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
     window.location.reload(true);
   };
 
+  const getCountNotification = (type) => {
+    const count = notifications.filter(
+      (notification) => notification?.meta?.dashboard === type,
+    );
+    return count.length;
+  };
+
+  const removeNotifications = (type) => {
+    const notificationIds = notifications.map((notification) => {
+      if (notification?.meta?.dashboard === type) {
+        return notification.id;
+      }
+    });
+
+    // console.log('notificationIds', notificationIds);
+
+    markMessageAsRead({
+      variables: {
+        id: notificationIds,
+      },
+      onCompleted: () => {
+        refetchNotifications();
+      },
+    });
+  };
+
   return (
     <>
       <div className="side-bar desktop-version">
@@ -139,13 +169,15 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
               <div key={`divider-${index}`} className="divider" />
             ) : (
               <li
-                className={`nav-item ${item.is_selected ? 'active' : ''} ${
-                  data?.newMessages?.meta?.dashboard == item.label
-                    ? 'ws-notification'
-                    : ''
+                className={`relative nav-item ${
+                  item.is_selected ? 'active' : ''
                 }`}
                 key={index}
               >
+                {getCountNotification(item.label) > 0 && (
+                  <Badge count={getCountNotification(item.label)} />
+                )}
+
                 {item.external ? (
                   <a
                     href="#"
@@ -169,7 +201,10 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
                     <span>{t(item.label, { ns: 'sidebar' })}</span>
                   </a>
                 ) : (
-                  <Link to={item.link}>
+                  <Link
+                    to={item.link}
+                    onClick={() => removeNotifications(item.label)}
+                  >
                     <div className="icon">
                       <img
                         src={item.activeIcon}
@@ -203,11 +238,7 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
           <div className="link-list">
             {navLinks?.map((item, index) => (
               <li
-                className={`nav-item ${item.is_selected ? 'active' : ''} ${
-                  data?.newMessages?.meta?.dashboard == item.label
-                    ? 'ws-notification'
-                    : ''
-                }`}
+                className={`nav-item ${item.is_selected ? 'active' : ''}s`}
                 key={index}
               >
                 <Link to={item.link} onClick={() => setShowSidebar(false)}>

@@ -37,6 +37,7 @@ const Subscriptions = () => {
   const { data: { packageSubscriptions: planStatus = [], loading } = {} } =
     useQuery(PACKAGE_QUERY, {
       skip: !niceSubscriptionStatus,
+      fetchPolicy: 'no-cache',
       variables: {
         studentId: getItemToLocalStorage('studentId'),
       },

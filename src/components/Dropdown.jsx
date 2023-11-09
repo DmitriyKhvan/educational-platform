@@ -3,6 +3,7 @@ import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
 import { useOutsideClick } from 'src/utils/useOutsideClick';
+import { Badge } from './Badge';
 
 // import { useOutsideClick } from 'src/utils/useOutsideClick';
 
@@ -67,7 +68,9 @@ const Dropdown = ({
         )}
       </div>
 
-      {badge > 0 && <span className="badge">{badge}</span>}
+      {/* {badge > 0 && <span className="badge">{badge}</span>} */}
+      {badge > 0 && <Badge count={badge} />}
+
       {visible && filterItems.length > 0 && (
         <>
           {/* <div className="background" onClick={() => setVisible(false)} /> */}
