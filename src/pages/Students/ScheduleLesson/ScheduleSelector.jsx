@@ -159,7 +159,7 @@ const ScheduleSelector = ({
   const { data: timesheetsData } = useTimesheets({
     tz: userTimezone,
     date: moment(day).format('YYYY-MM-DD'),
-    duration: String(step).toString(),
+    duration: String(duration).toString(),
     ...(selectedTutor && {
       mentorId: selectedTutor.id,
     }),
