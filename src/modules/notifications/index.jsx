@@ -25,28 +25,25 @@ export const NotificationsProvider = ({ children }) => {
   const [markMessageAsRead] = useMutation(MARK_MESSAGE_AS_READ);
 
   useEffect(() => {
-    // debugger;
+    debugger;
     if (newNofifications?.newMessages) {
       setNotification([
         newNofifications.newMessages,
-        ...notifications.slice(0, NOTIFICATION_LIMIT - 1),
+        ...notifications.slice(0, NOTIFICATION_LIMIT),
       ]);
     }
   }, [newNofifications]);
 
   useEffect(() => {
-    // debugger;
+    debugger;
     if (allNotifications?.getUserNotifications.length) {
       setNotification([
-        ...allNotifications.getUserNotifications.slice(
-          0,
-          NOTIFICATION_LIMIT - 1,
-        ),
+        ...allNotifications.getUserNotifications.slice(0, NOTIFICATION_LIMIT),
       ]);
     } else {
       setNotification([]);
     }
-  }, [updateNotifications]);
+  }, [allNotifications, updateNotifications]);
 
   console.log('allNotifications', allNotifications);
 
