@@ -10,16 +10,16 @@ import { useAuth } from '../../../modules/auth';
 import { gql, useQuery } from '@apollo/client';
 
 const GET_TIMESHEETS = gql`
-  query timesheets($tz: String!, $date: String!, $mentorId: ID) {
-    timesheets(tz: $tz, date: $date, mentorId: $mentorId) {
+  query combinedTimesheets($tz: String!, $date: String!, $duration: String!, $mentorId: ID) {
+    combinedTimesheets(tz: $tz, date: $date, duration: $duration, mentorId: $mentorId, ) {
       id
       day
       from
       to
+      reserved
     }
   }
 `;
-
 const useTimesheets = (body) => {
   const res = useQuery(GET_TIMESHEETS, {
     variables: {
@@ -148,6 +148,7 @@ const ScheduleSelector = ({
   const { data: timesheetsData } = useTimesheets({
     tz: userTimezone,
     date: moment(day).format('YYYY-MM-DD'),
+    duration: String(step).toString(),
     ...(selectedTutor && {
       mentorId: selectedTutor.id,
     }),
@@ -156,13 +157,13 @@ const ScheduleSelector = ({
   //Loop over the times - only pushes time with 30 oor 60 minutes interval
   while (startTime.isBefore(endTime) || startTime.isSame(endTime)) {
     const tempTime = moment(startTime.format('HH:mm'), 'HH:mm');
-    timesheetsData?.timesheets.map((timesheet) => {
+    timesheetsData?.combinedTimesheets.map((timesheet) => {
       const timesheetFrom = moment(timesheet.from, 'HH:mm');
       const timesheetTo = moment(timesheet.to, 'HH:mm');
       // Third argument is for units (for which we do not care right now)
       // Fourth parameter '[)' means that the end time is not included
       if (tempTime.isBetween(timesheetFrom, timesheetTo, null, '[)')) {
-        allTimes.push(startTime.format('HH:mm'));
+        allTimes.push({ time: startTime.format('HH:mm'), reserved: timesheet.reserved });
         return timesheet;
       }
     });
@@ -289,15 +290,18 @@ const ScheduleSelector = ({
   };
 
   const handleConfirmLesson = (scheduleStartTime) => {
+    if (scheduleStartTime.reserved) {
+      return;
+    }
     const formattedDay = moment(day).format('YYYY-MM-DD');
     const selectedSchedule = moment.tz(
-      formattedDay + ' ' + scheduleStartTime,
+      formattedDay + ' ' + scheduleStartTime.time,
       userTimezone,
     );
     const hoursPrior = JSON.parse(process.env.REACT_APP_PRODUCTION) ? 48 : 0;
 
     const preScreen = moment
-      .tz(formattedDay + ' ' + scheduleStartTime, userTimezone)
+      .tz(formattedDay + ' ' + scheduleStartTime.time, userTimezone)
       .subtract(hoursPrior, 'hours');
     const todayDate = moment();
 
@@ -333,7 +337,7 @@ const ScheduleSelector = ({
   };
 
   const ScheduleCard = ({ scheduleStartTime }) => {
-    const scheduleEndTime = moment(scheduleStartTime, [
+    const scheduleEndTime = moment(scheduleStartTime.time, [
       moment.ISO_8601,
       'HH:mm',
     ])
@@ -347,7 +351,7 @@ const ScheduleSelector = ({
         <div className="row container ms-1">
           <div className="col-12 align_schedule_texts">
             <h3 className={`text-black change_width_schedule`}>
-              {moment(scheduleStartTime, [moment.ISO_8601, 'HH:mm']).format(
+              {moment(scheduleStartTime.time, [moment.ISO_8601, 'HH:mm']).format(
                 'hh:mm A',
               )}{' '}
               → {scheduleEndTime}
@@ -370,7 +374,7 @@ const ScheduleSelector = ({
           <div className="col">
             <div className="schedule-card-col">
               <div
-                className={`enter-btn btn-primary align_button_sche_lesson`}
+                className={scheduleStartTime.reserved ? `enter-btn align_button_sche_lesson`:`enter-btn btn-primary align_button_sche_lesson`}
                 onClick={() => {
                   handleConfirmLesson(scheduleStartTime);
                 }}
