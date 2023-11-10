@@ -8,10 +8,21 @@ import Swal from 'sweetalert2';
 import Loader from 'react-loader-spinner';
 import { useAuth } from '../../../modules/auth';
 import { gql, useQuery } from '@apollo/client';
+import { cn } from 'src/utils/functions';
 
 const GET_TIMESHEETS = gql`
-  query combinedTimesheets($tz: String!, $date: String!, $duration: String!, $mentorId: ID) {
-    combinedTimesheets(tz: $tz, date: $date, duration: $duration, mentorId: $mentorId, ) {
+  query combinedTimesheets(
+    $tz: String!
+    $date: String!
+    $duration: String!
+    $mentorId: ID
+  ) {
+    combinedTimesheets(
+      tz: $tz
+      date: $date
+      duration: $duration
+      mentorId: $mentorId
+    ) {
       id
       day
       from
@@ -148,7 +159,7 @@ const ScheduleSelector = ({
   const { data: timesheetsData } = useTimesheets({
     tz: userTimezone,
     date: moment(day).format('YYYY-MM-DD'),
-    duration: String(step).toString(),
+    duration: String(duration).toString(),
     ...(selectedTutor && {
       mentorId: selectedTutor.id,
     }),
@@ -163,7 +174,10 @@ const ScheduleSelector = ({
       // Third argument is for units (for which we do not care right now)
       // Fourth parameter '[)' means that the end time is not included
       if (tempTime.isBetween(timesheetFrom, timesheetTo, null, '[)')) {
-        allTimes.push({ time: startTime.format('HH:mm'), reserved: timesheet.reserved });
+        allTimes.push({
+          time: startTime.format('HH:mm'),
+          reserved: timesheet.reserved,
+        });
         return timesheet;
       }
     });
@@ -346,14 +360,19 @@ const ScheduleSelector = ({
 
     return (
       <div
-        className={`time-card space-y-2 grey-border bg-white small-card pt-4 mt-4 media_align_width`}
+        className={cn(
+          `time-card space-y-2 grey-border bg-white small-card pt-4 mt-4 media_align_width`,
+          scheduleStartTime.reserved &&
+            'bg-color-darker-grey grayscale-[70%] opacity-50',
+        )}
       >
         <div className="row container ms-1">
           <div className="col-12 align_schedule_texts">
             <h3 className={`text-black change_width_schedule`}>
-              {moment(scheduleStartTime.time, [moment.ISO_8601, 'HH:mm']).format(
-                'hh:mm A',
-              )}{' '}
+              {moment(scheduleStartTime.time, [
+                moment.ISO_8601,
+                'HH:mm',
+              ]).format('hh:mm A')}{' '}
               → {scheduleEndTime}
             </h3>
           </div>
@@ -374,7 +393,10 @@ const ScheduleSelector = ({
           <div className="col">
             <div className="schedule-card-col">
               <div
-                className={scheduleStartTime.reserved ? `enter-btn align_button_sche_lesson`:`enter-btn btn-primary align_button_sche_lesson`}
+                className={cn(
+                  `enter-btn btn-primary align_button_sche_lesson`,
+                  scheduleStartTime.reserved && 'cursor-no-drop',
+                )}
                 onClick={() => {
                   handleConfirmLesson(scheduleStartTime);
                 }}
