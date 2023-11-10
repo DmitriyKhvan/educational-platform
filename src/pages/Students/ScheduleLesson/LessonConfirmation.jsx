@@ -350,10 +350,10 @@ const LessonConfirmation = ({
             {isConfirmed ? (
               <React.Fragment>
                 <h4 className="weekly-schedule">
-                  {t('lesson_confirmation', { ns: 'lessons' })}
+                  {t('lesson_pending_approval', { ns: 'lessons' })}
                 </h4>
                 <h4 className="text-purple weekly-schedule-subtitle">
-                  {t('lesson_confirmation_subtitle', { ns: 'lessons' })}
+                  {t('lesson_pending_approval_subtitle', { ns: 'lessons' })}
                 </h4>
                 <div className="flex-container gap-2 mb-4">
                   <div>
