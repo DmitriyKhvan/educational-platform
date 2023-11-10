@@ -199,7 +199,6 @@ const ScheduleSelector = ({
   }
 
   const DaySelector = ({ data, i }) => {
-    console.log('data', data);
     const checkDate = () => {
       if (data.format === 'day') {
         const unixEpoch = moment(data.day).unix() * 1000;
@@ -412,8 +411,6 @@ const ScheduleSelector = ({
   };
 
   const uniqTimes = [...new Set(allTimes)];
-
-  console.log('uniqTimes', uniqTimes);
 
   const AvailableSpots = () => (
     <React.Fragment>
