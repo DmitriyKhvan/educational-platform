@@ -22,8 +22,6 @@ import gift from '../assets/images/sidebar/gift.png';
 import { classMaterialURL, Roles } from '../constants/global';
 import { Badge } from './Badge';
 import { useNotifications } from 'src/modules/notifications';
-import { useMutation } from '@apollo/client';
-import { MARK_MESSAGE_AS_READ } from 'src/modules/graphql/mutations/notifications';
 
 const tutorNavLinks = [
   {
@@ -99,9 +97,7 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
 
   const { user: currentUser, logout } = useAuth();
 
-  const { notifications, refetchNotifications } = useNotifications();
-
-  const [markMessageAsRead] = useMutation(MARK_MESSAGE_AS_READ);
+  const { notifications } = useNotifications();
 
   tutorNavLinks.map((item) => {
     item.is_selected = location.pathname.includes(item.link);
@@ -133,25 +129,6 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
       (notification) => notification?.meta?.dashboard === type,
     );
     return count.length;
-  };
-
-  const removeNotifications = (type) => {
-    const notificationIds = notifications.map((notification) => {
-      if (notification?.meta?.dashboard === type) {
-        return notification.id;
-      }
-    });
-
-    // console.log('notificationIds', notificationIds);
-
-    markMessageAsRead({
-      variables: {
-        id: notificationIds,
-      },
-      onCompleted: () => {
-        refetchNotifications();
-      },
-    });
   };
 
   return (
@@ -201,10 +178,7 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
                     <span>{t(item.label, { ns: 'sidebar' })}</span>
                   </a>
                 ) : (
-                  <Link
-                    to={item.link}
-                    onClick={() => removeNotifications(item.label)}
-                  >
+                  <Link to={item.link}>
                     <div className="icon">
                       <img
                         src={item.activeIcon}

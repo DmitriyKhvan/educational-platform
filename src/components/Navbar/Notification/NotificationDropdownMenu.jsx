@@ -9,11 +9,15 @@ import { Badge } from 'src/components/Badge';
 
 // eslint-disable-next-line react/display-name
 export const NotificationDropdownMenu = memo(() => {
-  const { notifications } = useNotifications();
+  const { notifications, removeNotifications } = useNotifications();
 
   const [visible, setVisible] = useState(false);
 
   const ref = useOutsideClick(() => setVisible(false));
+
+  const clearNotifications = () => {
+    removeNotifications();
+  };
 
   return (
     <div ref={ref} className={`dropdown ml-[20px]`}>
@@ -41,9 +45,10 @@ export const NotificationDropdownMenu = memo(() => {
             ))}
             <Link
               to="#"
+              onClick={clearNotifications}
               className="flex p-4 border-t border-border-color-border-grey"
             >
-              SEE ALL ACTIVITIES
+              CLEAR ALL MESSAGES
             </Link>
           </div>
         </>

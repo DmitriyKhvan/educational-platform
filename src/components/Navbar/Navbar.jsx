@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Logo from 'src/assets/images/auth-logo.svg';
@@ -21,7 +21,8 @@ import { useStudentsDropdown } from './useStudentsDropdown';
 // import { useNotificationsDropdown } from './useNotificationsDropdown';
 import { NotificationDropdownMenu } from './Notification/NotificationDropdownMenu';
 
-const Navbar = ({ setShowSidebar }) => {
+// eslint-disable-next-line react/display-name
+const Navbar = memo(({ setShowSidebar }) => {
   const { user, logout } = useAuth();
   const [language, setLanguage] = useState(
     parseInt(getItemToLocalStorage('language', 1)),
@@ -141,6 +142,6 @@ const Navbar = ({ setShowSidebar }) => {
       </div>
     </div>
   );
-};
+});
 
 export default Navbar;

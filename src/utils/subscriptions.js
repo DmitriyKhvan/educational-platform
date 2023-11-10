@@ -8,6 +8,7 @@ export const MESSAGE_SUBSCRIPTIONS = gql`
       id
       body
       meta
+      createdAt
       sender {
         id
         email

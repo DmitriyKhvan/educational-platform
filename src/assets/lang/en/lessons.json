@@ -59,5 +59,9 @@
   "status": "Status",
   "lessons_remaining_schedule": "Lessons To Schedule",
   "disabled_package": "Sorry, your service subscription has expired or is invalid. You can contact an administrator for further assistance.",
-  "recording": "Recording"
+  "recording": "Recording",
+  "lesson_canceled": "Lesson canceled",
+  "lesson_created": "Lesson created",
+  "lesson_rescheduled": "Lesson rescheduled",
+  "lesson_approved": "Lesson approved"
 }

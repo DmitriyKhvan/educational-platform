@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { differenceInDays } from 'date-fns';
+import { differenceInDays, format } from 'date-fns';
+import { useTranslation } from 'react-i18next';
 
 export const NotificationItem = ({ notification, setVisible }) => {
+  const [t] = useTranslation('lessons');
   return (
     <Link
       to={notification.href || '#'}
@@ -13,18 +15,21 @@ export const NotificationItem = ({ notification, setVisible }) => {
       }}
     >
       <p className="flex items-center justify-between w-full box-shadow  transition ease-in-out delay-150  group-hover:text-white">
-        <span className="w-3/4 font-semibold mr-[30px]">
-          {notification.body}
+        <span className="max-w-3/4 font-semibold mr-[30px]">
+          {t(notification.body)} (
+          {format(new Date(notification.meta.lesson.date), 'eee, MMM do')})
         </span>
-        {notification?.sender?.updatedAt && (
-          <span className="whitespace-nowrap">
-            {differenceInDays(
-              new Date(),
-              new Date(notification?.sender?.updatedAt),
-            )}{' '}
-            day(s) ago
+        <span>
+          <span className="mr-5">
+            {notification.meta.user.firstName} {notification.meta.user.lastName}
           </span>
-        )}
+          {notification?.createdAt && (
+            <span className="whitespace-nowrap">
+              {differenceInDays(new Date(), new Date(notification?.createdAt))}{' '}
+              day(s) ago
+            </span>
+          )}
+        </span>
       </p>
     </Link>
   );

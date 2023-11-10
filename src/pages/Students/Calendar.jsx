@@ -24,6 +24,8 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 import { LessonTable } from '../../components/student-dashboard/LessonTable';
 import { addMinutes, isAfter } from 'date-fns';
 import Button from 'src/components/Form/Button';
+import { Badge } from 'src/components/Badge';
+import { useNotifications } from 'src/modules/notifications';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -102,6 +104,9 @@ const Calendar = () => {
   const location = useLocation();
   const { user } = useAuth();
 
+  const { notifications, getCountNotification, removeNotifications } =
+    useNotifications();
+
   const {
     refetch: getAppointments,
     data: appointments,
@@ -114,6 +119,10 @@ const Calendar = () => {
     },
     fetchPolicy: 'no-cache',
   });
+
+  useEffect(() => {
+    getAppointments();
+  }, [notifications]);
 
   const [calendarAppointments, setCalendarAppointments] = useState([]);
   const [tableAppointments, setTableAppointments] = useState([]);
@@ -270,6 +279,7 @@ const Calendar = () => {
     setIsCalendar(false);
     setDisplayTableData([...upcomingLessons]);
     setSelectedTab('upcomingLessons');
+    removeNotifications(LessonsStatusType.APPROVED);
   };
 
   const onCalendarClick = () => {
@@ -348,13 +358,18 @@ const Calendar = () => {
               <div className="w-auto flex items-center mb-4">
                 <Button
                   theme="outline"
-                  className={`ml-0 rounded-r-none focus:shadow-none ${
+                  className={`relative ml-0 rounded-r-none focus:shadow-none ${
                     selectedTab === 'upcomingLessons' &&
                     'bg-color-purple text-white'
                   }`}
                   onClick={onClickUpcomingLessons}
                 >
                   <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
+                  {getCountNotification(LessonsStatusType.APPROVED) > 0 && (
+                    <Badge
+                      count={getCountNotification(LessonsStatusType.APPROVED)}
+                    />
+                  )}
                 </Button>
                 <Button
                   theme="outline"

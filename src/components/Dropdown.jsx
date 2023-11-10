@@ -5,8 +5,6 @@ import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
 import { useOutsideClick } from 'src/utils/useOutsideClick';
 import { Badge } from './Badge';
 
-// import { useOutsideClick } from 'src/utils/useOutsideClick';
-
 const Dropdown = ({
   icon,
   label,
