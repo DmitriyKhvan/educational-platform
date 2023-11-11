@@ -9,12 +9,14 @@ import Loader from 'react-loader-spinner';
 import { useAuth } from '../../../modules/auth';
 import { gql, useQuery } from '@apollo/client';
 import { cn } from 'src/utils/functions';
+import { getItemToLocalStorage } from 'src/constants/global';
 
 const GET_TIMESHEETS = gql`
   query combinedTimesheets(
     $tz: String!
     $date: String!
     $duration: String!
+    $studentId: ID!
     $mentorId: ID
   ) {
     combinedTimesheets(
@@ -22,6 +24,7 @@ const GET_TIMESHEETS = gql`
       date: $date
       duration: $duration
       mentorId: $mentorId
+      studentId: $studentId
     ) {
       id
       day
@@ -163,6 +166,7 @@ const ScheduleSelector = ({
     ...(selectedTutor && {
       mentorId: selectedTutor.id,
     }),
+    studentId: getItemToLocalStorage('studentId')
   });
 
   //Loop over the times - only pushes time with 30 oor 60 minutes interval
@@ -411,6 +415,7 @@ const ScheduleSelector = ({
   };
 
   const uniqTimes = [...new Set(allTimes)];
+
 
   const AvailableSpots = () => (
     <React.Fragment>
