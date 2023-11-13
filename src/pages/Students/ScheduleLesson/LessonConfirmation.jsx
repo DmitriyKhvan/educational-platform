@@ -155,7 +155,6 @@ const LessonConfirmation = ({
     }
 
     if (lesson.length) {
-      console.log('lesson', lesson);
       setConfirmDisable(true);
       setNewAppointment(lesson);
       // setDate(moment(lesson.startAt).unix());
@@ -169,8 +168,6 @@ const LessonConfirmation = ({
     }
     setIsLoading(false);
   };
-
-  console.log('newAppointment', newAppointment);
 
   const timeRepeatLesson =
     plan.credits < plan.package.sessionsPerWeek * WEEKS_IN_MONTH
