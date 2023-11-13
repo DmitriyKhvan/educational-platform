@@ -72,5 +72,7 @@
   "reason_4": "수업을 위한 인터넷 및 기술적 환경이 준비되지 않았습니다",
   "reason_5": "건강이 좋지 않습니다",
   "reason_6": "매칭된 멘토가 맘에들지 않습니다",
-  "reason_7": "기타"
+  "reason_7": "기타",
+  "lesson_pending_approval": "승인 대기",
+  "lesson_pending_approval_subtitle": "멘토의 승인을 기다리고 있습니다. 승인 전에는 달력에 회색으로 표시되고 승인 후에 보라색으로 변경됩니다"
 }

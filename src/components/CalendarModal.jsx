@@ -72,7 +72,7 @@ const CalendarModal = ({
               {endTime}
             </h3>
             {(event.resource.status === LessonsStatusType.SCHEDULED ||
-              event.resource.status === LessonsStatusType.SCHEDULED) && (
+              event.resource.status === LessonsStatusType.RESCHEDULED) && (
               <p className="text-md text-red-500 font-bold">
                 {t('lesson_not_approved', { ns: 'lessons' })}
               </p>

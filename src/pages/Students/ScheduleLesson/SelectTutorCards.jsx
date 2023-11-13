@@ -7,10 +7,11 @@ import MentorsModal from '../MentorsList/MentorsModal';
 import Loader from '../../../components/common/Loader';
 import ModalWrapper from '../../../components/ModalWrapper/ModalWrapper';
 import { MentorCard } from '../MentorsList/MentorCard';
+import { getItemToLocalStorage } from 'src/constants/global';
 
 const GET_AVAILABLE_MENTORS = gql`
-  query GetAvailableMentors($time: String!, $duration: Int!) {
-    availableMentors(time: $time, duration: $duration) {
+  query GetAvailableMentors($time: String!, $duration: Int!, $studentId: String!) {
+    availableMentors(time: $time, duration: $duration, studentId: $studentId) {
       filterSlot {
         day
         from
@@ -57,13 +58,14 @@ const GET_AVAILABLE_MENTORS = gql`
   }
 `;
 
-const useAvailableMentors = (isoTime, duration) => {
+const useAvailableMentors = (isoTime, duration, studentId) => {
   const { data: { availableMentors } = {}, loading } = useQuery(
     GET_AVAILABLE_MENTORS,
     {
       variables: {
         time: isoTime,
-        duration,
+        duration: duration,
+        studentId: studentId,
       },
       fetchPolicy: 'network-only',
     },
@@ -81,6 +83,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
   const { availableMentors, loading } = useAvailableMentors(
     moment(schedule, 'ddd MMM DD YYYY HH:mm:ss ZZ').toISOString(),
     step,
+    getItemToLocalStorage('studentId')
   );
 
   useEffect(() => {
