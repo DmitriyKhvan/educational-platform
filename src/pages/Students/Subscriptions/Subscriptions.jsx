@@ -64,7 +64,11 @@ const Subscriptions = () => {
                   {planStatus.map((x, i) => (
                     <SubscriptionCard
                       key={i}
-                      price={x.package?.price}
+                      price={
+                        x.payment?.buyPrice
+                          ? x.payment?.buyPrice
+                          : x.package?.price
+                      }
                       title={x.package?.course?.title}
                       totalSessions={x.package?.totalSessions}
                       sessionsPerWeek={x.package?.sessionsPerWeek}
