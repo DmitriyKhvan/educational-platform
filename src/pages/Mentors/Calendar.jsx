@@ -31,6 +31,7 @@ import { addMinutes, isAfter } from 'date-fns';
 import { LessonsStatusType } from 'src/constants/global';
 import Button from 'src/components/Form/Button';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
+import { useNotifications } from 'src/modules/notifications';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -106,6 +107,8 @@ const Calendar = () => {
   const [t] = useTranslation(['lessons', 'modals']);
   const { user } = useAuth();
 
+  const { notifications } = useNotifications();
+
   const {
     refetch: getAppointments,
     data: appointments,
@@ -117,6 +120,10 @@ const Calendar = () => {
     },
     fetchPolicy: 'no-cache',
   });
+
+  useEffect(() => {
+    getAppointments();
+  }, [notifications]);
 
   const [calendarAppointments, setCalendarAppointments] = useState([]);
   const [tableAppointments, setTableAppointments] = useState([]);
