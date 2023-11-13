@@ -75,5 +75,5 @@
   "reason_7": "기타",
   "lesson_pending_approval": "승인 대기",
   "lesson_pending_approval_subtitle": "멘토의 승인을 기다리고 있습니다. 승인 전에는 달력에 회색으로 표시되고 승인 후에 보라색으로 변경됩니다",
-  "lesson_scheduling_failed": "Lesson Scheduling Failed"
+  "lesson_scheduling_failed": "레슨 스케줄링 실패"
 }
