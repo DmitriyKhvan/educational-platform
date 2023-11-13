@@ -568,6 +568,7 @@ export const PACKAGE_QUERY = gql`
         status
         provider
         cancelReason
+        buyPrice
         metadata
       }
       active
