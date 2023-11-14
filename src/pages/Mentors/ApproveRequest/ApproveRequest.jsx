@@ -40,6 +40,11 @@ const ApproveRequest = () => {
 
   useEffect(() => {
     refetchAppointments();
+    if (selectedTab === 'newLessons') {
+      setTimeout(() => {
+        removeNotifications(LessonsStatusType.SCHEDULED);
+      }, 300);
+    }
   }, [notifications]);
 
   const onClickNewLessons = () => {
