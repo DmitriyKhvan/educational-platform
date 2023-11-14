@@ -15,10 +15,6 @@ export const NotificationDropdownMenu = memo(() => {
 
   const ref = useOutsideClick(() => setVisible(false));
 
-  const clearNotifications = () => {
-    removeNotifications();
-  };
-
   return (
     <div ref={ref} className={`dropdown ml-[20px]`}>
       <div
@@ -45,7 +41,7 @@ export const NotificationDropdownMenu = memo(() => {
             ))}
             <Link
               to="#"
-              onClick={clearNotifications}
+              onClick={() => removeNotifications()}
               className="flex p-4 border-t border-border-color-border-grey"
             >
               CLEAR ALL MESSAGES

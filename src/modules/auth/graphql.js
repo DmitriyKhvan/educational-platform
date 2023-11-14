@@ -184,6 +184,7 @@ export const ME_QUERY = gql`
       isActive
       role
       cardLast4
+      newToken
     }
   }
 `;

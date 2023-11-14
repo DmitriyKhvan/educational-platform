@@ -54,6 +54,7 @@ const httpLink = createUploadLink({
 });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
+  debugger;
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
@@ -120,11 +121,11 @@ const root = createRoot(document.getElementById('root'));
 root.render(
   <ApolloProvider client={client}>
     <I18nextProvider i18n={i18next}>
-      <AuthProvider>
-        <NotificationsProvider>
+      <NotificationsProvider>
+        <AuthProvider>
           <App />
-        </NotificationsProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </NotificationsProvider>
     </I18nextProvider>
   </ApolloProvider>,
 );

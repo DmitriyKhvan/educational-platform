@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useSubscription } from '@apollo/client';
+import { useLazyQuery, useMutation, useSubscription } from '@apollo/client';
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { MESSAGE_SUBSCRIPTIONS } from 'src/utils/subscriptions';
 import { GET_USER_NOTIFICATIONS } from '../graphql/queries/notifications';
@@ -14,13 +14,27 @@ export const NotificationsProvider = ({ children }) => {
 
   const { data: newNofifications } = useSubscription(MESSAGE_SUBSCRIPTIONS);
 
-  const { data: allNotifications, refetch: refetchNotifications } = useQuery(
-    GET_USER_NOTIFICATIONS,
-    {
-      // fetchPolicy: 'no-cache',
-      notifyOnNetworkStatusChange: true,
+  // const { data: allNotifications, refetch: refetchNotifications } = useQuery(
+  //   GET_USER_NOTIFICATIONS,
+  //   {
+  //     // fetchPolicy: 'no-cache',
+  //     notifyOnNetworkStatusChange: true,
+  //     onCompleted: () => {
+  //       debugger;
+  //     },
+  //   },
+  // );
+
+  const [
+    getAllNotifications,
+    { data: allNotifications, refetch: refetchNotifications },
+  ] = useLazyQuery(GET_USER_NOTIFICATIONS, {
+    // fetchPolicy: 'no-cache',
+    notifyOnNetworkStatusChange: true,
+    onCompleted: () => {
+      debugger;
     },
-  );
+  });
 
   const [markMessageAsRead] = useMutation(MARK_MESSAGE_AS_READ);
 
@@ -48,6 +62,9 @@ export const NotificationsProvider = ({ children }) => {
   console.log('allNotifications', allNotifications);
 
   const removeNotifications = (type) => {
+    debugger;
+    if (!notifications.length) return;
+
     let notificationIds = [];
 
     if (type) {
@@ -70,6 +87,7 @@ export const NotificationsProvider = ({ children }) => {
         onCompleted: () => {
           // debugger;
           refetchNotifications();
+          // getAllNotifications();
           setUpdateNotifications(Date.now()); //to update the list of notifications
         },
       });
@@ -85,7 +103,12 @@ export const NotificationsProvider = ({ children }) => {
 
   return (
     <NotificationsContext.Provider
-      value={{ notifications, getCountNotification, removeNotifications }}
+      value={{
+        notifications,
+        getCountNotification,
+        removeNotifications,
+        getAllNotifications,
+      }}
     >
       {children}
     </NotificationsContext.Provider>
