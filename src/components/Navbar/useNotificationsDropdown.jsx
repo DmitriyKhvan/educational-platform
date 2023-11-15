@@ -21,7 +21,7 @@ export const useNotificationsDropdown = () => {
 
       setNotification([
         newNotification,
-        ...notification.slice(0, NOTIFICATIONLIMIT - 1),
+        ...notification.slice(0, NOTIFICATIONLIMIT),
       ]);
     }
   }, [data]);

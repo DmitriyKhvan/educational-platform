@@ -45,6 +45,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { createWsLink } from './utils/subscriptions';
 import { getItemToLocalStorage } from './constants/global';
 import { NotificationsProvider } from './modules/notifications';
+// import { SubscriptionClient } from 'subscriptions-transport-ws';
 
 const httpLink = createUploadLink({
   uri: `${process.env.REACT_APP_SERVER_URL}/graphql`,
@@ -54,7 +55,6 @@ const httpLink = createUploadLink({
 });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
-  debugger;
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
@@ -66,6 +66,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 });
 
 const wsLink = createWsLink(process.env.REACT_APP_SERVER_WS_URL);
+
 const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
@@ -78,10 +79,15 @@ const splitLink = split(
   concat(authMiddleware, httpLink),
 );
 
+console.log('splitLink', splitLink.request);
+
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: splitLink,
 });
+
+// client.refetchQueries();
+
 i18next.init({
   interpolation: { escapeValue: false }, // React already does escaping
   lng: parseInt(getItemToLocalStorage('language', 1)) === 0 ? 'kr' : 'en', // language to use

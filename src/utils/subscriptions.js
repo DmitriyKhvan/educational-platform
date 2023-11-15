@@ -36,6 +36,7 @@ export const createWsLink = function (url) {
   const client = new GraphQLWsLink(
     createClient({
       url: url,
+      reconnect: true,
       connectionParams: {
         authToken: `Bearer ${localStorage.getItem('token')}`,
       },

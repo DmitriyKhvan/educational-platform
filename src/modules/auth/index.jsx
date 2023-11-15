@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { ME_QUERY, INVITE_SET_PASSWORD_MUTATION } from './graphql';
-import { getItemToLocalStorage } from 'src/constants/global';
+import { getItemToLocalStorage, Roles } from 'src/constants/global';
 import { useNotifications } from '../notifications';
 
 export const AuthContext = createContext({});
@@ -20,11 +20,16 @@ export const AuthProvider = ({ children }) => {
       studentId: getItemToLocalStorage('studentId'),
     },
     onCompleted: (data) => {
-      debugger;
       if (getItemToLocalStorage('studentId')) {
         localStorage.setItem('token', data.authenticatedUser.newToken);
       }
-      getAllNotifications();
+
+      if (
+        getItemToLocalStorage('studentId') ||
+        data.authenticatedUser.role === Roles.MENTOR
+      ) {
+        getAllNotifications();
+      }
     },
   });
 
@@ -53,6 +58,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('tokenWs');
     localStorage.removeItem('studentId');
   };
 

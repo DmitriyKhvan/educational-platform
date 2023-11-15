@@ -36,8 +36,6 @@ import ConfirmPayment from './pages/ConfirmPayment';
 import BuyPackageTest from './pages/Students/BuyPackageTest';
 import { NicePayment } from './pages/Students/NicePayment';
 // import Messanger from './pages/Messanger/Messanger';
-import { useSubscription } from '@apollo/client';
-import { MESSAGE_SUBSCRIPTIONS } from './utils/subscriptions';
 import { SelectProfile } from './pages/Auth/SelectProfile/SelectProfile';
 import { getItemToLocalStorage, Roles } from './constants/global';
 import { AddStudentProfile } from './pages/Auth/SelectProfile/AddProfile';
@@ -90,8 +88,6 @@ function App() {
       top: 0,
     });
   });
-
-  useSubscription(MESSAGE_SUBSCRIPTIONS);
 
   if (isAuthInProgress) return <Loader height={'100vh'} />;
 
