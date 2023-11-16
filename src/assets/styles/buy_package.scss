@@ -1,0 +1,15 @@
+.by_package_button_wrapper {
+    display: flex;
+    align-content: center;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.apply_promotion_controls_wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.apply_promotion_controls_wrapper input {
+    width: 30%;
+}
