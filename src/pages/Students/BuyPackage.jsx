@@ -118,14 +118,20 @@ export default function BuyPackage() {
   const [uniqueLength, setUniqueLength] = useState([]);
   const [uniqueSessionsPerWeek, setUniqueSessionsPerWeek] = useState([]);
   const [selectedPackage, setSelectedPackage] = useState(null);
-  const [selectedProvider, setSelectedProvider] = useState('nice');
+  const [selectedProvider, setSelectedProvider] = useState('stripe');
 
   const history = useHistory();
 
   const courses = [course0, course1, course2, course3];
 
   useEffect(() => {
-    setCourseData(data);
+    //I had to copy it otherwise it won’t sort
+    if (data) {
+      const cloneSortData = structuredClone(data);
+      cloneSortData.packages.sort((a, b) => a.period - b.period);
+      setCourseData(cloneSortData);
+    }
+
     setUniqueLength([
       ...new Set(data?.packages?.map((item) => item.sessionTime) ?? []),
     ]);
@@ -280,7 +286,7 @@ export default function BuyPackage() {
             <p className="text-lg font-bold text-gray-700/90">{t('length')}</p>
             <div className="flex flex-col gap-2" ref={parent}>
               {/* <pre>{JSON.stringify(courseData, null, 2)}</pre> */}
-              {courseData?.packages?.map(
+              {courseData?.packages.map(
                 (pkg) =>
                   pkg.period !== 1 &&
                   pkg.sessionTime === selectedLength &&
@@ -399,7 +405,7 @@ export default function BuyPackage() {
                       className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
                       type="button"
                     >
-                      Proceed to checkout
+                      {t('proceed_checkout')}
                       <ArrowBack className="brightness-0 invert rotate-180 scale-125" />
                     </button>
                   </AlertDialogTrigger>
@@ -444,7 +450,7 @@ export default function BuyPackage() {
                           <SelectContent className="bg-white">
                             <SelectGroup>
                               <SelectItem value="stripe">Stripe</SelectItem>
-                              {<SelectItem value="nice">NICE</SelectItem>}
+                              {/* <SelectItem value="nice">NICE</SelectItem>s */}
                             </SelectGroup>
                           </SelectContent>
                         </div>

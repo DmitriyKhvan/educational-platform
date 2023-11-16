@@ -19,8 +19,11 @@ import {
 } from '../../../modules/auth/graphql';
 
 import CheckboxField from '../../../components/Form/CheckboxField';
-import { getItemToLocalStorage, LessonsStatusType } from 'src/constants/global';
-import pluralizeWord from 'src/utils/pluralizeWord';
+import {
+  getItemToLocalStorage,
+  LessonsStatusType,
+  WEEKS_IN_MONTH,
+} from 'src/constants/global';
 
 const LessonConfirmation = ({
   plan,
@@ -150,21 +153,34 @@ const LessonConfirmation = ({
         setIsLoading(false);
       }
     }
+
     if (lesson.length) {
       setConfirmDisable(true);
       setNewAppointment(lesson);
       // setDate(moment(lesson.startAt).unix());
-      setIsConfirmed(true);
+
+      if (lesson.length === 1 && lesson[0].cancelReason) {
+        setIsConfirmed(false);
+      } else {
+        setIsConfirmed(true);
+      }
       window.scrollTo(0, 0);
     }
     setIsLoading(false);
   };
 
-  const WEEKS_IN_MONTH = 4;
+  const timeRepeatLesson =
+    plan.credits < plan.package.sessionsPerWeek * WEEKS_IN_MONTH
+      ? Math.ceil(plan.credits / plan.package.sessionsPerWeek)
+      : WEEKS_IN_MONTH;
 
-  const timeRepeatLessons = Math.floor(
-    (plan?.credits / WEEKS_IN_MONTH) * plan?.package?.sessionsPerWeek,
-  );
+  const repeatLesson = `
+    ${t('repeat_lesson', { ns: 'lessons' })} 
+    ${t(format(new Date(time), 'eee'), {
+      ns: 'translations',
+    })} ${timeRepeatLesson}x
+    (${t('max_month', { ns: 'lessons' })})
+  `;
 
   return (
     <Layout>
@@ -244,12 +260,7 @@ const LessonConfirmation = ({
 
               <div className="mt-3">
                 <CheckboxField
-                  label={`${t('repeating_lesson', {
-                    ns: 'translations',
-                  })} ${pluralizeWord(
-                    format(new Date(time), 'EEEE'),
-                    timeRepeatLessons,
-                  )} ${timeRepeatLessons}x`}
+                  label={repeatLesson}
                   onChange={(e) => setRepeat(e.target.checked)}
                   checked={repeat}
                 />
@@ -333,23 +344,30 @@ const LessonConfirmation = ({
                   }
                   onClick={confirmLesson}
                 >
-                  {confirmDisable
-                    ? t('lesson_confirmation', { ns: 'lessons' })
-                    : t('confirm_lesson', { ns: 'lessons' })}
+                  {confirmDisable && isConfirmed
+                    ? t('lesson_pending_approval', { ns: 'lessons' })
+                    : confirmDisable && !isConfirmed
+                    ? t('lesson_scheduling_failed', { ns: 'lessons' })
+                    : t('booking_lesson', { ns: 'lessons' })}
                 </button>
               </div>
             </div>
           </div>
 
           <div className="availability-wrapper  tutor-confirm-right flex-right-student-conf student-list-appointments-wrapper">
-            {isConfirmed ? (
+            {newAppointment.length > 0 ? (
               <React.Fragment>
-                <h4 className="weekly-schedule">
-                  {t('lesson_confirmation', { ns: 'lessons' })}
-                </h4>
-                <h4 className="text-purple weekly-schedule-subtitle">
-                  {t('lesson_confirmation_subtitle', { ns: 'lessons' })}
-                </h4>
+                {isConfirmed && (
+                  <>
+                    <h4 className="weekly-schedule">
+                      {t('lesson_pending_approval', { ns: 'lessons' })}
+                    </h4>
+                    <h4 className="text-purple weekly-schedule-subtitle">
+                      {t('lesson_pending_approval_subtitle', { ns: 'lessons' })}
+                    </h4>
+                  </>
+                )}
+
                 <div className="flex-container gap-2 mb-4">
                   <div>
                     <Link

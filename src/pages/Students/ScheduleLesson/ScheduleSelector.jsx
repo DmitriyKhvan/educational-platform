@@ -8,18 +8,32 @@ import Swal from 'sweetalert2';
 import Loader from 'react-loader-spinner';
 import { useAuth } from '../../../modules/auth';
 import { gql, useQuery } from '@apollo/client';
+import { cn } from 'src/utils/functions';
+import { getItemToLocalStorage } from 'src/constants/global';
 
 const GET_TIMESHEETS = gql`
-  query timesheets($tz: String!, $date: String!, $mentorId: ID) {
-    timesheets(tz: $tz, date: $date, mentorId: $mentorId) {
+  query combinedTimesheets(
+    $tz: String!
+    $date: String!
+    $duration: String!
+    $studentId: ID!
+    $mentorId: ID
+  ) {
+    combinedTimesheets(
+      tz: $tz
+      date: $date
+      duration: $duration
+      mentorId: $mentorId
+      studentId: $studentId
+    ) {
       id
       day
       from
       to
+      reserved
     }
   }
 `;
-
 const useTimesheets = (body) => {
   const res = useQuery(GET_TIMESHEETS, {
     variables: {
@@ -148,21 +162,26 @@ const ScheduleSelector = ({
   const { data: timesheetsData } = useTimesheets({
     tz: userTimezone,
     date: moment(day).format('YYYY-MM-DD'),
+    duration: String(duration).toString(),
     ...(selectedTutor && {
       mentorId: selectedTutor.id,
     }),
+    studentId: getItemToLocalStorage('studentId')
   });
 
   //Loop over the times - only pushes time with 30 oor 60 minutes interval
   while (startTime.isBefore(endTime) || startTime.isSame(endTime)) {
     const tempTime = moment(startTime.format('HH:mm'), 'HH:mm');
-    timesheetsData?.timesheets.map((timesheet) => {
+    timesheetsData?.combinedTimesheets.map((timesheet) => {
       const timesheetFrom = moment(timesheet.from, 'HH:mm');
       const timesheetTo = moment(timesheet.to, 'HH:mm');
       // Third argument is for units (for which we do not care right now)
       // Fourth parameter '[)' means that the end time is not included
       if (tempTime.isBetween(timesheetFrom, timesheetTo, null, '[)')) {
-        allTimes.push(startTime.format('HH:mm'));
+        allTimes.push({
+          time: startTime.format('HH:mm'),
+          reserved: timesheet.reserved,
+        });
         return timesheet;
       }
     });
@@ -289,14 +308,18 @@ const ScheduleSelector = ({
   };
 
   const handleConfirmLesson = (scheduleStartTime) => {
+    if (scheduleStartTime.reserved) {
+      return;
+    }
     const formattedDay = moment(day).format('YYYY-MM-DD');
     const selectedSchedule = moment.tz(
-      formattedDay + ' ' + scheduleStartTime,
+      formattedDay + ' ' + scheduleStartTime.time,
       userTimezone,
     );
-    const hoursPrior = 48;
+    const hoursPrior = JSON.parse(process.env.REACT_APP_PRODUCTION) ? 48 : 0;
+
     const preScreen = moment
-      .tz(formattedDay + ' ' + scheduleStartTime, userTimezone)
+      .tz(formattedDay + ' ' + scheduleStartTime.time, userTimezone)
       .subtract(hoursPrior, 'hours');
     const todayDate = moment();
 
@@ -310,7 +333,9 @@ const ScheduleSelector = ({
 
       Swal.fire({
         title: t('swal_fire_title_schedule_prescreen', { ns: 'modals' }),
-        text: t('swal_fire_text_schedule_prescreen', { ns: 'modals' }),
+        text: JSON.parse(process.env.REACT_APP_PRODUCTION)
+          ? t('swal_fire_text_schedule_prescreen', { ns: 'modals' })
+          : t('swal_fire_footer_schedule_prescreen', { ns: 'modals' }),
         icon: 'warning',
         width: '36em',
         confirmButtonColor: '#6133af',
@@ -330,7 +355,7 @@ const ScheduleSelector = ({
   };
 
   const ScheduleCard = ({ scheduleStartTime }) => {
-    const scheduleEndTime = moment(scheduleStartTime, [
+    const scheduleEndTime = moment(scheduleStartTime.time, [
       moment.ISO_8601,
       'HH:mm',
     ])
@@ -339,14 +364,19 @@ const ScheduleSelector = ({
 
     return (
       <div
-        className={`time-card space-y-2 grey-border bg-white small-card pt-4 mt-4 media_align_width`}
+        className={cn(
+          `time-card space-y-2 grey-border bg-white small-card pt-4 mt-4 media_align_width`,
+          scheduleStartTime.reserved &&
+            'bg-color-darker-grey grayscale-[70%] opacity-50',
+        )}
       >
         <div className="row container ms-1">
           <div className="col-12 align_schedule_texts">
             <h3 className={`text-black change_width_schedule`}>
-              {moment(scheduleStartTime, [moment.ISO_8601, 'HH:mm']).format(
-                'hh:mm A',
-              )}{' '}
+              {moment(scheduleStartTime.time, [
+                moment.ISO_8601,
+                'HH:mm',
+              ]).format('hh:mm A')}{' '}
               → {scheduleEndTime}
             </h3>
           </div>
@@ -367,12 +397,15 @@ const ScheduleSelector = ({
           <div className="col">
             <div className="schedule-card-col">
               <div
-                className={`enter-btn btn-primary align_button_sche_lesson`}
+                className={cn(
+                  `enter-btn btn-primary align_button_sche_lesson`,
+                  scheduleStartTime.reserved && 'cursor-no-drop',
+                )}
                 onClick={() => {
                   handleConfirmLesson(scheduleStartTime);
                 }}
               >
-                {t('confirm_lesson')}
+                {t('booking_lesson')}
               </div>
             </div>
           </div>
@@ -382,6 +415,7 @@ const ScheduleSelector = ({
   };
 
   const uniqTimes = [...new Set(allTimes)];
+
 
   const AvailableSpots = () => (
     <React.Fragment>

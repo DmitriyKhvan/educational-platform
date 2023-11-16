@@ -50,7 +50,8 @@ const ScheduleLesson = () => {
         <ScheduleSelector
           setTabIndex={setTabIndex}
           duration={selectedPlan?.package?.sessionTime}
-          step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
+          // step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
+          step={30}
           setSchedule={setSchedule}
           schedule={schedule}
           tabIndex={tabIndex}

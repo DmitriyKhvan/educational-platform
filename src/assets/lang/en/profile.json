@@ -10,6 +10,7 @@
   "gender": "Gender",
   "male": "Male",
   "female": "Female",
+  "nonbinary": "Non-binary",
   "university": "University",
   "university_placeholder": "Stanford University",
   "university_degree": "Degree",
@@ -51,5 +52,6 @@
   "error_avatar_upload": "Avatar upload failed",
   "error_student_information_changed": "Student information is not changed",
   "student_information_changed": "Student information is changed!",
-  "introduction_changed": "Introduction is changed!"
+  "introduction_changed": "Introduction is changed!",
+  "deactivated_student": "This student's account has been deactivated or is no longer valid. Please reach out to the relevant administrator or support personnel for further assistance."
 }

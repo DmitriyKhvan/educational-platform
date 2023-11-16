@@ -6,7 +6,6 @@ import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 
 import cls from './MentorProfile.module.scss';
 import { useAuth } from '../../../modules/auth';
-import { renderVideo } from '../../../utils/functions';
 import Layout from 'src/components/Layout';
 
 const MentorProfile = () => {
@@ -67,7 +66,7 @@ const MentorProfile = () => {
 
   React.useEffect(() => {
     renderAbout();
-    setVideoLink(renderVideo(videoUrl) || '');
+    setVideoLink(videoUrl || '');
   }, [user]);
 
   return (
