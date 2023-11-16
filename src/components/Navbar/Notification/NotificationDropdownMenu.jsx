@@ -32,13 +32,16 @@ export const NotificationDropdownMenu = memo(() => {
         <>
           {/* <div className="background" onClick={() => setVisible(false)} /> */}
           <div className="menu absolute right-0 top-[40px] w-[500px] bg-white rounded-[9px] py-[6px] border-[0.5px] border-color-border-grey shadow-[1px_3px_5px_rgba(0,0,0,0.1)] z-[3001]">
-            {notifications.map((notification) => (
-              <NotificationItem
-                key={notification.id}
-                setVisible={setVisible}
-                notification={notification}
-              />
-            ))}
+            <div className="max-h-[225px] overflow-auto">
+              {notifications.map((notification) => (
+                <NotificationItem
+                  key={notification.id}
+                  setVisible={setVisible}
+                  notification={notification}
+                />
+              ))}
+            </div>
+
             <Link
               to="#"
               onClick={() => removeNotifications()}

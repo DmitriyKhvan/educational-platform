@@ -39,7 +39,9 @@ const ApproveRequest = () => {
   });
 
   useEffect(() => {
+    // to update content after receiving notification
     refetchAppointments();
+    //reset the notification badge for the current tab
     if (selectedTab === 'newLessons') {
       setTimeout(() => {
         removeNotifications(LessonsStatusType.SCHEDULED);

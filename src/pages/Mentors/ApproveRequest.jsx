@@ -15,10 +15,8 @@ import {
 import '../../assets/styles/calendar.scss';
 import Loader from '../../components/Loader/Loader';
 import toast from 'react-hot-toast';
-// import { MESSAGE_SUBSCRIPTIONS } from '../../utils/subscriptions';
 
 const ApproveRequest = () => {
-  // let wsData = useSubscription(MESSAGE_SUBSCRIPTIONS);
   const { user } = useAuth();
   const [t] = useTranslation(['lessons', 'common']);
   const userTimezone =

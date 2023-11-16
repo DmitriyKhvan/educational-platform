@@ -45,7 +45,6 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { createWsLink } from './utils/subscriptions';
 import { getItemToLocalStorage } from './constants/global';
 import { NotificationsProvider } from './modules/notifications';
-// import { SubscriptionClient } from 'subscriptions-transport-ws';
 
 const httpLink = createUploadLink({
   uri: `${process.env.REACT_APP_SERVER_URL}/graphql`,
@@ -79,14 +78,10 @@ const splitLink = split(
   concat(authMiddleware, httpLink),
 );
 
-console.log('splitLink', splitLink.request);
-
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: splitLink,
 });
-
-// client.refetchQueries();
 
 i18next.init({
   interpolation: { escapeValue: false }, // React already does escaping

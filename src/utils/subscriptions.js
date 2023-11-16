@@ -32,6 +32,7 @@ export const MESSAGE_SUBSCRIPTIONS = gql`
     }
   }
 `;
+
 export const createWsLink = function (url) {
   const client = new GraphQLWsLink(
     createClient({

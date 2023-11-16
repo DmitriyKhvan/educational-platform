@@ -11,8 +11,9 @@ import { useAuth } from 'src/modules/auth';
 export const useStudentsDropdown = () => {
   const { user } = useAuth();
 
-  const onChangeStudentProfile = (id) => {
-    setItemToLocalStorage('studentId', id);
+  const onChangeStudentProfile = (student) => {
+    setItemToLocalStorage('studentId', student.id);
+    setItemToLocalStorage('token', student.newToken);
     window.location.reload(true);
   };
 
@@ -25,7 +26,7 @@ export const useStudentsDropdown = () => {
         activeIcon: student?.avatar?.url,
         isActive: student.isActive,
         onClick: () =>
-          student.isActive ? onChangeStudentProfile(student.id) : undefined,
+          student.isActive ? onChangeStudentProfile(student) : undefined,
       };
     });
 

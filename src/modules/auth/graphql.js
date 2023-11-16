@@ -142,6 +142,7 @@ export const ME_QUERY = gql`
           id
           url
         }
+        newToken
       }
       mentor {
         id

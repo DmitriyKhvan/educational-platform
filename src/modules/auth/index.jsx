@@ -20,10 +20,6 @@ export const AuthProvider = ({ children }) => {
       studentId: getItemToLocalStorage('studentId'),
     },
     onCompleted: (data) => {
-      if (getItemToLocalStorage('studentId')) {
-        localStorage.setItem('token', data.authenticatedUser.newToken);
-      }
-
       if (
         getItemToLocalStorage('studentId') ||
         data.authenticatedUser.role === Roles.MENTOR
@@ -58,7 +54,6 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('tokenWs');
     localStorage.removeItem('studentId');
   };
 

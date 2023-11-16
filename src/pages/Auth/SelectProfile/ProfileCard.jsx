@@ -5,7 +5,7 @@ import { cn } from 'src/utils/functions';
 export const ProfileCard = ({ student, studentId, selectProfile }) => {
   return (
     <div
-      onClick={() => selectProfile(student.id)}
+      onClick={() => selectProfile(student)}
       className="flex flex-col items-center gap-y-5"
     >
       <div className="flex items-center justify-center w-[158px] h-[158px] overflow-hidden rounded-full">

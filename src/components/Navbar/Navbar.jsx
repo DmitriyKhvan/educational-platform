@@ -18,7 +18,6 @@ import { HiUserCircle } from 'react-icons/hi2';
 import { FiLogOut } from 'react-icons/fi';
 // import { IoNotifications } from 'react-icons/io5';
 import { useStudentsDropdown } from './useStudentsDropdown';
-// import { useNotificationsDropdown } from './useNotificationsDropdown';
 import { NotificationDropdownMenu } from './Notification/NotificationDropdownMenu';
 
 // eslint-disable-next-line react/display-name
@@ -30,7 +29,6 @@ const Navbar = memo(({ setShowSidebar }) => {
   const [t, i18n] = useTranslation('common');
 
   const { studentsRender, studentList } = useStudentsDropdown();
-  // const { notificationsRender, notification } = useNotificationsDropdown();
 
   const handleLogout = async () => {
     await logout();
@@ -81,15 +79,6 @@ const Navbar = memo(({ setShowSidebar }) => {
             ]}
           />
 
-          {/* <Dropdown
-            // className="settings"
-            popupClassName="absolute right-0 top-[40px] w-[500px] bg-white rounded-[9px] py-[6px] border-[0.5px] border-color-border-grey shadow-[1px_3px_5px_rgba(0,0,0,0.1)] z-[3001]"
-            renderChild={notificationsRender}
-            icon={<IoNotifications className="text-2xl" />}
-            items={notification}
-            badge={notification.length}
-            showNotification={false}
-          /> */}
           <NotificationDropdownMenu />
 
           <Dropdown

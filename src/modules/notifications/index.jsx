@@ -3,10 +3,6 @@ import React, { useState, useEffect, createContext, useContext } from 'react';
 import { MESSAGE_SUBSCRIPTIONS } from 'src/utils/subscriptions';
 import { GET_USER_NOTIFICATIONS } from '../graphql/queries/notifications';
 
-import {
-  // getItemToLocalStorage,
-  NOTIFICATION_LIMIT,
-} from 'src/constants/global';
 import { MARK_MESSAGE_AS_READ } from '../graphql/mutations/notifications';
 
 export const NotificationsContext = createContext({});
@@ -31,30 +27,20 @@ export const NotificationsProvider = ({ children }) => {
   const [markMessageAsRead] = useMutation(MARK_MESSAGE_AS_READ);
 
   useEffect(() => {
-    // debugger;
     if (newNotifications?.newMessages) {
-      setNotification([
-        newNotifications.newMessages,
-        ...notifications.slice(0, NOTIFICATION_LIMIT),
-      ]);
+      setNotification([newNotifications.newMessages, ...notifications]);
     }
   }, [newNotifications]);
 
   useEffect(() => {
-    // debugger;
     if (allNotifications?.getUserNotifications.length) {
-      setNotification([
-        ...allNotifications.getUserNotifications.slice(0, NOTIFICATION_LIMIT),
-      ]);
+      setNotification([...allNotifications.getUserNotifications]);
     } else {
       setNotification([]);
     }
   }, [allNotifications, updateNotifications]);
 
-  console.log('allNotifications', allNotifications);
-
   const removeNotifications = (type) => {
-    // debugger;
     if (!notifications.length) return;
 
     let notificationIds = [];
@@ -68,8 +54,6 @@ export const NotificationsProvider = ({ children }) => {
     } else {
       notificationIds = notifications.map((notification) => notification.id);
     }
-
-    console.log('notificationIds', notificationIds);
 
     if (notificationIds.length) {
       markMessageAsRead({

@@ -11,9 +11,10 @@ export const SelectProfile = () => {
 
   const [studentId, setStudentId] = useState(null);
 
-  const selectProfile = (id) => {
-    setStudentId(id);
-    setItemToLocalStorage('studentId', id);
+  const selectProfile = (student) => {
+    setStudentId(student.id);
+    setItemToLocalStorage('studentId', student.id);
+    setItemToLocalStorage('token', student.newToken);
     location.href = '/student/manage-lessons';
   };
 

@@ -121,7 +121,14 @@ const Calendar = () => {
   });
 
   useEffect(() => {
+    // to update content after receiving notification
     getAppointments();
+    //reset the notification badge for the current tab
+    if (selectedTab === 'upcomingLessons') {
+      setTimeout(() => {
+        removeNotifications(LessonsStatusType.APPROVED);
+      }, 300);
+    }
   }, [notifications]);
 
   const [calendarAppointments, setCalendarAppointments] = useState([]);
@@ -226,6 +233,13 @@ const Calendar = () => {
       });
       setUpcomingLessons([...tempUpcomingLessons]);
       setPastLessons([...tempPastLessons]);
+
+      // to update content after receiving notification
+      setDisplayTableData(
+        selectedTab === 'pastLessons'
+          ? [...tempPastLessons]
+          : [...tempUpcomingLessons],
+      );
     }
   }, [tableAppointments]);
 
