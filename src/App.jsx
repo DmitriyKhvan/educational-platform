@@ -35,6 +35,7 @@ import StripePayment from './pages/Students/StripePayment';
 import ConfirmPayment from './pages/ConfirmPayment';
 import BuyPackageTest from './pages/Students/BuyPackageTest';
 import { NicePayment } from './pages/Students/NicePayment';
+// import Messanger from './pages/Messanger/Messanger';
 import { SelectProfile } from './pages/Auth/SelectProfile/SelectProfile';
 import { getItemToLocalStorage, Roles } from './constants/global';
 import { AddStudentProfile } from './pages/Auth/SelectProfile/AddProfile';

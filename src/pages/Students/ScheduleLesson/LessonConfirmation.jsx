@@ -153,11 +153,17 @@ const LessonConfirmation = ({
         setIsLoading(false);
       }
     }
+
     if (lesson.length) {
       setConfirmDisable(true);
       setNewAppointment(lesson);
       // setDate(moment(lesson.startAt).unix());
-      setIsConfirmed(true);
+
+      if (lesson.length === 1 && lesson[0].cancelReason) {
+        setIsConfirmed(false);
+      } else {
+        setIsConfirmed(true);
+      }
       window.scrollTo(0, 0);
     }
     setIsLoading(false);
@@ -338,8 +344,10 @@ const LessonConfirmation = ({
                   }
                   onClick={confirmLesson}
                 >
-                  {confirmDisable
-                    ? t('lesson_confirmation', { ns: 'lessons' })
+                  {confirmDisable && isConfirmed
+                    ? t('lesson_pending_approval', { ns: 'lessons' })
+                    : confirmDisable && !isConfirmed
+                    ? t('lesson_scheduling_failed', { ns: 'lessons' })
                     : t('booking_lesson', { ns: 'lessons' })}
                 </button>
               </div>
@@ -347,14 +355,19 @@ const LessonConfirmation = ({
           </div>
 
           <div className="availability-wrapper  tutor-confirm-right flex-right-student-conf student-list-appointments-wrapper">
-            {isConfirmed ? (
+            {newAppointment.length > 0 ? (
               <React.Fragment>
-                <h4 className="weekly-schedule">
-                  {t('lesson_pending_approval', { ns: 'lessons' })}
-                </h4>
-                <h4 className="text-purple weekly-schedule-subtitle">
-                  {t('lesson_pending_approval_subtitle', { ns: 'lessons' })}
-                </h4>
+                {isConfirmed && (
+                  <>
+                    <h4 className="weekly-schedule">
+                      {t('lesson_pending_approval', { ns: 'lessons' })}
+                    </h4>
+                    <h4 className="text-purple weekly-schedule-subtitle">
+                      {t('lesson_pending_approval_subtitle', { ns: 'lessons' })}
+                    </h4>
+                  </>
+                )}
+
                 <div className="flex-container gap-2 mb-4">
                   <div>
                     <Link
@@ -384,7 +397,7 @@ const LessonConfirmation = ({
                       lesson={
                         appointment?.packageSubscription?.package.course?.title
                       }
-                      zoomlink={appointment?.zoomlink}
+                      //zoomlinkappointment?.zoomlink}
                       // date={time}
                       date={appointment?.startAt}
                       mentor={tutor}
@@ -402,7 +415,7 @@ const LessonConfirmation = ({
                   lesson={
                     newAppointment?.packageSubscription?.package.course?.title
                   }
-                  zoomlink={newAppointment?.zoomlink}
+                  //zoomlinknewAppointment?.zoomlink}
                   date={time}
                   mentor={tutor}
                   data={newAppointment ?? {}}

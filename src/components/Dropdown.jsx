@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
-
-// import { useOutsideClick } from 'src/utils/useOutsideClick';
+import { useOutsideClick } from 'src/utils/useOutsideClick';
+import { Badge } from './Badge';
 
 const Dropdown = ({
   icon,
@@ -23,7 +23,7 @@ const Dropdown = ({
   const history = useHistory();
   const [filterItems, setFilterItems] = useState(items);
 
-  // const ref = useOutsideClick(() => setVisible(true));
+  const ref = useOutsideClick(() => setVisible(false));
 
   useEffect(() => {
     if (isViewTotal) {
@@ -33,7 +33,7 @@ const Dropdown = ({
         items.filter((item, index) => index < (maxCount ? maxCount : 1000)),
       );
     }
-  }, [isViewTotal]);
+  }, [isViewTotal, items]);
 
   useEffect(() => {
     if (items) {
@@ -42,13 +42,11 @@ const Dropdown = ({
       });
     }
   }, [items]);
-
   return (
-    <div className="dropdown ml-[20px]">
+    <div ref={ref} className={`dropdown ml-[20px]`}>
       <div
-        // ref={ref}
         onClick={() => (onClick ? onClick() : setVisible(!visible))}
-        className="flex items-center cursor-pointer"
+        className="flex relative items-center cursor-pointer"
       >
         {typeof icon === 'string' ? (
           <img src={icon} alt="" className={className} />
@@ -68,10 +66,12 @@ const Dropdown = ({
         )}
       </div>
 
-      {badge > 0 && <span className="badge">{badge}</span>}
-      {visible && (
+      {/* {badge > 0 && <span className="badge">{badge}</span>} */}
+      {badge > 0 && <Badge count={badge} />}
+
+      {visible && filterItems.length > 0 && (
         <>
-          <div className="background" onClick={() => setVisible(false)} />
+          {/* <div className="background" onClick={() => setVisible(false)} /> */}
           <div className={!popupClassName ? 'menu' : popupClassName}>
             {filterItems &&
               filterItems.map((item, index) =>

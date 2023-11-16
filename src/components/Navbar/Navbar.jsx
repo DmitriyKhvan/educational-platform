@@ -1,37 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Logo from '../assets/images/auth-logo.svg';
-import FlagUsa from '../assets/images/flag-usa.svg';
-import FlagKorea from '../assets/images/flag-korea.svg';
-import MobileMenuIcon from '../assets/images/mobile-menu.svg';
-import Dropdown from './Dropdown';
+import Logo from 'src/assets/images/auth-logo.svg';
+import FlagUsa from 'src/assets/images/flag-usa.svg';
+import FlagKorea from 'src/assets/images/flag-korea.svg';
+import MobileMenuIcon from 'src/assets/images/mobile-menu.svg';
+import Dropdown from '../Dropdown';
 
 import {
   getItemToLocalStorage,
   Roles,
   setItemToLocalStorage,
-} from '../constants/global';
-import { useAuth } from '../modules/auth';
+} from '../../constants/global';
+import { useAuth } from '../../modules/auth';
 
 import { HiUserCircle } from 'react-icons/hi2';
 import { FiLogOut } from 'react-icons/fi';
-import { MdAddCircleOutline } from 'react-icons/md';
+// import { IoNotifications } from 'react-icons/io5';
+import { useStudentsDropdown } from './useStudentsDropdown';
+import { NotificationDropdownMenu } from './Notification/NotificationDropdownMenu';
 
-// import LogoutImg from '../assets/images/logout_icon.svg';
-// import IconUser from '../assets/images/user.svg';
-
-const Navbar = ({ setShowSidebar }) => {
+// eslint-disable-next-line react/display-name
+const Navbar = memo(({ setShowSidebar }) => {
   const { user, logout } = useAuth();
   const [language, setLanguage] = useState(
     parseInt(getItemToLocalStorage('language', 1)),
   );
   const [t, i18n] = useTranslation('common');
 
-  const onChangeStudentProfile = (id) => {
-    setItemToLocalStorage('studentId', id);
-    window.location.reload(true);
-  };
+  const { studentsRender, studentList } = useStudentsDropdown();
 
   const handleLogout = async () => {
     await logout();
@@ -46,63 +43,6 @@ const Navbar = ({ setShowSidebar }) => {
   useEffect(() => {
     i18n.changeLanguage(language === 0 ? 'kr' : 'en');
   }, [language]);
-
-  const studentsRender = (item, index, active, setActive, setVisible) => {
-    return (
-      <Link
-        key={index}
-        to={item.href || '#'}
-        className={`flex items-center justify-between px-[15px] py-[7px] font-semibold text-[15px] ${
-          item.isActive
-            ? 'cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple'
-            : 'cursor-no-drop grayscale-[70%] opacity-50'
-        }`}
-        onClick={() => {
-          setActive(index);
-          item.isActive ? setVisible(false) : undefined;
-          if (item.onClick) {
-            item.onClick(index);
-          }
-        }}
-      >
-        <span className="w-3/4 truncate transition ease-in-out delay-150 group-hover:text-white">
-          {item.label}
-        </span>
-
-        {item.activeIcon ? (
-          <span>
-            <img
-              className="w-[30px] h-[30px] rounded-full border-2 border-color-white object-center object-cover"
-              src={item.activeIcon}
-              alt=""
-            />
-          </span>
-        ) : (
-          <item.customIcon className="text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
-        )}
-      </Link>
-    );
-  };
-
-  const studentList = user.students
-    .filter((student) => student.id !== getItemToLocalStorage('studentId'))
-    .map((student) => {
-      return {
-        label: student.firstName,
-        customIcon: HiUserCircle,
-        activeIcon: student?.avatar?.url,
-        isActive: student.isActive,
-        onClick: () =>
-          student.isActive ? onChangeStudentProfile(student.id) : undefined,
-      };
-    });
-
-  studentList.push({
-    label: 'Add Account',
-    href: '/add-student-profile',
-    isActive: true,
-    customIcon: MdAddCircleOutline,
-  });
 
   return (
     <div className="nav-bar">
@@ -138,6 +78,8 @@ const Navbar = ({ setShowSidebar }) => {
               { label: t('english'), icon: FlagUsa, onClick: onChangeLanguage },
             ]}
           />
+
+          <NotificationDropdownMenu />
 
           <Dropdown
             className="w-[20px] h-[20px]"
@@ -178,7 +120,8 @@ const Navbar = ({ setShowSidebar }) => {
             <img src={Logo} alt="" />
           </Link>
         </div>
-        <div className="mobile-menu">
+        {/* ${data?.newMessages?.meta?.dashboard ? 'ws-notification-mobile' : ''} */}
+        <div className={`mobile-menu`}>
           <img
             src={MobileMenuIcon}
             alt=""
@@ -188,6 +131,6 @@ const Navbar = ({ setShowSidebar }) => {
       </div>
     </div>
   );
-};
+});
 
 export default Navbar;

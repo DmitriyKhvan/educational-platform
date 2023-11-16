@@ -142,6 +142,7 @@ export const ME_QUERY = gql`
           id
           url
         }
+        newToken
       }
       mentor {
         id
@@ -184,6 +185,7 @@ export const ME_QUERY = gql`
       isActive
       role
       cardLast4
+      newToken
     }
   }
 `;
@@ -568,6 +570,7 @@ export const PACKAGE_QUERY = gql`
         status
         provider
         cancelReason
+        buyPrice
         metadata
       }
       active

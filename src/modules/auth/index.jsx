@@ -1,12 +1,14 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { ME_QUERY, INVITE_SET_PASSWORD_MUTATION } from './graphql';
-import { getItemToLocalStorage } from 'src/constants/global';
+import { getItemToLocalStorage, Roles } from 'src/constants/global';
+import { useNotifications } from '../notifications';
 
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [isAuthInProgress, setIsAuthInProgress] = useState(true);
+  const { getAllNotifications } = useNotifications();
 
   const {
     data: user,
@@ -16,6 +18,14 @@ export const AuthProvider = ({ children }) => {
     // fetchPolicy: 'no-cache',
     variables: {
       studentId: getItemToLocalStorage('studentId'),
+    },
+    onCompleted: (data) => {
+      if (
+        getItemToLocalStorage('studentId') ||
+        data.authenticatedUser.role === Roles.MENTOR
+      ) {
+        getAllNotifications();
+      }
     },
   });
 
