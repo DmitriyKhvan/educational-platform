@@ -22,7 +22,7 @@ export const SubscriptionCard = ({
       <div className="relative w-[20rem]">
         <Tooltip delayDuration={200} disableHoverableContent={active}>
           <TooltipTrigger asChild>
-            <div className="absolute -right-1 -top-2 z-10 shadow-lg rounded-full">
+            <div className="absolute -right-1 -top-2 z-[5] shadow-lg rounded-full">
               {credits > 0 && active ? (
                 <div
                   style={{ background: `url('${icon}')` }}
