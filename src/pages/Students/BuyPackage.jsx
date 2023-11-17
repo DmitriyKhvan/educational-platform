@@ -32,7 +32,7 @@ import {
   SelectTrigger,
   SelectContent,
   SelectGroup,
-  SelectValue,
+  // SelectValue,
 } from '../../components/SelectAction';
 
 // const CREATE_PAYMENT = gql`
@@ -162,7 +162,7 @@ export default function BuyPackage() {
       } else if (response?.data) {
         const { clientSecret } = response.data.createPaymentIntent;
         if (clientSecret) {
-          history.replace(
+          history.push(
             `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
           );
         }
@@ -171,7 +171,7 @@ export default function BuyPackage() {
   };
 
   const submitNice = () => {
-    history.replace(`/purchase/nice-payment`, {
+    history.push(`/purchase/nice-payment`, {
       packageId: selectedPackage.id,
       courseTitle: courseData.title,
       amount: selectedPackage.price,
@@ -443,7 +443,8 @@ export default function BuyPackage() {
                             asChild
                           >
                             <button className="rounded-tl-md rounded-bl-md h-full font-semibold bg-purple-600 text-white text-sm py-1 px-4 min-w-[9rem]">
-                              Pay with <SelectValue />
+                              Pay
+                              {/* <SelectValue /> */}
                             </button>
                           </AlertDialogAction>
                           <SelectTrigger className="rounded-tr-md rounded-br-md ml-[1px]"></SelectTrigger>
