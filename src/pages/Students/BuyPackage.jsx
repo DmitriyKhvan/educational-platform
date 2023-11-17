@@ -33,7 +33,7 @@ import {
   SelectTrigger,
   SelectContent,
   SelectGroup,
-  SelectValue,
+  // SelectValue,
 } from '../../components/SelectAction';
 import BuyPackageDiscountForm from 'src/components/BuyPackageDiscountForm';
 
@@ -164,7 +164,7 @@ export default function BuyPackage() {
       } else if (response?.data) {
         const { clientSecret } = response.data.createPaymentIntent;
         if (clientSecret) {
-          history.replace(
+          history.push(
             `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
           );
         }
@@ -173,7 +173,7 @@ export default function BuyPackage() {
   };
 
   const submitNice = () => {
-    history.replace(`/purchase/nice-payment`, {
+    history.push(`/purchase/nice-payment`, {
       packageId: selectedPackage.id,
       courseTitle: courseData.title,
       amount: selectedPackage.price,
@@ -401,67 +401,67 @@ export default function BuyPackage() {
                 </button>
               )} */}
               {selectedPackage !== null && (
-                <div className="by_package_button_wrapper">
-                  <BuyPackageDiscountForm selectedPackage={selectedPackage}></BuyPackageDiscountForm>
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <button
-                        className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
-                        type="button"
-                      >
-                        {t('proceed_checkout')}
-                        <ArrowBack className="brightness-0 invert rotate-180 scale-125" />
-                      </button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>{t('agreement')}</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          {t('clicking')}{' '}
-                          <a
-                            href="https://www.naonow.com/terms-and-conditions"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="text-purple-600 hover:underline"
-                          >
-                            {t('terms')}
-                          </a>
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel className="mr-4">
-                          {t('cancel', {
-                            ns: 'common',
-                          })}
-                        </AlertDialogCancel>
-                        <Select
-                          defaultValue={selectedProvider}
-                          onValueChange={setSelectedProvider}
+              <div className="by_package_button_wrapper">
+                 <BuyPackageDiscountForm selectedPackage={selectedPackage}></BuyPackageDiscountForm>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <button
+                      className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
+                      type="button"
+                    >
+                      {t('proceed_checkout')}
+                      <ArrowBack className="brightness-0 invert rotate-180 scale-125" />
+                    </button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>{t('agreement')}</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        {t('clicking')}{' '}
+                        <a
+                          href="https://www.naonow.com/terms-and-conditions"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-purple-600 hover:underline"
                         >
-                          <div className="flex flex-row bg-purple-400 rounded-md">
-                            <AlertDialogAction
-                              onClick={() => {
-                                if (selectedProvider === 'nice') submitNice();
-                                else submitStripe();
-                              }}
-                              asChild
-                            >
-                              <button className="rounded-tl-md rounded-bl-md h-full font-semibold bg-purple-600 text-white text-sm py-1 px-4 min-w-[9rem]">
-                                Pay with <SelectValue />
-                              </button>
-                            </AlertDialogAction>
-                            <SelectTrigger className="rounded-tr-md rounded-br-md ml-[1px]"></SelectTrigger>
-                            <SelectContent className="bg-white">
-                              <SelectGroup>
-                                <SelectItem value="stripe">Stripe</SelectItem>
-                                {/* <SelectItem value="nice">NICE</SelectItem>s */}
-                              </SelectGroup>
-                            </SelectContent>
-                          </div>
-                        </Select>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                          {t('terms')}
+                        </a>
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel className="mr-4">
+                        {t('cancel', {
+                          ns: 'common',
+                        })}
+                      </AlertDialogCancel>
+                      <Select
+                        defaultValue={selectedProvider}
+                        onValueChange={setSelectedProvider}
+                      >
+                        <div className="flex flex-row bg-purple-400 rounded-md">
+                          <AlertDialogAction
+                            onClick={() => {
+                              if (selectedProvider === 'nice') submitNice();
+                              else submitStripe();
+                            }}
+                            asChild
+                          >
+                            <button className="rounded-tl-md rounded-bl-md h-full font-semibold bg-purple-600 text-white text-sm py-1 px-4 min-w-[9rem]">
+                              Pay with <SelectValue />
+                            </button>
+                          </AlertDialogAction>
+                          <SelectTrigger className="rounded-tr-md rounded-br-md ml-[1px]"></SelectTrigger>
+                          <SelectContent className="bg-white">
+                            <SelectGroup>
+                              <SelectItem value="stripe">Stripe</SelectItem>
+                              {/* <SelectItem value="nice">NICE</SelectItem>s */}
+                            </SelectGroup>
+                          </SelectContent>
+                        </div>
+                      </Select>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
                 </div>
               )}
             </div>
