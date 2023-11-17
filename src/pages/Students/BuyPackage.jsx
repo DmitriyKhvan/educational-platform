@@ -18,6 +18,7 @@ import {
   AlertDialogTrigger,
 } from '../../components/AlertDialog';
 import { useTranslation } from 'react-i18next';
+import '../../assets/styles/buy_package.scss';
 // import { useAuth } from '../../modules/auth';
 
 import purchaseBack from '../../assets/images/purchase/purchaseBack.png';
@@ -32,8 +33,10 @@ import {
   SelectTrigger,
   SelectContent,
   SelectGroup,
+  SelectValue,
   // SelectValue,
 } from '../../components/SelectAction';
+import BuyPackageDiscountForm from 'src/components/BuyPackageDiscountForm';
 
 // const CREATE_PAYMENT = gql`
 //   mutation CreatePayment(
@@ -399,6 +402,8 @@ export default function BuyPackage() {
                 </button>
               )} */}
               {selectedPackage !== null && (
+              <div className="by_package_button_wrapper">
+                 <BuyPackageDiscountForm selectedPackage={selectedPackage}></BuyPackageDiscountForm>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <button
@@ -443,8 +448,7 @@ export default function BuyPackage() {
                             asChild
                           >
                             <button className="rounded-tl-md rounded-bl-md h-full font-semibold bg-purple-600 text-white text-sm py-1 px-4 min-w-[9rem]">
-                              Pay
-                              {/* <SelectValue /> */}
+                              Pay with <SelectValue />
                             </button>
                           </AlertDialogAction>
                           <SelectTrigger className="rounded-tr-md rounded-br-md ml-[1px]"></SelectTrigger>
@@ -459,6 +463,7 @@ export default function BuyPackage() {
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
+                </div>
               )}
             </div>
           </form>

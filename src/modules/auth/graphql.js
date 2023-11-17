@@ -840,3 +840,34 @@ export const LESSON_QUERY = gql`
     }
   }
 `;
+
+export const APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER = gql`
+  mutation ApplyPromotionCodeForPackage($code: String!, $packageId: ID!) {
+    applyPromotionCodeForPackage(code: $code, packageId: $packageId) {
+      selectedPackage {
+            id
+            totalSessions
+            sessionsPerWeek
+            sessionTime
+            price
+            period
+            discount
+            courseId
+        }
+        promotionCode {
+            id
+            code
+            value
+            discountType
+            isActive
+            courseId
+            period
+            sessionsPerWeek
+            sessionTime
+            country
+            createdAt
+            updatedAt
+        }
+    }
+  }
+`;
