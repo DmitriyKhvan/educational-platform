@@ -18,7 +18,7 @@ export const ProfileCard = ({ student, studentId, selectProfile }) => {
         <TooltipTrigger asChild>
           <div
             onClick={() =>
-              student.isActive ? selectProfile(student.id) : undefined
+              student.isActive ? selectProfile(student) : undefined
             }
             className="flex flex-col items-center gap-y-5"
           >
