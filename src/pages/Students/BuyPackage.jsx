@@ -18,7 +18,6 @@ import {
   AlertDialogTrigger,
 } from '../../components/AlertDialog';
 import { useTranslation } from 'react-i18next';
-import '../../assets/styles/buy_package.scss';
 // import { useAuth } from '../../modules/auth';
 
 import purchaseBack from '../../assets/images/purchase/purchaseBack.png';
@@ -33,10 +32,10 @@ import {
   SelectTrigger,
   SelectContent,
   SelectGroup,
-  SelectValue,
   // SelectValue,
 } from '../../components/SelectAction';
 import BuyPackageDiscountForm from 'src/components/BuyPackageDiscountForm';
+import { currencyFormat } from 'src/utils/currencyFormat';
 
 // const CREATE_PAYMENT = gql`
 //   mutation CreatePayment(
@@ -102,6 +101,7 @@ export default function BuyPackage() {
     data: allCourses,
     loading,
   } = useQuery(GET_COURSES, {
+    fetchPolicy: 'no-cache',
     onCompleted: (data) => {
       setData(data.courses.find((course) => course?.packages?.length > 0));
     },
@@ -143,6 +143,7 @@ export default function BuyPackage() {
         ...new Set(data?.packages?.map((item) => item.sessionsPerWeek) ?? []),
       ].sort((a, b) => a - b),
     );
+
     setSelectedLength(data?.packages[0]?.sessionTime);
     setSelectedSessionsPerWeek(data?.packages[0]?.sessionsPerWeek);
   }, [data]);
@@ -206,6 +207,7 @@ export default function BuyPackage() {
                   }}
                   onClick={() => {
                     if (course.packages.length > 0) setData(course);
+                    setSelectedPackage(null);
                   }}
                   aria-disabled={course.packages.length < 1}
                 >
@@ -232,7 +234,7 @@ export default function BuyPackage() {
                     id={'length' + length}
                     name="duration"
                     value={'length' + length}
-                    defaultChecked={selectedLength === length}
+                    checked={selectedLength === length}
                     className="hidden peer"
                     onChange={() => {
                       setSelectedLength(length);
@@ -263,7 +265,7 @@ export default function BuyPackage() {
                     id={'sessionsPerWeek' + sessionsPerWeek}
                     name="sessionsPerWeekInput"
                     value={'sessionsPerWeek' + sessionsPerWeek}
-                    defaultChecked={selectedSessionsPerWeek === sessionsPerWeek}
+                    checked={selectedSessionsPerWeek === sessionsPerWeek}
                     className="hidden peer"
                     onChange={() => {
                       setSelectedSessionsPerWeek(sessionsPerWeek);
@@ -352,38 +354,38 @@ export default function BuyPackage() {
                               })}
                             </p>
                           </div>
-                          {pkg?.discount ? (
+
+                          {pkg?.promotionCode?.discountType === 'fixed' ? (
                             <div className="flex flex-col items-center">
                               <div className="text-lg opacity-80 font-bold line-through">
-                                {new Intl.NumberFormat('ko-KR', {
-                                  style: 'currency',
-                                  currency: 'KRW',
-                                }).format(pkg.price)}
+                                {currencyFormat({ number: pkg.price })}
                               </div>
                               <div className="text-2xl font-bold">
-                                {new Intl.NumberFormat('ko-KR', {
-                                  style: 'currency',
-                                  currency: 'KRW',
-                                }).format(pkg.price * (1 - pkg.discount / 100))}
+                                {currencyFormat({
+                                  number:
+                                    pkg.price * (1 - pkg.discount / 100) -
+                                    pkg.promotionCode.discount,
+                                })}
+                              </div>
+                            </div>
+                          ) : pkg?.discount ? (
+                            <div className="flex flex-col items-center">
+                              <div className="text-lg opacity-80 font-bold line-through">
+                                {currencyFormat({ number: pkg.price })}
+                              </div>
+                              <div className="text-2xl font-bold">
+                                {currencyFormat({
+                                  number: pkg.price * (1 - pkg.discount / 100),
+                                })}
                               </div>
                             </div>
                           ) : (
                             <div className="text-2xl font-bold text-right">
-                              <div>
-                                {new Intl.NumberFormat('ko-KR', {
-                                  style: 'currency',
-                                  currency: 'KRW',
-                                }).format(pkg.price * (1 - pkg.discount / 100))}
-                              </div>
+                              <div>{currencyFormat({ number: pkg.price })}</div>
                               <div className="text-sm opacity-75 font-normal">
-                                {new Intl.NumberFormat('ko-KR', {
-                                  style: 'currency',
-                                  currency: 'KRW',
-                                }).format(
-                                  (pkg.price * (1 - pkg.discount / 100)) /
-                                    pkg.period,
-                                )}{' '}
-                                / month
+                                {`${currencyFormat({
+                                  number: pkg.price / pkg.period,
+                                })} / month`}
                               </div>
                             </div>
                           )}
@@ -402,67 +404,72 @@ export default function BuyPackage() {
                 </button>
               )} */}
               {selectedPackage !== null && (
-              <div className="by_package_button_wrapper">
-                 <BuyPackageDiscountForm selectedPackage={selectedPackage}></BuyPackageDiscountForm>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <button
-                      className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
-                      type="button"
-                    >
-                      {t('proceed_checkout')}
-                      <ArrowBack className="brightness-0 invert rotate-180 scale-125" />
-                    </button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>{t('agreement')}</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        {t('clicking')}{' '}
-                        <a
-                          href="https://www.naonow.com/terms-and-conditions"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-purple-600 hover:underline"
-                        >
-                          {t('terms')}
-                        </a>
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel className="mr-4">
-                        {t('cancel', {
-                          ns: 'common',
-                        })}
-                      </AlertDialogCancel>
-                      <Select
-                        defaultValue={selectedProvider}
-                        onValueChange={setSelectedProvider}
+                <div className="flex flex-col justify-end">
+                  <BuyPackageDiscountForm
+                    selectedPackage={selectedPackage}
+                    setCourseData={setCourseData}
+                    courseData={data}
+                  ></BuyPackageDiscountForm>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <button
+                        className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
+                        type="button"
                       >
-                        <div className="flex flex-row bg-purple-400 rounded-md">
-                          <AlertDialogAction
-                            onClick={() => {
-                              if (selectedProvider === 'nice') submitNice();
-                              else submitStripe();
-                            }}
-                            asChild
+                        {t('proceed_checkout')}
+                        <ArrowBack className="brightness-0 invert rotate-180 scale-125" />
+                      </button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>{t('agreement')}</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          {t('clicking')}{' '}
+                          <a
+                            href="https://www.naonow.com/terms-and-conditions"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-purple-600 hover:underline"
                           >
-                            <button className="rounded-tl-md rounded-bl-md h-full font-semibold bg-purple-600 text-white text-sm py-1 px-4 min-w-[9rem]">
-                              Pay with <SelectValue />
-                            </button>
-                          </AlertDialogAction>
-                          <SelectTrigger className="rounded-tr-md rounded-br-md ml-[1px]"></SelectTrigger>
-                          <SelectContent className="bg-white">
-                            <SelectGroup>
-                              <SelectItem value="stripe">Stripe</SelectItem>
-                              {/* <SelectItem value="nice">NICE</SelectItem>s */}
-                            </SelectGroup>
-                          </SelectContent>
-                        </div>
-                      </Select>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                            {t('terms')}
+                          </a>
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel className="mr-4">
+                          {t('cancel', {
+                            ns: 'common',
+                          })}
+                        </AlertDialogCancel>
+                        <Select
+                          defaultValue={selectedProvider}
+                          onValueChange={setSelectedProvider}
+                        >
+                          <div className="flex flex-row bg-purple-400 rounded-md">
+                            <AlertDialogAction
+                              onClick={() => {
+                                if (selectedProvider === 'nice') submitNice();
+                                else submitStripe();
+                              }}
+                              asChild
+                            >
+                              <button className="rounded-tl-md rounded-bl-md h-full font-semibold bg-purple-600 text-white text-sm py-1 px-4 min-w-[9rem]">
+                                Pay
+                                {/* with <SelectValue /> */}
+                              </button>
+                            </AlertDialogAction>
+                            <SelectTrigger className="rounded-tr-md rounded-br-md ml-[1px]"></SelectTrigger>
+                            <SelectContent className="bg-white">
+                              <SelectGroup>
+                                <SelectItem value="stripe">Stripe</SelectItem>
+                                {/* <SelectItem value="nice">NICE</SelectItem>s */}
+                              </SelectGroup>
+                            </SelectContent>
+                          </div>
+                        </Select>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               )}
             </div>
