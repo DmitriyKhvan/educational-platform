@@ -162,7 +162,7 @@ export default function BuyPackage() {
       } else if (response?.data) {
         const { clientSecret } = response.data.createPaymentIntent;
         if (clientSecret) {
-          history.replace(
+          history.push(
             `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
           );
         }
@@ -171,7 +171,7 @@ export default function BuyPackage() {
   };
 
   const submitNice = () => {
-    history.replace(`/purchase/nice-payment`, {
+    history.push(`/purchase/nice-payment`, {
       packageId: selectedPackage.id,
       courseTitle: courseData.title,
       amount: selectedPackage.price,
