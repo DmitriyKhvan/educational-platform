@@ -159,7 +159,7 @@ export default function Onboarding() {
           </div>
         </form>
 
-        <p className="mt-8 text-[15px] text-color-light-grey font-semibold">
+        <p className="text-[18px] text-color-light-grey font-semibold">
           {t('already_have_account', { ns: 'common' })}{' '}
           <Link
             to="/"

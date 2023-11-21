@@ -14,7 +14,7 @@ export const NotificationItem = ({ notification, setVisible }) => {
     new Date(notification?.createdAt),
   );
 
-  const timeAgo = daysAgo !== 0 ? `${daysAgo} day(s) agoday(s) ago` : 'today';
+  const timeAgo = daysAgo !== 0 ? `${daysAgo} day(s) ago` : 'today';
 
   return (
     <Link
