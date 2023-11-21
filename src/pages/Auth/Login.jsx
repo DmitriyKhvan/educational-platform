@@ -137,13 +137,15 @@ const Login = () => {
           </Button>
           {/* </div> */}
 
-          {/* <div className='registered'>
-            <p className='mt-5'>
-              <a href='/signup' className='forgot-password'>
-                {t('not_registered')}
-              </a>
-            </p>
-          </div> */}
+          <p className="mt-16 text-[15px] text-color-light-grey font-semibold">
+            {t('not_registered')}{' '}
+            <Link
+              to="/onboarding"
+              className="text-color-purple underline underline-offset-2"
+            >
+              {t('signup')}
+            </Link>
+          </p>
         </form>
       </div>
     </AuthLayout>

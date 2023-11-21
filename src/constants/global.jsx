@@ -1034,3 +1034,8 @@ export const Host = {
   YOUTUBE: 'www.youtube.com',
   VIMEO: 'vimeo.com',
 };
+
+export const DiscountType = {
+  FIXED: 'fixed',
+  PERCENT: 'percent',
+};

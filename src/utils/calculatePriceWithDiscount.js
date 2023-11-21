@@ -1,13 +1,12 @@
-const minimumPaymentAmount = 1000; //KRW
+import { DiscountType } from 'src/constants/global';
 
-export const calculatePriceWithDiscount = (pkg, promotionCode) => {
-    let price = pkg.price * (1 - pkg.discount / 100);
-    if (pkg?.promotionCode?.discountType == "fixed") {
-        price = pkg.price * (1 - pkg.discount / 100) - pkg.promotionCode.discount;
-    }
-    
-    return Math.round(
-        price > 0 ? price : minimumPaymentAmount
-    )
+export const calculatePriceWithDiscount = (pkg) => {
+  const minimumPaymentAmount = 1000; //KRW
+
+  let price = pkg.price * (1 - pkg.discount / 100);
+  if (pkg?.promotionCode?.discountType == DiscountType.FIXED) {
+    price = pkg.price * (1 - pkg.discount / 100) - pkg.promotionCode.discount;
+  }
+
+  return Math.round(price > 0 ? price : minimumPaymentAmount);
 };
-  

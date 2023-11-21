@@ -17,6 +17,7 @@ import {
   setItemToLocalStorage,
 } from '../../constants/global';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 export default function Onboarding() {
   localStorage.removeItem('studentId');
@@ -62,7 +63,7 @@ export default function Onboarding() {
     <CredentialsForm register={register} errors={errors} key="credentials" />,
   ]);
 
-  const [t, i18n] = useTranslation('onboarding');
+  const [t, i18n] = useTranslation(['onboarding', 'common']);
 
   const [language, setLanguage] = useState(
     parseInt(getItemToLocalStorage('language', 1)),
@@ -157,6 +158,16 @@ export default function Onboarding() {
             />
           </div>
         </form>
+
+        <p className="mt-8 text-[15px] text-color-light-grey font-semibold">
+          {t('already_have_account', { ns: 'common' })}{' '}
+          <Link
+            to="/"
+            className="text-color-purple underline underline-offset-2"
+          >
+            {t('sign_in', { ns: 'common' })}
+          </Link>
+        </p>
       </div>
       <div className="absolute flex top-0 w-full bg-purple-200">
         <span
