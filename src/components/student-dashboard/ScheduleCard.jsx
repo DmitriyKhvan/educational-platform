@@ -145,7 +145,11 @@ const ScheduleCard = ({
               {displayDate()}
             </h3>
 
-            <p className="text-white text-sm">{student.user.email}</p>
+            {user.role === Roles.MENTOR && (
+              <p className="text-color-light-purple text-sm">
+                {student?.user.email}
+              </p>
+            )}
           </div>
           <div className="w-[65px] h-[65px] overflow-hidden rounded-full relative">
             <Avatar
