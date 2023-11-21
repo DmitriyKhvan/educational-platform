@@ -37,6 +37,7 @@ import {
 import BuyPackageDiscountForm from 'src/components/BuyPackageDiscountForm';
 import { calculatePriceWithDiscount } from 'src/utils/calculatePriceWithDiscount';
 import { currencyFormat } from 'src/utils/currencyFormat';
+import { DiscountType } from 'src/constants/global';
 
 // const CREATE_PAYMENT = gql`
 //   mutation CreatePayment(
@@ -340,30 +341,26 @@ export default function BuyPackage() {
                               })}
                             </p>
                             <p className="text-sm opacity-75">
-                              {new Intl.NumberFormat('ko-KR', {
-                                style: 'currency',
-                                currency: 'KRW',
-                              }).format(
-                                Math.round(
-                                 calculatePriceWithDiscount(pkg, pkg.promotionCode) /
+                              {`${currencyFormat({
+                                number: Math.round(
+                                  calculatePriceWithDiscount(pkg) /
                                     pkg.totalSessions,
                                 ),
-                              )}{' '}
-                              /{' '}
-                              {t('lesson', {
+                              })} / ${t('lesson', {
                                 ns: 'translations',
-                              })}
+                              })}`}
                             </p>
                           </div>
 
-                          {pkg?.promotionCode?.discountType === 'fixed' ? (
+                          {pkg?.promotionCode?.discountType ===
+                          DiscountType.FIXED ? (
                             <div className="flex flex-col items-center">
                               <div className="text-lg opacity-80 font-bold line-through">
                                 {currencyFormat({ number: pkg.price })}
                               </div>
                               <div className="text-2xl font-bold">
                                 {currencyFormat({
-                                  number: calculatePriceWithDiscount(pkg, pkg.promotionCode)
+                                  number: calculatePriceWithDiscount(pkg),
                                 })}
                               </div>
                             </div>
@@ -374,7 +371,7 @@ export default function BuyPackage() {
                               </div>
                               <div className="text-2xl font-bold">
                                 {currencyFormat({
-                                  number: calculatePriceWithDiscount(pkg, pkg.promotionCode)
+                                  number: calculatePriceWithDiscount(pkg),
                                 })}
                               </div>
                             </div>
@@ -383,7 +380,9 @@ export default function BuyPackage() {
                               <div>{currencyFormat({ number: pkg.price })}</div>
                               <div className="text-sm opacity-75 font-normal">
                                 {`${currencyFormat({
-                                  number: calculatePriceWithDiscount(pkg, pkg.promotionCode) / pkg.period,
+                                  number:
+                                    calculatePriceWithDiscount(pkg) /
+                                    pkg.period,
                                 })} / month`}
                               </div>
                             </div>

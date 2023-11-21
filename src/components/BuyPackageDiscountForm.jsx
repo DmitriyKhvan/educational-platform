@@ -4,6 +4,7 @@ import { APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER } from 'src/modules/auth/grap
 import notify from '../utils/notify';
 import { useState } from 'react';
 import { currencyFormat } from 'src/utils/currencyFormat';
+import { DiscountType } from 'src/constants/global';
 
 export default function BuyPackageDiscountForm({
   selectedPackage,
@@ -44,7 +45,7 @@ export default function BuyPackageDiscountForm({
 
         if (
           data.applyPromotionCodeForPackage.promotionCode.discountType ===
-          'percent'
+          DiscountType.PERCENT
         ) {
           packageFind.discount =
             packageFind.discount +
