@@ -144,6 +144,8 @@ const ScheduleCard = ({
             >
               {displayDate()}
             </h3>
+
+            <p className="text-white text-sm">{student.user.email}</p>
           </div>
           <div className="w-[65px] h-[65px] overflow-hidden rounded-full relative">
             <Avatar
@@ -220,7 +222,6 @@ const ScheduleCard = ({
           </h1>
         </div>
       )}
-
       <RescheduleAndCancelModal
         data={data}
         isOpen={isOpen}
@@ -234,7 +235,6 @@ const ScheduleCard = ({
         setCanceledLessons={setCanceledLessons}
         duration={subscription?.duration || duration}
       />
-
       {isWarningOpen && (
         <ZoomWarningModal
           isWarningOpen={isWarningOpen}

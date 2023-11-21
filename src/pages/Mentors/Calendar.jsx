@@ -322,6 +322,8 @@ const Calendar = () => {
 
     const { eventDate } = selectedEvent.resource;
 
+    console.log('eventDate', eventDate);
+
     // const today = moment();
     // const tenMinuteBeforeStart = moment(eventDate.startAt).subtract(
     //   10,
