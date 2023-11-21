@@ -9,10 +9,12 @@ import { loadStripe } from '@stripe/stripe-js';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PaymentLayout } from 'src/layouts/PaymentLayout';
+import { useAuth } from 'src/modules/auth';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
 const CheckoutForm = () => {
+  const { user } = useAuth();
   const stripe = useStripe();
   const params = useParams();
   const elements = useElements();
@@ -35,6 +37,13 @@ const CheckoutForm = () => {
       elements,
       redirect: 'always',
       confirmParams: {
+        payment_method_data: {
+          billing_details: {
+            name: `${user.firstName} ${user.lastName}`,
+            email: user.email,
+            phone: user.phone ?? '',
+          },
+        },
         return_url: `${window.location.origin}/purchase/${params.packageId}/complete`,
       },
     });

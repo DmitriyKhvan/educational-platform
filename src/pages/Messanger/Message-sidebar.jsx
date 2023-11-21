@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ChatsApi from '../../api/ChatsApi';
+// import ChatsApi from '../../api/ChatsApi';
 import Chat from './Chat';
 
 const MessageSidebar = () => {
@@ -7,8 +7,9 @@ const MessageSidebar = () => {
 
   useEffect(() => {
     (async () => {
-      const { data } = await ChatsApi.getChats();
-      setChats(data.chats);
+      // const { data } = await ChatsApi.getChats();
+      // setChats(data.chats);
+      setChats([]);
     })();
   }, []);
 

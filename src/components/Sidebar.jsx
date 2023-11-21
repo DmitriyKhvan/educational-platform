@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useAuth } from '../modules/auth';
+import '../assets/styles/referal.scss';
 import CloseIcon from '../assets/images/close.svg';
 import Logo from '../assets/images/logo.png';
 import LogoutImg from '../assets/images/logout_icon.svg';
@@ -19,6 +20,8 @@ import ActiveIcon2 from '../assets/images/sidebar/white_lesson_icon.svg';
 import ActiveIcon11 from '../assets/images/sidebar/white_subscription_icon.svg';
 import gift from '../assets/images/sidebar/gift.png';
 import { classMaterialURL, Roles } from '../constants/global';
+import { Badge } from './Badge';
+import { useNotifications } from 'src/modules/notifications';
 
 const tutorNavLinks = [
   {
@@ -33,6 +36,12 @@ const tutorNavLinks = [
     icon: Icon2,
     activeIcon: ActiveIcon2,
   },
+  // {
+  //   label: 'messages',
+  //   link: '/messages',
+  //   icon: Icon2,
+  //   activeIcon: ActiveIcon2,
+  // },
   {
     label: 'check_requests',
     link: '/approve-requests',
@@ -88,6 +97,8 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
 
   const { user: currentUser, logout } = useAuth();
 
+  const { notifications } = useNotifications();
+
   tutorNavLinks.map((item) => {
     item.is_selected = location.pathname.includes(item.link);
     return item;
@@ -113,6 +124,13 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
     window.location.reload(true);
   };
 
+  const getCountNotification = (type) => {
+    const count = notifications.filter(
+      (notification) => notification?.meta?.dashboard === type,
+    );
+    return count.length;
+  };
+
   return (
     <>
       <div className="side-bar desktop-version">
@@ -128,9 +146,15 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
               <div key={`divider-${index}`} className="divider" />
             ) : (
               <li
-                className={`nav-item ${item.is_selected ? 'active' : ''}`}
+                className={`relative nav-item ${
+                  item.is_selected ? 'active' : ''
+                }`}
                 key={index}
               >
+                {getCountNotification(item.label) > 0 && (
+                  <Badge count={getCountNotification(item.label)} />
+                )}
+
                 {item.external ? (
                   <a
                     href="#"
@@ -188,7 +212,7 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
           <div className="link-list">
             {navLinks?.map((item, index) => (
               <li
-                className={`nav-item ${item.is_selected ? 'active' : ''}`}
+                className={`nav-item ${item.is_selected ? 'active' : ''}s`}
                 key={index}
               >
                 <Link to={item.link} onClick={() => setShowSidebar(false)}>

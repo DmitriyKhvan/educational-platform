@@ -11,9 +11,14 @@ import Loader from '../../../components/Loader/Loader';
 import Button from 'src/components/Form/Button';
 import { ApproveRequestLessons } from './ApproveRequestLessons';
 import { LessonsStatusType } from 'src/constants/global';
+import { useNotifications } from 'src/modules/notifications';
+import { Badge } from 'src/components/Badge';
 
 const ApproveRequest = () => {
   const { user } = useAuth();
+  const { notifications, getCountNotification, removeNotifications } =
+    useNotifications();
+
   const [t] = useTranslation('lessons');
 
   const [selectedTab, setSelectedTab] = useState('newLessons');
@@ -33,14 +38,27 @@ const ApproveRequest = () => {
     fetchPolicy: 'no-cache',
   });
 
+  useEffect(() => {
+    // to update content after receiving notification
+    refetchAppointments();
+    //reset the notification badge for the current tab
+    if (selectedTab === 'newLessons') {
+      setTimeout(() => {
+        removeNotifications(LessonsStatusType.SCHEDULED);
+      }, 300);
+    }
+  }, [notifications]);
+
   const onClickNewLessons = () => {
     setSelectedTab('newLessons');
     setCurrentLessons(newLessons);
+    removeNotifications(LessonsStatusType.SCHEDULED);
   };
 
   const onClickRescheduleLessons = () => {
     setSelectedTab('rescheduleLessons');
     setCurrentLessons(rescheduleLessons);
+    removeNotifications(LessonsStatusType.RESCHEDULED);
   };
 
   useEffect(() => {
@@ -74,22 +92,33 @@ const ApproveRequest = () => {
         <div className="w-auto flex items-center mb-4">
           <Button
             theme="outline"
-            className={`ml-0 rounded-r-none focus:shadow-none ${
+            className={`relative ml-0 rounded-r-none focus:shadow-none ${
               selectedTab === 'newLessons' && 'bg-color-purple text-white'
             }`}
             onClick={onClickNewLessons}
           >
             <span>New Lessons</span>
+            {getCountNotification(LessonsStatusType.SCHEDULED) > 0 && (
+              <Badge
+                count={getCountNotification(LessonsStatusType.SCHEDULED)}
+              />
+            )}
           </Button>
           <Button
             theme="outline"
-            className={`ml-[-4px] rounded-l-none focus:shadow-none ${
+            className={`relative ml-[-4px] rounded-l-none focus:shadow-none ${
               selectedTab === 'rescheduleLessons' &&
               'bg-color-purple text-white'
             }`}
             onClick={onClickRescheduleLessons}
           >
             <span>Reschedule Lessons</span>
+
+            {getCountNotification(LessonsStatusType.RESCHEDULED) > 0 && (
+              <Badge
+                count={getCountNotification(LessonsStatusType.RESCHEDULED)}
+              />
+            )}
           </Button>
         </div>
 

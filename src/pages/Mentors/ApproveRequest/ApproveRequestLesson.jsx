@@ -28,7 +28,7 @@ export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
 
   const [approveAppointment] = useMutation(APPROVE_APPOINTMENT);
 
-  const isLate = differenceInHours(lesson.startAt, new Date()) <= 24;
+  const isLate = differenceInHours(new Date(lesson.startAt), new Date()) <= 24;
 
   const closeModal = () => {
     setIsOpen(false);

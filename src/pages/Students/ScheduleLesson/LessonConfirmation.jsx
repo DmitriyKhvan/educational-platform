@@ -397,7 +397,7 @@ const LessonConfirmation = ({
                       lesson={
                         appointment?.packageSubscription?.package.course?.title
                       }
-                      zoomlink={appointment?.zoomlink}
+                      //zoomlinkappointment?.zoomlink}
                       // date={time}
                       date={appointment?.startAt}
                       mentor={tutor}
@@ -415,7 +415,7 @@ const LessonConfirmation = ({
                   lesson={
                     newAppointment?.packageSubscription?.package.course?.title
                   }
-                  zoomlink={newAppointment?.zoomlink}
+                  //zoomlinknewAppointment?.zoomlink}
                   date={time}
                   mentor={tutor}
                   data={newAppointment ?? {}}

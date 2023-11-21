@@ -269,6 +269,7 @@
   "buy_lesson_25": "25% 할인된 가격으로 좋아하는 튜터와 다음 레슨을 진행해 보세요!",
   "use_discount_now": "할인 코드를 지금 사용하거나 나중에 사용할 수 있도록 복사하세요.",
   "use_discount": "할인 코드 사용",
+  "apply_discount": "할인 적용",
   "you_have_new_message": "새 메시지가 있습니다!",
   "from_role_name": "From {{role}} {{name}}",
   "view_older": "View Older",

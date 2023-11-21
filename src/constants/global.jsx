@@ -994,6 +994,7 @@ export const feedbackURL = process.env.REACT_APP_FEEDBACK_URL;
 export const gameLinkURL = process.env.REACT_APP_GAME_URL;
 export const classMaterialURL = process.env.REACT_APP_CLASS_MATERIAL_URL;
 
+export const NOTIFICATION_LIMIT = 5;
 export const WEEKS_IN_MONTH = 4;
 export const MAX_MODIFY_COUNT = 3;
 
@@ -1032,4 +1033,9 @@ export const VIMEO_EMBED = 'https://player.vimeo.com/video';
 export const Host = {
   YOUTUBE: 'www.youtube.com',
   VIMEO: 'vimeo.com',
+};
+
+export const DiscountType = {
+  FIXED: 'fixed',
+  PERCENT: 'percent',
 };
