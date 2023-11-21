@@ -78,7 +78,7 @@ export default function BuyPackageDiscountForm({
         type="button"
         onClick={makeQuery}
       >
-        {t('use_discount')}
+        {t('apply_discount')}
       </button>
     </div>
   );
