@@ -140,7 +140,8 @@ function App() {
             />
 
             <PrivateRoute
-              role="student_parent"
+              // role="student_parent"
+              role={Roles.STUDENT}
               exact
               path="/purchase"
               // component={BuyPackage}

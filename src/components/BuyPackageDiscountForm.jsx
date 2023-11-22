@@ -59,6 +59,7 @@ export default function BuyPackageDiscountForm({
           };
         }
         setSelectedPackage(packageFind);
+        cloneСourseData.packages.sort((a, b) => a.period - b.period);
         setCourseData(cloneСourseData);
       },
       onError: (error) => {

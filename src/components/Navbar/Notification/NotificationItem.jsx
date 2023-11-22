@@ -25,7 +25,7 @@ export const NotificationItem = ({ notification, setVisible }) => {
       }}
     >
       <p className="flex items-center justify-between w-full box-shadow  transition ease-in-out delay-150  group-hover:text-white">
-        <span className="flex items-center justify-between w-[90%] mr-2">
+        <span className="flex items-center justify-between w-[85%] mr-2">
           <span className="flex items-center w-[40%] mr-2">
             {notification.meta.user.avatar ? (
               <img
@@ -49,7 +49,7 @@ export const NotificationItem = ({ notification, setVisible }) => {
         </span>
 
         {notification?.createdAt && (
-          <span className="w-[10%] whitespace-nowrap text-xs text-color-darker-grey">
+          <span className="w-[15%] whitespace-nowrap text-xs text-color-darker-grey">
             {timeAgo}
           </span>
         )}
