@@ -180,7 +180,7 @@ export default function BuyPackage() {
     history.push(`/purchase/nice-payment`, {
       packageId: selectedPackage.id,
       courseTitle: courseData.title,
-      amount: selectedPackage.price,
+      amount: calculatePriceWithDiscount(selectedPackage),
     });
   };
 
@@ -406,6 +406,7 @@ export default function BuyPackage() {
                   <BuyPackageDiscountForm
                     selectedPackage={selectedPackage}
                     setCourseData={setCourseData}
+                    setSelectedPackage={setSelectedPackage}
                     courseData={data}
                   ></BuyPackageDiscountForm>
                   <AlertDialog>
@@ -460,7 +461,7 @@ export default function BuyPackage() {
                             <SelectContent className="bg-white">
                               <SelectGroup>
                                 <SelectItem value="stripe">Stripe</SelectItem>
-                                {/* <SelectItem value="nice">NICE</SelectItem>s */}
+                                {/* <SelectItem value="nice">NICE</SelectItem> */}
                               </SelectGroup>
                             </SelectContent>
                           </div>

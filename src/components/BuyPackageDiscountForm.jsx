@@ -9,6 +9,7 @@ import { DiscountType } from 'src/constants/global';
 export default function BuyPackageDiscountForm({
   selectedPackage,
   setCourseData,
+  setSelectedPackage,
   courseData,
 }) {
   const [t] = useTranslation(['translations']);
@@ -57,7 +58,7 @@ export default function BuyPackageDiscountForm({
             discount: data.applyPromotionCodeForPackage.promotionCode.value,
           };
         }
-
+        setSelectedPackage(packageFind);
         cloneСourseData.packages.sort((a, b) => a.period - b.period);
         setCourseData(cloneСourseData);
       },
