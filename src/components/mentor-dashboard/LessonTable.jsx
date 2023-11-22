@@ -47,6 +47,7 @@ const LessonTable = ({ tabularData }) => {
     t('duration'),
     t('date_time'),
     t('student_name'),
+    t('student_email'),
     t('status'),
     t('recording', { ns: 'lessons' }),
     // t('class_feedback'),
@@ -147,6 +148,12 @@ const LessonTable = ({ tabularData }) => {
                   {(event.resource.student.firstName ?? '') +
                     ' ' +
                     (event.resource.student.lastName ?? '')}
+                </p>
+              </td>
+
+              <td className="pt-4 border-b text-left">
+                <p className="mt-4 text-color-light-grey tracking-tight text-[15px] leading-normal">
+                  {event.resource.student.user.email}
                 </p>
               </td>
 
