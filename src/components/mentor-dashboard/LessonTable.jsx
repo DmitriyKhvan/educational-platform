@@ -7,7 +7,6 @@ import ModalWrapper from '../ModalWrapper/ModalWrapper';
 import { ZoomRecordingModal } from '../ZoomRecordingModal';
 
 import { BsPlayCircle } from 'react-icons/bs';
-import { ucFirst } from 'src/utils/ucFirst';
 import { LessonsStatusType } from 'src/constants/global';
 
 const LessonTable = ({ tabularData }) => {
@@ -47,6 +46,7 @@ const LessonTable = ({ tabularData }) => {
     t('duration'),
     t('date_time'),
     t('student_name'),
+    t('student_email'),
     t('status'),
     t('recording', { ns: 'lessons' }),
     // t('class_feedback'),
@@ -152,10 +152,16 @@ const LessonTable = ({ tabularData }) => {
 
               <td className="pt-4 border-b text-left">
                 <p className="mt-4 text-color-light-grey tracking-tight text-[15px] leading-normal">
+                  {event.resource.student.user.email}
+                </p>
+              </td>
+
+              <td className="pt-4 border-b text-left">
+                <p className="mt-4 text-color-light-grey tracking-tight text-[15px] leading-normal">
                   {event.resource.status === LessonsStatusType.SCHEDULED ||
                   event.resource.status === LessonsStatusType.RESCHEDULED
-                    ? 'Pending Request'
-                    : ucFirst(event.resource.status)}
+                    ? t('lesson_pending_request')
+                    : t(event.resource.status)}
                 </p>
               </td>
               <td className="pt-4 border-b m-0">

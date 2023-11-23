@@ -10,6 +10,7 @@ export const ApproveRequestLessons = ({ lessons, refetchAppointments }) => {
   const tableHead = [
     t('student_id'),
     t('student_name'),
+    t('student_email'),
     t('lesson_number'),
     t('lesson_date'),
   ];

@@ -448,7 +448,7 @@ const Calendar = () => {
                     <h4 className="text-primary">{t('attendants')}</h4>
                   </div>
                   <div className="row mt-2">
-                    <div className="col-4 me-3">
+                    <div className="col-6">
                       <div>
                         <b>Student</b>
                       </div>
@@ -463,8 +463,12 @@ const Calendar = () => {
                           ' ' +
                           eventDate?.student?.lastName}
                       </p>
+
+                      <p className="text-sm">
+                        {eventDate?.student?.user.email}
+                      </p>
                     </div>
-                    <div className="col-4">
+                    <div className="col-6">
                       <div>
                         <b>Mentor</b>
                       </div>

@@ -65,10 +65,13 @@ export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
     <>
       <tr key={lesson.id} className="tr-center">
         <td className="td-item m-0">
-          <p className="td-lesson">{'#' + lesson.id}</p>
+          <p className="td-lesson">{'#' + lesson?.student.id}</p>
         </td>
         <td className="td-item m-0">
           <p className="td-lesson">{`${lesson?.student?.firstName} ${lesson?.student?.lastName}`}</p>
+        </td>
+        <td className="td-item m-0">
+          <p className="td-lesson">{lesson?.student?.user.email}</p>
         </td>
         <td className="td-item m-0">
           <p className="td-topic-level">{lesson.id}</p>

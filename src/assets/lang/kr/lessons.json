@@ -10,6 +10,7 @@
   "class_feedback": "수업 피드백",
   "no_lessons": "수업이 없습니다.",
   "student_name": "학생 이름",
+  "student_email": "학생 이메일",
   "calendar_month": "월",
   "calendar_week": "주",
   "calendar_day": "일",
@@ -61,7 +62,7 @@
   "status": "상태",
   "lessons_remaining_schedule": "일정을 잡을 수업",
   "disabled_package": "죄송합니다, 귀하의 서비스 구독이 만료되었거나 유효하지 않습니다. 관리자에게 문의하여 추가 지원을 받으실 수 있습니다.",
-  "recording": "Recording",
+  "recording": "수업 녹화",
   "repeat_lesson": "동일한 수업 일정 반복 예약",
   "max_month": "최대 1달",
   "lesson_not_approved": "멘토 선생님의 예약확정을 기다리고 있습니다.",
@@ -74,10 +75,13 @@
   "reason_6": "매칭된 멘토가 맘에들지 않습니다",
   "reason_7": "기타",
   "lesson_pending_approval": "승인 대기",
+  "lesson_pending_request": "예약 대기",
   "lesson_pending_approval_subtitle": "멘토의 승인을 기다리고 있습니다. 승인 전에는 달력에 회색으로 표시되고 승인 후에 보라색으로 변경됩니다",
   "lesson_scheduling_failed": "레슨 스케줄링 실패",
-  "lesson_canceled": "Lesson canceled",
+  "lesson_canceled": "수업 취소",
   "lesson_created": "Lesson created",
-  "lesson_rescheduled": "Lesson rescheduled",
-  "lesson_approved": "Lesson approved"
+  "lesson_rescheduled": "일정 변경",
+  "lesson_approved": "수업 승인",
+  "completed": "수업 완료",
+  "approved": "승인"
 }
