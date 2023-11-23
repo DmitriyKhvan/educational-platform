@@ -74,10 +74,13 @@
   "reason_6": "I do not like the matched mentor",
   "reason_7": "Other",
   "lesson_pending_approval": "Pending Approval",
+  "lesson_pending_request": "Pending Request",
   "lesson_pending_approval_subtitle": "Kindly await the mentor's approval. The lesson will appear gray on the calendar during the review and change to purple upon approval.",
   "lesson_scheduling_failed": "Lesson Scheduling Failed",
   "lesson_canceled": "Lesson canceled",
   "lesson_created": "Lesson created",
   "lesson_rescheduled": "Lesson rescheduled",
-  "lesson_approved": "Lesson approved"
+  "lesson_approved": "Lesson approved",
+  "completed": "Completed",
+  "approved": "Approved"
 }
