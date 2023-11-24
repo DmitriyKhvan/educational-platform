@@ -228,7 +228,7 @@ export default function BuyPackage() {
             <p className="text-lg font-bold text-gray-700/90">
               {t('duration')}
             </p>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               {uniqueLength?.map((length) => (
                 <div key={length}>
                   <input
@@ -259,7 +259,7 @@ export default function BuyPackage() {
                 </div>
               ))}
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               {uniqueSessionsPerWeek?.map((sessionsPerWeek) => (
                 <div key={'sessionsPerWeekKey' + sessionsPerWeek}>
                   <input
@@ -311,7 +311,7 @@ export default function BuyPackage() {
                         className="hidden peer"
                       />
                       <label
-                        className="relative flex flex-row justify-between items-center bg-gray-100/80 backdrop-blur-md text-gray-700/90 backdrop-saturate-200 border-gray-100/40 border-2 py-2 px-4 rounded-xl hover:border-purple-300 duration-300 peer-checked:border-purple-600 hover:shadow-gray-900/5 hover:shadow-xl cursor-pointer"
+                        className="flex flex-row justify-between items-center bg-gray-100/80 backdrop-blur-md text-gray-700/90 backdrop-saturate-200 border-gray-100/40 border-2 py-2 px-4 rounded-xl hover:border-purple-300 duration-300 peer-checked:border-purple-600 hover:shadow-gray-900/5 hover:shadow-xl cursor-pointer"
                         htmlFor={'package' + pkg.id}
                       >
                         {pkg.discount > 0 && (
@@ -320,7 +320,7 @@ export default function BuyPackage() {
                             -{pkg.discount}%
                           </span>
                         )}
-                        <div className="flex sm:flex-row flex-wrap justify-between w-full sm:items-center gap-1">
+                        <div className="flex sm:flex-row flex-wrap justify-between  w-full items-center gap-1">
                           <div>
                             <p className="text-2xl font-bold w-full flex-grow">
                               {pkg.period}{' '}
