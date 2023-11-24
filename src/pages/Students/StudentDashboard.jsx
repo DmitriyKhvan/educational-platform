@@ -279,7 +279,7 @@ const StudentListAppointments = () => {
               <h4 className="text-[30px] font-semibold tracking-tight mb-[30px]">
                 {t('already_lesson', { ns: 'dashboard' })}
               </h4>
-              <div className="flex gap-4 md:gap-[30px] justify-between">
+              <div className="flex flex-wrap gap-4 md:gap-[30px] justify-between">
                 {loading ? (
                   <Loader />
                 ) : (

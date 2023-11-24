@@ -133,7 +133,7 @@ export default function ConfirmPayment() {
             icon={faXmarkCircle}
             className="w-16 h-16 text-red-500"
           />
-          <h1 className="font-bold">{message}</h1>
+          <h1 className="font-bold text-xl sm:text-3xl">{message}</h1>
           <a
             href="/student/manage-lessons"
             className="text-white bg-purple-500 px-4 py-2 rounded font-bold"
@@ -151,7 +151,7 @@ export default function ConfirmPayment() {
           icon={faCheckCircle}
           className="w-16 h-16 text-green-500"
         />
-        <h1 className="font-bold">{message}</h1>
+        <h1 className="font-bold text-xl sm:text-3xl">{message}</h1>
         <Link
           to={
             !getItemToLocalStorage('studentId') && user.students[0].id

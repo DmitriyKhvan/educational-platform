@@ -3,6 +3,10 @@
 .referal-wrapper {
   padding: 50px 66px;
   font-family: 'Inter';
+  @media screen and (max-width: 640px) {
+    padding: 20px;
+  }
+
   .title {
     font-family: 'Inter';
     font-style: normal;
@@ -51,16 +55,12 @@
       flex-direction: column;
       align-items: flex-start;
       @media screen and (max-width: 768px) {
-        padding: 6px 8px;
         width: 80%;
       }
       @media screen and (max-width: 375px) {
         padding: 3px 4px;
         width: 100%;
       }
-    }
-    @media screen and (max-width: 768px) {
-      padding: 6px 8px;
     }
   }
   .no-items-content {

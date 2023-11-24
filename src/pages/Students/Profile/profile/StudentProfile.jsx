@@ -127,9 +127,10 @@ const StudentProfile = () => {
                     className="text-sm p-[10px] cursor-auto hover:bg-white hover:text-black"
                     theme="outline"
                   >
-                    {t('lessons_remaining', {
+                    {t('lessons_completed', {
                       ns: 'lessons',
-                      count: item.credits,
+                      count: item.package.totalSessions - item.credits,
+                      total: item.package.totalSessions,
                     })}
                   </Button>
                 </div>
