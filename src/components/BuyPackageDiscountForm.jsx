@@ -69,7 +69,7 @@ export default function BuyPackageDiscountForm({
   };
 
   return (
-    <div className="flex items-center justify-end gap-2 mb-3">
+    <div className="flex flex-col items-end sm:flex-row sm:items-center justify-end gap-2 mb-3">
       <input
         className="rounded-md ring-purple-800 duration-200 border border-gray-300"
         type="text"

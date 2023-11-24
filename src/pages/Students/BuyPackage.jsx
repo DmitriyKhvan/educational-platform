@@ -228,7 +228,7 @@ export default function BuyPackage() {
             <p className="text-lg font-bold text-gray-700/90">
               {t('duration')}
             </p>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               {uniqueLength?.map((length) => (
                 <div key={length}>
                   <input
@@ -259,7 +259,7 @@ export default function BuyPackage() {
                 </div>
               ))}
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               {uniqueSessionsPerWeek?.map((sessionsPerWeek) => (
                 <div key={'sessionsPerWeekKey' + sessionsPerWeek}>
                   <input
@@ -320,7 +320,7 @@ export default function BuyPackage() {
                             -{pkg.discount}%
                           </span>
                         )}
-                        <div className="flex sm:flex-row flex-wrap justify-between w-full sm:items-center gap-1">
+                        <div className="flex sm:flex-row flex-wrap justify-between  w-full items-center gap-1">
                           <div>
                             <p className="text-2xl font-bold w-full flex-grow">
                               {pkg.period}{' '}
