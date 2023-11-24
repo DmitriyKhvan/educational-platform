@@ -311,7 +311,7 @@ export default function BuyPackage() {
                         className="hidden peer"
                       />
                       <label
-                        className="flex flex-row justify-between items-center bg-gray-100/80 backdrop-blur-md text-gray-700/90 backdrop-saturate-200 border-gray-100/40 border-2 py-2 px-4 rounded-xl hover:border-purple-300 duration-300 peer-checked:border-purple-600 hover:shadow-gray-900/5 hover:shadow-xl cursor-pointer"
+                        className="relative sflex flex-row justify-between items-center bg-gray-100/80 backdrop-blur-md text-gray-700/90 backdrop-saturate-200 border-gray-100/40 border-2 py-2 px-4 rounded-xl hover:border-purple-300 duration-300 peer-checked:border-purple-600 hover:shadow-gray-900/5 hover:shadow-xl cursor-pointer"
                         htmlFor={'package' + pkg.id}
                       >
                         {pkg.discount > 0 && (
