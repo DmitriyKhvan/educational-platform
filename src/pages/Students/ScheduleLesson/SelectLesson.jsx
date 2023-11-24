@@ -97,7 +97,7 @@ const SelectLesson = ({
 
                 <div className="flex gap-2 flex-row">
                   <div className="text-color-dark-purple font-medium text-[17px] border border-color-border-grey rounded px-2.5 py-[5px] flex-grow text-center">
-                    {t('lessons_remaining', {
+                    {t('lessons_remaining_schedule', {
                       ns: 'lessons',
                       count: remaining,
                     })}
@@ -137,7 +137,7 @@ const SelectLesson = ({
 
   return (
     <Layout>
-      <div className="h-full overflow-y-auto sm:px-10 sm:py-8 lg:pt-12 lg:px-12 xl:pl-[65px] xl:pr-[90px]">
+      <div className="h-full overflow-y-auto p-5 sm:px-10 sm:py-8 lg:pt-12 lg:px-12 xl:pl-[65px] xl:pr-[90px]">
         <div className="flex flex-col gap-2.5 mb-[27px]">
           <h1 className="text-[40px] text-color-dark-purple leading-normal tracking-tight">
             {!id

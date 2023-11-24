@@ -166,7 +166,7 @@ const ScheduleSelector = ({
     ...(selectedTutor && {
       mentorId: selectedTutor.id,
     }),
-    studentId: getItemToLocalStorage('studentId')
+    studentId: getItemToLocalStorage('studentId'),
   });
 
   //Loop over the times - only pushes time with 30 oor 60 minutes interval
@@ -416,7 +416,6 @@ const ScheduleSelector = ({
 
   const uniqTimes = [...new Set(allTimes)];
 
-
   const AvailableSpots = () => (
     <React.Fragment>
       <div>
@@ -467,7 +466,7 @@ const ScheduleSelector = ({
               <div className="flex w-full items-center justify-between px-4 mb-4">
                 <div>
                   <button
-                    className="btn btn-dash-return disabled:opacity-50"
+                    className="disabled:opacity-50"
                     disabled={disable}
                     onClick={() => {
                       setCounter(counter + 1);
@@ -475,6 +474,7 @@ const ScheduleSelector = ({
                     }}
                   >
                     <img
+                      className="w-full"
                       style={{ transform: 'rotate(180deg)' }}
                       src={forward_arrow}
                       alt=""
@@ -490,14 +490,14 @@ const ScheduleSelector = ({
 
                 <div>
                   <button
-                    className="btn btn-dash-return disabled:opacity-50"
+                    className="disabled:opacity-50"
                     onClick={() => {
                       setCounter(counter - 1);
                       setDayClicked(null);
                     }}
                     disabled={counter === -4}
                   >
-                    <img src={forward_arrow} alt="" />
+                    <img className="w-full" src={forward_arrow} alt="" />
                   </button>
                 </div>
 
