@@ -371,7 +371,7 @@
   @media screen and (min-width: 500px) and (max-width: 599px) {
     .text-white {
       width: auto;
-      display: flex;
+      // display: flex;
     }
     .text-muted {
       width: auto;
@@ -522,15 +522,15 @@
     }
 
     .text-white {
-      text-align: center !important;
+      // text-align: center !important;
       align-items: center;
     }
     .text-muted {
       text-align: center !important;
       align-items: center;
     }
-    display: flex;
-    justify-content: center;
+    // display: flex;
+    // justify-content: center;
     .buttonsdash {
       width: 100%;
     }
