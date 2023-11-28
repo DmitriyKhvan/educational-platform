@@ -112,19 +112,16 @@ const StudentProfile = () => {
                     {item.package.course.title}
                   </h3>
 
-                  <Button
-                    className="text-sm p-[10px] cursor-auto"
-                    theme="purple"
-                  >
+                  <Button className="px-[10px] cursor-auto" theme="purple">
                     {t('lesson_type', { ns: 'profile' })}
                   </Button>
 
-                  <Button className="text-sm p-[10px] text-color-purple bg-color-light-purple cursor-auto">
+                  <Button className="px-[10px] text-color-purple bg-color-light-purple cursor-auto">
                     {item.package.sessionTime} {t('minutes', { ns: 'common' })}
                   </Button>
 
                   <Button
-                    className="text-sm p-[10px] cursor-auto hover:bg-white hover:text-black"
+                    className="px-[10px] cursor-auto hover:bg-white hover:text-inherit"
                     theme="outline"
                   >
                     {t('lessons_completed', {

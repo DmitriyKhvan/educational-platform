@@ -270,25 +270,6 @@ const ReschedulingTimeModal = ({
                 .date(dayMoment.date());
               setIsLoading(true);
               setSchedule(selectedSchedule.toString());
-              // dispatch(getTutorList(selectedSchedule.toString())).then(
-              //   (response) => {
-              //     const tutorlist = response.payload.tutors;
-              //     if (tutorlist.length > 0) {
-              //       setTabIndex(3);
-              //     }
-              //     if (tutorlist.length === 0) {
-              //       Swal.fire({
-              //         title: 'No Tutors Available for selected Time',
-              //         text: '',
-              //         icon: 'warning',
-              //         confirmButtonColor: '#6133af',
-              //         cancelButtonColor: '#d33',
-              //         target: 'body > div.ReactModalPortal > div > div',
-              //       });
-              //     }
-              //     setIsLoading(false);
-              //   },
-              // );
             }}
           >
             {t('booking_lesson')}
