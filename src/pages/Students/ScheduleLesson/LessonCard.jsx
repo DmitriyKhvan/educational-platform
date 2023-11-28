@@ -4,7 +4,7 @@ const LessonCard = ({ lesson, duration, remaining }) => {
   const lessonTitle = lesson?.charAt(0).toUpperCase() + lesson?.slice(1);
   const lessonDuration = `${duration}`;
   const optionalDisplayLessons = remaining ? (
-    <div className="col-auto schedule-lesson-border lessons-remain border rounded-lg py-1.5 px-2">
+    <div className="col-auto schedule-lesson-border border rounded-lg py-1.5 px-2">
       <div className="Lesson-styles">{remaining}</div>
     </div>
   ) : (

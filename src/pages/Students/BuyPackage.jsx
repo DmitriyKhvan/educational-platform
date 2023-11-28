@@ -194,7 +194,7 @@ export default function BuyPackage() {
           className="bg-gray-200/90 backdrop-blur-md backdrop-saturate-200 border-gray-100/40 border p-4 rounded-xl max-w-5xl w-full cool-shadow flex flex-col gap-8 md:gap-6 md:flex-row bg-center transition-transform duration-300"
           ref={parent}
         >
-          <div className="flex flex-col gap-8 h-fit max-w-xs">
+          <div className="flex flex-col gap-8 h-fit sm:max-w-xs">
             {allCourses?.courses?.map((course, index) => {
               return (
                 <div
@@ -452,7 +452,7 @@ export default function BuyPackage() {
                               }}
                               asChild
                             >
-                              <button className="rounded-tl-md rounded-bl-md h-full font-semibold bg-purple-600 text-white text-sm py-1 px-4 min-w-[9rem]">
+                              <button className="rounded-tl-md rounded-bl-md font-semibold bg-purple-600 text-white text-sm py-1 px-4 min-w-[9rem]">
                                 Pay
                                 {/* with <SelectValue /> */}
                               </button>

@@ -58,7 +58,7 @@ const CheckoutForm = () => {
 
   return (
     <PaymentLayout>
-      <form onSubmit={handleSubmit}>
+      <form className="m-8" onSubmit={handleSubmit}>
         <PaymentElement />
         <p className="text-red-500 mt-2">
           {errorMessage && <div>*{errorMessage}</div>}
