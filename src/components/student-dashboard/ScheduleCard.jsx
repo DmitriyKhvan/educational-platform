@@ -166,7 +166,7 @@ const ScheduleCard = ({
         </div>
       </div>
       {LessonsStatusType[data?.status?.toUpperCase()] ? (
-        <div className="flex items-center gap-2 xl:gap-3">
+        <div className="flex flex-wrap items-center gap-2 xl:gap-3">
           {user.role !== Roles.MENTOR && (
             <a
               className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px] ${

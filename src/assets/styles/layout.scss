@@ -369,10 +369,6 @@
     }
   }
   @media screen and (min-width: 500px) and (max-width: 599px) {
-    .text-white {
-      width: auto;
-      // display: flex;
-    }
     .text-muted {
       width: auto;
       display: flex;
@@ -436,12 +432,6 @@
     .custom-btn-primary {
       margin: 5px 10px 5px 0 !important;
     }
-    .select_tutors_aligns {
-      display: block;
-    }
-    .image-align-tutor {
-      width: 100%;
-    }
     .ExpWidth {
       justify-content: center;
     }
@@ -498,11 +488,6 @@
       width: 100%;
     }
 
-    .forest .content .text-white {
-      display: flex;
-      justify-content: center;
-    }
-
     .content .text-muted {
       display: flex;
       justify-content: center;
@@ -521,10 +506,6 @@
       text-align: center;
     }
 
-    .text-white {
-      // text-align: center !important;
-      align-items: center;
-    }
     .text-muted {
       text-align: center !important;
       align-items: center;
@@ -1006,10 +987,6 @@
       width: 35%;
     }
 
-    .flex-right-student-conf {
-      width: 55%;
-    }
-
     .flex-lefts {
       width: 65% !important;
     }
@@ -1100,13 +1077,7 @@
     .schedule-lesson-border-widthss {
       margin-left: auto !important;
     }
-    .lessons-remain {
-      width: 100%;
-      margin-top: 1rem;
-    }
-    .inside-align-title {
-      margin-left: 7px !important;
-    }
+
     .final_width_change {
       display: contents;
     }

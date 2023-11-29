@@ -45,7 +45,7 @@ const Mentors = () => {
 
   return (
     <Layout>
-      <div className="p-5 sm:py-[55px] sm:px-[66px]">
+      <div className="p-5 md:py-[55px] md:px-[66px]">
         <div>
           <h1 className="text-3xl sm:text-[40px] tracking-[-1px] text-color-dark-purple mb-[10px]">
             {t('mentor_list', { ns: 'studentMentor' })}

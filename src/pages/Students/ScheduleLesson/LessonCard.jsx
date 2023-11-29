@@ -1,32 +1,29 @@
 import React from 'react';
+import Button from 'src/components/Form/Button';
+import { ucFirst } from 'src/utils/ucFirst';
 
 const LessonCard = ({ lesson, duration, remaining }) => {
-  const lessonTitle = lesson?.charAt(0).toUpperCase() + lesson?.slice(1);
-  const lessonDuration = `${duration}`;
-  const optionalDisplayLessons = remaining ? (
-    <div className="col-auto schedule-lesson-border lessons-remain border rounded-lg py-1.5 px-2">
-      <div className="Lesson-styles">{remaining}</div>
-    </div>
-  ) : (
-    ''
-  );
   return (
-    <div
-      className={
-        'time-card border border-gray-200 schedule-lesson-border schedule-lesson-border-width bg-grey-100 small-card schedule_change_padd'
-      }
-    >
-      <div className="ms-2">
-        <div className="col-auto inside-align-title-col">
-          <h1 className="my-1 inside-align-title">{lessonTitle || 'Title'}</h1>
-        </div>
-        <div className="flex mt-3 gap-2 items-center">
-          <div className="col-auto rounded-lg schedule-lesson-border schedule-lesson-border-widthss h-full">
-            <div className="m-2 time-style flex items-center justify-center">
-              {lessonDuration}
-            </div>
+    <div className="border rounded-[10px] p-5 shadow-[0px_10px_30px_rgba(0,_0,_0,_0.01)] border-color-border-grey">
+      <div className="flex sm:items-center gap-2 flex-wrap">
+        <h1 className="font-medium text-xl leading-7 tracking-[-0.6px] text-color-dark-purple">
+          {ucFirst(lesson) || 'Title'}
+        </h1>
+        <div className="flex gap-2 items-center">
+          <div className="rounded-lg bg-color-light-purple">
+            <Button className="px-[10px] h-[38px] text-color-purple bg-color-light-purple cursor-auto">
+              {duration}
+            </Button>
           </div>
-          {optionalDisplayLessons}
+
+          {remaining && (
+            <Button
+              className="px-[10px] h-[38px] cursor-auto hover:bg-white hover:text-inherit"
+              theme="outline"
+            >
+              {remaining}
+            </Button>
+          )}
         </div>
       </div>
     </div>

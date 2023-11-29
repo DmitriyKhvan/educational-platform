@@ -110,21 +110,8 @@
 .mobile-view-buttons {
   margin-left: -2px;
 }
-.set-container_tutor {
-  max-width: 730px;
-  width: 100%;
-  padding: 20px 50px 0 50px !important;
-}
-.align_width_width {
-  max-width: 730px;
-  padding: 0px 50px 0 50px !important;
-}
 .child-set_container {
   padding: 20px;
-}
-.schedule_change_padd {
-  padding: 18px 0px 18px 10px;
-  max-width: 394px;
 }
 .tutor_date_padd {
   padding: 10px !important;
@@ -367,12 +354,6 @@ select {
   .summary-information {
     grid-template-columns: repeat(1, 1fr);
   }
-  .set-container_tutor {
-    padding: 15px !important;
-  }
-  .align_width_width {
-    padding: 15px !important;
-  }
   .fa-angle-down {
     position: absolute;
 
@@ -383,9 +364,6 @@ select {
     color: #dedee1;
     left: 80px;
     top: 14px;
-  }
-  .text-purple {
-    font-size: 30px;
   }
 
   .fa-angle-downs {
@@ -453,9 +431,6 @@ select {
     padding: 20px;
   }
 
-  .text-purple {
-    font-size: 30px;
-  }
   .text-center {
     flex-wrap: wrap;
   }
@@ -630,22 +605,9 @@ select {
   color: #281b49 !important;
 }
 
-.inside-align-title-time {
-  color: #261a45 !important;
-}
-div.time-style {
-  text-align: 'center';
-  color: #6133af !important;
-  font-weight: 600 !important;
-}
 .schedule-lesson-border-widthss {
   background: #ebe4ff;
   // max-width: 97px;
-}
-.Lesson-styles {
-  text-align: 'center';
-  color: #261a45;
-  font-weight: 600 !important;
 }
 .welcome-subtitle-fonts {
   font-family: 'Inter';
@@ -710,9 +672,6 @@ div.time-style {
   color: #261a45;
   padding-top: 2px;
 }
-.image-align-tutor {
-  width: auto;
-}
 .buttons-Lesson {
   font-weight: 600 !important;
   font-size: 20px !important;
@@ -728,9 +687,6 @@ div.time-style {
   line-height: 48px;
   letter-spacing: -1px;
   margin-bottom: 15px !important;
-}
-.schedule-lesson-border-width {
-  width: 100%;
 }
 .schedule-lesson-border-widths {
   width: 100%;
@@ -760,9 +716,7 @@ div.time-style {
   letter-spacing: -0.6px;
   margin-bottom: 15px;
 }
-.button-size {
-  margin-bottom: 10px;
-}
+
 .confirm-tutor-enter-btn {
   border: 1px solid #dedee1 !important;
   background: $color-white;
@@ -805,12 +759,6 @@ div.time-style {
   .availability-wrapper {
     padding: 39.31px 20px 57px 20px;
   }
-  .Lesson-styles {
-    color: #261a45;
-
-    justify-content: center;
-    display: flex;
-  }
   .children-page {
     width: calc(100% - 300px);
   }
@@ -837,50 +785,22 @@ div.time-style {
   .availability-wrapper {
     padding: 20px;
   }
-  .tutor-confirm-right {
-    width: 100%;
-  }
-  .alignmobile {
-    align-items: center;
-  }
   .flex-container {
     display: flex;
     flex-wrap: wrap;
   }
-  .Lesson-styles {
-    display: flex;
-    justify-content: center;
-  }
-  .time-style {
-    display: flex;
-    justify-content: center;
-  }
   .mobile-view-align {
     display: flex;
     flex-wrap: wrap;
-  }
-  .mobile-width-subtitle {
-    padding: 0 !important;
-    margin: 0 !important;
   }
 }
 @media screen and (max-width: 900px) {
   .availability-wrapper {
     padding: 20px;
   }
-  .tutor-confirm-right {
-    width: 100%;
-  }
-  .alignmobile {
-    align-items: center;
-  }
   .flex-container {
     display: flex;
     flex-wrap: wrap;
-  }
-  .Lesson-styles {
-    display: flex;
-    justify-content: center;
   }
 }
 @media screen and (max-width: 900px) {
@@ -893,14 +813,8 @@ div.time-style {
   .lesson-wrapper {
     padding: 15px 25px 0 25px;
   }
-  .tutor-confirm-left {
-    width: 100%;
-  }
   .children-page {
     width: calc(100% - 300px);
-  }
-  .alignmobile {
-    align-items: center;
   }
   .set-container {
     padding: 20px 50px 57px 50px !important;
@@ -917,17 +831,6 @@ div.time-style {
     line-height: 48px;
     letter-spacing: -1px;
     margin-bottom: 15px !important;
-  }
-  .Text-align-tutor {
-    width: 50%;
-  }
-
-  .inside-align-title-time {
-    align-items: center;
-    width: 100%;
-  }
-  .alignmobile {
-    justify-content: center;
   }
 }
 
@@ -978,9 +881,6 @@ div.time-style {
   height: 48px;
   margin-bottom: 15px;
   margin-left: 15px;
-}
-.text-purple {
-  color: #7048e8 !important;
 }
 .text-purpless {
   color: #6133af !important;
@@ -1082,10 +982,6 @@ div.time-style {
   .lesson-wrapper {
     padding: 20px;
   }
-  .alignmobile {
-    display: flex;
-    justify-content: center !important;
-  }
   .flex-left {
     width: 100%;
   }
@@ -1102,12 +998,6 @@ div.time-style {
     width: 100%;
     padding-right: 0 !important;
   }
-  .Text-align-tutor {
-    width: 100%;
-  }
-  .mobile-width-subtitle {
-    padding-right: 0 !important;
-  }
 }
 
 @media screen and (min-width: 1500px) {
@@ -1121,10 +1011,6 @@ div.time-style {
   border: 1px solid #dedee1;
   box-sizing: border-box;
   border-radius: 8.125px;
-}
-.buttons-Lesson-shape {
-  width: 100%;
-  padding-bottom: 20px;
 }
 .time-card {
   border: 0.5px solid $color-grey3;
@@ -1269,9 +1155,6 @@ div.time-style {
 
 .student-dashboard .schedule-lesson-select .page-card .title {
   color: #ffffff !important;
-}
-.pt-0 {
-  font-weight: 600;
 }
 .welcome-message {
   font-weight: 600;
@@ -1445,12 +1328,6 @@ div.time-style {
   .tutor_date_padd {
     max-width: 100%;
   }
-  .inside-align-title-time {
-    margin-left: 0 !important;
-  }
-  .schedule_card_aligns {
-    width: 100%;
-  }
   .flex-container .ps-0 {
     justify-content: center;
   }
@@ -1481,12 +1358,6 @@ div.time-style {
   .align-flex-direction {
     display: flex;
     flex-direction: column;
-  }
-  .text-white {
-    // width: 100%;
-    justify-content: center;
-    align-items: center;
-    // display: flex;
   }
   .text-black {
     justify-content: center;

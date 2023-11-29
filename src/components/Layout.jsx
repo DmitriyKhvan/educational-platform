@@ -24,7 +24,7 @@ const Layout = ({ children }) => {
           />
           <div className="children-page">
             <Navbar setShowSidebar={setShowSidebar} />
-            <div>{children}</div>
+            <div className="h-[calc(100vh-80px)] overflow-auto">{children}</div>
           </div>
         </div>
         {/* <Footer /> */}

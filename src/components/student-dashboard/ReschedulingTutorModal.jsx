@@ -74,7 +74,7 @@ const ReschedulingTutorModal = ({
           </button>
         </div>
       </div>
-      <div className="row mt-2 ps-2 pt-0 modal-scroll">
+      <div className="row mt-2 ps-2 modal-scroll">
         {tutors
           .sort((a, b) =>
             a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1,

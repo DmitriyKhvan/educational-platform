@@ -3,7 +3,6 @@ import moment from 'moment-timezone';
 import { useTranslation } from 'react-i18next';
 import LessonCard from '../../pages/Students/ScheduleLesson/LessonCard';
 import ScheduleCard from '../../pages/Students/ScheduleLesson/ScheduleCard';
-import TutorImageRow from '../../pages/Students/ScheduleLesson/TutorImageRow';
 import NotificationManager from '../NotificationManager';
 import Loader from '../common/Loader';
 import { useAuth } from '../../modules/auth';
@@ -13,6 +12,7 @@ import {
   UPDATE_APPOINTMENT,
 } from '../../modules/auth/graphql';
 import { getItemToLocalStorage } from 'src/constants/global';
+import MentorImageRow from '../../pages/Students/ScheduleLesson/MentorImageRow';
 
 const RescheduleConfirmationModal = ({
   setTabIndex,
@@ -115,7 +115,7 @@ const RescheduleConfirmationModal = ({
             </div>
             <p className="welcome-subtitle mb-2 mt-4">{t('tutor')}</p>
             <div className="row">
-              <TutorImageRow tutor={tutor} />
+              <MentorImageRow mentor={tutor} />
             </div>
           </div>
         </div>

@@ -372,7 +372,7 @@ const ScheduleSelector = ({
       >
         <div className="row container ms-1">
           <div className="col-12 align_schedule_texts">
-            <h3 className={`text-black change_width_schedule`}>
+            <h3 className="text-color-dark-purple text-base sm:text-lg">
               {moment(scheduleStartTime.time, [
                 moment.ISO_8601,
                 'HH:mm',
@@ -483,7 +483,7 @@ const ScheduleSelector = ({
                 </div>
 
                 <div>
-                  <h1 className="justify-content-center mt-0">
+                  <h1 className="justify-content-center mt-0 my-3 text-2xl text-center sm:text-4xl">
                     {startOfWeekFormatted} to {endOfWeekFormatted}
                   </h1>
                 </div>

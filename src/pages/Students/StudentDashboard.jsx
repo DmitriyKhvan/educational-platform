@@ -228,7 +228,7 @@ const StudentListAppointments = () => {
   return (
     <Layout>
       <div className="relative h-full">
-        <div className="flex flex-wrap 2xl:flex-nowrap">
+        <div className="flex h-full flex-wrap 2xl:flex-nowrap">
           <div className="w-full px-[22px] pt-5 lg:pt-[30px] lg:px-[35px] xl:w-3/5 2xl:w-[65%] 2xl:pt-[50px] 2xl:px-[65px]">
             <div>
               <h4 className="text-[30px] font-semibold tracking-tight mb-2.5">
@@ -290,7 +290,7 @@ const StudentListAppointments = () => {
           </div>
           <div className="w-full px-[22px] lg:pt-[30px] 2xl:pt-[50px] 2xl:pl-[30px] border-t mt-8 xl:mt-0 xl:w-2/5 xl:border-none 2xl:w-[35%] bg-[#F7F7FA]">
             {!isLoading && (
-              <div className="mt-4">
+              <div className="my-4">
                 <h4 className="text-[30px] tracking-tight font-normal mb-2.5">
                   {t('weekly_schedule', { ns: 'dashboard' })}
                 </h4>
@@ -322,9 +322,11 @@ const StudentListAppointments = () => {
                   </section>
                 </div>
 
-                <div className="mt-[30px] h-[65vh] overflow-y-auto scroll-hidden">
-                  {appointments?.length ? <>{ScheduleArr}</> : ''}
-                </div>
+                {ScheduleArr?.length > 0 && (
+                  <div className="mt-[30px] h-[65vh] overflow-y-auto scroll-hidden">
+                    {ScheduleArr}
+                  </div>
+                )}
               </div>
             )}
           </div>
