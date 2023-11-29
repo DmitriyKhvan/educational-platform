@@ -282,7 +282,7 @@ const ReschedulingTimeModal = ({
   const AvailableSpots = () => (
     <React.Fragment>
       <h2 className="mb-2">{t('available_spots')}</h2>
-      <p className="welcome-subtitle text-purple">
+      <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px] text-purple">
         {t('available_spots_subtitle')}
       </p>
       <div

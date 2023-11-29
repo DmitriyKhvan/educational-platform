@@ -187,10 +187,8 @@ const LessonConfirmation = ({
     <Layout>
       <div className="flex flex-wrap lg:flex-nowrap h-full">
         <div className="grow py-[30px] xl:py-[50px] px-[30px] xl:px-[65px]">
-          <h1 className="title my-2 mt-0 confirm-tutor-title">
-            {t('confirmation', { ns: 'lessons' })}
-          </h1>
-          <p className="welcome-subtitle confirm-tutor-subtitle">
+          <h1 className="my-2 mt-0">{t('confirmation', { ns: 'lessons' })}</h1>
+          <p className="welcome-subtitle text-xl mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px]">
             {t('confirmation_subtitle', { ns: 'lessons' })}
           </p>
           <div className="flex flex-wrap gap-2 lg:gap-3 ">
@@ -223,10 +221,10 @@ const LessonConfirmation = ({
             </Button>
           </div>
 
-          <p className="welcome-subtitle pt-4 confirm-tutor-subtitle">
+          <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px] text-xl">
             {t('lesson_topic', { ns: 'lessons' })}
           </p>
-          <div className="lesson_card-inline">
+          <div className="flex">
             <LessonCard
               lesson={plan?.package?.course.title}
               duration={`${plan?.package?.sessionTime} ${t('minutes', {
@@ -239,7 +237,7 @@ const LessonConfirmation = ({
               })}
             />
           </div>
-          <p className="welcome-subtitle pt-4 confirm-tutor-subtitle">
+          <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px] text-xl">
             {t('date_time', { ns: 'lessons' })}
           </p>
           <div className="flex">
@@ -249,7 +247,7 @@ const LessonConfirmation = ({
               date={scheduleDate}
             />
           </div>
-          <p className="welcome-subtitle pt-4 confirm-tutor-subtitle">
+          <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px] text-xl">
             {t('mentor', { ns: 'lessons' })}
           </p>
           <div className="flex">
@@ -355,13 +353,13 @@ const LessonConfirmation = ({
                   <h4 className="text-purple font-normal text-[clamp(1rem,_5vw,_2rem)]">
                     {t('lesson_pending_approval', { ns: 'lessons' })}
                   </h4>
-                  <h4 className="text-color-light-grey my-[30px] text-[clamp(0.5rem,_4vw,_1rem)]">
+                  <h4 className="text-color-light-grey my-[15px] sm:my-[30px] text-[clamp(0.5rem,_4vw,_1rem)]">
                     {t('lesson_pending_approval_subtitle', { ns: 'lessons' })}
                   </h4>
                 </>
               )}
 
-              <div className="flex-container gap-2 mb-4">
+              <div className="flex flex-wrap gap-2 mb-4">
                 <div>
                   <Link to="/student/manage-lessons" className="enter-btn m-0">
                     {t('return_to_dash', { ns: 'lessons' })}

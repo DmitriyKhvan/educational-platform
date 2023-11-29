@@ -9,7 +9,7 @@ import {
   setItemToLocalStorage,
 } from 'src/constants/global';
 import { ATTACH_STUDENT_TO_USER } from 'src/modules/auth/graphql';
-import Logo from 'src/assets/images/logo.png';
+import Logo from 'src/assets/images/logo_purple.svg';
 import { useAuth } from 'src/modules/auth';
 import notify from 'src/utils/notify';
 

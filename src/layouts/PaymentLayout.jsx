@@ -1,5 +1,5 @@
 import React from 'react';
-import Logo from 'src/assets/images/logo.png';
+import Logo from 'src/assets/images/logo_purple.svg';
 
 export const PaymentLayout = ({ children }) => {
   return (

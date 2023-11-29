@@ -1,10 +1,11 @@
 import React, { useEffect, useState, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Logo from 'src/assets/images/auth-logo.svg';
+// import Logo from 'src/assets/images/auth-logo.svg';
+import Logo from 'src/assets/images/logo_purple.svg';
 import FlagUsa from 'src/assets/images/flag-usa.svg';
 import FlagKorea from 'src/assets/images/flag-korea.svg';
-import MobileMenuIcon from 'src/assets/images/mobile-menu.svg';
+import { MdOutlineMenu } from 'react-icons/md';
 import Dropdown from '../Dropdown';
 
 import {
@@ -122,9 +123,8 @@ const Navbar = memo(({ setShowSidebar }) => {
         </div>
         {/* ${data?.newMessages?.meta?.dashboard ? 'ws-notification-mobile' : ''} */}
         <div className={`mobile-menu`}>
-          <img
-            src={MobileMenuIcon}
-            alt=""
+          <MdOutlineMenu
+            className="w-6 h-6 cursor-pointer"
             onClick={() => setShowSidebar((state) => !state)}
           />
         </div>

@@ -4,7 +4,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import LoginForm from '../../components/onboarding/LoginForm';
 import SelectForm from '../../components/onboarding/SelectForm';
 import { useForm } from 'react-hook-form';
-import Logo from '../../assets/images/logo.png';
+import Logo from '../../assets/images/logo_purple.svg';
 import CredentialsForm from '../../components/onboarding/CredentialsForm';
 import { useMutation } from '@apollo/client';
 import { SIGN_UP } from '../../modules/auth/graphql';
