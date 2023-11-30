@@ -211,7 +211,7 @@ const GroupLessons = () => {
             })}
           </p>
         </div>
-        <div className="scroll-layout">
+        <div className="overflow-auto h-full">
           {appointments && (
             <CustomTable columns={columns} data={appointments} />
           )}

@@ -77,7 +77,7 @@ const SelectLesson = ({
           <TooltipTrigger>
             <div
               className={cn(
-                `cursor-pointer p-5 border rounded-lg min-w-[18rem]`,
+                `cursor-pointer p-5 border rounded-lg w-[315px]`,
                 !active &&
                   'grayscale bg-white brightness-75 opacity-80 cursor-not-allowed',
                 i === clicked &&
@@ -91,12 +91,12 @@ const SelectLesson = ({
               onClick={active ? () => selectPlan(i, data) : undefined}
             >
               <div>
-                <h1 className="text-color-dark-purple text-xl tracking-tight font-semibold mb-4">
+                <h1 className="text-color-dark-purple text-xl tracking-tight font-semibold mb-4 truncate">
                   {capitalize(title)}
                 </h1>
 
                 <div className="flex gap-2 flex-row">
-                  <div className="text-color-dark-purple font-medium text-[17px] border border-color-border-grey rounded px-2.5 py-[5px] flex-grow text-center">
+                  <div className="text-color-dark-purple font-medium text-[17px] border border-color-border-grey rounded px-2.5 py-[5px] flex-grow text-center whitespace-nowrap">
                     {t('lessons_remaining_schedule', {
                       ns: 'lessons',
                       count: remaining,
@@ -137,14 +137,14 @@ const SelectLesson = ({
 
   return (
     <Layout>
-      <div className="h-full overflow-y-auto p-5 sm:px-10 sm:py-8 lg:pt-12 lg:px-12 xl:pl-[65px] xl:pr-[90px]">
+      <div className="h-full overflow-y-auto p-5 sm:px-10 sm:py-8 lg:pt-12 lg:px-12 xl:py-[65px]">
         <div className="flex flex-col gap-2.5 mb-[27px]">
-          <h1 className="text-[40px] text-color-dark-purple leading-normal tracking-tight">
+          <h1 className="text-[clamp(1.5rem,_5vw,_2.5rem)] text-color-dark-purple leading-normal tracking-tight">
             {!id
               ? t('schedule_lesson')
               : t('reschedule_lesson', { ns: 'modals' })}
           </h1>
-          <p className="text-xl text-color-light-grey font-medium tracking-tight">
+          <p className="text-[clamp(1rem,_4vw,_1.25rem)] text-color-light-grey font-medium tracking-tight">
             {!id
               ? t('schedule_lesson_subtitle')
               : t('reschedule_lesson_subtitle')}

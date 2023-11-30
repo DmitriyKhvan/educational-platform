@@ -91,7 +91,7 @@ const TutorDashboard = () => {
   const handleCloseModal = () => setFeedbackShow(false);
 
   return (
-    <div className="main-dashboard scroll-layout">
+    <div className="main-dashboard overflow-auto h-full">
       <div className="flex-container">
         <div className="student-dashboard flex-left children-wrapper flex-change ">
           <div className="set-container">

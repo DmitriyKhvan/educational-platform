@@ -53,7 +53,7 @@ const LessonTable = ({ tabularData }) => {
   ];
 
   return (
-    <div className="scroll-layout">
+    <div className="overflow-auto h-full">
       <table className="table">
         <thead>
           <tr>
@@ -78,7 +78,7 @@ const LessonTable = ({ tabularData }) => {
             </tr>
           )}
           {displayTableData.map((event) => (
-            <tr className="h-[80px] m-auto text-center" key={event.resource.id}>
+            <tr className="h-[80px] m-auto" key={event.resource.id}>
               <td className="pt-4 border-b text-left lg:pl-16">
                 <p className="mt-4 font-semibold text-color-light-grey tracking-tight text-[15px] leading-normal">
                   {event.resource.packageSubscription.package?.course?.title}
@@ -107,7 +107,7 @@ const LessonTable = ({ tabularData }) => {
                 </p>
               </td>
               <td className="py-[25px] border-b text-left">
-                <span className="border inline-block border-color-border-grey rounded-[10px] pr-2.5 pl-[15px] text-color-light-grey font-medium text-[15px] h-10 border-box leading-10">
+                <span className="border inline-block border-color-border-grey rounded-[10px] pr-2.5 pl-[15px] text-color-light-grey font-medium text-[15px] h-10 border-box leading-10 whitespace-nowrap">
                   <span className="h-full inline-block border-r border-color-border-grey pr-2.5 mr-2.5">
                     {format(
                       utcToZonedTime(

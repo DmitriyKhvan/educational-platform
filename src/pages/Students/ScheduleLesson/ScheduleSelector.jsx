@@ -440,7 +440,7 @@ const ScheduleSelector = ({
 
   return (
     <Layout>
-      <div className="scroll-layout">
+      <div className="overflow-auto h-full">
         <div className="flex-container">
           <div className="lesson-wrapper flex-lefts student-dashboard">
             <div>

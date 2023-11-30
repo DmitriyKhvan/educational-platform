@@ -323,7 +323,7 @@ const StudentListAppointments = () => {
                 </div>
 
                 {ScheduleArr?.length > 0 && (
-                  <div className="mt-[30px] h-[65vh] overflow-y-auto scroll-hidden">
+                  <div className="mt-[30px] h-[65vh] lg:overflow-y-auto">
                     {ScheduleArr}
                   </div>
                 )}

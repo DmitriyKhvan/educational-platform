@@ -361,15 +361,16 @@ const Calendar = () => {
           <Loader></Loader>
         </div>
       )}
-      <div className="children-wrapper">
+      <div className="mx-4 my-3 sm:mx-8 sm:my-6 xl:mx-16 xl:my-12">
         {/* <button onClick={() => setReviewLessonModal(true)}>Hey</button> */}
-        <div className="appointment-calendar container-fluid">
+
+        <div>
           <h1 className="title m-0 mt-4 mb-3">
             {t('lessons', { ns: 'lessons' })}
           </h1>
           <div className="row container-fluid m-0 p-0">
-            <div className="col-auto">
-              <div className="w-auto flex items-center mb-4">
+            <div className="flex flex-wrap gap-4 mb-4 sm:mb-8">
+              <div className="flex items-center">
                 <Button
                   theme="outline"
                   className={`relative ml-0 rounded-r-none focus:shadow-none ${
@@ -396,8 +397,7 @@ const Calendar = () => {
                   <span>{t('past_lessons', { ns: 'lessons' })}</span>
                 </Button>
               </div>
-            </div>
-            <div className="col-auto ps-3">
+
               <Button
                 theme="outline"
                 className={`focus:shadow-none ${
@@ -409,49 +409,50 @@ const Calendar = () => {
               </Button>
             </div>
           </div>
-          <div className="scroll-layout">
-            {!isLoading && !isCalendar && (
-              <LessonTable
-                displayTableData={displayTableData}
-                userTimezone={userTimezone}
-                handleOpenFeedbackModal={handleOpenFeedbackModal}
-                handleFeedback={handleFeedback}
+        </div>
+
+        <div className="overflow-auto">
+          {!isLoading && !isCalendar && (
+            <LessonTable
+              displayTableData={displayTableData}
+              userTimezone={userTimezone}
+              handleOpenFeedbackModal={handleOpenFeedbackModal}
+              handleFeedback={handleFeedback}
+            />
+          )}
+          {!isLoading && isCalendar && (
+            <div className="mt-4">
+              <BigCalendar
+                style={{ minHeight: '70vh', minWidth: '559px' }}
+                popup={true}
+                formats={formats}
+                events={calendarEvents}
+                localizer={localizer}
+                onSelectEvent={onSelectEvent}
+                views={allViews}
+                showMultiDayTimes
+                startAccessor="start"
+                eventPropGetter={eventPropGetter}
+                endAccessor="end"
+                components={{
+                  month: {
+                    header: WeekHeader,
+                  },
+                  week: {
+                    header: WeekHeader,
+                  },
+                }}
+                messages={{
+                  month: t('calendar_month', { ns: 'lessons' }),
+                  week: t('calendar_week', { ns: 'lessons' }),
+                  day: t('calendar_day', { ns: 'lessons' }),
+                  previous: t('calendar_prev', { ns: 'lessons' }),
+                  next: t('calendar_next', { ns: 'lessons' }),
+                  today: t('calendar_today', { ns: 'lessons' }),
+                }}
               />
-            )}
-            {!isLoading && isCalendar && (
-              <div className="mt-4">
-                <BigCalendar
-                  style={{ minHeight: '70vh' }}
-                  popup={true}
-                  formats={formats}
-                  events={calendarEvents}
-                  localizer={localizer}
-                  onSelectEvent={onSelectEvent}
-                  views={allViews}
-                  showMultiDayTimes
-                  startAccessor="start"
-                  eventPropGetter={eventPropGetter}
-                  endAccessor="end"
-                  components={{
-                    month: {
-                      header: WeekHeader,
-                    },
-                    week: {
-                      header: WeekHeader,
-                    },
-                  }}
-                  messages={{
-                    month: t('calendar_month', { ns: 'lessons' }),
-                    week: t('calendar_week', { ns: 'lessons' }),
-                    day: t('calendar_day', { ns: 'lessons' }),
-                    previous: t('calendar_prev', { ns: 'lessons' }),
-                    next: t('calendar_next', { ns: 'lessons' }),
-                    today: t('calendar_today', { ns: 'lessons' }),
-                  }}
-                />
-              </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
       <FeedbackLessonModal

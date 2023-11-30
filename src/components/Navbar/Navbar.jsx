@@ -116,11 +116,15 @@ const Navbar = memo(({ setShowSidebar }) => {
         </div>
       </div>
       <div className="mobile-version">
-        <div className="logo">
-          <Link to={'/dashboard'}>
-            <img src={Logo} alt="" />
-          </Link>
-        </div>
+        <Link
+          to={
+            user.role === Roles.MENTOR
+              ? '/mentor/manage-appointments'
+              : '/student/manage-lessons'
+          }
+        >
+          <img className="w-[113px]" src={Logo} alt="" />
+        </Link>
         {/* ${data?.newMessages?.meta?.dashboard ? 'ws-notification-mobile' : ''} */}
         <div className={`mobile-menu`}>
           <MdOutlineMenu

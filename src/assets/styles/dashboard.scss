@@ -293,13 +293,6 @@ select {
   flex-wrap: nowrap;
 }
 
-.pt-3 .text-center {
-  display: flex;
-  margin-top: 4px;
-
-  width: 100%;
-  max-width: 300px;
-}
 .Learn-name-university {
   width: 100%;
   text-align: left;
@@ -401,10 +394,6 @@ select {
   .buttonss {
     width: 100%;
   }
-  .text-center {
-    display: flex;
-    flex-wrap: wrap;
-  }
   .Learn-buttons-style {
     width: 100%;
   }
@@ -429,9 +418,6 @@ select {
     padding: 20px;
   }
 
-  .text-center {
-    flex-wrap: wrap;
-  }
   .Learn-buttons-style {
     width: 100%;
   }
@@ -449,10 +435,6 @@ select {
   }
 
   .lesson-wrapper .favImg {
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .lesson-wrapper .pt-3 .text-center {
     margin-left: auto;
     margin-right: auto;
   }
@@ -1287,7 +1269,6 @@ select {
 .past-lessons,
 .student-list,
 .manage-appointments,
-.appointment-calendar,
 .group-lessons-layout,
 .favourite-tutors-layout,
 .schedule-lesson-layout,

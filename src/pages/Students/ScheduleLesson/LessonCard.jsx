@@ -11,14 +11,14 @@ const LessonCard = ({ lesson, duration, remaining }) => {
         </h1>
         <div className="flex gap-2 items-center">
           <div className="rounded-lg bg-color-light-purple">
-            <Button className="px-[10px] h-[38px] text-color-purple bg-color-light-purple cursor-auto">
+            <Button className="p-[10px] h-auto text-color-purple bg-color-light-purple cursor-auto">
               {duration}
             </Button>
           </div>
 
           {remaining && (
             <Button
-              className="px-[10px] h-[38px] cursor-auto hover:bg-white hover:text-inherit"
+              className="p-[10px] h-auto cursor-auto hover:bg-white hover:text-inherit"
               theme="outline"
             >
               {remaining}

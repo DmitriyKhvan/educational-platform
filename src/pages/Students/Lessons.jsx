@@ -150,7 +150,7 @@ const Lessons = () => {
           />
         </div>
         <div className="divider" />
-        <div className="scroll-layout">
+        <div className="overflow-auto h-full">
           <CustomTable
             columns={columns}
             data={myLessons}

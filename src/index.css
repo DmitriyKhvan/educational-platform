@@ -52,7 +52,3 @@ code {
   display: flex;
   flex-wrap: wrap;
 }
-
-.scroll-hidden::-webkit-scrollbar {
-  width: 0 !important;
-}

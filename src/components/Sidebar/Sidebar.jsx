@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../modules/auth';
 
 import Logo from 'src/assets/images/logo_purple.svg';
@@ -11,12 +11,12 @@ import 'src/assets/styles/referal.scss';
 
 import { VscChromeClose } from 'react-icons/vsc';
 import { Menu } from './Menu';
+import { Roles } from 'src/constants/global';
 
 const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
-  const history = useHistory();
   const [t] = useTranslation(['common', 'sidebar']);
 
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -26,35 +26,35 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
   return (
     <>
       <div className="side-bar desktop-version">
-        <img
-          onClick={() => history.push('/')}
-          src={Logo}
-          className="sidebar-logo"
-          alt=""
-        />
+        <Link
+          className="flex mb-[7vh]"
+          to={
+            user.role === Roles.MENTOR
+              ? '/mentor/manage-appointments'
+              : '/student/manage-lessons'
+          }
+        >
+          <img src={Logo} alt="" />
+        </Link>
+
         <Menu />
       </div>
 
-      {isShowSidebar && (
-        <div className="side-bar mobile-version">
-          <h4 className="main-title">{t('navigation', { ns: 'sidebar' })}</h4>
+      <div className={`side-bar mobile-version ${isShowSidebar && 'open'}`}>
+        <VscChromeClose
+          className="absolute top-[10px] right-[15px] w-6 h-6 cursor-pointer"
+          onClick={() => setShowSidebar(false)}
+        />
 
-          <VscChromeClose
-            className="absolute top-[10px] right-[15px] w-6 h-6 cursor-pointer"
-            onClick={() => setShowSidebar(false)}
-          />
+        <div className="mt-8">
+          <Menu />
 
-          <div className="divider" />
-          <div className="mt-8">
-            <Menu />
-
-            <a className="nav-item" onClick={() => handleLogout()}>
-              <FiLogOut />
-              <span>{t('logout', { ns: 'common' })}</span>
-            </a>
-          </div>
+          <a className="nav-item" onClick={() => handleLogout()}>
+            <FiLogOut />
+            <span>{t('logout', { ns: 'common' })}</span>
+          </a>
         </div>
-      )}
+      </div>
     </>
   );
 };
