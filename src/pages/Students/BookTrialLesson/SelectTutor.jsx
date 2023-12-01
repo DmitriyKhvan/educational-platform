@@ -334,7 +334,7 @@ const SelectTutor = (props) => {
     <div className="select-tutor">
       <h4 className="main-title">{t('choose_available_tutors')}</h4>
       <div className="divider" />
-      <div className="scroll-layout">
+      <div className="overflow-auto h-full">
         <div className="filter">
           <div>
             {/* <p>{t('placeholder_sortby')}</p> */}

@@ -15,7 +15,9 @@ import InputField from '../../components/Form/InputField';
 import notify from '../../utils/notify';
 
 const ForgotPassword = () => {
-  const [t] = useTranslation('common');
+  const { t, i18n } = useTranslation('common');
+
+  const currentLanguage = i18n.language;
 
   const {
     register,
@@ -47,7 +49,9 @@ const ForgotPassword = () => {
       <div className="auth-login">
         <p className="text-center title mb-3">{t('forgot_password')}?</p>
         <form
-          onSubmit={handleSubmit(({ email }) => resetPassword(email))}
+          onSubmit={handleSubmit(({ email }) =>
+            resetPassword(email, currentLanguage),
+          )}
           className="form-section"
         >
           <div className="mb-3">

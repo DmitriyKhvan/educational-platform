@@ -52,11 +52,7 @@ const CalendarModal = ({
 
   return (
     <>
-      <div
-        className="rounded-xl relative grey-border bg-white p-6"
-        key={index}
-        style={{ maxWidth: '33vw', zIndex: '-1' }}
-      >
+      <div className="rounded-xl relative grey-border bg-white p-6" key={index}>
         <p
           className="absolute top-0 right-0 py-1 px-2 cursor-pointer text-xl"
           onClick={closeModal}

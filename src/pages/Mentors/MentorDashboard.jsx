@@ -91,7 +91,7 @@ const TutorDashboard = () => {
   const handleCloseModal = () => setFeedbackShow(false);
 
   return (
-    <div className="main-dashboard scroll-layout">
+    <div className="main-dashboard overflow-auto h-full">
       <div className="flex-container">
         <div className="student-dashboard flex-left children-wrapper flex-change ">
           <div className="set-container">
@@ -100,7 +100,9 @@ const TutorDashboard = () => {
                 name: user?.firstName,
               })}
             </h4>
-            <p className="welcome-subtitle">{t('mentor_welcome_back')}</p>
+            <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px]">
+              {t('mentor_welcome_back')}
+            </p>
 
             <div className="schedule-lesson-select pt-3">
               <div className="page-card purple large-card py-5 flex flex-col gap-4">

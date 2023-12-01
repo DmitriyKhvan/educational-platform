@@ -63,7 +63,9 @@ const ReschedulingTutorModal = ({
   return (
     <div style={{ width: '65vw' }}>
       <h2 className="mt-0">{t('select_a_tutor')}</h2>
-      <p className="mb-2 welcome-subtitle">{t('select_a_tutor_subtitle')}</p>
+      <p className="welcome-subtitle mt-[30px] mb-2">
+        {t('select_a_tutor_subtitle')}
+      </p>
       <div className="row">
         <div className="col">
           <button

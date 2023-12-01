@@ -82,7 +82,9 @@ const RescheduleConfirmationModal = ({
         <h2 className="mt-0">
           {t('lesson')} {t('confirmation')}
         </h2>
-        <p className="welcome-subtitle">{t('confirmation_subtitle')}</p>
+        <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px]">
+          {t('confirmation_subtitle')}
+        </p>
 
         <div className="row px-4 mb-2">
           <button
