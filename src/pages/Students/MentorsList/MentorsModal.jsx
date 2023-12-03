@@ -11,32 +11,28 @@ import { HiCheckBadge } from 'react-icons/hi2';
 const MentorsModal = ({ mentor, setShowMentorModal }) => {
   const [t] = useTranslation(['common', 'profile']);
 
-  const [videoLink, setVideoLink] = React.useState('');
-
-  React.useEffect(() => {
-    setVideoLink(mentor?.videoUrl || '');
-  }, [mentor]);
-
   return (
-    <div className="flex h-full bg-white ">
-      {videoLink?.length === 0 && (
-        <div className="flex items-center justify-center w-[460px] h-full pl-4 py-4">
-          <Avatar avatarUrl={mentor?.avatar?.url} />
-        </div>
-      )}
-
-      {videoLink?.length !== 0 && (
+    <div className="flex flex-col lg:flex-row h-full bg-white ">
+      {mentor?.videoUrl ? (
         <iframe
-          className="w-2/5 h-full"
-          src={videoLink}
+          className="w-full lg:w-2/5 h-2/5 lg:h-full"
+          src={mentor?.videoUrl}
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
           style={{ border: 0 }}
         ></iframe>
+      ) : (
+        <div className="flex items-center justify-center w-full lg:w-2/5 h-2/5 lg:h-full">
+          <Avatar
+            avatarUrl={mentor?.avatar?.url}
+            gender={mentor?.gender}
+            className="object-contain lg:object-cover"
+          />
+        </div>
       )}
 
-      <div className="w-3/5 h-full overflow-auto py-[65px] px-[50px] break-word hyphens-auto">
+      <div className="w-full lg:w-3/5 h-full overflow-auto p-6 lg:py-[65px] lg:px-[50px] break-word hyphens-auto">
         {mentor?.isFavourite && (
           <img src={FavIcon} alt="" className="absolute r-[2%] t-[3%]" />
         )}

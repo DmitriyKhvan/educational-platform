@@ -26,6 +26,7 @@ import { addMinutes, isAfter } from 'date-fns';
 import Button from 'src/components/Form/Button';
 import { Badge } from 'src/components/Badge';
 import { useNotifications } from 'src/modules/notifications';
+import { LessonTableMobile } from 'src/components/student-dashboard/LessonTableMobile';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -148,13 +149,15 @@ const Calendar = () => {
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [pastLessons, setPastLessons] = useState([]);
   const [upcomingLessons, setUpcomingLessons] = useState([]);
-  const [selectedTab, setSelectedTab] = useState('calendar');
+  // const [selectedTab, setSelectedTab] = useState('calendar');
+  const [selectedTab, setSelectedTab] = useState('upcomingLessons');
 
   const [isLoading, setIsLoading] = useState(true);
   const [displayTableData, setDisplayTableData] = useState([]);
   const [calendarEvent, setCalendarEvent] = useState({});
   const [isOpen, setIsOpen] = useState(false);
-  const [isCalendar, setIsCalendar] = useState(true);
+  // const [isCalendar, setIsCalendar] = useState(true);
+  const [isCalendar, setIsCalendar] = useState(false);
   const closeModal = () => {
     setCalendarEvent({});
     setIsOpen(false);
@@ -361,7 +364,7 @@ const Calendar = () => {
           <Loader></Loader>
         </div>
       )}
-      <div className="mx-4 my-3 sm:mx-8 sm:my-6 xl:mx-16 xl:my-12">
+      <div className="mx-3 my-2 sm:mx-6 sm:my-4 2xl:mx-16 2xl:my-12">
         {/* <button onClick={() => setReviewLessonModal(true)}>Hey</button> */}
 
         <div>
@@ -369,7 +372,7 @@ const Calendar = () => {
             {t('lessons', { ns: 'lessons' })}
           </h1>
           <div className="row container-fluid m-0 p-0">
-            <div className="flex flex-wrap gap-4 mb-4 sm:mb-8">
+            <div className="flex flex-wrap gap-4 mb-4 sm:mb-6 md:mb-8">
               <div className="flex items-center">
                 <Button
                   theme="outline"
@@ -400,7 +403,7 @@ const Calendar = () => {
 
               <Button
                 theme="outline"
-                className={`focus:shadow-none ${
+                className={`focus:shadow-none hidden sm:block ${
                   selectedTab === 'calendar' && 'bg-color-purple text-white'
                 }`}
                 onClick={onCalendarClick}
@@ -413,12 +416,25 @@ const Calendar = () => {
 
         <div className="overflow-auto">
           {!isLoading && !isCalendar && (
-            <LessonTable
-              displayTableData={displayTableData}
-              userTimezone={userTimezone}
-              handleOpenFeedbackModal={handleOpenFeedbackModal}
-              handleFeedback={handleFeedback}
-            />
+            <>
+              <div className="hidden sm:block">
+                <LessonTable
+                  displayTableData={displayTableData}
+                  userTimezone={userTimezone}
+                  handleOpenFeedbackModal={handleOpenFeedbackModal}
+                  handleFeedback={handleFeedback}
+                />
+              </div>
+
+              <div className="sm:hidden">
+                <LessonTableMobile
+                  displayTableData={displayTableData}
+                  userTimezone={userTimezone}
+                  handleOpenFeedbackModal={handleOpenFeedbackModal}
+                  handleFeedback={handleFeedback}
+                />
+              </div>
+            </>
           )}
           {!isLoading && isCalendar && (
             <div className="mt-4">
