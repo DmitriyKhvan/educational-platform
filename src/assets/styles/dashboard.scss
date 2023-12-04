@@ -320,10 +320,9 @@ select {
 @media screen and (min-width: 850px) and (max-width: 1200px) {
   .media_align_width {
     max-width: 380px;
-    margin: auto;
   }
   .media_small_width_schedule {
-    justify-content: space-around;
+    // justify-content: start;
     margin: 0 !important;
   }
   .align_schedule_texts {

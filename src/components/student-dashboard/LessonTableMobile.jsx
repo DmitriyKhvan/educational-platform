@@ -8,7 +8,7 @@ import ModalWrapper from '../ModalWrapper/ModalWrapper';
 import { ZoomRecordingModal } from '../ZoomRecordingModal';
 import { LessonsStatusType } from 'src/constants/global';
 
-export const LessonTable = ({
+export const LessonTableMobile = ({
   displayTableData,
   userTimezone,
   handleOpenFeedbackModal,
@@ -20,13 +20,10 @@ export const LessonTable = ({
   const [t] = useTranslation(['lessons']);
 
   const tableHead = [
-    t('lesson_package', { ns: 'lessons' }),
-    t('duration', { ns: 'lessons' }),
     t('date_time', { ns: 'lessons' }),
     t('mentor', { ns: 'lessons' }),
     t('status', { ns: 'lessons' }),
     t('recording', { ns: 'lessons' }),
-    // t('class_feedback', { ns: 'lessons' }),
   ];
 
   const playRecording = (url) => {
@@ -36,15 +33,11 @@ export const LessonTable = ({
 
   return (
     <>
-      <table className="table border-spacing-2">
+      <table className="table border-spacing-1">
         <thead>
           <tr>
             {tableHead.map((x, ind) => (
-              <th
-                className="p-1 lg:px-3 lg:py-2 xl:px-6 xl:py-4 align-middle text-sm lg:text-[15px]"
-                scope="col"
-                key={`row-${ind}`}
-              >
+              <th className="py-2 px-1 text-xs" scope="col" key={`row-${ind}`}>
                 {x}
               </th>
             ))}
@@ -69,42 +62,15 @@ export const LessonTable = ({
             .map((event) => {
               return (
                 <tr className="" key={event.resource.id}>
-                  <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-6 xl:py-4 align-middle">
-                    <p className="text-xs lg:text-[15px] font-semibold text-color-light-grey tracking-tight text-[15px] leading-normal">
-                      {event.resource.packageSubscription.package.course.title}
-                    </p>
-                  </td>
-                  <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-6 xl:py-4 align-middle">
-                    <p className="text-xs lg:text-[15px] font-semibold text-color-light-grey tracking-tight text-[15px] leading-normal">
-                      {event.resource.duration} min
-                    </p>
-                  </td>
-
-                  {/* Do not remove this code, it will be used in the future 
-                      <td className='td-item'>
-                        <p className='td-topic-level'>
-                          {event.level}
-                        </p>
-                      </td>
-                      <td className='td-item'>
-                        <p className='td-topic-level'>
-                          {` ${event.currentTopic}`}
-                        </p>
-                      </td>
-                      <td className='td-item'>
-                        <p className='td-topic-level'>
-                          {` ${event.nextTopic}`}
-                        </p>
-                      </td> */}
-                  <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-6 xl:py-4 align-middle">
-                    <span className="text-xs lg:text-[15px] border inline-block border-color-border-grey rounded-[10px] px-2 lg:px-4 text-color-light-grey font-medium text-[15px] h-10 border-box leading-10 whitespace-nowrap">
-                      <span className="h-full inline-block border-r border-color-border-grey pr-2.5 mr-2.5">
+                  <td className="border-b py-2 px-1 text-xs align-middle">
+                    <span className="">
+                      <span className="">
                         {format(
                           utcToZonedTime(
                             new Date(event.resource.startAt),
                             userTimezone,
                           ),
-                          'eee, MMM do',
+                          'MMM do, ',
                           { timeZone: userTimezone },
                         )}
                       </span>
@@ -132,22 +98,22 @@ export const LessonTable = ({
                       </span>
                     </span>
                   </td>
-                  <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-6 xl:py-4 align-middle">
-                    <p className="text-xs lg:text-[15px] text-color-light-grey tracking-tight text-[15px] leading-normal">
+                  <td className="border-b py-2 px-1 align-middle">
+                    <p className="text-xs text-color-light-grey tracking-tight leading-normal">
                       {event.resource.mentor.firstName}{' '}
                       {event.resource.mentor.lastName}
                     </p>
                   </td>
 
-                  <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-6 xl:py-4 align-middle">
-                    <p className="text-xs lg:text-[15px] text-color-light-grey tracking-tight text-[15px] leading-normal">
+                  <td className="border-b py-2 px-1 align-middle">
+                    <p className="text-xs text-color-light-grey tracking-tight leading-normal">
                       {event.resource.status === LessonsStatusType.SCHEDULED ||
                       event.resource.status === LessonsStatusType.RESCHEDULED
                         ? t('lesson_pending_approval')
                         : t(event.resource.status)}
                     </p>
                   </td>
-                  <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-6 xl:py-4 align-middle">
+                  <td className="border-b py-2 px-1 align-middle">
                     {event.resource?.zoom?.recordingUrl && (
                       <BsPlayCircle
                         onClick={() =>
@@ -157,19 +123,6 @@ export const LessonTable = ({
                       />
                     )}
                   </td>
-
-                  {/* <td className="td-item">
-                    <button
-                      className={`btn ${
-                        event.tutorFeedback?.length
-                          ? 'btn-primary'
-                          : 'btn-tutor-feedback-disabled'
-                      }`}
-                      onClick={handleFeedback}
-                    >
-                      Feedback
-                    </button>
-                  </td> */}
                 </tr>
               );
             })}

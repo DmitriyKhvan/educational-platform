@@ -365,7 +365,7 @@ const ScheduleSelector = ({
     return (
       <div
         className={cn(
-          `time-card space-y-2 grey-border bg-white small-card pt-4 mt-4 media_align_width`,
+          `time-card space-y-2 grey-border bg-white small-card pt-4 media_align_width`,
           scheduleStartTime.reserved &&
             'bg-color-darker-grey grayscale-[70%] opacity-50',
         )}
@@ -424,7 +424,7 @@ const ScheduleSelector = ({
           {t('available_spots_subtitle')}
         </p>
       </div>
-      <div className="row schedule-overflow-scroll slot-scroll col-12 media_small_width_schedule">
+      <div className="row schedule-overflow-scroll slot-scroll col-12 media_small_width_schedule gap-4">
         {allTimes.length > 0 &&
           uniqTimes.map((x, i) => (
             <ScheduleCard scheduleStartTime={x} key={i} />
