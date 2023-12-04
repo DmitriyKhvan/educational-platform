@@ -20,6 +20,7 @@ import { GET_MENTOR } from '../../../modules/auth/graphql';
 import { UPSERT_AVAILIABILITY } from './graphql';
 import ReactLoader from '../../../components/common/Loader';
 import Loader from '../../../components/Loader/Loader';
+import notify from 'src/utils/notify';
 
 const Availability = (/*{ user_id  }*/) => {
   const [t] = useTranslation(['common', 'availability']);
@@ -247,9 +248,11 @@ const Availability = (/*{ user_id  }*/) => {
     }
   };
 
-  if (error) {
-    return <div>{error.message}</div>;
-  }
+  useEffect(() => {
+    if (error) {
+      notify(error.message, 'error');
+    }
+  }, [error]);
 
   if (loadingMentor) {
     return <Loader height="calc(100vh - 80px)" />;

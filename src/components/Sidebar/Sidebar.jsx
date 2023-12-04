@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../modules/auth';
 
 import Logo from 'src/assets/images/logo_purple.svg';
+import LogoSymbol from 'src/assets/images/logo_purple_symbol.svg';
 import { FiLogOut } from 'react-icons/fi';
 
 import 'src/assets/styles/referal.scss';
@@ -27,7 +28,7 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
     <>
       <div className="side-bar desktop-version">
         <Link
-          className="flex mb-[7vh]"
+          className="mb-[7vh]"
           to={
             user.role === Roles.MENTOR
               ? '/mentor/manage-appointments'
@@ -41,12 +42,25 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
       </div>
 
       <div className={`side-bar mobile-version ${isShowSidebar && 'open'}`}>
-        <VscChromeClose
-          className="absolute top-[10px] right-[15px] w-6 h-6 cursor-pointer"
-          onClick={() => setShowSidebar(false)}
-        />
+        <div className="flex items-center justify-between">
+          <Link
+            className="-ml-3"
+            to={
+              user.role === Roles.MENTOR
+                ? '/mentor/manage-appointments'
+                : '/student/manage-lessons'
+            }
+          >
+            <img className="w-20" src={LogoSymbol} alt="" />
+          </Link>
 
-        <div className="mt-8">
+          <VscChromeClose
+            className="w-4 h-4 cursor-pointer"
+            onClick={() => setShowSidebar(false)}
+          />
+        </div>
+
+        <div className="">
           <Menu />
 
           <a className="nav-item" onClick={() => handleLogout()}>

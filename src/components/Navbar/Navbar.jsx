@@ -116,7 +116,7 @@ const Navbar = memo(({ setShowSidebar }) => {
           />
         </div>
       </div>
-      <div className="mobile-version">
+      <div className="mobile-version flex items-center justify-between h-full pr-5 shadow-[0px_4px_16px_rgba(0,_0,_0,_0.01)]">
         <Link
           to={
             user.role === Roles.MENTOR
@@ -124,7 +124,7 @@ const Navbar = memo(({ setShowSidebar }) => {
               : '/student/manage-lessons'
           }
         >
-          <img className="w-[113px]" src={Logo} alt="" />
+          <img className="w-[208px]" src={Logo} alt="" />
         </Link>
         {/* ${data?.newMessages?.meta?.dashboard ? 'ws-notification-mobile' : ''} */}
         <div className={`mobile-menu`}>
