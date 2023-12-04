@@ -21,8 +21,6 @@ import ForgotPasswordText from './pages/Auth/ForgotPasswordText';
 // Authentication Path
 import Login from './pages/Auth/Login';
 import ResetPassword from './pages/Auth/ResetPassword';
-// Common Dashboard
-// import Dashboard from './components/Dashboard';
 import ApproveRequest from './pages/Mentors/ApproveRequest/ApproveRequest';
 import './App.scss';
 
@@ -33,9 +31,7 @@ import Loader from './components/Loader/Loader';
 import Onboarding from './pages/Students/Onboarding';
 import StripePayment from './pages/Students/StripePayment';
 import ConfirmPayment from './pages/ConfirmPayment';
-import BuyPackageTest from './pages/Students/BuyPackageTest';
 import { NicePayment } from './pages/Students/NicePayment';
-// import Messanger from './pages/Messanger/Messanger';
 import { SelectProfile } from './pages/Auth/SelectProfile/SelectProfile';
 import { getItemToLocalStorage, Roles } from './constants/global';
 import { AddStudentProfile } from './pages/Auth/SelectProfile/AddProfile';
@@ -120,8 +116,6 @@ function App() {
               component={EmailVerifyText}
             />
             <PublicRoute path="/onboarding" component={Onboarding} />
-
-            <PublicRoute path="/d3gKtqEEDhJE5Z" component={BuyPackageTest} />
 
             <PublicRoute path="/referral/:referalcode" component={IsReferal} />
 
