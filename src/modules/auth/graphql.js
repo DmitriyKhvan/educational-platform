@@ -573,6 +573,15 @@ export const PACKAGE_QUERY = gql`
         buyPrice
         metadata
       }
+      lessons {
+        id
+        startAt
+        duration
+        status
+        cancelAction
+        cancelReason
+        canceledBy
+      }
       active
     }
   }
