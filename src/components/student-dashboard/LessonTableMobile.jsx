@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { format, utcToZonedTime } from 'date-fns-tz';
-import { ko as kr, enUS as en } from 'date-fns/locale';
+import { ko as kr } from 'date-fns/locale';
 import { addMinutes } from 'date-fns';
 
 import { BsPlayCircle } from 'react-icons/bs';
@@ -22,7 +22,7 @@ export const LessonTableMobile = ({
   const { t, i18n } = useTranslation(['lessons']);
 
   const currentLanguage = i18n.language;
-  const locale = currentLanguage === 'kr' ? kr : en;
+  const locale = currentLanguage === 'kr' ? kr : null;
 
   const tableHead = [
     t('date_time', { ns: 'lessons' }),

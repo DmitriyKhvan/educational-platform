@@ -34,8 +34,6 @@ const timeOptions = times.map(({ timeType, time }) => {
   return { value: time, label: timeType };
 });
 
-console.log('timeOptions', timeOptions);
-
 const AvailabilityPicker = ({
   day,
   id,
@@ -58,8 +56,6 @@ const AvailabilityPicker = ({
 
   const onChangeTime = (time, iteration, timeType) => {
     let t = parseInt(time);
-
-    console.log('time', time);
 
     if (iteration) {
       // Existing

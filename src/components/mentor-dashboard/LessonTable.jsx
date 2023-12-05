@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../modules/auth';
 import { format, utcToZonedTime } from 'date-fns-tz';
-import { ko as kr, enUS as en } from 'date-fns/locale';
+import { ko as kr } from 'date-fns/locale';
 import { addMinutes } from 'date-fns';
 
 import ModalWrapper from '../ModalWrapper/ModalWrapper';
@@ -23,7 +23,7 @@ const LessonTable = ({ tabularData }) => {
   const { t, i18n } = useTranslation(['lessons', 'common']);
 
   const currentLanguage = i18n.language;
-  const locale = currentLanguage === 'kr' ? kr : en;
+  const locale = currentLanguage === 'kr' ? kr : null;
 
   const [displayTableData, setDisplayTableData] = useState([]);
   const { user } = useAuth();
