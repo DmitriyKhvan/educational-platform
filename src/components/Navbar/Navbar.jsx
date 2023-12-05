@@ -116,7 +116,7 @@ const Navbar = memo(({ setShowSidebar }) => {
           />
         </div>
       </div>
-      <div className="mobile-version flex items-center justify-between h-full pr-5 shadow-[0px_4px_16px_rgba(0,_0,_0,_0.01)]">
+      <div className="mobile-version flex items-center justify-between h-full px-5 shadow-[0px_4px_16px_rgba(0,_0,_0,_0.01)]">
         <Link
           to={
             user.role === Roles.MENTOR
