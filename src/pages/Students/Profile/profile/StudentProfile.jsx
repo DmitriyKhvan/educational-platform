@@ -13,7 +13,7 @@ import notify from '../../../../utils/notify';
 import ModalWrapper from '../../../../components/ModalWrapper/ModalWrapper';
 import EditProflileStudent from '../editInfo/EditStudentProfile';
 import ReactLoader from '../../../../components/common/Loader';
-import { getItemToLocalStorage } from 'src/constants/global';
+import { LessonsStatusType, getItemToLocalStorage } from 'src/constants/global';
 
 const StudentProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,6 +52,14 @@ const StudentProfile = () => {
 
       await refetchUser();
     }
+  };
+
+  const getCompleteLessons = (lessons) => {
+    return lessons.filter(
+      (lesson) =>
+        lesson.status === LessonsStatusType.COMPLETED ||
+        lesson.status === LessonsStatusType.PAID,
+    ).length;
   };
 
   return (
@@ -126,7 +134,7 @@ const StudentProfile = () => {
                   >
                     {t('lessons_completed', {
                       ns: 'lessons',
-                      count: item.package.totalSessions - item.credits,
+                      count: getCompleteLessons(item.lessons),
                       total: item.package.totalSessions,
                     })}
                   </Button>
