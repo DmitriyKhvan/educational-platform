@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { format, utcToZonedTime } from 'date-fns-tz';
+import { ko as kr } from 'date-fns/locale';
 import { addMinutes } from 'date-fns';
 
 import { BsPlayCircle } from 'react-icons/bs';
@@ -17,7 +19,10 @@ export const LessonTableMobile = ({
   const [showRecording, setShowRecording] = useState(false);
   const [urlRecording, setUrlRecording] = useState('');
 
-  const [t] = useTranslation(['lessons']);
+  const { t, i18n } = useTranslation(['lessons']);
+
+  const currentLanguage = i18n.language;
+  const locale = currentLanguage === 'kr' ? kr : null;
 
   const tableHead = [
     t('date_time', { ns: 'lessons' }),
@@ -37,7 +42,11 @@ export const LessonTableMobile = ({
         <thead>
           <tr>
             {tableHead.map((x, ind) => (
-              <th className="py-2 px-1 text-xs" scope="col" key={`row-${ind}`}>
+              <th
+                className="py-2 px-1 text-xs whitespace-nowrap"
+                scope="col"
+                key={`row-${ind}`}
+              >
                 {x}
               </th>
             ))}
@@ -64,16 +73,17 @@ export const LessonTableMobile = ({
                 <tr className="" key={event.resource.id}>
                   <td className="border-b py-2 px-1 text-xs align-middle">
                     <span className="">
-                      <span className="">
-                        {format(
-                          utcToZonedTime(
-                            new Date(event.resource.startAt),
-                            userTimezone,
-                          ),
-                          'MMM do, ',
-                          { timeZone: userTimezone },
-                        )}
-                      </span>
+                      {format(
+                        utcToZonedTime(
+                          new Date(event.resource.startAt),
+                          userTimezone,
+                        ),
+                        'MMM do, ',
+                        { timeZone: userTimezone, locale: locale },
+                      )}
+                    </span>
+
+                    <span className="inline-block">
                       <span className="inline-block">
                         {format(
                           utcToZonedTime(
@@ -81,9 +91,12 @@ export const LessonTableMobile = ({
                             userTimezone,
                           ),
                           'hh:mm a',
-                          { timeZone: userTimezone },
+                          { timeZone: userTimezone, locale: locale },
                         )}
-                        {' → '}
+                        <span className="mx-[4px]">→</span>
+                      </span>
+
+                      <span className="inline-block">
                         {format(
                           addMinutes(
                             utcToZonedTime(
@@ -93,15 +106,17 @@ export const LessonTableMobile = ({
                             event.resource.duration,
                           ),
                           'hh:mm a',
-                          { timeZone: userTimezone },
+                          {
+                            timeZone: userTimezone,
+                            locale: locale,
+                          },
                         )}
                       </span>
                     </span>
                   </td>
                   <td className="border-b py-2 px-1 align-middle">
                     <p className="text-xs text-color-light-grey tracking-tight leading-normal">
-                      {event.resource.mentor.firstName}{' '}
-                      {event.resource.mentor.lastName}
+                      {event.resource.mentor.firstName}
                     </p>
                   </td>
 

@@ -1,13 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 28.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Logotypes" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 566.9 566.9" style="enable-background:new 0 0 566.9 566.9;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:#FFFFFF;}
-	.st1{fill:#D9D6F6;}
-	.st2{fill:#A25AFF;}
-</style>
-<path class="st2" d="M335,321.6c0,10.3-6.5,17-15.5,17c-9,0-15.5-6.7-15.5-17v-73.9c0-33.2-24.2-56.9-56.6-56.9
-	s-56.7,23.7-56.7,56.9v126h41.2V245.1c0-10.3,6.5-17,15.5-17c9,0,15.5,6.7,15.5,17v74.7h0c0,32.2,24.2,56.4,56.7,56.4
-	s56.7-24.2,56.7-56.4V193.3H335L335,321.6L335,321.6z"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Logotypes" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 185.48 185.45">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #a25aff;
+        stroke-width: 0px;
+      }
+    </style>
+  </defs>
+  <path class="cls-1" d="m144.25,130.84c0,10.3-6.45,17-15.47,17s-15.47-6.69-15.47-17V56.93C113.31,23.72,89.09,0,56.66,0S0,23.72,0,56.93v125.96h41.19V54.35c0-10.3,6.45-17,15.47-17s15.47,6.69,15.47,17v74.69h.03c0,32.19,24.22,56.41,56.66,56.41s56.66-24.22,56.66-56.41V2.58h-41.22v128.28h-.01Z"/>
 </svg>

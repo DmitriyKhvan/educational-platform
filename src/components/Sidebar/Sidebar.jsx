@@ -44,7 +44,7 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
       <div className={`side-bar mobile-version ${isShowSidebar && 'open'}`}>
         <div className="flex items-center justify-between">
           <Link
-            className="-ml-3"
+            className="-ml-5"
             to={
               user.role === Roles.MENTOR
                 ? '/mentor/manage-appointments'
