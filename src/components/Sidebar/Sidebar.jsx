@@ -28,7 +28,8 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
     <>
       <div className="side-bar desktop-version">
         <Link
-          className="mb-[7vh]"
+          // className="mb-[7vh] mt-4"
+          className="flex items-center justify-center h-[79px] mb-5"
           to={
             user.role === Roles.MENTOR
               ? '/mentor/manage-appointments'
@@ -41,21 +42,22 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
         <Menu />
       </div>
 
-      <div className={`side-bar mobile-version ${isShowSidebar && 'open'}`}>
-        <div className="flex items-center justify-between">
+      <div
+        className={`side-bar mobile-version pt-6 ${isShowSidebar && 'open'}`}
+      >
+        <div className="flex items-center justify-between mb-5">
           <Link
-            className="-ml-5"
             to={
               user.role === Roles.MENTOR
                 ? '/mentor/manage-appointments'
                 : '/student/manage-lessons'
             }
           >
-            <img className="w-20" src={LogoSymbol} alt="" />
+            <img className="w-7" src={LogoSymbol} alt="" />
           </Link>
 
           <VscChromeClose
-            className="w-4 h-4 cursor-pointer"
+            className="w-6 h-6 cursor-pointer p-1 rounded hover:bg-color-light-purple transition ease-in-out delay-150"
             onClick={() => setShowSidebar(false)}
           />
         </div>
