@@ -5,7 +5,6 @@ import { AvailProv } from './AvailabilityProvider';
 import trashCan from '../../../assets/images/trash_can.svg';
 import Alert from '../../../components/Popup/Alert';
 import Select from 'react-select';
-import findIndex from 'lodash-es/findIndex';
 import { useAuth } from '../../../modules/auth';
 
 const formatTime = (time) => {
@@ -45,6 +44,19 @@ const AvailabilityPicker = ({
 }) => {
   const { removeAvailabilityRow } = useContext(AvailProv);
   const { t } = useTranslation('modals');
+
+  const [fromTimeOptions, setFromTimeOptions] = useState([
+    ...timeOptions.slice(0, -1),
+  ]);
+  const [toTimeOptions, setToTimeOptions] = useState([...timeOptions]);
+
+  const [fromTime, setFromTime] = useState(
+    timeOptions.find((time) => time.value === formatTimeToSeconds(frmTime)),
+  );
+  const [toTime, setToTime] = useState(
+    timeOptions.find((time) => time.value === formatTimeToSeconds(tTime)),
+  );
+
   const [currentData, setCurrentData] = useState([]); //Why is it needed?
   const tutorInfo = useAuth().user.mentor;
 
@@ -57,15 +69,47 @@ const AvailabilityPicker = ({
   const onChangeTime = (time, iteration, timeType) => {
     let t = parseInt(time);
 
+    const idxTime = timeOptions.findIndex((t) => t.value === time);
+
     if (iteration) {
       // Existing
 
       if (typeof t === 'number') {
         if (timeType === 'from') {
-          AvailabilitySlots(formatTime(t), tTime, String(id), day);
+          const newToTimeOptions = timeOptions.slice(idxTime + 1);
+          setToTimeOptions(newToTimeOptions);
+          setFromTime(timeOptions[idxTime]);
+
+          //if fromTime >= toTime
+          if (timeOptions[idxTime].value >= toTime.value) {
+            setToTime(timeOptions[idxTime + 1]);
+            AvailabilitySlots(
+              formatTime(t), // fromTime
+              formatTime(timeOptions[idxTime + 1].value), // toTime
+              String(id),
+              day,
+            );
+          } else {
+            AvailabilitySlots(formatTime(t), tTime, String(id), day);
+          }
         } else {
-          updateTime(formatTime(t)); //I don't know what this method is for
-          AvailabilitySlots(frmTime, formatTime(t), String(id), day);
+          const newFromTimeOptions = timeOptions.slice(0, idxTime);
+          setFromTimeOptions(newFromTimeOptions);
+          setToTime(timeOptions[idxTime]);
+
+          //if toTime <= fromTime
+          if (timeOptions[idxTime].value <= fromTime.value) {
+            setFromTime(timeOptions[idxTime - 1]);
+            AvailabilitySlots(
+              formatTime(timeOptions[idxTime - 1].value), //fromTime
+              formatTime(t), //toTime
+              String(id),
+              day,
+            );
+          } else {
+            updateTime(formatTime(t)); //I don't know what this method is for
+            AvailabilitySlots(frmTime, formatTime(t), String(id), day);
+          }
         }
       }
       //This code will never work. Why is it needed?========================
@@ -105,21 +149,14 @@ const AvailabilityPicker = ({
     removeAvailabilityRow(item);
   };
 
-  const fromTimeIndex = findIndex(timeOptions, {
-    value: formatTimeToSeconds(frmTime),
-  });
-  const toTimeIndex = findIndex(timeOptions, {
-    value: formatTimeToSeconds(tTime),
-  });
-
   return (
     <div className="row mx-0 mt-2">
       <div className="col-auto align_time_img-time over_form">
         <div className="d-flex ">
           <Select
             className="time_picker text-center "
-            defaultValue={timeOptions[fromTimeIndex]}
-            options={timeOptions}
+            value={fromTime}
+            options={fromTimeOptions}
             onChange={(e) => {
               onChangeTime(e.value, 'newTime', 'from');
             }}
@@ -134,8 +171,8 @@ const AvailabilityPicker = ({
         <div className="d-flex ">
           <Select
             className="time_picker text-center"
-            defaultValue={timeOptions[toTimeIndex]}
-            options={timeOptions}
+            value={toTime}
+            options={toTimeOptions}
             onChange={(e) => {
               onChangeTime(e.value, 'newTime', 'to');
             }}
