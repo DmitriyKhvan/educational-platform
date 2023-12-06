@@ -30,7 +30,7 @@ export const SubscriptionCard = ({
                 ></div>
               ) : (
                 <div
-                  className={` bg-[size:100%_100%] bg-center bg-no-repeat rounded-full w-8 h-8 bg-purple-600 flex justify-center items-center font-bold text-lg text-white`}
+                  className={` bg-[size:100%_100%] bg-center bg-no-repeat rounded-full w-8 h-8 bg-color-purple flex justify-center items-center font-bold text-lg text-white`}
                 >
                   i
                 </div>

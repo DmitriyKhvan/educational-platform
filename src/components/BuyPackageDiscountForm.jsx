@@ -76,7 +76,7 @@ export default function BuyPackageDiscountForm({
         onChange={(e) => setCodeInput(e.target.value)}
       />
       <button
-        className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 px-8 justify-center self-end flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
+        className="bg-color-purple cursor-pointer rounded-xl font-bold text-white py-2 px-8 justify-center self-end flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
         type="button"
         onClick={makeQuery}
       >

@@ -89,7 +89,7 @@ export const AddStudentProfile = () => {
           <div className="self-start mt-8 flex flex-row gap-4">
             <Button
               type="submit"
-              className="h-[40px] px-4 bg-purple-800 text-white rounded-md font-bold disabled:bg-opacity-50 disabled:text-gray-200 disabled:cursor-not-allowed duration-200 hover:opacity-75 active:brightness-75 active:scale-95"
+              className="h-[40px] px-4 bg-color-purple text-white rounded-md font-bold disabled:bg-opacity-50 disabled:text-gray-200 disabled:cursor-not-allowed duration-200 hover:opacity-75 active:brightness-75 active:scale-95"
             >
               Add profile
             </Button>
