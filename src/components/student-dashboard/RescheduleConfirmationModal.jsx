@@ -123,7 +123,10 @@ const RescheduleConfirmationModal = ({
         </div>
 
         <div className="row mt-4">
-          <button className="btn btn-primary" onClick={confirmReschedule}>
+          <button
+            className="btn bg-color-purple text-white"
+            onClick={confirmReschedule}
+          >
             {t('booking_lesson')}
           </button>
         </div>

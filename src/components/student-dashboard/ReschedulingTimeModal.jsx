@@ -257,7 +257,7 @@ const ReschedulingTimeModal = ({
         </div>
         <div className="schedule-card-col">
           <div
-            className={`enter-btn btn-primary`}
+            className={`enter-btn bg-color-purple text-white`}
             onClick={() => {
               const dayMoment = moment(day);
               const selectedSchedule = moment()

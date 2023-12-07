@@ -51,7 +51,10 @@ const ReschedulingTutorModal = ({
           </div>
 
           <div className="row px-4 mx-1">
-            <button className="btn-primary btn" onClick={() => onClick(tutor)}>
+            <button
+              className="bg-color-purple text-white btn"
+              onClick={() => onClick(tutor)}
+            >
               {t('select_tutor')}
             </button>
           </div>

@@ -136,7 +136,7 @@ export default function ConfirmPayment() {
           <h1 className="font-bold text-xl sm:text-3xl">{message}</h1>
           <a
             href="/student/manage-lessons"
-            className="text-white bg-purple-500 px-4 py-2 rounded font-bold"
+            className="text-white bg-color-purple px-4 py-2 rounded font-bold"
           >
             {t('dashboard')}
           </a>
@@ -158,7 +158,7 @@ export default function ConfirmPayment() {
               ? '/select-profile'
               : '/student/manage-lessons'
           }
-          className="text-white bg-purple-500 px-4 py-2 rounded font-bold"
+          className="text-white bg-color-purple px-4 py-2 rounded font-bold"
         >
           {!getItemToLocalStorage('studentId') && user.students[0].id
             ? t('select_profile')

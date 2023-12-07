@@ -105,7 +105,7 @@ const TutorDashboard = () => {
             </p>
 
             <div className="schedule-lesson-select pt-3">
-              <div className="page-card purple large-card py-5 flex flex-col gap-4">
+              <div className="page-card bg-color-purple large-card py-5 flex flex-col gap-4">
                 <div className="flex gap-4">
                   <div className="max-w-32 max-h-fit m-auto">
                     <img

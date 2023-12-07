@@ -88,7 +88,7 @@ const Subscriptions = () => {
             )}
           </div>
           <button
-            className="rounded-lg btn-primary text-center to-packages mt-4 px-4 py-2 font-semibold"
+            className="rounded-lg bg-color-purple text-white text-center to-packages mt-4 px-4 py-2 font-semibold"
             onClick={toPurchase}
           >
             <div className="flex items-center">

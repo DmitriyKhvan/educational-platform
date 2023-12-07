@@ -288,10 +288,10 @@ const ScheduleSelector = ({
       <React.Fragment>
         {isAfterToday && (
           <div
-            className={`day-selector bg-white rounded-md border-2 text-center my-3 ${
+            className={`day-selector  rounded-md border-2 text-center my-3 ${
               i === dayClicked || i === timeClicked
-                ? 'schedule_lesson_day'
-                : 'schedule_lesson_day_unselect'
+                ? 'schedule_lesson_day bg-color-purple'
+                : 'schedule_lesson_day_unselect bg-white'
             }`}
             onClick={isClicked}
           >
@@ -398,7 +398,7 @@ const ScheduleSelector = ({
             <div className="schedule-card-col">
               <div
                 className={cn(
-                  `enter-btn btn-primary align_button_sche_lesson`,
+                  `enter-btn bg-color-purple text-white align_button_sche_lesson`,
                   scheduleStartTime.reserved && 'cursor-no-drop',
                 )}
                 onClick={() => {
