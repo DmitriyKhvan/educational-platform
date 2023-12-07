@@ -4,7 +4,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import LoginForm from '../../components/onboarding/LoginForm';
 import SelectForm from '../../components/onboarding/SelectForm';
 import { useForm } from 'react-hook-form';
-import Logo from '../../assets/images/logo.png';
+import Logo from '../../assets/images/logo_purple.svg';
 import CredentialsForm from '../../components/onboarding/CredentialsForm';
 import { useMutation } from '@apollo/client';
 import { SIGN_UP } from '../../modules/auth/graphql';
@@ -142,7 +142,7 @@ export default function Onboarding() {
           {step}
           <div className="self-start mt-8 flex flex-row gap-4">
             <button
-              className="py-2 px-4 bg-purple-800 text-white rounded-md font-bold disabled:bg-opacity-50 disabled:text-gray-200 disabled:cursor-not-allowed duration-200 hover:opacity-75 active:brightness-75 active:scale-95"
+              className="py-2 px-4 bg-color-purple text-white rounded-md font-bold disabled:bg-opacity-50 disabled:text-gray-200 disabled:cursor-not-allowed duration-200 hover:opacity-75 active:brightness-75 active:scale-95"
               type="button"
               onClick={() => {
                 back();
@@ -152,7 +152,7 @@ export default function Onboarding() {
               {t('back')}
             </button>
             <input
-              className="py-2 px-4 bg-purple-800 text-white rounded-md font-bold duration-200 transition-transform hover:opacity-75 active:brightness-75 active:scale-95"
+              className="py-2 px-4 bg-color-purple text-white rounded-md font-bold duration-200 transition-transform hover:opacity-75 active:brightness-75 active:scale-95"
               type="submit"
               value={isLast ? t('finish') : t('next')}
             />
@@ -171,7 +171,7 @@ export default function Onboarding() {
       </div>
       <div className="absolute flex top-0 w-full bg-purple-200">
         <span
-          className={`h-2 bg-purple-800 duration-500 ease-in-out z-10`}
+          className={`h-2 bg-color-purple duration-500 ease-in-out z-10`}
           style={{
             width: `${(currentStepIndex / (steps.length - 1)) * 100}%`,
           }}

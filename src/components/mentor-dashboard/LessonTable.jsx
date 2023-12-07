@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../modules/auth';
 import { format, utcToZonedTime } from 'date-fns-tz';
+import { ko as kr } from 'date-fns/locale';
 import { addMinutes } from 'date-fns';
+
 import ModalWrapper from '../ModalWrapper/ModalWrapper';
 import { ZoomRecordingModal } from '../ZoomRecordingModal';
 
@@ -18,7 +20,11 @@ const LessonTable = ({ tabularData }) => {
     setShowRecording(true);
   };
 
-  const [t] = useTranslation('lessons');
+  const { t, i18n } = useTranslation(['lessons', 'common']);
+
+  const currentLanguage = i18n.language;
+  const locale = currentLanguage === 'kr' ? kr : null;
+
   const [displayTableData, setDisplayTableData] = useState([]);
   const { user } = useAuth();
 
@@ -53,7 +59,7 @@ const LessonTable = ({ tabularData }) => {
   ];
 
   return (
-    <div className="scroll-layout">
+    <div className="overflow-auto h-full">
       <table className="table">
         <thead>
           <tr>
@@ -78,7 +84,7 @@ const LessonTable = ({ tabularData }) => {
             </tr>
           )}
           {displayTableData.map((event) => (
-            <tr className="h-[80px] m-auto text-center" key={event.resource.id}>
+            <tr className="h-[80px] m-auto" key={event.resource.id}>
               <td className="pt-4 border-b text-left lg:pl-16">
                 <p className="mt-4 font-semibold text-color-light-grey tracking-tight text-[15px] leading-normal">
                   {event.resource.packageSubscription.package?.course?.title}
@@ -103,11 +109,11 @@ const LessonTable = ({ tabularData }) => {
               </td> */}
               <td className="pt-4 border-b text-left">
                 <p className="mt-4 font-semibold text-color-light-grey tracking-tight text-[15px] leading-normal">
-                  {`${event.resource.duration} min`}
+                  {event.resource.duration} {t('minutes', { ns: 'common' })}
                 </p>
               </td>
               <td className="py-[25px] border-b text-left">
-                <span className="border inline-block border-color-border-grey rounded-[10px] pr-2.5 pl-[15px] text-color-light-grey font-medium text-[15px] h-10 border-box leading-10">
+                <span className="border inline-block border-color-border-grey rounded-[10px] pr-2.5 pl-[15px] text-color-light-grey font-medium text-[15px] h-10 border-box leading-10 whitespace-nowrap">
                   <span className="h-full inline-block border-r border-color-border-grey pr-2.5 mr-2.5">
                     {format(
                       utcToZonedTime(
@@ -115,7 +121,7 @@ const LessonTable = ({ tabularData }) => {
                         user.timeZone,
                       ),
                       'eee, MMM do',
-                      { timeZone: user.timeZone },
+                      { timeZone: user.timeZone, locale: locale },
                     )}
                   </span>
                   <span className="inline-block">
@@ -125,7 +131,7 @@ const LessonTable = ({ tabularData }) => {
                         user.timeZone,
                       ),
                       'hh:mm a',
-                      { timeZone: user.timeZone },
+                      { timeZone: user.timeZone, locale: locale },
                     )}
                     {' → '}
                     {format(
@@ -137,7 +143,7 @@ const LessonTable = ({ tabularData }) => {
                         event.resource.duration,
                       ),
                       'hh:mm a',
-                      { timeZone: user.timeZone },
+                      { timeZone: user.timeZone, locale: locale },
                     )}
                   </span>
                 </span>

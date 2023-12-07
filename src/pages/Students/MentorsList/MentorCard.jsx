@@ -73,10 +73,7 @@ export const MentorCard = ({
                             pathname: `/student/schedule-lesson/select`,
                             state: {
                               tutor: {
-                                id: mentor.id,
-                                firstName: mentor?.firstName,
-                                lastName: mentor?.lastName,
-                                avatar: mentor.avatar?.url,
+                                ...mentor,
                               },
                             },
                           }

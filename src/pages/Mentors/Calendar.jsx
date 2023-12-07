@@ -550,8 +550,8 @@ const Calendar = () => {
         </button> */}
         <h1 className="title m-0 mb-2">{t('lessons')}</h1>
         <div className="row container-fluid m-0 p-0">
-          <div className="col-auto">
-            <div className="w-auto flex items-center mb-4">
+          <div className="flex flex-wrap gap-4 mb-4 sm:mb-8">
+            <div className="flex items-center">
               <Button
                 theme="outline"
                 className={`ml-0 rounded-r-none focus:shadow-none ${
@@ -572,8 +572,7 @@ const Calendar = () => {
                 <span>{t('past_lessons', { ns: 'lessons' })}</span>
               </Button>
             </div>
-          </div>
-          <div className="col-auto ps-3">
+
             <Button
               theme="outline"
               className={`focus:shadow-none ${
@@ -586,11 +585,11 @@ const Calendar = () => {
           </div>
         </div>
 
-        <div className="scroll-layout">
+        <div className="overflow-auto h-full">
           <div className={`${isLoading ? 'loading' : ''} mt-4`}>
             {isCalendar ? (
               <BigCalendar
-                style={{ minHeight: '70vh' }}
+                style={{ minHeight: '70vh', minWidth: '559px' }}
                 popup={true}
                 formats={formats}
                 events={calendarEvents}

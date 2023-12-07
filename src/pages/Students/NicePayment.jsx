@@ -270,7 +270,7 @@ export const NicePayment = () => {
           <Button
             type="submit"
             disabled={!isValid || loading}
-            className="h-10 self-start rounded text-white mt-4 bg-purple-500"
+            className="h-10 self-start rounded text-white mt-4 bg-color-purple"
           >
             {t('pay')}
           </Button>

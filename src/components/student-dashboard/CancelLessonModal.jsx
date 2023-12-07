@@ -82,7 +82,7 @@ const CancelLessonModal = ({
           <h2>Cancelling Lesson</h2>
         </div>
       </div>
-      <p className="welcome-subtitle mb-4">
+      <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px]">
         {t('reason_subtitle', { ns: 'lessons' })}
       </p>
       <div className="flex flex-col gap-y-1">

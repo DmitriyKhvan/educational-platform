@@ -58,14 +58,14 @@ const CheckoutForm = () => {
 
   return (
     <PaymentLayout>
-      <form onSubmit={handleSubmit}>
+      <form className="m-8" onSubmit={handleSubmit}>
         <PaymentElement />
         <p className="text-red-500 mt-2">
           {errorMessage && <div>*{errorMessage}</div>}
         </p>
         <button
           disabled={isLoading}
-          className="py-2 px-3 rounded text-white mt-4 bg-purple-500 disabled:bg-gray-300"
+          className="py-2 px-3 rounded text-white mt-4 bg-color-purple disabled:bg-gray-300"
         >
           {t('pay')}
         </button>

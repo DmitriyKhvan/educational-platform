@@ -49,31 +49,6 @@
   flex-wrap: wrap;
   flex-direction: column;
 }
-.check {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.check .over_form {
-  width: 160px !important;
-}
-.check .over_to {
-  width: 160px !important;
-}
-.check .over_to_text {
-  padding: 0 10px !important;
-}
-.check .fa_icon_VectorLessTo {
-  position: absolute;
-  left: 130px !important;
-  bottom: 18px !important;
-  pointer-events: none;
-}
-.check .align_delete {
-  margin-right: 10px !important;
-  margin-left: 8px !important;
-}
 .dates-fetch {
   padding-bottom: 15px;
 }
@@ -184,11 +159,7 @@
 }
 
 .time_picker {
-  
   // border: 1px solid $color-border-white;
-  
-  
-
 
   .css-1s2u09g-control {
     // border-style: none;
@@ -197,12 +168,11 @@
     color: #261a45;
     border-radius: 10px;
     box-sizing: border-box;
-  // padding: 5px 11px !important;
+    // padding: 5px 11px !important;
     text-align: left !important;
     width: 200px !important;
     max-width: 100%;
   }
-
 
   .css-1pahdxg-control {
     padding: 5px 0;
@@ -213,15 +183,6 @@
     max-width: 100%;
   }
 }
-
-
-
-
-
-
-
-
-
 
 .date_override_title {
   color: #261a45;
@@ -340,7 +301,7 @@
   color: #261a45;
   padding-left: 35px;
 }
-.selected-date{
+.selected-date {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
@@ -379,21 +340,18 @@
   align-self: self-end;
 }
 
-.custom-height{
+.custom-height {
   height: 100%;
 }
-p.already-choose{
+p.already-choose {
   font-weight: 500;
   font-size: 18px;
   padding: 0px 56px 0px 43px;
 }
 
-
-.over-ride-date{
+.over-ride-date {
   margin-top: 16px;
   max-height: 450px;
   overflow-y: auto;
   padding-bottom: 50px;
 }
-
-

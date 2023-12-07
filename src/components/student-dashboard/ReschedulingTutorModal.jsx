@@ -51,7 +51,10 @@ const ReschedulingTutorModal = ({
           </div>
 
           <div className="row px-4 mx-1">
-            <button className="btn-primary btn" onClick={() => onClick(tutor)}>
+            <button
+              className="bg-color-purple text-white btn"
+              onClick={() => onClick(tutor)}
+            >
               {t('select_tutor')}
             </button>
           </div>
@@ -63,7 +66,9 @@ const ReschedulingTutorModal = ({
   return (
     <div style={{ width: '65vw' }}>
       <h2 className="mt-0">{t('select_a_tutor')}</h2>
-      <p className="mb-2 welcome-subtitle">{t('select_a_tutor_subtitle')}</p>
+      <p className="welcome-subtitle mt-[30px] mb-2">
+        {t('select_a_tutor_subtitle')}
+      </p>
       <div className="row">
         <div className="col">
           <button
@@ -74,7 +79,7 @@ const ReschedulingTutorModal = ({
           </button>
         </div>
       </div>
-      <div className="row mt-2 ps-2 pt-0 modal-scroll">
+      <div className="row mt-2 ps-2 modal-scroll">
         {tutors
           .sort((a, b) =>
             a.first_name.toLowerCase() > b.first_name.toLowerCase() ? 1 : -1,

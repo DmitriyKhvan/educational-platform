@@ -10,7 +10,11 @@ import { MentorCard } from '../MentorsList/MentorCard';
 import { getItemToLocalStorage } from 'src/constants/global';
 
 const GET_AVAILABLE_MENTORS = gql`
-  query GetAvailableMentors($time: String!, $duration: Int!, $studentId: String!) {
+  query GetAvailableMentors(
+    $time: String!
+    $duration: Int!
+    $studentId: String!
+  ) {
     availableMentors(time: $time, duration: $duration, studentId: $studentId) {
       filterSlot {
         day
@@ -83,7 +87,7 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
   const { availableMentors, loading } = useAvailableMentors(
     moment(schedule, 'ddd MMM DD YYYY HH:mm:ss ZZ').toISOString(),
     step,
-    getItemToLocalStorage('studentId')
+    getItemToLocalStorage('studentId'),
   );
 
   useEffect(() => {
@@ -102,12 +106,14 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
 
   return (
     <Layout>
-      <div className="scroll-layout">
+      <div className="overflow-auto h-full">
         <div className="flex-container">
           <div className="lesson-wrapper schedule_changess tutor_schedule_width ">
             <div className="pb-0">
               <h1 className="title mt-0">{t('select_mentor')}</h1>
-              <p className="welcome-subtitle">{t('select_mentor_subtitle')}</p>
+              <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px]">
+                {t('select_mentor_subtitle')}
+              </p>
               <div className="row">
                 <div className="col-auto">
                   <div className="combos ms-2">

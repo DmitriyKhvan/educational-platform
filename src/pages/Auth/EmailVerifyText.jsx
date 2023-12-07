@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import Email_image from '../../assets/images/verify_email-image.png';
-import Logo from '../../assets/images/auth-logo.svg';
+import Logo from '../../assets/images/logo_purple.svg';
 import Email_insta from '../../assets/images/email_insta.svg';
 import Email_butterfly from '../../assets/images/email_butterfly.svg';
 import Email_Google from '../../assets/images/email_Google.svg';

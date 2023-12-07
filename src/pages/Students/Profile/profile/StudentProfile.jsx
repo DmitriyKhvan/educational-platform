@@ -13,7 +13,7 @@ import notify from '../../../../utils/notify';
 import ModalWrapper from '../../../../components/ModalWrapper/ModalWrapper';
 import EditProflileStudent from '../editInfo/EditStudentProfile';
 import ReactLoader from '../../../../components/common/Loader';
-import { getItemToLocalStorage } from 'src/constants/global';
+import { LessonsStatusType, getItemToLocalStorage } from 'src/constants/global';
 
 const StudentProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,6 +52,14 @@ const StudentProfile = () => {
 
       await refetchUser();
     }
+  };
+
+  const getCompleteLessons = (lessons) => {
+    return lessons.filter(
+      (lesson) =>
+        lesson.status === LessonsStatusType.COMPLETED ||
+        lesson.status === LessonsStatusType.PAID,
+    ).length;
   };
 
   return (
@@ -112,24 +120,21 @@ const StudentProfile = () => {
                     {item.package.course.title}
                   </h3>
 
-                  <Button
-                    className="text-sm p-[10px] cursor-auto"
-                    theme="purple"
-                  >
+                  <Button className="px-[10px] cursor-auto" theme="purple">
                     {t('lesson_type', { ns: 'profile' })}
                   </Button>
 
-                  <Button className="text-sm p-[10px] text-color-purple bg-color-light-purple cursor-auto">
+                  <Button className="px-[10px] text-color-purple bg-color-light-purple cursor-auto">
                     {item.package.sessionTime} {t('minutes', { ns: 'common' })}
                   </Button>
 
                   <Button
-                    className="text-sm p-[10px] cursor-auto hover:bg-white hover:text-black"
+                    className="px-[10px] cursor-auto hover:bg-white hover:text-inherit"
                     theme="outline"
                   >
                     {t('lessons_completed', {
                       ns: 'lessons',
-                      count: item.package.totalSessions - item.credits,
+                      count: getCompleteLessons(item.lessons),
                       total: item.package.totalSessions,
                     })}
                   </Button>

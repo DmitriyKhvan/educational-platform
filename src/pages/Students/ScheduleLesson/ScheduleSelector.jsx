@@ -288,10 +288,10 @@ const ScheduleSelector = ({
       <React.Fragment>
         {isAfterToday && (
           <div
-            className={`day-selector bg-white rounded-md border-2 text-center my-3 ${
+            className={`day-selector  rounded-md border-2 text-center my-3 ${
               i === dayClicked || i === timeClicked
-                ? 'schedule_lesson_day'
-                : 'schedule_lesson_day_unselect'
+                ? 'schedule_lesson_day bg-color-purple'
+                : 'schedule_lesson_day_unselect bg-white'
             }`}
             onClick={isClicked}
           >
@@ -365,14 +365,14 @@ const ScheduleSelector = ({
     return (
       <div
         className={cn(
-          `time-card space-y-2 grey-border bg-white small-card pt-4 mt-4 media_align_width`,
+          `time-card space-y-2 grey-border bg-white small-card pt-4 media_align_width`,
           scheduleStartTime.reserved &&
             'bg-color-darker-grey grayscale-[70%] opacity-50',
         )}
       >
         <div className="row container ms-1">
           <div className="col-12 align_schedule_texts">
-            <h3 className={`text-black change_width_schedule`}>
+            <h3 className="text-color-dark-purple text-base sm:text-lg">
               {moment(scheduleStartTime.time, [
                 moment.ISO_8601,
                 'HH:mm',
@@ -398,7 +398,7 @@ const ScheduleSelector = ({
             <div className="schedule-card-col">
               <div
                 className={cn(
-                  `enter-btn btn-primary align_button_sche_lesson`,
+                  `enter-btn bg-color-purple text-white align_button_sche_lesson`,
                   scheduleStartTime.reserved && 'cursor-no-drop',
                 )}
                 onClick={() => {
@@ -420,11 +420,11 @@ const ScheduleSelector = ({
     <React.Fragment>
       <div>
         <h1 className="title mb-2.5 available-text">{t('available_spots')}</h1>
-        <p className="welcome-subtitle available-text">
+        <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px] available-text">
           {t('available_spots_subtitle')}
         </p>
       </div>
-      <div className="row schedule-overflow-scroll slot-scroll col-12 media_small_width_schedule">
+      <div className="row schedule-overflow-scroll slot-scroll col-12 media_small_width_schedule gap-4">
         {allTimes.length > 0 &&
           uniqTimes.map((x, i) => (
             <ScheduleCard scheduleStartTime={x} key={i} />
@@ -440,7 +440,7 @@ const ScheduleSelector = ({
 
   return (
     <Layout>
-      <div className="scroll-layout">
+      <div className="overflow-auto h-full">
         <div className="flex-container">
           <div className="lesson-wrapper flex-lefts student-dashboard">
             <div>
@@ -450,7 +450,7 @@ const ScheduleSelector = ({
                     ? t('reschedule_lesson', { ns: 'modals' })
                     : t('schedule_lesson')}
                 </h1>
-                <p className="welcome-subtitle left-subtitle">
+                <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px] left-subtitle">
                   {lesson ? (
                     <>
                       {t('currently_scheduled', { ns: 'modals' })}{' '}
@@ -483,7 +483,7 @@ const ScheduleSelector = ({
                 </div>
 
                 <div>
-                  <h1 className="justify-content-center mt-0">
+                  <h1 className="justify-content-center mt-0 my-3 text-2xl text-center sm:text-4xl">
                     {startOfWeekFormatted} to {endOfWeekFormatted}
                   </h1>
                 </div>

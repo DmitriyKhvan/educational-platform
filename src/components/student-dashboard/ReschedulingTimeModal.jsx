@@ -257,7 +257,7 @@ const ReschedulingTimeModal = ({
         </div>
         <div className="schedule-card-col">
           <div
-            className={`enter-btn btn-primary`}
+            className={`enter-btn bg-color-purple text-white`}
             onClick={() => {
               const dayMoment = moment(day);
               const selectedSchedule = moment()
@@ -270,25 +270,6 @@ const ReschedulingTimeModal = ({
                 .date(dayMoment.date());
               setIsLoading(true);
               setSchedule(selectedSchedule.toString());
-              // dispatch(getTutorList(selectedSchedule.toString())).then(
-              //   (response) => {
-              //     const tutorlist = response.payload.tutors;
-              //     if (tutorlist.length > 0) {
-              //       setTabIndex(3);
-              //     }
-              //     if (tutorlist.length === 0) {
-              //       Swal.fire({
-              //         title: 'No Tutors Available for selected Time',
-              //         text: '',
-              //         icon: 'warning',
-              //         confirmButtonColor: '#6133af',
-              //         cancelButtonColor: '#d33',
-              //         target: 'body > div.ReactModalPortal > div > div',
-              //       });
-              //     }
-              //     setIsLoading(false);
-              //   },
-              // );
             }}
           >
             {t('booking_lesson')}
@@ -301,7 +282,7 @@ const ReschedulingTimeModal = ({
   const AvailableSpots = () => (
     <React.Fragment>
       <h2 className="mb-2">{t('available_spots')}</h2>
-      <p className="welcome-subtitle text-purple">
+      <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px] text-purple">
         {t('available_spots_subtitle')}
       </p>
       <div

@@ -6,9 +6,9 @@ const useResetPassword = () => {
     RESET_PASSWORD_MUTATION,
   );
 
-  const resetPassword = (email) => {
+  const resetPassword = (email, locale) => {
     sendUserPasswordResetLink({
-      variables: { email },
+      variables: { email, locale },
     });
   };
 

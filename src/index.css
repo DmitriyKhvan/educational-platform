@@ -47,31 +47,8 @@ code {
   background-color: #7048e8;
 }
 
-.disB {
-  position: relative;
-  pointer-events: none;
-  cursor: no-drop;
-}
-
-.disB::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  left: 0;
-  border-radius: inherit;
-  top: 0;
-  z-index: 2;
-  pointer-events: none;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
 .dashboard-cards-inline {
   gap: 1rem;
   display: flex;
   flex-wrap: wrap;
-}
-
-.scroll-hidden::-webkit-scrollbar {
-  width: 0 !important;
 }

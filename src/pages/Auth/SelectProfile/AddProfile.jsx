@@ -9,7 +9,7 @@ import {
   setItemToLocalStorage,
 } from 'src/constants/global';
 import { ATTACH_STUDENT_TO_USER } from 'src/modules/auth/graphql';
-import Logo from 'src/assets/images/logo.png';
+import Logo from 'src/assets/images/logo_purple.svg';
 import { useAuth } from 'src/modules/auth';
 import notify from 'src/utils/notify';
 
@@ -89,7 +89,7 @@ export const AddStudentProfile = () => {
           <div className="self-start mt-8 flex flex-row gap-4">
             <Button
               type="submit"
-              className="h-[40px] px-4 bg-purple-800 text-white rounded-md font-bold disabled:bg-opacity-50 disabled:text-gray-200 disabled:cursor-not-allowed duration-200 hover:opacity-75 active:brightness-75 active:scale-95"
+              className="h-[40px] px-4 bg-color-purple text-white rounded-md font-bold disabled:bg-opacity-50 disabled:text-gray-200 disabled:cursor-not-allowed duration-200 hover:opacity-75 active:brightness-75 active:scale-95"
             >
               Add profile
             </Button>

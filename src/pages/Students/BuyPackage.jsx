@@ -194,7 +194,7 @@ export default function BuyPackage() {
           className="bg-gray-200/90 backdrop-blur-md backdrop-saturate-200 border-gray-100/40 border p-4 rounded-xl max-w-5xl w-full cool-shadow flex flex-col gap-8 md:gap-6 md:flex-row bg-center transition-transform duration-300"
           ref={parent}
         >
-          <div className="flex flex-col gap-8 h-fit max-w-xs">
+          <div className="flex flex-col gap-8 h-fit sm:max-w-xs">
             {allCourses?.courses?.map((course, index) => {
               return (
                 <div
@@ -315,7 +315,7 @@ export default function BuyPackage() {
                         htmlFor={'package' + pkg.id}
                       >
                         {pkg.discount > 0 && (
-                          <span className="absolute text-xs -right-4 -top-2 bg-purple-600 p-1 rounded-full aspect-square flex items-center justify-center text-white font-bold">
+                          <span className="absolute text-xs -right-4 -top-2 bg-color-purple p-1 rounded-full aspect-square flex items-center justify-center text-white font-bold">
                             {' '}
                             -{pkg.discount}%
                           </span>
@@ -412,7 +412,7 @@ export default function BuyPackage() {
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <button
-                        className="bg-purple-600 cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
+                        className="bg-color-purple cursor-pointer rounded-xl font-bold text-white py-2 max-w-[16rem] justify-center self-end w-full flex flex-row gap-2 items-center hover:brightness-75 duration-200 disabled:bg-gray-500 disabled:cursor-not-allowed"
                         type="button"
                       >
                         {t('proceed_checkout')}
@@ -452,7 +452,7 @@ export default function BuyPackage() {
                               }}
                               asChild
                             >
-                              <button className="rounded-tl-md rounded-bl-md h-full font-semibold bg-purple-600 text-white text-sm py-1 px-4 min-w-[9rem]">
+                              <button className="rounded-tl-md rounded-bl-md font-semibold bg-color-purple text-white text-sm py-1 px-4 min-w-[9rem]">
                                 Pay
                                 {/* with <SelectValue /> */}
                               </button>
