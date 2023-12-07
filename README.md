@@ -1,48 +1,70 @@
-# naonow-frontend
+## Development
 
-## Getting Started
+- Copy the `.env.example` file and paste the necessary values into the `.env` file.
+- Follow naming conventions stated below.
+- Install `prettier` in your code editor and use project's `.prettierrc` configuration file.
+- The project uses the husky `pre-commit` script, which runs the linter on every commit. If you commit and encounter lint errors, you should fix them first, then run `git add .` and commit again.
+- Always create PR to the `dev` branch first.
 
-Prepare/config a new environment variable .env file at the root of project, with the following contents:
+## Naming convention
 
-```console
-REACT_APP_FEEDBACK_URL=  
-REACT_APP_SERVER_URL=
-REACT_APP_STRIPE_KEY=  
-REACT_APP_VIMEO_AUTH_TOKEN=  
+### Types, interfaces and classes - Pascal case
+
+```ts
+interface User {}
+
+type Session = {};
+
+class User {
+  constructor() {}
+}
 ```
 
-## Development Principles
+> [!NOTE]
+> Prefer interfaces over types.
 
-See [/docs/responsive-redesign-policy.md](docs/responsive-redesign-policy.md)
+### Files - Kebab case
 
-## Install packages
-
-Download and install app dependencies.
-
-```console
-yarn
+```sh
+user.ts
+user-auth.ts
 ```
 
-## Start Development
+### Constants - ALL CAPS
 
-This is a cra (create-react-app) package.  
-Please connect `REACT_APP_SERVER_URL` to your [backend API services](https://github.com/naonow-tutoring/naonow-frontend).  
-To immediately start developing, use command `yarn start` to launch app in development mode, with HMR (Hot Module Replacement).
-
-```console
-
-yarn start
-
+```ts
+const SESSION_TIMEOUT = 50;
 ```
 
-## Build Production Ready
+### Enums - Pascal case and members all caps
 
-Environment variables are typically set prior to building production.  
-*Please note development mode pulls environment variables from the set .env file.  
-Completed optimized production build output directory `/build`.
+```ts
+enum UserRoles {
+  ADMIN = 'admin',
+  USER = 'user',
+}
+```
 
-```console
+### Constant values - lower case
 
-yarn build
+```ts
+const USER_ROLE = 'admin';
+```
 
+### Variables and functions - Camel case
+
+```ts
+function getUser() {}
+const userData = {};
+```
+
+### Use absolute path imports
+
+```ts
+// Good:
+import config from '@/config/common'
+import config from '@/config'
+
+// Bad:
+import config from '../../../config'
 ```
