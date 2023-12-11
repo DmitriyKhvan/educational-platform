@@ -10,7 +10,7 @@
     h-12
     rounded-md
     font-semibold 
-    text-base 
+    text-sm
     tracking-[-0.2px]
     leading-[18px]
     disabled:opacity-60 

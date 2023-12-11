@@ -51,6 +51,7 @@ export default function CredentialsForm({ register, errors }) {
           setValueAs: (value) => value.replace(/-/g, ''),
         })}
       />
+
       <label className="font-bold flex gap-2" htmlFor="email" ref={parent}>
         {t('email', { ns: 'common' })}
         {errors.email && (
@@ -76,6 +77,7 @@ export default function CredentialsForm({ register, errors }) {
           },
         })}
       />
+
       <label className="font-bold flex gap-2" htmlFor="password" ref={parent}>
         {t('password', { ns: 'common' })}
         {errors.password && (

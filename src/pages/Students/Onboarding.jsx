@@ -2,22 +2,21 @@ import useMultistepForm from '../../components/onboarding/useMultistepForm';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import LoginForm from '../../components/onboarding/LoginForm';
-import SelectForm from '../../components/onboarding/SelectForm';
+// import SelectForm from '../../components/onboarding/SelectForm';
 import { useForm } from 'react-hook-form';
-import Logo from '../../assets/images/logo_purple.svg';
-import CredentialsForm from '../../components/onboarding/CredentialsForm';
+
+// import CredentialsForm from '../../components/onboarding/CredentialsForm';
 import { useMutation } from '@apollo/client';
 import { SIGN_UP } from '../../modules/auth/graphql';
 import useLogin from '../../modules/auth/hooks/login';
 import Loader from '../../components/Loader/Loader';
 import toast from 'react-hot-toast';
 import { useEffect, useState } from 'react';
-import {
-  getItemToLocalStorage,
-  setItemToLocalStorage,
-} from '../../constants/global';
+
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import Button from 'src/components/Form/Button';
+import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 
 export default function Onboarding() {
   localStorage.removeItem('studentId');
@@ -51,33 +50,17 @@ export default function Onboarding() {
   const {
     step,
     currentStepIndex,
-    steps,
+    // steps,
     next,
-    back,
-    isFirst,
     isLast,
     setCurrentStepIndex,
   } = useMultistepForm([
     <LoginForm register={register} errors={errors} key="login" />,
-    <SelectForm register={register} errors={errors} key="select" />,
-    <CredentialsForm register={register} errors={errors} key="credentials" />,
+    // <SelectForm register={register} errors={errors} key="select" />,
+    // <CredentialsForm register={register} errors={errors} key="credentials" />,
   ]);
 
-  const [t, i18n] = useTranslation(['onboarding', 'common']);
-
-  const [language, setLanguage] = useState(
-    parseInt(getItemToLocalStorage('language', 1)),
-  );
-
-  const onChangeLanguage = (event) => {
-    const lang = event.target.value === 'en' ? 1 : 0;
-    setItemToLocalStorage('language', lang);
-    setLanguage(lang);
-  };
-
-  useEffect(() => {
-    i18n.changeLanguage(language === 0 ? 'kr' : 'en');
-  }, [language]);
+  const [t] = useTranslation(['onboarding', 'common']);
 
   const onSubmit = async (data) => {
     if (!isLast) {
@@ -110,7 +93,7 @@ export default function Onboarding() {
   }, [loginData]);
 
   return (
-    <main className="flex flex-col relative items-center">
+    <OnboardingLayout>
       {isLoading && (
         <div className="absolute z-50 w-screen h-screen bg-black/20">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 ">
@@ -118,65 +101,33 @@ export default function Onboarding() {
           </div>
         </div>
       )}
-      <img
-        className="w-48 md:w-64 my-[8vh] md:my-[12.5vh]"
-        src={Logo}
-        alt="naonow-logo"
-      />
-      <select
-        name=""
-        id=""
-        onChange={onChangeLanguage}
-        defaultValue={language === 0 ? 'kr' : 'en'}
-        className="rounded border border-gray-300 text-sm"
-      >
-        <option value="en">English</option>
-        <option value="kr">한국어</option>
-      </select>
-      <div className="max-w-2xl gap-4 w-full px-4">
+
+      <div className="max-w-[440px] gap-4 w-full px-5 py-6 sm:py-10">
         <form
           ref={parent}
           onSubmit={handleSubmit(onSubmit)}
-          className="w-full block py-8"
+          className="w-full block"
         >
           {step}
-          <div className="self-start mt-8 flex flex-row gap-4">
-            <button
-              className="py-2 px-4 bg-color-purple text-white rounded-md font-bold disabled:bg-opacity-50 disabled:text-gray-200 disabled:cursor-not-allowed duration-200 hover:opacity-75 active:brightness-75 active:scale-95"
-              type="button"
-              onClick={() => {
-                back();
-              }}
-              disabled={isFirst}
-            >
-              {t('back')}
-            </button>
-            <input
-              className="py-2 px-4 bg-color-purple text-white rounded-md font-bold duration-200 transition-transform hover:opacity-75 active:brightness-75 active:scale-95"
-              type="submit"
-              value={isLast ? t('finish') : t('next')}
-            />
-          </div>
-        </form>
 
-        <p className="text-[18px] text-color-light-grey font-semibold">
-          {t('already_have_account', { ns: 'common' })}{' '}
-          <Link
-            to="/"
-            className="text-color-purple underline underline-offset-2"
+          <Button
+            className="w-full my-8 sm:my-10 sm:text-[15px] h-[58px] sm:h-16"
+            type="submit"
           >
-            {t('sign_in', { ns: 'common' })}
-          </Link>
-        </p>
+            {t('create_account')}
+          </Button>
+
+          <p className="text-[18px] text-color-light-grey font-semibold">
+            {t('already_have_account', { ns: 'common' })}{' '}
+            <Link
+              to="/"
+              className="text-color-purple underline underline-offset-2"
+            >
+              {t('sign_in', { ns: 'common' })}
+            </Link>
+          </p>
+        </form>
       </div>
-      <div className="absolute flex top-0 w-full bg-purple-200">
-        <span
-          className={`h-2 bg-color-purple duration-500 ease-in-out z-10`}
-          style={{
-            width: `${(currentStepIndex / (steps.length - 1)) * 100}%`,
-          }}
-        ></span>
-      </div>
-    </main>
+    </OnboardingLayout>
   );
 }
