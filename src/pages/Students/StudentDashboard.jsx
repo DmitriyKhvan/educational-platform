@@ -85,12 +85,12 @@ const StudentListAppointments = () => {
 
   useEffect(() => {
     (async () => {
-      window.Intercom('boot', {
-        api_base: 'https://api-iam.intercom.io',
-        app_id: 'ohhixtgv',
-        name: `${user.firstName} ${user.lastName}`,
-        email: user.email,
-      });
+      // window.Intercom('boot', {
+      //   api_base: 'https://api-iam.intercom.io',
+      //   app_id: 'ohhixtgv',
+      //   name: `${user.firstName} ${user.lastName}`,
+      //   email: user.email,
+      // });
       if (user.tutor_profile) {
         history.push('/');
       }
