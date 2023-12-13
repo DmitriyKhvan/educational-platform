@@ -36,7 +36,7 @@ const CheckboxField = forwardRef(
           ref={ref}
           {...props}
         />
-        <p className="ml-3 leading-6 text-gray-900">{label}</p>
+        {label && <p className="ml-3 leading-6 text-gray-900">{label}</p>}
       </label>
     );
   },
