@@ -25,8 +25,8 @@ export const OnboardingLayout = ({ children }) => {
   }, [language]);
 
   return (
-    <main className="flex flex-col relative items-center">
-      <div className="flex items-center justify-between w-screen h-[60px] sm:h-[96px] px-5 py-[10px] sm:px-[80px] sm:py-[16px] sm:border-b-[1px] border-color-border-grey">
+    <div className="flex flex-col relative items-center overflow-hidden">
+      <header className="flex items-center justify-between w-screen h-[60px] sm:h-[96px] px-5 py-[10px] sm:px-[80px] sm:py-[16px] sm:border-b-[1px] border-color-border-grey">
         <img className="w-[134px] sm:w-[161px]" src={Logo} alt="naonow-logo" />
         <div className="flex rounded-xl p-1 bg-[#F2F4FB]">
           <label>
@@ -57,8 +57,10 @@ export const OnboardingLayout = ({ children }) => {
             </span>
           </label>
         </div>
-      </div>
-      {children}
-    </main>
+      </header>
+      <main className="overflow-auto h-[calc(100vh-60px)] sm:h-[calc(100vh-97px)]">
+        {children}
+      </main>
+    </div>
   );
 };

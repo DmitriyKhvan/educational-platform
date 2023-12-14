@@ -24,7 +24,7 @@
   }
 
   .purple {
-    @apply text-color-white 
+    @apply text-white 
     bg-color-purple;
   }
 

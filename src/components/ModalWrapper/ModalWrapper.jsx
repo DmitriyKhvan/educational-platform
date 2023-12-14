@@ -25,7 +25,7 @@ const ModalWrapper = ({
       zIndex: '9999',
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center',
+      // alignItems: 'center',
     },
     content: {
       top: 'auto',
@@ -55,10 +55,10 @@ const ModalWrapper = ({
       onRequestClose={() => closeModal(false)}
     >
       <button
-        className="absolute right-5 top-[25px] z-50"
+        className="absolute right-4 top-4 z-50 flex items-center justify-center w-6 h-6 rounded-full bg-color-border-grey/20"
         onClick={() => closeModal(false)}
       >
-        <FaXmark className="text-2xl text-color-light-grey" />
+        <FaXmark className="text-color-light-grey" />
       </button>
 
       {children}
