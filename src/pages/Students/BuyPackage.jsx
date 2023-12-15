@@ -1,34 +1,23 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import Loader from '../../components/Loader/Loader';
+import { useEffect, useMemo, useState } from 'react';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-// import { useParams } from 'react-router-dom';
-import { useQuery, gql } from '@apollo/client';
-// import { toast } from 'react-hot-toast';
-
+import { useQuery, gql, useMutation } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 
-import // Select,
-// SelectItem,
-// SelectTrigger,
-// SelectContent,
-// SelectGroup,
-// SelectValue,
-'../../components/SelectAction';
-// import BuyPackageDiscountForm from 'src/components/BuyPackageDiscountForm';
-// import { calculatePriceWithDiscount } from 'src/utils/calculatePriceWithDiscount';
-// import { currencyFormat } from 'src/utils/currencyFormat';
-// import { DiscountType } from 'src/constants/global';
-import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 import CheckboxField from 'src/components/Form/CheckboxField';
 import { currencyFormat } from 'src/utils/currencyFormat';
 import { calculatePriceWithDiscount } from 'src/utils/calculatePriceWithDiscount';
 import Button from 'src/components/Form/Button';
-
-import { BsPlus } from 'react-icons/bs';
-import { RiErrorWarningFill } from 'react-icons/ri';
+import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 import ModalWrapper from 'src/components/ModalWrapper/ModalWrapper';
 import { PromoModal } from 'src/components/onboarding/PromoModal';
+import { TermsConditionsModal } from 'src/components/onboarding/TermsConditionsModal';
+
+import notify from 'src/utils/notify';
+import Loader from '../../components/Loader/Loader';
+import { RiErrorWarningFill } from 'react-icons/ri';
+import { BsPlus } from 'react-icons/bs';
 
 const GET_COURSES = gql`
   query GetCourses {
@@ -50,19 +39,35 @@ const GET_COURSES = gql`
   }
 `;
 
-// const CREATE_PAYMENT_INTENT = gql`
-//   mutation CreatePaymentIntent($id: Int!) {
-//     createPaymentIntent(packageId: $id) {
-//       clientSecret
-//     }
-//   }
-// `;
+const CREATE_PAYMENT_INTENT = gql`
+  mutation CreatePaymentIntent($id: Int!) {
+    createPaymentIntent(packageId: $id) {
+      clientSecret
+    }
+  }
+`;
 
 export default function BuyPackage() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenTermsConditions, setIsOpenTermsConditions] = useState(false);
+
+  const [selectedCourse, setSelectedCourse] = useState(null);
+
+  const [selectedSessionTime, setSelectedSessionTime] = useState(null);
+  const [selectedSessionsPerWeek, setSelectedSessionsPerWeek] = useState(null);
+
+  const [uniqueSessionTime, setUniqueSessionTime] = useState([]);
+  const [uniqueSessionsPerWeek, setUniqueSessionsPerWeek] = useState([]);
+
+  const [changeCourse, setChageCourse] = useState(null);
+
+  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [promoPackage, setPromoPackage] = useState(null);
+  // const [selectedProvider, setSelectedProvider] = useState('stripe');
+
+  const history = useHistory();
 
   const [parent] = useAutoAnimate();
-  // const { courseId } = useParams();
 
   const [t] = useTranslation(['purchase', 'minutes', 'translations']);
 
@@ -81,27 +86,9 @@ export default function BuyPackage() {
     },
   });
 
-  // const [getSecret] = useMutation(CREATE_PAYMENT_INTENT, {
-  //   variables: {
-  //     id: parseInt(courseId),
-  //   },
-  // });
-
-  const [selectedCourse, setSelectedCourse] = useState(null);
-
-  const [selectedSessionTime, setSelectedSessionTime] = useState(null);
-  const [selectedSessionsPerWeek, setSelectedSessionsPerWeek] = useState(null);
-
-  const [uniqueSessionTime, setUniqueSessionTime] = useState([]);
-  const [uniqueSessionsPerWeek, setUniqueSessionsPerWeek] = useState([]);
-
-  const [changeCourse, setChageCourse] = useState(null);
-
-  const [selectedPackage, setSelectedPackage] = useState(null);
-  const [promoPackage, setPromoPackage] = useState(null);
-  // const [selectedProvider, setSelectedProvider] = useState('stripe');
-
-  // const history = useHistory();
+  const [getSecret, { loading: paymentIntentLoading }] = useMutation(
+    CREATE_PAYMENT_INTENT,
+  );
 
   useEffect(() => {
     if (selectedCourse) {
@@ -162,31 +149,26 @@ export default function BuyPackage() {
     }
   }, [promoPackage]);
 
-  if (loading) return <Loader />;
-
-  if (error) {
-    return <div>Something went wrong</div>;
-  }
-
-  // const submitStripe = async () => {
-  //   if (selectedPackage) {
-  //     const response = await getSecret({
-  //       variables: {
-  //         id: parseInt(selectedPackage.id),
-  //       },
-  //     });
-  //     if (response?.errors) {
-  //       toast.error(response.errors[0].message);
-  //     } else if (response?.data) {
-  //       const { clientSecret } = response.data.createPaymentIntent;
-  //       if (clientSecret) {
-  //         history.push(
-  //           `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
-  //         );
-  //       }
-  //     }
-  //   }
-  // };
+  const submitStripe = () => {
+    if (selectedPackage) {
+      getSecret({
+        variables: {
+          id: parseInt(selectedPackage.id),
+        },
+        onCompleted: (data) => {
+          const { clientSecret } = data.createPaymentIntent;
+          if (clientSecret) {
+            history.push(
+              `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
+            );
+          }
+        },
+        onError: (error) => {
+          notify(error.message);
+        },
+      });
+    }
+  };
 
   // const submitNice = () => {
   //   history.push(`/purchase/nice-payment`, {
@@ -196,11 +178,21 @@ export default function BuyPackage() {
   //   });
   // };
 
-  console.log(selectedPackage);
+  if (loading) return <Loader height="100vh" />;
+
+  if (error) {
+    return <div>Something went wrong</div>;
+  }
 
   return (
     <OnboardingLayout>
-      <div className="flex flex-wrap lg:flex-nowrap w-full gap-8 sm:gap-10 xl:gap-12 px-5 sm:px-20 py-6 sm:py-8 lg:py-10">
+      {paymentIntentLoading && (
+        <div className="fixed top-0 left-0 bottom-0 right-0 z-50 flex items-center justify-center bg-black/20">
+          <Loader />
+        </div>
+      )}
+
+      <div className="flex flex-wrap lg:flex-nowrap w-full gap-8 sm:gap-10 xl:gap-12 px-5 sm:px-20 py-6 sm:py-8">
         {/* left block */}
         <div className="grow">
           <h2 className="text-4xl font-bold leading-[52px] mb-10">
@@ -463,6 +455,7 @@ export default function BuyPackage() {
             <Button
               disabled={!selectedPackage}
               className="w-full h-auto py-5 px-10"
+              onClick={() => setIsOpenTermsConditions(true)}
             >
               Proceed to payment
             </Button>
@@ -473,13 +466,25 @@ export default function BuyPackage() {
       <ModalWrapper
         isOpen={isOpen}
         closeModal={setIsOpen}
-        // widthContent="400px"
+        widthContent="400px"
         paddingContent="40px 32px"
       >
         <PromoModal
           selectedPackage={selectedPackage}
           setPromoPackage={setPromoPackage}
           setIsOpen={setIsOpen}
+        />
+      </ModalWrapper>
+
+      <ModalWrapper
+        isOpen={isOpenTermsConditions}
+        closeModal={setIsOpenTermsConditions}
+        widthContent="400px"
+        paddingContent="40px 32px"
+      >
+        <TermsConditionsModal
+          submitStripe={submitStripe}
+          setIsOpenTermsConditions={setIsOpenTermsConditions}
         />
       </ModalWrapper>
     </OnboardingLayout>

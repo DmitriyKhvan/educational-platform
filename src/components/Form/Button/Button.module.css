@@ -13,7 +13,10 @@
     text-sm
     tracking-[-0.2px]
     leading-[18px]
-    disabled:opacity-60 
+    /* disabled:opacity-60  */
+    disabled:cursor-not-allowed
+    disabled:bg-[#DEDDDF]
+    disabled:text-[#AAA8A8]
     focus:border-color-light-blue 
     focus:shadow-[0_0_0_0.25rem_rgba(13,110,253,0.25)]
     transition 
@@ -21,6 +24,10 @@
     duration-300
     select-none
     outline-none;
+  }
+
+  .clear {
+    @apply bg-[#F7F8FA];
   }
 
   .purple {

@@ -7,9 +7,10 @@ import { APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER } from 'src/modules/auth/grap
 import { currencyFormat } from 'src/utils/currencyFormat';
 import notify from 'src/utils/notify';
 import { DiscountType } from 'src/constants/global';
+import Loader from '../Loader/Loader';
 
 export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen }) => {
-  const [applyDiscount] = useMutation(
+  const [applyDiscount, { loading }] = useMutation(
     APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER,
   );
 
@@ -65,14 +66,23 @@ export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen }) => {
 
   return (
     <>
-      <h3 className="text-[22px] font-bold">Promo code</h3>
+      {loading && (
+        <div className="fixed top-0 left-0 bottom-0 right-0 z-50 flex items-center justify-center bg-black/20">
+          <Loader />
+        </div>
+      )}
+
       <form onSubmit={handleSubmit(onSubmitHandler)}>
-        <InputField
-          className="w-full mt-4 mb-6"
-          {...register('promo', {
-            required: 'promo is required',
-          })}
-        />
+        <fieldset>
+          <legend className="text-[22px] font-bold">Promo code</legend>
+
+          <InputField
+            className="w-full mt-4 mb-6"
+            {...register('promo', {
+              required: 'promo is required',
+            })}
+          />
+        </fieldset>
 
         <Button type="submit" disabled={!isValid} className="w-full">
           Add

@@ -58,7 +58,7 @@ export const OnboardingLayout = ({ children }) => {
           </label>
         </div>
       </header>
-      <main className="overflow-auto h-[calc(100vh-60px)] sm:h-[calc(100vh-97px)]">
+      <main className="overflow-auto w-screen h-[calc(100vh-60px)] sm:h-[calc(100vh-97px)]">
         {children}
       </main>
     </div>
