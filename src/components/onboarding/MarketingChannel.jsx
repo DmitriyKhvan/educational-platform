@@ -67,7 +67,7 @@ export const MarketingChannelForm = () => {
       <form onSubmit={handleSubmit(submitHandler)}>
         <fieldset className="flex flex-col gap-4">
           <legend className="text-[15px] text-[#464752] font-normal mb-4">
-            How did you hear about us?
+            {t('media_channel_question')}
           </legend>
           {marketingChannelList.map((marketingChannel) => {
             return (
@@ -97,7 +97,7 @@ export const MarketingChannelForm = () => {
           type="submit"
           disabled={!isValid}
         >
-          Proceed to the dashboard
+          {t('proceed_dashboard')}
         </Button>
       </form>
     </>

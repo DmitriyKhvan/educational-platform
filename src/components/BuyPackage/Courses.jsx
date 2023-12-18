@@ -1,14 +1,17 @@
 import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const Courses = memo(function Courses({
   courses,
   setSelectedCourse,
   selectedCourse,
 }) {
+  const [t] = useTranslation('purchase');
+
   return (
     <div>
       <h4 className="text-[15px] font-semibold leading-[18px] mb-4">
-        1. Choose your course
+        1. {t('choose_course')}
       </h4>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:flex md:flex-wrap gap-3">
         {courses.map((course) => {

@@ -8,6 +8,7 @@ import { SessionsTime } from 'src/components/BuyPackage/SessionsTime';
 import { Packages } from 'src/components/BuyPackage/Packages';
 import { OrderSummary } from 'src/components/BuyPackage/OrderSummary';
 import Loader from '../../components/Loader/Loader';
+import { useTranslation } from 'react-i18next';
 
 const GET_COURSES = gql`
   query GetCourses {
@@ -30,6 +31,8 @@ const GET_COURSES = gql`
 `;
 
 export default function BuyPackage() {
+  const [t] = useTranslation('purchase');
+
   const [courses, setCourse] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
 
@@ -139,7 +142,7 @@ export default function BuyPackage() {
         {/* left block */}
         <div className="grow">
           <h2 className="text-3xl sm:text-4xl font-bold sm:leading-[52px] mb-10">
-            Choose your package
+            {t('choose_package')}
           </h2>
 
           <div className="space-y-8">

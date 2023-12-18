@@ -8,8 +8,11 @@ import { currencyFormat } from 'src/utils/currencyFormat';
 import notify from 'src/utils/notify';
 import { DiscountType } from 'src/constants/global';
 import Loader from '../Loader/Loader';
+import { useTranslation } from 'react-i18next';
 
 export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen }) => {
+  const [t] = useTranslation('purchase');
+
   const [applyDiscount, { loading }] = useMutation(
     APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER,
   );
@@ -74,7 +77,7 @@ export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen }) => {
 
       <form onSubmit={handleSubmit(onSubmitHandler)}>
         <fieldset>
-          <legend className="text-[22px] font-bold">Promo code</legend>
+          <legend className="text-[22px] font-bold">{t('promo_code')}e</legend>
 
           <InputField
             className="w-full mt-4 mb-6"
@@ -85,7 +88,7 @@ export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen }) => {
         </fieldset>
 
         <Button type="submit" disabled={!isValid} className="w-full">
-          Add
+          {t('add')}
         </Button>
       </form>
     </>

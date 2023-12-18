@@ -15,21 +15,15 @@ export const TermsConditionsModal = ({
       <h3 className="text-[22px] font-bold">
         {t('terms', { ns: 'purchase' })}
       </h3>
-      <p className="mt-4 text-[17px] leading-7">
-        Please read our{' '}
-        <a
-          href="https://www.naonow.com/terms-and-conditions"
-          target="_blank"
-          rel="noreferrer"
-          className="text-color-purple underline underline-offset-2"
-        >
-          Terms and Conditions
-        </a>{' '}
-        before proceeding
-      </p>
+      <p
+        className="mt-4 text-[17px] leading-7"
+        dangerouslySetInnerHTML={{
+          __html: t('terms_link', { ns: 'purchase' }),
+        }}
+      ></p>
       <CheckboxField
         className="mt-4 w-[250px]"
-        label={`I have read and agree to the Terms and Conditions`}
+        label={t('terms_agree')}
         onChange={(e) => setAgree(e.target.checked)}
       />
 
@@ -38,7 +32,7 @@ export const TermsConditionsModal = ({
         className="w-full h-auto p-5 mt-6 mb-3"
         disabled={!agree}
       >
-        Accept and Pay
+        {t('accept_pay')}
       </Button>
       <Button
         onClick={() => setIsOpenTermsConditions(false)}
