@@ -11,7 +11,7 @@ import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 import { FaCheckCircle } from 'react-icons/fa';
 import { FaCircleXmark } from 'react-icons/fa6';
 // eslint-disable-next-line import/no-unresolved
-import { MarketingChannelForm } from 'src/components/onboarding/marketingChannel';
+import { MarketingChannelForm } from 'src/components/onboarding/MarketingChannel';
 import Button from 'src/components/Form/Button';
 import Loader from 'src/components/Loader/Loader';
 
