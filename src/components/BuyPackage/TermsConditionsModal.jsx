@@ -17,7 +17,12 @@ export const TermsConditionsModal = ({
       </h3>
       <p className="mt-4 text-[17px] leading-7">
         Please read our{' '}
-        <a className="text-color-purple underline underline-offset-2" href="#">
+        <a
+          href="https://www.naonow.com/terms-and-conditions"
+          target="_blank"
+          rel="noreferrer"
+          className="text-color-purple underline underline-offset-2"
+        >
           Terms and Conditions
         </a>{' '}
         before proceeding
