@@ -1,106 +1,74 @@
-import useMultistepForm from '../../components/onboarding/useMultistepForm';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
+
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import LoginForm from '../../components/onboarding/LoginForm';
-import SelectForm from '../../components/onboarding/SelectForm';
-import { useForm } from 'react-hook-form';
-import Logo from '../../assets/images/logo_purple.svg';
-import CredentialsForm from '../../components/onboarding/CredentialsForm';
 import { useMutation } from '@apollo/client';
 import { SIGN_UP } from '../../modules/auth/graphql';
 import useLogin from '../../modules/auth/hooks/login';
+
 import Loader from '../../components/Loader/Loader';
-import toast from 'react-hot-toast';
-import { useEffect, useState } from 'react';
-import {
-  getItemToLocalStorage,
-  setItemToLocalStorage,
-} from '../../constants/global';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import Button from 'src/components/Form/Button';
+import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
+
+import InputWithError from 'src/components/Form/InputWithError';
+import InputField from 'src/components/Form/InputField';
+import notify from 'src/utils/notify';
+import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
+import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+
+import countries from 'countries-phone-masks';
+import ReactInputMask from 'react-input-mask';
+import ModalWrapper from 'src/components/ModalWrapper/ModalWrapper';
+import { PhoneCodeListModal } from 'src/components/onboarding/PhoneCodeListModal';
 
 export default function Onboarding() {
   localStorage.removeItem('studentId');
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm({
-    defaultValues: JSON.parse(localStorage.getItem('onboarding'))?.data ?? {},
-  });
+  const [isOpen, setIsOpen] = useState(false);
+  const [country, setCountry] = useState(countries[115]);
 
+  const [t] = useTranslation(['onboarding', 'common', 'translations']);
+
+  const [isShowPassword, setIsShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const { login, data: loginData } = useLogin();
 
   const [parent] = useAutoAnimate();
 
-  const [signUp] = useMutation(SIGN_UP, {
-    onError: (error) => {
-      toast.error(error.message);
-    },
+  const {
+    handleSubmit,
+    register,
+    resetField,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: 'all',
+    defaultValues: { phoneNumber: '' },
   });
 
-  useEffect(() => {
-    setCurrentStepIndex(
-      JSON.parse(localStorage.getItem('onboarding'))?.currentStepIndex ?? 0,
-    );
-  }, []);
-
-  const {
-    step,
-    currentStepIndex,
-    steps,
-    next,
-    back,
-    isFirst,
-    isLast,
-    setCurrentStepIndex,
-  } = useMultistepForm([
-    <LoginForm register={register} errors={errors} key="login" />,
-    <SelectForm register={register} errors={errors} key="select" />,
-    <CredentialsForm register={register} errors={errors} key="credentials" />,
-  ]);
-
-  const [t, i18n] = useTranslation(['onboarding', 'common']);
-
-  const [language, setLanguage] = useState(
-    parseInt(getItemToLocalStorage('language', 1)),
-  );
-
-  const onChangeLanguage = (event) => {
-    const lang = event.target.value === 'en' ? 1 : 0;
-    setItemToLocalStorage('language', lang);
-    setLanguage(lang);
-  };
-
-  useEffect(() => {
-    i18n.changeLanguage(language === 0 ? 'kr' : 'en');
-  }, [language]);
+  const { login, data: loginData } = useLogin();
+  const [signUp] = useMutation(SIGN_UP);
 
   const onSubmit = async (data) => {
-    if (!isLast) {
-      localStorage.setItem(
-        'onboarding',
-        JSON.stringify({
-          data,
-          currentStepIndex,
-        }),
-      );
-      return next();
-    }
-    setIsLoading(() => true);
-    const { errors } = await signUp({
-      variables: data,
-    });
+    setIsLoading(true);
+    try {
+      await signUp({
+        variables: {
+          ...data,
+          phoneNumber: `${country.code}${data.phoneNumber.replace(
+            /[-()]/g,
+            '',
+          )}`,
+        },
+      });
 
-    if (errors?.length === 0 || !errors) {
       login(data.email, data.password);
-      localStorage.removeItem('onboarding');
+    } catch (error) {
+      notify(error.message, 'error');
     }
 
-    setIsLoading(() => false);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -110,73 +78,162 @@ export default function Onboarding() {
   }, [loginData]);
 
   return (
-    <main className="flex flex-col relative items-center">
+    <OnboardingLayout>
       {isLoading && (
-        <div className="absolute z-50 w-screen h-screen bg-black/20">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 ">
-            <Loader />
-          </div>
+        <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
+          <Loader />
         </div>
       )}
-      <img
-        className="w-48 md:w-64 my-[8vh] md:my-[12.5vh]"
-        src={Logo}
-        alt="naonow-logo"
-      />
-      <select
-        name=""
-        id=""
-        onChange={onChangeLanguage}
-        defaultValue={language === 0 ? 'kr' : 'en'}
-        className="rounded border border-gray-300 text-sm"
-      >
-        <option value="en">English</option>
-        <option value="kr">한국어</option>
-      </select>
-      <div className="max-w-2xl gap-4 w-full px-4">
+
+      <div className="min-w-full min-h-full px-5 sm:px-20 py-6 sm:py-8 lg:py-10">
         <form
           ref={parent}
           onSubmit={handleSubmit(onSubmit)}
-          className="w-full block py-8"
+          className="max-w-[440px] m-auto"
         >
-          {step}
-          <div className="self-start mt-8 flex flex-row gap-4">
-            <button
-              className="py-2 px-4 bg-color-purple text-white rounded-md font-bold disabled:bg-opacity-50 disabled:text-gray-200 disabled:cursor-not-allowed duration-200 hover:opacity-75 active:brightness-75 active:scale-95"
-              type="button"
-              onClick={() => {
-                back();
-              }}
-              disabled={isFirst}
-            >
-              {t('back')}
-            </button>
-            <input
-              className="py-2 px-4 bg-color-purple text-white rounded-md font-bold duration-200 transition-transform hover:opacity-75 active:brightness-75 active:scale-95"
-              type="submit"
-              value={isLast ? t('finish') : t('next')}
-            />
-          </div>
-        </form>
+          <fieldset className="flex flex-col space-y-4" ref={parent}>
+            <legend className="text-[32px] sm:text-4xl sm:text-center font-bold">
+              {t('lets_get_started', { ns: 'onboarding' })}
+            </legend>
 
-        <p className="text-[18px] text-color-light-grey font-semibold">
-          {t('already_have_account', { ns: 'common' })}{' '}
-          <Link
-            to="/"
-            className="text-color-purple underline underline-offset-2"
+            <InputWithError errorsField={errors?.firstName}>
+              <InputField
+                className="w-full"
+                label={t('first_name', { ns: 'common' })}
+                placeholder={t('first_name', { ns: 'common' })}
+                autoFocus
+                {...register('firstName', {
+                  required: t('required_first_name', { ns: 'translations' }),
+                  focus: true,
+                })}
+              />
+            </InputWithError>
+
+            <InputWithError errorsField={errors?.lastName}>
+              <InputField
+                className="w-full"
+                label={t('last_name', { ns: 'common' })}
+                placeholder={t('last_name', { ns: 'common' })}
+                {...register('lastName', {
+                  required: t('required_last_name', { ns: 'translations' }),
+                })}
+              />
+            </InputWithError>
+
+            <div>
+              <label
+                className="flex mb-[10px] font-semibold text-[15px] leading-5 tracking-[-0.2px]"
+                htmlFor="phoneNumber"
+              >
+                {t('phone_number', { ns: 'common' })}
+              </label>
+              <div className="flex items-center justify-between gap-2">
+                <label
+                  onClick={() => setIsOpen(true)}
+                  className="min-w-[103px] py-[14px] pl-3 pr-2 rounded-lg border border-color-border-grey select-none cursor-pointer"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <img
+                      className="w-[22px]"
+                      src={country?.flag}
+                      alt={country?.name}
+                    />
+                    <span className="text-sm font-medium">{country?.code}</span>
+                    <MdOutlineKeyboardArrowDown className="w-4" />
+                  </div>
+                </label>
+
+                <ReactInputMask
+                  id="phoneNumber"
+                  mask={
+                    country?.mask.replace(/#/g, '9') /*.replace(/-/g, ' ')*/
+                  }
+                  maskChar=""
+                  className="w-full"
+                  placeholder={country?.mask}
+                  {...register('phoneNumber')}
+                >
+                  {(inputProps) => <InputField {...inputProps} />}
+                </ReactInputMask>
+              </div>
+            </div>
+
+            <InputWithError errorsField={errors?.email}>
+              <InputField
+                className="w-full"
+                label={t('email', { ns: 'common' })}
+                placeholder="student@example.com"
+                autoComplete="on"
+                {...register('email', {
+                  required: t('required_email', { ns: 'common' }),
+                  validate: {
+                    isEmail: (value) => {
+                      const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+                      return (
+                        emailRegex.test(value) ||
+                        t('invalid_email', { ns: 'onboarding' })
+                      );
+                    },
+                  },
+                })}
+              />
+            </InputWithError>
+
+            <InputWithError errorsField={errors?.password}>
+              <InputField
+                className="w-full"
+                label={t('password', { ns: 'common' })}
+                placeholder="at least 8 characters"
+                type={isShowPassword ? 'text' : 'password'}
+                icon={
+                  isShowPassword ? (
+                    <BsEyeSlashFill className="text-2xl text-color-purple" />
+                  ) : (
+                    <BsEyeFill className="text-2xl text-color-purple" />
+                  )
+                }
+                classNameIcon="cursor-pointer px-[15px]"
+                iconHandler={() => setIsShowPassword(!isShowPassword)}
+                {...register('password', {
+                  required: t('required_password', { ns: 'common' }),
+                })}
+              />
+            </InputWithError>
+          </fieldset>
+
+          <Button
+            disabled={!isValid}
+            className="w-full my-8 sm:my-10 sm:text-[15px] h-[58px] sm:h-16"
+            type="submit"
           >
-            {t('sign_in', { ns: 'common' })}
-          </Link>
-        </p>
+            {t('create_account', { ns: 'onboarding' })}
+          </Button>
+
+          <p className="text-[18px] text-color-light-grey font-semibold">
+            {t('already_have_account', { ns: 'common' })}{' '}
+            <Link
+              to="/"
+              className="text-color-purple underline underline-offset-2"
+            >
+              {t('sign_in', { ns: 'common' })}
+            </Link>
+          </p>
+        </form>
       </div>
-      <div className="absolute flex top-0 w-full bg-purple-200">
-        <span
-          className={`h-2 bg-color-purple duration-500 ease-in-out z-10`}
-          style={{
-            width: `${(currentStepIndex / (steps.length - 1)) * 100}%`,
-          }}
-        ></span>
-      </div>
-    </main>
+      <ModalWrapper
+        isOpen={isOpen}
+        closeModal={setIsOpen}
+        widthContent="400px"
+        // heightContent="268px"
+        paddingContent="40px 0 0 0"
+      >
+        <PhoneCodeListModal
+          setIsOpenTermsConditions={setIsOpen}
+          setCountry={setCountry}
+          currentCountry={country}
+          resetField={resetField}
+        />
+      </ModalWrapper>
+    </OnboardingLayout>
   );
 }

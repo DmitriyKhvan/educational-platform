@@ -74,7 +74,6 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
         notify(t('error_avatar_upload', { ns: 'profile' }), 'error');
       },
     });
-    // }
 
     await updateUser({
       variables: {

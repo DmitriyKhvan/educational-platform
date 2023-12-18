@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
-import Loader from '../components/Loader/Loader';
-import {
-  faCheckCircle,
-  faXmarkCircle,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import Loader from '../components/Loader/Loader';
 import { useTranslation } from 'react-i18next';
-import { Link, useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { getItemToLocalStorage } from 'src/constants/global';
 import { useAuth } from 'src/modules/auth';
 import { useMutation, useQuery, gql } from '@apollo/client';
+import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
+
+import { FaCheckCircle } from 'react-icons/fa';
+import { FaCircleXmark } from 'react-icons/fa6';
+// eslint-disable-next-line import/no-unresolved
+import { MarketingChannelForm } from 'src/components/onboarding/marketingChannel';
+import Button from 'src/components/Form/Button';
+import Loader from 'src/components/Loader/Loader';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
@@ -67,7 +70,7 @@ export default function ConfirmPayment() {
 
   useEffect(() => {
     if (isNiceSuccess) {
-      setMessage(t('payment_success'));
+      setMessage('payment_success');
     }
   }, [isNiceSuccess]);
 
@@ -83,7 +86,7 @@ export default function ConfirmPayment() {
           switch (paymentIntent.status) {
             case 'succeeded': {
               if (alreadyPaid) {
-                setMessage('You have already paid for this package.');
+                setMessage('already_paid');
                 return;
               }
 
@@ -99,23 +102,23 @@ export default function ConfirmPayment() {
                   metadata: JSON.stringify(paymentIntent),
                 },
               }).then(() => {
-                setMessage(t('payment_success'));
+                setMessage('payment_success');
               });
 
               break;
             }
 
             case 'processing':
-              setMessage(t('payment_processing'));
+              setMessage('payment_processing');
               break;
 
             case 'requires_payment_method':
-              setMessage(t('payment_fail'));
+              setMessage('payment_fail');
               setError(true);
               break;
 
             default:
-              setMessage(t('payment_error'));
+              setMessage('payment_error');
               setError(true);
               break;
           }
@@ -123,48 +126,36 @@ export default function ConfirmPayment() {
     });
   }, [clientSecret, data]);
 
-  if (!message) return <Loader />;
-
-  if (error)
-    return (
-      <main className="flex items-center justify-center h-screen">
-        <div className="space-y-8 flex flex-col items-center">
-          <FontAwesomeIcon
-            icon={faXmarkCircle}
-            className="w-16 h-16 text-red-500"
-          />
-          <h1 className="font-bold text-xl sm:text-3xl">{message}</h1>
-          <a
-            href="/student/manage-lessons"
-            className="text-white bg-color-purple px-4 py-2 rounded font-bold"
-          >
-            {t('dashboard')}
-          </a>
-        </div>
-      </main>
-    );
+  if (!message) return <Loader height="100vh" />;
 
   return (
-    <main className="flex items-center justify-center h-screen">
-      <div className="space-y-8 flex flex-col items-center">
-        <FontAwesomeIcon
-          icon={faCheckCircle}
-          className="w-16 h-16 text-green-500"
-        />
-        <h1 className="font-bold text-xl sm:text-3xl">{message}</h1>
-        <Link
-          to={
-            !getItemToLocalStorage('studentId') && user.students[0].id
-              ? '/select-profile'
-              : '/student/manage-lessons'
-          }
-          className="text-white bg-color-purple px-4 py-2 rounded font-bold"
-        >
-          {!getItemToLocalStorage('studentId') && user.students[0].id
-            ? t('select_profile')
-            : t('dashboard')}
-        </Link>
+    <OnboardingLayout>
+      <div className="px-5 sm:px-20 py-6 sm:py-8">
+        {error ? (
+          <div className="max-w-[440px] m-auto space-y-8 flex flex-col items-center">
+            <FaCircleXmark className="w-16 h-16 text-red-500" />
+            <h1 className="font-bold text-2xl sm:text-3xl text-center">
+              {t(message)}
+            </h1>
+
+            <Link className="w-full" to="/student/manage-lessons">
+              <Button className="w-full h-auto p-5">{t('dashboard')}</Button>
+            </Link>
+          </div>
+        ) : (
+          <div className="w-full sm:w-[480px] m-auto rounded-lg sm:p-8">
+            <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+              <FaCheckCircle className="w-6 h-6 sm:w-9 sm:h-9 text-[#039855]" />
+              <h1 className="font-bold text-2xl sm:text-[32px]">
+                {/* Payment confirmed */}
+                {t(message)}
+              </h1>
+            </div>
+
+            <MarketingChannelForm />
+          </div>
+        )}
       </div>
-    </main>
+    </OnboardingLayout>
   );
 }

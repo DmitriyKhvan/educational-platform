@@ -14,5 +14,6 @@
   "dashboard": "대시보드 바로가기",
   "select_profile": "프로필 선택",
   "proceed_checkout": "계속하기",
-  "pay": "결제하기"
+  "pay": "결제하기",
+  "already_paid": "You have already paid for this package"
 }
