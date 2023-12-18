@@ -48,7 +48,7 @@ const ModalWrapper = ({
 
   return (
     <Modal
-      closeTimeoutMS={300}
+      closeTimeoutMS={400}
       isOpen={isOpen}
       contentLabel="modal"
       style={customStyles}

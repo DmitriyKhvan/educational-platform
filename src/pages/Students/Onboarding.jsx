@@ -12,17 +12,23 @@ import useLogin from '../../modules/auth/hooks/login';
 import Loader from '../../components/Loader/Loader';
 import Button from 'src/components/Form/Button';
 import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
-import {
-  getItemToLocalStorage,
-  setItemToLocalStorage,
-} from 'src/constants/global';
+
 import InputWithError from 'src/components/Form/InputWithError';
 import InputField from 'src/components/Form/InputField';
 import notify from 'src/utils/notify';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
+import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+
+import countries from 'countries-phone-masks';
+import ReactInputMask from 'react-input-mask';
+import ModalWrapper from 'src/components/ModalWrapper/ModalWrapper';
+import { PhoneCodeListModal } from 'src/components/onboarding/PhoneCodeListModal';
 
 export default function Onboarding() {
   localStorage.removeItem('studentId');
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [country, setCountry] = useState(countries[115]);
 
   const [t] = useTranslation(['onboarding', 'common', 'translations']);
 
@@ -34,34 +40,34 @@ export default function Onboarding() {
   const {
     handleSubmit,
     register,
+    resetField,
     formState: { errors, isValid },
   } = useForm({
-    defaultValues: JSON.parse(getItemToLocalStorage('onboarding'))?.data ?? {},
+    mode: 'all',
+    defaultValues: { phoneNumber: '' },
   });
 
   const { login, data: loginData } = useLogin();
   const [signUp] = useMutation(SIGN_UP);
 
   const onSubmit = async (data) => {
+    if (data) {
+      console.log({
+        ...data,
+        phoneNumber: `${country.code}${data.phoneNumber.replace(/[-()]/g, '')}`,
+      });
+      return;
+    }
+
     setIsLoading(true);
-
-    setItemToLocalStorage(
-      'onboarding',
-      JSON.stringify({
-        data,
-      }),
-    );
-
     try {
       await signUp({
-        variables: {
-          dataa: data,
-        },
+        variables: { ...data },
       });
 
       login(data.email, data.password);
     } catch (error) {
-      notify(error.message);
+      notify(error.message, 'error');
     }
 
     setIsLoading(false);
@@ -73,15 +79,19 @@ export default function Onboarding() {
     }
   }, [loginData]);
 
+  // const getPhoneCodeList = () => {
+  //   console.log(1);
+  // };
+
   return (
     <OnboardingLayout>
       {isLoading && (
-        <div className="fixed top-0 left-0 bottom-0 right-0 z-50 flex items-center justify-center bg-black/20">
+        <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
           <Loader />
         </div>
       )}
 
-      <div className="w-full h-full px-5 sm:px-20 py-6 sm:py-8 lg:py-10">
+      <div className="min-w-full min-h-full px-5 sm:px-20 py-6 sm:py-8 lg:py-10">
         <form
           ref={parent}
           onSubmit={handleSubmit(onSubmit)}
@@ -92,64 +102,67 @@ export default function Onboarding() {
               {t('lets_get_started', { ns: 'onboarding' })}
             </legend>
 
-            <InputWithError errorsField={errors?.first_name}>
+            <InputWithError errorsField={errors?.firstName}>
               <InputField
                 className="w-full"
                 label={t('first_name', { ns: 'common' })}
                 placeholder={t('first_name', { ns: 'common' })}
                 autoFocus
-                {...register('first_name', {
+                {...register('firstName', {
                   required: t('required_first_name', { ns: 'translations' }),
                   focus: true,
                 })}
               />
             </InputWithError>
 
-            <InputWithError errorsField={errors?.last_name}>
+            <InputWithError errorsField={errors?.lastName}>
               <InputField
                 className="w-full"
                 label={t('last_name', { ns: 'common' })}
                 placeholder={t('last_name', { ns: 'common' })}
-                {...register('last_name', {
+                {...register('lastName', {
                   required: t('required_last_name', { ns: 'translations' }),
                 })}
               />
             </InputWithError>
 
-            <InputWithError errorsField={errors?.phoneNumber}>
-              <InputField
-                className="w-full"
-                label={t('phone_number', { ns: 'common' })}
-                placeholder="010-1234-5678"
-                {...register('phoneNumber', {
-                  required: t('required_phone_number', { ns: 'translations' }),
-                  validate: {
-                    isPhoneNumber: (value) => {
-                      const phoneNumberRegex =
-                        /^[0-9]{3}([0-9]{3}|[0-9]{4})[0-9]{4}$/;
-                      return (
-                        phoneNumberRegex.test(value) ||
-                        t('invalid_phone_number', { ns: 'onboarding' })
-                      );
-                    },
-                  },
-                  onChange: (e) => {
-                    let { value } = e.target;
-                    value = value.replace(/\D/g, '');
-                    if (value.length > 3 && value.length <= 6) {
-                      value = value.replace(/(\d{3})(\d+)/, '$1-$2');
-                    } else if (value.length > 6) {
-                      value = value.replace(
-                        /(\d{3})(\d{3,4})(\d{4})/,
-                        '$1-$2-$3',
-                      );
-                    }
-                    e.target.value = value;
-                  },
-                  setValueAs: (value) => value.replace(/-/g, ''),
-                })}
-              />
-            </InputWithError>
+            <div>
+              <label
+                className="flex mb-[10px] font-semibold text-[15px] leading-5 tracking-[-0.2px]"
+                htmlFor="phoneNumber"
+              >
+                {t('phone_number', { ns: 'common' })}
+              </label>
+              <div className="flex items-center justify-between gap-2">
+                <label
+                  onClick={() => setIsOpen(true)}
+                  className="min-w-[103px] py-[14px] pl-3 pr-2 rounded-lg border border-color-border-grey select-none cursor-pointer"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <img
+                      className="w-[22px]"
+                      src={country?.flag}
+                      alt={country?.name}
+                    />
+                    <span className="text-sm font-medium">{country?.code}</span>
+                    <MdOutlineKeyboardArrowDown className="w-4" />
+                  </div>
+                </label>
+
+                <ReactInputMask
+                  id="phoneNumber"
+                  mask={
+                    country?.mask.replace(/#/g, '9') /*.replace(/-/g, ' ')*/
+                  }
+                  maskChar=""
+                  className="w-full"
+                  placeholder={country?.mask}
+                  {...register('phoneNumber')}
+                >
+                  {(inputProps) => <InputField {...inputProps} />}
+                </ReactInputMask>
+              </div>
+            </div>
 
             <InputWithError errorsField={errors?.email}>
               <InputField
@@ -213,6 +226,20 @@ export default function Onboarding() {
           </p>
         </form>
       </div>
+      <ModalWrapper
+        isOpen={isOpen}
+        closeModal={setIsOpen}
+        widthContent="400px"
+        // heightContent="268px"
+        paddingContent="40px 0 0 0"
+      >
+        <PhoneCodeListModal
+          setIsOpenTermsConditions={setIsOpen}
+          setCountry={setCountry}
+          currentCountry={country}
+          resetField={resetField}
+        />
+      </ModalWrapper>
     </OnboardingLayout>
   );
 }

@@ -21,11 +21,14 @@ export const MarketingChannelForm = () => {
 
   const marketingChannelList = useMemo(() => {
     return [
-      t('instagram_facebook'),
-      t('influencers'),
-      t('search'),
-      t('referrals'),
-      t('other'),
+      {
+        value: 'instagram_facebook',
+        label: t('instagram_facebook'),
+      },
+      { value: 'influencers', label: t('influencers') },
+      { value: 'search', label: t('search') },
+      { value: 'referrals', label: t('referrals') },
+      { value: 'other', label: t('other') },
     ];
   }, [t]);
 
@@ -35,6 +38,8 @@ export const MarketingChannelForm = () => {
     watch,
     formState: { isValid },
   } = useForm();
+
+  // console.log(watch('marketingChannel'));
 
   const submitHandler = ({ marketingChannel }) => {
     updateUser({
@@ -57,7 +62,7 @@ export const MarketingChannelForm = () => {
   return (
     <>
       {loading && (
-        <div className="fixed top-0 left-0 bottom-0 right-0 z-50 flex items-center justify-center bg-black/20">
+        <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
           <Loader />
         </div>
       )}
@@ -73,17 +78,17 @@ export const MarketingChannelForm = () => {
                   watch('marketingChannel') === marketingChannel &&
                   'border-color-purple/50'
                 }`}
-                key={marketingChannel}
+                key={marketingChannel.value}
               >
                 <CheckboxField
                   type="radio"
-                  value={marketingChannel}
+                  value={marketingChannel.value}
                   name="marketingChannel"
                   {...register('marketingChannel', {
                     required: true,
                   })}
                 />
-                <span className="text-[15px]">{marketingChannel}</span>
+                <span className="text-[15px]">{marketingChannel.label}</span>
               </label>
             );
           })}

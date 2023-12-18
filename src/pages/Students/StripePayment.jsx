@@ -60,11 +60,11 @@ const CheckoutForm = () => {
   return (
     <OnboardingLayout>
       {isLoading && (
-        <div className="fixed top-0 left-0 bottom-0 right-0 z-50 flex items-center justify-center bg-black/20">
+        <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
           <Loader />
         </div>
       )}
-      <div className="w-full h-full px-5 sm:px-20 py-6 sm:py-8 bg-[#F7F8FA]">
+      <div className="min-w-full min-h-full px-5 sm:px-20 py-6 sm:py-8 bg-[#F7F8FA]">
         <form
           className="w-full sm:w-[480px] m-auto p-8 rounded-xl bg-white"
           onSubmit={handleSubmit}

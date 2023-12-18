@@ -19,7 +19,8 @@ const CheckboxField = forwardRef(
             text-transparent
             cursor-pointer
             focus:ring-transparent
-            checked:bg-[url("data:image/svg+xml,%3csvg_xmlns='http://www.w3.org/2000/svg'_viewBox='0_0_8_8'%3e%3cpath_fill='%23fff'_d='M6.564.75l-3.59_3.612-1.538-1.55L0_4.26_2.974_7.25_8_2.193z'/%3e%3c/svg%3e")]
+            checked:bg-none
+            checked:bg-color-purple
             
           `}
           type={type}
@@ -30,9 +31,10 @@ const CheckboxField = forwardRef(
         />
         <svg
           className="
-      absolute 
-      w-4 h-4 mt-1
-      hidden peer-checked:block"
+            absolute 
+            w-4 h-4 ml-1
+            hidden peer-checked:block
+            text-white"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="none"
