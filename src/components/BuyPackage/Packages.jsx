@@ -17,7 +17,7 @@ export const Packages = memo(function Packages({
   return (
     <div>
       <h4 className="text-[15px] font-semibold leading-[18px] mb-4">
-        4. Choose the length of your package
+        4. {t('length', { ns: 'purchase' })}
       </h4>
       <div className="grid grid-cols-1 sm:flex sm:flex-wrap gap-3" ref={parent}>
         {filteredPackage?.map((pkg) => {

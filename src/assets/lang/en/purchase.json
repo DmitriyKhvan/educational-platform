@@ -16,5 +16,6 @@
   "dashboard": "Go to dashboard",
   "select_profile": "Select profile",
   "proceed_checkout": "Proceed to checkout",
-  "pay": "Pay Now"
+  "pay": "Pay Now",
+  "already_paid": "You have already paid for this package"
 }

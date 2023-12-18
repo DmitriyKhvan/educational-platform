@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import CheckboxField from '../Form/CheckboxField';
 import Button from '../Form/Button';
+import { useTranslation } from 'react-i18next';
 
 export const TermsConditionsModal = ({
   submitStripe,
   setIsOpenTermsConditions,
 }) => {
   const [agree, setAgree] = useState(false);
+  const [t] = useTranslation(['purchase', 'common']);
 
   return (
     <div>
-      <h3 className="text-[22px] font-bold">Terms and Conditions</h3>
+      <h3 className="text-[22px] font-bold">
+        {t('terms', { ns: 'purchase' })}
+      </h3>
       <p className="mt-4 text-[17px] leading-7">
         Please read our{' '}
         <a className="text-color-purple underline underline-offset-2" href="#">
@@ -36,7 +40,7 @@ export const TermsConditionsModal = ({
         className="w-full h-auto p-5"
         theme="clear"
       >
-        Cancel
+        {t('cancel', { ns: 'common' })}
       </Button>
     </div>
   );

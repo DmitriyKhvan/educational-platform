@@ -70,7 +70,7 @@ export default function ConfirmPayment() {
 
   useEffect(() => {
     if (isNiceSuccess) {
-      setMessage(t('payment_success'));
+      setMessage('payment_success');
     }
   }, [isNiceSuccess]);
 
@@ -86,7 +86,7 @@ export default function ConfirmPayment() {
           switch (paymentIntent.status) {
             case 'succeeded': {
               if (alreadyPaid) {
-                setMessage('You have already paid for this package.');
+                setMessage('already_paid');
                 return;
               }
 
@@ -102,23 +102,23 @@ export default function ConfirmPayment() {
                   metadata: JSON.stringify(paymentIntent),
                 },
               }).then(() => {
-                setMessage(t('payment_success'));
+                setMessage('payment_success');
               });
 
               break;
             }
 
             case 'processing':
-              setMessage(t('payment_processing'));
+              setMessage('payment_processing');
               break;
 
             case 'requires_payment_method':
-              setMessage(t('payment_fail'));
+              setMessage('payment_fail');
               setError(true);
               break;
 
             default:
-              setMessage(t('payment_error'));
+              setMessage('payment_error');
               setError(true);
               break;
           }
@@ -135,7 +135,7 @@ export default function ConfirmPayment() {
           <div className="max-w-[440px] m-auto space-y-8 flex flex-col items-center">
             <FaCircleXmark className="w-16 h-16 text-red-500" />
             <h1 className="font-bold text-2xl sm:text-3xl text-center">
-              {message}
+              {t(message)}
             </h1>
 
             <Link className="w-full" to="/student/manage-lessons">
@@ -147,7 +147,8 @@ export default function ConfirmPayment() {
             <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
               <FaCheckCircle className="w-6 h-6 sm:w-9 sm:h-9 text-[#039855]" />
               <h1 className="font-bold text-2xl sm:text-[32px]">
-                Payment confirmed
+                {/* Payment confirmed */}
+                {t(message)}
               </h1>
             </div>
 

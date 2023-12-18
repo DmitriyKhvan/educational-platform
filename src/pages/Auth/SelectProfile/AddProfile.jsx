@@ -53,14 +53,15 @@ export const AddStudentProfile = () => {
   return (
     <OnboardingLayout>
       {loading && (
-        <div className="absolute z-50 w-screen h-screen bg-black/20">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 ">
-            <Loader />
-          </div>
+        <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
+          <Loader />
         </div>
       )}
-      <div className="max-w-[440px] gap-4 w-full px-4">
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full block py-8">
+      <div className="min-w-full min-h-full px-5 sm:px-20 py-6 sm:py-8 lg:py-10">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="w-full sm:max-w-[440px] m-auto"
+        >
           <fieldset className="flex flex-col space-y-4" ref={parent}>
             <legend className="text-[32px] sm:text-4xl sm:text-center font-bold">
               {t('lets_get_started', { ns: 'onboarding' })}

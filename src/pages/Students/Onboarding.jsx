@@ -51,18 +51,16 @@ export default function Onboarding() {
   const [signUp] = useMutation(SIGN_UP);
 
   const onSubmit = async (data) => {
-    if (data) {
-      console.log({
-        ...data,
-        phoneNumber: `${country.code}${data.phoneNumber.replace(/[-()]/g, '')}`,
-      });
-      return;
-    }
-
     setIsLoading(true);
     try {
       await signUp({
-        variables: { ...data },
+        variables: {
+          ...data,
+          phoneNumber: `${country.code}${data.phoneNumber.replace(
+            /[-()]/g,
+            '',
+          )}`,
+        },
       });
 
       login(data.email, data.password);
@@ -78,10 +76,6 @@ export default function Onboarding() {
       location.href = '/purchase';
     }
   }, [loginData]);
-
-  // const getPhoneCodeList = () => {
-  //   console.log(1);
-  // };
 
   return (
     <OnboardingLayout>
@@ -212,7 +206,7 @@ export default function Onboarding() {
             className="w-full my-8 sm:my-10 sm:text-[15px] h-[58px] sm:h-16"
             type="submit"
           >
-            {t('create_account')}
+            {t('create_account', { ns: 'onboarding' })}
           </Button>
 
           <p className="text-[18px] text-color-light-grey font-semibold">

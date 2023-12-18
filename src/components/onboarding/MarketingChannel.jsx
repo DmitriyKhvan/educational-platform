@@ -39,8 +39,6 @@ export const MarketingChannelForm = () => {
     formState: { isValid },
   } = useForm();
 
-  // console.log(watch('marketingChannel'));
-
   const submitHandler = ({ marketingChannel }) => {
     updateUser({
       variables: {
