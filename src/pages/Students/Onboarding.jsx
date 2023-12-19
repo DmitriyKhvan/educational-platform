@@ -19,16 +19,16 @@ import notify from 'src/utils/notify';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
-import countries from 'countries-phone-masks';
 import ReactInputMask from 'react-input-mask';
 import ModalWrapper from 'src/components/ModalWrapper/ModalWrapper';
 import { PhoneCodeListModal } from 'src/components/onboarding/PhoneCodeListModal';
+import { phoneCodes } from 'src/constants/global';
 
 export default function Onboarding() {
   localStorage.removeItem('studentId');
 
   const [isOpen, setIsOpen] = useState(false);
-  const [country, setCountry] = useState(countries[115]);
+  const [country, setCountry] = useState(phoneCodes[4]);
 
   const [t] = useTranslation(['onboarding', 'common', 'translations']);
 
@@ -148,9 +148,9 @@ export default function Onboarding() {
                   mask={
                     country?.mask.replace(/#/g, '9') /*.replace(/-/g, ' ')*/
                   }
-                  maskChar=""
+                  maskChar="X"
                   className="w-full"
-                  placeholder={country?.mask}
+                  placeholder={country?.mask.replace(/#/g, 'X')}
                   {...register('phoneNumber')}
                 >
                   {(inputProps) => <InputField {...inputProps} />}

@@ -1,7 +1,7 @@
 import React from 'react';
-import countries from 'countries-phone-masks';
 
 import CheckboxField from '../Form/CheckboxField';
+import { phoneCodes } from 'src/constants/global';
 
 export const PhoneCodeListModal = ({
   setCountry,
@@ -15,7 +15,7 @@ export const PhoneCodeListModal = ({
 
   return (
     <ul className="h-[268px] overflow-auto px-6">
-      {countries.map((country, index) => {
+      {phoneCodes.map((country, index) => {
         return (
           <li key={country.iso}>
             <label className="flex items-center justify-between gap-3 py-4">
@@ -28,7 +28,7 @@ export const PhoneCodeListModal = ({
                 checked={currentCountry.iso === country.iso}
               />
             </label>
-            {index !== countries.length - 1 && <div className="divider"></div>}
+            {index !== phoneCodes.length - 1 && <div className="divider"></div>}
           </li>
         );
       })}

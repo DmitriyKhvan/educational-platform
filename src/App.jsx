@@ -41,6 +41,15 @@ function PrivateRoute({ component: Component, role, ...rest }) {
   const { user } = useAuth();
   const history = useHistory();
 
+  if (user) {
+    window.Intercom('boot', {
+      api_base: 'https://api-iam.intercom.io',
+      app_id: 'ohhixtgv',
+      name: `${user.firstName} ${user.lastName}`,
+      email: user.email,
+    });
+  }
+
   return (
     <Route
       {...rest}
