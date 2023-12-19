@@ -80,7 +80,7 @@ export const OrderSummary = memo(function OrderSummary({
         className="w-full p-6 rounded-lg bg-[#F7F8FA] space-y-6"
         ref={parent}
       >
-        <h3 className="text-2xl font-bold">Order Summary</h3>
+        <h3 className="text-2xl font-bold">{t('order_summary')}</h3>
 
         {selectedPackage && (
           <>
@@ -95,7 +95,7 @@ export const OrderSummary = memo(function OrderSummary({
                 <BsPlus className="text-color-purple" />
               </span>
               <span className="text-[13px] font-medium text-color-purple">
-                Add promo code (optional)
+                {t('add_promo')}
               </span>
             </button>
 
@@ -115,7 +115,7 @@ export const OrderSummary = memo(function OrderSummary({
 
               {discount > 0 && (
                 <div className="flex items-center justify-between text-sm">
-                  <span>Promo code</span>
+                  <span>{t('promo_code')}</span>
                   <span className="font-semibold text-color-purple">
                     {`- ${currencyFormat({
                       number: discount,
@@ -127,7 +127,7 @@ export const OrderSummary = memo(function OrderSummary({
               <div className="divider"></div>
 
               <div className="flex items-center justify-between font-bold text-base">
-                <span>Total</span>
+                <span>{t('total')}</span>
                 <span>
                   {currencyFormat({
                     number: calculatePriceWithDiscount(promoPackage),
@@ -141,8 +141,7 @@ export const OrderSummary = memo(function OrderSummary({
         <div className="flex items-center gap-4 w-full bg-[#EAECF0] rounded-md px-4 py-3">
           <RiErrorWarningFill className="w-5 h-5 text-[#908E97]" />
           <div className="text-[#908E97] space-y-1">
-            <p className="">Monthly interest-free installments</p>
-            <p className="">available at checkout</p>
+            <p>{t('installments_text')}</p>
           </div>
         </div>
 
@@ -151,7 +150,7 @@ export const OrderSummary = memo(function OrderSummary({
           className="w-full h-auto py-5 px-10"
           onClick={() => setIsOpenTermsConditions(true)}
         >
-          Proceed to payment
+          {t('proceed_payment')}
         </Button>
       </div>
 

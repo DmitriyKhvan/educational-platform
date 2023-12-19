@@ -11,5 +11,6 @@
   "back": "Back",
   "next": "Next",
   "finish": "Finish",
-  "create_account": "Create an account"
+  "create_account": "Create an account",
+  "proceed_dashboard": "Proceed to the dashboard"
 }

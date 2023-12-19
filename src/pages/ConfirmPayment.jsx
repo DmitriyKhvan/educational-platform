@@ -70,7 +70,7 @@ export default function ConfirmPayment() {
 
   useEffect(() => {
     if (isNiceSuccess) {
-      setMessage('payment_success');
+      setMessage('payment_confirmed');
     }
   }, [isNiceSuccess]);
 
@@ -102,7 +102,7 @@ export default function ConfirmPayment() {
                   metadata: JSON.stringify(paymentIntent),
                 },
               }).then(() => {
-                setMessage('payment_success');
+                setMessage('payment_confirmed');
               });
 
               break;

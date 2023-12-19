@@ -14,7 +14,7 @@ export const SessionsPerWeek = memo(function SessionsPerWeek({
   return (
     <div>
       <h4 className="text-[15px] font-semibold leading-[18px] mb-4">
-        2. Choose your schedule
+        2. {t('choose_schedule')}
       </h4>
       <div className="grid grid-cols-2 md:flex md:flex-wrap gap-3" ref={parent}>
         {uniqueSessionsPerWeek.map((sessionsPerWeek) => {
