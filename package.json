@@ -24,7 +24,6 @@
     "graphql": "^16.6.0",
     "graphql-ws": "^5.14.1",
     "i18next": "^20.3.1",
-    "libphonenumber-js": "^1.10.52",
     "lodash-es": "^4.17.21",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.34",

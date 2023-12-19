@@ -1,6 +1,5 @@
 import React from 'react';
 import countries from 'countries-phone-masks';
-import { AsYouType } from 'libphonenumber-js';
 
 import CheckboxField from '../Form/CheckboxField';
 
@@ -13,8 +12,6 @@ export const PhoneCodeListModal = ({
     resetField('phoneNumber');
     setCountry(country);
   };
-
-  console.log('PhoneNumber', new AsYouType('UZ').getTemplate());
 
   return (
     <ul className="h-[268px] overflow-auto px-6">
