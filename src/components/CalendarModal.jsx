@@ -26,6 +26,8 @@ const CalendarModal = ({
 
   // const isLate = moment.duration(moment(time).diff(moment())).asHours() <= 24;
 
+  console.log('data', data);
+
   const [tabIndex, setTabIndex] = useState(0);
 
   const joinLesson = async () => {
