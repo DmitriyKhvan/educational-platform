@@ -15,7 +15,7 @@ import WeekHeader from '../../components/common/WeekHeader';
 import '../../assets/styles/calendar.scss';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../modules/auth';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 import {
   APPOINTMENTS_QUERY,
   APPROVE_APPOINTMENT,
@@ -290,27 +290,29 @@ const Calendar = () => {
 
   const onCancelLessonClick = () => {
     setTabIndex(0);
-    const [selectedEvent] = calendarEvents.filter(
-      (x) => x.id === calendarEvent.id,
-    );
+    // const [selectedEvent] = calendarEvents.filter(
+    //   (x) => x.id === calendarEvent.id,
+    // );
     setIsCalendarModalOpen(false);
 
-    const scheduledTime = moment(selectedEvent?.resource?.startAt).tz(
-      userTimezone,
-    );
+    // const scheduledTime = moment(selectedEvent?.resource?.startAt).tz(
+    //   userTimezone,
+    // );
 
-    const isLate =
-      moment.duration(moment(scheduledTime).diff(moment())).asHours() <= 24;
-    if (isLate) {
-      Swal.fire({
-        title: t('cannot_cancel', { ns: 'modals' }),
-        text: t('cancel_error', { ns: 'modals' }),
-        icon: 'error',
-        confirmButtonText: t('ok', { ns: 'modals' }),
-      });
-    } else {
-      setIsCancelLessonModalOpen(true);
-    }
+    // const isLate =
+    //   moment.duration(moment(scheduledTime).diff(moment())).asHours() <= 24;
+    // if (isLate) {
+    //   Swal.fire({
+    //     title: t('cannot_cancel', { ns: 'modals' }),
+    //     text: t('cancel_error', { ns: 'modals' }),
+    //     icon: 'error',
+    //     confirmButtonText: t('ok', { ns: 'modals' }),
+    //   });
+    // } else {
+    //   setIsCancelLessonModalOpen(true);
+    // }
+
+    setIsCancelLessonModalOpen(true);
   };
 
   Modal.setAppElement('#root');
