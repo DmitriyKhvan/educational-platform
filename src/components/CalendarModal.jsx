@@ -86,15 +86,16 @@ const CalendarModal = ({
           <button
             className="enter-btn m-0 p-0 py-2 px-3 text-sm grey-border text-black"
             onClick={() => {
-              if (isLate) {
-                closeModal();
-                Swal.fire({
-                  title: t('cannot_cancel'),
-                  text: t('cancel_error'),
-                  icon: 'error',
-                  confirmButtonText: t('ok'),
-                });
-              } else setIsCancelModalOpen(true);
+              // if (isLate) {
+              //   closeModal();
+              //   Swal.fire({
+              //     title: t('cannot_cancel'),
+              //     text: t('cancel_error'),
+              //     icon: 'error',
+              //     confirmButtonText: t('ok'),
+              //   });
+              // } else setIsCancelModalOpen(true);
+              setIsCancelModalOpen(true);
             }}
           >
             {t('cancel_lesson')}
