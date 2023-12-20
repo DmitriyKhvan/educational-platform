@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
 import ZoomWarningModal from './student-dashboard/ZoomWarningModal';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 import RescheduleAndCancelModal from './student-dashboard/RescheduleAndCancelModal';
 import { isBetween } from '../utils/isBetween';
 import { LessonsStatusType } from 'src/constants/global';
@@ -24,7 +24,7 @@ const CalendarModal = ({
   const [isWarningOpen, setIsWarningOpen] = useState(false);
   const isToday = moment(time).isSame(moment(), 'day');
 
-  const isLate = moment.duration(moment(time).diff(moment())).asHours() <= 24;
+  // const isLate = moment.duration(moment(time).diff(moment())).asHours() <= 24;
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -104,19 +104,22 @@ const CalendarModal = ({
           <a
             className="enter-btn m-0 p-0 py-2 px-2 text-sm grey-border text-black"
             onClick={(e) => {
-              if (isLate) {
-                e.preventDefault();
-                closeModal();
-                Swal.fire({
-                  title: t('cannot_reschedule'),
-                  text: t('reschedule_error'),
-                  icon: 'error',
-                  confirmButtonText: t('ok'),
-                });
-              } else {
-                setIsCancelModalOpen(true);
-                setTypeModal('reschedule');
-              }
+              e.preventDefault();
+              // if (isLate) {
+              //   e.preventDefault();
+              //   closeModal();
+              //   Swal.fire({
+              //     title: t('cannot_reschedule'),
+              //     text: t('reschedule_error'),
+              //     icon: 'error',
+              //     confirmButtonText: t('ok'),
+              //   });
+              // } else {
+              //   setIsCancelModalOpen(true);
+              //   setTypeModal('reschedule');
+              // }
+              setIsCancelModalOpen(true);
+              setTypeModal('reschedule');
             }}
           >
             {t('reschedule')}
