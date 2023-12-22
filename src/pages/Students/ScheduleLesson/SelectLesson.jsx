@@ -154,18 +154,20 @@ const SelectLesson = ({
           {planStatusesLoading ? (
             <Loader />
           ) : (
-            planStatus.map((x, i) => (
-              <LessonCard
-                title={x.package?.course?.title}
-                duration={x.package?.sessionTime}
-                remaining={x.credits}
-                data={x}
-                i={i}
-                key={i}
-                expirationDate={x.periodEnd}
-                active={x.active}
-              />
-            ))
+            planStatus
+              .filter((pkg) => pkg.credits > 0)
+              .map((x, i) => (
+                <LessonCard
+                  title={x.package?.course?.title}
+                  duration={x.package?.sessionTime}
+                  remaining={x.credits}
+                  data={x}
+                  i={i}
+                  key={i}
+                  expirationDate={x.periodEnd}
+                  active={x.active}
+                />
+              ))
           )}
         </div>
         <div className="flex gap-5">

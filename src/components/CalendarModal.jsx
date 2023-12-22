@@ -132,18 +132,14 @@ const CalendarModal = ({
           </a>
           <a
             onClick={
-              event.resource.status !== LessonsStatusType.SCHEDULED &&
-              event.resource.status !== LessonsStatusType.RESCHEDULED
+              event.resource.status === LessonsStatusType.APPROVED
                 ? joinLesson
                 : undefined
             }
             target="_blank"
             rel="noreferrer"
             className="enter-btn m-0 p-0 py-2 px-2 text-sm grey-border text-black aria-disabled:brightness-75"
-            aria-disabled={
-              event.resource.status === LessonsStatusType.SCHEDULED ||
-              event.resource.status === LessonsStatusType.RESCHEDULED
-            }
+            aria-disabled={event.resource.status !== LessonsStatusType.APPROVED}
           >
             {t('join_lesson')}
           </a>

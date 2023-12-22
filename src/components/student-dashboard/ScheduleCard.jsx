@@ -199,8 +199,7 @@ const ScheduleCard = ({
           </a>
           <a
             onClick={
-              data.status !== LessonsStatusType.SCHEDULED &&
-              data.status !== LessonsStatusType.RESCHEDULED
+              data.status === LessonsStatusType.APPROVED
                 ? joinLesson
                 : undefined
             }
@@ -212,8 +211,7 @@ const ScheduleCard = ({
               ? 'text-color-purple'
               : 'border border-color-border-grey text-black'
           } ${
-              data.status === LessonsStatusType.SCHEDULED ||
-              data.status === LessonsStatusType.RESCHEDULED
+              data.status !== LessonsStatusType.APPROVED
                 ? 'text-color-purple bg-[#b099d7]'
                 : 'grey-border text-black bg-white'
             }`}
