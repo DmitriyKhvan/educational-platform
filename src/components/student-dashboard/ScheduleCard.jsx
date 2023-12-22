@@ -20,7 +20,7 @@ const ScheduleCard = ({
   index,
   lesson,
   zoom,
-  date,
+  date, //utc +0
   student,
   mentor,
   data,
@@ -37,10 +37,9 @@ const ScheduleCard = ({
   const [tabIndex, setTabIndex] = useState(0);
   const { user } = useAuth();
   const userTimezone =
-    user?.timeZone?.split(' ')[0] ||
-    Intl.DateTimeFormat().resolvedOptions().timeZone;
+    user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const dateLesson = new Date(date);
+  const dateLesson = new Date(date); //current time zone avtomaticaly
 
   // const isLate = differenceInHours(dateLesson, new Date()) <= 24;
 
@@ -88,7 +87,7 @@ const ScheduleCard = ({
 
   const joinLesson = () => {
     //Time period when you can go to the lesson
-    if (isBetween(dateLesson, data.duration)) {
+    if (isBetween(dateLesson, data.duration, userTimezone)) {
       window.open(
         user.role === Roles.MENTOR ? zoom.startUrl : zoom.joinUrl,
         '_blank',

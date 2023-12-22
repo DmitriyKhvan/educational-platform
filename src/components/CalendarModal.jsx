@@ -7,6 +7,7 @@ import RescheduleAndCancelModal from './student-dashboard/RescheduleAndCancelMod
 import { isBetween } from '../utils/isBetween';
 import { LessonsStatusType } from 'src/constants/global';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
+import { useAuth } from 'src/modules/auth';
 
 const CalendarModal = ({
   index,
@@ -20,13 +21,15 @@ const CalendarModal = ({
   event,
   getAppointments,
 }) => {
+  const { user } = useAuth();
+  const userTimezone =
+    user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+
   const [t] = useTranslation(['modals', 'lessons']);
   const [isWarningOpen, setIsWarningOpen] = useState(false);
   const isToday = moment(time).isSame(moment(), 'day');
 
   // const isLate = moment.duration(moment(time).diff(moment())).asHours() <= 24;
-
-  console.log('data', data);
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -36,6 +39,7 @@ const CalendarModal = ({
       isBetween(
         data.resource.eventDate.startAt,
         data.resource.eventDate.duration,
+        userTimezone,
       )
     ) {
       window.open(zoom?.joinUrl, '_blank');
