@@ -597,6 +597,7 @@ export const APPOINTMENTS_QUERY = gql`
       cancelAction
       cancelReason
       canceledBy
+      canceledAt
       mentor {
         id
         firstName

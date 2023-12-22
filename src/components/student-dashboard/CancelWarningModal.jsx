@@ -5,6 +5,8 @@ import { MAX_MODIFY_COUNT, Roles } from '../../constants/global';
 import CheckboxField from '../Form/CheckboxField';
 import { FaXmark } from 'react-icons/fa6';
 import Button from '../Form/Button/Button';
+import { differenceInHours } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 
 const CancelWarningModal = ({
   data,
@@ -16,8 +18,17 @@ const CancelWarningModal = ({
 }) => {
   const [t] = useTranslation('modals');
   const { user } = useAuth();
+  const userTimezone =
+    user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+
   const [isChecked, setIsChecked] = useState(false);
   const [cancellationDots, setCancellationDots] = useState([]);
+
+  const isLate =
+    differenceInHours(
+      utcToZonedTime(new Date(data.startAt), userTimezone),
+      utcToZonedTime(new Date(), userTimezone),
+    ) <= 24;
 
   useEffect(() => {
     if (modifyCredits !== undefined) {
@@ -72,16 +83,39 @@ const CancelWarningModal = ({
   return (
     <div className="w-[360px]">
       <div className="mb-5 text-xl font-semibold">{t('warning')}</div>
-      <div className="font-semibold leading-[18px] tracking-[-0.2px]">
-        {user.role !== Roles.MENTOR ? t('cancel_modal_desc') : null}
-      </div>
+
       {user.role !== Roles.MENTOR && (
-        <div className="w-full flex items-center justify-center mt-5">
-          {cancellationDots}
-        </div>
+        <>
+          {type === 'cancel' ? (
+            isLate ? (
+              <div className="font-semibold leading-[18px] tracking-[-0.2px] mb-3">
+                If you cancel this lesson, you will lose the lesson credit since
+                it&apos;s less than 24 hours before your lesson.
+              </div>
+            ) : (
+              <div className="font-semibold leading-[18px] tracking-[-0.2px] mb-3">
+                Your lesson credit(s) will be returned since you&apos;re
+                cancelling/rescheduling with more than 24 hours&apos; notice.
+              </div>
+            )
+          ) : (
+            isLate && (
+              <div className="font-semibold leading-[18px] tracking-[-0.2px] mb-3">
+                You cannot reschedule within 24 hours.
+              </div>
+            )
+          )}
+
+          <div className="font-semibold leading-[18px] tracking-[-0.2px]">
+            {t('cancel_modal_desc')}
+          </div>
+          <div className="w-full flex items-center justify-center mt-5">
+            {cancellationDots}
+          </div>
+        </>
       )}
 
-      {type !== 'reschedule' && (
+      {type === 'cancel' && (
         <div className="mt-8">
           <CheckboxField
             label={t('confirm_cancel')}
@@ -136,9 +170,15 @@ const CancelWarningModal = ({
         <Button
           className="h-[38px] px-[10px]"
           theme="purple"
-          onClick={disableCancelLesson ? undefined : onClick}
+          onClick={
+            disableCancelLesson || (isLate && type === 'reschedule')
+              ? undefined
+              : onClick
+          }
           disabled={
-            (!isChecked && type !== 'reschedule') || disableCancelLesson
+            (!isChecked && type === 'cancel') ||
+            disableCancelLesson ||
+            (isLate && type === 'reschedule')
           }
         >
           {t('continue_cancel')}

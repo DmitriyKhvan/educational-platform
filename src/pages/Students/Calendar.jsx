@@ -13,6 +13,7 @@ import {
   feedbackURL,
   getItemToLocalStorage,
   LessonsStatusType,
+  Roles,
 } from '../../constants/global';
 import ReviewLessonModal from '../../components/student-dashboard/ReviewLessonModal';
 import { useAuth } from '../../modules/auth';
@@ -20,9 +21,9 @@ import FeedbackLessonModal from '../Mentors/FeedbackLessonModal';
 import WeekHeader from '../../components/common/WeekHeader';
 import { useQuery } from '@apollo/client';
 import { APPOINTMENTS_QUERY } from '../../modules/auth/graphql';
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { format } from 'date-fns-tz';
 import { LessonTable } from '../../components/student-dashboard/LessonTable';
-import { addMinutes, isAfter } from 'date-fns';
+import { addMinutes, differenceInHours, isAfter } from 'date-fns';
 import Button from 'src/components/Form/Button';
 import { Badge } from 'src/components/Badge';
 import { useNotifications } from 'src/modules/notifications';
@@ -30,17 +31,17 @@ import { LessonTableMobile } from 'src/components/student-dashboard/LessonTableM
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
-  const timeZone = 'Asia/Seoul';
   let eventDates = {};
   data.forEach((apt) => {
     let startAt = new Date(apt.startAt);
-    let date = format(utcToZonedTime(startAt, timeZone), 'yyyy-MM-dd');
+    let date = format(startAt, 'yyyy-MM-dd');
     if (eventDates[date]) {
       eventDates[date].push(apt);
     } else {
       eventDates[date] = [apt];
     }
   });
+
   const eventKeys = Object.keys(eventDates);
   const calendarEvents = [];
   eventKeys.forEach((key) => {
@@ -64,6 +65,7 @@ const sortCalendarEvents = (data) => {
       calendarEvents.push(iterateEvents);
     }
   });
+
   const tablularEventData = [];
   for (const eventKey of eventKeys) {
     for (const eventDate of eventDates[eventKey]) {
@@ -104,6 +106,8 @@ const Calendar = () => {
   const [t] = useTranslation(['lessons']);
   const location = useLocation();
   const { user } = useAuth();
+  const userTimezone =
+    user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const { notifications, getCountNotification, removeNotifications } =
     useNotifications();
@@ -116,7 +120,7 @@ const Calendar = () => {
     variables: {
       // studentId: user?.students[0]?.id,
       studentId: getItemToLocalStorage('studentId'),
-      status: 'approved,scheduled,rescheduled,paid,completed,in_progress',
+      status: `approved,scheduled,rescheduled,paid,completed,in_progress,canceled`,
     },
     fetchPolicy: 'no-cache',
   });
@@ -136,12 +140,16 @@ const Calendar = () => {
   const [tableAppointments, setTableAppointments] = useState([]);
 
   useEffect(() => {
-    if (!appointments) return;
-    else {
+    if (appointments) {
       const { calendarEvents, tablularEventData } = sortCalendarEvents(
         appointments?.lessons,
       );
-      setCalendarAppointments(calendarEvents);
+
+      setCalendarAppointments(
+        calendarEvents.filter(
+          (event) => event.status !== LessonsStatusType.CANCELED,
+        ),
+      );
       setTableAppointments(tablularEventData);
     }
   }, [appointments]);
@@ -178,18 +186,6 @@ const Calendar = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      if (user && user?.student) {
-        getAppointments({
-          // studentId: user.students[0]?.id,
-          studentId: getItemToLocalStorage('studentId'),
-          status: 'approved,scheduled,rescheduled,paid,completed,in_progress',
-        });
-      }
-    })();
-  }, [user]);
-
-  useEffect(() => {
     if (calendarAppointments) {
       const tempEvents = [];
       calendarAppointments.forEach((_, index) => {
@@ -219,12 +215,21 @@ const Calendar = () => {
       const tempPastLessons = [];
 
       tableAppointments.map((each) => {
+        const isWithin24hour =
+          differenceInHours(
+            new Date(each.resource.startAt),
+            new Date(each.resource.canceledAt),
+          ) <= 24;
+
         const endLesson = addMinutes(
           new Date(each.resource.startAt),
           each.resource.duration,
         );
 
-        if (isAfter(new Date(), endLesson)) {
+        if (
+          isAfter(new Date(), endLesson) ||
+          (isWithin24hour && each.resource.canceledBy === Roles.STUDENT)
+        ) {
           tempPastLessons.push(each);
         } else if (
           each.resource.status === LessonsStatusType.APPROVED ||
@@ -304,9 +309,6 @@ const Calendar = () => {
     setSelectedTab('calendar');
   };
 
-  const userTimezone =
-    user?.timeZone?.split(' ')[0] ||
-    Intl.DateTimeFormat().resolvedOptions().timeZone;
   const localizer = momentLocalizer(moment.tz.setDefault(userTimezone));
   const allViews = ['month', 'week', 'day'];
   const formats = {

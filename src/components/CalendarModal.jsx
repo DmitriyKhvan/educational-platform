@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
 import ZoomWarningModal from './student-dashboard/ZoomWarningModal';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 import RescheduleAndCancelModal from './student-dashboard/RescheduleAndCancelModal';
 import { isBetween } from '../utils/isBetween';
 import { LessonsStatusType } from 'src/constants/global';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
+import { useAuth } from 'src/modules/auth';
 
 const CalendarModal = ({
   index,
@@ -20,11 +21,15 @@ const CalendarModal = ({
   event,
   getAppointments,
 }) => {
+  const { user } = useAuth();
+  const userTimezone =
+    user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+
   const [t] = useTranslation(['modals', 'lessons']);
   const [isWarningOpen, setIsWarningOpen] = useState(false);
   const isToday = moment(time).isSame(moment(), 'day');
 
-  const isLate = moment.duration(moment(time).diff(moment())).asHours() <= 24;
+  // const isLate = moment.duration(moment(time).diff(moment())).asHours() <= 24;
 
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -34,6 +39,7 @@ const CalendarModal = ({
       isBetween(
         data.resource.eventDate.startAt,
         data.resource.eventDate.duration,
+        userTimezone,
       )
     ) {
       window.open(zoom?.joinUrl, '_blank');
@@ -86,15 +92,16 @@ const CalendarModal = ({
           <button
             className="enter-btn m-0 p-0 py-2 px-3 text-sm grey-border text-black"
             onClick={() => {
-              if (isLate) {
-                closeModal();
-                Swal.fire({
-                  title: t('cannot_cancel'),
-                  text: t('cancel_error'),
-                  icon: 'error',
-                  confirmButtonText: t('ok'),
-                });
-              } else setIsCancelModalOpen(true);
+              // if (isLate) {
+              //   closeModal();
+              //   Swal.fire({
+              //     title: t('cannot_cancel'),
+              //     text: t('cancel_error'),
+              //     icon: 'error',
+              //     confirmButtonText: t('ok'),
+              //   });
+              // } else setIsCancelModalOpen(true);
+              setIsCancelModalOpen(true);
             }}
           >
             {t('cancel_lesson')}
@@ -103,19 +110,22 @@ const CalendarModal = ({
           <a
             className="enter-btn m-0 p-0 py-2 px-2 text-sm grey-border text-black"
             onClick={(e) => {
-              if (isLate) {
-                e.preventDefault();
-                closeModal();
-                Swal.fire({
-                  title: t('cannot_reschedule'),
-                  text: t('reschedule_error'),
-                  icon: 'error',
-                  confirmButtonText: t('ok'),
-                });
-              } else {
-                setIsCancelModalOpen(true);
-                setTypeModal('reschedule');
-              }
+              e.preventDefault();
+              // if (isLate) {
+              //   e.preventDefault();
+              //   closeModal();
+              //   Swal.fire({
+              //     title: t('cannot_reschedule'),
+              //     text: t('reschedule_error'),
+              //     icon: 'error',
+              //     confirmButtonText: t('ok'),
+              //   });
+              // } else {
+              //   setIsCancelModalOpen(true);
+              //   setTypeModal('reschedule');
+              // }
+              setIsCancelModalOpen(true);
+              setTypeModal('reschedule');
             }}
           >
             {t('reschedule')}
