@@ -33,7 +33,7 @@ const Navbar = memo(({ setShowSidebar }) => {
 
   const handleLogout = async () => {
     await logout();
-    window.Intercom('shutdown');
+    // window.Intercom('shutdown');
     window.location.reload(true);
   };
 
