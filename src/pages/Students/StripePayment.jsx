@@ -8,8 +8,10 @@ import {
 import { loadStripe } from '@stripe/stripe-js';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { PaymentLayout } from 'src/layouts/PaymentLayout';
 import { useAuth } from 'src/modules/auth';
+import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
+import Button from 'src/components/Form/Button';
+import Loader from 'src/components/Loader/Loader';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
@@ -27,7 +29,7 @@ const CheckoutForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    setLoading(() => true);
+    setLoading(true);
 
     if (!stripe || !elements) {
       return;
@@ -49,28 +51,38 @@ const CheckoutForm = () => {
     });
     if (error) {
       setErrorMessage(error.message);
-      setLoading(() => false);
       return;
     }
 
-    setLoading(() => false);
+    setLoading(false);
   };
 
   return (
-    <PaymentLayout>
-      <form className="m-8" onSubmit={handleSubmit}>
-        <PaymentElement />
-        <p className="text-red-500 mt-2">
-          {errorMessage && <div>*{errorMessage}</div>}
-        </p>
-        <button
-          disabled={isLoading}
-          className="py-2 px-3 rounded text-white mt-4 bg-color-purple disabled:bg-gray-300"
+    <OnboardingLayout>
+      {isLoading && (
+        <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
+          <Loader />
+        </div>
+      )}
+      <div className="min-w-full min-h-full px-5 sm:px-20 py-6 sm:py-8 bg-[#F7F8FA]">
+        <form
+          className="w-full sm:w-[480px] m-auto p-8 rounded-xl bg-white"
+          onSubmit={handleSubmit}
         >
-          {t('pay')}
-        </button>
-      </form>
-    </PaymentLayout>
+          <PaymentElement />
+          <p className="text-red-500 mt-2">
+            {errorMessage && <div>*{errorMessage}</div>}
+          </p>
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="w-full h-auto mt-8 p-5"
+          >
+            {t('pay')}
+          </Button>
+        </form>
+      </div>
+    </OnboardingLayout>
   );
 };
 

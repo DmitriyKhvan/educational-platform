@@ -10,12 +10,12 @@ import ZoomWarningModal from '../../components/student-dashboard/ZoomWarningModa
 const ReviewLessonModal = lazy(() =>
   import('../../components/mentor-dashboard/ReviewLessonModal'),
 );
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { format } from 'date-fns-tz';
 import WeekHeader from '../../components/common/WeekHeader';
 import '../../assets/styles/calendar.scss';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../modules/auth';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 import {
   APPOINTMENTS_QUERY,
   APPROVE_APPOINTMENT,
@@ -27,19 +27,18 @@ import ReactLoader from '../../components/common/Loader';
 import RescheduleAndCancelModal from '../../components/student-dashboard/RescheduleAndCancelModal';
 import notify from '../../utils/notify';
 import { isBetween } from '../../utils/isBetween';
-import { addMinutes, isAfter } from 'date-fns';
-import { LessonsStatusType } from 'src/constants/global';
+import { addMinutes, differenceInHours, isAfter } from 'date-fns';
+import { LessonsStatusType, Roles } from 'src/constants/global';
 import Button from 'src/components/Form/Button';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { useNotifications } from 'src/modules/notifications';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
-  const timeZone = 'Asia/Seoul';
   let eventDates = {};
   data.forEach((apt) => {
     let startAt = new Date(apt.startAt);
-    let date = format(utcToZonedTime(startAt, timeZone), 'yyyy-MM-dd');
+    let date = format(startAt, 'yyyy-MM-dd');
     if (eventDates[date]) {
       eventDates[date].push(apt);
     } else {
@@ -64,6 +63,7 @@ const sortCalendarEvents = (data) => {
         tutor: eventDate.tutor,
         student: eventDate.students,
         eventDate,
+        status: eventDate.status,
       };
 
       calendarEvents.push(iterateEvents);
@@ -106,6 +106,8 @@ const sortCalendarEvents = (data) => {
 const Calendar = () => {
   const [t] = useTranslation(['lessons', 'modals']);
   const { user } = useAuth();
+  const userTimezone =
+    user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const { notifications } = useNotifications();
 
@@ -116,7 +118,8 @@ const Calendar = () => {
   } = useQuery(APPOINTMENTS_QUERY, {
     variables: {
       mentorId: user?.mentor?.id,
-      status: 'approved,scheduled,rescheduled,paid,completed,in_progress',
+      status:
+        'approved,scheduled,rescheduled,paid,completed,in_progress,canceled',
     },
     fetchPolicy: 'no-cache',
   });
@@ -129,12 +132,16 @@ const Calendar = () => {
   const [tableAppointments, setTableAppointments] = useState([]);
 
   useEffect(() => {
-    if (!appointments) return;
-    else {
+    if (appointments) {
       const { calendarEvents, tablularEventData } = sortCalendarEvents(
         appointments?.lessons,
       );
-      setCalendarAppointments(calendarEvents);
+
+      setCalendarAppointments(
+        calendarEvents.filter(
+          (event) => event.status !== LessonsStatusType.CANCELED,
+        ),
+      );
       setTableAppointments(tablularEventData);
     }
   }, [appointments]);
@@ -169,10 +176,6 @@ const Calendar = () => {
       backgroundColor: 'rgba(255, 255, 255, 0.25)',
     },
   };
-
-  const userTimezone =
-    user?.timeZone?.split(' ')[0] ||
-    Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const localizer = momentLocalizer(moment.tz.setDefault(userTimezone));
   const allViews = ['month', 'week', 'day'];
@@ -226,12 +229,21 @@ const Calendar = () => {
       const tempPastLessons = [];
 
       tableAppointments.map((each) => {
+        const isWithin12hour =
+          differenceInHours(
+            new Date(each.resource.startAt),
+            new Date(each.resource.canceledAt),
+          ) <= 12;
+
         const endLesson = addMinutes(
           new Date(each.resource.startAt),
           each.resource.duration,
         );
 
-        if (isAfter(new Date(), endLesson)) {
+        if (
+          isAfter(new Date(), endLesson) ||
+          (isWithin12hour && each.resource.canceledBy === Roles.STUDENT)
+        ) {
           tempPastLessons.push(each);
         } else if (
           each.resource.status === LessonsStatusType.APPROVED ||
@@ -290,27 +302,29 @@ const Calendar = () => {
 
   const onCancelLessonClick = () => {
     setTabIndex(0);
-    const [selectedEvent] = calendarEvents.filter(
-      (x) => x.id === calendarEvent.id,
-    );
+    // const [selectedEvent] = calendarEvents.filter(
+    //   (x) => x.id === calendarEvent.id,
+    // );
     setIsCalendarModalOpen(false);
 
-    const scheduledTime = moment(selectedEvent?.resource?.startAt).tz(
-      userTimezone,
-    );
+    // const scheduledTime = moment(selectedEvent?.resource?.startAt).tz(
+    //   userTimezone,
+    // );
 
-    const isLate =
-      moment.duration(moment(scheduledTime).diff(moment())).asHours() <= 24;
-    if (isLate) {
-      Swal.fire({
-        title: t('cannot_cancel', { ns: 'modals' }),
-        text: t('cancel_error', { ns: 'modals' }),
-        icon: 'error',
-        confirmButtonText: t('ok', { ns: 'modals' }),
-      });
-    } else {
-      setIsCancelLessonModalOpen(true);
-    }
+    // const isLate =
+    //   moment.duration(moment(scheduledTime).diff(moment())).asHours() <= 24;
+    // if (isLate) {
+    //   Swal.fire({
+    //     title: t('cannot_cancel', { ns: 'modals' }),
+    //     text: t('cancel_error', { ns: 'modals' }),
+    //     icon: 'error',
+    //     confirmButtonText: t('ok', { ns: 'modals' }),
+    //   });
+    // } else {
+    //   setIsCancelLessonModalOpen(true);
+    // }
+
+    setIsCancelLessonModalOpen(true);
   };
 
   Modal.setAppElement('#root');
@@ -347,7 +361,7 @@ const Calendar = () => {
     ] = useMutation(APPROVE_APPOINTMENT);
 
     const joinLesson = () => {
-      if (isBetween(eventDate.startAt, eventDate.duration)) {
+      if (isBetween(eventDate.startAt, eventDate.duration, userTimezone)) {
         window.open(eventDate.zoom.startUrl, '_blank');
       } else {
         setIsWarningOpen(true);

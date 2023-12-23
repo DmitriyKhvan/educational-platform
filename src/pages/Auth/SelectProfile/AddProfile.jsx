@@ -1,19 +1,22 @@
 import { useMutation } from '@apollo/client';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import Button from 'src/components/Form/Button';
 import Loader from 'src/components/Loader/Loader';
-import LoginForm from 'src/components/onboarding/LoginForm';
-import {
-  getItemToLocalStorage,
-  setItemToLocalStorage,
-} from 'src/constants/global';
 import { ATTACH_STUDENT_TO_USER } from 'src/modules/auth/graphql';
-import Logo from 'src/assets/images/logo_purple.svg';
 import { useAuth } from 'src/modules/auth';
 import notify from 'src/utils/notify';
+import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
+import InputWithError from 'src/components/Form/InputWithError';
+import InputField from 'src/components/Form/InputField';
+import { useTranslation } from 'react-i18next';
+// eslint-disable-next-line import/no-unresolved
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 export const AddStudentProfile = () => {
+  const [t] = useTranslation(['onboarding', 'common', 'translations']);
+  const [parent] = useAutoAnimate();
+
   const { user } = useAuth();
 
   const [attachStudentToUser, { loading, error, data }] = useMutation(
@@ -27,14 +30,13 @@ export const AddStudentProfile = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    const { firstName, lastName, gender } = data;
+    const { firstName, lastName } = data;
 
     attachStudentToUser({
       variables: {
         userId: user.id,
         firstName,
         lastName,
-        gender,
       },
     });
   };
@@ -48,54 +50,56 @@ export const AddStudentProfile = () => {
     notify(error.message, 'error');
   }
 
-  const onChangeLanguage = (event) => {
-    const lang = event.target.value === 'en' ? 1 : 0;
-    setItemToLocalStorage('language', lang);
-    setLanguage(lang);
-  };
-
-  const [language, setLanguage] = useState(
-    parseInt(getItemToLocalStorage('language', 1)),
-  );
-
   return (
-    <main className="flex flex-col relative items-center">
+    <OnboardingLayout>
       {loading && (
-        <div className="absolute z-50 w-screen h-screen bg-black/20">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 ">
-            <Loader />
-          </div>
+        <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
+          <Loader />
         </div>
       )}
-      <img
-        className="w-48 md:w-64 my-[8vh] md:my-[12.5vh]"
-        src={Logo}
-        alt="naonow-logo"
-      />
-      <select
-        name=""
-        id=""
-        onChange={onChangeLanguage}
-        defaultValue={language === 0 ? 'kr' : 'en'}
-        className="rounded border border-gray-300 text-sm"
-      >
-        <option value="en">English</option>
-        <option value="kr">한국어</option>
-      </select>
-      <div className="max-w-2xl gap-4 w-full px-4">
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full block py-8">
-          <LoginForm register={register} errors={errors} />
+      <div className="min-w-full min-h-full px-5 sm:px-20 py-6 sm:py-8 lg:py-10">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="w-full sm:max-w-[440px] m-auto"
+        >
+          <fieldset className="flex flex-col space-y-4" ref={parent}>
+            <legend className="text-[32px] sm:text-4xl sm:text-center font-bold">
+              {t('lets_get_started', { ns: 'onboarding' })}
+            </legend>
 
-          <div className="self-start mt-8 flex flex-row gap-4">
-            <Button
-              type="submit"
-              className="h-[40px] px-4 bg-color-purple text-white rounded-md font-bold disabled:bg-opacity-50 disabled:text-gray-200 disabled:cursor-not-allowed duration-200 hover:opacity-75 active:brightness-75 active:scale-95"
-            >
-              Add profile
-            </Button>
-          </div>
+            <InputWithError errorsField={errors?.first_name}>
+              <InputField
+                className="w-full"
+                label={t('first_name', { ns: 'common' })}
+                placeholder={t('first_name', { ns: 'common' })}
+                autoFocus
+                {...register('first_name', {
+                  required: t('required_first_name', { ns: 'translations' }),
+                  focus: true,
+                })}
+              />
+            </InputWithError>
+
+            <InputWithError errorsField={errors?.first_name}>
+              <InputField
+                className="w-full"
+                label={t('last_name', { ns: 'common' })}
+                placeholder={t('last_name', { ns: 'common' })}
+                {...register('last_name', {
+                  required: t('required_last_name', { ns: 'translations' }),
+                })}
+              />
+            </InputWithError>
+          </fieldset>
+
+          <Button
+            className="w-full my-8 sm:my-10 sm:text-[15px] h-[58px] sm:h-16"
+            type="submit"
+          >
+            Add profile
+          </Button>
         </form>
       </div>
-    </main>
+    </OnboardingLayout>
   );
 };

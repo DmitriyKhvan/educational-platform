@@ -36,6 +36,79 @@ export const pronouns = [
 //   };
 // });
 
+export const phoneCodes = [
+  {
+    code: '+1',
+    flag: 'https://cdn.kcak11.com/CountryFlags/countries/ca.svg',
+    iso: 'CA',
+    mask: '(###)###-####',
+    name: 'Canada',
+  },
+  {
+    code: '+62',
+    flag: 'https://cdn.kcak11.com/CountryFlags/countries/id.svg',
+    iso: 'ID',
+    mask: '##-###-##',
+    name: 'Indonesia',
+  },
+  {
+    code: '+33',
+    flag: 'https://cdn.kcak11.com/CountryFlags/countries/fr.svg',
+    iso: 'FR',
+    mask: '(###)###-###',
+    name: 'France',
+  },
+  {
+    code: '+81',
+    flag: 'https://cdn.kcak11.com/CountryFlags/countries/jp.svg',
+    iso: 'JP',
+    mask: '(###)###-###',
+    name: 'Japan',
+  },
+  {
+    code: '+82',
+    flag: 'https://cdn.kcak11.com/CountryFlags/countries/kr.svg',
+    iso: 'KR',
+    mask: '##-####-####',
+    name: 'Korea, Republic of South Korea',
+  },
+  {
+    code: '+60',
+    flag: 'https://cdn.kcak11.com/CountryFlags/countries/my.svg',
+    iso: 'MY',
+    mask: '#-###-###',
+    name: 'Malaysia',
+  },
+  {
+    code: '+52',
+    flag: 'https://cdn.kcak11.com/CountryFlags/countries/mx.svg',
+    iso: 'MX',
+    mask: '##-##-####',
+    name: 'Mexico',
+  },
+  {
+    code: '+66',
+    flag: 'https://cdn.kcak11.com/CountryFlags/countries/th.svg',
+    iso: 'TH',
+    mask: '##-###-###',
+    name: 'Thailand',
+  },
+  {
+    code: '+1',
+    flag: 'https://cdn.kcak11.com/CountryFlags/countries/us.svg',
+    iso: 'US',
+    mask: '(###)###-####',
+    name: 'United States',
+  },
+  {
+    code: '+84',
+    flag: 'https://cdn.kcak11.com/CountryFlags/countries/vn.svg',
+    iso: 'VN',
+    mask: '##-####-###',
+    name: 'Vietnam',
+  },
+];
+
 export const timezoneOptions = [
   {
     label: 'Pacific/Midway',

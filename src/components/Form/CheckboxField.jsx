@@ -9,26 +9,19 @@ const CheckboxField = forwardRef(
         <input
           className={`
             appearance-none
+            peer
             relative
-            h-5
-            w-5 
-            rounded 
+            h-6
+            w-6 
+            rounded-full 
+            border-none
+            bg-[#F5F5F5]
             text-transparent
-            border-gray-300 
             cursor-pointer
             focus:ring-transparent
             checked:bg-none
-            checked:after:content-['']
-            checked:after:block
-            checked:after:absolute
-            checked:after:left-2/4
-            checked:after:top-2/4
-            checked:after:-mt-[5px]
-            checked:after:-ml-[5px]
-            checked:after:w-[10px]
-            checked:after:h-[10px]
-            checked:after:bg-color-purple
-            checked:after:rounded
+            checked:bg-color-purple
+            
           `}
           type={type}
           name={name}
@@ -36,7 +29,23 @@ const CheckboxField = forwardRef(
           ref={ref}
           {...props}
         />
-        <p className="ml-3 leading-6 text-gray-900">{label}</p>
+        <svg
+          className="
+            absolute 
+            w-4 h-4 ml-1
+            hidden peer-checked:block
+            text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        {label && <p className="ml-3 leading-6 text-gray-900">{label}</p>}
       </label>
     );
   },

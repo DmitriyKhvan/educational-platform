@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
 import { useAuth } from '../../modules/auth';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 
 import { LessonsStatusType, ModalType, Roles } from '../../constants/global';
 import {
   addMinutes,
-  differenceInHours,
+  // differenceInHours,
   // isWithinInterval,
   // subMinutes,
 } from 'date-fns';
@@ -20,7 +20,7 @@ const ScheduleCard = ({
   index,
   lesson,
   zoom,
-  date,
+  date, //utc +0
   student,
   mentor,
   data,
@@ -37,26 +37,29 @@ const ScheduleCard = ({
   const [tabIndex, setTabIndex] = useState(0);
   const { user } = useAuth();
   const userTimezone =
-    user?.timeZone?.split(' ')[0] ||
-    Intl.DateTimeFormat().resolvedOptions().timeZone;
+    user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const dateLesson = new Date(date);
+  const dateLesson = new Date(date); //current time zone avtomaticaly
 
-  const isLate = differenceInHours(dateLesson, new Date()) <= 24;
+  // const isLate = differenceInHours(dateLesson, new Date()) <= 24;
 
   function onSelect() {
-    if (isLate) {
-      Swal.fire({
-        title: t('cannot_reschedule'),
-        text: t('reschedule_error'),
-        icon: 'error',
-        confirmButtonText: t('ok'),
-      });
-    } else {
-      setIsOpen(true);
-      // window.location.replace('/student/schedule-lesson/select/' + data.id);
-      setModalType(ModalType.RESCHEDULE);
-    }
+    // if (isLate) {
+    //   Swal.fire({
+    //     title: t('cannot_reschedule'),
+    //     text: t('reschedule_error'),
+    //     icon: 'error',
+    //     confirmButtonText: t('ok'),
+    //   });
+    // } else {
+    //   setIsOpen(true);
+    //   // window.location.replace('/student/schedule-lesson/select/' + data.id);
+    //   setModalType(ModalType.RESCHEDULE);
+    // }
+
+    setIsOpen(true);
+    // window.location.replace('/student/schedule-lesson/select/' + data.id);
+    setModalType(ModalType.RESCHEDULE);
   }
 
   const closeModal = () => {
@@ -66,22 +69,25 @@ const ScheduleCard = ({
   };
 
   const onCancel = () => {
-    if (isLate) {
-      Swal.fire({
-        title: t('cannot_cancel'),
-        text: t('cancel_error'),
-        icon: 'error',
-        confirmButtonText: t('ok'),
-      });
-    } else {
-      setIsOpen(true);
-      setModalType(ModalType.CANCEL);
-    }
+    // if (isLate) {
+    //   Swal.fire({
+    //     title: t('cannot_cancel'),
+    //     text: t('cancel_error'),
+    //     icon: 'error',
+    //     confirmButtonText: t('ok'),
+    //   });
+    // } else {
+    //   setIsOpen(true);
+    //   setModalType(ModalType.CANCEL);
+    // }
+
+    setIsOpen(true);
+    setModalType(ModalType.CANCEL);
   };
 
   const joinLesson = () => {
     //Time period when you can go to the lesson
-    if (isBetween(dateLesson, data.duration)) {
+    if (isBetween(dateLesson, data.duration, userTimezone)) {
       window.open(
         user.role === Roles.MENTOR ? zoom.startUrl : zoom.joinUrl,
         '_blank',
@@ -173,7 +179,9 @@ const ScheduleCard = ({
                 index === 0
                   ? 'text-color-purple'
                   : 'border border-color-border-grey text-black'
-              } ${isLate ? 'opacity-50' : ''}`}
+              } 
+       
+              `}
               onClick={onSelect}
             >
               {t('reschedule')}
@@ -185,14 +193,13 @@ const ScheduleCard = ({
               index === 0
                 ? 'text-color-purple'
                 : 'border border-color-border-grey text-black'
-            } ${isLate ? 'opacity-50' : ''}`}
+            } `}
           >
             {t('cancel', { ns: 'common' })}
           </a>
           <a
             onClick={
-              data.status !== LessonsStatusType.SCHEDULED &&
-              data.status !== LessonsStatusType.RESCHEDULED
+              data.status === LessonsStatusType.APPROVED
                 ? joinLesson
                 : undefined
             }
@@ -204,8 +211,7 @@ const ScheduleCard = ({
               ? 'text-color-purple'
               : 'border border-color-border-grey text-black'
           } ${
-              data.status === LessonsStatusType.SCHEDULED ||
-              data.status === LessonsStatusType.RESCHEDULED
+              data.status !== LessonsStatusType.APPROVED
                 ? 'text-color-purple bg-[#b099d7]'
                 : 'grey-border text-black bg-white'
             }`}

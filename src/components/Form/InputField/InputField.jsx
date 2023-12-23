@@ -18,7 +18,7 @@ const InputField = forwardRef(function InputField(
   ref,
 ) {
   return (
-    <label>
+    <label className="grow">
       {label && (
         <div className={`${cls.labelStyle} ${classNameLabel}`}>{label}</div>
       )}
