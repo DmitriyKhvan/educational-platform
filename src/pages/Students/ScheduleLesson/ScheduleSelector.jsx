@@ -316,7 +316,7 @@ const ScheduleSelector = ({
       formattedDay + ' ' + scheduleStartTime.time,
       userTimezone,
     );
-    const hoursPrior = JSON.parse(process.env.REACT_APP_PRODUCTION) ? 48 : 0;
+    const hoursPrior = process.env.REACT_APP_PRODUCTION === 'true' ? 48 : 0;
 
     const preScreen = moment
       .tz(formattedDay + ' ' + scheduleStartTime.time, userTimezone)
@@ -333,9 +333,10 @@ const ScheduleSelector = ({
 
       Swal.fire({
         title: t('swal_fire_title_schedule_prescreen', { ns: 'modals' }),
-        text: JSON.parse(process.env.REACT_APP_PRODUCTION)
-          ? t('swal_fire_text_schedule_prescreen', { ns: 'modals' })
-          : t('swal_fire_footer_schedule_prescreen', { ns: 'modals' }),
+        text:
+          process.env.REACT_APP_PRODUCTION === 'true'
+            ? t('swal_fire_text_schedule_prescreen', { ns: 'modals' })
+            : t('swal_fire_footer_schedule_prescreen', { ns: 'modals' }),
         icon: 'warning',
         width: '36em',
         confirmButtonColor: '#6133af',

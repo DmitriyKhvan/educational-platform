@@ -41,7 +41,7 @@ function PrivateRoute({ component: Component, role, ...rest }) {
   const { user } = useAuth();
   const history = useHistory();
 
-  if (user && !JSON.parse(process.env.REACT_APP_PRODUCTION)) {
+  if (user && process.env.REACT_APP_PRODUCTION === 'false') {
     window.Intercom('boot', {
       api_base: 'https://api-iam.intercom.io',
       app_id: 'ohhixtgv',
