@@ -7,6 +7,7 @@ import { Roles, cancellationArr } from '../../constants/global';
 import notify from '../../utils/notify';
 import Button from '../Form/Button';
 import CheckboxField from '../Form/CheckboxField';
+import Loader from '../Loader/Loader';
 
 const CancelLessonModal = ({
   setTabIndex,
@@ -77,6 +78,12 @@ const CancelLessonModal = ({
 
   return (
     <React.Fragment>
+      {isLoading && (
+        <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
+          <Loader />
+        </div>
+      )}
+
       <div className="flex items-center justify-between mb-2">
         <div className="text-lg font-semibold">
           <h2>Cancelling Lesson</h2>

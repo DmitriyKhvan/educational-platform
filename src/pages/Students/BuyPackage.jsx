@@ -76,7 +76,7 @@ export default function BuyPackage() {
         ...new Set(
           selectedCourse?.packages?.map((item) => item.sessionTime) ?? [],
         ),
-      ];
+      ].sort((a, b) => a - b);
 
       const uniqueSessionsPerWeek = [
         ...new Set(

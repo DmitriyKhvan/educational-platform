@@ -6,8 +6,6 @@ export const SIGN_UP = gql`
     $lastName: String!
     $email: String!
     $password: String!
-    $gender: GenderType
-    $marketingChannel: String
     $phoneNumber: String
   ) {
     signUp(
@@ -17,8 +15,6 @@ export const SIGN_UP = gql`
         email: $email
         password: $password
         phoneNumber: $phoneNumber
-        gender: $gender
-        marketingChannel: $marketingChannel
       }
     ) {
       id
@@ -195,13 +191,11 @@ export const ATTACH_STUDENT_TO_USER = gql`
     $userId: ID!
     $firstName: String!
     $lastName: String!
-    $gender: GenderType!
   ) {
     attachStudentToUser(
       userId: $userId
       firstName: $firstName
       lastName: $lastName
-      gender: $gender
     ) {
       id
     }

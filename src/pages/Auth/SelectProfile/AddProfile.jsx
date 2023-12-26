@@ -67,25 +67,25 @@ export const AddStudentProfile = () => {
               {t('lets_get_started', { ns: 'onboarding' })}
             </legend>
 
-            <InputWithError errorsField={errors?.first_name}>
+            <InputWithError errorsField={errors?.firstName}>
               <InputField
                 className="w-full"
                 label={t('first_name', { ns: 'common' })}
                 placeholder={t('first_name', { ns: 'common' })}
                 autoFocus
-                {...register('first_name', {
+                {...register('firstName', {
                   required: t('required_first_name', { ns: 'translations' }),
                   focus: true,
                 })}
               />
             </InputWithError>
 
-            <InputWithError errorsField={errors?.first_name}>
+            <InputWithError errorsField={errors?.lastName}>
               <InputField
                 className="w-full"
                 label={t('last_name', { ns: 'common' })}
                 placeholder={t('last_name', { ns: 'common' })}
-                {...register('last_name', {
+                {...register('lastName', {
                   required: t('required_last_name', { ns: 'translations' }),
                 })}
               />
@@ -96,7 +96,7 @@ export const AddStudentProfile = () => {
             className="w-full my-8 sm:my-10 sm:text-[15px] h-[58px] sm:h-16"
             type="submit"
           >
-            Add profile
+            {t('add_profile', { ns: 'onboarding' })}
           </Button>
         </form>
       </div>
