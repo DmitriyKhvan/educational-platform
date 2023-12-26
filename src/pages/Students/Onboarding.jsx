@@ -120,43 +120,64 @@ export default function Onboarding() {
               />
             </InputWithError>
 
-            <div>
-              <label
-                className="flex mb-[10px] font-semibold text-[15px] leading-5 tracking-[-0.2px]"
-                htmlFor="phoneNumber"
-              >
-                {t('phone_number', { ns: 'common' })}
-              </label>
-              <div className="flex items-center justify-between gap-2">
+            <InputWithError errorsField={errors?.phoneNumber}>
+              <div>
                 <label
-                  onClick={() => setIsOpen(true)}
-                  className="min-w-[103px] py-[14px] pl-3 pr-2 rounded-lg border border-color-border-grey select-none cursor-pointer"
+                  className="flex mb-[10px] font-semibold text-[15px] leading-5 tracking-[-0.2px]"
+                  htmlFor="phoneNumber"
                 >
-                  <div className="flex items-center justify-between gap-2">
-                    <img
-                      className="w-[22px]"
-                      src={country?.flag}
-                      alt={country?.name}
-                    />
-                    <span className="text-sm font-medium">{country?.code}</span>
-                    <MdOutlineKeyboardArrowDown className="w-4" />
-                  </div>
+                  {t('phone_number', { ns: 'common' })}
                 </label>
+                <div className="flex items-center justify-between gap-2">
+                  <label
+                    onClick={() => setIsOpen(true)}
+                    className="min-w-[103px] py-[14px] pl-3 pr-2 rounded-lg border border-color-border-grey select-none cursor-pointer"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <img
+                        className="w-[22px]"
+                        src={country?.flag}
+                        alt={country?.name}
+                      />
+                      <span className="text-sm font-medium">
+                        {country?.code}
+                      </span>
+                      <MdOutlineKeyboardArrowDown className="w-4" />
+                    </div>
+                  </label>
 
-                <ReactInputMask
-                  id="phoneNumber"
-                  mask={
-                    country?.mask.replace(/#/g, '9') /*.replace(/-/g, ' ')*/
-                  }
-                  maskChar="X"
-                  className="w-full"
-                  placeholder={country?.mask.replace(/#/g, 'X')}
-                  {...register('phoneNumber')}
-                >
-                  {(inputProps) => <InputField {...inputProps} />}
-                </ReactInputMask>
+                  <ReactInputMask
+                    id="phoneNumber"
+                    mask={
+                      country?.mask.replace(/#/g, '9') /*.replace(/-/g, ' ')*/
+                    }
+                    maskChar="X"
+                    className="w-full"
+                    placeholder={country?.mask.replace(/#/g, 'X')}
+                    {...register('phoneNumber', {
+                      required: t('required_phone_number', {
+                        ns: 'translations',
+                      }),
+                      pattern: {
+                        value: new RegExp(
+                          country?.mask.replace(/[()#]/g, (match) => {
+                            if (match === '(') return '\\(';
+                            if (match === ')') return '\\)';
+                            if (match === '#') return '\\d';
+                            return match;
+                          }),
+                        ),
+                        message: t('invalid_phone_number', {
+                          ns: 'onboarding',
+                        }),
+                      },
+                    })}
+                  >
+                    {(inputProps) => <InputField {...inputProps} />}
+                  </ReactInputMask>
+                </div>
               </div>
-            </div>
+            </InputWithError>
 
             <InputWithError errorsField={errors?.email}>
               <InputField
