@@ -3,12 +3,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../../components/Layout';
 import capitalize from 'lodash/capitalize';
-import { useMutation, useQuery } from '@apollo/client';
-import {
-  CHECK_NICE_SUBSCRIPTION_STATUS,
-  PACKAGE_QUERY,
-} from '../../../modules/auth/graphql';
-import { useAuth } from '../../../modules/auth';
+import { useQuery } from '@apollo/client';
+import { PACKAGE_QUERY } from '../../../modules/auth/graphql';
 import Loader from '../../../components/Loader/Loader';
 import Button from '../../../components/Form/Button/Button';
 import { FaArrowRight } from 'react-icons/fa6';
@@ -32,26 +28,11 @@ const SelectLesson = ({
   const [t] = useTranslation(['lessons', 'common', 'modals']);
   const history = useHistory();
   const { id } = useParams();
-  const { user } = useAuth();
 
-  const [checkNiceSubscriptionStatus, { data: niceSubscriptionStatus }] =
-    useMutation(CHECK_NICE_SUBSCRIPTION_STATUS);
-
-  // first check the relevance of the NICE subscription
-  useEffect(() => {
-    checkNiceSubscriptionStatus({
-      variables: {
-        userId: user?.id,
-      },
-    });
-  }, []);
-
-  // second, getting active subscriptions
   const {
     data: { packageSubscriptions: planStatus = [] } = {},
     loading: planStatusesLoading,
   } = useQuery(PACKAGE_QUERY, {
-    skip: !niceSubscriptionStatus,
     variables: {
       studentId: getItemToLocalStorage('studentId'),
     },
