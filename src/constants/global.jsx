@@ -1112,3 +1112,8 @@ export const DiscountType = {
   FIXED: 'fixed',
   PERCENT: 'percent',
 };
+
+export const Language = {
+  EN: 'en',
+  KR: 'kr',
+};

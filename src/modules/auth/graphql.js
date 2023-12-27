@@ -228,12 +228,6 @@ export const CREATE_NICE_PAYMENT = gql`
   }
 `;
 
-export const CHECK_NICE_SUBSCRIPTION_STATUS = gql`
-  mutation CHECK_NICE_SUBSCRIPTION_STATUS($userId: ID!) {
-    checkNiceSubscriptionStatus(userId: $userId)
-  }
-`;
-
 export const GET_MENTOR = gql`
   query GET_MENTOR($id: ID!) {
     mentor(id: $id) {
