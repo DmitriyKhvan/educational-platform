@@ -75,6 +75,8 @@ export const AvailabilityDayRow = ({
     return currentData[currentData.length - 1]?.slots?.[0]?.to >= '23:30';
   };
 
+  console.log('gatherAvailabilities', gatherAvailabilities);
+
   return (
     <div className="row form-switch justify-content-md-center py-3 border-availabilities-picker">
       <input
