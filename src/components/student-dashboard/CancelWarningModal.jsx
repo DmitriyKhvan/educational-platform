@@ -89,13 +89,11 @@ const CancelWarningModal = ({
           {type === 'cancel' ? (
             isLate ? (
               <div className="font-semibold leading-[18px] tracking-[-0.2px]">
-                If you cancel this lesson, you will lose the lesson credit since
-                it&apos;s less than 24 hours before your lesson.
+                {t('cancel_modal_desc3')}
               </div>
             ) : (
               <div className="font-semibold leading-[18px] tracking-[-0.2px]">
-                Your lesson credit(s) will be returned since you&apos;re
-                cancelling/rescheduling with more than 24 hours&apos; notice.
+                {t('cancel_modal_desc4')}
               </div>
             )
           ) : (

@@ -4,6 +4,8 @@
   "warning": "Warning",
   "cancel_modal_desc": "Number of lessons left in your package that you can reschedule or cancel:",
   "cancel_modal_desc2": "If you're unable to attend class because of illness, please contact our customer service team and provide a doctor's note. This will enable us to return your lesson credit.",
+  "cancel_modal_desc3": "If you cancel this lesson, you will lose the lesson credit since it's less than 24 hours before your lesson.",
+  "cancel_modal_desc4": "Your lesson credit(s) will be returned since you're cancelling/rescheduling with more than 24 hours' notice.",
   "confirm_cancel": "Are you sure you want to cancel?",
   "review_cancellation_policy": "Review Cancellation Policy",
   "continue_cancel": "Continue",
