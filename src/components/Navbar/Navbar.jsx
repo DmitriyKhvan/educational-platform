@@ -8,12 +8,7 @@ import FlagKorea from 'src/assets/images/flag-korea.svg';
 import { MdOutlineMenu } from 'react-icons/md';
 import Dropdown from '../Dropdown';
 
-import {
-  getItemToLocalStorage,
-  Language,
-  Roles,
-  setItemToLocalStorage,
-} from '../../constants/global';
+import { Language, Roles, setItemToLocalStorage } from '../../constants/global';
 import { useAuth } from '../../modules/auth';
 
 import { HiUserCircle } from 'react-icons/hi2';
@@ -26,7 +21,9 @@ import { NotificationDropdownMenu } from './Notification/NotificationDropdownMen
 const Navbar = memo(({ setShowSidebar }) => {
   const { user, logout } = useAuth();
   const [language, setLanguage] = useState(
-    getItemToLocalStorage('language', Language.EN),
+    localStorage.getItem('language') === Language.EN
+      ? Language.EN
+      : Language.KR,
   );
   const [t, i18n] = useTranslation('common');
 

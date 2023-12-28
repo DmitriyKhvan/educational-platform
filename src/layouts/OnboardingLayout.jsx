@@ -1,10 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Language,
-  getItemToLocalStorage,
-  setItemToLocalStorage,
-} from 'src/constants/global';
+import { Language, setItemToLocalStorage } from 'src/constants/global';
 
 import Logo from 'src/assets/images/logo_purple.svg';
 
@@ -23,11 +19,15 @@ export const OnboardingLayout = ({ children }) => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const queryLang = urlSearchParams.get('lang');
     if (queryLang) {
-      setItemToLocalStorage('language', queryLang);
       setLanguage(queryLang);
+      setItemToLocalStorage('language', queryLang);
     } else {
-      const localStorageLang = getItemToLocalStorage('language', Language.KR);
+      const localStorageLang =
+        localStorage.getItem('language') === Language.EN
+          ? Language.EN
+          : Language.KR;
       setLanguage(localStorageLang);
+      setItemToLocalStorage('language', localStorageLang);
     }
   }, []);
 
