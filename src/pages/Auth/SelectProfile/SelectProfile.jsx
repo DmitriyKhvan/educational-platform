@@ -5,8 +5,10 @@ import { HiMiniPlusSmall } from 'react-icons/hi2';
 import { useAuth } from 'src/modules/auth';
 import { ProfileCard } from './ProfileCard';
 import { setItemToLocalStorage } from 'src/constants/global';
+import { useTranslation } from 'react-i18next';
 
 export const SelectProfile = () => {
+  const [t] = useTranslation('profile');
   const { user } = useAuth();
 
   const [studentId, setStudentId] = useState(null);
@@ -22,7 +24,7 @@ export const SelectProfile = () => {
     <AuthLayout>
       <div className="flex flex-col items-center gap-y-[70px]">
         <h1 className="text-[40px] text-color-dark-purple leading-[48px] tracking-[-1px]">
-          Select a Profile
+          {t('select_profile')}
         </h1>
 
         <div className="flex flex-wrap items-center justify-center gap-[50px]">
@@ -41,7 +43,7 @@ export const SelectProfile = () => {
           >
             <HiMiniPlusSmall className="text-[150px] text-color-purple rounded-full bg-color-light-purple cursor-pointer hover:border-color-purple border-2 hover:shadow-[0_0_0_4px_#F0EBF7] transition duration-300 ease-in-out" />
             <span className="font-semibold text-[20px] text-color-light-grey leading-6 tracking-[-0.2px]">
-              Add Account
+              {t('add_account')}
             </span>
           </div>
         </div>
