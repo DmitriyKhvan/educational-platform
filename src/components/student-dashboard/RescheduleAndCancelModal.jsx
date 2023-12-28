@@ -3,10 +3,7 @@ import CancellationPolicyModal from './CancellationPolicyModal';
 import CancelLessonModal from './CancelLessonModal';
 import CancelWarningModal from './CancelWarningModal';
 import ReschedulingTimeModal from './ReschedulingTimeModal';
-import ReschedulingTutorModal from './ReschedulingTutorModal';
 import RescheduleConfirmationModal from './RescheduleConfirmationModal';
-import { useQuery } from '@apollo/client';
-import { MENTORS_QUERY } from '../../modules/auth/graphql';
 import ModalWrapper from '../ModalWrapper/ModalWrapper';
 
 const RescheduleAndCancelModal = ({
@@ -23,9 +20,7 @@ const RescheduleAndCancelModal = ({
   duration,
 }) => {
   const [schedule, setSchedule] = useState();
-  const [selectTutor, setSelectTutor] = useState();
-  const { data: tutors } = useQuery(MENTORS_QUERY);
-  const [isLoading] = useState(false);
+  const [selectTutor] = useState();
   const [repeatLessons, setRepeatLessons] = useState(false);
 
   return (
@@ -57,14 +52,6 @@ const RescheduleAndCancelModal = ({
           setTabIndex={setTabIndex}
           type={type}
           duration={duration}
-        />
-      ) : tabIndex === 3 ? (
-        <ReschedulingTutorModal
-          tutors={tutors}
-          tabIndex={tabIndex}
-          setTabIndex={setTabIndex}
-          setSelectTutor={setSelectTutor}
-          isLoading={isLoading}
         />
       ) : tabIndex === 4 ? (
         <RescheduleConfirmationModal

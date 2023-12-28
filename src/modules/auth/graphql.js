@@ -300,8 +300,8 @@ export const GET_MENTOR = gql`
 `;
 
 export const MENTORS_QUERY = gql`
-  query Mentors {
-    mentors(visibilityStatus: public) {
+  query Mentors($studentId: ID!) {
+    mentors(visibilityStatus: public, studentId: $studentId) {
       id
       firstName
       lastName
