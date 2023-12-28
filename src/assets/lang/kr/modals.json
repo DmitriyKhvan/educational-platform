@@ -3,6 +3,7 @@
   "zoom_modal_desc": "줌 링크는 수업 시작시간에 활성화됩니다.",
   "warning": "경고",
   "cancel_modal_desc": "패키지에 남아 일정을 변경하거나 취소할 수 있는 강의 수:",
+  "cancel_modal_desc2": "학생이 병가로 인해 수업 어려운 경우, 진료 확인서 또는 병원 영수증을 고객센터에 재출해주시면 예외적으로 크레딧(수업횟수)을 다시 복구 해드리겠습니다.",
   "confirm_cancel": "취소하시겠습니까?",
   "review_cancellation_policy": "취소 정책 검토",
   "continue_cancel": "계속 →",

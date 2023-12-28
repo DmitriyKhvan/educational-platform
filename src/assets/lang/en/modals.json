@@ -3,6 +3,7 @@
   "zoom_modal_desc": "Your zoom link will become active 10 minutes before the start of class.",
   "warning": "Warning",
   "cancel_modal_desc": "Number of lessons left in your package that you can reschedule or cancel:",
+  "cancel_modal_desc2": "If you're unable to attend class because of illness, please contact our customer service team and provide a doctor's note. This will enable us to return your lesson credit.",
   "confirm_cancel": "Are you sure you want to cancel?",
   "review_cancellation_policy": "Review Cancellation Policy",
   "continue_cancel": "Continue",
