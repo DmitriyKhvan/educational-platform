@@ -42,6 +42,13 @@ export const AvailabilityExceptions = () => {
     }
   };
 
+  const addAvailabilityException = () => {
+    // day: 'Saturday';
+    // from: '09:00';
+    // id: 'Mentor:2:Saturday';
+    // to: '23:30';
+  };
+
   return (
     <div className="p-4 pb-11">
       <h2 className="date_override_title mb-3">Add date overrides</h2>
@@ -101,7 +108,11 @@ export const AvailabilityExceptions = () => {
         </div>
       </div>
 
-      <Button className="mt-4" theme="outline">
+      <Button
+        onClick={addAvailabilityException}
+        className="mt-4"
+        theme="outline"
+      >
         Add a date override
       </Button>
     </div>
