@@ -52,5 +52,7 @@
   "error_student_information_changed": "학생 정보가 변경되지 않았습니다",
   "student_information_changed": "학생 정보가 변경되었습니다",
   "introduction_changed": "소개글이 변경되었습니다",
-  "deactivated_student": "이 학생 계정은 비활성화되었거나 더 이상 유효하지 않습니다. 추가 지원이 필요하신 경우 관련 관리자나 지원 담당자에게 연락하여 주시기 바랍니다."
+  "deactivated_student": "이 학생 계정은 비활성화되었거나 더 이상 유효하지 않습니다. 추가 지원이 필요하신 경우 관련 관리자나 지원 담당자에게 연락하여 주시기 바랍니다.",
+  "select_profile": "프로필 선택",
+  "add_account": "프로필 추가"
 }
