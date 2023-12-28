@@ -306,7 +306,7 @@ export const MENTORS_QUERY = gql`
       firstName
       lastName
       fullName
-      #koreanEquivalent
+      acceptingStudents
       gender
       avatar {
         id
