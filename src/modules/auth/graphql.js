@@ -172,6 +172,7 @@ export const ME_QUERY = gql`
         # availabilities
         zoomUserId
         zoomEmail
+        acceptingStudents
       }
       avatarId
       avatar {
