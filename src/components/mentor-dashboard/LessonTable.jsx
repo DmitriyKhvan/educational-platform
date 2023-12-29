@@ -87,7 +87,7 @@ const LessonTable = ({ tabularData }) => {
             <tr className="h-[80px] m-auto" key={event.resource.id}>
               <td className="pt-4 border-b text-left lg:pl-16">
                 <p className="mt-4 font-semibold text-color-light-grey tracking-tight text-[15px] leading-normal">
-                  {event.resource.packageSubscription.package?.course?.title}
+                  {event.resource.packageSubscription?.package?.course?.title}
                 </p>
               </td>
               {/* 
