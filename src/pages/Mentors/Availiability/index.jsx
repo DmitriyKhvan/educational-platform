@@ -1,14 +1,19 @@
 // import '../../../assets/styles/availability.scss';
 import Layout from '../../../components/Layout';
+import { AcceptingStudents } from './AcceptingStudents';
 import Availability from './Availability';
-import { AvailabilityExceptions } from './AvailabilityExceptions';
+import { AvailabilityExceptions } from '../AvailabilityExceptions/AvailabilityExceptions';
 
 const AvailiabilityLayout = () => {
   return (
     <Layout>
-      <Availability />
-      <div className="divider"></div>
-      <AvailabilityExceptions />
+      <div className="pb-8">
+        <Availability />
+        <div className="divider"></div>
+        <AcceptingStudents />
+        <div className="divider"></div>
+        <AvailabilityExceptions />
+      </div>
     </Layout>
   );
 };

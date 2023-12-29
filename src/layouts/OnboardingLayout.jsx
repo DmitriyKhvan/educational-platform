@@ -1,27 +1,40 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  getItemToLocalStorage,
-  setItemToLocalStorage,
-} from 'src/constants/global';
+import { Language, setItemToLocalStorage } from 'src/constants/global';
 
 import Logo from 'src/assets/images/logo_purple.svg';
 
 export const OnboardingLayout = ({ children }) => {
+  const [language, setLanguage] = useState(null);
+
   const { i18n } = useTranslation();
 
   const onChangeLanguage = (event) => {
-    const lang = parseInt(event.target.value);
+    const lang = event.target.value;
     setItemToLocalStorage('language', lang);
     setLanguage(lang);
   };
 
-  const [language, setLanguage] = useState(
-    parseInt(getItemToLocalStorage('language', 1)),
-  );
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const queryLang = urlSearchParams.get('lang');
+    if (queryLang) {
+      setLanguage(queryLang);
+      setItemToLocalStorage('language', queryLang);
+    } else {
+      const localStorageLang =
+        localStorage.getItem('language') === Language.EN
+          ? Language.EN
+          : Language.KR;
+      setLanguage(localStorageLang);
+      setItemToLocalStorage('language', localStorageLang);
+    }
+  }, []);
 
   useEffect(() => {
-    i18n.changeLanguage(language === 0 ? 'kr' : 'en');
+    if (language) {
+      i18n.changeLanguage(language);
+    }
   }, [language]);
 
   return (
@@ -34,9 +47,9 @@ export const OnboardingLayout = ({ children }) => {
               onChange={onChangeLanguage}
               className="peer hidden"
               type="radio"
-              value="1"
+              value={Language.EN}
               name="language"
-              checked={language === 1}
+              checked={language === Language.EN}
             />
             <span className="flex items-end justify-center py-2 px-[20px] rounded-lg  peer-checked:bg-color-dark-purple peer-checked:text-white text-[13px] cursor-pointer select-none">
               En
@@ -48,9 +61,9 @@ export const OnboardingLayout = ({ children }) => {
               onChange={onChangeLanguage}
               className="peer hidden"
               type="radio"
-              value="0"
+              value={Language.KR}
               name="language"
-              checked={language === 0}
+              checked={language === Language.KR}
             />
             <span className="flex items-end justify-center py-2 px-[20px] rounded-lg  peer-checked:bg-color-dark-purple peer-checked:text-white text-[13px] cursor-pointer select-none">
               Kr

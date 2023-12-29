@@ -172,6 +172,7 @@ export const ME_QUERY = gql`
         # availabilities
         zoomUserId
         zoomEmail
+        acceptingStudents
       }
       avatarId
       avatar {
@@ -225,12 +226,6 @@ export const CREATE_NICE_PAYMENT = gql`
     ) {
       id
     }
-  }
-`;
-
-export const CHECK_NICE_SUBSCRIPTION_STATUS = gql`
-  mutation CHECK_NICE_SUBSCRIPTION_STATUS($userId: ID!) {
-    checkNiceSubscriptionStatus(userId: $userId)
   }
 `;
 
@@ -300,13 +295,13 @@ export const GET_MENTOR = gql`
 `;
 
 export const MENTORS_QUERY = gql`
-  query Mentors {
-    mentors(visibilityStatus: public) {
+  query Mentors($studentId: ID!) {
+    mentors(visibilityStatus: public, studentId: $studentId) {
       id
       firstName
       lastName
       fullName
-      #koreanEquivalent
+      acceptingStudents
       gender
       avatar {
         id

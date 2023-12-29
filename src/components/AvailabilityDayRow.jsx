@@ -75,12 +75,12 @@ export const AvailabilityDayRow = ({
     return currentData[currentData.length - 1]?.slots?.[0]?.to >= '23:30';
   };
 
-  console.log('gatherAvailabilities', gatherAvailabilities);
+  // console.log('gatherAvailabilities', gatherAvailabilities);
 
   return (
     <div className="row form-switch justify-content-md-center py-3 border-availabilities-picker">
       <input
-        className="form-check-input mt-3 align_Toggle"
+        className="form-check-input mt-3 align_Toggle text-color-purple"
         type="checkbox"
         name={day}
         checked={toggle}

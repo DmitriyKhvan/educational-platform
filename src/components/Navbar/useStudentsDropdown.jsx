@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { HiUserCircle } from 'react-icons/hi2';
 import { MdAddCircleOutline } from 'react-icons/md';
 import { Link } from 'react-router-dom';
@@ -9,6 +10,7 @@ import {
 import { useAuth } from 'src/modules/auth';
 
 export const useStudentsDropdown = () => {
+  const [t] = useTranslation('profile');
   const { user } = useAuth();
 
   const onChangeStudentProfile = (student) => {
@@ -31,7 +33,7 @@ export const useStudentsDropdown = () => {
     });
 
   studentList.push({
-    label: 'Add Account',
+    label: t('add_account'),
     href: '/add-student-profile',
     isActive: true,
     customIcon: MdAddCircleOutline,

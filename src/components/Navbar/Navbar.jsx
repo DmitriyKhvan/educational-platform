@@ -8,11 +8,7 @@ import FlagKorea from 'src/assets/images/flag-korea.svg';
 import { MdOutlineMenu } from 'react-icons/md';
 import Dropdown from '../Dropdown';
 
-import {
-  getItemToLocalStorage,
-  Roles,
-  setItemToLocalStorage,
-} from '../../constants/global';
+import { Language, Roles, setItemToLocalStorage } from '../../constants/global';
 import { useAuth } from '../../modules/auth';
 
 import { HiUserCircle } from 'react-icons/hi2';
@@ -25,7 +21,9 @@ import { NotificationDropdownMenu } from './Notification/NotificationDropdownMen
 const Navbar = memo(({ setShowSidebar }) => {
   const { user, logout } = useAuth();
   const [language, setLanguage] = useState(
-    parseInt(getItemToLocalStorage('language', 1)),
+    localStorage.getItem('language') === Language.EN
+      ? Language.EN
+      : Language.KR,
   );
   const [t, i18n] = useTranslation('common');
 
@@ -38,12 +36,13 @@ const Navbar = memo(({ setShowSidebar }) => {
   };
 
   const onChangeLanguage = (lang) => {
-    setItemToLocalStorage('language', lang);
-    setLanguage(lang);
+    const currentLang = lang === 1 ? Language.EN : Language.KR;
+    setItemToLocalStorage('language', currentLang);
+    setLanguage(currentLang);
   };
 
   useEffect(() => {
-    i18n.changeLanguage(language === 0 ? 'kr' : 'en');
+    i18n.changeLanguage(language);
   }, [language]);
 
   return (
@@ -69,8 +68,8 @@ const Navbar = memo(({ setShowSidebar }) => {
 
           <Dropdown
             className="language"
-            icon={language === 1 ? FlagUsa : FlagKorea}
-            label={language === 1 ? t('english') : t('korean')}
+            icon={language === Language.EN ? FlagUsa : FlagKorea}
+            label={language === Language.EN ? t('english') : t('korean')}
             items={[
               {
                 label: t('korean'),
