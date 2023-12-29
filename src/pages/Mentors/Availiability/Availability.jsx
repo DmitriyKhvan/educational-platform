@@ -21,6 +21,7 @@ import { UPSERT_AVAILIABILITY } from './graphql';
 import ReactLoader from '../../../components/common/Loader';
 import Loader from '../../../components/Loader/Loader';
 import notify from 'src/utils/notify';
+import Button from 'src/components/Form/Button';
 
 const Availability = (/*{ user_id  }*/) => {
   const [t] = useTranslation(['common', 'availability']);
@@ -320,15 +321,14 @@ const Availability = (/*{ user_id  }*/) => {
           <div
             style={{ display: 'flex', justifyContent: 'end', maxWidth: '100%' }}
           >
-            <button
-              type="button"
-              className="btn btn-secondary save_button"
-              data-bs-dismiss="modal"
+            <Button
+              type="submit"
               onClick={onSubmit}
               disabled={hasValidTimes || disableSave}
+              className="w-[15%] mt-5"
             >
-              <strong>{t('save', { ns: 'common' })}</strong>
-            </button>
+              {t('save', { ns: 'common' })}
+            </Button>
           </div>
         </div>
       </div>

@@ -9,14 +9,17 @@ import Loader from '../../../components/Loader/Loader';
 import InputField from '../../../components/Form/InputField';
 import ModalWrapper from '../../../components/ModalWrapper/ModalWrapper';
 import { MentorCard } from './MentorCard';
+import { getItemToLocalStorage } from 'src/constants/global';
 
 const Mentors = () => {
   const [showMentorModal, setShowMentorModal] = React.useState(false);
   const [mentor, setMentor] = React.useState({});
+  const studentId = getItemToLocalStorage('studentId');
 
   const [mentors, setMentors] = React.useState([]);
   const [t] = useTranslation(['studentMentor', 'common']);
   const { data, loading } = useQuery(MENTORS_QUERY, {
+    variables: { studentId },
     errorPolicy: 'ignore',
   });
 
