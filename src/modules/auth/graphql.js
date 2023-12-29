@@ -295,7 +295,7 @@ export const GET_MENTOR = gql`
 `;
 
 export const MENTORS_QUERY = gql`
-  query Mentors($studentId: ID!) {
+  query Mentors($studentId: ID) {
     mentors(visibilityStatus: public, studentId: $studentId) {
       id
       firstName
