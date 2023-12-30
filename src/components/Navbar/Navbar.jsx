@@ -20,8 +20,13 @@ import { NotificationDropdownMenu } from './Notification/NotificationDropdownMen
 // eslint-disable-next-line react/display-name
 const Navbar = memo(({ setShowSidebar }) => {
   const { user, logout } = useAuth();
+
   const [language, setLanguage] = useState(
     localStorage.getItem('language') === Language.EN
+      ? Language.EN
+      : localStorage.getItem('language') === Language.KR
+      ? Language.KR
+      : user.role === Roles.MENTOR
       ? Language.EN
       : Language.KR,
   );

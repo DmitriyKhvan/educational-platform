@@ -227,7 +227,8 @@ const Calendar = () => {
         );
 
         if (
-          isAfter(new Date(), endLesson) ||
+          (isAfter(new Date(), endLesson) &&
+            each.resource.status !== LessonsStatusType.CANCELED) ||
           (isWithin24hour && each.resource.canceledBy === Roles.STUDENT)
         ) {
           tempPastLessons.push(each);
