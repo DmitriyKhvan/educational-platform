@@ -86,9 +86,9 @@ const client = new ApolloClient({
 i18next.init({
   interpolation: { escapeValue: false }, // React already does escaping
   lng:
-    localStorage.getItem('language') === Language.EN
-      ? Language.EN
-      : Language.KR, // language to use
+    localStorage.getItem('language') === Language.KR
+      ? Language.KR
+      : Language.EN, // language to use
   resources: {
     en: {
       common: commonEn,

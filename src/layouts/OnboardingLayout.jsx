@@ -5,6 +5,8 @@ import { Language, setItemToLocalStorage } from 'src/constants/global';
 import Logo from 'src/assets/images/logo_purple.svg';
 
 export const OnboardingLayout = ({ children }) => {
+  const urlObject = new URL(window.location.href);
+
   const [language, setLanguage] = useState(null);
 
   const { i18n } = useTranslation();
@@ -18,17 +20,24 @@ export const OnboardingLayout = ({ children }) => {
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const queryLang = urlSearchParams.get('lang');
+    let localStorageLang = '';
+
     if (queryLang) {
-      setLanguage(queryLang);
-      setItemToLocalStorage('language', queryLang);
+      localStorageLang = queryLang;
+    } else if (urlObject.pathname === '/') {
+      localStorageLang =
+        localStorage.getItem('language') === Language.KR
+          ? Language.KR
+          : Language.EN;
     } else {
-      const localStorageLang =
+      localStorageLang =
         localStorage.getItem('language') === Language.EN
           ? Language.EN
           : Language.KR;
-      setLanguage(localStorageLang);
-      setItemToLocalStorage('language', localStorageLang);
     }
+
+    setLanguage(localStorageLang);
+    setItemToLocalStorage('language', localStorageLang);
   }, []);
 
   useEffect(() => {
