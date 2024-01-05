@@ -82,8 +82,6 @@ const Availability = (/*{ user_id  }*/) => {
       });
     }
 
-    // console.log('savedData', savedData);
-
     const tempData = [
       {
         id: initialId,
@@ -118,8 +116,6 @@ const Availability = (/*{ user_id  }*/) => {
 
   // saving data in DB using loader
   const onSubmit = async (e) => {
-    // console.log('gatherAvailabilities', gatherAvailabilities);
-
     // combines slots on repeating days
     const days = gatherAvailabilities.availability.reduce((acc, curr) => {
       if (acc[curr.day] === undefined) acc[curr.day] = [...curr.slots];
@@ -130,8 +126,6 @@ const Availability = (/*{ user_id  }*/) => {
     let isError = false;
 
     const slotsToSave = [];
-
-    // console.log('days', days);
 
     for (const day in days) {
       slotsToSave.push({
