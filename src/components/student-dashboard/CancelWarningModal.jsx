@@ -88,9 +88,15 @@ const CancelWarningModal = ({
         <div className="space-y-3">
           {type === 'cancel' ? (
             isLate ? (
-              <div className="font-semibold leading-[18px] tracking-[-0.2px]">
-                {t('cancel_modal_desc3')}
-              </div>
+              <>
+                <div className="font-semibold leading-[18px] tracking-[-0.2px]">
+                  {t('cancel_modal_desc3')}
+                </div>
+
+                <div className="font-semibold leading-[18px] tracking-[-0.2px]">
+                  {t('cancel_modal_desc2')}
+                </div>
+              </>
             ) : (
               <div className="font-semibold leading-[18px] tracking-[-0.2px]">
                 {t('cancel_modal_desc4')}
@@ -103,10 +109,6 @@ const CancelWarningModal = ({
               </div>
             )
           )}
-
-          <div className="font-semibold leading-[18px] tracking-[-0.2px]">
-            {t('cancel_modal_desc2')}
-          </div>
 
           <div className="font-semibold leading-[18px] tracking-[-0.2px]">
             {t('cancel_modal_desc')}
