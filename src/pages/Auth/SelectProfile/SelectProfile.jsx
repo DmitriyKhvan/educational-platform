@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import AuthLayout from '../../../components/AuthLayout';
 // import Button from '../../../components/Form/Button/Button';
 import { HiMiniPlusSmall } from 'react-icons/hi2';
 import { useAuth } from 'src/modules/auth';
 import { ProfileCard } from './ProfileCard';
 import { setItemToLocalStorage } from 'src/constants/global';
 import { useTranslation } from 'react-i18next';
+import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 
 export const SelectProfile = () => {
   const [t] = useTranslation('profile');
@@ -21,13 +21,13 @@ export const SelectProfile = () => {
   };
 
   return (
-    <AuthLayout>
-      <div className="flex flex-col items-center gap-y-[70px]">
+    <OnboardingLayout>
+      <div className="flex flex-col items-center gap-y-[70px] py-6 sm:py-8 lg:py-10">
         <h1 className="text-[40px] text-color-dark-purple leading-[48px] tracking-[-1px]">
           {t('select_profile')}
         </h1>
 
-        <div className="flex flex-wrap items-center justify-center gap-[50px]">
+        <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-[50px]">
           {user.students.map((student) => (
             <ProfileCard
               key={student.id}
@@ -55,6 +55,6 @@ export const SelectProfile = () => {
           Return to Dashboard
         </Button> */}
       </div>
-    </AuthLayout>
+    </OnboardingLayout>
   );
 };

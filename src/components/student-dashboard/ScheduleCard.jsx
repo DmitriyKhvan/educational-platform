@@ -152,7 +152,13 @@ const ScheduleCard = ({
             </h3>
 
             {user.role === Roles.MENTOR && (
-              <p className="text-color-light-purple text-sm">
+              <p
+                className={`text-sm ${
+                  index === 0
+                    ? 'text-color-light-purple'
+                    : 'text-color-light-grey'
+                }`}
+              >
                 {student?.user.email}
               </p>
             )}
