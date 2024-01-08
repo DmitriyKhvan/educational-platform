@@ -24,7 +24,7 @@ const Login = () => {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
-    mode: 'all',
+    mode: 'onChange',
     defaultValues: {
       email: '',
       password: '',
