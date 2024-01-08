@@ -24,7 +24,7 @@ export const AvailabilityExceptions = () => {
   const { data: { mentor } = {}, refetch: refetchMentor } = useQuery(
     GET_MENTOR,
     {
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'no-cache',
       variables: { id: user?.mentor?.id },
     },
   );
@@ -69,6 +69,7 @@ export const AvailabilityExceptions = () => {
     if (mentor) {
       const dates = [];
       const disabledDates = [];
+
       mentor.exceptionDates.forEach((slot) => {
         const existingSlot = dates.find((item) => item.date === slot.date);
 

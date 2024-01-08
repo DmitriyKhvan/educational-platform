@@ -88,10 +88,13 @@ export const AvailabilityExceptionSlot = ({
 
   const addAvailabilityExceptionSlot = () => {
     const from = toTime.value;
-    const to = format(
-      addMinutes(parse(toTime.value, 'HH:mm', new Date()), 60),
-      'HH:mm',
-    );
+    let to = '';
+
+    if (from >= '23:00') {
+      to = format(addMinutes(parse(from, 'HH:mm', new Date()), 30), 'HH:mm');
+    } else {
+      to = format(addMinutes(parse(from, 'HH:mm', new Date()), 60), 'HH:mm');
+    }
 
     const newTime = { id: uuid(), from, to };
 
