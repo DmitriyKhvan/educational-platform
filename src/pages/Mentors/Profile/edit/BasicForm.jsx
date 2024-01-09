@@ -45,6 +45,7 @@ const BasicForm = () => {
       timeZone: user?.timeZone,
       address: user?.address,
       convertAvailabilityTime: true,
+      googleCalendarSync: false,
     },
   });
 
@@ -58,6 +59,7 @@ const BasicForm = () => {
       timeZone,
       address,
       convertAvailabilityTime,
+      googleCalendarSync,
     } = trimSpaces(values);
 
     await updateUser({
@@ -69,6 +71,7 @@ const BasicForm = () => {
           timeZone: timeZone,
           address: address,
           convertAvailabilityTime: convertAvailabilityTime,
+          googleCalendarSync: googleCalendarSync,
         },
       },
       // onCompleted: () => {
@@ -203,6 +206,13 @@ const BasicForm = () => {
             className="mb-6"
             label="Update mentor availability and calendar to reflect new timezone"
             {...register('convertAvailabilityTime')}
+          />
+          <br></br>
+          
+          <CheckboxField
+            className="mb-6"
+            label={t('google_calendar_sync')}
+            {...register('googleCalendarSync')}
           />
         </div>
 

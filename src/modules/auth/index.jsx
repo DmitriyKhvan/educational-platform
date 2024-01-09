@@ -9,7 +9,6 @@ export const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [isAuthInProgress, setIsAuthInProgress] = useState(true);
   const { getAllNotifications } = useNotifications();
-
   const {
     data: user,
     loading,
@@ -25,6 +24,10 @@ export const AuthProvider = ({ children }) => {
         data.authenticatedUser.role === Roles.MENTOR
       ) {
         getAllNotifications();
+      }
+      if(data.authenticatedUser.authUrl) {
+        console.log(data.authenticatedUser.authUrl);
+        window.location.replace(data.authenticatedUser.authUrl);
       }
     },
   });
