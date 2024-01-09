@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../modules/auth';
 import { format, utcToZonedTime } from 'date-fns-tz';
@@ -25,27 +25,7 @@ const LessonTable = ({ tabularData }) => {
   const currentLanguage = i18n.language;
   const locale = currentLanguage === 'kr' ? kr : null;
 
-  const [displayTableData, setDisplayTableData] = useState([]);
   const { user } = useAuth();
-
-  useEffect(() => {
-    if (tabularData.length) {
-      const x = tabularData
-        .sort(
-          (a, b) => new Date(a.resource.startAt) - new Date(b.resource.startAt),
-        )
-        .map((x) => x);
-
-      const y = Object.assign({}, x);
-      const z = [];
-      for (const [, value] of Object.entries(y)) {
-        z.push(value);
-      }
-      setDisplayTableData(z);
-    } else {
-      setDisplayTableData([]);
-    }
-  }, [tabularData]);
 
   const tableHead = [
     t('lesson_package'),
@@ -76,14 +56,14 @@ const LessonTable = ({ tabularData }) => {
         </thead>
 
         <tbody>
-          {displayTableData?.length === 0 && (
+          {tabularData?.length === 0 && (
             <tr>
               <td colSpan={tableHead.length} align="center">
                 {t('no_lessons')}
               </td>
             </tr>
           )}
-          {displayTableData.map((event) => (
+          {tabularData.map((event) => (
             <tr className="h-[80px] m-auto" key={event.resource.id}>
               <td className="pt-4 border-b text-left lg:pl-16">
                 <p className="mt-4 font-semibold text-color-light-grey tracking-tight text-[15px] leading-normal">

@@ -63,84 +63,79 @@ export const LessonTableMobile = ({
               </td>
             </tr>
           )}
-          {displayTableData
-            .sort(
-              (a, b) =>
-                new Date(a.resource.startAt) - new Date(b.resource.startAt),
-            )
-            .map((event) => {
-              return (
-                <tr className="" key={event.resource.id}>
-                  <td className="border-b py-2 px-1 text-xs align-middle">
-                    <span className="">
+          {displayTableData.map((event) => {
+            return (
+              <tr className="" key={event.resource.id}>
+                <td className="border-b py-2 px-1 text-xs align-middle">
+                  <span className="">
+                    {format(
+                      utcToZonedTime(
+                        new Date(event.resource.startAt),
+                        userTimezone,
+                      ),
+                      'MMM do, ',
+                      { timeZone: userTimezone, locale: locale },
+                    )}
+                  </span>
+
+                  <span className="inline-block">
+                    <span className="inline-block">
                       {format(
                         utcToZonedTime(
                           new Date(event.resource.startAt),
                           userTimezone,
                         ),
-                        'MMM do, ',
+                        'hh:mm a',
                         { timeZone: userTimezone, locale: locale },
                       )}
+                      <span className="mx-[4px]">→</span>
                     </span>
 
                     <span className="inline-block">
-                      <span className="inline-block">
-                        {format(
+                      {format(
+                        addMinutes(
                           utcToZonedTime(
                             new Date(event.resource.startAt),
                             userTimezone,
                           ),
-                          'hh:mm a',
-                          { timeZone: userTimezone, locale: locale },
-                        )}
-                        <span className="mx-[4px]">→</span>
-                      </span>
-
-                      <span className="inline-block">
-                        {format(
-                          addMinutes(
-                            utcToZonedTime(
-                              new Date(event.resource.startAt),
-                              userTimezone,
-                            ),
-                            event.resource.duration,
-                          ),
-                          'hh:mm a',
-                          {
-                            timeZone: userTimezone,
-                            locale: locale,
-                          },
-                        )}
-                      </span>
+                          event.resource.duration,
+                        ),
+                        'hh:mm a',
+                        {
+                          timeZone: userTimezone,
+                          locale: locale,
+                        },
+                      )}
                     </span>
-                  </td>
-                  <td className="border-b py-2 px-1 align-middle">
-                    <p className="text-xs text-color-light-grey tracking-tight leading-normal">
-                      {event.resource.mentor.firstName}
-                    </p>
-                  </td>
+                  </span>
+                </td>
+                <td className="border-b py-2 px-1 align-middle">
+                  <p className="text-xs text-color-light-grey tracking-tight leading-normal">
+                    {event.resource.mentor.firstName}
+                  </p>
+                </td>
 
-                  <td className="border-b py-2 px-1 align-middle">
-                    <p className="text-xs text-color-light-grey tracking-tight leading-normal">
-                      {event.resource.status === LessonsStatusType.SCHEDULED ||
-                      event.resource.status === LessonsStatusType.RESCHEDULED
-                        ? t('lesson_pending_approval')
-                        : t(event.resource.status)}
-                    </p>
-                  </td>
-                  <td className="border-b py-2 px-1 align-middle">
-                    {event.resource?.zoom?.recordingUrl && (
-                      <BsPlayCircle
-                        onClick={() =>
-                          playRecording(event.resource?.zoom?.recordingUrl)
-                        }
-                        className="text-2xl text-color-purple cursor-pointer text-center"
-                      />
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
+                <td className="border-b py-2 px-1 align-middle">
+                  <p className="text-xs text-color-light-grey tracking-tight leading-normal">
+                    {event.resource.status === LessonsStatusType.SCHEDULED ||
+                    event.resource.status === LessonsStatusType.RESCHEDULED
+                      ? t('lesson_pending_approval')
+                      : t(event.resource.status)}
+                  </p>
+                </td>
+                <td className="border-b py-2 px-1 align-middle">
+                  {event.resource?.zoom?.recordingUrl && (
+                    <BsPlayCircle
+                      onClick={() =>
+                        playRecording(event.resource?.zoom?.recordingUrl)
+                      }
+                      className="text-2xl text-color-purple cursor-pointer text-center"
+                    />
+                  )}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 

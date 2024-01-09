@@ -66,26 +66,21 @@ export const LessonTable = ({
               </td>
             </tr>
           )}
-          {displayTableData
-            .sort(
-              (a, b) =>
-                new Date(a.resource.startAt) - new Date(b.resource.startAt),
-            )
-            .map((event) => {
-              return (
-                <tr className="" key={event.resource.id}>
-                  <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
-                    <p className="text-xs lg:text-[15px] font-semibold text-color-light-grey tracking-tight text-[15px] leading-normal">
-                      {event.resource.packageSubscription.package.course.title}
-                    </p>
-                  </td>
-                  <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
-                    <p className="text-xs lg:text-[15px] font-semibold text-color-light-grey tracking-tight text-[15px] leading-normal">
-                      {event.resource.duration} {t('minutes', { ns: 'common' })}
-                    </p>
-                  </td>
+          {displayTableData.map((event) => {
+            return (
+              <tr className="" key={event.resource.id}>
+                <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
+                  <p className="text-xs lg:text-[15px] font-semibold text-color-light-grey tracking-tight text-[15px] leading-normal">
+                    {event.resource.packageSubscription.package.course.title}
+                  </p>
+                </td>
+                <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
+                  <p className="text-xs lg:text-[15px] font-semibold text-color-light-grey tracking-tight text-[15px] leading-normal">
+                    {event.resource.duration} {t('minutes', { ns: 'common' })}
+                  </p>
+                </td>
 
-                  {/* Do not remove this code, it will be used in the future 
+                {/* Do not remove this code, it will be used in the future 
                       <td className='td-item'>
                         <p className='td-topic-level'>
                           {event.level}
@@ -101,69 +96,69 @@ export const LessonTable = ({
                           {` ${event.nextTopic}`}
                         </p>
                       </td> */}
-                  <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
-                    <span className="text-xs lg:text-[15px] border inline-block border-color-border-grey rounded-[10px] px-2 lg:px-4 text-color-light-grey font-medium text-[15px] h-10 border-box leading-10 whitespace-nowrap">
-                      <span className="h-full inline-block border-r border-color-border-grey pr-2.5 mr-2.5">
-                        {format(
-                          utcToZonedTime(
-                            new Date(event.resource.startAt),
-                            userTimezone,
-                          ),
-                          'eee, MMM do',
-                          { timeZone: userTimezone, locale: locale },
-                        )}
-                      </span>
-                      <span className="inline-block">
-                        {format(
-                          utcToZonedTime(
-                            new Date(event.resource.startAt),
-                            userTimezone,
-                          ),
-                          'hh:mm a',
-                          { timeZone: userTimezone, locale: locale },
-                        )}
-                        {' → '}
-                        {format(
-                          addMinutes(
-                            utcToZonedTime(
-                              new Date(event.resource.startAt),
-                              userTimezone,
-                            ),
-                            event.resource.duration,
-                          ),
-                          'hh:mm a',
-                          { timeZone: userTimezone, locale: locale },
-                        )}
-                      </span>
+                <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
+                  <span className="text-xs lg:text-[15px] border inline-block border-color-border-grey rounded-[10px] px-2 lg:px-4 text-color-light-grey font-medium text-[15px] h-10 border-box leading-10 whitespace-nowrap">
+                    <span className="h-full inline-block border-r border-color-border-grey pr-2.5 mr-2.5">
+                      {format(
+                        utcToZonedTime(
+                          new Date(event.resource.startAt),
+                          userTimezone,
+                        ),
+                        'eee, MMM do',
+                        { timeZone: userTimezone, locale: locale },
+                      )}
                     </span>
-                  </td>
-                  <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
-                    <p className="text-xs lg:text-[15px] text-color-light-grey tracking-tight text-[15px] leading-normal">
-                      {event.resource.mentor.firstName}{' '}
-                      {event.resource.mentor.lastName}
-                    </p>
-                  </td>
+                    <span className="inline-block">
+                      {format(
+                        utcToZonedTime(
+                          new Date(event.resource.startAt),
+                          userTimezone,
+                        ),
+                        'hh:mm a',
+                        { timeZone: userTimezone, locale: locale },
+                      )}
+                      {' → '}
+                      {format(
+                        addMinutes(
+                          utcToZonedTime(
+                            new Date(event.resource.startAt),
+                            userTimezone,
+                          ),
+                          event.resource.duration,
+                        ),
+                        'hh:mm a',
+                        { timeZone: userTimezone, locale: locale },
+                      )}
+                    </span>
+                  </span>
+                </td>
+                <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
+                  <p className="text-xs lg:text-[15px] text-color-light-grey tracking-tight text-[15px] leading-normal">
+                    {event.resource.mentor.firstName}{' '}
+                    {event.resource.mentor.lastName}
+                  </p>
+                </td>
 
-                  <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
-                    <p className="text-xs lg:text-[15px] text-color-light-grey tracking-tight text-[15px] leading-normal">
-                      {event.resource.status === LessonsStatusType.SCHEDULED ||
-                      event.resource.status === LessonsStatusType.RESCHEDULED
-                        ? t('lesson_pending_approval')
-                        : t(event.resource.status)}
-                    </p>
-                  </td>
-                  <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
-                    {event.resource?.zoom?.recordingUrl && (
-                      <BsPlayCircle
-                        onClick={() =>
-                          playRecording(event.resource?.zoom?.recordingUrl)
-                        }
-                        className="text-2xl text-color-purple cursor-pointer text-center"
-                      />
-                    )}
-                  </td>
+                <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
+                  <p className="text-xs lg:text-[15px] text-color-light-grey tracking-tight text-[15px] leading-normal">
+                    {event.resource.status === LessonsStatusType.SCHEDULED ||
+                    event.resource.status === LessonsStatusType.RESCHEDULED
+                      ? t('lesson_pending_approval')
+                      : t(event.resource.status)}
+                  </p>
+                </td>
+                <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
+                  {event.resource?.zoom?.recordingUrl && (
+                    <BsPlayCircle
+                      onClick={() =>
+                        playRecording(event.resource?.zoom?.recordingUrl)
+                      }
+                      className="text-2xl text-color-purple cursor-pointer text-center"
+                    />
+                  )}
+                </td>
 
-                  {/* <td className="td-item">
+                {/* <td className="td-item">
                     <button
                       className={`btn ${
                         event.tutorFeedback?.length
@@ -175,9 +170,9 @@ export const LessonTable = ({
                       Feedback
                     </button>
                   </td> */}
-                </tr>
-              );
-            })}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 
