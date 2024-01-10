@@ -288,6 +288,12 @@ export const GET_MENTOR = gql`
         from
         to
       }
+      exceptionDates {
+        id
+        date
+        from
+        to
+      }
       zoomUserId
       zoomEmail
     }

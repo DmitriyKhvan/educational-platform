@@ -40,7 +40,7 @@ export const AcceptingStudents = () => {
           <Loader />
         </div>
       )}
-      <div className="pl-8 pr-6 py-3">
+      <div className="container pl-8 pr-6 py-3">
         <h2 className="text-[27px] font-medium leading-[33px] tracking-[-1px]">
           New Student Settings
         </h2>

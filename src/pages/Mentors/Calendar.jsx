@@ -1,7 +1,11 @@
 import React, { Suspense, lazy, useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import Modal from 'react-modal';
-import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
+import {
+  Calendar as BigCalendar,
+  momentLocalizer,
+  Views,
+} from 'react-big-calendar';
 import moment from 'moment-timezone';
 import Layout from '../../components/Layout';
 import LessonTable from '../../components/mentor-dashboard/LessonTable';
@@ -13,7 +17,6 @@ const ReviewLessonModal = lazy(() =>
 import { format } from 'date-fns-tz';
 import WeekHeader from '../../components/common/WeekHeader';
 import '../../assets/styles/calendar.scss';
-import { toast } from 'react-toastify';
 import { useAuth } from '../../modules/auth';
 // import Swal from 'sweetalert2';
 import {
@@ -61,7 +64,7 @@ const sortCalendarEvents = (data) => {
         end_at,
         type: eventDate.type,
         tutor: eventDate.tutor,
-        student: eventDate.students,
+        student: eventDate.student,
         eventDate,
         status: eventDate.status,
       };
@@ -210,9 +213,10 @@ const Calendar = () => {
           userTimezone,
         );
         const end = moment(calendarAppointments[index].end_at).tz(userTimezone);
+        const title = `${calendarAppointments[index]?.student.firstName} ${calendarAppointments[index]?.student.lastName} / ${calendarAppointments[index]?.student.langLevel}`;
         const event = {
           id: index,
-          title: calendarAppointments[index]?.lesson,
+          title,
           start: start.toDate(),
           end: end.toDate(),
           resource: calendarAppointments[index],
@@ -254,8 +258,17 @@ const Calendar = () => {
           tempUpcomingLessons.push(each);
         }
       });
-      setUpcomingLessons([...tempUpcomingLessons]);
-      setPastLessons([...tempPastLessons]);
+
+      const sortPastLessons = [...tempPastLessons].sort(
+        (a, b) => new Date(b.resource.startAt) - new Date(a.resource.startAt),
+      );
+
+      const sortUpcomingLessons = [...tempUpcomingLessons].sort(
+        (a, b) => new Date(b.resource.startAt) - new Date(a.resource.startAt),
+      );
+
+      setUpcomingLessons(sortUpcomingLessons);
+      setPastLessons(sortPastLessons);
     }
   }, [tableAppointments]);
 
@@ -280,16 +293,9 @@ const Calendar = () => {
     if (isLoading) {
       return;
     }
-    const today = moment().format('MM/DD/YYYY hh:mm a');
-    const closedDate = moment(e.end).format('MM/DD/YYYY hh:mm a');
-    if (moment(today).isBefore(closedDate)) {
-      setCalendarEvent(e);
-      setIsCalendarModalOpen(true);
-    } else {
-      toast.warn('This class has already passed', {
-        hideProgressBar: true,
-      });
-    }
+
+    setCalendarEvent(e);
+    setIsCalendarModalOpen(true);
   };
 
   const closeCalendarModal = () => {
@@ -336,6 +342,11 @@ const Calendar = () => {
     );
 
     const { eventDate } = selectedEvent.resource;
+
+    const endLesson = addMinutes(
+      new Date(eventDate.startAt),
+      eventDate.duration,
+    );
 
     // const today = moment();
     // const tenMinuteBeforeStart = moment(eventDate.startAt).subtract(
@@ -444,7 +455,9 @@ const Calendar = () => {
             <div className="">
               <div className="flex items-center justify-between">
                 <div className="text-xl font-bold capitalize">
-                  {lowerCase(selectedEvent.title)}
+                  {lowerCase(
+                    eventDate?.packageSubscription?.package?.course?.title,
+                  )}
                 </div>
                 <button
                   style={{ backgroundColor: 'white', cursor: 'pointer' }}
@@ -474,9 +487,10 @@ const Calendar = () => {
                         />
                       </div>
                       <p>
-                        {eventDate?.student?.firstName +
-                          ' ' +
-                          eventDate?.student?.lastName}
+                        {`${eventDate?.student?.firstName} ${eventDate?.student?.lastName}`}
+                      </p>
+                      <p className="text-color-purple">
+                        {eventDate?.student?.langLevel}
                       </p>
 
                       <p className="text-sm">
@@ -499,38 +513,40 @@ const Calendar = () => {
                 </div>
               </div>
 
-              <div className="row">
-                {eventDate.status === LessonsStatusType.APPROVED && (
-                  <button
-                    className="btn col-5 enter-btn bg-primary"
-                    onClick={joinLesson}
-                    target="_blank"
-                    // disabled={eventDate.status === 'scheduled'}
-                    rel="noreferrer"
-                  >
-                    {t('start_lesson')}
-                  </button>
-                )}
+              {isAfter(endLesson, new Date()) && (
+                <div className="row">
+                  {eventDate.status === LessonsStatusType.APPROVED && (
+                    <button
+                      className="btn col-5 enter-btn bg-primary"
+                      onClick={joinLesson}
+                      target="_blank"
+                      // disabled={eventDate.status === 'scheduled'}
+                      rel="noreferrer"
+                    >
+                      {t('start_lesson')}
+                    </button>
+                  )}
 
-                {(eventDate.status === LessonsStatusType.SCHEDULED ||
-                  eventDate.status === LessonsStatusType.RESCHEDULED) && (
-                  <button
-                    className="btn col-5 enter-btn bg-primary"
-                    onClick={() => approveLesson(eventDate)}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {t('approve_lesson')}
-                  </button>
-                )}
+                  {(eventDate.status === LessonsStatusType.SCHEDULED ||
+                    eventDate.status === LessonsStatusType.RESCHEDULED) && (
+                    <button
+                      className="btn col-5 enter-btn bg-primary"
+                      onClick={() => approveLesson(eventDate)}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {t('approve_lesson')}
+                    </button>
+                  )}
 
-                <button
-                  className="btn col-5 enter-btn"
-                  onClick={onCancelLessonClick}
-                >
-                  {t('cancel_lesson', { ns: 'modals' })}
-                </button>
-              </div>
+                  <button
+                    className="btn col-5 enter-btn"
+                    onClick={onCancelLessonClick}
+                  >
+                    {t('cancel_lesson', { ns: 'modals' })}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </Modal>
@@ -611,6 +627,7 @@ const Calendar = () => {
                 localizer={localizer}
                 onSelectEvent={onSelectEvent}
                 views={allViews}
+                defaultView={Views.WEEK}
                 showMultiDayTimes
                 eventPropGetter={eventPropGetter}
                 startAccessor="start"

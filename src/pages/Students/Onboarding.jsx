@@ -43,7 +43,7 @@ export default function Onboarding() {
     resetField,
     formState: { errors, isValid },
   } = useForm({
-    mode: 'all',
+    mode: 'onChange',
     defaultValues: { phoneNumber: '' },
   });
 
