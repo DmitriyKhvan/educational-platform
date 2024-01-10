@@ -213,6 +213,9 @@ const BasicForm = () => {
             label={t('google_calendar_sync')}
             {...register('googleCalendarSync')}
           />
+          <br></br>
+          { !user.googleCalendarSync ? <a className="_btn_1swtc_4 _purple_1swtc_33 w-[420px]" href={user.googleServiceSyncUrl}>Enable google calendar sync by link</a> : null}
+          <br></br>
         </div>
 
         <Button className="w-[420px]" type="submit">

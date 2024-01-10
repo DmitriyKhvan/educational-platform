@@ -185,6 +185,7 @@ export const ME_QUERY = gql`
       newToken
       authUrl
       googleCalendarSync
+      googleServiceSyncUrl
     }
   }
 `;
