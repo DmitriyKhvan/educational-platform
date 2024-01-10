@@ -184,6 +184,7 @@ export const ME_QUERY = gql`
       cardLast4
       newToken
       authUrl
+      googleCalendarSync
     }
   }
 `;

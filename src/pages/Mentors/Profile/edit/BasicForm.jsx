@@ -45,7 +45,7 @@ const BasicForm = () => {
       timeZone: user?.timeZone,
       address: user?.address,
       convertAvailabilityTime: true,
-      googleCalendarSync: false,
+      googleCalendarSync: user.googleCalendarSync,
     },
   });
 
@@ -208,7 +208,6 @@ const BasicForm = () => {
             {...register('convertAvailabilityTime')}
           />
           <br></br>
-          
           <CheckboxField
             className="mb-6"
             label={t('google_calendar_sync')}
