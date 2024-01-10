@@ -23,7 +23,7 @@ const StudentProfile = () => {
 
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
 
-  const { user, refetchUser } = useAuth();
+  const { user, refetchUser, langLevel } = useAuth();
 
   const { data: { packageSubscriptions: planStatus } = {} } = useQuery(
     PACKAGE_QUERY,
@@ -81,9 +81,13 @@ const StudentProfile = () => {
                     {user?.lastName}
                   </h2>
 
-                  <span className="text-base font-semibold tracking-[-0.6px] text-color-light-grey">
+                  <p className="text-base font-semibold tracking-[-0.6px] text-color-purple">
+                    {langLevel}
+                  </p>
+
+                  <p className="text-base font-semibold tracking-[-0.6px] text-color-light-grey">
                     {user?.timeZone ? user?.timeZone : 'PST (GMT-8)'}
-                  </span>
+                  </p>
                 </div>
 
                 <div>
