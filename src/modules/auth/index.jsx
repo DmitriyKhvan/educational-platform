@@ -7,8 +7,8 @@ import { useNotifications } from '../notifications';
 export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthInProgress, setIsAuthInProgress] = useState(true);
   const { getAllNotifications } = useNotifications();
+  const [langLevel, setLangLevel] = useState(null);
 
   const {
     data: user,
@@ -33,16 +33,14 @@ export const AuthProvider = ({ children }) => {
     INVITE_SET_PASSWORD_MUTATION,
   );
 
-  const me = {
-    ...user?.authenticatedUser,
-    student: user?.authenticatedUser?.students?.[0] ?? null,
-  };
-
   useEffect(() => {
-    if (!loading && isAuthInProgress) {
-      setIsAuthInProgress(false);
+    if (user) {
+      const student = user.authenticatedUser.students.find(
+        (student) => student.id === getItemToLocalStorage('studentId'),
+      );
+      setLangLevel(student?.langLevel || null);
     }
-  }, [loading, isAuthInProgress]);
+  }, [user]);
 
   const inviteSetPassword = async (email, token, password) => {
     const { data } = await redeemInvitePasswordSetToken({
@@ -60,13 +58,13 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        user: me || null,
+        user: user?.authenticatedUser || null,
         refetchUser,
         logout,
         inviteSetPassword,
         isLoading: loading,
         isAuthorized: !!user,
-        isAuthInProgress,
+        langLevel,
       }}
     >
       {children}
