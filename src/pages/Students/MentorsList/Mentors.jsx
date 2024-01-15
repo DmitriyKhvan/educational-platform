@@ -24,7 +24,9 @@ const Mentors = () => {
   });
 
   React.useEffect(() => {
-    setMentors(data?.mentors);
+    if (data) {
+      setMentors([...data.mentors].sort((a, b) => a.sortOrder - b.sortOrder));
+    }
   }, [data]);
 
   const handleStatusTutor = () => {};
