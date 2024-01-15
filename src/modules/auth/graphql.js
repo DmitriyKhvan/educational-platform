@@ -369,6 +369,7 @@ export const MENTORS_QUERY = gql`
         from
         to
       }
+      sortOrder
     }
   }
 `;
