@@ -25,9 +25,8 @@ export const AuthProvider = ({ children }) => {
       ) {
         getAllNotifications();
       }
-      if(data.authenticatedUser.authUrl) {
-        console.log(data.authenticatedUser.authUrl);
-        window.location.replace(data.authenticatedUser.authUrl);
+      if(data.authenticatedUser.googleAuth?.url) {
+        window.location.replace(data.authenticatedUser.googleAuth?.url);
       }
     },
   });
