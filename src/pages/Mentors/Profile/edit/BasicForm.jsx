@@ -208,13 +208,15 @@ const BasicForm = () => {
             {...register('convertAvailabilityTime')}
           />
           <br></br>
-          <CheckboxField
+          { user.googleCalendarSync ? (<CheckboxField
             className="mb-6"
             label={t('google_calendar_sync')}
             {...register('googleCalendarSync')}
-          />
+          />) : ''}
           <br></br>
-          { !user.googleCalendarSync ? <a className="_btn_1swtc_4 _purple_1swtc_33 w-[420px]" href={user.googleServiceSyncUrl}>Enable google calendar sync by link</a> : null}
+          { !user.googleCalendarSync ? <a className="_btn_1swtc_4 _purple_1swtc_33 w-[420px]" href={user.googleAuth.url}>Enable google calendar sync by link</a> : null}
+          <br></br>
+          { user.googleCalendarSync && user.googleAuth.url ? <a className="_btn_1swtc_4 _purple_1swtc_33 w-[420px]" href={user.googleAuth.url}>Refresh Google token</a> : null}
           <br></br>
         </div>
 
