@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +14,11 @@ import { ModalType } from 'src/constants/global';
 // import { differenceInHours } from 'date-fns';
 // import Swal from 'sweetalert2';
 
-export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
+export const ApproveRequestLesson = ({
+  lesson,
+  refetchAppointments,
+  setApproveLoading,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -26,7 +30,11 @@ export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const [approveAppointment] = useMutation(APPROVE_APPOINTMENT);
+  const [approveAppointment, { loading }] = useMutation(APPROVE_APPOINTMENT);
+
+  useEffect(() => {
+    setApproveLoading(loading);
+  }, [loading]);
 
   // const isLate = differenceInHours(new Date(lesson.startAt), new Date()) <= 24;
 
