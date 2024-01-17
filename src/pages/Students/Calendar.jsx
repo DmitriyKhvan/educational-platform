@@ -240,14 +240,21 @@ const Calendar = () => {
           tempUpcomingLessons.push(each);
         }
       });
-      setUpcomingLessons([...tempUpcomingLessons]);
-      setPastLessons([...tempPastLessons]);
+
+      const sortPastLessons = [...tempPastLessons].sort(
+        (a, b) => new Date(b.resource.startAt) - new Date(a.resource.startAt),
+      );
+
+      const sortUpcomingLessons = [...tempUpcomingLessons].sort(
+        (a, b) => new Date(b.resource.startAt) - new Date(a.resource.startAt),
+      );
+
+      setUpcomingLessons(sortUpcomingLessons);
+      setPastLessons(sortPastLessons);
 
       // to update content after receiving notification
       setDisplayTableData(
-        selectedTab === 'pastLessons'
-          ? [...tempPastLessons]
-          : [...tempUpcomingLessons],
+        selectedTab === 'pastLessons' ? sortPastLessons : sortUpcomingLessons,
       );
     }
   }, [tableAppointments]);

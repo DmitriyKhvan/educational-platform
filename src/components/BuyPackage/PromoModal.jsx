@@ -77,7 +77,7 @@ export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen }) => {
 
       <form onSubmit={handleSubmit(onSubmitHandler)}>
         <fieldset>
-          <legend className="text-[22px] font-bold">{t('promo_code')}e</legend>
+          <legend className="text-[22px] font-bold">{t('promo_code')}</legend>
 
           <InputField
             className="w-full mt-4 mb-6"
