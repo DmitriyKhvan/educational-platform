@@ -10,6 +10,7 @@ import InputField from '../../../components/Form/InputField';
 import ModalWrapper from '../../../components/ModalWrapper/ModalWrapper';
 import { MentorCard } from './MentorCard';
 import { getItemToLocalStorage } from 'src/constants/global';
+import { FiSearch } from 'react-icons/fi';
 
 const Mentors = () => {
   const [showMentorModal, setShowMentorModal] = React.useState(false);
@@ -51,19 +52,21 @@ const Mentors = () => {
   return (
     <Layout>
       <div className="p-5 md:py-[55px] md:px-[66px]">
-        <div>
-          <h1 className="text-3xl sm:text-[40px] tracking-[-1px] text-color-dark-purple mb-[10px]">
+        <div className="flex flex-col items-center">
+          <h1 className="text-3xl sm:text-4xl md:text-[40px] font-bold tracking-[-1px] text-color-dark-purple mb-[10px]">
             {t('mentor_list', { ns: 'studentMentor' })}
           </h1>
-          <p className="text-base sm:text-xl leading-6 tracking-[-0.6px] text-color-light-grey">
+          <p className="text-base leading-6 tracking-[-0.6px] text-color-light-grey">
             {t('mentor_list_desc', { ns: 'studentMentor' })}
           </p>
         </div>
 
-        <div className="mt-3">
+        <div className="my-10">
           <InputField
-            className="w-[420px]"
+            className="w-[560px] h-[58px] pl-5 text-"
+            classNameIcon="h-[58px] pr-5 text-lg"
             placeholder="Search..."
+            icon={<FiSearch />}
             onChange={(e) => searchMentors(e.target.value)}
           />
         </div>
