@@ -23,7 +23,7 @@ const StudentProfile = () => {
 
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
 
-  const { user, refetchUser, langLevel } = useAuth();
+  const { user, refetchUser, currentStudent } = useAuth();
 
   const { data: { packageSubscriptions: planStatus } = {} } = useQuery(
     PACKAGE_QUERY,
@@ -82,7 +82,7 @@ const StudentProfile = () => {
                   </h2>
 
                   <p className="text-base font-semibold tracking-[-0.6px] text-color-purple">
-                    {langLevel}
+                    {currentStudent.langLevel}
                   </p>
 
                   <p className="text-base font-semibold tracking-[-0.6px] text-color-light-grey">
@@ -106,7 +106,7 @@ const StudentProfile = () => {
           </div>
 
           <Introduction
-            text={user?.student?.about}
+            text={currentStudent.about}
             onChange={saveIntroduction}
           />
 

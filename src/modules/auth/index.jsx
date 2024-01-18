@@ -8,7 +8,7 @@ export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const { getAllNotifications } = useNotifications();
-  const [langLevel, setLangLevel] = useState(null);
+  const [currentStudent, setCurrentStudent] = useState(null);
 
   const {
     data: user,
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
       const student = user.authenticatedUser.students.find(
         (student) => student.id === getItemToLocalStorage('studentId'),
       );
-      setLangLevel(student?.langLevel || null);
+      setCurrentStudent(student);
     }
   }, [user]);
 
@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
         inviteSetPassword,
         isLoading: loading,
         isAuthorized: !!user,
-        langLevel,
+        currentStudent,
       }}
     >
       {children}
