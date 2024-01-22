@@ -12,6 +12,7 @@ import { AvailabilityException } from './AvailabilityException';
 import Button from 'src/components/Form/Button';
 import notify from 'src/utils/notify';
 import Loader from 'src/components/Loader/Loader';
+import Swal from 'sweetalert2';
 
 export const AvailabilityExceptions = () => {
   const [t] = useTranslation('common');
@@ -32,6 +33,19 @@ export const AvailabilityExceptions = () => {
   const [upsertExceptionDates, { loading: loadingExceptionDates }] =
     useMutation(UPSERT_EXCEPTION_DATES);
 
+  const removeAvailabilityExceptionConfirm = (errorObject) => {
+    const message = errorObject.errorExceptionalDates.reduce( (acc, cur) => {
+      return `${acc}<p>${cur.date}: <b>${cur.from}</b> - <b>${cur.to}</b></p>`;
+    }, '');
+    Swal.fire({
+      title: 'The following exceptional time interval contain scheduled lessons',
+      html: `<p></p><br/> ${message} <br/><p>Please, reschedule these lessons.</p>`,
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonColor: '#6133af',
+      confirmButtonText: 'swal_confirm_Button_Text',
+    });
+  };
   const onSubmit = () => {
     if (availabilityExceptions) {
       const exceptionDates = availabilityExceptions.map((aval) => {
@@ -57,7 +71,16 @@ export const AvailabilityExceptions = () => {
           refetchMentor();
         },
         onError: (error) => {
-          notify(error.message, 'error');
+          try {
+            const errorData = JSON.parse(
+              error.message,
+            );
+            if (errorData?.errorExceptionalDates) {
+              removeAvailabilityExceptionConfirm(errorData);
+            }
+          } catch (e) {
+            notify(error.message, 'error');
+          }
         },
       });
 
