@@ -37,7 +37,7 @@ export const TermsConditionsModal = ({
       <Button
         onClick={() => setIsOpenTermsConditions(false)}
         className="w-full h-auto p-5"
-        theme="clear"
+        theme="gray"
       >
         {t('cancel', { ns: 'common' })}
       </Button>

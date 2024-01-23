@@ -27,7 +27,8 @@
   }
 
   .clear {
-    @apply bg-[#F7F8FA];
+    /* @apply bg-[#F7F8FA]; */
+    @apply bg-transparent;
   }
 
   .purple {

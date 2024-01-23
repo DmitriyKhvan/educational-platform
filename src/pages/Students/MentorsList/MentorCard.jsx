@@ -13,6 +13,8 @@ import {
   TooltipTrigger,
 } from 'src/components/Tooltip';
 
+import { HiMiniChevronRight } from 'react-icons/hi2';
+
 export const MentorCard = ({
   mentor,
   handleMoreMentor,
@@ -111,7 +113,10 @@ export const MentorCard = ({
             className="m-1 h-[57px]"
             onClick={() => handleMoreMentor(mentor)}
           >
-            {t('learn_more', { ns: 'common' })}
+            <span className="whitespace-nowrap">
+              {t('learn_more', { ns: 'common' })}
+            </span>
+            <HiMiniChevronRight className="text-sm" />
           </Button>
 
           {/* <button onClick={() => handleStatusTutor(mentor.id)}>
