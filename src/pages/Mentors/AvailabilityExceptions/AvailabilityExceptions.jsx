@@ -33,19 +33,34 @@ export const AvailabilityExceptions = () => {
   const [upsertExceptionDates, { loading: loadingExceptionDates }] =
     useMutation(UPSERT_EXCEPTION_DATES);
 
-  const removeAvailabilityExceptionConfirm = (errorObject) => {
-    const message = errorObject.errorExceptionalDates.reduce( (acc, cur) => {
-      return `${acc}<p>${cur.date}: <b>${cur.from}</b> - <b>${cur.to}</b></p>`;
+  const parseErrorMessage = (error) => {
+    try {
+      const errorData = JSON.parse(error.message);
+      if (typeof errorData !== 'object') {
+        throw new Error();
+      }
+      if (errorData?.errorExceptionalDates) {
+        removeAvailabilityExceptionConfirm(errorData?.errorExceptionalDates);
+      }
+    } catch (e) {
+      notify(error.message, 'error');
+    }
+  };
+
+  const removeAvailabilityExceptionConfirm = (errorExceptionalDates) => {
+    const message = errorExceptionalDates.reduce((acc, cur) => {
+      return `${acc}<li>${cur.date}: <b>${cur.from}</b> - <b>${cur.to}</b></li>`;
     }, '');
     Swal.fire({
       title: 'Exceptional dates is not saved',
-      html: `<p>The following exceptional time interval contain scheduled lessons</p><br/> ${message} <br/><p>Please, reschedule these lessons.</p>`,
+      html: `<p>The following exceptional time interval contain scheduled lessons:</p></br><ul>${message}</ul></br><p>Please, reschedule these lessons.</p>`,
       icon: 'warning',
       showCancelButton: false,
       confirmButtonColor: '#6133af',
       confirmButtonText: 'ok',
     });
   };
+
   const onSubmit = () => {
     if (availabilityExceptions) {
       const exceptionDates = availabilityExceptions.map((aval) => {
@@ -71,19 +86,7 @@ export const AvailabilityExceptions = () => {
           refetchMentor();
         },
         onError: (error) => {
-          try {
-            const errorData = JSON.parse(
-              error.message,
-            );
-            if (typeof errorData !== 'object') {
-              throw new Error('Regular notify');
-            }
-            if (errorData?.errorExceptionalDates) {
-              removeAvailabilityExceptionConfirm(errorData);
-            }
-          } catch (e) {
-            notify(error.message, 'error');
-          }
+          parseErrorMessage(error);
         },
       });
 
