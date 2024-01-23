@@ -38,12 +38,12 @@ export const AvailabilityExceptions = () => {
       return `${acc}<p>${cur.date}: <b>${cur.from}</b> - <b>${cur.to}</b></p>`;
     }, '');
     Swal.fire({
-      title: 'The following exceptional time interval contain scheduled lessons',
-      html: `<p></p><br/> ${message} <br/><p>Please, reschedule these lessons.</p>`,
+      title: 'Exceptional dates is not saved',
+      html: `<p>The following exceptional time interval contain scheduled lessons</p><br/> ${message} <br/><p>Please, reschedule these lessons.</p>`,
       icon: 'warning',
       showCancelButton: false,
       confirmButtonColor: '#6133af',
-      confirmButtonText: 'swal_confirm_Button_Text',
+      confirmButtonText: 'ok',
     });
   };
   const onSubmit = () => {
@@ -75,6 +75,9 @@ export const AvailabilityExceptions = () => {
             const errorData = JSON.parse(
               error.message,
             );
+            if (typeof errorData !== 'object') {
+              throw new Error('Regular notify');
+            }
             if (errorData?.errorExceptionalDates) {
               removeAvailabilityExceptionConfirm(errorData);
             }
