@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import Layout from '../../../components/Layout';
 import { useQuery, gql } from '@apollo/client';
-import MentorsModal from '../MentorsList/MentorsModal';
-import Loader from '../../../components/common/Loader';
-import ModalWrapper from '../../../components/ModalWrapper/ModalWrapper';
-import { MentorCard } from '../MentorsList/MentorCard';
 import { getItemToLocalStorage } from 'src/constants/global';
+import { MentorsView } from '../MentorsList/MentorsView';
+import Loader from 'src/components/Loader/Loader';
 
 const GET_AVAILABLE_MENTORS = gql`
   query GetAvailableMentors(
@@ -82,8 +80,7 @@ const useAvailableMentors = (isoTime, duration, studentId) => {
 
 const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
   const [t] = useTranslation(['lessons', 'common']);
-  const [isOpen, setIsOpen] = useState(false);
-  const [modalSelectTutor, setModalSelectTutor] = useState({});
+
   const { availableMentors, loading } = useAvailableMentors(
     moment(schedule, 'ddd MMM DD YYYY HH:mm:ss ZZ').toISOString(),
     step,
@@ -97,11 +94,6 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
   const onClick = (mentor) => {
     setSelectTutor(mentor);
     setTabIndex(3);
-  };
-
-  const onClickLearnMore = (mentor) => {
-    setModalSelectTutor(mentor);
-    setIsOpen(true);
   };
 
   return (
@@ -159,20 +151,14 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
                   </div>
                 </div>
               </div>
-              {availableMentors?.length ? (
-                // <div className="grid grid-cols-1 lg:grid-cols-2 items-center place-items-center lg:place-items-start 2xl:grid-cols-3 w-full gap-y-4">
-                <div className="flex flex-wrap mt-10 gap-x-8 gap-y-11">
-                  {availableMentors.map((mentor) => (
-                    <MentorCard
-                      key={mentor.id}
-                      mentor={mentor}
-                      handleMoreMentor={onClickLearnMore}
-                      handleSelectMentor={onClick}
-                    />
-                  ))}
-                </div>
-              ) : loading ? (
+
+              {loading ? (
                 <Loader />
+              ) : availableMentors?.length ? (
+                <MentorsView
+                  mentorList={availableMentors}
+                  handleSelectMentor={onClick}
+                />
               ) : (
                 <div className="no_mentors">{t('no_mentors_available')}</div>
               )}
@@ -180,19 +166,6 @@ const SelectTutorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
           </div>
         </div>
       </div>
-
-      <ModalWrapper
-        isOpen={isOpen}
-        closeModal={setIsOpen}
-        widthContent="70%"
-        heightContent="80vh"
-        paddingContent="0"
-      >
-        <MentorsModal
-          setShowMentorModal={setIsOpen}
-          mentor={modalSelectTutor}
-        />
-      </ModalWrapper>
     </Layout>
   );
 };

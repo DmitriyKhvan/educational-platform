@@ -1,10 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
-import { Avatar } from 'src/widgets/Avatar/Avatar';
-import FavIcon from 'src/assets/images/Favorite.png';
-import Button from 'src/components/Form/Button';
 import {
   Tooltip,
   TooltipContent,
@@ -12,54 +8,66 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from 'src/components/Tooltip';
+import { Avatar } from 'src/widgets/Avatar/Avatar';
+import Button from 'src/components/Form/Button';
+import { HiMiniChevronRight } from 'react-icons/hi2';
 
-export const MentorCard = ({
+export const MentorCard2 = ({
   mentor,
   handleMoreMentor,
   handleSelectMentor,
 }) => {
   const [t] = useTranslation(['studentMentor', 'common', 'lessons']);
 
-  // const resizerUsername = (name) => {
-  //   return name && name.length > 9 ? name.slice(0, 9 - 1) + '...' : name;
-  // };
-
   return (
-    // <div className="w-full sm:w-[45%] xl:w-[30%] 2xl:w-[300px]">
-    <div className="w-[calc(50%-0.75rem)] sm:w-[256px]">
-      <div className="relative w-full h-[176px] sm:h-[240px] overflow-hidden rounded-lg">
+    <div className="flex w-full gap-4 sm:gap-6">
+      <div className="min-w-[64px] max-w-[64px] sm:min-w-[80px] sm:max-w-[80px] h-[80px] overflow-hidden rounded-lg">
         <Avatar avatarUrl={mentor.avatar?.url} gender={mentor.gender} />
-        {mentor.isFavourite && (
-          <img
-            className="absolute top-[5%] right-[5%] w-10 h-10 object-cover"
-            src={FavIcon}
-            alt=""
-          />
-        )}
       </div>
 
-      <div className="mt-4 overflow-hidden">
-        <div className="mb-4">
-          <h2 className="text-base sm:text-lg text-color-dark-purple font-bold tracking-[-0.6px] mb-2">
+      <div className="flex flex-col sm:flex-row grow justify-between gap-x-6">
+        <div>
+          <h2 className="text-base sm:text-lg text-color-dark-purple font-bold leading-normal tracking-[-0.6px]">
             {mentor?.firstName}
           </h2>
 
-          <h4 className="text-[13px] sm:text-sm text-color-dark-purple leading-[18px] tracking-[-0.2px] mb-3">
-            {mentor.university}
-          </h4>
+          <div className="block: sm:hidden">
+            {mentor.university && (
+              <p className="text-[13px] leading-normal tracking-[-0.2px] mt-2 mb-3">
+                <span className="text-color-dark-purple">
+                  {mentor.university}
+                </span>{' '}
+                {(mentor.degree || mentor.major) && (
+                  <span className="text-gray-400">
+                    ({mentor.degree} {mentor.major ? '/ ' + mentor.major : null}
+                    )
+                  </span>
+                )}
+              </p>
+            )}
+          </div>
 
-          <span className="text-xs sm:text-sm text-gray-400 leading-[18px] tracking-[-0.2px]">
-            {mentor.degree} {mentor.major ? '/ ' + mentor.major : null}
-          </span>
+          <div className="hidden sm:block">
+            {mentor.university && (
+              <h4 className="text-[13px] text-color-dark-purple leading-normal tracking-[-0.2px] mt-2">
+                {mentor.university}
+              </h4>
+            )}
+
+            {(mentor.degree || mentor.major) && (
+              <h4 className="text-[13px] text-gray-400 leading-normal tracking-[-0.2px] mt-3">
+                {mentor.degree} {mentor.major ? '/ ' + mentor.major : null}
+              </h4>
+            )}
+          </div>
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex gap-2 mt-4">
           {mentor?.availabilities ? (
             <TooltipProvider>
               <Tooltip delayDuration={200}>
                 <TooltipTrigger asChild>
                   <Link
-                    className="m-1"
                     to={
                       mentor?.availabilities?.length > 0
                         ? {
@@ -75,7 +83,7 @@ export const MentorCard = ({
                   >
                     <Button
                       theme="dark_purple"
-                      className="w-full h-[57px]"
+                      className="w-full px-[18px] sm:px-6 h-[40px] text-xs sm:text-sm"
                       disabled={mentor?.availabilities?.length === 0}
                     >
                       {t('schedule', { ns: 'common' })}
@@ -99,7 +107,7 @@ export const MentorCard = ({
           ) : (
             <Button
               theme="dark_purple"
-              className="p-2 m-1 h-[57px]"
+              className="px-[18px] sm:px-6 h-[40px] text-xs sm:text-sm whitespace-nowrap"
               onClick={() => handleSelectMentor(mentor)}
             >
               {t('select_mentor', { ns: 'lessons' })}
@@ -108,15 +116,14 @@ export const MentorCard = ({
 
           <Button
             theme="gray"
-            className="m-1 h-[57px]"
+            className="px-[18px] sm:px-6 h-[40px] text-xs sm:text-sm"
             onClick={() => handleMoreMentor(mentor)}
           >
-            {t('learn_more', { ns: 'common' })}
+            <span className="whitespace-nowrap">
+              {t('learn_more', { ns: 'common' })}
+            </span>
+            <HiMiniChevronRight className="text-sm" />
           </Button>
-
-          {/* <button onClick={() => handleStatusTutor(mentor.id)}>
-          {mentor?.isFavourite ? 'Remove' : 'Favorite'}
-        </button> */}
         </div>
       </div>
     </div>
