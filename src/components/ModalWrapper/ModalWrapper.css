@@ -32,7 +32,7 @@
 
 @media screen and (max-width: 414px) {
   .ReactModal__Content {
-    width: 360px !important;
+    width: 100% !important;
     bottom: -50% !important;
     transition: bottom 400ms ease-in-out;
   }

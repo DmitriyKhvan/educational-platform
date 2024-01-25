@@ -46,6 +46,7 @@
     "react-scroll": "^1.8.9",
     "react-select": "^5.2.1",
     "react-spinners": "^0.13.4",
+    "react-star-ratings": "^2.3.0",
     "react-toastify": "^9.1.1",
     "react-vimeo": "^2.0.0",
     "sass": "^1.58.0",

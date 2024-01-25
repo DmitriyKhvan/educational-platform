@@ -94,15 +94,16 @@ export const MentorsView = ({ mentorList, handleSelectMentor }) => {
             }
           })
         ) : (
-          <p>{t('cannot_find_mentors')}</p>
+          <p className="w-full text-center text-gray-500 uppercase">
+            {t('cannot_find_mentors')}
+          </p>
         )}
       </div>
       <ModalWrapper
         isOpen={showMentorModal}
         closeModal={setShowMentorModal}
-        widthContent="70%"
-        heightContent="80vh"
-        paddingContent="0"
+        heightContent="auto"
+        paddingContent="40px 0 0 0"
       >
         <MentorsModal mentor={mentor} setShowMentorModal={setShowMentorModal} />
       </ModalWrapper>

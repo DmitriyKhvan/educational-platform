@@ -35,7 +35,9 @@ const Mentors = () => {
         ) : data.mentors.length ? (
           <MentorsView mentorList={data.mentors} />
         ) : (
-          <div className="no_mentors">{t('no_mentors_available')}</div>
+          <p className="w-full text-center text-gray-500 uppercase">
+            {t('no_mentors_available')}
+          </p>
         )}
       </div>
     </Layout>

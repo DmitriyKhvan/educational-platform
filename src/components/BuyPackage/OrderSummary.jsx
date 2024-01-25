@@ -157,7 +157,7 @@ export const OrderSummary = memo(function OrderSummary({
       <ModalWrapper
         isOpen={isOpen}
         closeModal={setIsOpen}
-        widthContent="400px"
+        widthContent="400px!important"
         paddingContent="40px 32px"
       >
         <PromoModal

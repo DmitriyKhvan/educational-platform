@@ -38,6 +38,10 @@ export const MentorCard = ({
             alt=""
           />
         )}
+
+        <div className="absolute left-2 bottom-2 px-3 py-[6px] rounded-lg bg-[#FF5F4B] text-white text-xs font-semibold">
+          Top mentor
+        </div>
       </div>
 
       <div className="mt-4 overflow-hidden">

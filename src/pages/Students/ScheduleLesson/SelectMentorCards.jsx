@@ -1,71 +1,21 @@
 import React, { useEffect } from 'react';
+import { useQuery } from '@apollo/client';
+import { AVAILABLE_MENTORS } from 'src/modules/graphql/queries/mentors/availableMentors';
+
+import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
+
 import Layout from '../../../components/Layout';
-import { useQuery, gql } from '@apollo/client';
-import { getItemToLocalStorage } from 'src/constants/global';
 import { MentorsView } from '../MentorsList/MentorsView';
 import Loader from 'src/components/Loader/Loader';
 import Button from 'src/components/Form/Button';
+import { getItemToLocalStorage } from 'src/constants/global';
 import { HiMiniChevronLeft } from 'react-icons/hi2';
-import { format } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
-
-const GET_AVAILABLE_MENTORS = gql`
-  query GetAvailableMentors(
-    $time: String!
-    $duration: Int!
-    $studentId: String!
-  ) {
-    availableMentors(time: $time, duration: $duration, studentId: $studentId) {
-      filterSlot {
-        day
-        from
-        to
-        # fromSeconds
-        # toSeconds
-      }
-      mentors {
-        id
-        firstName
-        lastName
-        gender
-        major
-        language
-        university
-        graduatingYear
-        degree
-        introduction
-        about
-        experience
-        relevantExperience
-        isActive
-        hourlyRate
-        facts
-        uniqueFacts
-        fullName
-        userId
-        # user
-        # lessons
-        videoUrl
-        avatarId
-        visibilityStatus
-        avatar {
-          id
-          url
-        }
-        #availabilities {
-        #  id
-        #}
-        zoomUserId
-        zoomEmail
-      }
-    }
-  }
-`;
 
 const useAvailableMentors = (isoTime, duration, studentId) => {
   const { data: { availableMentors } = {}, loading } = useQuery(
-    GET_AVAILABLE_MENTORS,
+    AVAILABLE_MENTORS,
     {
       variables: {
         time: isoTime,
@@ -128,7 +78,9 @@ const SelectMentorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
             handleSelectMentor={onClick}
           />
         ) : (
-          <div className="no_mentors">{t('no_mentors_available')}</div>
+          <p className="w-full text-center text-gray-500 uppercase">
+            {t('no_mentors_available')}
+          </p>
         )}
       </div>
     </Layout>
