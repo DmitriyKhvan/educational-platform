@@ -20,6 +20,7 @@ export const AvailabilityExceptions = () => {
   const [availabilityExceptions, setAvailabilityExceptions] = useState([]);
   const [disableSave, setDisableSave] = useState(true);
   const [disabledDates, setDisabledDates] = useState([]);
+  const [updateExceptionDate, setUpdateExceptionDate] = useState(null);
 
   const { user } = useAuth();
   const { data: { mentor } = {}, refetch: refetchMentor } = useQuery(
@@ -84,6 +85,10 @@ export const AvailabilityExceptions = () => {
         },
         onCompleted: () => {
           refetchMentor();
+
+          notify('Exceptional dates is saved');
+
+          setUpdateExceptionDate(Date.now());
         },
         onError: (error) => {
           parseErrorMessage(error);
@@ -100,6 +105,7 @@ export const AvailabilityExceptions = () => {
       const disabledDates = [];
 
       mentor.exceptionDates.forEach((slot) => {
+        // To combine slots for the same dates
         const existingSlot = dates.find((item) => item.date === slot.date);
 
         if (existingSlot) {
@@ -119,18 +125,31 @@ export const AvailabilityExceptions = () => {
         }
       });
 
-      dates.sort((a, b) => new Date(a.date) - new Date(b.date));
+      const filterDates = dates
+        .map((date) => {
+          if (
+            date.slots.some((slot) => slot.from === null && slot.to === null)
+          ) {
+            return {
+              ...date,
+              slots: [],
+            };
+          }
+          return date;
+        })
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
 
-      setAvailabilityExceptions(dates);
+      setAvailabilityExceptions(filterDates);
       setDisabledDates(disabledDates);
     }
-  }, [mentor]);
+  }, [mentor, updateExceptionDate]);
 
   const addAvailabilityException = () => {
     const availabilityException = {
       id: uuid(),
       date: format(new Date(), 'yyyy-MM-dd'),
-      slots: [{ id: uuid(), from: '09:00', to: '23:30' }],
+      // slots: [{ id: uuid(), from: '00:00', to: '23:30' }],
+      slots: [],
     };
 
     setAvailabilityExceptions([
