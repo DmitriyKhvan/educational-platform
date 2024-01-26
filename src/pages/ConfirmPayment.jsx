@@ -101,8 +101,13 @@ export default function ConfirmPayment() {
                   provider: 'stripe',
                   metadata: JSON.stringify(paymentIntent),
                 },
-              }).then(() => {
-                setMessage('payment_confirmed');
+                onCompleted: () => {
+                  setMessage('payment_confirmed');
+                },
+                onError: (error) => {
+                  setMessage(error.message);
+                  setError(true);
+                },
               });
 
               break;
