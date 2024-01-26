@@ -87,25 +87,6 @@ export const AvailabilityExceptionSlot = ({
     availabilityExceptionSlots(newException);
   };
 
-  // const addAvailabilityExceptionSlot = () => {
-  //   const from = toTime.value;
-  //   let to = '';
-
-  //   if (from >= '23:00') {
-  //     to = format(addMinutes(parse(from, 'HH:mm', new Date()), 30), 'HH:mm');
-  //   } else {
-  //     to = format(addMinutes(parse(from, 'HH:mm', new Date()), 60), 'HH:mm');
-  //   }
-
-  //   const newTime = { id: uuid(), from, to };
-
-  //   const newSlots = [...exception.slots, newTime];
-
-  //   const newException = { ...exception, slots: newSlots };
-
-  //   availabilityExceptionSlots(newException);
-  // };
-
   const removeAvailabilityExceptionSlot = () => {
     const slotIdx = exception.slots.findIndex((sl) => sl.id === slot.id);
 
@@ -174,18 +155,6 @@ export const AvailabilityExceptionSlot = ({
           <PiTrashFill className="text-2xl text-color-border-grey" />
         </button>
       </div>
-
-      {/* {index === exception.slots.length - 1 && (
-        <div className="col-auto">
-          <button
-            className="btn ms-3"
-            onClick={addAvailabilityExceptionSlot}
-            disabled={slot.to >= '23:30'}
-          >
-            <FaPlus className="text-2xl text-color-purple" />
-          </button>
-        </div>
-      )} */}
     </div>
   );
 };
