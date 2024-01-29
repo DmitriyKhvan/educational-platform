@@ -9,11 +9,11 @@ export function MyDrawer({ button, className, children }) {
         <Drawer.Content
           className={`flex flex-col fixed bottom-0 left-0 right-0 ${className}`}
         >
-          <div className="px-6 pb-6 bg-white rounded-t-[10px] flex-1 overflow-auto">
+          <div className="px-6 bg-white rounded-t-[10px] flex-1 overflow-auto">
             <div className="sticky top-0 flex items-center justify-center w-full h-10 bg-white">
               <div className="w-12 h-1.5 flex-shrink-0 rounded-full bg-zinc-300" />
             </div>
-            {children}
+            <div className="">{children}</div>
           </div>
         </Drawer.Content>
       </Drawer.Portal>

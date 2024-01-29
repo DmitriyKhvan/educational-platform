@@ -36,35 +36,37 @@ export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
             {mentor?.firstName}
           </h2>
 
-          <div className="block: sm:hidden">
-            {mentor.university && (
-              <p className="text-[13px] leading-normal tracking-[-0.2px] mt-2 mb-3">
-                <span className="text-color-dark-purple">
+          {isMobile ? (
+            <div>
+              {mentor.university && (
+                <p className="text-[13px] leading-normal tracking-[-0.2px] mt-2 mb-3">
+                  <span className="text-color-dark-purple">
+                    {mentor.university}
+                  </span>{' '}
+                  {(mentor.degree || mentor.major) && (
+                    <span className="text-gray-400">
+                      ({mentor.degree}{' '}
+                      {mentor.major ? '/ ' + mentor.major : null})
+                    </span>
+                  )}
+                </p>
+              )}
+            </div>
+          ) : (
+            <div>
+              {mentor.university && (
+                <h4 className="text-[13px] text-color-dark-purple leading-normal tracking-[-0.2px] mt-2">
                   {mentor.university}
-                </span>{' '}
-                {(mentor.degree || mentor.major) && (
-                  <span className="text-gray-400">
-                    ({mentor.degree} {mentor.major ? '/ ' + mentor.major : null}
-                    )
-                  </span>
-                )}
-              </p>
-            )}
-          </div>
+                </h4>
+              )}
 
-          <div className="hidden sm:block">
-            {mentor.university && (
-              <h4 className="text-[13px] text-color-dark-purple leading-normal tracking-[-0.2px] mt-2">
-                {mentor.university}
-              </h4>
-            )}
-
-            {(mentor.degree || mentor.major) && (
-              <h4 className="text-[13px] text-gray-400 leading-normal tracking-[-0.2px] mt-3">
-                {mentor.degree} {mentor.major ? '/ ' + mentor.major : null}
-              </h4>
-            )}
-          </div>
+              {(mentor.degree || mentor.major) && (
+                <h4 className="text-[13px] text-gray-400 leading-normal tracking-[-0.2px] mt-3">
+                  {mentor.degree} {mentor.major ? '/ ' + mentor.major : null}
+                </h4>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="flex gap-2 mt-4">
@@ -87,7 +89,7 @@ export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
                     }
                   >
                     <Button
-                      theme="dark_purple"
+                      theme="purple"
                       className="w-full px-[18px] sm:px-6 h-[40px] text-xs sm:text-sm"
                       disabled={mentor?.availabilities?.length === 0}
                     >
@@ -111,7 +113,7 @@ export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
             </TooltipProvider>
           ) : (
             <Button
-              theme="dark_purple"
+              theme="purple"
               className="px-[18px] sm:px-6 h-[40px] text-xs sm:text-sm whitespace-nowrap"
               onClick={() => handleSelectMentor(mentor)}
             >
@@ -152,22 +154,6 @@ export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
             >
               <MentorsModal mentor={mentor} />
             </MyDialog>
-
-            // <MyDialog
-            //   button={
-            //     <Button
-            //       theme="gray"
-            //       className="flex items-center justify-center px-[18px] sm:px-6 h-[40px] text-xs sm:text-sm  "
-            //     >
-            //       <span className="whitespace-nowrap">
-            //         {t('learn_more', { ns: 'common' })}
-            //       </span>
-            //       <HiMiniChevronRight className="text-sm" />
-            //     </Button>
-            //   }
-            // >
-            //   <MentorsModal mentor={mentor} />
-            // </MyDialog>
           )}
         </div>
       </div>

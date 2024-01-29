@@ -6,13 +6,35 @@ import { useTranslation } from 'react-i18next';
 import { Avatar } from '../../../widgets/Avatar/Avatar';
 import Button from '../../../components/Form/Button/Button';
 import StarRatings from 'react-star-ratings';
+import { useMediaQuery } from 'react-responsive';
+import { MyCarousel } from 'src/components/MyCarousel/MyCarousel';
 
 const MentorsModal = ({ mentor }) => {
+  const isMobile = useMediaQuery({ maxWidth: 639 });
   const [t] = useTranslation(['common', 'profile']);
 
   return (
-    <div className="w-full sm:w-[calc(100vw-120px)] max-w-[880px] sm:h-full sm:min-h-[415px]">
-      <div className="flex flex-col-reverse sm:flex-row bg-white gap-10">
+    <div className="flex flex-col gap-8 w-full sm:w-[calc(100vw-120px)] max-w-[880px] sm:h-full sm:min-h-[415px]">
+      <div className="flex flex-col sm:flex-row bg-white gap-10">
+        {mentor?.videoUrl ? (
+          <iframe
+            className="w-full sm:w-5/12 lg:w-1/3 max-h-[220px]"
+            src={mentor?.videoUrl}
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            style={{ border: 0 }}
+          ></iframe>
+        ) : (
+          <div className="w-full sm:w-5/12 lg:w-1/3 h-[185px] sm:h-auto max-h-[220px] rounded-lg overflow-hidden">
+            <Avatar
+              avatarUrl={mentor?.avatar?.url}
+              gender={mentor?.gender}
+              className="object-cover"
+            />
+          </div>
+        )}
+
         <div className="w-full sm:w-7/12 lg:w-2/3 break-word hyphens-auto">
           <h1 className="mb-3 text-[22px] md:text-[28px] leading-[34px] tracking-[-1px] text-color-dark-purple font-bold">{`${
             mentor?.fullName || mentor?.user?.fullName
@@ -30,33 +52,32 @@ const MentorsModal = ({ mentor }) => {
           </div>
 
           <div className="flex flex-col gap-8 mt-6">
-            <Link
-              to={{
-                pathname: `/student/schedule-lesson/select`,
-                state: {
-                  tutor: {
-                    id: mentor.id,
-                    firstName: mentor.user?.firstName,
-                    lastName: mentor.user?.lastName,
-                    avatar: mentor.avatar?.url,
-                  },
-                },
-              }}
-              style={{
-                pointerEvents:
-                  mentor?.availabilities?.length > 0 ? 'auto' : 'none',
-              }}
-            >
-              <Button
-                theme="purple"
-                className="px-[48px] h-[50px]"
-                disabled={mentor?.availabilities?.length === 0}
+            {!isMobile && (
+              <Link
+                to={
+                  mentor?.availabilities?.length > 0
+                    ? {
+                        pathname: `/student/schedule-lesson/select`,
+                        state: {
+                          tutor: {
+                            ...mentor,
+                          },
+                        },
+                      }
+                    : '#'
+                }
               >
-                {t('schedule')}
-              </Button>
-            </Link>
+                <Button
+                  theme="purple"
+                  className="px-[48px] h-[50px]"
+                  disabled={mentor?.availabilities?.length === 0}
+                >
+                  {t('schedule')}
+                </Button>
+              </Link>
+            )}
 
-            <div className="flex gap-8">
+            <div className="flex flex-wrap gap-8">
               <div>
                 <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px]">
                   {t('university', { ns: 'profile' })}
@@ -76,61 +97,73 @@ const MentorsModal = ({ mentor }) => {
                 </p>
               </div>
             </div>
-
-            {mentor?.introduction && (
-              <div>
-                <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px]">
-                  {t('biography', { ns: 'profile' })}
-                </h3>
-                <p className="mt-2 font-medium text-color-dark-purple text-[15px] leading-[24px] tracking-[-0.2px]">
-                  {mentor?.introduction}
-                </p>
-              </div>
-            )}
-
-            {mentor?.relevantExperience && (
-              <div>
-                <h3 className="font-semibold text-[15px] leading-[18px] tracking-[-0.2px] text-color-light-grey">
-                  {t('bio_experience_label', { ns: 'profile' })}
-                </h3>
-                <p className="font-medium text-color-dark-purple mt-2 text-[15px] leading-[21px] tracking-[-0.6px]">
-                  {mentor?.relevantExperience}
-                </p>
-              </div>
-            )}
-
-            {mentor?.uniqueFacts && (
-              <div>
-                <h3 className="font-semibold text-[15px] leading-[18px] tracking-[-0.2px] text-color-light-grey">
-                  {t('bio_facts_label', { ns: 'profile' })}
-                </h3>
-                <p className="font-medium text-color-dark-purple mt-2 text-[15px] leading-[21px] tracking-[-0.6px]">
-                  {mentor?.uniqueFacts}
-                </p>
-              </div>
-            )}
           </div>
         </div>
-
-        {mentor?.videoUrl ? (
-          <iframe
-            className="w-full sm:w-5/12 lg:w-1/3 max-h-[360px]"
-            src={mentor?.videoUrl}
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-            style={{ border: 0 }}
-          ></iframe>
-        ) : (
-          <div className="w-full sm:w-5/12 lg:w-1/3 h-[185px] sm:h-auto max-h-[360px] rounded-lg overflow-hidden">
-            <Avatar
-              avatarUrl={mentor?.avatar?.url}
-              gender={mentor?.gender}
-              className="object-cover"
-            />
-          </div>
-        )}
       </div>
+
+      <div>
+        {mentor?.uniqueFacts && (
+          <>
+            <h3 className="font-semibold text-[15px] leading-[18px] tracking-[-0.2px] text-color-light-grey">
+              {t('bio_facts_label', { ns: 'profile' })}
+            </h3>
+            <p className="font-medium text-color-dark-purple mt-2 text-[15px] leading-[21px] tracking-[-0.6px]">
+              {mentor?.uniqueFacts}
+            </p>
+          </>
+        )}
+
+        {mentor?.introduction && (
+          <>
+            <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px]">
+              {t('biography', { ns: 'profile' })}
+            </h3>
+            <p className="mt-2 font-medium text-color-dark-purple text-[15px] leading-[24px] tracking-[-0.2px]">
+              {mentor?.introduction}
+            </p>
+          </>
+        )}
+
+        {mentor?.relevantExperience && (
+          <>
+            <h3 className="font-semibold text-[15px] leading-[18px] tracking-[-0.2px] text-color-light-grey">
+              {t('bio_experience_label', { ns: 'profile' })}
+            </h3>
+            <p className="font-medium text-color-dark-purple mt-2 text-[15px] leading-[21px] tracking-[-0.6px]">
+              {mentor?.relevantExperience}
+            </p>
+          </>
+        )}
+
+        <MyCarousel />
+      </div>
+
+      {isMobile && (
+        <div className="sticky bottom-0 w-full pb-4 bg-white">
+          <Link
+            to={
+              mentor?.availabilities?.length > 0
+                ? {
+                    pathname: `/student/schedule-lesson/select`,
+                    state: {
+                      tutor: {
+                        ...mentor,
+                      },
+                    },
+                  }
+                : '#'
+            }
+          >
+            <Button
+              theme="purple"
+              className="w-full px-[48px] h-[50px]"
+              disabled={mentor?.availabilities?.length === 0}
+            >
+              {t('schedule')}
+            </Button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

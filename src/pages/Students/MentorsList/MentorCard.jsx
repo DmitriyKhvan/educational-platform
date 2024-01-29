@@ -14,12 +14,13 @@ import {
 } from 'src/components/Tooltip';
 
 import { HiMiniChevronRight } from 'react-icons/hi2';
+import { useMediaQuery } from 'react-responsive';
+import { MyDrawer } from 'src/components/Drawer';
+import MyDialog from 'src/components/Dialog/Dialog';
+import MentorsModal from './MentorsModal';
 
-export const MentorCard = ({
-  mentor,
-  handleMoreMentor,
-  handleSelectMentor,
-}) => {
+export const MentorCard = ({ mentor, handleSelectMentor }) => {
+  const isMobile = useMediaQuery({ maxWidth: 639 });
   const [t] = useTranslation(['studentMentor', 'common', 'lessons']);
 
   // const resizerUsername = (name) => {
@@ -80,7 +81,7 @@ export const MentorCard = ({
                     }
                   >
                     <Button
-                      theme="dark_purple"
+                      theme="purple"
                       className="w-full h-[57px]"
                       disabled={mentor?.availabilities?.length === 0}
                     >
@@ -104,7 +105,7 @@ export const MentorCard = ({
             </TooltipProvider>
           ) : (
             <Button
-              theme="dark_purple"
+              theme="purple"
               className="p-2 m-1 h-[57px]"
               onClick={() => handleSelectMentor(mentor)}
             >
@@ -112,20 +113,34 @@ export const MentorCard = ({
             </Button>
           )}
 
-          <Button
-            theme="gray"
-            className="m-1 h-[57px]"
-            onClick={() => handleMoreMentor(mentor)}
-          >
-            <span className="whitespace-nowrap">
-              {t('learn_more', { ns: 'common' })}
-            </span>
-            <HiMiniChevronRight className="text-sm" />
-          </Button>
-
-          {/* <button onClick={() => handleStatusTutor(mentor.id)}>
-          {mentor?.isFavourite ? 'Remove' : 'Favorite'}
-        </button> */}
+          {isMobile ? (
+            <MyDrawer
+              button={
+                <Button theme="gray" className="m-1 grow h-[57px]">
+                  <span className="whitespace-nowrap">
+                    {t('learn_more', { ns: 'common' })}
+                  </span>
+                  <HiMiniChevronRight className="text-sm" />
+                </Button>
+              }
+              className="h-[80%]"
+            >
+              <MentorsModal mentor={mentor} />
+            </MyDrawer>
+          ) : (
+            <MyDialog
+              button={
+                <Button theme="gray" className="m-1 w-full h-[57px]">
+                  <span className="whitespace-nowrap">
+                    {t('learn_more', { ns: 'common' })}
+                  </span>
+                  <HiMiniChevronRight className="text-sm" />
+                </Button>
+              }
+            >
+              <MentorsModal mentor={mentor} />
+            </MyDialog>
+          )}
         </div>
       </div>
     </div>
