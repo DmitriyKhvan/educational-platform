@@ -6,24 +6,15 @@ import { MentorCard2 } from './MentorCard2';
 import { FiSearch } from 'react-icons/fi';
 import { FaList } from 'react-icons/fa6';
 import { BsFillGridFill } from 'react-icons/bs';
-import ModalWrapper from 'src/components/ModalWrapper/ModalWrapper';
-import MentorsModal from './MentorsModal';
 
 export const MentorsView = ({ mentorList, handleSelectMentor }) => {
   const [t] = useTranslation(['studentMentor', 'common']);
 
-  const [mentor, setMentor] = useState({});
   const [mentors, setMentors] = useState(
     [...mentorList].sort((a, b) => a.sortOrder - b.sortOrder),
   );
 
-  const [showMentorModal, setShowMentorModal] = useState(false);
   const [viewMentorList, setViewMentorList] = useState('list');
-
-  const handleMoreMentor = (mentor) => {
-    setMentor(mentor);
-    setShowMentorModal(true);
-  };
 
   const searchMentors = (value) => {
     let newMentors = [...mentorList].sort((a, b) => a.sortOrder - b.sortOrder);
@@ -78,7 +69,6 @@ export const MentorsView = ({ mentorList, handleSelectMentor }) => {
                 <MentorCard
                   key={mentor.id}
                   mentor={mentor}
-                  handleMoreMentor={handleMoreMentor}
                   handleSelectMentor={handleSelectMentor}
                 />
               );
@@ -87,7 +77,6 @@ export const MentorsView = ({ mentorList, handleSelectMentor }) => {
                 <MentorCard2
                   key={mentor.id}
                   mentor={mentor}
-                  handleMoreMentor={handleMoreMentor}
                   handleSelectMentor={handleSelectMentor}
                 />
               );
@@ -99,14 +88,6 @@ export const MentorsView = ({ mentorList, handleSelectMentor }) => {
           </p>
         )}
       </div>
-      <ModalWrapper
-        isOpen={showMentorModal}
-        closeModal={setShowMentorModal}
-        heightContent="auto"
-        paddingContent="40px 0 0 0"
-      >
-        <MentorsModal mentor={mentor} setShowMentorModal={setShowMentorModal} />
-      </ModalWrapper>
     </>
   );
 };
