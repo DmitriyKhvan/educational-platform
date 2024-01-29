@@ -25,7 +25,7 @@ const Alert = (
     confirmButtonText: confirmButtonText,
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire(successMsg1, successMsg2, successMsg3);
+      // Swal.fire(successMsg1, successMsg2, successMsg3);
       onConfirm();
     } else {
       onCancel();

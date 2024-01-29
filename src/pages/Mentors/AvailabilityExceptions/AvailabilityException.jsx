@@ -1,11 +1,13 @@
 import { DatePicker } from '@tremor/react';
 
 import { AvailabilityExceptionSlot } from './AvailabilityExceptionSlot';
-import { format } from 'date-fns';
+import { addMinutes, format, parse } from 'date-fns';
 
 import { PiTrashFill } from 'react-icons/pi';
 import Alert from 'src/components/Popup/Alert';
 import { useTranslation } from 'react-i18next';
+import Button from 'src/components/Form/Button';
+import { v4 as uuid } from 'uuid';
 
 export const AvailabilityException = ({
   availabilityExceptionSlots,
@@ -35,6 +37,29 @@ export const AvailabilityException = ({
       t('swal_fire_title_conform_msg1'),
       t('swal_fire_title_conform_msg2'),
     );
+  };
+
+  const addAvailabilityExceptionSlot = () => {
+    let newTime = { id: uuid(), from: '00:00', to: '23:30' };
+
+    if (exception.slots.length) {
+      const from = exception.slots[exception.slots.length - 1].to;
+      let to = '';
+
+      if (from >= '23:00') {
+        to = format(addMinutes(parse(from, 'HH:mm', new Date()), 30), 'HH:mm');
+      } else {
+        to = format(addMinutes(parse(from, 'HH:mm', new Date()), 60), 'HH:mm');
+      }
+
+      newTime = { ...newTime, from, to };
+    }
+
+    const newSlots = [...exception.slots, newTime];
+
+    const newException = { ...exception, slots: newSlots };
+
+    availabilityExceptionSlots(newException);
   };
 
   return (
@@ -72,6 +97,17 @@ export const AvailabilityException = ({
               />
             );
           })}
+
+          <div>
+            <Button
+              disabled={
+                exception.slots[exception.slots.length - 1]?.to >= '23:00'
+              }
+              onClick={addAvailabilityExceptionSlot}
+            >
+              Add time slot
+            </Button>
+          </div>
         </div>
       </div>
       <div className="divider "></div>
