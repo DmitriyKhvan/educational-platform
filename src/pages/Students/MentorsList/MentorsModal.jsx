@@ -7,11 +7,14 @@ import { Avatar } from '../../../widgets/Avatar/Avatar';
 import Button from '../../../components/Form/Button/Button';
 import StarRatings from 'react-star-ratings';
 import { useMediaQuery } from 'react-responsive';
-import { MyCarousel } from 'src/components/MyCarousel/MyCarousel';
+import EmblaCarousel from 'src/components/MyCarousel/MyCarousel';
 
 const MentorsModal = ({ mentor }) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });
   const [t] = useTranslation(['common', 'profile']);
+
+  const SLIDE_COUNT = 5;
+  const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 
   return (
     <div className="flex flex-col gap-8 w-full sm:w-[calc(100vw-120px)] max-w-[880px] sm:h-full sm:min-h-[415px]">
@@ -101,41 +104,45 @@ const MentorsModal = ({ mentor }) => {
         </div>
       </div>
 
-      <div>
+      <div className="flex flex-col gap-8">
         {mentor?.uniqueFacts && (
-          <>
+          <div>
             <h3 className="font-semibold text-[15px] leading-[18px] tracking-[-0.2px] text-color-light-grey">
               {t('bio_facts_label', { ns: 'profile' })}
             </h3>
             <p className="font-medium text-color-dark-purple mt-2 text-[15px] leading-[21px] tracking-[-0.6px]">
               {mentor?.uniqueFacts}
             </p>
-          </>
+          </div>
         )}
 
         {mentor?.introduction && (
-          <>
+          <div>
             <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px]">
               {t('biography', { ns: 'profile' })}
             </h3>
             <p className="mt-2 font-medium text-color-dark-purple text-[15px] leading-[24px] tracking-[-0.2px]">
               {mentor?.introduction}
             </p>
-          </>
+          </div>
         )}
 
         {mentor?.relevantExperience && (
-          <>
+          <div>
             <h3 className="font-semibold text-[15px] leading-[18px] tracking-[-0.2px] text-color-light-grey">
               {t('bio_experience_label', { ns: 'profile' })}
             </h3>
             <p className="font-medium text-color-dark-purple mt-2 text-[15px] leading-[21px] tracking-[-0.6px]">
               {mentor?.relevantExperience}
             </p>
-          </>
+          </div>
         )}
 
-        <MyCarousel />
+        <EmblaCarousel
+          slides={SLIDES}
+          // options={{ align: 'start', loop: true }}
+          options={{ align: 'start' }}
+        />
       </div>
 
       {isMobile && (
