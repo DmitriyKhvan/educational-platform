@@ -10,6 +10,8 @@ import { useAuth } from '../../../modules/auth';
 import { gql, useQuery } from '@apollo/client';
 import { cn } from 'src/utils/functions';
 import { getItemToLocalStorage } from 'src/constants/global';
+import { format, isSameDay, isWithinInterval, parse } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 
 const GET_TIMESHEETS = gql`
   query combinedTimesheets(
@@ -68,10 +70,24 @@ const ScheduleSelector = ({
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const { data: timesheetsData } = useTimesheets({
+    tz: userTimezone,
+    date: moment(day).format('YYYY-MM-DD'),
+    duration: String(duration).toString(),
+    ...(selectedTutor && {
+      mentorId: selectedTutor.id,
+    }),
+    studentId: getItemToLocalStorage('studentId'),
+  });
+
   const disable = counter === 0;
   const today = moment.tz(userTimezone).subtract(counter, 'week');
   const startOfWeek = today.startOf('isoWeek');
   const startOfWeekString = startOfWeek.toString();
+
+  console.log('startOfWeekString', startOfWeekString);
+
   const startOfWeekFormatted = `${t(startOfWeek.format('MMMM'), {
     ns: 'common',
   })} ${startOfWeek.format('DD')}${t('kor_day', { ns: 'common' })}`;
@@ -84,6 +100,8 @@ const ScheduleSelector = ({
   const isToday = moment.tz(userTimezone);
   const checkAgainstToday = moment(isToday, timeFormatter);
 
+  console.log('checkAgainstToday', checkAgainstToday);
+
   //Format the time
   const startTime = moment(timeOfDay.startTime, 'HH:mm');
 
@@ -91,8 +109,21 @@ const ScheduleSelector = ({
   const endTime = moment(timeOfDay.endTime, 'HH:mm');
 
   const days = [];
-  const allTimes = [];
+  let allTimes = [];
   let timeArr = [];
+
+  const morningInterval = {
+    start: parse('00:00', 'HH:mm', new Date()),
+    end: parse('11:59', 'HH:mm', new Date()),
+  };
+  const afternoonInterval = {
+    start: parse('12:00', 'HH:mm', new Date()),
+    end: parse('17:59', 'HH:mm', new Date()),
+  };
+  const eveningInterval = {
+    start: parse('18:00', 'HH:mm', new Date()),
+    end: parse('23:59', 'HH:mm', new Date()),
+  };
 
   const morningCheck = [
     moment('00:00:00', timeFormatter),
@@ -109,65 +140,93 @@ const ScheduleSelector = ({
     moment(step === 30 ? '23:30:00' : '23:00:00', timeFormatter),
   ];
 
-  if (day) {
-    const formatDay = moment(day);
-    const checkIsToday = moment(formatDay.format('YYYY-MM-DD')).isSame(
-      isToday.format('YYYY-MM-DD'),
-      'day',
-    );
-    if (checkIsToday) {
-      if (checkAgainstToday.isBetween(...morningCheck)) {
-        timeArr.push({
-          time: 'Morning',
-          format: 'time',
-        });
-      }
-      if (
-        checkAgainstToday.isBetween(...morningCheck) ||
-        checkAgainstToday.isBetween(...afternoonCheck)
-      ) {
-        timeArr.push({
-          time: 'Afternoon',
-          format: 'time',
-        });
-      }
-      if (
-        checkAgainstToday.isBetween(...morningCheck) ||
-        checkAgainstToday.isBetween(...afternoonCheck) ||
-        checkAgainstToday.isBetween(...eveningCheck)
-      ) {
-        timeArr.push({
-          time: 'Evening',
-          format: 'time',
-        });
-      }
-    } else {
-      timeArr.push(
-        {
-          time: 'Morning',
-          format: 'time',
-        },
-        {
-          time: 'Afternoon',
-          format: 'time',
-        },
-        {
-          time: 'Evening',
-          format: 'time',
-        },
+  // функция формирует утро/день/вечер с учетом текущего времени
+  const setDayInterval = (currentTime) => {
+    let morning = false;
+    let afternoon = false;
+    let evening = false;
+    let isCurrentMorning = true;
+    let isCurrentArternoon = true;
+    let isCurrentEvening = true;
+
+    if (currentTime) {
+      const currentTimeFormat = parse(currentTime, 'HH:mm', new Date());
+      isCurrentMorning = isWithinInterval(currentTimeFormat, morningInterval);
+      isCurrentArternoon = isWithinInterval(
+        currentTimeFormat,
+        afternoonInterval,
       );
+      isCurrentEvening = isWithinInterval(currentTimeFormat, eveningInterval);
+    }
+
+    timesheetsData?.combinedTimesheets
+      .sort(
+        (a, b) =>
+          parse(a.from, 'HH:mm', new Date()) -
+          parse(b.from, 'HH:mm', new Date()),
+      )
+      .forEach((timesheet) => {
+        const tempTime = parse(timesheet.from, 'HH:mm', new Date());
+
+        if (
+          isWithinInterval(tempTime, morningInterval) &&
+          isCurrentMorning &&
+          !morning
+        ) {
+          timeArr.push({
+            time: 'Morning',
+            format: 'time',
+          });
+
+          morning = true;
+          return;
+        }
+        if (
+          isWithinInterval(tempTime, afternoonInterval) &&
+          (isCurrentMorning || isCurrentArternoon) &&
+          !afternoon
+        ) {
+          timeArr.push({
+            time: 'Afternoon',
+            format: 'time',
+          });
+
+          afternoon = true;
+          return;
+        }
+        if (
+          isWithinInterval(tempTime, eveningInterval) &&
+          (isCurrentMorning || isCurrentArternoon || isCurrentEvening) &&
+          !evening
+        ) {
+          timeArr.push({
+            time: 'Evening',
+            format: 'time',
+          });
+
+          evening = true;
+          return;
+        }
+      });
+  };
+
+  // Формирутеся утро/день/вечер
+  if (day && timesheetsData) {
+    const checkIsToday = isSameDay(new Date(day), new Date());
+
+    if (checkIsToday) {
+      const currentTime = format(
+        utcToZonedTime(new Date(), userTimezone),
+        'HH:mm',
+      );
+      setDayInterval(currentTime);
+    } else {
+      setDayInterval();
     }
   }
 
-  const { data: timesheetsData } = useTimesheets({
-    tz: userTimezone,
-    date: moment(day).format('YYYY-MM-DD'),
-    duration: String(duration).toString(),
-    ...(selectedTutor && {
-      mentorId: selectedTutor.id,
-    }),
-    studentId: getItemToLocalStorage('studentId'),
-  });
+  console.log('timeArr', timeArr);
+  console.log('timeOfDay', timeOfDay);
 
   //Loop over the times - only pushes time with 30 oor 60 minutes interval
   while (startTime.isBefore(endTime) || startTime.isSame(endTime)) {
@@ -185,22 +244,33 @@ const ScheduleSelector = ({
         return timesheet;
       }
     });
-    startTime.add(step, 'minutes');
+    // startTime.add(step, 'minutes');
+    startTime.add(30, 'minutes');
   }
 
-  for (let i = 0; i <= 6; i++) {
+  // Формируются дни недели (Пн - Вс)
+  for (let i = 0; i < 7; i++) {
     if (
-      moment(startOfWeekString)
+      moment
+        .tz(startOfWeekString, userTimezone)
         .add(i, 'days')
-        .isBetween(moment().subtract(1, 'days'), moment().add(28, 'days'))
+        .isBetween(
+          moment().tz(userTimezone).subtract(1, 'days'),
+          moment().tz(userTimezone).add(28, 'days'),
+        )
     ) {
       const dayOfTheWeek = {
-        day: moment(startOfWeekString).add(i, 'days').toString(),
+        day: moment
+          .tz(startOfWeekString, userTimezone)
+          .add(i, 'days')
+          .toString(),
         format: 'day',
       };
       days.push(dayOfTheWeek);
     }
   }
+
+  console.log('days', days);
 
   const DaySelector = ({ data, i }) => {
     const checkDate = () => {
@@ -472,6 +542,8 @@ const ScheduleSelector = ({
                     onClick={() => {
                       setCounter(counter + 1);
                       setDayClicked(null);
+                      setTimeClicked(null);
+                      timeArr = [];
                     }}
                   >
                     <img
@@ -495,6 +567,8 @@ const ScheduleSelector = ({
                     onClick={() => {
                       setCounter(counter - 1);
                       setDayClicked(null);
+                      setTimeClicked(null);
+                      timeArr = [];
                     }}
                     disabled={counter === -4}
                   >
