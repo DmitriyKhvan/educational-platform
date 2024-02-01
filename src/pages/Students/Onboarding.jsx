@@ -189,7 +189,7 @@ export default function Onboarding() {
                   required: t('required_email', { ns: 'common' }),
                   validate: {
                     isEmail: (value) => {
-                      const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+                      const emailRegex = /^[a-z0-9_-]+@([a-z0-9_-]+\.)+[a-z0-9_-]{2,4}$/;
                       return (
                         emailRegex.test(value) ||
                         t('invalid_email', { ns: 'onboarding' })
