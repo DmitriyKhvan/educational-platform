@@ -81,12 +81,9 @@ const ScheduleSelector = ({
     studentId: getItemToLocalStorage('studentId'),
   });
 
-  const disable = counter === 0;
   const today = moment.tz(userTimezone).subtract(counter, 'week');
   const startOfWeek = today.startOf('isoWeek');
   const startOfWeekString = startOfWeek.toString();
-
-  console.log('startOfWeekString', startOfWeekString);
 
   const startOfWeekFormatted = `${t(startOfWeek.format('MMMM'), {
     ns: 'common',
@@ -99,8 +96,6 @@ const ScheduleSelector = ({
 
   const isToday = moment.tz(userTimezone);
   const checkAgainstToday = moment(isToday, timeFormatter);
-
-  console.log('checkAgainstToday', checkAgainstToday);
 
   //Format the time
   const startTime = moment(timeOfDay.startTime, 'HH:mm');
@@ -140,7 +135,7 @@ const ScheduleSelector = ({
     moment(step === 30 ? '23:30:00' : '23:00:00', timeFormatter),
   ];
 
-  // функция формирует утро/день/вечер с учетом текущего времени
+  // formation morning/afternoon/evening taking into account the current time and available metor slots
   const setDayInterval = (currentTime) => {
     let morning = false;
     let afternoon = false;
@@ -210,7 +205,7 @@ const ScheduleSelector = ({
       });
   };
 
-  // Формирутеся утро/день/вечер
+  // morning/afternoon/evening formation
   if (day && timesheetsData) {
     const checkIsToday = isSameDay(new Date(day), new Date());
 
@@ -224,9 +219,6 @@ const ScheduleSelector = ({
       setDayInterval();
     }
   }
-
-  console.log('timeArr', timeArr);
-  console.log('timeOfDay', timeOfDay);
 
   //Loop over the times - only pushes time with 30 oor 60 minutes interval
   while (startTime.isBefore(endTime) || startTime.isSame(endTime)) {
@@ -248,7 +240,7 @@ const ScheduleSelector = ({
     startTime.add(30, 'minutes');
   }
 
-  // Формируются дни недели (Пн - Вс)
+  // Days of the week are formed (Mon - Sun)
   for (let i = 0; i < 7; i++) {
     if (
       moment
@@ -269,8 +261,6 @@ const ScheduleSelector = ({
       days.push(dayOfTheWeek);
     }
   }
-
-  console.log('days', days);
 
   const DaySelector = ({ data, i }) => {
     const checkDate = () => {
@@ -538,7 +528,7 @@ const ScheduleSelector = ({
                 <div>
                   <button
                     className="disabled:opacity-50"
-                    disabled={disable}
+                    disabled={counter === 0}
                     onClick={() => {
                       setCounter(counter + 1);
                       setDayClicked(null);
