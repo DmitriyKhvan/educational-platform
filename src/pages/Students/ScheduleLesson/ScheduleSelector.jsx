@@ -7,9 +7,24 @@ import forward_arrow from '../../../assets/images/forward_arrow.svg';
 import Swal from 'sweetalert2';
 import Loader from 'react-loader-spinner';
 import { useAuth } from '../../../modules/auth';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 import { cn } from 'src/utils/functions';
 import { getItemToLocalStorage } from 'src/constants/global';
+import {
+  addDays,
+  addHours,
+  addWeeks,
+  endOfISOWeek,
+  format,
+  isAfter,
+  isSameDay,
+  isWithinInterval,
+  parse,
+  startOfHour,
+  startOfISOWeek,
+} from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
+import { useEffect } from 'react';
 
 const GET_TIMESHEETS = gql`
   query combinedTimesheets(
@@ -34,15 +49,6 @@ const GET_TIMESHEETS = gql`
     }
   }
 `;
-const useTimesheets = (body) => {
-  const res = useQuery(GET_TIMESHEETS, {
-    variables: {
-      ...body,
-    },
-    fetchPolicy: 'network-only',
-  });
-  return res;
-};
 
 const ScheduleSelector = ({
   setTabIndex,
@@ -52,37 +58,75 @@ const ScheduleSelector = ({
   lesson,
   selectedTutor,
 }) => {
-  const [t] = useTranslation(['lessons', 'common', 'modals']);
   const { user } = useAuth();
+
+  const userTimezone =
+    user?.timeZone?.split(' ')[0] ||
+    Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const todayUserTimezone = () => {
+    return utcToZonedTime(new Date(), userTimezone);
+  };
+
+  // const currentTimeUserTimezone =
+
+  const [t] = useTranslation(['lessons', 'common', 'modals']);
+
   const [isLoading, setIsLoading] = useState(false);
   const [counter, setCounter] = useState(0);
   const [dayClicked, setDayClicked] = useState(null);
   const [timeClicked, setTimeClicked] = useState(null);
-  const [day, setDay] = useState();
+  const [day, setDay] = useState(todayUserTimezone());
   const [timeOfDay, setTimeOfDay] = useState({
     slotInterval: 0,
     startTime: '',
     endTime: '',
   });
 
-  const userTimezone =
-    user?.timeZone?.split(' ')[0] ||
-    Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const disable = counter === 0;
-  const today = moment.tz(userTimezone).subtract(counter, 'week');
-  const startOfWeek = today.startOf('isoWeek');
-  const startOfWeekString = startOfWeek.toString();
-  const startOfWeekFormatted = `${t(startOfWeek.format('MMMM'), {
-    ns: 'common',
-  })} ${startOfWeek.format('DD')}${t('kor_day', { ns: 'common' })}`;
-  const endOfWeek = today.endOf('isoWeek');
-  const endOfWeekFormatted = `${t(endOfWeek.format('MMMM'), {
-    ns: 'common',
-  })} ${endOfWeek.format('DD')}${t('kor_day', { ns: 'common' })}`;
-  const timeFormatter = 'HH:mm:ss';
+  // const { data: timesheetsData } = useTimesheets({
+  //   tz: userTimezone,
+  //   date: format(new Date(day), 'yyyy-MM-dd', {
+  //     timeZone: userTimezone,
+  //   }),
+  //   duration: String(duration).toString(),
+  //   ...(selectedTutor && {
+  //     mentorId: selectedTutor.id,
+  //   }),
+  //   studentId: getItemToLocalStorage('studentId'),
+  // });
 
-  const isToday = moment.tz(userTimezone);
-  const checkAgainstToday = moment(isToday, timeFormatter);
+  // const useTimesheets = (body) => {
+  //   const res = useQuery(GET_TIMESHEETS, {
+  //     variables: {
+  //       ...body,
+  //     },
+  //     fetchPolicy: 'network-only',
+  //   });
+  //   return res;
+  // };
+
+  const [getTimesheetsData, { data: timesheetsData }] = useLazyQuery(
+    GET_TIMESHEETS,
+    {
+      fetchPolicy: 'network-only',
+    },
+  );
+
+  const today = addWeeks(todayUserTimezone(), counter);
+
+  // Start of ISO week
+  const startOfWeek = startOfISOWeek(today);
+
+  // End of ISO week
+  const endOfWeek = endOfISOWeek(today);
+
+  const startOfWeekFormatted = format(startOfWeek, 'MMMM dd', {
+    timeZone: userTimezone,
+  });
+
+  const endOfWeekFormatted = format(endOfWeek, 'MMMM dd', {
+    timeZone: userTimezone,
+  });
 
   //Format the time
   const startTime = moment(timeOfDay.startTime, 'HH:mm');
@@ -91,83 +135,105 @@ const ScheduleSelector = ({
   const endTime = moment(timeOfDay.endTime, 'HH:mm');
 
   const days = [];
-  const allTimes = [];
-  let timeArr = [];
+  let allTimes = [];
+  // let timeArr = [];
+  const [timeArr, setTimeArr] = useState([]);
 
-  const morningCheck = [
-    moment('00:00:00', timeFormatter),
-    moment(step === 30 ? '11:30:00' : '11:00:00', timeFormatter),
-  ];
+  const morningInterval = {
+    start: parse('00:00', 'HH:mm', todayUserTimezone()),
+    end: parse('11:59', 'HH:mm', todayUserTimezone()),
+  };
+  const afternoonInterval = {
+    start: parse('12:00', 'HH:mm', todayUserTimezone()),
+    end: parse('17:59', 'HH:mm', todayUserTimezone()),
+  };
+  const eveningInterval = {
+    start: parse('18:00', 'HH:mm', todayUserTimezone()),
+    end: parse('23:59', 'HH:mm', todayUserTimezone()),
+  };
 
-  const afternoonCheck = [
-    moment(step === 30 ? '11:30:00' : '11:00:00', timeFormatter),
-    moment(step ? '17:30:00' : '17:00:00', timeFormatter),
-  ];
+  // formation morning/afternoon/evening taking into account the current time and available metor slots
+  const setDayInterval = (currentTime) => {
+    let morning = false;
+    let afternoon = false;
+    let evening = false;
+    let isCurrentMorning = true;
+    let isCurrentArternoon = true;
+    let isCurrentEvening = true;
+    let timeArr = [];
 
-  const eveningCheck = [
-    moment(step ? '17:30:00' : '17:00:00', timeFormatter),
-    moment(step === 30 ? '23:30:00' : '23:00:00', timeFormatter),
-  ];
-
-  if (day) {
-    const formatDay = moment(day);
-    const checkIsToday = moment(formatDay.format('YYYY-MM-DD')).isSame(
-      isToday.format('YYYY-MM-DD'),
-      'day',
-    );
-    if (checkIsToday) {
-      if (checkAgainstToday.isBetween(...morningCheck)) {
-        timeArr.push({
-          time: 'Morning',
-          format: 'time',
-        });
-      }
-      if (
-        checkAgainstToday.isBetween(...morningCheck) ||
-        checkAgainstToday.isBetween(...afternoonCheck)
-      ) {
-        timeArr.push({
-          time: 'Afternoon',
-          format: 'time',
-        });
-      }
-      if (
-        checkAgainstToday.isBetween(...morningCheck) ||
-        checkAgainstToday.isBetween(...afternoonCheck) ||
-        checkAgainstToday.isBetween(...eveningCheck)
-      ) {
-        timeArr.push({
-          time: 'Evening',
-          format: 'time',
-        });
-      }
-    } else {
-      timeArr.push(
-        {
-          time: 'Morning',
-          format: 'time',
-        },
-        {
-          time: 'Afternoon',
-          format: 'time',
-        },
-        {
-          time: 'Evening',
-          format: 'time',
-        },
-      );
+    if (currentTime) {
+      isCurrentMorning = isWithinInterval(currentTime, morningInterval);
+      isCurrentArternoon = isWithinInterval(currentTime, afternoonInterval);
+      isCurrentEvening = isWithinInterval(currentTime, eveningInterval);
     }
-  }
 
-  const { data: timesheetsData } = useTimesheets({
-    tz: userTimezone,
-    date: moment(day).format('YYYY-MM-DD'),
-    duration: String(duration).toString(),
-    ...(selectedTutor && {
-      mentorId: selectedTutor.id,
-    }),
-    studentId: getItemToLocalStorage('studentId'),
-  });
+    timesheetsData?.combinedTimesheets
+      .sort(
+        (a, b) =>
+          parse(a.from, 'HH:mm', todayUserTimezone()) -
+          parse(b.from, 'HH:mm', todayUserTimezone()),
+      )
+      .forEach((timesheet) => {
+        const tempTime = parse(timesheet.from, 'HH:mm', todayUserTimezone());
+
+        if (
+          isWithinInterval(tempTime, morningInterval) &&
+          isCurrentMorning &&
+          !morning
+        ) {
+          timeArr.push({
+            time: 'Morning',
+            format: 'time',
+          });
+
+          morning = true;
+          return;
+        }
+        if (
+          isWithinInterval(tempTime, afternoonInterval) &&
+          (isCurrentMorning || isCurrentArternoon) &&
+          !afternoon
+        ) {
+          timeArr.push({
+            time: 'Afternoon',
+            format: 'time',
+          });
+
+          afternoon = true;
+          return;
+        }
+        if (
+          isWithinInterval(tempTime, eveningInterval) &&
+          (isCurrentMorning || isCurrentArternoon || isCurrentEvening) &&
+          !evening
+        ) {
+          timeArr.push({
+            time: 'Evening',
+            format: 'time',
+          });
+
+          evening = true;
+          return;
+        }
+      });
+
+    setTimeArr(timeArr);
+  };
+
+  // morning/afternoon/evening formation
+  useEffect(() => {
+    const checkIsToday = isSameDay(new Date(day), todayUserTimezone());
+
+    if (checkIsToday) {
+      const currentTime = todayUserTimezone();
+      setDayInterval(currentTime);
+    } else {
+      setDayInterval();
+    }
+  }, [day, timesheetsData]);
+
+  console.log('timeOfDay', timeOfDay);
 
   //Loop over the times - only pushes time with 30 oor 60 minutes interval
   while (startTime.isBefore(endTime) || startTime.isSame(endTime)) {
@@ -185,17 +251,22 @@ const ScheduleSelector = ({
         return timesheet;
       }
     });
-    startTime.add(step, 'minutes');
+    // startTime.add(step, 'minutes');
+    startTime.add(30, 'minutes');
   }
 
-  for (let i = 0; i <= 6; i++) {
+  // Days of the week are formed (Mon - Sun)
+  for (let i = 0; i < 7; i++) {
+    const tempDay = addDays(startOfWeek, i);
+
     if (
-      moment(startOfWeekString)
-        .add(i, 'days')
-        .isBetween(moment().subtract(1, 'days'), moment().add(28, 'days'))
+      isAfter(tempDay, todayUserTimezone()) ||
+      isSameDay(tempDay, todayUserTimezone())
     ) {
       const dayOfTheWeek = {
-        day: moment(startOfWeekString).add(i, 'days').toString(),
+        day: format(tempDay, 'yyyy-MM-dd HH:mm:ss', {
+          timeZone: userTimezone,
+        }),
         format: 'day',
       };
       days.push(dayOfTheWeek);
@@ -203,45 +274,49 @@ const ScheduleSelector = ({
   }
 
   const DaySelector = ({ data, i }) => {
-    const checkDate = () => {
-      if (data.format === 'day') {
-        const unixEpoch = moment(data.day).unix() * 1000;
-        const isBeforeToday = moment(unixEpoch).diff(moment(), 'day');
-        if (isBeforeToday < 0) {
-          return false;
-        } else {
-          return true;
-        }
-      }
-      return true;
-    };
-    const isAfterToday = checkDate();
-
     const isClicked = () => {
       if (data.format === 'day') {
-        if (isAfterToday) {
-          setDayClicked(i);
-          setDay(data.day);
-          setTimeOfDay({ slotInterval: step, startTime: '', endTime: '' });
-          timeArr = [];
-          setTimeClicked(null);
-        }
+        setDayClicked(i);
+        setDay(data.day);
+        setTimeOfDay({ slotInterval: step, startTime: '', endTime: '' });
+        setTimeArr([]);
+        setTimeClicked(null);
+        getTimesheetsData({
+          variables: {
+            tz: userTimezone,
+            date: format(new Date(data.day), 'yyyy-MM-dd', {
+              timeZone: userTimezone,
+            }),
+            duration: String(duration).toString(),
+            ...(selectedTutor && {
+              mentorId: selectedTutor.id,
+            }),
+            studentId: getItemToLocalStorage('studentId'),
+          },
+        });
       }
 
       if (data.format === 'time') {
         setTimeClicked(i);
-        const roundUp =
-          isToday.minute() || isToday.second() || isToday.millisecond()
-            ? isToday.add(1, 'hour').startOf('hour')
-            : isToday.startOf('hour');
-        const isSame = moment(isToday.format('YYYY-MM-DD')).isSame(
-          moment(day).format('YYYY-MM-DD'),
+
+        const roundUp = format(
+          startOfHour(addHours(todayUserTimezone(), 1)),
+          'HH:mm',
         );
+        const isSame = isSameDay(new Date(day), todayUserTimezone());
+
+        console.log('roundUp', roundUp);
+
         if (data.time === 'Morning') {
-          if (checkAgainstToday.isBetween(...morningCheck) && isSame) {
+          const isCurrentMorning = isWithinInterval(
+            todayUserTimezone(),
+            morningInterval,
+          );
+
+          if (isCurrentMorning && isSame) {
             setTimeOfDay({
               slotInterval: step,
-              startTime: roundUp.format('HH:mm'),
+              startTime: roundUp,
               endTime: '11:30',
             });
           } else {
@@ -253,10 +328,15 @@ const ScheduleSelector = ({
           }
         }
         if (data.time === 'Afternoon') {
-          if (checkAgainstToday.isBetween(...afternoonCheck) && isSame) {
+          const isCurrentArternoon = isWithinInterval(
+            todayUserTimezone(),
+            afternoonInterval,
+          );
+
+          if (isCurrentArternoon && isSame) {
             setTimeOfDay({
               slotInterval: step,
-              startTime: roundUp.format('HH:mm'),
+              startTime: roundUp,
               endTime: '17:30',
             });
           } else {
@@ -268,10 +348,15 @@ const ScheduleSelector = ({
           }
         }
         if (data.time === 'Evening') {
-          if (checkAgainstToday.isBetween(...eveningCheck) && isSame) {
+          const isCurrentEvening = isWithinInterval(
+            todayUserTimezone(),
+            eveningInterval,
+          );
+
+          if (isCurrentEvening && isSame) {
             setTimeOfDay({
               slotInterval: step,
-              startTime: roundUp.format('HH:mm'),
+              startTime: roundUp,
               endTime: '23:30',
             });
           } else {
@@ -286,23 +371,27 @@ const ScheduleSelector = ({
     };
     return (
       <React.Fragment>
-        {isAfterToday && (
-          <div
-            className={`day-selector  rounded-md border-2 text-center my-3 ${
-              i === dayClicked || i === timeClicked
-                ? 'schedule_lesson_day bg-color-purple'
-                : 'schedule_lesson_day_unselect bg-white'
-            }`}
-            onClick={isClicked}
-          >
-            <div>
-              {t(data.day && moment(data.day).format('dddd'), {
+        <div
+          className={`day-selector  rounded-md border-2 text-center my-3 ${
+            i === dayClicked || i === timeClicked
+              ? 'schedule_lesson_day bg-color-purple'
+              : 'schedule_lesson_day_unselect bg-white'
+          }`}
+          onClick={isClicked}
+        >
+          <div>
+            {t(
+              data.day &&
+                format(new Date(data.day), 'EEEE', {
+                  timeZone: userTimezone,
+                }),
+              {
                 ns: 'common',
-              }) || t(data.time, { ns: 'common' })}
-              {/* {(data.day && moment(data.day).format('dddd')) || data.time} */}
-            </div>
+              },
+            ) || t(data.time, { ns: 'common' })}
+            {/* {(data.day && moment(data.day).format('dddd')) || data.time} */}
           </div>
-        )}
+        </div>
       </React.Fragment>
     );
   };
@@ -468,10 +557,12 @@ const ScheduleSelector = ({
                 <div>
                   <button
                     className="disabled:opacity-50"
-                    disabled={disable}
+                    disabled={counter === 0}
                     onClick={() => {
-                      setCounter(counter + 1);
+                      setCounter(counter - 1);
                       setDayClicked(null);
+                      setTimeClicked(null);
+                      setTimeArr([]);
                     }}
                   >
                     <img
@@ -493,10 +584,12 @@ const ScheduleSelector = ({
                   <button
                     className="disabled:opacity-50"
                     onClick={() => {
-                      setCounter(counter - 1);
+                      setCounter(counter + 1);
                       setDayClicked(null);
+                      setTimeClicked(null);
+                      setTimeArr([]);
                     }}
-                    disabled={counter === -4}
+                    disabled={counter === 4}
                   >
                     <img className="w-full" src={forward_arrow} alt="" />
                   </button>
