@@ -71,25 +71,44 @@ const TutorDashboard = () => {
     }
   }, [appointments]);
 
-  const displayDailySchedule = (availableLessons) => {
-    if (availableLessons) {
-      return availableLessons.map((event, i) => {
-        return (
-          <ScheduleCard
-            lesson={event?.packageSubscription?.package?.course?.title}
-            duration={event?.duration}
-            zoom={event?.zoom}
-            date={event?.startAt}
-            data={event}
-            student={event.student}
-            index={i}
-            key={i}
-            fetchAppointments={fetchAppointments}
-          />
-        );
-      });
-    }
-  };
+  // const displayDailySchedule = (availableLessons) => {
+  //   if (availableLessons) {
+  //     return availableLessons.map((event, i) => {
+  //       return (
+  //         <ScheduleCard
+  //           lesson={event?.packageSubscription?.package?.course?.title}
+  //           duration={event?.duration}
+  //           zoom={event?.zoom}
+  //           date={event?.startAt}
+  //           data={event}
+  //           student={event.student}
+  //           index={i}
+  //           key={i}
+  //           fetchAppointments={fetchAppointments}
+  //         />
+  //       );
+  //     });
+  //   }
+  // };
+  // const dailySchedule = useMemo(
+  //   () =>
+  //     upcomingLessons.map((event, i) => {
+  //       return (
+  //         <ScheduleCard
+  //           lesson={event?.packageSubscription?.package?.course?.title}
+  //           duration={event?.duration}
+  //           zoom={event?.zoom}
+  //           date={event?.startAt}
+  //           data={event}
+  //           student={event.student}
+  //           index={i}
+  //           key={i}
+  //           fetchAppointments={fetchAppointments}
+  //         />
+  //       );
+  //     }),
+  //   [upcomingLessons],
+  // );
 
   const [isFeedbackShow, setFeedbackShow] = React.useState(false);
 
@@ -167,7 +186,20 @@ const TutorDashboard = () => {
               {t('student_dashboard_view_all_lessons')}
             </Link>
             <div className="weekly-schedule-scroll">
-              {displayDailySchedule(upcomingLessons)}
+              {/* {displayDailySchedule(upcomingLessons)} */}
+              {upcomingLessons?.map((event, i) =>
+                <ScheduleCard
+                  lesson={event?.packageSubscription?.package?.course?.title}
+                  duration={event?.duration}
+                  zoom={event?.zoom}
+                  date={event?.startAt}
+                  data={event}
+                  student={event.student}
+                  index={i}
+                  key={i}
+                  fetchAppointments={fetchAppointments}
+                />)
+              }
             </div>
           </div>
         </div>
