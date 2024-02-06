@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import moment from 'moment-timezone';
 import Layout from '../../../../components/Layout';
 import custom_back_arrow from 'src/assets/images/custom_back_arrow.svg';
 import forward_arrow from 'src/assets/images/forward_arrow.svg';
@@ -10,14 +9,12 @@ import { gql, useLazyQuery } from '@apollo/client';
 import { getItemToLocalStorage } from 'src/constants/global';
 import {
   addDays,
-  addHours,
   addWeeks,
   endOfISOWeek,
   isAfter,
   isSameDay,
   isWithinInterval,
   parse,
-  startOfHour,
   startOfISOWeek,
 } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
@@ -51,7 +48,6 @@ const GET_TIMESHEETS = gql`
 const ScheduleSelector = ({
   setTabIndex,
   duration,
-  step,
   setSchedule,
   lesson,
   selectedTutor,
@@ -128,18 +124,37 @@ const ScheduleSelector = ({
     let morning = false;
     let afternoon = false;
     let evening = false;
-    let isCurrentMorning = true;
-    let isCurrentArternoon = true;
-    let isCurrentEvening = true;
     let timeArr = [];
 
-    // Если текущий день то надо поменять интервалы от текущего времни до (11:59/17:59/23:59)
+    let currentMorningInterval = morningInterval;
+    let currentAfternoonInterval = afternoonInterval;
+    let currentEveningInterval = eveningInterval;
 
+    // If the current day is then you need to change the intervals from the current time to (11:59/17:59/23:59)
     if (currentTime) {
-      isCurrentMorning = isWithinInterval(currentTime, morningInterval);
-      isCurrentArternoon = isWithinInterval(currentTime, afternoonInterval);
-      isCurrentEvening = isWithinInterval(currentTime, eveningInterval);
-      debugger;
+      if (isWithinInterval(currentTime, morningInterval)) {
+        currentMorningInterval = {
+          start: currentTime,
+          end: morningInterval.end,
+        };
+      }
+
+      if (isWithinInterval(currentTime, afternoonInterval)) {
+        morning = true;
+        currentAfternoonInterval = {
+          start: currentTime,
+          end: afternoonInterval.end,
+        };
+      }
+
+      if (isWithinInterval(currentTime, eveningInterval)) {
+        morning = true;
+        afternoon = true;
+        currentEveningInterval = {
+          start: currentTime,
+          end: eveningInterval.end,
+        };
+      }
     }
 
     timesheetsData?.combinedTimesheets
@@ -151,11 +166,7 @@ const ScheduleSelector = ({
       .forEach((timesheet) => {
         const tempTime = parse(timesheet.from, 'HH:mm', todayUserTimezone());
 
-        if (
-          isWithinInterval(tempTime, morningInterval) &&
-          isCurrentMorning &&
-          !morning
-        ) {
+        if (isWithinInterval(tempTime, currentMorningInterval) && !morning) {
           timeArr.push({
             time: 'Morning',
             format: 'time',
@@ -165,8 +176,7 @@ const ScheduleSelector = ({
           return;
         }
         if (
-          isWithinInterval(tempTime, afternoonInterval) &&
-          (isCurrentMorning || isCurrentArternoon) &&
+          isWithinInterval(tempTime, currentAfternoonInterval) &&
           !afternoon
         ) {
           timeArr.push({
@@ -177,11 +187,7 @@ const ScheduleSelector = ({
           afternoon = true;
           return;
         }
-        if (
-          isWithinInterval(tempTime, eveningInterval) &&
-          (isCurrentMorning || isCurrentArternoon || isCurrentEvening) &&
-          !evening
-        ) {
+        if (isWithinInterval(tempTime, currentEveningInterval) && !evening) {
           timeArr.push({
             time: 'Evening',
             format: 'time',
@@ -197,28 +203,24 @@ const ScheduleSelector = ({
 
   // morning/afternoon/evening formation
   useEffect(() => {
-    const checkIsToday = isSameDay(new Date(day), todayUserTimezone());
+    if (timesheetsData) {
+      const checkIsToday = isSameDay(new Date(day), todayUserTimezone());
 
-    if (checkIsToday) {
-      // т.к. интервал берется от начала следующего часа до (11:59/17:59/23:59)
-      const currentTime = startOfHour(addHours(todayUserTimezone(), 1));
-      setDayInterval(currentTime);
-    } else {
-      setDayInterval();
+      if (checkIsToday) {
+        const currentTime = todayUserTimezone();
+        setDayInterval(currentTime);
+      } else {
+        setDayInterval();
+      }
     }
-  }, [day, timesheetsData]);
+  }, [timesheetsData]);
 
-  console.log('timeOfDay', timeOfDay);
-
-  //Loop over the times - only pushes time with 30  minutes interval
+  //Loop over the times - only pushes time with 30 minutes interval
   useEffect(() => {
     if (timeOfDay.start && timeOfDay.end) {
       const availableSlots = [];
       timesheetsData?.combinedTimesheets.forEach((timesheet) => {
         const tempTime = parse(timesheet.from, 'HH:mm', todayUserTimezone());
-
-        console.log('tempTime', tempTime);
-        console.log('timeOfDay', timeOfDay);
 
         if (isWithinInterval(tempTime, timeOfDay)) {
           availableSlots.push({
@@ -266,10 +268,10 @@ const ScheduleSelector = ({
     const isClicked = () => {
       if (data.format === 'day') {
         setDayClicked(i);
-        setDay(data.day);
-        setTimeOfDay({ slotInterval: step, startTime: '', endTime: '' });
-        setTimeArr([]);
         setTimeClicked(null);
+        setTimeArr([]);
+
+        setDay(data.day);
         getTimesheetsData({
           variables: {
             tz: userTimezone,
@@ -288,8 +290,6 @@ const ScheduleSelector = ({
       if (data.format === 'time') {
         setTimeClicked(i);
 
-        const roundUp = startOfHour(addHours(todayUserTimezone(), 1));
-
         const isSame = isSameDay(new Date(day), todayUserTimezone());
 
         if (data.time === 'Morning') {
@@ -300,7 +300,7 @@ const ScheduleSelector = ({
 
           if (isCurrentMorning && isSame) {
             setTimeOfDay({
-              start: roundUp,
+              start: todayUserTimezone(),
               end: morningInterval.end,
             });
           } else {
@@ -315,7 +315,7 @@ const ScheduleSelector = ({
 
           if (isCurrentArternoon && isSame) {
             setTimeOfDay({
-              start: roundUp,
+              start: todayUserTimezone(),
               end: afternoonInterval.end,
             });
           } else {
@@ -330,7 +330,7 @@ const ScheduleSelector = ({
 
           if (isCurrentEvening && isSame) {
             setTimeOfDay({
-              start: roundUp,
+              start: todayUserTimezone(),
               end: eveningInterval.end,
             });
           } else {
@@ -340,29 +340,26 @@ const ScheduleSelector = ({
       }
     };
     return (
-      <React.Fragment>
-        <div
-          className={`day-selector  rounded-md border-2 text-center my-3 ${
-            i === dayClicked || i === timeClicked
-              ? 'schedule_lesson_day bg-color-purple'
-              : 'schedule_lesson_day_unselect bg-white'
-          }`}
-          onClick={isClicked}
-        >
-          <div>
-            {t(
-              data.day &&
-                format(new Date(data.day), 'EEEE', {
-                  timeZone: userTimezone,
-                }),
-              {
-                ns: 'common',
-              },
-            ) || t(data.time, { ns: 'common' })}
-            {/* {(data.day && moment(data.day).format('dddd')) || data.time} */}
-          </div>
+      <div
+        className={`day-selector  rounded-md border-2 text-center my-3 ${
+          i === dayClicked || i === timeClicked
+            ? 'schedule_lesson_day bg-color-purple'
+            : 'schedule_lesson_day_unselect bg-white'
+        }`}
+        onClick={isClicked}
+      >
+        <div>
+          {t(
+            data.day &&
+              format(new Date(data.day), 'EEEE', {
+                timeZone: userTimezone,
+              }),
+            {
+              ns: 'common',
+            },
+          ) || t(data.time, { ns: 'common' })}
         </div>
-      </React.Fragment>
+      </div>
     );
   };
 
@@ -382,9 +379,13 @@ const ScheduleSelector = ({
                   {lesson ? (
                     <>
                       {t('currently_scheduled', { ns: 'modals' })}{' '}
-                      {moment(lesson.startAt)
-                        .tz(userTimezone)
-                        .format('dddd, MMM DD hh:mm A')}
+                      {format(
+                        utcToZonedTime(new Date(lesson.startAt), userTimezone),
+                        'eeee, MMM dd hh:mm a',
+                        {
+                          timeZone: userTimezone,
+                        },
+                      )}
                     </>
                   ) : (
                     t('schedule_lesson_subtitle')
@@ -439,6 +440,7 @@ const ScheduleSelector = ({
                       ),
                   )}
                 </div>
+
                 <div className="col-6 px-4">
                   {timeArr.map((x, i) => {
                     i = i + 10;

@@ -1,7 +1,13 @@
-import { addMinutes, isBefore, parse, subHours } from 'date-fns';
+import {
+  addHours,
+  addMinutes,
+  getMinutes,
+  isBefore,
+  parse,
+  subHours,
+} from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { ko as kr } from 'date-fns/locale';
-import moment from 'moment';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from 'src/modules/auth';
@@ -16,14 +22,15 @@ export const ScheduleCard = ({
   setSchedule,
   setTabIndex,
 }) => {
-  console.log('day', day);
-  console.log('scheduleStartTime', scheduleStartTime);
-
   const { user } = useAuth();
 
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const todayUserTimezone = () => {
+    return utcToZonedTime(new Date(), userTimezone);
+  };
 
   const [t, i18n] = useTranslation(['lessons', 'common', 'modals']);
 
@@ -51,11 +58,6 @@ export const ScheduleCard = ({
     if (scheduleStartTime.reserved) {
       return;
     }
-    // const formattedDay = moment(day).format('YYYY-MM-DD');
-    // const selectedSchedule = moment.tz(
-    //   formattedDay + ' ' + scheduleStartTime.time,
-    //   userTimezone,
-    // );
 
     const formattedDay = format(new Date(day), 'yyyy-MM-dd');
 
@@ -69,44 +71,18 @@ export const ScheduleCard = ({
       timeZone: userTimezone,
     });
 
-    // const hoursPrior = process.env.REACT_APP_PRODUCTION === 'true' ? 48 : 0;
-    const hoursPrior = 48;
-
-    // const preScreen = moment
-    //   .tz(formattedDay + ' ' + scheduleStartTime.time, userTimezone)
-    //   .subtract(hoursPrior, 'hours');
+    const hoursPrior = process.env.REACT_APP_PRODUCTION === 'true' ? 48 : 0;
 
     const preScreen = subHours(dateParse, hoursPrior);
 
-    console.log('preScreen', preScreen);
-    console.log(utcToZonedTime(new Date(), userTimezone));
+    if (!isBefore(todayUserTimezone(), preScreen)) {
+      const minutesRound = 30 - (getMinutes(todayUserTimezone()) % 30);
 
-    const todayDate = moment();
-
-    if (!isBefore(utcToZonedTime(new Date(), userTimezone), preScreen)) {
-      const minutesRound = 30 - (todayDate.minute() % 30);
-
-      console.log('minutesRound', minutesRound);
-
-      const available = moment
-        .tz(userTimezone)
-        .add(hoursPrior, 'hours')
-        .add(minutesRound, 'minutes')
-        .format('dddd[,] MMMM DD @ h:mm A');
-
-      // const minutesRound =
-      //   30 - (utcToZonedTime(new Date(), userTimezone).getMinutes() % 30);
-
-      // const todayStart = startOfDay(todayDate);
-      // const roundedTime = addMinutes(startOfHour(todayStart), minutesRound);
-
-      // const available = format(
-      //   utcToZonedTime(addHours(roundedTime, hoursPrior), userTimezone),
-      //   'eeee, MMMM dd @ h:mm a',
-      //   { timeZone: userTimezone },
-      // );
-
-      console.log('available', available);
+      const available = format(
+        addHours(addMinutes(todayUserTimezone(), minutesRound), hoursPrior),
+        'eeee, MMMM dd @ h:mm a',
+        { timeZone: userTimezone },
+      );
 
       Swal.fire({
         title: t('swal_fire_title_schedule_prescreen', { ns: 'modals' }),
@@ -124,7 +100,7 @@ export const ScheduleCard = ({
       });
     }
 
-    if (todayDate.isBefore(preScreen)) {
+    if (isBefore(todayUserTimezone(), preScreen)) {
       setIsLoading(true);
       setSchedule(selectedSchedule.toString());
       setTabIndex(2);
