@@ -18,26 +18,7 @@ const MentorsModal = ({ mentor }) => {
 
   return (
     <div className="flex flex-col gap-8 w-full sm:w-[calc(100vw-120px)] max-w-[880px] sm:h-full sm:min-h-[415px]">
-      <div className="flex flex-col sm:flex-row bg-white gap-10">
-        {mentor?.videoUrl ? (
-          <iframe
-            className="w-full sm:w-5/12 lg:w-1/3 max-h-[220px]"
-            src={mentor?.videoUrl}
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-            style={{ border: 0 }}
-          ></iframe>
-        ) : (
-          <div className="w-full sm:w-5/12 lg:w-1/3 h-[185px] sm:h-auto max-h-[220px] rounded-lg overflow-hidden">
-            <Avatar
-              avatarUrl={mentor?.avatar?.url}
-              gender={mentor?.gender}
-              className="object-cover"
-            />
-          </div>
-        )}
-
+      <div className="flex flex-col-reverse sm:flex-row bg-white gap-10">
         <div className="w-full sm:w-7/12 lg:w-2/3 break-word hyphens-auto">
           <h1 className="mb-3 text-[22px] md:text-[28px] leading-[34px] tracking-[-1px] text-color-dark-purple font-bold">{`${
             mentor?.fullName || mentor?.user?.fullName
@@ -102,15 +83,33 @@ const MentorsModal = ({ mentor }) => {
             </div>
           </div>
         </div>
+        {mentor?.videoUrl ? (
+          <iframe
+            className="w-full sm:w-5/12 lg:w-1/3 max-h-[220px]"
+            src={mentor?.videoUrl}
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            style={{ border: 0 }}
+          ></iframe>
+        ) : (
+          <div className="w-full sm:w-5/12 lg:w-1/3 h-[185px] sm:h-auto max-h-[220px] rounded-lg overflow-hidden">
+            <Avatar
+              avatarUrl={mentor?.avatar?.url}
+              gender={mentor?.gender}
+              className="object-cover"
+            />
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col gap-8">
         {mentor?.uniqueFacts && (
           <div>
-            <h3 className="font-semibold text-[15px] leading-[18px] tracking-[-0.2px] text-color-light-grey">
+            <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px] mb-2">
               {t('bio_facts_label', { ns: 'profile' })}
             </h3>
-            <p className="font-medium text-color-dark-purple mt-2 text-[15px] leading-[21px] tracking-[-0.6px]">
+            <p className="font-medium text-color-dark-purple text-[15px] leading-[21px] tracking-[-0.6px]">
               {mentor?.uniqueFacts}
             </p>
           </div>
@@ -118,10 +117,10 @@ const MentorsModal = ({ mentor }) => {
 
         {mentor?.introduction && (
           <div>
-            <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px]">
+            <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px] mb-2">
               {t('biography', { ns: 'profile' })}
             </h3>
-            <p className="mt-2 font-medium text-color-dark-purple text-[15px] leading-[24px] tracking-[-0.2px]">
+            <p className="font-medium text-color-dark-purple text-[15px] leading-[24px] tracking-[-0.2px]">
               {mentor?.introduction}
             </p>
           </div>
@@ -129,20 +128,25 @@ const MentorsModal = ({ mentor }) => {
 
         {mentor?.relevantExperience && (
           <div>
-            <h3 className="font-semibold text-[15px] leading-[18px] tracking-[-0.2px] text-color-light-grey">
+            <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px] mb-2">
               {t('bio_experience_label', { ns: 'profile' })}
             </h3>
-            <p className="font-medium text-color-dark-purple mt-2 text-[15px] leading-[21px] tracking-[-0.6px]">
+            <p className="font-medium text-color-dark-purple text-[15px] leading-[21px] tracking-[-0.6px]">
               {mentor?.relevantExperience}
             </p>
           </div>
         )}
 
-        <EmblaCarousel
-          slides={SLIDES}
-          // options={{ align: 'start', loop: true }}
-          options={{ align: 'start' }}
-        />
+        <div>
+          <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px] mb-2">
+            Reviews
+          </h3>
+          <EmblaCarousel
+            slides={SLIDES}
+            // options={{ align: 'start', loop: true }}
+            options={{ align: 'start' }}
+          />
+        </div>
       </div>
 
       {isMobile && (

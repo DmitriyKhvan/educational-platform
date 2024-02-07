@@ -25,23 +25,24 @@ const EmblaCarousel = (props) => {
   } = usePrevNextButtons(emblaApi);
 
   return (
-    <div className="embla">
-      <div className="embla__viewport" ref={emblaRef}>
-        <div className="embla__container">
+    <div className="relative">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex flex-row touch-pan-y gap-4">
           {slides.map((index) => (
-            <div className="embla__slide" key={index}>
+            <div
+              className="relative min-w-0 grow-0 shrink-0 basis-1 sm:basis-1/2"
+              key={index}
+            >
               <CarouselCard />
             </div>
           ))}
         </div>
       </div>
+
       <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
       <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
-      {/* <div className="embla__buttons">
-        <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
-        <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
-      </div> */}
-      <div className="embla__dots">
+
+      <div className="z-[1] absolute left-0 right-0 -bottom-6 flex items-center justify-center">
         {scrollSnaps.map((_, index) => (
           <DotButton
             key={index}
