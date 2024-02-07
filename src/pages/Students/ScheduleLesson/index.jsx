@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import LessonConfirmation from './LessonConfirmation';
-import ScheduleSelector from './ScheduleSelector';
+import ScheduleSelector from './SheduleSelector/ScheduleSelector';
 import SelectLesson from './SelectLesson';
 import SelectTutorCards from './SelectTutorCards';
 import { useQuery } from '@apollo/client';
