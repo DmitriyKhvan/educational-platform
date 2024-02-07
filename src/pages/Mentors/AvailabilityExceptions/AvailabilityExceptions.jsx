@@ -12,6 +12,7 @@ import { AvailabilityException } from './AvailabilityException';
 import Button from 'src/components/Form/Button';
 import notify from 'src/utils/notify';
 import Loader from 'src/components/Loader/Loader';
+import Swal from 'sweetalert2';
 
 export const AvailabilityExceptions = () => {
   const [t] = useTranslation('common');
@@ -19,6 +20,7 @@ export const AvailabilityExceptions = () => {
   const [availabilityExceptions, setAvailabilityExceptions] = useState([]);
   const [disableSave, setDisableSave] = useState(true);
   const [disabledDates, setDisabledDates] = useState([]);
+  const [updateExceptionDate, setUpdateExceptionDate] = useState(null);
 
   const { user } = useAuth();
   const { data: { mentor } = {}, refetch: refetchMentor } = useQuery(
@@ -31,6 +33,34 @@ export const AvailabilityExceptions = () => {
 
   const [upsertExceptionDates, { loading: loadingExceptionDates }] =
     useMutation(UPSERT_EXCEPTION_DATES);
+
+  const parseErrorMessage = (error) => {
+    try {
+      const errorData = JSON.parse(error.message);
+      if (typeof errorData !== 'object') {
+        throw new Error();
+      }
+      if (errorData?.errorExceptionalDates) {
+        removeAvailabilityExceptionConfirm(errorData?.errorExceptionalDates);
+      }
+    } catch (e) {
+      notify(error.message, 'error');
+    }
+  };
+
+  const removeAvailabilityExceptionConfirm = (errorExceptionalDates) => {
+    const message = errorExceptionalDates.reduce((acc, cur) => {
+      return `${acc}<li>${cur.date}: <b>${cur.from}</b> - <b>${cur.to}</b></li>`;
+    }, '');
+    Swal.fire({
+      title: 'Exceptional dates is not saved',
+      html: `<p>The following exceptional time interval contain scheduled lessons:</p></br><ul>${message}</ul></br><p>Please, reschedule these lessons.</p>`,
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonColor: '#6133af',
+      confirmButtonText: 'ok',
+    });
+  };
 
   const onSubmit = () => {
     if (availabilityExceptions) {
@@ -55,9 +85,13 @@ export const AvailabilityExceptions = () => {
         },
         onCompleted: () => {
           refetchMentor();
+
+          notify('Exceptional dates is saved');
+
+          setUpdateExceptionDate(Date.now());
         },
         onError: (error) => {
-          notify(error.message, 'error');
+          parseErrorMessage(error);
         },
       });
 
@@ -71,6 +105,7 @@ export const AvailabilityExceptions = () => {
       const disabledDates = [];
 
       mentor.exceptionDates.forEach((slot) => {
+        // To combine slots for the same dates
         const existingSlot = dates.find((item) => item.date === slot.date);
 
         if (existingSlot) {
@@ -90,18 +125,31 @@ export const AvailabilityExceptions = () => {
         }
       });
 
-      dates.sort((a, b) => new Date(a.date) - new Date(b.date));
+      const filterDates = dates
+        .map((date) => {
+          if (
+            date.slots.some((slot) => slot.from === null && slot.to === null)
+          ) {
+            return {
+              ...date,
+              slots: [],
+            };
+          }
+          return date;
+        })
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
 
-      setAvailabilityExceptions(dates);
+      setAvailabilityExceptions(filterDates);
       setDisabledDates(disabledDates);
     }
-  }, [mentor]);
+  }, [mentor, updateExceptionDate]);
 
   const addAvailabilityException = () => {
     const availabilityException = {
       id: uuid(),
       date: format(new Date(), 'yyyy-MM-dd'),
-      slots: [{ id: uuid(), from: '09:00', to: '23:30' }],
+      // slots: [{ id: uuid(), from: '00:00', to: '23:30' }],
+      slots: [],
     };
 
     setAvailabilityExceptions([

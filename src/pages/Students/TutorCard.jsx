@@ -7,12 +7,7 @@ import Stars from '../../components/Stars';
 import { getAbbrName, getAvatarName } from '../../constants/global';
 import FavouriteIcon from '../../components/FavouriteIcon';
 
-const TutorCard = ({
-  tutor,
-  selected,
-  onSelect,
-  onShowTutorBrief,
-}) => {
+const TutorCard = ({ tutor, selected, onSelect, onShowTutorBrief }) => {
   const [t] = useTranslation('translation');
   return (
     <div className={`tutor-card ${selected ? 'selected' : ''}`}>
