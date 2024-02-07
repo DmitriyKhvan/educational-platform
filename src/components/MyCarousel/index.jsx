@@ -8,8 +8,6 @@ import {
 } from './EmblaCarouselArrowButtons';
 import { CarouselCard } from './CarouselCard';
 
-import './embla.css';
-
 const EmblaCarousel = (props) => {
   const { slides, options } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
@@ -27,10 +25,10 @@ const EmblaCarousel = (props) => {
   return (
     <div className="relative">
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex flex-row touch-pan-y gap-4">
+        <div className="flex touch-pan-y -ml-4">
           {slides.map((index) => (
             <div
-              className="relative min-w-0 grow-0 shrink-0 basis-1 sm:basis-1/2"
+              className="relative min-w-0 grow-0 shrink-0 basis-full sm:basis-1/2 pl-4"
               key={index}
             >
               <CarouselCard />
@@ -47,8 +45,8 @@ const EmblaCarousel = (props) => {
           <DotButton
             key={index}
             onClick={() => onDotButtonClick(index)}
-            className={'embla__dot'.concat(
-              index === selectedIndex ? ' embla__dot--selected' : '',
+            className={'w-2 h-2 flex mx-3 after:content-[""] after:bg-[#EDEEF0] after:rounded-full after:w-full after:h-2'.concat(
+              index === selectedIndex ? ' after:bg-color-purple' : '',
             )}
           />
         ))}

@@ -7,14 +7,14 @@ import { Avatar } from '../../../widgets/Avatar/Avatar';
 import Button from '../../../components/Form/Button/Button';
 import StarRatings from 'react-star-ratings';
 import { useMediaQuery } from 'react-responsive';
-import EmblaCarousel from 'src/components/MyCarousel/MyCarousel';
+// import EmblaCarousel from 'src/components/MyCarousel';
 
 const MentorsModal = ({ mentor }) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });
   const [t] = useTranslation(['common', 'profile']);
 
-  const SLIDE_COUNT = 5;
-  const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
+  // const SLIDE_COUNT = 5;
+  // const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 
   return (
     <div className="flex flex-col gap-8 w-full sm:w-[calc(100vw-120px)] max-w-[880px] sm:h-full sm:min-h-[415px]">
@@ -137,7 +137,7 @@ const MentorsModal = ({ mentor }) => {
           </div>
         )}
 
-        <div>
+        {/* <div>
           <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px] mb-2">
             Reviews
           </h3>
@@ -146,11 +146,11 @@ const MentorsModal = ({ mentor }) => {
             // options={{ align: 'start', loop: true }}
             options={{ align: 'start' }}
           />
-        </div>
+        </div> */}
       </div>
 
       {isMobile && (
-        <div className="sticky bottom-0 w-full pb-4 bg-white">
+        <div className="sticky bottom-0 w-full pb-4 bg-white z-10">
           <Link
             to={
               mentor?.availabilities?.length > 0
