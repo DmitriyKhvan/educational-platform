@@ -18,7 +18,7 @@ import notify from 'src/utils/notify';
 import Loader from '../Loader/Loader';
 import { useMediaQuery } from 'react-responsive';
 import { MyDrawer } from '../Drawer';
-import MyDialog from '../Dialog/Dialog';
+import MyDialog from '../Dialog';
 
 const CREATE_PAYMENT_INTENT = gql`
   mutation CreatePaymentIntent($id: Int!) {

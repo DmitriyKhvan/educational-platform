@@ -82,7 +82,7 @@ const StudentProfile = () => {
                   </h2>
 
                   <p className="text-base font-semibold tracking-[-0.6px] text-color-purple">
-                    {currentStudent.langLevel}
+                    {currentStudent?.langLevel}
                   </p>
 
                   <p className="text-base font-semibold tracking-[-0.6px] text-color-light-grey">
