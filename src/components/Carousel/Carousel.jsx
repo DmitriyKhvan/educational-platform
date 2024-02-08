@@ -8,7 +8,7 @@ import {
 } from './EmblaCarouselArrowButtons';
 import { CarouselCard } from './CarouselCard';
 
-const EmblaCarousel = (props) => {
+export const EmblaCarousel = (props) => {
   const { slides, options } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
@@ -54,5 +54,3 @@ const EmblaCarousel = (props) => {
     </div>
   );
 };
-
-export default EmblaCarousel;

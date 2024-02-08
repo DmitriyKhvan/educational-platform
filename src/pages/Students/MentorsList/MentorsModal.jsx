@@ -7,7 +7,7 @@ import { Avatar } from '../../../widgets/Avatar/Avatar';
 import Button from '../../../components/Form/Button/Button';
 import StarRatings from 'react-star-ratings';
 import { useMediaQuery } from 'react-responsive';
-// import EmblaCarousel from 'src/components/MyCarousel';
+// import { EmblaCarousel } from 'src/components/Carousel';
 
 const MentorsModal = ({ mentor }) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });

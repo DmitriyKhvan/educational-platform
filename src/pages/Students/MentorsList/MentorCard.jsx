@@ -16,8 +16,8 @@ import {
 import { HiMiniChevronRight } from 'react-icons/hi2';
 import { useMediaQuery } from 'react-responsive';
 import { MyDrawer } from 'src/components/Drawer';
-import MyDialog from 'src/components/Dialog/Dialog';
 import MentorsModal from './MentorsModal';
+import { MyDialog } from 'src/components/Dialog';
 
 export const MentorCard = ({ mentor, handleSelectMentor }) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });
@@ -40,9 +40,9 @@ export const MentorCard = ({ mentor, handleSelectMentor }) => {
           />
         )}
 
-        <div className="absolute left-2 bottom-2 px-3 py-[6px] rounded-lg bg-[#FF5F4B] text-white text-xs font-semibold">
+        {/* <div className="absolute left-2 bottom-2 px-3 py-[6px] rounded-lg bg-[#FF5F4B] text-white text-xs font-semibold">
           Top mentor
-        </div>
+        </div> */}
       </div>
 
       <div className="mt-4 overflow-hidden">
@@ -60,7 +60,7 @@ export const MentorCard = ({ mentor, handleSelectMentor }) => {
           </span>
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-full">
           {mentor?.availabilities ? (
             <TooltipProvider>
               <Tooltip delayDuration={200}>
@@ -130,7 +130,7 @@ export const MentorCard = ({ mentor, handleSelectMentor }) => {
           ) : (
             <MyDialog
               button={
-                <Button theme="gray" className="m-1 w-full h-[57px]">
+                <Button theme="gray" className="m-1 grow h-[57px]">
                   <span className="whitespace-nowrap">
                     {t('learn_more', { ns: 'common' })}
                   </span>

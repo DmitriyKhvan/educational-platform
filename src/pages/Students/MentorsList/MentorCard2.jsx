@@ -14,7 +14,7 @@ import { HiMiniChevronRight } from 'react-icons/hi2';
 import { MyDrawer } from 'src/components/Drawer';
 import MentorsModal from './MentorsModal';
 import { useMediaQuery } from 'react-responsive';
-import MyDialog from 'src/components/Dialog/Dialog';
+import { MyDialog } from 'src/components/Dialog';
 
 export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });
@@ -25,9 +25,9 @@ export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
     <div className="flex w-full gap-4 sm:gap-6">
       <div className="relative min-w-[64px] max-w-[64px] sm:min-w-[80px] sm:max-w-[80px] h-[80px] overflow-hidden rounded-lg">
         <Avatar avatarUrl={mentor.avatar?.url} gender={mentor.gender} />
-        <div className="absolute left-0 right-0 bottom-0 py-[2px] rounded-b-lg bg-[#FF5F4B] text-white text-[10px] text-center font-semibold">
+        {/* <div className="absolute left-0 right-0 bottom-0 py-[2px] rounded-b-lg bg-[#FF5F4B] text-white text-[10px] text-center font-semibold">
           Top mentor
-        </div>
+        </div> */}
       </div>
 
       <div className="flex flex-col sm:flex-row grow justify-between gap-x-6">
