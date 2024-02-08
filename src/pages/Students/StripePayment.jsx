@@ -51,7 +51,6 @@ const CheckoutForm = () => {
     });
     if (error) {
       setErrorMessage(error.message);
-      return;
     }
 
     setLoading(false);

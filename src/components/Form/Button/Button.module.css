@@ -8,7 +8,7 @@
     cursor-pointer 
     px-[15px]
     h-12
-    rounded-md
+    rounded-lg
     font-semibold 
     text-sm
     tracking-[-0.2px]
@@ -27,12 +27,28 @@
   }
 
   .clear {
-    @apply bg-[#F7F8FA];
+    /* @apply bg-[#F7F8FA]; */
+    @apply bg-transparent;
   }
 
   .purple {
     @apply text-white 
     bg-color-purple;
+  }
+
+  .dark_purple {
+    @apply text-white 
+    bg-color-dark-purple;
+  }
+
+  .dark_purple {
+    @apply text-white 
+    bg-color-dark-purple;
+  }
+
+  .gray {
+    @apply text-color-dark-purple 
+    bg-gray-100;
   }
 
   .outline {

@@ -10,7 +10,7 @@ const ModalWrapper = ({
   children,
   isOpen,
   closeModal,
-  widthContent,
+  widthContent = 'auto',
   heightContent,
   paddingContent = '25px 20px',
 }) => {
@@ -39,7 +39,7 @@ const ModalWrapper = ({
       // padding: '25px 20px',
       padding: paddingContent,
       minWidth: '360px',
-      maxHeight: 'calc(100vh - 100px)',
+      // maxHeight: 'calc(100vh - 100px)',
       background: '#fff',
       width: widthContent,
       height: heightContent,

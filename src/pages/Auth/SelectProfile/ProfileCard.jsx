@@ -20,7 +20,7 @@ export const ProfileCard = ({ student, studentId, selectProfile }) => {
             onClick={() =>
               student.isActive ? selectProfile(student) : undefined
             }
-            className="flex flex-col items-center gap-y-5"
+            className="flex flex-col items-center gap-y-5 cursor-pointer"
           >
             <div className="flex items-center justify-center w-[158px] h-[158px] overflow-hidden rounded-full">
               <Avatar

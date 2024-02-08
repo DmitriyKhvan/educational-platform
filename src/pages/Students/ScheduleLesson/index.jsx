@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import LessonConfirmation from './LessonConfirmation';
-import ScheduleSelector from './ScheduleSelector';
+import ScheduleSelector from './SheduleSelector/ScheduleSelector';
 import SelectLesson from './SelectLesson';
-import SelectTutorCards from './SelectTutorCards';
+import SelectMentorCards from './SelectMentorCards';
 import { useQuery } from '@apollo/client';
 import { LESSON_QUERY } from '../../../modules/auth/graphql';
 
@@ -50,8 +50,8 @@ const ScheduleLesson = () => {
         <ScheduleSelector
           setTabIndex={setTabIndex}
           duration={selectedPlan?.package?.sessionTime}
-          // step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
-          step={30}
+          step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
+          // step={30}
           setSchedule={setSchedule}
           schedule={schedule}
           tabIndex={tabIndex}
@@ -60,7 +60,7 @@ const ScheduleLesson = () => {
           selectedTutor={location?.state?.tutor}
         />
       ) : tabIndex === 2 && !location?.state?.tutor ? (
-        <SelectTutorCards
+        <SelectMentorCards
           tabIndex={tabIndex}
           setTabIndex={setTabIndex}
           setSelectTutor={setSelectTutor}
