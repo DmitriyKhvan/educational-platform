@@ -16,8 +16,8 @@ import {
 import { HiMiniChevronRight } from 'react-icons/hi2';
 import { useMediaQuery } from 'react-responsive';
 import { MyDrawer } from 'src/components/Drawer';
-import MyDialog from 'src/components/Dialog';
 import MentorsModal from './MentorsModal';
+import { MyDialog } from 'src/components/Dialog';
 
 export const MentorCard = ({ mentor, handleSelectMentor }) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });

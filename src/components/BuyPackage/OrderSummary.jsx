@@ -17,8 +17,8 @@ import { BsPlus } from 'react-icons/bs';
 import notify from 'src/utils/notify';
 import Loader from '../Loader/Loader';
 import { useMediaQuery } from 'react-responsive';
-import { MyDrawer } from '../Drawer';
-import MyDialog from '../Dialog';
+import { MyDrawer } from 'src/components/Drawer';
+import { MyDialog } from 'src/components/Dialog';
 
 const CREATE_PAYMENT_INTENT = gql`
   mutation CreatePaymentIntent($id: Int!) {

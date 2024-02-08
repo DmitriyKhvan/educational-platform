@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import Modal from 'react-modal';
 import { FaXmark } from 'react-icons/fa6';
 
 import './Dialog.css';
-import { forwardRef } from 'react';
 
 Modal.setAppElement('#root');
 
-const MyDialog = forwardRef(function MyDialog({ button, children }, ref) {
+export const MyDialog = forwardRef(function MyDialog(
+  { button, children },
+  ref,
+) {
   const customStyles = {
     overlay: {
       position: 'fixed',
@@ -74,5 +76,3 @@ const MyDialog = forwardRef(function MyDialog({ button, children }, ref) {
     </>
   );
 });
-
-export default MyDialog;
