@@ -1,4 +1,4 @@
-import { useState, useMemo, memo } from 'react';
+import { useMemo, memo } from 'react';
 
 import { gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 import { currencyFormat } from 'src/utils/currencyFormat';
 import { calculatePriceWithDiscount } from 'src/utils/calculatePriceWithDiscount';
-import ModalWrapper from '../ModalWrapper/ModalWrapper';
+
 import { PromoModal } from './PromoModal';
 import { TermsConditionsModal } from './TermsConditionsModal';
 import Button from '../Form/Button';
@@ -16,6 +16,9 @@ import { RiErrorWarningFill } from 'react-icons/ri';
 import { BsPlus } from 'react-icons/bs';
 import notify from 'src/utils/notify';
 import Loader from '../Loader/Loader';
+import { useMediaQuery } from 'react-responsive';
+import { MyDrawer } from 'src/components/Drawer';
+import { MyDialog } from 'src/components/Dialog';
 
 const CREATE_PAYMENT_INTENT = gql`
   mutation CreatePaymentIntent($id: Int!) {
@@ -30,12 +33,10 @@ export const OrderSummary = memo(function OrderSummary({
   setPromoPackage,
   promoPackage,
 }) {
+  const isMobile = useMediaQuery({ maxWidth: 639 });
   const history = useHistory();
   const [parent] = useAutoAnimate();
   const [t] = useTranslation('purchase');
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpenTermsConditions, setIsOpenTermsConditions] = useState(false);
 
   const discount = useMemo(() => {
     if (promoPackage) {
@@ -84,20 +85,49 @@ export const OrderSummary = memo(function OrderSummary({
 
         {selectedPackage && (
           <>
-            <button
-              type="button"
-              className="flex items-center justify-center gap-2"
-              onClick={() => {
-                setIsOpen(true);
-              }}
-            >
-              <span className="flex items-center justify-center w-5 h-5 rounded-full bg-color-purple/10">
-                <BsPlus className="text-color-purple" />
-              </span>
-              <span className="text-[13px] font-medium text-color-purple">
-                {t('add_promo')}
-              </span>
-            </button>
+            {isMobile ? (
+              <MyDrawer
+                button={
+                  <button
+                    type="button"
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-color-purple/10">
+                      <BsPlus className="text-color-purple" />
+                    </span>
+                    <span className="text-[13px] font-medium text-color-purple">
+                      {t('add_promo')}
+                    </span>
+                  </button>
+                }
+              >
+                <PromoModal
+                  selectedPackage={selectedPackage}
+                  setPromoPackage={setPromoPackage}
+                />
+              </MyDrawer>
+            ) : (
+              <MyDialog
+                button={
+                  <button
+                    type="button"
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-color-purple/10">
+                      <BsPlus className="text-color-purple" />
+                    </span>
+                    <span className="text-[13px] font-medium text-color-purple">
+                      {t('add_promo')}
+                    </span>
+                  </button>
+                }
+              >
+                <PromoModal
+                  selectedPackage={selectedPackage}
+                  setPromoPackage={setPromoPackage}
+                />
+              </MyDialog>
+            )}
 
             <div className="space-y-3" ref={parent}>
               <div className="flex items-center justify-between text-sm">
@@ -145,39 +175,34 @@ export const OrderSummary = memo(function OrderSummary({
           </div>
         </div>
 
-        <Button
-          disabled={!selectedPackage}
-          className="w-full h-auto py-5 px-10"
-          onClick={() => setIsOpenTermsConditions(true)}
-        >
-          {t('proceed_payment')}
-        </Button>
+        {isMobile ? (
+          <MyDrawer
+            button={
+              <Button
+                disabled={!selectedPackage}
+                className="w-full h-auto py-5 px-10"
+              >
+                {t('proceed_payment')}
+              </Button>
+            }
+          >
+            <TermsConditionsModal submitStripe={submitStripe} />
+          </MyDrawer>
+        ) : (
+          <MyDialog
+            button={
+              <Button
+                disabled={!selectedPackage}
+                className="w-full h-auto py-5 px-10"
+              >
+                {t('proceed_payment')}
+              </Button>
+            }
+          >
+            <TermsConditionsModal submitStripe={submitStripe} />
+          </MyDialog>
+        )}
       </div>
-
-      <ModalWrapper
-        isOpen={isOpen}
-        closeModal={setIsOpen}
-        widthContent="400px"
-        paddingContent="40px 32px"
-      >
-        <PromoModal
-          selectedPackage={selectedPackage}
-          setPromoPackage={setPromoPackage}
-          setIsOpen={setIsOpen}
-        />
-      </ModalWrapper>
-
-      <ModalWrapper
-        isOpen={isOpenTermsConditions}
-        closeModal={setIsOpenTermsConditions}
-        widthContent="400px"
-        paddingContent="40px 32px"
-      >
-        <TermsConditionsModal
-          submitStripe={submitStripe}
-          setIsOpenTermsConditions={setIsOpenTermsConditions}
-        />
-      </ModalWrapper>
     </>
   );
 });

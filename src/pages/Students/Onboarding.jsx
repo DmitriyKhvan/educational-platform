@@ -20,14 +20,16 @@ import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
 import ReactInputMask from 'react-input-mask';
-import ModalWrapper from 'src/components/ModalWrapper/ModalWrapper';
 import { PhoneCodeListModal } from 'src/components/onboarding/PhoneCodeListModal';
 import { phoneCodes } from 'src/constants/global';
+import MyDropdownMenu from 'src/components/DropdownMenu';
+import { MyDrawer } from 'src/components/Drawer';
+import { useMediaQuery } from 'react-responsive';
 
 export default function Onboarding() {
+  const isMobile = useMediaQuery({ maxWidth: 639 });
   localStorage.removeItem('studentId');
 
-  const [isOpen, setIsOpen] = useState(false);
   const [country, setCountry] = useState(phoneCodes[4]);
 
   const [t] = useTranslation(['onboarding', 'common', 'translations']);
@@ -129,22 +131,55 @@ export default function Onboarding() {
                   {t('phone_number', { ns: 'common' })}
                 </label>
                 <div className="flex items-center justify-between gap-2">
-                  <label
-                    onClick={() => setIsOpen(true)}
-                    className="min-w-[103px] py-[14px] pl-3 pr-2 rounded-lg border border-color-border-grey select-none cursor-pointer"
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <img
-                        className="w-[22px]"
-                        src={country?.flag}
-                        alt={country?.name}
+                  {isMobile ? (
+                    <MyDrawer
+                      button={
+                        <label className="min-w-[103px] py-[14px] pl-3 pr-2 rounded-lg border border-color-border-grey select-none cursor-pointer">
+                          <div className="flex items-center justify-between gap-2">
+                            <img
+                              className="w-[22px]"
+                              src={country?.flag}
+                              alt={country?.name}
+                            />
+                            <span className="text-sm font-medium">
+                              {country?.code}
+                            </span>
+                            <MdOutlineKeyboardArrowDown className="w-4" />
+                          </div>
+                        </label>
+                      }
+                    >
+                      <PhoneCodeListModal
+                        setCountry={setCountry}
+                        currentCountry={country}
+                        resetField={resetField}
                       />
-                      <span className="text-sm font-medium">
-                        {country?.code}
-                      </span>
-                      <MdOutlineKeyboardArrowDown className="w-4" />
-                    </div>
-                  </label>
+                    </MyDrawer>
+                  ) : (
+                    <MyDropdownMenu
+                      button={
+                        <label className="min-w-[103px] py-[14px] pl-3 pr-2 rounded-lg border border-color-border-grey select-none cursor-pointer">
+                          <div className="flex items-center justify-between gap-2">
+                            <img
+                              className="w-[22px]"
+                              src={country?.flag}
+                              alt={country?.name}
+                            />
+                            <span className="text-sm font-medium">
+                              {country?.code}
+                            </span>
+                            <MdOutlineKeyboardArrowDown className="w-4" />
+                          </div>
+                        </label>
+                      }
+                    >
+                      <PhoneCodeListModal
+                        setCountry={setCountry}
+                        currentCountry={country}
+                        resetField={resetField}
+                      />
+                    </MyDropdownMenu>
+                  )}
 
                   <ReactInputMask
                     id="phoneNumber"
@@ -189,7 +224,8 @@ export default function Onboarding() {
                   required: t('required_email', { ns: 'common' }),
                   validate: {
                     isEmail: (value) => {
-                      const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+                      const emailRegex =
+                        /^[a-z0-9_\-.]+@([a-z0-9_-]+\.)+[a-z0-9_-]{2,4}$/;
                       return (
                         emailRegex.test(value) ||
                         t('invalid_email', { ns: 'onboarding' })
@@ -241,20 +277,6 @@ export default function Onboarding() {
           </p>
         </form>
       </div>
-      <ModalWrapper
-        isOpen={isOpen}
-        closeModal={setIsOpen}
-        widthContent="400px"
-        // heightContent="268px"
-        paddingContent="40px 0 0 0"
-      >
-        <PhoneCodeListModal
-          setIsOpenTermsConditions={setIsOpen}
-          setCountry={setCountry}
-          currentCountry={country}
-          resetField={resetField}
-        />
-      </ModalWrapper>
     </OnboardingLayout>
   );
 }
