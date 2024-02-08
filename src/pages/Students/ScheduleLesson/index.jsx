@@ -3,7 +3,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import LessonConfirmation from './LessonConfirmation';
 import ScheduleSelector from './SheduleSelector/ScheduleSelector';
 import SelectLesson from './SelectLesson';
-import SelectTutorCards from './SelectTutorCards';
+import SelectMentorCards from './SelectMentorCards';
 import { useQuery } from '@apollo/client';
 import { LESSON_QUERY } from '../../../modules/auth/graphql';
 
@@ -60,7 +60,7 @@ const ScheduleLesson = () => {
           selectedTutor={location?.state?.tutor}
         />
       ) : tabIndex === 2 && !location?.state?.tutor ? (
-        <SelectTutorCards
+        <SelectMentorCards
           tabIndex={tabIndex}
           setTabIndex={setTabIndex}
           setSelectTutor={setSelectTutor}

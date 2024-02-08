@@ -47,13 +47,6 @@ export const SelectProfile = () => {
             </span>
           </div>
         </div>
-
-        {/* <Button
-          onClick={() => (location.href = '/')}
-          disabled={studentId === null}
-        >
-          Return to Dashboard
-        </Button> */}
       </div>
     </OnboardingLayout>
   );
