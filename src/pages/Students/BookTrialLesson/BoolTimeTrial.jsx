@@ -4,13 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { DAYS } from '../../../constants/global';
 import LeftArrow from '../../../assets/images/left-arrow.svg';
 import RightArrow from '../../../assets/images/right-arrow.svg';
-import {
-  format,
-  startOfWeek,
-  endOfWeek,
-  addDays,
-  subDays,
-} from 'date-fns';
+import { format, startOfWeek, endOfWeek, addDays, subDays } from 'date-fns';
 import { Checkbox } from '../../../components/Checkbox';
 import Select from 'react-select';
 import Icon2 from '../../../assets/images/sidebar/icon2.svg';
