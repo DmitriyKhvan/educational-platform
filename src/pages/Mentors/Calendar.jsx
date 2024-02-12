@@ -213,7 +213,13 @@ const Calendar = () => {
           userTimezone,
         );
         const end = moment(calendarAppointments[index].end_at).tz(userTimezone);
-        const title = `${calendarAppointments[index]?.student.firstName} ${calendarAppointments[index]?.student.lastName} / ${calendarAppointments[index]?.student.langLevel}`;
+        const title = `${calendarAppointments[index]?.student.firstName} ${
+          calendarAppointments[index]?.student.lastName
+        } ${
+          calendarAppointments[index]?.student?.langLevel
+            ? `/ ${calendarAppointments[index].student.langLevel}`
+            : ''
+        }`;
         const event = {
           id: index,
           title,

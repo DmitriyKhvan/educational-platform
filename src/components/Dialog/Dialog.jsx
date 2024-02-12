@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import Modal from 'react-modal';
 import { FaXmark } from 'react-icons/fa6';
 
@@ -6,7 +6,10 @@ import './Dialog.css';
 
 Modal.setAppElement('#root');
 
-const MyDialog = ({ button, children }) => {
+export const MyDialog = forwardRef(function MyDialog(
+  { button, children },
+  ref,
+) {
   const customStyles = {
     overlay: {
       position: 'fixed',
@@ -31,6 +34,7 @@ const MyDialog = ({ button, children }) => {
       borderRadius: '10px',
       padding: '40px 32px',
       minWidth: '360px',
+      maxHeight: 'calc(100vh - 100px)',
       background: '#fff',
     },
   };
@@ -49,13 +53,16 @@ const MyDialog = ({ button, children }) => {
 
   return (
     <>
-      <div onClick={openModal}>{button}</div>
+      <div className="flex" onClick={openModal}>
+        {button}
+      </div>
       <Modal
         closeTimeoutMS={400}
         isOpen={isOpen}
         contentLabel="modal"
         style={customStyles}
         onRequestClose={closeModal}
+        ref={ref}
       >
         <button
           className="absolute right-4 top-4 z-50 flex items-center justify-center w-6 h-6 rounded-full bg-color-border-grey/20"
@@ -68,6 +75,4 @@ const MyDialog = ({ button, children }) => {
       </Modal>
     </>
   );
-};
-
-export default MyDialog;
+});

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import LessonConfirmation from './LessonConfirmation';
-import ScheduleSelector from './ScheduleSelector';
+import ScheduleSelector from './SheduleSelector/ScheduleSelector';
 import SelectLesson from './SelectLesson';
 import SelectMentorCards from './SelectMentorCards';
 import { useQuery } from '@apollo/client';
@@ -50,8 +50,8 @@ const ScheduleLesson = () => {
         <ScheduleSelector
           setTabIndex={setTabIndex}
           duration={selectedPlan?.package?.sessionTime}
-          // step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
-          step={30}
+          step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
+          // step={30}
           setSchedule={setSchedule}
           schedule={schedule}
           tabIndex={tabIndex}
