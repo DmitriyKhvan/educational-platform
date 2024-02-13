@@ -200,7 +200,7 @@ const ScheduleCard = ({
         </Button>
         <Button
           // TODO: implement onClick
-          className={`col-span-1 ${
+          className={`col-span-1 gap-1 sm:gap-2 ${
             data.status === LessonsStatusType.COMPLETED ? 'flex' : 'hidden'
           }`}
         >
