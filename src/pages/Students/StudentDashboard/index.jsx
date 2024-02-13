@@ -21,6 +21,7 @@ import DashboardCard from './DashboardCard';
 import ScheduleBanner from './ScheduleBanner';
 import MyLessons from './MyLessons';
 import MyProgress from './MyProgress';
+import { useMediaQuery } from 'react-responsive';
 
 const options = [
   { value: 'upcoming_lesson', label: 'Upcoming Lessons' },
@@ -28,6 +29,8 @@ const options = [
 ];
 
 const StudentListAppointments = () => {
+  const isDesktop = useMediaQuery({ minWidth: 1307 });
+
   const { complete_appoint_id } = useParams();
   const [t] = useTranslation('dashboard');
   const [selectedOption] = useState(options[0]);
@@ -110,12 +113,14 @@ const StudentListAppointments = () => {
             <ScheduleBanner />
           </DashboardCard>
 
-          <div className="xl:hidden">
-            <MyLessons
-              fetchAppointments={fetchAppointments}
-              appointments={appointments}
-            />
-          </div>
+          {!isDesktop && !isLoading && (
+            <div>
+              <MyLessons
+                fetchAppointments={fetchAppointments}
+                appointments={appointments}
+              />
+            </div>
+          )}
 
           <MyProgress
             fetchAppointments={fetchAppointments}
@@ -124,7 +129,7 @@ const StudentListAppointments = () => {
         </div>
 
         <div className="hidden xl:block w-full mx-auto sm:max-w-[524px] sm:mt-10 2xl:ml-10 mt-1">
-          {!isLoading && (
+          {isDesktop && !isLoading && (
             <MyLessons
               fetchAppointments={fetchAppointments}
               appointments={appointments}

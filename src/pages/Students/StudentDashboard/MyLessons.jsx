@@ -13,8 +13,10 @@ import {
 } from 'date-fns';
 import DashboardCard from './DashboardCard';
 import { FaArrowRight } from 'react-icons/fa6';
+import { useMediaQuery } from 'react-responsive';
 
 const MyLessons = ({ appointments, fetchAppointments }) => {
+  const isDesktop = useMediaQuery({ minWidth: 1307 });
   const [t] = useTranslation('dashboard');
 
   const scheduledAweekAppointments = useMemo(() => {
@@ -64,13 +66,15 @@ const MyLessons = ({ appointments, fetchAppointments }) => {
       subtitle={t('my_lessons_subtitle', { ns: 'dashboard' })}
       hrefTo="/student/lesson-calendar"
     >
-      <div className="xl:hidden mt-[30px] lg:overflow-y-auto">
-        {scheduledAweekAppointments && scheduledAweekAppointments[0]}
-      </div>
-
-      <div className="hidden xl:block mt-[30px] lg:overflow-y-auto">
-        {scheduledAweekAppointments?.slice(0, 3)}
-      </div>
+      {isDesktop ? (
+        <div className="mt-[30px] lg:overflow-y-auto">
+          {scheduledAweekAppointments?.slice(0, 3)}
+        </div>
+      ) : (
+        <div className="mt-[30px] lg:overflow-y-auto">
+          {scheduledAweekAppointments && scheduledAweekAppointments[0]}
+        </div>
+      )}
 
       {scheduledAweekAppointments?.length > 3 && (
         <Link

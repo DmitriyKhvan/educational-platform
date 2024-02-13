@@ -9,6 +9,7 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 import { isBetween } from '../../utils/isBetween';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { FaCheck, FaPlay } from 'react-icons/fa6';
+import Button from '../Form/Button';
 
 const ScheduleCard = ({
   // index,
@@ -36,19 +37,19 @@ const ScheduleCard = ({
   const statusIndicator = useMemo(() => {
     switch (data.status) {
       //scheduled,paid,completed,in_progress,approved
-      case 'scheduled':
+      case LessonsStatusType.SCHEDULED:
         return (
           <span className="bg-gray-300 text-gray-700 bg-opacity-20 block text-sm font-medium px-3 py-2 rounded-2xl">
             Scheduled
           </span>
         );
-      case 'approved':
+      case LessonsStatusType.APPROVED:
         return (
           <span className="bg-color-purple text-color-purple bg-opacity-20 block text-sm font-medium px-3 py-2 rounded-2xl">
             Approved
           </span>
         );
-      case 'completed':
+      case LessonsStatusType.COMPLETED:
         return (
           <span className="flex items-center gap-1 bg-green-300 text-green-500 bg-opacity-20 text-sm font-medium px-3 py-2 rounded-2xl">
             <FaCheck /> Completed
@@ -188,53 +189,53 @@ const ScheduleCard = ({
             : 'grid-cols-2'
         }`}
       >
-        <button
-          type="button"
+        <Button
           onClick={joinLesson}
           disabled={!isBetween(dateLesson, data.duration, userTimezone)}
-          className={`col-span-2 text-white bg-color-purple disabled:opacity-50 items-center justify-center cursor-pointer disabled:cursor-not-allowed w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter rounded-lg ${
+          className={`col-span-2 ${
             data.status === LessonsStatusType.APPROVED ? 'flex' : 'hidden'
           }`}
         >
           {t('join_lesson')}
-        </button>
-        <button
-          type="button"
+        </Button>
+        <Button
           // TODO: implement onClick
-          className={`col-span-1 text-white bg-color-purple gap-2 items-center justify-center cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter rounded-lg ${
+          className={`col-span-1 ${
             data.status === LessonsStatusType.COMPLETED ? 'flex' : 'hidden'
           }`}
         >
           <FaPlay />
           {t('watch_recording')}
-        </button>
+        </Button>
 
-        <button
+        <Button
           // TODO: implement onClick
-          className={`cursor-pointer text-white bg-color-dark-purple w-full flex items-center justify-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter rounded-lg`}
+          theme="dark_purple"
         >
           Info
-        </button>
+        </Button>
 
-        <button
+        <Button
+          theme="dark_purple"
           onClick={onSelect}
-          className={`cursor-pointer text-white bg-color-dark-purple w-full items-center justify-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter rounded-lg ${
+          className={
             data.status === LessonsStatusType.SCHEDULED ? 'flex' : 'hidden'
-          }`}
+          }
         >
           {t('reschedule')}
-        </button>
+        </Button>
 
-        <button
-          type="button"
+        <Button
+          theme="red"
           onClick={onCancel}
-          className={`cursor-pointer text-color-red bg-color-red bg-opacity-10 w-full items-center justify-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter rounded-lg ${
+          className={
             data.status !== LessonsStatusType.COMPLETED ? 'flex' : 'hidden'
-          }`}
+          }
         >
           {t('cancel', { ns: 'common' })}
-        </button>
+        </Button>
       </div>
+
       <RescheduleAndCancelModal
         data={data}
         isOpen={isOpen}

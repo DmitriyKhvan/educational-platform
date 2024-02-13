@@ -11,9 +11,7 @@ const MyProgress = ({ appointments, fetchAppointments }) => {
     () =>
       appointments
         ?.filter((a) => a.status === LessonsStatusType.COMPLETED)
-        ?.sort((a, b) =>
-          a.startAt > b.startAt ? -1 : a.startAt < b.startAt ? 1 : 0,
-        )[0],
+        ?.sort((a, b) => new Date(b.startAt) - new Date(a.startAt))[0],
     [appointments],
   );
 
