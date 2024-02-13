@@ -1,22 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../../../components/Layout';
 import { useParams, useHistory } from 'react-router-dom';
-// import { ModalCancelLesson } from '../../../components/ModalCancelLesson';
 import { useTranslation } from 'react-i18next';
-import {
-  // cancel_lesson_reasons_student,
-  getItemToLocalStorage,
-} from '../../../constants/global';
-// import NotificationManager from '../../../components/NotificationManager';
+import { getItemToLocalStorage } from '../../../constants/global';
 import ModalFeedback from '../ModalFeedback';
 import { useAuth } from '../../../modules/auth';
-import {
-  // CANCEL_APPOINTMENT,
-  APPOINTMENTS_QUERY,
-} from '../../../modules/auth/graphql';
+import { APPOINTMENTS_QUERY } from '../../../modules/auth/graphql';
 import { useQuery } from '@apollo/client';
 
-// import toast from 'react-hot-toast';
 import DashboardCard from './DashboardCard';
 import ScheduleBanner from './ScheduleBanner';
 import MyLessons from './MyLessons';
@@ -34,7 +25,6 @@ const StudentListAppointments = () => {
   const { complete_appoint_id } = useParams();
   const [t] = useTranslation('dashboard');
   const [selectedOption] = useState(options[0]);
-  // const [selectedLesson, setSelectedLesson] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
   const { data: { lessons: appointments } = {}, refetch } = useQuery(
@@ -49,30 +39,6 @@ const StudentListAppointments = () => {
   const [completedAppointment, setCompleteAppointment] = useState(null);
   const history = useHistory();
   const onDismiss = () => setCompleteAppointment(null);
-  // const [cancelAppointment] = useMutation(CANCEL_APPOINTMENT, {
-  //   onError: (e) => {
-  //     NotificationManager.error(e?.message || "Couldn't cancel this lesson", t);
-  //   },
-  //   onCompleted: () => {
-  //     toast.success('Your lesson has been cancelled successfully');
-  //   },
-  // });
-
-  // const onCancel = async ({ id }) => {
-  //   setIsLoading(true);
-  //   try {
-  //     await cancelAppointment({
-  //       variables: {
-  //         id: parseInt(id),
-  //       },
-  //     });
-  //     await fetchAppointments();
-  //   } catch (e) {
-  //     NotificationManager.error(e?.message || 'Server Issue', t);
-  //   }
-  //   setSelectedLesson(false);
-  //   setIsLoading(false);
-  // };
 
   useEffect(() => {
     (async () => {
@@ -137,15 +103,6 @@ const StudentListAppointments = () => {
           )}
         </div>
       </div>
-      {/* {selectedLesson && (
-        <ModalCancelLesson
-          visible={!!selectedLesson}
-          lesson={selectedLesson}
-          onDismiss={onDismiss}
-          onCancel={onCancel}
-          reasons={cancel_lesson_reasons_student}
-        />
-      )} */}
       {completedAppointment && (
         <ModalFeedback
           onDismiss={() => {
