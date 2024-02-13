@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -17,6 +17,7 @@ import { useMediaQuery } from 'react-responsive';
 import { MyDialog } from 'src/components/Dialog';
 
 export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
+  const [open, setOpen] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 639 });
 
   const [t] = useTranslation(['studentMentor', 'common', 'lessons']);
@@ -140,6 +141,8 @@ export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
             </MyDrawer>
           ) : (
             <MyDialog
+              open={open}
+              setOpen={setOpen}
               button={
                 <Button
                   theme="gray"
