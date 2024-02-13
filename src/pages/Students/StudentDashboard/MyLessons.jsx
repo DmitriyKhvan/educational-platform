@@ -25,7 +25,7 @@ const MyLessons = ({ appointments, fetchAppointments }) => {
       : startOfISOWeek(now);
 
     return appointments
-      .filter((x, i, a) => {
+      ?.filter((x, i, a) => {
         const expiredDate = addMinutes(new Date(x?.startAt), x?.duration || 0);
 
         return (
@@ -37,8 +37,8 @@ const MyLessons = ({ appointments, fetchAppointments }) => {
           isBefore(new Date(), expiredDate)
         );
       })
-      .sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
-      .map((x, i) => {
+      ?.sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
+      ?.map((x, i) => {
         const date = new Date(x?.startAt);
 
         return (
@@ -77,7 +77,7 @@ const MyLessons = ({ appointments, fetchAppointments }) => {
           to="/student/lesson-calendar"
           className="hidden xl:flex w-full bg-color-purple bg-opacity-10 justify-center gap-1 items-center text-color-purple font-medium py-6 rounded-lg hover:opacity-80 mt-6"
         >
-          All lessons ({scheduledAweekAppointments.length}){' '}
+          All lessons ({scheduledAweekAppointments?.length}){' '}
           <FaArrowRight className="w-4 h-4" />
         </Link>
       )}
