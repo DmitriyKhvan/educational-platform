@@ -57,7 +57,7 @@ const ScheduleCard = ({
       default:
         return <span></span>;
     }
-  }, [status]);
+  }, [data.status]);
 
   const dateLesson = new Date(date); //current time zone avtomaticaly
 
