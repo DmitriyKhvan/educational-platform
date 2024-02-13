@@ -401,7 +401,7 @@ export const LOGIN_MUTATION = gql`
 `;
 
 export const RESET_PASSWORD_MUTATION = gql`
-  mutation sendUserPasswordResetLink($email: String!, $locale: String) {
+  mutation sendUserPasswordResetLink($email: String!, $locale: String!) {
     sendUserPasswordResetLink(email: $email, locale: $locale)
   }
 `;
