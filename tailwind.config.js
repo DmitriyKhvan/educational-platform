@@ -28,7 +28,9 @@ module.exports = {
         'color-light-purple': '#ebe4ff',
         'color-dark-purple': '#261A45',
         'color-light-blue': '#86b7fe',
-
+        'color-dashboard-bg': '#f7f8fA',
+        'color-banner-green': '#00D986',
+        
         tremor: {
           brand: {
             faint: '#eff6ff', // blue-50
