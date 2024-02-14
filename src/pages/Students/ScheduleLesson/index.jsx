@@ -3,13 +3,12 @@ import { useLocation, useParams } from 'react-router-dom';
 import LessonConfirmation from './LessonConfirmation';
 import ScheduleSelector from './SheduleSelector/ScheduleSelector';
 import SelectLesson from './SelectLesson';
-import SelectTutorCards from './SelectTutorCards';
+import SelectMentorCards from './SelectMentorCards';
 import { useQuery } from '@apollo/client';
 import { LESSON_QUERY } from '../../../modules/auth/graphql';
 
 import '../../../assets/styles/tutor.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-import { SheduleSelectorProvider } from './SheduleSelector/SheduleSelectorProvider';
 
 const ScheduleLesson = () => {
   const { id = null } = useParams();
@@ -48,25 +47,20 @@ const ScheduleLesson = () => {
           lesson={scheduledLesson}
         />
       ) : tabIndex === 1 ? (
-        <SheduleSelectorProvider
+        <ScheduleSelector
+          setTabIndex={setTabIndex}
           duration={selectedPlan?.package?.sessionTime}
+          step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
+          // step={30}
+          setSchedule={setSchedule}
+          schedule={schedule}
+          tabIndex={tabIndex}
+          lesson={scheduledLesson}
+          lessonId={id}
           selectedTutor={location?.state?.tutor}
-        >
-          <ScheduleSelector
-            setTabIndex={setTabIndex}
-            duration={selectedPlan?.package?.sessionTime}
-            step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
-            // step={30}
-            setSchedule={setSchedule}
-            schedule={schedule}
-            tabIndex={tabIndex}
-            lesson={scheduledLesson}
-            lessonId={id}
-            selectedTutor={location?.state?.tutor}
-          />
-        </SheduleSelectorProvider>
+        />
       ) : tabIndex === 2 && !location?.state?.tutor ? (
-        <SelectTutorCards
+        <SelectMentorCards
           tabIndex={tabIndex}
           setTabIndex={setTabIndex}
           setSelectTutor={setSelectTutor}

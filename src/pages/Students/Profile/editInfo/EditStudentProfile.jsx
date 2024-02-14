@@ -86,7 +86,7 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
         },
       },
       onCompleted: async () => {
-        closeModal(false);
+        closeModal();
 
         setTimeout(async () => {
           await refetchUser();
@@ -106,7 +106,7 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
   const removePreviewImage = () => setFile(null);
 
   return (
-    <section>
+    <section className="">
       <div className="mb-5">
         <h3 className="text-black m-0 text-[20px]">{t('edit_profile')}</h3>
       </div>
