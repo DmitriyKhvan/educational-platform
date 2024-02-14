@@ -23,17 +23,14 @@ jobs:
       - name: Set node version
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
           cache: npm
 
-      - name: Install yarn
-        run: npm install -g yarn
-
       - name: Install dependencies
-        run: yarn
+        run: npm install
 
       - name: Build
-        run: yarn build
+        run: npm run build
 
       - id: auth
         uses: google-github-actions/auth@v1
