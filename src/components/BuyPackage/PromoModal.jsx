@@ -11,7 +11,6 @@ import Loader from '../Loader/Loader';
 import { useTranslation } from 'react-i18next';
 
 export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen }) => {
-  console.log('setIsOpen', setIsOpen);
   const [t] = useTranslation('purchase');
 
   const [applyDiscount, { loading }] = useMutation(

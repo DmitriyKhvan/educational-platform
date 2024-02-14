@@ -25,7 +25,6 @@ import { Avatar } from '../../../../widgets/Avatar/Avatar';
 import { trimSpaces } from 'src/utils/trimSpaces';
 
 const EditProflileStudent = ({ closeModal, setLoading }) => {
-  console.log('closeModal', closeModal);
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
   const [updateUser] = useMutation(MUTATION_UPDATE_USER);
 
