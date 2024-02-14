@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import Modal from 'react-modal';
 import { FaXmark } from 'react-icons/fa6';
 
@@ -38,6 +38,10 @@ export const MyDialog = forwardRef(function MyDialog(
       background: '#fff',
     },
   };
+
+  if (!open || !setOpen) {
+    [open, setOpen] = useState(false);
+  }
 
   const openModal = () => {
     document.body.style.overflow = 'hidden';
