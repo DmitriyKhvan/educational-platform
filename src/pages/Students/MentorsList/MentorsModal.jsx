@@ -150,7 +150,7 @@ const MentorsModal = ({ mentor }) => {
       </div>
 
       {isMobile && (
-        <div className="sticky bottom-0 w-full pb-4 bg-white z-10">
+        <div className="sticky -bottom-6 w-full pb-6 bg-white z-10">
           <Link
             to={
               mentor?.availabilities?.length > 0

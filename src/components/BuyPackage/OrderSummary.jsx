@@ -1,4 +1,4 @@
-import { useMemo, memo } from 'react';
+import { useMemo, memo, useState } from 'react';
 
 import { gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
@@ -33,6 +33,8 @@ export const OrderSummary = memo(function OrderSummary({
   setPromoPackage,
   promoPackage,
 }) {
+  const [open, setOpen] = useState(false);
+
   const isMobile = useMediaQuery({ maxWidth: 639 });
   const history = useHistory();
   const [parent] = useAutoAnimate();
@@ -87,6 +89,8 @@ export const OrderSummary = memo(function OrderSummary({
           <>
             {isMobile ? (
               <MyDrawer
+                open={open}
+                setOpen={setOpen}
                 button={
                   <button
                     type="button"
@@ -102,12 +106,15 @@ export const OrderSummary = memo(function OrderSummary({
                 }
               >
                 <PromoModal
+                  setIsOpen={setOpen}
                   selectedPackage={selectedPackage}
                   setPromoPackage={setPromoPackage}
                 />
               </MyDrawer>
             ) : (
               <MyDialog
+                open={open}
+                setOpen={setOpen}
                 button={
                   <button
                     type="button"
@@ -123,6 +130,7 @@ export const OrderSummary = memo(function OrderSummary({
                 }
               >
                 <PromoModal
+                  setIsOpen={setOpen}
                   selectedPackage={selectedPackage}
                   setPromoPackage={setPromoPackage}
                 />

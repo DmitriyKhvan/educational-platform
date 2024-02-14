@@ -9,13 +9,16 @@ import { gql, useLazyQuery } from '@apollo/client';
 import { getItemToLocalStorage } from 'src/constants/global';
 import {
   addDays,
+  addMonths,
   addWeeks,
   endOfISOWeek,
   isAfter,
+  isBefore,
   isSameDay,
   isWithinInterval,
   parse,
   startOfISOWeek,
+  subDays,
 } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { ko as kr } from 'date-fns/locale';
@@ -65,15 +68,13 @@ const ScheduleSelector = ({
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const todayUserTimezone = () => {
-    return utcToZonedTime(new Date(), userTimezone);
-  };
+  const todayUserTimezone = utcToZonedTime(new Date(), userTimezone);
 
   const [isLoading, setIsLoading] = useState(false);
   const [counter, setCounter] = useState(0);
   const [dayClicked, setDayClicked] = useState(null);
   const [timeClicked, setTimeClicked] = useState(null);
-  const [day, setDay] = useState(todayUserTimezone());
+  const [day, setDay] = useState(todayUserTimezone);
   const [days, setDays] = useState([]);
   const [allTimes, setAllTimes] = useState([]);
   const [timeOfDay, setTimeOfDay] = useState({
@@ -90,7 +91,11 @@ const ScheduleSelector = ({
     fetchPolicy: 'network-only',
   });
 
-  const today = addWeeks(todayUserTimezone(), counter);
+  const endMonth = addMonths(todayUserTimezone, 1);
+  const isToday = isSameDay(new Date(day), todayUserTimezone);
+  const isEndMonth = isSameDay(new Date(day), endMonth);
+
+  const today = addWeeks(todayUserTimezone, counter);
 
   // Start of ISO week
   const startOfWeek = startOfISOWeek(today);
@@ -109,20 +114,20 @@ const ScheduleSelector = ({
   });
 
   const morningInterval = {
-    start: parse('00:00', 'HH:mm', todayUserTimezone()),
-    end: parse('11:59', 'HH:mm', todayUserTimezone()),
+    start: parse('00:00', 'HH:mm', new Date(day)),
+    end: parse('11:59', 'HH:mm', new Date(day)),
   };
   const afternoonInterval = {
-    start: parse('12:00', 'HH:mm', todayUserTimezone()),
-    end: parse('17:59', 'HH:mm', todayUserTimezone()),
+    start: parse('12:00', 'HH:mm', new Date(day)),
+    end: parse('17:59', 'HH:mm', new Date(day)),
   };
   const eveningInterval = {
-    start: parse('18:00', 'HH:mm', todayUserTimezone()),
-    end: parse('23:59', 'HH:mm', todayUserTimezone()),
+    start: parse('18:00', 'HH:mm', new Date(day)),
+    end: parse('23:59', 'HH:mm', new Date(day)),
   };
 
   // formation morning/afternoon/evening taking into account the current time and available metor slots
-  const setDayInterval = (currentTime) => {
+  const setDayInterval = (currentTime, lastTime) => {
     let morning = false;
     let afternoon = false;
     let evening = false;
@@ -159,14 +164,40 @@ const ScheduleSelector = ({
       }
     }
 
+    if (lastTime) {
+      if (isWithinInterval(lastTime, morningInterval)) {
+        afternoon = true;
+        evening = true;
+        currentMorningInterval = {
+          start: morningInterval.start,
+          end: lastTime,
+        };
+      }
+
+      if (isWithinInterval(lastTime, afternoonInterval)) {
+        evening = true;
+        currentAfternoonInterval = {
+          start: afternoonInterval.start,
+          end: lastTime,
+        };
+      }
+
+      if (isWithinInterval(lastTime, eveningInterval)) {
+        currentEveningInterval = {
+          start: eveningInterval.start,
+          end: lastTime,
+        };
+      }
+    }
+
     timesheetsData?.combinedTimesheets
       .sort(
         (a, b) =>
-          parse(a.from, 'HH:mm', todayUserTimezone()) -
-          parse(b.from, 'HH:mm', todayUserTimezone()),
+          parse(a.from, 'HH:mm', new Date(day)) -
+          parse(b.from, 'HH:mm', new Date(day)),
       )
       .forEach((timesheet) => {
-        const tempTime = parse(timesheet.from, 'HH:mm', todayUserTimezone());
+        const tempTime = parse(timesheet.from, 'HH:mm', new Date(day));
 
         if (isWithinInterval(tempTime, currentMorningInterval) && !morning) {
           timeArr.push({
@@ -206,11 +237,10 @@ const ScheduleSelector = ({
   // morning/afternoon/evening formation
   useEffect(() => {
     if (timesheetsData) {
-      const checkIsToday = isSameDay(new Date(day), todayUserTimezone());
-
-      if (checkIsToday) {
-        const currentTime = todayUserTimezone();
-        setDayInterval(currentTime);
+      if (isToday) {
+        setDayInterval(todayUserTimezone);
+      } else if (isEndMonth) {
+        setDayInterval(null, endMonth);
       } else {
         setDayInterval();
       }
@@ -222,7 +252,7 @@ const ScheduleSelector = ({
     if (timeOfDay.start && timeOfDay.end) {
       const availableSlots = [];
       timesheetsData?.combinedTimesheets.forEach((timesheet) => {
-        const tempTime = parse(timesheet.from, 'HH:mm', todayUserTimezone());
+        const tempTime = parse(timesheet.from, 'HH:mm', new Date(day));
 
         if (isWithinInterval(tempTime, timeOfDay)) {
           availableSlots.push({
@@ -242,10 +272,14 @@ const ScheduleSelector = ({
 
     for (let i = 0; i < 7; i++) {
       const tempDay = addDays(startOfWeek, i);
+      const startMonth = subDays(todayUserTimezone, 1);
 
       if (
-        isAfter(tempDay, todayUserTimezone()) ||
-        isSameDay(tempDay, todayUserTimezone())
+        // isAfter(tempDay, todayUserTimezone) ||
+        // isSameDay(tempDay, todayUserTimezone)
+
+        isAfter(tempDay, startMonth) &&
+        isBefore(tempDay, endMonth)
       ) {
         const dayOfTheWeek = {
           day: format(tempDay, 'yyyy-MM-dd HH:mm:ss', {
@@ -299,48 +333,70 @@ const ScheduleSelector = ({
       if (data.format === 'time') {
         setTimeClicked(i);
 
-        const isSame = isSameDay(new Date(day), todayUserTimezone());
-
         if (data.time === 'Morning') {
-          const isCurrentMorning = isWithinInterval(
-            todayUserTimezone(),
+          const isTodayMorning = isWithinInterval(
+            todayUserTimezone,
             morningInterval,
           );
 
-          if (isCurrentMorning && isSame) {
+          const isEndMonthMorning = isWithinInterval(endMonth, morningInterval);
+
+          if (isTodayMorning && isToday) {
             setTimeOfDay({
-              start: todayUserTimezone(),
+              start: todayUserTimezone,
               end: morningInterval.end,
+            });
+          } else if (isEndMonthMorning && isEndMonth) {
+            setTimeOfDay({
+              start: morningInterval.start,
+              end: endMonth,
             });
           } else {
             setTimeOfDay(morningInterval);
           }
         }
         if (data.time === 'Afternoon') {
-          const isCurrentArternoon = isWithinInterval(
-            todayUserTimezone(),
+          const isTodayArternoon = isWithinInterval(
+            todayUserTimezone,
             afternoonInterval,
           );
 
-          if (isCurrentArternoon && isSame) {
+          const isEndMonthArternoon = isWithinInterval(
+            endMonth,
+            afternoonInterval,
+          );
+
+          if (isTodayArternoon && isToday) {
             setTimeOfDay({
-              start: todayUserTimezone(),
+              start: todayUserTimezone,
               end: afternoonInterval.end,
+            });
+          } else if (isEndMonthArternoon && isEndMonth) {
+            setTimeOfDay({
+              start: afternoonInterval.start,
+              end: endMonth,
             });
           } else {
             setTimeOfDay(afternoonInterval);
           }
         }
         if (data.time === 'Evening') {
-          const isCurrentEvening = isWithinInterval(
-            todayUserTimezone(),
+          const isTodayEvening = isWithinInterval(
+            todayUserTimezone,
             eveningInterval,
           );
 
-          if (isCurrentEvening && isSame) {
+          const isEndMonthEvening = isWithinInterval(endMonth, eveningInterval);
+
+          if (isTodayEvening && isToday) {
             setTimeOfDay({
-              start: todayUserTimezone(),
+              start: todayUserTimezone,
               end: eveningInterval.end,
+            });
+          } else if (isEndMonthEvening && isEndMonth) {
+            setTimeOfDay({
+              start: eveningInterval.start,
+              end: endMonth,
             });
           } else {
             setTimeOfDay(eveningInterval);

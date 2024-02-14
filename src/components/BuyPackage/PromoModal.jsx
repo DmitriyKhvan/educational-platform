@@ -59,12 +59,14 @@ export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen }) => {
           };
         }
         setPromoPackage(promoPackage);
-        setIsOpen(false);
+        // setIsOpen();
       },
       onError: () => {
         notify('Promo code not valid', 'error');
       },
     });
+
+    setIsOpen(false);
   };
 
   return (
