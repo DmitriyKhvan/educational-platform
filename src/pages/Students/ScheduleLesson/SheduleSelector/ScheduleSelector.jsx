@@ -20,6 +20,8 @@ import {
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { ko as kr } from 'date-fns/locale';
 import { AvailableSpots } from './AvailableSpots';
+import { useDebounce } from 'src/utils/useDebounce';
+import { SkeletonTimesheets } from './SkeletonTimesheets';
 
 const GET_TIMESHEETS = gql`
   query combinedTimesheets(
@@ -81,12 +83,12 @@ const ScheduleSelector = ({
 
   const [timeArr, setTimeArr] = useState([]);
 
-  const [getTimesheetsData, { data: timesheetsData }] = useLazyQuery(
-    GET_TIMESHEETS,
-    {
-      fetchPolicy: 'network-only',
-    },
-  );
+  const [
+    getTimesheetsData,
+    { loading: timesheetsLoading, data: timesheetsData },
+  ] = useLazyQuery(GET_TIMESHEETS, {
+    fetchPolicy: 'network-only',
+  });
 
   const today = addWeeks(todayUserTimezone(), counter);
 
@@ -264,6 +266,26 @@ const ScheduleSelector = ({
     setTimeArr([]);
   };
 
+  const debouncedTimesheetsData = useDebounce(day, 500);
+
+  useEffect(() => {
+    if (debouncedTimesheetsData && dayClicked !== null) {
+      getTimesheetsData({
+        variables: {
+          tz: userTimezone,
+          date: format(new Date(debouncedTimesheetsData), 'yyyy-MM-dd', {
+            timeZone: userTimezone,
+          }),
+          duration: String(duration).toString(),
+          ...(selectedTutor && {
+            mentorId: selectedTutor.id,
+          }),
+          studentId: getItemToLocalStorage('studentId'),
+        },
+      });
+    }
+  }, [debouncedTimesheetsData]);
+
   const DaySelector = ({ data, i }) => {
     const isClicked = () => {
       if (data.format === 'day') {
@@ -272,19 +294,6 @@ const ScheduleSelector = ({
         setTimeArr([]);
 
         setDay(data.day);
-        getTimesheetsData({
-          variables: {
-            tz: userTimezone,
-            date: format(new Date(data.day), 'yyyy-MM-dd', {
-              timeZone: userTimezone,
-            }),
-            duration: String(duration).toString(),
-            ...(selectedTutor && {
-              mentorId: selectedTutor.id,
-            }),
-            studentId: getItemToLocalStorage('studentId'),
-          },
-        });
       }
 
       if (data.format === 'time') {
@@ -442,12 +451,18 @@ const ScheduleSelector = ({
                 </div>
 
                 <div className="col-6 px-4">
-                  {timeArr.map((x, i) => {
-                    i = i + 10;
-                    if (x.format === 'time') {
-                      return <DaySelector data={x} i={i} key={i} />;
-                    }
-                  })}
+                  {timesheetsLoading ? (
+                    <div className="mt-3">
+                      <SkeletonTimesheets />
+                    </div>
+                  ) : (
+                    timeArr.map((x, i) => {
+                      i = i + 10;
+                      if (x.format === 'time') {
+                        return <DaySelector data={x} i={i} key={i} />;
+                      }
+                    })
+                  )}
                 </div>
               </div>
               <div className="p-4">
