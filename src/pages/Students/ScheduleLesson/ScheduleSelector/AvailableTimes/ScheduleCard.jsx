@@ -13,24 +13,16 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from 'src/modules/auth';
 import { cn } from 'src/utils/functions';
 import Swal from 'sweetalert2';
+import { useSchedule } from '../ScheduleProvider';
 
-export const ScheduleCard = ({
-  scheduleStartTime,
-  day,
-  duration,
-  setIsLoading,
-  setSchedule,
-  setTabIndex,
-}) => {
+export const ScheduleCard = ({ scheduleStartTime, setIsLoading }) => {
+  const { setTabIndex, setSchedule, duration, day, todayUserTimezone } =
+    useSchedule();
   const { user } = useAuth();
 
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  const todayUserTimezone = () => {
-    return utcToZonedTime(new Date(), userTimezone);
-  };
 
   const [t, i18n] = useTranslation(['lessons', 'common', 'modals']);
 
@@ -75,11 +67,11 @@ export const ScheduleCard = ({
 
     const preScreen = subHours(dateParse, hoursPrior);
 
-    if (!isBefore(todayUserTimezone(), preScreen)) {
-      const minutesRound = 30 - (getMinutes(todayUserTimezone()) % 30);
+    if (!isBefore(todayUserTimezone, preScreen)) {
+      const minutesRound = 30 - (getMinutes(todayUserTimezone) % 30);
 
       const available = format(
-        addHours(addMinutes(todayUserTimezone(), minutesRound), hoursPrior),
+        addHours(addMinutes(todayUserTimezone, minutesRound), hoursPrior),
         'eeee, MMMM dd @ h:mm a',
         { timeZone: userTimezone },
       );
@@ -100,7 +92,7 @@ export const ScheduleCard = ({
       });
     }
 
-    if (isBefore(todayUserTimezone(), preScreen)) {
+    if (isBefore(todayUserTimezone, preScreen)) {
       setIsLoading(true);
       setSchedule(selectedSchedule.toString());
       setTabIndex(2);
