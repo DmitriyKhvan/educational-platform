@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScheduleCard } from './ScheduleCard';
 import { useSchedule } from '../ScheduleProvider';
+import { IoArrowBack } from 'react-icons/io5';
 
 export const AvailableTimes = memo(function AvailableTimes() {
   const { availableTimes } = useSchedule();
@@ -9,17 +10,24 @@ export const AvailableTimes = memo(function AvailableTimes() {
 
   return (
     <>
-      {availableTimes.length ? (
-        <>
+      {availableTimes.length !== 0 && (
+        <div className="space-y-10">
           <div>
-            <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold">
-              {t('available_spots')}
-            </h1>
-            <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px] available-text">
+            <div className="flex items-center gap-3">
+              <button>
+                <IoArrowBack className="text-2xl" />
+              </button>
+              <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold">
+                {t('available_spots')}
+              </h1>
+            </div>
+
+            <p className="welcome-subtitle mt-[15px]">
               {t('available_spots_subtitle')}
             </p>
           </div>
-          <div className="row schedule-overflow-scroll slot-scroll col-12 media_small_width_schedule gap-4">
+
+          <div className="space-y-4">
             {availableTimes.map((startTime) => (
               <ScheduleCard
                 scheduleStartTime={startTime}
@@ -27,8 +35,8 @@ export const AvailableTimes = memo(function AvailableTimes() {
               />
             ))}
           </div>
-        </>
-      ) : null}
+        </div>
+      )}
     </>
   );
 });

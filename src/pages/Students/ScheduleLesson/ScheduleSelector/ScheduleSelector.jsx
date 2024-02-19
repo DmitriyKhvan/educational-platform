@@ -53,40 +53,44 @@ export const ScheduleSelector = ({ lesson }) => {
   return (
     <Layout>
       <div className="overflow-auto h-[calc(100vh-80px)]">
-        <div className="flex-container">
-          <div className="lesson-wrapper flex-lefts student-dashboard">
+        <div className="max-w-[440px] w-full m-auto">
+          <div className="space-y-10">
             <div>
-              <div className="container title-container px-4">
-                <div className="flex items-center gap-3">
-                  <button onClick={() => setTabIndex(0)}>
-                    <IoArrowBack className="text-2xl" />
-                  </button>
+              <div className="flex items-center gap-3">
+                <button onClick={() => setTabIndex(0)}>
+                  <IoArrowBack className="text-2xl" />
+                </button>
 
-                  <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold">
-                    {lesson
-                      ? t('reschedule_lesson', { ns: 'modals' })
-                      : t('schedule_lesson')}
-                  </h1>
-                </div>
-
-                <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px] left-subtitle">
-                  {lesson ? (
-                    <>
-                      {t('currently_scheduled', { ns: 'modals' })}{' '}
-                      {format(
-                        utcToZonedTime(new Date(lesson.startAt), userTimezone),
-                        'eeee, MMM dd hh:mm a',
-                        {
-                          timeZone: userTimezone,
-                        },
-                      )}
-                    </>
-                  ) : (
-                    t('schedule_lesson_subtitle')
-                  )}
-                </p>
+                <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold">
+                  {lesson
+                    ? t('reschedule_lesson', { ns: 'modals' })
+                    : t('schedule_lesson')}
+                </h1>
               </div>
-              <div className="flex gap-3 w-full items-center justify-between px-4 mb-4">
+
+              <p className="welcome-subtitle mt-[15px]">
+                {lesson ? (
+                  <>
+                    {t('currently_scheduled', { ns: 'modals' })}{' '}
+                    {format(
+                      utcToZonedTime(new Date(lesson.startAt), userTimezone),
+                      'eeee, MMM dd hh:mm a',
+                      {
+                        timeZone: userTimezone,
+                      },
+                    )}
+                  </>
+                ) : (
+                  t('schedule_lesson_subtitle')
+                )}
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-[15px] text-color-dark-purple mb-4">
+                1. Choose a week
+              </h4>
+              <div className="flex gap-3 w-full items-center justify-between mb-4">
                 <Button
                   theme="outline"
                   className="h-[50px] px-[17px] "
@@ -115,21 +119,14 @@ export const ScheduleSelector = ({ lesson }) => {
                   <IoIosArrowForward />
                 </Button>
               </div>
-
-              <div className="row customDay-select m-0">
-                <div className="col-6 px-4">
-                  <Days startOfWeek={startOfWeek} counter={counter} />
-                </div>
-
-                <div className="col-6 px-4">
-                  <TimesOfDay />
-                </div>
-              </div>
             </div>
+
+            <Days startOfWeek={startOfWeek} counter={counter} />
+
+            <TimesOfDay />
           </div>
-          <div className="availability-wrapper flex-rights student-list-appointments-wrapper changes-container schedule_height">
-            <AvailableTimes />
-          </div>
+
+          <AvailableTimes />
         </div>
       </div>
     </Layout>

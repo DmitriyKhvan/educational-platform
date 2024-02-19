@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from 'src/modules/auth';
 import { useSchedule } from '../ScheduleProvider';
 import Button from 'src/components/Form/Button';
+import { cn } from 'src/utils/functions';
 
 export const Day = memo(function Day({ dayOfWeek, idx }) {
   const { setDay, setDayClicked, dayClicked } = useSchedule();
@@ -23,9 +24,11 @@ export const Day = memo(function Day({ dayOfWeek, idx }) {
   return (
     <Button
       theme="outline"
-      className={`w-full h-[50px] text-sm font-normal my-3 ${
-        idx === dayClicked && 'text-white bg-color-purple'
-      }`}
+      className={cn(
+        'w-full sm:w-[214px] h-[50px] text-sm font-normal',
+        idx === dayClicked && 'text-white bg-color-purple',
+        idx % 2 !== 0 && 'ml-3',
+      )}
       onClick={selectDay}
     >
       {t(
