@@ -104,17 +104,6 @@ const MentorsModal = ({ mentor }) => {
       </div>
 
       <div className="flex flex-col gap-8">
-        {mentor?.uniqueFacts && (
-          <div>
-            <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px] mb-2">
-              {t('bio_facts_label', { ns: 'profile' })}
-            </h3>
-            <p className="font-medium text-color-dark-purple text-[15px] leading-[21px] tracking-[-0.6px]">
-              {mentor?.uniqueFacts}
-            </p>
-          </div>
-        )}
-
         {mentor?.introduction && (
           <div>
             <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px] mb-2">
@@ -133,6 +122,17 @@ const MentorsModal = ({ mentor }) => {
             </h3>
             <p className="font-medium text-color-dark-purple text-[15px] leading-[21px] tracking-[-0.6px]">
               {mentor?.relevantExperience}
+            </p>
+          </div>
+        )}
+
+        {mentor?.uniqueFacts && (
+          <div>
+            <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px] mb-2">
+              {t('bio_facts_label', { ns: 'profile' })}
+            </h3>
+            <p className="font-medium text-color-dark-purple text-[15px] leading-[21px] tracking-[-0.6px]">
+              {mentor?.uniqueFacts}
             </p>
           </div>
         )}
