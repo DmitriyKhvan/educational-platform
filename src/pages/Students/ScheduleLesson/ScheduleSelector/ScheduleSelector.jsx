@@ -11,10 +11,11 @@ import { AvailableTimes } from './AvailableTimes';
 import { Days } from './Days';
 import { TimesOfDay } from './TimesOfDay';
 import Layout from '../../../../components/Layout';
-import Loader from 'react-loader-spinner';
 
-import custom_back_arrow from 'src/assets/images/custom_back_arrow.svg';
-import forward_arrow from 'src/assets/images/forward_arrow.svg';
+import { IoArrowBack } from 'react-icons/io5';
+
+import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
+import Button from 'src/components/Form/Button';
 
 export const ScheduleSelector = ({ lesson }) => {
   const { setTabIndex, resetAll, todayUserTimezone } = useSchedule();
@@ -29,7 +30,6 @@ export const ScheduleSelector = ({ lesson }) => {
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const [isLoading, setIsLoading] = useState(false);
   const [counter, setCounter] = useState(0);
 
   const today = addWeeks(todayUserTimezone, counter);
@@ -40,28 +40,35 @@ export const ScheduleSelector = ({ lesson }) => {
   // End of ISO week
   const endOfWeek = endOfISOWeek(today);
 
-  const startOfWeekFormatted = format(startOfWeek, 'MMMM dd', {
+  const startOfWeekFormatted = format(startOfWeek, 'MMM d', {
     timeZone: userTimezone,
     locale: locale,
   });
 
-  const endOfWeekFormatted = format(endOfWeek, 'MMMM dd', {
+  const endOfWeekFormatted = format(endOfWeek, 'MMM d', {
     timeZone: userTimezone,
     locale: locale,
   });
 
   return (
     <Layout>
-      <div className="overflow-auto h-full">
+      <div className="overflow-auto h-[calc(100vh-80px)]">
         <div className="flex-container">
           <div className="lesson-wrapper flex-lefts student-dashboard">
             <div>
               <div className="container title-container px-4">
-                <h1 className="title lelt-con mb-2.5">
-                  {lesson
-                    ? t('reschedule_lesson', { ns: 'modals' })
-                    : t('schedule_lesson')}
-                </h1>
+                <div className="flex items-center gap-3">
+                  <button onClick={() => setTabIndex(0)}>
+                    <IoArrowBack className="text-2xl" />
+                  </button>
+
+                  <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold">
+                    {lesson
+                      ? t('reschedule_lesson', { ns: 'modals' })
+                      : t('schedule_lesson')}
+                  </h1>
+                </div>
+
                 <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px] left-subtitle">
                   {lesson ? (
                     <>
@@ -79,43 +86,34 @@ export const ScheduleSelector = ({ lesson }) => {
                   )}
                 </p>
               </div>
-              <div className="flex w-full items-center justify-between px-4 mb-4">
-                <div>
-                  <button
-                    className="disabled:opacity-50"
-                    disabled={counter === 0}
-                    onClick={() => {
-                      resetAll();
-                      setCounter(counter - 1);
-                    }}
-                  >
-                    <img
-                      className="w-full"
-                      style={{ transform: 'rotate(180deg)' }}
-                      src={forward_arrow}
-                      alt=""
-                    />
-                  </button>
-                </div>
+              <div className="flex gap-3 w-full items-center justify-between px-4 mb-4">
+                <Button
+                  theme="outline"
+                  className="h-[50px] px-[17px] "
+                  disabled={counter === 0}
+                  onClick={() => {
+                    resetAll();
+                    setCounter(counter - 1);
+                  }}
+                >
+                  <IoIosArrowBack />
+                </Button>
 
-                <div>
-                  <h1 className="justify-content-center mt-0 my-3 text-2xl text-center sm:text-4xl">
-                    {startOfWeekFormatted} to {endOfWeekFormatted}
-                  </h1>
-                </div>
+                <h1 className="flex grow items-center justify-center h-[50px] px-4 rounded-lg bg-color-light-grey2 text-sm font-medium">
+                  {startOfWeekFormatted} - {endOfWeekFormatted}
+                </h1>
 
-                <div>
-                  <button
-                    className="disabled:opacity-50"
-                    onClick={() => {
-                      resetAll();
-                      setCounter(counter + 1);
-                    }}
-                    disabled={counter === 4}
-                  >
-                    <img className="w-full" src={forward_arrow} alt="" />
-                  </button>
-                </div>
+                <Button
+                  theme="outline"
+                  className="h-[50px] px-[17px] "
+                  onClick={() => {
+                    resetAll();
+                    setCounter(counter + 1);
+                  }}
+                  disabled={counter === 4}
+                >
+                  <IoIosArrowForward />
+                </Button>
               </div>
 
               <div className="row customDay-select m-0">
@@ -127,35 +125,13 @@ export const ScheduleSelector = ({ lesson }) => {
                   <TimesOfDay />
                 </div>
               </div>
-              <div className="p-4">
-                <div className="col-auto back-btn-container ">
-                  <button
-                    className="enter-btn btn-dash-return ms-0 back-btn-schedule"
-                    onClick={() => setTabIndex(0)}
-                  >
-                    <img src={custom_back_arrow} alt="" />
-                    <div className="ms-2">{t('custom_back')}</div>
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
           <div className="availability-wrapper flex-rights student-list-appointments-wrapper changes-container schedule_height">
-            <AvailableTimes setIsLoading={setIsLoading} />
+            <AvailableTimes />
           </div>
         </div>
       </div>
-
-      {/* Думаю не понадобится */}
-      {isLoading && (
-        <Loader
-          color="#00BFFF"
-          className="align-center"
-          type="TailSpin"
-          height={80}
-          width={80}
-        />
-      )}
     </Layout>
   );
 };

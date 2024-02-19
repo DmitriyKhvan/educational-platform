@@ -15,7 +15,7 @@ import { cn } from 'src/utils/functions';
 import Swal from 'sweetalert2';
 import { useSchedule } from '../ScheduleProvider';
 
-export const ScheduleCard = ({ scheduleStartTime, setIsLoading }) => {
+export const ScheduleCard = ({ scheduleStartTime }) => {
   const { setTabIndex, setSchedule, duration, day, todayUserTimezone } =
     useSchedule();
   const { user } = useAuth();
@@ -93,10 +93,8 @@ export const ScheduleCard = ({ scheduleStartTime, setIsLoading }) => {
     }
 
     if (isBefore(todayUserTimezone, preScreen)) {
-      setIsLoading(true);
       setSchedule(selectedSchedule.toString());
       setTabIndex(2);
-      setIsLoading(false);
     }
   };
 

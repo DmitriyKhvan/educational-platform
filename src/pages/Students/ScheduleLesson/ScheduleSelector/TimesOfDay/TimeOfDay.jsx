@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { useSchedule } from '../ScheduleProvider';
 import { isWithinInterval } from 'date-fns';
 
-export const TimeOfDay = memo(function TimeOfDay({ data, idx }) {
+import Button from 'src/components/Form/Button';
+
+export const TimeOfDay = memo(function TimeOfDay({ timeOfDay, idx }) {
   const {
     setTimeOfDayInterval,
     setTimeClicked,
@@ -21,7 +23,7 @@ export const TimeOfDay = memo(function TimeOfDay({ data, idx }) {
   const selectTimeOfDay = () => {
     setTimeClicked(idx);
 
-    if (data.time === 'Morning') {
+    if (timeOfDay === 'Morning') {
       const isTodayMorning = isWithinInterval(
         todayUserTimezone,
         morningInterval,
@@ -43,7 +45,7 @@ export const TimeOfDay = memo(function TimeOfDay({ data, idx }) {
         setTimeOfDayInterval(morningInterval);
       }
     }
-    if (data.time === 'Afternoon') {
+    if (timeOfDay === 'Afternoon') {
       const isTodayArternoon = isWithinInterval(
         todayUserTimezone,
         afternoonInterval,
@@ -65,7 +67,7 @@ export const TimeOfDay = memo(function TimeOfDay({ data, idx }) {
         setTimeOfDayInterval(afternoonInterval);
       }
     }
-    if (data.time === 'Evening') {
+    if (timeOfDay === 'Evening') {
       const isTodayEvening = isWithinInterval(
         todayUserTimezone,
         eveningInterval,
@@ -90,15 +92,15 @@ export const TimeOfDay = memo(function TimeOfDay({ data, idx }) {
   };
 
   return (
-    <div
-      className={`day-selector  rounded-md border-2 text-center my-3 ${
-        idx === timeClicked
-          ? 'schedule_lesson_day bg-color-purple'
-          : 'schedule_lesson_day_unselect bg-white'
-      }`}
+    <Button
+      theme="outline"
+      className={`
+        w-full h-[50px] text-sm font-normal my-3
+        ${idx === timeClicked && 'text-white bg-color-purple'}
+      `}
       onClick={selectTimeOfDay}
     >
-      <div>{t(data.time)}</div>
-    </div>
+      {t(timeOfDay)}
+    </Button>
   );
 });

@@ -23,13 +23,10 @@ export const Days = memo(function Days({ startOfWeek, counter }) {
       const startMonth = subDays(todayUserTimezone, 1);
 
       if (isAfter(tempDay, startMonth) && isBefore(tempDay, endMonth)) {
-        const dayOfTheWeek = {
-          day: format(tempDay, 'yyyy-MM-dd HH:mm:ss', {
-            timeZone: userTimezone,
-          }),
-          format: 'day',
-        };
-        availableDays.push(dayOfTheWeek);
+        const dayOfWeek = format(tempDay, 'yyyy-MM-dd HH:mm:ss', {
+          timeZone: userTimezone,
+        });
+        availableDays.push(dayOfWeek);
       }
     }
 
@@ -38,9 +35,9 @@ export const Days = memo(function Days({ startOfWeek, counter }) {
 
   return (
     <>
-      {days?.map(
-        (x, i) => x.format === 'day' && <Day data={x} idx={i} key={i} />,
-      )}
+      {days?.map((day, i) => (
+        <Day dayOfWeek={day} idx={i} key={day} />
+      ))}
     </>
   );
 });

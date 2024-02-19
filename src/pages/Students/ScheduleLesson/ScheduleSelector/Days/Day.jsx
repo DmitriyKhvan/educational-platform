@@ -3,9 +3,10 @@ import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from 'src/modules/auth';
 import { useSchedule } from '../ScheduleProvider';
+import Button from 'src/components/Form/Button';
 
-export const Day = memo(function Day({ data, idx }) {
-  const { setDay, setDayClicked, dayClicked, resetAll } = useSchedule();
+export const Day = memo(function Day({ dayOfWeek, idx }) {
+  const { setDay, setDayClicked, dayClicked } = useSchedule();
   const { user } = useAuth();
 
   const userTimezone =
@@ -15,28 +16,23 @@ export const Day = memo(function Day({ data, idx }) {
   const [t] = useTranslation('common');
 
   const selectDay = () => {
-    resetAll();
     setDayClicked(idx);
-    setDay(data.day);
+    setDay(dayOfWeek);
   };
 
   return (
-    <div
-      className={`day-selector  rounded-md border-2 text-center my-3 ${
-        idx === dayClicked
-          ? 'schedule_lesson_day bg-color-purple'
-          : 'schedule_lesson_day_unselect bg-white'
+    <Button
+      theme="outline"
+      className={`w-full h-[50px] text-sm font-normal my-3 ${
+        idx === dayClicked && 'text-white bg-color-purple'
       }`}
       onClick={selectDay}
     >
-      <div>
-        {t(
-          data.day &&
-            format(new Date(data.day), 'EEEE', {
-              timeZone: userTimezone,
-            }),
-        )}
-      </div>
-    </div>
+      {t(
+        format(new Date(dayOfWeek), 'EEEE (MMM d)', {
+          timeZone: userTimezone,
+        }),
+      )}
+    </Button>
   );
 });

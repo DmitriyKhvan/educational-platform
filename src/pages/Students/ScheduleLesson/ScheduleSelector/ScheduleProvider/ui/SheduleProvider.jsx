@@ -38,6 +38,13 @@ export const ScheduleProvider = ({
   duration,
   children,
 }) => {
+  const [
+    getTimesheetsData,
+    { loading: timesheetsLoading, data: timesheetsData },
+  ] = useLazyQuery(GET_TIMESHEETS, {
+    fetchPolicy: 'network-only',
+  });
+
   const { user } = useAuth();
 
   const userTimezone =
@@ -74,13 +81,6 @@ export const ScheduleProvider = ({
     end: parse('23:59', 'HH:mm', new Date(day)),
   };
 
-  const [
-    getTimesheetsData,
-    { loading: timesheetsLoading, data: timesheetsData },
-  ] = useLazyQuery(GET_TIMESHEETS, {
-    fetchPolicy: 'network-only',
-  });
-
   const resetAll = () => {
     setTimesOfDay([]);
     setAvailableTimes([]);
@@ -92,6 +92,7 @@ export const ScheduleProvider = ({
 
   useEffect(() => {
     if (debouncedTimesheetsData && dayClicked !== null) {
+      setTimeClicked(null);
       setAvailableTimes([]);
       getTimesheetsData({
         variables: {
@@ -183,10 +184,7 @@ export const ScheduleProvider = ({
         const tempTime = parse(timesheet.from, 'HH:mm', new Date(day));
 
         if (isWithinInterval(tempTime, currentMorningInterval) && !morning) {
-          timeArr.push({
-            time: 'Morning',
-            format: 'time',
-          });
+          timeArr.push('Morning');
 
           morning = true;
           return;
@@ -195,19 +193,13 @@ export const ScheduleProvider = ({
           isWithinInterval(tempTime, currentAfternoonInterval) &&
           !afternoon
         ) {
-          timeArr.push({
-            time: 'Afternoon',
-            format: 'time',
-          });
+          timeArr.push('Afternoon');
 
           afternoon = true;
           return;
         }
         if (isWithinInterval(tempTime, currentEveningInterval) && !evening) {
-          timeArr.push({
-            time: 'Evening',
-            format: 'time',
-          });
+          timeArr.push('Evening');
 
           evening = true;
           return;
