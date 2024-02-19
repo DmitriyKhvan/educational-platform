@@ -3,10 +3,81 @@ import { useTranslation } from 'react-i18next';
 import { ScheduleCard } from './ScheduleCard';
 import { useSchedule } from '../ScheduleProvider';
 import { IoArrowBack } from 'react-icons/io5';
+import { useAuth } from 'src/modules/auth';
+import { format, utcToZonedTime } from 'date-fns-tz';
+import {
+  addHours,
+  addMinutes,
+  getMinutes,
+  isBefore,
+  parse,
+  subHours,
+} from 'date-fns';
+import Swal from 'sweetalert2';
+import Button from 'src/components/Form/Button';
 
 export const AvailableTimes = memo(function AvailableTimes() {
-  const { availableTimes } = useSchedule();
-  const [t] = useTranslation('lessons');
+  const { availableTimes, setTabIndex, setSchedule, todayUserTimezone, day } =
+    useSchedule();
+  const [t] = useTranslation(['lessons', 'common', 'modals']);
+
+  const { user } = useAuth();
+
+  const userTimezone =
+    user?.timeZone?.split(' ')[0] ||
+    Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const handleConfirmLesson = (scheduleStartTime) => {
+    if (scheduleStartTime.reserved) {
+      return;
+    }
+
+    const formattedDay = format(new Date(day), 'yyyy-MM-dd');
+
+    const dateParse = parse(
+      `${formattedDay} ${scheduleStartTime.time}`,
+      'yyyy-MM-dd HH:mm',
+      utcToZonedTime(new Date(), userTimezone),
+    );
+
+    const selectedSchedule = format(dateParse, 'EEE MMM dd yyyy HH:mm:ss XXX', {
+      timeZone: userTimezone,
+    });
+
+    const hoursPrior = process.env.REACT_APP_PRODUCTION === 'true' ? 48 : 0;
+
+    const preScreen = subHours(dateParse, hoursPrior);
+
+    if (!isBefore(todayUserTimezone, preScreen)) {
+      const minutesRound = 30 - (getMinutes(todayUserTimezone) % 30);
+
+      const available = format(
+        addHours(addMinutes(todayUserTimezone, minutesRound), hoursPrior),
+        'eeee, MMMM dd @ h:mm a',
+        { timeZone: userTimezone },
+      );
+
+      Swal.fire({
+        title: t('swal_fire_title_schedule_prescreen', { ns: 'modals' }),
+        text:
+          process.env.REACT_APP_PRODUCTION === 'true'
+            ? t('swal_fire_text_schedule_prescreen', { ns: 'modals' })
+            : t('swal_fire_footer_schedule_prescreen', { ns: 'modals' }),
+        icon: 'warning',
+        width: '36em',
+        confirmButtonColor: '#6133af',
+        focusConfirm: true,
+        footer: `*${t('swal_fire_footer_schedule_prescreen', {
+          ns: 'modals',
+        })} ${available}`,
+      });
+    }
+
+    if (isBefore(todayUserTimezone, preScreen)) {
+      setSchedule(selectedSchedule.toString());
+      setTabIndex(2);
+    }
+  };
 
   return (
     <>
@@ -22,7 +93,7 @@ export const AvailableTimes = memo(function AvailableTimes() {
               </h1>
             </div>
 
-            <p className="welcome-subtitle mt-[15px]">
+            <p className="text-sm text-color-light-grey mt-[15px]">
               {t('available_spots_subtitle')}
             </p>
           </div>
@@ -35,6 +106,9 @@ export const AvailableTimes = memo(function AvailableTimes() {
               />
             ))}
           </div>
+          <Button className="w-full" onClick={handleConfirmLesson}>
+            {t('continue_button', { ns: 'common' })}
+          </Button>
         </div>
       )}
     </>

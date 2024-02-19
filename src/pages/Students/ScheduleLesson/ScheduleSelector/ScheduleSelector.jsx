@@ -68,7 +68,7 @@ export const ScheduleSelector = ({ lesson }) => {
                 </h1>
               </div>
 
-              <p className="welcome-subtitle mt-[15px]">
+              <p className="text-sm text-color-light-grey mt-[15px]">
                 {lesson ? (
                   <>
                     {t('currently_scheduled', { ns: 'modals' })}{' '}
