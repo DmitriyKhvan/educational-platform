@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import LessonConfirmation from './LessonConfirmation';
-import ScheduleSelector from './SheduleSelector/ScheduleSelector';
+import { ScheduleSelector } from './ScheduleSelector';
 import SelectLesson from './SelectLesson';
 import SelectMentorCards from './SelectMentorCards';
 import { useQuery } from '@apollo/client';
@@ -9,6 +9,7 @@ import { LESSON_QUERY } from '../../../modules/auth/graphql';
 
 import '../../../assets/styles/tutor.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import { ScheduleProvider } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/ScheduleProvider';
 
 const ScheduleLesson = () => {
   const { id = null } = useParams();
@@ -47,18 +48,21 @@ const ScheduleLesson = () => {
           lesson={scheduledLesson}
         />
       ) : tabIndex === 1 ? (
-        <ScheduleSelector
+        <ScheduleProvider
           setTabIndex={setTabIndex}
-          duration={selectedPlan?.package?.sessionTime}
-          step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
-          // step={30}
           setSchedule={setSchedule}
-          schedule={schedule}
-          tabIndex={tabIndex}
-          lesson={scheduledLesson}
-          lessonId={id}
-          selectedTutor={location?.state?.tutor}
-        />
+          selectedMentor={location?.state?.tutor}
+          duration={selectedPlan?.package?.sessionTime}
+        >
+          <ScheduleSelector
+            lesson={scheduledLesson}
+            // tabIndex={tabIndex}
+            // step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
+            // step={30}
+            // schedule={schedule}
+            // lessonId={id}
+          />
+        </ScheduleProvider>
       ) : tabIndex === 2 && !location?.state?.tutor ? (
         <SelectMentorCards
           tabIndex={tabIndex}
