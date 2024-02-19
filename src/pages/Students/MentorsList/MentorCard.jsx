@@ -29,7 +29,7 @@ export const MentorCard = ({ mentor, handleSelectMentor }) => {
 
   return (
     // <div className="w-full sm:w-[45%] xl:w-[30%] 2xl:w-[300px]">
-    <div className="w-[calc(50%-0.75rem)] sm:w-[256px]">
+    <div className="flex flex-col w-[calc(50%-0.75rem)] sm:w-[256px]">
       <div className="relative w-full h-[176px] sm:h-[240px] overflow-hidden rounded-lg">
         <Avatar avatarUrl={mentor.avatar?.url} gender={mentor.gender} />
         {mentor.isFavourite && (
@@ -45,7 +45,7 @@ export const MentorCard = ({ mentor, handleSelectMentor }) => {
         </div> */}
       </div>
 
-      <div className="mt-4 overflow-hidden">
+      <div className="flex flex-col justify-content-between grow mt-4 overflow-hidden">
         <div className="mb-4">
           <h2 className="text-base sm:text-lg text-color-dark-purple font-bold tracking-[-0.6px] mb-2">
             {mentor?.firstName}
@@ -55,9 +55,23 @@ export const MentorCard = ({ mentor, handleSelectMentor }) => {
             {mentor.university}
           </h4>
 
-          <span className="text-xs sm:text-sm text-gray-400 leading-[18px] tracking-[-0.2px]">
-            {mentor.degree} {mentor.major ? '/ ' + mentor.major : null}
-          </span>
+          <TooltipProvider>
+            <Tooltip delayDuration={200}>
+              <TooltipTrigger asChild>
+                <div className="text-xs sm:text-sm text-gray-400 leading-[18px] tracking-[-0.2px] truncate">
+                  {mentor.degree} {mentor.major ? '/ ' + mentor.major : null}
+                </div>
+              </TooltipTrigger>
+
+              <TooltipPortal>
+                <TooltipContent>
+                  <p className="text-color-dark-purple text-sm font-semibold max-w-[16rem]">
+                    {mentor.degree} {mentor.major ? '/ ' + mentor.major : null}
+                  </p>
+                </TooltipContent>
+              </TooltipPortal>
+            </Tooltip>
+          </TooltipProvider>
         </div>
 
         <div className="flex flex-col gap-2 w-full">
@@ -93,11 +107,9 @@ export const MentorCard = ({ mentor, handleSelectMentor }) => {
                 {mentor?.availabilities?.length === 0 && (
                   <TooltipPortal>
                     <TooltipContent>
-                      <div className="text-center">
-                        <p className="text-color-dark-purple text-sm font-semibold max-w-[16rem]">
-                          We apologize, but this mentor has no availability
-                        </p>
-                      </div>
+                      <p className="text-center text-color-dark-purple text-sm font-semibold max-w-[16rem]">
+                        We apologize, but this mentor has no availability
+                      </p>
                     </TooltipContent>
                   </TooltipPortal>
                 )}
