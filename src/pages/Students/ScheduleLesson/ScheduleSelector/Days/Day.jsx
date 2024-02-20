@@ -27,7 +27,7 @@ export const Day = memo(function Day({ dayOfWeek, idx }) {
       className={cn(
         'w-full sm:w-[214px] h-[50px] text-sm font-normal',
         idx === dayClicked && 'text-white bg-color-purple',
-        idx % 2 !== 0 && 'ml-3',
+        idx % 2 !== 0 && 'sm:ml-3',
       )}
       onClick={selectDay}
     >

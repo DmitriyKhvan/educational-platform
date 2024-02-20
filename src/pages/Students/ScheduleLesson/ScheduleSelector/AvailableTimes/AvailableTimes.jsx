@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScheduleCard } from './ScheduleCard';
 import { useSchedule } from '../ScheduleProvider';
@@ -15,10 +15,17 @@ import {
 } from 'date-fns';
 import Swal from 'sweetalert2';
 import Button from 'src/components/Form/Button';
+import Layout from 'src/components/Layout';
 
 export const AvailableTimes = memo(function AvailableTimes() {
-  const { availableTimes, setTabIndex, setSchedule, todayUserTimezone, day } =
-    useSchedule();
+  const {
+    availableTimes,
+    setTabIndex,
+    setSchedule,
+    todayUserTimezone,
+    day,
+    resetAll,
+  } = useSchedule();
   const [t] = useTranslation(['lessons', 'common', 'modals']);
 
   const { user } = useAuth();
@@ -27,8 +34,10 @@ export const AvailableTimes = memo(function AvailableTimes() {
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const handleConfirmLesson = (scheduleStartTime) => {
-    if (scheduleStartTime.reserved) {
+  const [scheduleStartTime, setScheduleStartTime] = useState(null);
+
+  const handleConfirmLesson = () => {
+    if (!scheduleStartTime || scheduleStartTime.reserved) {
       return;
     }
 
@@ -75,42 +84,57 @@ export const AvailableTimes = memo(function AvailableTimes() {
 
     if (isBefore(todayUserTimezone, preScreen)) {
       setSchedule(selectedSchedule.toString());
-      setTabIndex(2);
+      setTabIndex(3);
     }
   };
 
   return (
-    <>
-      {availableTimes.length !== 0 && (
-        <div className="space-y-10">
-          <div>
-            <div className="flex items-center gap-3">
-              <button>
-                <IoArrowBack className="text-2xl" />
-              </button>
-              <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold">
-                {t('available_spots')}
-              </h1>
+    <Layout>
+      <div className="overflow-auto h-[calc(100vh-80px)]">
+        <div className="max-w-[488px] w-full m-auto py-5 px-6 sm:py-10">
+          {availableTimes.length !== 0 && (
+            <div className="space-y-10">
+              <div>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => {
+                      setTabIndex(1);
+                      resetAll();
+                    }}
+                  >
+                    <IoArrowBack className="text-2xl" />
+                  </button>
+                  <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold">
+                    {t('available_spots')}
+                  </h1>
+                </div>
+
+                <p className="text-sm text-color-light-grey mt-[15px]">
+                  {t('available_spots_subtitle')}
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                {availableTimes.map((startTime) => (
+                  <ScheduleCard
+                    startTime={startTime}
+                    scheduleStartTime={scheduleStartTime}
+                    setScheduleStartTime={setScheduleStartTime}
+                    key={startTime.time}
+                  />
+                ))}
+              </div>
+              <Button
+                disabled={!scheduleStartTime}
+                className="w-full"
+                onClick={handleConfirmLesson}
+              >
+                {t('continue_button', { ns: 'common' })}
+              </Button>
             </div>
-
-            <p className="text-sm text-color-light-grey mt-[15px]">
-              {t('available_spots_subtitle')}
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            {availableTimes.map((startTime) => (
-              <ScheduleCard
-                scheduleStartTime={startTime}
-                key={startTime.time}
-              />
-            ))}
-          </div>
-          <Button className="w-full" onClick={handleConfirmLesson}>
-            {t('continue_button', { ns: 'common' })}
-          </Button>
+          )}
         </div>
-      )}
-    </>
+      </div>
+    </Layout>
   );
 });

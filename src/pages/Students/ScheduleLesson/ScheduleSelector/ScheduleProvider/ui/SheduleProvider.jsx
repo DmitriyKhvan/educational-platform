@@ -82,6 +82,7 @@ export const ScheduleProvider = ({
   };
 
   const resetAll = () => {
+    setDay(todayUserTimezone);
     setTimesOfDay([]);
     setAvailableTimes([]);
     setDayClicked(null);

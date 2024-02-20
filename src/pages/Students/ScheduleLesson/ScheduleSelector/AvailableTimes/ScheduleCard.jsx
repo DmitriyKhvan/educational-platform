@@ -7,7 +7,11 @@ import { cn } from 'src/utils/functions';
 import { useSchedule } from '../ScheduleProvider';
 import CheckboxField from 'src/components/Form/CheckboxField';
 
-export const ScheduleCard = ({ scheduleStartTime }) => {
+export const ScheduleCard = ({
+  startTime,
+  setScheduleStartTime,
+  scheduleStartTime,
+}) => {
   const { duration, day } = useSchedule();
 
   const [i18n] = useTranslation(['lessons', 'common', 'modals']);
@@ -19,11 +23,7 @@ export const ScheduleCard = ({ scheduleStartTime }) => {
     locale: locale,
   });
 
-  const scheduleStartTimeParse = parse(
-    scheduleStartTime.time,
-    'HH:mm',
-    new Date(),
-  );
+  const scheduleStartTimeParse = parse(startTime.time, 'HH:mm', new Date());
 
   const scheduleStartTimeFormat = format(scheduleStartTimeParse, 'hh:mm a');
 
@@ -36,7 +36,9 @@ export const ScheduleCard = ({ scheduleStartTime }) => {
     <label
       className={cn(
         `flex justify-between border border-color-border-grey rounded-lg bg-white p-5 shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.04)] cursor-pointer`,
-        scheduleStartTime.reserved && 'bg-gray-400/30',
+        startTime.reserved && 'bg-gray-400/30 cursor-not-allowed',
+        !startTime.reserved && 'hover:border-color-purple',
+        startTime === scheduleStartTime && 'border-color-purple',
       )}
     >
       <div className="space-y-4">
@@ -48,10 +50,10 @@ export const ScheduleCard = ({ scheduleStartTime }) => {
       </div>
 
       <CheckboxField
-        disabled={scheduleStartTime.reserved}
+        disabled={startTime.reserved}
         type="radio"
         name="package"
-        onChange={() => {}}
+        onChange={() => setScheduleStartTime(startTime)}
       />
     </label>
   );

@@ -2,9 +2,18 @@ import React from 'react';
 import { useSchedule } from '../ScheduleProvider';
 import { SkeletonTimesheets } from './SkeletonTimesheets';
 import { TimeOfDay } from './TimeOfDay';
+import Button from 'src/components/Form/Button';
+import { useTranslation } from 'react-i18next';
 
 export const TimesOfDay = () => {
-  const { timesheetsLoading, timesOfDay, dayClicked } = useSchedule();
+  const [t] = useTranslation('common');
+  const {
+    timesheetsLoading,
+    timesOfDay,
+    dayClicked,
+    timeClicked,
+    setTabIndex,
+  } = useSchedule();
 
   return (
     <div>
@@ -19,9 +28,23 @@ export const TimesOfDay = () => {
           <SkeletonTimesheets />
         </div>
       ) : (
-        timesOfDay.map((time, i) => (
-          <TimeOfDay timeOfDay={time} idx={i} key={time} />
-        ))
+        timesOfDay.length !== 0 && (
+          <div className="space-y-10">
+            <div>
+              {timesOfDay.map((time, i) => (
+                <TimeOfDay timeOfDay={time} idx={i} key={time} />
+              ))}
+            </div>
+
+            <Button
+              disabled={timeClicked === null}
+              className="w-full"
+              onClick={() => setTabIndex(2)}
+            >
+              {t('continue_button')}
+            </Button>
+          </div>
+        )
       )}
     </div>
   );

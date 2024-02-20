@@ -7,7 +7,6 @@ import { ko as kr } from 'date-fns/locale';
 import { useAuth } from '../../../../modules/auth';
 import { useSchedule } from './ScheduleProvider';
 
-import { AvailableTimes } from './AvailableTimes';
 import { Days } from './Days';
 import { TimesOfDay } from './TimesOfDay';
 import Layout from '../../../../components/Layout';
@@ -53,11 +52,16 @@ export const ScheduleSelector = ({ lesson }) => {
   return (
     <Layout>
       <div className="overflow-auto h-[calc(100vh-80px)]">
-        <div className="max-w-[440px] w-full m-auto">
+        <div className="max-w-[488px] w-full m-auto py-5 px-6 sm:py-10">
           <div className="space-y-10">
             <div>
               <div className="flex items-center gap-3">
-                <button onClick={() => setTabIndex(0)}>
+                <button
+                  onClick={() => {
+                    setTabIndex(0);
+                    resetAll();
+                  }}
+                >
                   <IoArrowBack className="text-2xl" />
                 </button>
 
@@ -125,8 +129,6 @@ export const ScheduleSelector = ({ lesson }) => {
 
             <TimesOfDay />
           </div>
-
-          <AvailableTimes />
         </div>
       </div>
     </Layout>
