@@ -125,6 +125,7 @@ export const AvailableTimes = memo(function AvailableTimes() {
                 ))}
               </div>
               <Button
+                id="timeSheets"
                 disabled={!scheduleStartTime}
                 className="w-full"
                 onClick={handleConfirmLesson}

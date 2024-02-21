@@ -37,6 +37,7 @@ export const TimesOfDay = () => {
             </div>
 
             <Button
+              id="timeOfDay"
               disabled={timeClicked === null}
               className="w-full"
               onClick={() => setTabIndex(2)}

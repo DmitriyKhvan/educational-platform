@@ -1,11 +1,12 @@
 import { addMinutes, parse } from 'date-fns';
 import { format } from 'date-fns-tz';
 import { ko as kr } from 'date-fns/locale';
-import React from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { cn } from 'src/utils/functions';
 import { useSchedule } from '../ScheduleProvider';
 import CheckboxField from 'src/components/Form/CheckboxField';
+import { scrollToElement } from 'src/utils/scrollToElement';
 
 export const ScheduleCard = ({
   startTime,
@@ -32,6 +33,15 @@ export const ScheduleCard = ({
     'hh:mm a',
   );
 
+  const selectAvailableTime = () => {
+    setScheduleStartTime(startTime);
+    scrollToElement('timeSheets');
+  };
+
+  // useEffect(() => {
+
+  // }, [day]);
+
   return (
     <label
       className={cn(
@@ -53,7 +63,7 @@ export const ScheduleCard = ({
         disabled={startTime.reserved}
         type="radio"
         name="package"
-        onChange={() => setScheduleStartTime(startTime)}
+        onChange={selectAvailableTime}
       />
     </label>
   );

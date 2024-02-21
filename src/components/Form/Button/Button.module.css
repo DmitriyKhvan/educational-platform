@@ -57,7 +57,7 @@
       border 
       border-solid 
       border-color-border-grey
-      hover:enabled:bg-color-purple
-      hover:enabled:text-white;
+      sm:hover:enabled:bg-color-purple
+      sm:hover:enabled:text-white;
   }
 }
