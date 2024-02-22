@@ -211,7 +211,7 @@ const ScheduleCard = ({
               </Button>
             }
           >
-            <ZoomRecordingModal urlRecording={zoom.recordingUrl} />
+            <ZoomRecordingModal urlRecording={zoom.recordingUrl} width="70vw" />
           </MyDialog>
         )}
 

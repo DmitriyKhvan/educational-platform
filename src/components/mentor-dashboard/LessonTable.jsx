@@ -1,25 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../modules/auth';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { ko as kr } from 'date-fns/locale';
 import { addMinutes } from 'date-fns';
 
-import ModalWrapper from '../ModalWrapper/ModalWrapper';
 import { ZoomRecordingModal } from '../ZoomRecordingModal';
 
 import { BsPlayCircle } from 'react-icons/bs';
 import { LessonsStatusType } from 'src/constants/global';
+import { MyDialog } from '../Dialog';
 
 const LessonTable = ({ tabularData }) => {
-  const [showRecording, setShowRecording] = useState(false);
-  const [urlRecording, setUrlRecording] = useState('');
-
-  const playRecording = (url) => {
-    setUrlRecording(url);
-    setShowRecording(true);
-  };
-
   const { t, i18n } = useTranslation(['lessons', 'common']);
 
   const currentLanguage = i18n.language;
@@ -152,12 +144,16 @@ const LessonTable = ({ tabularData }) => {
               </td>
               <td className="pt-4 border-b m-0">
                 {event.resource?.zoom?.recordingUrl && (
-                  <BsPlayCircle
-                    onClick={() =>
-                      playRecording(event.resource?.zoom?.recordingUrl)
+                  <MyDialog
+                    button={
+                      <BsPlayCircle className="mt-4 text-2xl text-color-purple cursor-pointer text-center" />
                     }
-                    className="mt-4 text-2xl text-color-purple cursor-pointer text-center"
-                  />
+                  >
+                    <ZoomRecordingModal
+                      urlRecording={event.resource?.zoom?.recordingUrl}
+                      width="70vw"
+                    />
+                  </MyDialog>
                 )}
               </td>
               {/* <td className="td-item m-0">
@@ -172,16 +168,6 @@ const LessonTable = ({ tabularData }) => {
           ))}
         </tbody>
       </table>
-
-      <ModalWrapper
-        isOpen={showRecording}
-        closeModal={setShowRecording}
-        widthContent="70%"
-        heightContent="auto"
-        paddingContent="0"
-      >
-        <ZoomRecordingModal urlRecording={urlRecording} />
-      </ModalWrapper>
     </div>
   );
 };
