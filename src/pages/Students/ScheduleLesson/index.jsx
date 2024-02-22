@@ -37,8 +37,6 @@ const ScheduleLesson = () => {
 
   if (loading) return null;
 
-  console.log('tabIndex', tabIndex);
-
   return (
     <React.Fragment>
       {tabIndex === 0 && (
