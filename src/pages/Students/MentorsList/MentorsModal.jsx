@@ -104,17 +104,6 @@ const MentorsModal = ({ mentor }) => {
       </div>
 
       <div className="flex flex-col gap-8">
-        {mentor?.uniqueFacts && (
-          <div>
-            <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px] mb-2">
-              {t('bio_facts_label', { ns: 'profile' })}
-            </h3>
-            <p className="font-medium text-color-dark-purple text-[15px] leading-[21px] tracking-[-0.6px]">
-              {mentor?.uniqueFacts}
-            </p>
-          </div>
-        )}
-
         {mentor?.introduction && (
           <div>
             <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px] mb-2">
@@ -137,6 +126,17 @@ const MentorsModal = ({ mentor }) => {
           </div>
         )}
 
+        {mentor?.uniqueFacts && (
+          <div>
+            <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px] mb-2">
+              {t('bio_facts_label', { ns: 'profile' })}
+            </h3>
+            <p className="font-medium text-color-dark-purple text-[15px] leading-[21px] tracking-[-0.6px]">
+              {mentor?.uniqueFacts}
+            </p>
+          </div>
+        )}
+
         {/* <div>
           <h3 className="font-medium text-gray-300 text-[13px] leading-[15px] tracking-[-0.2px] mb-2">
             Reviews
@@ -150,7 +150,7 @@ const MentorsModal = ({ mentor }) => {
       </div>
 
       {isMobile && (
-        <div className="sticky bottom-0 w-full pb-4 bg-white z-10">
+        <div className="sticky -bottom-6 w-full pb-6 bg-white z-10">
           <Link
             to={
               mentor?.availabilities?.length > 0

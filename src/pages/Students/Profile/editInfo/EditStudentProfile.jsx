@@ -86,7 +86,7 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
         },
       },
       onCompleted: async () => {
-        closeModal(false);
+        closeModal();
 
         setTimeout(async () => {
           await refetchUser();

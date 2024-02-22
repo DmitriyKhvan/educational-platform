@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import LessonConfirmation from './LessonConfirmation';
-import ScheduleSelector from './SheduleSelector/ScheduleSelector';
+import { ScheduleSelector } from './ScheduleSelector';
 import SelectLesson from './SelectLesson';
 import SelectMentorCards from './SelectMentorCards';
 import { useQuery } from '@apollo/client';
@@ -9,6 +9,8 @@ import { LESSON_QUERY } from '../../../modules/auth/graphql';
 
 import '../../../assets/styles/tutor.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import { ScheduleProvider } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/ScheduleProvider';
+import { AvailableTimes } from './ScheduleSelector/AvailableTimes';
 
 const ScheduleLesson = () => {
   const { id = null } = useParams();
@@ -37,7 +39,7 @@ const ScheduleLesson = () => {
 
   return (
     <React.Fragment>
-      {tabIndex === 0 ? (
+      {tabIndex === 0 && (
         <SelectLesson
           setSelectedPlan={setSelectedPlan}
           selectedPlan={selectedPlan}
@@ -46,20 +48,20 @@ const ScheduleLesson = () => {
           setClicked={setClicked}
           lesson={scheduledLesson}
         />
-      ) : tabIndex === 1 ? (
-        <ScheduleSelector
-          setTabIndex={setTabIndex}
-          duration={selectedPlan?.package?.sessionTime}
-          step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
-          // step={30}
-          setSchedule={setSchedule}
-          schedule={schedule}
-          tabIndex={tabIndex}
-          lesson={scheduledLesson}
-          lessonId={id}
-          selectedTutor={location?.state?.tutor}
-        />
-      ) : tabIndex === 2 && !location?.state?.tutor ? (
+      )}
+
+      <ScheduleProvider
+        setTabIndex={setTabIndex}
+        setSchedule={setSchedule}
+        selectedMentor={location?.state?.tutor}
+        duration={selectedPlan?.package?.sessionTime}
+      >
+        {tabIndex === 1 && <ScheduleSelector lesson={scheduledLesson} />}
+
+        {tabIndex === 2 && <AvailableTimes />}
+      </ScheduleProvider>
+
+      {tabIndex === 3 && !location?.state?.tutor && (
         <SelectMentorCards
           tabIndex={tabIndex}
           setTabIndex={setTabIndex}
@@ -68,18 +70,18 @@ const ScheduleLesson = () => {
           schedule={schedule}
           step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
         />
-      ) : (
-        (tabIndex === 3 || location?.state?.tutor) && (
-          <LessonConfirmation
-            plan={selectedPlan}
-            time={schedule}
-            tutor={selectTutor || location?.state?.tutor}
-            isMentorScheduled={!!location?.state?.tutor}
-            setTabIndex={setTabIndex}
-            lesson={scheduledLesson}
-            lessonId={id}
-          />
-        )
+      )}
+
+      {(tabIndex === 4 || location?.state?.tutor) && (
+        <LessonConfirmation
+          plan={selectedPlan}
+          time={schedule}
+          tutor={selectTutor || location?.state?.tutor}
+          isMentorScheduled={!!location?.state?.tutor}
+          setTabIndex={setTabIndex}
+          lesson={scheduledLesson}
+          lessonId={id}
+        />
       )}
     </React.Fragment>
   );

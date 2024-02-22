@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import Modal from 'react-modal';
 import { FaXmark } from 'react-icons/fa6';
 
@@ -7,7 +7,7 @@ import './Dialog.css';
 Modal.setAppElement('#root');
 
 export const MyDialog = forwardRef(function MyDialog(
-  { button, children },
+  { open, setOpen, button, children },
   ref,
 ) {
   const customStyles = {
@@ -39,7 +39,9 @@ export const MyDialog = forwardRef(function MyDialog(
     },
   };
 
-  const [isOpen, setOpen] = useState(false);
+  if (!open || !setOpen) {
+    [open, setOpen] = useState(false);
+  }
 
   const openModal = () => {
     document.body.style.overflow = 'hidden';
@@ -58,7 +60,7 @@ export const MyDialog = forwardRef(function MyDialog(
       </div>
       <Modal
         closeTimeoutMS={400}
-        isOpen={isOpen}
+        isOpen={open}
         contentLabel="modal"
         style={customStyles}
         onRequestClose={closeModal}

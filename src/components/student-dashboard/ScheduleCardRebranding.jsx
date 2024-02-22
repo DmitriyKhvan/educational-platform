@@ -10,6 +10,8 @@ import { isBetween } from '../../utils/isBetween';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { FaCheck, FaPlay } from 'react-icons/fa6';
 import Button from '../Form/Button';
+import { MyDialog } from '../Dialog';
+import { ZoomRecordingModal } from '../ZoomRecordingModal';
 
 const ScheduleCard = ({
   // index,
@@ -25,6 +27,7 @@ const ScheduleCard = ({
   duration,
   subscription,
 }) => {
+  console.log('zoom', zoom);
   const [isOpen, setIsOpen] = useState(false);
   const [t] = useTranslation(['modals', 'common']);
   const [isWarningOpen, setIsWarningOpen] = useState(false);
@@ -189,24 +192,28 @@ const ScheduleCard = ({
             : 'grid-cols-2'
         }`}
       >
-        <Button
-          onClick={joinLesson}
-          disabled={!isBetween(dateLesson, data.duration, userTimezone)}
-          className={`col-span-2 ${
-            data.status === LessonsStatusType.APPROVED ? 'flex' : 'hidden'
-          }`}
-        >
-          {t('join_lesson')}
-        </Button>
-        <Button
-          // TODO: implement onClick
-          className={`col-span-1 gap-1 sm:gap-2 ${
-            data.status === LessonsStatusType.COMPLETED ? 'flex' : 'hidden'
-          }`}
-        >
-          <FaPlay />
-          {t('watch_recording')}
-        </Button>
+        {data.status === LessonsStatusType.APPROVED && (
+          <Button onClick={joinLesson} className="col-span-2">
+            {t('join_lesson')}
+          </Button>
+        )}
+
+        {data.status === LessonsStatusType.COMPLETED && (
+          <MyDialog
+            button={
+              <Button
+                // TODO: implement onClick
+                disabled={!zoom.recordingUrl}
+                className={`grow gap-1 sm:gap-2`}
+              >
+                <FaPlay />
+                {t('watch_recording')}
+              </Button>
+            }
+          >
+            <ZoomRecordingModal urlRecording={zoom.recordingUrl} />
+          </MyDialog>
+        )}
 
         <Button
           // TODO: implement onClick
@@ -215,25 +222,17 @@ const ScheduleCard = ({
           Info
         </Button>
 
-        <Button
-          theme="dark_purple"
-          onClick={onSelect}
-          className={
-            data.status === LessonsStatusType.SCHEDULED ? 'flex' : 'hidden'
-          }
-        >
-          {t('reschedule')}
-        </Button>
+        {data.status === LessonsStatusType.SCHEDULED && (
+          <Button theme="dark_purple" onClick={onSelect}>
+            {t('reschedule')}
+          </Button>
+        )}
 
-        <Button
-          theme="red"
-          onClick={onCancel}
-          className={
-            data.status !== LessonsStatusType.COMPLETED ? 'flex' : 'hidden'
-          }
-        >
-          {t('cancel', { ns: 'common' })}
-        </Button>
+        {data.status !== LessonsStatusType.COMPLETED && (
+          <Button theme="red" onClick={onCancel}>
+            {t('cancel', { ns: 'common' })}
+          </Button>
+        )}
       </div>
 
       <RescheduleAndCancelModal

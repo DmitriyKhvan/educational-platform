@@ -94,14 +94,14 @@ const StudentListAppointments = () => {
           />
         </div>
 
-        <div className="hidden xl:block w-full mx-auto sm:max-w-[524px] sm:mt-10 2xl:ml-10 mt-1">
-          {isDesktop && !isLoading && (
+        {isDesktop && !isLoading && (
+          <div className="w-full mx-auto sm:max-w-[524px] sm:mt-10 2xl:ml-10 mt-1">
             <MyLessons
               fetchAppointments={fetchAppointments}
               appointments={appointments}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
       {completedAppointment && (
         <ModalFeedback
