@@ -72,7 +72,7 @@ const ScheduleLesson = () => {
         />
       )}
 
-      {(tabIndex === 4 || location?.state?.tutor) && (
+      {(tabIndex === 4 || (tabIndex === 3 && location?.state?.tutor)) && (
         <LessonConfirmation
           plan={selectedPlan}
           time={schedule}
