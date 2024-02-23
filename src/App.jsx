@@ -36,6 +36,7 @@ import { SelectProfile } from './pages/Auth/SelectProfile/SelectProfile';
 import { getItemToLocalStorage, Roles } from './constants/global';
 import { AddStudentProfile } from './pages/Auth/SelectProfile/AddProfile';
 import { ErrorPage } from './pages/ErrorPage';
+import Trial from './pages/Students/Trial';
 
 function PrivateRoute({ component: Component, role, ...rest }) {
   const { user } = useAuth();
@@ -125,6 +126,7 @@ function App() {
               component={EmailVerifyText}
             />
             <PublicRoute path="/onboarding" component={Onboarding} />
+            <PublicRoute path="/trial" component={Trial} />
 
             <PublicRoute path="/referral/:referalcode" component={IsReferal} />
 
