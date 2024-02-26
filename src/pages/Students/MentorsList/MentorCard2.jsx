@@ -10,10 +10,9 @@ import {
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import Button from 'src/components/Form/Button';
 import { HiMiniChevronRight } from 'react-icons/hi2';
-import { MyDrawer } from 'src/components/Drawer';
 import MentorsModal from './MentorsModal';
 import { useMediaQuery } from 'react-responsive';
-import { MyDialog } from 'src/components/Dialog';
+import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 
 export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });
@@ -120,40 +119,22 @@ export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
             </Button>
           )}
 
-          {isMobile ? (
-            <MyDrawer
-              button={
-                <Button
-                  theme="gray"
-                  className="flex items-center justify-center px-[18px] sm:px-6 h-[40px] text-xs sm:text-sm"
-                >
-                  <span className="whitespace-nowrap">
-                    {t('learn_more', { ns: 'common' })}
-                  </span>
-                  <HiMiniChevronRight className="text-sm" />
-                </Button>
-              }
-              className="h-[80%]"
-            >
-              <MentorsModal mentor={mentor} />
-            </MyDrawer>
-          ) : (
-            <MyDialog
-              button={
-                <Button
-                  theme="gray"
-                  className="flex items-center justify-center px-[18px] sm:px-6 h-[40px] text-xs sm:text-sm  "
-                >
-                  <span className="whitespace-nowrap">
-                    {t('learn_more', { ns: 'common' })}
-                  </span>
-                  <HiMiniChevronRight className="text-sm" />
-                </Button>
-              }
-            >
-              <MentorsModal mentor={mentor} />
-            </MyDialog>
-          )}
+          <AdaptiveDialog
+            button={
+              <Button
+                theme="gray"
+                className="flex items-center justify-center px-[18px] sm:px-6 h-[40px] text-xs sm:text-sm"
+              >
+                <span className="whitespace-nowrap">
+                  {t('learn_more', { ns: 'common' })}
+                </span>
+                <HiMiniChevronRight className="text-sm" />
+              </Button>
+            }
+            classNameDrawer="h-[80%]"
+          >
+            <MentorsModal mentor={mentor} />
+          </AdaptiveDialog>
         </div>
       </div>
     </div>

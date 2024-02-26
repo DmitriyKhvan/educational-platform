@@ -10,8 +10,8 @@ import { isBetween } from '../../utils/isBetween';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { FaCheck, FaPlay } from 'react-icons/fa6';
 import Button from '../Form/Button';
-import { MyDialog } from '../Dialog';
 import { ZoomRecordingModal } from '../ZoomRecordingModal';
+import { AdaptiveDialog } from '../AdaptiveDialog';
 
 const ScheduleCard = ({
   // index,
@@ -27,7 +27,6 @@ const ScheduleCard = ({
   duration,
   subscription,
 }) => {
-  console.log('zoom', zoom);
   const [isOpen, setIsOpen] = useState(false);
   const [t] = useTranslation(['modals', 'common']);
   const [isWarningOpen, setIsWarningOpen] = useState(false);
@@ -199,7 +198,7 @@ const ScheduleCard = ({
         )}
 
         {data.status === LessonsStatusType.COMPLETED && (
-          <MyDialog
+          <AdaptiveDialog
             button={
               <Button
                 // TODO: implement onClick
@@ -211,8 +210,11 @@ const ScheduleCard = ({
               </Button>
             }
           >
-            <ZoomRecordingModal urlRecording={zoom.recordingUrl} width="70vw" />
-          </MyDialog>
+            <ZoomRecordingModal
+              urlRecording={zoom.recordingUrl}
+              width="sm:70vw"
+            />
+          </AdaptiveDialog>
         )}
 
         <Button
