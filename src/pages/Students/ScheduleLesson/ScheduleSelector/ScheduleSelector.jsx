@@ -9,7 +9,6 @@ import { useSchedule } from './ScheduleProvider';
 
 import { Days } from './Days';
 import { TimesOfDay } from './TimesOfDay';
-import Layout from '../../../../components/Layout';
 
 import { IoArrowBack } from 'react-icons/io5';
 
@@ -50,87 +49,85 @@ export const ScheduleSelector = ({ lesson }) => {
   });
 
   return (
-    <Layout>
-      <div className="overflow-auto h-[calc(100vh-80px)]">
-        <div className="max-w-[488px] w-full m-auto py-5 px-6 sm:py-10">
-          <div className="space-y-10">
-            <div>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => {
-                    setTabIndex(0);
-                    resetAll();
-                  }}
-                >
-                  <IoArrowBack className="text-2xl" />
-                </button>
+    <div className="overflow-auto h-[calc(100vh-80px)]">
+      <div className="max-w-[488px] w-full m-auto py-5 px-6 sm:py-10">
+        <div className="space-y-10">
+          <div>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => {
+                  setTabIndex(0);
+                  resetAll();
+                }}
+              >
+                <IoArrowBack className="text-2xl" />
+              </button>
 
-                <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold">
-                  {lesson
-                    ? t('reschedule_lesson', { ns: 'modals' })
-                    : t('schedule_lesson')}
-                </h1>
-              </div>
-
-              <p className="text-sm text-color-light-grey mt-[15px]">
-                {lesson ? (
-                  <>
-                    {t('currently_scheduled', { ns: 'modals' })}{' '}
-                    {format(
-                      utcToZonedTime(new Date(lesson.startAt), userTimezone),
-                      'eeee, MMM dd hh:mm a',
-                      {
-                        timeZone: userTimezone,
-                      },
-                    )}
-                  </>
-                ) : (
-                  t('schedule_lesson_subtitle')
-                )}
-              </p>
+              <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold">
+                {lesson
+                  ? t('reschedule_lesson', { ns: 'modals' })
+                  : t('schedule_lesson')}
+              </h1>
             </div>
 
-            <div>
-              <h4 className="font-semibold text-[15px] text-color-dark-purple mb-4">
-                1. Choose a week
-              </h4>
-              <div className="flex gap-3 w-full items-center justify-between mb-4">
-                <Button
-                  theme="outline"
-                  className="h-[50px] px-[17px] "
-                  disabled={counter === 0}
-                  onClick={() => {
-                    resetAll();
-                    setCounter(counter - 1);
-                  }}
-                >
-                  <IoIosArrowBack />
-                </Button>
-
-                <h1 className="flex grow items-center justify-center h-[50px] px-4 rounded-lg bg-color-light-grey2 text-sm font-medium">
-                  {startOfWeekFormatted} - {endOfWeekFormatted}
-                </h1>
-
-                <Button
-                  theme="outline"
-                  className="h-[50px] px-[17px] "
-                  onClick={() => {
-                    resetAll();
-                    setCounter(counter + 1);
-                  }}
-                  disabled={counter === 4}
-                >
-                  <IoIosArrowForward />
-                </Button>
-              </div>
-            </div>
-
-            <Days startOfWeek={startOfWeek} counter={counter} />
-
-            <TimesOfDay />
+            <p className="text-sm text-color-light-grey mt-[15px]">
+              {lesson ? (
+                <>
+                  {t('currently_scheduled', { ns: 'modals' })}{' '}
+                  {format(
+                    utcToZonedTime(new Date(lesson.startAt), userTimezone),
+                    'eeee, MMM dd hh:mm a',
+                    {
+                      timeZone: userTimezone,
+                    },
+                  )}
+                </>
+              ) : (
+                t('schedule_lesson_subtitle')
+              )}
+            </p>
           </div>
+
+          <div>
+            <h4 className="font-semibold text-[15px] text-color-dark-purple mb-4">
+              1. Choose a week
+            </h4>
+            <div className="flex gap-3 w-full items-center justify-between mb-4">
+              <Button
+                theme="outline"
+                className="h-[50px] px-[17px] "
+                disabled={counter === 0}
+                onClick={() => {
+                  resetAll();
+                  setCounter(counter - 1);
+                }}
+              >
+                <IoIosArrowBack />
+              </Button>
+
+              <h1 className="flex grow items-center justify-center h-[50px] px-4 rounded-lg bg-color-light-grey2 text-sm font-medium">
+                {startOfWeekFormatted} - {endOfWeekFormatted}
+              </h1>
+
+              <Button
+                theme="outline"
+                className="h-[50px] px-[17px] "
+                onClick={() => {
+                  resetAll();
+                  setCounter(counter + 1);
+                }}
+                disabled={counter === 4}
+              >
+                <IoIosArrowForward />
+              </Button>
+            </div>
+          </div>
+
+          <Days startOfWeek={startOfWeek} counter={counter} />
+
+          <TimesOfDay />
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
