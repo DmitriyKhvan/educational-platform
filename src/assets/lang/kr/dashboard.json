@@ -1,8 +1,13 @@
 {
   "student_dashboard_welcome": "안녕하세요, {{name}} 님 👋",
   "student_dashboard_subtitle": "멋진 하루 보내시기 바랍니다.",
+  "lets_learn_together": "Let's learn together.",
   "schedule_card": "원하시는 멘토 분들과 수업을 예약해보세요.",
   "schedule_1_on_1_lesson": "1:1 레슨",
+  "my_progress": "My Progress",
+  "my_progress_subtitle": "Most recent completed lesson",
+  "my_lessons": "My Lessons",
+  "my_lessons_subtitle": "Upcoming lessons this week",
   "already_lesson": "진행하고 계신 레슨이 있으신가요?",
   "student_dashboard_edit_schedule": "내 일정 수정",
   "student_dashboard_view_all_lessons": "모든 강의 보기 →",
