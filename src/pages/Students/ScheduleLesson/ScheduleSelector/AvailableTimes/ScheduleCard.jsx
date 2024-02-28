@@ -1,30 +1,21 @@
-import {
-  addHours,
-  addMinutes,
-  getMinutes,
-  isBefore,
-  parse,
-  subHours,
-} from 'date-fns';
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { addMinutes, parse } from 'date-fns';
+import { format } from 'date-fns-tz';
 import { ko as kr } from 'date-fns/locale';
-import React from 'react';
+
 import { useTranslation } from 'react-i18next';
-import { useAuth } from 'src/modules/auth';
 import { cn } from 'src/utils/functions';
-import Swal from 'sweetalert2';
 import { useSchedule } from '../ScheduleProvider';
+import CheckboxField from 'src/components/Form/CheckboxField';
+import { scrollToElement } from 'src/utils/scrollToElement';
 
-export const ScheduleCard = ({ scheduleStartTime }) => {
-  const { setTabIndex, setSchedule, duration, day, todayUserTimezone } =
-    useSchedule();
-  const { user } = useAuth();
+export const ScheduleCard = ({
+  startTime,
+  setScheduleStartTime,
+  scheduleStartTime,
+}) => {
+  const { duration, day } = useSchedule();
 
-  const userTimezone =
-    user?.timeZone?.split(' ')[0] ||
-    Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  const [t, i18n] = useTranslation(['lessons', 'common', 'modals']);
+  const [i18n] = useTranslation(['lessons', 'common', 'modals']);
 
   const currentLanguage = i18n.language;
   const locale = currentLanguage === 'kr' ? kr : null;
@@ -33,11 +24,7 @@ export const ScheduleCard = ({ scheduleStartTime }) => {
     locale: locale,
   });
 
-  const scheduleStartTimeParse = parse(
-    scheduleStartTime.time,
-    'HH:mm',
-    new Date(),
-  );
+  const scheduleStartTimeParse = parse(startTime.time, 'HH:mm', new Date());
 
   const scheduleStartTimeFormat = format(scheduleStartTimeParse, 'hh:mm a');
 
@@ -46,97 +33,38 @@ export const ScheduleCard = ({ scheduleStartTime }) => {
     'hh:mm a',
   );
 
-  const handleConfirmLesson = (scheduleStartTime) => {
-    if (scheduleStartTime.reserved) {
-      return;
-    }
-
-    const formattedDay = format(new Date(day), 'yyyy-MM-dd');
-
-    const dateParse = parse(
-      `${formattedDay} ${scheduleStartTime.time}`,
-      'yyyy-MM-dd HH:mm',
-      utcToZonedTime(new Date(), userTimezone),
-    );
-
-    const selectedSchedule = format(dateParse, 'EEE MMM dd yyyy HH:mm:ss XXX', {
-      timeZone: userTimezone,
-    });
-
-    const hoursPrior = process.env.REACT_APP_PRODUCTION === 'true' ? 48 : 0;
-
-    const preScreen = subHours(dateParse, hoursPrior);
-
-    if (!isBefore(todayUserTimezone, preScreen)) {
-      const minutesRound = 30 - (getMinutes(todayUserTimezone) % 30);
-
-      const available = format(
-        addHours(addMinutes(todayUserTimezone, minutesRound), hoursPrior),
-        'eeee, MMMM dd @ h:mm a',
-        { timeZone: userTimezone },
-      );
-
-      Swal.fire({
-        title: t('swal_fire_title_schedule_prescreen', { ns: 'modals' }),
-        text:
-          process.env.REACT_APP_PRODUCTION === 'true'
-            ? t('swal_fire_text_schedule_prescreen', { ns: 'modals' })
-            : t('swal_fire_footer_schedule_prescreen', { ns: 'modals' }),
-        icon: 'warning',
-        width: '36em',
-        confirmButtonColor: '#6133af',
-        focusConfirm: true,
-        footer: `*${t('swal_fire_footer_schedule_prescreen', {
-          ns: 'modals',
-        })} ${available}`,
-      });
-    }
-
-    if (isBefore(todayUserTimezone, preScreen)) {
-      setSchedule(selectedSchedule.toString());
-      setTabIndex(2);
-    }
+  const selectAvailableTime = () => {
+    setScheduleStartTime(startTime);
+    scrollToElement('timeSheets');
   };
 
+  // useEffect(() => {
+
+  // }, [day]);
+
   return (
-    <div
+    <label
       className={cn(
-        `time-card space-y-2 grey-border bg-white small-card pt-4 media_align_width`,
-        scheduleStartTime.reserved &&
-          'bg-color-darker-grey grayscale-[70%] opacity-50',
+        `flex justify-between border border-color-border-grey rounded-lg bg-white p-5 shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.04)] cursor-pointer`,
+        startTime.reserved && 'bg-gray-400/30 cursor-not-allowed',
+        !startTime.reserved && 'hover:border-color-purple',
+        startTime === scheduleStartTime && 'border-color-purple',
       )}
     >
-      <div className="row container ms-1">
-        <div className="col-12 align_schedule_texts">
-          <h3 className="text-color-dark-purple text-base sm:text-lg">
-            {`${scheduleStartTimeFormat} → ${scheduleEndTimeFormat}`}
-          </h3>
-        </div>
+      <div className="space-y-4">
+        <h3 className="text-color-dark-purple text-base sm:text-lg font-bold">
+          {`${scheduleStartTimeFormat} - ${scheduleEndTimeFormat}`}
+        </h3>
+
+        <p className="text-color-light-grey text-sm">{dayFormat}</p>
       </div>
-      <div className="row final_width_change">
-        <div className="col">
-          <div className="schedule-card-col">
-            <p className={`enter-btn time-btn grey-border text-black`}>
-              {dayFormat}
-            </p>
-          </div>
-        </div>
-        <div className="col">
-          <div className="schedule-card-col">
-            <div
-              className={cn(
-                `enter-btn bg-color-purple text-white align_button_sche_lesson`,
-                scheduleStartTime.reserved && 'cursor-no-drop',
-              )}
-              onClick={() => {
-                handleConfirmLesson(scheduleStartTime);
-              }}
-            >
-              {t('booking_lesson')}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
+      <CheckboxField
+        disabled={startTime.reserved}
+        type="radio"
+        name="package"
+        onChange={selectAvailableTime}
+      />
+    </label>
   );
 };

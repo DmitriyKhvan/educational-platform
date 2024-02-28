@@ -48,7 +48,7 @@ const SelectMentorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
 
   const onClick = (mentor) => {
     setSelectTutor(mentor);
-    setTabIndex(3);
+    setTabIndex(4);
   };
 
   return (

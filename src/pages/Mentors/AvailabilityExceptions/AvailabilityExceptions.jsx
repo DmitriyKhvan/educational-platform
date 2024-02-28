@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_MENTOR } from 'src/modules/auth/graphql';
 import { UPSERT_EXCEPTION_DATES } from 'src/modules/graphql/mutations/upsertExceptionDates';
-import { format } from 'date-fns';
+import { format, parse } from 'date-fns';
 import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from 'src/modules/auth';
@@ -75,7 +75,6 @@ export const AvailabilityExceptions = () => {
           }),
         };
       });
-
       upsertExceptionDates({
         variables: {
           data: {
@@ -107,7 +106,6 @@ export const AvailabilityExceptions = () => {
       mentor.exceptionDates.forEach((slot) => {
         // To combine slots for the same dates
         const existingSlot = dates.find((item) => item.date === slot.date);
-
         if (existingSlot) {
           existingSlot.slots.push({
             id: uuid(),
@@ -121,7 +119,7 @@ export const AvailabilityExceptions = () => {
             slots: [{ id: uuid(), from: slot.from, to: slot.to }],
           });
 
-          disabledDates.push(new Date(slot.date));
+          disabledDates.push(parse(slot.date, 'yyyy-MM-dd', new Date()));
         }
       });
 

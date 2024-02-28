@@ -1,8 +1,13 @@
 {
   "student_dashboard_welcome": "Hey, {{name}} 👋",
-  "student_dashboard_subtitle": "Welcome back to Nao Now! Let's learn together.",
-  "schedule_card": "Schedule a lesson with one of your favorite mentors.",
+  "student_dashboard_subtitle": "Welcome to Nao Now! Let's learn together.",
+  "lets_learn_together": "Let's learn together.",
+  "schedule_card": "Schedule a lesson",
   "schedule_1_on_1_lesson": "Schedule a 1-on-1 Lesson →",
+  "my_progress": "My Progress",
+  "my_progress_subtitle": "Most recent completed lesson",
+  "my_lessons": "My Lessons",
+  "my_lessons_subtitle": "Upcoming lessons this week",
   "already_lesson": "Already had a lesson?",
   "student_dashboard_edit_schedule": "Edit My Schedule",
   "student_dashboard_view_all_lessons": "View All Lessons →",
@@ -25,8 +30,8 @@
   "daily_schedule": "Daily Schedule",
   "upcoming_lessons": "UPCOMING Lessons",
   "mentor_dashboard_total_lessons": "You have {{total_lessons}} upcoming lesson(s) today.",
-  "schedule_by_time": "Schedule by Time",
-  "schedule_by_mentor": "Schedule by Mentor",
+  "schedule_by_time": "Book by Time",
+  "schedule_by_mentor": "Book by Mentor",
   "student_dashboard_no_package": "No purchased packages yet.",
   "student_dashboard_no_package_desc": "Purchase a package →"
 }

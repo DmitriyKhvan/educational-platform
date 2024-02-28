@@ -148,7 +148,7 @@ const TutorDashboard = () => {
             </Link>
             <div className="weekly-schedule-scroll">
               {/* {displayDailySchedule(upcomingLessons)} */}
-              {upcomingLessons?.map((event, i) =>
+              {upcomingLessons?.map((event, i) => (
                 <ScheduleCard
                   lesson={event?.packageSubscription?.package?.course?.title}
                   duration={event?.duration}
@@ -159,8 +159,8 @@ const TutorDashboard = () => {
                   index={i}
                   key={i}
                   fetchAppointments={fetchAppointments}
-                />)
-              }
+                />
+              ))}
             </div>
           </div>
         </div>
