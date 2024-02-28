@@ -155,7 +155,7 @@ export const ScheduleProvider = ({
       }
     }
 
-    timesheetsData?.combinedTimesheets
+    structuredClone(timesheetsData?.combinedTimesheets)
       .sort(
         (a, b) =>
           parse(a.from, 'HH:mm', new Date(day)) -
