@@ -43,9 +43,7 @@ const Sidebar = ({ isShowSidebar, setShowSidebar }) => {
       </div>
 
       <div
-        className={`side-bar mobile-version z-50 pt-6 ${
-          isShowSidebar && 'open'
-        }`}
+        className={`side-bar mobile-version pt-6 ${isShowSidebar && 'open'}`}
       >
         <div className="flex items-center justify-between mb-5">
           <Link

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@apollo/client';
-import { MENTORS } from 'src/modules/graphql/queries/mentors/mentors';
+import { MENTORS_QUERY } from '../../../modules/auth/graphql';
 
 import Layout from '../../../components/Layout';
 import Loader from '../../../components/Loader/Loader';
@@ -13,7 +13,7 @@ const Mentors = () => {
   const studentId = getItemToLocalStorage('studentId');
 
   const [t] = useTranslation(['studentMentor', 'common']);
-  const { data, loading } = useQuery(MENTORS, {
+  const { data, loading } = useQuery(MENTORS_QUERY, {
     variables: { studentId },
     errorPolicy: 'ignore',
   });

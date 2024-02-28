@@ -15,11 +15,11 @@ module.exports = {
         'color-red': '#F12509',
         'color-pale-blue': '#60b2cc',
         'color-darker-grey': '#b2b2b2',
-        'color-light-grey': '#868688',
+        'color-light-grey': '#646481',
         'color-light-grey2': '#dbdbdb',
         'color-violet': '#b28ec2',
         'color-lavender': '#9c96b5',
-        'color-border-grey': '#EDEEF0',
+        'color-border-grey': '#dedee1',
         'color-bg-grey1': '#fdfdfd',
         'color-bg-grey2': '#fafafa',
         'color-grey3': '#f2f2f2',
@@ -28,9 +28,7 @@ module.exports = {
         'color-light-purple': '#ebe4ff',
         'color-dark-purple': '#261A45',
         'color-light-blue': '#86b7fe',
-        'color-dashboard-bg': '#f7f8fA',
-        'color-banner-green': '#00D986',
-        
+
         tremor: {
           brand: {
             faint: '#eff6ff', // blue-50

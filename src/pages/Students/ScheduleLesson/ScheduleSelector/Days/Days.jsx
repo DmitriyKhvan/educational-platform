@@ -34,15 +34,10 @@ export const Days = memo(function Days({ startOfWeek, counter }) {
   }, [counter]);
 
   return (
-    <div>
-      <h4 className="font-semibold text-[15px] text-color-dark-purple mb-4">
-        2. Choose a day
-      </h4>
-      <div className="flex flex-wrap gap-y-3">
-        {days?.map((day, i) => (
-          <Day dayOfWeek={day} idx={i} key={day} />
-        ))}
-      </div>
-    </div>
+    <>
+      {days?.map((day, i) => (
+        <Day dayOfWeek={day} idx={i} key={day} />
+      ))}
+    </>
   );
 });
