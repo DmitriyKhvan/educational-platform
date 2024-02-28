@@ -10,7 +10,6 @@ import { LESSON_QUERY } from '../../../modules/auth/graphql';
 import '../../../assets/styles/tutor.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { ScheduleProvider } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/ScheduleProvider';
-import { AvailableTimes } from './ScheduleSelector/AvailableTimes';
 
 const ScheduleLesson = () => {
   const { id = null } = useParams();
@@ -39,7 +38,7 @@ const ScheduleLesson = () => {
 
   return (
     <React.Fragment>
-      {tabIndex === 0 && (
+      {tabIndex === 0 ? (
         <SelectLesson
           setSelectedPlan={setSelectedPlan}
           selectedPlan={selectedPlan}
@@ -48,20 +47,23 @@ const ScheduleLesson = () => {
           setClicked={setClicked}
           lesson={scheduledLesson}
         />
-      )}
-
-      <ScheduleProvider
-        setTabIndex={setTabIndex}
-        setSchedule={setSchedule}
-        selectedMentor={location?.state?.tutor}
-        duration={selectedPlan?.package?.sessionTime}
-      >
-        {tabIndex === 1 && <ScheduleSelector lesson={scheduledLesson} />}
-
-        {tabIndex === 2 && <AvailableTimes />}
-      </ScheduleProvider>
-
-      {tabIndex === 3 && !location?.state?.tutor && (
+      ) : tabIndex === 1 ? (
+        <ScheduleProvider
+          setTabIndex={setTabIndex}
+          setSchedule={setSchedule}
+          selectedMentor={location?.state?.tutor}
+          duration={selectedPlan?.package?.sessionTime}
+        >
+          <ScheduleSelector
+            lesson={scheduledLesson}
+            // tabIndex={tabIndex}
+            // step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
+            // step={30}
+            // schedule={schedule}
+            // lessonId={id}
+          />
+        </ScheduleProvider>
+      ) : tabIndex === 2 && !location?.state?.tutor ? (
         <SelectMentorCards
           tabIndex={tabIndex}
           setTabIndex={setTabIndex}
@@ -70,18 +72,18 @@ const ScheduleLesson = () => {
           schedule={schedule}
           step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
         />
-      )}
-
-      {(tabIndex === 4 || (tabIndex === 3 && location?.state?.tutor)) && (
-        <LessonConfirmation
-          plan={selectedPlan}
-          time={schedule}
-          tutor={selectTutor || location?.state?.tutor}
-          isMentorScheduled={!!location?.state?.tutor}
-          setTabIndex={setTabIndex}
-          lesson={scheduledLesson}
-          lessonId={id}
-        />
+      ) : (
+        (tabIndex === 3 || location?.state?.tutor) && (
+          <LessonConfirmation
+            plan={selectedPlan}
+            time={schedule}
+            tutor={selectTutor || location?.state?.tutor}
+            isMentorScheduled={!!location?.state?.tutor}
+            setTabIndex={setTabIndex}
+            lesson={scheduledLesson}
+            lessonId={id}
+          />
+        )
       )}
     </React.Fragment>
   );

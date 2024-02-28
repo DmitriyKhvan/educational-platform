@@ -18,6 +18,7 @@
     "@tremor/react": "^3.12.1",
     "@u-wave/react-vimeo": "^0.9.5",
     "apollo-upload-client": "^17.0.0",
+    "axios": "^0.21.1",
     "countries-phone-masks": "^1.0.8",
     "country-list": "^2.2.0",
     "date-fns": "^2.29.3",

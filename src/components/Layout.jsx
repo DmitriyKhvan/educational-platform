@@ -19,7 +19,7 @@ const Layout = ({ children }) => {
         <div className="content">
           {isShowSidebar && (
             <div
-              className="mobile-fade-background z-50"
+              className="mobile-fade-background"
               onClick={() => setShowSidebar(false)}
             />
           )}
