@@ -184,17 +184,14 @@ const ScheduleCard = ({
 
       <div
         className={`grid gap-2 xl:gap-3 h-[52px] ${
-          data.status === LessonsStatusType.SCHEDULED
+          data.status === LessonsStatusType.SCHEDULED ||
+          data.status === LessonsStatusType.APPROVED
             ? 'grid-cols-3'
-            : data.status === LessonsStatusType.APPROVED
-            ? 'grid-cols-4'
-            : 'grid-cols-2'
+            : 'grid-cols-3 sm:grid-cols-2'
         }`}
       >
         {data.status === LessonsStatusType.APPROVED && (
-          <Button onClick={joinLesson} className="col-span-2">
-            {t('join_lesson')}
-          </Button>
+          <Button onClick={joinLesson}>{t('join_lesson')}</Button>
         )}
 
         {data.status === LessonsStatusType.COMPLETED && (
@@ -203,7 +200,7 @@ const ScheduleCard = ({
               <Button
                 // TODO: implement onClick
                 disabled={!zoom.recordingUrl}
-                className={`grow gap-1 sm:gap-2`}
+                className={`grow gap-1 sm:gap-2 col-span-2`}
               >
                 <FaPlay />
                 {t('watch_recording')}
@@ -217,14 +214,18 @@ const ScheduleCard = ({
           </AdaptiveDialog>
         )}
 
-        <Button
-          // TODO: implement onClick
-          theme="dark_purple"
-        >
-          Info
-        </Button>
+        {data.status !== LessonsStatusType.APPROVED && (
+          <Button
+            // TODO: implement onClick
+            disabled
+            theme="dark_purple"
+          >
+            Info
+          </Button>
+        )}
 
-        {data.status === LessonsStatusType.SCHEDULED && (
+        {(data.status === LessonsStatusType.SCHEDULED ||
+          data.status === LessonsStatusType.APPROVED) && (
           <Button theme="dark_purple" onClick={onSelect}>
             {t('reschedule')}
           </Button>

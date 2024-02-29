@@ -71,7 +71,6 @@ const Dropdown = ({
 
       {visible && filterItems.length > 0 && (
         <>
-          {/* <div className="background" onClick={() => setVisible(false)} /> */}
           <div className={!popupClassName ? 'menu' : popupClassName}>
             {filterItems &&
               filterItems.map((item, index) =>

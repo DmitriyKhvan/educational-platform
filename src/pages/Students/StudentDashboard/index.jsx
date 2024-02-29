@@ -63,7 +63,7 @@ const StudentListAppointments = () => {
   return (
     <Layout>
       {lessonLoading ? (
-        <Loader height={'100vh'} />
+        <Loader height="calc(100vh - 80px)" />
       ) : (
         <div className="bg-color-dashboard-bg min-h-screen pb-10 flex flex-wrap">
           <div className=" space-y-1 sm:space-y-8 sm:max-w-[524px] mx-auto sm:mt-10 2xl:mr-10 w-full">
