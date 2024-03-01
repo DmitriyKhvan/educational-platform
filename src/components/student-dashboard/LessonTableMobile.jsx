@@ -9,11 +9,13 @@ import { BsPlayCircle } from 'react-icons/bs';
 import { ZoomRecordingModal } from '../ZoomRecordingModal';
 import { LessonsStatusType } from 'src/constants/global';
 import { MyDialog } from '../Dialog';
+import ScheduleCard from './ScheduleCardRebranding';
 
 export const LessonTableMobile = ({
   displayTableData,
   userTimezone,
   handleOpenFeedbackModal,
+  getAppointments,
   // handleFeedback,
 }) => {
   const { t, i18n } = useTranslation(['lessons']);
@@ -27,10 +29,25 @@ export const LessonTableMobile = ({
     t('status', { ns: 'lessons' }),
     t('recording', { ns: 'lessons' }),
   ];
-
+  // [0].resource.startAt;
   return (
-    <>
-      <table className="table border-spacing-1">
+    <ul>
+      {displayTableData?.map((data, idx) => (
+        <li key={data?.resource?.id ?? idx}>
+          <ScheduleCard
+            // key={data?.resource?.id ?? idx}
+            duration={data?.resource?.duration}
+            lesson={data?.resource?.packageSubscription?.package?.course?.title}
+            mentor={data?.resource?.mentor}
+            zoom={data?.resource?.zoom}
+            date={data?.resource?.startAt}
+            data={data?.resource}
+            index={idx}
+            fetchAppointments={getAppointments}
+          />
+        </li>
+      ))}
+      {/* <table className="table border-spacing-1">
         <thead>
           <tr>
             {tableHead.map((x, ind) => (
@@ -133,7 +150,7 @@ export const LessonTableMobile = ({
             );
           })}
         </tbody>
-      </table>
-    </>
+      </table> */}
+    </ul>
   );
 };

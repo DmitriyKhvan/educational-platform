@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
@@ -6,7 +7,7 @@ import moment from 'moment-timezone';
 import CalendarModal from '../../components/CalendarModal';
 import Layout from '../../components/Layout';
 import Loader from '../../components/common/Loader';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 import '../../assets/styles/calendar.scss';
 import {
@@ -20,7 +21,7 @@ import { useAuth } from '../../modules/auth';
 import FeedbackLessonModal from '../Mentors/FeedbackLessonModal';
 import WeekHeader from '../../components/common/WeekHeader';
 import { useQuery } from '@apollo/client';
-import { APPOINTMENTS_QUERY } from '../../modules/auth/graphql';
+import { APPOINTMENTS_QUERY, PACKAGE_QUERY } from '../../modules/auth/graphql';
 import { format } from 'date-fns-tz';
 import { LessonTable } from '../../components/student-dashboard/LessonTable';
 import { addMinutes, differenceInHours, isAfter } from 'date-fns';
@@ -124,6 +125,14 @@ const Calendar = () => {
     },
     fetchPolicy: 'no-cache',
   });
+
+  const { data: { packageSubscriptions: planStatus = [] } = {}, loading } =
+    useQuery(PACKAGE_QUERY, {
+      fetchPolicy: 'no-cache',
+      variables: {
+        studentId: getItemToLocalStorage('studentId'),
+      },
+    });
 
   useEffect(() => {
     // to update content after receiving notification
@@ -374,21 +383,22 @@ const Calendar = () => {
           <Loader></Loader>
         </div>
       )}
-      <div className="mx-3 my-2 sm:mx-6 sm:my-4 2xl:mx-16 2xl:my-12">
+      {/* <div className="mx-3 my-2 sm:mx-6 sm:my-4 2xl:mx-16 2xl:my-12"> */}
+      <div className="mx-5 my-6 min-h-screen">
         {/* <button onClick={() => setReviewLessonModal(true)}>Hey</button> */}
 
         <div>
-          <h1 className="title m-0 mt-4 mb-3">
+          <h1 className="mb-4 text-[32px] font-bold">
             {t('lessons', { ns: 'lessons' })}
           </h1>
           <div className="row container-fluid m-0 p-0">
             <div className="flex flex-wrap gap-4 mb-4 sm:mb-6 md:mb-8">
-              <div className="flex items-center">
+              <div className="grid grid-cols-2 w-full sm:flex sm:w-auto">
                 <Button
                   theme="outline"
                   className={`relative ml-0 rounded-r-none focus:shadow-none ${
                     selectedTab === 'upcomingLessons' &&
-                    'bg-color-purple text-white'
+                    'bg-color-dark-purple text-white'
                   }`}
                   onClick={onClickUpcomingLessons}
                 >
@@ -403,7 +413,7 @@ const Calendar = () => {
                   theme="outline"
                   className={`ml-[-4px] rounded-l-none focus:shadow-none ${
                     selectedTab === 'pastLessons' &&
-                    'bg-color-purple text-white'
+                    'bg-color-dark-purple text-white'
                   }`}
                   onClick={onClickPastLessons}
                 >
@@ -414,7 +424,8 @@ const Calendar = () => {
               <Button
                 theme="outline"
                 className={`focus:shadow-none hidden sm:block ${
-                  selectedTab === 'calendar' && 'bg-color-purple text-white'
+                  selectedTab === 'calendar' &&
+                  'bg-color-dark-purple text-white'
                 }`}
                 onClick={onCalendarClick}
               >
@@ -424,28 +435,61 @@ const Calendar = () => {
           </div>
         </div>
 
-        <div className="overflow-auto">
-          {!isLoading && !isCalendar && (
-            <>
-              <div className="hidden sm:block">
-                <LessonTable
-                  displayTableData={displayTableData}
-                  userTimezone={userTimezone}
-                  handleOpenFeedbackModal={handleOpenFeedbackModal}
-                  handleFeedback={handleFeedback}
-                />
-              </div>
+        <div>
+          {!isLoading &&
+            !isCalendar &&
+            (displayTableData?.length ? (
+              <>
+                <div className="hidden sm:block">
+                  <LessonTable
+                    displayTableData={displayTableData}
+                    userTimezone={userTimezone}
+                    handleOpenFeedbackModal={handleOpenFeedbackModal}
+                    handleFeedback={handleFeedback}
+                  />
+                </div>
 
-              <div className="sm:hidden">
-                <LessonTableMobile
-                  displayTableData={displayTableData}
-                  userTimezone={userTimezone}
-                  handleOpenFeedbackModal={handleOpenFeedbackModal}
-                  handleFeedback={handleFeedback}
-                />
-              </div>
-            </>
-          )}
+                <div className="sm:hidden">
+                  <LessonTableMobile
+                    displayTableData={displayTableData}
+                    getAppointments={getAppointments}
+                    userTimezone={userTimezone}
+                    handleOpenFeedbackModal={handleOpenFeedbackModal}
+                    handleFeedback={handleFeedback}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="w-full bg-gray-50 rounded-lg mt-8 py-[47px]">
+                  <p className="text-color-dark-purple text-sm text-center mb-6">
+                    You have{' '}
+                    <span className="text-color-purple font-medium">
+                      {planStatus.reduce(
+                        (prev, curr) => prev + curr.credits,
+                        0,
+                      )}{' '}
+                      available
+                    </span>{' '}
+                    lessons
+                  </p>
+                  <div className="flex justify-center gap-3">
+                    <Link
+                      to="/student/schedule-lesson/select"
+                      className="block rounded-lg bg-color-purple px-4 py-4 text-white font-medium sm:font-semibold text-xs sm:text-sm text-center"
+                    >
+                      {t('schedule_by_time', { ns: 'dashboard' })}
+                    </Link>
+                    <Link
+                      to="/student/mentors-list"
+                      className="block rounded-lg bg-color-purple px-4 py-4 text-white font-medium sm:font-semibold text-xs sm:text-sm text-center"
+                    >
+                      {t('schedule_by_mentor', { ns: 'dashboard' })}
+                    </Link>
+                  </div>
+                </div>
+              </>
+            ))}
           {!isLoading && isCalendar && (
             <div className="mt-4">
               <BigCalendar
