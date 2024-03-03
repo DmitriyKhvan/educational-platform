@@ -1,20 +1,21 @@
+import React from 'react';
+import LessonControls from './LessonControls';
 import { addMinutes, format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
-import React from 'react';
-import ReactPlayer from 'react-player/file';
-import StatusIndicator from './student-dashboard/StatusIndicator';
+import StatusIndicator from './StatusIndicator';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 
-export const ZoomRecordingModal = ({
-  urlRecording,
-  width = '100%',
+const LessonInfoModal = ({
   date,
   data,
+  zoom,
+  refetch,
   duration,
+  setCanceledLessons,
   userTimezone,
 }) => {
   return (
-    <div>
+    <div className="w-[520px]">
       <header className="flex justify-between items-center mb-6">
         <div>
           <h2 className="text-[28px] font-bold text-color-dark-purple">
@@ -43,17 +44,17 @@ export const ZoomRecordingModal = ({
         <StatusIndicator status={data.status} />
       </header>
 
-      <div className="max-w-[456px] w-full mx-auto overflow-hidden rounded-lg mb-6">
-        <ReactPlayer
-          url={urlRecording}
-          controls
-          volume={0.8}
-          width={width}
-          height="auto"
-        />
-      </div>
+      <LessonControls
+        date={date}
+        data={data}
+        zoom={zoom}
+        refetch={refetch}
+        duration={duration}
+        setCanceledLessons={setCanceledLessons}
+        pattern="info"
+      />
 
-      <div className="grid grid-cols-2 gap-3 pt-6 border-t">
+      <div className="grid grid-cols-2 gap-3 mt-6 pt-6 border-t">
         <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">
           <label className="text-xs font-medium text-gray-300 block">
             Package
@@ -92,3 +93,5 @@ export const ZoomRecordingModal = ({
     </div>
   );
 };
+
+export default LessonInfoModal;

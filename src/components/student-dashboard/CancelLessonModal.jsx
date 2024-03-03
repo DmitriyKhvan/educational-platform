@@ -8,6 +8,7 @@ import notify from '../../utils/notify';
 import Button from '../Form/Button';
 import CheckboxField from '../Form/CheckboxField';
 import Loader from '../Loader/Loader';
+import { FaChevronLeft } from 'react-icons/fa6';
 
 const CancelLessonModal = ({
   setTabIndex,
@@ -84,40 +85,54 @@ const CancelLessonModal = ({
         </div>
       )}
 
-      <div className="flex items-center justify-between mb-2">
-        <div className="text-lg font-semibold">
-          <h2>Cancelling Lesson</h2>
+      <div className="w-[400px] px-4 flex items-center justify-between mb-2 mt-[15px]">
+        <div className="w-full text-lg font-semibold">
+          {/* <h2>Cancelling Lesson</h2> */}
+          <h2 className="text-[22px] font-bold justify-center relative flex items-center">
+            <button
+              className="absolute left-0 ms-0"
+              onClick={() => setTabIndex(0)}
+            >
+              <FaChevronLeft className="w-5 h-5" />
+            </button>
+            Lesson cancellation
+          </h2>
         </div>
       </div>
-      <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px]">
+      <p className="welcome-subtitle px-4 mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px]">
         {t('reason_subtitle', { ns: 'lessons' })}
       </p>
-      <div className="flex flex-col gap-y-1">
+      <div className="flex px-4 flex-col gap-y-3">
         {cancelReasons.map((reason) => (
-          <CheckboxField
+          <label
             key={reason}
-            label={t(reason, { ns: 'lessons' })}
-            value={t(reason, { ns: 'lessons' })}
-            name="reason"
-            type="radio"
-            onChange={checkboxEvent}
-            checked={
-              t(reason, { ns: 'lessons' }) === cancel.value ? true : false
-            }
-          />
+            className="hover:cursor-pointer border px-4 py-5 pb-4 rounded-lg has-[:checked]:border-color-purple/50 has-[:checked]:bg-color-purple has-[:checked]:bg-opacity-10"
+          >
+            <CheckboxField
+              label={t(reason, { ns: 'lessons' })}
+              value={t(reason, { ns: 'lessons' })}
+              name="reason"
+              type="radio"
+              onChange={checkboxEvent}
+              checked={
+                t(reason, { ns: 'lessons' }) === cancel.value ? true : false
+              }
+            />
+          </label>
         ))}
       </div>
-      <div className="flex gap-x-8 pt-4">
-        <Button
+      <div className="flex px-4 gap-x-8 pt-4 mb-[15px]">
+        {/* <Button
           disabled={isLoading}
           theme="outline"
           className="h-[38px] px-[10px]"
           onClick={() => setTabIndex(0)}
         >
           {t('back')}
-        </Button>
+        </Button> */}
         <Button
-          className="h-[38px] px-[10px]"
+          className="h-[56px] w-full"
+          theme="destructive"
           disabled={!isChecked || isLoading}
           onClick={onCancelLesson}
         >

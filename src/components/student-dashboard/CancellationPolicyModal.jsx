@@ -1,20 +1,37 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { FaChevronLeft } from 'react-icons/fa6';
 
 const CancellationPolicyModal = ({ setTabIndex }) => {
   const [t] = useTranslation('modals');
   return (
-    <div className="flex flex-col w-[680px]">
-      <h2 className="text-lg font-bold mb-5">Cancellation Policy</h2>
-      <div className="font-semibold mb-2">{t('cancellation_policy')}</div>
-      <div>
+    <div className="flex flex-col w-[400px] p-4">
+      <h2 className="text-[22px] font-bold mb-6 justify-center relative flex items-center">
+        <button className="absolute left-0 ms-0" onClick={() => setTabIndex(0)}>
+          <FaChevronLeft className="w-5 h-5" />
+        </button>
+        Cancellation Policy
+      </h2>
+      <div className="font-normal text-sm mb-4">
+        {t('cancellation_policy_1')}
+      </div>
+      <div className="font-normal text-sm mb-4">
+        {t('cancellation_policy_2')}
+      </div>
+      <div className="font-normal text-sm mb-4">
+        {t('cancellation_policy_3')}
+      </div>
+      <div className="font-normal text-sm mb-4">
+        {t('cancellation_policy_4')}
+      </div>
+      {/* <div>
         <button
           className="enter-btn grey-border ms-0"
           onClick={() => setTabIndex(0)}
         >
           {t('back')}
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

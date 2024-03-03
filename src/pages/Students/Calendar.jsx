@@ -384,7 +384,7 @@ const Calendar = () => {
         </div>
       )}
       {/* <div className="mx-3 my-2 sm:mx-6 sm:my-4 2xl:mx-16 2xl:my-12"> */}
-      <div className="mx-5 my-6 min-h-screen">
+      <div className="m-10 min-h-screen">
         {/* <button onClick={() => setReviewLessonModal(true)}>Hey</button> */}
 
         <div>
@@ -396,7 +396,7 @@ const Calendar = () => {
               <div className="grid grid-cols-2 w-full sm:flex sm:w-auto">
                 <Button
                   theme="outline"
-                  className={`relative ml-0 rounded-r-none focus:shadow-none ${
+                  className={`relative ml-0 rounded-r-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
                     selectedTab === 'upcomingLessons' &&
                     'bg-color-dark-purple text-white'
                   }`}
@@ -411,7 +411,7 @@ const Calendar = () => {
                 </Button>
                 <Button
                   theme="outline"
-                  className={`ml-[-4px] rounded-l-none focus:shadow-none ${
+                  className={`ml-[-4px] rounded-l-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
                     selectedTab === 'pastLessons' &&
                     'bg-color-dark-purple text-white'
                   }`}
@@ -423,7 +423,7 @@ const Calendar = () => {
 
               <Button
                 theme="outline"
-                className={`focus:shadow-none hidden sm:block ${
+                className={`focus:shadow-none hidden sm:block hover:bg-color-dark-purple hover:text-white ${
                   selectedTab === 'calendar' &&
                   'bg-color-dark-purple text-white'
                 }`}
