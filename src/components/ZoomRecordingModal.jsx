@@ -14,7 +14,7 @@ export const ZoomRecordingModal = ({
   userTimezone,
 }) => {
   return (
-    <div>
+    <div className="max-w-[520px] w-full">
       <header className="flex justify-between items-center mb-6">
         <div>
           <h2 className="text-[28px] font-bold text-color-dark-purple">

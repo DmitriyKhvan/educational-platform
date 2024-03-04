@@ -5,7 +5,7 @@ import { FaChevronLeft } from 'react-icons/fa6';
 const CancellationPolicyModal = ({ setTabIndex }) => {
   const [t] = useTranslation('modals');
   return (
-    <div className="flex flex-col w-[400px] p-4">
+    <div className="flex flex-col max-w-[400px] w-full p-4">
       <h2 className="text-[22px] font-bold mb-6 justify-center relative flex items-center">
         <button className="absolute left-0 ms-0" onClick={() => setTabIndex(0)}>
           <FaChevronLeft className="w-5 h-5" />

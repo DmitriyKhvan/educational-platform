@@ -85,7 +85,7 @@ const CancelLessonModal = ({
         </div>
       )}
 
-      <div className="w-[400px] px-4 flex items-center justify-between mb-2 mt-[15px]">
+      <div className="max-w-[400px] w-full px-4 flex items-center justify-between mb-2 mt-[15px]">
         <div className="w-full text-lg font-semibold">
           {/* <h2>Cancelling Lesson</h2> */}
           <h2 className="text-[22px] font-bold justify-center relative flex items-center">

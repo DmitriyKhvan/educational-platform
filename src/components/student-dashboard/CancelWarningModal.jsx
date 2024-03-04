@@ -83,7 +83,7 @@ const CancelWarningModal = ({
     user.role === Roles.MENTOR || modifyCredits !== 0 ? false : true;
   console.log(data);
   return (
-    <div className="w-[400px] py-[15px] px-[12px]">
+    <div className="max-w-[400px] w-full py-[15px] px-[12px]">
       {/* <div className="mb-5 text-2xl font-bold text-center">
         {t('cancel_lesson')}
       </div>
