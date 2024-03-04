@@ -41,11 +41,6 @@
     bg-color-dark-purple;
   }
 
-  .dark_purple {
-    @apply text-white 
-    bg-color-dark-purple;
-  }
-
   .gray {
     @apply text-color-dark-purple 
     bg-gray-100;
@@ -57,7 +52,13 @@
       border 
       border-solid 
       border-color-border-grey
-      hover:enabled:bg-color-purple
-      hover:enabled:text-white;
+      sm:hover:enabled:bg-color-purple
+      sm:hover:enabled:text-white;
+  }
+
+  .red {
+    @apply text-color-red
+    bg-color-red
+    bg-opacity-10;
   }
 }

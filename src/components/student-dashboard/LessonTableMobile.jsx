@@ -1,14 +1,14 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { ko as kr } from 'date-fns/locale';
 import { addMinutes } from 'date-fns';
 
 import { BsPlayCircle } from 'react-icons/bs';
-import ModalWrapper from '../ModalWrapper/ModalWrapper';
 import { ZoomRecordingModal } from '../ZoomRecordingModal';
 import { LessonsStatusType } from 'src/constants/global';
+import { MyDialog } from '../Dialog';
 
 export const LessonTableMobile = ({
   displayTableData,
@@ -16,9 +16,6 @@ export const LessonTableMobile = ({
   handleOpenFeedbackModal,
   // handleFeedback,
 }) => {
-  const [showRecording, setShowRecording] = useState(false);
-  const [urlRecording, setUrlRecording] = useState('');
-
   const { t, i18n } = useTranslation(['lessons']);
 
   const currentLanguage = i18n.language;
@@ -30,11 +27,6 @@ export const LessonTableMobile = ({
     t('status', { ns: 'lessons' }),
     t('recording', { ns: 'lessons' }),
   ];
-
-  const playRecording = (url) => {
-    setUrlRecording(url);
-    setShowRecording(true);
-  };
 
   return (
     <>
@@ -125,12 +117,16 @@ export const LessonTableMobile = ({
                 </td>
                 <td className="border-b py-2 px-1 align-middle">
                   {event.resource?.zoom?.recordingUrl && (
-                    <BsPlayCircle
-                      onClick={() =>
-                        playRecording(event.resource?.zoom?.recordingUrl)
+                    <MyDialog
+                      button={
+                        <BsPlayCircle className="text-2xl text-color-purple cursor-pointer text-center" />
                       }
-                      className="text-2xl text-color-purple cursor-pointer text-center"
-                    />
+                    >
+                      <ZoomRecordingModal
+                        urlRecording={event.resource?.zoom?.recordingUrl}
+                        width="70vw"
+                      />
+                    </MyDialog>
                   )}
                 </td>
               </tr>
@@ -138,16 +134,6 @@ export const LessonTableMobile = ({
           })}
         </tbody>
       </table>
-
-      <ModalWrapper
-        isOpen={showRecording}
-        closeModal={setShowRecording}
-        widthContent="70%"
-        heightContent="auto"
-        paddingContent="0"
-      >
-        <ZoomRecordingModal urlRecording={urlRecording} />
-      </ModalWrapper>
     </>
   );
 };

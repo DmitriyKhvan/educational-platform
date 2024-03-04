@@ -146,6 +146,7 @@ const Calendar = () => {
         ),
       );
       setTableAppointments(tablularEventData);
+      setIsCalendar(true);
     }
   }, [appointments]);
 
@@ -155,8 +156,7 @@ const Calendar = () => {
   const [selectedTab, setSelectedTab] = useState('calendar');
 
   const [tabularData, setTabularData] = useState([]);
-  const [isCalendar, setIsCalendar] = useState(true);
-  const [isUpcoming, setIsUpcoming] = useState(true);
+  const [isCalendar, setIsCalendar] = useState(false);
   const [calendarEvent, setCalendarEvent] = useState({});
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
   const [isCancelLessonModalOpen, setIsCancelLessonModalOpen] = useState(false);
@@ -280,13 +280,11 @@ const Calendar = () => {
 
   const onClickUpcomingLessons = () => {
     setTabularData([...upcomingLessons]);
-    setIsUpcoming(true);
     setIsCalendar(false);
     setSelectedTab('upcomingLessons');
   };
   const onClickPastLessons = () => {
     setTabularData([...pastLessons]);
-    setIsUpcoming(false);
     setIsCalendar(false);
     setSelectedTab('pastLessons');
   };
@@ -624,7 +622,7 @@ const Calendar = () => {
 
         <div className="overflow-auto h-full">
           <div className={`${isLoading ? 'loading' : ''} mt-4`}>
-            {isCalendar ? (
+            {isCalendar && (
               <BigCalendar
                 style={{ minHeight: '70vh', minWidth: '559px' }}
                 popup={true}
@@ -655,12 +653,9 @@ const Calendar = () => {
                   today: t('calendar_today'),
                 }}
               />
-            ) : (
-              <LessonTable
-                // timezone={'Asia/Seoul'}
-                isUpcoming={isUpcoming}
-                tabularData={tabularData}
-              />
+            )}
+            {tabularData.length !== 0 && (
+              <LessonTable tabularData={tabularData} />
             )}
           </div>
         </div>

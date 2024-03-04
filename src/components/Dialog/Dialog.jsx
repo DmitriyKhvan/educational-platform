@@ -7,7 +7,7 @@ import './Dialog.css';
 Modal.setAppElement('#root');
 
 export const MyDialog = forwardRef(function MyDialog(
-  { open, setOpen, button, children },
+  { open, setOpen, button, paddingContent = '40px 32px', children },
   ref,
 ) {
   const customStyles = {
@@ -32,7 +32,7 @@ export const MyDialog = forwardRef(function MyDialog(
       border: '0.5px solid #b2b2b2',
       boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.01)',
       borderRadius: '10px',
-      padding: '40px 32px',
+      padding: paddingContent,
       minWidth: '360px',
       maxHeight: 'calc(100vh - 100px)',
       background: '#fff',

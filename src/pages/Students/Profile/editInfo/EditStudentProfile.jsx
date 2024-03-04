@@ -115,12 +115,10 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
         <div className="flex items-center justify-center">
           <div className="relative w-[150px] h-[150px] rounded-full">
             {!file && (
-              <div className="w-full h-full rounded-full overflow-hidden">
-                <Avatar
-                  className="rounded-full"
-                  avatarUrl={user?.avatar?.url}
-                />
-              </div>
+              <Avatar
+                className="rounded-full w-full h-full"
+                avatarUrl={user?.avatar?.url}
+              />
             )}
 
             {file ? (

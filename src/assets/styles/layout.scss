@@ -443,6 +443,9 @@
     position: sticky;
     top: 0;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
+    .main-title {
+      padding-left: 10px;
+    }
 
     &.mobile-version {
       background: white;

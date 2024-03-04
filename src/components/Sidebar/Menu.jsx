@@ -104,29 +104,20 @@ export const Menu = () => {
 
           {item.external ? (
             <a
-              className="flex items-center gap-4 p-[15px] rounded-[15px] cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple"
+              className="nav-item"
               href="#"
               onClick={(e) => {
                 e.preventDefault();
                 window.open(item.link);
               }}
             >
-              <item.icon className="w-5 h-5 text-color-purple transition ease-in-out delay-150 group-hover:text-white group-[.active]:text-white" />
-              <span className="text-color-dark-purple font-medium transition ease-in-out delay-150 group-hover:text-white group-[.active]:text-white">
-                {t(item.label, { ns: 'sidebar' })}
-              </span>
+              <item.icon />
+              <span>{t(item.label, { ns: 'sidebar' })}</span>
             </a>
           ) : (
-            <NavLink
-              to={item.link}
-              activeClassName="bg-color-purple active"
-              className="flex items-center gap-4 p-[15px] rounded-[15px] cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple"
-            >
-              <item.icon className="w-5 h-5 text-color-purple transition ease-in-out delay-150 group-hover:text-white group-[.active]:text-white" />
-
-              <span className="text-color-dark-purple font-medium transition ease-in-out delay-150 group-hover:text-white group-[.active]:text-white">
-                {t(item.label, { ns: 'sidebar' })}
-              </span>
+            <NavLink to={item.link} className="nav-item ">
+              <item.icon />
+              <span>{t(item.label, { ns: 'sidebar' })}</span>
             </NavLink>
           )}
         </li>
