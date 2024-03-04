@@ -17,9 +17,6 @@ export const MarketingChannelForm = () => {
 
   const { user, currentStudent } = useAuth();
 
-  console.log(currentStudent, 'current');
-  console.log(user, 'user');
-
   const [updateUser, { loading }] = useMutation(MUTATION_UPDATE_USER);
 
   const marketingChannelList = useMemo(() => {
