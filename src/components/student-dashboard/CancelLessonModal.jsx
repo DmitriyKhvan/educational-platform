@@ -117,6 +117,7 @@ const CancelLessonModal = ({
               checked={
                 t(reason, { ns: 'lessons' }) === cancel.value ? true : false
               }
+              dot
             />
           </label>
         ))}
