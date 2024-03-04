@@ -440,7 +440,7 @@ const Calendar = () => {
             !isCalendar &&
             (displayTableData?.length ? (
               <>
-                <div className="hidden sm:block">
+                <div className="hidden xl:block">
                   <LessonTable
                     displayTableData={displayTableData}
                     userTimezone={userTimezone}
@@ -449,7 +449,7 @@ const Calendar = () => {
                   />
                 </div>
 
-                <div className="sm:hidden">
+                <div className="xl:hidden">
                   <LessonTableMobile
                     displayTableData={displayTableData}
                     getAppointments={getAppointments}
