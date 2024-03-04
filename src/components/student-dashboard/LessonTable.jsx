@@ -44,7 +44,7 @@ export const LessonTable = ({
           <tr className="">
             {tableHead.map((x, ind) => (
               <th
-                className="border-b text-gray-300 font-normal p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle text-sm lg:text-[15px] whitespace-nowrap"
+                className="first:pl-5 last:pr-5 border-b text-gray-300 font-normal p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle text-sm lg:text-[15px] whitespace-nowrap"
                 scope="col"
                 key={`row-${ind}`}
               >
@@ -70,7 +70,7 @@ export const LessonTable = ({
 
             return (
               <tr className="group" key={event.resource.id}>
-                <td className="p-1 border-b group-last:border-none lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
+                <td className="p-1 pl-5 border-b group-last:border-none align-middle">
                   <StatusIndicator status={event.resource.status} />
                 </td>
                 <td className="border-b group-last:border-none font-medium text-color-dark-purple p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
@@ -146,7 +146,7 @@ export const LessonTable = ({
                       {` ${event.nextTopic}`}
                     </p>
                   </td> */}
-                <td className="border-b group-last:border-none align-middle">
+                <td className="pr-5 border-b group-last:border-none align-middle">
                   <LessonControls
                     date={date}
                     data={data}
