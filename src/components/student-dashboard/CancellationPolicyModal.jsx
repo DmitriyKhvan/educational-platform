@@ -24,14 +24,6 @@ const CancellationPolicyModal = ({ setTabIndex }) => {
       <div className="font-normal text-sm mb-4">
         {t('cancellation_policy_4')}
       </div>
-      {/* <div>
-        <button
-          className="enter-btn grey-border ms-0"
-          onClick={() => setTabIndex(0)}
-        >
-          {t('back')}
-        </button>
-      </div> */}
     </div>
   );
 };

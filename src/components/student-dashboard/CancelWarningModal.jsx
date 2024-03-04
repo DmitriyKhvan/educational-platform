@@ -21,7 +21,6 @@ const CancelWarningModal = ({
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  // const [isChecked, setIsChecked] = useState(false);
   const [cancellationDots, setCancellationDots] = useState([]);
   const [cancellationCount, setCancellationCount] = useState(3);
 
@@ -57,10 +56,6 @@ const CancelWarningModal = ({
       setCancellationDots(cancellationDots);
     }
   }, [modifyCredits]);
-
-  // const checkboxEvent = () => {
-  //   setIsChecked(!isChecked);
-  // };
 
   const onClick = () => {
     if (type === 'reschedule') {

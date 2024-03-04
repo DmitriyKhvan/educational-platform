@@ -56,7 +56,6 @@ const MyLessons = ({
               duration={x.duration}
               lesson={x?.packageSubscription?.package?.course?.title}
               mentor={x.mentor}
-              zoom={x?.zoom}
               date={date}
               data={x}
               index={i}

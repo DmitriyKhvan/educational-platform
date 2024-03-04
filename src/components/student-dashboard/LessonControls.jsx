@@ -6,19 +6,13 @@ import { LessonsStatusType, ModalType, Roles } from 'src/constants/global';
 import { isBetween } from 'src/utils/isBetween';
 import { useAuth } from 'src/modules/auth';
 import { useTranslation } from 'react-i18next';
-import { ZoomRecordingModal } from '../ZoomRecordingModal';
 import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
 import LessonInfoModal from './LessonInfoModal';
-// import { addMinutes, format } from 'date-fns';
-// import { utcToZonedTime } from 'date-fns-tz';
-// import { ko as kr } from 'date-fns/locale';
-// import StatusIndicator from './StatusIndicator';
 
 const LessonControls = ({
   date,
   data,
-  zoom,
   refetch,
   duration,
   setCanceledLessons,
@@ -33,10 +27,6 @@ const LessonControls = ({
   const [modalType, setModalType] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
-
-  // const currentLanguage = i18n.language;
-
-  // const locale = currentLanguage === 'kr' ? kr : null;
 
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -62,7 +52,7 @@ const LessonControls = ({
     //Time period when you can go to the lesson
     if (isBetween(dateLesson, data.duration, userTimezone)) {
       window.open(
-        user.role === Roles.MENTOR ? zoom.startUrl : zoom.joinUrl,
+        user.role === Roles.MENTOR ? data?.zoom?.startUrl : data?.zoom?.joinUrl,
         '_blank',
       );
     } else {
@@ -92,7 +82,7 @@ const LessonControls = ({
             button={
               <Button
                 // TODO: implement onClick
-                disabled={!zoom.recordingUrl}
+                disabled={!data?.zoom?.recordingUrl}
                 className={`grow gap-1 sm:gap-2 col-span-2`}
               >
                 <FaPlay />
@@ -101,12 +91,13 @@ const LessonControls = ({
               </Button>
             }
           >
-            <ZoomRecordingModal
-              urlRecording={zoom.recordingUrl}
-              width="sm:70vw"
+            <LessonInfoModal
               date={date}
               data={data}
+              zoom={data?.zoom}
+              refetch={refetch}
               duration={duration}
+              setCanceledLessons={setCanceledLessons}
               userTimezone={userTimezone}
             />
           </AdaptiveDialog>
@@ -116,8 +107,6 @@ const LessonControls = ({
           <AdaptiveDialog
             button={
               <Button
-                // TODO: implement onClick
-                // disabled
                 className={`grow gap-1 sm:gap-2 col-span-1`}
                 theme="dark_purple"
               >
@@ -128,28 +117,12 @@ const LessonControls = ({
             <LessonInfoModal
               date={date}
               data={data}
-              zoom={zoom}
               refetch={refetch}
               duration={duration}
               setCanceledLessons={setCanceledLessons}
               userTimezone={userTimezone}
             />
-            {/* <ZoomRecordingModal
-              urlRecording={zoom.recordingUrl}
-              width="sm:70vw"
-              date={date}
-              data={data}
-              duration={duration}
-              userTimezone={userTimezone}
-            /> */}
           </AdaptiveDialog>
-          // <Button
-          //   // TODO: implement onClick
-          //   disabled
-          //   theme="dark_purple"
-          // >
-          //   Info
-          // </Button>
         )}
 
         {pattern !== 'table' &&

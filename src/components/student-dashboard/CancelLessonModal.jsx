@@ -87,7 +87,6 @@ const CancelLessonModal = ({
 
       <div className="max-w-[400px] w-full px-4 flex items-center justify-between mb-2 mt-[15px]">
         <div className="w-full text-lg font-semibold">
-          {/* <h2>Cancelling Lesson</h2> */}
           <h2 className="text-[22px] font-bold justify-center relative flex items-center">
             <button
               className="absolute left-0 ms-0"
@@ -123,14 +122,6 @@ const CancelLessonModal = ({
         ))}
       </div>
       <div className="flex px-4 gap-x-8 pt-4 mb-[15px]">
-        {/* <Button
-          disabled={isLoading}
-          theme="outline"
-          className="h-[38px] px-[10px]"
-          onClick={() => setTabIndex(0)}
-        >
-          {t('back')}
-        </Button> */}
         <Button
           className="h-[56px] w-full"
           theme="destructive"

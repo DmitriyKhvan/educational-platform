@@ -4,6 +4,7 @@ import { addMinutes, format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import StatusIndicator from './StatusIndicator';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
+import { ZoomRecordingModal } from '../ZoomRecordingModal';
 
 const LessonInfoModal = ({
   date,
@@ -44,15 +45,18 @@ const LessonInfoModal = ({
         <StatusIndicator status={data.status} />
       </header>
 
-      <LessonControls
-        date={date}
-        data={data}
-        zoom={zoom}
-        refetch={refetch}
-        duration={duration}
-        setCanceledLessons={setCanceledLessons}
-        pattern="info"
-      />
+      {zoom ? (
+        <ZoomRecordingModal urlRecording={zoom?.recordingUrl} />
+      ) : (
+        <LessonControls
+          date={date}
+          data={data}
+          refetch={refetch}
+          duration={duration}
+          setCanceledLessons={setCanceledLessons}
+          pattern="info"
+        />
+      )}
 
       <div className="grid grid-cols-2 gap-3 mt-6 pt-6 border-t">
         <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">

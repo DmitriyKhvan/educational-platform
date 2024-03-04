@@ -4,10 +4,6 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 import { ko as kr } from 'date-fns/locale';
 import { addMinutes } from 'date-fns';
 
-// import { BsPlayCircle } from 'react-icons/bs';
-// import { ZoomRecordingModal } from '../ZoomRecordingModal';
-// import { LessonsStatusType } from 'src/constants/global';
-// import { MyDialog } from '../Dialog';
 import StatusIndicator from './StatusIndicator';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import LessonControls from './LessonControls';
@@ -16,7 +12,6 @@ export const LessonTable = ({
   displayTableData,
   userTimezone,
   handleOpenFeedbackModal,
-  // handleFeedback,
 }) => {
   const { t, i18n } = useTranslation(['lessons', 'common']);
 
@@ -157,32 +152,6 @@ export const LessonTable = ({
                     pattern="table"
                   />
                 </td>
-                {/* <td className=" p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
-                  {event.resource?.zoom?.recordingUrl && (
-                    <MyDialog
-                      button={
-                        <BsPlayCircle className="text-2xl text-color-purple cursor-pointer text-center" />
-                      }
-                    >
-                      <ZoomRecordingModal
-                        urlRecording={event.resource?.zoom?.recordingUrl}
-                        width="70vw"
-                      />
-                    </MyDialog>
-                  )}
-                </td> */}
-                {/* <td className="td-item">
-                    <button
-                      className={`btn ${
-                        event.tutorFeedback?.length
-                          ? 'btn-primary'
-                          : 'btn-tutor-feedback-disabled'
-                      }`}
-                      onClick={handleFeedback}
-                    >
-                      Feedback
-                    </button>
-                  </td> */}
               </tr>
             );
           })}
