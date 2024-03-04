@@ -15,7 +15,10 @@ export const MarketingChannelForm = () => {
   const [t] = useTranslation('onboarding');
   const history = useHistory();
 
-  const { user } = useAuth();
+  const { user, currentStudent } = useAuth();
+
+  console.log(currentStudent, 'current');
+  console.log(user, 'user');
 
   const [updateUser, { loading }] = useMutation(MUTATION_UPDATE_USER);
 
@@ -48,7 +51,10 @@ export const MarketingChannelForm = () => {
         },
       },
       onCompleted: () => {
-        setItemToLocalStorage('studentId', user.students[0].id);
+        setItemToLocalStorage(
+          'studentId',
+          currentStudent?.id ?? user.students[0].id,
+        );
         history.push('/student/manage-lessons');
       },
       onError: (error) => {
