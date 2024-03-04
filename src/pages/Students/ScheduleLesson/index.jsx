@@ -11,6 +11,7 @@ import '../../../assets/styles/tutor.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { ScheduleProvider } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/ScheduleProvider';
 import { AvailableTimes } from './ScheduleSelector/AvailableTimes';
+import Layout from 'src/components/Layout';
 
 const ScheduleLesson = () => {
   const { id = null } = useParams();
@@ -56,9 +57,17 @@ const ScheduleLesson = () => {
         selectedMentor={location?.state?.tutor}
         duration={selectedPlan?.package?.sessionTime}
       >
-        {tabIndex === 1 && <ScheduleSelector lesson={scheduledLesson} />}
+        {tabIndex === 1 && (
+          <Layout>
+            <ScheduleSelector lesson={scheduledLesson} />
+          </Layout>
+        )}
 
-        {tabIndex === 2 && <AvailableTimes />}
+        {tabIndex === 2 && (
+          <Layout>
+            <AvailableTimes />
+          </Layout>
+        )}
       </ScheduleProvider>
 
       {tabIndex === 3 && !location?.state?.tutor && (

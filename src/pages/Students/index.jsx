@@ -1,5 +1,4 @@
 import { Switch, useRouteMatch, Route } from 'react-router-dom';
-import BookTrialLesson from './BookTrialLesson';
 // Student Path
 import StudentCalendar from './Calendar';
 import ClassMaterials from './ClassMaterials';
@@ -47,10 +46,6 @@ export default function StudentRoutes() {
 
       <Route path={`${path}/class-materials`}>
         <ClassMaterials />
-      </Route>
-
-      <Route path={`${path}/book-trial-lesson`}>
-        <BookTrialLesson />
       </Route>
 
       <Route path={`${path}/profile`}>

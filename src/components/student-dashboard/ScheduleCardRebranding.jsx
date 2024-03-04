@@ -10,8 +10,8 @@ import { isBetween } from '../../utils/isBetween';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { FaCheck, FaPlay } from 'react-icons/fa6';
 import Button from '../Form/Button';
-import { MyDialog } from '../Dialog';
 import { ZoomRecordingModal } from '../ZoomRecordingModal';
+import { AdaptiveDialog } from '../AdaptiveDialog';
 
 const ScheduleCard = ({
   // index,
@@ -27,7 +27,6 @@ const ScheduleCard = ({
   duration,
   subscription,
 }) => {
-  console.log('zoom', zoom);
   const [isOpen, setIsOpen] = useState(false);
   const [t] = useTranslation(['modals', 'common']);
   const [isWarningOpen, setIsWarningOpen] = useState(false);
@@ -185,44 +184,48 @@ const ScheduleCard = ({
 
       <div
         className={`grid gap-2 xl:gap-3 h-[52px] ${
-          data.status === LessonsStatusType.SCHEDULED
+          data.status === LessonsStatusType.SCHEDULED ||
+          data.status === LessonsStatusType.APPROVED
             ? 'grid-cols-3'
-            : data.status === LessonsStatusType.APPROVED
-            ? 'grid-cols-4'
-            : 'grid-cols-2'
+            : 'grid-cols-3 sm:grid-cols-2'
         }`}
       >
         {data.status === LessonsStatusType.APPROVED && (
-          <Button onClick={joinLesson} className="col-span-2">
-            {t('join_lesson')}
-          </Button>
+          <Button onClick={joinLesson}>{t('join_lesson')}</Button>
         )}
 
         {data.status === LessonsStatusType.COMPLETED && (
-          <MyDialog
+          <AdaptiveDialog
             button={
               <Button
                 // TODO: implement onClick
                 disabled={!zoom.recordingUrl}
-                className={`grow gap-1 sm:gap-2`}
+                className={`grow gap-1 sm:gap-2 col-span-2`}
               >
                 <FaPlay />
                 {t('watch_recording')}
               </Button>
             }
           >
-            <ZoomRecordingModal urlRecording={zoom.recordingUrl} width="70vw" />
-          </MyDialog>
+            <ZoomRecordingModal
+              urlRecording={zoom.recordingUrl}
+              width="sm:70vw"
+            />
+          </AdaptiveDialog>
         )}
 
-        <Button
-          // TODO: implement onClick
-          theme="dark_purple"
-        >
-          Info
-        </Button>
+        {data.status !== LessonsStatusType.APPROVED && (
+          <Button
+            // TODO: implement onClick
+            disabled
+            theme="dark_purple"
+          >
+            Info
+          </Button>
+        )}
 
-        {data.status === LessonsStatusType.SCHEDULED && (
+        {(data.status === LessonsStatusType.SCHEDULED ||
+          data.status === LessonsStatusType.APPROVED) && (
           <Button theme="dark_purple" onClick={onSelect}>
             {t('reschedule')}
           </Button>

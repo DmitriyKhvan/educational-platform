@@ -16,9 +16,8 @@ import { RiErrorWarningFill } from 'react-icons/ri';
 import { BsPlus } from 'react-icons/bs';
 import notify from 'src/utils/notify';
 import Loader from '../Loader/Loader';
-import { useMediaQuery } from 'react-responsive';
-import { MyDrawer } from 'src/components/Drawer';
-import { MyDialog } from 'src/components/Dialog';
+
+import { AdaptiveDialog } from '../AdaptiveDialog';
 
 const CREATE_PAYMENT_INTENT = gql`
   mutation CreatePaymentIntent($id: Int!) {
@@ -35,7 +34,6 @@ export const OrderSummary = memo(function OrderSummary({
 }) {
   const [open, setOpen] = useState(false);
 
-  const isMobile = useMediaQuery({ maxWidth: 639 });
   const history = useHistory();
   const [parent] = useAutoAnimate();
   const [t] = useTranslation('purchase');
@@ -87,55 +85,29 @@ export const OrderSummary = memo(function OrderSummary({
 
         {selectedPackage && (
           <>
-            {isMobile ? (
-              <MyDrawer
-                open={open}
-                setOpen={setOpen}
-                button={
-                  <button
-                    type="button"
-                    className="flex items-center justify-center gap-2"
-                  >
-                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-color-purple/10">
-                      <BsPlus className="text-color-purple" />
-                    </span>
-                    <span className="text-[13px] font-medium text-color-purple">
-                      {t('add_promo')}
-                    </span>
-                  </button>
-                }
-              >
-                <PromoModal
-                  setIsOpen={setOpen}
-                  selectedPackage={selectedPackage}
-                  setPromoPackage={setPromoPackage}
-                />
-              </MyDrawer>
-            ) : (
-              <MyDialog
-                open={open}
-                setOpen={setOpen}
-                button={
-                  <button
-                    type="button"
-                    className="flex items-center justify-center gap-2"
-                  >
-                    <span className="flex items-center justify-center w-5 h-5 rounded-full bg-color-purple/10">
-                      <BsPlus className="text-color-purple" />
-                    </span>
-                    <span className="text-[13px] font-medium text-color-purple">
-                      {t('add_promo')}
-                    </span>
-                  </button>
-                }
-              >
-                <PromoModal
-                  setIsOpen={setOpen}
-                  selectedPackage={selectedPackage}
-                  setPromoPackage={setPromoPackage}
-                />
-              </MyDialog>
-            )}
+            <AdaptiveDialog
+              open={open}
+              setOpen={setOpen}
+              button={
+                <button
+                  type="button"
+                  className="flex items-center justify-center gap-2"
+                >
+                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-color-purple/10">
+                    <BsPlus className="text-color-purple" />
+                  </span>
+                  <span className="text-[13px] font-medium text-color-purple">
+                    {t('add_promo')}
+                  </span>
+                </button>
+              }
+            >
+              <PromoModal
+                setIsOpen={setOpen}
+                selectedPackage={selectedPackage}
+                setPromoPackage={setPromoPackage}
+              />
+            </AdaptiveDialog>
 
             <div className="space-y-3" ref={parent}>
               <div className="flex items-center justify-between text-sm">
@@ -183,33 +155,18 @@ export const OrderSummary = memo(function OrderSummary({
           </div>
         </div>
 
-        {isMobile ? (
-          <MyDrawer
-            button={
-              <Button
-                disabled={!selectedPackage}
-                className="w-full h-auto py-5 px-10"
-              >
-                {t('proceed_payment')}
-              </Button>
-            }
-          >
-            <TermsConditionsModal submitStripe={submitStripe} />
-          </MyDrawer>
-        ) : (
-          <MyDialog
-            button={
-              <Button
-                disabled={!selectedPackage}
-                className="w-full h-auto py-5 px-10"
-              >
-                {t('proceed_payment')}
-              </Button>
-            }
-          >
-            <TermsConditionsModal submitStripe={submitStripe} />
-          </MyDialog>
-        )}
+        <AdaptiveDialog
+          button={
+            <Button
+              disabled={!selectedPackage}
+              className="w-full h-auto py-5 px-10"
+            >
+              {t('proceed_payment')}
+            </Button>
+          }
+        >
+          <TermsConditionsModal submitStripe={submitStripe} />
+        </AdaptiveDialog>
       </div>
     </>
   );

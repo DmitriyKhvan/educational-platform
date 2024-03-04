@@ -11,7 +11,7 @@ export const TermsConditionsModal = ({
   const [t] = useTranslation(['purchase', 'common']);
 
   return (
-    <div className="w-full max-w-[334px]">
+    <div className="w-full max-w-[334px] m-auto">
       <h3 className="text-[22px] font-bold">
         {t('terms', { ns: 'purchase' })}
       </h3>
