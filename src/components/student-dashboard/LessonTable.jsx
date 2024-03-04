@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { ko as kr } from 'date-fns/locale';
 import { addMinutes } from 'date-fns';
 
 import { BsPlayCircle } from 'react-icons/bs';
+import ModalWrapper from '../ModalWrapper/ModalWrapper';
 import { ZoomRecordingModal } from '../ZoomRecordingModal';
 import { LessonsStatusType } from 'src/constants/global';
-import { MyDialog } from '../Dialog';
 
 export const LessonTable = ({
   displayTableData,
@@ -15,6 +15,9 @@ export const LessonTable = ({
   handleOpenFeedbackModal,
   // handleFeedback,
 }) => {
+  const [showRecording, setShowRecording] = useState(false);
+  const [urlRecording, setUrlRecording] = useState('');
+
   const { t, i18n } = useTranslation(['lessons', 'common']);
 
   const currentLanguage = i18n.language;
@@ -30,6 +33,11 @@ export const LessonTable = ({
     t('recording', { ns: 'lessons' }),
     // t('class_feedback', { ns: 'lessons' }),
   ];
+
+  const playRecording = (url) => {
+    setUrlRecording(url);
+    setShowRecording(true);
+  };
 
   return (
     <>
@@ -141,16 +149,12 @@ export const LessonTable = ({
                 </td>
                 <td className="border-b p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
                   {event.resource?.zoom?.recordingUrl && (
-                    <MyDialog
-                      button={
-                        <BsPlayCircle className="text-2xl text-color-purple cursor-pointer text-center" />
+                    <BsPlayCircle
+                      onClick={() =>
+                        playRecording(event.resource?.zoom?.recordingUrl)
                       }
-                    >
-                      <ZoomRecordingModal
-                        urlRecording={event.resource?.zoom?.recordingUrl}
-                        width="70vw"
-                      />
-                    </MyDialog>
+                      className="text-2xl text-color-purple cursor-pointer text-center"
+                    />
                   )}
                 </td>
 
@@ -171,6 +175,16 @@ export const LessonTable = ({
           })}
         </tbody>
       </table>
+
+      <ModalWrapper
+        isOpen={showRecording}
+        closeModal={setShowRecording}
+        widthContent="70%"
+        heightContent="auto"
+        paddingContent="0"
+      >
+        <ZoomRecordingModal urlRecording={urlRecording} />
+      </ModalWrapper>
     </>
   );
 };

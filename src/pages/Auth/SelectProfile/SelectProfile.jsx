@@ -39,9 +39,9 @@ export const SelectProfile = () => {
 
           <div
             onClick={() => (location.href = '/add-student-profile')}
-            className="group flex flex-col items-center gap-y-5"
+            className="flex flex-col items-center gap-y-5"
           >
-            <HiMiniPlusSmall className="text-[150px] text-color-purple rounded-full bg-color-light-purple cursor-pointer group-hover:border-color-purple border-2 group-hover:shadow-[0_0_0_4px_#F0EBF7] transition duration-300 ease-in-out" />
+            <HiMiniPlusSmall className="text-[150px] text-color-purple rounded-full bg-color-light-purple cursor-pointer hover:border-color-purple border-2 hover:shadow-[0_0_0_4px_#F0EBF7] transition duration-300 ease-in-out" />
             <span className="font-semibold text-[20px] text-color-light-grey leading-6 tracking-[-0.2px]">
               {t('add_account')}
             </span>
