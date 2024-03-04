@@ -118,7 +118,7 @@ const LessonControls = ({
               <Button
                 // TODO: implement onClick
                 // disabled
-                className={`grow gap-1 sm:gap-2 col-span-2`}
+                className={`grow gap-1 sm:gap-2 col-span-1`}
                 theme="dark_purple"
               >
                 Info
