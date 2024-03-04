@@ -93,11 +93,13 @@ const MentorsModal = ({ mentor }) => {
             style={{ border: 0 }}
           ></iframe>
         ) : (
-          <Avatar
-            avatarUrl={mentor?.avatar?.url}
-            gender={mentor?.gender}
-            className="w-full sm:w-5/12 lg:w-1/3 h-[185px] sm:h-auto max-h-[220px] rounded-lg"
-          />
+          <div className="w-full sm:w-5/12 lg:w-1/3 h-[185px] sm:h-auto max-h-[220px] rounded-lg overflow-hidden">
+            <Avatar
+              avatarUrl={mentor?.avatar?.url}
+              gender={mentor?.gender}
+              className="object-cover"
+            />
+          </div>
         )}
       </div>
 

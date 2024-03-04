@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactPlayer from 'react-player/file';
 
-export const ZoomRecordingModal = ({ urlRecording, width = '100%' }) => {
+export const ZoomRecordingModal = ({ urlRecording }) => {
   return (
     <div>
       <ReactPlayer
@@ -9,7 +9,7 @@ export const ZoomRecordingModal = ({ urlRecording, width = '100%' }) => {
         playing
         controls
         volume={0.8}
-        width={width}
+        width="100%"
         height="auto"
       />
     </div>

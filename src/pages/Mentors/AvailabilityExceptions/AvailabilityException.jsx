@@ -61,14 +61,14 @@ export const AvailabilityException = ({
 
     availabilityExceptionSlots(newException);
   };
-  
+
   return (
     <>
       <div>
         <div className="flex items-center mb-4">
           <DatePicker
             onValueChange={onChangeDate}
-            value={parse(exception.date, 'yyyy-MM-dd', new Date())}
+            value={new Date(exception.date)}
             disabledDates={disabledDates}
             displayFormat="dd MMM yyyy"
             className="max-w-sm rounded border"
