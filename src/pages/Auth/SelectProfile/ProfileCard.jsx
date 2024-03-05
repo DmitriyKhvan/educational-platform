@@ -20,22 +20,20 @@ export const ProfileCard = ({ student, studentId, selectProfile }) => {
             onClick={() =>
               student.isActive ? selectProfile(student) : undefined
             }
-            className="flex flex-col items-center gap-y-5 cursor-pointer"
+            className="group flex flex-col items-center gap-y-5 cursor-pointer"
           >
-            <div className="flex items-center justify-center w-[158px] h-[158px] overflow-hidden rounded-full">
-              <Avatar
-                avatarUrl={student.avatar?.url}
-                gender={student.gender}
-                className={cn(
-                  'w-[150px] h-[150px] rounded-full  transition duration-300 ease-in-out cursor-pointer',
-                  student.isActive
-                    ? 'hover:border-color-purple border-2 hover:shadow-[0_0_0_4px_#F0EBF7]'
-                    : 'grayscale-[70%] opacity-50',
-                  student.id === studentId &&
-                    'border-color-purple border-2 shadow-[0_0_0_4px_#F0EBF7]',
-                )}
-              />
-            </div>
+            <Avatar
+              avatarUrl={student.avatar?.url}
+              gender={student.gender}
+              className={cn(
+                'w-[150px] h-[150px] rounded-full  transition duration-300 ease-in-out cursor-pointer',
+                student.isActive
+                  ? 'group-hover:border-color-purple border-2 group-hover:shadow-[0_0_0_4px_#F0EBF7]'
+                  : 'grayscale-[70%] opacity-50',
+                student.id === studentId &&
+                  'border-color-purple border-2 shadow-[0_0_0_4px_#F0EBF7]',
+              )}
+            />
             <span className="font-semibold text-[20px] text-color-light-grey leading-6 tracking-[-0.2px]">
               {student.firstName}
             </span>

@@ -88,9 +88,6 @@ body
 .ReactModal__Overlay {
   z-index: 9999;
 }
-.rounded-corners {
-  border-radius: 15px !important;
-}
 
 input,
 button,
@@ -2444,11 +2441,6 @@ textarea.form-control.is-invalid {
 .col-6 {
   flex: 0 0 auto;
   width: 50%;
-}
-
-.col-7 {
-  flex: 0 0 auto;
-  width: 58.33333333%;
 }
 
 .col-8 {

@@ -7,10 +7,8 @@ import { ko as kr } from 'date-fns/locale';
 import { useAuth } from '../../../../modules/auth';
 import { useSchedule } from './ScheduleProvider';
 
-import { AvailableTimes } from './AvailableTimes';
 import { Days } from './Days';
 import { TimesOfDay } from './TimesOfDay';
-import Layout from '../../../../components/Layout';
 
 import { IoArrowBack } from 'react-icons/io5';
 
@@ -51,87 +49,85 @@ export const ScheduleSelector = ({ lesson }) => {
   });
 
   return (
-    <Layout>
-      <div className="overflow-auto h-[calc(100vh-80px)]">
-        <div className="flex-container">
-          <div className="lesson-wrapper flex-lefts student-dashboard">
-            <div>
-              <div className="container title-container px-4">
-                <div className="flex items-center gap-3">
-                  <button onClick={() => setTabIndex(0)}>
-                    <IoArrowBack className="text-2xl" />
-                  </button>
+    <div className="overflow-auto h-[calc(100vh-80px)]">
+      <div className="max-w-[488px] w-full m-auto py-5 px-6 sm:py-10">
+        <div className="space-y-10">
+          <div>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => {
+                  setTabIndex(0);
+                  resetAll();
+                }}
+              >
+                <IoArrowBack className="text-2xl" />
+              </button>
 
-                  <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold">
-                    {lesson
-                      ? t('reschedule_lesson', { ns: 'modals' })
-                      : t('schedule_lesson')}
-                  </h1>
-                </div>
+              <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold">
+                {lesson
+                  ? t('reschedule_lesson', { ns: 'modals' })
+                  : t('schedule_lesson')}
+              </h1>
+            </div>
 
-                <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px] left-subtitle">
-                  {lesson ? (
-                    <>
-                      {t('currently_scheduled', { ns: 'modals' })}{' '}
-                      {format(
-                        utcToZonedTime(new Date(lesson.startAt), userTimezone),
-                        'eeee, MMM dd hh:mm a',
-                        {
-                          timeZone: userTimezone,
-                        },
-                      )}
-                    </>
-                  ) : (
-                    t('schedule_lesson_subtitle')
+            <p className="text-sm text-color-light-grey mt-[15px]">
+              {lesson ? (
+                <>
+                  {t('currently_scheduled', { ns: 'modals' })}{' '}
+                  {format(
+                    utcToZonedTime(new Date(lesson.startAt), userTimezone),
+                    'eeee, MMM dd hh:mm a',
+                    {
+                      timeZone: userTimezone,
+                    },
                   )}
-                </p>
-              </div>
-              <div className="flex gap-3 w-full items-center justify-between px-4 mb-4">
-                <Button
-                  theme="outline"
-                  className="h-[50px] px-[17px] "
-                  disabled={counter === 0}
-                  onClick={() => {
-                    resetAll();
-                    setCounter(counter - 1);
-                  }}
-                >
-                  <IoIosArrowBack />
-                </Button>
+                </>
+              ) : (
+                t('schedule_lesson_subtitle')
+              )}
+            </p>
+          </div>
 
-                <h1 className="flex grow items-center justify-center h-[50px] px-4 rounded-lg bg-color-light-grey2 text-sm font-medium">
-                  {startOfWeekFormatted} - {endOfWeekFormatted}
-                </h1>
+          <div>
+            <h4 className="font-semibold text-[15px] text-color-dark-purple mb-4">
+              1. Choose a week
+            </h4>
+            <div className="flex gap-3 w-full items-center justify-between mb-4">
+              <Button
+                theme="outline"
+                className="h-[50px] px-[17px] "
+                disabled={counter === 0}
+                onClick={() => {
+                  resetAll();
+                  setCounter(counter - 1);
+                }}
+              >
+                <IoIosArrowBack />
+              </Button>
 
-                <Button
-                  theme="outline"
-                  className="h-[50px] px-[17px] "
-                  onClick={() => {
-                    resetAll();
-                    setCounter(counter + 1);
-                  }}
-                  disabled={counter === 4}
-                >
-                  <IoIosArrowForward />
-                </Button>
-              </div>
+              <h1 className="flex grow items-center justify-center h-[50px] px-4 rounded-lg bg-color-light-grey2 text-sm font-medium">
+                {startOfWeekFormatted} - {endOfWeekFormatted}
+              </h1>
 
-              <div className="row customDay-select m-0">
-                <div className="col-6 px-4">
-                  <Days startOfWeek={startOfWeek} counter={counter} />
-                </div>
-
-                <div className="col-6 px-4">
-                  <TimesOfDay />
-                </div>
-              </div>
+              <Button
+                theme="outline"
+                className="h-[50px] px-[17px] "
+                onClick={() => {
+                  resetAll();
+                  setCounter(counter + 1);
+                }}
+                disabled={counter === 4}
+              >
+                <IoIosArrowForward />
+              </Button>
             </div>
           </div>
-          <div className="availability-wrapper flex-rights student-list-appointments-wrapper changes-container schedule_height">
-            <AvailableTimes />
-          </div>
+
+          <Days startOfWeek={startOfWeek} counter={counter} />
+
+          <TimesOfDay />
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };

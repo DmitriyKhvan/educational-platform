@@ -106,7 +106,7 @@ const TutorDashboard = () => {
                       </p>
                     </div>
                     <div className="row mobile-view-buttons mt-4">
-                      <div className="col-6 desktop schedule-dashboard-button">
+                      <div className="col-6 desktop w-full">
                         <Link
                           to="/mentor/lesson-calendar"
                           className="enter-btn dashboard_cal-scl_button"
@@ -114,7 +114,7 @@ const TutorDashboard = () => {
                           {t('calendar')}
                         </Link>
                       </div>
-                      <div className="col-6 schedule-dashboard-button">
+                      <div className="col-6 w-full">
                         <Link
                           to="/mentor/availability"
                           className="enter-btn dashboard_cal-scl_button"
@@ -129,7 +129,7 @@ const TutorDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="student-list-appointments-wrapper flex-right  changes-container">
+        <div className="student-list-appointments-wrapper flex-right pt-5">
           <div className="child-set_container">
             {/* {displayBookingRequest(hasLessonApprovals)} */}
             <h4 className="weekly-schedule mt-4">{t('daily_schedule')}</h4>
@@ -140,15 +140,12 @@ const TutorDashboard = () => {
               total_lessons: upcomingLessons.length,
               t: upcomingLessons.length > 1 ? 's' : '',
             })}
-            <Link
-              to="/mentor/lesson-calendar"
-              className="enter-btn ms-0 tutor_cal_appoint"
-            >
+            <Link to="/mentor/lesson-calendar" className="enter-btn ms-0 p-3">
               {t('student_dashboard_view_all_lessons')}
             </Link>
             <div className="weekly-schedule-scroll">
               {/* {displayDailySchedule(upcomingLessons)} */}
-              {upcomingLessons?.map((event, i) =>
+              {upcomingLessons?.map((event, i) => (
                 <ScheduleCard
                   lesson={event?.packageSubscription?.package?.course?.title}
                   duration={event?.duration}
@@ -159,8 +156,8 @@ const TutorDashboard = () => {
                   index={i}
                   key={i}
                   fetchAppointments={fetchAppointments}
-                />)
-              }
+                />
+              ))}
             </div>
           </div>
         </div>

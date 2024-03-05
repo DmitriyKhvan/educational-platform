@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import CancellationPolicyModal from './CancellationPolicyModal';
 import CancelLessonModal from './CancelLessonModal';
 import CancelWarningModal from './CancelWarningModal';
-import ReschedulingTimeModal from './ReschedulingTimeModal';
-import RescheduleConfirmationModal from './RescheduleConfirmationModal';
+
 import ModalWrapper from '../ModalWrapper/ModalWrapper';
 
 const RescheduleAndCancelModal = ({
@@ -19,8 +18,6 @@ const RescheduleAndCancelModal = ({
   setCanceledLessons,
   duration,
 }) => {
-  const [schedule, setSchedule] = useState();
-  const [selectTutor] = useState();
   const [repeatLessons, setRepeatLessons] = useState(false);
 
   return (
@@ -45,21 +42,6 @@ const RescheduleAndCancelModal = ({
           // cancelled={cancelled}
           setCanceledLessons={setCanceledLessons}
           repeatLessons={repeatLessons}
-        />
-      ) : tabIndex === 2 ? (
-        <ReschedulingTimeModal
-          setSchedule={setSchedule}
-          setTabIndex={setTabIndex}
-          type={type}
-          duration={duration}
-        />
-      ) : tabIndex === 4 ? (
-        <RescheduleConfirmationModal
-          setTabIndex={setTabIndex}
-          data={data}
-          schedule={schedule}
-          tutor={selectTutor}
-          closeModal={closeModal}
         />
       ) : (
         tabIndex === 10 && (

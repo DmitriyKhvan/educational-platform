@@ -15,7 +15,6 @@ import {
 
 import { useAuth } from './modules/auth';
 
-import EmailVerifyText from './pages/Auth/EmailVerifyText';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 import ForgotPasswordText from './pages/Auth/ForgotPasswordText';
 // Authentication Path
@@ -120,10 +119,7 @@ function App() {
               path="/welcome-set-password"
               component={ResetPassword}
             />
-            <PublicRoute
-              path="/email-verify-guide"
-              component={EmailVerifyText}
-            />
+
             <PublicRoute path="/onboarding" component={Onboarding} />
 
             <PublicRoute path="/referral/:referalcode" component={IsReferal} />

@@ -14,13 +14,12 @@ import {
 } from 'src/components/Tooltip';
 
 import { HiMiniChevronRight } from 'react-icons/hi2';
-import { useMediaQuery } from 'react-responsive';
-import { MyDrawer } from 'src/components/Drawer';
+
 import MentorsModal from './MentorsModal';
-import { MyDialog } from 'src/components/Dialog';
+
+import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 
 export const MentorCard = ({ mentor, handleSelectMentor }) => {
-  const isMobile = useMediaQuery({ maxWidth: 639 });
   const [t] = useTranslation(['studentMentor', 'common', 'lessons']);
 
   // const resizerUsername = (name) => {
@@ -125,34 +124,19 @@ export const MentorCard = ({ mentor, handleSelectMentor }) => {
             </Button>
           )}
 
-          {isMobile ? (
-            <MyDrawer
-              button={
-                <Button theme="gray" className="m-1 grow h-[57px]">
-                  <span className="whitespace-nowrap">
-                    {t('learn_more', { ns: 'common' })}
-                  </span>
-                  <HiMiniChevronRight className="text-sm" />
-                </Button>
-              }
-              className="h-[80%]"
-            >
-              <MentorsModal mentor={mentor} />
-            </MyDrawer>
-          ) : (
-            <MyDialog
-              button={
-                <Button theme="gray" className="m-1 grow h-[57px]">
-                  <span className="whitespace-nowrap">
-                    {t('learn_more', { ns: 'common' })}
-                  </span>
-                  <HiMiniChevronRight className="text-sm" />
-                </Button>
-              }
-            >
-              <MentorsModal mentor={mentor} />
-            </MyDialog>
-          )}
+          <AdaptiveDialog
+            button={
+              <Button theme="gray" className="m-1 grow h-[57px]">
+                <span className="whitespace-nowrap">
+                  {t('learn_more', { ns: 'common' })}
+                </span>
+                <HiMiniChevronRight className="text-sm" />
+              </Button>
+            }
+            classNameDrawer="h-[80%]"
+          >
+            <MentorsModal mentor={mentor} />
+          </AdaptiveDialog>
         </div>
       </div>
     </div>

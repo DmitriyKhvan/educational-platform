@@ -1,35 +1,15 @@
 import { useState, useEffect } from 'react';
+
+import { format, utcToZonedTime } from 'date-fns-tz';
+import { addMonths, isSameDay, isWithinInterval, parse } from 'date-fns';
+import { useLazyQuery } from '@apollo/client';
+
+import { COMBINED_TIMESHEETS } from 'src/modules/graphql/queries/combinedTimesheets';
 import { ScheduleContext } from '../lib/ScheduleContext';
 import { useAuth } from 'src/modules/auth';
-import { format, utcToZonedTime } from 'date-fns-tz';
-import { gql, useLazyQuery } from '@apollo/client';
 import { useDebounce } from 'src/utils/useDebounce';
 import { getItemToLocalStorage } from 'src/constants/global';
-import { addMonths, isSameDay, isWithinInterval, parse } from 'date-fns';
-
-const GET_TIMESHEETS = gql`
-  query combinedTimesheets(
-    $tz: String!
-    $date: String!
-    $duration: String!
-    $studentId: ID!
-    $mentorId: ID
-  ) {
-    combinedTimesheets(
-      tz: $tz
-      date: $date
-      duration: $duration
-      mentorId: $mentorId
-      studentId: $studentId
-    ) {
-      id
-      day
-      from
-      to
-      reserved
-    }
-  }
-`;
+import { scrollToElement } from 'src/utils/scrollToElement';
 
 export const ScheduleProvider = ({
   setTabIndex,
@@ -41,7 +21,7 @@ export const ScheduleProvider = ({
   const [
     getTimesheetsData,
     { loading: timesheetsLoading, data: timesheetsData },
-  ] = useLazyQuery(GET_TIMESHEETS, {
+  ] = useLazyQuery(COMBINED_TIMESHEETS, {
     fetchPolicy: 'network-only',
   });
 
@@ -82,8 +62,9 @@ export const ScheduleProvider = ({
   };
 
   const resetAll = () => {
+    setDay(todayUserTimezone);
     setTimesOfDay([]);
-    setAvailableTimes([]);
+    // setAvailableTimes([]);
     setDayClicked(null);
     setTimeClicked(null);
   };
@@ -93,7 +74,7 @@ export const ScheduleProvider = ({
   useEffect(() => {
     if (debouncedTimesheetsData && dayClicked !== null) {
       setTimeClicked(null);
-      setAvailableTimes([]);
+      // setAvailableTimes([]);
       getTimesheetsData({
         variables: {
           tz: userTimezone,
@@ -174,7 +155,7 @@ export const ScheduleProvider = ({
       }
     }
 
-    timesheetsData?.combinedTimesheets
+    structuredClone(timesheetsData?.combinedTimesheets)
       .sort(
         (a, b) =>
           parse(a.from, 'HH:mm', new Date(day)) -
@@ -219,6 +200,7 @@ export const ScheduleProvider = ({
       } else {
         setDayInterval();
       }
+      setTimeout(() => scrollToElement('timeOfDay'), 100);
     }
   }, [timesheetsData]);
 
@@ -239,7 +221,7 @@ export const ScheduleProvider = ({
 
       setAvailableTimes(availableSlots);
     }
-  }, [timeOfDayInterval]);
+  }, [timeOfDayInterval.start.toString()]);
 
   return (
     <ScheduleContext.Provider
