@@ -628,9 +628,7 @@ select {
   .availability-wrapper {
     padding: 39.31px 20px 57px 20px;
   }
-  .children-page {
-    width: calc(100% - 300px);
-  }
+
   .titles {
     padding-left: 16px;
   }
@@ -638,10 +636,6 @@ select {
 @media screen and (max-width: 900px) {
   .availability-wrapper {
     padding: 20px;
-    .children-page {
-      width: calc(100% - 300px);
-      padding: 39.31px 39px 57px 43px;
-    }
   }
   .titles_align_desktop {
     padding: 0;
@@ -682,9 +676,7 @@ select {
   .lesson-wrapper {
     padding: 15px 25px 0 25px;
   }
-  .children-page {
-    width: calc(100% - 300px);
-  }
+
   .set-container {
     padding: 20px 50px 57px 50px !important;
   }
@@ -731,9 +723,6 @@ select {
     padding: 15px 25px 0 25px;
   }
 
-  .children-page {
-    width: calc(100% - 300px);
-  }
   .mobile-fade-background {
     display: none;
   }

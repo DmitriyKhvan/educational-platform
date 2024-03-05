@@ -8,20 +8,25 @@ const Layout = ({ children }) => {
 
   return (
     <div className="relative">
-      <div className="content">
+      <div className="content flex flex-col-reverse lg:flex-row">
         {isShowSidebar && (
           <div
             className="mobile-fade-background z-50"
             onClick={() => setShowSidebar(false)}
           />
         )}
-        <Sidebar
-          isShowSidebar={isShowSidebar}
-          setShowSidebar={setShowSidebar}
-        />
-        <div className="children-page">
+        <div>
+          <Sidebar
+            isShowSidebar={isShowSidebar}
+            setShowSidebar={setShowSidebar}
+          />
+        </div>
+
+        <div className="grow">
           <Navbar setShowSidebar={setShowSidebar} />
-          <div className="overflow-auto">{children}</div>
+          <div className="overflow-auto h-[calc(100vh-2*80px)] lg:h-[calc(100vh-80px)]">
+            {children}
+          </div>
         </div>
       </div>
     </div>

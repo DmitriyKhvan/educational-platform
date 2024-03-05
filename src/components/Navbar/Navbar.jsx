@@ -51,7 +51,7 @@ const Navbar = memo(({ setShowSidebar }) => {
   }, [language]);
 
   return (
-    <div className="nav-bar z-40">
+    <div className="nav-bar">
       <div className="desktop-version">
         <div className="left-part"></div>
         <div className="right-part">
