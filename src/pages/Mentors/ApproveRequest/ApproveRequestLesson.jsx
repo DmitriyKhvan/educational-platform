@@ -11,8 +11,6 @@ import { useAuth } from 'src/modules/auth';
 import notify from 'src/utils/notify';
 import RescheduleAndCancelModal from 'src/components/student-dashboard/RescheduleAndCancelModal';
 import { ModalType } from 'src/constants/global';
-// import { differenceInHours } from 'date-fns';
-// import Swal from 'sweetalert2';
 
 export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,8 +25,6 @@ export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const [approveAppointment] = useMutation(APPROVE_APPOINTMENT);
-
-  // const isLate = differenceInHours(new Date(lesson.startAt), new Date()) <= 24;
 
   const closeModal = () => {
     setIsOpen(false);
@@ -49,17 +45,6 @@ export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
   };
 
   const onClickCancel = async () => {
-    // if (isLate) {
-    //   Swal.fire({
-    //     title: t('cannot_cancel'),
-    //     text: t('cancel_error'),
-    //     icon: 'error',
-    //     confirmButtonText: t('ok'),
-    //   });
-    // } else {
-    //   setIsOpen(true);
-    // }
-
     setIsOpen(true);
   };
 

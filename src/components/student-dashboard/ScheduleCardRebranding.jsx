@@ -28,7 +28,7 @@ const ScheduleCard = ({
   subscription,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [t] = useTranslation(['modals', 'common']);
+  const [t] = useTranslation(['modals', 'common', 'lessons']);
   const [isWarningOpen, setIsWarningOpen] = useState(false);
   const [modalType, setModalType] = useState('');
   const [tabIndex, setTabIndex] = useState(0);
@@ -42,25 +42,25 @@ const ScheduleCard = ({
       case LessonsStatusType.SCHEDULED:
         return (
           <span className="bg-gray-300 text-gray-700 bg-opacity-20 block text-sm font-medium px-3 py-2 rounded-2xl">
-            Scheduled
+            {t(LessonsStatusType.SCHEDULED, { ns: 'lessons' })}
           </span>
         );
       case LessonsStatusType.APPROVED:
         return (
           <span className="bg-color-purple text-color-purple bg-opacity-20 block text-sm font-medium px-3 py-2 rounded-2xl">
-            Approved
+            {t(LessonsStatusType.APPROVED, { ns: 'lessons' })}
           </span>
         );
       case LessonsStatusType.COMPLETED:
         return (
           <span className="flex items-center gap-1 bg-green-300 text-green-500 bg-opacity-20 text-sm font-medium px-3 py-2 rounded-2xl">
-            <FaCheck /> Completed
+            <FaCheck /> {t(LessonsStatusType.COMPLETED, { ns: 'lessons' })}
           </span>
         );
       default:
         return <span></span>;
     }
-  }, [data.status]);
+  }, [data.status, t]);
 
   const dateLesson = new Date(date); //current time zone avtomaticaly
 
@@ -83,7 +83,13 @@ const ScheduleCard = ({
 
   const joinLesson = () => {
     //Time period when you can go to the lesson
-    if (isBetween(dateLesson, data.duration, userTimezone)) {
+    if (
+      isBetween({
+        dateStart: dateLesson,
+        duration: data.duration,
+        userTimezone,
+      })
+    ) {
       window.open(
         user.role === Roles.MENTOR ? zoom.startUrl : zoom.joinUrl,
         '_blank',
