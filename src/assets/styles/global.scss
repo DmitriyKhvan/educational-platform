@@ -5,6 +5,10 @@
 @import './variable.scss';
 @import url(https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900);
 
+.intercom-lightweight-app-launcher {
+  bottom: 85px !important;
+}
+
 @layer components {
   .cool-shadow {
     box-shadow: 0 0 0 0.5px rgba(189, 189, 189, 0.24),
@@ -4403,16 +4407,6 @@ a > span {
     line-height: 18px;
     text-align: center;
   }
-}
-
-.mobile-fade-background {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 7;
 }
 
 // Modals Style

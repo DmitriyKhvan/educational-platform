@@ -1,30 +1,18 @@
-import { useState } from 'react';
 import Navbar from './Navbar/Navbar';
-import Sidebar from './Sidebar/Sidebar';
+import { Sidebar } from './Sidebar';
 import '../assets/styles/layout.scss';
 
 const Layout = ({ children }) => {
-  const [isShowSidebar, setShowSidebar] = useState(false);
-
   return (
     <div className="relative">
       <div className="content flex flex-col-reverse lg:flex-row">
-        {isShowSidebar && (
-          <div
-            className="mobile-fade-background z-50"
-            onClick={() => setShowSidebar(false)}
-          />
-        )}
         <div>
-          <Sidebar
-            isShowSidebar={isShowSidebar}
-            setShowSidebar={setShowSidebar}
-          />
+          <Sidebar />
         </div>
 
         <div className="grow">
-          <Navbar setShowSidebar={setShowSidebar} />
-          <div className="overflow-auto h-[calc(100vh-2*80px)] lg:h-[calc(100vh-80px)]">
+          <Navbar />
+          <div className="overflow-auto h-[calc(100vh-80px-64px)] sm:h-[calc(100vh-2*80px)] lg:h-[calc(100vh-80px)]">
             {children}
           </div>
         </div>

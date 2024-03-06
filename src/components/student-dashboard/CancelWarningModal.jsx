@@ -5,8 +5,7 @@ import { MAX_MODIFY_COUNT, Roles } from '../../constants/global';
 import CheckboxField from '../Form/CheckboxField';
 import { FaXmark } from 'react-icons/fa6';
 import Button from '../Form/Button/Button';
-import { differenceInHours } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
+import { isWithinHours } from 'src/utils/isWithinHours';
 
 const CancelWarningModal = ({
   data,
@@ -18,17 +17,19 @@ const CancelWarningModal = ({
 }) => {
   const [t] = useTranslation('modals');
   const { user } = useAuth();
+
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const [isChecked, setIsChecked] = useState(false);
   const [cancellationDots, setCancellationDots] = useState([]);
 
-  const isLate =
-    differenceInHours(
-      utcToZonedTime(new Date(data.startAt), userTimezone),
-      utcToZonedTime(new Date(), userTimezone),
-    ) <= 24;
+  const isLate = isWithinHours({
+    dateEnd: new Date(data.startAt),
+    dateStart: new Date(),
+    hours: 24,
+    userTimezone,
+  });
 
   useEffect(() => {
     if (modifyCredits !== undefined) {
@@ -134,9 +135,6 @@ const CancelWarningModal = ({
       )}
 
       <div className="mt-8">
-        <p className="font-semibold leading-[18px] tracking-[-0.2px] mb-3">
-          Choose Below:
-        </p>
         <div className="flex flex-col gap-y-1">
           <CheckboxField
             label={

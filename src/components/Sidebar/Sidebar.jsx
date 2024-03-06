@@ -1,13 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { Menu } from './Menu';
 import { useMediaQuery } from 'react-responsive';
 import { MobileMenu } from './MobileMenu';
 
-import 'src/assets/styles/referal.scss';
+import { Roles } from 'src/constants/global';
+import Logo from 'src/assets/images/logo_purple.svg';
 
-const Sidebar = ({ isShowSidebar }) => {
-  console.log(isShowSidebar);
+import 'src/assets/styles/referal.scss';
+import { useAuth } from 'src/modules/auth';
+import { LangSwitcher } from './LangSwitcher';
+
+export const Sidebar = () => {
+  const { user } = useAuth();
   const isTablet = useMediaQuery({ maxWidth: 1024 });
 
   // const { user, logout } = useAuth();
@@ -17,7 +23,28 @@ const Sidebar = ({ isShowSidebar }) => {
   //   window.location.reload(true);
   // };
 
-  return <>{isTablet ? <MobileMenu /> : <Menu />}</>;
-};
+  return (
+    <>
+      {isTablet ? (
+        <MobileMenu />
+      ) : (
+        <div className="sticky z-10 top-0 left-0 min-w-[280px] max-w-[280px] h-screen pl-8 pr-16 shadow-[4px_0px_16px_0px_rgba(0,_0,_0,_0.04)]">
+          <Link
+            className="flex items-center h-[79px]"
+            to={
+              user.role === Roles.MENTOR
+                ? '/mentor/manage-appointments'
+                : '/student/manage-lessons'
+            }
+          >
+            <img src={Logo} alt="" />
+          </Link>
 
-export default Sidebar;
+          <Menu />
+
+          <LangSwitcher />
+        </div>
+      )}
+    </>
+  );
+};

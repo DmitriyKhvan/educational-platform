@@ -1,14 +1,9 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-// import Logo from 'src/assets/images/auth-logo.svg';
 import Logo from 'src/assets/images/logo_purple.svg';
-import FlagUsa from 'src/assets/images/flag-usa.svg';
-import FlagKorea from 'src/assets/images/flag-korea.svg';
-import { MdOutlineMenu } from 'react-icons/md';
 import Dropdown from '../Dropdown';
 
-import { Language, Roles, setItemToLocalStorage } from '../../constants/global';
+import { Roles } from '../../constants/global';
 import { useAuth } from '../../modules/auth';
 
 import { HiUserCircle } from 'react-icons/hi2';
@@ -16,21 +11,12 @@ import { FiLogOut } from 'react-icons/fi';
 // import { IoNotifications } from 'react-icons/io5';
 import { useStudentsDropdown } from './useStudentsDropdown';
 import { NotificationDropdownMenu } from './Notification/NotificationDropdownMenu';
+import { useTranslation } from 'react-i18next';
 
 // eslint-disable-next-line react/display-name
-const Navbar = memo(({ setShowSidebar }) => {
+const Navbar = memo(() => {
+  const [t] = useTranslation('common');
   const { user, logout } = useAuth();
-
-  const [language, setLanguage] = useState(
-    localStorage.getItem('language') === Language.EN
-      ? Language.EN
-      : localStorage.getItem('language') === Language.KR
-      ? Language.KR
-      : user.role === Roles.MENTOR
-      ? Language.EN
-      : Language.KR,
-  );
-  const [t, i18n] = useTranslation('common');
 
   const { studentsRender, studentList } = useStudentsDropdown();
 
@@ -39,16 +25,6 @@ const Navbar = memo(({ setShowSidebar }) => {
     window.Intercom('shutdown');
     window.location.reload(true);
   };
-
-  const onChangeLanguage = (lang) => {
-    const currentLang = lang === 1 ? Language.EN : Language.KR;
-    setItemToLocalStorage('language', currentLang);
-    setLanguage(currentLang);
-  };
-
-  useEffect(() => {
-    i18n.changeLanguage(language);
-  }, [language]);
 
   return (
     <div className="nav-bar">
@@ -70,20 +46,6 @@ const Navbar = memo(({ setShowSidebar }) => {
               items={studentList}
             />
           )}
-
-          <Dropdown
-            className="language"
-            icon={language === Language.EN ? FlagUsa : FlagKorea}
-            label={language === Language.EN ? t('english') : t('korean')}
-            items={[
-              {
-                label: t('korean'),
-                icon: FlagKorea,
-                onClick: onChangeLanguage,
-              },
-              { label: t('english'), icon: FlagUsa, onClick: onChangeLanguage },
-            ]}
-          />
 
           <NotificationDropdownMenu />
 
@@ -130,13 +92,6 @@ const Navbar = memo(({ setShowSidebar }) => {
         >
           <img className="w-[208px]" src={Logo} alt="" />
         </Link>
-        {/* ${data?.newMessages?.meta?.dashboard ? 'ws-notification-mobile' : ''} */}
-        <div className={`mobile-menu`}>
-          <MdOutlineMenu
-            className="w-6 h-6 cursor-pointer"
-            onClick={() => setShowSidebar((state) => !state)}
-          />
-        </div>
       </div>
     </div>
   );
