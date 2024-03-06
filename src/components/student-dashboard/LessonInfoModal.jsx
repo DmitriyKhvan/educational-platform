@@ -5,6 +5,7 @@ import { utcToZonedTime } from 'date-fns-tz';
 import StatusIndicator from './StatusIndicator';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { ZoomRecordingModal } from '../ZoomRecordingModal';
+import { useAuth } from 'src/modules/auth';
 
 const LessonInfoModal = ({
   date,
@@ -15,8 +16,10 @@ const LessonInfoModal = ({
   setCanceledLessons,
   userTimezone,
 }) => {
+  const { currentStudent } = useAuth();
+
   return (
-    <div className="max-w-[520px] w-full">
+    <div className="max-w-[520px] w-full bg-white">
       <header className="flex justify-between items-center mb-6">
         <div>
           <h2 className="text-[28px] font-bold text-color-dark-purple">
@@ -84,7 +87,7 @@ const LessonInfoModal = ({
           <label className="text-xs font-medium text-gray-300 block">
             Level
           </label>
-          Level 2
+          {currentStudent.langLevel}
         </div>
 
         <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">

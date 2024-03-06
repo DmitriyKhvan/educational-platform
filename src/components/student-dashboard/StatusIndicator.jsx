@@ -8,7 +8,7 @@ const StatusIndicator = ({ status }) => {
     case LessonsStatusType.SCHEDULED:
       return (
         <span className="bg-gray-300 text-gray-700 bg-opacity-20 inline-block text-sm font-medium px-3 py-2 rounded-2xl">
-          Scheduled
+          Pending
         </span>
       );
     case LessonsStatusType.APPROVED:
@@ -23,6 +23,20 @@ const StatusIndicator = ({ status }) => {
           <div className="flex items-center gap-1">
             <FaCheck /> Completed
           </div>
+        </span>
+      );
+
+    case LessonsStatusType.CANCELED:
+      return (
+        <span className="inline-block bg-color-red text-color-red bg-opacity-10 text-sm font-medium px-3 py-2 rounded-2xl">
+          <div className="flex items-center gap-1">Canceled</div>
+        </span>
+      );
+
+    case LessonsStatusType.RESCHEDULED:
+      return (
+        <span className="inline-block bg-[#FFC7001A] text-[#FFC7001A] bg-opacity-10 text-sm font-medium px-3 py-2 rounded-2xl">
+          <div className="flex items-center gap-1">Rescheduled</div>
         </span>
       );
     default:

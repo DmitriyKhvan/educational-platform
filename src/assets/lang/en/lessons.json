@@ -89,5 +89,6 @@
   "completed": "Completed",
   "approved": "Approved",
   "canceled": "Canceled",
-  "paid": ""
+  "paid": "",
+  "level": "Level"
 }

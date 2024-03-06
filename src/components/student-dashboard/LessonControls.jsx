@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
 import LessonInfoModal from './LessonInfoModal';
+import { addMinutes, isAfter } from 'date-fns';
 
 const LessonControls = ({
   date,
@@ -16,7 +17,7 @@ const LessonControls = ({
   refetch,
   duration,
   setCanceledLessons,
-  pattern = 'card', // card, grid, table, info
+  pattern = 'card', // card, table, info
 }) => {
   const dateLesson = new Date(date);
 
@@ -59,13 +60,16 @@ const LessonControls = ({
       setIsWarningOpen(true);
     }
   };
+
+  const isAfterLesson = isAfter(new Date(), addMinutes(date, data.duration));
+
   return (
     <>
       <div
         className={`grid gap-2 xl:gap-3 h-[52px] ${
-          pattern === 'info'
+          data?.status === LessonsStatusType.COMPLETED || isAfterLesson
             ? 'grid-cols-1'
-            : pattern === 'table'
+            : pattern === 'table' || pattern === 'info'
             ? 'grid-cols-2'
             : data?.status === LessonsStatusType.SCHEDULED ||
               data?.status === LessonsStatusType.APPROVED
@@ -73,11 +77,11 @@ const LessonControls = ({
             : 'grid-cols-3 sm:grid-cols-2'
         }`}
       >
-        {data.status === LessonsStatusType.APPROVED && (
+        {!isAfterLesson && data.status === LessonsStatusType.APPROVED && (
           <Button onClick={joinLesson}>{t('join_lesson')}</Button>
         )}
 
-        {data.status === LessonsStatusType.COMPLETED && (
+        {isAfterLesson && (
           <AdaptiveDialog
             button={
               <Button
@@ -86,8 +90,7 @@ const LessonControls = ({
                 className={`grow gap-1 sm:gap-2 col-span-2`}
               >
                 <FaPlay />
-                Watch
-                {/* {t('watch_recording')} */}
+                {t('watch_recording')}
               </Button>
             }
           >
@@ -103,29 +106,33 @@ const LessonControls = ({
           </AdaptiveDialog>
         )}
 
-        {pattern !== 'info' && data.status !== LessonsStatusType.APPROVED && (
-          <AdaptiveDialog
-            button={
-              <Button
-                className={`grow gap-1 sm:gap-2 col-span-1`}
-                theme="dark_purple"
-              >
-                Info
-              </Button>
-            }
-          >
-            <LessonInfoModal
-              date={date}
-              data={data}
-              refetch={refetch}
-              duration={duration}
-              setCanceledLessons={setCanceledLessons}
-              userTimezone={userTimezone}
-            />
-          </AdaptiveDialog>
-        )}
+        {!isAfterLesson &&
+          pattern !== 'info' &&
+          pattern !== 'table' &&
+          data.status !== LessonsStatusType.COMPLETED &&
+          data.status !== LessonsStatusType.APPROVED && (
+            <AdaptiveDialog
+              button={
+                <Button
+                  className={`grow gap-1 sm:gap-2 col-span-1`}
+                  theme="dark_purple"
+                >
+                  Info
+                </Button>
+              }
+            >
+              <LessonInfoModal
+                date={date}
+                data={data}
+                refetch={refetch}
+                duration={duration}
+                setCanceledLessons={setCanceledLessons}
+                userTimezone={userTimezone}
+              />
+            </AdaptiveDialog>
+          )}
 
-        {pattern !== 'table' &&
+        {!isAfterLesson &&
           (data.status === LessonsStatusType.SCHEDULED ||
             data.status === LessonsStatusType.APPROVED) && (
             <Button theme="dark_purple" onClick={onSelect}>
@@ -133,11 +140,13 @@ const LessonControls = ({
             </Button>
           )}
 
-        {data.status !== LessonsStatusType.COMPLETED && (
-          <Button theme="red" onClick={onCancel}>
-            {t('cancel', { ns: 'common' })}
-          </Button>
-        )}
+        {!isAfterLesson &&
+          data.status !== LessonsStatusType.COMPLETED &&
+          data.status !== LessonsStatusType.CANCELED && (
+            <Button theme="red" onClick={onCancel}>
+              {t('cancel', { ns: 'common' })}
+            </Button>
+          )}
       </div>
 
       <RescheduleAndCancelModal

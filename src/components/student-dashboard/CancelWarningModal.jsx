@@ -22,7 +22,7 @@ const CancelWarningModal = ({
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const [cancellationDots, setCancellationDots] = useState([]);
-  const [cancellationCount, setCancellationCount] = useState(3);
+  const [cancellationCount, setCancellationCount] = useState(MAX_MODIFY_COUNT);
 
   const isLate =
     differenceInHours(
@@ -78,40 +78,40 @@ const CancelWarningModal = ({
     user.role === Roles.MENTOR || modifyCredits !== 0 ? false : true;
   return (
     <div className="max-w-[400px] w-full py-[15px] px-[12px]">
+      <div className="mb-5 text-2xl font-bold text-center">
+        {type === 'cancel' ? t('cancel_lesson') : t('reschedule')}
+      </div>
+      <p className="text-base text-center mb-4">
+        Are you sure want to {type === 'cancel' ? 'cancel' : 'recshedule'}
+        <br />
+        <span className="font-semibold">
+          {format(
+            utcToZonedTime(new Date(data.startAt), userTimezone),
+            'eee, MMM do',
+            { timeZone: userTimezone },
+          )}
+        </span>{' '}
+        lesson?
+      </p>
       {user.role !== Roles.MENTOR && (
         <div className="space-y-3">
-          {type === 'cancel' ? (
-            <>
-              <div className="mb-5 text-2xl font-bold text-center">
-                {t('cancel_lesson')}
-              </div>
-              <p className="text-base text-center mb-4">
-                Are you sure want to cancel
-                <br />
-                <span className="font-semibold">
-                  {format(
-                    utcToZonedTime(new Date(data.startAt), userTimezone),
-                    'eee, MMM do',
-                    { timeZone: userTimezone },
-                  )}
-                </span>{' '}
-                lesson?
-              </p>
-              <div className="w-full bg-color-red bg-opacity-10 flex items-center p-4 rounded-lg">
-                <span className="bg-color-red w-6 h-6 rounded-full text-center text-white mr-4 text-base">
-                  !
-                </span>
-                <p className="font-semibold">
-                  Cancelling within 24 hours forfeits your credit.
-                </p>
-              </div>
-            </>
-          ) : (
-            isLate && (
-              <div className="font-semibold leading-[18px] tracking-[-0.2px]">
-                You cannot reschedule within 24 hours.
-              </div>
-            )
+          {(type === 'cancel' || isLate) && (
+            <div className="w-full bg-color-red bg-opacity-10 flex items-center p-4 rounded-lg">
+              <span className="bg-color-red w-6 h-6 block rounded-full text-center text-white mr-4 text-base">
+                !
+              </span>
+              {type === 'cancel' ? (
+                <div className="max-w-[300px] space-y-3">
+                  <p className="font-semibold">{t('cancel_modal_desc3')}</p>
+
+                  <p className="font-semibold">{t('cancel_modal_desc2')}</p>
+                </div>
+              ) : (
+                <div className="font-semibold leading-[18px] tracking-[-0.2px]">
+                  You cannot reschedule within 24 hours.
+                </div>
+              )}
+            </div>
           )}
 
           <div className="w-full p-4 flex items-center justify-between mt-5 rounded-lg bg-color-purple bg-opacity-20">

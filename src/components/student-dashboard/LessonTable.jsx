@@ -7,6 +7,7 @@ import { addMinutes } from 'date-fns';
 import StatusIndicator from './StatusIndicator';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import LessonControls from './LessonControls';
+import { useAuth } from 'src/modules/auth';
 
 export const LessonTable = ({
   displayTableData,
@@ -14,6 +15,7 @@ export const LessonTable = ({
   handleOpenFeedbackModal,
 }) => {
   const { t, i18n } = useTranslation(['lessons', 'common']);
+  const { currentStudent } = useAuth();
 
   const currentLanguage = i18n.language;
 
@@ -26,11 +28,11 @@ export const LessonTable = ({
     t('lesson_package', { ns: 'lessons' }),
     t('mentor', { ns: 'lessons' }),
     t('duration', { ns: 'lessons' }),
+    t('level', { ns: 'lessons' }),
     '',
     // t('recording', { ns: 'lessons' }),
     // t('class_feedback', { ns: 'lessons' }),
   ];
-  console.log(displayTableData);
 
   return (
     <>
@@ -122,6 +124,12 @@ export const LessonTable = ({
                 <td className="border-b group-last:border-none p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
                   <p className="text-sm lg:text-[15px] font-medium text-color-dark-purple tracking-tight text-[15px] leading-normal">
                     {event.resource.duration} {t('minutes', { ns: 'common' })}
+                  </p>
+                </td>
+
+                <td className="border-b group-last:border-none p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
+                  <p className="text-sm lg:text-[15px] font-medium text-color-dark-purple tracking-tight text-[15px] leading-normal">
+                    {currentStudent.langLevel}
                   </p>
                 </td>
 

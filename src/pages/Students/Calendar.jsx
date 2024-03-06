@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import Modal from 'react-modal';
 import moment from 'moment-timezone';
-import CalendarModal from '../../components/CalendarModal';
+// import CalendarModal from '../../components/CalendarModal';
 import Layout from '../../components/Layout';
 import Loader from '../../components/common/Loader';
 import { useLocation, Link } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
 
 import '../../assets/styles/calendar.scss';
 import {
@@ -29,6 +30,7 @@ import Button from 'src/components/Form/Button';
 import { Badge } from 'src/components/Badge';
 import { useNotifications } from 'src/modules/notifications';
 import { LessonTableMobile } from 'src/components/student-dashboard/LessonTableMobile';
+import LessonInfoModal from 'src/components/student-dashboard/LessonInfoModal';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -107,6 +109,8 @@ const Calendar = () => {
   const [t] = useTranslation(['lessons']);
   const location = useLocation();
   const { user } = useAuth();
+  const isDesktop = useMediaQuery({ minWidth: 1307 });
+
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -192,6 +196,9 @@ const Calendar = () => {
       background: 'none',
       border: 'none',
     },
+    overlay: {
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
   };
 
   useEffect(() => {
@@ -273,16 +280,6 @@ const Calendar = () => {
     const [selectedEvent] =
       calendarEvents?.filter((x) => x.id === calendarEvent.id) ?? [];
 
-    const scheduledTime = moment(selectedEvent?.resource?.startAt).tz(
-      userTimezone,
-    );
-    const startTime = moment(selectedEvent?.resource?.startAt)
-      .tz(userTimezone)
-      .format('hh:mm A');
-    const endTime = moment(selectedEvent?.resource?.end_at)
-      .tz(userTimezone)
-      .format('hh:mm A');
-
     return (
       <div style={{ zIndex: 9999 }} className="container">
         <Modal
@@ -291,18 +288,15 @@ const Calendar = () => {
           style={customStyles}
           contentLabel="Example Modal"
         >
-          <CalendarModal
-            event={selectedEvent}
-            lesson={selectedEvent?.title}
-            startTime={startTime}
-            endTime={endTime}
-            // zoomlink={selectedEvent.resource?.zoomLink}
-            zoom={selectedEvent.resource?.zoom}
-            time={scheduledTime}
-            data={selectedEvent}
-            closeModal={closeModal}
-            getAppointments={getAppointments}
-          />
+          <div className="p-8 bg-white rounded-2xl">
+            <LessonInfoModal
+              date={selectedEvent.start}
+              data={selectedEvent.resource}
+              refetch={getAppointments}
+              duration={selectedEvent.resource.eventDate.duration}
+              userTimezone={userTimezone}
+            />
+          </div>
         </Modal>
       </div>
     );
@@ -376,6 +370,43 @@ const Calendar = () => {
     };
   }, []);
 
+  const noLessonMessage = (
+    <>
+      {selectedTab === 'pastLessons' ? (
+        <div className="w-full bg-gray-50 rounded-lg mt-8 py-[47px]">
+          <p className="text-color-dark-purple text-sm text-center mb-6">
+            You don’t have completed lessons yet
+          </p>
+        </div>
+      ) : (
+        <div className="w-full bg-gray-50 rounded-lg mt-8 py-[47px]">
+          <p className="text-color-dark-purple text-sm text-center mb-6">
+            You have{' '}
+            <span className="text-color-purple font-medium">
+              {planStatus.reduce((prev, curr) => prev + curr.credits, 0)}{' '}
+              available
+            </span>{' '}
+            lessons
+          </p>
+          <div className="flex justify-center gap-3">
+            <Link
+              to="/student/schedule-lesson/select"
+              className="block rounded-lg bg-color-purple px-4 py-4 text-white font-medium sm:font-semibold text-xs sm:text-sm text-center"
+            >
+              {t('schedule_by_time', { ns: 'dashboard' })}
+            </Link>
+            <Link
+              to="/student/mentors-list"
+              className="block rounded-lg bg-color-purple px-4 py-4 text-white font-medium sm:font-semibold text-xs sm:text-sm text-center"
+            >
+              {t('schedule_by_mentor', { ns: 'dashboard' })}
+            </Link>
+          </div>
+        </div>
+      )}
+    </>
+  );
+
   return (
     <Layout>
       {loadingAppointments && (
@@ -439,7 +470,7 @@ const Calendar = () => {
           {!isLoading &&
             !isCalendar &&
             (displayTableData?.length ? (
-              <>
+              isDesktop ? (
                 <div className="hidden xl:block">
                   <LessonTable
                     displayTableData={displayTableData}
@@ -448,7 +479,7 @@ const Calendar = () => {
                     handleFeedback={handleFeedback}
                   />
                 </div>
-
+              ) : (
                 <div className="xl:hidden">
                   <LessonTableMobile
                     displayTableData={displayTableData}
@@ -458,37 +489,9 @@ const Calendar = () => {
                     handleFeedback={handleFeedback}
                   />
                 </div>
-              </>
+              )
             ) : (
-              <>
-                <div className="w-full bg-gray-50 rounded-lg mt-8 py-[47px]">
-                  <p className="text-color-dark-purple text-sm text-center mb-6">
-                    You have{' '}
-                    <span className="text-color-purple font-medium">
-                      {planStatus.reduce(
-                        (prev, curr) => prev + curr.credits,
-                        0,
-                      )}{' '}
-                      available
-                    </span>{' '}
-                    lessons
-                  </p>
-                  <div className="flex justify-center gap-3">
-                    <Link
-                      to="/student/schedule-lesson/select"
-                      className="block rounded-lg bg-color-purple px-4 py-4 text-white font-medium sm:font-semibold text-xs sm:text-sm text-center"
-                    >
-                      {t('schedule_by_time', { ns: 'dashboard' })}
-                    </Link>
-                    <Link
-                      to="/student/mentors-list"
-                      className="block rounded-lg bg-color-purple px-4 py-4 text-white font-medium sm:font-semibold text-xs sm:text-sm text-center"
-                    >
-                      {t('schedule_by_mentor', { ns: 'dashboard' })}
-                    </Link>
-                  </div>
-                </div>
-              </>
+              noLessonMessage
             ))}
           {!isLoading && isCalendar && (
             <div className="mt-4">
