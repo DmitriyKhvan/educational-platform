@@ -30,11 +30,12 @@ import ReactLoader from '../../components/common/Loader';
 import RescheduleAndCancelModal from '../../components/student-dashboard/RescheduleAndCancelModal';
 import notify from '../../utils/notify';
 import { isBetween } from '../../utils/isBetween';
-import { addMinutes, differenceInHours, isAfter } from 'date-fns';
+import { addMinutes, isAfter } from 'date-fns';
 import { LessonsStatusType, Roles } from 'src/constants/global';
 import Button from 'src/components/Form/Button';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { useNotifications } from 'src/modules/notifications';
+import { isWithinHours } from 'src/utils/isWithinHours';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -239,11 +240,12 @@ const Calendar = () => {
       const tempPastLessons = [];
 
       tableAppointments.map((each) => {
-        const isWithin12hour =
-          differenceInHours(
-            new Date(each.resource.startAt),
-            new Date(each.resource.canceledAt),
-          ) <= 12;
+        const isWithin12hour = isWithinHours({
+          dateEnd: new Date(each.resource.startAt),
+          dateStart: new Date(each.resource.canceledAt),
+          hours: 12,
+          userTimezone,
+        });
 
         const endLesson = addMinutes(
           new Date(each.resource.startAt),
@@ -352,21 +354,6 @@ const Calendar = () => {
       eventDate.duration,
     );
 
-    // const today = moment();
-    // const tenMinuteBeforeStart = moment(eventDate.startAt).subtract(
-    //   10,
-    //   'minutes',
-    // );
-    // const fiveMinuteBeforeEnd = moment(eventDate.startAt).add(
-    //   eventDate.duration - 5,
-    //   'minutes',
-    // );
-
-    // const isBetween = moment(today).isBetween(
-    //   tenMinuteBeforeStart,
-    //   fiveMinuteBeforeEnd,
-    // );
-
     const [
       approveAppointment,
       {
@@ -377,7 +364,13 @@ const Calendar = () => {
     ] = useMutation(APPROVE_APPOINTMENT);
 
     const joinLesson = () => {
-      if (isBetween(eventDate.startAt, eventDate.duration, userTimezone)) {
+      if (
+        isBetween({
+          dateStart: new Date(eventDate.startAt),
+          duration: eventDate.duration,
+          userTimezone,
+        })
+      ) {
         window.open(eventDate.zoom.startUrl, '_blank');
       } else {
         setIsWarningOpen(true);
