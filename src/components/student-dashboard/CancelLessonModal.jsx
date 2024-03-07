@@ -78,14 +78,14 @@ const CancelLessonModal = ({
   };
 
   return (
-    <React.Fragment>
+    <div className="max-w-[400px] w-full mx-auto">
       {isLoading && (
         <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
           <Loader />
         </div>
       )}
 
-      <div className="max-w-[400px] w-full px-4 flex items-center justify-between mb-2 mt-[15px]">
+      <div className="max-w-[400px] w-full mx-auto px-4 flex items-center justify-between mb-2 mt-[15px]">
         <div className="w-full text-lg font-semibold">
           <h2 className="text-[22px] font-bold justify-center relative flex items-center">
             <button
@@ -131,7 +131,7 @@ const CancelLessonModal = ({
           {t('confirm')}
         </Button>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

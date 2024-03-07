@@ -5,6 +5,8 @@ import { MAX_MODIFY_COUNT, Roles } from '../../constants/global';
 import CheckboxField from '../Form/CheckboxField';
 import { FaXmark } from 'react-icons/fa6';
 import Button from '../Form/Button/Button';
+import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import { isWithinHours } from 'src/utils/isWithinHours';
 
 const CancelWarningModal = ({
@@ -25,7 +27,7 @@ const CancelWarningModal = ({
   const [cancellationCount, setCancellationCount] = useState(MAX_MODIFY_COUNT);
 
   const isLate = isWithinHours({
-    dateEnd: new Date(data.startAt),
+    dateEnd: new Date(data?.startAt ?? new Date()),
     dateStart: new Date(),
     hours: 24,
     userTimezone,
@@ -78,16 +80,16 @@ const CancelWarningModal = ({
   const disableCancelLesson =
     user.role === Roles.MENTOR || modifyCredits !== 0 ? false : true;
   return (
-    <div className="max-w-[400px] w-full py-[15px] px-[12px]">
+    <div className="max-w-[400px] w-full mx-auto py-[15px] px-[12px]">
       <div className="mb-5 text-2xl font-bold text-center">
-        {type === 'cancel' ? t('cancel_lesson') : t('reschedule')}
+        {type === 'cancel' ? t('cancel_lesson') : t('reschedule_lesson')}
       </div>
       <p className="text-base text-center mb-4">
         Are you sure want to {type === 'cancel' ? 'cancel' : 'recshedule'}
         <br />
         <span className="font-semibold">
           {format(
-            utcToZonedTime(new Date(data.startAt), userTimezone),
+            utcToZonedTime(new Date(data?.startAt ?? new Date()), userTimezone),
             'eee, MMM do',
             { timeZone: userTimezone },
           )}
@@ -98,7 +100,7 @@ const CancelWarningModal = ({
         <div className="space-y-3">
           {(type === 'cancel' || isLate) && (
             <div className="w-full bg-color-red bg-opacity-10 flex items-center p-4 rounded-lg">
-              <span className="bg-color-red w-6 h-6 block rounded-full text-center text-white mr-4 text-base">
+              <span className="bg-color-red min-w-6 h-6 block rounded-full text-center text-white mr-4 text-base">
                 !
               </span>
               {type === 'cancel' ? (
@@ -129,42 +131,32 @@ const CancelWarningModal = ({
         </div>
       )}
 
-      {type === 'cancel' && (
-        <div className="mt-8">
-          <CheckboxField
-            label={t('confirm_cancel')}
-            id="cancel"
-            value="cancel"
-            onChange={checkboxEvent}
-            checked={isChecked}
-            disabled={disableCancelLesson}
-          />
-        </div>
-      )}
+      <Button
+        className="h-[56px] px-[10px] w-full mt-6"
+        theme="purple"
+        onClick={
+          disableCancelLesson || (isLate && type === 'reschedule')
+            ? undefined
+            : onClick
+        }
+        disabled={disableCancelLesson || (isLate && type === 'reschedule')}
+      >
+        {t('continue_cancel')}
+      </Button>
 
-      <div className="mt-8">
-        <div className="flex flex-col gap-y-1">
-          <CheckboxField
-            label={
-              type === 'cancel'
-                ? t('cancel_this_lesson')
-                : t('reschedule_this_lesson')
-            }
-            type="radio"
-            name="lesson"
-            onChange={() => setRepeatLessons(false)}
-            disabled={disableCancelLesson}
-          />
-          <CheckboxField
-            label={
-              type === 'cancel' ? t('cancel_lessons') : t('reschedule_lessons')
-            }
-            type="radio"
-            name="lesson"
-            onChange={() => setRepeatLessons(true)}
-            disabled={disableCancelLesson}
-          />
-        </div>
+      <div className="mt-6 flex justify-center">
+        <CheckboxField
+          label={
+            type === 'cancel' ? t('cancel_lessons') : t('reschedule_lessons')
+          }
+          id="cancel"
+          value="cancel"
+          onChange={() => setRepeatLessons((v) => !v)}
+          checked={repeatLessons}
+          disabled={disableCancelLesson}
+          name="lesson"
+          square
+        />
       </div>
 
       <div className="flex items-center justify-center gap-x-8 mt-4">

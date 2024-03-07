@@ -6,10 +6,11 @@ import { LessonsStatusType, ModalType, Roles } from 'src/constants/global';
 import { isBetween } from 'src/utils/isBetween';
 import { useAuth } from 'src/modules/auth';
 import { useTranslation } from 'react-i18next';
-import RescheduleAndCancelModal from './RescheduleAndCancelModal';
+import RescheduleAndCancelModal from './RescheduleAndCancelModalRebranding';
 import ZoomWarningModal from './ZoomWarningModal';
 import LessonInfoModal from './LessonInfoModal';
 import { addMinutes, isAfter } from 'date-fns';
+// import { isWithinHours } from 'src/utils/isWithinHours';
 
 const LessonControls = ({
   date,
@@ -61,7 +62,26 @@ const LessonControls = ({
     }
   };
 
-  const isAfterLesson = isAfter(new Date(), addMinutes(date, data.duration));
+  const isAfterLesson = isAfter(
+    new Date(),
+    addMinutes(new Date(date), data.duration),
+  );
+
+  const rescheduleAndCancelModal = (
+    <RescheduleAndCancelModal
+      data={data}
+      isOpen={isOpen}
+      closeModal={closeModal}
+      setTabIndex={setTabIndex}
+      setIsOpen={setIsOpen}
+      fetchAppointments={refetch}
+      tabIndex={tabIndex}
+      type={modalType}
+      // cancelled={cancelled}
+      setCanceledLessons={setCanceledLessons}
+      duration={duration}
+    />
+  );
 
   return (
     <>
@@ -135,21 +155,43 @@ const LessonControls = ({
         {!isAfterLesson &&
           (data.status === LessonsStatusType.SCHEDULED ||
             data.status === LessonsStatusType.APPROVED) && (
-            <Button theme="dark_purple" onClick={onSelect}>
-              {t('reschedule')}
-            </Button>
+            <AdaptiveDialog
+              button={
+                <Button
+                  theme="dark_purple"
+                  className="w-full"
+                  onClick={onSelect}
+                >
+                  {t('reschedule')}
+                </Button>
+              }
+            >
+              {rescheduleAndCancelModal}
+            </AdaptiveDialog>
+            // <Button theme="dark_purple" onClick={onSelect}>
+            //   {t('reschedule')}
+            // </Button>
           )}
 
         {!isAfterLesson &&
           data.status !== LessonsStatusType.COMPLETED &&
           data.status !== LessonsStatusType.CANCELED && (
-            <Button theme="red" onClick={onCancel}>
-              {t('cancel', { ns: 'common' })}
-            </Button>
+            <AdaptiveDialog
+              button={
+                <Button theme="red" className="w-full" onClick={onCancel}>
+                  {t('cancel', { ns: 'common' })}
+                </Button>
+              }
+            >
+              {rescheduleAndCancelModal}
+            </AdaptiveDialog>
+            // <Button theme="red" onClick={onCancel}>
+            //   {t('cancel', { ns: 'common' })}
+            // </Button>
           )}
       </div>
 
-      <RescheduleAndCancelModal
+      {/* <RescheduleAndCancelModal
         data={data}
         isOpen={isOpen}
         closeModal={closeModal}
@@ -161,7 +203,7 @@ const LessonControls = ({
         // cancelled={cancelled}
         setCanceledLessons={setCanceledLessons}
         duration={duration}
-      />
+      /> */}
       {isWarningOpen && (
         <ZoomWarningModal
           isWarningOpen={isWarningOpen}
