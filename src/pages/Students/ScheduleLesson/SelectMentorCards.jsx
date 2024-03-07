@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
 
-import Layout from '../../../components/Layout';
+import Layout from '../../../layouts/DashboardLayout';
 import { MentorsView } from '../MentorsList/MentorsView';
 import Loader from 'src/components/Loader/Loader';
 import Button from 'src/components/Form/Button';

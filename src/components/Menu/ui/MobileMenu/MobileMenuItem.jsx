@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNotifications } from 'src/modules/notifications';
-import { Badge } from '../../Badge';
+import { Badge } from '../../../Badge';
 import { NavLink } from 'react-router-dom';
 
 export const MobileMenuItem = ({ menu }) => {

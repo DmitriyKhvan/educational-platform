@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from '../../../components/Layout';
+import Layout from '../../../layouts/DashboardLayout';
 
 import FavIcon from '../../../assets/images/Favorite.png';
 import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';

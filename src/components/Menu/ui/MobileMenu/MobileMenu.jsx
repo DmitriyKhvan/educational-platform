@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useMenuList } from '../lib/useMenuList';
+import { useMenuList } from '../../lib/useMenuList';
 import { MdMoreHoriz } from 'react-icons/md';
-import { MyDrawer } from '../../Drawer';
+import { MyDrawer } from '../../../Drawer';
 import { MobileMenuFull } from '../MobileMenuFull';
 import { MobileMenuItem } from './MobileMenuItem';
 

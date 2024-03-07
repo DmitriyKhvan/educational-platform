@@ -1,5 +1,5 @@
-import Navbar from './Navbar/Navbar';
-import { Sidebar } from './Sidebar';
+import Navbar from '../components/Navbar/Navbar';
+import { Sidebar } from '../components/Sidebar';
 import '../assets/styles/layout.scss';
 
 const Layout = ({ children }) => {

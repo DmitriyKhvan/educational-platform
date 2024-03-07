@@ -1,9 +1,10 @@
 import React from 'react';
-import { useMenuList } from '../lib/useMenuList';
+import { useMenuList } from '../../lib/useMenuList';
 import { MobileMenuFullItem } from './MobileMenuFullItem';
 
 import { FaXmark } from 'react-icons/fa6';
-import { LangSwitcher } from '../LangSwitcher';
+import { LangSwitcher } from '../../../LangSwitcher';
+import { ReferBanner } from 'src/components/ReferBanner';
 
 export const MobileMenuFull = ({ setOpen }) => {
   const navLinks = useMenuList();
@@ -21,6 +22,8 @@ export const MobileMenuFull = ({ setOpen }) => {
           return <MobileMenuFullItem key={menu.link} menu={menu} />;
         })}
       </ul>
+
+      <ReferBanner />
 
       <LangSwitcher />
     </div>

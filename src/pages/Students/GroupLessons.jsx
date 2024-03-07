@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import LeftArrow from '../../assets/images/left-arrow.svg';
 import RightArrow from '../../assets/images/right-arrow.svg';
-import Layout from '../../components/Layout';
+import Layout from '../../layouts/DashboardLayout';
 import '../../assets/styles/student.scss';
 
 import {

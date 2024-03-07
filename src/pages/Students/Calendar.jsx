@@ -4,7 +4,7 @@ import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import Modal from 'react-modal';
 import moment from 'moment-timezone';
 import CalendarModal from '../../components/CalendarModal';
-import Layout from '../../components/Layout';
+import Layout from '../../layouts/DashboardLayout';
 import Loader from '../../components/common/Loader';
 import { useLocation } from 'react-router-dom';
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Layout from '../../../components/Layout';
+import Layout from '../../../layouts/DashboardLayout';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { useTranslation } from 'react-i18next';
 import SelectLessonType from './SelectLessonType';

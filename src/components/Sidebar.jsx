@@ -1,16 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Menu } from './Menu';
 import { useMediaQuery } from 'react-responsive';
-import { MobileMenu } from './MobileMenu';
+
+import { useAuth } from 'src/modules/auth';
+import { LangSwitcher } from 'src/components/LangSwitcher';
+import { Menu } from 'src/components/Menu';
+import { MobileMenu } from 'src/components/Menu/ui/MobileMenu';
 
 import { Roles } from 'src/constants/global';
 import Logo from 'src/assets/images/logo_purple.svg';
-
-import 'src/assets/styles/referal.scss';
-import { useAuth } from 'src/modules/auth';
-import { LangSwitcher } from './LangSwitcher';
 
 export const Sidebar = () => {
   const { user } = useAuth();

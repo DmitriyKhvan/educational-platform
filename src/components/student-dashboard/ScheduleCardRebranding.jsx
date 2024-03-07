@@ -206,7 +206,7 @@ const ScheduleCard = ({
               <Button
                 // TODO: implement onClick
                 disabled={!zoom.recordingUrl}
-                className={`grow gap-1 sm:gap-2 col-span-2`}
+                className={`grow gap-1 sm:gap-2 col-span-2 sm:col-auto`}
               >
                 <FaPlay />
                 {t('watch_recording')}
