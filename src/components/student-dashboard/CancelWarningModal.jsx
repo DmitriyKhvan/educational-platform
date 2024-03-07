@@ -5,8 +5,7 @@ import { MAX_MODIFY_COUNT, Roles } from '../../constants/global';
 import CheckboxField from '../Form/CheckboxField';
 import { FaXmark } from 'react-icons/fa6';
 import Button from '../Form/Button/Button';
-import { differenceInHours, format } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
+import { isWithinHours } from 'src/utils/isWithinHours';
 
 const CancelWarningModal = ({
   data,
@@ -18,17 +17,19 @@ const CancelWarningModal = ({
 }) => {
   const [t] = useTranslation('modals');
   const { user } = useAuth();
+
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const [cancellationDots, setCancellationDots] = useState([]);
   const [cancellationCount, setCancellationCount] = useState(MAX_MODIFY_COUNT);
 
-  const isLate =
-    differenceInHours(
-      utcToZonedTime(new Date(data.startAt), userTimezone),
-      utcToZonedTime(new Date(), userTimezone),
-    ) <= 24;
+  const isLate = isWithinHours({
+    dateEnd: new Date(data.startAt),
+    dateStart: new Date(),
+    hours: 24,
+    userTimezone,
+  });
 
   useEffect(() => {
     if (modifyCredits !== undefined) {
@@ -128,32 +129,42 @@ const CancelWarningModal = ({
         </div>
       )}
 
-      <Button
-        className="h-[56px] px-[10px] w-full mt-6"
-        theme="purple"
-        onClick={
-          disableCancelLesson || (isLate && type === 'reschedule')
-            ? undefined
-            : onClick
-        }
-        disabled={disableCancelLesson || (isLate && type === 'reschedule')}
-      >
-        {t('continue_cancel')}
-      </Button>
+      {type === 'cancel' && (
+        <div className="mt-8">
+          <CheckboxField
+            label={t('confirm_cancel')}
+            id="cancel"
+            value="cancel"
+            onChange={checkboxEvent}
+            checked={isChecked}
+            disabled={disableCancelLesson}
+          />
+        </div>
+      )}
 
-      <div className="mt-6 flex justify-center">
-        <CheckboxField
-          label={
-            type === 'cancel' ? t('cancel_lessons') : t('reschedule_lessons')
-          }
-          id="cancel"
-          value="cancel"
-          onChange={() => setRepeatLessons((v) => !v)}
-          checked={repeatLessons}
-          disabled={disableCancelLesson}
-          name="lesson"
-          square
-        />
+      <div className="mt-8">
+        <div className="flex flex-col gap-y-1">
+          <CheckboxField
+            label={
+              type === 'cancel'
+                ? t('cancel_this_lesson')
+                : t('reschedule_this_lesson')
+            }
+            type="radio"
+            name="lesson"
+            onChange={() => setRepeatLessons(false)}
+            disabled={disableCancelLesson}
+          />
+          <CheckboxField
+            label={
+              type === 'cancel' ? t('cancel_lessons') : t('reschedule_lessons')
+            }
+            type="radio"
+            name="lesson"
+            onChange={() => setRepeatLessons(true)}
+            disabled={disableCancelLesson}
+          />
+        </div>
       </div>
 
       <div className="flex items-center justify-center gap-x-8 mt-4">

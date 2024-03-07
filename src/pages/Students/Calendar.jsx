@@ -25,12 +25,13 @@ import { useQuery } from '@apollo/client';
 import { APPOINTMENTS_QUERY, PACKAGE_QUERY } from '../../modules/auth/graphql';
 import { format } from 'date-fns-tz';
 import { LessonTable } from '../../components/student-dashboard/LessonTable';
-import { addMinutes, differenceInHours, isAfter } from 'date-fns';
+import { addMinutes, isAfter } from 'date-fns';
 import Button from 'src/components/Form/Button';
 import { Badge } from 'src/components/Badge';
 import { useNotifications } from 'src/modules/notifications';
 import { LessonTableMobile } from 'src/components/student-dashboard/LessonTableMobile';
 import LessonInfoModal from 'src/components/student-dashboard/LessonInfoModal';
+import { isWithinHours } from 'src/utils/isWithinHours';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -231,11 +232,12 @@ const Calendar = () => {
       const tempPastLessons = [];
 
       tableAppointments.map((each) => {
-        const isWithin24hour =
-          differenceInHours(
-            new Date(each.resource.startAt),
-            new Date(each.resource.canceledAt),
-          ) <= 24;
+        const isWithin24hour = isWithinHours({
+          dateEnd: new Date(each.resource.startAt),
+          dateStart: new Date(each.resource.canceledAt),
+          hours: 24,
+          userTimezone,
+        });
 
         const endLesson = addMinutes(
           new Date(each.resource.startAt),

@@ -36,11 +36,11 @@ const CalendarModal = ({
   const joinLesson = async () => {
     //Time period when you can go to the lesson
     if (
-      isBetween(
-        data.resource.eventDate.startAt,
-        data.resource.eventDate.duration,
+      isBetween({
+        dateStart: new Date(data.resource.eventDate.startAt),
+        duration: data.resource.eventDate.duration,
         userTimezone,
-      )
+      })
     ) {
       window.open(zoom?.joinUrl, '_blank');
     } else {

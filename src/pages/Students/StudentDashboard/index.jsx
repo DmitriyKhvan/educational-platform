@@ -29,7 +29,7 @@ const StudentListAppointments = () => {
     loading: lessonLoading,
     refetch,
   } = useQuery(APPOINTMENTS_QUERY, {
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'network-only',
     variables: {
       status: 'scheduled,paid,completed,in_progress,approved',
       studentId: getItemToLocalStorage('studentId'),
@@ -38,7 +38,7 @@ const StudentListAppointments = () => {
 
   const [getPackageSubscriptions, { data: { packageSubscriptions } = {} }] =
     useLazyQuery(PACKAGE_QUERY, {
-      fetchPolicy: 'no-cache',
+      fetchPolicy: 'network-only',
       variables: {
         studentId: getItemToLocalStorage('studentId'),
       },
