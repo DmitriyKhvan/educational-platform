@@ -50,27 +50,37 @@ export default function OnboardingTrial({ setStep }) {
   });
 
   // const { login, data: loginData } = useLogin();
-  // const [signUp] = useMutation(SIGN_UP);
+  // const [signUp] = useMutation(SIGN_UP_TRIAL);
 
   const onSubmit = async () => {
     setStep((v) => v + 1);
-    // location.href = '/trial/details';
-    // setIsLoading(true);
-    // try {
-    //   await signUp({
-    //     variables: {
-    //       ...data,
-    //       phoneNumber: `${country.code}${data.phoneNumber.replace(
-    //         /[-()]/g,
-    //         '',
-    //       )}`,
-    //     },
-    //   });
-    //   login(data.email, data.password);
-    // } catch (error) {
-    //   notify(error.message, 'error');
-    // }
-    // setIsLoading(false);
+  //   location.href = '/trial/details';
+  //   setIsLoading(true);
+  //   try {
+  //     await signUp({
+  //       variables: {
+  //         data: {
+  //           user: {
+  //             ...data,
+  //           },
+  //           phoneNumber: `${country.code}${data.phoneNumber.replace(
+  //             /[-()]/g,
+  //             '',
+  //           )}`,
+  //           timeZone: 'Asia/Seoul', //Asia/Seoul - default value on server side, if omitted
+  //         },
+  //         packageId: 67, //(67, 42, 31) - selects from previous step
+  //         lessonBooking: {
+  //           mentorId: 3, //selects on previous step
+  //           startAt: new Date(), //selects from previous step
+  //         },
+  //       },
+  //     });
+  //     login(data.email, data.password);
+  //   } catch (error) {
+  //     notify(error.message, 'error');
+  //   }
+  //   setIsLoading(false);
   };
 
   // useEffect(() => {

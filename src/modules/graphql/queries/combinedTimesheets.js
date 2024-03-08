@@ -23,3 +23,22 @@ export const COMBINED_TIMESHEETS = gql`
     }
   }
 `;
+
+export const COMBINED_TIMESHEETS_TRIAL = gql`
+  query combinedTimesheetsForTrials(
+    $tz: String!
+    $date: String!
+  ) {
+    combinedTimesheets(
+      tz: $tz
+      date: $date
+    ) {
+      id
+      day
+      from
+      to
+      reserved
+      mentors
+    }
+  }
+`;
