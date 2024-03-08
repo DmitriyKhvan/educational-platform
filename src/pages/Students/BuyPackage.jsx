@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
 import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 import { Courses } from 'src/components/BuyPackage/Courses';
@@ -9,29 +9,11 @@ import { Packages } from 'src/components/BuyPackage/Packages';
 import { OrderSummary } from 'src/components/BuyPackage/OrderSummary';
 import Loader from '../../components/Loader/Loader';
 import { useTranslation } from 'react-i18next';
-
-const GET_COURSES = gql`
-  query GetCourses {
-    courses {
-      id
-      title
-      description
-      packages {
-        id
-        totalSessions
-        sessionsPerWeek
-        sessionTime
-        price
-        period
-        discount
-        courseId
-      }
-    }
-  }
-`;
+import { COURSES } from 'src/modules/graphql/queries/courses/courses';
 
 export default function BuyPackage() {
-  const [t] = useTranslation('purchase');
+  const [t, i18n] = useTranslation('purchase');
+  const currentLanguage = i18n.language;
 
   const [courses, setCourse] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -48,17 +30,23 @@ export default function BuyPackage() {
   const [promoPackage, setPromoPackage] = useState(null);
   // const [selectedProvider, setSelectedProvider] = useState('stripe');
 
-  const { error, data, loading } = useQuery(GET_COURSES, {
+  const { error, data, loading } = useQuery(COURSES, {
     fetchPolicy: 'network-only',
   });
 
   useEffect(() => {
     if (data) {
       const coursesFiltered = data.courses
-        .filter((course) => course.packages.length > 0)
+        .filter((course) => course.packages.length > 0 && course.active)
         .map((course) => {
+          const title =
+            course.translations.find(
+              (translation) => translation.language === currentLanguage,
+            )?.title || course.title;
+
           return {
             ...course,
+            title,
             packages: course.packages
               .filter((pkg) => pkg.period !== 1)
               .sort((a, b) => a.period - b.period),
@@ -68,7 +56,7 @@ export default function BuyPackage() {
       setCourse(coursesFiltered);
       setSelectedCourse(coursesFiltered[0]);
     }
-  }, [data]);
+  }, [data, t]);
 
   useEffect(() => {
     if (selectedCourse) {
