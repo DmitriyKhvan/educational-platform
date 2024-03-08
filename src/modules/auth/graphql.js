@@ -376,10 +376,19 @@ export const GET_MENTOR = gql`
         url
       }
       availabilities {
-        id
-        day
-        from
-        to
+        regular {
+          id
+          day
+          from
+          to
+        }
+        trial {
+          id
+          day
+          from
+          to
+        }
+        
       }
       exceptionDates {
         id
@@ -900,21 +909,21 @@ export const APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER = gql`
 `;
 
 export const GET_TRIAL_PACKAGES = gql`
-query trialPackages() {
-  trialPackages {
-    id
-    totalSessions
-    sessionsPerWeek
-    sessionTime
-    price
-    period
-    discount
-    courseId
-    course {
-        id
-        title
-        description
+  query trialPackages {
+    trialPackages {
+      id
+      totalSessions
+      sessionsPerWeek
+      sessionTime
+      price
+      period
+      discount
+      courseId
+      course {
+          id
+          title
+          description
+      }
     }
   }
-}
 `;

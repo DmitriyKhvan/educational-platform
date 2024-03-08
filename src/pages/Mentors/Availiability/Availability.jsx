@@ -59,7 +59,7 @@ const Availability = (/*{ user_id  }*/) => {
 
   useEffect(() => {
     var savedData = [];
-    if (tutorInfo?.availabilities) {
+    if (tutorInfo?.availabilities.regular) {
       // const slotsMap = tutorInfo.availabilities.reduce((map, slot) => {
       //   if (map[slot.day] === undefined) map[slot.day] = [slot];
       //   else map[slot.day] = [...map[slot.day], slot];
@@ -73,7 +73,7 @@ const Availability = (/*{ user_id  }*/) => {
       //   });
       // }
 
-      savedData = tutorInfo.availabilities.map((slot) => {
+      savedData = tutorInfo.availabilities.regular.map((slot) => {
         return {
           id: uuid(),
           day: slot.day,
@@ -130,8 +130,12 @@ const Availability = (/*{ user_id  }*/) => {
     for (const day in days) {
       slotsToSave.push({
         day,
-        slots: [...days[day].map((slot) => ({ from: slot.from, to: slot.to }))],
+        slots: [...days[day].map((slot) => ({ from: slot.from, to: slot.to, trialTimesheet: false }))],
       });
+      // slotsToSave.push({
+      //   day,
+      //   slots: [...days[day].map((slot) => ({ from: slot.from, to: slot.to, trialTimesheet: true }))],
+      // });
     }
 
     if (isError) {
