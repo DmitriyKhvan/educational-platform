@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../Form/Button';
 import { AdaptiveDialog } from '../AdaptiveDialog';
 import { FaPlay } from 'react-icons/fa6';
-import { LessonsStatusType, ModalType, Roles } from 'src/constants/global';
+import { ModalType, Roles } from 'src/constants/global';
 import { isBetween } from 'src/utils/isBetween';
 import { useAuth } from 'src/modules/auth';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +10,7 @@ import RescheduleAndCancelModal from './RescheduleAndCancelModalRebranding';
 import ZoomWarningModal from './ZoomWarningModal';
 import LessonInfoModal from './LessonInfoModal';
 import { addMinutes, isAfter } from 'date-fns';
-// import { isWithinHours } from 'src/utils/isWithinHours';
+import { isWithinHours } from 'src/utils/isWithinHours';
 
 const LessonControls = ({
   date,
@@ -29,6 +29,7 @@ const LessonControls = ({
   const [modalType, setModalType] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
+  const [controls, setControls] = useState([]);
 
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -52,7 +53,13 @@ const LessonControls = ({
 
   const joinLesson = () => {
     //Time period when you can go to the lesson
-    if (isBetween(dateLesson, data.duration, userTimezone)) {
+    if (
+      isBetween({
+        dateStart: dateLesson,
+        duration: data.duration,
+        userTimezone,
+      })
+    ) {
       window.open(
         user.role === Roles.MENTOR ? data?.zoom?.startUrl : data?.zoom?.joinUrl,
         '_blank',
@@ -66,6 +73,13 @@ const LessonControls = ({
     new Date(),
     addMinutes(new Date(date), data.duration),
   );
+
+  const isWithin24Hours = isWithinHours({
+    dateStart: new Date(),
+    dateEnd: dateLesson,
+    hours: 24,
+    userTimezone,
+  });
 
   const rescheduleAndCancelModal = (
     <RescheduleAndCancelModal
@@ -83,127 +97,116 @@ const LessonControls = ({
     />
   );
 
+  useEffect(() => {
+    let controls = [];
+
+    if (!isAfterLesson && isWithin24Hours) {
+      controls.push(
+        <Button className="w-full text-xs sm:text-sm" onClick={joinLesson}>
+          {t('join_lesson')}
+        </Button>,
+      );
+    }
+
+    if (pattern === 'info') {
+      controls.push(
+        <AdaptiveDialog
+          button={
+            <Button className="grow text-xs sm:text-sm" theme="dark_purple">
+              Info
+            </Button>
+          }
+        >
+          <LessonInfoModal
+            date={date}
+            data={data}
+            refetch={refetch}
+            duration={duration}
+            setCanceledLessons={setCanceledLessons}
+            userTimezone={userTimezone}
+          />
+        </AdaptiveDialog>,
+      );
+    }
+
+    if (!isAfterLesson && !isWithin24Hours) {
+      controls.push(
+        <AdaptiveDialog
+          button={
+            <Button
+              theme="dark_purple"
+              className="grow text-xs sm:text-sm"
+              onClick={onSelect}
+            >
+              {t('reschedule')}
+            </Button>
+          }
+        >
+          {rescheduleAndCancelModal}
+        </AdaptiveDialog>,
+      );
+    }
+
+    if (isAfterLesson) {
+      controls.push(
+        <AdaptiveDialog
+          button={
+            <Button
+              // TODO: implement onClick
+              disabled={!data?.zoom?.recordingUrl}
+              className="grow gap-1 sm:gap-2 text-xs sm:text-sm"
+            >
+              <FaPlay />
+              {t('watch_recording')}
+            </Button>
+          }
+        >
+          <LessonInfoModal
+            date={date}
+            data={data}
+            zoom={data?.zoom}
+            refetch={refetch}
+            duration={duration}
+            setCanceledLessons={setCanceledLessons}
+            userTimezone={userTimezone}
+          />
+        </AdaptiveDialog>,
+      );
+    }
+
+    if (!isAfterLesson) {
+      controls.push(
+        <AdaptiveDialog
+          button={
+            <Button
+              theme="red"
+              className="grow text-xs sm:text-sm"
+              onClick={onCancel}
+            >
+              {t('cancel', { ns: 'common' })}
+            </Button>
+          }
+        >
+          {rescheduleAndCancelModal}
+        </AdaptiveDialog>,
+      );
+    }
+
+    setControls(controls);
+  }, []);
+
   return (
     <>
       <div
-        className={`grid gap-2 xl:gap-3 h-[52px] ${
-          data?.status === LessonsStatusType.COMPLETED || isAfterLesson
-            ? 'grid-cols-1'
-            : pattern === 'table' || pattern === 'info'
-            ? 'grid-cols-2'
-            : data?.status === LessonsStatusType.SCHEDULED ||
-              data?.status === LessonsStatusType.APPROVED
-            ? 'grid-cols-3'
-            : 'grid-cols-3 sm:grid-cols-2'
-        }`}
+        className={`grid gap-2 xl:gap-3 h-[52px] grid-cols-${controls.length}`}
       >
-        {!isAfterLesson && data.status === LessonsStatusType.APPROVED && (
-          <Button onClick={joinLesson}>{t('join_lesson')}</Button>
-        )}
-
-        {isAfterLesson && (
-          <AdaptiveDialog
-            button={
-              <Button
-                // TODO: implement onClick
-                disabled={!data?.zoom?.recordingUrl}
-                className={`grow gap-1 sm:gap-2 col-span-2`}
-              >
-                <FaPlay />
-                {t('watch_recording')}
-              </Button>
-            }
-          >
-            <LessonInfoModal
-              date={date}
-              data={data}
-              zoom={data?.zoom}
-              refetch={refetch}
-              duration={duration}
-              setCanceledLessons={setCanceledLessons}
-              userTimezone={userTimezone}
-            />
-          </AdaptiveDialog>
-        )}
-
-        {!isAfterLesson &&
-          pattern !== 'info' &&
-          pattern !== 'table' &&
-          data.status !== LessonsStatusType.COMPLETED &&
-          data.status !== LessonsStatusType.APPROVED && (
-            <AdaptiveDialog
-              button={
-                <Button
-                  className={`grow gap-1 sm:gap-2 col-span-1`}
-                  theme="dark_purple"
-                >
-                  Info
-                </Button>
-              }
-            >
-              <LessonInfoModal
-                date={date}
-                data={data}
-                refetch={refetch}
-                duration={duration}
-                setCanceledLessons={setCanceledLessons}
-                userTimezone={userTimezone}
-              />
-            </AdaptiveDialog>
-          )}
-
-        {!isAfterLesson &&
-          (data.status === LessonsStatusType.SCHEDULED ||
-            data.status === LessonsStatusType.APPROVED) && (
-            <AdaptiveDialog
-              button={
-                <Button
-                  theme="dark_purple"
-                  className="w-full"
-                  onClick={onSelect}
-                >
-                  {t('reschedule')}
-                </Button>
-              }
-            >
-              {rescheduleAndCancelModal}
-            </AdaptiveDialog>
-            // <Button theme="dark_purple" onClick={onSelect}>
-            //   {t('reschedule')}
-            // </Button>
-          )}
-
-        {!isAfterLesson &&
-          data.status !== LessonsStatusType.COMPLETED &&
-          data.status !== LessonsStatusType.CANCELED && (
-            <AdaptiveDialog
-              button={
-                <Button theme="red" className="w-full" onClick={onCancel}>
-                  {t('cancel', { ns: 'common' })}
-                </Button>
-              }
-            >
-              {rescheduleAndCancelModal}
-            </AdaptiveDialog>
-            // <Button theme="red" onClick={onCancel}>
-            //   {t('cancel', { ns: 'common' })}
-            // </Button>
-          )}
+        {controls.map((control, index) => (
+          <div className="grid" key={index}>
+            {control}
+          </div>
+        ))}
       </div>
 
-      {/* <RescheduleAndCancelModal
-        data={data}
-        isOpen={isOpen}
-        closeModal={closeModal}
-        setTabIndex={setTabIndex}
-        setIsOpen={setIsOpen}
-        fetchAppointments={refetch}
-        tabIndex={tabIndex}
-        type={modalType}
-        // cancelled={cancelled}
-        setCanceledLessons={setCanceledLessons}
-        duration={duration}
-      /> */}
       {isWarningOpen && (
         <ZoomWarningModal
           isWarningOpen={isWarningOpen}
