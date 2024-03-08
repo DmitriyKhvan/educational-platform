@@ -1,5 +1,4 @@
 import React from 'react';
-// import { InfoItem } from './InfoItem';
 import Button from 'src/components/Form/Button';
 import { FaCopy } from 'react-icons/fa';
 import {
@@ -55,7 +54,7 @@ export const Info = () => {
           <div
             className={`min-w-8 min-h-8 flex items-center justify-center rounded bg-[#FF9335]/[.16]`}
           >
-            <IoSquareSharp className="rotate-45 text-[#FF9335]" />
+            <IoSquareSharp className="rotate-45 text-sm text-[#FF9335]" />
           </div>
           <div className="space-y-2">
             <h4 className={`text-lg font-bold text-[#FF9335] leading-6`}>
