@@ -23,6 +23,8 @@ import InputField from '../../../../components/Form/InputField';
 import { SelectField } from '../../../../components/Form/SelectField';
 import { Avatar } from '../../../../widgets/Avatar/Avatar';
 import { trimSpaces } from 'src/utils/trimSpaces';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { FaChevronLeft } from 'react-icons/fa6';
 
 const EditProflileStudent = ({ closeModal, setLoading }) => {
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
@@ -106,9 +108,14 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
   const removePreviewImage = () => setFile(null);
 
   return (
-    <section className="">
-      <div className="mb-5">
-        <h3 className="text-black m-0 text-[20px]">{t('edit_profile')}</h3>
+    <section className="max-w-[400px] px-5 sm:px-0 mx-auto mt-10">
+      <div className="mb-5 flex items-center">
+        <Link className="mr-3" to="/student/profile">
+          <FaChevronLeft className="text-[16px] font-bold" />
+        </Link>
+        <h3 className="text-black m-0 text-[32px] font-bold">
+          {t('edit_profile')}
+        </h3>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>

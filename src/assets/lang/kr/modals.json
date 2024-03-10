@@ -59,5 +59,9 @@
   "lesson_not_updated": "레슨이 업데이트 되지 않았습니다",
   "invalid_date": "선택하신 일정은 예약 불가능",
   "same_date": "동일한 날짜입니다",
-  "lesson_not_created": "레슨이 생성되지 않았습니다"
+  "lesson_not_created": "레슨이 생성되지 않았습니다",
+  "logging_out": "Logging out",
+  "are_you_sure_to_logout": "Are you sure you want to log out of your account?",
+  "yes_logout": "Yes, log out",
+  "cancel": "Cancel"
 }
