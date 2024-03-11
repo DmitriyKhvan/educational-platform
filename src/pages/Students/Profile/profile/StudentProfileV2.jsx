@@ -1,21 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { useAuth } from '../../../../modules/auth';
 import { useQuery } from '@apollo/client';
-// import { useMutation, useQuery } from '@apollo/client';
-import {
-  // ALL_PACKAGE_QUERY,
-  // MUTATION_UPDATE_STUDENT,
-  PACKAGE_QUERY,
-} from '../../../../modules/auth/graphql';
+import { PACKAGE_QUERY } from '../../../../modules/auth/graphql';
 import { useTranslation } from 'react-i18next';
-// import Introduction from './Introduction';
-// import Button from '../../../../components/Form/Button/Button';
 import { Avatar } from '../../../../widgets/Avatar/Avatar';
-// import notify from '../../../../utils/notify';
-// import ModalWrapper from '../../../../components/ModalWrapper/ModalWrapper';
-// import EditProflileStudent from '../editInfo/EditStudentProfile';
-// import ReactLoader from '../../../../components/common/Loader';
-// import { getItemToLocalStorage } from 'src/constants/global';
 import { getItemToLocalStorage } from 'src/constants/global';
 import { Link } from 'react-router-dom/cjs/react-router-dom';
 import { FaPencil } from 'react-icons/fa6';
@@ -23,18 +11,14 @@ import Button from 'src/components/Form/Button';
 import { FiLogOut } from 'react-icons/fi';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import LevelBadge from './LevelBadge';
+import PackageCard from './PackageCard';
 
 const StudentProfile = () => {
   const [logoutOpen, setLogoutOpen] = useState(false);
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [loading, setLoading] = useState(false);
 
   const [t] = useTranslation(['profile', 'common', 'lessons', 'modals']);
 
-  // const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
-
   const { user, currentStudent, logout } = useAuth();
-  // const { user, refetchUser, currentStudent } = useAuth();
 
   const handleLogout = async () => {
     await logout();
@@ -51,36 +35,6 @@ const StudentProfile = () => {
     },
   );
 
-  // console.log(planStatus, 'planStatus');
-
-  // const saveIntroduction = async (text) => {
-  //   if (text !== '') {
-  //     const { data } = await updateStudent({
-  //       variables: {
-  //         // id: parseInt(user?.student?.id),
-  //         id: parseInt(getItemToLocalStorage('studentId')),
-  //         data: {
-  //           about: text,
-  //         },
-  //       },
-  //     });
-
-  //     if (data) {
-  //       notify(t('introduction_changed', { ns: 'profile' }));
-  //     }
-
-  //     await refetchUser();
-  //   }
-  // };
-
-  // const getCompleteLessons = (lessons) => {
-  //   return lessons.filter(
-  //     (lesson) =>
-  //       lesson.status === LessonsStatusType.COMPLETED ||
-  //       lesson.status === LessonsStatusType.PAID,
-  //   ).length;
-  // };
-
   const [uncompletedPackages, completedPackages] = useMemo(
     () => [
       planStatus?.filter((x) => x.credits),
@@ -93,7 +47,6 @@ const StudentProfile = () => {
 
   return (
     <>
-      {/* {loading && <ReactLoader className="fixed !important" />} */}
       <div className="flex flex-col min-h-[calc(100vh-120px)] mt-10">
         <div className="w-full px-6 max-w-[448px] mx-auto space-y-8">
           <header className="flex items-center w-full space-x-4 ">
@@ -122,26 +75,7 @@ const StudentProfile = () => {
                   <div>
                     <LevelBadge level={currentStudent?.langLevel} />
                   </div>
-                  {/* <p className="text-base font-semibold tracking-[-0.6px] text-color-purple ">
-                    {currentStudent?.langLevel}
-                  </p> */}
-
-                  {/* <p className="text-base font-semibold tracking-[-0.6px] text-color-light-grey">
-                    {user?.timeZone ? user?.timeZone : 'PST (GMT-8)'}
-                  </p> */}
                 </div>
-
-                {/* <div>
-                  <Button
-                    className="mr-4"
-                    theme="outline"
-                    onClick={() => {
-                      setIsOpen(true);
-                    }}
-                  >
-                    {t('edit_profile')}
-                  </Button>
-                </div> */}
               </div>
             </div>
           </header>
@@ -226,18 +160,9 @@ const StudentProfile = () => {
                   </p>
                 </div>
               )}
-
-              {/* <p className="text-base font-semibold tracking-[-0.6px] text-color-light-grey">
-                {user?.timeZone ? user?.timeZone : 'PST (GMT-8)'}
-              </p> */}
             </div>
           </div>
         </div>
-
-        {/* <Introduction
-            text={currentStudent.about}
-            onChange={saveIntroduction}
-          /> */}
 
         <div className="mt-[30px] max-w-[448px] px-6 w-full mx-auto">
           <h2 className="mb-4 text-[20px] font-bold text-color-dark-purple tracking-[-0.6px] leading-6">
@@ -245,43 +170,7 @@ const StudentProfile = () => {
           </h2>
           {uncompletedPackages &&
             uncompletedPackages.map((item) => (
-              <div
-                key={item.id}
-                className="w-full p-5 bg-white border border-solid mb-2 border-color-border-grey shadow-sm rounded-[10px]"
-              >
-                <h3 className="text-[18px] mb-3 text-color-dark-purple font-bold leading-6 tracking-[-0.6px] whitespace-nowrap">
-                  {item.package.course.title}
-                </h3>
-
-                <div className="flex space-x-6">
-                  {/* <Button className="px-[10px] cursor-auto" theme="purple">
-                    {t('lesson_type', { ns: 'profile' })}
-                  </Button> */}
-
-                  <div className="">
-                    <h4 className="text-gray-300 font-medium text-sm">
-                      {t('lessons_remaining', {
-                        ns: 'profile',
-                        // count: getCompleteLessons(item.lessons),
-                        // total: item.package.totalSessions,
-                      })}
-                    </h4>
-                    <p className="text-color-purple font-medium text-sm">
-                      {item.credits}/{item.package.totalSessions}
-                    </p>
-                  </div>
-
-                  <div className="">
-                    <h4 className="text-gray-300 font-medium text-sm">
-                      {t('duration', { ns: 'lessons' })}
-                    </h4>
-                    <p className="text-color-dark-purple font-medium text-sm">
-                      {item.package.sessionTime}{' '}
-                      {t('minutes', { ns: 'common' })}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <PackageCard key={item.id} item={item} />
             ))}
 
           {uncompletedPackages?.length === 0 && (
@@ -295,43 +184,7 @@ const StudentProfile = () => {
           </h2>
           {completedPackages &&
             completedPackages.map((item) => (
-              <div
-                key={item.id}
-                className="w-full p-5 bg-gray-50 border border-solid mb-2 border-color-border-grey shadow-sm rounded-[10px]"
-              >
-                <h3 className="text-[18px] mb-3 text-gray-400 font-bold leading-6 tracking-[-0.6px] whitespace-nowrap">
-                  {item.package.course.title}
-                </h3>
-
-                <div className="flex space-x-6">
-                  {/* <Button className="px-[10px] cursor-auto" theme="purple">
-                    {t('lesson_type', { ns: 'profile' })}
-                  </Button> */}
-
-                  <div className="">
-                    <h4 className="text-gray-300 font-medium text-sm">
-                      {t('lessons_remaining', {
-                        ns: 'profile',
-                        // count: getCompleteLessons(item.lessons),
-                        // total: item.package.totalSessions,
-                      })}
-                    </h4>
-                    <p className=" text-gray-400 font-medium text-sm">
-                      {item.credits}/{item.package.totalSessions}
-                    </p>
-                  </div>
-
-                  <div className="">
-                    <h4 className="text-gray-300 font-medium text-sm">
-                      {t('duration', { ns: 'lessons' })}
-                    </h4>
-                    <p className=" text-gray-400 font-medium text-sm">
-                      {item.package.sessionTime}{' '}
-                      {t('minutes', { ns: 'common' })}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <PackageCard key={item.id} item={item} completed />
             ))}
 
           {completedPackages?.length === 0 && (
@@ -376,10 +229,6 @@ const StudentProfile = () => {
           </div>
         </AdaptiveDialog>
       </div>
-
-      {/* <ModalWrapper isOpen={isOpen} closeModal={setIsOpen}>
-        <EditProflileStudent closeModal={setIsOpen} setLoading={setLoading} />
-      </ModalWrapper> */}
     </>
   );
 };

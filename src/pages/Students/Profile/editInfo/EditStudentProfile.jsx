@@ -23,10 +23,11 @@ import InputField from '../../../../components/Form/InputField';
 import { SelectField } from '../../../../components/Form/SelectField';
 import { Avatar } from '../../../../widgets/Avatar/Avatar';
 import { trimSpaces } from 'src/utils/trimSpaces';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { FaChevronLeft } from 'react-icons/fa6';
 
-const EditProflileStudent = ({ closeModal, setLoading }) => {
+const EditProflileStudent = () => {
+  const history = useHistory();
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
   const [updateUser] = useMutation(MUTATION_UPDATE_USER);
 
@@ -47,8 +48,6 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
   });
 
   const onSubmit = async (area) => {
-    setLoading(true);
-
     const {
       firstName,
       lastName,
@@ -88,12 +87,10 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
         },
       },
       onCompleted: async () => {
-        closeModal();
-
         setTimeout(async () => {
           await refetchUser();
-          setLoading(false);
           notify(t('student_information_changed', { ns: 'profile' }));
+          history.push('/student/profile');
         }, 400);
       },
       onError: () => {
