@@ -6,7 +6,7 @@ import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 
 import cls from './MentorProfile.module.scss';
 import { useAuth } from '../../../modules/auth';
-import Layout from 'src/components/Layout';
+import Layout from 'src/layouts/DashboardLayout';
 
 const MentorProfile = () => {
   const [t] = useTranslation(['profile', 'common']);

@@ -61,4 +61,9 @@
     bg-color-red
     bg-opacity-10;
   }
+
+  .destructive {
+    @apply text-white
+    bg-color-red;
+  }
 }
