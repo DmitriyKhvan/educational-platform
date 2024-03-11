@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
 import { useOutsideClick } from 'src/utils/useOutsideClick';
 import { Badge } from './Badge';
+import { useMediaQuery } from 'react-responsive';
 
 const Dropdown = ({
   icon,
@@ -17,6 +18,7 @@ const Dropdown = ({
   renderChild,
   popupClassName,
 }) => {
+  const isMobile = useMediaQuery({ maxWidth: 640 });
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState(-1);
   const [isViewTotal, setIsViewTotal] = useState(false);
@@ -43,10 +45,10 @@ const Dropdown = ({
     }
   }, [items]);
   return (
-    <div ref={ref} className={`dropdown ml-[20px]`}>
+    <div ref={ref} className={`dropdown`}>
       <div
         onClick={() => (onClick ? onClick() : setVisible(!visible))}
-        className="flex relative items-center cursor-pointer"
+        className="flex flex-col relative items-center cursor-pointer"
       >
         {typeof icon === 'string' ? (
           <img src={icon} alt="" className={className} />
@@ -54,15 +56,15 @@ const Dropdown = ({
           <div>{icon}</div> || null
         )}
 
-        {label && (
-          <>
-            <span className="font-bold mr-[5px]">{label}</span>
+        {label && !isMobile && (
+          <div className="flex items-center gap-1">
+            <span className="font-bold">{label}</span>
             {visible ? (
-              <FaAngleUp className="text-2xl" />
+              <FaAngleUp className="" />
             ) : (
-              <FaAngleDown className="text-2xl" />
+              <FaAngleDown className="" />
             )}
-          </>
+          </div>
         )}
       </div>
 

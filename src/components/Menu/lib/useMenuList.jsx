@@ -54,15 +54,15 @@ const studentNavLinks = [
     icon: FaGraduationCap,
   },
   {
+    label: 'subscriptions',
+    link: '/student/subscriptions',
+    icon: HiGift,
+  },
+  {
     label: 'class_material',
     link: classMaterialURL || 'https://naonow.instructure.com/',
     icon: IoLibrarySharp,
     external: true,
-  },
-  {
-    label: 'subscriptions',
-    link: '/student/subscriptions',
-    icon: HiGift,
   },
 ];
 

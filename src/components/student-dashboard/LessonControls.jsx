@@ -102,7 +102,7 @@ const LessonControls = ({
 
     if (!isAfterLesson && isWithin24Hours) {
       controls.push(
-        <Button className="w-full text-xs sm:text-sm" onClick={joinLesson}>
+        <Button className="w-full text-xs sm:text-sm p-0" onClick={joinLesson}>
           {t('join_lesson')}
         </Button>,
       );
@@ -112,7 +112,7 @@ const LessonControls = ({
       controls.push(
         <AdaptiveDialog
           button={
-            <Button className="grow text-xs sm:text-sm" theme="dark_purple">
+            <Button className="grow text-xs sm:text-sm p-0" theme="dark_purple">
               Info
             </Button>
           }
@@ -135,7 +135,7 @@ const LessonControls = ({
           button={
             <Button
               theme="dark_purple"
-              className="grow text-xs sm:text-sm"
+              className="grow text-xs sm:text-sm p-0"
               onClick={onSelect}
             >
               {t('reschedule')}
@@ -154,7 +154,7 @@ const LessonControls = ({
             <Button
               // TODO: implement onClick
               disabled={!data?.zoom?.recordingUrl}
-              className="grow gap-1 sm:gap-2 text-xs sm:text-sm"
+              className="grow gap-1 sm:gap-2 text-xs sm:text-sm p-0"
             >
               <FaPlay />
               {t('watch_recording')}
@@ -180,7 +180,7 @@ const LessonControls = ({
           button={
             <Button
               theme="red"
-              className="grow text-xs sm:text-sm"
+              className="grow text-xs sm:text-sm p-0"
               onClick={onCancel}
             >
               {t('cancel', { ns: 'common' })}
