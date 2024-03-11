@@ -91,5 +91,6 @@
   "scheduled": "Scheduled",
   "canceled": "Canceled",
   "paid": "",
-  "level": "Level"
+  "level": "Level",
+  "months": "months"
 }
