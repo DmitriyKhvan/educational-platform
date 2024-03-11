@@ -97,8 +97,6 @@ const LessonControls = ({
     />
   );
 
-  console.log('data', data);
-
   useEffect(() => {
     let controls = [];
 
