@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '../Form/Button';
 import { AdaptiveDialog } from '../AdaptiveDialog';
 import { FaPlay } from 'react-icons/fa6';
-import { ModalType, Roles } from 'src/constants/global';
+import { LessonsStatusType, ModalType, Roles } from 'src/constants/global';
 import { isBetween } from 'src/utils/isBetween';
 import { useAuth } from 'src/modules/auth';
 import { useTranslation } from 'react-i18next';
@@ -97,10 +97,16 @@ const LessonControls = ({
     />
   );
 
+  console.log('data', data);
+
   useEffect(() => {
     let controls = [];
 
-    if (!isAfterLesson && isWithin24Hours) {
+    if (
+      !isAfterLesson &&
+      isWithin24Hours &&
+      data.status === LessonsStatusType.APPROVED
+    ) {
       controls.push(
         <Button className="w-full text-xs sm:text-sm p-0" onClick={joinLesson}>
           {t('join_lesson')}
