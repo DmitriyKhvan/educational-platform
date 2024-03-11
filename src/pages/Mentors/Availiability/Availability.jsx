@@ -130,11 +130,13 @@ const Availability = (/*{ user_id  }*/) => {
     for (const day in days) {
       slotsToSave.push({
         day,
-        slots: [...days[day].map((slot) => ({ from: slot.from, to: slot.to, trialTimesheet: false }))],
+        slots: [...days[day].map((slot) => ({ from: slot.from, to: slot.to }))],
+        trialTimesheet: false,
       });
       // slotsToSave.push({
       //   day,
-      //   slots: [...days[day].map((slot) => ({ from: slot.from, to: slot.to, trialTimesheet: true }))],
+      //   slots: [...days[day].map((slot) => ({ from: slot.from, to: slot.to}))],
+      //   trialTimesheet: true,
       // });
     }
 
