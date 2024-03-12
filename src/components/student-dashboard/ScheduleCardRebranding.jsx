@@ -119,6 +119,7 @@ const ScheduleCard = ({
         refetch={fetchAppointments}
         duration={subscription?.duration || duration}
         setCanceledLessons={setCanceledLessons}
+        pattern="info"
       />
     </div>
   );

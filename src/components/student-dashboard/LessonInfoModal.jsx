@@ -57,7 +57,6 @@ const LessonInfoModal = ({
           refetch={refetch}
           duration={duration}
           setCanceledLessons={setCanceledLessons}
-          pattern="info"
         />
       )}
 

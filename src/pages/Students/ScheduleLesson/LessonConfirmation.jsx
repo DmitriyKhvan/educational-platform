@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
 import { format } from 'date-fns';
 import NotificationManager from '../../../components/NotificationManager';
-import Layout from '../../../components/Layout';
+import Layout from '../../../layouts/DashboardLayout';
 import ScheduleCard from './ScheduleCard';
 import ScheduleCardComponent from '../../../components/student-dashboard/ScheduleCard';
 import Loader from '../../../components/common/Loader';

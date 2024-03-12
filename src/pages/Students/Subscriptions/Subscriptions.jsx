@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { useQuery } from '@apollo/client';
-import Layout from '../../../components/Layout';
+import Layout from '../../../layouts/DashboardLayout';
 import { useTranslation } from 'react-i18next';
 
 import Loader from '../../../components/Loader/Loader';

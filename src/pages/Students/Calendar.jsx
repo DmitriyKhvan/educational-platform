@@ -5,7 +5,7 @@ import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import Modal from 'react-modal';
 import moment from 'moment-timezone';
 // import CalendarModal from '../../components/CalendarModal';
-import Layout from '../../components/Layout';
+import Layout from '../../layouts/DashboardLayout';
 import Loader from '../../components/common/Loader';
 import { useLocation, Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
@@ -417,7 +417,7 @@ const Calendar = () => {
         </div>
       )}
       {/* <div className="mx-3 my-2 sm:mx-6 sm:my-4 2xl:mx-16 2xl:my-12"> */}
-      <div className="m-10 min-h-screen">
+      <div className="px-5 py-6 sm:p-10 min-h-screen">
         {/* <button onClick={() => setReviewLessonModal(true)}>Hey</button> */}
 
         <div>
@@ -473,24 +473,20 @@ const Calendar = () => {
             !isCalendar &&
             (displayTableData?.length ? (
               isDesktop ? (
-                <div className="hidden xl:block">
-                  <LessonTable
-                    displayTableData={displayTableData}
-                    userTimezone={userTimezone}
-                    handleOpenFeedbackModal={handleOpenFeedbackModal}
-                    handleFeedback={handleFeedback}
-                  />
-                </div>
+                <LessonTable
+                  displayTableData={displayTableData}
+                  userTimezone={userTimezone}
+                  handleOpenFeedbackModal={handleOpenFeedbackModal}
+                  handleFeedback={handleFeedback}
+                />
               ) : (
-                <div className="xl:hidden">
-                  <LessonTableMobile
-                    displayTableData={displayTableData}
-                    getAppointments={getAppointments}
-                    userTimezone={userTimezone}
-                    handleOpenFeedbackModal={handleOpenFeedbackModal}
-                    handleFeedback={handleFeedback}
-                  />
-                </div>
+                <LessonTableMobile
+                  displayTableData={displayTableData}
+                  getAppointments={getAppointments}
+                  userTimezone={userTimezone}
+                  handleOpenFeedbackModal={handleOpenFeedbackModal}
+                  handleFeedback={handleFeedback}
+                />
               )
             ) : (
               noLessonMessage

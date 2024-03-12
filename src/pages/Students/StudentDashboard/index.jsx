@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Layout from '../../../components/Layout';
+import Layout from '../../../layouts/DashboardLayout';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getItemToLocalStorage } from '../../../constants/global';
@@ -65,7 +65,7 @@ const StudentListAppointments = () => {
       {lessonLoading ? (
         <Loader height="calc(100vh - 80px)" />
       ) : (
-        <div className="bg-color-dashboard-bg min-h-screen pb-10 flex flex-wrap">
+        <div className="bg-color-dashboard-bg min-h-full pb-10 flex flex-wrap">
           <div className=" space-y-1 sm:space-y-8 sm:max-w-[524px] mx-auto sm:mt-10 2xl:mr-10 w-full">
             <DashboardCard
               title={t('student_dashboard_welcome', {

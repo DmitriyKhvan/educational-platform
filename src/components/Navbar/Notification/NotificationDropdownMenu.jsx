@@ -6,9 +6,12 @@ import { NotificationItem } from './NotificationItem';
 import { Link } from 'react-router-dom';
 import { useNotifications } from 'src/modules/notifications';
 import { Badge } from 'src/components/Badge';
+import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
+import { useMediaQuery } from 'react-responsive';
 
 // eslint-disable-next-line react/display-name
 export const NotificationDropdownMenu = memo(() => {
+  const isMobile = useMediaQuery({ maxWidth: 640 });
   const { notifications, removeNotifications } = useNotifications();
 
   const [visible, setVisible] = useState(false);
@@ -16,21 +19,33 @@ export const NotificationDropdownMenu = memo(() => {
   const ref = useOutsideClick(() => setVisible(false));
 
   return (
-    <div ref={ref} className={`dropdown ml-[20px]`}>
+    <div ref={ref} className={`dropdown`}>
       <div
         onClick={() =>
           notifications.length ? setVisible((val) => !val) : undefined
         }
-        className="flex relative items-center cursor-pointer"
+        className="flex flex-col relative items-center cursor-pointer"
       >
-        <IoNotifications className="text-2xl" />
-      </div>
+        <div className="relative">
+          {notifications.length > 0 && <Badge count={notifications.length} />}
+          <IoNotifications className="text-[30px]" />
+        </div>
 
-      {notifications.length > 0 && <Badge count={notifications.length} />}
+        {!isMobile && (
+          <div className="flex items-center gap-1">
+            <span className="font-bold">Notifications</span>
+            {visible ? (
+              <FaAngleUp className="" />
+            ) : (
+              <FaAngleDown className="" />
+            )}
+          </div>
+        )}
+      </div>
 
       {visible && notifications.length > 0 && (
         <>
-          <div className="menu absolute right-0 top-[40px] w-[500px] bg-white rounded-[9px] py-[6px] border-[0.5px] border-color-border-grey shadow-[1px_3px_5px_rgba(0,0,0,0.1)] z-[3001]">
+          <div className="menu absolute right-0 top-[60px] w-[500px] bg-white rounded-[9px] py-[6px] border-[0.5px] border-color-border-grey shadow-[1px_3px_5px_rgba(0,0,0,0.1)] z-[3001]">
             <div className="max-h-[225px] overflow-auto">
               {notifications.map((notification) => (
                 <NotificationItem

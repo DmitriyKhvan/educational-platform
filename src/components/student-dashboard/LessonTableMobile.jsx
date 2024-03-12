@@ -9,7 +9,6 @@ export const LessonTableMobile = ({
   return (
     <ul>
       {displayTableData?.map((data, idx) => {
-        console.log(data.resource, 'TEST');
         return (
           <li key={data?.resource?.id ?? idx}>
             <ScheduleCard
