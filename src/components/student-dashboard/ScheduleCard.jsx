@@ -3,15 +3,9 @@ import { useTranslation } from 'react-i18next';
 import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import ZoomWarningModal from './ZoomWarningModal';
 import { useAuth } from '../../modules/auth';
-// import Swal from 'sweetalert2';
 
 import { LessonsStatusType, ModalType, Roles } from '../../constants/global';
-import {
-  addMinutes,
-  // differenceInHours,
-  // isWithinInterval,
-  // subMinutes,
-} from 'date-fns';
+import { addMinutes } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { isBetween } from '../../utils/isBetween';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
@@ -41,24 +35,8 @@ const ScheduleCard = ({
 
   const dateLesson = new Date(date); //current time zone avtomaticaly
 
-  // const isLate = differenceInHours(dateLesson, new Date()) <= 24;
-
   function onSelect() {
-    // if (isLate) {
-    //   Swal.fire({
-    //     title: t('cannot_reschedule'),
-    //     text: t('reschedule_error'),
-    //     icon: 'error',
-    //     confirmButtonText: t('ok'),
-    //   });
-    // } else {
-    //   setIsOpen(true);
-    //   // window.location.replace('/student/schedule-lesson/select/' + data.id);
-    //   setModalType(ModalType.RESCHEDULE);
-    // }
-
     setIsOpen(true);
-    // window.location.replace('/student/schedule-lesson/select/' + data.id);
     setModalType(ModalType.RESCHEDULE);
   }
 
@@ -69,25 +47,19 @@ const ScheduleCard = ({
   };
 
   const onCancel = () => {
-    // if (isLate) {
-    //   Swal.fire({
-    //     title: t('cannot_cancel'),
-    //     text: t('cancel_error'),
-    //     icon: 'error',
-    //     confirmButtonText: t('ok'),
-    //   });
-    // } else {
-    //   setIsOpen(true);
-    //   setModalType(ModalType.CANCEL);
-    // }
-
     setIsOpen(true);
     setModalType(ModalType.CANCEL);
   };
 
   const joinLesson = () => {
     //Time period when you can go to the lesson
-    if (isBetween(dateLesson, data.duration, userTimezone)) {
+    if (
+      isBetween({
+        dateStart: dateLesson,
+        duration: data.duration,
+        userTimezone,
+      })
+    ) {
       window.open(
         user.role === Roles.MENTOR ? zoom.startUrl : zoom.joinUrl,
         '_blank',

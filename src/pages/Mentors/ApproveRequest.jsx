@@ -1,4 +1,4 @@
-import Layout from '../../components/Layout';
+import Layout from '../../layouts/DashboardLayout';
 import { useEffect } from 'react';
 import moment from 'moment-timezone';
 import { useTranslation } from 'react-i18next';

@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from '../../../components/Layout';
+import Layout from '../../../layouts/DashboardLayout';
 import Stick from '../../../assets/stick.png';
 import SampleModal from './SampleModal';
 import Biography from './edit/Biography';

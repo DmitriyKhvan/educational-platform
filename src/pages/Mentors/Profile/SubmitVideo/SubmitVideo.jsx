@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from '../../../../components/Layout';
+import Layout from '../../../../layouts/DashboardLayout';
 
 import { useHistory } from 'react-router-dom';
 import { MUTATION_UPDATE_MENTOR } from '../../../../modules/auth/graphql';

@@ -1,12 +1,14 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import Modal from 'react-modal';
 import moment from 'moment-timezone';
-import CalendarModal from '../../components/CalendarModal';
-import Layout from '../../components/Layout';
+// import CalendarModal from '../../components/CalendarModal';
+import Layout from '../../layouts/DashboardLayout';
 import Loader from '../../components/common/Loader';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
 
 import '../../assets/styles/calendar.scss';
 import {
@@ -20,14 +22,16 @@ import { useAuth } from '../../modules/auth';
 import FeedbackLessonModal from '../Mentors/FeedbackLessonModal';
 import WeekHeader from '../../components/common/WeekHeader';
 import { useQuery } from '@apollo/client';
-import { APPOINTMENTS_QUERY } from '../../modules/auth/graphql';
+import { APPOINTMENTS_QUERY, PACKAGE_QUERY } from '../../modules/auth/graphql';
 import { format } from 'date-fns-tz';
 import { LessonTable } from '../../components/student-dashboard/LessonTable';
-import { addMinutes, differenceInHours, isAfter } from 'date-fns';
+import { addMinutes, isAfter } from 'date-fns';
 import Button from 'src/components/Form/Button';
 import { Badge } from 'src/components/Badge';
 import { useNotifications } from 'src/modules/notifications';
 import { LessonTableMobile } from 'src/components/student-dashboard/LessonTableMobile';
+import LessonInfoModal from 'src/components/student-dashboard/LessonInfoModal';
+import { isWithinHours } from 'src/utils/isWithinHours';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -106,6 +110,8 @@ const Calendar = () => {
   const [t] = useTranslation(['lessons']);
   const location = useLocation();
   const { user } = useAuth();
+  const isDesktop = useMediaQuery({ minWidth: 1307 });
+
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -124,6 +130,14 @@ const Calendar = () => {
     },
     fetchPolicy: 'no-cache',
   });
+
+  const { data: { packageSubscriptions: planStatus = [] } = {}, loading } =
+    useQuery(PACKAGE_QUERY, {
+      fetchPolicy: 'no-cache',
+      variables: {
+        studentId: getItemToLocalStorage('studentId'),
+      },
+    });
 
   useEffect(() => {
     // to update content after receiving notification
@@ -183,6 +197,9 @@ const Calendar = () => {
       background: 'none',
       border: 'none',
     },
+    overlay: {
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
   };
 
   useEffect(() => {
@@ -215,11 +232,12 @@ const Calendar = () => {
       const tempPastLessons = [];
 
       tableAppointments.map((each) => {
-        const isWithin24hour =
-          differenceInHours(
-            new Date(each.resource.startAt),
-            new Date(each.resource.canceledAt),
-          ) <= 24;
+        const isWithin24hour = isWithinHours({
+          dateEnd: new Date(each.resource.startAt),
+          dateStart: new Date(each.resource.canceledAt),
+          hours: 24,
+          userTimezone,
+        });
 
         const endLesson = addMinutes(
           new Date(each.resource.startAt),
@@ -264,16 +282,6 @@ const Calendar = () => {
     const [selectedEvent] =
       calendarEvents?.filter((x) => x.id === calendarEvent.id) ?? [];
 
-    const scheduledTime = moment(selectedEvent?.resource?.startAt).tz(
-      userTimezone,
-    );
-    const startTime = moment(selectedEvent?.resource?.startAt)
-      .tz(userTimezone)
-      .format('hh:mm A');
-    const endTime = moment(selectedEvent?.resource?.end_at)
-      .tz(userTimezone)
-      .format('hh:mm A');
-
     return (
       <div style={{ zIndex: 9999 }} className="container">
         <Modal
@@ -282,18 +290,15 @@ const Calendar = () => {
           style={customStyles}
           contentLabel="Example Modal"
         >
-          <CalendarModal
-            event={selectedEvent}
-            lesson={selectedEvent?.title}
-            startTime={startTime}
-            endTime={endTime}
-            // zoomlink={selectedEvent.resource?.zoomLink}
-            zoom={selectedEvent.resource?.zoom}
-            time={scheduledTime}
-            data={selectedEvent}
-            closeModal={closeModal}
-            getAppointments={getAppointments}
-          />
+          <div className="p-8 bg-white rounded-2xl">
+            <LessonInfoModal
+              date={selectedEvent.start}
+              data={selectedEvent.resource}
+              refetch={getAppointments}
+              duration={selectedEvent.resource.eventDate.duration}
+              userTimezone={userTimezone}
+            />
+          </div>
         </Modal>
       </div>
     );
@@ -367,6 +372,43 @@ const Calendar = () => {
     };
   }, []);
 
+  const noLessonMessage = (
+    <>
+      {selectedTab === 'pastLessons' ? (
+        <div className="w-full bg-gray-50 rounded-lg mt-8 py-[47px]">
+          <p className="text-color-dark-purple text-sm text-center mb-6">
+            You don’t have completed lessons yet
+          </p>
+        </div>
+      ) : (
+        <div className="w-full bg-gray-50 rounded-lg mt-8 py-[47px]">
+          <p className="text-color-dark-purple text-sm text-center mb-6">
+            You have{' '}
+            <span className="text-color-purple font-medium">
+              {planStatus.reduce((prev, curr) => prev + curr.credits, 0)}{' '}
+              available
+            </span>{' '}
+            lessons
+          </p>
+          <div className="flex justify-center gap-3">
+            <Link
+              to="/student/schedule-lesson/select"
+              className="block rounded-lg bg-color-purple px-4 py-4 text-white font-medium sm:font-semibold text-xs sm:text-sm text-center"
+            >
+              {t('schedule_by_time', { ns: 'dashboard' })}
+            </Link>
+            <Link
+              to="/student/mentors-list"
+              className="block rounded-lg bg-color-purple px-4 py-4 text-white font-medium sm:font-semibold text-xs sm:text-sm text-center"
+            >
+              {t('schedule_by_mentor', { ns: 'dashboard' })}
+            </Link>
+          </div>
+        </div>
+      )}
+    </>
+  );
+
   return (
     <Layout>
       {loadingAppointments && (
@@ -374,21 +416,22 @@ const Calendar = () => {
           <Loader></Loader>
         </div>
       )}
-      <div className="mx-3 my-2 sm:mx-6 sm:my-4 2xl:mx-16 2xl:my-12">
+      {/* <div className="mx-3 my-2 sm:mx-6 sm:my-4 2xl:mx-16 2xl:my-12"> */}
+      <div className="px-5 py-6 sm:p-10 min-h-screen">
         {/* <button onClick={() => setReviewLessonModal(true)}>Hey</button> */}
 
         <div>
-          <h1 className="title m-0 mt-4 mb-3">
+          <h1 className="mb-4 text-[32px] font-bold">
             {t('lessons', { ns: 'lessons' })}
           </h1>
           <div className="row container-fluid m-0 p-0">
             <div className="flex flex-wrap gap-4 mb-4 sm:mb-6 md:mb-8">
-              <div className="flex items-center">
+              <div className="grid grid-cols-2 w-full sm:flex sm:w-auto">
                 <Button
                   theme="outline"
-                  className={`relative ml-0 rounded-r-none focus:shadow-none ${
+                  className={`relative ml-0 rounded-r-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
                     selectedTab === 'upcomingLessons' &&
-                    'bg-color-purple text-white'
+                    'bg-color-dark-purple text-white'
                   }`}
                   onClick={onClickUpcomingLessons}
                 >
@@ -401,9 +444,9 @@ const Calendar = () => {
                 </Button>
                 <Button
                   theme="outline"
-                  className={`ml-[-4px] rounded-l-none focus:shadow-none ${
+                  className={`ml-[-4px] rounded-l-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
                     selectedTab === 'pastLessons' &&
-                    'bg-color-purple text-white'
+                    'bg-color-dark-purple text-white'
                   }`}
                   onClick={onClickPastLessons}
                 >
@@ -413,8 +456,9 @@ const Calendar = () => {
 
               <Button
                 theme="outline"
-                className={`focus:shadow-none hidden sm:block ${
-                  selectedTab === 'calendar' && 'bg-color-purple text-white'
+                className={`focus:shadow-none hidden sm:block hover:bg-color-dark-purple hover:text-white ${
+                  selectedTab === 'calendar' &&
+                  'bg-color-dark-purple text-white'
                 }`}
                 onClick={onCalendarClick}
               >
@@ -424,28 +468,29 @@ const Calendar = () => {
           </div>
         </div>
 
-        <div className="overflow-auto">
-          {!isLoading && !isCalendar && (
-            <>
-              <div className="hidden sm:block">
+        <div>
+          {!isLoading &&
+            !isCalendar &&
+            (displayTableData?.length ? (
+              isDesktop ? (
                 <LessonTable
                   displayTableData={displayTableData}
                   userTimezone={userTimezone}
                   handleOpenFeedbackModal={handleOpenFeedbackModal}
                   handleFeedback={handleFeedback}
                 />
-              </div>
-
-              <div className="sm:hidden">
+              ) : (
                 <LessonTableMobile
                   displayTableData={displayTableData}
+                  getAppointments={getAppointments}
                   userTimezone={userTimezone}
                   handleOpenFeedbackModal={handleOpenFeedbackModal}
                   handleFeedback={handleFeedback}
                 />
-              </div>
-            </>
-          )}
+              )
+            ) : (
+              noLessonMessage
+            ))}
           {!isLoading && isCalendar && (
             <div className="mt-4">
               <BigCalendar

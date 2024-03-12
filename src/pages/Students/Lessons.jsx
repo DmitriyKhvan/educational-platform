@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
-import Layout from '../../components/Layout';
+import Layout from '../../layouts/DashboardLayout';
 import CustomTable from '../../components/CustomTable';
 import { useTranslation } from 'react-i18next';
 
