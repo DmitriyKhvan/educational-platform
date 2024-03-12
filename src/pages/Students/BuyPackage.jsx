@@ -16,6 +16,7 @@ const GET_COURSES = gql`
       id
       title
       description
+      active
       packages {
         id
         totalSessions
@@ -26,12 +27,19 @@ const GET_COURSES = gql`
         discount
         courseId
       }
+      translations {
+        id
+        title
+        description
+        language
+      }
     }
   }
 `;
 
 export default function BuyPackage() {
-  const [t] = useTranslation('purchase');
+  const [t, i18n] = useTranslation('purchase');
+  const currentLanguage = i18n.language;
 
   const [courses, setCourse] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -55,10 +63,16 @@ export default function BuyPackage() {
   useEffect(() => {
     if (data) {
       const coursesFiltered = data.courses
-        .filter((course) => course.packages.length > 0)
+        .filter((course) => course.packages.length > 0 && course.active)
         .map((course) => {
+          const title =
+            course.translations.find(
+              (translation) => translation.language === currentLanguage,
+            )?.title || course.title;
+
           return {
             ...course,
+            title,
             packages: course.packages
               .filter((pkg) => pkg.period !== 1)
               .sort((a, b) => a.period - b.period),
