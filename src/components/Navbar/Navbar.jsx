@@ -17,7 +17,7 @@ import { useMediaQuery } from 'react-responsive';
 const Navbar = memo(() => {
   const [t] = useTranslation('common');
   const { user, logout } = useAuth();
-  const isTablet = useMediaQuery({ maxWidth: 1024 });
+  const isTablet = useMediaQuery({ maxWidth: 1023 });
 
   const { studentsRender, studentList } = useStudentsDropdown();
 
@@ -28,7 +28,7 @@ const Navbar = memo(() => {
   };
 
   return (
-    <div className="nav-bar sticky top-0 flex items-center justify-between bg-white h-20 px-5 sm:px-10 shadow-[0px_4px_16px_0px_rgba(0,_0,_0,_0.04)]">
+    <div className="nav-bar sticky top-0 flex items-center justify-between bg-white h-20 px-5 sm:px-10 shadow-[0px_4px_16px_0px_rgba(0,_0,_0,_0.04)] z-20">
       <div>
         {isTablet && (
           <Link
@@ -63,7 +63,7 @@ const Navbar = memo(() => {
         <NotificationDropdownMenu />
 
         <Dropdown
-          className="w-[20px] h-[20px]"
+          className="w-[30px] h-[30px] rounded-full border-2 border-color-white object-center object-cover "
           icon={
             user?.avatar ? (
               user?.avatar.url
