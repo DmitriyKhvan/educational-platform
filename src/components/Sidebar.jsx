@@ -13,7 +13,7 @@ import Logo from 'src/assets/images/logo_purple.svg';
 
 export const Sidebar = () => {
   const { user } = useAuth();
-  const isTablet = useMediaQuery({ maxWidth: 1024 });
+  const isTablet = useMediaQuery({ maxWidth: 1023 });
 
   // const { user, logout } = useAuth();
 

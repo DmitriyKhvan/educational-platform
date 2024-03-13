@@ -30,6 +30,7 @@ const StudentListAppointments = () => {
     refetch,
   } = useQuery(APPOINTMENTS_QUERY, {
     fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
     variables: {
       status: 'scheduled,paid,completed,in_progress,approved',
       studentId: getItemToLocalStorage('studentId'),
