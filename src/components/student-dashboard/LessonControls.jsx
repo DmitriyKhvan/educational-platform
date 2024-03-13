@@ -28,6 +28,7 @@ const LessonControls = ({
   const [isWarningOpen, setIsWarningOpen] = useState(false);
   const [modalType, setModalType] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen2, setIsOpen2] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [controls, setControls] = useState([]);
 
@@ -36,7 +37,6 @@ const LessonControls = ({
 
   function onSelect() {
     setIsOpen(true);
-
     setModalType(ModalType.RESCHEDULE);
   }
 
@@ -48,8 +48,13 @@ const LessonControls = ({
 
   const onCancel = () => {
     setIsOpen(true);
+    setIsOpen2(false);
     setModalType(ModalType.CANCEL);
   };
+
+  useEffect(() => {
+    setTabIndex(0);
+  }, [isOpen]);
 
   const joinLesson = () => {
     //Time period when you can go to the lesson
@@ -115,6 +120,8 @@ const LessonControls = ({
     if (pattern === 'info') {
       controls.push(
         <AdaptiveDialog
+          open={isOpen2}
+          setOpen={setIsOpen2}
           button={
             <Button className="grow text-xs sm:text-sm p-0" theme="dark_purple">
               Info
@@ -136,6 +143,8 @@ const LessonControls = ({
     if (!isAfterLesson && !isWithin24Hours) {
       controls.push(
         <AdaptiveDialog
+          open={isOpen}
+          setOpen={setIsOpen}
           button={
             <Button
               theme="dark_purple"
@@ -181,6 +190,8 @@ const LessonControls = ({
     if (!isAfterLesson) {
       controls.push(
         <AdaptiveDialog
+          open={isOpen}
+          setOpen={setIsOpen}
           button={
             <Button
               theme="red"
@@ -197,7 +208,7 @@ const LessonControls = ({
     }
 
     setControls(controls);
-  }, []);
+  }, [modalType, tabIndex, isOpen, isOpen2]);
 
   return (
     <>

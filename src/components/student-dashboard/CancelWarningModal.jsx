@@ -68,10 +68,6 @@ const CancelWarningModal = ({
       );
     }
 
-    if (type === 'reschedule-time') {
-      setTabIndex(2);
-    }
-
     if (type === 'cancel') {
       setTabIndex(1);
     }
@@ -80,7 +76,7 @@ const CancelWarningModal = ({
   const disableCancelLesson =
     user.role === Roles.MENTOR || modifyCredits !== 0 ? false : true;
   return (
-    <div className="max-w-[400px] w-full mx-auto py-[15px] px-[12px]">
+    <div className="max-w-[336px] mx-auto">
       <div className="mb-5 text-2xl font-bold text-center">
         {type === 'cancel' ? t('cancel_lesson') : t('reschedule_lesson')}
       </div>
@@ -103,17 +99,20 @@ const CancelWarningModal = ({
               <span className="bg-color-red min-w-6 h-6 block rounded-full text-center text-white mr-4 text-base">
                 !
               </span>
-              {type === 'cancel' ? (
-                <div className="max-w-[300px] space-y-3">
-                  <p className="font-semibold">{t('cancel_modal_desc3')}</p>
-
-                  <p className="font-semibold">{t('cancel_modal_desc2')}</p>
-                </div>
-              ) : (
-                <div className="font-semibold leading-[18px] tracking-[-0.2px]">
-                  You cannot reschedule within 24 hours.
-                </div>
-              )}
+              <div className="max-w-[300px] space-y-3 font-medium text-color-dark-purple leading-5">
+                {type === 'cancel' ? (
+                  isLate ? (
+                    <>
+                      <p>{t('cancel_modal_desc3')}</p>
+                      <p>{t('cancel_modal_desc2')}</p>
+                    </>
+                  ) : (
+                    <p>{t('cancel_modal_desc4')}</p>
+                  )
+                ) : (
+                  <p>You cannot reschedule within 24 hours.</p>
+                )}
+              </div>
             </div>
           )}
 
