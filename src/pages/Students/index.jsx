@@ -1,6 +1,6 @@
 import { Switch, useRouteMatch, Route } from 'react-router-dom';
 // Student Path
-import StudentCalendar from './Calendar';
+// import StudentCalendar from './Calendar';
 import ClassMaterials from './ClassMaterials';
 // import GroupScheduleLesson from './GroupLessons';
 import StudentListAppointments from './StudentDashboard';
@@ -10,6 +10,7 @@ import ScheduleLessonSteps from './ScheduleLesson/ScheduleLessonSteps';
 import Referal from './Referal/Referal';
 import Mentors from './MentorsList/Mentors';
 import Subscriptions from './Subscriptions/Subscriptions';
+import LessonsList from './LessonsList';
 
 export default function StudentRoutes() {
   let { path } = useRouteMatch();
@@ -41,7 +42,8 @@ export default function StudentRoutes() {
       </Route>
 
       <Route path={`${path}/lesson-calendar`}>
-        <StudentCalendar />
+        {/* <StudentCalendar /> */}
+        <LessonsList />
       </Route>
 
       <Route path={`${path}/class-materials`}>

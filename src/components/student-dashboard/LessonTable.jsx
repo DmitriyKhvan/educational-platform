@@ -39,7 +39,7 @@ export const LessonTable = ({
       <table className="border border-separate border-spacing-0 border-gray-100 drop-shadow-sm w-full rounded-2xl">
         <thead className="w-full">
           <tr className="">
-            {tableHead.map((x, ind) => (
+            {tableHead?.map((x, ind) => (
               <th
                 className="first:pl-5 last:pr-5 border-b text-gray-300 font-normal p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle text-sm lg:text-[15px] whitespace-nowrap"
                 scope="col"
@@ -61,7 +61,7 @@ export const LessonTable = ({
               </td>
             </tr>
           )}
-          {displayTableData.map((event) => {
+          {displayTableData?.map((event) => {
             const data = event?.resource;
             const date = new Date(data?.startAt ?? new Date());
 

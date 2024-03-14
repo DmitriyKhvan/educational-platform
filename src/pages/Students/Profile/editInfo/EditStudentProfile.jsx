@@ -25,6 +25,7 @@ import { Avatar } from '../../../../widgets/Avatar/Avatar';
 import { trimSpaces } from 'src/utils/trimSpaces';
 import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { FaChevronLeft } from 'react-icons/fa6';
+import PhoneNumberField from 'src/components/Form/PhoneNumberField';
 
 const EditProflileStudent = () => {
   const history = useHistory();
@@ -36,16 +37,18 @@ const EditProflileStudent = () => {
 
   const { user, refetchUser } = useAuth();
 
-  const { register, handleSubmit, control } = useForm({
-    defaultValues: {
-      koreanEquivalent: user?.koreanEquivalent,
-      gender: user?.gender,
-      lastName: user?.lastName,
-      firstName: user?.firstName,
-      phoneNumber: user?.phoneNumber,
-      address: user?.address,
-    },
-  });
+  const { register, handleSubmit, control, resetField, watch, setValue } =
+    useForm({
+      defaultValues: {
+        koreanEquivalent: user?.koreanEquivalent,
+        gender: user?.gender,
+        lastName: user?.lastName,
+        firstName: user?.firstName,
+        phoneNumber: '',
+        phoneNumberWithoutCode: '',
+        address: user?.address,
+      },
+    });
 
   const onSubmit = async (area) => {
     const {
@@ -61,7 +64,6 @@ const EditProflileStudent = () => {
 
     await updateStudent({
       variables: {
-        // id: parseInt(user?.student?.id),
         id: parseInt(getItemToLocalStorage('studentId')),
         data: {
           avatar: file,
@@ -242,13 +244,20 @@ const EditProflileStudent = () => {
           </section>
 
           <section className="mt-4">
-            <InputField
+            <PhoneNumberField
+              register={register}
+              resetField={resetField}
+              defaultNumber={user?.phoneNumber}
+              setValue={setValue}
+              watch={watch}
+            />
+            {/* <InputField
               className="w-full"
               label={t('phone_number', { ns: 'common' })}
               type={'text'}
               placeholder="+1(555)555-5555"
               {...register('phoneNumber')}
-            />
+            /> */}
           </section>
 
           <section className="mt-4">
@@ -262,7 +271,7 @@ const EditProflileStudent = () => {
           </section>
         </section>
 
-        <Button className="mt-10 w-full" type="submit" theme="purple">
+        <Button className="my-10 h-[60px] w-full" type="submit" theme="purple">
           {t('save', { ns: 'common' })}
         </Button>
       </form>

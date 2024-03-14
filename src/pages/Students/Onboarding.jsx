@@ -17,20 +17,10 @@ import InputWithError from 'src/components/Form/InputWithError';
 import InputField from 'src/components/Form/InputField';
 import notify from 'src/utils/notify';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
-import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
-
-import ReactInputMask from 'react-input-mask';
-import { PhoneCodeListModal } from 'src/components/onboarding/PhoneCodeListModal';
-import { phoneCodes } from 'src/constants/global';
-import MyDropdownMenu from 'src/components/DropdownMenu';
-import { MyDrawer } from 'src/components/Drawer';
-import { useMediaQuery } from 'react-responsive';
+import PhoneNumberField from 'src/components/Form/PhoneNumberField';
 
 export default function Onboarding() {
-  const isMobile = useMediaQuery({ maxWidth: 639 });
   localStorage.removeItem('studentId');
-
-  const [country, setCountry] = useState(phoneCodes[4]);
 
   const [t] = useTranslation(['onboarding', 'common', 'translations']);
 
@@ -44,9 +34,11 @@ export default function Onboarding() {
     register,
     resetField,
     formState: { errors, isValid },
+    setValue,
+    watch,
   } = useForm({
     mode: 'onChange',
-    defaultValues: { phoneNumber: '' },
+    defaultValues: { phoneNumber: '', phoneNumberWithoutCode: '' },
   });
 
   const { login, data: loginData } = useLogin();
@@ -54,14 +46,11 @@ export default function Onboarding() {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
+
     try {
       await signUp({
         variables: {
           ...data,
-          phoneNumber: `${country.code}${data.phoneNumber.replace(
-            /[-()]/g,
-            '',
-          )}`,
         },
       });
 
@@ -123,95 +112,12 @@ export default function Onboarding() {
             </InputWithError>
 
             <InputWithError errorsField={errors?.phoneNumber}>
-              <div>
-                <label
-                  className="flex mb-[10px] font-semibold text-[15px] leading-5 tracking-[-0.2px]"
-                  htmlFor="phoneNumber"
-                >
-                  {t('phone_number', { ns: 'common' })}
-                </label>
-                <div className="flex items-center justify-between gap-2">
-                  {isMobile ? (
-                    <MyDrawer
-                      button={
-                        <label className="min-w-[103px] py-[14px] pl-3 pr-2 rounded-lg border border-color-border-grey select-none cursor-pointer">
-                          <div className="flex items-center justify-between gap-2">
-                            <img
-                              className="w-[22px]"
-                              src={country?.flag}
-                              alt={country?.name}
-                            />
-                            <span className="text-sm font-medium">
-                              {country?.code}
-                            </span>
-                            <MdOutlineKeyboardArrowDown className="w-4" />
-                          </div>
-                        </label>
-                      }
-                    >
-                      <PhoneCodeListModal
-                        setCountry={setCountry}
-                        currentCountry={country}
-                        resetField={resetField}
-                      />
-                    </MyDrawer>
-                  ) : (
-                    <MyDropdownMenu
-                      button={
-                        <label className="min-w-[103px] py-[14px] pl-3 pr-2 rounded-lg border border-color-border-grey select-none cursor-pointer">
-                          <div className="flex items-center justify-between gap-2">
-                            <img
-                              className="w-[22px]"
-                              src={country?.flag}
-                              alt={country?.name}
-                            />
-                            <span className="text-sm font-medium">
-                              {country?.code}
-                            </span>
-                            <MdOutlineKeyboardArrowDown className="w-4" />
-                          </div>
-                        </label>
-                      }
-                    >
-                      <PhoneCodeListModal
-                        setCountry={setCountry}
-                        currentCountry={country}
-                        resetField={resetField}
-                      />
-                    </MyDropdownMenu>
-                  )}
-
-                  <ReactInputMask
-                    id="phoneNumber"
-                    mask={
-                      country?.mask.replace(/#/g, '9') /*.replace(/-/g, ' ')*/
-                    }
-                    maskChar="X"
-                    className="w-full"
-                    placeholder={country?.mask.replace(/#/g, 'X')}
-                    {...register('phoneNumber', {
-                      required: t('required_phone_number', {
-                        ns: 'translations',
-                      }),
-                      pattern: {
-                        value: new RegExp(
-                          country?.mask.replace(/[()#]/g, (match) => {
-                            if (match === '(') return '\\(';
-                            if (match === ')') return '\\)';
-                            if (match === '#') return '\\d';
-                            return match;
-                          }),
-                        ),
-                        message: t('invalid_phone_number', {
-                          ns: 'onboarding',
-                        }),
-                      },
-                    })}
-                  >
-                    {(inputProps) => <InputField {...inputProps} />}
-                  </ReactInputMask>
-                </div>
-              </div>
+              <PhoneNumberField
+                register={register}
+                resetField={resetField}
+                setValue={setValue}
+                watch={watch}
+              />
             </InputWithError>
 
             <InputWithError errorsField={errors?.email}>

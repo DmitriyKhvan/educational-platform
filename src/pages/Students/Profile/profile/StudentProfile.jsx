@@ -60,7 +60,7 @@ const StudentProfile = () => {
               <div className="flex justify-between ml-auto w-full">
                 <div className="flex justify-between w-full">
                   <div>
-                    <h2 className="text-[20px] sm:text-[24px] font-bold leading-9 tracking-[-1px] text-color-dark-purple">
+                    <h2 className="text-[20px] sm:text-[24px] font-bold leading-6 tracking-[-1px] text-color-dark-purple">
                       {user?.firstName + ' '}
                       {user?.lastName}
                     </h2>
@@ -222,7 +222,7 @@ const StudentProfile = () => {
               </Button>
               <Button
                 onClick={() => setLogoutOpen(false)}
-                theme="outline"
+                theme="gray"
                 className="w-full"
               >
                 {t('cancel', { ns: 'modals' })}
