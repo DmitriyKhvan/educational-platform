@@ -1,12 +1,22 @@
-import moment from 'moment';
 import { useCallback, useEffect, useState } from 'react';
-import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
+import { Calendar as BigCalendar, dateFnsLocalizer } from 'react-big-calendar';
 import { useTranslation } from 'react-i18next';
 import WeekHeader from 'src/components/common/WeekHeader';
 import { LessonsStatusType } from 'src/constants/global';
 import { useAuth } from 'src/modules/auth';
 import Modal from 'react-modal';
 import LessonInfoModal from 'src/components/student-dashboard/LessonInfoModal';
+import { enUS, ko } from 'date-fns/locale';
+import {
+  addHours,
+  differenceInHours,
+  format,
+  getDay,
+  isBefore,
+  parse,
+  startOfWeek,
+} from 'date-fns';
+import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
 
 const Calendar = ({ calendarAppointments, getAppointments }) => {
   const [t] = useTranslation(['lessons']);
@@ -21,13 +31,24 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const localizer = momentLocalizer(moment.tz.setDefault(userTimezone));
+  const locales = {
+    'en-US': enUS,
+    ko: ko,
+  };
+
+  const localizer = dateFnsLocalizer({
+    format,
+    parse,
+    startOfWeek,
+    getDay,
+    locales,
+  });
   const allViews = ['month', 'week', 'day'];
   const formats = {
-    dateFormat: 'D',
-    weekdayFormat: 'dddd',
-    dayFormat: 'dddd D',
-    timeGutterFormat: 'hA',
+    dateFormat: 'd',
+    weekdayFormat: 'cccc',
+    dayFormat: 'cccc d',
+    timeGutterFormat: 'ha',
   };
 
   const [calendarEvents, setCalendarEvents] = useState([]);
@@ -36,23 +57,16 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
     if (calendarAppointments) {
       const tempEvents = [];
       calendarAppointments.forEach((_, index) => {
-        const start = moment(calendarAppointments[index].startAt).tz(
-          userTimezone,
-        );
-        const end = moment(calendarAppointments[index].end_at).tz(userTimezone);
         const event = {
           id: index,
           title: calendarAppointments[index]?.lesson,
-          start: start.toDate(),
-          end: end.toDate(),
+          start: calendarAppointments[index].startAt,
+          end: calendarAppointments[index].end_at,
           resource: calendarAppointments[index],
         };
         tempEvents.push(event);
       });
       setCalendarEvents([...tempEvents]);
-      // setIsLoading(false);
-    } else {
-      // setIsLoading(false);
     }
   }, [calendarAppointments]);
 
@@ -64,29 +78,29 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
       bottom: 'auto',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
-      zIndex: 40,
+      zIndex: 20,
       background: 'none',
       border: 'none',
     },
     overlay: {
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      zIndex: 20,
     },
   };
 
   const CustomModal = () => {
-    // if it defaults to undefined then it is your fault, im not testing this
     const [selectedEvent] =
       calendarEvents?.filter((x) => x.id === calendarEvent.id) ?? [];
 
     return (
-      <div style={{ zIndex: 40 }} className="container">
+      <div className="container">
         <Modal
           isOpen={isOpen}
           onRequestClose={closeModal}
           style={customStyles}
           contentLabel="Example Modal"
         >
-          <div className="p-8 bg-white rounded-2xl">
+          <div className="p-8 z-20 bg-white rounded-2xl">
             <LessonInfoModal
               date={selectedEvent.start}
               data={selectedEvent.resource}
@@ -100,26 +114,12 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
     );
   };
 
-  // const onSelectEvent = (e) => {
-  //   const today = moment().format('MM/DD/YYYY hh:mm a');
-  //   const closedDate = moment(e.end).format('MM/DD/YYYY hh:mm a');
-  //   if (moment(today).isBefore(closedDate)) {
-  //     setCalendarEvent(e);
-  //     setIsOpen(true);
-  //   }
-  // };
-
   const onSelectEvent = (e) => {
-    const today = moment().format('MM/DD/YYYY hh:mm a');
-    const closedDate = moment(e.end).format('MM/DD/YYYY hh:mm a');
-    if (moment(today).isBefore(closedDate)) {
+    if (isBefore(utcToZonedTime(new Date(), userTimezone), e.end)) {
       setCalendarEvent(e);
       setIsOpen(true);
     }
   };
-  // const handleFeedback = () => {
-  //   window.open(feedbackURL);
-  // };
 
   const eventPropGetter = useCallback((event) => {
     return {
@@ -136,6 +136,15 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
   return (
     <>
       <BigCalendar
+        getNow={() =>
+          addHours(
+            new Date(),
+            differenceInHours(
+              zonedTimeToUtc(new Date(), userTimezone),
+              new Date(),
+            ) * -1,
+          )
+        }
         style={{ minHeight: '70vh', minWidth: '559px' }}
         popup={true}
         formats={formats}
