@@ -1,7 +1,7 @@
 import React from 'react';
 import Loader from 'react-loader-spinner';
 
-const ReactLoader = ({ className = 'absolute' }) => {
+const ReactLoader = ({ className = 'absolute', type = 'TailSpin' }) => {
   return (
     <Loader
       color="#00BFFF"
@@ -18,7 +18,7 @@ const ReactLoader = ({ className = 'absolute' }) => {
         justify-center
         ${className}
         `}
-      type="TailSpin"
+      type={type}
       height={80}
       width={80}
     />

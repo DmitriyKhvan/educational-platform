@@ -27,86 +27,7 @@
     opacity: 0.3;
   }
 }
-.schedule-dashboard-buttons {
-  background: #ffffff;
-  border-radius: 5px;
-  font-family: 'Inter';
-  width: 80%;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 18px;
-  letter-spacing: -0.2px;
-  color: #261a45;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
-  text-decoration: none;
-  margin: 5px 10px;
-  margin-top: 20px;
-}
-.max-select_lesson {
-  width: 1180px;
-  height: 100vh;
-}
-.customlabel {
-  display: flex;
-  justify-content: space-around;
-}
-.dash_weekly-schedule-subtitle {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 17px;
-  line-height: 21px;
-  display: flex;
-  align-items: center;
-  letter-spacing: -0.6px;
-  color: #7048e8 !important;
-}
-.minutes_schedule_text {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 18px;
-  display: flex;
-  align-items: center;
-  letter-spacing: -0.6px;
-  color: $color-black;
-  padding: 10px;
-}
-.schedule-cardss {
-  background: $color-white;
-  border: 0.5px solid $color-border-white;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.01);
-  border-radius: 16px;
-  padding: 10px 15px 10px 20px;
-  flex-direction: column;
-  width: 100%;
-  max-width: 322px;
-}
-.sublabel-1 {
-  background: #dedee1;
-}
 
-.sublabel2-txt {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 18px;
-  display: flex;
-  align-items: center;
-  letter-spacing: -0.6px;
-  color: #261a45;
-  padding: 10px;
-}
-.schedule-dashboard-buttons {
-  padding: 15px !important;
-}
 .mobile-view-buttons {
   margin-left: -2px;
 }
@@ -312,32 +233,23 @@ select {
 .grey-border {
   border: 0.5px solid $color-darker-grey !important;
 }
-.schedule-card-col,
+
 .calendar-card-col {
   flex: 0 0 auto;
 }
 
 @media screen and (min-width: 850px) and (max-width: 1200px) {
-  .media_align_width {
-    max-width: 380px;
-  }
   .media_small_width_schedule {
     // justify-content: start;
     margin: 0 !important;
   }
-  .align_schedule_texts {
-    margin-left: -27px;
-  }
+
   .align_schedule-width-dash {
     justify-content: center;
   }
 }
 
 @media screen and (max-width: 600px) {
-  .select_top_align {
-    margin-top: 20px;
-    padding-right: 0 !important;
-  }
   .Learn-name-university {
     text-align: center !important;
   }
@@ -376,12 +288,7 @@ select {
   .FavoritesTutors {
     margin-bottom: 10px;
   }
-  .schedule-dashboard-buttons {
-    margin-top: 0px;
 
-    padding: 0px 19px;
-    margin-bottom: 8px;
-  }
   .btn-dash-return {
     background: white !important;
     color: #261a45 !important;
@@ -399,9 +306,6 @@ select {
 }
 
 @media screen and (max-width: 900px) {
-  .select_top_align {
-    margin-top: 20px;
-  }
   .favImg {
     width: 100%;
     height: auto;
@@ -584,10 +488,6 @@ select {
   color: #281b49 !important;
 }
 
-.schedule-lesson-border-widthss {
-  background: #ebe4ff;
-  // max-width: 97px;
-}
 .welcome-subtitle-fonts {
   font-family: 'Inter';
   font-style: normal;
@@ -720,10 +620,7 @@ select {
 .grey-border {
   border: 0.5px solid $color-darker-grey !important;
 }
-.align-flex-direction {
-  align-items: center;
-}
-.schedule-card-col,
+
 .calendar-card-col {
   flex: 0 0 auto;
 }
@@ -731,9 +628,7 @@ select {
   .availability-wrapper {
     padding: 39.31px 20px 57px 20px;
   }
-  .children-page {
-    width: calc(100% - 300px);
-  }
+
   .titles {
     padding-left: 16px;
   }
@@ -741,10 +636,6 @@ select {
 @media screen and (max-width: 900px) {
   .availability-wrapper {
     padding: 20px;
-    .children-page {
-      width: calc(100% - 300px);
-      padding: 39.31px 39px 57px 43px;
-    }
   }
   .titles_align_desktop {
     padding: 0;
@@ -785,9 +676,7 @@ select {
   .lesson-wrapper {
     padding: 15px 25px 0 25px;
   }
-  .children-page {
-    width: calc(100% - 300px);
-  }
+
   .set-container {
     padding: 20px 50px 57px 50px !important;
   }
@@ -796,54 +685,6 @@ select {
   }
 }
 
-.buttonsdash {
-  background: #ffffff;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
-  border-radius: 5px;
-  font-family: Inter;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 18px;
-  letter-spacing: -0.2px;
-  color: #281b49;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 15px;
-  text-decoration: none;
-  flex-wrap: nowrap;
-  width: 100%;
-  max-width: 100%;
-  height: 48px;
-  margin-bottom: 15px;
-  margin-right: 10px;
-}
-.buttonsdash-second {
-  background: #ffffff;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.07);
-  border-radius: 5px;
-  font-family: Inter;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 18px;
-  letter-spacing: -0.2px;
-  color: #281b49;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 15px;
-  text-decoration: none;
-  flex-wrap: nowrap;
-  max-width: 100%;
-  width: 100%;
-  height: 48px;
-  margin-bottom: 15px;
-  margin-left: 15px;
-}
 .text-purpless {
   color: #6133af !important;
 }
@@ -868,21 +709,12 @@ select {
 .grey-borders {
   border: 1px solid #dedee1 !important;
 }
-.schedule-card-col,
+
 .calendar-card-col {
   flex: 0 0 auto;
 }
 
 @media screen and (min-width: 901px) {
-  .align-flex-direction {
-    padding-bottom: 15px;
-  }
-  .rounded-corners {
-    max-width: 100%;
-  }
-  .rounded-corners-round {
-    max-width: 100%;
-  }
   .availability-wrapper {
     padding: 20px;
   }
@@ -890,26 +722,9 @@ select {
   .lesson-wrapper {
     padding: 15px 25px 0 25px;
   }
-
-  .children-page {
-    width: calc(100% - 300px);
-  }
-  .mobile-fade-background {
-    display: none;
-  }
 }
 
 @media screen and (max-width: 900px) {
-  .align-flex-direction {
-    padding-bottom: 15px;
-  }
-
-  .rounded-corners-round {
-    max-width: 126px;
-  }
-  .button-align-left-dash {
-    width: 33.33% !important;
-  }
   .availability-wrapper {
     padding: 20px;
   }
@@ -918,16 +733,6 @@ select {
   }
   .flex-container {
     flex-wrap: nowrap;
-  }
-}
-@media screen and (min-width: 1500px) {
-  .button-align-left-dash {
-    flex: 0 0 auto;
-    width: 33.33% !important;
-  }
-  .schedule-card-col {
-    flex: 0 0 auto;
-    width: 100%;
   }
 }
 
@@ -959,13 +764,6 @@ select {
   .mobile-view-align {
     width: 100%;
     padding-right: 0 !important;
-  }
-}
-
-@media screen and (min-width: 1500px) {
-  .schedule-card-col {
-    flex: 0 0 auto;
-    width: auto;
   }
 }
 
@@ -1301,25 +1099,11 @@ select {
   .summary-information {
     grid-template-columns: repeat(1, 1fr);
   }
-  .schedule_changess {
-    padding: 20px !important;
-  }
-  .images-align {
-    width: auto !important;
-  }
-  .align-flex-direction {
-    padding-bottom: 15px;
-  }
+
   .align-text-right {
     width: 100%;
   }
-  .button-align-left-dash {
-    width: 100% !important;
-  }
-  .align-flex-direction {
-    display: flex;
-    flex-direction: column;
-  }
+
   .text-black {
     justify-content: center;
     align-items: center;
@@ -1491,33 +1275,6 @@ select {
       margin-top: 41px;
     }
   }
-  .small-card {
-    .small-card-inline {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-
-      .small-card-img-rounded {
-        border-radius: 8.125px;
-        width: 65px;
-        height: 65px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-blend-mode: overlay;
-        background-color: rgba(0, 0, 0, 0.5);
-
-        img {
-          width: 40px;
-          height: 36px;
-        }
-      }
-    }
-
-    h3 {
-      width: 60%;
-    }
-  }
 
   .page-card {
     padding: 15px 30px 30px 30px;
@@ -1561,11 +1318,6 @@ select {
     img {
       margin-bottom: 0;
     }
-    &.small-card {
-      .schedule-dashboard-buttons {
-        margin: 0;
-      }
-    }
   }
   .schdule-lesson-select {
     display: flex;
@@ -1582,10 +1334,6 @@ select {
     .large-card {
       width: 100%;
       height: 203px;
-    }
-    .small-card {
-      width: 350px;
-      margin-right: 25px;
     }
 
     .page-card {
@@ -2016,9 +1764,7 @@ select {
   .card-buttons {
     width: 90% !important;
   }
-  .student-dashboard .small-card .small-card-inline {
-    gap: 18px;
-  }
+
   .font_schedule_text {
     font-size: 16px !important;
   }
@@ -2037,8 +1783,5 @@ select {
   }
   .available-text {
     padding: 0 16px;
-  }
-  .schedule-overflow-scroll {
-    padding: 0 28px;
   }
 }

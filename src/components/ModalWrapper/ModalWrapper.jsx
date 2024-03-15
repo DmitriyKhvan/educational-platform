@@ -10,7 +10,7 @@ const ModalWrapper = ({
   children,
   isOpen,
   closeModal,
-  widthContent,
+  widthContent = 'auto',
   heightContent,
   paddingContent = '25px 20px',
 }) => {

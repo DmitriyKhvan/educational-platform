@@ -7,7 +7,7 @@ import {
   Views,
 } from 'react-big-calendar';
 import moment from 'moment-timezone';
-import Layout from '../../components/Layout';
+import Layout from '../../layouts/DashboardLayout';
 import LessonTable from '../../components/mentor-dashboard/LessonTable';
 import NotificationManager from '../../components/NotificationManager';
 import ZoomWarningModal from '../../components/student-dashboard/ZoomWarningModal';
@@ -30,11 +30,12 @@ import ReactLoader from '../../components/common/Loader';
 import RescheduleAndCancelModal from '../../components/student-dashboard/RescheduleAndCancelModal';
 import notify from '../../utils/notify';
 import { isBetween } from '../../utils/isBetween';
-import { addMinutes, differenceInHours, isAfter } from 'date-fns';
+import { addMinutes, isAfter } from 'date-fns';
 import { LessonsStatusType, Roles } from 'src/constants/global';
 import Button from 'src/components/Form/Button';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { useNotifications } from 'src/modules/notifications';
+import { isWithinHours } from 'src/utils/isWithinHours';
 
 const sortCalendarEvents = (data) => {
   if (!data) return;
@@ -146,6 +147,7 @@ const Calendar = () => {
         ),
       );
       setTableAppointments(tablularEventData);
+      setIsCalendar(true);
     }
   }, [appointments]);
 
@@ -155,8 +157,7 @@ const Calendar = () => {
   const [selectedTab, setSelectedTab] = useState('calendar');
 
   const [tabularData, setTabularData] = useState([]);
-  const [isCalendar, setIsCalendar] = useState(true);
-  const [isUpcoming, setIsUpcoming] = useState(true);
+  const [isCalendar, setIsCalendar] = useState(false);
   const [calendarEvent, setCalendarEvent] = useState({});
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
   const [isCancelLessonModalOpen, setIsCancelLessonModalOpen] = useState(false);
@@ -213,7 +214,13 @@ const Calendar = () => {
           userTimezone,
         );
         const end = moment(calendarAppointments[index].end_at).tz(userTimezone);
-        const title = `${calendarAppointments[index]?.student.firstName} ${calendarAppointments[index]?.student.lastName} / ${calendarAppointments[index]?.student.langLevel}`;
+        const title = `${calendarAppointments[index]?.student.firstName} ${
+          calendarAppointments[index]?.student.lastName
+        } ${
+          calendarAppointments[index]?.student?.langLevel
+            ? `/ ${calendarAppointments[index].student.langLevel}`
+            : ''
+        }`;
         const event = {
           id: index,
           title,
@@ -233,11 +240,12 @@ const Calendar = () => {
       const tempPastLessons = [];
 
       tableAppointments.map((each) => {
-        const isWithin12hour =
-          differenceInHours(
-            new Date(each.resource.startAt),
-            new Date(each.resource.canceledAt),
-          ) <= 12;
+        const isWithin12hour = isWithinHours({
+          dateEnd: new Date(each.resource.startAt),
+          dateStart: new Date(each.resource.canceledAt),
+          hours: 12,
+          userTimezone,
+        });
 
         const endLesson = addMinutes(
           new Date(each.resource.startAt),
@@ -274,13 +282,11 @@ const Calendar = () => {
 
   const onClickUpcomingLessons = () => {
     setTabularData([...upcomingLessons]);
-    setIsUpcoming(true);
     setIsCalendar(false);
     setSelectedTab('upcomingLessons');
   };
   const onClickPastLessons = () => {
     setTabularData([...pastLessons]);
-    setIsUpcoming(false);
     setIsCalendar(false);
     setSelectedTab('pastLessons');
   };
@@ -348,21 +354,6 @@ const Calendar = () => {
       eventDate.duration,
     );
 
-    // const today = moment();
-    // const tenMinuteBeforeStart = moment(eventDate.startAt).subtract(
-    //   10,
-    //   'minutes',
-    // );
-    // const fiveMinuteBeforeEnd = moment(eventDate.startAt).add(
-    //   eventDate.duration - 5,
-    //   'minutes',
-    // );
-
-    // const isBetween = moment(today).isBetween(
-    //   tenMinuteBeforeStart,
-    //   fiveMinuteBeforeEnd,
-    // );
-
     const [
       approveAppointment,
       {
@@ -373,7 +364,13 @@ const Calendar = () => {
     ] = useMutation(APPROVE_APPOINTMENT);
 
     const joinLesson = () => {
-      if (isBetween(eventDate.startAt, eventDate.duration, userTimezone)) {
+      if (
+        isBetween({
+          dateStart: new Date(eventDate.startAt),
+          duration: eventDate.duration,
+          userTimezone,
+        })
+      ) {
         window.open(eventDate.zoom.startUrl, '_blank');
       } else {
         setIsWarningOpen(true);
@@ -618,7 +615,7 @@ const Calendar = () => {
 
         <div className="overflow-auto h-full">
           <div className={`${isLoading ? 'loading' : ''} mt-4`}>
-            {isCalendar ? (
+            {isCalendar && (
               <BigCalendar
                 style={{ minHeight: '70vh', minWidth: '559px' }}
                 popup={true}
@@ -649,12 +646,9 @@ const Calendar = () => {
                   today: t('calendar_today'),
                 }}
               />
-            ) : (
-              <LessonTable
-                // timezone={'Asia/Seoul'}
-                isUpcoming={isUpcoming}
-                tabularData={tabularData}
-              />
+            )}
+            {tabularData.length !== 0 && (
+              <LessonTable tabularData={tabularData} />
             )}
           </div>
         </div>

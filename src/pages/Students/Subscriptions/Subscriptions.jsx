@@ -3,13 +3,13 @@ import continue_arrow from '../../../assets/images/continue_arrow.svg';
 import React from 'react';
 
 import { useQuery } from '@apollo/client';
-import Layout from '../../../components/Layout';
+import Layout from '../../../layouts/DashboardLayout';
 import { useTranslation } from 'react-i18next';
 
 import Loader from '../../../components/Loader/Loader';
 import { SubscriptionCard } from './SubscriptionCard';
 import { PACKAGE_QUERY } from '../../../modules/auth/graphql';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { getItemToLocalStorage } from 'src/constants/global';
 
 import '../../../assets/styles/subscriptions.scss';
@@ -19,7 +19,7 @@ const Subscriptions = () => {
 
   const navigate = useHistory();
 
-  const { data: { packageSubscriptions: planStatus = [], loading } = {} } =
+  const { data: { packageSubscriptions: planStatus = [] } = {}, loading } =
     useQuery(PACKAGE_QUERY, {
       fetchPolicy: 'no-cache',
       variables: {

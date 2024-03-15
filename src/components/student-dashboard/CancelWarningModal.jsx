@@ -5,8 +5,9 @@ import { MAX_MODIFY_COUNT, Roles } from '../../constants/global';
 import CheckboxField from '../Form/CheckboxField';
 import { FaXmark } from 'react-icons/fa6';
 import Button from '../Form/Button/Button';
-import { differenceInHours } from 'date-fns';
+import { format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
+import { isWithinHours } from 'src/utils/isWithinHours';
 
 const CancelWarningModal = ({
   data,
@@ -18,17 +19,19 @@ const CancelWarningModal = ({
 }) => {
   const [t] = useTranslation('modals');
   const { user } = useAuth();
+
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const [isChecked, setIsChecked] = useState(false);
   const [cancellationDots, setCancellationDots] = useState([]);
+  const [cancellationCount, setCancellationCount] = useState(MAX_MODIFY_COUNT);
 
-  const isLate =
-    differenceInHours(
-      utcToZonedTime(new Date(data.startAt), userTimezone),
-      utcToZonedTime(new Date(), userTimezone),
-    ) <= 24;
+  const isLate = isWithinHours({
+    dateEnd: new Date(data?.startAt ?? new Date()),
+    dateStart: new Date(),
+    hours: 24,
+    userTimezone,
+  });
 
   useEffect(() => {
     if (modifyCredits !== undefined) {
@@ -37,17 +40,18 @@ const CancelWarningModal = ({
         if (i < modifyCredits) {
           cancellationDots.unshift(
             <span
-              className="w-5 h-5 mr-[6px] rounded-full border-2 border-solid border-color-purple"
+              className="w-7 h-7 mr-[6px] rounded-[4px] bg-color-purple bg-opacity-30"
               key={i}
             ></span>,
           );
         } else {
+          setCancellationCount((v) => v - 1);
           cancellationDots.unshift(
             <span
-              className="flex items-center justify-center w-5 h-5 mr-[6px] bg-color-light-purple rounded-full border border-color-purple"
+              className="w-7 h-7 mr-[6px] flex justify-center items-center rounded-[4px] bg-color-red"
               key={i}
             >
-              <FaXmark className="text-color-purple" />
+              <FaXmark className="text-white" />
             </span>,
           );
         }
@@ -55,10 +59,6 @@ const CancelWarningModal = ({
       setCancellationDots(cancellationDots);
     }
   }, [modifyCredits]);
-
-  const checkboxEvent = () => {
-    setIsChecked(!isChecked);
-  };
 
   const onClick = () => {
     if (type === 'reschedule') {
@@ -68,10 +68,6 @@ const CancelWarningModal = ({
       );
     }
 
-    if (type === 'reschedule-time') {
-      setTabIndex(2);
-    }
-
     if (type === 'cancel') {
       setTabIndex(1);
     }
@@ -79,115 +75,98 @@ const CancelWarningModal = ({
 
   const disableCancelLesson =
     user.role === Roles.MENTOR || modifyCredits !== 0 ? false : true;
-
   return (
-    <div className="w-[360px]">
-      <div className="mb-5 text-xl font-semibold">{t('warning')}</div>
-
+    <div className="max-w-[336px] mx-auto">
+      <div className="mb-5 text-2xl font-bold text-center">
+        {type === 'cancel' ? t('cancel_lesson') : t('reschedule_lesson')}
+      </div>
+      <p className="text-base text-center mb-4">
+        Are you sure want to {type === 'cancel' ? 'cancel' : 'recshedule'}
+        <br />
+        <span className="font-semibold">
+          {format(
+            utcToZonedTime(new Date(data?.startAt ?? new Date()), userTimezone),
+            'eee, MMM do',
+            { timeZone: userTimezone },
+          )}
+        </span>{' '}
+        lesson?
+      </p>
       {user.role !== Roles.MENTOR && (
         <div className="space-y-3">
-          {type === 'cancel' ? (
-            isLate ? (
-              <>
-                <div className="font-semibold leading-[18px] tracking-[-0.2px]">
-                  {t('cancel_modal_desc3')}
-                </div>
-
-                <div className="font-semibold leading-[18px] tracking-[-0.2px]">
-                  {t('cancel_modal_desc2')}
-                </div>
-              </>
-            ) : (
-              <div className="font-semibold leading-[18px] tracking-[-0.2px]">
-                {t('cancel_modal_desc4')}
+          {(type === 'cancel' || isLate) && (
+            <div className="w-full bg-color-red bg-opacity-10 flex items-center p-4 rounded-lg">
+              <span className="bg-color-red min-w-6 h-6 block rounded-full text-center text-white mr-4 text-base">
+                !
+              </span>
+              <div className="max-w-[300px] space-y-3 font-medium text-color-dark-purple leading-5">
+                {type === 'cancel' ? (
+                  isLate ? (
+                    <>
+                      <p>{t('cancel_modal_desc3')}</p>
+                      <p>{t('cancel_modal_desc2')}</p>
+                    </>
+                  ) : (
+                    <p>{t('cancel_modal_desc4')}</p>
+                  )
+                ) : (
+                  <p>You cannot reschedule within 24 hours.</p>
+                )}
               </div>
-            )
-          ) : (
-            isLate && (
-              <div className="font-semibold leading-[18px] tracking-[-0.2px]">
-                You cannot reschedule within 24 hours.
-              </div>
-            )
+            </div>
           )}
 
-          <div className="font-semibold leading-[18px] tracking-[-0.2px]">
-            {t('cancel_modal_desc')}
-          </div>
-
-          <div className="w-full flex items-center justify-center mt-5">
-            {cancellationDots}
+          <div className="w-full p-4 flex items-center justify-between mt-5 rounded-lg bg-color-purple bg-opacity-20">
+            <div>
+              <p className="font-semibold text-[15px] text-color-purple">
+                {cancellationCount}/3 cancellations
+              </p>
+              <span className="text-[14px] text-color-purple">
+                left this month
+              </span>
+            </div>
+            <div className="flex">{cancellationDots}</div>
           </div>
         </div>
       )}
 
-      {type === 'cancel' && (
-        <div className="mt-8">
-          <CheckboxField
-            label={t('confirm_cancel')}
-            id="cancel"
-            value="cancel"
-            onChange={checkboxEvent}
-            checked={isChecked}
-            disabled={disableCancelLesson}
-          />
-        </div>
-      )}
+      <Button
+        className="h-[56px] px-[10px] w-full mt-6"
+        theme="purple"
+        onClick={
+          disableCancelLesson || (isLate && type === 'reschedule')
+            ? undefined
+            : onClick
+        }
+        disabled={disableCancelLesson || (isLate && type === 'reschedule')}
+      >
+        {t('continue_cancel')}
+      </Button>
 
-      <div className="mt-8">
-        <p className="font-semibold leading-[18px] tracking-[-0.2px] mb-3">
-          Choose Below:
-        </p>
-        <div className="flex flex-col gap-y-1">
-          <CheckboxField
-            label={
-              type === 'cancel'
-                ? t('cancel_this_lesson')
-                : t('reschedule_this_lesson')
-            }
-            type="radio"
-            name="lesson"
-            onChange={() => setRepeatLessons(false)}
-            disabled={disableCancelLesson}
-          />
-          <CheckboxField
-            label={
-              type === 'cancel' ? t('cancel_lessons') : t('reschedule_lessons')
-            }
-            type="radio"
-            name="lesson"
-            onChange={() => setRepeatLessons(true)}
-            disabled={disableCancelLesson}
-          />
-        </div>
+      <div className="mt-6 flex justify-center">
+        <CheckboxField
+          label={
+            type === 'cancel' ? t('cancel_lessons') : t('reschedule_lessons')
+          }
+          id="cancel"
+          value="cancel"
+          onChange={() => setRepeatLessons((v) => !v)}
+          checked={repeatLessons}
+          disabled={disableCancelLesson}
+          name="lesson"
+          square
+        />
       </div>
 
-      <div className="flex items-center gap-x-8 mt-4">
+      <div className="flex items-center justify-center gap-x-8 mt-4">
         {type !== 'reschedule' && (
-          <Button
-            className="h-[38px] px-[10px]"
-            theme="outline"
+          <button
+            className="h-[38px] px-[10px] text-color-purple text-sm hover:underline"
             onClick={() => setTabIndex(10)}
           >
             {t('review_cancellation_policy')}
-          </Button>
+          </button>
         )}
-
-        <Button
-          className="h-[38px] px-[10px]"
-          theme="purple"
-          onClick={
-            disableCancelLesson || (isLate && type === 'reschedule')
-              ? undefined
-              : onClick
-          }
-          disabled={
-            (!isChecked && type === 'cancel') ||
-            disableCancelLesson ||
-            (isLate && type === 'reschedule')
-          }
-        >
-          {t('continue_cancel')}
-        </Button>
       </div>
     </div>
   );

@@ -15,7 +15,6 @@ import {
 
 import { useAuth } from './modules/auth';
 
-import EmailVerifyText from './pages/Auth/EmailVerifyText';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 import ForgotPasswordText from './pages/Auth/ForgotPasswordText';
 // Authentication Path
@@ -41,7 +40,7 @@ function PrivateRoute({ component: Component, role, ...rest }) {
   const { user } = useAuth();
   const history = useHistory();
 
-  if (user && process.env.REACT_APP_PRODUCTION === 'false') {
+  if (user) {
     window.Intercom('boot', {
       api_base: 'https://api-iam.intercom.io',
       app_id: 'ohhixtgv',
@@ -120,10 +119,7 @@ function App() {
               path="/welcome-set-password"
               component={ResetPassword}
             />
-            <PublicRoute
-              path="/email-verify-guide"
-              component={EmailVerifyText}
-            />
+
             <PublicRoute path="/onboarding" component={Onboarding} />
 
             <PublicRoute path="/referral/:referalcode" component={IsReferal} />

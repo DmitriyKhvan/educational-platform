@@ -5,6 +5,10 @@
 @import './variable.scss';
 @import url(https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900);
 
+.intercom-lightweight-app-launcher {
+  bottom: 85px !important;
+}
+
 @layer components {
   .cool-shadow {
     box-shadow: 0 0 0 0.5px rgba(189, 189, 189, 0.24),
@@ -18,28 +22,6 @@
 
   .main-title {
     @apply text-xl text-color-dark-purple leading-7 mb-[15px];
-  }
-
-  .nav-item {
-    @apply flex items-center gap-4 p-[15px] rounded-[15px] cursor-pointer;
-
-    svg {
-      @apply w-5 h-5 text-color-purple;
-    }
-
-    span {
-      @apply text-color-dark-purple font-medium;
-    }
-  }
-
-  .active,
-  .nav-item:hover {
-    @apply bg-color-purple transition ease-in-out delay-150;
-
-    svg,
-    span {
-      @apply text-white transition ease-in-out delay-150;
-    }
   }
 
   .divider {
@@ -87,9 +69,6 @@ body
 
 .ReactModal__Overlay {
   z-index: 9999;
-}
-.rounded-corners {
-  border-radius: 15px !important;
 }
 
 input,
@@ -2446,11 +2425,6 @@ textarea.form-control.is-invalid {
   width: 50%;
 }
 
-.col-7 {
-  flex: 0 0 auto;
-  width: 58.33333333%;
-}
-
 .col-8 {
   flex: 0 0 auto;
   width: 66.66666667%;
@@ -3682,15 +3656,6 @@ textarea.form-control.is-invalid {
   float: none !important;
 }
 
-p {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: normal;
-  font-size: 15px;
-  line-height: 20px;
-  letter-spacing: -0.6px;
-}
-
 .title {
   font-family: Inter;
   font-style: normal;
@@ -4433,16 +4398,6 @@ a > span {
     line-height: 18px;
     text-align: center;
   }
-}
-
-.mobile-fade-background {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 7;
 }
 
 // Modals Style

@@ -86,7 +86,7 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
         },
       },
       onCompleted: async () => {
-        closeModal(false);
+        closeModal();
 
         setTimeout(async () => {
           await refetchUser();
@@ -106,7 +106,7 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
   const removePreviewImage = () => setFile(null);
 
   return (
-    <section>
+    <section className="">
       <div className="mb-5">
         <h3 className="text-black m-0 text-[20px]">{t('edit_profile')}</h3>
       </div>
@@ -115,12 +115,10 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
         <div className="flex items-center justify-center">
           <div className="relative w-[150px] h-[150px] rounded-full">
             {!file && (
-              <div className="w-full h-full rounded-full overflow-hidden">
-                <Avatar
-                  className="rounded-full"
-                  avatarUrl={user?.avatar?.url}
-                />
-              </div>
+              <Avatar
+                className="rounded-full w-full h-full"
+                avatarUrl={user?.avatar?.url}
+              />
             )}
 
             {file ? (

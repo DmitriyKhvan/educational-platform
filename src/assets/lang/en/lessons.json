@@ -6,6 +6,8 @@
   "calendar_view": "Calendar View",
   "duration": "Duration",
   "date_time": "Date and Time",
+  "date": "Date",
+  "time": "Time",
   "mentor": "Mentor",
   "class_feedback": "Class Feedback",
   "no_lessons": "You don't have lessons!",
@@ -86,5 +88,8 @@
   "lesson_approved": "Lesson approved",
   "completed": "Completed",
   "approved": "Approved",
-  "canceled": "Canceled"
+  "scheduled": "Scheduled",
+  "canceled": "Canceled",
+  "paid": "",
+  "level": "Level"
 }

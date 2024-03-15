@@ -2,10 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import { AiOutlineCheck } from 'react-icons/ai';
 
-export default function FeedbackLessonModal({
-  isOpen,
-  closeModal,
-}) {
+export default function FeedbackLessonModal({ isOpen, closeModal }) {
   const [showSectionName, setSectionName] = React.useState(false);
   const [pageState, setPageState] = React.useState(1);
   const pages = [1, 2];

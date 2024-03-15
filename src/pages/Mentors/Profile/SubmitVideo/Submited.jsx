@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import notify from '../../../../utils/notify';
-import Layout from '../../../../components/Layout';
+import Layout from '../../../../layouts/DashboardLayout';
 
 import cls from './Submited.module.scss';
 

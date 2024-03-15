@@ -1,8 +1,8 @@
 import { addMinutes, isWithinInterval, subMinutes } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 
-export const isBetween = (date, duration, userTimezone) => {
-  const dateLesson = utcToZonedTime(new Date(date), userTimezone);
+export const isBetween = ({ dateStart, duration, userTimezone }) => {
+  const dateLesson = utcToZonedTime(dateStart, userTimezone);
 
   const today = utcToZonedTime(new Date(), userTimezone);
 

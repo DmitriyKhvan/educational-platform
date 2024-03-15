@@ -14,6 +14,7 @@ import { FaCircleXmark } from 'react-icons/fa6';
 import { MarketingChannelForm } from 'src/components/onboarding/MarketingChannel';
 import Button from 'src/components/Form/Button';
 import Loader from 'src/components/Loader/Loader';
+import { PACKAGE_QUERY } from 'src/modules/auth/graphql';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
@@ -46,7 +47,18 @@ const CREATE_PAYMENT = gql`
 `;
 
 export default function ConfirmPayment() {
-  const { user } = useAuth();
+  const { user, currentStudent } = useAuth();
+
+  const { data: { packageSubscriptions: planStatus = [] } = {} } = useQuery(
+    PACKAGE_QUERY,
+    {
+      fetchPolicy: 'no-cache',
+      variables: {
+        studentId: getItemToLocalStorage('studentId'),
+      },
+    },
+  );
+
   const params = useParams();
   const [createPayment] = useMutation(CREATE_PAYMENT);
   const clientSecret = new URLSearchParams(window.location.search).get(
@@ -63,7 +75,7 @@ export default function ConfirmPayment() {
     'success',
   );
 
-  const [t] = useTranslation('purchase');
+  const [t] = useTranslation(['purchase', 'onboarding']);
 
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
@@ -95,14 +107,19 @@ export default function ConfirmPayment() {
                   studentId: parseInt(
                     getItemToLocalStorage('studentId')
                       ? getItemToLocalStorage('studentId')
-                      : user.students[0].id,
+                      : currentStudent?.id ?? user.students[0].id,
                   ),
                   packageId: parseInt(params.packageId),
                   provider: 'stripe',
                   metadata: JSON.stringify(paymentIntent),
                 },
-              }).then(() => {
-                setMessage('payment_confirmed');
+                onCompleted: () => {
+                  setMessage('payment_confirmed');
+                },
+                onError: (error) => {
+                  setMessage(error.message);
+                  setError(true);
+                },
               });
 
               break;
@@ -152,7 +169,13 @@ export default function ConfirmPayment() {
               </h1>
             </div>
 
-            <MarketingChannelForm />
+            {planStatus.length ? (
+              <Link className="w-full mt-28 block" to="/student/manage-lessons">
+                <Button className="w-full h-auto p-5">{t('dashboard')}</Button>
+              </Link>
+            ) : (
+              <MarketingChannelForm />
+            )}
           </div>
         )}
       </div>

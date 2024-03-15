@@ -13,21 +13,23 @@ import {
   TooltipTrigger,
 } from 'src/components/Tooltip';
 
-export const MentorCard = ({
-  mentor,
-  handleMoreMentor,
-  handleSelectMentor,
-}) => {
+import { HiMiniChevronRight } from 'react-icons/hi2';
+
+import MentorsModal from './MentorsModal';
+
+import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+
+export const MentorCard = ({ mentor, handleSelectMentor }) => {
   const [t] = useTranslation(['studentMentor', 'common', 'lessons']);
 
-  const resizerUsername = (name) => {
-    return name && name.length > 9 ? name.slice(0, 9 - 1) + '...' : name;
-  };
+  // const resizerUsername = (name) => {
+  //   return name && name.length > 9 ? name.slice(0, 9 - 1) + '...' : name;
+  // };
 
   return (
-    // <div className="w-full sm:w-[300px] lg:w-[260px] 2xl:w-[300px]">
-    <div className="w-full sm:w-[45%] xl:w-[30%] 2xl:w-[300px]">
-      <div className="relative w-full h-[400px] overflow-hidden rounded-lg">
+    // <div className="w-full sm:w-[45%] xl:w-[30%] 2xl:w-[300px]">
+    <div className="flex flex-col w-[calc(50%-0.75rem)] sm:w-[256px]">
+      <div className="relative w-full h-[176px] sm:h-[240px] overflow-hidden rounded-lg">
         <Avatar avatarUrl={mentor.avatar?.url} gender={mentor.gender} />
         {mentor.isFavourite && (
           <img
@@ -36,37 +38,48 @@ export const MentorCard = ({
             alt=""
           />
         )}
+
+        {/* <div className="absolute left-2 bottom-2 px-3 py-[6px] rounded-lg bg-[#FF5F4B] text-white text-xs font-semibold">
+          Top mentor
+        </div> */}
       </div>
 
-      <div className="flex justify-between items-start mt-[30px] h-[115px] overflow-hidden">
-        <div>
-          <h2 className="text-2xl sm:text-[30px] text-color-purple tracking-[-0.6px] mb-4 ">
-            {resizerUsername(mentor?.firstName)}
+      <div className="flex flex-col justify-content-between grow mt-4 overflow-hidden">
+        <div className="mb-4">
+          <h2 className="text-base sm:text-lg text-color-dark-purple font-bold tracking-[-0.6px] mb-2">
+            {mentor?.firstName}
           </h2>
 
-          <h4 className="font-semibold text-[15px] text-color-light-grey leading-[18px] tracking-[-0.2px]">
+          <h4 className="text-[13px] sm:text-sm text-color-dark-purple leading-[18px] tracking-[-0.2px] mb-3">
             {mentor.university}
           </h4>
 
-          <span className="text-[15px] text-color-light-grey leading-[18px] tracking-[-0.2px]">
-            {mentor.degree} {mentor.major ? '/ ' + mentor.major : null}
-          </span>
+          <TooltipProvider>
+            <Tooltip delayDuration={200}>
+              <TooltipTrigger asChild>
+                <div className="text-xs sm:text-sm text-gray-400 leading-[18px] tracking-[-0.2px] truncate">
+                  {mentor.degree} {mentor.major ? '/ ' + mentor.major : null}
+                </div>
+              </TooltipTrigger>
+
+              <TooltipPortal>
+                <TooltipContent>
+                  <p className="text-color-dark-purple text-sm font-semibold max-w-[16rem]">
+                    {mentor.degree} {mentor.major ? '/ ' + mentor.major : null}
+                  </p>
+                </TooltipContent>
+              </TooltipPortal>
+            </Tooltip>
+          </TooltipProvider>
         </div>
 
-        <div className="flex flex-col gap-[2px]">
-          <Button
-            theme="outline"
-            className="w-[115px] p-0 m-1"
-            onClick={() => handleMoreMentor(mentor)}
-          >
-            {t('learn_more', { ns: 'common' })}
-          </Button>
-
+        <div className="flex flex-col gap-2 w-full">
           {mentor?.availabilities ? (
             <TooltipProvider>
               <Tooltip delayDuration={200}>
                 <TooltipTrigger asChild>
                   <Link
+                    className="m-1"
                     to={
                       mentor?.availabilities?.length > 0
                         ? {
@@ -81,8 +94,8 @@ export const MentorCard = ({
                     }
                   >
                     <Button
-                      theme="outline"
-                      className="w-[115px] p-0 m-1"
+                      theme="purple"
+                      className="w-full h-[57px]"
                       disabled={mentor?.availabilities?.length === 0}
                     >
                       {t('schedule', { ns: 'common' })}
@@ -93,11 +106,9 @@ export const MentorCard = ({
                 {mentor?.availabilities?.length === 0 && (
                   <TooltipPortal>
                     <TooltipContent>
-                      <div className="text-center">
-                        <p className="text-color-dark-purple text-sm font-semibold max-w-[16rem]">
-                          We apologize, but this mentor has no availability
-                        </p>
-                      </div>
+                      <p className="text-center text-color-dark-purple text-sm font-semibold max-w-[16rem]">
+                        We apologize, but this mentor has no availability
+                      </p>
                     </TooltipContent>
                   </TooltipPortal>
                 )}
@@ -105,17 +116,27 @@ export const MentorCard = ({
             </TooltipProvider>
           ) : (
             <Button
-              theme="outline"
-              className="w-[115px] p-2 m-1"
+              theme="purple"
+              className="p-2 m-1 h-[57px]"
               onClick={() => handleSelectMentor(mentor)}
             >
               {t('select_mentor', { ns: 'lessons' })}
             </Button>
           )}
 
-          {/* <button onClick={() => handleStatusTutor(mentor.id)}>
-          {mentor?.isFavourite ? 'Remove' : 'Favorite'}
-        </button> */}
+          <AdaptiveDialog
+            button={
+              <Button theme="gray" className="m-1 grow h-[57px]">
+                <span className="whitespace-nowrap">
+                  {t('learn_more', { ns: 'common' })}
+                </span>
+                <HiMiniChevronRight className="text-sm" />
+              </Button>
+            }
+            classNameDrawer="h-[80%]"
+          >
+            <MentorsModal mentor={mentor} />
+          </AdaptiveDialog>
         </div>
       </div>
     </div>

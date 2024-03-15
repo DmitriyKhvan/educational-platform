@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
 import ImgCalendar from '../../assets/images/calendar_icon.svg';
 import ScheduleCard from '../../components/student-dashboard/ScheduleCard';
 import Loader from '../../components/common/Loader';
@@ -10,6 +9,15 @@ import FeedbackLessonModal from './FeedbackLessonModal';
 import { useQuery } from '@apollo/client';
 import { APPOINTMENTS_QUERY } from '../../modules/auth/graphql';
 import 'src/assets/styles/dashboard.scss';
+import {
+  addMinutes,
+  endOfDay,
+  isAfter,
+  isBefore,
+  parseISO,
+  startOfDay,
+  subMinutes,
+} from 'date-fns';
 
 const TutorDashboard = () => {
   const [t] = useTranslation('dashboard');
@@ -42,49 +50,26 @@ const TutorDashboard = () => {
 
   useEffect(() => {
     if (appointments && appointments?.length > 0) {
-      const startOfDay = new moment().startOf('day').subtract(1, 'minutes');
-      const endOfDay = new moment().endOf('day');
+      const dayStart = subMinutes(startOfDay(new Date()), 1);
+      const dayEnd = endOfDay(new Date());
 
       setUpcomingLessons(
-        appointments?.filter((apt) => {
-          return (
-            new moment(apt.startAt).isBefore(endOfDay) &&
-            new moment(apt.startAt).isAfter(startOfDay)
-          );
-        }),
+        appointments
+          ?.filter((apt) => {
+            const expiredDate = addMinutes(
+              parseISO(apt?.startAt),
+              apt?.duration,
+            );
+            return (
+              isBefore(parseISO(apt.startAt), dayEnd) &&
+              isAfter(parseISO(apt.startAt), dayStart) &&
+              isBefore(new Date(), expiredDate)
+            );
+          })
+          .sort((a, b) => new Date(a.startAt) - new Date(b.startAt)),
       );
     }
   }, [appointments]);
-
-  const displayDailySchedule = (availableLessons) => {
-    if (availableLessons) {
-      return availableLessons
-        ?.sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
-        .filter((lesson) => {
-          const expiredDate = moment(lesson?.startAt).add(
-            lesson?.duration,
-            'minutes',
-          );
-          const currentDate = moment();
-          return currentDate.isBefore(expiredDate);
-        })
-        .map((event, i) => {
-          return (
-            <ScheduleCard
-              lesson={event?.packageSubscription?.package?.course?.title}
-              duration={event?.duration}
-              zoom={event?.zoom}
-              date={event?.startAt}
-              data={event}
-              student={event.student}
-              index={i}
-              key={i}
-              fetchAppointments={fetchAppointments}
-            />
-          );
-        });
-    }
-  };
 
   const [isFeedbackShow, setFeedbackShow] = React.useState(false);
 
@@ -121,7 +106,7 @@ const TutorDashboard = () => {
                       </p>
                     </div>
                     <div className="row mobile-view-buttons mt-4">
-                      <div className="col-6 desktop schedule-dashboard-button">
+                      <div className="col-6 desktop w-full">
                         <Link
                           to="/mentor/lesson-calendar"
                           className="enter-btn dashboard_cal-scl_button"
@@ -129,7 +114,7 @@ const TutorDashboard = () => {
                           {t('calendar')}
                         </Link>
                       </div>
-                      <div className="col-6 schedule-dashboard-button">
+                      <div className="col-6 w-full">
                         <Link
                           to="/mentor/availability"
                           className="enter-btn dashboard_cal-scl_button"
@@ -144,7 +129,7 @@ const TutorDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="student-list-appointments-wrapper flex-right  changes-container">
+        <div className="student-list-appointments-wrapper flex-right pt-5">
           <div className="child-set_container">
             {/* {displayBookingRequest(hasLessonApprovals)} */}
             <h4 className="weekly-schedule mt-4">{t('daily_schedule')}</h4>
@@ -155,14 +140,24 @@ const TutorDashboard = () => {
               total_lessons: upcomingLessons.length,
               t: upcomingLessons.length > 1 ? 's' : '',
             })}
-            <Link
-              to="/mentor/lesson-calendar"
-              className="enter-btn ms-0 tutor_cal_appoint"
-            >
+            <Link to="/mentor/lesson-calendar" className="enter-btn ms-0 p-3">
               {t('student_dashboard_view_all_lessons')}
             </Link>
             <div className="weekly-schedule-scroll">
-              {displayDailySchedule(upcomingLessons)}
+              {/* {displayDailySchedule(upcomingLessons)} */}
+              {upcomingLessons?.map((event, i) => (
+                <ScheduleCard
+                  lesson={event?.packageSubscription?.package?.course?.title}
+                  duration={event?.duration}
+                  zoom={event?.zoom}
+                  date={event?.startAt}
+                  data={event}
+                  student={event.student}
+                  index={i}
+                  key={i}
+                  fetchAppointments={fetchAppointments}
+                />
+              ))}
             </div>
           </div>
         </div>

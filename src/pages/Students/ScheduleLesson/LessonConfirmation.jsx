@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import moment from 'moment-timezone';
 import { format } from 'date-fns';
 import NotificationManager from '../../../components/NotificationManager';
-import Layout from '../../../components/Layout';
+import Layout from '../../../layouts/DashboardLayout';
 import ScheduleCard from './ScheduleCard';
 import ScheduleCardComponent from '../../../components/student-dashboard/ScheduleCard';
 import Loader from '../../../components/common/Loader';
@@ -274,75 +274,6 @@ const LessonConfirmation = ({
               ? t('lesson_scheduling_failed', { ns: 'lessons' })
               : t('booking_lesson', { ns: 'lessons' })}
           </Button>
-
-          {/* <p className='welcome-subtitle-fonts'>{t('repeating_lesson')}</p> */}
-          {/* <div className='row container ps-2 mobile-view-align'>
-                {repeatingLessonArr.map(x => (
-                  <div className='col-auto schedule-lesson-border mobile-align-view ms-1 px-2 form-check-wrapper py-2'>
-                    <div className='form-check'>
-                      <input
-                        className='form-check-input'
-                        type='checkbox'
-                        value={x.value}
-                        id={x.data}
-                        onChange={checkboxEvent}
-                        checked={x.value === repeat?.value ? true : false}
-                      />
-                      <label className='form-check-label' htmlFor={x.data}>
-                        {x.data}
-                      </label>
-                    </div>
-                  </div>
-                ))}
-              </div> */}
-
-          {/* <div className='row container ps-2 set_padd_lesson'>
-              {repeat.value === 4
-                ? weekArr.map(x => (
-                    <div className='col-auto schedule-lesson-border mobile-align-view ms-1 px-2 form-check-wrapper py-2'>
-                      <div className='form-check'>
-                        <input
-                          className='form-check-input'
-                          type='checkbox'
-                          value={x}
-                          id={x}
-                          onChange={checkboxEvent}
-                        />
-                        <label className='form-check-label' htmlFor={x}>
-                          {x}
-                        </label>
-                      </div>
-                    </div>
-                  ))
-                : ''}
-            </div> */}
-          {/* <div className="align_width_width"> */}
-          {/* <p className='welcome-subtitle-fonts'>
-                {t('tutor_cancellation')}
-              </p> */}
-          {/* <div className='row container ps-2  mobile-view-align'>
-                {cancellationArr.map((x, i) => (
-                  <div
-                    className='col-auto schedule-lesson-border mobile-align-view ms-1 px-2 form-check-wrapper py-2'
-                    key={i}
-                  >
-                    <div className='form-check'>
-                      <input
-                        className='form-check-input'
-                        type='checkbox'
-                        value={x.value}
-                        id={x.data}
-                        onChange={checkboxEvent}
-                        checked={x.value === cancel?.value ? true : false}
-                      />
-                      <label className='form-check-label' htmlFor={x.data}>
-                        {x.data}
-                      </label>
-                    </div>
-                  </div>
-                ))}
-              </div> */}
-          {/* </div> */}
         </div>
 
         <div className="grow lg:w-[50%] xl:w-[40%] px-[30px] py-[30px] xl:py-[50px] border-t lg:border-l lg:border-t-0  border-color-border-grey">

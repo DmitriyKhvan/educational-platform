@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { startOfDay, addMinutes, format, parse } from 'date-fns';
-import { v4 as uuid } from 'uuid';
+import { startOfDay, addMinutes, format } from 'date-fns';
+// import { v4 as uuid } from 'uuid';
 import Select from 'react-select';
 import { PiTrashFill } from 'react-icons/pi';
-import { FaPlus } from 'react-icons/fa';
+// import { FaPlus } from 'react-icons/fa';
 import Alert from 'src/components/Popup/Alert';
 import { useTranslation } from 'react-i18next';
 
 export const AvailabilityExceptionSlot = ({
-  index,
+  // index,
   exception,
   slot,
   availabilityExceptionSlots,
@@ -32,6 +32,7 @@ export const AvailabilityExceptionSlot = ({
   const [fromTime, setFromTime] = useState(
     timeOptions.find((time) => time.value === slot.from),
   );
+
   const [toTime, setToTime] = useState(
     timeOptions.find((time) => time.value === slot.to),
   );
@@ -50,7 +51,7 @@ export const AvailabilityExceptionSlot = ({
       setFromTime(timeOptions[findTimeIdx]);
 
       // if fromTime >= toTime
-      if (timeOptions[findTimeIdx].value >= toTime.value) {
+      if (timeOptions[findTimeIdx].value >= toTime?.value) {
         setToTime(timeOptions[findTimeIdx + 1]);
         newTime = {
           ...slot,
@@ -65,7 +66,7 @@ export const AvailabilityExceptionSlot = ({
       setToTime(timeOptions[findTimeIdx]);
 
       // if toTime <= fromTime
-      if (timeOptions[findTimeIdx].value <= fromTime.value) {
+      if (timeOptions[findTimeIdx].value <= fromTime?.value) {
         setFromTime(timeOptions[findTimeIdx - 1]);
         newTime = {
           ...slot,
@@ -80,25 +81,6 @@ export const AvailabilityExceptionSlot = ({
       newTime,
       ...exception.slots.slice(slotIdx + 1),
     ];
-
-    const newException = { ...exception, slots: newSlots };
-
-    availabilityExceptionSlots(newException);
-  };
-
-  const addAvailabilityExceptionSlot = () => {
-    const from = toTime.value;
-    let to = '';
-
-    if (from >= '23:00') {
-      to = format(addMinutes(parse(from, 'HH:mm', new Date()), 30), 'HH:mm');
-    } else {
-      to = format(addMinutes(parse(from, 'HH:mm', new Date()), 60), 'HH:mm');
-    }
-
-    const newTime = { id: uuid(), from, to };
-
-    const newSlots = [...exception.slots, newTime];
 
     const newException = { ...exception, slots: newSlots };
 
@@ -173,18 +155,6 @@ export const AvailabilityExceptionSlot = ({
           <PiTrashFill className="text-2xl text-color-border-grey" />
         </button>
       </div>
-
-      {index === exception.slots.length - 1 && (
-        <div className="col-auto">
-          <button
-            className="btn ms-3"
-            onClick={addAvailabilityExceptionSlot}
-            disabled={slot.to >= '23:30'}
-          >
-            <FaPlus className="text-2xl text-color-purple" />
-          </button>
-        </div>
-      )}
     </div>
   );
 };
