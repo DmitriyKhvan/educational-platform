@@ -7,16 +7,8 @@ import { useAuth } from 'src/modules/auth';
 import Modal from 'react-modal';
 import LessonInfoModal from 'src/components/student-dashboard/LessonInfoModal';
 import { enUS, ko } from 'date-fns/locale';
-import {
-  addHours,
-  differenceInHours,
-  format,
-  getDay,
-  isBefore,
-  parse,
-  startOfWeek,
-} from 'date-fns';
-import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
+import { format, getDay, isBefore, parse, startOfWeek } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 
 const Calendar = ({ calendarAppointments, getAppointments }) => {
   const [t] = useTranslation(['lessons']);
@@ -136,15 +128,7 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
   return (
     <>
       <BigCalendar
-        getNow={() =>
-          addHours(
-            new Date(),
-            differenceInHours(
-              zonedTimeToUtc(new Date(), userTimezone),
-              new Date(),
-            ) * -1,
-          )
-        }
+        getNow={() => utcToZonedTime(new Date(), userTimezone)}
         style={{ minHeight: '70vh', minWidth: '559px' }}
         popup={true}
         formats={formats}
