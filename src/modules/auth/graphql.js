@@ -107,99 +107,6 @@ export const SIGN_UP = gql`
   }
 `;
 
-export const SIGN_UP_TRIAL = gql`
-  mutation trialSignUp($data: TrialSignUpInput!) {
-    trialSignUp(data: $data) {
-      id
-      email
-      phoneNumber
-      address
-      timeZone
-      country
-      referalCode
-      referalId
-      students {
-        id
-        firstName
-        lastName
-        gender
-        parentName
-        level
-        langLevel
-        birthday
-        about
-        pronouns
-        isActive
-        # user
-        # lessons
-        avatarId
-        # avatar
-      }
-      mentor {
-        id
-        firstName
-        lastName
-        gender
-        major
-        language
-        university
-        graduatingYear
-        degree
-        introduction
-        about
-        experience
-        relevantExperience
-        isActive
-        hourlyRate
-        facts
-        uniqueFacts
-        fullName
-        userId
-        # user
-        # lessons
-        videoUrl
-        avatarId
-        visibilityStatus
-        # avatar
-        # availabilities
-        zoomUserId
-        zoomEmail
-      }
-      packageSubscriptions {
-        id
-        periodStart
-        periodEnd
-        credits
-        modifyCredits
-        packageId
-        # package
-        paymentId
-        # payment
-        # lessons
-        active
-      }
-      activeSubscriptions {
-        id
-        periodStart
-        periodEnd
-        credits
-        modifyCredits
-        packageId
-        # package
-        paymentId
-        # payment
-        # lessons
-        active
-      }
-      isActive
-      role
-      cardLast4
-      createdAt
-      updatedAt
-    }
-  }
-`;
-
 export const ME_QUERY = gql`
   query ME_QUERY($studentId: ID) {
     authenticatedUser(studentId: $studentId) {
@@ -388,7 +295,6 @@ export const GET_MENTOR = gql`
           from
           to
         }
-        
       }
       exceptionDates {
         id
@@ -903,26 +809,6 @@ export const APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER = gql`
         country
         createdAt
         updatedAt
-      }
-    }
-  }
-`;
-
-export const GET_TRIAL_PACKAGES = gql`
-  query trialPackages {
-    trialPackages {
-      id
-      totalSessions
-      sessionsPerWeek
-      sessionTime
-      price
-      period
-      discount
-      courseId
-      course {
-          id
-          title
-          description
       }
     }
   }

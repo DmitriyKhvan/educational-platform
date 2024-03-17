@@ -12,16 +12,18 @@ import { getItemToLocalStorage } from 'src/constants/global';
 import { scrollToElement } from 'src/utils/scrollToElement';
 
 export const ScheduleProvider = ({
+  query = COMBINED_TIMESHEETS,
   setTabIndex,
   setSchedule,
   selectedMentor,
+  setMentorId, // trial
   duration,
   children,
 }) => {
   const [
     getTimesheetsData,
     { loading: timesheetsLoading, data: timesheetsData },
-  ] = useLazyQuery(COMBINED_TIMESHEETS, {
+  ] = useLazyQuery(query, {
     fetchPolicy: 'network-only',
   });
 
@@ -81,7 +83,7 @@ export const ScheduleProvider = ({
           date: format(new Date(debouncedTimesheetsData), 'yyyy-MM-dd', {
             timeZone: userTimezone,
           }),
-          duration: String(duration).toString(),
+          duration: duration && String(duration).toString(),
           ...(selectedMentor && {
             mentorId: selectedMentor.id,
           }),
@@ -155,7 +157,10 @@ export const ScheduleProvider = ({
       }
     }
 
-    structuredClone(timesheetsData?.combinedTimesheets)
+    structuredClone(
+      timesheetsData?.combinedTimesheets ||
+        timesheetsData?.combinedTimesheetsForTrials,
+    )
       .sort(
         (a, b) =>
           parse(a.from, 'HH:mm', new Date(day)) -
@@ -208,13 +213,19 @@ export const ScheduleProvider = ({
   useEffect(() => {
     if (timeOfDayInterval.start && timeOfDayInterval.end) {
       const availableSlots = [];
-      timesheetsData?.combinedTimesheets.forEach((timesheet) => {
+
+      (
+        timesheetsData?.combinedTimesheets ||
+        // eslint-disable-next-line no-unsafe-optional-chaining
+        timesheetsData?.combinedTimesheetsForTrials
+      ).forEach((timesheet) => {
         const tempTime = parse(timesheet.from, 'HH:mm', new Date(day));
 
         if (isWithinInterval(tempTime, timeOfDayInterval)) {
           availableSlots.push({
             time: timesheet.from,
             reserved: timesheet.reserved,
+            mentorId: timesheet.mentors && timesheet.mentors[0],
           });
         }
       });
@@ -253,6 +264,7 @@ export const ScheduleProvider = ({
         isToday,
         isEndMonth,
         resetAll,
+        setMentorId,
       }}
     >
       {children}

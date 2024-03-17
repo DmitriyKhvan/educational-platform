@@ -3,38 +3,81 @@ import OnboardingTrial from './OnboardingTrial';
 import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 import LessonDetails from './LessonDetails';
 import StepIndicator from './StepIndicator';
-import SelectDay from './SelectDay';
-import AvailableSpots from './AvailableSpots';
+// import SelectDay from './SelectDay';
+// import AvailableSpots from './AvailableSpots';
 import Confirmation from './Confirmation';
-import { ScheduleProvider } from '../ScheduleLesson/ScheduleSelector/ScheduleProvider';
-// import { ScheduleSelector } from '../ScheduleLesson/ScheduleSelector';
-// import { AvailableTimes } from '../ScheduleLesson/ScheduleSelector/AvailableTimes';
+import { ScheduleProvider } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/ScheduleProvider';
+import { ScheduleSelector } from 'src/pages/Students/ScheduleLesson/ScheduleSelector';
+import { AvailableTimes } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/AvailableTimes';
+import { COMBINED_TIMESHEETS_TRIAL } from 'src/modules/graphql/queries/trial/combinedTimesheetsForTrials';
+import { MarketingChannelForm } from 'src/components/onboarding/MarketingChannel';
+import { FaCheckCircle } from 'react-icons/fa';
 
 const Trial = () => {
-  const [step, setStep] = useState(0);
-  // const [selectedPlan, setSelectedPlan] = useState({});
-  // const [schedule, setSchedule] = useState();
+  localStorage.removeItem('studentId');
+  const [step, setStep] = useState(-1);
+  const [user, setUser] = useState({});
+  const [selectedPlan, setSelectedPlan] = useState({});
+  const [schedule, setSchedule] = useState('');
+  const [mentorId, setMentorId] = useState('');
+
+  console.log('schedule', schedule);
+
+  console.log('selectedPlan', selectedPlan);
+
+  console.log('mentorId', mentorId);
+
+  console.log('user', user);
 
   return (
     <OnboardingLayout>
-      <main className="w-full mx-auto px-5 mt-6 sm:mt-10">
-        {step > 0 && <StepIndicator step={step} />}
-        {step === 0 && <OnboardingTrial setStep={setStep} />}
-        {step === 1 && <LessonDetails setStep={setStep} />}
+      <main className="px-5 py-6 sm:pt-10">
+        <div className="max-w-[440px] mx-auto">
+          {step > -1 && step < 4 && <StepIndicator step={step} />}
+          {step === -1 && (
+            <OnboardingTrial setUser={setUser} setStep={setStep} />
+          )}
+          {step === 0 && (
+            <LessonDetails
+              setSelectedPlan={setSelectedPlan}
+              setStep={setStep}
+            />
+          )}
 
-        <ScheduleProvider
-          setTabIndex={setStep}
-          setSchedule={() => {}}
-          // selectedMentor={location?.state?.tutor}
-          duration={25}
-        >
-          {step === 2 && <SelectDay setStep={setStep} />}
+          <ScheduleProvider
+            query={COMBINED_TIMESHEETS_TRIAL}
+            setTabIndex={setStep}
+            setSchedule={setSchedule}
+            duration={selectedPlan?.sessionTime}
+            setMentorId={setMentorId}
+          >
+            {step === 1 && <ScheduleSelector />}
 
-          {step === 3 && <AvailableSpots setStep={setStep} />}
-        </ScheduleProvider>
-        {/* {step === 2 && <SelectDay setStep={setStep} />}
-        {step === 3 && <AvailableSpots setStep={setStep} />} */}
-        {step === 4 && <Confirmation setStep={setStep} />}
+            {step === 2 && <AvailableTimes />}
+          </ScheduleProvider>
+
+          {step === 3 && (
+            <Confirmation
+              setStep={setStep}
+              user={user}
+              selectedPlan={selectedPlan}
+              schedule={schedule}
+              mentorId={mentorId}
+            />
+          )}
+
+          {step === 4 && (
+            <>
+              <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                <FaCheckCircle className="w-6 h-6 sm:w-9 sm:h-9 text-[#039855]" />
+                <h1 className="font-bold text-2xl sm:text-3xl">
+                  Trial booking confirmed
+                </h1>
+              </div>
+              <MarketingChannelForm />
+            </>
+          )}
+        </div>
       </main>
     </OnboardingLayout>
   );

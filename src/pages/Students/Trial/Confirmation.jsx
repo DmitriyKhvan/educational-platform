@@ -1,10 +1,93 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaArrowLeft, FaPencil } from 'react-icons/fa6';
 import Button from 'src/components/Form/Button';
 
-const Confirmation = ({ setStep }) => {
+import { ko as kr } from 'date-fns/locale';
+import { useTranslation } from 'react-i18next';
+import { format } from 'date-fns-tz';
+import { addMinutes } from 'date-fns';
+import { TRIAL_SIGN_UP } from 'src/modules/graphql/mutations/trial/trialSignUp';
+import { useMutation } from '@apollo/client';
+import useLogin from 'src/modules/auth/hooks/login';
+import notify from 'src/utils/notify';
+
+const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
+  console.log(mentorId);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [i18n] = useTranslation();
+  const [signUp] = useMutation(TRIAL_SIGN_UP);
+  const { login, data: loginData } = useLogin();
+
+  console.log(loginData);
+  console.log(isLoading);
+
+  const currentLanguage = i18n.language;
+  const locale = currentLanguage === 'kr' ? kr : null;
+
+  const dateParse = new Date(schedule);
+
+  console.log('dateParse', dateParse);
+
+  const dayFormat = format(dateParse, 'EEEE, MMM dd', {
+    locale: locale,
+    timeZone: 'Asia/Seoul',
+  });
+
+  const scheduleStartTimeFormat = format(dateParse, 'hh:mm a', {
+    timeZone: 'Asia/Seoul',
+  });
+
+  const scheduleEndTimeFormat = format(
+    addMinutes(dateParse, selectedPlan.sessionTime),
+    'hh:mm a',
+    {
+      timeZone: 'Asia/Seoul',
+    },
+  );
+
+  const trialSignUp = async () => {
+    setIsLoading(true);
+    // const data = {
+    //   user,
+    //   packageId: parseInt(selectedPlan.id),
+    //   lessonBooking: {
+    //     mentorId,
+    //     startAt: new Date(schedule),
+    //   },
+    // };
+
+    // console.log('data', data);
+    // setStep((v) => v + 1);
+
+    // if (data) return;
+
+    try {
+      await signUp({
+        variables: {
+          data: {
+            user,
+            packageId: parseInt(selectedPlan.id),
+            level: selectedPlan.level,
+            lessonTopic: selectedPlan.topic,
+            lessonBooking: {
+              mentorId,
+              startAt: new Date(schedule),
+            },
+          },
+        },
+      });
+      await login(user.email, user.password);
+
+      setStep((v) => v + 1);
+    } catch (error) {
+      notify(error.message, 'error');
+    }
+    setIsLoading(false);
+  };
+
   return (
-    <div className="w-full max-w-[440px] mx-auto">
+    <div className="">
       <div className="mb-2 flex items-center">
         <FaArrowLeft
           className="mr-3 w-[20px] h-[20px] cursor-pointer"
@@ -25,18 +108,18 @@ const Confirmation = ({ setStep }) => {
               <span className="text-[13px] text-gray-400 mb-2">
                 English name of student
               </span>
-              <p className="text-gray-950 font-medium">Jony</p>
+              <p className="text-gray-950 font-medium">{user.firstName}</p>
             </label>
 
             <label className="mb-4 block">
               <span className="text-[13px] text-gray-400 mb-2">Email</span>
-              <p className="text-gray-950 font-medium">jony@email.com</p>
+              <p className="text-gray-950 font-medium">{user.email}</p>
             </label>
             <label>
               <span className="text-[13px] text-gray-400 mb-2">
                 Phone number
               </span>
-              <p className="text-gray-950 font-medium">02-312-3456</p>
+              <p className="text-gray-950 font-medium">{user.phoneNumber}</p>
             </label>
           </div>
           <div className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors">
@@ -49,16 +132,22 @@ const Confirmation = ({ setStep }) => {
         <p className="text-sm text-gray-400 font-medium mb-4">Lesson details</p>
         <div className="w-full border rounded-lg p-5 flex justify-between items-center">
           <div>
-            <h3 className="font-bold text-lg mb-5">Speaking</h3>
+            <h3 className="font-bold text-lg mb-5">
+              {selectedPlan.course.title}
+            </h3>
             <div className="flex gap-6">
               <label className="block">
                 <span className="text-[13px] text-gray-400">Level</span>
-                <p className="text-gray-950 font-medium">Jony</p>
+                <p className="text-gray-950 font-medium">
+                  {selectedPlan.level}
+                </p>
               </label>
 
               <label className="block">
                 <span className="text-[13px] text-gray-400">Topic</span>
-                <p className="text-gray-950 font-medium">Statue of Liberty</p>
+                <p className="text-gray-950 font-medium">
+                  {selectedPlan.topic}
+                </p>
               </label>
             </div>
           </div>
@@ -72,8 +161,8 @@ const Confirmation = ({ setStep }) => {
         <p className="text-sm text-gray-400 font-medium mb-4">Date and Time</p>
         <div className="w-full border rounded-lg p-5 flex justify-between items-center">
           <div>
-            <h3 className="font-bold text-lg mb-4">02:00 PM - 02:25 PM</h3>
-            <p>Friday, Dec 15</p>
+            <h3 className="font-bold text-lg mb-4">{`${scheduleStartTimeFormat} - ${scheduleEndTimeFormat}`}</h3>
+            <p>{dayFormat}</p>
           </div>
           <div className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors">
             <FaPencil className="text-color-purple w-3 h-3" />
@@ -81,10 +170,7 @@ const Confirmation = ({ setStep }) => {
         </div>
       </section>
 
-      <Button
-        className="w-full h-14 sm:h-16 my-10"
-        onClick={() => setStep((v) => v + 1)}
-      >
+      <Button className="w-full h-14 sm:h-16 my-10" onClick={trialSignUp}>
         Continue
       </Button>
     </div>

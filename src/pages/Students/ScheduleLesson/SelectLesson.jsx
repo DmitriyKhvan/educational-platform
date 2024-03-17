@@ -118,7 +118,7 @@ const SelectLesson = ({
 
   return (
     <Layout>
-      <div className="h-full overflow-y-auto p-5 sm:px-10 sm:py-8 lg:pt-12 lg:px-12 xl:py-[65px]">
+      <div className="h-full">
         <div className="flex flex-col gap-2.5 mb-[27px]">
           <h1 className="text-[clamp(1.5rem,_5vw,_2.5rem)] text-color-dark-purple leading-normal tracking-tight">
             {!id

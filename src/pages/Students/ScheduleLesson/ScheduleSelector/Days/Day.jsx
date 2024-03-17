@@ -25,7 +25,7 @@ export const Day = memo(function Day({ dayOfWeek, idx }) {
     <Button
       theme="outline"
       className={cn(
-        'w-full sm:w-[214px] h-[50px] text-sm font-normal',
+        'w-full sm:w-[calc(100%/2-6px)] h-[50px] text-sm font-normal',
         idx === dayClicked && 'text-white bg-color-purple',
         idx % 2 !== 0 && 'sm:ml-3',
       )}

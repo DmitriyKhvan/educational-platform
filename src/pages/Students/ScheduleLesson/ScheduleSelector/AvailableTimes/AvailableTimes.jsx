@@ -24,6 +24,7 @@ export const AvailableTimes = memo(function AvailableTimes() {
     todayUserTimezone,
     day,
     resetAll,
+    setMentorId,
   } = useSchedule();
   const [t] = useTranslation(['lessons', 'common', 'modals']);
 
@@ -39,6 +40,11 @@ export const AvailableTimes = memo(function AvailableTimes() {
     if (!scheduleStartTime || scheduleStartTime.reserved) {
       return;
     }
+
+    console.log('scheduleStartTime', scheduleStartTime);
+    console.log('userTimezone', userTimezone);
+
+    setMentorId(scheduleStartTime.mentorId);
 
     const formattedDay = format(new Date(day), 'yyyy-MM-dd');
 
@@ -88,51 +94,49 @@ export const AvailableTimes = memo(function AvailableTimes() {
   };
 
   return (
-    <div className="overflow-auto h-[calc(100vh-80px)]">
-      <div className="max-w-[488px] w-full m-auto py-5 px-6 sm:py-10">
-        {availableTimes.length !== 0 && (
-          <div className="space-y-10">
-            <div>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => {
-                    setTabIndex(1);
-                    resetAll();
-                  }}
-                >
-                  <IoArrowBack className="text-2xl" />
-                </button>
-                <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold">
-                  {t('available_spots')}
-                </h1>
-              </div>
-
-              <p className="text-sm text-color-light-grey mt-[15px]">
-                {t('available_spots_subtitle')}
-              </p>
+    <div className="max-w-[488px] m-auto">
+      {availableTimes.length !== 0 && (
+        <div className="space-y-10">
+          <div>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => {
+                  setTabIndex(1);
+                  resetAll();
+                }}
+              >
+                <IoArrowBack className="text-2xl" />
+              </button>
+              <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold">
+                {t('available_spots')}
+              </h1>
             </div>
 
-            <div className="space-y-4">
-              {availableTimes.map((startTime) => (
-                <ScheduleCard
-                  startTime={startTime}
-                  scheduleStartTime={scheduleStartTime}
-                  setScheduleStartTime={setScheduleStartTime}
-                  key={startTime.time}
-                />
-              ))}
-            </div>
-            <Button
-              id="timeSheets"
-              disabled={!scheduleStartTime}
-              className="w-full"
-              onClick={handleConfirmLesson}
-            >
-              {t('continue_button', { ns: 'common' })}
-            </Button>
+            <p className="text-sm text-color-light-grey mt-[15px]">
+              {t('available_spots_subtitle')}
+            </p>
           </div>
-        )}
-      </div>
+
+          <div className="space-y-4">
+            {availableTimes.map((startTime) => (
+              <ScheduleCard
+                startTime={startTime}
+                scheduleStartTime={scheduleStartTime}
+                setScheduleStartTime={setScheduleStartTime}
+                key={startTime.time}
+              />
+            ))}
+          </div>
+          <Button
+            id="timeSheets"
+            disabled={!scheduleStartTime}
+            className="w-full"
+            onClick={handleConfirmLesson}
+          >
+            {t('continue_button', { ns: 'common' })}
+          </Button>
+        </div>
+      )}
     </div>
   );
 });

@@ -1,47 +1,39 @@
 import React from 'react';
 import Button from 'src/components/Form/Button';
 import CheckboxField from 'src/components/Form/CheckboxField';
+import { levels } from 'src/constants/global';
 
-const LevelModal = () => {
+const LevelModal = ({ setOpen, register, watch }) => {
   return (
-    <>
-      <h2 className="text-center sm:text-left sm:text-2xl sm:font-bold font-semibold my-5">
+    <div className="space-y-6">
+      <h2 className="text-center sm:text-left sm:text-2xl sm:font-bold font-semibold">
         Select a Level
       </h2>
       <div className="grid grid-cols-2 gap-3">
-        <label className="border rounded-xl p-4">
-          <CheckboxField type="radio" name="level" />
-          <h3 className="font-bold mb-2">Pre-Level 1</h3>
-          <p>I speak in one word answers and can read simple words</p>
-        </label>
-        <label className="border rounded-xl p-4">
-          <CheckboxField type="radio" name="level" />
-          <h3 className="font-bold mb-2">Level 1</h3>
-          <p>I can understand and read short sentences</p>
-        </label>
-        <label className="border rounded-xl p-4">
-          <CheckboxField type="radio" name="level" />
-          <h3 className="font-bold mb-2">Level 2</h3>
-          <p>I can read new words and speak in full sentences</p>
-        </label>
-        <label className="border rounded-xl p-4">
-          <CheckboxField type="radio" name="level" />
-          <h3 className="font-bold mb-2">Level 3</h3>
-          <p>I can say and understand complex sentences</p>
-        </label>
-        <label className="border rounded-xl p-4">
-          <CheckboxField type="radio" name="level" />
-          <h3 className="font-bold mb-2">Level 4</h3>
-          <p>I can communicate freely with few limitations</p>
-        </label>
-        <label className="border rounded-xl p-4">
-          <CheckboxField type="radio" name="level" />
-          <h3 className="font-bold mb-2">Level 5</h3>
-          <p>I can discuss complex topics fluently</p>
-        </label>
+        {levels.map((level) => {
+          return (
+            <label
+              key={level.value}
+              className={`border rounded-xl p-4 cursor-pointer transition ease-in-out delay-150 hover:border-color-purple ${
+                watch('level') === level.value && 'border-color-purple'
+              }`}
+            >
+              <CheckboxField
+                type="radio"
+                value={level.value}
+                name="level"
+                {...register('level')}
+              />
+              <h3 className="font-bold mb-2">{level.label}</h3>
+              <p>{level.text}</p>
+            </label>
+          );
+        })}
       </div>
-      <Button className="my-10 w-full h-[57px]">Select</Button>
-    </>
+      <Button className="w-full h-[57px]" onClick={() => setOpen(false)}>
+        Select
+      </Button>
+    </div>
   );
 };
 

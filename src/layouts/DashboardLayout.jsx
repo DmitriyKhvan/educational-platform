@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
 
         <div className="grow">
           <Navbar />
-          <div className="overflow-auto h-[calc(100vh-80px-64px)] sm:h-[calc(100vh-2*80px)] lg:h-[calc(100vh-80px)]">
+          <div className="overflow-auto h-[calc(100vh-80px-64px)] sm:h-[calc(100vh-2*80px)] lg:h-[calc(100vh-80px)] p-5 sm:px-10 sm:py-8">
             {children}
           </div>
         </div>
