@@ -12,11 +12,13 @@ import { AvailableTimes } from 'src/pages/Students/ScheduleLesson/ScheduleSelect
 import { COMBINED_TIMESHEETS_TRIAL } from 'src/modules/graphql/queries/trial/combinedTimesheetsForTrials';
 import { MarketingChannelForm } from 'src/components/onboarding/MarketingChannel';
 import { FaCheckCircle } from 'react-icons/fa';
+import { phoneCodes } from 'src/constants/global';
 
 const Trial = () => {
   localStorage.removeItem('studentId');
   const [step, setStep] = useState(-1);
   const [user, setUser] = useState({});
+  const [country, setCountry] = useState(phoneCodes[4]);
   const [selectedPlan, setSelectedPlan] = useState({});
   const [schedule, setSchedule] = useState('');
   const [mentorId, setMentorId] = useState('');
@@ -35,10 +37,19 @@ const Trial = () => {
         <div className="max-w-[440px] mx-auto">
           {step > -1 && step < 4 && <StepIndicator step={step} />}
           {step === -1 && (
-            <OnboardingTrial setUser={setUser} setStep={setStep} />
+            <OnboardingTrial
+              country={country}
+              setCountry={setCountry}
+              user={user}
+              selectedPlan={selectedPlan}
+              setUser={setUser}
+              setStep={setStep}
+            />
           )}
           {step === 0 && (
             <LessonDetails
+              schedule={schedule}
+              selectedPlan={selectedPlan}
               setSelectedPlan={setSelectedPlan}
               setStep={setStep}
             />
@@ -50,6 +61,7 @@ const Trial = () => {
             setSchedule={setSchedule}
             duration={selectedPlan?.sessionTime}
             setMentorId={setMentorId}
+            timeZone={user?.timeZone}
           >
             {step === 1 && <ScheduleSelector />}
 

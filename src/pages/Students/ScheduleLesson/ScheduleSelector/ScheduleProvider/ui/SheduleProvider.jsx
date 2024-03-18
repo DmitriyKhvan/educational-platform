@@ -17,6 +17,7 @@ export const ScheduleProvider = ({
   setSchedule,
   selectedMentor,
   setMentorId, // trial
+  timeZone,
   duration,
   children,
 }) => {
@@ -24,13 +25,15 @@ export const ScheduleProvider = ({
     getTimesheetsData,
     { loading: timesheetsLoading, data: timesheetsData },
   ] = useLazyQuery(query, {
-    fetchPolicy: 'network-only',
+    // fetchPolicy: 'network-only',
+    fetchPolicy: 'no-cache',
   });
 
   const { user } = useAuth();
 
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
+    timeZone ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const todayUserTimezone = utcToZonedTime(new Date(), userTimezone);
@@ -237,6 +240,7 @@ export const ScheduleProvider = ({
   return (
     <ScheduleContext.Provider
       value={{
+        userTimezone,
         setTabIndex,
         setSchedule,
         selectedMentor,

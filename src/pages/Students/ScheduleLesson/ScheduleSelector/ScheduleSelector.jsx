@@ -4,7 +4,6 @@ import { addWeeks, endOfISOWeek, startOfISOWeek } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { ko as kr } from 'date-fns/locale';
 
-import { useAuth } from '../../../../modules/auth';
 import { useSchedule } from './ScheduleProvider';
 
 import { Days } from './Days';
@@ -16,17 +15,12 @@ import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 import Button from 'src/components/Form/Button';
 
 export const ScheduleSelector = ({ lesson }) => {
-  const { setTabIndex, resetAll, todayUserTimezone } = useSchedule();
+  const { setTabIndex, resetAll, todayUserTimezone, userTimezone } =
+    useSchedule();
   const [t, i18n] = useTranslation(['lessons', 'common', 'modals']);
 
   const currentLanguage = i18n.language;
   const locale = currentLanguage === 'kr' ? kr : null;
-
-  const { user } = useAuth();
-
-  const userTimezone =
-    user?.timeZone?.split(' ')[0] ||
-    Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const [counter, setCounter] = useState(0);
 

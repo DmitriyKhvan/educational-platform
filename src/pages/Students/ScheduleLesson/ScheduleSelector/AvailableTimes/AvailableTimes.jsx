@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { ScheduleCard } from './ScheduleCard';
 import { useSchedule } from '../ScheduleProvider';
 import { IoArrowBack } from 'react-icons/io5';
-import { useAuth } from 'src/modules/auth';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import {
   addHours,
@@ -25,14 +24,9 @@ export const AvailableTimes = memo(function AvailableTimes() {
     day,
     resetAll,
     setMentorId,
+    userTimezone,
   } = useSchedule();
   const [t] = useTranslation(['lessons', 'common', 'modals']);
-
-  const { user } = useAuth();
-
-  const userTimezone =
-    user?.timeZone?.split(' ')[0] ||
-    Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const [scheduleStartTime, setScheduleStartTime] = useState(null);
 

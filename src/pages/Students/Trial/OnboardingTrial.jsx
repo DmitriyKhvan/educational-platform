@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
@@ -21,16 +21,36 @@ import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
 import ReactInputMask from 'react-input-mask';
 import { PhoneCodeListModal } from 'src/components/onboarding/PhoneCodeListModal';
-import { phoneCodes } from 'src/constants/global';
+import { timezoneOptions } from 'src/constants/global';
 import MyDropdownMenu from 'src/components/DropdownMenu';
 import { MyDrawer } from 'src/components/Drawer';
 import { useMediaQuery } from 'react-responsive';
+import { SelectField } from 'src/components/Form/SelectField';
+import { useAuth } from 'src/modules/auth';
 
-export default function OnboardingTrial({ setUser, setStep }) {
+export default function OnboardingTrial({
+  country,
+  setCountry,
+  selectedPlan,
+  user,
+  setUser,
+  setStep,
+}) {
+  const {
+    firstName,
+    lastName,
+    phoneNumberWithMask,
+    email,
+    timeZone,
+    password,
+  } = user;
+  const { logout } = useAuth();
+  logout();
+
+  console.log('country', country);
+  console.log('phoneNumber', phoneNumberWithMask);
+
   const isMobile = useMediaQuery({ maxWidth: 639 });
-  localStorage.removeItem('studentId');
-
-  const [country, setCountry] = useState(phoneCodes[4]);
 
   const [t] = useTranslation(['onboarding', 'common', 'translations']);
 
@@ -43,67 +63,39 @@ export default function OnboardingTrial({ setUser, setStep }) {
     handleSubmit,
     register,
     resetField,
+    control,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
-    defaultValues: { phoneNumber: '' },
+    defaultValues: {
+      firstName,
+      lastName,
+      phoneNumber: phoneNumberWithMask,
+      // phoneNumber: '(123)456-7890',
+      email,
+      timeZone,
+      password,
+    },
   });
 
-  // const { login, data: loginData } = useLogin();
-  // const [signUp] = useMutation(SIGN_UP_TRIAL);
-
   const onSubmit = async (data) => {
+    console.log('data', data);
     const user = {
       ...data,
       phoneNumber: `${country.code}${data.phoneNumber.replace(/[-()]/g, '')}`,
+      phoneNumberWithMask: data.phoneNumber,
     };
     console.log('user', user);
     setUser(user);
-    setStep((v) => v + 1);
-    //   location.href = '/trial/details';
-    //   setIsLoading(true);
-    //   try {
-    //     await signUp({
-    //       variables: {
-    //         data: {
-    //           user: {
-    //             ...data,
-    //           },
-    //           phoneNumber: `${country.code}${data.phoneNumber.replace(
-    //             /[-()]/g,
-    //             '',
-    //           )}`,
-    //           timeZone: 'Asia/Seoul', //Asia/Seoul - default value on server side, if omitted
-    //         },
-    //         packageId: 67, //(67, 42, 31) - selects from previous step
-    //         lessonBooking: {
-    //           mentorId: 3, //selects on previous step
-    //           startAt: new Date(), //selects from previous step
-    //         },
-    //       },
-    //     });
-    //     login(data.email, data.password);
-    //   } catch (error) {
-    //     notify(error.message, 'error');
-    //   }
-    //   setIsLoading(false);
+    if (Object.keys(selectedPlan).length !== 0) {
+      setStep(3);
+    } else {
+      setStep((v) => v + 1);
+    }
   };
-
-  // useEffect(() => {
-  //   if (loginData) {
-  //     location.href = '/purchase';
-  //   }
-  // }, [loginData]);
 
   return (
     <>
-      {/* <OnboardingLayout> */}
-      {/* {isLoading && (
-        <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
-          <Loader />
-        </div>
-      )} */}
-
       <form
         ref={parent}
         onSubmit={handleSubmit(onSubmit)}
@@ -250,6 +242,28 @@ export default function OnboardingTrial({ setUser, setStep }) {
                 },
               })}
             />
+          </InputWithError>
+
+          <InputWithError errorsField={errors?.timeZone}>
+            <label className="not-italic font-semibold text-base text-color-dark-purple">
+              {t('time_zone', { ns: 'common' })}
+
+              <Controller
+                control={control}
+                defaultValue={timeZone}
+                name="timeZone"
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { value, onChange } }) => (
+                  <SelectField
+                    value={value}
+                    options={timezoneOptions}
+                    onChange={onChange}
+                  />
+                )}
+              />
+            </label>
           </InputWithError>
 
           <InputWithError errorsField={errors?.password}>

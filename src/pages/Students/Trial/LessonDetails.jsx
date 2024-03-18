@@ -14,7 +14,12 @@ import { topics } from 'src/constants/global';
 import { useTranslation } from 'react-i18next';
 // import MySelect from 'src/components/Form/MySelect';
 
-const LessonDetails = ({ setSelectedPlan, setStep }) => {
+const LessonDetails = ({
+  schedule,
+  selectedPlan,
+  setSelectedPlan,
+  setStep,
+}) => {
   const { data } = useQuery(TRIAL_PACKAGES);
   const { t } = useTranslation('common');
   const [currentPackage, setCurrentPackage] = useState({});
@@ -26,9 +31,13 @@ const LessonDetails = ({ setSelectedPlan, setStep }) => {
     watch,
     formState: { errors, isValid },
   } = useForm({
-    // mode: 'onChange',
-    mode: 'all',
-    defaultValues: { packageId: null, level: '', topic: '' },
+    mode: 'onChange',
+    // mode: 'all',
+    defaultValues: {
+      packageId: selectedPlan.id,
+      level: selectedPlan.level,
+      topic: selectedPlan.topic,
+    },
   });
 
   const onSubmit = (data) => {
@@ -37,7 +46,12 @@ const LessonDetails = ({ setSelectedPlan, setStep }) => {
       level,
       topic,
     });
-    setStep((v) => v + 1);
+
+    if (schedule) {
+      setStep(3);
+    } else {
+      setStep((v) => v + 1);
+    }
     console.log(setStep);
     console.log('data', data);
   };
@@ -54,7 +68,7 @@ const LessonDetails = ({ setSelectedPlan, setStep }) => {
         <span className="text-[#BBBBC4]">Select a course</span>
       )
     );
-  }, [watch('packageId'), setSelectedPlan]);
+  }, [watch('packageId')]);
 
   const level = useMemo(() => {
     return (

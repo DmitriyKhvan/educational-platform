@@ -4,7 +4,7 @@ import Button from 'src/components/Form/Button';
 
 import { ko as kr } from 'date-fns/locale';
 import { useTranslation } from 'react-i18next';
-import { format } from 'date-fns-tz';
+import { format, utcToZonedTime } from 'date-fns-tz';
 import { addMinutes } from 'date-fns';
 import { TRIAL_SIGN_UP } from 'src/modules/graphql/mutations/trial/trialSignUp';
 import { useMutation } from '@apollo/client';
@@ -25,7 +25,7 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
   const currentLanguage = i18n.language;
   const locale = currentLanguage === 'kr' ? kr : null;
 
-  const dateParse = new Date(schedule);
+  const dateParse = utcToZonedTime(new Date(schedule), user.timeZone);
 
   console.log('dateParse', dateParse);
 
@@ -123,7 +123,10 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
             </label>
           </div>
           <div className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors">
-            <FaPencil className="text-color-purple w-3 h-3" />
+            <FaPencil
+              onClick={() => setStep(-1)}
+              className="text-color-purple w-3 h-3"
+            />
           </div>
         </div>
       </section>
@@ -152,7 +155,10 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
             </div>
           </div>
           <div className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors">
-            <FaPencil className="text-color-purple w-3 h-3" />
+            <FaPencil
+              onClick={() => setStep(0)}
+              className="text-color-purple w-3 h-3"
+            />
           </div>
         </div>
       </section>
@@ -165,7 +171,10 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
             <p>{dayFormat}</p>
           </div>
           <div className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors">
-            <FaPencil className="text-color-purple w-3 h-3" />
+            <FaPencil
+              onClick={() => setStep(1)}
+              className="text-color-purple w-3 h-3"
+            />
           </div>
         </div>
       </section>
