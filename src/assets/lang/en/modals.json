@@ -8,6 +8,8 @@
   "cancel_modal_desc4": "Your lesson credit(s) will be returned since you're cancelling/rescheduling with more than 24 hours' notice.",
   "confirm_cancel": "Are you sure you want to cancel?",
   "review_cancellation_policy": "Review Cancellation Policy",
+  "are_you_sure_reschedule_cancel": "Are you sure you want to {{cancelReschedule}} <strong>{{date}}</strong> lesson?",
+  "n_cancelations_left": "<primary>{{count}}/3 cancellations</primary> <secondary>left this month</secondary>",
   "continue_cancel": "Continue",
   "join_lesson": "Join",
   "watch_recording": "Watch",
