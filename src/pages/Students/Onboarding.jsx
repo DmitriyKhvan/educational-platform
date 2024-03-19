@@ -111,7 +111,11 @@ export default function Onboarding() {
               />
             </InputWithError>
 
-            <InputWithError errorsField={errors?.phoneNumber}>
+            <InputWithError
+              errorsField={
+                errors?.phoneNumberWithoutCode ?? errors?.phoneNumber
+              }
+            >
               <PhoneNumberField
                 register={register}
                 resetField={resetField}

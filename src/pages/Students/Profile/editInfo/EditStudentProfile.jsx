@@ -26,6 +26,7 @@ import { trimSpaces } from 'src/utils/trimSpaces';
 import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { FaChevronLeft } from 'react-icons/fa6';
 import PhoneNumberField from 'src/components/Form/PhoneNumberField';
+import InputWithError from 'src/components/Form/InputWithError';
 
 const EditProflileStudent = () => {
   const history = useHistory();
@@ -37,18 +38,25 @@ const EditProflileStudent = () => {
 
   const { user, refetchUser } = useAuth();
 
-  const { register, handleSubmit, control, resetField, watch, setValue } =
-    useForm({
-      defaultValues: {
-        koreanEquivalent: user?.koreanEquivalent,
-        gender: user?.gender,
-        lastName: user?.lastName,
-        firstName: user?.firstName,
-        phoneNumber: '',
-        phoneNumberWithoutCode: '',
-        address: user?.address,
-      },
-    });
+  const {
+    register,
+    handleSubmit,
+    control,
+    resetField,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      koreanEquivalent: user?.koreanEquivalent,
+      gender: user?.gender,
+      lastName: user?.lastName,
+      firstName: user?.firstName,
+      phoneNumber: '',
+      phoneNumberWithoutCode: '',
+      address: user?.address,
+    },
+  });
 
   const onSubmit = async (area) => {
     const {
@@ -244,13 +252,19 @@ const EditProflileStudent = () => {
           </section>
 
           <section className="mt-4">
-            <PhoneNumberField
-              register={register}
-              resetField={resetField}
-              defaultNumber={user?.phoneNumber}
-              setValue={setValue}
-              watch={watch}
-            />
+            <InputWithError
+              errorsField={
+                errors?.phoneNumberWithoutCode ?? errors?.phoneNumber
+              }
+            >
+              <PhoneNumberField
+                register={register}
+                resetField={resetField}
+                defaultNumber={user?.phoneNumber}
+                setValue={setValue}
+                watch={watch}
+              />
+            </InputWithError>
             {/* <InputField
               className="w-full"
               label={t('phone_number', { ns: 'common' })}
@@ -271,7 +285,12 @@ const EditProflileStudent = () => {
           </section>
         </section>
 
-        <Button className="my-10 h-[60px] w-full" type="submit" theme="purple">
+        <Button
+          // disabled={!isValid}
+          className="my-10 h-[60px] w-full"
+          type="submit"
+          theme="purple"
+        >
           {t('save', { ns: 'common' })}
         </Button>
       </form>

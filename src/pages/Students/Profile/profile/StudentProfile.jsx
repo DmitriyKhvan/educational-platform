@@ -184,7 +184,7 @@ const StudentProfile = () => {
           </h2>
           {completedPackages &&
             completedPackages.map((item) => (
-              <PackageCard key={item.id} item={item} completed />
+              <PackageCard key={item.id} item={item} />
             ))}
 
           {completedPackages?.length === 0 && (
