@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useCallback, useEffect, useState } from 'react';
 import { Calendar as BigCalendar, dateFnsLocalizer } from 'react-big-calendar';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +10,9 @@ import LessonInfoModal from 'src/components/student-dashboard/LessonInfoModal';
 import { enUS, ko } from 'date-fns/locale';
 import { format, getDay, isBefore, parse, startOfWeek } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
+import FullCalendar from '@fullcalendar/react';
+
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 
 const Calendar = ({ calendarAppointments, getAppointments }) => {
   const [t] = useTranslation(['lessons']);
@@ -127,7 +131,16 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
 
   return (
     <>
-      <BigCalendar
+      <FullCalendar
+        plugins={[dayGridPlugin]}
+        initialView="dayGridMonth"
+        headerToolbar={{
+          start: 'title prev,next',
+          center: '',
+          end: 'dayGridMonth,dayGridWeek,dayGridDay today',
+        }}
+      />
+      {/* <BigCalendar
         getNow={() => utcToZonedTime(new Date(), userTimezone)}
         style={{ minHeight: '70vh', minWidth: '559px' }}
         popup={true}
@@ -156,7 +169,7 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
           next: t('calendar_next', { ns: 'lessons' }),
           today: t('calendar_today', { ns: 'lessons' }),
         }}
-      />
+      /> */}
 
       {isOpen && <CustomModal />}
     </>

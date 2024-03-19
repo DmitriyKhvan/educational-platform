@@ -459,3 +459,29 @@
 .loading .rbc-month-view {
   opacity: 0.5;
 }
+
+.fc-toolbar-chunk {
+  display: flex;
+}
+
+.fc-button-group {
+  gap: 8px;
+
+  .fc-button {
+    border-radius: 8px;
+    height: 48px;
+  }
+
+  .fc-next-button,
+  .fc-prev-button {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+.fc-direction-ltr .fc-button-group > .fc-button:not(:first-child),
+.fc-direction-ltr .fc-button-group > .fc-button:not(:last-child) {
+  border-radius: 8px;
+}
