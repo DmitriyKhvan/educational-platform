@@ -1,4 +1,4 @@
-import Layout from '../../../components/Layout';
+import Layout from '../../../layouts/DashboardLayout';
 import { Settings } from './Settings';
 
 export const AvailabilitySettings = () => {

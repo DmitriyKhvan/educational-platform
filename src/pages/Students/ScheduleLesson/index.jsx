@@ -11,7 +11,7 @@ import '../../../assets/styles/tutor.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { ScheduleProvider } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/ScheduleProvider';
 import { AvailableTimes } from './ScheduleSelector/AvailableTimes';
-import Layout from 'src/components/Layout';
+import Layout from 'src/layouts/DashboardLayout';
 
 const ScheduleLesson = () => {
   const { id = null } = useParams();

@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from '../../components/Layout';
+import Layout from '../../layouts/DashboardLayout';
 import styles from './LessonInfo.module.scss';
 import Avatar from '../../assets/images/Avatar.png';
 import FeedbackLessonModal from './FeedbackLessonModal';

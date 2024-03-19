@@ -39,7 +39,7 @@ export const MyDialog = forwardRef(function MyDialog(
     },
   };
 
-  if (!open || !setOpen) {
+  if (open === undefined && setOpen === undefined) {
     [open, setOpen] = useState(false);
   }
 

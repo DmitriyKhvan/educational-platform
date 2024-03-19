@@ -9,7 +9,7 @@ import LessonInfo from './LessonInfo';
 import { Switch, useRouteMatch, Route } from 'react-router-dom';
 import TutorDashboard from './MentorDashboard';
 import AvailabilityLayout from './Availiability';
-import Layout from 'src/components/Layout';
+import Layout from 'src/layouts/DashboardLayout';
 import MentorProfile from './Profile/MentorProfile';
 
 export default function TutorPages() {

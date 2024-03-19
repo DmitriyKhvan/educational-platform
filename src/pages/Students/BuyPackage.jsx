@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
 import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 import { Courses } from 'src/components/BuyPackage/Courses';
@@ -9,33 +9,7 @@ import { Packages } from 'src/components/BuyPackage/Packages';
 import { OrderSummary } from 'src/components/BuyPackage/OrderSummary';
 import Loader from '../../components/Loader/Loader';
 import { useTranslation } from 'react-i18next';
-
-const GET_COURSES = gql`
-  query GetCourses {
-    courses {
-      id
-      title
-      description
-      active
-      packages {
-        id
-        totalSessions
-        sessionsPerWeek
-        sessionTime
-        price
-        period
-        discount
-        courseId
-      }
-      translations {
-        id
-        title
-        description
-        language
-      }
-    }
-  }
-`;
+import { COURSES } from 'src/modules/graphql/queries/courses/courses';
 
 export default function BuyPackage() {
   const [t, i18n] = useTranslation('purchase');
@@ -56,7 +30,7 @@ export default function BuyPackage() {
   const [promoPackage, setPromoPackage] = useState(null);
   // const [selectedProvider, setSelectedProvider] = useState('stripe');
 
-  const { error, data, loading } = useQuery(GET_COURSES, {
+  const { error, data, loading } = useQuery(COURSES, {
     fetchPolicy: 'network-only',
   });
 
@@ -82,7 +56,7 @@ export default function BuyPackage() {
       setCourse(coursesFiltered);
       setSelectedCourse(coursesFiltered[0]);
     }
-  }, [data]);
+  }, [data, t]);
 
   useEffect(() => {
     if (selectedCourse) {
