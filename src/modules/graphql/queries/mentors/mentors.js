@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const MENTORS = gql`
-  query Mentors($studentId: ID) {
+  query mentors($studentId: ID) {
     mentors(visibilityStatus: public, studentId: $studentId) {
       id
       firstName

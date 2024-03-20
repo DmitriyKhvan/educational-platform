@@ -7,7 +7,7 @@ import {
   Views,
 } from 'react-big-calendar';
 import moment from 'moment-timezone';
-import Layout from '../../components/Layout';
+import Layout from '../../layouts/DashboardLayout';
 import LessonTable from '../../components/mentor-dashboard/LessonTable';
 import NotificationManager from '../../components/NotificationManager';
 import ZoomWarningModal from '../../components/student-dashboard/ZoomWarningModal';

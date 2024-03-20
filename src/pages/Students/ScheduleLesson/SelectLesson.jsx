@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Layout from '../../../components/Layout';
+import Layout from '../../../layouts/DashboardLayout';
 import capitalize from 'lodash/capitalize';
 import { useQuery } from '@apollo/client';
 import { PACKAGE_QUERY } from '../../../modules/auth/graphql';

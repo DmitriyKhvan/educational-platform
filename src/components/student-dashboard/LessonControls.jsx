@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '../Form/Button';
 import { AdaptiveDialog } from '../AdaptiveDialog';
 import { FaPlay } from 'react-icons/fa6';
-import { ModalType, Roles } from 'src/constants/global';
+import { LessonsStatusType, ModalType, Roles } from 'src/constants/global';
 import { isBetween } from 'src/utils/isBetween';
 import { useAuth } from 'src/modules/auth';
 import { useTranslation } from 'react-i18next';
@@ -36,7 +36,6 @@ const LessonControls = ({
 
   function onSelect() {
     setIsOpen(true);
-
     setModalType(ModalType.RESCHEDULE);
   }
 
@@ -50,6 +49,10 @@ const LessonControls = ({
     setIsOpen(true);
     setModalType(ModalType.CANCEL);
   };
+
+  useEffect(() => {
+    setTabIndex(0);
+  }, [isOpen]);
 
   const joinLesson = () => {
     //Time period when you can go to the lesson
@@ -100,9 +103,13 @@ const LessonControls = ({
   useEffect(() => {
     let controls = [];
 
-    if (!isAfterLesson && isWithin24Hours) {
+    if (
+      !isAfterLesson &&
+      isWithin24Hours &&
+      data.status === LessonsStatusType.APPROVED
+    ) {
       controls.push(
-        <Button className="w-full text-xs sm:text-sm" onClick={joinLesson}>
+        <Button className="w-full text-xs sm:text-sm p-0" onClick={joinLesson}>
           {t('join_lesson')}
         </Button>,
       );
@@ -112,7 +119,7 @@ const LessonControls = ({
       controls.push(
         <AdaptiveDialog
           button={
-            <Button className="grow text-xs sm:text-sm" theme="dark_purple">
+            <Button className="grow text-xs sm:text-sm p-0" theme="dark_purple">
               Info
             </Button>
           }
@@ -132,10 +139,12 @@ const LessonControls = ({
     if (!isAfterLesson && !isWithin24Hours) {
       controls.push(
         <AdaptiveDialog
+          open={isOpen}
+          setOpen={setIsOpen}
           button={
             <Button
               theme="dark_purple"
-              className="grow text-xs sm:text-sm"
+              className="grow text-xs sm:text-sm p-0"
               onClick={onSelect}
             >
               {t('reschedule')}
@@ -154,7 +163,7 @@ const LessonControls = ({
             <Button
               // TODO: implement onClick
               disabled={!data?.zoom?.recordingUrl}
-              className="grow gap-1 sm:gap-2 text-xs sm:text-sm"
+              className="grow gap-1 sm:gap-2 text-xs sm:text-sm p-0"
             >
               <FaPlay />
               {t('watch_recording')}
@@ -177,10 +186,12 @@ const LessonControls = ({
     if (!isAfterLesson) {
       controls.push(
         <AdaptiveDialog
+          open={isOpen}
+          setOpen={setIsOpen}
           button={
             <Button
               theme="red"
-              className="grow text-xs sm:text-sm"
+              className="grow text-xs sm:text-sm p-0"
               onClick={onCancel}
             >
               {t('cancel', { ns: 'common' })}
@@ -193,7 +204,7 @@ const LessonControls = ({
     }
 
     setControls(controls);
-  }, []);
+  }, [modalType, tabIndex, isOpen]);
 
   return (
     <>

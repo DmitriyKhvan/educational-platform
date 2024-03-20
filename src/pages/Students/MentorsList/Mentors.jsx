@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useQuery } from '@apollo/client';
 import { MENTORS } from 'src/modules/graphql/queries/mentors/mentors';
 
-import Layout from '../../../components/Layout';
+import Layout from '../../../layouts/DashboardLayout';
 import Loader from '../../../components/Loader/Loader';
 
 import { getItemToLocalStorage } from 'src/constants/global';

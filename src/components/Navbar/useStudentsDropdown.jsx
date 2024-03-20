@@ -70,8 +70,10 @@ export const useStudentsDropdown = () => {
             />
           </span>
         ) : (
+          // item.customIcon && <span>{item.customIcon}</span>
           <item.customIcon className="text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
         )}
+        {/* {} */}
       </Link>
     );
   };

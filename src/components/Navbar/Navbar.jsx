@@ -1,36 +1,23 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-// import Logo from 'src/assets/images/auth-logo.svg';
 import Logo from 'src/assets/images/logo_purple.svg';
-import FlagUsa from 'src/assets/images/flag-usa.svg';
-import FlagKorea from 'src/assets/images/flag-korea.svg';
-import { MdOutlineMenu } from 'react-icons/md';
-import Dropdown from '../Dropdown';
 
-import { Language, Roles, setItemToLocalStorage } from '../../constants/global';
+import { Roles } from '../../constants/global';
 import { useAuth } from '../../modules/auth';
 
 import { HiUserCircle } from 'react-icons/hi2';
 import { FiLogOut } from 'react-icons/fi';
-// import { IoNotifications } from 'react-icons/io5';
 import { useStudentsDropdown } from './useStudentsDropdown';
 import { NotificationDropdownMenu } from './Notification/NotificationDropdownMenu';
+import { useTranslation } from 'react-i18next';
+import { useMediaQuery } from 'react-responsive';
+import MyDropdownMenu from '../DropdownMenu';
+import { FaAngleDown } from 'react-icons/fa6';
 
-// eslint-disable-next-line react/display-name
-const Navbar = memo(({ setShowSidebar }) => {
+const Navbar = memo(() => {
+  const [t] = useTranslation('common');
   const { user, logout } = useAuth();
-
-  const [language, setLanguage] = useState(
-    localStorage.getItem('language') === Language.EN
-      ? Language.EN
-      : localStorage.getItem('language') === Language.KR
-      ? Language.KR
-      : user.role === Roles.MENTOR
-      ? Language.EN
-      : Language.KR,
-  );
-  const [t, i18n] = useTranslation('common');
+  const isTablet = useMediaQuery({ maxWidth: 1023 });
 
   const { studentsRender, studentList } = useStudentsDropdown();
 
@@ -40,106 +27,114 @@ const Navbar = memo(({ setShowSidebar }) => {
     window.location.reload(true);
   };
 
-  const onChangeLanguage = (lang) => {
-    const currentLang = lang === 1 ? Language.EN : Language.KR;
-    setItemToLocalStorage('language', currentLang);
-    setLanguage(currentLang);
-  };
-
-  useEffect(() => {
-    i18n.changeLanguage(language);
-  }, [language]);
+  const myAccountItems = [
+    {
+      label: t('my_profile'),
+      customIcon: HiUserCircle,
+      isActive: true,
+      href: user.role === Roles.MENTOR ? '/mentor/profile' : '/student/profile',
+    },
+    {
+      label: t('logout'),
+      customIcon: FiLogOut,
+      isActive: true,
+      onClick: handleLogout,
+    },
+  ];
 
   return (
-    <div className="nav-bar z-40">
-      <div className="desktop-version">
-        <div className="left-part"></div>
-        <div className="right-part">
-          {user.role === Roles.STUDENT && (
-            <Dropdown
-              icon={
-                user?.avatar ? (
-                  user?.avatar.url
-                ) : (
-                  <HiUserCircle className="text-[30px] text-color-purple mr-[5px]" />
-                )
-              }
-              label={user?.firstName}
-              className="w-[30px] h-[30px] rounded-full border-2 border-color-white object-center object-cover mr-[5px]"
-              renderChild={studentsRender}
-              items={studentList}
-            />
-          )}
-
-          <Dropdown
-            className="language"
-            icon={language === Language.EN ? FlagUsa : FlagKorea}
-            label={language === Language.EN ? t('english') : t('korean')}
-            items={[
-              {
-                label: t('korean'),
-                icon: FlagKorea,
-                onClick: onChangeLanguage,
-              },
-              { label: t('english'), icon: FlagUsa, onClick: onChangeLanguage },
-            ]}
-          />
-
-          <NotificationDropdownMenu />
-
-          <Dropdown
-            className="w-[20px] h-[20px]"
-            // icon={IconUser}
-            label="My Account"
-            items={[
-              {
-                label: t('my_profile'),
-                // icon: IconMyprofile,
-                // activeIcon: IconMyprofile,
-                customIcon: (
-                  <HiUserCircle className="text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
-                ),
-                customIconActive: (
-                  <HiUserCircle className="text-[30px] text-white" />
-                ),
-                href:
-                  user.role === Roles.MENTOR
-                    ? '/mentor/profile'
-                    : '/student/profile',
-              },
-              {
-                label: t('logout'),
-                // icon: LogoutImg,
-                customIcon: (
-                  <FiLogOut className="text-[24px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
-                ),
-
-                onClick: handleLogout,
-              },
-            ]}
-          />
-        </div>
+    <div className="nav-bar sticky top-0 flex items-center justify-between bg-white h-20 px-5 sm:px-10 shadow-[0px_4px_16px_0px_rgba(0,_0,_0,_0.04)] z-20">
+      <div>
+        {isTablet && (
+          <Link
+            to={
+              user.role === Roles.MENTOR
+                ? '/mentor/manage-appointments'
+                : '/student/manage-lessons'
+            }
+          >
+            <img className="min-w-[161px]" src={Logo} alt="" />
+          </Link>
+        )}
       </div>
-      <div className="mobile-version flex items-center justify-between h-full px-5 shadow-[0px_4px_16px_rgba(0,_0,_0,_0.01)]">
-        <Link
-          to={
-            user.role === Roles.MENTOR
-              ? '/mentor/manage-appointments'
-              : '/student/manage-lessons'
+
+      <div className="flex items-center justify-between gap-5">
+        {user.role === Roles.STUDENT && (
+          <MyDropdownMenu
+            button={
+              <label className="py-[14px] rounded-lg select-none cursor-pointer">
+                <div className="flex flex-col items-center justify-between gap-2 sm:gap-0">
+                  {user?.avatar ? (
+                    <img
+                      className="w-[22px]"
+                      src={user?.avatar.url}
+                      alt="avatar"
+                    />
+                  ) : (
+                    <HiUserCircle className="text-[30px] text-color-purple " />
+                  )}
+                  <div className="hidden sm:flex items-center font-bold gap-1">
+                    <p>{user?.firstName}</p>
+                    <FaAngleDown className="w-4" />
+                  </div>
+                </div>
+              </label>
+            }
+          >
+            <div className="py-[6px]">
+              {studentList?.map((item, index) =>
+                studentsRender(
+                  item,
+                  index,
+                  false,
+                  () => undefined,
+                  () => undefined,
+                ),
+              )}
+            </div>
+          </MyDropdownMenu>
+        )}
+
+        <NotificationDropdownMenu />
+
+        <MyDropdownMenu
+          button={
+            <label className="py-[14px] rounded-lg select-none cursor-pointer">
+              <div className="flex flex-col items-center justify-between gap-2 sm:gap-0">
+                {user?.avatar ? (
+                  <img
+                    className="w-[22px]"
+                    src={user?.avatar.url}
+                    alt="avatar"
+                  />
+                ) : (
+                  <HiUserCircle className="text-[30px] text-color-purple " />
+                )}
+                <div className="hidden sm:flex items-center font-bold gap-1">
+                  <p>My account</p>
+                  <FaAngleDown className="w-4" />
+                </div>
+              </div>
+            </label>
           }
         >
-          <img className="w-[208px]" src={Logo} alt="" />
-        </Link>
-        {/* ${data?.newMessages?.meta?.dashboard ? 'ws-notification-mobile' : ''} */}
-        <div className={`mobile-menu`}>
-          <MdOutlineMenu
-            className="w-6 h-6 cursor-pointer"
-            onClick={() => setShowSidebar((state) => !state)}
-          />
-        </div>
+          <div className="py-[6px]">
+            {myAccountItems?.map((item, index) =>
+              studentsRender(
+                item,
+                index,
+                false,
+                () => undefined,
+                () => undefined,
+              ),
+            )}
+          </div>
+        </MyDropdownMenu>
       </div>
     </div>
   );
 });
+
+Navbar.displayName = 'Navbar';
 
 export default Navbar;

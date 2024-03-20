@@ -1,5 +1,5 @@
 // import '../../../assets/styles/availability.scss';
-import Layout from '../../../components/Layout';
+import Layout from '../../../layouts/DashboardLayout';
 import { AcceptingStudents } from './AcceptingStudents';
 import Availability from './Availability';
 import { AvailabilityExceptions } from '../AvailabilityExceptions/AvailabilityExceptions';

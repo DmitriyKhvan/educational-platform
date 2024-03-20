@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Layout from '../../components/Layout';
+import Layout from '../../layouts/DashboardLayout';
 import MessageChat from './Message-chat';
 import MessageSidebar from './Message-sidebar';
 

@@ -42,6 +42,7 @@
   "back": "뒤로 가기",
   "confirm": "확인",
   "settings": "설정",
+  "minutes_full": "분",
   "minutes": "분",
   "kor_day": "일",
   "January": "1월",
@@ -109,5 +110,9 @@
   "required_birth": "생년월일을 입력해주세요",
   "digits": "{{count}} 자리",
   "automatically_renews": "매 월 결제 자동 갱신",
-  "changed_avatar": "아바타가 변경되었습니다"
+  "changed_avatar": "아바타가 변경되었습니다",
+  "current": "Current",
+  "previous": "Previous",
+  "lessons_total": "레슨",
+  "add_package": "패키지 추기"
 }
