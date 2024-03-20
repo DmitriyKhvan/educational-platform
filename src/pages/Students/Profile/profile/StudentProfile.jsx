@@ -43,8 +43,6 @@ const StudentProfile = () => {
     [planStatus],
   );
 
-  console.log(completedPackages);
-
   return (
     <>
       <div className="flex flex-col min-h-[calc(100vh-120px)] mt-10">

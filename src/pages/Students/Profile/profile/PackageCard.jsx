@@ -4,7 +4,6 @@ import { cn } from 'src/utils/functions';
 
 const PackageCard = ({ item }) => {
   const [t] = useTranslation(['profile', 'common', 'lessons']);
-  console.log(item, 'ITEM');
   return (
     <div
       key={item.id}

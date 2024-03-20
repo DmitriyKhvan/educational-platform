@@ -58,7 +58,6 @@ const PhoneNumberField = ({
     }
   }, [defaultNumber, country]);
 
-  console.log(watch('phoneNumberWithoutCode'), 'TEST2');
   const [t] = useTranslation(['onboarding', 'common', 'translations']);
 
   return (
