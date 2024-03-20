@@ -65,5 +65,9 @@
   "lesson_not_updated": "Lesson not updated",
   "invalid_date": "Mentor Not Available",
   "same_date": "Same date",
-  "lesson_not_created": "Lesson not created"
+  "lesson_not_created": "Lesson not created",
+  "logging_out": "Logging out",
+  "are_you_sure_to_logout": "Are you sure you want to log out of your account?",
+  "yes_logout": "Yes, log out",
+  "cancel": "Cancel"
 }

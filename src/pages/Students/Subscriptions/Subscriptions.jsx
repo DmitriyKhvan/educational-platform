@@ -1,6 +1,4 @@
-import continue_arrow from '../../../assets/images/continue_arrow.svg';
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useQuery } from '@apollo/client';
 import Layout from '../../../layouts/DashboardLayout';
@@ -13,9 +11,12 @@ import { useHistory } from 'react-router-dom';
 import { getItemToLocalStorage } from 'src/constants/global';
 
 import '../../../assets/styles/subscriptions.scss';
+import Button from 'src/components/Form/Button';
+import { FaPlus } from 'react-icons/fa6';
 
 const Subscriptions = () => {
   const [t] = useTranslation(['common', 'sidebar']);
+  const [selectedTab, setSelectedTab] = useState('current');
 
   const navigate = useHistory();
 
@@ -31,21 +32,51 @@ const Subscriptions = () => {
     navigate.push('/purchase');
   };
 
+  const [selectedPackages, setSelectedPackages] = useState([]);
+
+  useEffect(() => {
+    if (planStatus?.length) {
+      setSelectedPackages(
+        selectedTab === 'current'
+          ? planStatus.filter((x) => x.active && x.credits)
+          : planStatus.filter((x) => !x.active || !x.credits),
+      );
+    }
+  }, [selectedTab, planStatus]);
+
   return (
     <Layout>
-      <div className="referal-wrapper">
-        <h2 className="title">{t('subscriptions', { ns: 'sidebar' })}</h2>
-        <div className="description">
-          {t('manage_subscriptions', { ns: 'common' })}
+      <div className="referal-wrapper max-w-[440px] mx-auto px-5 min-h-[calc(100vh-80px)]">
+        <div className="flex w-full">
+          <Button
+            theme="outline"
+            className={`w-[50%] ml-0 rounded-r-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
+              selectedTab === 'current' && 'bg-color-dark-purple text-white'
+            }`}
+            onClick={() => setSelectedTab('current')}
+          >
+            <span>{t('current')}</span>
+          </Button>
+          <Button
+            theme="outline"
+            className={`ml-[-4px] w-[50%] rounded-l-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
+              selectedTab === 'previous' && 'bg-color-dark-purple text-white'
+            }`}
+            onClick={() => setSelectedTab('previous')}
+          >
+            <span>{t('previous')}</span>
+          </Button>
         </div>
         <div className="section">
           <div className="section-row">
             {loading ? (
-              <Loader />
-            ) : planStatus.length > 0 ? (
-              <div className="cards-content">
-                <div className="content rounded">
-                  {planStatus.map((x, i) => (
+              <div className="mt-10">
+                <Loader />
+              </div>
+            ) : selectedPackages.length > 0 ? (
+              <div className="cards-content w-full">
+                <div className="content rounded w-full">
+                  {selectedPackages.map((x, i) => (
                     <SubscriptionCard
                       key={i}
                       price={
@@ -53,6 +84,8 @@ const Subscriptions = () => {
                           ? x.payment?.buyPrice
                           : x.package?.price
                       }
+                      months={x.package?.period}
+                      duration={x.package?.sessionTime}
                       title={x.package?.course?.title}
                       totalSessions={x.package?.totalSessions}
                       sessionsPerWeek={x.package?.sessionsPerWeek}
@@ -71,17 +104,12 @@ const Subscriptions = () => {
               </div>
             )}
           </div>
-          <button
-            className="rounded-lg bg-color-purple text-white text-center to-packages mt-4 px-4 py-2 font-semibold"
-            onClick={toPurchase}
-          >
+          <Button className="w-full mt-10 h-16" onClick={toPurchase}>
             <div className="flex items-center">
-              <span className="me-2">{t('packages', { ns: 'common' })}</span>
-              <span className="continue-arrow">
-                <img src={continue_arrow} alt="" />
-              </span>
+              <FaPlus className="mr-3" />
+              <span className="me-2">{t('add_package', { ns: 'common' })}</span>
             </div>
-          </button>
+          </Button>
         </div>
       </div>
     </Layout>
