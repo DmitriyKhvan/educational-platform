@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { addWeeks, endOfISOWeek, startOfISOWeek } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
@@ -17,6 +17,7 @@ import Button from 'src/components/Form/Button';
 export const ScheduleSelector = ({ lesson }) => {
   const { setTabIndex, resetAll, todayUserTimezone, userTimezone } =
     useSchedule();
+
   const [t, i18n] = useTranslation(['lessons', 'common', 'modals']);
 
   const currentLanguage = i18n.language;
@@ -41,6 +42,10 @@ export const ScheduleSelector = ({ lesson }) => {
     timeZone: userTimezone,
     locale: locale,
   });
+
+  useEffect(() => {
+    resetAll();
+  }, []);
 
   return (
     <div className="max-w-[488px] m-auto">

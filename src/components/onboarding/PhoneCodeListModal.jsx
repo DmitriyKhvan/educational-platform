@@ -3,13 +3,9 @@ import React from 'react';
 import CheckboxField from '../Form/CheckboxField';
 import { phoneCodes } from 'src/constants/global';
 
-export const PhoneCodeListModal = ({
-  setCountry,
-  currentCountry,
-  resetField,
-}) => {
+export const PhoneCodeListModal = ({ setCountry, currentCountry, reset }) => {
   const setCountryHandler = (country) => {
-    resetField('phoneNumber');
+    reset({ phoneNumber: '' });
     setCountry(country);
   };
 

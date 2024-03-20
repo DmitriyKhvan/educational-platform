@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaArrowLeft, FaPencil } from 'react-icons/fa6';
 import Button from 'src/components/Form/Button';
 
@@ -10,9 +10,11 @@ import { TRIAL_SIGN_UP } from 'src/modules/graphql/mutations/trial/trialSignUp';
 import { useMutation } from '@apollo/client';
 import useLogin from 'src/modules/auth/hooks/login';
 import notify from 'src/utils/notify';
+import { useAuth } from 'src/modules/auth';
 
 const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
   console.log(mentorId);
+  const { refetchUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
   const [i18n] = useTranslation();
@@ -63,7 +65,7 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
     // if (data) return;
 
     try {
-      await signUp({
+      const trialData = await signUp({
         variables: {
           data: {
             user,
@@ -77,14 +79,26 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
           },
         },
       });
-      await login(user.email, user.password);
 
-      setStep((v) => v + 1);
+      console.log('trialData', trialData);
+
+      login(user.email, user.password);
     } catch (error) {
       notify(error.message, 'error');
     }
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    if (loginData) {
+      console.log('loginData', loginData);
+      refetchUser({
+        // variables: { studentId: trialData.data.trialSignUp.students[0].id },
+        variables: { studentId: loginData.authResult.user.students[0].id },
+      });
+      setStep((v) => v + 1);
+    }
+  }, [loginData]);
 
   return (
     <div className="">
@@ -122,11 +136,11 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
               <p className="text-gray-950 font-medium">{user.phoneNumber}</p>
             </label>
           </div>
-          <div className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors">
-            <FaPencil
-              onClick={() => setStep(-1)}
-              className="text-color-purple w-3 h-3"
-            />
+          <div
+            onClick={() => setStep(-1)}
+            className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors"
+          >
+            <FaPencil className="text-color-purple w-3 h-3" />
           </div>
         </div>
       </section>
@@ -154,11 +168,11 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
               </label>
             </div>
           </div>
-          <div className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors">
-            <FaPencil
-              onClick={() => setStep(0)}
-              className="text-color-purple w-3 h-3"
-            />
+          <div
+            onClick={() => setStep(0)}
+            className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors"
+          >
+            <FaPencil className="text-color-purple w-3 h-3" />
           </div>
         </div>
       </section>
@@ -170,11 +184,11 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
             <h3 className="font-bold text-lg mb-4">{`${scheduleStartTimeFormat} - ${scheduleEndTimeFormat}`}</h3>
             <p>{dayFormat}</p>
           </div>
-          <div className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors">
-            <FaPencil
-              onClick={() => setStep(1)}
-              className="text-color-purple w-3 h-3"
-            />
+          <div
+            onClick={() => setStep(1)}
+            className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors"
+          >
+            <FaPencil className="text-color-purple w-3 h-3" />
           </div>
         </div>
       </section>

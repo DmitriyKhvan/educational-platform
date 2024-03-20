@@ -40,6 +40,8 @@ const LessonDetails = ({
     },
   });
 
+  console.log('isValid', isValid);
+
   const onSubmit = (data) => {
     setSelectedPlan({
       ...currentPackage,

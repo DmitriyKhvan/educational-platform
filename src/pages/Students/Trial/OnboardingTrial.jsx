@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm } from 'react-hook-form';
@@ -21,34 +21,25 @@ import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
 import ReactInputMask from 'react-input-mask';
 import { PhoneCodeListModal } from 'src/components/onboarding/PhoneCodeListModal';
-import { timezoneOptions } from 'src/constants/global';
+import { phoneCodes, timezoneOptions } from 'src/constants/global';
 import MyDropdownMenu from 'src/components/DropdownMenu';
 import { MyDrawer } from 'src/components/Drawer';
 import { useMediaQuery } from 'react-responsive';
 import { SelectField } from 'src/components/Form/SelectField';
 import { useAuth } from 'src/modules/auth';
+import { applyMask } from 'src/utils/applyMask';
 
 export default function OnboardingTrial({
-  country,
-  setCountry,
   selectedPlan,
   user,
   setUser,
   setStep,
 }) {
-  const {
-    firstName,
-    lastName,
-    phoneNumberWithMask,
-    email,
-    timeZone,
-    password,
-  } = user;
+  const { firstName, lastName, phoneNumber, email, timeZone, password } = user;
   const { logout } = useAuth();
   logout();
 
-  console.log('country', country);
-  console.log('phoneNumber', phoneNumberWithMask);
+  const [country, setCountry] = useState(phoneCodes[4]);
 
   const isMobile = useMediaQuery({ maxWidth: 639 });
 
@@ -62,28 +53,28 @@ export default function OnboardingTrial({
   const {
     handleSubmit,
     register,
-    resetField,
     control,
+    reset,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
     defaultValues: {
       firstName,
       lastName,
-      phoneNumber: phoneNumberWithMask,
-      // phoneNumber: '(123)456-7890',
       email,
       timeZone,
       password,
     },
   });
 
+  console.log('errors', errors);
+  console.log('isValid', isValid);
+
   const onSubmit = async (data) => {
     console.log('data', data);
     const user = {
       ...data,
       phoneNumber: `${country.code}${data.phoneNumber.replace(/[-()]/g, '')}`,
-      phoneNumberWithMask: data.phoneNumber,
     };
     console.log('user', user);
     setUser(user);
@@ -93,6 +84,29 @@ export default function OnboardingTrial({
       setStep((v) => v + 1);
     }
   };
+
+  useEffect(() => {
+    if (phoneNumber) {
+      const phoneCode = phoneCodes.find((phoneCode) =>
+        phoneNumber.startsWith(phoneCode.code),
+      );
+
+      const phoneNumberWhithoutCode = phoneNumber.replace(phoneCode.code, '');
+      const phoneNumberWhithoutCodeWithMask = applyMask(
+        phoneCode.mask,
+        phoneNumberWhithoutCode,
+      );
+
+      console.log(phoneCode);
+      console.log(phoneNumberWhithoutCode);
+      console.log(phoneNumberWhithoutCodeWithMask);
+
+      setCountry(phoneCode);
+      setTimeout(() => {
+        reset({ phoneNumber: phoneNumberWhithoutCodeWithMask });
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -111,10 +125,10 @@ export default function OnboardingTrial({
               className="w-full"
               label={t('first_name', { ns: 'common' })}
               placeholder={t('first_name', { ns: 'common' })}
-              autoFocus
+              // autoFocus
               {...register('firstName', {
                 required: t('required_first_name', { ns: 'translations' }),
-                focus: true,
+                // focus: true,
               })}
             />
           </InputWithError>
@@ -160,7 +174,7 @@ export default function OnboardingTrial({
                     <PhoneCodeListModal
                       setCountry={setCountry}
                       currentCountry={country}
-                      resetField={resetField}
+                      reset={reset}
                     />
                   </MyDrawer>
                 ) : (
@@ -184,7 +198,7 @@ export default function OnboardingTrial({
                     <PhoneCodeListModal
                       setCountry={setCountry}
                       currentCountry={country}
-                      resetField={resetField}
+                      reset={reset}
                     />
                   </MyDropdownMenu>
                 )}
