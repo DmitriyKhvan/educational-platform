@@ -5,17 +5,10 @@ import { Controller, useForm } from 'react-hook-form';
 
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-// import { useMutation } from '@apollo/client';
-// import { SIGN_UP } from '../../../modules/auth/graphql';
-// import useLogin from '../../../modules/auth/hooks/login';
-
-// import Loader from '../../../components/Loader/Loader';
 import Button from 'src/components/Form/Button';
-// import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 
 import InputWithError from 'src/components/Form/InputWithError';
 import InputField from 'src/components/Form/InputField';
-// import notify from 'src/utils/notify';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
@@ -27,7 +20,6 @@ import { MyDrawer } from 'src/components/Drawer';
 import { useMediaQuery } from 'react-responsive';
 import { SelectField } from 'src/components/Form/SelectField';
 import { useAuth } from 'src/modules/auth';
-import { applyMask } from 'src/utils/applyMask';
 
 export default function OnboardingTrial({
   selectedPlan,
@@ -55,6 +47,7 @@ export default function OnboardingTrial({
     register,
     control,
     reset,
+    // setValue,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
@@ -92,9 +85,11 @@ export default function OnboardingTrial({
       );
 
       const phoneNumberWhithoutCode = phoneNumber.replace(phoneCode.code, '');
-      const phoneNumberWhithoutCodeWithMask = applyMask(
-        phoneCode.mask,
-        phoneNumberWhithoutCode,
+
+      let i = 0;
+      const phoneNumberWhithoutCodeWithMask = phoneCode.mask.replace(
+        /#/g,
+        () => phoneNumberWhithoutCode[i++],
       );
 
       console.log(phoneCode);
@@ -103,6 +98,7 @@ export default function OnboardingTrial({
 
       setCountry(phoneCode);
       setTimeout(() => {
+        // setValue('phoneNumber', phoneNumberWhithoutCodeWithMask);
         reset({ phoneNumber: phoneNumberWhithoutCodeWithMask });
       });
     }
