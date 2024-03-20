@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa6';
+import Indicator from 'src/components/Indicator';
+import { currencyFormat } from 'src/utils/currencyFormat';
 
 export const SubscriptionCard = ({
   title,
@@ -19,22 +21,17 @@ export const SubscriptionCard = ({
       <div className="text-lg font-bold capitalize mb-3">{title}</div>
 
       <div className="text-sm font-normal mb-4">
-        {new Intl.NumberFormat('ko-KR', {
-          style: 'currency',
-          currency: 'KRW',
-        }).format(price)}
+        {currencyFormat({ number: price })}
       </div>
       {active && credits > 0 && (
-        <span className="inline-block mb-4 self-start bg-[#02C97E] text-[#02C97E] bg-opacity-10 text-sm font-medium px-[10px] py-[5px] sm:px-3 sm:py-[6px] rounded-2xl">
-          <div className="flex items-center gap-1">
-            <FaCheck /> Active subscription
-          </div>
-        </span>
+        <Indicator className="bg-[#02C97E] text-[#02C97E] mb-4 bg-opacity-10">
+          <FaCheck /> Active subscription
+        </Indicator>
       )}
       <div className="flex">
         <div className="flex flex-wrap items-center text-sm font-light leading-5">
           <div className="text-[13px] text-gray-400">
-            {months} {t('months')}
+            {months} {t('months', { ns: 'lessons' })}
           </div>
           <span className="w-1 h-1 bg-gray-300 rounded-full mx-[6px]" />
           <div className="text-[13px] text-gray-400">

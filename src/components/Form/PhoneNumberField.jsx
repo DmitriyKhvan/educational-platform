@@ -18,7 +18,10 @@ const PhoneNumberField = ({
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });
 
-  const [country, setCountry] = useState(phoneCodes[4]);
+  const [country, setCountry] = useState(
+    phoneCodes.find((p) => defaultNumber?.startsWith(p?.code))?.code ??
+      phoneCodes[4],
+  );
 
   const numberWithoutCode = watch('phoneNumberWithoutCode');
 
@@ -31,20 +34,29 @@ const PhoneNumberField = ({
     }
   }, [country, numberWithoutCode]);
 
+  const [isDefaultNumInit, setIsDefaultNumInit] = useState(false);
+
   useEffect(() => {
-    if (defaultNumber) {
+    if (!isDefaultNumInit && defaultNumber) {
       const phoneCode = phoneCodes.find((p) =>
         defaultNumber.startsWith(p?.code),
       );
       if (!phoneCode) return;
-      setCountry(phoneCode);
-      setValue(
-        'phoneNumberWithoutCode',
-        defaultNumber?.replace(phoneCode.code, ''),
-      );
-      // setNumber(defaultNumber?.replace(phoneCode.code, ''));
+      if (country.code !== phoneCode.code) {
+        setCountry(phoneCode);
+        return;
+      }
+
+      const formatToMask = (defaultNumber) => {
+        let i = 0;
+        const numWithoutCode = defaultNumber?.replace(phoneCode.code, '');
+        return country?.mask?.replace(/#/g, () => numWithoutCode[i++]);
+      };
+
+      setValue('phoneNumberWithoutCode', formatToMask(defaultNumber));
+      setIsDefaultNumInit(true);
     }
-  }, [defaultNumber]);
+  }, [defaultNumber, country]);
 
   const [t] = useTranslation(['onboarding', 'common', 'translations']);
 

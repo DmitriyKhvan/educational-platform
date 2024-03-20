@@ -43,8 +43,6 @@ const StudentProfile = () => {
     [planStatus],
   );
 
-  console.log(completedPackages);
-
   return (
     <>
       <div className="flex flex-col min-h-[calc(100vh-120px)] mt-10">
@@ -184,7 +182,7 @@ const StudentProfile = () => {
           </h2>
           {completedPackages &&
             completedPackages.map((item) => (
-              <PackageCard key={item.id} item={item} completed />
+              <PackageCard key={item.id} item={item} />
             ))}
 
           {completedPackages?.length === 0 && (

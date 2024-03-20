@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useAuth } from '../../modules/auth';
 import { MAX_MODIFY_COUNT, ModalType, Roles } from '../../constants/global';
 import CheckboxField from '../Form/CheckboxField';
@@ -19,7 +19,6 @@ const CancelWarningModal = ({
 }) => {
   const [t] = useTranslation('modals');
   const { user } = useAuth();
-  console.log(type, 'TYPE');
 
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -77,24 +76,34 @@ const CancelWarningModal = ({
   const disableCancelLesson =
     user.role === Roles.MENTOR || modifyCredits !== 0 ? false : true;
   return (
-    <div className="max-w-[336px] mx-auto">
+    <div className="w-[336px] mx-auto">
       <div className="mb-5 text-2xl font-bold text-center">
         {type === ModalType.CANCEL
           ? t('cancel_lesson')
           : t('reschedule_lesson')}
       </div>
       <p className="text-base text-center mb-4">
-        Are you sure want to{' '}
-        {type === ModalType.CANCEL ? 'cancel' : 'reschedule'}
-        <br />
-        <span className="font-semibold">
-          {format(
-            utcToZonedTime(new Date(data?.startAt ?? new Date()), userTimezone),
-            'eee, MMM do',
-            { timeZone: userTimezone },
-          )}
-        </span>{' '}
-        lesson?
+        <Trans
+          t={t}
+          i18nKey="are_you_sure_reschedule_cancel"
+          values={{
+            cancelReschedule:
+              type === 'cancel'
+                ? t('swal_cancel_Button_Text').toLowerCase()
+                : t('reschedule').toLowerCase(),
+            date: format(
+              utcToZonedTime(
+                new Date(data?.startAt ?? new Date()),
+                userTimezone,
+              ),
+              'eee, MMM do',
+              { timeZone: userTimezone },
+            ),
+          }}
+          components={{
+            strong: <span className="font-semibold" />,
+          }}
+        />
       </p>
       {user.role !== Roles.MENTOR && (
         <div className="space-y-3">
@@ -122,12 +131,19 @@ const CancelWarningModal = ({
 
           <div className="w-full p-4 flex items-center justify-between mt-5 rounded-lg bg-color-purple bg-opacity-20">
             <div>
-              <p className="font-semibold text-[15px] text-color-purple">
-                {cancellationCount}/3 cancellations
-              </p>
-              <span className="text-[14px] text-color-purple">
-                left this month
-              </span>
+              <Trans
+                t={t}
+                i18nKey="n_cancelations_left"
+                values={{
+                  count: cancellationCount,
+                }}
+                components={{
+                  primary: (
+                    <p className="font-semibold text-[15px] text-color-purple" />
+                  ),
+                  secondary: <span className="text-[14px] text-color-purple" />,
+                }}
+              />
             </div>
             <div className="flex">{cancellationDots}</div>
           </div>
