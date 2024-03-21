@@ -52,8 +52,7 @@ export default function BuyPackage() {
 
       setCourse(coursesFiltered);
 
-      // setCourse([coursesFiltered[2], coursesFiltered[0], coursesFiltered[1]]);
-      setSelectedCourse(coursesFiltered[2]);
+      setSelectedCourse(coursesFiltered[0]);
     }
   }, [data, t]);
 
