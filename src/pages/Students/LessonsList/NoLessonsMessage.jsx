@@ -18,7 +18,7 @@ const NoLessonsMessage = ({ selectedTab, availableCredits }) => {
           <p className="text-color-dark-purple text-sm text-center mb-6">
             You have{' '}
             <span className="text-color-purple font-medium">
-              {availableCredits} available
+              {availableCredits ?? 0} available
             </span>{' '}
             lessons
           </p>
