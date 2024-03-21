@@ -65,5 +65,6 @@
   "logging_out": "Logging out",
   "are_you_sure_to_logout": "Are you sure you want to log out of your account?",
   "yes_logout": "Yes, log out",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "info": "정보"
 }

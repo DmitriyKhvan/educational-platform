@@ -7,6 +7,7 @@ export const COURSES = gql`
       title
       description
       active
+      sequence
       packages {
         id
         totalSessions
