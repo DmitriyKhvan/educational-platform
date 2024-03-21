@@ -21,7 +21,7 @@ const ScheduleCard = ({
   subscription,
 }) => {
   const { getTitleByCourseId } = useCourseTranslation();
-  const [t] = useTranslation('lessons');
+  const [t] = useTranslation(['lessons', 'common']);
   const { user } = useAuth();
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -109,7 +109,7 @@ const ScheduleCard = ({
                   <label className="text-xs font-medium text-gray-300 block">
                     {t('duration')}
                   </label>
-                  {duration} min.
+                  {duration} {t('minutes', { ns: 'common' })}
                 </div>
               )}
             </div>
