@@ -90,20 +90,23 @@ const MyLessons = ({
                 }}
               />
             </p>
-            <AdaptiveDialog button={<Button>Purchase a package</Button>}>
+            <AdaptiveDialog
+              button={
+                <Button>{t('purchase_package', { ns: 'lessons' })}</Button>
+              }
+            >
               <div className="w-full max-w-[400px] m-auto text-center">
                 <h2 className="mb-4 text-[22px] text-color-dark-purple font-bold">
-                  Purchase lessons here!
+                  {t('purchase_lessons_here', { ns: 'lessons' })}
                 </h2>
                 <p className="mb-6 text-[15px] text-color-dark-purple">
-                  Start your journey with NaoNow by selecting the package that
-                  best suits your needs.
+                  {t('purchase_lessons_here_text', { ns: 'lessons' })}
                 </p>
                 <Button
                   onClick={() => navigate.push('/purchase')}
                   className="w-full h-14"
                 >
-                  Select a package
+                  {t('select_package', { ns: 'lessons' })}
                 </Button>
               </div>
             </AdaptiveDialog>

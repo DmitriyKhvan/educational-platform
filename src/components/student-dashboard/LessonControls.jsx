@@ -120,7 +120,7 @@ const LessonControls = ({
         <AdaptiveDialog
           button={
             <Button className="grow text-xs sm:text-sm p-0" theme="dark_purple">
-              Info
+              {t('info')}
             </Button>
           }
         >
@@ -204,7 +204,7 @@ const LessonControls = ({
     }
 
     setControls(controls);
-  }, [modalType, tabIndex, isOpen]);
+  }, [modalType, tabIndex, isOpen, t]);
 
   return (
     <>

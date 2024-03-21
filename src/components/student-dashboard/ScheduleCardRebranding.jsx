@@ -6,9 +6,11 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import StatusIndicator from './StatusIndicator';
 import LessonControls from './LessonControls';
+import { useCourseTranslation } from 'src/utils/useCourseTranslation';
+import { useTranslation } from 'react-i18next';
 
 const ScheduleCard = ({
-  lesson,
+  // lesson,
   date, //utc +0
   student,
   mentor,
@@ -18,6 +20,8 @@ const ScheduleCard = ({
   duration,
   subscription,
 }) => {
+  const { getTitleByCourseId } = useCourseTranslation();
+  const [t] = useTranslation('lessons');
   const { user } = useAuth();
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -72,9 +76,9 @@ const ScheduleCard = ({
             <div className="flex justify-between w-full gap-3">
               <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">
                 <label className="text-xs font-medium text-gray-300 block">
-                  Package
+                  {t('lesson_package')}
                 </label>
-                {lesson}
+                {getTitleByCourseId(data.packageSubscription.package.course.id)}
               </div>
 
               {mentor ? (
@@ -94,7 +98,7 @@ const ScheduleCard = ({
                   />
                   <div className=" overflow-hidden truncate">
                     <label className="text-xs font-medium text-gray-300 block">
-                      Mentor
+                      {t('mentor')}
                     </label>
                     {mentor.firstName}{' '}
                     {mentor?.lastName[0] ? `${mentor?.lastName[0]}.` : ''}
@@ -103,7 +107,7 @@ const ScheduleCard = ({
               ) : (
                 <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">
                   <label className="text-xs font-medium text-gray-300 block">
-                    Duration
+                    {t('duration')}
                   </label>
                   {duration} min.
                 </div>

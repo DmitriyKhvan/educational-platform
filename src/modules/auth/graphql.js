@@ -627,6 +627,7 @@ export const APPOINTMENTS_QUERY = gql`
         modifyCredits
         package {
           course {
+            id
             title
           }
         }

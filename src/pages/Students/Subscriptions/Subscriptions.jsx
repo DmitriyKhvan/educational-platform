@@ -14,11 +14,12 @@ import '../../../assets/styles/subscriptions.scss';
 import Button from 'src/components/Form/Button';
 import { FaPlus } from 'react-icons/fa6';
 import { COURSES } from 'src/modules/graphql/queries/courses/courses';
+import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 
 const Subscriptions = () => {
-  const [t, i18n] = useTranslation(['common', 'sidebar']);
+  const { getTitleByCourseId } = useCourseTranslation();
+  const [t] = useTranslation(['common', 'sidebar']);
   const [selectedTab, setSelectedTab] = useState('current');
-
   const navigate = useHistory();
 
   const { data: coursesData } = useQuery(COURSES, {
@@ -39,26 +40,15 @@ const Subscriptions = () => {
 
   const [selectedPackages, setSelectedPackages] = useState([]);
 
-  const currentLanguage = i18n.language;
-
   useEffect(() => {
     if (planStatus?.length && coursesData?.courses?.length) {
-      const translatedData = planStatus.map((p) => ({
-        ...p,
-        title:
-          currentLanguage === 'kr'
-            ? coursesData.courses.find(
-                (course) => course.title === p.package?.course?.title,
-              ).translations[0].title
-            : p.package?.course?.title,
-      }));
       setSelectedPackages(
         selectedTab === 'current'
-          ? translatedData.filter((x) => x.active && x.credits)
-          : translatedData.filter((x) => !x.active || !x.credits),
+          ? planStatus.filter((x) => x.active && x.credits)
+          : planStatus.filter((x) => !x.active || !x.credits),
       );
     }
-  }, [selectedTab, planStatus, i18n.language]);
+  }, [selectedTab, planStatus]);
 
   return (
     <Layout>
@@ -102,7 +92,7 @@ const Subscriptions = () => {
                       }
                       months={x.package?.period}
                       duration={x.package?.sessionTime}
-                      title={x.title}
+                      title={getTitleByCourseId(x.package?.course?.id)}
                       totalSessions={x.package?.totalSessions}
                       sessionsPerWeek={x.package?.sessionsPerWeek}
                       costPerClass={x.package?.price / x.package?.totalSessions}
