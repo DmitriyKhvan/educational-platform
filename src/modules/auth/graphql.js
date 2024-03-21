@@ -702,6 +702,7 @@ export const CREATE_APPOINTMENT = gql`
         modifyCredits
         package {
           course {
+            id
             title
           }
         }
@@ -741,6 +742,7 @@ export const UPDATE_APPOINTMENT = gql`
         modifyCredits
         package {
           course {
+            id
             title
           }
         }
