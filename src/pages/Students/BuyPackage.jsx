@@ -49,8 +49,8 @@ export default function BuyPackage() {
           };
         });
 
-      setCourse(coursesFiltered);
-      setSelectedCourse(coursesFiltered[0]);
+      setCourse([coursesFiltered[2], coursesFiltered[0], coursesFiltered[1]]);
+      setSelectedCourse(coursesFiltered[2]);
     }
   }, [data, t]);
 
