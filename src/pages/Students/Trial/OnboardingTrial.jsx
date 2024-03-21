@@ -1,4 +1,7 @@
-import { useState, useEffect } from 'react';
+import {
+  useState,
+  // useEffect
+} from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm } from 'react-hook-form';
@@ -10,16 +13,21 @@ import Button from 'src/components/Form/Button';
 import InputWithError from 'src/components/Form/InputWithError';
 import InputField from 'src/components/Form/InputField';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
-import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+// import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
-import ReactInputMask from 'react-input-mask';
-import { PhoneCodeListModal } from 'src/components/onboarding/PhoneCodeListModal';
-import { phoneCodes, timezoneOptions } from 'src/constants/global';
-import MyDropdownMenu from 'src/components/DropdownMenu';
-import { MyDrawer } from 'src/components/Drawer';
-import { useMediaQuery } from 'react-responsive';
+// import ReactInputMask from 'react-input-mask';
+// import { PhoneCodeListModal } from 'src/components/onboarding/PhoneCodeListModal';
+import {
+  // phoneCodes,
+  timezoneOptions,
+} from 'src/constants/global';
+// import MyDropdownMenu from 'src/components/DropdownMenu';
+// import { MyDrawer } from 'src/components/Drawer';
+// import { useMediaQuery } from 'react-responsive';
 import { SelectField } from 'src/components/Form/SelectField';
 import { useAuth } from 'src/modules/auth';
+import PhoneNumberField from 'src/components/Form/PhoneNumberField';
+import { trimSpaces } from 'src/utils/trimSpaces';
 
 export default function OnboardingTrial({
   selectedPlan,
@@ -31,9 +39,9 @@ export default function OnboardingTrial({
   const { logout } = useAuth();
   logout();
 
-  const [country, setCountry] = useState(phoneCodes[4]);
+  // const [country, setCountry] = useState(phoneCodes[4]);
 
-  const isMobile = useMediaQuery({ maxWidth: 639 });
+  // const isMobile = useMediaQuery({ maxWidth: 639 });
 
   const [t] = useTranslation(['onboarding', 'common', 'translations']);
 
@@ -46,14 +54,17 @@ export default function OnboardingTrial({
     handleSubmit,
     register,
     control,
-    reset,
-    // setValue,
+    resetField,
+    setValue,
+    watch,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
     defaultValues: {
       firstName,
       lastName,
+      phoneNumber: '',
+      phoneNumberWithoutCode: '',
       email,
       timeZone,
       password,
@@ -64,10 +75,12 @@ export default function OnboardingTrial({
   console.log('isValid', isValid);
 
   const onSubmit = async (data) => {
+    delete data.phoneNumberWithoutCode;
     console.log('data', data);
     const user = {
-      ...data,
-      phoneNumber: `${country.code}${data.phoneNumber.replace(/[-()]/g, '')}`,
+      ...trimSpaces(data),
+      // phoneNumber: `${country.code}${data.phoneNumber.replace(/[-()]/g, '')}`,
+      phoneNumber: data.phoneNumber,
     };
     console.log('user', user);
     setUser(user);
@@ -78,31 +91,31 @@ export default function OnboardingTrial({
     }
   };
 
-  useEffect(() => {
-    if (phoneNumber) {
-      const phoneCode = phoneCodes.find((phoneCode) =>
-        phoneNumber.startsWith(phoneCode.code),
-      );
+  // useEffect(() => {
+  //   if (phoneNumber) {
+  //     const phoneCode = phoneCodes.find((phoneCode) =>
+  //       phoneNumber.startsWith(phoneCode.code),
+  //     );
 
-      const phoneNumberWhithoutCode = phoneNumber.replace(phoneCode.code, '');
+  //     const phoneNumberWhithoutCode = phoneNumber.replace(phoneCode.code, '');
 
-      let i = 0;
-      const phoneNumberWhithoutCodeWithMask = phoneCode.mask.replace(
-        /#/g,
-        () => phoneNumberWhithoutCode[i++],
-      );
+  //     let i = 0;
+  //     const phoneNumberWhithoutCodeWithMask = phoneCode.mask.replace(
+  //       /#/g,
+  //       () => phoneNumberWhithoutCode[i++],
+  //     );
 
-      console.log(phoneCode);
-      console.log(phoneNumberWhithoutCode);
-      console.log(phoneNumberWhithoutCodeWithMask);
+  //     console.log(phoneCode);
+  //     console.log(phoneNumberWhithoutCode);
+  //     console.log(phoneNumberWhithoutCodeWithMask);
 
-      setCountry(phoneCode);
-      setTimeout(() => {
-        // setValue('phoneNumber', phoneNumberWhithoutCodeWithMask);
-        reset({ phoneNumber: phoneNumberWhithoutCodeWithMask });
-      });
-    }
-  }, []);
+  //     setCountry(phoneCode);
+  //     setTimeout(() => {
+  //       // setValue('phoneNumber', phoneNumberWhithoutCodeWithMask);
+  //       reset({ phoneNumber: phoneNumberWhithoutCodeWithMask });
+  //     });
+  //   }
+  // }, []);
 
   return (
     <>
@@ -140,7 +153,7 @@ export default function OnboardingTrial({
             />
           </InputWithError>
 
-          <InputWithError errorsField={errors?.phoneNumber}>
+          {/* <InputWithError errorsField={errors?.phoneNumber}>
             <div>
               <label
                 className="flex mb-[10px] font-semibold text-[15px] leading-5 tracking-[-0.2px]"
@@ -201,9 +214,7 @@ export default function OnboardingTrial({
 
                 <ReactInputMask
                   id="phoneNumber"
-                  mask={
-                    country?.mask.replace(/#/g, '9') /*.replace(/-/g, ' ')*/
-                  }
+                  mask={country?.mask.replace(/#/g, '9')}
                   maskChar="X"
                   className="w-full"
                   placeholder={country?.mask.replace(/#/g, 'X')}
@@ -230,6 +241,18 @@ export default function OnboardingTrial({
                 </ReactInputMask>
               </div>
             </div>
+          </InputWithError> */}
+
+          <InputWithError
+            errorsField={errors?.phoneNumberWithoutCode ?? errors?.phoneNumber}
+          >
+            <PhoneNumberField
+              register={register}
+              resetField={resetField}
+              defaultNumber={phoneNumber}
+              setValue={setValue}
+              watch={watch}
+            />
           </InputWithError>
 
           <InputWithError errorsField={errors?.email}>

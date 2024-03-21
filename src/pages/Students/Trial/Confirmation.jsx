@@ -13,6 +13,7 @@ import notify from 'src/utils/notify';
 import { useAuth } from 'src/modules/auth';
 
 const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
+  const { languageLevel, lessonTopic, packageSubscription } = selectedPlan;
   console.log(mentorId);
   const { refetchUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +42,7 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
   });
 
   const scheduleEndTimeFormat = format(
-    addMinutes(dateParse, selectedPlan.sessionTime),
+    addMinutes(dateParse, packageSubscription.sessionTime),
     'hh:mm a',
     {
       timeZone: 'Asia/Seoul',
@@ -50,28 +51,15 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
 
   const trialSignUp = async () => {
     setIsLoading(true);
-    // const data = {
-    //   user,
-    //   packageId: parseInt(selectedPlan.id),
-    //   lessonBooking: {
-    //     mentorId,
-    //     startAt: new Date(schedule),
-    //   },
-    // };
-
-    // console.log('data', data);
-    // setStep((v) => v + 1);
-
-    // if (data) return;
 
     try {
       const trialData = await signUp({
         variables: {
           data: {
             user,
-            packageId: parseInt(selectedPlan.id),
-            level: selectedPlan.level,
-            lessonTopic: selectedPlan.topic,
+            packageId: parseInt(packageSubscription.id),
+            languageLevelId: parseInt(languageLevel.id),
+            lessonTopicId: parseInt(lessonTopic.id),
             lessonBooking: {
               mentorId,
               startAt: new Date(schedule),
@@ -150,21 +138,19 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
         <div className="w-full border rounded-lg p-5 flex justify-between items-center">
           <div>
             <h3 className="font-bold text-lg mb-5">
-              {selectedPlan.course.title}
+              {packageSubscription.course.title}
             </h3>
             <div className="flex gap-6">
               <label className="block">
                 <span className="text-[13px] text-gray-400">Level</span>
                 <p className="text-gray-950 font-medium">
-                  {selectedPlan.level}
+                  {languageLevel.title}
                 </p>
               </label>
 
               <label className="block">
                 <span className="text-[13px] text-gray-400">Topic</span>
-                <p className="text-gray-950 font-medium">
-                  {selectedPlan.topic}
-                </p>
+                <p className="text-gray-950 font-medium">{lessonTopic.title}</p>
               </label>
             </div>
           </div>

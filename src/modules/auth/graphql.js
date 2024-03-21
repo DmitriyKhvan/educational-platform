@@ -131,6 +131,8 @@ export const ME_QUERY = gql`
         about
         pronouns
         isActive
+        isTrial
+        trialStartAt
         # user
         # lessons
         avatarId
@@ -476,6 +478,50 @@ export const STUDENTS_QUERY = gql`
 export const PACKAGE_QUERY = gql`
   query packageSubscriptions($studentId: ID!) {
     packageSubscriptions: activePackageSubscriptions(studentId: $studentId) {
+      id
+      periodStart
+      periodEnd
+      credits
+      modifyCredits
+      package {
+        id
+        totalSessions
+        sessionsPerWeek
+        sessionTime
+        price
+        period
+        discount
+        course {
+          id
+          title
+          description
+        }
+      }
+      payment {
+        id
+        status
+        provider
+        cancelReason
+        buyPrice
+        metadata
+      }
+      lessons {
+        id
+        startAt
+        duration
+        status
+        cancelAction
+        cancelReason
+        canceledBy
+      }
+      active
+    }
+  }
+`;
+
+export const ALL_PACKAGE_QUERY = gql`
+  query packageSubscriptions($userId: ID!) {
+    packageSubscriptions: packageSubscriptions(userId: $userId) {
       id
       periodStart
       periodEnd

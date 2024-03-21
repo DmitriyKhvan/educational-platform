@@ -42,6 +42,7 @@
   "back": "Back",
   "confirm": "Confirm",
   "settings": "Settings",
+  "minutes_full": "minutes",
   "minutes": "min.",
   "kor_day": "",
   "January": "January",
@@ -113,5 +114,9 @@
   "birth_invalid": "Invalid Birthday",
   "digits": "{{count}} digits",
   "automatically_renews": "Automatically renews every month",
-  "changed_avatar": "Avatar is changed"
+  "changed_avatar": "Avatar is changed",
+  "current": "Current",
+  "previous": "Previous",
+  "lessons_total": "Lessons total",
+  "add_package": "Add a package"
 }

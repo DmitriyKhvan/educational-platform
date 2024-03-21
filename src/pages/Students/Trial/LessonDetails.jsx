@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 // import Dropdown from 'src/components/Dropdown';
 import MyDropdownMenu from 'src/components/DropdownMenu';
@@ -10,8 +10,8 @@ import { TRIAL_PACKAGES } from 'src/modules/graphql/queries/trial/trialPackages'
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { useForm } from 'react-hook-form';
 import InputWithError from 'src/components/Form/InputWithError';
-import { topics } from 'src/constants/global';
 import { useTranslation } from 'react-i18next';
+import { LANGUAGE_LEVELS } from 'src/modules/graphql/queries/trial/languageLevels';
 // import MySelect from 'src/components/Form/MySelect';
 
 const LessonDetails = ({
@@ -20,33 +20,40 @@ const LessonDetails = ({
   setSelectedPlan,
   setStep,
 }) => {
-  const { data } = useQuery(TRIAL_PACKAGES);
+  const { data: packagesData } = useQuery(TRIAL_PACKAGES);
+  const { data: levelsData } = useQuery(LANGUAGE_LEVELS);
   const { t } = useTranslation('common');
   const [currentPackage, setCurrentPackage] = useState({});
+  const [currentLevel, setCurrentLevel] = useState({});
+  const [currentTopic, setCurrentTopic] = useState({});
   const [isOpenLevel, setIsOpenLevel] = useState(false);
+
+  console.log('levelsData', levelsData);
 
   const {
     handleSubmit,
     register,
     watch,
+    setValue,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
     // mode: 'all',
     defaultValues: {
-      packageId: selectedPlan.id,
-      level: selectedPlan.level,
-      topic: selectedPlan.topic,
+      packageId: selectedPlan?.packageSubscription?.id,
+      languageLevelId: selectedPlan?.languageLevel?.id,
+      lessonTopicId: selectedPlan?.lessonTopic?.id,
     },
   });
 
   console.log('isValid', isValid);
+  console.log('errors', errors);
 
   const onSubmit = (data) => {
     setSelectedPlan({
-      ...currentPackage,
-      level,
-      topic,
+      packageSubscription: { ...currentPackage },
+      languageLevel: { ...currentLevel },
+      lessonTopic: { ...currentTopic },
     });
 
     if (schedule) {
@@ -59,7 +66,7 @@ const LessonDetails = ({
   };
 
   const course = useMemo(() => {
-    const currentPackage = data?.trialPackages.find(
+    const currentPackage = packagesData?.trialPackages.find(
       (pkg) => pkg.id === watch('packageId'),
     );
     setCurrentPackage({
@@ -72,17 +79,42 @@ const LessonDetails = ({
     );
   }, [watch('packageId')]);
 
-  const level = useMemo(() => {
-    return (
-      watch('level') || <span className="text-[#BBBBC4]">Select a level</span>
+  const languageLevel = useMemo(() => {
+    const currentLevel = levelsData?.languageLevels.find(
+      (level) => level.id === watch('languageLevelId'),
     );
-  }, [watch('level')]);
 
-  const topic = useMemo(() => {
+    setCurrentLevel(currentLevel);
+    setValue('lessonTopicId', '');
+
     return (
-      watch('topic') || <span className="text-[#BBBBC4]">Select a topic</span>
+      currentLevel?.title || (
+        <span className="text-[#BBBBC4]">Select a level</span>
+      )
     );
-  }, [watch('topic')]);
+  }, [watch('languageLevelId')]);
+
+  const lessonTopic = useMemo(() => {
+    if (Object.keys(currentLevel || {}).length !== 0) {
+      const currentTopic = currentLevel?.topics?.find(
+        (topic) => topic.id === watch('lessonTopicId'),
+      );
+
+      setCurrentTopic(currentTopic);
+
+      return (
+        currentTopic?.title || (
+          <span className="text-[#BBBBC4]">Select a lesson topic</span>
+        )
+      );
+    }
+
+    return <span className="text-[#BBBBC4]">First select a level</span>;
+  }, [watch('lessonTopicId'), currentLevel]);
+
+  useEffect(() => {
+    setValue('lessonTopicId', selectedPlan?.lessonTopic?.id);
+  }, []);
 
   return (
     <div className="w-full max-w-[440px] mx-auto">
@@ -106,7 +138,7 @@ const LessonDetails = ({
               }
             >
               <ul className="overflow-auto sm:w-[440px]">
-                {data?.trialPackages?.map((pkg) => {
+                {packagesData?.trialPackages?.map((pkg) => {
                   return (
                     <li
                       key={pkg.id}
@@ -119,7 +151,7 @@ const LessonDetails = ({
                           value={pkg.id}
                           name="package"
                           {...register('packageId', {
-                            required: 'Course required',
+                            required: 'Course is required',
                           })}
                         />
                       </label>
@@ -132,66 +164,74 @@ const LessonDetails = ({
         </div>
 
         <div className="mb-6">
-          <label className="font-semibold block mb-3">Level</label>
+          <InputWithError errorsField={errors?.languageLevelId}>
+            <label className="font-semibold block mb-3">Level</label>
 
-          <AdaptiveDialog
-            open={isOpenLevel}
-            setOpen={setIsOpenLevel}
-            classNameDrawer="h-[80%]"
-            button={
-              <Button
-                theme="clear"
-                className="flex items-center justify-between py-[14px] pl-3 pr-2 rounded-lg w-full border border-color-border-grey select-none cursor-pointer"
-              >
-                <p className="text-sm font-medium">{level}</p>
-                <MdOutlineKeyboardArrowDown className="w-4" />
-              </Button>
-            }
-          >
-            <LevelModal
+            <AdaptiveDialog
+              open={isOpenLevel}
               setOpen={setIsOpenLevel}
-              register={register}
-              watch={watch}
-            />
-          </AdaptiveDialog>
+              classNameDrawer="h-[80%]"
+              button={
+                <Button
+                  theme="clear"
+                  className="flex items-center justify-between py-[14px] pl-3 pr-2 rounded-lg w-full border border-color-border-grey select-none cursor-pointer"
+                >
+                  <p className="text-sm font-medium">{languageLevel}</p>
+                  <MdOutlineKeyboardArrowDown className="w-4" />
+                </Button>
+              }
+            >
+              <LevelModal
+                setOpen={setIsOpenLevel}
+                watch={watch}
+                levels={levelsData}
+                {...register('languageLevelId', {
+                  required: 'Level is required',
+                })}
+              />
+            </AdaptiveDialog>
+          </InputWithError>
         </div>
 
         <div className="mb-8">
-          <label className="font-semibold block mb-3">Lesson topic</label>
-          <MyDropdownMenu
-            button={
-              <Button
-                theme="clear"
-                className="flex items-center justify-between py-[14px] pl-3 pr-2 rounded-lg w-full border border-color-border-grey select-none cursor-pointer"
-              >
-                <p className="text-sm font-medium">{topic}</p>
-                <MdOutlineKeyboardArrowDown className="w-4" />
-              </Button>
-            }
-          >
-            <ul className="overflow-auto min-w-[280px] sm:w-[440px]">
-              {topics.map((topic) => {
-                return (
-                  <li
-                    key={topic.value}
-                    className="border-b border-color-border-grey last:border-b-0"
-                  >
-                    <label className="flex items-center justify-between gap-3 py-4 px-6 cursor-pointer">
-                      <p>{topic.label}</p>
-                      <CheckboxField
-                        type="radio"
-                        name="phoneCode"
-                        value={topic.value}
-                        {...register('topic', {
-                          required: 'Topic required',
-                        })}
-                      />
-                    </label>
-                  </li>
-                );
-              })}
-            </ul>
-          </MyDropdownMenu>
+          <InputWithError errorsField={errors?.lessonTopicId}>
+            <label className="font-semibold block mb-3">Lesson topic</label>
+            <MyDropdownMenu
+              button={
+                <Button
+                  disabled={Object.keys(currentLevel || {}).length === 0}
+                  theme="clear"
+                  className="flex items-center justify-between py-[14px] pl-3 pr-2 rounded-lg w-full border border-color-border-grey select-none cursor-pointer"
+                >
+                  <p className="text-sm font-medium">{lessonTopic}</p>
+                  <MdOutlineKeyboardArrowDown className="w-4" />
+                </Button>
+              }
+            >
+              <ul className="overflow-auto min-w-[280px] sm:w-[440px]">
+                {currentLevel?.topics?.map((topic) => {
+                  return (
+                    <li
+                      key={topic.id}
+                      className="border-b border-color-border-grey last:border-b-0"
+                    >
+                      <label className="flex items-center justify-between gap-3 py-4 px-6 cursor-pointer">
+                        <p>{topic.title}</p>
+                        <CheckboxField
+                          type="radio"
+                          name="topic"
+                          value={topic.id}
+                          {...register('lessonTopicId', {
+                            required: 'Topic is isrequired',
+                          })}
+                        />
+                      </label>
+                    </li>
+                  );
+                })}
+              </ul>
+            </MyDropdownMenu>
+          </InputWithError>
         </div>
 
         <Button

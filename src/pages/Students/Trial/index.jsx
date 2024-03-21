@@ -3,8 +3,6 @@ import OnboardingTrial from './OnboardingTrial';
 import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 import LessonDetails from './LessonDetails';
 import StepIndicator from './StepIndicator';
-// import SelectDay from './SelectDay';
-// import AvailableSpots from './AvailableSpots';
 import Confirmation from './Confirmation';
 import { ScheduleProvider } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/ScheduleProvider';
 import { ScheduleSelector } from 'src/pages/Students/ScheduleLesson/ScheduleSelector';
@@ -59,7 +57,7 @@ const Trial = () => {
             query={COMBINED_TIMESHEETS_TRIAL}
             setTabIndex={setStep}
             setSchedule={setSchedule}
-            duration={selectedPlan?.sessionTime}
+            duration={selectedPlan?.packageSubscription?.sessionTime}
             setMentorId={setMentorId}
             timeZone={user?.timeZone}
           >

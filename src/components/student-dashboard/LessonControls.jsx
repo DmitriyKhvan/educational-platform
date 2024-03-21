@@ -28,7 +28,6 @@ const LessonControls = ({
   const [isWarningOpen, setIsWarningOpen] = useState(false);
   const [modalType, setModalType] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const [isOpen2, setIsOpen2] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [controls, setControls] = useState([]);
 
@@ -48,7 +47,6 @@ const LessonControls = ({
 
   const onCancel = () => {
     setIsOpen(true);
-    setIsOpen2(false);
     setModalType(ModalType.CANCEL);
   };
 
@@ -120,8 +118,6 @@ const LessonControls = ({
     if (pattern === 'info') {
       controls.push(
         <AdaptiveDialog
-          open={isOpen2}
-          setOpen={setIsOpen2}
           button={
             <Button className="grow text-xs sm:text-sm p-0" theme="dark_purple">
               Info
@@ -208,7 +204,7 @@ const LessonControls = ({
     }
 
     setControls(controls);
-  }, [modalType, tabIndex, isOpen, isOpen2]);
+  }, [modalType, tabIndex, isOpen]);
 
   return (
     <>
