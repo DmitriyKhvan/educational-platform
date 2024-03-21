@@ -4,11 +4,9 @@ import { useTranslation } from 'react-i18next';
 
 import duckImage from '../../../assets/images/duck.png';
 import bannerLogo from '../../../assets/images/banner-logo.png';
-// import { useMediaQuery } from 'react-responsive';
 
 const ScheduleBanner = () => {
   const [t] = useTranslation('dashboard');
-  // const isMobile = useMediaQuery({ maxWidth: 639 });
 
   return (
     <div className="relative rounded-[10px] bg-color-banner-green h-[200px] p-6 overflow-hidden">

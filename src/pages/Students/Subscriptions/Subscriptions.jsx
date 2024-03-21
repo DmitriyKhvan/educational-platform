@@ -60,9 +60,6 @@ const Subscriptions = () => {
     }
   }, [selectedTab, planStatus, i18n.language]);
 
-  console.log(planStatus, 'planStatus');
-  console.log(selectedPackages, 'selectedPackages');
-  console.log(coursesData, 'coursesData');
   return (
     <Layout>
       <div className="referal-wrapper max-w-[440px] mx-auto px-5 min-h-[calc(100vh-80px)]">
