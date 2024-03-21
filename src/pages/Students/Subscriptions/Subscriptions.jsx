@@ -13,12 +13,18 @@ import { getItemToLocalStorage } from 'src/constants/global';
 import '../../../assets/styles/subscriptions.scss';
 import Button from 'src/components/Form/Button';
 import { FaPlus } from 'react-icons/fa6';
+import { COURSES } from 'src/modules/graphql/queries/courses/courses';
+import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 
 const Subscriptions = () => {
+  const { getTitleByCourseId } = useCourseTranslation();
   const [t] = useTranslation(['common', 'sidebar']);
   const [selectedTab, setSelectedTab] = useState('current');
-
   const navigate = useHistory();
+
+  const { data: coursesData } = useQuery(COURSES, {
+    fetchPolicy: 'network-only',
+  });
 
   const { data: { packageSubscriptions: planStatus = [] } = {}, loading } =
     useQuery(PACKAGE_QUERY, {
@@ -35,7 +41,7 @@ const Subscriptions = () => {
   const [selectedPackages, setSelectedPackages] = useState([]);
 
   useEffect(() => {
-    if (planStatus?.length) {
+    if (planStatus?.length && coursesData?.courses?.length) {
       setSelectedPackages(
         selectedTab === 'current'
           ? planStatus.filter((x) => x.active && x.credits)
@@ -86,7 +92,7 @@ const Subscriptions = () => {
                       }
                       months={x.package?.period}
                       duration={x.package?.sessionTime}
-                      title={x.package?.course?.title}
+                      title={getTitleByCourseId(x.package?.course?.id)}
                       totalSessions={x.package?.totalSessions}
                       sessionsPerWeek={x.package?.sessionsPerWeek}
                       costPerClass={x.package?.price / x.package?.totalSessions}

@@ -25,6 +25,7 @@ import {
 } from 'src/constants/global';
 import Button from 'src/components/Form/Button';
 import MentorImageRow from './MentorImageRow';
+import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 
 const LessonConfirmation = ({
   plan,
@@ -34,6 +35,7 @@ const LessonConfirmation = ({
   lessonId = null,
   isMentorScheduled = false,
 }) => {
+  const { getTitleByCourseId } = useCourseTranslation();
   const [t] = useTranslation([
     'common',
     'lessons',
@@ -226,7 +228,7 @@ const LessonConfirmation = ({
           </p>
           <div className="flex">
             <LessonCard
-              lesson={plan?.package?.course.title}
+              lesson={getTitleByCourseId(plan?.package?.course.id)}
               duration={`${plan?.package?.sessionTime} ${t('minutes', {
                 ns: 'common',
               })}`}
@@ -311,6 +313,9 @@ const LessonConfirmation = ({
                     key={index}
                     index={index}
                     lesson={
+                      getTitleByCourseId(
+                        appointment?.packageSubscription?.package.course?.id,
+                      ) ??
                       appointment?.packageSubscription?.package.course?.title
                     }
                     //zoomlinkappointment?.zoomlink}

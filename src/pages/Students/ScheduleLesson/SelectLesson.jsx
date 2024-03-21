@@ -16,6 +16,7 @@ import {
   TooltipTrigger,
 } from '../../../components/Tooltip';
 import { getItemToLocalStorage } from 'src/constants/global';
+import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 
 const SelectLesson = ({
   setSelectedPlan,
@@ -25,6 +26,7 @@ const SelectLesson = ({
   setClicked,
   lesson,
 }) => {
+  const { getTitleByCourseId } = useCourseTranslation();
   const [t] = useTranslation(['lessons', 'common', 'modals']);
   const history = useHistory();
   const { id } = useParams();
@@ -139,7 +141,7 @@ const SelectLesson = ({
               .filter((pkg) => pkg.credits > 0)
               .map((x, i) => (
                 <LessonCard
-                  title={x.package?.course?.title}
+                  title={getTitleByCourseId(x.package?.course?.id)}
                   duration={x.package?.sessionTime}
                   remaining={x.credits}
                   data={x}
