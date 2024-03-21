@@ -111,8 +111,8 @@
   "digits": "{{count}} 자리",
   "automatically_renews": "매 월 결제 자동 갱신",
   "changed_avatar": "아바타가 변경되었습니다",
-  "current": "Current",
-  "previous": "Previous",
+  "current": "기존 패키지",
+  "previous": "지난 패키지",
   "lessons_total": "레슨",
-  "add_package": "패키지 추기"
+  "add_package": "패키지 추가"
 }

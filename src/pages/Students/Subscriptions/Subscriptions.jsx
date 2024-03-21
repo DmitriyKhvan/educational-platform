@@ -13,12 +13,17 @@ import { getItemToLocalStorage } from 'src/constants/global';
 import '../../../assets/styles/subscriptions.scss';
 import Button from 'src/components/Form/Button';
 import { FaPlus } from 'react-icons/fa6';
+import { COURSES } from 'src/modules/graphql/queries/courses/courses';
 
 const Subscriptions = () => {
-  const [t] = useTranslation(['common', 'sidebar']);
+  const [t, i18n] = useTranslation(['common', 'sidebar']);
   const [selectedTab, setSelectedTab] = useState('current');
 
   const navigate = useHistory();
+
+  const { data: coursesData } = useQuery(COURSES, {
+    fetchPolicy: 'network-only',
+  });
 
   const { data: { packageSubscriptions: planStatus = [] } = {}, loading } =
     useQuery(PACKAGE_QUERY, {
@@ -34,16 +39,30 @@ const Subscriptions = () => {
 
   const [selectedPackages, setSelectedPackages] = useState([]);
 
+  const currentLanguage = i18n.language;
+
   useEffect(() => {
-    if (planStatus?.length) {
+    if (planStatus?.length && coursesData?.courses?.length) {
+      const translatedData = planStatus.map((p) => ({
+        ...p,
+        title:
+          currentLanguage === 'kr'
+            ? coursesData.courses.find(
+                (course) => course.title === p.package?.course?.title,
+              ).translations[0].title
+            : p.package?.course?.title,
+      }));
       setSelectedPackages(
         selectedTab === 'current'
-          ? planStatus.filter((x) => x.active && x.credits)
-          : planStatus.filter((x) => !x.active || !x.credits),
+          ? translatedData.filter((x) => x.active && x.credits)
+          : translatedData.filter((x) => !x.active || !x.credits),
       );
     }
-  }, [selectedTab, planStatus]);
+  }, [selectedTab, planStatus, i18n.language]);
 
+  console.log(planStatus, 'planStatus');
+  console.log(selectedPackages, 'selectedPackages');
+  console.log(coursesData, 'coursesData');
   return (
     <Layout>
       <div className="referal-wrapper max-w-[440px] mx-auto px-5 min-h-[calc(100vh-80px)]">
@@ -86,7 +105,7 @@ const Subscriptions = () => {
                       }
                       months={x.package?.period}
                       duration={x.package?.sessionTime}
-                      title={x.package?.course?.title}
+                      title={x.title}
                       totalSessions={x.package?.totalSessions}
                       sessionsPerWeek={x.package?.sessionsPerWeek}
                       costPerClass={x.package?.price / x.package?.totalSessions}

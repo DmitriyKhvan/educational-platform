@@ -3,7 +3,7 @@
   "lesson_package": "패키지",
   "upcoming_lessons": "예정 레슨",
   "past_lessons": "이전 레슨",
-  "calendar_view": "캘린더 보기",
+  "calendar_view": "달력 보기",
   "duration": "수업 시간",
   "date_time": "날짜 및 시간",
   "date": "날짜",
@@ -91,5 +91,7 @@
   "scheduled": "미승인",
   "canceled": "취소됨",
   "paid": "",
-  "months": "개월"
+  "months": "개월",
+  "no_completed_lessons": "완료된 수업이 없습니다.",
+  "you_have_n_available_lessons": "예약 가능한 횟수는 <purple>{{count}}회</purple> 입니다"
 }

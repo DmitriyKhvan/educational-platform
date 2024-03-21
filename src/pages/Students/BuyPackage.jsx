@@ -34,6 +34,8 @@ export default function BuyPackage() {
     fetchPolicy: 'network-only',
   });
 
+  console.log(data, 'data');
+
   useEffect(() => {
     if (data) {
       const coursesFiltered = data.courses

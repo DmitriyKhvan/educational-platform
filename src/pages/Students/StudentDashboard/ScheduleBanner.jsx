@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 
 import duckImage from '../../../assets/images/duck.png';
 import bannerLogo from '../../../assets/images/banner-logo.png';
-import { useMediaQuery } from 'react-responsive';
+// import { useMediaQuery } from 'react-responsive';
 
 const ScheduleBanner = () => {
   const [t] = useTranslation('dashboard');
-  const isMobile = useMediaQuery({ maxWidth: 639 });
+  // const isMobile = useMediaQuery({ maxWidth: 639 });
 
   return (
     <div className="relative rounded-[10px] bg-color-banner-green h-[200px] p-6 overflow-hidden">
@@ -27,16 +27,9 @@ const ScheduleBanner = () => {
           <p className="text-[22px] font-bold tracking-tight text-white leading-normal">
             {t('schedule_card', { ns: 'dashboard' })}
           </p>
-
-          {isMobile ? (
-            <p className="text-[15px] text-white tracking-tight">
-              {t('lets_learn_together', { ns: 'dashboard' })}
-            </p>
-          ) : (
-            <p className="text-[15px] text-white tracking-tight">
-              {t('student_dashboard_subtitle', { ns: 'dashboard' })}
-            </p>
-          )}
+          <p className="text-[15px] h-[22px] text-white tracking-tight">
+            {t('lets_learn_together', { ns: 'dashboard' })}
+          </p>
         </div>
         <div className="flex justify-start gap-3 md:w-11/12 z-[3]">
           <Link

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import ScheduleCard from '../../../components/student-dashboard/ScheduleCardRebranding';
 import {
   addMinutes,
@@ -24,7 +24,7 @@ const MyLessons = ({
 }) => {
   const navigate = useHistory();
   const isDesktop = useMediaQuery({ minWidth: 1307 });
-  const [t] = useTranslation('dashboard');
+  const [t] = useTranslation(['dashboard', 'lessons']);
 
   const scheduledAweekAppointments = useMemo(() => {
     const now = new Date();
@@ -76,8 +76,19 @@ const MyLessons = ({
         <div className="flex justify-center items-center gap-4 md:gap-[30px] w-full bg-gray-50 h-72 rounded-lg">
           <div className="flex flex-col items-center">
             <p className="text-[15px] text-gray-500 tracking-tight mb-6">
-              You have <span className="text-color-purple">0 remaining</span>{' '}
-              lessons
+              {/* You have <span className="text-color-purple">0 remaining</span>{' '}
+              lessons */}
+              <Trans
+                t={t}
+                ns={'lessons'}
+                i18nKey="you_have_n_available_lessons"
+                values={{
+                  count: 0,
+                }}
+                components={{
+                  purple: <span className="text-color-purple font-medium" />,
+                }}
+              />
             </p>
             <AdaptiveDialog button={<Button>Purchase a package</Button>}>
               <div className="w-full max-w-[400px] m-auto text-center">
@@ -111,7 +122,7 @@ const MyLessons = ({
       ) : (
         <div className="flex justify-center items-center gap-4 md:gap-[30px] w-full bg-gray-50 h-72 rounded-lg">
           <p className="text-[15px] text-gray-300 tracking-tight mb-6">
-            You don&apos;t have any lessons yet
+            {t('no_lessons', { ns: 'lessons' })}
           </p>
         </div>
       )}
@@ -121,7 +132,7 @@ const MyLessons = ({
           to="/student/lesson-calendar"
           className="hidden xl:flex w-full bg-color-purple bg-opacity-10 justify-center gap-1 items-center text-color-purple font-medium py-6 rounded-lg hover:opacity-80 mt-6"
         >
-          All lessons ({scheduledAweekAppointments?.length}){' '}
+          {t('view_all')} ({scheduledAweekAppointments?.length}){' '}
           <FaArrowRight className="w-4 h-4" />
         </Link>
       )}
