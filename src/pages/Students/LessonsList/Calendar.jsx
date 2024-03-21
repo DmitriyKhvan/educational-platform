@@ -11,6 +11,7 @@ import { enUS, ko } from 'date-fns/locale';
 import { format, getDay, isBefore, parse, startOfWeek } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import FullCalendar from '@fullcalendar/react';
+import timeGridPlugin from '@fullcalendar/timegrid';
 
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 
@@ -111,10 +112,17 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
   };
 
   const onSelectEvent = (e) => {
-    if (isBefore(utcToZonedTime(new Date(), userTimezone), e.end)) {
-      setCalendarEvent(e);
-      setIsOpen(true);
-    }
+    // console.log(e, 'event');
+    // console.log(e.event.title, 'e.event.title');
+    // console.log(e.event.publicId, 'e.event.publicId');
+    // setCalendarEvent(e.event.publicId);
+    // setIsOpen(true);
+    setCalendarEvent({ id: Number(e.event.id) });
+    setIsOpen(true);
+    // if (isBefore(utcToZonedTime(new Date(), userTimezone), e.end)) {
+    //   setCalendarEvent(e);
+    //   setIsOpen(true);
+    // }
   };
 
   const eventPropGetter = useCallback((event) => {
@@ -129,18 +137,25 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
     };
   }, []);
 
+  console.log(calendarEvents, 'calendarEvents');
+
   return (
     <>
       <FullCalendar
-        plugins={[dayGridPlugin]}
+        events={calendarEvents}
+        plugins={[dayGridPlugin, timeGridPlugin]}
+        dayMaxEvents={true}
         initialView="dayGridMonth"
+        allDaySlot={false}
+        displayEventTime={false}
+        eventClick={onSelectEvent}
         headerToolbar={{
           start: 'title prev,next',
           center: '',
-          end: 'dayGridMonth,dayGridWeek,dayGridDay today',
+          end: 'dayGridMonth,timeGridWeek,timeGridDay today',
         }}
       />
-      {/* <BigCalendar
+      <BigCalendar
         getNow={() => utcToZonedTime(new Date(), userTimezone)}
         style={{ minHeight: '70vh', minWidth: '559px' }}
         popup={true}
@@ -169,7 +184,7 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
           next: t('calendar_next', { ns: 'lessons' }),
           today: t('calendar_today', { ns: 'lessons' }),
         }}
-      /> */}
+      />
 
       {isOpen && <CustomModal />}
     </>

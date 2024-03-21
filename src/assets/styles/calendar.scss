@@ -481,7 +481,12 @@
     align-items: center;
   }
 }
+
 .fc-direction-ltr .fc-button-group > .fc-button:not(:first-child),
 .fc-direction-ltr .fc-button-group > .fc-button:not(:last-child) {
   border-radius: 8px;
+}
+
+.fc-event {
+  cursor: pointer;
 }
