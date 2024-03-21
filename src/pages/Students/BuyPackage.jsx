@@ -39,6 +39,7 @@ export default function BuyPackage() {
     if (data) {
       const coursesFiltered = data.courses
         .filter((course) => course.packages.length > 0 && course.active)
+        .sort((a, b) => a.sequence - b.sequence)
         .map((course) => {
           return {
             ...course,
@@ -49,7 +50,9 @@ export default function BuyPackage() {
           };
         });
 
-      setCourse([coursesFiltered[2], coursesFiltered[0], coursesFiltered[1]]);
+      setCourse(coursesFiltered);
+
+      // setCourse([coursesFiltered[2], coursesFiltered[0], coursesFiltered[1]]);
       setSelectedCourse(coursesFiltered[2]);
     }
   }, [data, t]);
