@@ -9,6 +9,7 @@ export const PhoneCodeListModal = ({
   resetField,
 }) => {
   const setCountryHandler = (country) => {
+    resetField('phoneNumberWithoutCode');
     resetField('phoneNumber');
     setCountry(country);
   };

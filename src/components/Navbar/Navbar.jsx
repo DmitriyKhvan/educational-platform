@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from 'src/assets/images/logo_purple.svg';
-import Dropdown from '../Dropdown';
 
 import { Roles } from '../../constants/global';
 import { useAuth } from '../../modules/auth';
@@ -12,8 +11,9 @@ import { useStudentsDropdown } from './useStudentsDropdown';
 import { NotificationDropdownMenu } from './Notification/NotificationDropdownMenu';
 import { useTranslation } from 'react-i18next';
 import { useMediaQuery } from 'react-responsive';
+import MyDropdownMenu from '../DropdownMenu';
+import { FaAngleDown } from 'react-icons/fa6';
 
-// eslint-disable-next-line react/display-name
 const Navbar = memo(() => {
   const [t] = useTranslation('common');
   const { user, logout } = useAuth();
@@ -26,6 +26,21 @@ const Navbar = memo(() => {
     window.Intercom('shutdown');
     window.location.reload(true);
   };
+
+  const myAccountItems = [
+    {
+      label: t('my_profile'),
+      customIcon: HiUserCircle,
+      isActive: true,
+      href: user.role === Roles.MENTOR ? '/mentor/profile' : '/student/profile',
+    },
+    {
+      label: t('logout'),
+      customIcon: FiLogOut,
+      isActive: true,
+      onClick: handleLogout,
+    },
+  ];
 
   return (
     <div className="nav-bar sticky top-0 flex items-center justify-between bg-white h-20 px-5 sm:px-10 shadow-[0px_4px_16px_0px_rgba(0,_0,_0,_0.04)] z-20">
@@ -45,63 +60,81 @@ const Navbar = memo(() => {
 
       <div className="flex items-center justify-between gap-5">
         {user.role === Roles.STUDENT && (
-          <Dropdown
-            icon={
-              user?.avatar ? (
-                user?.avatar.url
-              ) : (
-                <HiUserCircle className="text-[30px] text-color-purple " />
-              )
+          <MyDropdownMenu
+            button={
+              <label className="py-[14px] rounded-lg select-none cursor-pointer">
+                <div className="flex flex-col items-center justify-between gap-2 sm:gap-0">
+                  {user?.avatar ? (
+                    <img
+                      className="w-[22px]"
+                      src={user?.avatar.url}
+                      alt="avatar"
+                    />
+                  ) : (
+                    <HiUserCircle className="text-[30px] text-color-purple " />
+                  )}
+                  <div className="hidden sm:flex items-center font-bold gap-1">
+                    <p>{user?.firstName}</p>
+                    <FaAngleDown className="w-4" />
+                  </div>
+                </div>
+              </label>
             }
-            label={user?.firstName}
-            className="w-[30px] h-[30px] rounded-full border-2 border-color-white object-center object-cover "
-            renderChild={studentsRender}
-            items={studentList}
-          />
+          >
+            <div className="py-[6px]">
+              {studentList?.map((item, index) =>
+                studentsRender(
+                  item,
+                  index,
+                  false,
+                  () => undefined,
+                  () => undefined,
+                ),
+              )}
+            </div>
+          </MyDropdownMenu>
         )}
 
         <NotificationDropdownMenu />
 
-        <Dropdown
-          className="w-[30px] h-[30px] rounded-full border-2 border-color-white object-center object-cover "
-          icon={
-            user?.avatar ? (
-              user?.avatar.url
-            ) : (
-              <HiUserCircle className="text-[30px] text-color-purple " />
-            )
+        <MyDropdownMenu
+          button={
+            <label className="py-[14px] rounded-lg select-none cursor-pointer">
+              <div className="flex flex-col items-center justify-between gap-2 sm:gap-0">
+                {user?.avatar ? (
+                  <img
+                    className="w-[22px]"
+                    src={user?.avatar.url}
+                    alt="avatar"
+                  />
+                ) : (
+                  <HiUserCircle className="text-[30px] text-color-purple " />
+                )}
+                <div className="hidden sm:flex items-center font-bold gap-1">
+                  <p>My account</p>
+                  <FaAngleDown className="w-4" />
+                </div>
+              </div>
+            </label>
           }
-          label="My Account"
-          items={[
-            {
-              label: t('my_profile'),
-              // icon: IconMyprofile,
-              // activeIcon: IconMyprofile,
-              customIcon: (
-                <HiUserCircle className="text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
+        >
+          <div className="py-[6px]">
+            {myAccountItems?.map((item, index) =>
+              studentsRender(
+                item,
+                index,
+                false,
+                () => undefined,
+                () => undefined,
               ),
-              customIconActive: (
-                <HiUserCircle className="text-[30px] text-white" />
-              ),
-              href:
-                user.role === Roles.MENTOR
-                  ? '/mentor/profile'
-                  : '/student/profile',
-            },
-            {
-              label: t('logout'),
-              // icon: LogoutImg,
-              customIcon: (
-                <FiLogOut className="text-[24px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
-              ),
-
-              onClick: handleLogout,
-            },
-          ]}
-        />
+            )}
+          </div>
+        </MyDropdownMenu>
       </div>
     </div>
   );
 });
+
+Navbar.displayName = 'Navbar';
 
 export default Navbar;
