@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const NoLessonsMessage = ({ selectedTab, availableCredits }) => {
@@ -10,17 +10,22 @@ const NoLessonsMessage = ({ selectedTab, availableCredits }) => {
       {selectedTab === 'pastLessons' ? (
         <div className="w-full bg-gray-50 rounded-lg mt-8 py-[47px]">
           <p className="text-color-dark-purple text-sm text-center mb-6">
-            You don’t have completed lessons yet
+            {t('no_completed_lessons')}
           </p>
         </div>
       ) : (
         <div className="w-full bg-gray-50 rounded-lg mt-8 py-[47px]">
           <p className="text-color-dark-purple text-sm text-center mb-6">
-            You have{' '}
-            <span className="text-color-purple font-medium">
-              {availableCredits} available
-            </span>{' '}
-            lessons
+            <Trans
+              t={t}
+              i18nKey="you_have_n_available_lessons"
+              values={{
+                count: availableCredits ?? 0,
+              }}
+              components={{
+                purple: <span className="text-color-purple font-medium" />,
+              }}
+            />
           </p>
           <div className="flex justify-center gap-3">
             <Link

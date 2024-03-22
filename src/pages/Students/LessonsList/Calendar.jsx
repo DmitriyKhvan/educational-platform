@@ -99,8 +99,8 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
         >
           <div className="p-8 z-20 bg-white rounded-2xl">
             <LessonInfoModal
-              date={selectedEvent.start}
-              data={selectedEvent.resource}
+              date={selectedEvent?.resource?.eventDate?.startAt}
+              data={selectedEvent?.resource?.eventDate}
               refetch={getAppointments}
               duration={selectedEvent.resource.eventDate.duration}
               userTimezone={userTimezone}
