@@ -11,6 +11,7 @@ import TutorDashboard from './MentorDashboard';
 import AvailabilityLayout from './Availiability';
 import Layout from 'src/layouts/DashboardLayout';
 import MentorProfile from './Profile/MentorProfile';
+import { ErrorPage } from '../ErrorPage';
 
 export default function TutorPages() {
   let { path } = useRouteMatch();
@@ -58,6 +59,7 @@ export default function TutorPages() {
       <Route path={`${path}/edit-profiles/submit-videos/submited`}>
         <Submited />
       </Route>
+      <Route component={ErrorPage} />
     </Switch>
   );
 }

@@ -81,7 +81,7 @@ export const MentorCard = ({ mentor, handleSelectMentor }) => {
                   <Link
                     className="m-1"
                     to={
-                      mentor?.availabilities?.length > 0
+                      mentor?.availabilities?.regular?.length > 0
                         ? {
                             pathname: `/student/schedule-lesson/select`,
                             state: {
@@ -96,7 +96,7 @@ export const MentorCard = ({ mentor, handleSelectMentor }) => {
                     <Button
                       theme="purple"
                       className="w-full h-[57px]"
-                      disabled={mentor?.availabilities?.length === 0}
+                      disabled={mentor?.availabilities?.regular?.length === 0}
                     >
                       {t('schedule', { ns: 'common' })}
                     </Button>

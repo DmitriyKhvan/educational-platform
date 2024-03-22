@@ -1,4 +1,4 @@
-import { Switch, useRouteMatch, Route } from 'react-router-dom';
+import { Switch, useRouteMatch, Route, Redirect } from 'react-router-dom';
 // Student Path
 // import StudentCalendar from './Calendar';
 import ClassMaterials from './ClassMaterials';
@@ -11,6 +11,32 @@ import Referal from './Referal/Referal';
 import Mentors from './MentorsList/Mentors';
 import Subscriptions from './Subscriptions/Subscriptions';
 import LessonsList from './LessonsList';
+import { useAuth } from 'src/modules/auth';
+import { ErrorPage } from '../ErrorPage';
+
+function SubPrivateRoute({ component: Component, isTrial, ...rest }) {
+  const { currentStudent } = useAuth();
+
+  console.log('isTrial', isTrial);
+  console.log('currentStudent', currentStudent);
+
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        return currentStudent?.isTrial !== isTrial ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '',
+            }}
+          />
+        );
+      }}
+    />
+  );
+}
 
 export default function StudentRoutes() {
   let { path } = useRouteMatch();
@@ -25,9 +51,12 @@ export default function StudentRoutes() {
         <StudentListAppointments />
       </Route>
 
-      <Route path={`${path}/schedule-lesson/select/:id?`}>
-        <ScheduleLesson />
-      </Route>
+      <SubPrivateRoute
+        isTrial={true}
+        exact
+        path={`${path}/schedule-lesson/select/:id?`}
+        component={ScheduleLesson}
+      />
 
       {/* <Route path={`${path}/schedule-lesson/group-select`}>
         <GroupScheduleLesson />
@@ -58,13 +87,17 @@ export default function StudentRoutes() {
         <Referal />
       </Route>
 
-      <Route path={`${path}/mentors-list/:id?`}>
-        <Mentors />
-      </Route>
+      <SubPrivateRoute
+        isTrial={true}
+        exact
+        path={`${path}/mentors-list/:id?`}
+        component={Mentors}
+      />
 
       <Route path={`${path}/subscriptions`}>
         <Subscriptions />
       </Route>
+      <Route component={ErrorPage} />
     </Switch>
   );
 }

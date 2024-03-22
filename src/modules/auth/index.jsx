@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useContext } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { ME_QUERY, INVITE_SET_PASSWORD_MUTATION } from './graphql';
 import { getItemToLocalStorage, Roles } from 'src/constants/global';
@@ -20,6 +20,11 @@ export const AuthProvider = ({ children }) => {
       studentId: getItemToLocalStorage('studentId'),
     },
     onCompleted: (data) => {
+      const student = data.authenticatedUser.students.find(
+        (student) => student.id === getItemToLocalStorage('studentId'),
+      );
+      setCurrentStudent(student);
+
       if (
         getItemToLocalStorage('studentId') ||
         data.authenticatedUser.role === Roles.MENTOR
@@ -32,15 +37,6 @@ export const AuthProvider = ({ children }) => {
   const [redeemInvitePasswordSetToken] = useMutation(
     INVITE_SET_PASSWORD_MUTATION,
   );
-
-  useEffect(() => {
-    if (user) {
-      const student = user.authenticatedUser.students.find(
-        (student) => student.id === getItemToLocalStorage('studentId'),
-      );
-      setCurrentStudent(student);
-    }
-  }, [user]);
 
   const inviteSetPassword = async (email, token, password) => {
     const { data } = await redeemInvitePasswordSetToken({

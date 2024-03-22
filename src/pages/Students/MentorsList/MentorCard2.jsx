@@ -74,7 +74,7 @@ export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
                 <TooltipTrigger asChild>
                   <Link
                     to={
-                      mentor?.availabilities?.length > 0
+                      mentor?.availabilities?.regular?.length > 0
                         ? {
                             pathname: `/student/schedule-lesson/select`,
                             state: {
@@ -89,7 +89,7 @@ export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
                     <Button
                       theme="purple"
                       className="w-full px-[18px] sm:px-6 h-[40px] text-xs sm:text-sm"
-                      disabled={mentor?.availabilities?.length === 0}
+                      disabled={mentor?.availabilities?.regular?.length === 0}
                     >
                       {t('schedule', { ns: 'common' })}
                     </Button>
