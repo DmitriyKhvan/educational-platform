@@ -1,25 +1,30 @@
-/* eslint-disable no-unused-vars */
-import { useCallback, useEffect, useState } from 'react';
-import { Calendar as BigCalendar, dateFnsLocalizer } from 'react-big-calendar';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import WeekHeader from 'src/components/common/WeekHeader';
-import { LessonsStatusType } from 'src/constants/global';
 import { useAuth } from 'src/modules/auth';
 import Modal from 'react-modal';
 import LessonInfoModal from 'src/components/student-dashboard/LessonInfoModal';
-import { enUS, ko } from 'date-fns/locale';
-import { format, getDay, isBefore, parse, startOfWeek } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import koLocale from '@fullcalendar/core/locales/ko';
 
-import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import enLocale from '@fullcalendar/core/locales/en-gb';
+
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { useCourseTranslation } from 'src/utils/useCourseTranslation';
+import { useMediaQuery } from 'react-responsive';
+import CalendarHeader from './CalendarHeader';
 
 const Calendar = ({ calendarAppointments, getAppointments }) => {
-  const [t] = useTranslation(['lessons']);
+  // eslint-disable-next-line no-unused-vars
+  const [_, i18n] = useTranslation();
+  const isTablet = useMediaQuery({ maxWidth: 1024 });
+  const calendarRef = useRef();
+  const { getTitleByCourseId } = useCourseTranslation();
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [calendarEvent, setCalendarEvent] = useState({});
+
   const closeModal = () => {
     setCalendarEvent({});
     setIsOpen(false);
@@ -27,26 +32,6 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
 
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  const locales = {
-    'en-US': enUS,
-    ko: ko,
-  };
-
-  const localizer = dateFnsLocalizer({
-    format,
-    parse,
-    startOfWeek,
-    getDay,
-    locales,
-  });
-  const allViews = ['month', 'week', 'day'];
-  const formats = {
-    dateFormat: 'd',
-    weekdayFormat: 'cccc',
-    dayFormat: 'cccc d',
-    timeGutterFormat: 'ha',
-  };
 
   const [calendarEvents, setCalendarEvents] = useState([]);
 
@@ -56,16 +41,19 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
       calendarAppointments.forEach((_, index) => {
         const event = {
           id: index,
-          title: calendarAppointments[index]?.lesson,
+          title: getTitleByCourseId(calendarAppointments[index]?.courseId),
           start: calendarAppointments[index].startAt,
           end: calendarAppointments[index].end_at,
           resource: calendarAppointments[index],
+          className: 'mb-2',
+          color: '#862EE7',
+          display: 'block',
         };
         tempEvents.push(event);
       });
       setCalendarEvents([...tempEvents]);
     }
-  }, [calendarAppointments]);
+  }, [calendarAppointments, getTitleByCourseId]);
 
   const customStyles = {
     content: {
@@ -112,36 +100,26 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
   };
 
   const onSelectEvent = (e) => {
-    // console.log(e, 'event');
-    // console.log(e.event.title, 'e.event.title');
-    // console.log(e.event.publicId, 'e.event.publicId');
-    // setCalendarEvent(e.event.publicId);
-    // setIsOpen(true);
     setCalendarEvent({ id: Number(e.event.id) });
     setIsOpen(true);
-    // if (isBefore(utcToZonedTime(new Date(), userTimezone), e.end)) {
-    //   setCalendarEvent(e);
-    //   setIsOpen(true);
-    // }
   };
-
-  const eventPropGetter = useCallback((event) => {
-    return {
-      ...((event.resource.status === LessonsStatusType.SCHEDULED ||
-        event.resource.status === LessonsStatusType.RESCHEDULED ||
-        event.resource.status === LessonsStatusType.COMPLETED) && {
-        style: {
-          filter: 'grayscale(100%) opacity(0.8)',
-        },
-      }),
-    };
-  }, []);
-
-  console.log(calendarEvents, 'calendarEvents');
 
   return (
     <>
+      <CalendarHeader calendarRef={calendarRef} />
       <FullCalendar
+        ref={calendarRef}
+        headerToolbar={null}
+        scrollTimeReset={false}
+        nowIndicator={true}
+        views={{
+          dayGridMonth: {
+            dayHeaderFormat: { weekday: isTablet ? 'short' : 'long' },
+          },
+        }}
+        locales={[enLocale, koLocale]}
+        locale={i18n.language === 'en' ? 'en' : koLocale}
+        now={utcToZonedTime(new Date(), userTimezone)}
         events={calendarEvents}
         plugins={[dayGridPlugin, timeGridPlugin]}
         dayMaxEvents={true}
@@ -149,41 +127,7 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
         allDaySlot={false}
         displayEventTime={false}
         eventClick={onSelectEvent}
-        headerToolbar={{
-          start: 'title prev,next',
-          center: '',
-          end: 'dayGridMonth,timeGridWeek,timeGridDay today',
-        }}
-      />
-      <BigCalendar
-        getNow={() => utcToZonedTime(new Date(), userTimezone)}
-        style={{ minHeight: '70vh', minWidth: '559px' }}
-        popup={true}
-        formats={formats}
-        events={calendarEvents}
-        localizer={localizer}
-        onSelectEvent={onSelectEvent}
-        views={allViews}
-        showMultiDayTimes
-        startAccessor="start"
-        eventPropGetter={eventPropGetter}
-        endAccessor="end"
-        components={{
-          month: {
-            header: WeekHeader,
-          },
-          week: {
-            header: WeekHeader,
-          },
-        }}
-        messages={{
-          month: t('calendar_month', { ns: 'lessons' }),
-          week: t('calendar_week', { ns: 'lessons' }),
-          day: t('calendar_day', { ns: 'lessons' }),
-          previous: t('calendar_prev', { ns: 'lessons' }),
-          next: t('calendar_next', { ns: 'lessons' }),
-          today: t('calendar_today', { ns: 'lessons' }),
-        }}
+        dayPopoverFormat={{ month: 'long', day: 'numeric' }}
       />
 
       {isOpen && <CustomModal />}

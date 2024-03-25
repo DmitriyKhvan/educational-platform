@@ -36,6 +36,7 @@ const sortCalendarEvents = (data, timeZone) => {
       const iterateEvents = {
         zoom: eventDate.zoom,
         lesson: eventDate?.packageSubscription?.package?.course?.title,
+        courseId: eventDate?.packageSubscription?.package?.course?.id,
         startAt: utcToZonedTime(new Date(eventDate.startAt), timeZone),
         end_at: addMinutes(
           utcToZonedTime(new Date(eventDate.startAt), timeZone),

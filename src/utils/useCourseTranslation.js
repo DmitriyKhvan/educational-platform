@@ -7,7 +7,7 @@ import { COURSES } from 'src/modules/graphql/queries/courses/courses';
 export const useCourseTranslation = () => {
   const [_, i18n] = useTranslation();
   const { data: coursesData } = useQuery(COURSES, {
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
   });
 
   const getTitleByCourseId = useCallback(

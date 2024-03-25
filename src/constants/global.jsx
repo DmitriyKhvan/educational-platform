@@ -853,3 +853,9 @@ export const Language = {
   EN: 'en',
   KR: 'kr',
 };
+
+export const CalendarView = {
+  DAY_VIEW: 'timeGridDay',
+  WEEK_VIEW: 'timeGridWeek',
+  MONTH_VIEW: 'dayGridMonth',
+};
