@@ -18,7 +18,8 @@ export const useCourseTranslation = () => {
 
       return (
         course.translations.find((t) => t.language === i18n.language)?.title ??
-        course.title
+        course.title ??
+        ''
       );
     },
     [i18n, i18n.language, coursesData],
