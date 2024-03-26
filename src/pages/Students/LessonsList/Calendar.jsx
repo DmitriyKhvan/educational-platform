@@ -128,6 +128,7 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
         displayEventTime={false}
         eventClick={onSelectEvent}
         dayPopoverFormat={{ month: 'long', day: 'numeric' }}
+        slotDuration="01:00:00"
       />
 
       {isOpen && <CustomModal />}

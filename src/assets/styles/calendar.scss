@@ -491,7 +491,10 @@
   cursor: pointer;
 }
 .fc-timegrid-slots td {
-  height: 50px !important;
+  height: 100px !important;
+}
+.fc .fc-timegrid-slot-label {
+  vertical-align: top;
 }
 
 .fc-event-title-container {
