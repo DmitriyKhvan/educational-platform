@@ -8,12 +8,14 @@ import Button from '../../components/Form/Button/Button';
 import InputWithError from '../../components/Form/InputWithError';
 import notify from '../../utils/notify';
 import { Link } from 'react-router-dom';
-import { Roles } from 'src/constants/global';
+import { Roles, setItemToLocalStorage } from 'src/constants/global';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
+import { useAuth } from 'src/modules/auth';
 
 const Login = () => {
-  localStorage.removeItem('studentId');
+  const { logout } = useAuth();
+  logout();
 
   const [t] = useTranslation('common');
 
@@ -44,6 +46,10 @@ const Login = () => {
 
   useEffect(() => {
     if (data) {
+      setItemToLocalStorage(
+        'studentId',
+        data?.authResult?.user?.students[0]?.id,
+      );
       location.href =
         data.authResult.user.role === Roles.STUDENT
           ? '/select-profile'

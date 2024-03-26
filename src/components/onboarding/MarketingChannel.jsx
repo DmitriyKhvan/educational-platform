@@ -12,6 +12,7 @@ import { setItemToLocalStorage } from 'src/constants/global';
 import Loader from '../Loader/Loader';
 
 export const MarketingChannelForm = () => {
+  debugger;
   const [t] = useTranslation('onboarding');
   const history = useHistory();
 

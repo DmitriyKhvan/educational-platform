@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Button from 'src/components/Form/Button';
 import Loader from 'src/components/Loader/Loader';
@@ -41,10 +41,12 @@ export const AddStudentProfile = () => {
     });
   };
 
-  if (data) {
-    notify('Student profile added');
-    location.href = '/select-profile';
-  }
+  useEffect(() => {
+    if (data) {
+      notify('Student profile added');
+      location.href = '/select-profile';
+    }
+  }, [data]);
 
   if (error) {
     notify(error.message, 'error');

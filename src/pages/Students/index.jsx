@@ -17,9 +17,6 @@ import { ErrorPage } from '../ErrorPage';
 function SubPrivateRoute({ component: Component, isTrial, ...rest }) {
   const { currentStudent } = useAuth();
 
-  console.log('isTrial', isTrial);
-  console.log('currentStudent', currentStudent);
-
   return (
     <Route
       {...rest}

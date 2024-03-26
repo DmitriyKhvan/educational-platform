@@ -8,16 +8,11 @@ import { useMediaQuery } from 'react-responsive';
 // import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 // import { ModalPurchase } from 'src/components/ModalPurchase';
 import Button from 'src/components/Form/Button';
-import { useAuth } from 'src/modules/auth';
 import { StudentTriggerAction } from 'src/components/StudentTriggerAction';
 
 const ScheduleBanner = () => {
   const [t] = useTranslation('dashboard');
   const isMobile = useMediaQuery({ maxWidth: 639 });
-
-  const { currentStudent } = useAuth();
-
-  console.log('currentStudent', currentStudent);
 
   return (
     <div className="relative rounded-[10px] bg-color-banner-green h-[200px] p-6 overflow-hidden">

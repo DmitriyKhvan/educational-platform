@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import OnboardingTrial from './OnboardingTrial';
 import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 import LessonDetails from './LessonDetails';
@@ -10,10 +10,14 @@ import { AvailableTimes } from 'src/pages/Students/ScheduleLesson/ScheduleSelect
 import { COMBINED_TIMESHEETS_TRIAL } from 'src/modules/graphql/queries/trial/combinedTimesheetsForTrials';
 import { MarketingChannelForm } from 'src/components/onboarding/MarketingChannel';
 import { FaCheckCircle } from 'react-icons/fa';
+import { useAuth } from 'src/modules/auth';
 // import { phoneCodes } from 'src/constants/global';
 
 const Trial = () => {
-  localStorage.removeItem('studentId');
+  // localStorage.removeItem('studentId');
+
+  const { user: currentUser } = useAuth();
+
   const [step, setStep] = useState(-1);
   const [user, setUser] = useState({});
   // const [country, setCountry] = useState(phoneCodes[4]);
@@ -21,13 +25,17 @@ const Trial = () => {
   const [schedule, setSchedule] = useState('');
   const [mentorId, setMentorId] = useState('');
 
-  console.log('schedule', schedule);
+  useEffect(() => {
+    if (currentUser) {
+      const { phoneNumber, email, timeZone } = currentUser;
 
-  console.log('selectedPlan', selectedPlan);
-
-  console.log('mentorId', mentorId);
-
-  console.log('user', user);
+      setUser({
+        phoneNumber,
+        email,
+        timeZone,
+      });
+    }
+  }, [currentUser]);
 
   return (
     <OnboardingLayout>

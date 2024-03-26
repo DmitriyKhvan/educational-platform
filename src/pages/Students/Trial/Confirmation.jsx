@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { FaArrowLeft, FaPencil } from 'react-icons/fa6';
 import Button from 'src/components/Form/Button';
 
@@ -11,79 +11,100 @@ import { useMutation } from '@apollo/client';
 import useLogin from 'src/modules/auth/hooks/login';
 import notify from 'src/utils/notify';
 import { useAuth } from 'src/modules/auth';
+import { ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER } from 'src/modules/graphql/mutations/trial/attachTrialStudentToUserResolver';
+import { setItemToLocalStorage } from 'src/constants/global';
 
 const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
+  const { user: currentUser } = useAuth();
   const { languageLevel, lessonTopic, packageSubscription } = selectedPlan;
-  console.log(mentorId);
   const { refetchUser } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
 
   const [i18n] = useTranslation();
   const [signUp] = useMutation(TRIAL_SIGN_UP);
-  const { login, data: loginData } = useLogin();
+  const [addTrialUser] = useMutation(ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER);
 
-  console.log(loginData);
-  console.log(isLoading);
+  const { login, data: loginData } = useLogin();
 
   const currentLanguage = i18n.language;
   const locale = currentLanguage === 'kr' ? kr : null;
 
   const dateParse = utcToZonedTime(new Date(schedule), user.timeZone);
 
-  console.log('dateParse', dateParse);
-
   const dayFormat = format(dateParse, 'EEEE, MMM dd', {
     locale: locale,
-    timeZone: 'Asia/Seoul',
+    timeZone: user.timeZone,
   });
 
   const scheduleStartTimeFormat = format(dateParse, 'hh:mm a', {
-    timeZone: 'Asia/Seoul',
+    timeZone: user.timeZone,
   });
 
   const scheduleEndTimeFormat = format(
     addMinutes(dateParse, packageSubscription.sessionTime),
     'hh:mm a',
     {
-      timeZone: 'Asia/Seoul',
+      timeZone: user.timeZone,
     },
   );
 
   const trialSignUp = async () => {
-    setIsLoading(true);
-
     try {
-      const trialData = await signUp({
-        variables: {
-          data: {
-            user,
-            packageId: parseInt(packageSubscription.id),
-            languageLevelId: parseInt(languageLevel.id),
-            lessonTopicId: parseInt(lessonTopic.id),
-            lessonBooking: {
-              mentorId,
-              startAt: new Date(schedule),
+      if (currentUser) {
+        const trialUserData = await addTrialUser({
+          variables: {
+            data: {
+              user: {
+                userId: currentUser.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+              },
+              packageId: parseInt(packageSubscription.id),
+              languageLevelId: parseInt(languageLevel.id),
+              lessonTopicId: parseInt(lessonTopic.id),
+              lessonBooking: {
+                mentorId,
+                startAt: new Date(schedule),
+              },
             },
           },
-        },
-      });
+        });
 
-      console.log('trialData', trialData);
+        setItemToLocalStorage(
+          'studentId',
+          trialUserData?.data?.attachTrialStudentToUserResolver?.id,
+        );
+        location.href = '/student/manage-lessons';
+      } else {
+        const trialData = await signUp({
+          variables: {
+            data: {
+              user,
+              packageId: parseInt(packageSubscription.id),
+              languageLevelId: parseInt(languageLevel.id),
+              lessonTopicId: parseInt(lessonTopic.id),
+              lessonBooking: {
+                mentorId,
+                startAt: new Date(schedule),
+              },
+            },
+          },
+        });
 
-      login(user.email, user.password);
+        await login(user.email, user.password);
+      }
     } catch (error) {
       notify(error.message, 'error');
     }
-    setIsLoading(false);
   };
 
   useEffect(() => {
     if (loginData) {
-      console.log('loginData', loginData);
-      refetchUser({
-        // variables: { studentId: trialData.data.trialSignUp.students[0].id },
-        variables: { studentId: loginData.authResult.user.students[0].id },
-      });
+      setItemToLocalStorage(
+        'studentId',
+        loginData.authResult.user.students[0].id,
+      );
+
+      refetchUser({ studentId: loginData.authResult.user.students[0].id });
       setStep((v) => v + 1);
     }
   }, [loginData]);

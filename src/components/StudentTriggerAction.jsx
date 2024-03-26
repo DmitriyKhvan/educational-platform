@@ -7,7 +7,7 @@ export const StudentTriggerAction = ({ trialStudentAction, studentAction }) => {
   const { currentStudent } = useAuth();
   return (
     <>
-      {currentStudent.isTrial ? (
+      {currentStudent?.isTrial ? (
         <AdaptiveDialog button={trialStudentAction}>
           <ModalPurchase />
         </AdaptiveDialog>

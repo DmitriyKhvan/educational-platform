@@ -35,9 +35,6 @@ export const AvailableTimes = memo(function AvailableTimes() {
       return;
     }
 
-    console.log('scheduleStartTime', scheduleStartTime);
-    console.log('userTimezone', userTimezone);
-
     setMentorId(scheduleStartTime.mentorId);
 
     const formattedDay = format(new Date(day), 'yyyy-MM-dd');

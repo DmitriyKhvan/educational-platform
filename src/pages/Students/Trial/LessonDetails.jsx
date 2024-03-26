@@ -28,8 +28,6 @@ const LessonDetails = ({
   const [currentTopic, setCurrentTopic] = useState({});
   const [isOpenLevel, setIsOpenLevel] = useState(false);
 
-  console.log('levelsData', levelsData);
-
   const {
     handleSubmit,
     register,
@@ -46,10 +44,7 @@ const LessonDetails = ({
     },
   });
 
-  console.log('isValid', isValid);
-  console.log('errors', errors);
-
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     setSelectedPlan({
       packageSubscription: { ...currentPackage },
       languageLevel: { ...currentLevel },
@@ -61,8 +56,6 @@ const LessonDetails = ({
     } else {
       setStep((v) => v + 1);
     }
-    console.log(setStep);
-    console.log('data', data);
   };
 
   const course = useMemo(() => {

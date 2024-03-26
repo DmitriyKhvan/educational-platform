@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
       const student = data.authenticatedUser.students.find(
         (student) => student.id === getItemToLocalStorage('studentId'),
       );
+
       setCurrentStudent(student);
 
       if (

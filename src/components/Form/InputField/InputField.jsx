@@ -54,6 +54,9 @@ const InputField = forwardRef(function InputField(
             peer-focus:border-[hsla(210,_96%,_45%,_50%)] 
             peer-focus:ring-[#2563eb00]
             peer-focus:shadow-[0px_1px_1px_rgba(0,_0,_0,_0.03),_0_0_0_3px_hsla(210,_96%,_45%,_25%),_0_1px_1px_0_rgba(0,_0,_0,_0.08)]
+            peer-disabled:cursor-not-allowed
+            peer-disabled:bg-[#DEDDDF]
+            peer-disabled:text-[#AAA8A8]
             ${classNameIcon}
             ${
               positionIcon === 'right'
