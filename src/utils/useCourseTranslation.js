@@ -1,7 +1,6 @@
 import { useQuery } from '@apollo/client';
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { courses } from 'src/constants/global';
 import { COURSES } from 'src/modules/graphql/queries/courses/courses';
 
 export const useCourseTranslation = () => {
