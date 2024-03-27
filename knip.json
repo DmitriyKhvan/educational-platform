@@ -1,7 +1,6 @@
 {
-  "$schema": "https://unpkg.com/knip@5/schema.json",
   "entry": ["src/index.{js,ts,jsx,tsx}"],
-  "project": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"],
+  "project": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx,svg,png,jpg}"],
   "paths": {
     "src/*": ["./src/*"]
   }
