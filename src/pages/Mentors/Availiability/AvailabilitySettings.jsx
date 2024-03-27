@@ -1,7 +1,7 @@
 import Layout from '../../../layouts/DashboardLayout';
 import { Settings } from './Settings';
 
-export const AvailabilitySettings = () => {
+const AvailabilitySettings = () => {
   return (
     <Layout>
       <Settings />

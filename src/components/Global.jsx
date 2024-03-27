@@ -1,21 +1,3 @@
-import Select from 'react-select';
-
-const customStyles = {
-  option: (styles, { isFocused, isSelected }) => ({
-    ...styles,
-    backgroundColor: isFocused ? '#FAFAFA' : null,
-    color: '#1A1A1A',
-    padding: '10px 0 10px 20px',
-    fontSize: 20,
-    fontWeight: isSelected ? 600 : 400,
-    fontFamily: 'Source Sans Pro',
-  }),
-  dropdownIndicator: (styles, state) => ({
-    ...styles,
-    transform: state.selectProps.menuIsOpen && 'rotate(180deg)',
-  }),
-};
-
 export const renderFormField = (
   key,
   label,
@@ -53,43 +35,6 @@ export const renderFormField = (
       {formDataError && formDataError[key] && (
         <p className="error-msg">{formDataError[key] || ''}</p>
       )}
-    </div>
-  </div>
-);
-
-export const renderSelect = (
-  key,
-  label,
-  placeholder,
-  options,
-  selectedOption,
-  onChange,
-  rules,
-  errorMsg,
-  disabled = false,
-  isMulti = false,
-) => (
-  <div className="form-row">
-    <div className="form-item">
-      <div className="form-item-inner">
-        <label htmlFor={key}>{label}</label>
-        <Select
-          isMulti={isMulti}
-          value={selectedOption}
-          disabled={disabled}
-          onChange={onChange}
-          options={options}
-          styles={customStyles}
-          placeholder={placeholder}
-          classNamePrefix="form-select"
-          className="form-select"
-          name={key}
-          rules={rules}
-          getOptionValue={(option) => option.value}
-          getOptionLabel={(option) => option.label}
-        />
-      </div>
-      {errorMsg && <p className="error-msg">{errorMsg}</p>}
     </div>
   </div>
 );

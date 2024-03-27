@@ -21,21 +21,6 @@ export const useGenderDic = () => {
   return genders;
 };
 
-export const pronouns = [
-  { label: 'He/Him/His', value: 'male' },
-  { label: 'She/Her/Hers', value: 'female' },
-  { label: 'They/Them/Theirs', value: 'transgender' },
-  { label: 'She and/or He', value: 'nonbinary' },
-  { label: 'Other', value: 'other' },
-];
-
-// export const timezoneOptions = timezones.map(({ label, tzCode }) => {
-//   return {
-//     label,
-//     value: tzCode,
-//   };
-// });
-
 export const phoneCodes = [
   {
     code: '+1',
@@ -647,11 +632,6 @@ export const timezoneOptions = [
   },
 ];
 
-export const LANGUAGES = [
-  { label: 'english', value: 'english' },
-  { label: 'spanish', value: 'spanish' },
-];
-
 export const languageLevels = [
   { label: 'beginner', value: 'beginner' },
   { label: 'intermediate', value: 'intermediate' },
@@ -676,34 +656,7 @@ export const DAY = [
   'Saturday',
 ];
 
-export const course_options = [
-  { label: '1-on-1', value: '1-on-1' },
-  { label: 'Group Lesson', value: 'group' },
-];
-export const courses = [
-  { value: 'english', package: 'english', label: 'english', options: [0, 1] },
-  { value: 'writing', package: 'writing', label: 'writing', options: [0, 1] },
-];
-
-export const class_durations = ['30min', '60min'];
-
-export const class_types = ['1-on-1', 'group'];
-
-export const subscription_periods = [
-  '1month',
-  '3months',
-  '6months',
-  '12months',
-];
-
 export const currencies = ['$', '₩'];
-
-export const introsteps = [
-  'dress_smart',
-  'brand_yourself',
-  'smile_look_camera',
-  'speak_ca',
-];
 
 export const cancel_lesson_reasons_student = [
   { label: 'cancel_reason_1', value: 1 },
@@ -852,4 +805,10 @@ export const DiscountType = {
 export const Language = {
   EN: 'en',
   KR: 'kr',
+};
+
+export const CalendarView = {
+  DAY_VIEW: 'timeGridDay',
+  WEEK_VIEW: 'timeGridWeek',
+  MONTH_VIEW: 'dayGridMonth',
 };
