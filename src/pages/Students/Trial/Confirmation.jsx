@@ -75,7 +75,7 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
         );
         location.href = '/student/manage-lessons';
       } else {
-        const trialData = await signUp({
+        await signUp({
           variables: {
             data: {
               user,

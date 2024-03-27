@@ -15,7 +15,10 @@ import { useAuth } from 'src/modules/auth';
 
 const Login = () => {
   const { logout } = useAuth();
-  logout();
+
+  useEffect(() => {
+    logout();
+  }, []);
 
   const [t] = useTranslation('common');
 
