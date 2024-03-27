@@ -4,7 +4,7 @@ import { ME_QUERY, INVITE_SET_PASSWORD_MUTATION } from './graphql';
 import { getItemToLocalStorage, Roles } from 'src/constants/global';
 import { useNotifications } from '../notifications';
 
-export const AuthContext = createContext({});
+const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const { getAllNotifications } = useNotifications();
