@@ -26,14 +26,12 @@ const CalendarHeader = ({ calendarRef }) => {
     const calendarApi = calendarRef.current.getApi();
     calendarApi.next();
     setDate(calendarApi.getDate());
-    console.log(calendarApi.getDate());
   };
 
   const goPrev = () => {
     const calendarApi = calendarRef.current.getApi();
     calendarApi.prev();
     setDate(calendarApi.getDate());
-    console.log(calendarApi.getDate());
   };
 
   const goToday = () => {
@@ -93,7 +91,7 @@ const CalendarHeader = ({ calendarRef }) => {
               <CheckboxField
                 key={v}
                 checked={view === v}
-                onClick={() => setView(v)}
+                onChange={() => setView(v)}
                 type="radio"
                 name="calendarView"
                 label={viewDictionary[v]}

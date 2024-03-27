@@ -15,6 +15,7 @@ import Calendar from './Calendar';
 import Table from './Table';
 import { useAuth } from 'src/modules/auth';
 import { addMinutes } from 'date-fns';
+import { useMediaQuery } from 'react-responsive';
 
 const sortCalendarEvents = (data, timeZone) => {
   if (!data) return;
@@ -99,6 +100,8 @@ const sortCalendarEvents = (data, timeZone) => {
 };
 
 const LessonsList = () => {
+  const isMobile = useMediaQuery({ maxWidth: 640 });
+
   const [t] = useTranslation(['lessons']);
   const { user } = useAuth();
 
@@ -177,6 +180,13 @@ const LessonsList = () => {
 
   const [isReviewLessonModalOpen, setReviewLessonModal] = useState(false);
 
+  useEffect(() => {
+    if (isMobile && selectedTab === 'calendar') {
+      setIsCalendar(false);
+      setSelectedTab('upcomingLessons');
+    }
+  }, [isMobile]);
+
   return (
     <Layout>
       {loadingAppointments && (
@@ -242,7 +252,7 @@ const LessonsList = () => {
               getAppointments={getAppointments}
             />
           )}
-          {!loadingAppointments && isCalendar && (
+          {!isMobile && !loadingAppointments && isCalendar && (
             <div className="mt-4">
               <Calendar
                 calendarAppointments={calendarAppointments}
