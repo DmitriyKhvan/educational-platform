@@ -306,6 +306,7 @@ export const GET_MENTOR = gql`
       }
       zoomUserId
       zoomEmail
+      mentorAvailability
     }
   }
 `;

@@ -149,22 +149,26 @@ const PhoneNumberField = ({
             placeholder={country?.mask?.replace(/#/g, 'X')}
             disabled={disabled}
             {...register('phoneNumberWithoutCode', {
-              required: t('required_phone_number', {
-                ns: 'translations',
-              }),
-              pattern: {
-                value: new RegExp(
-                  country?.mask?.replace(/[()#]/g, (match) => {
-                    if (match === '(') return '\\(';
-                    if (match === ')') return '\\)';
-                    if (match === '#') return '\\d';
-                    return match;
-                  }),
-                ),
-                message: t('invalid_phone_number', {
-                  ns: 'onboarding',
-                }),
-              },
+              required: !disabled
+                ? t('required_phone_number', {
+                    ns: 'translations',
+                  })
+                : false,
+              pattern: !disabled
+                ? {
+                    value: new RegExp(
+                      country?.mask?.replace(/[()#]/g, (match) => {
+                        if (match === '(') return '\\(';
+                        if (match === ')') return '\\)';
+                        if (match === '#') return '\\d';
+                        return match;
+                      }),
+                    ),
+                    message: t('invalid_phone_number', {
+                      ns: 'onboarding',
+                    }),
+                  }
+                : false,
             })}
           >
             {(inputProps) => <InputField {...inputProps} disabled={disabled} />}

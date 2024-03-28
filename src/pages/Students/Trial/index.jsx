@@ -11,16 +11,12 @@ import { COMBINED_TIMESHEETS_TRIAL } from 'src/modules/graphql/queries/trial/com
 import { MarketingChannelForm } from 'src/components/onboarding/MarketingChannel';
 import { FaCheckCircle } from 'react-icons/fa';
 import { useAuth } from 'src/modules/auth';
-// import { phoneCodes } from 'src/constants/global';
 
 const Trial = () => {
-  // localStorage.removeItem('studentId');
-
   const { user: currentUser } = useAuth();
 
   const [step, setStep] = useState(-1);
   const [user, setUser] = useState({});
-  // const [country, setCountry] = useState(phoneCodes[4]);
   const [selectedPlan, setSelectedPlan] = useState({});
   const [schedule, setSchedule] = useState('');
   const [mentorId, setMentorId] = useState('');
@@ -44,8 +40,6 @@ const Trial = () => {
           {step > -1 && step < 4 && <StepIndicator step={step} />}
           {step === -1 && (
             <OnboardingTrial
-              // country={country}
-              // setCountry={setCountry}
               user={user}
               selectedPlan={selectedPlan}
               setUser={setUser}
