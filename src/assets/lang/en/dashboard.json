@@ -33,5 +33,6 @@
   "schedule_by_time": "Book by Time",
   "schedule_by_mentor": "Book by Mentor",
   "student_dashboard_no_package": "No purchased packages yet.",
-  "student_dashboard_no_package_desc": "Purchase a package →"
+  "student_dashboard_no_package_desc": "Purchase a package →",
+  "view_all": "View All"
 }

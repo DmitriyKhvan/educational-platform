@@ -6,6 +6,8 @@ import StatusIndicator from './StatusIndicator';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { ZoomRecordingModal } from '../ZoomRecordingModal';
 import { useAuth } from 'src/modules/auth';
+import { useCourseTranslation } from 'src/utils/useCourseTranslation';
+import { useTranslation } from 'react-i18next';
 
 const LessonInfoModal = ({
   date,
@@ -16,6 +18,8 @@ const LessonInfoModal = ({
   setCanceledLessons,
   userTimezone,
 }) => {
+  const { getTitleByCourseId } = useCourseTranslation();
+  const [t] = useTranslation(['lessons', 'common']);
   const { currentStudent } = useAuth();
 
   return (
@@ -63,9 +67,9 @@ const LessonInfoModal = ({
       <div className="grid grid-cols-2 gap-3 mt-6 pt-6 border-t">
         <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">
           <label className="text-xs font-medium text-gray-300 block">
-            Package
+            {t('lesson_package')}
           </label>
-          {data?.packageSubscription?.package?.course?.title}
+          {getTitleByCourseId(data?.packageSubscription?.package?.course?.id)}
         </div>
 
         <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate flex">
@@ -75,7 +79,7 @@ const LessonInfoModal = ({
           />
           <div className=" overflow-hidden truncate">
             <label className="text-xs font-medium text-gray-300 block">
-              Mentor
+              {t('mentor')}
             </label>
             {data?.mentor?.firstName}{' '}
             {data?.mentor?.lastName[0] ? `${data?.mentor?.lastName[0]}.` : ''}
@@ -84,16 +88,16 @@ const LessonInfoModal = ({
 
         <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">
           <label className="text-xs font-medium text-gray-300 block">
-            Level
+            {t('level')}
           </label>
           {currentStudent.langLevel}
         </div>
 
         <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">
           <label className="text-xs font-medium text-gray-300 block">
-            Duration
+            {t('duration')}
           </label>
-          {duration} min.
+          {duration} {t('minutes', { ns: 'common' })}
         </div>
       </div>
     </div>

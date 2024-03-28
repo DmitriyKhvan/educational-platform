@@ -3,7 +3,7 @@
   "lesson_package": "패키지",
   "upcoming_lessons": "예정 레슨",
   "past_lessons": "이전 레슨",
-  "calendar_view": "캘린더 보기",
+  "calendar_view": "달력 보기",
   "duration": "수업 시간",
   "date_time": "날짜 및 시간",
   "date": "날짜",
@@ -91,5 +91,11 @@
   "scheduled": "미승인",
   "canceled": "취소됨",
   "paid": "",
-  "months": "개월"
+  "months": "개월",
+  "no_completed_lessons": "완료된 수업이 없습니다.",
+  "you_have_n_available_lessons": "예약 가능한 횟수는 <purple>{{count}}회</purple> 입니다",
+  "purchase_package": "패키지 구매",
+  "purchase_lessons_here": "수업 구매하러 가기",
+  "purchase_lessons_here_text": " 나오나우에서 영어 목표를 달성하기 위해 가장 적합한 패키지를 선택해주세요.",
+  "select_package": "패키지 선택하기"
 }

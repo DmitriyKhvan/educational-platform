@@ -8,12 +8,14 @@ import StatusIndicator from './StatusIndicator';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import LessonControls from './LessonControls';
 import { useAuth } from 'src/modules/auth';
+import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 
 export const LessonTable = ({
   displayTableData,
   userTimezone,
   handleOpenFeedbackModal,
 }) => {
+  const { getTitleByCourseId } = useCourseTranslation();
   const { t, i18n } = useTranslation(['lessons', 'common']);
   const { currentStudent } = useAuth();
 
@@ -106,7 +108,9 @@ export const LessonTable = ({
                 </td>
                 <td className="border-b group-last:border-none p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
                   <p className="text-sm lg:text-[15px] font-medium text-color-dark-purple tracking-tight text-[15px] leading-normal">
-                    {event.resource.packageSubscription.package.course.title}
+                    {getTitleByCourseId(
+                      event.resource.packageSubscription.package.course.id,
+                    )}
                   </p>
                 </td>
                 <td className="border-b group-last:border-none p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle flex items-center">

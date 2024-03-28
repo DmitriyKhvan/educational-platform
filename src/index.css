@@ -1,3 +1,14 @@
+:root {
+  --fc-button-bg-color: white;
+  --fc-button-text-color: #261a45;
+  --fc-button-border-color: #edeef0;
+  --fc-button-active-bg-color: #edeef0;
+  --fc-button-active-border-color: #edeef0;
+  --fc-button-hover-bg-color: inherit;
+  --fc-button-hover-border-color: #edeef0;
+  /* --fc-daygrid-event-dot-width: 5px; */
+}
+
 html {
   scroll-behavior: smooth;
 }
