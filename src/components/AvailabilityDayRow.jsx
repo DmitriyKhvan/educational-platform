@@ -15,8 +15,7 @@ const AvailabilityDayRow = ({
   setIsTeachAddHours,
   newRow,
   AvailabilitySlots,
-  setCurrentToTime,
-  type,
+  mentorAvailabilityType,
 }) => {
   const [toggle, setToggle] = useState(false);
   const { removeAvailabilityRow } = useContext(AvailProv);
@@ -24,6 +23,8 @@ const AvailabilityDayRow = ({
   const [t] = useTranslation('common');
 
   useEffect(() => {
+    console.log('gatherAvailabilities', gatherAvailabilities);
+
     var days = [];
     if (gatherAvailabilities.length > 0) {
       gatherAvailabilities.map((data, index) => {
@@ -46,6 +47,7 @@ const AvailabilityDayRow = ({
       }
     }
   }, [gatherAvailabilities]);
+
   const onToggleDay = () => {
     setToggle(!toggle);
     if (!toggle) {
@@ -59,13 +61,13 @@ const AvailabilityDayRow = ({
           ...gatherAvailabilities,
           { id: uuid(), day, slots: [{ from: '09:00', to: '17:00' }] },
         ];
-        setGatherAvailabilities(obj, 'availability');
+        setGatherAvailabilities(obj, mentorAvailabilityType);
       }
     }
     if (toggle === true) {
       setGatherAvailabilities(
         gatherAvailabilities.filter((q) => q.day !== day),
-        'availability',
+        mentorAvailabilityType,
       );
     }
   };
@@ -108,8 +110,7 @@ const AvailabilityDayRow = ({
                     isteachAddHours={isteachAddHours}
                     setIsTeachAddHours={setIsTeachAddHours}
                     AvailabilitySlots={AvailabilitySlots}
-                    updateTime={setCurrentToTime} //I don't know what this method is for
-                    type={type}
+                    mentorAvailabilityType={mentorAvailabilityType}
                   />
                 );
               }

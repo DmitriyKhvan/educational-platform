@@ -632,12 +632,6 @@ export const timezoneOptions = [
   },
 ];
 
-export const languageLevels = [
-  { label: 'beginner', value: 'beginner' },
-  { label: 'intermediate', value: 'intermediate' },
-  { label: 'fluent', value: 'fluent' },
-];
-
 export const countries = getData().map((country) => {
   return {
     label: country.name,
@@ -655,8 +649,6 @@ export const DAY = [
   'Friday',
   'Saturday',
 ];
-
-export const currencies = ['$', '₩'];
 
 export const cancel_lesson_reasons_student = [
   { label: 'cancel_reason_1', value: 1 },
@@ -807,100 +799,14 @@ export const Language = {
   KR: 'kr',
 };
 
-export const levels = [
-  {
-    value: 'Pre-level 1',
-    label: 'Pre-level 1',
-    text: 'I speak in one word answers and can read simple words',
-  },
-  {
-    value: 'Level 1',
-    label: 'Level 1',
-    text: 'I can understand and read short sentences',
-  },
-  {
-    value: 'Level 2',
-    label: 'Level 2',
-    text: 'I can read new words and speak in full sentences',
-  },
-  {
-    value: 'Level 3',
-    label: 'Level 3',
-    text: 'I can say and understand complex sentences',
-  },
-  {
-    value: 'Level 4',
-    label: 'Level 4',
-    text: 'I can communicate freely with few limitations',
-  },
-  {
-    value: 'Level 5',
-    label: 'Level 5',
-    text: 'I can discuss complex topics fluently',
-  },
-  {
-    value: 'Adult Beginner',
-    label: 'Adult Beginner',
-    text: 'I can discuss complex topics fluently',
-  },
-  {
-    value: 'Adult Intermediate',
-    label: 'Adult Intermediate',
-    text: 'I can discuss complex topics fluently',
-  },
-  {
-    value: 'Adult Advanced',
-    label: 'Adult Advanced',
-    text: 'I can discuss complex topics fluently',
-  },
-  {
-    value: 'Adult Business',
-    label: 'Adult Business',
-    text: 'I can discuss complex topics fluently',
-  },
-  {
-    value: 'Beginner Writing',
-    label: 'Beginner Writing',
-    text: 'I can discuss complex topics fluently',
-  },
-  {
-    value: 'Intermediate Writing',
-    label: 'Intermediate Writing',
-    text: 'I can discuss complex topics fluently',
-  },
-  {
-    value: 'Advanced Writing',
-    label: 'Advanced Writing',
-    text: 'I can discuss complex topics fluently',
-  },
-  {
-    value: 'Beginner Personal Projects',
-    label: 'Beginner Personal Projects',
-    text: 'I can discuss complex topics fluently',
-  },
-  {
-    value: 'Advanced Personal Projects',
-    label: 'Advanced Personal Projects',
-    text: 'I can discuss complex topics fluently',
-  },
-];
-
-export const topics = [
-  {
-    value: 'State of Liberty',
-    label: 'State of Liberty',
-  },
-  {
-    value: 'Test',
-    label: 'Test',
-  },
-  {
-    value: 'Adult English',
-    label: 'Adult English',
-  },
-];
 export const CalendarView = {
   DAY_VIEW: 'timeGridDay',
   WEEK_VIEW: 'timeGridWeek',
   MONTH_VIEW: 'dayGridMonth',
+};
+
+export const MentorAvailabilityType = {
+  ONLY_REGULAR: 'only_regular',
+  ONLY_TRIAL: 'only_trial',
+  REGULAR_AND_TRIAL: 'regular_and_trial',
 };
