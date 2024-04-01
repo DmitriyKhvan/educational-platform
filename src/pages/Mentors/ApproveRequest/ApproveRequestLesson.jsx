@@ -24,7 +24,7 @@ export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const [approveAppointment, { loading }] = useMutation(APPROVE_APPOINTMENT);
+  const [approveAppointment] = useMutation(APPROVE_APPOINTMENT);
   const [disabled, setDisabled] = useState(false);
 
   const closeModal = () => {
@@ -33,7 +33,6 @@ export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
   };
 
   const onClickApprove = async ({ id }) => {
-    if (loading) return;
     setDisabled(true);
     approveAppointment({
       variables: {
@@ -45,11 +44,14 @@ export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
         notify('Lesson successfully approved');
         setDisabled(false);
       },
+      onError: () => {
+        notify('Failed to approve lesson');
+        setDisabled(false);
+      },
     });
   };
 
   const onClickCancel = async () => {
-    if (loading) return;
     setIsOpen(true);
   };
 
@@ -82,7 +84,7 @@ export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
         </td>
         <td className="td-item m-0">
           <Button
-            disabled={loading || disabled}
+            disabled={disabled}
             theme="outline"
             onClick={() => {
               onClickCancel(lesson);
@@ -93,7 +95,7 @@ export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
         </td>
         <td className="td-item m-0">
           <Button
-            disabled={loading || disabled}
+            disabled={disabled}
             theme="outline"
             onClick={() => {
               onClickApprove(lesson);
