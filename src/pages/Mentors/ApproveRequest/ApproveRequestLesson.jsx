@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@apollo/client';
@@ -11,6 +10,7 @@ import { useAuth } from 'src/modules/auth';
 import notify from 'src/utils/notify';
 import RescheduleAndCancelModal from 'src/components/student-dashboard/RescheduleAndCancelModal';
 import { ModalType } from 'src/constants/global';
+import Button from 'src/components/Form/Button';
 
 export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,6 +25,7 @@ export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const [approveAppointment] = useMutation(APPROVE_APPOINTMENT);
+  const [disabled, setDisabled] = useState(false);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -32,14 +33,20 @@ export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
   };
 
   const onClickApprove = async ({ id }) => {
+    setDisabled(true);
     approveAppointment({
       variables: {
         id: parseInt(id),
         mentorId: parseInt(user?.mentor?.id),
       },
-      onCompleted: () => {
-        refetchAppointments();
+      onCompleted: async () => {
+        await refetchAppointments();
         notify('Lesson successfully approved');
+        setDisabled(false);
+      },
+      onError: () => {
+        notify('Failed to approve lesson');
+        setDisabled(false);
       },
     });
   };
@@ -76,28 +83,26 @@ export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
           </div>
         </td>
         <td className="td-item m-0">
-          <Link
-            className="td-button"
-            to={`lesson-calendar/lesson/${lesson.id}`}
-            onClick={(e) => {
-              e.preventDefault();
+          <Button
+            disabled={disabled}
+            theme="outline"
+            onClick={() => {
               onClickCancel(lesson);
             }}
           >
             {t('cancel')}
-          </Link>
+          </Button>
         </td>
         <td className="td-item m-0">
-          <Link
-            className="td-button"
-            to={`lesson-calendar/lesson/${lesson.id}`}
-            onClick={(e) => {
-              e.preventDefault();
+          <Button
+            disabled={disabled}
+            theme="outline"
+            onClick={() => {
               onClickApprove(lesson);
             }}
           >
             {t('approve')}
-          </Link>
+          </Button>
         </td>
       </tr>
 
