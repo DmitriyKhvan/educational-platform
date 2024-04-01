@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import moment from 'moment-timezone';
-import { format } from 'date-fns';
 import NotificationManager from '../../../components/NotificationManager';
 import Layout from '../../../layouts/DashboardLayout';
 import ScheduleCard from './ScheduleCard';
@@ -26,6 +24,8 @@ import {
 import Button from 'src/components/Form/Button';
 import MentorImageRow from './MentorImageRow';
 import { useCourseTranslation } from 'src/utils/useCourseTranslation';
+import { utcToZonedTime, format } from 'date-fns-tz';
+import { addMinutes } from 'date-fns';
 
 const LessonConfirmation = ({
   plan,
@@ -100,13 +100,24 @@ const LessonConfirmation = ({
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const scheduleDate = moment(time).tz(userTimezone).format('dddd, MMM DD');
 
-  const scheduleStartTime = moment(time).tz(userTimezone).format('hh:mm A');
-  const scheduleEndTime = moment(time)
-    .tz(userTimezone)
-    .add(plan?.package?.sessionTime, 'minutes')
-    .format('hh:mm A');
+  const scheduleDate = format(
+    utcToZonedTime(new Date(time), userTimezone),
+    'eeee, MMM dd',
+  );
+  const scheduleStartTime = format(
+    utcToZonedTime(new Date(time), userTimezone),
+    'hh:mm a',
+  );
+  const scheduleEndTime = format(
+    addMinutes(
+      utcToZonedTime(new Date(time), userTimezone),
+      plan?.package?.sessionTime,
+    ),
+    'hh:mm a',
+  );
+
+  const utcIsoTimeString = new Date(time).toISOString();
 
   const confirmLesson = async () => {
     setIsLoading(true);
@@ -119,7 +130,7 @@ const LessonConfirmation = ({
         variables: {
           id: lessonId,
           mentorId: tutor.id,
-          startAt: moment.utc(time, 'ddd MMM DD YYYY HH:mm:ssZ').toISOString(),
+          startAt: utcIsoTimeString,
           repeat: repeat,
         },
         onError: (error) => {
@@ -136,9 +147,7 @@ const LessonConfirmation = ({
               // studentId: user.students[0].id,
               studentId: getItemToLocalStorage('studentId'),
               subscriptionId: plan?.id,
-              startAt: moment
-                .utc(time, 'ddd MMM DD YYYY HH:mm:ssZ')
-                .toISOString(),
+              startAt: utcIsoTimeString,
               duration: plan?.package?.sessionTime,
               repeat: repeat,
             },

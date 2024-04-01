@@ -12,6 +12,7 @@ import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 
 export const LessonTable = ({
   displayTableData,
+  getAppointments,
   userTimezone,
   handleOpenFeedbackModal,
 }) => {
@@ -158,6 +159,7 @@ export const LessonTable = ({
                     date={date}
                     data={data}
                     zoom={data?.zoom}
+                    refetch={getAppointments}
                     mentor={data?.mentor}
                     lesson={data?.packageSubscription?.package?.course?.title}
                     duration={data.duration}

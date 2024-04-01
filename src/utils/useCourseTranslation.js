@@ -1,13 +1,12 @@
 import { useQuery } from '@apollo/client';
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { courses } from 'src/constants/global';
 import { COURSES } from 'src/modules/graphql/queries/courses/courses';
 
 export const useCourseTranslation = () => {
   const [_, i18n] = useTranslation();
   const { data: coursesData } = useQuery(COURSES, {
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'cache-and-network',
   });
 
   const getTitleByCourseId = useCallback(
@@ -18,7 +17,8 @@ export const useCourseTranslation = () => {
 
       return (
         course.translations.find((t) => t.language === i18n.language)?.title ??
-        course.title
+        course.title ??
+        ''
       );
     },
     [i18n, i18n.language, coursesData],

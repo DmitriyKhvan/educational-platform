@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import '../assets/styles/availability.scss';
 
-export const AvailabilityDayRow = ({
+const AvailabilityDayRow = ({
   day,
   setGatherAvailabilities,
   gatherAvailabilities,
