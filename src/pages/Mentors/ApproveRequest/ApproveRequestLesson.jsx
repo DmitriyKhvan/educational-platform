@@ -82,8 +82,6 @@ export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
         </td>
         <td className="td-item m-0">
           <Button
-            // className="td-button"
-            // to={`lesson-calendar/lesson/${lesson.id}`}
             disabled={loading || disabled}
             theme="outline"
             onClick={() => {
@@ -96,9 +94,7 @@ export const ApproveRequestLesson = ({ lesson, refetchAppointments }) => {
         <td className="td-item m-0">
           <Button
             disabled={loading || disabled}
-            // className="td-button"
             theme="outline"
-            // to={`lesson-calendar/lesson/${lesson.id}`}
             onClick={() => {
               onClickApprove(lesson);
             }}
