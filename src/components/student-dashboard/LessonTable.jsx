@@ -44,7 +44,7 @@ export const LessonTable = ({
           <tr className="">
             {tableHead?.map((x, ind) => (
               <th
-                className="first:pl-5 last:pr-5 border-b text-gray-300 font-normal p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle text-sm lg:text-[15px] whitespace-nowrap"
+                className="first:pl-5 last:pr-5 border-b group-last:border-b-0 h-[57px] text-gray-300 font-normal p-1 align-middle text-sm lg:text-[15px] whitespace-nowrap"
                 scope="col"
                 key={`row-${ind}`}
               >
@@ -70,10 +70,10 @@ export const LessonTable = ({
 
             return (
               <tr className="group" key={event.resource.id}>
-                <td className="p-1 pl-5 border-b group-last:border-none align-middle">
+                <td className="p-1 pl-5 border-b group-last:border-b-0 h-[80px] align-middle">
                   <StatusIndicator status={event.resource.status} />
                 </td>
-                <td className="border-b group-last:border-none font-medium text-color-dark-purple p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
+                <td className="border-b group-last:border-b-0 h-[80px] font-medium text-color-dark-purple p-1 align-middle">
                   {format(
                     utcToZonedTime(
                       new Date(event.resource.startAt),
@@ -83,7 +83,7 @@ export const LessonTable = ({
                     { timeZone: userTimezone, locale: locale },
                   )}
                 </td>
-                <td className="border-b group-last:border-none p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
+                <td className="border-b group-last:border-b-0 h-[80px] p-1 align-middle">
                   <p className="font-medium text-color-dark-purple">
                     {format(
                       utcToZonedTime(
@@ -107,14 +107,14 @@ export const LessonTable = ({
                     )}
                   </p>
                 </td>
-                <td className="border-b group-last:border-none p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
+                <td className="border-b group-last:border-b-0 h-[80px] p-1 align-middle">
                   <p className="text-sm lg:text-[15px] font-medium text-color-dark-purple tracking-tight text-[15px] leading-normal">
                     {getTitleByCourseId(
                       event.resource.packageSubscription.package.course.id,
                     )}
                   </p>
                 </td>
-                <td className="border-b group-last:border-none p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle flex items-center">
+                <td className="border-b group-last:border-b-0 h-[80px] p-1 align-middle flex items-center">
                   <Avatar
                     avatarUrl={event?.resource?.mentor?.avatar?.url}
                     className="w-9 h-9 rounded-full overflow-hidden mr-3 min-h-9 min-w-9"
@@ -126,13 +126,13 @@ export const LessonTable = ({
                       : ''}
                   </p>
                 </td>
-                <td className="border-b group-last:border-none p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
+                <td className="border-b group-last:border-b-0 h-[80px] p-1 align-middle">
                   <p className="text-sm lg:text-[15px] font-medium text-color-dark-purple tracking-tight text-[15px] leading-normal">
                     {event.resource.duration} {t('minutes', { ns: 'common' })}
                   </p>
                 </td>
 
-                <td className="border-b group-last:border-none p-1 lg:px-3 lg:py-2 xl:px-2 xl:py-4 align-middle">
+                <td className="border-b group-last:border-b-0 h-[80px] p-1 align-middle">
                   <p className="text-sm lg:text-[15px] font-medium text-color-dark-purple tracking-tight text-[15px] leading-normal">
                     {currentStudent.langLevel}
                   </p>
@@ -154,7 +154,7 @@ export const LessonTable = ({
                       {` ${event.nextTopic}`}
                     </p>
                   </td> */}
-                <td className="pr-5 border-b group-last:border-none align-middle">
+                <td className="pr-5 border-b group-last:border-b-0 h-[80px] align-middle">
                   <LessonControls
                     date={date}
                     data={data}
