@@ -51,7 +51,7 @@ const Availability = () => {
     useMutation(UPSERT_AVAILIABILITY);
 
   useEffect(() => {
-    if (mentorInfo) {
+    if (mentorInfo?.availabilities?.regular.length) {
       // const slotsMap = mentorInfo.availabilities.reduce((map, slot) => {
       //   if (map[slot.day] === undefined) map[slot.day] = [slot];
       //   else map[slot.day] = [...map[slot.day], slot];
@@ -76,7 +76,9 @@ const Availability = () => {
       );
 
       storeAvailablitiy(parseAvailRegular, MentorAvailabilityType.ONLY_REGULAR);
+    }
 
+    if (mentorInfo?.availabilities?.trial.length) {
       const parseAvailTrial = mentorInfo?.availabilities?.trial.map((slot) => {
         return {
           id: uuid(),
@@ -97,10 +99,9 @@ const Availability = () => {
     setMentorAvailabilityType(MentorAvailabilityType.ONLY_TRIAL);
   };
 
-  // saving data in DB using loader
-  const onSubmit = async (e) => {
+  const parseAndSaveAvailabilities = (mentorAvailabilityType) => {
     // combines slots on repeating days
-    const days = gatherAvailabilities.availabilityRegular.reduce(
+    const days = gatherAvailabilities[mentorAvailabilityType].reduce(
       (acc, curr) => {
         if (acc[curr.day] === undefined) acc[curr.day] = [...curr.slots];
         else acc[curr.day] = [...acc[curr.day], ...curr.slots];
@@ -115,7 +116,10 @@ const Availability = () => {
       slotsToSave.push({
         day,
         slots: [...days[day].map((slot) => ({ from: slot.from, to: slot.to }))],
-        trialTimesheet: false,
+        trialTimesheet:
+          mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR
+            ? false
+            : true,
       });
       // slotsToSave.push({
       //   day,
@@ -126,7 +130,7 @@ const Availability = () => {
 
     console.log('slotsToSave', slotsToSave);
 
-    if (slotsToSave) return;
+    // if (slotsToSave) return;
 
     setTimeout(() => {
       upsertAvailiability({
@@ -140,9 +144,20 @@ const Availability = () => {
           refetchMentor();
         },
       });
-      e.target.blur();
+
       handleDisableSave(true);
     }, 500);
+  };
+
+  // saving data in DB using loader
+  const onSubmit = async (e) => {
+    Object.keys(gatherAvailabilities).forEach((availType) =>
+      parseAndSaveAvailabilities(availType),
+    );
+
+    // parseAndSaveAvailabilities(mentorAvailabilityType);
+
+    e.target.blur();
   };
 
   const validateTimesSelected = (availability, day) => {
@@ -197,10 +212,10 @@ const Availability = () => {
 
     //Adds day with a time interval (new or existing)
     storeAvailablitiy(
-      [...gatherAvailabilities.availabilityRegular, ...[avail]],
+      [...gatherAvailabilities[mentorAvailabilityType], ...[avail]],
       mentorAvailabilityType,
     );
-    const data = gatherAvailabilities.availabilityRegular;
+    const data = gatherAvailabilities[mentorAvailabilityType];
 
     //Check if a day with a time interval exists,
     //then update that interval and overwrite the array of intervals
@@ -224,7 +239,12 @@ const Availability = () => {
   const storeAvailablitiy = (data, type) => {
     if (type) {
       handleDisableSave(false);
-      setGatherAvailabilities({ ...gatherAvailabilities, [type]: data });
+      setGatherAvailabilities((gatherAvailabilities) => {
+        return {
+          ...gatherAvailabilities,
+          [type]: data,
+        };
+      });
     } else {
       setGatherAvailabilities(data);
     }
@@ -313,6 +333,7 @@ const Availability = () => {
               <AvailabilityDayRow
                 day={day}
                 setGatherAvailabilities={storeAvailablitiy}
+                allGatherAvailabilities={gatherAvailabilities}
                 gatherAvailabilities={
                   gatherAvailabilities[mentorAvailabilityType]
                 }

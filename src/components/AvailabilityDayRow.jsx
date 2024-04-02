@@ -1,14 +1,16 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
 import AvailabilityPicker from '../pages/Mentors/Availiability/AvailabilityPicker';
 import { AvailProv } from '../pages/Mentors/Availiability/AvailabilityProvider';
 import plusIcon from '../assets/images/plus_icon.svg';
 import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import '../assets/styles/availability.scss';
+import { MentorAvailabilityType } from 'src/constants/global';
 
 const AvailabilityDayRow = ({
   day,
   setGatherAvailabilities,
+  allGatherAvailabilities, // trial/regular availabilities
   gatherAvailabilities,
   setHasValidTimes,
   isteachAddHours,
@@ -24,6 +26,7 @@ const AvailabilityDayRow = ({
 
   useEffect(() => {
     console.log('gatherAvailabilities', gatherAvailabilities);
+    console.log('allGatherAvailabilities', allGatherAvailabilities);
 
     var days = [];
     if (gatherAvailabilities.length > 0) {
@@ -48,22 +51,35 @@ const AvailabilityDayRow = ({
     }
   }, [gatherAvailabilities]);
 
+  const busyDay = useMemo(() => {
+    if (allGatherAvailabilities) {
+      const availType =
+        mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR
+          ? MentorAvailabilityType.ONLY_TRIAL
+          : MentorAvailabilityType.ONLY_REGULAR;
+
+      const allDay = allGatherAvailabilities[availType].filter((el) => {
+        return el.day === day;
+      });
+
+      return allDay;
+    }
+  }, [mentorAvailabilityType]);
+
+  console.log('busyDay', busyDay);
+
   const onToggleDay = () => {
     setToggle(!toggle);
     if (!toggle) {
       removeAvailabilityRow({ day });
 
-      const allDay = gatherAvailabilities.filter((el) => {
-        return el.day === day;
-      });
-      if (allDay.length === 0) {
-        const obj = [
-          ...gatherAvailabilities,
-          { id: uuid(), day, slots: [{ from: '09:00', to: '17:00' }] },
-        ];
-        setGatherAvailabilities(obj, mentorAvailabilityType);
-      }
+      const obj = [
+        ...gatherAvailabilities,
+        { id: uuid(), day, slots: [{ from: '09:00', to: '17:00' }] },
+      ];
+      setGatherAvailabilities(obj, mentorAvailabilityType);
     }
+
     if (toggle === true) {
       setGatherAvailabilities(
         gatherAvailabilities.filter((q) => q.day !== day),
@@ -84,7 +100,8 @@ const AvailabilityDayRow = ({
         type="checkbox"
         name={day}
         checked={toggle}
-        onChange={onToggleDay}
+        onChange={busyDay.length > 0 ? undefined : onToggleDay}
+        disabled={busyDay.length > 0}
       />
       <div className="col-sm-2 ms-3 me-5 align_day">
         <div>
@@ -119,7 +136,7 @@ const AvailabilityDayRow = ({
           <div className="col-auto align_fa_trash">
             <button
               className="btn fa_trash_can ms-3"
-              onClick={() => addAvailRowUp(day, 'availability')}
+              onClick={() => addAvailRowUp(day, mentorAvailabilityType)}
               disabled={isTimeEndReached()}
             >
               <img className="plus_button" src={plusIcon} alt="" />
