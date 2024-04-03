@@ -25,9 +25,6 @@ const AvailabilityDayRow = ({
   const [t] = useTranslation('common');
 
   useEffect(() => {
-    console.log('gatherAvailabilities', gatherAvailabilities);
-    console.log('allGatherAvailabilities', allGatherAvailabilities);
-
     var days = [];
     if (gatherAvailabilities.length > 0) {
       gatherAvailabilities.map((data, index) => {
@@ -65,8 +62,6 @@ const AvailabilityDayRow = ({
       return allDay;
     }
   }, [mentorAvailabilityType]);
-
-  console.log('busyDay', busyDay);
 
   const onToggleDay = () => {
     setToggle(!toggle);

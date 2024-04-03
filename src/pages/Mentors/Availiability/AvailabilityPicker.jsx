@@ -1,36 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import moment from 'moment';
 import { AvailProv } from './AvailabilityProvider';
 import trashCan from '../../../assets/images/trash_can.svg';
 import Alert from '../../../components/Popup/Alert';
 import Select from 'react-select';
-
-const formatTime = (time) => {
-  return moment.utc(time * 1000).format('HH:mm');
-};
-
-//converting time to seconds
-const formatTimeToSeconds = (time) => {
-  const [hours, minutes] = time.split(':');
-  return parseInt(hours) * 60 * 60 + parseInt(minutes) * 60;
-};
-
-const times = Array.from({ length: 48 }, (_, i) => {
-  const temp = moment
-    .utc()
-    .startOf('day')
-    .add(i * 30, 'minutes');
-  return {
-    timeType: temp.format('hh:mm A'),
-    time: 1800 * i,
-  };
-});
-
-// Dictionary time slots
-const timeOptions = times.map(({ timeType, time }) => {
-  return { value: time, label: timeType };
-});
+import { formatTimeToSeconds } from './lib/formatTimeToSeconds';
+import { timeOptions } from './lib/timeOptions';
+import { formatTime } from './lib/formatTime';
 
 const AvailabilityPicker = ({
   day,

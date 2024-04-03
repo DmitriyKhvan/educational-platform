@@ -28,8 +28,6 @@ const Availability = () => {
     [MentorAvailabilityType.ONLY_TRIAL]: [],
   });
 
-  console.log('gatherAvailabilities', gatherAvailabilities);
-
   // for debugging
   const [hasValidTimes, setHasValidTimes] = useState(false);
   const [disableSave, handleDisableSave] = useState(true);
@@ -127,10 +125,6 @@ const Availability = () => {
       //   trialTimesheet: true,
       // });
     }
-
-    console.log('slotsToSave', slotsToSave);
-
-    // if (slotsToSave) return;
 
     setTimeout(() => {
       upsertAvailiability({
