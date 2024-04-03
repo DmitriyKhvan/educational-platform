@@ -9,7 +9,14 @@ import Button from 'src/components/Form/Button';
 
 export const MenuItem = ({ menu }) => {
   const [t] = useTranslation('sidebar');
-  const { getCountNotification } = useNotifications();
+  const { notifications } = useNotifications();
+
+  const getCountNotification = (type) => {
+    const count = notifications.filter(
+      (notification) => notification?.meta?.dashboard === type,
+    );
+    return count.length;
+  };
   return (
     <li className="relative list-none">
       {getCountNotification(menu.label) > 0 && (

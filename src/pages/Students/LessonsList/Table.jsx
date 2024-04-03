@@ -88,6 +88,7 @@ const Table = ({
       <LessonTable
         displayTableData={displayTableData}
         userTimezone={userTimezone}
+        getAppointments={getAppointments}
         handleOpenFeedbackModal={handleOpenFeedbackModal}
         handleFeedback={handleFeedback}
       />

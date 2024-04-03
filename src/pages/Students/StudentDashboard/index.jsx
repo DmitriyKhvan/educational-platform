@@ -17,7 +17,7 @@ import { useMediaQuery } from 'react-responsive';
 import Loader from 'src/components/Loader/Loader';
 
 const StudentListAppointments = () => {
-  const isDesktop = useMediaQuery({ minWidth: 1307 });
+  const isDesktop = useMediaQuery({ minWidth: 1400 });
 
   const { complete_appoint_id } = useParams();
   const [t] = useTranslation('dashboard');
@@ -66,8 +66,8 @@ const StudentListAppointments = () => {
       {lessonLoading ? (
         <Loader height="calc(100vh - 80px)" />
       ) : (
-        <div className="bg-color-dashboard-bg min-h-full flex flex-wrap -m-5 sm:-mx-10 sm:-my-8">
-          <div className=" space-y-1 sm:space-y-8 sm:max-w-[524px] mx-auto sm:mt-10 2xl:mr-10 w-full">
+        <div className="bg-color-dashboard-bg min-h-full pb-10 flex flex-wrap">
+          <div className="space-y-1 sm:space-y-8 sm:max-w-[524px] mx-auto sm:mt-10 w-full">
             <DashboardCard
               title={t('student_dashboard_welcome', {
                 ns: 'dashboard',
@@ -94,7 +94,7 @@ const StudentListAppointments = () => {
           </div>
 
           {isDesktop && (
-            <div className="w-full mx-auto sm:max-w-[524px] sm:mt-10 2xl:ml-10 mt-1">
+            <div className="w-full mx-auto sm:max-w-[524px] sm:mt-10 mt-1">
               <MyLessons
                 fetchAppointments={refetch}
                 appointments={appointments}

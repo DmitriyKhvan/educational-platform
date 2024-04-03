@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { HiUserCircle } from 'react-icons/hi2';
 import { MdAddCircleOutline } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import {
@@ -8,6 +7,7 @@ import {
   setItemToLocalStorage,
 } from 'src/constants/global';
 import { useAuth } from 'src/modules/auth';
+import { Avatar } from 'src/widgets/Avatar/Avatar';
 
 export const useStudentsDropdown = () => {
   const [t] = useTranslation('profile');
@@ -24,8 +24,13 @@ export const useStudentsDropdown = () => {
     .map((student) => {
       return {
         label: student.firstName,
-        customIcon: HiUserCircle,
-        activeIcon: student?.avatar?.url,
+        activeIcon: (
+          <Avatar
+            fallback="duck"
+            avatarUrl={student?.avatar?.url}
+            className="w-[25px] h-[25px] mr-[3px] rounded-full bg-color-purple group-hover:bg-white transition ease-in-out delay-150"
+          />
+        ),
         isActive: student.isActive,
         onClick: () =>
           student.isActive ? onChangeStudentProfile(student) : undefined,
@@ -36,7 +41,9 @@ export const useStudentsDropdown = () => {
     label: t('add_account'),
     href: currentStudent?.isTrial ? '/trial' : '/add-student-profile',
     isActive: true,
-    customIcon: MdAddCircleOutline,
+    activeIcon: (
+      <MdAddCircleOutline className="text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
+    ),
   });
 
   const studentsRender = (item, index, active, setActive, setVisible) => {
@@ -61,19 +68,7 @@ export const useStudentsDropdown = () => {
           {item.label}
         </span>
 
-        {item.activeIcon ? (
-          <span>
-            <img
-              className="w-[30px] h-[30px] rounded-full border-2 border-color-white object-center object-cover"
-              src={item.activeIcon}
-              alt=""
-            />
-          </span>
-        ) : (
-          // item.customIcon && <span>{item.customIcon}</span>
-          <item.customIcon className="text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
-        )}
-        {/* {} */}
+        {item.activeIcon}
       </Link>
     );
   };
