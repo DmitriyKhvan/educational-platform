@@ -50,6 +50,7 @@ const StudentProfile = () => {
           <header className="flex items-center w-full space-x-4 ">
             <div className="w-16 h-16 sm:w-20 sm:h-20">
               <Avatar
+                fallback="duck"
                 avatarUrl={user?.avatar?.url}
                 className="w-full h-full min-w-16 sm:min-w-20 rounded-full border"
               />

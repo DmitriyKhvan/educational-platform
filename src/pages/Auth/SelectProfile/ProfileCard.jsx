@@ -25,6 +25,7 @@ export const ProfileCard = ({ student, studentId, selectProfile }) => {
             <Avatar
               avatarUrl={student.avatar?.url}
               gender={student.gender}
+              fallback="duck"
               className={cn(
                 'w-[150px] h-[150px] rounded-full  transition duration-300 ease-in-out cursor-pointer',
                 student.isActive
