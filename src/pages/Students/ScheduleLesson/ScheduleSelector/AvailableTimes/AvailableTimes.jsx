@@ -36,7 +36,7 @@ export const AvailableTimes = memo(function AvailableTimes() {
     }
 
     if (setMentorId) {
-      setMentorId(scheduleStartTime.mentorId);
+      setMentorId(scheduleStartTime?.mentorId);
     }
 
     const formattedDay = format(new Date(day), 'yyyy-MM-dd');

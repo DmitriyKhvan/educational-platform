@@ -10,6 +10,7 @@ import { useAuth } from 'src/modules/auth';
 import { useDebounce } from 'src/utils/useDebounce';
 import { getItemToLocalStorage } from 'src/constants/global';
 import { scrollToElement } from 'src/utils/scrollToElement';
+import notify from 'src/utils/notify';
 
 export const ScheduleProvider = ({
   query = COMBINED_TIMESHEETS,
@@ -27,6 +28,10 @@ export const ScheduleProvider = ({
   ] = useLazyQuery(query, {
     // fetchPolicy: 'network-only',
     fetchPolicy: 'no-cache',
+    onError: (error) => {
+      notify(error.message, 'error');
+      resetAll();
+    },
   });
 
   const { user } = useAuth();
