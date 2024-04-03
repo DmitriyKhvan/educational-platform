@@ -5,7 +5,6 @@ import Logo from 'src/assets/images/logo_purple.svg';
 import { Roles } from '../../constants/global';
 import { useAuth } from '../../modules/auth';
 
-import { HiUserCircle } from 'react-icons/hi2';
 import { FiLogOut } from 'react-icons/fi';
 import { useStudentsDropdown } from './useStudentsDropdown';
 import { NotificationDropdownMenu } from './Notification/NotificationDropdownMenu';
@@ -13,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useMediaQuery } from 'react-responsive';
 import MyDropdownMenu from '../DropdownMenu';
 import { FaAngleDown } from 'react-icons/fa6';
+import { Avatar } from 'src/widgets/Avatar/Avatar';
 
 const Navbar = memo(() => {
   const [t] = useTranslation('common');
@@ -30,13 +30,22 @@ const Navbar = memo(() => {
   const myAccountItems = [
     {
       label: t('my_profile'),
-      customIcon: HiUserCircle,
+      activeIcon: (
+        <Avatar
+          fallback={user.role === Roles.STUDENT ? 'duck' : 'user'}
+          avatarUrl={user?.avatar?.url}
+          className="w-[25px] h-[25px] mr-[3px] rounded-full overflow-hidden bg-color-purple group-hover:bg-white transition ease-in-out delay-150"
+          iconClassName="text-white w-[15px] group-hover:text-color-purple transition ease-in-out delay-150"
+        />
+      ),
       isActive: true,
       href: user.role === Roles.MENTOR ? '/mentor/profile' : '/student/profile',
     },
     {
       label: t('logout'),
-      customIcon: FiLogOut,
+      activeIcon: (
+        <FiLogOut className="text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
+      ),
       isActive: true,
       onClick: handleLogout,
     },
@@ -64,15 +73,11 @@ const Navbar = memo(() => {
             button={
               <label className="py-[14px] rounded-lg select-none cursor-pointer">
                 <div className="flex flex-col items-center justify-between gap-2 sm:gap-0">
-                  {user?.avatar ? (
-                    <img
-                      className="w-[22px]"
-                      src={user?.avatar.url}
-                      alt="avatar"
-                    />
-                  ) : (
-                    <HiUserCircle className="text-[30px] text-color-purple " />
-                  )}
+                  <Avatar
+                    fallback="duck"
+                    avatarUrl={user?.avatar?.url}
+                    className="w-[32px] h-[32px] bg-color-purple rounded-full"
+                  />
                   <div className="hidden sm:flex items-center font-bold gap-1">
                     <p>{user?.firstName}</p>
                     <FaAngleDown className="w-4" />
@@ -101,15 +106,12 @@ const Navbar = memo(() => {
           button={
             <label className="py-[14px] rounded-lg select-none cursor-pointer">
               <div className="flex flex-col items-center justify-between gap-2 sm:gap-0">
-                {user?.avatar ? (
-                  <img
-                    className="w-[22px]"
-                    src={user?.avatar.url}
-                    alt="avatar"
-                  />
-                ) : (
-                  <HiUserCircle className="text-[30px] text-color-purple " />
-                )}
+                <Avatar
+                  fallback={user.role === Roles.STUDENT ? 'duck' : 'user'}
+                  avatarUrl={user?.avatar?.url}
+                  className="w-[32px] h-[32px] bg-color-purple rounded-full overflow-hidden"
+                  iconClassName="text-white w-[20px]"
+                />
                 <div className="hidden sm:flex items-center font-bold gap-1">
                   <p>My account</p>
                   <FaAngleDown className="w-4" />
