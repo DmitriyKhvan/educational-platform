@@ -108,10 +108,10 @@ const Availability = () => {
       {},
     );
 
-    const slotsToSave = [];
+    let parseSlots = [];
 
     for (const day in days) {
-      slotsToSave.push({
+      parseSlots.push({
         day,
         slots: [...days[day].map((slot) => ({ from: slot.from, to: slot.to }))],
         trialTimesheet:
@@ -119,12 +119,21 @@ const Availability = () => {
             ? false
             : true,
       });
-      // slotsToSave.push({
-      //   day,
-      //   slots: [...days[day].map((slot) => ({ from: slot.from, to: slot.to}))],
-      //   trialTimesheet: true,
-      // });
     }
+
+    return parseSlots;
+  };
+
+  // saving data in DB using loader
+  const onSubmit = async (e) => {
+    e.target.blur();
+
+    let slotsToSave = [];
+    Object.keys(gatherAvailabilities).forEach((availType) => {
+      const slots = parseAndSaveAvailabilities(availType);
+
+      slotsToSave = [...slotsToSave, ...slots];
+    });
 
     setTimeout(() => {
       upsertAvailiability({
@@ -141,17 +150,6 @@ const Availability = () => {
 
       handleDisableSave(true);
     }, 500);
-  };
-
-  // saving data in DB using loader
-  const onSubmit = async (e) => {
-    Object.keys(gatherAvailabilities).forEach((availType) =>
-      parseAndSaveAvailabilities(availType),
-    );
-
-    // parseAndSaveAvailabilities(mentorAvailabilityType);
-
-    e.target.blur();
   };
 
   const validateTimesSelected = (availability, day) => {
