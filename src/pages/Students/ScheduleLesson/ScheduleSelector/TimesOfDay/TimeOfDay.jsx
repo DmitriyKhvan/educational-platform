@@ -1,12 +1,17 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSchedule } from '../ScheduleProvider';
-import { isWithinInterval } from 'date-fns';
+import {
+  addHours,
+  isWithinInterval,
+  // parse
+} from 'date-fns';
 
 import Button from 'src/components/Form/Button';
 
 export const TimeOfDay = memo(function TimeOfDay({ timeOfDay, idx }) {
   const {
+    day,
     setTimeOfDayInterval,
     setTimeClicked,
     timeClicked,
@@ -43,6 +48,11 @@ export const TimeOfDay = memo(function TimeOfDay({ timeOfDay, idx }) {
         });
       } else {
         setTimeOfDayInterval(morningInterval);
+
+        // setTimeOfDayInterval({
+        //   start: parse(day, 'yyyy-MM-dd HH:mm:ss', new Date(day)),
+        //   end: morningInterval.end,
+        // });
       }
     }
     if (timeOfDay === 'Afternoon') {
@@ -52,6 +62,13 @@ export const TimeOfDay = memo(function TimeOfDay({ timeOfDay, idx }) {
       );
 
       const isEndMonthArternoon = isWithinInterval(endMonth, afternoonInterval);
+
+      // if (hoursPrior) {
+      //   setTimeOfDayInterval({
+      //     start: addHours(todayUserTimezone, hoursPrior),
+      //     end: afternoonInterval.end,
+      //   });
+      // }
 
       if (isTodayArternoon && isToday) {
         setTimeOfDayInterval({
@@ -75,7 +92,11 @@ export const TimeOfDay = memo(function TimeOfDay({ timeOfDay, idx }) {
 
       const isEndMonthEvening = isWithinInterval(endMonth, eveningInterval);
 
-      if (isTodayEvening && isToday) {
+      if (
+        isTodayEvening &&
+        isToday &&
+        process.env.REACT_APP_PRODUCTION === 'false'
+      ) {
         setTimeOfDayInterval({
           start: todayUserTimezone,
           end: eveningInterval.end,
@@ -86,7 +107,11 @@ export const TimeOfDay = memo(function TimeOfDay({ timeOfDay, idx }) {
           end: endMonth,
         });
       } else {
-        setTimeOfDayInterval(eveningInterval);
+        // setTimeOfDayInterval(eveningInterval);
+        setTimeOfDayInterval({
+          start: addHours(new Date(day), 48),
+          end: eveningInterval.end,
+        });
       }
     }
   };

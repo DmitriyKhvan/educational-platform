@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react';
 
 import { format, utcToZonedTime } from 'date-fns-tz';
-import { addMonths, isSameDay, isWithinInterval, parse } from 'date-fns';
+import {
+  addHours,
+  addMonths,
+  isSameDay,
+  isWithinInterval,
+  parse,
+} from 'date-fns';
 import { useLazyQuery } from '@apollo/client';
 
 import { COMBINED_TIMESHEETS } from 'src/modules/graphql/queries/combinedTimesheets';
@@ -102,7 +108,7 @@ export const ScheduleProvider = ({
   }, [debouncedTimesheetsData]);
 
   // formation morning/afternoon/evening taking into account the current time and available metor slots
-  const setDayInterval = (currentTime, lastTime) => {
+  const setDayInterval = ({ currentTime, lastTime }) => {
     let morning = false;
     let afternoon = false;
     let evening = false;
@@ -206,12 +212,16 @@ export const ScheduleProvider = ({
   // morning/afternoon/evening formation
   useEffect(() => {
     if (timesheetsData) {
-      if (isToday) {
-        setDayInterval(todayUserTimezone);
+      if (isToday && process.env.REACT_APP_PRODUCTION === 'false') {
+        setDayInterval({ currentTime: todayUserTimezone });
       } else if (isEndMonth) {
-        setDayInterval(null, endMonth);
+        setDayInterval({ lastTime: endMonth });
+      } else if (process.env.REACT_APP_PRODUCTION === 'true') {
+        setDayInterval({
+          currentTime: addHours(todayUserTimezone, 48),
+        });
       } else {
-        setDayInterval();
+        setDayInterval({ currentTime: '' });
       }
       setTimeout(() => scrollToElement('timeOfDay'), 100);
     }
