@@ -18,7 +18,7 @@ export const LessonTableMobile = ({
                 data?.resource?.packageSubscription?.package?.course?.title
               }
               mentor={data?.resource?.mentor}
-              zoom={data?.resource?.zoom}
+              playground={data?.resource?.playground}
               date={data?.resource?.startAt}
               data={data?.resource}
               index={idx}

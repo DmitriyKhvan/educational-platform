@@ -149,7 +149,7 @@ const TutorDashboard = () => {
                 <ScheduleCard
                   lesson={event?.packageSubscription?.package?.course?.title}
                   duration={event?.duration}
-                  zoom={event?.zoom}
+                  playground={event?.playground}
                   date={event?.startAt}
                   data={event}
                   student={event.student}
