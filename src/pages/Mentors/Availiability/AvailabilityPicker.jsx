@@ -1,46 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import moment from 'moment';
 import { AvailProv } from './AvailabilityProvider';
 import trashCan from '../../../assets/images/trash_can.svg';
 import Alert from '../../../components/Popup/Alert';
 import Select from 'react-select';
-import { useAuth } from '../../../modules/auth';
-
-const formatTime = (time) => {
-  return moment.utc(time * 1000).format('HH:mm');
-};
-
-//converting time to seconds
-const formatTimeToSeconds = (time) => {
-  const [hours, minutes] = time.split(':');
-  return parseInt(hours) * 60 * 60 + parseInt(minutes) * 60;
-};
-
-const times = Array.from({ length: 48 }, (_, i) => {
-  const temp = moment
-    .utc()
-    .startOf('day')
-    .add(i * 30, 'minutes');
-  return {
-    timeType: temp.format('hh:mm A'),
-    time: 1800 * i,
-  };
-});
-
-// Dictionary time slots
-const timeOptions = times.map(({ timeType, time }) => {
-  return { value: time, label: timeType };
-});
+import { formatTimeToSeconds } from './lib/formatTimeToSeconds';
+import { timeOptions } from './lib/timeOptions';
+import { formatTime } from './lib/formatTime';
 
 const AvailabilityPicker = ({
   day,
   id,
   frmTime,
   tTime,
-  updateTime,
   AvailabilitySlots,
-  type,
+  mentorAvailabilityType,
 }) => {
   const { removeAvailabilityRow } = useContext(AvailProv);
   const { t } = useTranslation('modals');
@@ -56,15 +30,6 @@ const AvailabilityPicker = ({
   const [toTime, setToTime] = useState(
     timeOptions.find((time) => time.value === formatTimeToSeconds(tTime)),
   );
-
-  const [currentData, setCurrentData] = useState([]); //Why is it needed?
-  const tutorInfo = useAuth().user.mentor;
-
-  //Why is it needed?=======================
-  useEffect(() => {
-    if (tutorInfo.availabilities) setCurrentData(tutorInfo.availabilities[day]);
-  }, [tutorInfo]);
-  //========================================
 
   const onChangeTime = (time, iteration, timeType) => {
     let t = parseInt(time);
@@ -107,35 +72,19 @@ const AvailabilityPicker = ({
               day,
             );
           } else {
-            updateTime(formatTime(t)); //I don't know what this method is for
             AvailabilitySlots(frmTime, formatTime(t), String(id), day);
           }
         }
       }
-      //This code will never work. Why is it needed?========================
-    } else {
-      // New
-      if (typeof t === 'number') {
-        let cpyCurrentData = [...currentData] || [];
-        cpyCurrentData[iteration][timeType] = formatTime(t);
-        AvailabilitySlots(
-          cpyCurrentData[iteration].from,
-          cpyCurrentData[iteration].to,
-          id,
-          day,
-        );
-        setCurrentData(cpyCurrentData || []);
-      }
     }
-    //========================================================================
   };
 
-  const removeRowDown = (type) => {
+  const removeRowDown = (mentorAvailabilityType) => {
     Alert(
       t('swal_fire_title'),
       '',
       'warning',
-      () => removeRows({ id, day, type }),
+      () => removeRows({ id, day, mentorAvailabilityType }),
       true,
       t('swal_confirm_Button_Text'),
       t('swal_cancel_Button_Text'),
@@ -183,7 +132,7 @@ const AvailabilityPicker = ({
         <button
           type="button"
           className="btn fa_trash_can ms-3 align_delete"
-          onClick={() => removeRowDown(type)}
+          onClick={() => removeRowDown(mentorAvailabilityType)}
         >
           <img src={trashCan} className="fa_icon" alt="" />
         </button>

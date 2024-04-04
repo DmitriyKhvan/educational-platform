@@ -8,6 +8,7 @@ import { useMediaQuery } from 'react-responsive';
 import { useTranslation } from 'react-i18next';
 import { phoneCodes } from 'src/constants/global';
 import { useEffect, useState } from 'react';
+import Button from './Button';
 
 const PhoneNumberField = ({
   register,
@@ -15,6 +16,7 @@ const PhoneNumberField = ({
   setValue,
   watch,
   defaultNumber,
+  disabled,
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });
 
@@ -69,10 +71,29 @@ const PhoneNumberField = ({
         {t('phone_number', { ns: 'common' })}
       </label>
       <div className="flex items-center justify-between gap-2">
-        {isMobile ? (
+        {disabled ? (
+          <Button
+            disabled={disabled}
+            theme="clear"
+            className="min-w-[103px] py-[14px] pl-3 pr-2 rounded-lg border border-color-border-grey select-none"
+          >
+            <div className="flex items-center justify-between gap-2">
+              <img
+                className="w-[22px] grayscale"
+                src={country?.flag}
+                alt={country?.name}
+              />
+              <span className="text-sm font-medium">{country?.code}</span>
+              <MdOutlineKeyboardArrowDown className="w-4" />
+            </div>
+          </Button>
+        ) : isMobile ? (
           <MyDrawer
             button={
-              <label className="min-w-[103px] py-[14px] pl-3 pr-2 rounded-lg border border-color-border-grey select-none cursor-pointer">
+              <Button
+                theme="clear"
+                className="min-w-[103px] py-[14px] pl-3 pr-2 rounded-lg border border-color-border-grey select-none cursor-pointer"
+              >
                 <div className="flex items-center justify-between gap-2">
                   <img
                     className="w-[22px]"
@@ -82,7 +103,7 @@ const PhoneNumberField = ({
                   <span className="text-sm font-medium">{country?.code}</span>
                   <MdOutlineKeyboardArrowDown className="w-4" />
                 </div>
-              </label>
+              </Button>
             }
           >
             <PhoneCodeListModal
@@ -94,8 +115,11 @@ const PhoneNumberField = ({
         ) : (
           <MyDropdownMenu
             button={
-              <label className="min-w-[103px] py-[14px] pl-3 pr-2 rounded-lg border border-color-border-grey select-none cursor-pointer">
-                <div className="flex items-center justify-between gap-2">
+              <Button
+                theme="clear"
+                className="min-w-[103px] py-[14px] pl-3 pr-2 rounded-lg border border-color-border-grey select-none cursor-pointer"
+              >
+                <span className="flex items-center justify-between gap-2">
                   <img
                     className="w-[22px]"
                     src={country?.flag}
@@ -103,8 +127,8 @@ const PhoneNumberField = ({
                   />
                   <span className="text-sm font-medium">{country?.code}</span>
                   <MdOutlineKeyboardArrowDown className="w-4" />
-                </div>
-              </label>
+                </span>
+              </Button>
             }
           >
             <PhoneCodeListModal
@@ -123,26 +147,31 @@ const PhoneNumberField = ({
             className="w-full"
             // defaultValue={number}
             placeholder={country?.mask?.replace(/#/g, 'X')}
+            disabled={disabled}
             {...register('phoneNumberWithoutCode', {
-              required: t('required_phone_number', {
-                ns: 'translations',
-              }),
-              pattern: {
-                value: new RegExp(
-                  country?.mask?.replace(/[()#]/g, (match) => {
-                    if (match === '(') return '\\(';
-                    if (match === ')') return '\\)';
-                    if (match === '#') return '\\d';
-                    return match;
-                  }),
-                ),
-                message: t('invalid_phone_number', {
-                  ns: 'onboarding',
-                }),
-              },
+              required: !disabled
+                ? t('required_phone_number', {
+                    ns: 'translations',
+                  })
+                : false,
+              pattern: !disabled
+                ? {
+                    value: new RegExp(
+                      country?.mask?.replace(/[()#]/g, (match) => {
+                        if (match === '(') return '\\(';
+                        if (match === ')') return '\\)';
+                        if (match === '#') return '\\d';
+                        return match;
+                      }),
+                    ),
+                    message: t('invalid_phone_number', {
+                      ns: 'onboarding',
+                    }),
+                  }
+                : false,
             })}
           >
-            {(inputProps) => <InputField {...inputProps} />}
+            {(inputProps) => <InputField {...inputProps} disabled={disabled} />}
           </ReactInputMask>
         )}
 

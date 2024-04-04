@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import Select from 'react-select';
 
 export const SelectField = forwardRef(function SelectField(
-  { value, options, onChange },
+  { value, options, onChange, isDisabled },
   ref,
 ) {
   const defaultValue = options.find((item) => item.value === value);
@@ -25,6 +25,9 @@ export const SelectField = forwardRef(function SelectField(
           transition: '0.3s ease-in-out',
           scrollbarWidth: '5px',
           scrollbarColor: 'red',
+          cursor: isDisabled && 'not-allowed',
+          background: isDisabled && '#DEDDDF',
+          color: isDisabled && '#AAA8A8',
         }),
         singleValue: (styles) => ({
           ...styles,
@@ -42,6 +45,7 @@ export const SelectField = forwardRef(function SelectField(
       }}
       ref={ref}
       value={defaultValue}
+      isDisabled={isDisabled}
       options={options}
       onChange={(e) => onChange(e.value)}
     />

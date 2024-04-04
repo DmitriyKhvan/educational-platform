@@ -1,13 +1,7 @@
-// no alternative in graphql yet
-
-/* eslint-disable import/no-unresolved */
-/* eslint-disable no-undef  */
-
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DAY } from '../../../constants/global';
+import { DAY, MentorAvailabilityType } from '../../../constants/global';
 
-// import { updateTutorAvailability } from '../../../actions/tutor';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faGear } from '@fortawesome/free-solid-svg-icons';
 import AvailabilityDayRow from '../../../components/AvailabilityDayRow';
@@ -23,44 +17,40 @@ import Loader from '../../../components/Loader/Loader';
 import notify from 'src/utils/notify';
 import Button from 'src/components/Form/Button';
 
-const Availability = (/*{ user_id  }*/) => {
+const Availability = () => {
   const [t] = useTranslation(['common', 'availability']);
+  const [mentorAvailabilityType, setMentorAvailabilityType] = useState(
+    MentorAvailabilityType.ONLY_REGULAR,
+  );
+
   const [gatherAvailabilities, setGatherAvailabilities] = useState({
-    exceptiondates: [],
-    availability: [],
+    [MentorAvailabilityType.ONLY_REGULAR]: [],
+    [MentorAvailabilityType.ONLY_TRIAL]: [],
   });
-  const [, setCurrentDatas] = useState([]);
+
   // for debugging
   const [hasValidTimes, setHasValidTimes] = useState(false);
   const [disableSave, handleDisableSave] = useState(true);
   const [isteachAddHours, setIsTeachAddHours] = useState([]);
   const [disablePlusBtn, setDisablePlusBtn] = useState(false);
-  const [initialId, setInitialId] = useState();
-  // tutor policies state and handler
-  const [, setIsMonthCheck] = useState(false);
-  // tutor policies state and handler
+
   const { user } = useAuth();
+
   const {
-    data: { mentor: tutorInfo } = {},
+    data: { mentor: mentorInfo } = {},
     loading: loadingMentor,
     refetch: refetchMentor,
   } = useQuery(GET_MENTOR, {
     fetchPolicy: 'no-cache',
     variables: { id: user?.mentor?.id },
   });
+
   const [upsertAvailiability, { loading: loadingUpsertAvailiability, error }] =
     useMutation(UPSERT_AVAILIABILITY);
 
-  const [currentToTime, setCurrentToTime] = useState('16:00');
-
   useEffect(() => {
-    setInitialId(uuid);
-  }, []);
-
-  useEffect(() => {
-    var savedData = [];
-    if (tutorInfo?.availabilities) {
-      // const slotsMap = tutorInfo.availabilities.reduce((map, slot) => {
+    if (mentorInfo?.availabilities?.regular.length) {
+      // const slotsMap = mentorInfo.availabilities.reduce((map, slot) => {
       //   if (map[slot.day] === undefined) map[slot.day] = [slot];
       //   else map[slot.day] = [...map[slot.day], slot];
       //   return map;
@@ -73,57 +63,50 @@ const Availability = (/*{ user_id  }*/) => {
       //   });
       // }
 
-      savedData = tutorInfo.availabilities.map((slot) => {
+      const parseAvailRegular = mentorInfo?.availabilities?.regular.map(
+        (slot) => {
+          return {
+            id: uuid(),
+            day: slot.day,
+            slots: [slot],
+          };
+        },
+      );
+
+      storeAvailablitiy(parseAvailRegular, MentorAvailabilityType.ONLY_REGULAR);
+    }
+
+    if (mentorInfo?.availabilities?.trial.length) {
+      const parseAvailTrial = mentorInfo?.availabilities?.trial.map((slot) => {
         return {
           id: uuid(),
           day: slot.day,
           slots: [slot],
         };
       });
-    }
 
-    const tempData = [
-      {
-        id: initialId,
-        day: undefined,
-        slots: [{ from: '09:00', to: '17:00' }],
-      },
-    ];
-    storeAvailablitiy({ exceptiondates: tempData, availability: savedData });
-  }, [tutorInfo]);
-  useEffect(() => {
-    if (tutorInfo?.exceptiondates !== undefined) {
-      var withId = [];
-      let count = 0;
-      tutorInfo.exceptiondates.map((data) => {
-        var temp = { ...data };
-        temp.id = ++count;
-        withId.push(temp);
-      });
-      setCurrentDatas(withId);
+      storeAvailablitiy(parseAvailTrial, MentorAvailabilityType.ONLY_TRIAL);
     }
-    const unique = [
-      ...(tutorInfo?.exceptiondates
-        ? new Set(tutorInfo?.exceptiondates.map((item) => item.date))
-        : []),
-    ];
-    if (unique.length >= 9) {
-      setIsMonthCheck(true);
-    } else {
-      setIsMonthCheck(false);
-    }
-  }, [tutorInfo]);
+  }, [mentorInfo]);
 
-  // saving data in DB using loader
-  const onSubmit = async (e) => {
+  const regularAvailabilityHandler = () => {
+    setMentorAvailabilityType(MentorAvailabilityType.ONLY_REGULAR);
+  };
+
+  const trialAvailabilityHandler = () => {
+    setMentorAvailabilityType(MentorAvailabilityType.ONLY_TRIAL);
+  };
+
+  const parseAndSaveAvailabilities = (mentorAvailabilityType) => {
     // combines slots on repeating days
-    const days = gatherAvailabilities.availability.reduce((acc, curr) => {
-      if (acc[curr.day] === undefined) acc[curr.day] = [...curr.slots];
-      else acc[curr.day] = [...acc[curr.day], ...curr.slots];
-      return acc;
-    }, {});
-
-    let isError = false;
+    const days = gatherAvailabilities[mentorAvailabilityType].reduce(
+      (acc, curr) => {
+        if (acc[curr.day] === undefined) acc[curr.day] = [...curr.slots];
+        else acc[curr.day] = [...acc[curr.day], ...curr.slots];
+        return acc;
+      },
+      {},
+    );
 
     const slotsToSave = [];
 
@@ -131,18 +114,23 @@ const Availability = (/*{ user_id  }*/) => {
       slotsToSave.push({
         day,
         slots: [...days[day].map((slot) => ({ from: slot.from, to: slot.to }))],
+        trialTimesheet:
+          mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR
+            ? false
+            : true,
       });
-    }
-
-    if (isError) {
-      return;
+      // slotsToSave.push({
+      //   day,
+      //   slots: [...days[day].map((slot) => ({ from: slot.from, to: slot.to}))],
+      //   trialTimesheet: true,
+      // });
     }
 
     setTimeout(() => {
       upsertAvailiability({
         variables: {
           data: {
-            mentorId: tutorInfo?.id,
+            mentorId: mentorInfo?.id,
             availabilities: slotsToSave,
           },
         },
@@ -150,22 +138,21 @@ const Availability = (/*{ user_id  }*/) => {
           refetchMentor();
         },
       });
-      e.target.blur();
+
       handleDisableSave(true);
     }, 500);
   };
 
-  const [, setUserData] = useState({
-    time_zone: '',
-  });
-  useEffect(() => {
-    setUserData({
-      time_zone: user.time_zone,
-    });
-  }, [user]);
-  // timezone map looping
-  // default time-zone is America/Los_Angeles (GMT-08:00)
-  // date override date groupby date map
+  // saving data in DB using loader
+  const onSubmit = async (e) => {
+    Object.keys(gatherAvailabilities).forEach((availType) =>
+      parseAndSaveAvailabilities(availType),
+    );
+
+    // parseAndSaveAvailabilities(mentorAvailabilityType);
+
+    e.target.blur();
+  };
 
   const validateTimesSelected = (availability, day) => {
     /* flat map the time slots array **/
@@ -219,10 +206,10 @@ const Availability = (/*{ user_id  }*/) => {
 
     //Adds day with a time interval (new or existing)
     storeAvailablitiy(
-      [...gatherAvailabilities.availability, ...[avail]],
-      'availability',
+      [...gatherAvailabilities[mentorAvailabilityType], ...[avail]],
+      mentorAvailabilityType,
     );
-    const data = gatherAvailabilities.availability;
+    const data = gatherAvailabilities[mentorAvailabilityType];
 
     //Check if a day with a time interval exists,
     //then update that interval and overwrite the array of intervals
@@ -238,7 +225,7 @@ const Availability = (/*{ user_id  }*/) => {
         }
         availability.slots[0] = { from, to };
         //validateTimesSelected(data, day)
-        storeAvailablitiy(data, 'availability');
+        storeAvailablitiy(data, mentorAvailabilityType);
       }
     }
   };
@@ -246,7 +233,12 @@ const Availability = (/*{ user_id  }*/) => {
   const storeAvailablitiy = (data, type) => {
     if (type) {
       handleDisableSave(false);
-      setGatherAvailabilities({ ...gatherAvailabilities, [type]: data });
+      setGatherAvailabilities((gatherAvailabilities) => {
+        return {
+          ...gatherAvailabilities,
+          [type]: data,
+        };
+      });
     } else {
       setGatherAvailabilities(data);
     }
@@ -265,6 +257,30 @@ const Availability = (/*{ user_id  }*/) => {
   return (
     <React.Fragment>
       {loadingUpsertAvailiability && <ReactLoader />}
+
+      <div className="w-auto flex items-center mb-4">
+        <Button
+          theme="outline"
+          className={`relative ml-0 rounded-r-none focus:shadow-none ${
+            mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR &&
+            'bg-color-purple text-white'
+          }`}
+          onClick={regularAvailabilityHandler}
+        >
+          <span>Regular Availability</span>
+        </Button>
+        <Button
+          theme="outline"
+          className={`relative ml-[-4px] rounded-l-none focus:shadow-none ${
+            mentorAvailabilityType === MentorAvailabilityType.ONLY_TRIAL &&
+            'bg-color-purple text-white'
+          }`}
+          onClick={trialAvailabilityHandler}
+        >
+          <span>Trial Availability</span>
+        </Button>
+      </div>
+
       <div className="border-availabilities">
         <div className="container-fluid py-3">
           <div className="row ms-4">
@@ -292,38 +308,39 @@ const Availability = (/*{ user_id  }*/) => {
           {t('set_your_teaching_hours', { ns: 'availability' })}
         </h2>
         <div className="container align-self-center remove-last-border">
-          {DAY.map((day, i) => (
+          {DAY.map((day) => (
             <AvailabilityProvider
-              key={i}
+              key={day}
               setGatherAvailabilities={storeAvailablitiy}
-              gatherAvailabilities={gatherAvailabilities.availability}
+              gatherAvailabilities={
+                gatherAvailabilities[mentorAvailabilityType]
+              }
               setIsTeachAddHours={setIsTeachAddHours}
               disablePlusBtn={disablePlusBtn}
               setDisablePlusBtn={setDisablePlusBtn}
               AvailabilitySlots={AvailabilitySlots}
               day={day}
               isteachAddHours={isteachAddHours}
-              type={'availability'}
+              mentorAvailabilityType={mentorAvailabilityType}
               validateTimesSelected={validateTimesSelected}
             >
               <AvailabilityDayRow
                 day={day}
                 setGatherAvailabilities={storeAvailablitiy}
-                gatherAvailabilities={gatherAvailabilities.availability}
+                allGatherAvailabilities={gatherAvailabilities}
+                gatherAvailabilities={
+                  gatherAvailabilities[mentorAvailabilityType]
+                }
                 hasValidTimes={hasValidTimes}
                 setHasValidTimes={setHasValidTimes}
                 isteachAddHours={isteachAddHours}
                 setIsTeachAddHours={setIsTeachAddHours}
                 AvailabilitySlots={AvailabilitySlots}
-                setCurrentToTime={setCurrentToTime} //I don't know what this method is for
-                currentToTime={currentToTime} //I don't know what this variable is for
-                type={'availability'}
+                mentorAvailabilityType={mentorAvailabilityType}
               />
             </AvailabilityProvider>
           ))}
-          <div
-            style={{ display: 'flex', justifyContent: 'end', maxWidth: '100%' }}
-          >
+          <div className="flex justify-end">
             <Button
               type="submit"
               onClick={onSubmit}

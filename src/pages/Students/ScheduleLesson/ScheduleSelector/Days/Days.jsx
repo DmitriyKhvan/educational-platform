@@ -1,17 +1,12 @@
 import { memo, useEffect, useState } from 'react';
 import { addDays, isAfter, isBefore, subDays } from 'date-fns';
 import { format } from 'date-fns-tz';
-import { useAuth } from 'src/modules/auth';
+
 import { Day } from './Day';
 import { useSchedule } from '../ScheduleProvider';
 
 export const Days = memo(function Days({ startOfWeek, counter }) {
-  const { todayUserTimezone, endMonth } = useSchedule();
-  const { user } = useAuth();
-
-  const userTimezone =
-    user?.timeZone?.split(' ')[0] ||
-    Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const { todayUserTimezone, endMonth, userTimezone } = useSchedule();
 
   const [days, setDays] = useState([]);
 

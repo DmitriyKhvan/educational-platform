@@ -131,6 +131,8 @@ export const ME_QUERY = gql`
         about
         pronouns
         isActive
+        isTrial
+        trialStartAt
         # user
         # lessons
         avatarId
@@ -283,10 +285,18 @@ export const GET_MENTOR = gql`
         url
       }
       availabilities {
-        id
-        day
-        from
-        to
+        regular {
+          id
+          day
+          from
+          to
+        }
+        trial {
+          id
+          day
+          from
+          to
+        }
       }
       exceptionDates {
         id
@@ -296,6 +306,7 @@ export const GET_MENTOR = gql`
       }
       zoomUserId
       zoomEmail
+      mentorAvailability
     }
   }
 `;

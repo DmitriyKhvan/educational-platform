@@ -52,6 +52,7 @@ const studentNavLinks = [
     label: 'mentors',
     link: '/student/mentors-list',
     icon: FaGraduationCap,
+    trial: true,
   },
   {
     label: 'subscriptions',

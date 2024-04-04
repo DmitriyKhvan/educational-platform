@@ -10,25 +10,35 @@ import { useAuth } from 'src/modules/auth';
 import { useDebounce } from 'src/utils/useDebounce';
 import { getItemToLocalStorage } from 'src/constants/global';
 import { scrollToElement } from 'src/utils/scrollToElement';
+import notify from 'src/utils/notify';
 
 export const ScheduleProvider = ({
+  query = COMBINED_TIMESHEETS,
   setTabIndex,
   setSchedule,
   selectedMentor,
+  setMentorId, // trial
+  timeZone,
   duration,
   children,
 }) => {
   const [
     getTimesheetsData,
     { loading: timesheetsLoading, data: timesheetsData },
-  ] = useLazyQuery(COMBINED_TIMESHEETS, {
-    fetchPolicy: 'network-only',
+  ] = useLazyQuery(query, {
+    // fetchPolicy: 'network-only',
+    fetchPolicy: 'no-cache',
+    onError: (error) => {
+      notify(error.message, 'error');
+      resetAll();
+    },
   });
 
   const { user } = useAuth();
 
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
+    timeZone ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const todayUserTimezone = utcToZonedTime(new Date(), userTimezone);
@@ -81,7 +91,7 @@ export const ScheduleProvider = ({
           date: format(new Date(debouncedTimesheetsData), 'yyyy-MM-dd', {
             timeZone: userTimezone,
           }),
-          duration: String(duration).toString(),
+          duration: duration && String(duration).toString(),
           ...(selectedMentor && {
             mentorId: selectedMentor.id,
           }),
@@ -155,7 +165,10 @@ export const ScheduleProvider = ({
       }
     }
 
-    structuredClone(timesheetsData?.combinedTimesheets)
+    structuredClone(
+      timesheetsData?.combinedTimesheets ||
+        timesheetsData?.combinedTimesheetsForTrials,
+    )
       .sort(
         (a, b) =>
           parse(a.from, 'HH:mm', new Date(day)) -
@@ -208,13 +221,19 @@ export const ScheduleProvider = ({
   useEffect(() => {
     if (timeOfDayInterval.start && timeOfDayInterval.end) {
       const availableSlots = [];
-      timesheetsData?.combinedTimesheets.forEach((timesheet) => {
+
+      (
+        timesheetsData?.combinedTimesheets ||
+        // eslint-disable-next-line no-unsafe-optional-chaining
+        timesheetsData?.combinedTimesheetsForTrials
+      ).forEach((timesheet) => {
         const tempTime = parse(timesheet.from, 'HH:mm', new Date(day));
 
         if (isWithinInterval(tempTime, timeOfDayInterval)) {
           availableSlots.push({
             time: timesheet.from,
             reserved: timesheet.reserved,
+            mentorId: timesheet.mentors && timesheet.mentors[0],
           });
         }
       });
@@ -226,6 +245,7 @@ export const ScheduleProvider = ({
   return (
     <ScheduleContext.Provider
       value={{
+        userTimezone,
         setTabIndex,
         setSchedule,
         selectedMentor,
@@ -253,6 +273,7 @@ export const ScheduleProvider = ({
         isToday,
         isEndMonth,
         resetAll,
+        setMentorId,
       }}
     >
       {children}

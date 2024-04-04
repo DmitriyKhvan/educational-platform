@@ -632,12 +632,6 @@ export const timezoneOptions = [
   },
 ];
 
-export const languageLevels = [
-  { label: 'beginner', value: 'beginner' },
-  { label: 'intermediate', value: 'intermediate' },
-  { label: 'fluent', value: 'fluent' },
-];
-
 export const countries = getData().map((country) => {
   return {
     label: country.name,
@@ -655,8 +649,6 @@ export const DAY = [
   'Friday',
   'Saturday',
 ];
-
-export const currencies = ['$', '₩'];
 
 export const cancel_lesson_reasons_student = [
   { label: 'cancel_reason_1', value: 1 },
@@ -811,4 +803,10 @@ export const CalendarView = {
   DAY_VIEW: 'timeGridDay',
   WEEK_VIEW: 'timeGridWeek',
   MONTH_VIEW: 'dayGridMonth',
+};
+
+export const MentorAvailabilityType = {
+  ONLY_REGULAR: 'only_regular',
+  ONLY_TRIAL: 'only_trial',
+  REGULAR_AND_TRIAL: 'regular_and_trial',
 };

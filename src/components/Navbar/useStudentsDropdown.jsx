@@ -11,7 +11,7 @@ import { Avatar } from 'src/widgets/Avatar/Avatar';
 
 export const useStudentsDropdown = () => {
   const [t] = useTranslation('profile');
-  const { user } = useAuth();
+  const { user, currentStudent } = useAuth();
 
   const onChangeStudentProfile = (student) => {
     setItemToLocalStorage('studentId', student.id);
@@ -39,7 +39,7 @@ export const useStudentsDropdown = () => {
 
   studentList.push({
     label: t('add_account'),
-    href: '/add-student-profile',
+    href: currentStudent?.isTrial ? '/trial' : '/add-student-profile',
     isActive: true,
     activeIcon: (
       <MdAddCircleOutline className="text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
