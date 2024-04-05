@@ -1,6 +1,12 @@
-import { format } from 'date-fns';
+import { format, utcToZonedTime } from 'date-fns-tz';
 
 export const formatTime = (time) => {
-  const formattedTime = format(new Date(time * 1000), 'HH:mm');
+  const formattedTime = format(
+    utcToZonedTime(new Date(time * 1000), 'UTC'),
+    'HH:mm',
+    {
+      timeZone: 'UTC',
+    },
+  );
   return formattedTime;
 };

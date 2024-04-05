@@ -4,6 +4,7 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 import {
   addHours,
   addMonths,
+  differenceInHours,
   isSameDay,
   isWithinInterval,
   parse,
@@ -40,6 +41,8 @@ export const ScheduleProvider = ({
     },
   });
 
+  const hourPrior = process.env.REACT_APP_PRODUCTION === 'true' ? 48 : 0;
+
   const { user } = useAuth();
 
   const userTimezone =
@@ -62,7 +65,6 @@ export const ScheduleProvider = ({
 
   const endMonth = addMonths(todayUserTimezone, 1);
   const isToday = isSameDay(new Date(day), todayUserTimezone);
-  const isEndMonth = isSameDay(new Date(day), endMonth);
 
   const morningInterval = {
     start: parse('00:00', 'HH:mm', new Date(day)),
@@ -212,14 +214,12 @@ export const ScheduleProvider = ({
   // morning/afternoon/evening formation
   useEffect(() => {
     if (timesheetsData) {
-      if (isToday && process.env.REACT_APP_PRODUCTION === 'false') {
-        setDayInterval({ currentTime: todayUserTimezone });
-      } else if (isEndMonth) {
-        setDayInterval({ lastTime: endMonth });
-      } else if (process.env.REACT_APP_PRODUCTION === 'true') {
+      if (differenceInHours(new Date(day), todayUserTimezone) <= hourPrior) {
         setDayInterval({
-          currentTime: addHours(todayUserTimezone, 48),
+          currentTime: addHours(todayUserTimezone, hourPrior),
         });
+      } else if (differenceInHours(endMonth, new Date(day)) < 24) {
+        setDayInterval({ lastTime: endMonth });
       } else {
         setDayInterval({ currentTime: '' });
       }
@@ -281,9 +281,9 @@ export const ScheduleProvider = ({
         eveningInterval,
         endMonth,
         isToday,
-        isEndMonth,
         resetAll,
         setMentorId,
+        hourPrior,
       }}
     >
       {children}

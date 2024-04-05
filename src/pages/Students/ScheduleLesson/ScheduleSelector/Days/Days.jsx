@@ -19,7 +19,7 @@ export const Days = memo(function Days({ startOfWeek, counter }) {
   useEffect(() => {
     const availableDays = [];
 
-    const dayPrior = process.env.REACT_APP_PRODUCTION === 'true' ? 0 : -1; // < 48 часов нельзя бронировать
+    const dayPrior = process.env.REACT_APP_PRODUCTION === 'true' ? 0 : -1; // < 48 hours can't book for prod
 
     for (let i = 0; i < 7; i++) {
       const tempDay = addDays(startOfWeek, i);
