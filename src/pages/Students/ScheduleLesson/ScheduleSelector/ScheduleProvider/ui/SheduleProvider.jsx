@@ -1,7 +1,14 @@
 import { useState, useEffect } from 'react';
 
 import { format, utcToZonedTime } from 'date-fns-tz';
-import { addMonths, isSameDay, isWithinInterval, parse } from 'date-fns';
+import {
+  addHours,
+  addMonths,
+  differenceInHours,
+  isSameDay,
+  isWithinInterval,
+  parse,
+} from 'date-fns';
 import { useLazyQuery } from '@apollo/client';
 
 import { COMBINED_TIMESHEETS } from 'src/modules/graphql/queries/combinedTimesheets';
@@ -34,6 +41,8 @@ export const ScheduleProvider = ({
     },
   });
 
+  const hourPrior = process.env.REACT_APP_PRODUCTION === 'true' ? 48 : 0;
+
   const { user } = useAuth();
 
   const userTimezone =
@@ -56,7 +65,6 @@ export const ScheduleProvider = ({
 
   const endMonth = addMonths(todayUserTimezone, 1);
   const isToday = isSameDay(new Date(day), todayUserTimezone);
-  const isEndMonth = isSameDay(new Date(day), endMonth);
 
   const morningInterval = {
     start: parse('00:00', 'HH:mm', new Date(day)),
@@ -102,7 +110,7 @@ export const ScheduleProvider = ({
   }, [debouncedTimesheetsData]);
 
   // formation morning/afternoon/evening taking into account the current time and available metor slots
-  const setDayInterval = (currentTime, lastTime) => {
+  const setDayInterval = ({ currentTime, lastTime }) => {
     let morning = false;
     let afternoon = false;
     let evening = false;
@@ -206,12 +214,14 @@ export const ScheduleProvider = ({
   // morning/afternoon/evening formation
   useEffect(() => {
     if (timesheetsData) {
-      if (isToday) {
-        setDayInterval(todayUserTimezone);
-      } else if (isEndMonth) {
-        setDayInterval(null, endMonth);
+      if (differenceInHours(new Date(day), todayUserTimezone) <= hourPrior) {
+        setDayInterval({
+          currentTime: addHours(todayUserTimezone, hourPrior),
+        });
+      } else if (differenceInHours(endMonth, new Date(day)) < 24) {
+        setDayInterval({ lastTime: endMonth });
       } else {
-        setDayInterval();
+        setDayInterval({ currentTime: '' });
       }
       setTimeout(() => scrollToElement('timeOfDay'), 100);
     }
@@ -271,9 +281,9 @@ export const ScheduleProvider = ({
         eveningInterval,
         endMonth,
         isToday,
-        isEndMonth,
         resetAll,
         setMentorId,
+        hourPrior,
       }}
     >
       {children}

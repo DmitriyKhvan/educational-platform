@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSchedule } from '../ScheduleProvider';
-import { isWithinInterval } from 'date-fns';
+import { addHours, differenceInHours } from 'date-fns';
 
 import Button from 'src/components/Form/Button';
 
@@ -15,8 +15,7 @@ export const TimeOfDay = memo(function TimeOfDay({ timeOfDay, idx }) {
     afternoonInterval,
     eveningInterval,
     endMonth,
-    isToday,
-    isEndMonth,
+    hourPrior, //48(prod) or 0(dev)
   } = useSchedule();
   const [t] = useTranslation('common');
 
@@ -24,19 +23,14 @@ export const TimeOfDay = memo(function TimeOfDay({ timeOfDay, idx }) {
     setTimeClicked(idx);
 
     if (timeOfDay === 'Morning') {
-      const isTodayMorning = isWithinInterval(
-        todayUserTimezone,
-        morningInterval,
-      );
-
-      const isEndMonthMorning = isWithinInterval(endMonth, morningInterval);
-
-      if (isTodayMorning && isToday) {
+      if (
+        differenceInHours(morningInterval.start, todayUserTimezone) <= hourPrior
+      ) {
         setTimeOfDayInterval({
-          start: todayUserTimezone,
+          start: addHours(todayUserTimezone, hourPrior),
           end: morningInterval.end,
         });
-      } else if (isEndMonthMorning && isEndMonth) {
+      } else if (differenceInHours(morningInterval.end, endMonth) > 0) {
         setTimeOfDayInterval({
           start: morningInterval.start,
           end: endMonth,
@@ -45,20 +39,17 @@ export const TimeOfDay = memo(function TimeOfDay({ timeOfDay, idx }) {
         setTimeOfDayInterval(morningInterval);
       }
     }
+
     if (timeOfDay === 'Afternoon') {
-      const isTodayArternoon = isWithinInterval(
-        todayUserTimezone,
-        afternoonInterval,
-      );
-
-      const isEndMonthArternoon = isWithinInterval(endMonth, afternoonInterval);
-
-      if (isTodayArternoon && isToday) {
+      if (
+        differenceInHours(afternoonInterval.start, todayUserTimezone) <=
+        hourPrior
+      ) {
         setTimeOfDayInterval({
-          start: todayUserTimezone,
+          start: addHours(todayUserTimezone, hourPrior),
           end: afternoonInterval.end,
         });
-      } else if (isEndMonthArternoon && isEndMonth) {
+      } else if (differenceInHours(afternoonInterval.end, endMonth) > 0) {
         setTimeOfDayInterval({
           start: afternoonInterval.start,
           end: endMonth,
@@ -67,20 +58,16 @@ export const TimeOfDay = memo(function TimeOfDay({ timeOfDay, idx }) {
         setTimeOfDayInterval(afternoonInterval);
       }
     }
+
     if (timeOfDay === 'Evening') {
-      const isTodayEvening = isWithinInterval(
-        todayUserTimezone,
-        eveningInterval,
-      );
-
-      const isEndMonthEvening = isWithinInterval(endMonth, eveningInterval);
-
-      if (isTodayEvening && isToday) {
+      if (
+        differenceInHours(eveningInterval.start, todayUserTimezone) <= hourPrior
+      ) {
         setTimeOfDayInterval({
-          start: todayUserTimezone,
+          start: addHours(todayUserTimezone, hourPrior),
           end: eveningInterval.end,
         });
-      } else if (isEndMonthEvening && isEndMonth) {
+      } else if (differenceInHours(eveningInterval.end, endMonth) > 0) {
         setTimeOfDayInterval({
           start: eveningInterval.start,
           end: endMonth,
