@@ -69,7 +69,7 @@ export const SIGN_UP = gql`
         visibilityStatus
         # avatar
         # availabilities
-        playgroundId 
+        playgroundId
       }
       packageSubscriptions {
         id
@@ -682,7 +682,7 @@ export const CREATE_APPOINTMENT = gql`
     $subscriptionId: ID!
     $startAt: DateTime!
     $duration: Int!
-    $repeat: Boolean
+    $repeat: Int
   ) {
     lesson: createLessons(
       mentorId: $mentorId
@@ -726,7 +726,7 @@ export const UPDATE_APPOINTMENT = gql`
     $id: ID!
     $startAt: DateTime!
     $mentorId: ID!
-    $repeat: Boolean
+    $repeat: Int
   ) {
     lesson: rescheduleLessons(
       id: $id
