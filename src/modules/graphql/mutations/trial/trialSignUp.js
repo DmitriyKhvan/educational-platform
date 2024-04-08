@@ -55,8 +55,7 @@ export const TRIAL_SIGN_UP = gql`
         visibilityStatus
         # avatar
         # availabilities
-        zoomUserId
-        zoomEmail
+        playgroundId
       }
       packageSubscriptions {
         id

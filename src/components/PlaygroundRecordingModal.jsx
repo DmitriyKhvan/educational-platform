@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactPlayer from 'react-player/file';
 
-export const ZoomRecordingModal = ({ urlRecording, width = '100%' }) => {
+export const PlaygroundRecordingModal = ({ urlRecording, width = '100%' }) => {
   return (
     <div
-      className={`max-w-[${
-        width === '100%' ? '456px' : width
-      }] w-full mx-auto overflow-hidden rounded-lg mb-6`}
+      className={`max-w-[${width === '100%' ? '456px' : width
+        }] w-full mx-auto overflow-hidden rounded-lg mb-6`}
     >
       <ReactPlayer
         url={urlRecording}

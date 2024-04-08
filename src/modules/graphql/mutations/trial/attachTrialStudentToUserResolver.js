@@ -47,7 +47,6 @@ export const ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER = gql`
         # mentor
         # student
         # packageSubscription
-        # zoom
       }
       avatarId
       avatar {

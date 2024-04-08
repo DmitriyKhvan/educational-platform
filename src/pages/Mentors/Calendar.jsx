@@ -10,7 +10,7 @@ import moment from 'moment-timezone';
 import Layout from '../../layouts/DashboardLayout';
 import LessonTable from '../../components/mentor-dashboard/LessonTable';
 import NotificationManager from '../../components/NotificationManager';
-import ZoomWarningModal from '../../components/student-dashboard/ZoomWarningModal';
+import PlaygroundWarningModal from '../../components/student-dashboard/PlaygroundWarningModal';
 const ReviewLessonModal = lazy(() =>
   import('../../components/mentor-dashboard/ReviewLessonModal'),
 );
@@ -59,7 +59,7 @@ const sortCalendarEvents = (data) => {
       const startAt = moment.unix(date).utc(0, true);
       const end_at = moment.unix(endEpoch).utc(0, true);
       const iterateEvents = {
-        zoom: eventDate.zoom,
+        playground: eventDate.playground,
         lesson: eventDate?.packageSubscription?.package?.course?.title,
         startAt,
         end_at,
@@ -214,13 +214,11 @@ const Calendar = () => {
           userTimezone,
         );
         const end = moment(calendarAppointments[index].end_at).tz(userTimezone);
-        const title = `${calendarAppointments[index]?.student.firstName} ${
-          calendarAppointments[index]?.student.lastName
-        } ${
-          calendarAppointments[index]?.student?.langLevel
+        const title = `${calendarAppointments[index]?.student.firstName} ${calendarAppointments[index]?.student.lastName
+          } ${calendarAppointments[index]?.student?.langLevel
             ? `/ ${calendarAppointments[index].student.langLevel}`
             : ''
-        }`;
+          }`;
         const event = {
           id: index,
           title,
@@ -371,7 +369,7 @@ const Calendar = () => {
           userTimezone,
         })
       ) {
-        window.open(eventDate.zoom.startUrl, '_blank');
+        window.open(eventDate.playground.startUrl, '_blank');
       } else {
         setIsWarningOpen(true);
       }
@@ -410,11 +408,11 @@ const Calendar = () => {
             {(selectedEvent.resource.eventDate.status ===
               LessonsStatusType.SCHEDULED ||
               selectedEvent.resource.eventDate.status ===
-                LessonsStatusType.RESCHEDULED) && (
-              <h4 className="text-red-500">
-                This lesson haven&apos;t been approved yet!
-              </h4>
-            )}
+              LessonsStatusType.RESCHEDULED) && (
+                <h4 className="text-red-500">
+                  This lesson haven&apos;t been approved yet!
+                </h4>
+              )}
           </div>
           <div className="row">
             <h4 className="text-primary">{date}</h4>
@@ -526,15 +524,15 @@ const Calendar = () => {
 
                   {(eventDate.status === LessonsStatusType.SCHEDULED ||
                     eventDate.status === LessonsStatusType.RESCHEDULED) && (
-                    <button
-                      className="btn col-5 enter-btn bg-primary"
-                      onClick={() => approveLesson(eventDate)}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {t('approve_lesson')}
-                    </button>
-                  )}
+                      <button
+                        className="btn col-5 enter-btn bg-primary"
+                        onClick={() => approveLesson(eventDate)}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {t('approve_lesson')}
+                      </button>
+                    )}
 
                   <button
                     className="btn col-5 enter-btn"
@@ -582,19 +580,17 @@ const Calendar = () => {
             <div className="flex items-center">
               <Button
                 theme="outline"
-                className={`ml-0 rounded-r-none focus:shadow-none ${
-                  selectedTab === 'upcomingLessons' &&
+                className={`ml-0 rounded-r-none focus:shadow-none ${selectedTab === 'upcomingLessons' &&
                   'bg-color-purple text-white'
-                }`}
+                  }`}
                 onClick={onClickUpcomingLessons}
               >
                 <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
               </Button>
               <Button
                 theme="outline"
-                className={`ml-[-4px] rounded-l-none focus:shadow-none ${
-                  selectedTab === 'pastLessons' && 'bg-color-purple text-white'
-                }`}
+                className={`ml-[-4px] rounded-l-none focus:shadow-none ${selectedTab === 'pastLessons' && 'bg-color-purple text-white'
+                  }`}
                 onClick={onClickPastLessons}
               >
                 <span>{t('past_lessons', { ns: 'lessons' })}</span>
@@ -603,9 +599,8 @@ const Calendar = () => {
 
             <Button
               theme="outline"
-              className={`focus:shadow-none ${
-                selectedTab === 'calendar' && 'bg-color-purple text-white'
-              }`}
+              className={`focus:shadow-none ${selectedTab === 'calendar' && 'bg-color-purple text-white'
+                }`}
               onClick={onCalendarClick}
             >
               <span>{t('calendar_view', { ns: 'lessons' })}</span>
@@ -668,7 +663,7 @@ const Calendar = () => {
       />
 
       {isWarningOpen && (
-        <ZoomWarningModal
+        <PlaygroundWarningModal
           isWarningOpen={isWarningOpen}
           closeModal={() => setIsWarningOpen(false)}
           setIsWarningOpen={setIsWarningOpen}

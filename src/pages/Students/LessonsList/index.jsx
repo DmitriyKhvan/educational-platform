@@ -35,7 +35,7 @@ const sortCalendarEvents = (data, timeZone) => {
   eventKeys.forEach((key) => {
     for (const eventDate of eventDates[key]) {
       const iterateEvents = {
-        zoom: eventDate.zoom,
+        playground: eventDate.playground,
         lesson: eventDate?.packageSubscription?.package?.course?.title,
         courseId: eventDate?.packageSubscription?.package?.course?.id,
         startAt: utcToZonedTime(new Date(eventDate.startAt), timeZone),
@@ -60,9 +60,9 @@ const sortCalendarEvents = (data, timeZone) => {
     for (const eventDate of eventDates[eventKey]) {
       const mentor = eventDate.mentor
         ? eventDate.mentor?.user?.firstName +
-          ' ' +
-          eventDate.mentor?.user?.lastName?.charAt(0)?.toUpperCase() +
-          '.'
+        ' ' +
+        eventDate.mentor?.user?.lastName?.charAt(0)?.toUpperCase() +
+        '.'
         : '';
 
       const startTime = format(
@@ -204,10 +204,9 @@ const LessonsList = () => {
               <div className="grid grid-cols-2 w-full sm:flex sm:w-auto">
                 <Button
                   theme="outline"
-                  className={`relative ml-0 rounded-r-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
-                    selectedTab === 'upcomingLessons' &&
+                  className={`relative ml-0 rounded-r-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${selectedTab === 'upcomingLessons' &&
                     'bg-color-dark-purple text-white'
-                  }`}
+                    }`}
                   onClick={onClickUpcomingLessons}
                 >
                   <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
@@ -219,10 +218,9 @@ const LessonsList = () => {
                 </Button>
                 <Button
                   theme="outline"
-                  className={`ml-[-4px] rounded-l-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
-                    selectedTab === 'pastLessons' &&
+                  className={`ml-[-4px] rounded-l-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${selectedTab === 'pastLessons' &&
                     'bg-color-dark-purple text-white'
-                  }`}
+                    }`}
                   onClick={onClickPastLessons}
                 >
                   <span>{t('past_lessons', { ns: 'lessons' })}</span>
@@ -231,10 +229,9 @@ const LessonsList = () => {
 
               <Button
                 theme="outline"
-                className={`focus:shadow-none hidden sm:block hover:bg-color-dark-purple hover:text-white ${
-                  selectedTab === 'calendar' &&
+                className={`focus:shadow-none hidden sm:block hover:bg-color-dark-purple hover:text-white ${selectedTab === 'calendar' &&
                   'bg-color-dark-purple text-white'
-                }`}
+                  }`}
                 onClick={onCalendarClick}
               >
                 <span>{t('calendar_view', { ns: 'lessons' })}</span>
