@@ -26,6 +26,8 @@ import MentorImageRow from './MentorImageRow';
 import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 import { utcToZonedTime, format } from 'date-fns-tz';
 import { addMinutes } from 'date-fns';
+import MyDropdownMenu from 'src/components/DropdownMenu';
+import { FaChevronDown } from 'react-icons/fa6';
 
 const LessonConfirmation = ({
   plan,
@@ -45,7 +47,7 @@ const LessonConfirmation = ({
 
   const urlParams = new URLSearchParams(window.location.search);
   const [repeat, setRepeat] = useState(
-    JSON.parse(urlParams.get('repeatLessons') || false),
+    JSON.parse(urlParams.get('repeatLessons') || null),
   );
 
   const [credits, setCredits] = useState(plan?.credits);
@@ -189,8 +191,8 @@ const LessonConfirmation = ({
   const repeatLesson = `
     ${t('repeat_lesson', { ns: 'lessons' })} 
     ${t(format(new Date(time), 'eee'), {
-    ns: 'translations',
-  })} ${timeRepeatLesson}x
+      ns: 'translations',
+    })} ${timeRepeatLesson}x
     (${t('max_month', { ns: 'lessons' })})
   `;
 
@@ -268,9 +270,42 @@ const LessonConfirmation = ({
           <div className="mt-3">
             <CheckboxField
               label={repeatLesson}
-              onChange={(e) => setRepeat(e.target.checked)}
+              onChange={(e) => setRepeat(e.target.checked ? 1 : null)}
               checked={repeat}
+              className="mb-2"
             />
+            {repeat && (
+              <MyDropdownMenu
+                button={
+                  <Button theme="outline" className="gap-6 shadow">
+                    {`${repeat} month(s)`} <FaChevronDown />
+                  </Button>
+                }
+                contentClassName=" rounded-xl overflow-hidden border"
+              >
+                <div className="flex flex-col">
+                  <CheckboxField
+                    checked={repeat === 1}
+                    onChange={() => setRepeat(1)}
+                    type="radio"
+                    name="repeatMonth"
+                    label="1 month"
+                    className="flex-row-reverse justify-between h-[56px] border-b  pl-1 pr-4"
+                  />
+                  <CheckboxField
+                    // checked={view === v}
+                    // onChange={() => setView(v)}
+
+                    checked={repeat === 3}
+                    onChange={() => setRepeat(3)}
+                    type="radio"
+                    name="repeatMonth"
+                    label="3 month"
+                    className="flex-row-reverse justify-between h-[56px] border-b  pl-1 pr-4"
+                  />
+                </div>
+              </MyDropdownMenu>
+            )}
           </div>
 
           <Button
@@ -282,8 +317,8 @@ const LessonConfirmation = ({
             {confirmDisable && isConfirmed
               ? t('lesson_pending_approval', { ns: 'lessons' })
               : confirmDisable && !isConfirmed
-                ? t('lesson_scheduling_failed', { ns: 'lessons' })
-                : t('booking_lesson', { ns: 'lessons' })}
+              ? t('lesson_scheduling_failed', { ns: 'lessons' })
+              : t('booking_lesson', { ns: 'lessons' })}
           </Button>
         </div>
 
