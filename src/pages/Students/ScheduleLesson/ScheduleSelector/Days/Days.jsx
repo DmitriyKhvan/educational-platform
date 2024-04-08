@@ -1,5 +1,11 @@
 import { memo, useEffect, useState } from 'react';
-import { addDays, isAfter, isBefore, subDays } from 'date-fns';
+import {
+  addDays,
+  differenceInDays,
+  isAfter,
+  isBefore,
+  subDays,
+} from 'date-fns';
 import { format } from 'date-fns-tz';
 
 import { Day } from './Day';
@@ -13,11 +19,17 @@ export const Days = memo(function Days({ startOfWeek, counter }) {
   useEffect(() => {
     const availableDays = [];
 
+    const dayPrior = process.env.REACT_APP_PRODUCTION === 'true' ? 0 : -1; // < 48 hours can't book for prod
+
     for (let i = 0; i < 7; i++) {
       const tempDay = addDays(startOfWeek, i);
       const startMonth = subDays(todayUserTimezone, 1);
 
-      if (isAfter(tempDay, startMonth) && isBefore(tempDay, endMonth)) {
+      if (
+        isAfter(tempDay, startMonth) &&
+        isBefore(tempDay, endMonth) &&
+        differenceInDays(tempDay, todayUserTimezone) > dayPrior
+      ) {
         const dayOfWeek = format(tempDay, 'yyyy-MM-dd HH:mm:ss', {
           timeZone: userTimezone,
         });
