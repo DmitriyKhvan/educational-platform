@@ -4,7 +4,7 @@ import { addMinutes, format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import StatusIndicator from './StatusIndicator';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
-import { ZoomRecordingModal } from '../ZoomRecordingModal';
+import { PlaygroundRecordingModal } from '../PlaygroundRecordingModal';
 import { useAuth } from 'src/modules/auth';
 import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 const LessonInfoModal = ({
   date,
   data,
-  zoom,
+  playground,
   refetch,
   duration,
   setCanceledLessons,
@@ -52,8 +52,8 @@ const LessonInfoModal = ({
         <StatusIndicator status={data.status} />
       </header>
 
-      {zoom ? (
-        <ZoomRecordingModal urlRecording={zoom?.recordingUrl} />
+      {playground ? (
+        <PlaygroundRecordingModal urlRecording={playground?.recordingUrl} />
       ) : (
         <LessonControls
           date={date}

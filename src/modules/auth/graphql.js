@@ -69,8 +69,7 @@ export const SIGN_UP = gql`
         visibilityStatus
         # avatar
         # availabilities
-        zoomUserId
-        zoomEmail
+        playgroundId 
       }
       packageSubscriptions {
         id
@@ -172,8 +171,7 @@ export const ME_QUERY = gql`
           url
         }
         # availabilities
-        zoomUserId
-        zoomEmail
+        playgroundId
         acceptingStudents
       }
       avatarId
@@ -304,8 +302,7 @@ export const GET_MENTOR = gql`
         from
         to
       }
-      zoomUserId
-      zoomEmail
+      playgroundId
       mentorAvailability
     }
   }
@@ -605,8 +602,7 @@ export const APPOINTMENTS_QUERY = gql`
           url
         }
         # availabilities
-        zoomUserId
-        zoomEmail
+        playgroundId
       }
       student {
         id
@@ -644,7 +640,7 @@ export const APPOINTMENTS_QUERY = gql`
         }
         paymentId
       }
-      zoom {
+      playground {
         id
         meetingId
         startUrl

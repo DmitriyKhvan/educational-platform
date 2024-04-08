@@ -189,8 +189,8 @@ const LessonConfirmation = ({
   const repeatLesson = `
     ${t('repeat_lesson', { ns: 'lessons' })} 
     ${t(format(new Date(time), 'eee'), {
-      ns: 'translations',
-    })} ${timeRepeatLesson}x
+    ns: 'translations',
+  })} ${timeRepeatLesson}x
     (${t('max_month', { ns: 'lessons' })})
   `;
 
@@ -282,8 +282,8 @@ const LessonConfirmation = ({
             {confirmDisable && isConfirmed
               ? t('lesson_pending_approval', { ns: 'lessons' })
               : confirmDisable && !isConfirmed
-              ? t('lesson_scheduling_failed', { ns: 'lessons' })
-              : t('booking_lesson', { ns: 'lessons' })}
+                ? t('lesson_scheduling_failed', { ns: 'lessons' })
+                : t('booking_lesson', { ns: 'lessons' })}
           </Button>
         </div>
 
@@ -327,7 +327,6 @@ const LessonConfirmation = ({
                       ) ??
                       appointment?.packageSubscription?.package.course?.title
                     }
-                    //zoomlinkappointment?.zoomlink}
                     // date={time}
                     date={appointment?.startAt}
                     mentor={tutor}
@@ -345,7 +344,6 @@ const LessonConfirmation = ({
                   lesson={
                     newAppointment?.packageSubscription?.package.course?.title
                   }
-                  //zoomlinknewAppointment?.zoomlink}
                   date={time}
                   mentor={tutor}
                   data={newAppointment ?? {}}

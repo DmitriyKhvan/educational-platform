@@ -5,7 +5,7 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 import { ko as kr } from 'date-fns/locale';
 import { addMinutes } from 'date-fns';
 
-import { ZoomRecordingModal } from '../ZoomRecordingModal';
+import { PlaygroundRecordingModal } from '../PlaygroundRecordingModal';
 
 import { BsPlayCircle } from 'react-icons/bs';
 import { LessonsStatusType } from 'src/constants/global';
@@ -137,20 +137,20 @@ const LessonTable = ({ tabularData }) => {
               <td className="pt-4 border-b text-left">
                 <p className="mt-4 text-color-light-grey tracking-tight text-[15px] leading-normal">
                   {event.resource.status === LessonsStatusType.SCHEDULED ||
-                  event.resource.status === LessonsStatusType.RESCHEDULED
+                    event.resource.status === LessonsStatusType.RESCHEDULED
                     ? t('lesson_pending_request')
                     : t(event.resource.status)}
                 </p>
               </td>
               <td className="pt-4 border-b m-0">
-                {event.resource?.zoom?.recordingUrl && (
+                {event.resource?.playground?.recordingUrl && (
                   <MyDialog
                     button={
                       <BsPlayCircle className="mt-4 text-2xl text-color-purple cursor-pointer text-center" />
                     }
                   >
-                    <ZoomRecordingModal
-                      urlRecording={event.resource?.zoom?.recordingUrl}
+                    <PlaygroundRecordingModal
+                      urlRecording={event.resource?.playground?.recordingUrl}
                       width="70vw"
                     />
                   </MyDialog>

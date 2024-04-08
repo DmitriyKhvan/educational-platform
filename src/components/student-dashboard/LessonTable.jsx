@@ -158,7 +158,7 @@ export const LessonTable = ({
                   <LessonControls
                     date={date}
                     data={data}
-                    zoom={data?.zoom}
+                    playground={data?.playground}
                     refetch={getAppointments}
                     mentor={data?.mentor}
                     lesson={data?.packageSubscription?.package?.course?.title}
