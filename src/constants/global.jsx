@@ -797,6 +797,7 @@ export const DiscountType = {
 export const Language = {
   EN: 'en',
   KR: 'kr',
+  CH: 'ch',
 };
 
 export const CalendarView = {

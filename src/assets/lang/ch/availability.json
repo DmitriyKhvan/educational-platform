@@ -1,0 +1,13 @@
+{
+  "set_your_availability": "設定可上課時間",
+  "edit_your_shedule_below": "請在下方編輯您的時間表。",
+  "set_your_teaching_hours": "選擇教學時間",
+  "tutor_availability_settings": "可上課時間設定",
+  "substitute_lesson_title": "替代課程",
+  "enable_substitute_bookings": "啟用代課預約",
+  "substitute_lesson_desc_one": "如果其他 Nao Now 導師都無法授課，我可以代課。",
+  "substitute_lesson_desc_two": "請注意，代課請求最晚需要在上課前 2 小時提出。",
+  "substitute_us_holidays": "想要在美國國定假日時授課嗎？",
+  "enable_us_holidays_substitute": "啟用假日授課預約",
+  "save_return_settings": "儲存並返回"
+}
