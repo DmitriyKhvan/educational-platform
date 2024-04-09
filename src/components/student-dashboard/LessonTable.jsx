@@ -134,7 +134,7 @@ export const LessonTable = ({
 
                 <td className="border-b group-last:border-b-0 h-[80px] p-1 align-middle">
                   <p className="text-sm lg:text-[15px] font-medium text-color-dark-purple tracking-tight text-[15px] leading-normal">
-                    {currentStudent.langLevel}
+                    {currentStudent?.langLevel}
                   </p>
                 </td>
 

@@ -12,6 +12,7 @@ import AvailabilityLayout from './Availiability';
 import Layout from 'src/layouts/DashboardLayout';
 import MentorProfile from './Profile/MentorProfile';
 import { ErrorPage } from '../ErrorPage';
+import LessonsList from './LessonsList';
 
 export default function TutorPages() {
   let { path } = useRouteMatch();
@@ -26,6 +27,15 @@ export default function TutorPages() {
 
       <Route exact path={`${path}/lesson-calendar`}>
         <TutorCalendar />
+
+        {/* <LessonsList /> */}
+      </Route>
+
+      {/* ROUTE FOR TEST */}
+      <Route exact path={`${path}/lesson-calendar2`}>
+        {/* <TutorCalendar /> */}
+
+        <LessonsList />
       </Route>
 
       <Route path={`${path}/availability`}>

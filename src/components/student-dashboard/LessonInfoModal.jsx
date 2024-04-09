@@ -90,7 +90,7 @@ const LessonInfoModal = ({
           <label className="text-xs font-medium text-gray-300 block">
             {t('level')}
           </label>
-          {currentStudent.langLevel}
+          {currentStudent?.langLevel ?? currentStudent?.level}
         </div>
 
         <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">
