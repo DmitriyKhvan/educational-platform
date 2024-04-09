@@ -15,14 +15,16 @@ const AvailabilityPicker = ({
   tTime,
   AvailabilitySlots,
   mentorAvailabilityType,
+  timeOptionsSort,
+  timeGroupsSort,
 }) => {
   const { removeAvailabilityRow } = useContext(AvailProv);
   const { t } = useTranslation('modals');
 
   const [fromTimeOptions, setFromTimeOptions] = useState([
-    ...timeOptions.slice(0, -1),
+    ...timeOptionsSort.slice(0, -1),
   ]);
-  const [toTimeOptions, setToTimeOptions] = useState([...timeOptions]);
+  const [toTimeOptions, setToTimeOptions] = useState([...timeGroupsSort[0]]);
 
   const [fromTime, setFromTime] = useState(
     timeOptions.find((time) => time.value === formatTimeToSeconds(frmTime)),

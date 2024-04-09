@@ -6,6 +6,10 @@ import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import '../assets/styles/availability.scss';
 import { MentorAvailabilityType } from 'src/constants/global';
+import { timeOptions } from 'src/pages/Mentors/Availiability/lib/timeOptions';
+import { timeGroups } from 'src/pages/Mentors/Availiability/lib/timeGroups';
+import { timesOfDay } from 'src/pages/Mentors/Availiability/lib/timesOfDay';
+import { formatTime } from 'src/pages/Mentors/Availiability/lib/formatTime';
 
 const AvailabilityDayRow = ({
   day,
@@ -20,6 +24,8 @@ const AvailabilityDayRow = ({
   mentorAvailabilityType,
 }) => {
   const [toggle, setToggle] = useState(false);
+  const [timeGroupsSort, setTimeGroupsSort] = useState([]);
+
   const { removeAvailabilityRow } = useContext(AvailProv);
   const { addAvailRowUp } = useContext(AvailProv);
   const [t] = useTranslation('common');
@@ -48,29 +54,57 @@ const AvailabilityDayRow = ({
     }
   }, [gatherAvailabilities]);
 
-  const busyDay = useMemo(() => {
+  const timeOptionsSort = useMemo(() => {
     if (allGatherAvailabilities) {
       const availType =
         mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR
           ? MentorAvailabilityType.ONLY_TRIAL
           : MentorAvailabilityType.ONLY_REGULAR;
 
-      const allDay = allGatherAvailabilities[availType].filter((el) => {
-        return el.day === day;
-      });
+      // const allDay = allGatherAvailabilities[availType].filter((el) => {
+      //   return el.day === day;
+      // });
 
-      return allDay;
+      const timeOptionsSort = timesOfDay(
+        allGatherAvailabilities[availType],
+        day,
+      );
+
+      // разделить на массивы беспрерывных временных интервалов
+      setTimeGroupsSort(timeGroups(timeOptionsSort));
+
+      console.log('day', day);
+      console.log('timeGroup', timeGroups(timeOptionsSort));
+      console.log('timeOptions', timeOptions);
+      console.log('timeOptionsSort', timeOptionsSort);
+
+      return timeOptionsSort;
     }
-  }, [mentorAvailabilityType]);
+  }, [allGatherAvailabilities, mentorAvailabilityType]);
+
+  console.log('timeGroupsSort', timeGroupsSort);
+  console.log('timeOptionsSort', timeOptionsSort);
 
   const onToggleDay = () => {
+    const firstTimeGroup = timeGroupsSort[0];
+
     setToggle(!toggle);
     if (!toggle) {
       removeAvailabilityRow({ day });
 
       const obj = [
         ...gatherAvailabilities,
-        { id: uuid(), day, slots: [{ from: '09:00', to: '17:00' }] },
+        // { id: uuid(), day, slots: [{ from: '09:00', to: '17:00' }] },
+        {
+          id: uuid(),
+          day,
+          slots: [
+            {
+              from: formatTime(firstTimeGroup[0].value),
+              to: formatTime(firstTimeGroup[firstTimeGroup.length - 1].value),
+            },
+          ],
+        },
       ];
       setGatherAvailabilities(obj, mentorAvailabilityType);
     }
@@ -95,8 +129,8 @@ const AvailabilityDayRow = ({
         type="checkbox"
         name={day}
         checked={toggle}
-        onChange={busyDay.length > 0 ? undefined : onToggleDay}
-        disabled={busyDay.length > 0}
+        onChange={!timeOptionsSort.length ? undefined : onToggleDay}
+        disabled={!timeOptionsSort.length}
       />
       <div className="col-sm-2 ms-3 me-5 align_day">
         <div>
@@ -123,6 +157,8 @@ const AvailabilityDayRow = ({
                     setIsTeachAddHours={setIsTeachAddHours}
                     AvailabilitySlots={AvailabilitySlots}
                     mentorAvailabilityType={mentorAvailabilityType}
+                    timeOptionsSort={timeOptionsSort}
+                    timeGroupsSort={timeGroupsSort}
                   />
                 );
               }
