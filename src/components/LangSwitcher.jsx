@@ -22,6 +22,10 @@ export const LangSwitcher = () => {
       label: 'korean',
       value: Language.KR,
     },
+    {
+      label: 'chinese',
+      value: Language.CH,
+    },
   ];
 
   const currentLang = useMemo(() => {
@@ -30,6 +34,8 @@ export const LangSwitcher = () => {
         ? Language.EN
         : localStorage.getItem('language') === Language.KR
         ? Language.KR
+        : localStorage.getItem('language') === Language.CH
+        ? Language.CH
         : user.role === Roles.MENTOR
         ? Language.EN
         : Language.KR;

@@ -1,0 +1,17 @@
+{
+  "lets_get_started": "讓我們開始吧！",
+  "invalid_email": "電子郵件地址無效",
+  "invalid_phone_number": "電話號碼無效",
+  "media_channel_question": "您是如何認識我們的呢？",
+  "instagram_facebook": "Instagram/Facebook 廣告",
+  "influencers": "網紅（Youtube/Instagram）",
+  "search": "搜尋（Naver、Google、Daum等等）",
+  "referrals": "親友推薦",
+  "other": "其他",
+  "back": "返回",
+  "next": "繼續",
+  "finish": "完成",
+  "create_account": "建立帳號",
+  "proceed_dashboard": "前往資訊儀表板",
+  "add_profile": "新增個人檔案"
+}

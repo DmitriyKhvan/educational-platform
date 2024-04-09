@@ -28,11 +28,15 @@ export const OnboardingLayout = ({ children }) => {
       localStorageLang =
         localStorage.getItem('language') === Language.KR
           ? Language.KR
+          : localStorage.getItem('language') === Language.CH
+          ? Language.CH
           : Language.EN;
     } else {
       localStorageLang =
         localStorage.getItem('language') === Language.EN
           ? Language.EN
+          : localStorage.getItem('language') === Language.CH
+          ? Language.CH
           : Language.KR;
     }
 
@@ -76,6 +80,20 @@ export const OnboardingLayout = ({ children }) => {
             />
             <span className="flex items-end justify-center py-2 px-[20px] rounded-lg  peer-checked:bg-color-dark-purple peer-checked:text-white text-[13px] cursor-pointer select-none">
               Kr
+            </span>
+          </label>
+
+          <label>
+            <input
+              onChange={onChangeLanguage}
+              className="peer hidden"
+              type="radio"
+              value={Language.CH}
+              name="language"
+              checked={language === Language.CH}
+            />
+            <span className="flex items-end justify-center py-2 px-[20px] rounded-lg  peer-checked:bg-color-dark-purple peer-checked:text-white text-[13px] cursor-pointer select-none">
+              Ch
             </span>
           </label>
         </div>
