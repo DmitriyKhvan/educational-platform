@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import { FaArrowLeft, FaPencil } from 'react-icons/fa6';
 import Button from 'src/components/Form/Button';
 
@@ -15,9 +17,9 @@ import { ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER } from 'src/modules/graphql/mutat
 import { setItemToLocalStorage } from 'src/constants/global';
 
 const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
-  const { user: currentUser } = useAuth();
+  const history = useHistory();
+  const { user: currentUser, refetchUser } = useAuth();
   const { languageLevel, lessonTopic, packageSubscription } = selectedPlan;
-  const { refetchUser } = useAuth();
 
   const [i18n] = useTranslation();
   const [signUp] = useMutation(TRIAL_SIGN_UP);
@@ -105,7 +107,7 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
       );
 
       refetchUser({ studentId: loginData.authResult.user.students[0].id });
-      setStep((v) => v + 1);
+      history.push('/trial/thank-you');
     }
   }, [loginData]);
 
