@@ -8,6 +8,7 @@ import StatusIndicator from './StatusIndicator';
 import LessonControls from './LessonControls';
 import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 import { useTranslation } from 'react-i18next';
+import { MdEventRepeat } from 'react-icons/md';
 
 const ScheduleCard = ({
   // lesson,
@@ -19,6 +20,7 @@ const ScheduleCard = ({
   setCanceledLessons,
   duration,
   subscription,
+  repeat = null,
 }) => {
   const { getTitleByCourseId } = useCourseTranslation();
   const [t] = useTranslation(['lessons', 'common']);
@@ -69,7 +71,14 @@ const ScheduleCard = ({
           <div className="w-full">
             <div className="flex justify-between items-center mb-4">
               {displayDate()}
-              <StatusIndicator status={data.status} />
+              {repeat ? (
+                <div className="text-color-purple flex items-center text-sm gap-2">
+                  <MdEventRepeat className="text-[20px]" /> For {repeat}{' '}
+                  month(s)
+                </div>
+              ) : (
+                <StatusIndicator status={data.status} />
+              )}
             </div>
             {/* TODO: add this to translation.json */}
 
