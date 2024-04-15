@@ -1,29 +1,42 @@
-export const timeGroups = (data) => {
-  const maxGap = 30 * 60; // 30 минут в секундах
+import { formatTimeToSeconds } from './formatTimeToSeconds';
+import { timeOptions } from './timeOptions';
 
-  const splitData = [];
-  let currentGroup = [];
+export const timeGroups = (availabilities, day) => {
+  const timeOfDayInterval = availabilities
+    .filter((el) => {
+      return el.day === day;
+    })
+    .map((slot) => {
+      return {
+        from: formatTimeToSeconds(slot.slots[0].from),
+        to: formatTimeToSeconds(slot.slots[0].to),
+      };
+    });
 
-  data.forEach((item, index) => {
-    if (index === 0) {
-      currentGroup.push(item);
-      return;
-    }
+  const timeOfDayIntervalInverse =
+    timeOfDayInterval.length && timeOfDayInterval[0].from !== 0
+      ? [{ from: 0, to: timeOfDayInterval[0]?.from }]
+      : [];
 
-    const prevItem = data[index - 1];
-    const gap = item.value - prevItem.value;
+  for (let i = 0; i < timeOfDayInterval.length; i++) {
+    const from = timeOfDayInterval[i].to;
+    const to = timeOfDayInterval[i + 1] ? timeOfDayInterval[i + 1].from : 84600;
 
-    if (gap <= maxGap) {
-      currentGroup.push(item);
-    } else {
-      splitData.push(currentGroup);
-      currentGroup = [item];
-    }
+    timeOfDayIntervalInverse.push({ from, to });
+  }
 
-    if (index === data.length - 1) {
-      splitData.push(currentGroup);
-    }
-  });
+  const timeGroups = [];
 
-  return splitData;
+  for (let i = 0; i < timeOfDayIntervalInverse.length; i++) {
+    const tempArr = timeOptions.filter((time) => {
+      return (
+        time.value >= timeOfDayIntervalInverse[i].from &&
+        time.value <= timeOfDayIntervalInverse[i].to
+      );
+    });
+
+    timeGroups.push(tempArr);
+  }
+
+  return timeGroups.length ? timeGroups : [[...timeOptions]];
 };

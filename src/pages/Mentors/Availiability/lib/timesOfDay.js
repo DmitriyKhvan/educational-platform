@@ -2,7 +2,7 @@ import { formatTimeToSeconds } from './formatTimeToSeconds';
 import { timeOptions } from './timeOptions';
 
 export const timesOfDay = (availabilities, day) => {
-  // доступные временные слоты
+  // available time slots
   let timeOptionsSort = [...timeOptions];
 
   availabilities
@@ -16,9 +16,9 @@ export const timesOfDay = (availabilities, day) => {
       };
     })
     .forEach((slot) => {
-      timeOptionsSort = timeOptionsSort.filter(
-        (time) => time.value <= slot.from || time.value >= slot.to,
-      );
+      timeOptionsSort = timeOptionsSort.filter((time) => {
+        return time.value < slot.from || time.value >= slot.to;
+      });
     });
 
   return timeOptionsSort;

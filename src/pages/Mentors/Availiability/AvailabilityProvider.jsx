@@ -10,7 +10,6 @@ export const AvailabilityProvider = ({
   children,
   gatherAvailabilities,
   setGatherAvailabilities,
-  setDisablePlusBtn,
   setIsTeachAddHours,
   AvailabilitySlots,
   isteachAddHours,
@@ -22,7 +21,6 @@ export const AvailabilityProvider = ({
       { id: id, day: undefined, slots: [{ from: '09:00', to: '17:00' }] },
     ];
     if (id) {
-      var LastToTime, fromTime, length;
       var deleteRow = gatherAvailabilities.filter((q) => q.id !== id);
       const removeDay =
         isteachAddHours && isteachAddHours.filter((el) => el !== day);
@@ -33,77 +31,14 @@ export const AvailabilityProvider = ({
         mentorAvailabilityType,
       );
 
-      if (deleteRow.length > 0) {
-        length = deleteRow.length - 1;
-        LastToTime = deleteRow[length].slots[0].to;
-        fromTime = LastToTime;
-        if (LastToTime === '23:30') {
-          // setIsTeachAddHours(true)
-          setDisablePlusBtn(true);
-        } else {
-          // setIsTeachAddHours(false)
-          setDisablePlusBtn(false);
-        }
-      }
       validateTimesSelected(deleteRow.length === 0 ? tempData : deleteRow, day);
     }
-  };
-
-  const addAvailRows = (type) => {
-    var length, LastToTime, fromTime, toTime;
-    if (gatherAvailabilities.length > 0) {
-      length = gatherAvailabilities.length - 1;
-      LastToTime = gatherAvailabilities[length].slots[0].to;
-      // fromTime = moment(LastToTime, 'HH:mm:ss').add("60", 'minutes').format('HH:mm');
-      fromTime = LastToTime;
-      if (fromTime >= '23:00') {
-        toTime = moment(fromTime, 'HH:mm:ss')
-          .add('30', 'minutes')
-          .format('HH:mm');
-        setDisablePlusBtn(true);
-      } else {
-        toTime = moment(fromTime, 'HH:mm:ss')
-          .add('60', 'minutes')
-          .format('HH:mm');
-      }
-    }
-    const id = uuid();
-    AvailabilitySlots(fromTime || '09:00', toTime || '17:00', id);
-  };
-  const addAvailRowUp = (day, type) => {
-    var length, LastToTime, fromTime, toTime;
-    const tempDay = [...isteachAddHours];
-    if (gatherAvailabilities.length > 0) {
-      length = gatherAvailabilities.length - 1;
-      gatherAvailabilities.map((data) => {
-        if (data.day === day) {
-          LastToTime = data.slots[0].to;
-        }
-        var allLast = data.slots[0].to;
-        fromTime = LastToTime;
-        if (fromTime >= '23:00') {
-          toTime = moment(fromTime, 'HH:mm:ss')
-            .add('30', 'minutes')
-            .format('HH:mm');
-          tempDay.push(day);
-        } else {
-          toTime = moment(fromTime, 'HH:mm:ss')
-            .add('60', 'minutes')
-            .format('HH:mm');
-        }
-      });
-      setIsTeachAddHours([...new Set(tempDay)]);
-    }
-    const id = uuid();
-    AvailabilitySlots(fromTime || '09:00', toTime || '17:00', id, day);
   };
 
   return (
     <AvailProv.Provider
       value={{
         removeAvailabilityRow,
-        addAvailRows,
-        addAvailRowUp,
       }}
     >
       {children}
