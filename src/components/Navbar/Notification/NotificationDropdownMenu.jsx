@@ -35,9 +35,9 @@ export const NotificationDropdownMenu = memo(() => {
           <div className="flex items-center gap-1">
             <span className="font-bold">Notifications</span>
             {visible ? (
-              <FaAngleUp className="" />
+              <FaAngleUp className="w-3" />
             ) : (
-              <FaAngleDown className="" />
+              <FaAngleDown className="w-3" />
             )}
           </div>
         )}

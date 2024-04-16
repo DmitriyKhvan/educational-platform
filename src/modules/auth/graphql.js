@@ -726,7 +726,7 @@ export const UPDATE_APPOINTMENT = gql`
     $id: ID!
     $startAt: DateTime!
     $mentorId: ID!
-    $repeat: Int
+    $repeat: Boolean
   ) {
     lesson: rescheduleLessons(
       id: $id
@@ -819,6 +819,8 @@ export const LESSON_QUERY = gql`
           id
           period
           sessionTime
+
+          totalSessions
           course {
             id
             title

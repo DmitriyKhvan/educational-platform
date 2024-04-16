@@ -12,6 +12,7 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { ScheduleProvider } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/ScheduleProvider';
 import { AvailableTimes } from './ScheduleSelector/AvailableTimes';
 import Layout from 'src/layouts/DashboardLayout';
+import ScheduleSuccess from './ScheduleSuccess';
 
 const ScheduleLesson = () => {
   const { id = null } = useParams();
@@ -19,14 +20,19 @@ const ScheduleLesson = () => {
   const { data, loading } = useQuery(LESSON_QUERY, {
     variables: { id },
     skip: !id,
-    fetchPolicy: 'network-only',
   });
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const [repeat, setRepeat] = useState(
+    JSON.parse(urlParams.get('repeatLessons') || null),
+  );
 
   const [clicked, setClicked] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState({});
   const [schedule, setSchedule] = useState();
   const [tabIndex, setTabIndex] = useState(id ? 1 : 0);
   const [selectTutor, setSelectTutor] = useState();
+  const [successfulLesson, setSuccessfulLesson] = useState(null);
 
   const scheduledLesson = data?.lesson || null;
 
@@ -90,6 +96,18 @@ const ScheduleLesson = () => {
           setTabIndex={setTabIndex}
           lesson={scheduledLesson}
           lessonId={id}
+          setSuccessfulLesson={setSuccessfulLesson}
+          setRepeat={setRepeat}
+          repeat={repeat}
+        />
+      )}
+
+      {tabIndex === 5 && (
+        <ScheduleSuccess
+          repeat={repeat}
+          setTabIndex={setTabIndex}
+          lesson={successfulLesson}
+          mentor={selectTutor || location?.state?.tutor}
         />
       )}
     </React.Fragment>

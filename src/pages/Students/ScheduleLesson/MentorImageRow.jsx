@@ -1,25 +1,42 @@
 import React from 'react';
+import { FaPencil } from 'react-icons/fa6';
+import { useHistory } from 'react-router-dom';
+import Button from 'src/components/Form/Button';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 
-const MentorImageRow = ({ mentor }) => {
-  const { avatar, gender, fullName, firstName, lastName, university, degree } =
-    mentor;
+const MentorImageRow = ({ mentor, setTabIndex, isMentorScheduled }) => {
+  const { avatar, gender, firstName, lastName, university, degree } = mentor;
+  const history = useHistory();
   return (
-    <div className="flex flex-wrap items-center gap-4 sm:gap-8">
-      <div className="w-[100px] h-[100px] rounded-[5px] overflow-hidden">
-        <Avatar avatarUrl={avatar?.url} gender={gender} />
+    <div className="flex items-center justify-between gap-4 sm:gap-8 border w-full border-color-border-grey rounded-lg bg-white p-5 shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.04)]">
+      <div className="flex gap-4 sm:gap-8 items-center">
+        <div className="w-[48px] h-[48px] rounded-full overflow-hidden">
+          <Avatar avatarUrl={avatar?.url} gender={gender} />
+        </div>
+        <div>
+          <h1 className="text-color-dark-purple mb-1 sm:mb-2 font-bold text-[16px] sm:text-[18px]">
+            {`${firstName} ${lastName && lastName[0] + '.'}`}
+          </h1>
+
+          <h5 className="flex flex-wrap font-medium text-color-dark-pu?rple text-xs tracking-[-0.2px]">
+            <span className="text-color-dark-violet">{university}</span>{' '}
+            <span className="text-color-light-grey">
+              {degree ? `(${degree})` : ''}
+            </span>
+          </h5>
+        </div>
       </div>
       <div>
-        <h1 className="text-[clamp(1rem,_5vw,_2rem)] text-color-purple mb-3">
-          {fullName || firstName + ' ' + lastName}
-        </h1>
-
-        <h5 className="font-medium leading-[18px] tracking-[-0.2px] text-light-grey text-[clamp(0.5rem,_4vw,_1rem)]">
-          {university}
-        </h5>
-        <h5 className="text-light-grey text-[clamp(0.5rem,_4vw,_1rem)]">
-          {degree || ''}
-        </h5>
+        <Button
+          className="bg-opacity-10 text-color-purple hover:bg-opacity-100 hover:text-white aspect-square p-1 w-8 h-8"
+          onClick={() =>
+            isMentorScheduled
+              ? history.push('/student/mentors-list')
+              : setTabIndex(3)
+          }
+        >
+          <FaPencil className="w-4 h-4" />
+        </Button>
       </div>
     </div>
   );
