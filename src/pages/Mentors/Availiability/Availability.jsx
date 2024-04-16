@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DAY, MentorAvailabilityType } from '../../../constants/global';
 
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faGear } from '@fortawesome/free-solid-svg-icons';
 import AvailabilityDayRow from '../../../components/AvailabilityDayRow';
 import { AvailabilityProvider } from './AvailabilityProvider';
 import NotificationManager from '../../../../src/components/NotificationManager';
@@ -255,18 +253,7 @@ const Availability = () => {
           </Button>
         </div>
       ) : mentorInfo.mentorAvailability ===
-        MentorAvailabilityType.ONLY_REGULAR ? (
-        <Button
-          theme="outline"
-          className={`relative ml-0 focus:shadow-none ${
-            mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR &&
-            'bg-color-purple text-white'
-          }`}
-          onClick={regularAvailabilityHandler}
-        >
-          <span>Regular Students</span>
-        </Button>
-      ) : (
+        MentorAvailabilityType.ONLY_TRIAL ? (
         <Button
           theme="outline"
           className={`relative ml-[-4px] focus:shadow-none ${
@@ -277,7 +264,7 @@ const Availability = () => {
         >
           <span>Trial Students</span>
         </Button>
-      )}
+      ) : null}
 
       <div className="border-availabilities">
         <div className="container-fluid py-3">
@@ -288,16 +275,6 @@ const Availability = () => {
               </h1>
               <h3>{t('edit_your_shedule_below', { ns: 'availability' })}</h3>
             </div>
-            {/* <div className="col-xs-6 col-md-4 pe-5 text-end align-self-center">
-              <Link
-                to="/mentor/avail/settings"
-                className="btn btn-default align-content-end"
-                type="button"
-              >
-                <FontAwesomeIcon icon={faGear} size="1x" className="me-2" />
-                <strong>{t('settings', { ns: 'common' })}</strong>
-              </Link>
-            </div> */}
           </div>
         </div>
       </div>
