@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DAY, MentorAvailabilityType } from '../../../constants/global';
 
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faGear } from '@fortawesome/free-solid-svg-icons';
 import AvailabilityDayRow from '../../../components/AvailabilityDayRow';
 import { AvailabilityProvider } from './AvailabilityProvider';
 import NotificationManager from '../../../../src/components/NotificationManager';
@@ -32,7 +30,6 @@ const Availability = () => {
   const [hasValidTimes, setHasValidTimes] = useState(false);
   const [disableSave, handleDisableSave] = useState(true);
   const [isteachAddHours, setIsTeachAddHours] = useState([]);
-  const [disablePlusBtn, setDisablePlusBtn] = useState(false);
 
   const { user } = useAuth();
 
@@ -50,19 +47,6 @@ const Availability = () => {
 
   useEffect(() => {
     if (mentorInfo?.availabilities?.regular.length) {
-      // const slotsMap = mentorInfo.availabilities.reduce((map, slot) => {
-      //   if (map[slot.day] === undefined) map[slot.day] = [slot];
-      //   else map[slot.day] = [...map[slot.day], slot];
-      //   return map;
-      // }, {});
-      // for (const day in slotsMap) {
-      //   savedData.push({
-      //     id: day,
-      //     day,
-      //     slots: slotsMap[day],
-      //   });
-      // }
-
       const parseAvailRegular = mentorInfo?.availabilities?.regular.map(
         (slot) => {
           return {
@@ -202,29 +186,17 @@ const Availability = () => {
     const to = toTime;
     const avail = { id, day, slots: [{ from, to }] };
 
-    //Adds day with a time interval (new or existing)
-    storeAvailablitiy(
-      [...gatherAvailabilities[mentorAvailabilityType], ...[avail]],
-      mentorAvailabilityType,
+    const idx = gatherAvailabilities[mentorAvailabilityType].findIndex(
+      (avail) => avail.id === id,
     );
-    const data = gatherAvailabilities[mentorAvailabilityType];
 
-    //Check if a day with a time interval exists,
-    //then update that interval and overwrite the array of intervals
-    for (const availability of data) {
-      const availId = availability.id;
-      if (availId === id) {
-        if (to >= '23:30') {
-          setDisablePlusBtn(true);
-          // setIsTeachAddHours(true)
-        } else {
-          setDisablePlusBtn(false);
-          // setIsTeachAddHours(false)
-        }
-        availability.slots[0] = { from, to };
-        //validateTimesSelected(data, day)
-        storeAvailablitiy(data, mentorAvailabilityType);
-      }
+    if (idx !== -1) {
+      const data = gatherAvailabilities[mentorAvailabilityType].toSpliced(
+        idx,
+        1,
+        avail,
+      );
+      storeAvailablitiy(data, mentorAvailabilityType);
     }
   };
 
@@ -256,28 +228,43 @@ const Availability = () => {
     <React.Fragment>
       {loadingUpsertAvailiability && <ReactLoader />}
 
-      <div className="w-auto flex items-center mb-4">
+      {mentorInfo.mentorAvailability ===
+      MentorAvailabilityType.REGULAR_AND_TRIAL ? (
+        <div className="w-auto flex items-center mb-4">
+          <Button
+            theme="outline"
+            className={`relative ml-0 rounded-r-none focus:shadow-none ${
+              mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR &&
+              'bg-color-purple text-white'
+            }`}
+            onClick={regularAvailabilityHandler}
+          >
+            <span>Regular Students</span>
+          </Button>
+          <Button
+            theme="outline"
+            className={`relative ml-[-4px] rounded-l-none focus:shadow-none ${
+              mentorAvailabilityType === MentorAvailabilityType.ONLY_TRIAL &&
+              'bg-color-purple text-white'
+            }`}
+            onClick={trialAvailabilityHandler}
+          >
+            <span>Trial Students</span>
+          </Button>
+        </div>
+      ) : mentorInfo.mentorAvailability ===
+        MentorAvailabilityType.ONLY_TRIAL ? (
         <Button
           theme="outline"
-          className={`relative ml-0 rounded-r-none focus:shadow-none ${
-            mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR &&
-            'bg-color-purple text-white'
-          }`}
-          onClick={regularAvailabilityHandler}
-        >
-          <span>Regular Availability</span>
-        </Button>
-        <Button
-          theme="outline"
-          className={`relative ml-[-4px] rounded-l-none focus:shadow-none ${
+          className={`relative ml-[-4px] focus:shadow-none ${
             mentorAvailabilityType === MentorAvailabilityType.ONLY_TRIAL &&
             'bg-color-purple text-white'
           }`}
           onClick={trialAvailabilityHandler}
         >
-          <span>Trial Availability</span>
+          <span>Trial Students</span>
         </Button>
-      </div>
+      ) : null}
 
       <div className="border-availabilities">
         <div className="container-fluid py-3">
@@ -288,16 +275,6 @@ const Availability = () => {
               </h1>
               <h3>{t('edit_your_shedule_below', { ns: 'availability' })}</h3>
             </div>
-            {/* <div className="col-xs-6 col-md-4 pe-5 text-end align-self-center">
-              <Link
-                to="/mentor/avail/settings"
-                className="btn btn-default align-content-end"
-                type="button"
-              >
-                <FontAwesomeIcon icon={faGear} size="1x" className="me-2" />
-                <strong>{t('settings', { ns: 'common' })}</strong>
-              </Link>
-            </div> */}
           </div>
         </div>
       </div>
@@ -314,8 +291,6 @@ const Availability = () => {
                 gatherAvailabilities[mentorAvailabilityType]
               }
               setIsTeachAddHours={setIsTeachAddHours}
-              disablePlusBtn={disablePlusBtn}
-              setDisablePlusBtn={setDisablePlusBtn}
               AvailabilitySlots={AvailabilitySlots}
               day={day}
               isteachAddHours={isteachAddHours}
