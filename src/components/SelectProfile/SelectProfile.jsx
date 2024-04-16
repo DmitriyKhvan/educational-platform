@@ -3,7 +3,7 @@ import { ProfileCard } from './ProfileCard';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from 'src/modules/auth';
 import { setItemToLocalStorage } from 'src/constants/global';
-import { HiMiniPlusSmall } from 'react-icons/hi2';
+import { LuPlus } from 'react-icons/lu';
 
 const SelectProfile = () => {
   const [t] = useTranslation('profile');
@@ -44,9 +44,11 @@ const SelectProfile = () => {
 
         <div
           onClick={addAccount}
-          className="group flex flex-col items-center gap-y-5"
+          className="group flex flex-col items-center gap-y-5 cursor-pointer"
         >
-          <HiMiniPlusSmall className="text-[150px] text-color-purple rounded-full bg-color-light-purple cursor-pointer group-hover:border-color-purple border-2 group-hover:shadow-[0_0_0_4px_#F0EBF7] transition duration-300 ease-in-out" />
+          <div className="flex items-center justify-center w-[150px] h-[150px] text-color-purple rounded-full bg-color-light-purple group-hover:border-color-purple border-2 group-hover:shadow-[0_0_0_4px_#F0EBF7] transition duration-300 ease-in-out">
+            <LuPlus className="text-[32px]" />
+          </div>
           <span className="font-semibold text-[20px] text-color-light-grey leading-6 tracking-[-0.2px]">
             {t('add_account')}
           </span>

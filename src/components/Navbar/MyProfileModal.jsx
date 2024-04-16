@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { FaRegUser } from 'react-icons/fa6';
 import { AdaptiveDialog } from '../AdaptiveDialog';
 import { MdAddCircleOutline } from 'react-icons/md';
-import SelectProfile from '../SelectProfile';
+import { SelectProfile } from '../SelectProfile';
 import { FiLogOut } from 'react-icons/fi';
 import { Roles } from 'src/constants/global';
 

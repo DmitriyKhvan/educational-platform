@@ -12,8 +12,10 @@ import { FaAngleDown } from 'react-icons/fa6';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { MyDrawer } from '../Drawer';
 import MyProfileModal from './MyProfileModal';
+import { useTranslation } from 'react-i18next';
 
 const Navbar = memo(() => {
+  const [t] = useTranslation('common');
   const { user } = useAuth();
   const isMobile = useMediaQuery({ maxWidth: 639 });
   const isTablet = useMediaQuery({ maxWidth: 1023 });
@@ -28,8 +30,8 @@ const Navbar = memo(() => {
           iconClassName="text-white w-[20px]"
         />
         <div className="hidden sm:flex items-center font-bold gap-1">
-          <p>My account</p>
-          <FaAngleDown className="w-4" />
+          <p>{t('my_profile')}</p>
+          <FaAngleDown className="w-3" />
         </div>
       </div>
     </label>
@@ -62,6 +64,7 @@ const Navbar = memo(() => {
           <MyDropdownMenu
             button={myProfileButton}
             contentClassName="min-w-[210px] overflow-hidden"
+            align="end"
           >
             <MyProfileModal />
           </MyDropdownMenu>
