@@ -113,6 +113,8 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
     } catch (error) {
       notify(error.message, 'error');
     }
+
+    setIsLoading(false);
   };
 
   return (
