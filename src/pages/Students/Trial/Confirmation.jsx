@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { FaArrowLeft, FaPencil } from 'react-icons/fa6';
 import Button from 'src/components/Form/Button';
 
@@ -8,11 +8,12 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 import { addMinutes } from 'date-fns';
 import { TRIAL_SIGN_UP } from 'src/modules/graphql/mutations/trial/trialSignUp';
 import { useMutation } from '@apollo/client';
-import useLogin from 'src/modules/auth/hooks/login';
 import notify from 'src/utils/notify';
 import { useAuth } from 'src/modules/auth';
 import { ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER } from 'src/modules/graphql/mutations/trial/attachTrialStudentToUserResolver';
 import { setItemToLocalStorage } from 'src/constants/global';
+import Loader from 'src/components/Loader/Loader';
+import { LOGIN_MUTATION } from 'src/modules/auth/graphql';
 
 const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
   const { user: currentUser } = useAuth();
@@ -22,8 +23,9 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
   const [i18n] = useTranslation();
   const [signUp] = useMutation(TRIAL_SIGN_UP);
   const [addTrialUser] = useMutation(ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER);
+  const [loginMutation] = useMutation(LOGIN_MUTATION);
 
-  const { login, data: loginData } = useLogin();
+  const [isLoading, setIsLoading] = useState(false);
 
   const currentLanguage = i18n.language;
   const locale = currentLanguage === 'kr' ? kr : null;
@@ -48,6 +50,8 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
   );
 
   const trialSignUp = async () => {
+    setIsLoading(true);
+
     try {
       if (currentUser) {
         const trialUserData = await addTrialUser({
@@ -90,27 +94,32 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
           },
         });
 
-        await login(user.email, user.password);
+        const { data: loginData } = await loginMutation({
+          variables: { email: user.email, password: user.password },
+        });
+
+        if (loginData) {
+          const studentId = loginData.authResult.user.students[0].id;
+
+          setItemToLocalStorage('token', loginData.authResult.sessionToken);
+          setItemToLocalStorage('studentId', studentId);
+
+          refetchUser({ studentId });
+          setStep((v) => v + 1);
+        }
       }
     } catch (error) {
       notify(error.message, 'error');
     }
   };
 
-  useEffect(() => {
-    if (loginData) {
-      setItemToLocalStorage(
-        'studentId',
-        loginData.authResult.user.students[0].id,
-      );
-
-      refetchUser({ studentId: loginData.authResult.user.students[0].id });
-      setStep((v) => v + 1);
-    }
-  }, [loginData]);
-
   return (
     <div className="">
+      {isLoading && (
+        <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
+          <Loader />
+        </div>
+      )}
       <div className="mb-2 flex items-center">
         <FaArrowLeft
           className="mr-3 w-[20px] h-[20px] cursor-pointer"
