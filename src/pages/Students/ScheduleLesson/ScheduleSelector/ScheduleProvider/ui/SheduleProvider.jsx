@@ -211,7 +211,10 @@ export const ScheduleProvider = ({
       timesheetsData?.combinedTimesheets.forEach((timesheet) => {
         const tempTime = parse(timesheet.from, 'HH:mm', new Date(day));
 
-        if (isWithinInterval(tempTime, timeOfDayInterval)) {
+        if (
+          isWithinInterval(tempTime, timeOfDayInterval) &&
+          !timesheet.reserved
+        ) {
           availableSlots.push({
             time: timesheet.from,
             reserved: timesheet.reserved,
