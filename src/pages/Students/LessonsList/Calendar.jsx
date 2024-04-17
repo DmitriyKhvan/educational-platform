@@ -71,7 +71,7 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
     },
     overlay: {
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      zIndex: 20,
+      zIndex: 40,
     },
   };
 
@@ -87,7 +87,7 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
           style={customStyles}
           contentLabel="Example Modal"
         >
-          <div className="p-8 z-20 bg-white rounded-2xl">
+          <div className="p-8 z-40 bg-white rounded-2xl">
             <LessonInfoModal
               date={selectedEvent?.resource?.eventDate?.startAt}
               data={selectedEvent?.resource?.eventDate}
