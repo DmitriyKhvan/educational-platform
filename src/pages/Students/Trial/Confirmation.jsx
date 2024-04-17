@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import { FaArrowLeft, FaPencil } from 'react-icons/fa6';
 import Button from 'src/components/Form/Button';
 
@@ -16,9 +18,9 @@ import Loader from 'src/components/Loader/Loader';
 import { LOGIN_MUTATION } from 'src/modules/auth/graphql';
 
 const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
-  const { user: currentUser } = useAuth();
+  const history = useHistory();
+  const { user: currentUser, refetchUser } = useAuth();
   const { languageLevel, lessonTopic, packageSubscription } = selectedPlan;
-  const { refetchUser } = useAuth();
 
   const [i18n] = useTranslation();
   const [signUp] = useMutation(TRIAL_SIGN_UP);
@@ -105,7 +107,7 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
           setItemToLocalStorage('studentId', studentId);
 
           refetchUser({ studentId });
-          setStep((v) => v + 1);
+          history.push('/trial/thank-you');
         }
       }
     } catch (error) {

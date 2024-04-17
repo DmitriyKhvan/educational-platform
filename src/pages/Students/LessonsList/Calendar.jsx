@@ -7,6 +7,7 @@ import { utcToZonedTime } from 'date-fns-tz';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import koLocale from '@fullcalendar/core/locales/ko';
+import chLocale from '@fullcalendar/core/locales/zh-tw';
 
 import enLocale from '@fullcalendar/core/locales/en-gb';
 
@@ -14,6 +15,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 import { useMediaQuery } from 'react-responsive';
 import CalendarHeader from './CalendarHeader';
+import { Language } from 'src/constants/global';
 
 const Calendar = ({ calendarAppointments, getAppointments }) => {
   // eslint-disable-next-line no-unused-vars
@@ -118,7 +120,13 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
           },
         }}
         locales={[enLocale, koLocale]}
-        locale={i18n.language === 'en' ? 'en' : koLocale}
+        locale={
+          i18n.language === Language.KR
+            ? koLocale
+            : i18n.language === Language.CH
+            ? chLocale
+            : Language.EN
+        }
         now={utcToZonedTime(new Date(), userTimezone)}
         events={calendarEvents}
         plugins={[dayGridPlugin, timeGridPlugin]}

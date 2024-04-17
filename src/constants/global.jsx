@@ -1,6 +1,7 @@
 // import timezones from 'timezones-list';
 import { getData } from 'country-list';
 import { useTranslation } from 'react-i18next';
+import * as flags from 'src/assets/flags';
 // import { useMemo } from 'react';
 
 export const genders = [
@@ -24,80 +25,87 @@ export const useGenderDic = () => {
 export const phoneCodes = [
   {
     code: '+1',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/ca.svg',
+    flag: flags.ca,
     iso: 'CA',
     mask: '(###)###-####',
     name: 'Canada',
   },
   {
     code: '+62',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/id.svg',
+    flag: flags.id,
     iso: 'ID',
     mask: '##-###-##',
     name: 'Indonesia',
   },
   {
     code: '+33',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/fr.svg',
+    flag: flags.fr,
     iso: 'FR',
     mask: '(###)###-###',
     name: 'France',
   },
   {
     code: '+81',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/jp.svg',
+    flag: flags.jp,
     iso: 'JP',
     mask: '(###)###-###',
     name: 'Japan',
   },
   {
     code: '+82',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/kr.svg',
+    flag: flags.kr,
     iso: 'KR',
     mask: '##-####-####',
     name: 'Korea, Republic of South Korea',
   },
   {
     code: '+60',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/my.svg',
+    flag: flags.my,
     iso: 'MY',
     mask: '#-###-###',
     name: 'Malaysia',
   },
   {
     code: '+52',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/mx.svg',
+    flag: flags.mx,
     iso: 'MX',
     mask: '##-##-####',
     name: 'Mexico',
   },
   {
     code: '+63',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/ph.svg',
+    flag: flags.ph,
     iso: 'PH',
     mask: '(###)###-####',
     name: 'Philippines',
   },
   {
     code: '+66',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/th.svg',
+    flag: flags.th,
     iso: 'TH',
     mask: '##-###-###',
     name: 'Thailand',
   },
   {
     code: '+1',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/us.svg',
+    flag: flags.us,
     iso: 'US',
     mask: '(###)###-####',
     name: 'United States',
   },
   {
     code: '+84',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/vn.svg',
+    flag: flags.vn,
     iso: 'VN',
     mask: '##-####-###',
     name: 'Vietnam',
+  },
+  {
+    name: 'Taiwan',
+    code: '+886',
+    iso: 'TW',
+    flag: flags.tw,
+    mask: '####-####',
   },
 ];
 
@@ -797,6 +805,7 @@ export const DiscountType = {
 export const Language = {
   EN: 'en',
   KR: 'kr',
+  CH: 'ch',
 };
 
 export const CalendarView = {
