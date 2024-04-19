@@ -10,3 +10,4 @@ export * as profileCh from './profile.json';
 export * as onboardingCh from './onboarding.json';
 export * as translationsCh from './translations.json';
 export * as purchaseCh from './purchase.json';
+export * as trialCh from './trial.json';

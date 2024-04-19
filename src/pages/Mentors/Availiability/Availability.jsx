@@ -14,6 +14,7 @@ import ReactLoader from '../../../components/common/Loader';
 import Loader from '../../../components/Loader/Loader';
 import notify from 'src/utils/notify';
 import Button from 'src/components/Form/Button';
+import { AcceptingStudents } from './AcceptingStudents';
 
 const Availability = () => {
   const [t] = useTranslation(['common', 'availability']);
@@ -225,8 +226,12 @@ const Availability = () => {
   }
 
   return (
-    <React.Fragment>
+    <div className="space-y-10">
       {loadingUpsertAvailiability && <ReactLoader />}
+
+      <h2 className="text-[32px] text-color-dark-purple font-bold leading-9">
+        My Availability
+      </h2>
 
       {mentorInfo.mentorAvailability ===
       MentorAvailabilityType.REGULAR_AND_TRIAL ? (
@@ -266,66 +271,62 @@ const Availability = () => {
         </Button>
       ) : null}
 
+      <AcceptingStudents />
+
       <div className="border-availabilities">
         <div className="container-fluid py-3">
           <div className="row ms-4">
             <div className="col-xs-12 col-md-8">
               <h1 className="title">
-                {t('set_your_availability', { ns: 'availability' })}
+                {t('weekly_hours', { ns: 'availability' })}
               </h1>
               <h3>{t('edit_your_shedule_below', { ns: 'availability' })}</h3>
             </div>
           </div>
         </div>
       </div>
-      <div className="container py-3 align-width_Availability">
-        <h2 className="date_override_title">
-          {t('set_your_teaching_hours', { ns: 'availability' })}
-        </h2>
-        <div className="container align-self-center remove-last-border">
-          {DAY.map((day) => (
-            <AvailabilityProvider
-              key={day}
+
+      <div className="space-y-6">
+        {DAY.map((day) => (
+          <AvailabilityProvider
+            key={day}
+            setGatherAvailabilities={storeAvailablitiy}
+            gatherAvailabilities={gatherAvailabilities[mentorAvailabilityType]}
+            setIsTeachAddHours={setIsTeachAddHours}
+            AvailabilitySlots={AvailabilitySlots}
+            day={day}
+            isteachAddHours={isteachAddHours}
+            mentorAvailabilityType={mentorAvailabilityType}
+            validateTimesSelected={validateTimesSelected}
+          >
+            <AvailabilityDayRow
+              day={day}
               setGatherAvailabilities={storeAvailablitiy}
+              allGatherAvailabilities={gatherAvailabilities}
               gatherAvailabilities={
                 gatherAvailabilities[mentorAvailabilityType]
               }
+              hasValidTimes={hasValidTimes}
+              setHasValidTimes={setHasValidTimes}
+              isteachAddHours={isteachAddHours}
               setIsTeachAddHours={setIsTeachAddHours}
               AvailabilitySlots={AvailabilitySlots}
-              day={day}
-              isteachAddHours={isteachAddHours}
               mentorAvailabilityType={mentorAvailabilityType}
-              validateTimesSelected={validateTimesSelected}
-            >
-              <AvailabilityDayRow
-                day={day}
-                setGatherAvailabilities={storeAvailablitiy}
-                allGatherAvailabilities={gatherAvailabilities}
-                gatherAvailabilities={
-                  gatherAvailabilities[mentorAvailabilityType]
-                }
-                hasValidTimes={hasValidTimes}
-                setHasValidTimes={setHasValidTimes}
-                isteachAddHours={isteachAddHours}
-                setIsTeachAddHours={setIsTeachAddHours}
-                AvailabilitySlots={AvailabilitySlots}
-                mentorAvailabilityType={mentorAvailabilityType}
-              />
-            </AvailabilityProvider>
-          ))}
-          <div className="flex justify-end">
-            <Button
-              type="submit"
-              onClick={onSubmit}
-              disabled={hasValidTimes || disableSave}
-              className="w-[15%] mt-5"
-            >
-              {t('save', { ns: 'common' })}
-            </Button>
-          </div>
+            />
+          </AvailabilityProvider>
+        ))}
+        <div className="flex justify-end">
+          <Button
+            type="submit"
+            onClick={onSubmit}
+            disabled={hasValidTimes || disableSave}
+            className="w-[15%] mt-5"
+          >
+            {t('save', { ns: 'common' })}
+          </Button>
         </div>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

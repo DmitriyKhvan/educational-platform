@@ -115,5 +115,6 @@
   "current": "기존 패키지",
   "previous": "지난 패키지",
   "lessons_total": "레슨",
-  "add_package": "패키지 추가"
+  "add_package": "패키지 추가",
+  "active_subscription": "활성화된 구독 패키지"
 }

@@ -40,16 +40,12 @@ export const AcceptingStudents = () => {
           <Loader />
         </div>
       )}
-      <div className="container pl-8 pr-6 py-3">
-        <h2 className="text-[27px] font-medium leading-[33px] tracking-[-1px]">
-          New Student Settings
-        </h2>
-
+      <div className="">
         <form
-          className="flex items-center justify-between mt-5"
+          className="flex items-center justify-between"
           onSubmit={handleSubmit(submit)}
         >
-          <div className="form-switch flex items-center">
+          <div className="form-switch flex items-center py-5 px-4 border border-gray-100 rounded-lg shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
             <input
               className="form-check-input text-color-purple"
               type="checkbox"
@@ -57,7 +53,9 @@ export const AcceptingStudents = () => {
               {...register('accept')}
             />
 
-            <span className="font-medium">Accept New Students</span>
+            <span className="text-sm text-color-dark-purple font-medium">
+              Accept New Students
+            </span>
           </div>
 
           <Button

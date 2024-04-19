@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import AvailabilityPicker from '../pages/Mentors/Availiability/AvailabilityPicker';
-import plusIcon from '../assets/images/plus_icon.svg';
+
 import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import { MentorAvailabilityType } from 'src/constants/global';
@@ -11,6 +11,9 @@ import { timeGroup } from 'src/pages/Mentors/Availiability/lib/timeGroup';
 import { timeGroups } from 'src/pages/Mentors/Availiability/lib/timeGroups';
 
 import '../assets/styles/availability.scss';
+import CheckboxField from './Form/CheckboxField';
+import { LuPlus } from 'react-icons/lu';
+import Button from './Form/Button';
 
 const AvailabilityDayRow = ({
   day,
@@ -135,23 +138,24 @@ const AvailabilityDayRow = ({
   };
 
   return (
-    <div className="row form-switch justify-content-md-center py-3 border-availabilities-picker">
-      <input
-        className="form-check-input mt-3 align_Toggle text-color-purple"
-        type="checkbox"
-        name={day}
-        checked={toggle}
-        onChange={
-          timeOptionsSort[0]?.label === '11:30 PM' ? undefined : onToggleDay
-        }
-        disabled={timeOptionsSort[0]?.label === '11:30 PM'}
-      />
+    <div className="flex items-start min-h-14 space-x-6">
+      <div className="flex items-center w-[72px] h-14">
+        <CheckboxField
+          type="checkbox"
+          name={day}
+          checked={toggle}
+          onChange={
+            timeOptionsSort[0]?.label === '11:30 PM' ? undefined : onToggleDay
+          }
+          disabled={timeOptionsSort[0]?.label === '11:30 PM'}
+          square
+        />
 
-      <div className="col-sm-2 ms-3 me-5 align_day">
-        <div>
-          <strong>{t(day)}</strong>
-        </div>
+        <span className="text-[15px] text-color-dark-purple font-bold uppercase ml-3">
+          {t(day.slice(0, 3))}
+        </span>
       </div>
+
       {toggle && (
         <>
           <div className="col-auto justify-content-md-center aligns_row_time">
@@ -175,14 +179,16 @@ const AvailabilityDayRow = ({
               }
             })}
           </div>
-          <div className="col-auto align_fa_trash">
-            <button
-              className="btn fa_trash_can ms-3"
+
+          <div className="flex items-center h-14">
+            <Button
+              theme="clear"
+              className="flex items-center justify-center w-[32px] h-[32px] p-0 rounded-[4px] bg-[rgba(134,_46,_231,_0.20)]"
               onClick={addAvailRowUpFn}
               disabled={isTimeEndReached()}
             >
-              <img className="plus_button" src={plusIcon} alt="" />
-            </button>
+              <LuPlus className="text-color-purple" />
+            </Button>
           </div>
         </>
       )}

@@ -119,5 +119,6 @@
   "current": "Current",
   "previous": "Previous",
   "lessons_total": "Lessons total",
-  "add_package": "Add a package"
+  "add_package": "Add a package",
+  "active_subscription": "Active subscription"
 }

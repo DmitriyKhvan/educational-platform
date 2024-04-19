@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
     loading,
     refetch: refetchUser,
   } = useQuery(ME_QUERY, {
-    // fetchPolicy: 'no-cache',
+    // fetchPolicy: 'network-only',
     variables: {
       studentId: getItemToLocalStorage('studentId'),
     },

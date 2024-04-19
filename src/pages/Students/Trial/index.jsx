@@ -39,6 +39,7 @@ const Trial = () => {
           {step > -1 && step < 4 && <StepIndicator step={step} />}
           {step === -1 && (
             <OnboardingTrial
+              currentUser={currentUser}
               user={user}
               selectedPlan={selectedPlan}
               setUser={setUser}

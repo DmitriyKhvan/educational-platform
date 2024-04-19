@@ -42,7 +42,7 @@ export const MarketingChannelForm = () => {
   const submitHandler = ({ marketingChannel }) => {
     updateUser({
       variables: {
-        id: user.id,
+        id: user?.id,
         data: {
           marketingChannel,
         },
@@ -55,7 +55,7 @@ export const MarketingChannelForm = () => {
         history.push('/student/manage-lessons');
       },
       onError: (error) => {
-        notify(error.message);
+        notify(error.message, 'error');
       },
     });
   };

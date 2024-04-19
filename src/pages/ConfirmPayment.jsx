@@ -1,60 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
-// import Loader from '../components/Loader/Loader';
-import { useTranslation } from 'react-i18next';
 import { useParams, Link } from 'react-router-dom';
-import { getItemToLocalStorage } from 'src/constants/global';
-import { useAuth } from 'src/modules/auth';
-import { useMutation, useQuery, gql } from '@apollo/client';
-import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 
+import { useTranslation } from 'react-i18next';
+import { loadStripe } from '@stripe/stripe-js';
+import { useMutation, useQuery } from '@apollo/client';
+import { PACKAGE_QUERY } from 'src/modules/auth/graphql';
+import { CREATE_PAYMENT } from 'src/modules/graphql/mutations/payment/createPayment';
+import { CHECK_STRIPE_PAYMENT_STATUS } from 'src/modules/graphql/queries/payment/checkStripePaymentStatus';
 import { FaCheckCircle } from 'react-icons/fa';
 import { FaCircleXmark } from 'react-icons/fa6';
-// eslint-disable-next-line import/no-unresolved
+
+import { useAuth } from 'src/modules/auth';
+import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 import { MarketingChannelForm } from 'src/components/onboarding/MarketingChannel';
 import Button from 'src/components/Form/Button';
 import Loader from 'src/components/Loader/Loader';
-import { PACKAGE_QUERY } from 'src/modules/auth/graphql';
+import { getItemToLocalStorage } from 'src/constants/global';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
-const CHECK_STRIPE_PAYMENT = gql`
-  query checkStripePaymentStatus($paymentIntentId: String!) {
-    checkStripePaymentStatus(paymentIntentId: $paymentIntentId)
-  }
-`;
-
-const CREATE_PAYMENT = gql`
-  mutation CreatePayment(
-    $studentId: ID!
-    $packageId: ID!
-    $provider: PaymentProviderType
-    $metadata: String
-  ) {
-    createPayment(
-      studentId: $studentId
-      packageId: $packageId
-      provider: $provider
-      metadata: $metadata
-    ) {
-      id
-      status
-      provider
-      cancelReason
-      metadata
-    }
-  }
-`;
-
 export default function ConfirmPayment() {
   const { user, currentStudent } = useAuth();
+
+  const studentId = getItemToLocalStorage('studentId')
+    ? getItemToLocalStorage('studentId')
+    : currentStudent?.id ?? user.students[0].id;
 
   const { data: { packageSubscriptions: planStatus = [] } = {} } = useQuery(
     PACKAGE_QUERY,
     {
       fetchPolicy: 'no-cache',
       variables: {
-        studentId: getItemToLocalStorage('studentId'),
+        studentId,
       },
     },
   );
@@ -67,7 +44,7 @@ export default function ConfirmPayment() {
   const paymentIntentId = new URLSearchParams(window.location.search).get(
     'payment_intent',
   );
-  const { data } = useQuery(CHECK_STRIPE_PAYMENT, {
+  const { data } = useQuery(CHECK_STRIPE_PAYMENT_STATUS, {
     variables: { paymentIntentId: paymentIntentId },
   });
 
@@ -80,6 +57,56 @@ export default function ConfirmPayment() {
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
 
+  const checkPayment = async () => {
+    const { checkStripePaymentStatus: alreadyPaid } = data;
+
+    try {
+      const stripe = await stripePromise;
+
+      const { paymentIntent } = await stripe.retrievePaymentIntent(
+        clientSecret,
+      );
+
+      switch (paymentIntent.status) {
+        case 'succeeded': {
+          if (alreadyPaid) {
+            setMessage('already_paid');
+            return;
+          }
+
+          await createPayment({
+            variables: {
+              studentId,
+              packageId: parseInt(params.packageId),
+              provider: 'stripe',
+              metadata: JSON.stringify(paymentIntent),
+            },
+          });
+
+          setMessage('payment_confirmed');
+          break;
+        }
+
+        case 'processing':
+          setMessage('payment_processing');
+          break;
+
+        case 'requires_payment_method':
+          setMessage('payment_fail');
+          setError(true);
+          break;
+
+        default:
+          setMessage('payment_error');
+          setError(true);
+          break;
+      }
+    } catch (error) {
+      setMessage(error.message);
+      setError(true);
+    }
+  };
+
   useEffect(() => {
     if (isNiceSuccess) {
       setMessage('payment_confirmed');
@@ -87,60 +114,9 @@ export default function ConfirmPayment() {
   }, [isNiceSuccess]);
 
   useEffect(() => {
-    if (!clientSecret || !data) {
-      return;
+    if (clientSecret && data) {
+      checkPayment();
     }
-    const { checkStripePaymentStatus: alreadyPaid } = data;
-    stripePromise.then((stripe) => {
-      stripe
-        .retrievePaymentIntent(clientSecret)
-        .then(async ({ paymentIntent }) => {
-          switch (paymentIntent.status) {
-            case 'succeeded': {
-              if (alreadyPaid) {
-                setMessage('already_paid');
-                return;
-              }
-
-              createPayment({
-                variables: {
-                  studentId: parseInt(
-                    getItemToLocalStorage('studentId')
-                      ? getItemToLocalStorage('studentId')
-                      : currentStudent?.id ?? user.students[0].id,
-                  ),
-                  packageId: parseInt(params.packageId),
-                  provider: 'stripe',
-                  metadata: JSON.stringify(paymentIntent),
-                },
-                onCompleted: () => {
-                  setMessage('payment_confirmed');
-                },
-                onError: (error) => {
-                  setMessage(error.message);
-                  setError(true);
-                },
-              });
-
-              break;
-            }
-
-            case 'processing':
-              setMessage('payment_processing');
-              break;
-
-            case 'requires_payment_method':
-              setMessage('payment_fail');
-              setError(true);
-              break;
-
-            default:
-              setMessage('payment_error');
-              setError(true);
-              break;
-          }
-        });
-    });
   }, [clientSecret, data]);
 
   if (!message) return <Loader height="100vh" />;
@@ -164,15 +140,18 @@ export default function ConfirmPayment() {
             <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
               <FaCheckCircle className="w-6 h-6 sm:w-9 sm:h-9 text-[#039855]" />
               <h1 className="font-bold text-2xl sm:text-[32px]">
-                {/* Payment confirmed */}
                 {t(message)}
               </h1>
             </div>
 
             {planStatus.length ? (
-              <Link className="w-full mt-28 block" to="/student/manage-lessons">
+              // href for authenticatedUser to work
+              <a
+                className="w-full mt-28 block"
+                href={`${window.location.origin}/student/manage-lessons`}
+              >
                 <Button className="w-full h-auto p-5">{t('dashboard')}</Button>
-              </Link>
+              </a>
             ) : (
               <MarketingChannelForm />
             )}
