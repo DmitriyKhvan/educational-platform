@@ -15,6 +15,7 @@ import {
   onboardingEn,
   translationsEn,
   purchaseEn,
+  trialEn,
 } from './assets/lang/en';
 import {
   commonKr,
@@ -29,6 +30,7 @@ import {
   onboardingKr,
   translationsKr,
   purchaseKr,
+  trialKr,
 } from './assets/lang/kr';
 import {
   availabilityCh,
@@ -43,6 +45,7 @@ import {
   sidebarCh,
   studentMentorCh,
   translationsCh,
+  trialCh,
 } from './assets/lang/ch';
 import {
   ApolloClient,
@@ -119,6 +122,7 @@ i18next.init({
       onboarding: onboardingEn,
       translations: translationsEn,
       purchase: purchaseEn,
+      trial: trialEn,
     },
     kr: {
       common: commonKr,
@@ -133,6 +137,7 @@ i18next.init({
       onboarding: onboardingKr,
       translations: translationsKr,
       purchase: purchaseKr,
+      trial: trialKr,
     },
     ch: {
       common: commonCh,
@@ -147,6 +152,7 @@ i18next.init({
       onboarding: onboardingCh,
       translations: translationsCh,
       purchase: purchaseCh,
+      trial: trialCh,
     },
   },
 });

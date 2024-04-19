@@ -38,10 +38,6 @@ export const ScheduleCard = ({
     scrollToElement('timeSheets');
   };
 
-  // useEffect(() => {
-
-  // }, [day]);
-
   return (
     <label
       className={cn(

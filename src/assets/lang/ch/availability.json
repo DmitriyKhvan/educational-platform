@@ -9,5 +9,6 @@
   "substitute_lesson_desc_two": "請注意，代課請求最晚需要在上課前 2 小時提出。",
   "substitute_us_holidays": "想要在美國國定假日時授課嗎？",
   "enable_us_holidays_substitute": "啟用假日授課預約",
-  "save_return_settings": "儲存並返回"
+  "save_return_settings": "儲存並返回",
+  "weekly_hours": "Weekly hours"
 }

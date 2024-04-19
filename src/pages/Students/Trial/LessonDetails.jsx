@@ -26,7 +26,9 @@ const LessonDetails = ({
   const [currentPackage, setCurrentPackage] = useState({});
   const [currentLevel, setCurrentLevel] = useState({});
   const [currentTopic, setCurrentTopic] = useState({});
+  const [isOpenCourse, setIsOpenCourse] = useState(false);
   const [isOpenLevel, setIsOpenLevel] = useState(false);
+  const [isOpenTopic, setIsOpenTopic] = useState(false);
 
   const {
     handleSubmit,
@@ -120,6 +122,8 @@ const LessonDetails = ({
             {/* <MySelect options={courses} /> */}
 
             <MyDropdownMenu
+              open={isOpenCourse}
+              setOpen={setIsOpenCourse}
               button={
                 <Button
                   theme="clear"
@@ -143,6 +147,9 @@ const LessonDetails = ({
                           type="radio"
                           value={pkg.id}
                           name="package"
+                          onClick={() => {
+                            setIsOpenCourse(false);
+                          }}
                           {...register('packageId', {
                             required: 'Course is required',
                           })}
@@ -190,6 +197,8 @@ const LessonDetails = ({
           <InputWithError errorsField={errors?.lessonTopicId}>
             <label className="font-semibold block mb-3">Lesson topic</label>
             <MyDropdownMenu
+              open={isOpenTopic}
+              setOpen={setIsOpenTopic}
               button={
                 <Button
                   disabled={Object.keys(currentLevel || {}).length === 0}
@@ -214,6 +223,7 @@ const LessonDetails = ({
                           type="radio"
                           name="topic"
                           value={topic.id}
+                          onClick={() => setIsOpenTopic(false)}
                           {...register('lessonTopicId', {
                             required: 'Topic is isrequired',
                           })}

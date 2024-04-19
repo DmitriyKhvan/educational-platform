@@ -33,6 +33,7 @@ export const OrderSummary = memo(function OrderSummary({
   promoPackage,
 }) {
   const [open, setOpen] = useState(false);
+  const [openTermsConditions, setIsOpenTermsConditions] = useState(false);
 
   const history = useHistory();
   const [parent] = useAutoAnimate();
@@ -156,6 +157,8 @@ export const OrderSummary = memo(function OrderSummary({
         </div>
 
         <AdaptiveDialog
+          open={openTermsConditions}
+          setOpen={setIsOpenTermsConditions}
           button={
             <Button
               disabled={!selectedPackage}
@@ -165,7 +168,10 @@ export const OrderSummary = memo(function OrderSummary({
             </Button>
           }
         >
-          <TermsConditionsModal submitStripe={submitStripe} />
+          <TermsConditionsModal
+            submitStripe={submitStripe}
+            setIsOpenTermsConditions={setIsOpenTermsConditions}
+          />
         </AdaptiveDialog>
       </div>
     </>

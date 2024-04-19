@@ -114,5 +114,6 @@
   "birth_invalid": "生日無效",
   "digits": "{{count}} 位數",
   "automatically_renews": "每月自動續訂",
-  "changed_avatar": "個人資料圖片已更改"
+  "changed_avatar": "個人資料圖片已更改",
+  "active_subscription": "Active subscription"
 }
