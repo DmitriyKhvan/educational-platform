@@ -8,8 +8,7 @@ import { ScheduleProvider } from 'src/pages/Students/ScheduleLesson/ScheduleSele
 import { ScheduleSelector } from 'src/pages/Students/ScheduleLesson/ScheduleSelector';
 import { AvailableTimes } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/AvailableTimes';
 import { COMBINED_TIMESHEETS_TRIAL } from 'src/modules/graphql/queries/trial/combinedTimesheetsForTrials';
-import { MarketingChannelForm } from 'src/components/onboarding/MarketingChannel';
-import { FaCheckCircle } from 'react-icons/fa';
+
 import { useAuth } from 'src/modules/auth';
 
 const Trial = () => {
@@ -40,6 +39,7 @@ const Trial = () => {
           {step > -1 && step < 4 && <StepIndicator step={step} />}
           {step === -1 && (
             <OnboardingTrial
+              currentUser={currentUser}
               user={user}
               selectedPlan={selectedPlan}
               setUser={setUser}
@@ -76,18 +76,6 @@ const Trial = () => {
               schedule={schedule}
               mentorId={mentorId}
             />
-          )}
-
-          {step === 4 && (
-            <>
-              <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
-                <FaCheckCircle className="w-6 h-6 sm:w-9 sm:h-9 text-[#039855]" />
-                <h1 className="font-bold text-2xl sm:text-3xl">
-                  Trial booking confirmed
-                </h1>
-              </div>
-              <MarketingChannelForm />
-            </>
           )}
         </div>
       </main>

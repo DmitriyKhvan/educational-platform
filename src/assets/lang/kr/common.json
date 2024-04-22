@@ -33,7 +33,8 @@
   "upload": "업로드",
   "choose_other": "",
   "korean": "한국어",
-  "english": "영어",
+  "english": "English",
+  "chinese": "漢語",
   "cancel": "취소",
   "approve": "확정",
   "save": "저장",
@@ -114,5 +115,6 @@
   "current": "기존 패키지",
   "previous": "지난 패키지",
   "lessons_total": "레슨",
-  "add_package": "패키지 추가"
+  "add_package": "패키지 추가",
+  "active_subscription": "활성화된 구독 패키지"
 }

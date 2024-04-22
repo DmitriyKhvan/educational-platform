@@ -13,7 +13,6 @@ import { getItemToLocalStorage } from 'src/constants/global';
 import '../../../assets/styles/subscriptions.scss';
 import Button from 'src/components/Form/Button';
 import { FaPlus } from 'react-icons/fa6';
-import { COURSES } from 'src/modules/graphql/queries/courses/courses';
 import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 
 const Subscriptions = () => {
@@ -21,11 +20,6 @@ const Subscriptions = () => {
   const [t] = useTranslation(['common', 'sidebar']);
   const [selectedTab, setSelectedTab] = useState('current');
   const navigate = useHistory();
-
-  const { data: coursesData } = useQuery(COURSES, {
-    fetchPolicy: 'network-only',
-  });
-
   const { data: { packageSubscriptions: planStatus = [] } = {}, loading } =
     useQuery(PACKAGE_QUERY, {
       fetchPolicy: 'no-cache',
@@ -41,7 +35,7 @@ const Subscriptions = () => {
   const [selectedPackages, setSelectedPackages] = useState([]);
 
   useEffect(() => {
-    if (planStatus?.length && coursesData?.courses?.length) {
+    if (planStatus?.length) {
       setSelectedPackages(
         selectedTab === 'current'
           ? planStatus.filter((x) => x.active && x.credits)

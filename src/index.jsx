@@ -15,6 +15,7 @@ import {
   onboardingEn,
   translationsEn,
   purchaseEn,
+  trialEn,
 } from './assets/lang/en';
 import {
   commonKr,
@@ -29,7 +30,23 @@ import {
   onboardingKr,
   translationsKr,
   purchaseKr,
+  trialKr,
 } from './assets/lang/kr';
+import {
+  availabilityCh,
+  commonCh,
+  dashboardCh,
+  lessonsCh,
+  modalsCh,
+  onboardingCh,
+  profileCh,
+  purchaseCh,
+  referCh,
+  sidebarCh,
+  studentMentorCh,
+  translationsCh,
+  trialCh,
+} from './assets/lang/ch';
 import {
   ApolloClient,
   ApolloLink,
@@ -88,6 +105,8 @@ i18next.init({
   lng:
     localStorage.getItem('language') === Language.KR
       ? Language.KR
+      : localStorage.getItem('language') === Language.CH
+      ? Language.CH
       : Language.EN, // language to use
   resources: {
     en: {
@@ -103,6 +122,7 @@ i18next.init({
       onboarding: onboardingEn,
       translations: translationsEn,
       purchase: purchaseEn,
+      trial: trialEn,
     },
     kr: {
       common: commonKr,
@@ -117,6 +137,22 @@ i18next.init({
       onboarding: onboardingKr,
       translations: translationsKr,
       purchase: purchaseKr,
+      trial: trialKr,
+    },
+    ch: {
+      common: commonCh,
+      sidebar: sidebarCh,
+      lessons: lessonsCh,
+      dashboard: dashboardCh,
+      modals: modalsCh,
+      studentMentor: studentMentorCh,
+      availability: availabilityCh,
+      refer: referCh,
+      profile: profileCh,
+      onboarding: onboardingCh,
+      translations: translationsCh,
+      purchase: purchaseCh,
+      trial: trialCh,
     },
   },
 });

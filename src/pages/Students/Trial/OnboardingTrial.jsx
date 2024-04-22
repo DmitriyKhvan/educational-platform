@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm } from 'react-hook-form';
@@ -14,7 +14,8 @@ import { SelectField } from 'src/components/Form/SelectField';
 import PhoneNumberField from 'src/components/Form/PhoneNumberField';
 import { trimSpaces } from 'src/utils/trimSpaces';
 
-export default function OnboardingTrial({
+export default memo(function OnboardingTrial({
+  currentUser,
   selectedPlan,
   user,
   setUser,
@@ -110,7 +111,7 @@ export default function OnboardingTrial({
           errorsField={errors?.phoneNumberWithoutCode ?? errors?.phoneNumber}
         >
           <PhoneNumberField
-            disabled={email && true}
+            disabled={currentUser && true}
             register={register}
             resetField={resetField}
             defaultNumber={phoneNumber}
@@ -121,7 +122,7 @@ export default function OnboardingTrial({
 
         <InputWithError errorsField={errors?.email}>
           <InputField
-            disabled={email}
+            disabled={currentUser && true}
             className="w-full"
             label={t('email', { ns: 'common' })}
             placeholder="student@example.com"
@@ -149,7 +150,7 @@ export default function OnboardingTrial({
             <Controller
               control={control}
               defaultValue={timeZone}
-              disabled={email && true}
+              disabled={currentUser && true}
               name="timeZone"
               rules={{
                 required: true,
@@ -168,7 +169,7 @@ export default function OnboardingTrial({
 
         <InputWithError errorsField={errors?.password}>
           <InputField
-            disabled={email}
+            disabled={currentUser && true}
             className="w-full"
             label={t('password', { ns: 'common' })}
             placeholder="at least 8 characters"
@@ -177,21 +178,23 @@ export default function OnboardingTrial({
               isShowPassword ? (
                 <BsEyeSlashFill
                   className={`text-2xl text-color-purple ${
-                    email && 'grayscale'
+                    currentUser && 'grayscale'
                   }`}
                 />
               ) : (
                 <BsEyeFill
                   className={`text-2xl text-color-purple ${
-                    email && 'grayscale'
+                    currentUser && 'grayscale'
                   }`}
                 />
               )
             }
             classNameIcon="cursor-pointer px-[15px]"
-            iconHandler={() => !email && setIsShowPassword(!isShowPassword)}
+            iconHandler={() =>
+              !currentUser && setIsShowPassword(!isShowPassword)
+            }
             {...register('password', {
-              required: !email
+              required: !currentUser
                 ? t('required_password', { ns: 'common' })
                 : false,
             })}
@@ -215,4 +218,4 @@ export default function OnboardingTrial({
       </p>
     </form>
   );
-}
+});

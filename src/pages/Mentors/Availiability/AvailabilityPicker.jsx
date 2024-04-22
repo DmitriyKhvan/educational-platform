@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useContext, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AvailProv } from './AvailabilityProvider';
 import trashCan from '../../../assets/images/trash_can.svg';
@@ -7,6 +7,7 @@ import Select from 'react-select';
 import { formatTimeToSeconds } from './lib/formatTimeToSeconds';
 import { timeOptions } from './lib/timeOptions';
 import { formatTime } from './lib/formatTime';
+import { timeGroup } from './lib/timeGroup';
 
 const AvailabilityPicker = ({
   day,
@@ -15,14 +16,18 @@ const AvailabilityPicker = ({
   tTime,
   AvailabilitySlots,
   mentorAvailabilityType,
+  timeOptionsSort,
+  timeGroupsSort,
 }) => {
   const { removeAvailabilityRow } = useContext(AvailProv);
   const { t } = useTranslation('modals');
 
-  const [fromTimeOptions, setFromTimeOptions] = useState([
-    ...timeOptions.slice(0, -1),
-  ]);
-  const [toTimeOptions, setToTimeOptions] = useState([...timeOptions]);
+  const [timeGroupSort, setTimeGroupSort] = useState(
+    timeGroup(timeGroupsSort, formatTimeToSeconds(frmTime)),
+  );
+
+  const [fromTimeOptions] = useState(timeOptionsSort.slice(0, -1));
+  const [toTimeOptions, setToTimeOptions] = useState(timeGroupSort.slice(1));
 
   const [fromTime, setFromTime] = useState(
     timeOptions.find((time) => time.value === formatTimeToSeconds(frmTime)),
@@ -31,50 +36,65 @@ const AvailabilityPicker = ({
     timeOptions.find((time) => time.value === formatTimeToSeconds(tTime)),
   );
 
-  const onChangeTime = (time, iteration, timeType) => {
+  const prevTimeGroupSortRef = useRef();
+
+  // Remember the previous value every time the state is updated
+  useEffect(() => {
+    prevTimeGroupSortRef.current = timeGroupSort;
+  }, [timeGroupSort]);
+
+  useEffect(() => {}, []);
+
+  const onChangeTime = (time, timeType) => {
     let t = parseInt(time);
 
-    const idxTime = timeOptions.findIndex((t) => t.value === time);
+    const timeGroupSort = timeGroup(timeGroupsSort, t);
 
-    if (iteration) {
-      // Existing
+    setTimeGroupSort(timeGroupSort);
+    setToTimeOptions(timeGroupSort.slice(1));
 
-      if (typeof t === 'number') {
-        if (timeType === 'from') {
-          const newToTimeOptions = timeOptions.slice(idxTime + 1);
-          setToTimeOptions(newToTimeOptions);
-          setFromTime(timeOptions[idxTime]);
+    const idxTime = timeGroupSort.findIndex((t) => t.value === time);
 
-          //if fromTime >= toTime
-          if (timeOptions[idxTime].value >= toTime.value) {
-            setToTime(timeOptions[idxTime + 1]);
-            AvailabilitySlots(
-              formatTime(t), // fromTime
-              formatTime(timeOptions[idxTime + 1].value), // toTime
-              String(id),
-              day,
-            );
-          } else {
-            AvailabilitySlots(formatTime(t), tTime, String(id), day);
-          }
-        } else {
-          const newFromTimeOptions = timeOptions.slice(0, idxTime);
-          setFromTimeOptions(newFromTimeOptions);
-          setToTime(timeOptions[idxTime]);
+    if (timeType === 'from') {
+      setFromTime(timeGroupSort[idxTime]);
 
-          //if toTime <= fromTime
-          if (timeOptions[idxTime].value <= fromTime.value) {
-            setFromTime(timeOptions[idxTime - 1]);
-            AvailabilitySlots(
-              formatTime(timeOptions[idxTime - 1].value), //fromTime
-              formatTime(t), //toTime
-              String(id),
-              day,
-            );
-          } else {
-            AvailabilitySlots(frmTime, formatTime(t), String(id), day);
-          }
+      //if fromTime >= toTime
+      if (timeGroupSort[idxTime]?.value >= toTime.value) {
+        setToTime(timeGroupSort[idxTime + 1]);
+
+        AvailabilitySlots(
+          formatTime(t), // fromTime
+          formatTime(timeGroupSort[idxTime + 1]?.value), // toTime
+          String(id),
+          day,
+        );
+      } else {
+        let toTime = tTime;
+
+        if (
+          JSON.stringify(prevTimeGroupSortRef.current) !==
+          JSON.stringify(timeGroupSort)
+        ) {
+          toTime = formatTime(timeGroupSort[idxTime + 1]?.value);
+          setToTime(timeGroupSort[idxTime + 1]);
         }
+
+        AvailabilitySlots(formatTime(t), toTime, String(id), day);
+      }
+    } else {
+      setToTime(timeGroupSort[idxTime]);
+
+      //if toTime <= fromTime
+      if (timeGroupSort[idxTime].value <= fromTime.value) {
+        setFromTime(timeGroupSort[idxTime - 1]);
+        AvailabilitySlots(
+          formatTime(timeGroupSort[idxTime - 1].value), //fromTime
+          formatTime(t), //toTime
+          String(id),
+          day,
+        );
+      } else {
+        AvailabilitySlots(frmTime, formatTime(t), String(id), day);
       }
     }
   };
@@ -84,7 +104,7 @@ const AvailabilityPicker = ({
       t('swal_fire_title'),
       '',
       'warning',
-      () => removeRows({ id, day, mentorAvailabilityType }),
+      () => removeAvailabilityRow({ id, day, mentorAvailabilityType }),
       true,
       t('swal_confirm_Button_Text'),
       t('swal_cancel_Button_Text'),
@@ -92,10 +112,6 @@ const AvailabilityPicker = ({
       t('swal_fire_title_conform_msg1'),
       t('swal_fire_title_conform_msg2'),
     );
-  };
-
-  const removeRows = (item) => {
-    removeAvailabilityRow(item);
   };
 
   return (
@@ -107,7 +123,7 @@ const AvailabilityPicker = ({
             value={fromTime}
             options={fromTimeOptions}
             onChange={(e) => {
-              onChangeTime(e.value, 'newTime', 'from');
+              onChangeTime(e.value, 'from');
             }}
           />
         </div>
@@ -123,7 +139,7 @@ const AvailabilityPicker = ({
             value={toTime}
             options={toTimeOptions}
             onChange={(e) => {
-              onChangeTime(e.value, 'newTime', 'to');
+              onChangeTime(e.value, 'to');
             }}
           />
         </div>

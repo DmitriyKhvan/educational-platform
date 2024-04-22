@@ -1,12 +1,12 @@
 import { format } from 'date-fns';
-import { enUS, ko } from 'date-fns/locale';
+import { enUS, ko, zhTW } from 'date-fns/locale';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import MyDropdownMenu from 'src/components/DropdownMenu';
 import Button from 'src/components/Form/Button';
 import CheckboxField from 'src/components/Form/CheckboxField';
-import { CalendarView } from 'src/constants/global';
+import { CalendarView, Language } from 'src/constants/global';
 
 const CalendarHeader = ({ calendarRef }) => {
   const [t, i18n] = useTranslation(['lessons']);
@@ -55,7 +55,12 @@ const CalendarHeader = ({ calendarRef }) => {
       <div className="flex items-center mb-6">
         <h2 className="font-semibold text-2xl whitespace-nowrap mr-4">
           {format(date, 'LLLL yyyy', {
-            locale: i18n.language === 'en' ? enUS : ko,
+            locale:
+              i18n.language === Language.KR
+                ? ko
+                : i18n.language === Language.CH
+                ? zhTW
+                : enUS,
           })}
         </h2>
         <div className="flex space-x-2">
