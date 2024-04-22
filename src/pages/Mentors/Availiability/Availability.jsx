@@ -15,6 +15,7 @@ import Loader from '../../../components/Loader/Loader';
 import notify from 'src/utils/notify';
 import Button from 'src/components/Form/Button';
 import { AcceptingStudents } from './AcceptingStudents';
+import { cn } from 'src/utils/functions';
 
 const Availability = () => {
   const [t] = useTranslation(['common', 'availability']);
@@ -233,97 +234,106 @@ const Availability = () => {
         My Availability
       </h2>
 
-      {mentorInfo.mentorAvailability ===
-      MentorAvailabilityType.REGULAR_AND_TRIAL ? (
-        <div className="w-auto flex items-center mb-4">
-          <Button
-            theme="outline"
-            className={`relative ml-0 rounded-r-none focus:shadow-none ${
-              mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR &&
-              'bg-color-purple text-white'
-            }`}
-            onClick={regularAvailabilityHandler}
-          >
-            <span>Regular Students</span>
-          </Button>
-          <Button
-            theme="outline"
-            className={`relative ml-[-4px] rounded-l-none focus:shadow-none ${
+      <div className="relative w-full flex items-center after:content-[''] after:absolute after:bottom-0 after:w-full after:h-[2px] after:bg-gray-100 after:-z-10">
+        {mentorInfo.mentorAvailability ===
+        MentorAvailabilityType.REGULAR_AND_TRIAL ? (
+          <>
+            <button
+              className={cn(
+                'p-5 text-[15px] font-medium border-b-2 border-transparent',
+                mentorAvailabilityType ===
+                  MentorAvailabilityType.ONLY_REGULAR &&
+                  'text-color-purple border-color-purple',
+              )}
+              onClick={regularAvailabilityHandler}
+            >
+              Regular Students
+            </button>
+            <button
+              className={cn(
+                'p-5 text-[15px] font-medium border-b-2 border-transparent',
+                mentorAvailabilityType === MentorAvailabilityType.ONLY_TRIAL &&
+                  'text-color-purple border-color-purple',
+              )}
+              onClick={trialAvailabilityHandler}
+            >
+              Trial Students
+            </button>
+          </>
+        ) : mentorInfo.mentorAvailability ===
+          MentorAvailabilityType.ONLY_TRIAL ? (
+          <button
+            className={cn(
+              'p-5 text-[15px] font-medium border-b-2 border-transparent',
               mentorAvailabilityType === MentorAvailabilityType.ONLY_TRIAL &&
-              'bg-color-purple text-white'
-            }`}
+                'text-color-purple border-color-purple',
+            )}
             onClick={trialAvailabilityHandler}
           >
-            <span>Trial Students</span>
-          </Button>
-        </div>
-      ) : mentorInfo.mentorAvailability ===
-        MentorAvailabilityType.ONLY_TRIAL ? (
-        <Button
-          theme="outline"
-          className={`relative ml-[-4px] focus:shadow-none ${
-            mentorAvailabilityType === MentorAvailabilityType.ONLY_TRIAL &&
-            'bg-color-purple text-white'
-          }`}
-          onClick={trialAvailabilityHandler}
-        >
-          <span>Trial Students</span>
-        </Button>
-      ) : null}
+            Trial Students
+          </button>
+        ) : null}
+      </div>
 
       <AcceptingStudents />
 
-      <div className="border-availabilities">
-        <div className="container-fluid py-3">
-          <div className="row ms-4">
-            <div className="col-xs-12 col-md-8">
-              <h1 className="title">
-                {t('weekly_hours', { ns: 'availability' })}
-              </h1>
-              <h3>{t('edit_your_shedule_below', { ns: 'availability' })}</h3>
-            </div>
+      <div className="space-y-8 p-6 border border-gray-100 rounded-lg shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
+        <div className="">
+          <div className="space-y-2">
+            <h1 className="text-xl text-color-dark-purple font-bold">
+              {t('weekly_hours', { ns: 'availability' })}
+            </h1>
+            <h3 className="text-sm text-gray-400">
+              {t('edit_your_shedule_below', { ns: 'availability' })}
+            </h3>
           </div>
-        </div>
-      </div>
 
-      <div className="space-y-6">
-        {DAY.map((day) => (
-          <AvailabilityProvider
-            key={day}
-            setGatherAvailabilities={storeAvailablitiy}
-            gatherAvailabilities={gatherAvailabilities[mentorAvailabilityType]}
-            setIsTeachAddHours={setIsTeachAddHours}
-            AvailabilitySlots={AvailabilitySlots}
-            day={day}
-            isteachAddHours={isteachAddHours}
-            mentorAvailabilityType={mentorAvailabilityType}
-            validateTimesSelected={validateTimesSelected}
-          >
-            <AvailabilityDayRow
-              day={day}
+          {/* select */}
+        </div>
+
+        <div className="divider"></div>
+
+        <div className="space-y-8">
+          {DAY.map((day) => (
+            <AvailabilityProvider
+              key={day}
               setGatherAvailabilities={storeAvailablitiy}
-              allGatherAvailabilities={gatherAvailabilities}
               gatherAvailabilities={
                 gatherAvailabilities[mentorAvailabilityType]
               }
-              hasValidTimes={hasValidTimes}
-              setHasValidTimes={setHasValidTimes}
-              isteachAddHours={isteachAddHours}
               setIsTeachAddHours={setIsTeachAddHours}
               AvailabilitySlots={AvailabilitySlots}
+              day={day}
+              isteachAddHours={isteachAddHours}
               mentorAvailabilityType={mentorAvailabilityType}
-            />
-          </AvailabilityProvider>
-        ))}
-        <div className="flex justify-end">
-          <Button
-            type="submit"
-            onClick={onSubmit}
-            disabled={hasValidTimes || disableSave}
-            className="w-[15%] mt-5"
-          >
-            {t('save', { ns: 'common' })}
-          </Button>
+              validateTimesSelected={validateTimesSelected}
+            >
+              <AvailabilityDayRow
+                day={day}
+                setGatherAvailabilities={storeAvailablitiy}
+                allGatherAvailabilities={gatherAvailabilities}
+                gatherAvailabilities={
+                  gatherAvailabilities[mentorAvailabilityType]
+                }
+                hasValidTimes={hasValidTimes}
+                setHasValidTimes={setHasValidTimes}
+                isteachAddHours={isteachAddHours}
+                setIsTeachAddHours={setIsTeachAddHours}
+                AvailabilitySlots={AvailabilitySlots}
+                mentorAvailabilityType={mentorAvailabilityType}
+              />
+            </AvailabilityProvider>
+          ))}
+          <div className="flex">
+            <Button
+              type="submit"
+              onClick={onSubmit}
+              disabled={hasValidTimes || disableSave}
+              className="w-[15%]"
+            >
+              {t('save', { ns: 'common' })}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

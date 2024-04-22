@@ -13,6 +13,7 @@ import { timezoneOptions } from 'src/constants/global';
 import { SelectField } from 'src/components/Form/SelectField';
 import PhoneNumberField from 'src/components/Form/PhoneNumberField';
 import { trimSpaces } from 'src/utils/trimSpaces';
+import { usePublicMentors } from './lib/usePublicMentors';
 
 export default memo(function OnboardingTrial({
   currentUser,
@@ -20,6 +21,7 @@ export default memo(function OnboardingTrial({
   user,
   setUser,
   setStep,
+  setMentorId,
 }) {
   const { firstName, lastName, phoneNumber, email, timeZone, password } = user;
 
@@ -200,6 +202,15 @@ export default memo(function OnboardingTrial({
             })}
           />
         </InputWithError>
+
+        {process.env.REACT_APP_PRODUCTION === 'false' && (
+          <SelectField
+            placeholder="Select a mentor"
+            options={usePublicMentors()}
+            isClearable
+            onChange={setMentorId}
+          />
+        )}
       </fieldset>
 
       <Button

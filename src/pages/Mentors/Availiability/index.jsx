@@ -7,7 +7,6 @@ const AvailiabilityLayout = () => {
     <Layout>
       <div className="pb-8">
         <Availability />
-        <div className="divider"></div>
         <AvailabilityExceptions />
       </div>
     </Layout>

@@ -44,6 +44,7 @@ const Trial = () => {
               selectedPlan={selectedPlan}
               setUser={setUser}
               setStep={setStep}
+              setMentorId={setMentorId}
             />
           )}
           {step === 0 && (
@@ -60,6 +61,7 @@ const Trial = () => {
             setTabIndex={setStep}
             setSchedule={setSchedule}
             duration={selectedPlan?.packageSubscription?.sessionTime}
+            selectedMentor={{ id: mentorId }}
             setMentorId={setMentorId}
             timeZone={user?.timeZone}
           >

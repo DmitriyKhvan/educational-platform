@@ -157,6 +157,10 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
               </span>
               <p className="text-gray-950 font-medium">{user.phoneNumber}</p>
             </label>
+            <label>
+              <span className="text-[13px] text-gray-400 mb-2">Time zone</span>
+              <p className="text-gray-950 font-medium">{user.timeZone}</p>
+            </label>
           </div>
           <div
             onClick={() => setStep(-1)}
