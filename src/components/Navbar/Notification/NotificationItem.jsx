@@ -1,12 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import { differenceInDays, format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 
-import { HiUserCircle } from 'react-icons/hi2';
+import { Avatar } from 'src/widgets/Avatar/Avatar';
 
-export const NotificationItem = ({ notification, setVisible }) => {
+export const NotificationItem = ({ notification }) => {
   const [t] = useTranslation('lessons');
 
   const daysAgo = differenceInDays(
@@ -17,43 +16,34 @@ export const NotificationItem = ({ notification, setVisible }) => {
   const timeAgo = daysAgo !== 0 ? `${daysAgo} day(s) ago` : 'today';
 
   return (
-    <Link
-      to={notification.href || '#'}
-      className={`flex items-center justify-between px-[15px] py-[7px] font-semibold text-[15px] cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple`}
-      onClick={() => {
-        setVisible(false);
-      }}
+    <div
+      className={`p-4 font-semibold group border border-color-border-grey rounded-lg`}
     >
-      <p className="flex items-center justify-between w-full box-shadow  transition ease-in-out delay-150  group-hover:text-white">
-        <span className="flex items-center justify-between w-[85%] mr-2">
-          <span className="flex items-center w-[40%] mr-2">
-            {notification.meta.user.avatar ? (
-              <img
-                className="w-[30px] h-[30px] mr-1 rounded-full border-2 border-color-white object-center object-cover"
-                src={notification.meta.user.avatar}
-                alt=""
-              />
-            ) : (
-              <HiUserCircle className="mr-1 text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
-            )}
+      <div className="flex items-center gap-3 mb-4">
+        <Avatar
+          avatarUrl={notification.meta.user.avatar}
+          className="w-10 h-10 rounded-full overflow-hidden"
+        />
 
-            <span className="truncate">
-              {notification.meta.user.firstName}{' '}
-              {notification.meta.user.lastName}
-            </span>
-          </span>
-          <span className="w-[60%] font-semibold">
-            {t(notification.body)} (
-            {format(new Date(notification.meta.lesson.date), 'eee, MMM do')})
-          </span>
+        <span className="truncate text-base font-semibold">
+          {notification.meta.user.firstName}{' '}
+          {notification.meta.user.lastName &&
+            `${notification.meta.user.lastName[0]}.`}
         </span>
-
+      </div>
+      <div className="mb-4">
+        <span className="font-medium text-sm">
+          {t(notification.body)} (
+          {format(new Date(notification.meta.lesson.date), 'eee, MMM do')})
+        </span>
+      </div>
+      <div>
         {notification?.createdAt && (
-          <span className="w-[15%] whitespace-nowrap text-xs text-color-darker-grey">
+          <span className="whitespace-nowrap text-xs font-normal text-color-darker-grey">
             {timeAgo}
           </span>
         )}
-      </p>
-    </Link>
+      </div>
+    </div>
   );
 };
