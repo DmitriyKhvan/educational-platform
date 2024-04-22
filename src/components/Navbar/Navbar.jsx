@@ -5,7 +5,6 @@ import Logo from 'src/assets/images/logo_purple.svg';
 import { Roles } from '../../constants/global';
 import { useAuth } from '../../modules/auth';
 
-import { NotificationDropdownMenu } from './Notification/NotificationDropdownMenu';
 import { useMediaQuery } from 'react-responsive';
 import MyDropdownMenu from '../DropdownMenu';
 import { FaAngleDown } from 'react-icons/fa6';
@@ -13,6 +12,7 @@ import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { MyDrawer } from '../Drawer';
 import MyProfileModal from './MyProfileModal';
 import { useTranslation } from 'react-i18next';
+import { Notifications } from './Notification/Notifications';
 
 const Navbar = memo(() => {
   const [t] = useTranslation('common');
@@ -54,7 +54,7 @@ const Navbar = memo(() => {
       </div>
 
       <div className="flex items-center justify-between gap-5">
-        <NotificationDropdownMenu />
+        <Notifications />
 
         {isMobile ? (
           <MyDrawer button={myProfileButton}>
