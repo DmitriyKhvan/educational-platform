@@ -111,6 +111,14 @@ export const phoneCodes = [
 
 export const timezoneOptions = [
   {
+    label: 'Asia/Seoul',
+    value: 'Asia/Seoul',
+  },
+  {
+    label: 'Asia/Taipei',
+    value: 'Asia/Taipei',
+  },
+  {
     label: 'Pacific/Midway',
     value: 'Pacific/Midway',
   },
@@ -551,10 +559,6 @@ export const timezoneOptions = [
     value: 'Asia/Hong_Kong',
   },
   {
-    label: 'Asia/Taipei',
-    value: 'Asia/Taipei',
-  },
-  {
     label: 'Asia/Kuala_Lumpur',
     value: 'Asia/Kuala_Lumpur',
   },
@@ -569,10 +573,6 @@ export const timezoneOptions = [
   {
     label: 'Asia/Yakutsk',
     value: 'Asia/Yakutsk',
-  },
-  {
-    label: 'Asia/Seoul',
-    value: 'Asia/Seoul',
   },
   {
     label: 'Asia/Tokyo',

@@ -179,7 +179,7 @@ const LessonConfirmation = ({
       weekDay: format(new Date(time), 'eeee', {
         locale: i18n.language === 'kr' ? koLocale : undefined,
       }),
-      monthCount,
+      count: monthCount,
     });
 
   return (

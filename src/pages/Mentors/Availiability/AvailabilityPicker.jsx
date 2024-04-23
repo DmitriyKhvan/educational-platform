@@ -32,6 +32,7 @@ const AvailabilityPicker = ({
   const [fromTime, setFromTime] = useState(
     timeOptions.find((time) => time.value === formatTimeToSeconds(frmTime)),
   );
+
   const [toTime, setToTime] = useState(
     timeOptions.find((time) => time.value === formatTimeToSeconds(tTime)),
   );
@@ -53,7 +54,7 @@ const AvailabilityPicker = ({
     setTimeGroupSort(timeGroupSort);
     setToTimeOptions(timeGroupSort.slice(1));
 
-    const idxTime = timeGroupSort.findIndex((t) => t.value === time);
+    const idxTime = timeGroupSort.findIndex((item) => item.value === t);
 
     if (timeType === 'from') {
       setFromTime(timeGroupSort[idxTime]);

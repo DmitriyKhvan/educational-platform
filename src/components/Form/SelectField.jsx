@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import Select from 'react-select';
 
 export const SelectField = forwardRef(function SelectField(
-  { value, options, onChange, isDisabled },
+  { value, options, onChange, isDisabled, ...props },
   ref,
 ) {
   const defaultValue = options.find((item) => item.value === value);
@@ -47,7 +47,8 @@ export const SelectField = forwardRef(function SelectField(
       value={defaultValue}
       isDisabled={isDisabled}
       options={options}
-      onChange={(e) => onChange(e.value)}
+      onChange={(e) => onChange(e?.value)}
+      {...props}
     />
   );
 });
