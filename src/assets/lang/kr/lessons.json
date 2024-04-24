@@ -67,7 +67,7 @@
   "lessons_remaining_schedule_plural": "예약 가능 횟수 : {{count}} 회",
   "disabled_package": "죄송합니다, 귀하의 서비스 구독이 만료되었거나 유효하지 않습니다. 관리자에게 문의하여 추가 지원을 받으실 수 있습니다.",
   "recording": "수업 녹화",
-  "repeat_lesson": "매주 {{weekDay}} {{monthCount}}개월간 수업 일정 반복",
+  "repeat_lesson": "매주 {{weekDay}} {{count}}개월간 수업 일정 반복",
   "max_month": "최대 1달",
   "lesson_not_approved": "멘토 선생님의 예약확정을 기다리고 있습니다.",
   "reason_subtitle": "예약 취소 사유를 말씀해주세요?",
