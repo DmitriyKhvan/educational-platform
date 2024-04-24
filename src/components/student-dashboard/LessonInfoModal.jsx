@@ -23,7 +23,8 @@ const LessonInfoModal = ({
   const [t] = useTranslation(['lessons', 'common']);
   const { user } = useAuth();
 
-  const userToDisplay = user.role === 'mentor' ? data?.student : data?.mentor;
+  const userToDisplay =
+    user.role === Roles.MENTOR ? data?.student : data?.mentor;
 
   return (
     <div className="sm:min-w-[400px] max-w-[520px] w-full bg-white">
