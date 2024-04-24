@@ -9,6 +9,8 @@ import { useAuth } from 'src/modules/auth';
 import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 import { useTranslation } from 'react-i18next';
 import { Roles } from 'src/constants/global';
+import Indicator from '../Indicator';
+import { PiStarFourFill } from 'react-icons/pi';
 
 const LessonInfoModal = ({
   date,
@@ -53,7 +55,15 @@ const LessonInfoModal = ({
           </p>
         </div>
 
-        <StatusIndicator status={data.status} />
+        <div className="flex items-center gap-2">
+          {data.isTrial && (
+            <Indicator className="bg-green-300 text-green-500">
+              <PiStarFourFill /> Trial
+            </Indicator>
+          )}
+
+          <StatusIndicator status={data.status} />
+        </div>
       </header>
 
       {playground ? (
