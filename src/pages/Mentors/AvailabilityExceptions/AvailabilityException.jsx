@@ -61,7 +61,7 @@ export const AvailabilityException = ({
 
     availabilityExceptionSlots(newException);
   };
-  
+
   return (
     <>
       <div>
@@ -74,7 +74,7 @@ export const AvailabilityException = ({
             className="max-w-sm rounded border"
           />
 
-          <div className="col-auto align-self-center ">
+          <div className="">
             <button
               type="button"
               className="btn ms-3"
@@ -98,7 +98,7 @@ export const AvailabilityException = ({
             );
           })}
 
-          <div>
+          <div className="flex">
             <Button
               disabled={
                 exception.slots[exception.slots.length - 1]?.to >= '23:00'

@@ -565,9 +565,7 @@ select {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
-.col-auto .pt-2 {
-  margin-left: -13px;
-}
+
 .align-date {
   align-items: center;
 }
@@ -1109,12 +1107,6 @@ select {
     align-items: center;
     display: flex;
     text-align: center !important;
-  }
-  .text-muted {
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    display: flex;
   }
 
   .summary-information {

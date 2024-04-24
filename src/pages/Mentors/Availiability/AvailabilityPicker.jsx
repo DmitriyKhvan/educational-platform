@@ -1,13 +1,14 @@
-import React, { useEffect, useContext, useState, useRef } from 'react';
+import React, { useEffect, useContext, useState, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AvailProv } from './AvailabilityProvider';
-import trashCan from '../../../assets/images/trash_can.svg';
 import Alert from '../../../components/Popup/Alert';
 import Select from 'react-select';
 import { formatTimeToSeconds } from './lib/formatTimeToSeconds';
 import { timeOptions } from './lib/timeOptions';
 import { formatTime } from './lib/formatTime';
 import { timeGroup } from './lib/timeGroup';
+import { selectStyle } from './lib/selectStyle';
+import { FaXmark } from 'react-icons/fa6';
 
 const AvailabilityPicker = ({
   day,
@@ -44,7 +45,7 @@ const AvailabilityPicker = ({
     prevTimeGroupSortRef.current = timeGroupSort;
   }, [timeGroupSort]);
 
-  useEffect(() => {}, []);
+  const selectSettings = useMemo(() => selectStyle(), []);
 
   const onChangeTime = (time, timeType) => {
     let t = parseInt(time);
@@ -116,44 +117,33 @@ const AvailabilityPicker = ({
   };
 
   return (
-    <div className="row mx-0 mt-2">
-      <div className="col-auto align_time_img-time over_form">
-        <div className="d-flex ">
-          <Select
-            className="time_picker text-center "
-            value={fromTime}
-            options={fromTimeOptions}
-            onChange={(e) => {
-              onChangeTime(e.value, 'from');
-            }}
-          />
-        </div>
-      </div>
+    <div className="flex items-center gap-2">
+      <Select
+        styles={selectSettings}
+        value={fromTime}
+        options={fromTimeOptions}
+        onChange={(e) => {
+          onChangeTime(e.value, 'from');
+        }}
+      />
 
-      <div className="col-auto align-self-center pickerToText ">
-        <span className="text-muted availability_to_text over_to_text">TO</span>
-      </div>
-      <div className="col-auto align_time_img-time over_to">
-        <div className="d-flex ">
-          <Select
-            className="time_picker text-center"
-            value={toTime}
-            options={toTimeOptions}
-            onChange={(e) => {
-              onChangeTime(e.value, 'to');
-            }}
-          />
-        </div>
-      </div>
-      <div className="col-auto align-self-center ">
-        <button
-          type="button"
-          className="btn fa_trash_can ms-3 align_delete"
-          onClick={() => removeRowDown(mentorAvailabilityType)}
-        >
-          <img src={trashCan} className="fa_icon" alt="" />
-        </button>
-      </div>
+      <span className="">-</span>
+
+      <Select
+        styles={selectSettings}
+        value={toTime}
+        options={toTimeOptions}
+        onChange={(e) => {
+          onChangeTime(e.value, 'to');
+        }}
+      />
+
+      <button
+        type="button"
+        onClick={() => removeRowDown(mentorAvailabilityType)}
+      >
+        <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
+      </button>
     </div>
   );
 };

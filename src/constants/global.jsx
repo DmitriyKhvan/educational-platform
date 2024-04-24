@@ -1,5 +1,6 @@
 // import timezones from 'timezones-list';
 import { getData } from 'country-list';
+import { format, utcToZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
 import * as flags from 'src/assets/flags';
 // import { useMemo } from 'react';
@@ -639,6 +640,17 @@ export const timezoneOptions = [
     value: 'Pacific/Apia',
   },
 ];
+
+export const timezoneWithTimeOptions = timezoneOptions.map((timezone) => {
+  const time = format(utcToZonedTime(new Date(), timezone.value), 'HH:mm a', {
+    timeZone: timezone.value,
+  });
+
+  return {
+    ...timezone,
+    label: `${timezone.value} (${time})`,
+  };
+});
 
 export const countries = getData().map((country) => {
   return {

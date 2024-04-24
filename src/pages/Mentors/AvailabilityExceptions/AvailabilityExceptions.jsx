@@ -192,7 +192,7 @@ export const AvailabilityExceptions = () => {
         </div>
       )}
 
-      <div className="container pl-8 pr-6 pb-11 pt-3">
+      <div className="p-6 border border-gray-100 rounded-lg shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
         <h2 className="date_override_title mb-3">Add date overrides</h2>
 
         <div className="space-y-4">
@@ -214,7 +214,7 @@ export const AvailabilityExceptions = () => {
             Add a date override
           </Button>
 
-          <Button onClick={onSubmit} disabled={disableSave} className="w-[15%]">
+          <Button onClick={onSubmit} disabled={disableSave} className="">
             {t('save', { ns: 'common' })}
           </Button>
         </div>

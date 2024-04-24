@@ -25,7 +25,12 @@ export default memo(function OnboardingTrial({
 }) {
   const { firstName, lastName, phoneNumber, email, timeZone, password } = user;
 
-  const [t] = useTranslation(['onboarding', 'common', 'translations']);
+  const [t] = useTranslation([
+    'onboarding',
+    'common',
+    'translations',
+    'lessons',
+  ]);
 
   const [isShowPassword, setIsShowPassword] = useState(false);
 
@@ -146,22 +151,21 @@ export default memo(function OnboardingTrial({
         </InputWithError>
 
         <InputWithError errorsField={errors?.timeZone}>
-          <label className="not-italic font-semibold text-base text-color-dark-purple">
+          <label className="font-semibold text-base text-color-dark-purple">
             {t('time_zone', { ns: 'common' })}
 
             <Controller
               control={control}
               defaultValue={timeZone}
-              disabled={currentUser && true}
               name="timeZone"
               rules={{
                 required: true,
               }}
-              render={({ field: { value, disabled, onChange } }) => (
+              render={({ field: { value, onChange } }) => (
                 <SelectField
                   value={value}
                   options={timezoneOptions}
-                  isDisabled={disabled}
+                  isDisabled={currentUser && true}
                   onChange={onChange}
                 />
               )}
@@ -204,12 +208,14 @@ export default memo(function OnboardingTrial({
         </InputWithError>
 
         {process.env.REACT_APP_PRODUCTION === 'false' && (
-          <SelectField
-            placeholder="Select a mentor"
-            options={usePublicMentors()}
-            isClearable
-            onChange={setMentorId}
-          />
+          <label className="font-semibold text-base text-color-dark-purple">
+            {t('mentor', { ns: 'lessons' })}
+            <SelectField
+              options={usePublicMentors()}
+              isClearable
+              onChange={setMentorId}
+            />
+          </label>
         )}
       </fieldset>
 
