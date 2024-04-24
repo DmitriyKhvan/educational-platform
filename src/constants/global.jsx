@@ -1,4 +1,5 @@
 // import timezones from 'timezones-list';
+import { enUS, ko, zhTW } from 'date-fns/locale';
 import { getData } from 'country-list';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
@@ -818,6 +819,12 @@ export const Language = {
   EN: 'en',
   KR: 'kr',
   CH: 'ch',
+};
+
+export const localeDic = {
+  [Language.EN]: enUS,
+  [Language.KR]: ko,
+  [Language.CH]: zhTW,
 };
 
 export const CalendarView = {

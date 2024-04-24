@@ -10,5 +10,8 @@
   "substitute_us_holidays": "想要在美國國定假日時授課嗎？",
   "enable_us_holidays_substitute": "啟用假日授課預約",
   "save_return_settings": "儲存並返回",
-  "weekly_hours": "Weekly hours"
+  "weekly_hours": "Weekly hours",
+  "choose_week": "Choose a week",
+  "choose_day": "Choose a day",
+  "choose_time": "Choose time of day"
 }

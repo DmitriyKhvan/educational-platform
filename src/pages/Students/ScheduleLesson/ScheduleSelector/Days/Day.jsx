@@ -1,14 +1,18 @@
 import { format } from 'date-fns-tz';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { useSchedule } from '../ScheduleProvider';
 import Button from 'src/components/Form/Button';
 import { cn } from 'src/utils/functions';
+import { localeDic } from 'src/constants/global';
 
 export const Day = memo(function Day({ dayOfWeek, idx }) {
   const { setDay, setDayClicked, dayClicked, userTimezone } = useSchedule();
 
-  const [t] = useTranslation('common');
+  const [t, i18n] = useTranslation('common');
+
+  const locale = useMemo(() => localeDic[i18n.language], [t]);
 
   const selectDay = () => {
     setDayClicked(idx);
@@ -28,6 +32,7 @@ export const Day = memo(function Day({ dayOfWeek, idx }) {
       {t(
         format(new Date(dayOfWeek), 'EEEE (MMM d)', {
           timeZone: userTimezone,
+          locale,
         }),
       )}
     </Button>

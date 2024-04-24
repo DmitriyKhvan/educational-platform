@@ -28,7 +28,8 @@ import { SelectField } from 'src/components/Form/SelectField';
 import { AvailabilityExceptions } from '../AvailabilityExceptions/AvailabilityExceptions';
 
 const Availability = () => {
-  const { user } = useAuth();
+  const { user, refetchUser } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     data: { mentor: mentorInfo } = {},
@@ -75,8 +76,7 @@ const Availability = () => {
 
   const [timeZone, setTimeZone] = useState(user?.timeZone);
 
-  const [upsertAvailiability, { loading: loadingUpsertAvailiability, error }] =
-    useMutation(UPSERT_AVAILIABILITY);
+  const [upsertAvailiability] = useMutation(UPSERT_AVAILIABILITY);
 
   useEffect(() => {
     if (mentorInfo?.availabilities?.regular.length) {
@@ -143,14 +143,22 @@ const Availability = () => {
 
   // saving data in DB using loader
   const onSubmit = async (e) => {
+    setIsLoading(true);
     e.target.blur();
 
     let slotsToSave = [];
-    Object.keys(gatherAvailabilities).forEach((availType) => {
-      const slots = parseAndSaveAvailabilities(availType);
 
-      slotsToSave = [...slotsToSave, ...slots];
-    });
+    if (
+      mentorInfo.mentorAvailability === MentorAvailabilityType.REGULAR_AND_TRIAL
+    ) {
+      Object.keys(gatherAvailabilities).forEach((availType) => {
+        const slots = parseAndSaveAvailabilities(availType);
+
+        slotsToSave = [...slotsToSave, ...slots];
+      });
+    } else {
+      slotsToSave = parseAndSaveAvailabilities(mentorInfo.mentorAvailability);
+    }
 
     try {
       if (user.timeZone !== timeZone) {
@@ -173,11 +181,13 @@ const Availability = () => {
         },
       });
 
-      // await refetchMentor();
+      await refetchUser();
 
       handleDisableSave(true);
     } catch (error) {
       notify(error.message, 'error');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -247,7 +257,6 @@ const Availability = () => {
 
   const storeAvailablitiy = (data, type) => {
     if (type) {
-      handleDisableSave(false);
       setGatherAvailabilities((gatherAvailabilities) => {
         return {
           ...gatherAvailabilities,
@@ -260,10 +269,8 @@ const Availability = () => {
   };
 
   useEffect(() => {
-    if (error) {
-      notify(error.message, 'error');
-    }
-  }, [error]);
+    handleDisableSave(false);
+  }, [gatherAvailabilities, timeZone]);
 
   if (loadingMentor) {
     return <Loader height="calc(100vh - 80px)" />;
@@ -271,7 +278,7 @@ const Availability = () => {
 
   return (
     <div className="space-y-10">
-      {loadingUpsertAvailiability && <ReactLoader />}
+      {isLoading && <ReactLoader />}
 
       <h2 className="text-[32px] text-color-dark-purple font-bold leading-9">
         My Availability
