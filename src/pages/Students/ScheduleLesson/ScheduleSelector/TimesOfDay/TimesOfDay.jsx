@@ -6,7 +6,7 @@ import Button from 'src/components/Form/Button';
 import { useTranslation } from 'react-i18next';
 
 export const TimesOfDay = () => {
-  const [t] = useTranslation('common');
+  const [t] = useTranslation(['common', 'availability']);
   const {
     timesheetsLoading,
     timesOfDay,
@@ -19,7 +19,7 @@ export const TimesOfDay = () => {
     <div>
       {dayClicked !== null && (
         <h4 className="font-semibold text-[15px] text-color-dark-purple mb-4">
-          3. Choose time of day
+          3. {t('choose_time', { ns: 'availability' })}
         </h4>
       )}
 
@@ -42,7 +42,7 @@ export const TimesOfDay = () => {
               className="w-full"
               onClick={() => setTabIndex(2)}
             >
-              {t('continue_button')}
+              {t('continue_button', { ns: 'common' })}
             </Button>
           </div>
         )

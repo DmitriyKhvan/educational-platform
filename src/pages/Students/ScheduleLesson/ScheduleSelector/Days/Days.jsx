@@ -10,8 +10,10 @@ import { format } from 'date-fns-tz';
 
 import { Day } from './Day';
 import { useSchedule } from '../ScheduleProvider';
+import { useTranslation } from 'react-i18next';
 
 export const Days = memo(function Days({ startOfWeek, counter }) {
+  const [t] = useTranslation('availability');
   const { todayUserTimezone, endMonth, userTimezone } = useSchedule();
 
   const [days, setDays] = useState([]);
@@ -43,7 +45,7 @@ export const Days = memo(function Days({ startOfWeek, counter }) {
   return (
     <div>
       <h4 className="font-semibold text-[15px] text-color-dark-purple mb-4">
-        2. Choose a day
+        2. {t('choose_day')}
       </h4>
       <div className="flex flex-wrap gap-y-3">
         {days?.map((day, i) => (

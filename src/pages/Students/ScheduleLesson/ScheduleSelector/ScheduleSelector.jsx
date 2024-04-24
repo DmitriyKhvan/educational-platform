@@ -18,7 +18,12 @@ export const ScheduleSelector = ({ lesson }) => {
   const { setTabIndex, resetAll, todayUserTimezone, userTimezone } =
     useSchedule();
 
-  const [t, i18n] = useTranslation(['lessons', 'common', 'modals']);
+  const [t, i18n] = useTranslation([
+    'lessons',
+    'common',
+    'modals',
+    'availability',
+  ]);
 
   const currentLanguage = i18n.language;
   const locale = currentLanguage === 'kr' ? kr : null;
@@ -88,7 +93,7 @@ export const ScheduleSelector = ({ lesson }) => {
 
         <div>
           <h4 className="font-semibold text-[15px] text-color-dark-purple mb-4">
-            1. Choose a week
+            1. {t('choose_week', { ns: 'availability' })}
           </h4>
           <div className="flex gap-3 w-full items-center justify-between mb-4">
             <Button
