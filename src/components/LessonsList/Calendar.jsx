@@ -197,7 +197,7 @@ const eventColors = {
   '1-on-1 Writing': 'text-[#FF9335] bg-[#FF9335] border-l-[#FF9335]',
   'Bucket List Personal Projects':
     'text-[#19BBFE] bg-[#19BBFE] border-l-[#19BBFE]',
-  trial: 'text-[##00D986] bg-[##00D986] border-l-[##00D986]',
+  trial: 'text-[#00D986] bg-[#00D986] border-l-[#00D986]',
 };
 
 export default Calendar;

@@ -9,6 +9,8 @@ import LessonControls from './LessonControls';
 import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 import { useTranslation } from 'react-i18next';
 import { MdEventRepeat } from 'react-icons/md';
+import Indicator from '../Indicator';
+import { PiStarFourFill } from 'react-icons/pi';
 
 const ScheduleCard = ({
   // lesson,
@@ -77,7 +79,15 @@ const ScheduleCard = ({
                   month(s)
                 </div>
               ) : (
-                <StatusIndicator status={data.status} />
+                <div className="flex items-center gap-2">
+                  {data.isTrial && (
+                    <Indicator className="bg-green-300 text-green-500">
+                      <PiStarFourFill /> Trial
+                    </Indicator>
+                  )}
+
+                  <StatusIndicator status={data.status} />
+                </div>
               )}
             </div>
             {/* TODO: add this to translation.json */}
