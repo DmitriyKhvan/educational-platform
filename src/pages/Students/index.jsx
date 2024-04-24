@@ -1,8 +1,5 @@
 import { Switch, useRouteMatch, Route, Redirect } from 'react-router-dom';
-// Student Path
-// import StudentCalendar from './Calendar';
 import ClassMaterials from './ClassMaterials';
-// import GroupScheduleLesson from './GroupLessons';
 import StudentListAppointments from './StudentDashboard';
 import ScheduleLesson from './ScheduleLesson';
 import Profile from './Profile';
@@ -10,7 +7,7 @@ import ScheduleLessonSteps from './ScheduleLesson/ScheduleLessonSteps';
 import Referal from './Referal/Referal';
 import Mentors from './MentorsList/Mentors';
 import Subscriptions from './Subscriptions/Subscriptions';
-import LessonsList from './LessonsList';
+import Lessons from './Lessons';
 import { useAuth } from 'src/modules/auth';
 import { ErrorPage } from '../ErrorPage';
 
@@ -68,8 +65,7 @@ export default function StudentRoutes() {
       </Route>
 
       <Route path={`${path}/lesson-calendar`}>
-        {/* <StudentCalendar /> */}
-        <LessonsList />
+        <Lessons />
       </Route>
 
       <Route path={`${path}/class-materials`}>

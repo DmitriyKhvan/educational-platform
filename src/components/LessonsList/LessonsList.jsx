@@ -1,101 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useQuery } from '@apollo/client';
-import { format, utcToZonedTime } from 'date-fns-tz';
 import Button from 'src/components/Form/Button';
 import { Badge } from 'src/components/Badge';
 import { useNotifications } from 'src/modules/notifications';
-import { APPOINTMENTS_QUERY, PACKAGE_QUERY } from 'src/modules/auth/graphql';
-import { LessonsStatusType, getItemToLocalStorage } from 'src/constants/global';
+import { LessonsStatusType } from 'src/constants/global';
 import Layout from 'src/layouts/DashboardLayout';
 import Loader from 'src/components/Loader/Loader';
 import ReviewLessonModal from 'src/components/student-dashboard/ReviewLessonModal';
-import Calendar from './Calendar';
-import Table from './Table';
+import { LessonsCalendar, LessonsTable } from 'src/components/LessonsList';
 import { useAuth } from 'src/modules/auth';
-// import { addMinutes } from 'date-fns';
 import { useMediaQuery } from 'react-responsive';
-import moment from 'moment';
-import { addMinutes } from 'date-fns';
+import { sortCalendarEvents } from 'src/utils/sortCalendarEvents';
 
-const sortCalendarEvents = (data, timeZone) => {
-  if (!data) return;
-  let eventDates = {};
-  data.forEach((apt) => {
-    let startAt = new Date(apt.startAt);
-    let date = format(startAt, 'yyyy-MM-dd');
-    if (eventDates[date]) {
-      eventDates[date].push(apt);
-    } else {
-      eventDates[date] = [apt];
-    }
-  });
-  const eventKeys = Object.keys(eventDates);
-  const calendarEvents = [];
-
-  eventKeys.forEach((key) => {
-    for (const eventDate of eventDates[key]) {
-      // const date = moment(eventDate.startAt).utc(0, true).unix();
-      // const endEpoch = date + eventDate.duration * 60;
-      const startAt = utcToZonedTime(new Date(eventDate.startAt), timeZone);
-      const end_at = addMinutes(
-        utcToZonedTime(new Date(eventDate.startAt), timeZone),
-        eventDate.duration,
-      );
-      const iterateEvents = {
-        playground: eventDate.playground,
-        lesson: eventDate?.packageSubscription?.package?.course?.title,
-        startAt,
-        end_at,
-        type: eventDate.type,
-        tutor: eventDate.tutor,
-        mentor: eventDate.mentor,
-        student: eventDate.student,
-        eventDate,
-        status: eventDate.status,
-        courseId: eventDate?.packageSubscription?.package?.course?.id,
-        packageSubscription: eventDate.packageSubscription,
-      };
-
-      calendarEvents.push(iterateEvents);
-    }
-  });
-  const tablularEventData = [];
-  for (const eventKey of eventKeys) {
-    for (const eventDate of eventDates[eventKey]) {
-      const date = moment(eventDate.startAt).utc(0, true).unix();
-      const mentor = eventDate.mentor.fullName || '';
-      const startTime = moment.unix(date).utc(0, true).format('hh:mm a');
-      const tableRow = {
-        topic: eventDate?.package?.course?.title,
-        level: eventDate?.students?.[0]?.level,
-        dateTime: {
-          startTime,
-          endTime: moment
-            .unix(date)
-            .utc(0, true)
-            .add(eventDate.duration, 'minutes')
-            .format('hh:mm a'),
-          date: moment.unix(date).utc(0, true).format('ddd, MMM D'),
-        },
-        sessionTime: new Date(
-          `${moment.unix(date).utc(0, true).format('ddd, MMM D')},${startTime}`,
-        ),
-        onClick: {
-          date,
-        },
-        mentor,
-
-        resource: eventDate,
-      };
-      tablularEventData.push(tableRow);
-    }
-  }
-  return { tablularEventData, calendarEvents };
-};
-
-const LessonsList = () => {
+const LessonsList = ({
+  getAppointments,
+  appointments,
+  loadingAppointments,
+  planStatus,
+}) => {
   const isMobile = useMediaQuery({ maxWidth: 640 });
 
   const [t] = useTranslation(['lessons']);
@@ -103,28 +26,6 @@ const LessonsList = () => {
 
   const { notifications, getCountNotification, removeNotifications } =
     useNotifications();
-
-  const {
-    refetch: getAppointments,
-    data: appointments,
-    loading: loadingAppointments,
-  } = useQuery(APPOINTMENTS_QUERY, {
-    variables: {
-      mentorId: user?.mentor?.id,
-      status: `approved,scheduled,rescheduled,paid,completed,in_progress,canceled`,
-    },
-    fetchPolicy: 'no-cache',
-  });
-
-  const { data: { packageSubscriptions: planStatus = [] } = {} } = useQuery(
-    PACKAGE_QUERY,
-    {
-      fetchPolicy: 'no-cache',
-      variables: {
-        studentId: getItemToLocalStorage('studentId'),
-      },
-    },
-  );
 
   useEffect(() => {
     getAppointments();
@@ -241,7 +142,7 @@ const LessonsList = () => {
 
         <div>
           {!loadingAppointments && !isCalendar && (
-            <Table
+            <LessonsTable
               tableAppointments={tableAppointments}
               planStatus={planStatus}
               selectedTab={selectedTab}
@@ -250,7 +151,7 @@ const LessonsList = () => {
           )}
           {!isMobile && !loadingAppointments && isCalendar && (
             <div className="mt-4">
-              <Calendar
+              <LessonsCalendar
                 calendarAppointments={calendarAppointments}
                 getAppointments={getAppointments}
               />
@@ -258,11 +159,6 @@ const LessonsList = () => {
           )}
         </div>
       </div>
-      {/* <FeedbackLessonModal
-        modalState="student"
-        isOpen={isFeedbackModal}
-        closeModal={handleClodeFeedbackModal}
-      /> */}
       {loadingAppointments && <Loader />}
       <ReviewLessonModal
         isOpen={isReviewLessonModalOpen}

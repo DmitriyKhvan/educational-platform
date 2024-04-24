@@ -4,7 +4,7 @@ import { LessonTableMobile } from 'src/components/student-dashboard/LessonTableM
 import { LessonsStatusType, Roles } from 'src/constants/global';
 import { useAuth } from 'src/modules/auth';
 import { isWithinHours } from 'src/utils/isWithinHours';
-import NoLessonsMessage from './NoLessonsMessage';
+import { NoLessonsMessage } from 'src/components/LessonsList';
 import { useMediaQuery } from 'react-responsive';
 import { LessonTable } from 'src/components/student-dashboard/LessonTable';
 
@@ -104,7 +104,7 @@ const Table = ({
   ) : (
     <NoLessonsMessage
       selectedTab={selectedTab}
-      availableCredits={planStatus.reduce(
+      availableCredits={planStatus?.reduce(
         (prev, curr) => prev + curr.credits,
         0,
       )}

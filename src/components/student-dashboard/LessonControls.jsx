@@ -64,7 +64,9 @@ const LessonControls = ({
       })
     ) {
       window.open(
-        user.role === Roles.MENTOR ? data?.playground?.startUrl : data?.playground?.joinUrl,
+        user.role === Roles.MENTOR
+          ? data?.playground?.startUrl
+          : data?.playground?.joinUrl,
         '_blank',
       );
     } else {
@@ -94,7 +96,6 @@ const LessonControls = ({
       fetchAppointments={refetch}
       tabIndex={tabIndex}
       type={modalType}
-      // cancelled={cancelled}
       setCanceledLessons={setCanceledLessons}
       duration={duration}
     />
@@ -139,7 +140,7 @@ const LessonControls = ({
       );
     }
 
-    if (!isAfterLesson && !isWithin24Hours) {
+    if (!isAfterLesson && !isWithin24Hours && user.role !== Roles.MENTOR) {
       controls.push(
         <AdaptiveDialog
           open={isOpen}
@@ -164,7 +165,6 @@ const LessonControls = ({
         <AdaptiveDialog
           button={
             <Button
-              // TODO: implement onClick
               disabled={!data?.playground?.recordingUrl}
               className="grow gap-1 sm:gap-2 text-xs sm:text-sm px-2"
             >
@@ -186,7 +186,7 @@ const LessonControls = ({
       );
     }
 
-    if (!isAfterLesson) {
+    if (!isAfterLesson && !(user.role === Roles.MENTOR && data.isTrial)) {
       controls.push(
         <AdaptiveDialog
           open={isOpen}

@@ -3,6 +3,7 @@
   "edit_profile": "編輯個人檔案",
   "summary": "簡介",
   "enrolled_courses": "報名的課程",
+  "completed_courses": "已完成課程",
   "lesson_type": "一對一課程",
   "add_details": "額外詳細資料",
   "email": "電子郵件",
@@ -55,5 +56,6 @@
   "introduction_changed": "簡介已更改！",
   "deactivated_student": "此學生的帳號已停用或失效。請聯絡相關管理人員或支援人員，尋求進一步協助。",
   "select_profile": "選擇個人檔案",
-  "add_account": "新增帳號"
+  "add_account": "新增帳號",
+  "lessons_remaining": "未完成課程"
 }

@@ -27,3 +27,18 @@ export const COURSES = gql`
     }
   }
 `;
+
+export const COURSES_TRANSLATIONS = gql`
+  query courses {
+    courses {
+      id
+      title
+      translations {
+        id
+        title
+        description
+        language
+      }
+    }
+  }
+`;
