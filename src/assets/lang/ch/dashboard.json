@@ -1,8 +1,13 @@
 {
   "student_dashboard_welcome": "{{name}}，您好呀 👋",
   "student_dashboard_subtitle": "歡迎回到 Nao Now！讓我們一起學習吧。",
+  "lets_learn_together": "開始學習吧!",
   "schedule_card": "安排一堂您喜愛導師的課。",
   "schedule_1_on_1_lesson": "安排一對一課程 →",
+  "my_progress": "我的進度",
+  "my_progress_subtitle": "最近完成的課程",
+  "my_lessons": "我的課",
+  "my_lessons_subtitle": "本週即將上課",
   "already_lesson": "已經上過課了嗎？",
   "student_dashboard_edit_schedule": "編輯我的時間表",
   "student_dashboard_view_all_lessons": "查看所有課程 →",
@@ -28,5 +33,6 @@
   "schedule_by_time": "按時間安排",
   "schedule_by_mentor": "按導師安排",
   "student_dashboard_no_package": "尚未購買套裝課程。",
-  "student_dashboard_no_package_desc": "購買套裝課程 →"
+  "student_dashboard_no_package_desc": "購買套裝課程 →",
+  "view_all": "查看全部"
 }

@@ -10,6 +10,7 @@
   "review_cancellation_policy": "檢視取消政策",
   "continue_cancel": "繼續",
   "join_lesson": "加入課程",
+  "watch_recording": "觀看錄影",
   "cancel_lesson": "取消課程",
   "reschedule": "重新安排",
   "reschedule_error": "上課前 24 小時內無法重新安排課程！",
@@ -58,5 +59,6 @@
   "lesson_not_updated": "課程未更新",
   "invalid_date": "導師無法上課",
   "same_date": "同一天",
-  "lesson_not_created": "尚未建立課程"
+  "lesson_not_created": "尚未建立課程",
+  "info": "更多資訊"
 }

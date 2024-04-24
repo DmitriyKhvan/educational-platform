@@ -1,9 +1,24 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Roles } from 'src/constants/global';
+import { useAuth } from 'src/modules/auth';
 
 const NoLessonsMessage = ({ selectedTab, availableCredits }) => {
   const [t] = useTranslation(['lessons']);
+  const { user } = useAuth();
+
+  if (user.role === Roles.MENTOR) {
+    return (
+      <div className="w-full bg-gray-50 rounded-lg mt-8 py-[47px]">
+        <p className="text-color-dark-purple text-sm text-center mb-6">
+          {selectedTab === 'pastLessons'
+            ? 'No past lessons'
+            : 'No upcoming lessons'}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <>

@@ -8,6 +8,7 @@ import { PlaygroundRecordingModal } from '../PlaygroundRecordingModal';
 import { useAuth } from 'src/modules/auth';
 import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 import { useTranslation } from 'react-i18next';
+import { Roles } from 'src/constants/global';
 
 const LessonInfoModal = ({
   date,
@@ -20,10 +21,13 @@ const LessonInfoModal = ({
 }) => {
   const { getTitleByCourseId } = useCourseTranslation();
   const [t] = useTranslation(['lessons', 'common']);
-  const { currentStudent } = useAuth();
+  const { user } = useAuth();
+
+  const userToDisplay =
+    user.role === Roles.MENTOR ? data?.student : data?.mentor;
 
   return (
-    <div className="max-w-[520px] w-full bg-white">
+    <div className="sm:min-w-[400px] max-w-[520px] w-full bg-white">
       <header className="flex justify-between items-center mb-6">
         <div>
           <h2 className="text-[28px] font-bold text-color-dark-purple">
@@ -74,15 +78,15 @@ const LessonInfoModal = ({
 
         <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate flex">
           <Avatar
-            avatarUrl={data?.mentor?.avatar?.url}
+            avatarUrl={userToDisplay?.avatar?.url}
             className="w-9 h-9 rounded-full overflow-hidden mr-3 min-h-9 min-w-9"
           />
           <div className=" overflow-hidden truncate">
             <label className="text-xs font-medium text-gray-300 block">
-              {t('mentor')}
+              {user.role === Roles.MENTOR ? t('student') : t('mentor')}
             </label>
-            {data?.mentor?.firstName}{' '}
-            {data?.mentor?.lastName[0] ? `${data?.mentor?.lastName[0]}.` : ''}
+            {userToDisplay?.firstName}{' '}
+            {userToDisplay?.lastName[0] ? `${userToDisplay?.lastName[0]}.` : ''}
           </div>
         </div>
 
@@ -90,7 +94,7 @@ const LessonInfoModal = ({
           <label className="text-xs font-medium text-gray-300 block">
             {t('level')}
           </label>
-          {currentStudent.langLevel}
+          {data?.student?.langLevel}
         </div>
 
         <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">

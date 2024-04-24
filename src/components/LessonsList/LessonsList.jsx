@@ -1,105 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useQuery } from '@apollo/client';
-import { format, utcToZonedTime } from 'date-fns-tz';
 import Button from 'src/components/Form/Button';
 import { Badge } from 'src/components/Badge';
 import { useNotifications } from 'src/modules/notifications';
-import { APPOINTMENTS_QUERY, PACKAGE_QUERY } from 'src/modules/auth/graphql';
-import { LessonsStatusType, getItemToLocalStorage } from 'src/constants/global';
+import { LessonsStatusType } from 'src/constants/global';
 import Layout from 'src/layouts/DashboardLayout';
 import Loader from 'src/components/Loader/Loader';
 import ReviewLessonModal from 'src/components/student-dashboard/ReviewLessonModal';
-import Calendar from './Calendar';
-import Table from './Table';
+import { LessonsCalendar, LessonsTable } from 'src/components/LessonsList';
 import { useAuth } from 'src/modules/auth';
-import { addMinutes } from 'date-fns';
 import { useMediaQuery } from 'react-responsive';
+import { sortCalendarEvents } from 'src/utils/sortCalendarEvents';
 
-const sortCalendarEvents = (data, timeZone) => {
-  if (!data) return;
-  let eventDates = {};
-  data.forEach((apt) => {
-    let startAt = new Date(apt.startAt);
-    let date = format(startAt, 'yyyy-MM-dd');
-    if (eventDates[date]) {
-      eventDates[date].push(apt);
-    } else {
-      eventDates[date] = [apt];
-    }
-  });
-
-  const eventKeys = Object.keys(eventDates);
-  const calendarEvents = [];
-  eventKeys.forEach((key) => {
-    for (const eventDate of eventDates[key]) {
-      const iterateEvents = {
-        playground: eventDate.playground,
-        lesson: eventDate?.packageSubscription?.package?.course?.title,
-        courseId: eventDate?.packageSubscription?.package?.course?.id,
-        startAt: utcToZonedTime(new Date(eventDate.startAt), timeZone),
-        end_at: addMinutes(
-          utcToZonedTime(new Date(eventDate.startAt), timeZone),
-          eventDate.duration,
-        ),
-        type: eventDate.type,
-        mentor: eventDate.mentor,
-        student: eventDate.student,
-        eventDate,
-        status: eventDate.status,
-        packageSubscription: eventDate.packageSubscription,
-      };
-
-      calendarEvents.push(iterateEvents);
-    }
-  });
-
-  const tablularEventData = [];
-  for (const eventKey of eventKeys) {
-    for (const eventDate of eventDates[eventKey]) {
-      const mentor = eventDate.mentor
-        ? eventDate.mentor?.user?.firstName +
-        ' ' +
-        eventDate.mentor?.user?.lastName?.charAt(0)?.toUpperCase() +
-        '.'
-        : '';
-
-      const startTime = format(
-        utcToZonedTime(new Date(eventDate.startAt), timeZone),
-        'hh:mm a',
-        { timeZone: timeZone },
-      );
-      const endTime = format(
-        addMinutes(
-          utcToZonedTime(new Date(eventDate.startAt), timeZone),
-          eventDate.duration,
-        ),
-        'hh:mm a',
-        { timeZone: timeZone },
-      );
-
-      const tableRow = {
-        dateTime: {
-          startTime,
-          endTime: endTime,
-          date: format(
-            utcToZonedTime(new Date(eventDate.startAt), timeZone),
-            'eee, MMM do',
-            { timeZone: timeZone },
-          ),
-        },
-        sessionTime: new Date(eventDate.startAt),
-        mentor,
-        resource: eventDate,
-      };
-      tablularEventData.push(tableRow);
-    }
-  }
-  return { tablularEventData, calendarEvents };
-};
-
-const LessonsList = () => {
+const LessonsList = ({
+  getAppointments,
+  appointments,
+  loadingAppointments,
+  planStatus,
+}) => {
   const isMobile = useMediaQuery({ maxWidth: 640 });
 
   const [t] = useTranslation(['lessons']);
@@ -107,28 +26,6 @@ const LessonsList = () => {
 
   const { notifications, getCountNotification, removeNotifications } =
     useNotifications();
-
-  const {
-    refetch: getAppointments,
-    data: appointments,
-    loading: loadingAppointments,
-  } = useQuery(APPOINTMENTS_QUERY, {
-    variables: {
-      studentId: getItemToLocalStorage('studentId'),
-      status: `approved,scheduled,rescheduled,paid,completed,in_progress,canceled`,
-    },
-    fetchPolicy: 'no-cache',
-  });
-
-  const { data: { packageSubscriptions: planStatus = [] } = {} } = useQuery(
-    PACKAGE_QUERY,
-    {
-      fetchPolicy: 'no-cache',
-      variables: {
-        studentId: getItemToLocalStorage('studentId'),
-      },
-    },
-  );
 
   useEffect(() => {
     getAppointments();
@@ -204,9 +101,10 @@ const LessonsList = () => {
               <div className="grid grid-cols-2 w-full sm:flex sm:w-auto">
                 <Button
                   theme="outline"
-                  className={`relative ml-0 rounded-r-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${selectedTab === 'upcomingLessons' &&
+                  className={`relative ml-0 rounded-r-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
+                    selectedTab === 'upcomingLessons' &&
                     'bg-color-dark-purple text-white'
-                    }`}
+                  }`}
                   onClick={onClickUpcomingLessons}
                 >
                   <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
@@ -218,9 +116,10 @@ const LessonsList = () => {
                 </Button>
                 <Button
                   theme="outline"
-                  className={`ml-[-4px] rounded-l-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${selectedTab === 'pastLessons' &&
+                  className={`ml-[-4px] rounded-l-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
+                    selectedTab === 'pastLessons' &&
                     'bg-color-dark-purple text-white'
-                    }`}
+                  }`}
                   onClick={onClickPastLessons}
                 >
                   <span>{t('past_lessons', { ns: 'lessons' })}</span>
@@ -229,9 +128,10 @@ const LessonsList = () => {
 
               <Button
                 theme="outline"
-                className={`focus:shadow-none hidden sm:block hover:bg-color-dark-purple hover:text-white ${selectedTab === 'calendar' &&
+                className={`focus:shadow-none hidden sm:block hover:bg-color-dark-purple hover:text-white ${
+                  selectedTab === 'calendar' &&
                   'bg-color-dark-purple text-white'
-                  }`}
+                }`}
                 onClick={onCalendarClick}
               >
                 <span>{t('calendar_view', { ns: 'lessons' })}</span>
@@ -242,7 +142,7 @@ const LessonsList = () => {
 
         <div>
           {!loadingAppointments && !isCalendar && (
-            <Table
+            <LessonsTable
               tableAppointments={tableAppointments}
               planStatus={planStatus}
               selectedTab={selectedTab}
@@ -251,7 +151,7 @@ const LessonsList = () => {
           )}
           {!isMobile && !loadingAppointments && isCalendar && (
             <div className="mt-4">
-              <Calendar
+              <LessonsCalendar
                 calendarAppointments={calendarAppointments}
                 getAppointments={getAppointments}
               />
@@ -259,11 +159,6 @@ const LessonsList = () => {
           )}
         </div>
       </div>
-      {/* <FeedbackLessonModal
-        modalState="student"
-        isOpen={isFeedbackModal}
-        closeModal={handleClodeFeedbackModal}
-      /> */}
       {loadingAppointments && <Loader />}
       <ReviewLessonModal
         isOpen={isReviewLessonModalOpen}

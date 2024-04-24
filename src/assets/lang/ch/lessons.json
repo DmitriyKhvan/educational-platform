@@ -6,9 +6,12 @@
   "calendar_view": "行事曆畫面",
   "duration": "長度",
   "date_time": "日期和時間",
+  "date": "日期",
+  "time": "時間",
   "mentor": "導師",
   "class_feedback": "課程回饋意見",
   "no_lessons": "目前沒有課程！",
+  "student": "Student",
   "student_name": "學生姓名",
   "student_email": "學生電子郵件",
   "calendar_month": "月",
@@ -87,6 +90,11 @@
   "lesson_approved": "課程核准完畢",
   "completed": "已完成",
   "approved": "已核准",
+  "scheduled": "成功預約",
   "canceled": "已取消",
-  "paid": ""
+  "paid": "",
+  "level": "級數",
+  "months": "月",
+  "no_completed_lessons": "尚未完成課程",
+  "you_have_n_available_lessons": "還有 <purple>{{count}}</purple> 堂課程"
 }
