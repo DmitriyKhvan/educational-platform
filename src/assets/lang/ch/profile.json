@@ -55,5 +55,6 @@
   "introduction_changed": "簡介已更改！",
   "deactivated_student": "此學生的帳號已停用或失效。請聯絡相關管理人員或支援人員，尋求進一步協助。",
   "select_profile": "選擇個人檔案",
-  "add_account": "新增帳號"
+  "add_account": "新增帳號",
+  "deactivated": "Deactivated"
 }
