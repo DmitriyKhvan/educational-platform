@@ -32,7 +32,7 @@ const SelectProfile = () => {
         {t('select_profile')}
       </h1>
 
-      <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-[50px]">
+      <div className="flex flex-wrap items-start justify-center gap-6 sm:gap-[50px]">
         {user.students.map((student) => (
           <ProfileCard
             key={student.id}
