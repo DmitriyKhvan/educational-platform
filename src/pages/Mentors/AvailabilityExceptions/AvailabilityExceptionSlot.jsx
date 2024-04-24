@@ -116,45 +116,32 @@ export const AvailabilityExceptionSlot = ({
   };
 
   return (
-    <div className="row mx-0">
-      <div className="col-auto align_time_img-time over_form">
-        <div className="d-flex ">
-          <Select
-            className="time_picker text-center "
-            value={fromTime}
-            options={fromTimeOptions}
-            onChange={(e) => {
-              onChangeTime(e.value, 'from');
-            }}
-          />
-        </div>
-      </div>
+    <div className="flex items-center gap-2">
+      <Select
+        value={fromTime}
+        options={fromTimeOptions}
+        onChange={(e) => {
+          onChangeTime(e.value, 'from');
+        }}
+      />
 
-      <div className="col-auto align-self-center pickerToText ">
-        <span className="text-muted availability_to_text over_to_text">TO</span>
-      </div>
-      <div className="col-auto align_time_img-time over_to">
-        <div className="d-flex ">
-          <Select
-            className="time_picker text-center"
-            value={toTime}
-            options={toTimeOptions}
-            onChange={(e) => {
-              onChangeTime(e.value, 'to');
-            }}
-          />
-        </div>
-      </div>
+      <span className="">-</span>
 
-      <div className="col-auto">
-        <button
-          type="button"
-          className="btn ms-3 "
-          onClick={removeAvailabilityExceptionSlotConfirm}
-        >
-          <PiTrashFill className="text-2xl text-color-border-grey" />
-        </button>
-      </div>
+      <Select
+        value={toTime}
+        options={toTimeOptions}
+        onChange={(e) => {
+          onChangeTime(e.value, 'to');
+        }}
+      />
+
+      <button
+        type="button"
+        className="btn ms-3 "
+        onClick={removeAvailabilityExceptionSlotConfirm}
+      >
+        <PiTrashFill className="text-2xl text-color-border-grey" />
+      </button>
     </div>
   );
 };

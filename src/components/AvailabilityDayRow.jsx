@@ -30,7 +30,7 @@ const AvailabilityDayRow = ({
 
   useEffect(() => {
     var days = [];
-    if (gatherAvailabilities.length > 0) {
+    if (gatherAvailabilities?.length > 0) {
       gatherAvailabilities.map((data, index) => {
         days.push(data.day);
         if (data.day === day) {
@@ -45,7 +45,7 @@ const AvailabilityDayRow = ({
         }
       });
     }
-    if (gatherAvailabilities.length === 0) {
+    if (gatherAvailabilities?.length === 0) {
       if (!days.includes(day)) {
         setToggle(false);
       }
@@ -158,7 +158,7 @@ const AvailabilityDayRow = ({
 
       {toggle && (
         <>
-          <div className="col-auto justify-content-md-center aligns_row_time">
+          <div className="space-y-8">
             {gatherAvailabilities.map((k) => {
               if (k.day === day) {
                 return (

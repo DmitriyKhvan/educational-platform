@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DAY, MentorAvailabilityType } from '../../../constants/global';
+import {
+  DAY,
+  MentorAvailabilityType,
+  timezoneWithTimeOptions,
+} from '../../../constants/global';
 
 import AvailabilityDayRow from '../../../components/AvailabilityDayRow';
 import { AvailabilityProvider } from './AvailabilityProvider';
@@ -8,7 +12,10 @@ import NotificationManager from '../../../../src/components/NotificationManager'
 import { v4 as uuid } from 'uuid';
 import { useAuth } from '../../../modules/auth';
 import { useQuery, useMutation } from '@apollo/client';
-import { GET_MENTOR } from '../../../modules/auth/graphql';
+import {
+  GET_MENTOR,
+  MUTATION_UPDATE_USER,
+} from '../../../modules/auth/graphql';
 import { UPSERT_AVAILIABILITY } from './graphql';
 import ReactLoader from '../../../components/common/Loader';
 import Loader from '../../../components/Loader/Loader';
@@ -16,12 +23,41 @@ import notify from 'src/utils/notify';
 import Button from 'src/components/Form/Button';
 import { AcceptingStudents } from './AcceptingStudents';
 import { cn } from 'src/utils/functions';
+import { selectStyle } from './lib/selectStyle';
+import { SelectField } from 'src/components/Form/SelectField';
+import { AvailabilityExceptions } from '../AvailabilityExceptions/AvailabilityExceptions';
 
 const Availability = () => {
+  const { user } = useAuth();
+
+  const {
+    data: { mentor: mentorInfo } = {},
+    loading: loadingMentor,
+    // refetch: refetchMentor,
+  } = useQuery(GET_MENTOR, {
+    fetchPolicy: 'no-cache',
+    variables: { id: user?.mentor?.id },
+  });
+
+  const [updateUser] = useMutation(MUTATION_UPDATE_USER);
+
   const [t] = useTranslation(['common', 'availability']);
-  const [mentorAvailabilityType, setMentorAvailabilityType] = useState(
-    MentorAvailabilityType.ONLY_REGULAR,
-  );
+  const selectSettings = useMemo(() => selectStyle(), []);
+
+  useEffect(() => {
+    if (mentorInfo) {
+      const mentorType =
+        mentorInfo.mentorAvailability === MentorAvailabilityType.ONLY_REGULAR ||
+        mentorInfo.mentorAvailability ===
+          MentorAvailabilityType.REGULAR_AND_TRIAL
+          ? MentorAvailabilityType.ONLY_REGULAR
+          : MentorAvailabilityType.ONLY_TRIAL;
+
+      setMentorAvailabilityType(mentorType);
+    }
+  }, [mentorInfo]);
+
+  const [mentorAvailabilityType, setMentorAvailabilityType] = useState();
 
   const [gatherAvailabilities, setGatherAvailabilities] = useState({
     [MentorAvailabilityType.ONLY_REGULAR]: [],
@@ -33,16 +69,11 @@ const Availability = () => {
   const [disableSave, handleDisableSave] = useState(true);
   const [isteachAddHours, setIsTeachAddHours] = useState([]);
 
-  const { user } = useAuth();
+  const timezoneWithTime = useMemo(() => {
+    return timezoneWithTimeOptions;
+  }, []);
 
-  const {
-    data: { mentor: mentorInfo } = {},
-    loading: loadingMentor,
-    refetch: refetchMentor,
-  } = useQuery(GET_MENTOR, {
-    fetchPolicy: 'no-cache',
-    variables: { id: user?.mentor?.id },
-  });
+  const [timeZone, setTimeZone] = useState(user?.timeZone);
 
   const [upsertAvailiability, { loading: loadingUpsertAvailiability, error }] =
     useMutation(UPSERT_AVAILIABILITY);
@@ -121,21 +152,33 @@ const Availability = () => {
       slotsToSave = [...slotsToSave, ...slots];
     });
 
-    setTimeout(() => {
-      upsertAvailiability({
+    try {
+      if (user.timeZone !== timeZone) {
+        await updateUser({
+          variables: {
+            id: user?.id,
+            data: {
+              timeZone,
+            },
+          },
+        });
+      }
+
+      await upsertAvailiability({
         variables: {
           data: {
             mentorId: mentorInfo?.id,
             availabilities: slotsToSave,
           },
         },
-        onCompleted: () => {
-          refetchMentor();
-        },
       });
 
+      // await refetchMentor();
+
       handleDisableSave(true);
-    }, 500);
+    } catch (error) {
+      notify(error.message, 'error');
+    }
   };
 
   const validateTimesSelected = (availability, day) => {
@@ -277,64 +320,74 @@ const Availability = () => {
 
       <AcceptingStudents />
 
-      <div className="space-y-8 p-6 border border-gray-100 rounded-lg shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
-        <div className="">
-          <div className="space-y-2">
-            <h1 className="text-xl text-color-dark-purple font-bold">
-              {t('weekly_hours', { ns: 'availability' })}
-            </h1>
-            <h3 className="text-sm text-gray-400">
-              {t('edit_your_shedule_below', { ns: 'availability' })}
-            </h3>
+      <div className="flex flex-wrap gap-6">
+        <div className="space-y-8 p-6 border border-gray-100 rounded-lg shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
+          <div className="flex justify-between">
+            <div className="space-y-2">
+              <h1 className="text-xl text-color-dark-purple font-bold">
+                {t('weekly_hours', { ns: 'availability' })}
+              </h1>
+              <h3 className="text-sm text-gray-400">
+                {t('edit_your_shedule_below', { ns: 'availability' })}
+              </h3>
+            </div>
+
+            <SelectField
+              styles={selectSettings}
+              value={timeZone}
+              options={timezoneWithTime}
+              onChange={setTimeZone}
+            />
           </div>
 
-          {/* select */}
-        </div>
+          <div className="divider"></div>
 
-        <div className="divider"></div>
-
-        <div className="space-y-8">
-          {DAY.map((day) => (
-            <AvailabilityProvider
-              key={day}
-              setGatherAvailabilities={storeAvailablitiy}
-              gatherAvailabilities={
-                gatherAvailabilities[mentorAvailabilityType]
-              }
-              setIsTeachAddHours={setIsTeachAddHours}
-              AvailabilitySlots={AvailabilitySlots}
-              day={day}
-              isteachAddHours={isteachAddHours}
-              mentorAvailabilityType={mentorAvailabilityType}
-              validateTimesSelected={validateTimesSelected}
-            >
-              <AvailabilityDayRow
-                day={day}
+          <div className="space-y-8">
+            {DAY.map((day) => (
+              <AvailabilityProvider
+                key={day}
                 setGatherAvailabilities={storeAvailablitiy}
-                allGatherAvailabilities={gatherAvailabilities}
                 gatherAvailabilities={
                   gatherAvailabilities[mentorAvailabilityType]
                 }
-                hasValidTimes={hasValidTimes}
-                setHasValidTimes={setHasValidTimes}
-                isteachAddHours={isteachAddHours}
                 setIsTeachAddHours={setIsTeachAddHours}
                 AvailabilitySlots={AvailabilitySlots}
+                day={day}
+                isteachAddHours={isteachAddHours}
                 mentorAvailabilityType={mentorAvailabilityType}
-              />
-            </AvailabilityProvider>
-          ))}
-          <div className="flex">
-            <Button
-              type="submit"
-              onClick={onSubmit}
-              disabled={hasValidTimes || disableSave}
-              className="w-[15%]"
-            >
-              {t('save', { ns: 'common' })}
-            </Button>
+                validateTimesSelected={validateTimesSelected}
+              >
+                <AvailabilityDayRow
+                  day={day}
+                  setGatherAvailabilities={storeAvailablitiy}
+                  allGatherAvailabilities={gatherAvailabilities}
+                  gatherAvailabilities={
+                    gatherAvailabilities[mentorAvailabilityType]
+                  }
+                  hasValidTimes={hasValidTimes}
+                  setHasValidTimes={setHasValidTimes}
+                  isteachAddHours={isteachAddHours}
+                  setIsTeachAddHours={setIsTeachAddHours}
+                  AvailabilitySlots={AvailabilitySlots}
+                  mentorAvailabilityType={mentorAvailabilityType}
+                />
+              </AvailabilityProvider>
+            ))}
+            <div className="flex">
+              <Button
+                type="submit"
+                onClick={onSubmit}
+                // disabled={hasValidTimes || disableSave}
+                disabled={disableSave}
+                className="w-[15%]"
+              >
+                {t('save', { ns: 'common' })}
+              </Button>
+            </div>
           </div>
         </div>
+
+        <AvailabilityExceptions />
       </div>
     </div>
   );

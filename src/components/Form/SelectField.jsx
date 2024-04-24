@@ -1,15 +1,14 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useMemo } from 'react';
 import Select from 'react-select';
 
 export const SelectField = forwardRef(function SelectField(
-  { value, options, onChange, isDisabled, ...props },
+  { value, options, onChange, isDisabled, styles, ...props },
   ref,
 ) {
   const defaultValue = options.find((item) => item.value === value);
-
-  return (
-    <Select
-      styles={{
+  const selectStyle = useMemo(() => {
+    return (
+      styles || {
         control: (styles, state) => ({
           ...styles,
           padding: '6px',
@@ -42,7 +41,13 @@ export const SelectField = forwardRef(function SelectField(
           scrollbarWidth: '5px',
           scrollbarColor: 'red',
         }),
-      }}
+      }
+    );
+  }, []);
+
+  return (
+    <Select
+      styles={selectStyle}
       ref={ref}
       value={defaultValue}
       isDisabled={isDisabled}
