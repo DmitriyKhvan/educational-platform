@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const COURSES = gql`
   query courses {
-    courses {
+    courses(trialFilter: only_regular) {
       id
       title
       description
