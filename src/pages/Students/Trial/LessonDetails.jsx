@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
-// import Dropdown from 'src/components/Dropdown';
 import MyDropdownMenu from 'src/components/DropdownMenu';
 import Button from 'src/components/Form/Button';
 import CheckboxField from 'src/components/Form/CheckboxField';
@@ -11,21 +10,19 @@ import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { useForm } from 'react-hook-form';
 import InputWithError from 'src/components/Form/InputWithError';
 import { useTranslation } from 'react-i18next';
-import { LANGUAGE_LEVELS } from 'src/modules/graphql/queries/trial/languageLevels';
-// import MySelect from 'src/components/Form/MySelect';
-
 const LessonDetails = ({
   schedule,
   selectedPlan,
   setSelectedPlan,
   setStep,
 }) => {
-  const { data: packagesData } = useQuery(TRIAL_PACKAGES);
-  const { data: levelsData } = useQuery(LANGUAGE_LEVELS);
-  const { t } = useTranslation('common');
-  const [currentPackage, setCurrentPackage] = useState({});
-  const [currentLevel, setCurrentLevel] = useState({});
-  const [currentTopic, setCurrentTopic] = useState({});
+  const { data } = useQuery(TRIAL_PACKAGES);
+
+  const [t, i18n] = useTranslation('common');
+  const [currentPackage, setCurrentPackage] = useState();
+  const [currentLevel, setCurrentLevel] = useState();
+  const [currentTopic, setCurrentTopic] = useState();
+
   const [isOpenCourse, setIsOpenCourse] = useState(false);
   const [isOpenLevel, setIsOpenLevel] = useState(false);
   const [isOpenTopic, setIsOpenTopic] = useState(false);
@@ -34,7 +31,6 @@ const LessonDetails = ({
     handleSubmit,
     register,
     watch,
-    setValue,
     formState: { errors, isValid },
   } = useForm({
     mode: 'onChange',
@@ -45,6 +41,26 @@ const LessonDetails = ({
       lessonTopicId: selectedPlan?.lessonTopic?.id,
     },
   });
+
+  const packagesData = useMemo(() => {
+    if (data) {
+      const translatePackages = data.trialPackages.map((pkg) => {
+        return {
+          ...pkg,
+          course: {
+            ...pkg.course,
+            title:
+              pkg.course.translations?.find((t) => t.language === i18n.language)
+                ?.title ??
+              pkg.course.title ??
+              '',
+          },
+        };
+      });
+
+      return { trialPackages: translatePackages };
+    }
+  }, [data, t]);
 
   const onSubmit = () => {
     setSelectedPlan({
@@ -61,36 +77,41 @@ const LessonDetails = ({
   };
 
   const course = useMemo(() => {
-    const currentPackage = packagesData?.trialPackages.find(
-      (pkg) => pkg.id === watch('packageId'),
-    );
-    setCurrentPackage({
-      ...currentPackage,
-    });
-    return (
-      currentPackage?.course?.title || (
-        <span className="text-[#BBBBC4]">Select a course</span>
-      )
-    );
-  }, [watch('packageId')]);
+    if (watch('packageId')) {
+      const currentPackage = packagesData?.trialPackages.find(
+        (pkg) => pkg.id === watch('packageId'),
+      );
+      setCurrentPackage(currentPackage);
+
+      return (
+        currentPackage?.course?.title || (
+          <span className="text-[#BBBBC4]">Select a course</span>
+        )
+      );
+    }
+
+    return <span className="text-[#BBBBC4]">Select a course</span>;
+  }, [watch('packageId'), t]);
 
   const languageLevel = useMemo(() => {
-    const currentLevel = levelsData?.languageLevels.find(
-      (level) => level.id === watch('languageLevelId'),
-    );
+    if (currentPackage) {
+      const currentLevel = currentPackage?.course?.languageLevels.find(
+        (level) => level.id === watch('languageLevelId'),
+      );
+      setCurrentLevel(currentLevel);
 
-    setCurrentLevel(currentLevel);
-    setValue('lessonTopicId', '');
+      return (
+        currentLevel?.title || (
+          <span className="text-[#BBBBC4]">Select a level</span>
+        )
+      );
+    }
 
-    return (
-      currentLevel?.title || (
-        <span className="text-[#BBBBC4]">Select a level</span>
-      )
-    );
-  }, [watch('languageLevelId')]);
+    return <span className="text-[#BBBBC4]">First select a course</span>;
+  }, [watch('languageLevelId'), currentPackage]);
 
   const lessonTopic = useMemo(() => {
-    if (Object.keys(currentLevel || {}).length !== 0) {
+    if (currentLevel) {
       const currentTopic = currentLevel?.topics?.find(
         (topic) => topic.id === watch('lessonTopicId'),
       );
@@ -106,10 +127,6 @@ const LessonDetails = ({
 
     return <span className="text-[#BBBBC4]">First select a level</span>;
   }, [watch('lessonTopicId'), currentLevel]);
-
-  useEffect(() => {
-    setValue('lessonTopicId', selectedPlan?.lessonTopic?.id);
-  }, []);
 
   return (
     <div className="w-full max-w-[440px] mx-auto">
@@ -169,12 +186,13 @@ const LessonDetails = ({
 
             <AdaptiveDialog
               open={isOpenLevel}
-              setOpen={setIsOpenLevel}
+              setOpen={currentPackage && setIsOpenLevel}
               classNameDrawer="h-[80%]"
               button={
                 <Button
+                  disabled={!currentPackage}
                   theme="clear"
-                  className="flex items-center justify-between py-[14px] pl-3 pr-2 rounded-lg w-full border border-color-border-grey select-none cursor-pointer"
+                  className="flex items-center justify-between py-[14px] pl-3 pr-2 rounded-lg w-full border border-color-border-grey select-none"
                 >
                   <p className="text-sm font-medium">{languageLevel}</p>
                   <MdOutlineKeyboardArrowDown className="w-4" />
@@ -184,7 +202,7 @@ const LessonDetails = ({
               <LevelModal
                 setOpen={setIsOpenLevel}
                 watch={watch}
-                levels={levelsData}
+                levels={currentPackage?.course?.languageLevels}
                 {...register('languageLevelId', {
                   required: 'Level is required',
                 })}
@@ -198,12 +216,12 @@ const LessonDetails = ({
             <label className="font-semibold block mb-3">Lesson topic</label>
             <MyDropdownMenu
               open={isOpenTopic}
-              setOpen={setIsOpenTopic}
+              setOpen={currentLevel && setIsOpenTopic}
               button={
                 <Button
-                  disabled={Object.keys(currentLevel || {}).length === 0}
+                  disabled={!currentLevel}
                   theme="clear"
-                  className="flex items-center justify-between py-[14px] pl-3 pr-2 rounded-lg w-full border border-color-border-grey select-none cursor-pointer"
+                  className="flex items-center justify-between py-[14px] pl-3 pr-2 rounded-lg w-full border border-color-border-grey select-none"
                 >
                   <p className="text-sm font-medium">{lessonTopic}</p>
                   <MdOutlineKeyboardArrowDown className="w-4" />

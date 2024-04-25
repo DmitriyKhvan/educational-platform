@@ -19,7 +19,7 @@ export const useCourseTranslation = () => {
       if (i18n.language === 'en') return course.title;
 
       return (
-        course.translations.find((t) => t.language === i18n.language)?.title ??
+        course.translations?.find((t) => t.language === i18n.language)?.title ??
         course.title ??
         ''
       );

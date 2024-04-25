@@ -7,14 +7,35 @@ export const TRIAL_PACKAGES = gql`
       totalSessions
       sessionsPerWeek
       sessionTime
-      price
       period
-      discount
       courseId
       course {
         id
         title
         description
+        sequence
+        active
+        # packages
+        translations {
+          id
+          title
+          description
+          language
+        }
+        languageLevels {
+          id
+          title
+          description
+          topics {
+            id
+            title
+            description
+            createdAt
+            updatedAt
+          }
+          createdAt
+          updatedAt
+        }
       }
     }
   }
