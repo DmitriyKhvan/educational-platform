@@ -12,7 +12,7 @@ const LevelModal = forwardRef(function LevelModal(
         Select a Level
       </h2>
       <div className="grid grid-cols-2 gap-3">
-        {levels.languageLevels.map((level) => {
+        {levels?.map((level) => {
           return (
             <label
               key={level.id}
