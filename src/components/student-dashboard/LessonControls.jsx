@@ -11,6 +11,7 @@ import PlaygroundWarningModal from './PlaygroundWarningModal';
 import LessonInfoModal from './LessonInfoModal';
 import { addMinutes, isAfter } from 'date-fns';
 import { isWithinHours } from 'src/utils/isWithinHours';
+import { CancelTrialLessonModal } from './CancelTrialLessonModal';
 
 const LessonControls = ({
   date,
@@ -89,8 +90,8 @@ const LessonControls = ({
   const rescheduleAndCancelModal = (
     <RescheduleAndCancelModal
       data={data}
-      isOpen={isOpen}
-      closeModal={closeModal}
+      // isOpen={isOpen}
+      // closeModal={closeModal}
       setTabIndex={setTabIndex}
       setIsOpen={setIsOpen}
       fetchAppointments={refetch}
@@ -98,6 +99,15 @@ const LessonControls = ({
       type={modalType}
       setCanceledLessons={setCanceledLessons}
       duration={duration}
+    />
+  );
+
+  const cancelTrialLessonModal = (
+    <CancelTrialLessonModal
+      data={data}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      fetchAppointments={refetch}
     />
   );
 
@@ -140,7 +150,7 @@ const LessonControls = ({
       );
     }
 
-    if (!isAfterLesson && !isWithin24Hours && user.role !== Roles.MENTOR) {
+    if (!isAfterLesson && !isWithin24Hours && !data.isTrial) {
       controls.push(
         <AdaptiveDialog
           open={isOpen}
@@ -201,7 +211,7 @@ const LessonControls = ({
             </Button>
           }
         >
-          {rescheduleAndCancelModal}
+          {data.isTrial ? cancelTrialLessonModal : rescheduleAndCancelModal}
         </AdaptiveDialog>,
       );
     }

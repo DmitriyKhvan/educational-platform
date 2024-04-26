@@ -7,7 +7,7 @@ const LevelModal = forwardRef(function LevelModal(
   ref,
 ) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 sm:w-[520px]">
       <h2 className="text-center sm:text-left sm:text-2xl sm:font-bold font-semibold">
         Select a Level
       </h2>
