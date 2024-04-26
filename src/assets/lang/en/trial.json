@@ -1,3 +1,12 @@
 {
-  "trial_booking_confirmed": "Trial booking confirmed"
+  "trial_booking_confirmed": "Trial booking confirmed",
+  "lesson_details": "Lesson Details",
+  "course": "Course",
+  "first_select_course": "First select a course",
+  "select_course": "Select a course",
+  "level": "Level",
+  "first_select_level": "First select a level",
+  "select_level": "Select a level",
+  "lesson_topic": "Lesson Topic",
+  "select_lesson_topic": "Select a lesson topic"
 }

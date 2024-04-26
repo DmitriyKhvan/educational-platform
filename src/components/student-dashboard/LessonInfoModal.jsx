@@ -8,7 +8,7 @@ import { PlaygroundRecordingModal } from '../PlaygroundRecordingModal';
 import { useAuth } from 'src/modules/auth';
 import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 import { useTranslation } from 'react-i18next';
-import { Roles } from 'src/constants/global';
+import { Roles, localeDic } from 'src/constants/global';
 import Indicator from '../Indicator';
 import { PiStarFourFill } from 'react-icons/pi';
 
@@ -22,8 +22,8 @@ const LessonInfoModal = ({
   userTimezone,
 }) => {
   const { getTitleByCourseId } = useCourseTranslation();
-  const [t] = useTranslation(['lessons', 'common']);
-  const { user } = useAuth();
+  const [t, i18n] = useTranslation(['lessons', 'common']);
+  const { user, currentStudent } = useAuth();
 
   const userToDisplay =
     user.role === Roles.MENTOR ? data?.student : data?.mentor;
@@ -36,12 +36,13 @@ const LessonInfoModal = ({
             {format(
               utcToZonedTime(new Date(date), userTimezone),
               'eee, MMM do',
-              { timeZone: userTimezone },
+              { timeZone: userTimezone, locale: localeDic[i18n.language] },
             )}
           </h2>
           <p>
             {format(utcToZonedTime(new Date(date), userTimezone), 'hh:mm a', {
               timeZone: userTimezone,
+              locale: localeDic[i18n.language],
             })}
             {' - '}
             {format(
@@ -50,7 +51,7 @@ const LessonInfoModal = ({
                 duration,
               ),
               'hh:mm a',
-              { timeZone: userTimezone },
+              { timeZone: userTimezone, locale: localeDic[i18n.language] },
             )}
           </p>
         </div>
@@ -58,7 +59,7 @@ const LessonInfoModal = ({
         <div className="flex items-center gap-2">
           {data.isTrial && (
             <Indicator className="bg-green-300 text-green-500">
-              <PiStarFourFill /> Trial
+              <PiStarFourFill /> {t('trial', { ns: 'common' })}
             </Indicator>
           )}
 
@@ -104,7 +105,11 @@ const LessonInfoModal = ({
           <label className="text-xs font-medium text-gray-300 block">
             {t('level')}
           </label>
-          {data?.student?.langLevel}
+          {data?.student?.languageLevel?.title ??
+          data?.student?.langLevel ??
+          user.role === Roles.STUDENT
+            ? currentStudent?.languageLevel?.title
+            : undefined}
         </div>
 
         <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">

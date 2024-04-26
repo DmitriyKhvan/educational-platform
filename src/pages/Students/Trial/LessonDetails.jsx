@@ -18,7 +18,7 @@ const LessonDetails = ({
 }) => {
   const { data } = useQuery(TRIAL_PACKAGES);
 
-  const [t, i18n] = useTranslation('common');
+  const [t, i18n] = useTranslation(['common', 'trial']);
   const [currentPackage, setCurrentPackage] = useState();
   const [currentLevel, setCurrentLevel] = useState();
   const [currentTopic, setCurrentTopic] = useState();
@@ -85,12 +85,18 @@ const LessonDetails = ({
 
       return (
         currentPackage?.course?.title || (
-          <span className="text-[#BBBBC4]">Select a course</span>
+          <span className="text-[#BBBBC4]">
+            {t('select_course', { ns: 'trial' })}
+          </span>
         )
       );
     }
 
-    return <span className="text-[#BBBBC4]">Select a course</span>;
+    return (
+      <span className="text-[#BBBBC4]">
+        {t('select_course', { ns: 'trial' })}
+      </span>
+    );
   }, [watch('packageId'), t]);
 
   const languageLevel = useMemo(() => {
@@ -102,12 +108,18 @@ const LessonDetails = ({
 
       return (
         currentLevel?.title || (
-          <span className="text-[#BBBBC4]">Select a level</span>
+          <span className="text-[#BBBBC4]">
+            {t('select_level', { ns: 'trial' })}
+          </span>
         )
       );
     }
 
-    return <span className="text-[#BBBBC4]">First select a course</span>;
+    return (
+      <span className="text-[#BBBBC4]">
+        {t('first_select_course', { ns: 'trial' })}
+      </span>
+    );
   }, [watch('languageLevelId'), currentPackage]);
 
   const lessonTopic = useMemo(() => {
@@ -120,22 +132,32 @@ const LessonDetails = ({
 
       return (
         currentTopic?.title || (
-          <span className="text-[#BBBBC4]">Select a lesson topic</span>
+          <span className="text-[#BBBBC4]">
+            {t('select_lesson_topic', { ns: 'trial' })}
+          </span>
         )
       );
     }
 
-    return <span className="text-[#BBBBC4]">First select a level</span>;
+    return (
+      <span className="text-[#BBBBC4]">
+        {t('first_select_level', { ns: 'trial' })}
+      </span>
+    );
   }, [watch('lessonTopicId'), currentLevel]);
 
   return (
     <div className="w-full max-w-[440px] mx-auto">
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-[440px] m-auto">
-        <h1 className="text-3xl font-semibold mb-8">Lesson Details</h1>
+        <h1 className="text-3xl font-semibold mb-8">
+          {t('lesson_details', { ns: 'trial' })}
+        </h1>
 
         <div className="mb-6">
           <InputWithError errorsField={errors?.packageId}>
-            <label className="font-semibold block mb-3">Course</label>
+            <label className="font-semibold block mb-3">
+              {t('course', { ns: 'trial' })}
+            </label>
             {/* <MySelect options={courses} /> */}
 
             <MyDropdownMenu
@@ -182,7 +204,9 @@ const LessonDetails = ({
 
         <div className="mb-6">
           <InputWithError errorsField={errors?.languageLevelId}>
-            <label className="font-semibold block mb-3">Level</label>
+            <label className="font-semibold block mb-3">
+              {t('level', { ns: 'trial' })}
+            </label>
 
             <AdaptiveDialog
               open={isOpenLevel}
@@ -213,7 +237,9 @@ const LessonDetails = ({
 
         <div className="mb-8">
           <InputWithError errorsField={errors?.lessonTopicId}>
-            <label className="font-semibold block mb-3">Lesson topic</label>
+            <label className="font-semibold block mb-3">
+              {t('lesson_topic', { ns: 'trial' })}
+            </label>
             <MyDropdownMenu
               open={isOpenTopic}
               setOpen={currentLevel && setIsOpenTopic}
@@ -243,7 +269,7 @@ const LessonDetails = ({
                           value={topic.id}
                           onClick={() => setIsOpenTopic(false)}
                           {...register('lessonTopicId', {
-                            required: 'Topic is isrequired',
+                            required: 'Topic is required',
                           })}
                         />
                       </label>

@@ -120,5 +120,7 @@
   "previous": "過去",
   "lessons_total": "堂課",
   "add_package": "增加課程",
-  "active_subscription": "Active subscription"
+  "active_subscription": "Active subscription",
+  "add_switch_profile": "Add/Switch profile",
+  "trial": "Trial"
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../../modules/auth';
-import { LessonsStatusType, Roles } from '../../constants/global';
+import { LessonsStatusType, Roles, localeDic } from '../../constants/global';
 import { addMinutes } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
@@ -25,7 +25,7 @@ const ScheduleCard = ({
   repeat = null,
 }) => {
   const { getTitleByCourseId } = useCourseTranslation();
-  const [t] = useTranslation(['lessons', 'common']);
+  const [t, i18n] = useTranslation(['lessons', 'common']);
   const { user } = useAuth();
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -36,10 +36,11 @@ const ScheduleCard = ({
     const eventDate = format(
       utcToZonedTime(dateLesson, userTimezone),
       'MMM, do',
-      { timeZone: userTimezone },
+      { timeZone: userTimezone, locale: localeDic[i18n.language] },
     );
     const start = format(utcToZonedTime(dateLesson, userTimezone), 'hh:mm a', {
       timeZone: userTimezone,
+      locale: localeDic[i18n.language],
     });
 
     const end = format(
@@ -48,7 +49,7 @@ const ScheduleCard = ({
         subscription?.package?.sessionTime || duration,
       ),
       'hh:mm a',
-      { timeZone: userTimezone },
+      { timeZone: userTimezone, locale: localeDic[i18n.language] },
     );
     return (
       <div className="text-[30px] font-normal text-black m-0 flex flex-col items-start">
@@ -82,7 +83,7 @@ const ScheduleCard = ({
                 <div className="flex items-center gap-2">
                   {data.isTrial && (
                     <Indicator className="bg-green-300 text-green-500">
-                      <PiStarFourFill /> Trial
+                      <PiStarFourFill /> {t('trial', { ns: 'common' })}
                     </Indicator>
                   )}
 

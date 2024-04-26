@@ -4,24 +4,26 @@ import Button from 'src/components/Form/Button';
 import { HiTrash } from 'react-icons/hi';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { isAfter, subMonths, subWeeks, subYears } from 'date-fns';
+import { useTranslation } from 'react-i18next';
 
 const NotificationsModal = ({ notifications, removeNotifications }) => {
+  const [t] = useTranslation(['notifications', 'common', 'translations']);
   const [openDialog, setOpenDialog] = useState(false);
 
   const lastLabel = useMemo(() => {
-    if (!notifications?.length) return 'No notifications';
+    if (!notifications?.length) return t('no_notifications');
     if (isAfter(new Date(notifications[0].createdAt), subWeeks(new Date(), 1)))
-      return 'Last week';
+      return t('last_week');
     if (isAfter(new Date(notifications[0].createdAt), subMonths(new Date(), 1)))
-      return 'Last month';
+      return t('last_month');
     if (isAfter(new Date(notifications[0].createdAt), subYears(new Date(), 1)))
-      return 'Last year';
+      return t('last_year');
     return '';
   }, [notifications]);
 
   return (
     <div className="w-full sm:w-[368px]">
-      <h2 className="m-5 font-bold text-xl leading-6">Notifications</h2>
+      <h2 className="m-5 font-bold text-xl leading-6">{t('title')}</h2>
 
       <span className="block text-center text-sm text-gray-400 mb-4">
         {lastLabel}
@@ -40,22 +42,22 @@ const NotificationsModal = ({ notifications, removeNotifications }) => {
             setOpen={setOpenDialog}
             button={
               <Button theme="red" className="w-full">
-                <HiTrash className="text-xl" /> Clear All Messages
+                <HiTrash className="text-xl" /> {t('clear_all_messages')}
               </Button>
             }
           >
             <h2 className="text-[22px] leading-[26px] font-bold text-center mb-4">
-              Clear all messages
+              {t('clear_all_messages')}
             </h2>
-            <p className="text-[15px] leading-6 mb-6 text-center">
-              Are you sure you want to clear all messages?
+            <p className="text-[15px] min-w-[300px] leading-6 mb-6 text-center">
+              {t('are_you_sure_to_clear')}
             </p>
             <Button
               theme="red"
               onClick={() => removeNotifications()}
               className="w-full mb-3 bg-color-red text-white"
             >
-              Yes
+              {t('yes', { ns: 'translations' })}
             </Button>
 
             <Button
@@ -63,7 +65,7 @@ const NotificationsModal = ({ notifications, removeNotifications }) => {
               onClick={() => setOpenDialog(false)}
               className="w-full"
             >
-              Cancel
+              {t('cancel', { ns: 'translations' })}
             </Button>
           </AdaptiveDialog>
         )}
