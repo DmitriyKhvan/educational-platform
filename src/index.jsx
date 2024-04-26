@@ -16,6 +16,7 @@ import {
   translationsEn,
   purchaseEn,
   trialEn,
+  notificationsEn,
 } from './assets/lang/en';
 import {
   commonKr,
@@ -31,6 +32,7 @@ import {
   translationsKr,
   purchaseKr,
   trialKr,
+  notificationsKr,
 } from './assets/lang/kr';
 import {
   availabilityCh,
@@ -46,6 +48,7 @@ import {
   studentMentorCh,
   translationsCh,
   trialCh,
+  notificationsCh,
 } from './assets/lang/ch';
 import {
   ApolloClient,
@@ -123,6 +126,7 @@ i18next.init({
       translations: translationsEn,
       purchase: purchaseEn,
       trial: trialEn,
+      notifications: notificationsEn,
     },
     kr: {
       common: commonKr,
@@ -138,6 +142,7 @@ i18next.init({
       translations: translationsKr,
       purchase: purchaseKr,
       trial: trialKr,
+      notifications: notificationsKr,
     },
     ch: {
       common: commonCh,
@@ -153,6 +158,7 @@ i18next.init({
       translations: translationsCh,
       purchase: purchaseCh,
       trial: trialCh,
+      notifications: notificationsCh,
     },
   },
 });

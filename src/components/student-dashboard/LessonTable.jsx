@@ -19,7 +19,7 @@ export const LessonTable = ({
 }) => {
   const { getTitleByCourseId } = useCourseTranslation();
   const { t, i18n } = useTranslation(['lessons', 'common']);
-  const { user } = useAuth();
+  const { user, currentStudent } = useAuth();
 
   const currentLanguage = i18n.language;
 
@@ -129,7 +129,11 @@ export const LessonTable = ({
 
                 <td className="border-b group-last:border-b-0 h-[80px] p-1 align-middle">
                   <p className="text-sm lg:text-[15px] font-medium text-color-dark-purple tracking-tight text-[15px] leading-normal">
-                    {data.student?.langLevel}
+                    {data?.student?.languageLevel?.title ??
+                    data?.student?.langLevel ??
+                    user.role === Roles.STUDENT
+                      ? currentStudent?.languageLevel?.title
+                      : undefined}
                   </p>
                 </td>
 

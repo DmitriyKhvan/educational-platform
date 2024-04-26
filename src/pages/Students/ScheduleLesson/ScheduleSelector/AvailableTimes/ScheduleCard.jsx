@@ -1,12 +1,13 @@
 import { addMinutes, parse } from 'date-fns';
 import { format } from 'date-fns-tz';
-import { ko as kr } from 'date-fns/locale';
+// import { ko as kr } from 'date-fns/locale';
 
 import { useTranslation } from 'react-i18next';
 import { cn } from 'src/utils/functions';
 import { useSchedule } from '../ScheduleProvider';
 import CheckboxField from 'src/components/Form/CheckboxField';
 import { scrollToElement } from 'src/utils/scrollToElement';
+import { localeDic } from 'src/constants/global';
 
 export const ScheduleCard = ({
   startTime,
@@ -15,22 +16,25 @@ export const ScheduleCard = ({
 }) => {
   const { duration, day } = useSchedule();
 
-  const [i18n] = useTranslation(['lessons', 'common', 'modals']);
-
-  const currentLanguage = i18n.language;
-  const locale = currentLanguage === 'kr' ? kr : null;
+  // eslint-disable-next-line no-unused-vars
+  const [_, i18n] = useTranslation();
 
   const dayFormat = format(new Date(day), 'EEEE, MMM dd', {
-    locale: locale,
+    locale: localeDic[i18n.language],
   });
 
   const scheduleStartTimeParse = parse(startTime.time, 'HH:mm', new Date());
 
-  const scheduleStartTimeFormat = format(scheduleStartTimeParse, 'hh:mm a');
+  const scheduleStartTimeFormat = format(scheduleStartTimeParse, 'hh:mm a', {
+    locale: localeDic[i18n.language],
+  });
 
   const scheduleEndTimeFormat = format(
     addMinutes(scheduleStartTimeParse, duration),
     'hh:mm a',
+    {
+      locale: localeDic[i18n.language],
+    },
   );
 
   const selectAvailableTime = () => {

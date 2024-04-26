@@ -8,9 +8,11 @@ import { useMediaQuery } from 'react-responsive';
 import { MyDrawer } from 'src/components/Drawer';
 import MyDropdownMenu from 'src/components/DropdownMenu';
 import NotificationsModal from './NotificationsModal';
+import { useTranslation } from 'react-i18next';
 
 // eslint-disable-next-line react/display-name
 export const Notifications = memo(() => {
+  const [t] = useTranslation('notifications');
   const isMobile = useMediaQuery({ maxWidth: 640 });
   const { notifications, removeNotifications } = useNotifications();
 
@@ -23,7 +25,7 @@ export const Notifications = memo(() => {
 
       {!isMobile && (
         <div className="flex items-center gap-1">
-          <span className="font-bold">Notifications</span>
+          <span className="font-bold">{t('title')}</span>
           {<FaAngleDown className="w-3" />}
         </div>
       )}

@@ -1,17 +1,17 @@
 import { format } from 'date-fns';
-import { enUS, ko } from 'date-fns/locale';
+// import { enUS, ko } from 'date-fns/locale';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import MyDropdownMenu from 'src/components/DropdownMenu';
 import Button from 'src/components/Form/Button';
 import CheckboxField from 'src/components/Form/CheckboxField';
-import { CalendarView } from 'src/constants/global';
+import { CalendarView, localeDic } from 'src/constants/global';
 import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 
 const CalendarHeader = ({ calendarRef }) => {
   const { getTitleByCourseId } = useCourseTranslation();
-  const [t, i18n] = useTranslation(['lessons']);
+  const [t, i18n] = useTranslation(['lessons', 'common']);
   const [view, setView] = useState(CalendarView.MONTH_VIEW);
   const [date, setDate] = useState(new Date());
 
@@ -58,7 +58,7 @@ const CalendarHeader = ({ calendarRef }) => {
         <div className="flex items-center mb-6">
           <h2 className="font-semibold text-2xl whitespace-nowrap mr-4">
             {format(date, 'LLLL yyyy', {
-              locale: i18n.language === 'en' ? enUS : ko,
+              locale: localeDic[i18n.language],
             })}
           </h2>
           <div className="flex space-x-2">
@@ -125,7 +125,7 @@ const CalendarHeader = ({ calendarRef }) => {
         </div>
         <div className="bg-color-grey3 h-[33px] py-2 px-3 flex items-center gap-2 rounded-lg">
           <span className="w-[10px] h-[10px] bg-[#00D986] block rounded-[3px]"></span>
-          <p>Trial</p>
+          <p>{t('trial', { ns: 'common' })}</p>
         </div>
       </div>
     </div>

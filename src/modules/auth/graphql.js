@@ -126,6 +126,9 @@ export const ME_QUERY = gql`
         parentName
         level
         langLevel
+        languageLevel {
+          title
+        }
         birthday
         about
         pronouns
@@ -613,6 +616,9 @@ export const APPOINTMENTS_QUERY = gql`
         parentName
         level
         langLevel
+        languageLevel {
+          title
+        }
         birthday
         about
         pronouns

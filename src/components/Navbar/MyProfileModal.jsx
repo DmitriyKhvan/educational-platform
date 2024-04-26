@@ -41,7 +41,7 @@ const MyProfileModal = () => {
             >
               <MdAddCircleOutline className="text-[20px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />{' '}
               <span className="w-3/4 text-left  text-sm text-color-purple truncate transition ease-in-out delay-150 group-hover:text-white">
-                Add/Switch profile
+                {t('add_switch_profile')}
               </span>
             </button>
           }

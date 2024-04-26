@@ -120,5 +120,7 @@
   "previous": "Previous",
   "lessons_total": "Lessons total",
   "add_package": "Add a package",
-  "active_subscription": "Active subscription"
+  "active_subscription": "Active subscription",
+  "add_switch_profile": "Add/Switch profile",
+  "trial": "Trial"
 }
