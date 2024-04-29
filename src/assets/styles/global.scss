@@ -9,6 +9,11 @@
   bottom: 85px !important;
 }
 
+.intercom-launcher-frame {
+  position: absolute !important;
+  bottom: 65px !important;
+}
+
 @layer components {
   .cool-shadow {
     box-shadow: 0 0 0 0.5px rgba(189, 189, 189, 0.24),
