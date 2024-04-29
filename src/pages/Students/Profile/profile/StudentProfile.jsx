@@ -72,7 +72,12 @@ const StudentProfile = () => {
                   </div>
 
                   <div>
-                    <LevelBadge level={currentStudent?.langLevel} />
+                    <LevelBadge
+                      level={
+                        currentStudent?.languageLevel?.title ??
+                        currentStudent?.langLevel
+                      }
+                    />
                   </div>
                 </div>
               </div>
