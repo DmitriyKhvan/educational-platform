@@ -18,7 +18,7 @@ const Trial = () => {
   const [user, setUser] = useState({});
   const [selectedPlan, setSelectedPlan] = useState({});
   const [schedule, setSchedule] = useState('');
-  const [mentorId, setMentorId] = useState('');
+  const [selectMentor, setSelectMentor] = useState('');
 
   useEffect(() => {
     if (currentUser) {
@@ -44,7 +44,7 @@ const Trial = () => {
               selectedPlan={selectedPlan}
               setUser={setUser}
               setStep={setStep}
-              setMentorId={setMentorId}
+              setSelectMentor={setSelectMentor}
             />
           )}
           {step === 0 && (
@@ -61,8 +61,8 @@ const Trial = () => {
             setTabIndex={setStep}
             setSchedule={setSchedule}
             duration={selectedPlan?.packageSubscription?.sessionTime}
-            selectedMentor={{ id: mentorId }}
-            setMentorId={setMentorId}
+            selectedMentor={selectMentor}
+            setSelectMentor={setSelectMentor}
             timeZone={user?.timeZone}
           >
             {step === 1 && <ScheduleSelector />}
@@ -76,7 +76,7 @@ const Trial = () => {
               user={user}
               selectedPlan={selectedPlan}
               schedule={schedule}
-              mentorId={mentorId}
+              mentorId={selectMentor.id}
             />
           )}
         </div>

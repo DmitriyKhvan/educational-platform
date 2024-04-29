@@ -11,7 +11,6 @@ import {
 } from 'date-fns';
 import { useLazyQuery } from '@apollo/client';
 
-import { COMBINED_TIMESHEETS } from 'src/modules/graphql/queries/combinedTimesheets';
 import { ScheduleContext } from '../lib/ScheduleContext';
 import { useAuth } from 'src/modules/auth';
 import { useDebounce } from 'src/utils/useDebounce';
@@ -20,11 +19,11 @@ import { scrollToElement } from 'src/utils/scrollToElement';
 import notify from 'src/utils/notify';
 
 export const ScheduleProvider = ({
-  query = COMBINED_TIMESHEETS,
+  query,
   setTabIndex,
   setSchedule,
   selectedMentor,
-  setMentorId, // trial
+  setSelectMentor, // trial
   timeZone,
   duration,
   children,
@@ -285,7 +284,7 @@ export const ScheduleProvider = ({
         endMonth,
         isToday,
         resetAll,
-        setMentorId,
+        setSelectMentor,
         hourPrior,
       }}
     >

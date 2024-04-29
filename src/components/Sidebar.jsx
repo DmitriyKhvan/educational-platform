@@ -15,13 +15,6 @@ export const Sidebar = () => {
   const { user } = useAuth();
   const isTablet = useMediaQuery({ maxWidth: 1023 });
 
-  // const { user, logout } = useAuth();
-
-  // const handleLogout = () => {
-  //   logout();
-  //   window.location.reload(true);
-  // };
-
   return (
     <>
       {isTablet ? (

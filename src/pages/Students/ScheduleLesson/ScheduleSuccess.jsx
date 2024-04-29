@@ -5,7 +5,7 @@ import Button from 'src/components/Form/Button';
 import ScheduleCard from 'src/components/student-dashboard/ScheduleCardRebranding';
 import Layout from 'src/layouts/DashboardLayout';
 
-const ScheduleSuccess = ({ lesson, mentor, repeat }) => {
+const ScheduleSuccess = ({ lesson, repeat }) => {
   const history = useHistory();
 
   return (
@@ -20,7 +20,7 @@ const ScheduleSuccess = ({ lesson, mentor, repeat }) => {
         <ScheduleCard
           duration={lesson?.duration}
           lesson={lesson?.packageSubscription?.package?.course?.title}
-          mentor={mentor}
+          mentor={lesson?.mentor}
           date={lesson?.startAt}
           data={lesson}
           repeat={repeat}

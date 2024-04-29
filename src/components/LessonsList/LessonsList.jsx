@@ -86,80 +86,79 @@ const LessonsList = ({
 
   return (
     <Layout>
-      {loadingAppointments && (
-        <div className="absolute w-full h-full top-0 left-0 z-[10001] bg-black/40">
-          <Loader height={'100vh'}></Loader>
-        </div>
-      )}
-      <div className="px-5 py-6 sm:p-10 min-h-screen">
-        <div>
-          <h1 className="mb-4 text-[32px] font-bold">
-            {t('lessons', { ns: 'lessons' })}
-          </h1>
-          <div className="row container-fluid m-0 p-0">
-            <div className="flex flex-wrap gap-4 mb-4 sm:mb-6 md:mb-8">
-              <div className="grid grid-cols-2 w-full sm:flex sm:w-auto">
+      {loadingAppointments ? (
+        <Loader height="100%" />
+      ) : (
+        <div className="h-full">
+          <div>
+            <h1 className="mb-4 text-[32px] font-bold">
+              {t('lessons', { ns: 'lessons' })}
+            </h1>
+            <div className="row container-fluid m-0 p-0">
+              <div className="flex flex-wrap gap-4 mb-4 sm:mb-6 md:mb-8">
+                <div className="grid grid-cols-2 w-full sm:flex sm:w-auto">
+                  <Button
+                    theme="outline"
+                    className={`relative ml-0 rounded-r-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
+                      selectedTab === 'upcomingLessons' &&
+                      'bg-color-dark-purple text-white'
+                    }`}
+                    onClick={onClickUpcomingLessons}
+                  >
+                    <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
+                    {getCountNotification(LessonsStatusType.APPROVED) > 0 && (
+                      <Badge
+                        count={getCountNotification(LessonsStatusType.APPROVED)}
+                      />
+                    )}
+                  </Button>
+                  <Button
+                    theme="outline"
+                    className={`ml-[-4px] rounded-l-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
+                      selectedTab === 'pastLessons' &&
+                      'bg-color-dark-purple text-white'
+                    }`}
+                    onClick={onClickPastLessons}
+                  >
+                    <span>{t('past_lessons', { ns: 'lessons' })}</span>
+                  </Button>
+                </div>
+
                 <Button
                   theme="outline"
-                  className={`relative ml-0 rounded-r-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
-                    selectedTab === 'upcomingLessons' &&
+                  className={`focus:shadow-none hidden sm:block hover:bg-color-dark-purple hover:text-white ${
+                    selectedTab === 'calendar' &&
                     'bg-color-dark-purple text-white'
                   }`}
-                  onClick={onClickUpcomingLessons}
+                  onClick={onCalendarClick}
                 >
-                  <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
-                  {getCountNotification(LessonsStatusType.APPROVED) > 0 && (
-                    <Badge
-                      count={getCountNotification(LessonsStatusType.APPROVED)}
-                    />
-                  )}
-                </Button>
-                <Button
-                  theme="outline"
-                  className={`ml-[-4px] rounded-l-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
-                    selectedTab === 'pastLessons' &&
-                    'bg-color-dark-purple text-white'
-                  }`}
-                  onClick={onClickPastLessons}
-                >
-                  <span>{t('past_lessons', { ns: 'lessons' })}</span>
+                  <span>{t('calendar_view', { ns: 'lessons' })}</span>
                 </Button>
               </div>
-
-              <Button
-                theme="outline"
-                className={`focus:shadow-none hidden sm:block hover:bg-color-dark-purple hover:text-white ${
-                  selectedTab === 'calendar' &&
-                  'bg-color-dark-purple text-white'
-                }`}
-                onClick={onCalendarClick}
-              >
-                <span>{t('calendar_view', { ns: 'lessons' })}</span>
-              </Button>
             </div>
           </div>
-        </div>
 
-        <div>
-          {!loadingAppointments && !isCalendar && (
-            <LessonsTable
-              tableAppointments={tableAppointments}
-              planStatus={planStatus}
-              selectedTab={selectedTab}
-              getAppointments={getAppointments}
-            />
-          )}
-          {!isMobile && !loadingAppointments && isCalendar && (
-            <div className="mt-4">
-              <LessonsCalendar
-                calendarAppointments={calendarAppointments}
+          <div>
+            {!loadingAppointments && !isCalendar && (
+              <LessonsTable
+                tableAppointments={tableAppointments}
+                planStatus={planStatus}
+                selectedTab={selectedTab}
                 getAppointments={getAppointments}
               />
-            </div>
-          )}
+            )}
+            {!isMobile && !loadingAppointments && isCalendar && (
+              <div className="mt-4">
+                <LessonsCalendar
+                  calendarAppointments={calendarAppointments}
+                  getAppointments={getAppointments}
+                />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-      {loadingAppointments && <Loader />}
+      )}
+
       <ReviewLessonModal
         isOpen={isReviewLessonModalOpen}
         setIsOpen={setReviewLessonModal}

@@ -46,7 +46,7 @@ export default function StudentRoutes() {
       </Route>
 
       <SubPrivateRoute
-        isTrial={true}
+        // isTrial={true}
         exact
         path={`${path}/schedule-lesson/select/:id?`}
         component={ScheduleLesson}

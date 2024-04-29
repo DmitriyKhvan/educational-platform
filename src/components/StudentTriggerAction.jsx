@@ -1,13 +1,21 @@
 import React from 'react';
-import { useAuth } from 'src/modules/auth';
 import { AdaptiveDialog } from './AdaptiveDialog';
 import { ModalPurchase } from './ModalPurchase';
+import { useAuth } from 'src/modules/auth';
 
-export const StudentTriggerAction = ({ trialStudentAction, studentAction }) => {
+export const StudentTriggerAction = ({
+  trialStudentAction,
+  studentAction,
+  condition,
+}) => {
   const { currentStudent } = useAuth();
+
+  const defaultCondition =
+    condition !== undefined ? condition : currentStudent?.isTrial;
+
   return (
     <>
-      {currentStudent?.isTrial ? (
+      {defaultCondition ? (
         <AdaptiveDialog button={trialStudentAction}>
           <ModalPurchase />
         </AdaptiveDialog>

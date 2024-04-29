@@ -665,8 +665,18 @@ export const APPROVE_APPOINTMENT = gql`
 `;
 
 export const CANCEL_APPOINTMENT = gql`
-  mutation CANCEL_LESSON($id: ID!, $cancelReason: String, $repeat: Boolean) {
-    cancelLessons(id: $id, cancelReason: $cancelReason, repeat: $repeat) {
+  mutation CANCEL_LESSON(
+    $id: ID!
+    $cancelReason: String
+    $repeat: Boolean
+    $isTrial: Boolean
+  ) {
+    cancelLessons(
+      id: $id
+      cancelReason: $cancelReason
+      repeat: $repeat
+      isTrial: $isTrial
+    ) {
       id
       startAt
       duration
@@ -699,8 +709,17 @@ export const CREATE_APPOINTMENT = gql`
       status
       cancelAction
       cancelReason
-      #mentor
+      mentor {
+        id
+        firstName
+        lastName
+        gender
+        avatar {
+          url
+        }
+      }
       #student
+      isTrial
       packageSubscription {
         id
         periodStart

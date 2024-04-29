@@ -23,7 +23,7 @@ export const AvailableTimes = memo(function AvailableTimes() {
     todayUserTimezone,
     day,
     resetAll,
-    setMentorId,
+    setSelectMentor,
     userTimezone,
   } = useSchedule();
   const [t] = useTranslation(['lessons', 'common', 'modals']);
@@ -35,8 +35,8 @@ export const AvailableTimes = memo(function AvailableTimes() {
       return;
     }
 
-    if (setMentorId) {
-      setMentorId(scheduleStartTime?.mentorId);
+    if (setSelectMentor) {
+      setSelectMentor({ id: scheduleStartTime?.mentorId });
     }
 
     const formattedDay = format(new Date(day), 'yyyy-MM-dd');

@@ -6,8 +6,7 @@ import { getItemToLocalStorage } from '../../../constants/global';
 import ModalFeedback from '../ModalFeedback';
 import { useAuth } from '../../../modules/auth';
 import { APPOINTMENTS_QUERY } from '../../../modules/auth/graphql';
-import { PACKAGE_QUERY } from 'src/modules/auth/graphql';
-import { useQuery, useLazyQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 
 import DashboardCard from './DashboardCard';
 import ScheduleBanner from './ScheduleBanner';
@@ -15,6 +14,7 @@ import MyLessons from './MyLessons';
 import MyProgress from './MyProgress';
 import { useMediaQuery } from 'react-responsive';
 import Loader from 'src/components/Loader/Loader';
+import { useActivePackages } from 'src/utils/useActivePackages';
 
 const StudentListAppointments = () => {
   const isDesktop = useMediaQuery({ minWidth: 1400 });
@@ -24,6 +24,8 @@ const StudentListAppointments = () => {
 
   const { user } = useAuth();
 
+  const { activePackages, isLoading } = useActivePackages();
+
   const {
     data: { lessons: appointments } = {},
     loading: lessonLoading,
@@ -32,18 +34,10 @@ const StudentListAppointments = () => {
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
     variables: {
-      status: 'scheduled,paid,completed,in_progress,approved',
+      status: 'scheduled,rescheduled,paid,completed,in_progress,approved',
       studentId: getItemToLocalStorage('studentId'),
     },
   });
-
-  const [getPackageSubscriptions, { data: { packageSubscriptions } = {} }] =
-    useLazyQuery(PACKAGE_QUERY, {
-      fetchPolicy: 'network-only',
-      variables: {
-        studentId: getItemToLocalStorage('studentId'),
-      },
-    });
 
   const [completedAppointment, setCompleteAppointment] = useState(null);
   const onDismiss = () => setCompleteAppointment(null);
@@ -55,16 +49,12 @@ const StudentListAppointments = () => {
       );
       setCompleteAppointment(feedbackAppt);
     }
-
-    if (appointments?.length === 0) {
-      getPackageSubscriptions();
-    }
   }, [appointments, complete_appoint_id]);
 
   return (
     <Layout>
-      {lessonLoading ? (
-        <Loader height="calc(100vh - 80px)" />
+      {lessonLoading || isLoading ? (
+        <Loader height="100%" />
       ) : (
         <div className="bg-color-dashboard-bg min-h-full pb-8 flex flex-wrap -m-5 sm:-mx-10 sm:-my-8">
           <div className="space-y-1 sm:space-y-8 sm:max-w-[524px] mx-auto sm:mt-10 w-full">
@@ -75,7 +65,7 @@ const StudentListAppointments = () => {
               })}
               subtitle={t('student_dashboard_subtitle', { ns: 'dashboard' })}
             >
-              <ScheduleBanner />
+              <ScheduleBanner activePackages={activePackages} />
             </DashboardCard>
 
             {!isDesktop && (
@@ -83,7 +73,7 @@ const StudentListAppointments = () => {
                 <MyLessons
                   fetchAppointments={refetch}
                   appointments={appointments}
-                  packageSubscriptions={packageSubscriptions}
+                  packageSubscriptions={activePackages}
                 />
               </div>
             )}
@@ -98,7 +88,7 @@ const StudentListAppointments = () => {
               <MyLessons
                 fetchAppointments={refetch}
                 appointments={appointments}
-                packageSubscriptions={packageSubscriptions}
+                packageSubscriptions={activePackages}
               />
             </div>
           )}
