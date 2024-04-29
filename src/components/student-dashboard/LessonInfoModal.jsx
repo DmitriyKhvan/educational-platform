@@ -106,10 +106,8 @@ const LessonInfoModal = ({
             {t('level')}
           </label>
           {data?.student?.languageLevel?.title ??
-          data?.student?.langLevel ??
-          user.role === Roles.STUDENT
-            ? currentStudent?.languageLevel?.title
-            : undefined}
+            data?.student?.langLevel ??
+            currentStudent?.languageLevel?.title}
         </div>
 
         <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">

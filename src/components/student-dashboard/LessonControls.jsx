@@ -150,7 +150,12 @@ const LessonControls = ({
       );
     }
 
-    if (!isAfterLesson && !isWithin24Hours && !data.isTrial) {
+    if (
+      !isAfterLesson &&
+      !isWithin24Hours &&
+      !data.isTrial &&
+      user.role !== Roles.MENTOR
+    ) {
       controls.push(
         <AdaptiveDialog
           open={isOpen}
