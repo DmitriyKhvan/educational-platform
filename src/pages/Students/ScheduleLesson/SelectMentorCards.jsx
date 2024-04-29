@@ -30,7 +30,12 @@ const useAvailableMentors = (isoTime, duration, studentId) => {
   };
 };
 
-const SelectMentorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
+const SelectMentorCards = ({
+  setTabIndex,
+  setSelectMentor,
+  schedule,
+  step,
+}) => {
   const [t] = useTranslation(['lessons', 'common']);
 
   const { availableMentors, loading } = useAvailableMentors(
@@ -46,7 +51,7 @@ const SelectMentorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
   }, [availableMentors]);
 
   const onClick = (mentor) => {
-    setSelectTutor(mentor);
+    setSelectMentor(mentor);
     setTabIndex(4);
   };
 

@@ -8,7 +8,7 @@ import bannerLogo from '../../../assets/images/banner-logo.png';
 import Button from 'src/components/Form/Button';
 import { StudentTriggerAction } from 'src/components/StudentTriggerAction';
 
-const ScheduleBanner = () => {
+const ScheduleBanner = ({ activePackages }) => {
   const [t] = useTranslation('dashboard');
 
   return (
@@ -46,7 +46,9 @@ const ScheduleBanner = () => {
                 </Button>
               </Link>
             }
+            condition={!activePackages?.length}
           />
+
           <StudentTriggerAction
             trialStudentAction={
               <Button theme="outline">

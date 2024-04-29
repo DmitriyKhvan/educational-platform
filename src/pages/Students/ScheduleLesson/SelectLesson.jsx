@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../../layouts/DashboardLayout';
-import { useQuery } from '@apollo/client';
-import { PACKAGE_QUERY } from '../../../modules/auth/graphql';
 import Loader from '../../../components/Loader/Loader';
 import Button from '../../../components/Form/Button/Button';
 import { FaArrowRight } from 'react-icons/fa6';
@@ -14,10 +12,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '../../../components/Tooltip';
-import { getItemToLocalStorage } from 'src/constants/global';
 import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 import { ucFirst } from 'src/utils/ucFirst';
 import CheckboxField from 'src/components/Form/CheckboxField';
+import { ModalPurchase } from 'src/components/ModalPurchase';
+import { useActivePackages } from 'src/utils/useActivePackages';
 
 const SelectLesson = ({
   setSelectedPlan,
@@ -25,30 +24,15 @@ const SelectLesson = ({
   setTabIndex,
   clicked,
   setClicked,
-  lesson,
 }) => {
   const { getTitleByCourseId } = useCourseTranslation();
   const [t] = useTranslation(['lessons', 'common', 'modals']);
   const history = useHistory();
   const { id } = useParams();
 
-  const {
-    data: { packageSubscriptions: planStatus = [] } = {},
-    loading: planStatusesLoading,
-  } = useQuery(PACKAGE_QUERY, {
-    variables: {
-      studentId: getItemToLocalStorage('studentId'),
-    },
-    fetchPolicy: 'network-only',
-  });
   const disabled = clicked === null ? true : false;
 
-  useEffect(() => {
-    if (lesson) {
-      setSelectedPlan(planStatus[0]);
-      setTabIndex(1);
-    }
-  }, [lesson]);
+  const { activePackages, isLoading } = useActivePackages();
 
   const returnToDashboard = () => {
     history.push('/student/manage-lessons');
@@ -138,21 +122,20 @@ const SelectLesson = ({
 
   return (
     <Layout>
-      <div className="min-h-full max-w-[488px] mx-auto">
-        <div className="flex flex-col gap-2.5 mb-[27px]">
-          <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold leading-normal tracking-tight">
-            {!id
-              ? t('schedule_lesson')
-              : t('reschedule_lesson', { ns: 'modals' })}
-          </h1>
-        </div>
-        <div className="mb-10">
-          {planStatusesLoading ? (
-            <Loader />
-          ) : (
-            planStatus
-              .filter((pkg) => pkg.credits > 0)
-              .map((x, i) => (
+      <div className="h-full max-w-[488px] mx-auto">
+        {isLoading ? (
+          <Loader height="100%" />
+        ) : activePackages?.length > 0 ? (
+          <>
+            <div className="flex flex-col gap-2.5 mb-[27px]">
+              <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold leading-normal tracking-tight">
+                {!id
+                  ? t('schedule_lesson')
+                  : t('reschedule_lesson', { ns: 'modals' })}
+              </h1>
+            </div>
+            <div className="mb-10">
+              {activePackages?.map((x, i) => (
                 <LessonCard
                   title={getTitleByCourseId(x.package?.course?.id)}
                   duration={x.package?.sessionTime}
@@ -164,21 +147,28 @@ const SelectLesson = ({
                   active={x.active}
                   total={x.package?.totalSessions}
                 />
-              ))
-          )}
-        </div>
-        <div className="flex gap-5 mb-4">
-          <Button theme="outline" onClick={returnToDashboard}>
-            {t('return_to_dash')}
-          </Button>
+              ))}
+            </div>
+            <div className="flex gap-5 mb-4">
+              <Button theme="outline" onClick={returnToDashboard}>
+                {t('return_to_dash')}
+              </Button>
 
-          <Button theme="purple" disabled={disabled} onClick={sheduleLesson}>
-            <span className="flex flex-row items-center justify-center gap-x-2">
-              <span>{t('continue_custom')}</span>
-              <FaArrowRight />
-            </span>
-          </Button>
-        </div>
+              <Button
+                theme="purple"
+                disabled={disabled}
+                onClick={sheduleLesson}
+              >
+                <span className="flex flex-row items-center justify-center gap-x-2">
+                  <span>{t('continue_custom')}</span>
+                  <FaArrowRight />
+                </span>
+              </Button>
+            </div>
+          </>
+        ) : (
+          <ModalPurchase />
+        )}
       </div>
     </Layout>
   );

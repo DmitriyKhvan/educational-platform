@@ -26,7 +26,7 @@ import notify from 'src/utils/notify';
 
 const LessonConfirmation = ({
   plan,
-  tutor,
+  mentor,
   time,
   setTabIndex,
   lessonId = null,
@@ -48,7 +48,7 @@ const LessonConfirmation = ({
   const [canceledLessons] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useAuth();
+  const { user, currentStudent } = useAuth();
   const [newAppointment, setNewAppointment] = useState([]);
 
   const [isConfirmed, setIsConfirmed] = useState(false);
@@ -115,7 +115,7 @@ const LessonConfirmation = ({
       const { data: { lesson: updatedLesson } = {} } = await updateAppointment({
         variables: {
           id: lessonId,
-          mentorId: tutor.id,
+          mentorId: mentor.id,
           startAt: utcIsoTimeString,
           repeat: repeat,
         },
@@ -133,7 +133,7 @@ const LessonConfirmation = ({
         const { data: { lesson: createdLesson } = {} } =
           await createAppointment({
             variables: {
-              mentorId: tutor.id,
+              mentorId: mentor.id,
               studentId: getItemToLocalStorage('studentId'),
               subscriptionId: plan?.id,
               startAt: utcIsoTimeString,
@@ -234,20 +234,22 @@ const LessonConfirmation = ({
             </div>
           </div>
 
-          <div>
-            <p className="mt-6 mb-3 sm:mb-4 text-sm text-color-light-grey">
-              {t('mentor', { ns: 'lessons' })}
-            </p>
-            <div className="flex">
-              <MentorImageRow
-                setTabIndex={setTabIndex}
-                mentor={tutor}
-                isMentorScheduled={isMentorScheduled}
-              />
+          {!currentStudent?.isTrial && (
+            <div>
+              <p className="mt-6 mb-3 sm:mb-4 text-sm text-color-light-grey">
+                {t('mentor', { ns: 'lessons' })}
+              </p>
+              <div className="flex">
+                <MentorImageRow
+                  setTabIndex={setTabIndex}
+                  mentor={mentor}
+                  isMentorScheduled={isMentorScheduled}
+                />
+              </div>
             </div>
-          </div>
+          )}
 
-          {!lessonId && (
+          {!lessonId && !currentStudent?.isTrial && (
             <div className="my-10">
               <CheckboxField
                 label={repeatLessonLabel(1)}

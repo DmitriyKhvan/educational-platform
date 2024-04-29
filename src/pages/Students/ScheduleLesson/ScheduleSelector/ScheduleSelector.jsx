@@ -57,14 +57,16 @@ export const ScheduleSelector = ({ lesson }) => {
       <div className="space-y-10">
         <div>
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => {
-                setTabIndex(0);
-                resetAll();
-              }}
-            >
-              <IoArrowBack className="text-2xl" />
-            </button>
+            {!lesson && (
+              <button
+                onClick={() => {
+                  setTabIndex(0);
+                  resetAll();
+                }}
+              >
+                <IoArrowBack className="text-2xl" />
+              </button>
+            )}
 
             <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold">
               {lesson

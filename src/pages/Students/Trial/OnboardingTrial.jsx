@@ -21,7 +21,7 @@ export default memo(function OnboardingTrial({
   user,
   setUser,
   setStep,
-  setMentorId,
+  setSelectMentor,
 }) {
   const { firstName, lastName, phoneNumber, email, timeZone, password } = user;
 
@@ -213,7 +213,9 @@ export default memo(function OnboardingTrial({
             <SelectField
               options={usePublicMentors()}
               isClearable
-              onChange={setMentorId}
+              onChange={(id) => {
+                setSelectMentor({ id });
+              }}
             />
           </label>
         )}
