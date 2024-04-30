@@ -65,7 +65,7 @@ const Table = ({
       );
 
       const sortUpcomingLessons = [...tempUpcomingLessons].sort(
-        (a, b) => new Date(b.resource.startAt) - new Date(a.resource.startAt),
+        (a, b) => new Date(a.resource.startAt) - new Date(b.resource.startAt),
       );
 
       setUpcomingLessons(sortUpcomingLessons);
