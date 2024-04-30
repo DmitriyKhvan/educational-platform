@@ -36,7 +36,7 @@ const ScheduleLesson = () => {
   const [schedule, setSchedule] = useState();
   const [tabIndex, setTabIndex] = useState(id ? 1 : 0);
   const [selectMentor, setSelectMentor] = useState();
-  const [successfulLesson, setSuccessfulLesson] = useState(null);
+  const [createdLessons, setCreatedLessons] = useState(null);
 
   const scheduledLesson = data?.lesson || null;
 
@@ -111,7 +111,7 @@ const ScheduleLesson = () => {
           setTabIndex={setTabIndex}
           lesson={scheduledLesson}
           lessonId={id}
-          setSuccessfulLesson={setSuccessfulLesson}
+          setCreatedLessons={setCreatedLessons}
           setRepeat={setRepeat}
           repeat={repeat}
         />
@@ -121,7 +121,7 @@ const ScheduleLesson = () => {
         <ScheduleSuccess
           repeat={repeat}
           setTabIndex={setTabIndex}
-          lesson={successfulLesson}
+          lessons={createdLessons}
         />
       )}
     </React.Fragment>

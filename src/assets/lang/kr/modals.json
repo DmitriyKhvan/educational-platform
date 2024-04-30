@@ -70,5 +70,9 @@
   "are_you_sure_to_logout": "Are you sure you want to log out of your account?",
   "yes_logout": "Yes, log out",
   "cancel": "Cancel",
-  "info": "정보"
+  "info": "정보",
+  "not_enough_credits": "{{count}}개월 수업 예약을 하기 위한 크레딧이 부족합니다.",
+  "some_classes_cant_be_scheduled": "크레딧 부족으로 수업 예약에 실패했습니다. 수업 일정 반복 예약을 원하시면 패키지 추가 구독 후 다시 시도해주세요.",
+  "continue_booking": "계속해서 예약하기",
+  "purchase_more_credits": "크레딧 추가 구독하기"
 }
