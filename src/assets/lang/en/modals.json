@@ -70,5 +70,10 @@
   "are_you_sure_to_logout": "Are you sure you want to log out of your account?",
   "yes_logout": "Yes, log out",
   "cancel": "Cancel",
-  "info": "Info"
+  "info": "Info",
+  "not_enough_credits": "Not enough credits for {{count}} month booking",
+  "not_enough_credits_plural": "Not enough credits for {{count}} months booking",
+  "some_classes_cant_be_scheduled": "Some classes can’t be scheduled due to insufficient credits. If you wish to book more lessons in advance, please try again after purchasing more credits",
+  "continue_booking": "Continue booking",
+  "purchase_more_credits": "Purchase more credits"
 }
