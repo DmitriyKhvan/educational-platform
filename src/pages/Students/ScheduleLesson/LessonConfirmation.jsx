@@ -25,8 +25,9 @@ import { useHistory } from 'react-router-dom';
 import notify from 'src/utils/notify';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { AiOutlineInfo } from 'react-icons/ai';
-import { getLessonsToScheduleCount } from 'src/utils/getLessonsToScheduleCount';
+// import { getLessonsToScheduleCount } from 'src/utils/getLessonsToScheduleCount';
 import NotEnoughCreditsModal from './NotEnoughCreditsModal';
+import { notEnoughCredits } from 'src/utils/notEnoughCredits';
 
 const LessonConfirmation = ({
   plan,
@@ -110,19 +111,9 @@ const LessonConfirmation = ({
 
   const confirmLesson = async (confirmedNotEnough = false) => {
     if (
+      repeat &&
       !confirmedNotEnough &&
-      ((repeat === 1 &&
-        getLessonsToScheduleCount(
-          plan.package.sessionsPerWeek,
-          plan.credits,
-          repeat,
-        ) < 4) ||
-        (repeat === 3 &&
-          getLessonsToScheduleCount(
-            plan.package.sessionsPerWeek,
-            plan.credits,
-            repeat,
-          ) < 12))
+      notEnoughCredits(plan.credits, repeat)
     ) {
       setOpenModal(true);
       return;
@@ -130,26 +121,22 @@ const LessonConfirmation = ({
     setIsLoading(true);
 
     /* this means if the lesson ID exists, its going to be a reschedule */
-    if (lessonId) {
-      setIsLoading(true);
-      await updateAppointment({
-        variables: {
-          id: lessonId,
-          mentorId: mentor.id,
-          startAt: utcIsoTimeString,
-          repeat: repeat,
-        },
-        onError: (error) => {
-          NotificationManager.error(error.message, t);
-        },
-        onCompleted: () => {
-          notify(t('lesson_rescheduled', { ns: 'lessons' }));
-          history.push('/student/lesson-calendar');
-        },
-      });
-    } else {
-      try {
-        await createAppointment({
+    try {
+      if (lessonId) {
+        await updateAppointment({
+          variables: {
+            id: lessonId,
+            mentorId: mentor.id,
+            startAt: utcIsoTimeString,
+            repeat: repeat,
+          },
+        });
+        notify(t('lesson_rescheduled', { ns: 'lessons' }));
+        history.push('/student/lesson-calendar');
+      } else {
+        const {
+          data: { lesson: createdLesson },
+        } = await createAppointment({
           variables: {
             mentorId: mentor.id,
             studentId: getItemToLocalStorage('studentId'),
@@ -158,18 +145,19 @@ const LessonConfirmation = ({
             duration: plan?.package?.sessionTime,
             repeat: repeat,
           },
-          onCompleted: (v) => {
-            setTabIndex(5);
-            setCreatedLessons(v.lesson);
-          },
         });
-      } catch (error) {
-        NotificationManager.error(error.message, t);
-      } finally {
-        setIsLoading(false);
+        setTabIndex(5);
+        setCreatedLessons(
+          createdLesson.sort(
+            (a, b) => new Date(a.startAt) - new Date(b.startAt),
+          ),
+        );
       }
+    } catch (error) {
+      NotificationManager.error(error.message, t);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const repeatLessonLabel = (monthCount) =>
