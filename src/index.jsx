@@ -58,6 +58,7 @@ import {
   concat,
   split,
 } from '@apollo/client';
+
 import { AuthProvider } from './modules/auth';
 import { createUploadLink } from 'apollo-upload-client';
 import './index.css';

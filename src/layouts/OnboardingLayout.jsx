@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Language, setItemToLocalStorage } from 'src/constants/global';
 
@@ -53,7 +54,16 @@ export const OnboardingLayout = ({ children }) => {
   return (
     <div className="flex flex-col relative items-center overflow-hidden">
       <header className="flex items-center justify-between w-screen h-[60px] sm:h-[96px] px-5 py-[10px] sm:px-[80px] sm:py-[16px] sm:border-b-[1px] border-color-border-grey">
-        <img className="w-[134px] sm:w-[161px]" src={Logo} alt="naonow-logo" />
+        <Link
+          className="flex items-center h-[79px]"
+          to="/student/manage-lessons"
+        >
+          <img
+            className="w-[134px] sm:w-[161px]"
+            src={Logo}
+            alt="naonow-logo"
+          />
+        </Link>
         <div className="flex rounded-xl p-1 bg-[#F2F4FB]">
           <label>
             <input

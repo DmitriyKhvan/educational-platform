@@ -31,7 +31,8 @@ const CheckboxField = forwardRef(
             bg-[#F5F5F5]
             text-transparent
             cursor-pointer
-            focus:ring-transparent
+            focus:ring-transparent 
+            focus:shadow-[0_0_0_0.35rem_rgba(13,110,253,0.25)]
             checked:bg-none
             checked:bg-color-purple
             ${square ? 'rounded-[4px]' : 'rounded-full'}
