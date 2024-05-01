@@ -328,7 +328,7 @@ const Availability = () => {
       <AcceptingStudents />
 
       <div className="flex flex-wrap gap-6">
-        <div className="space-y-8 p-6 border border-gray-100 rounded-lg shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
+        <div className="grow space-y-8 p-6 border border-gray-100 rounded-lg shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
           <div className="flex justify-between">
             <div className="space-y-2">
               <h1 className="text-xl text-color-dark-purple font-bold">

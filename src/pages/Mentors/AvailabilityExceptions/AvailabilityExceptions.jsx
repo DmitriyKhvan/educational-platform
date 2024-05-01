@@ -192,7 +192,7 @@ export const AvailabilityExceptions = () => {
         </div>
       )}
 
-      <div className="p-6 border border-gray-100 rounded-lg shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
+      <div className="min-w-[410px] grow p-6 border border-gray-100 rounded-lg shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
         <h2 className="date_override_title mb-3">Add date overrides</h2>
 
         <div className="space-y-4">
