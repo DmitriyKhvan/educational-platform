@@ -107,7 +107,7 @@ export const phoneCodes = [
     code: '+886',
     iso: 'TW',
     flag: flags.tw,
-    mask: '####-####',
+    mask: '#-####-####',
   },
 ];
 

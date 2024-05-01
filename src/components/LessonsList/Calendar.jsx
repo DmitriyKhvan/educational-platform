@@ -19,6 +19,8 @@ import { format } from 'date-fns';
 import { CalendarView, Language, Roles } from 'src/constants/global';
 import { cn } from 'src/utils/functions';
 
+import 'src/assets/styles/calendar.scss';
+
 const Calendar = ({ calendarAppointments, getAppointments }) => {
   // eslint-disable-next-line no-unused-vars
   const [_, i18n] = useTranslation();
@@ -88,7 +90,10 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
             <LessonInfoModal
               date={selectedEvent?.resource?.eventDate?.startAt}
               data={selectedEvent?.resource?.eventDate}
-              refetch={getAppointments}
+              refetch={() => {
+                getAppointments();
+                closeModal();
+              }}
               duration={selectedEvent.resource.eventDate.duration}
               userTimezone={userTimezone}
             />
@@ -172,7 +177,7 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
         events={calendarEvents}
         plugins={[dayGridPlugin, timeGridPlugin]}
         dayMaxEvents={true}
-        initialView="dayGridMonth"
+        initialView={CalendarView.WEEK_VIEW}
         allDaySlot={false}
         displayEventTime={false}
         eventClick={onSelectEvent}
