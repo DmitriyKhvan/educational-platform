@@ -16,17 +16,25 @@ import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 import { useMediaQuery } from 'react-responsive';
 import { LessonsCalendarHeader } from 'src/components/LessonsList';
 import { format } from 'date-fns';
-import { CalendarView, Language, Roles } from 'src/constants/global';
+import {
+  COURSE_COLORS,
+  CalendarView,
+  Language,
+  Roles,
+  courseColorsDict,
+} from 'src/constants/global';
 import { cn } from 'src/utils/functions';
 
 import 'src/assets/styles/calendar.scss';
+import Loader from '../Loader/Loader';
 
 const Calendar = ({ calendarAppointments, getAppointments }) => {
   // eslint-disable-next-line no-unused-vars
   const [_, i18n] = useTranslation();
   const isTablet = useMediaQuery({ maxWidth: 1024 });
   const calendarRef = useRef();
-  const { getTitleByCourseId } = useCourseTranslation();
+  const { getTitleByCourseId, getColorByCourseId, colorsReady } =
+    useCourseTranslation();
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [calendarEvent, setCalendarEvent] = useState({});
@@ -144,13 +152,19 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
       <div
         className={cn(
           'flex items-center px-2 min-h-[28px] h-full w-full text-gray-800 bg-gray-800 bg-opacity-15 hover:bg-opacity-100 transition-all duration-150 ease-in-out hover:text-white rounded-[4px] border-l-4 border-l-gray-800 overflow-hidden truncate',
-          data.isTrial ? eventColors.trial : eventColors[data?.lesson],
+          data.isTrial
+            ? courseColorsDict[COURSE_COLORS.GREEN]?.event
+            : courseColorsDict[getColorByCourseId(data.courseId)]?.event,
         )}
       >
         {content}
       </div>
     );
   };
+
+  if (!colorsReady) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -195,14 +209,6 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
       {isOpen && <CustomModal />}
     </>
   );
-};
-
-const eventColors = {
-  '1-on-1 English': 'text-color-purple bg-color-purple border-l-color-purple',
-  '1-on-1 Writing': 'text-[#FF9335] bg-[#FF9335] border-l-[#FF9335]',
-  'Bucket List Personal Projects':
-    'text-[#19BBFE] bg-[#19BBFE] border-l-[#19BBFE]',
-  trial: 'text-[#00D986] bg-[#00D986] border-l-[#00D986]',
 };
 
 export default Calendar;

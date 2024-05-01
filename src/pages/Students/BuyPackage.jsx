@@ -33,6 +33,9 @@ export default function BuyPackage() {
 
   const { error, data, loading } = useQuery(COURSES, {
     fetchPolicy: 'network-only',
+    variables: {
+      trialFilter: 'only_regular',
+    },
   });
 
   useEffect(() => {

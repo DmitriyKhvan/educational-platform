@@ -1,16 +1,22 @@
 import { format } from 'date-fns';
-// import { enUS, ko } from 'date-fns/locale';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import MyDropdownMenu from 'src/components/DropdownMenu';
 import Button from 'src/components/Form/Button';
 import CheckboxField from 'src/components/Form/CheckboxField';
-import { CalendarView, localeDic } from 'src/constants/global';
+import {
+  COURSE_COLORS,
+  CalendarView,
+  courseColorsDict,
+  localeDic,
+} from 'src/constants/global';
+import { cn } from 'src/utils/functions';
 import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 
 const CalendarHeader = ({ calendarRef }) => {
-  const { getTitleByCourseId } = useCourseTranslation();
+  const { getTitleByCourseId, getColorByCourseId, coursesList, colorsReady } =
+    useCourseTranslation();
   const [t, i18n] = useTranslation(['lessons', 'common']);
   const [view, setView] = useState(CalendarView.WEEK_VIEW);
   const [date, setDate] = useState(new Date());
@@ -50,7 +56,7 @@ const CalendarHeader = ({ calendarRef }) => {
     setDate(calendarApi.getDate());
   }, [view]);
 
-  if (!calendarRef) return null;
+  if (!calendarRef || !colorsReady) return null;
 
   return (
     <div>
@@ -111,20 +117,27 @@ const CalendarHeader = ({ calendarRef }) => {
       </div>
 
       <div className="flex mb-6 text-sm items-center gap-3">
+        {coursesList?.map((c) => (
+          <div
+            key={c.id}
+            className="bg-color-grey3 h-[33px] py-2 px-3 flex items-center gap-2 rounded-lg"
+          >
+            <span
+              className={cn(
+                'w-[10px] h-[10px] block rounded-[3px]',
+                courseColorsDict[getColorByCourseId(c.id)]?.indicator,
+              )}
+            ></span>
+            <p>{getTitleByCourseId(c.id)}</p>
+          </div>
+        ))}
         <div className="bg-color-grey3 h-[33px] py-2 px-3 flex items-center gap-2 rounded-lg">
-          <span className="w-[10px] h-[10px] bg-color-purple block rounded-[3px]"></span>
-          <p>{getTitleByCourseId(1)}</p>
-        </div>
-        <div className="bg-color-grey3 h-[33px] py-2 px-3 flex items-center gap-2 rounded-lg">
-          <span className="w-[10px] h-[10px] bg-[#FF9335] block rounded-[3px]"></span>
-          <p>{getTitleByCourseId(3)}</p>
-        </div>
-        <div className="bg-color-grey3 h-[33px] py-2 px-3 flex items-center gap-2 rounded-lg">
-          <span className="w-[10px] h-[10px] bg-[#19BBFE] block rounded-[3px]"></span>
-          <p>{getTitleByCourseId(2)}</p>
-        </div>
-        <div className="bg-color-grey3 h-[33px] py-2 px-3 flex items-center gap-2 rounded-lg">
-          <span className="w-[10px] h-[10px] bg-[#00D986] block rounded-[3px]"></span>
+          <span
+            className={cn(
+              'w-[10px] h-[10px] block rounded-[3px]',
+              courseColorsDict[COURSE_COLORS.GREEN]?.indicator,
+            )}
+          ></span>
           <p>{t('trial', { ns: 'common' })}</p>
         </div>
       </div>
