@@ -16,7 +16,7 @@ import CheckboxField from '../../../components/Form/CheckboxField';
 import { getItemToLocalStorage } from 'src/constants/global';
 import Button from 'src/components/Form/Button';
 import MentorImageRow from './MentorImageRow';
-import { useCourseTranslation } from 'src/utils/useCourseTranslation';
+import { useCourseDetails } from 'src/utils/useCourseDetails';
 import { utcToZonedTime, format } from 'date-fns-tz';
 import { addMinutes } from 'date-fns';
 import { IoArrowBack } from 'react-icons/io5';
@@ -41,7 +41,7 @@ const LessonConfirmation = ({
   setRepeat,
 }) => {
   const history = useHistory();
-  const { getTitleByCourseId } = useCourseTranslation();
+  const { getTitleByCourseId } = useCourseDetails();
   const [t, i18n] = useTranslation([
     'common',
     'lessons',

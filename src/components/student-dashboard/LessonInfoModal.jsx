@@ -6,7 +6,7 @@ import StatusIndicator from './StatusIndicator';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { PlaygroundRecordingModal } from '../PlaygroundRecordingModal';
 import { useAuth } from 'src/modules/auth';
-import { useCourseTranslation } from 'src/utils/useCourseTranslation';
+import { useCourseDetails } from 'src/utils/useCourseDetails';
 import { useTranslation } from 'react-i18next';
 import { Roles, localeDic } from 'src/constants/global';
 import Indicator from '../Indicator';
@@ -21,7 +21,7 @@ const LessonInfoModal = ({
   setCanceledLessons,
   userTimezone,
 }) => {
-  const { getTitleByCourseId } = useCourseTranslation();
+  const { getTitleByCourseId } = useCourseDetails();
   const [t, i18n] = useTranslation(['lessons', 'common']);
   const { user, currentStudent } = useAuth();
 

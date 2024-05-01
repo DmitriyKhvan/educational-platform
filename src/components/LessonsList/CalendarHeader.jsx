@@ -12,11 +12,11 @@ import {
   localeDic,
 } from 'src/constants/global';
 import { cn } from 'src/utils/functions';
-import { useCourseTranslation } from 'src/utils/useCourseTranslation';
+import { useCourseDetails } from 'src/utils/useCourseDetails';
 
 const CalendarHeader = ({ calendarRef }) => {
   const { getTitleByCourseId, getColorByCourseId, coursesList, colorsReady } =
-    useCourseTranslation();
+    useCourseDetails();
   const [t, i18n] = useTranslation(['lessons', 'common']);
   const [view, setView] = useState(CalendarView.WEEK_VIEW);
   const [date, setDate] = useState(new Date());

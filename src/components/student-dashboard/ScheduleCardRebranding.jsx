@@ -6,7 +6,7 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import StatusIndicator from './StatusIndicator';
 import LessonControls from './LessonControls';
-import { useCourseTranslation } from 'src/utils/useCourseTranslation';
+import { useCourseDetails } from 'src/utils/useCourseDetails';
 import { useTranslation } from 'react-i18next';
 import { MdEventRepeat } from 'react-icons/md';
 import Indicator from '../Indicator';
@@ -24,7 +24,7 @@ const ScheduleCard = ({
   subscription,
   repeat = null,
 }) => {
-  const { getTitleByCourseId } = useCourseTranslation();
+  const { getTitleByCourseId } = useCourseDetails();
   const [t, i18n] = useTranslation(['lessons', 'common']);
   const { user } = useAuth();
   const userTimezone =

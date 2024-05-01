@@ -9,7 +9,7 @@ let colorsIdx = 0;
 const courseColors = {};
 const courseColorsArray = Object.values(COURSE_COLORS);
 
-export const useCourseTranslation = () => {
+export const useCourseDetails = () => {
   const [_, i18n] = useTranslation();
 
   const { data: colorData, loading } = useQuery(COURSES, {

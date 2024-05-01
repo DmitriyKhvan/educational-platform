@@ -12,7 +12,7 @@ import chLocale from '@fullcalendar/core/locales/zh-tw';
 import enLocale from '@fullcalendar/core/locales/en-gb';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { useCourseTranslation } from 'src/utils/useCourseTranslation';
+import { useCourseDetails } from 'src/utils/useCourseDetails';
 import { useMediaQuery } from 'react-responsive';
 import { LessonsCalendarHeader } from 'src/components/LessonsList';
 import { format } from 'date-fns';
@@ -34,7 +34,7 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
   const isTablet = useMediaQuery({ maxWidth: 1024 });
   const calendarRef = useRef();
   const { getTitleByCourseId, getColorByCourseId, colorsReady } =
-    useCourseTranslation();
+    useCourseDetails();
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [calendarEvent, setCalendarEvent] = useState({});
