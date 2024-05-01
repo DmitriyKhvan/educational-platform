@@ -12,7 +12,7 @@ import { useCourseTranslation } from 'src/utils/useCourseTranslation';
 const CalendarHeader = ({ calendarRef }) => {
   const { getTitleByCourseId } = useCourseTranslation();
   const [t, i18n] = useTranslation(['lessons', 'common']);
-  const [view, setView] = useState(CalendarView.MONTH_VIEW);
+  const [view, setView] = useState(CalendarView.WEEK_VIEW);
   const [date, setDate] = useState(new Date());
 
   const viewDictionary = useMemo(
