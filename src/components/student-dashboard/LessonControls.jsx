@@ -158,8 +158,8 @@ const LessonControls = ({
     ) {
       controls.push(
         <AdaptiveDialog
-          open={isOpen}
-          setOpen={setIsOpen}
+          // open={isOpen}
+          // setOpen={setIsOpen}
           button={
             <Button
               theme="dark_purple"
@@ -204,8 +204,8 @@ const LessonControls = ({
     if (!isAfterLesson && !(user.role === Roles.MENTOR && data.isTrial)) {
       controls.push(
         <AdaptiveDialog
-          open={isOpen}
-          setOpen={setIsOpen}
+          // open={isOpen}
+          // setOpen={setIsOpen}
           button={
             <Button
               theme="red"

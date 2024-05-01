@@ -13,7 +13,7 @@ import {
 } from '../../../modules/auth/graphql';
 
 import CheckboxField from '../../../components/Form/CheckboxField';
-import { getItemToLocalStorage, LessonsStatusType } from 'src/constants/global';
+import { getItemToLocalStorage } from 'src/constants/global';
 import Button from 'src/components/Form/Button';
 import MentorImageRow from './MentorImageRow';
 import { useCourseTranslation } from 'src/utils/useCourseTranslation';
@@ -23,6 +23,11 @@ import { IoArrowBack } from 'react-icons/io5';
 import koLocale from 'date-fns/locale/ko';
 import { useHistory } from 'react-router-dom';
 import notify from 'src/utils/notify';
+import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AiOutlineInfo } from 'react-icons/ai';
+// import { getLessonsToScheduleCount } from 'src/utils/getLessonsToScheduleCount';
+import NotEnoughCreditsModal from './NotEnoughCreditsModal';
+import { notEnoughCredits } from 'src/utils/notEnoughCredits';
 
 const LessonConfirmation = ({
   plan,
@@ -31,7 +36,7 @@ const LessonConfirmation = ({
   setTabIndex,
   lessonId = null,
   isMentorScheduled = false,
-  setSuccessfulLesson,
+  setCreatedLessons,
   repeat,
   setRepeat,
 }) => {
@@ -44,6 +49,7 @@ const LessonConfirmation = ({
     'translations',
   ]);
 
+  const [openModal, setOpenModal] = useState(false);
   const [credits, setCredits] = useState(plan?.credits);
   const [canceledLessons] = useState(null);
 
@@ -51,8 +57,6 @@ const LessonConfirmation = ({
   const { user, currentStudent } = useAuth();
   const [newAppointment, setNewAppointment] = useState([]);
 
-  const [isConfirmed, setIsConfirmed] = useState(false);
-  const [confirmDisable, setConfirmDisable] = useState(false);
   const [createAppointment] = useMutation(CREATE_APPOINTMENT);
   const [updateAppointment] = useMutation(UPDATE_APPOINTMENT);
 
@@ -105,72 +109,55 @@ const LessonConfirmation = ({
 
   const utcIsoTimeString = new Date(time).toISOString();
 
-  const confirmLesson = async () => {
+  const confirmLesson = async (confirmedNotEnough = false) => {
+    if (
+      repeat &&
+      !confirmedNotEnough &&
+      notEnoughCredits(plan.credits, repeat)
+    ) {
+      setOpenModal(true);
+      return;
+    }
     setIsLoading(true);
 
     /* this means if the lesson ID exists, its going to be a reschedule */
-    let lesson = [];
-    if (lessonId) {
-      setIsLoading(true);
-      const { data: { lesson: updatedLesson } = {} } = await updateAppointment({
-        variables: {
-          id: lessonId,
-          mentorId: mentor.id,
-          startAt: utcIsoTimeString,
-          repeat: repeat,
-        },
-        onError: (error) => {
-          NotificationManager.error(error.message, t);
-        },
-        onCompleted: () => {
-          notify(t('lesson_rescheduled', { ns: 'lessons' }));
-          history.push('/student/lesson-calendar');
-        },
-      });
-      lesson = updatedLesson;
-    } else {
-      try {
-        const { data: { lesson: createdLesson } = {} } =
-          await createAppointment({
-            variables: {
-              mentorId: mentor.id,
-              studentId: getItemToLocalStorage('studentId'),
-              subscriptionId: plan?.id,
-              startAt: utcIsoTimeString,
-              duration: plan?.package?.sessionTime,
-              repeat: repeat,
-            },
-            onCompleted: (v) => {
-              setTabIndex(5);
-              setSuccessfulLesson(v.lesson[0]);
-            },
-          });
-
-        const scheduledLessons = createdLesson.filter(
-          (lesson) => lesson.status === LessonsStatusType.SCHEDULED,
-        );
-        setCredits(credits - scheduledLessons.length);
-
-        lesson = createdLesson;
-      } catch (error) {
-        NotificationManager.error(error.message, t);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    if (lesson.length) {
-      setConfirmDisable(true);
-      setNewAppointment(lesson);
-
-      if (lesson.length === 1 && lesson[0].cancelReason) {
-        setIsConfirmed(false);
+    try {
+      if (lessonId) {
+        await updateAppointment({
+          variables: {
+            id: lessonId,
+            mentorId: mentor.id,
+            startAt: utcIsoTimeString,
+            repeat: repeat,
+          },
+        });
+        notify(t('lesson_rescheduled', { ns: 'lessons' }));
+        history.push('/student/lesson-calendar');
       } else {
-        setIsConfirmed(true);
+        const {
+          data: { lesson: createdLesson },
+        } = await createAppointment({
+          variables: {
+            mentorId: mentor.id,
+            studentId: getItemToLocalStorage('studentId'),
+            subscriptionId: plan?.id,
+            startAt: utcIsoTimeString,
+            duration: plan?.package?.sessionTime,
+            repeat: repeat,
+          },
+        });
+        setTabIndex(5);
+        setCreatedLessons(
+          createdLesson.sort(
+            (a, b) => new Date(a.startAt) - new Date(b.startAt),
+          ),
+        );
       }
-      window.scrollTo(0, 0);
+    } catch (error) {
+      NotificationManager.error(error.message, t);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const repeatLessonLabel = (monthCount) =>
@@ -266,17 +253,32 @@ const LessonConfirmation = ({
             </div>
           )}
 
+          {lessonId && !!repeat && (
+            <div className="mt-10">
+              <div className="mx-auto mb-4 bg-color-purple bg-opacity-10 rounded-lg flex gap-4 items-center p-4">
+                <span className="w-5 h-5 bg-color-purple rounded-full flex justify-center items-center">
+                  <AiOutlineInfo className="text-white" />
+                </span>
+                <p className="w-[340px] text-color-purple">
+                  You are rescheduling <b>All Upcoming Lessons</b>
+                </p>
+              </div>
+            </div>
+          )}
+
+          <AdaptiveDialog open={openModal} setOpen={setOpenModal}>
+            <NotEnoughCreditsModal
+              confirmLesson={confirmLesson}
+              repeat={repeat}
+            />
+          </AdaptiveDialog>
+
           <Button
             className="w-full text-xl h-auto p-[18px] mt-10"
-            disabled={confirmDisable}
             theme="purple"
-            onClick={confirmLesson}
+            onClick={() => confirmLesson()}
           >
-            {confirmDisable && isConfirmed
-              ? t('lesson_pending_approval', { ns: 'lessons' })
-              : confirmDisable && !isConfirmed
-              ? t('lesson_scheduling_failed', { ns: 'lessons' })
-              : t('booking_lesson', { ns: 'lessons' })}
+            {t('booking_lesson', { ns: 'lessons' })}
           </Button>
         </div>
       </div>

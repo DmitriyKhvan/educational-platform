@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { FaArrowLeft, FaPencil } from 'react-icons/fa6';
 import Button from 'src/components/Form/Button';
 
-import { ko as kr } from 'date-fns/locale';
 import { useTranslation } from 'react-i18next';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { addMinutes } from 'date-fns';
@@ -13,7 +12,7 @@ import { useMutation } from '@apollo/client';
 import notify from 'src/utils/notify';
 import { useAuth } from 'src/modules/auth';
 import { ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER } from 'src/modules/graphql/mutations/trial/attachTrialStudentToUserResolver';
-import { setItemToLocalStorage } from 'src/constants/global';
+import { localeDic, setItemToLocalStorage } from 'src/constants/global';
 import Loader from 'src/components/Loader/Loader';
 import { LOGIN_MUTATION } from 'src/modules/auth/graphql';
 
@@ -22,25 +21,23 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
   const { user: currentUser, refetchUser } = useAuth();
   const { languageLevel, lessonTopic, packageSubscription } = selectedPlan;
 
-  const [i18n] = useTranslation();
+  const [t, i18n] = useTranslation(['trial', 'common']);
   const [signUp] = useMutation(TRIAL_SIGN_UP);
   const [addTrialUser] = useMutation(ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER);
   const [loginMutation] = useMutation(LOGIN_MUTATION);
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const currentLanguage = i18n.language;
-  const locale = currentLanguage === 'kr' ? kr : null;
-
   const dateParse = utcToZonedTime(new Date(schedule), user.timeZone);
 
   const dayFormat = format(dateParse, 'EEEE, MMM dd', {
-    locale: locale,
     timeZone: user.timeZone,
+    locale: localeDic[i18n.language],
   });
 
   const scheduleStartTimeFormat = format(dateParse, 'hh:mm a', {
     timeZone: user.timeZone,
+    locale: localeDic[i18n.language],
   });
 
   const scheduleEndTimeFormat = format(
@@ -48,6 +45,7 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
     'hh:mm a',
     {
       timeZone: user.timeZone,
+      locale: localeDic[i18n.language],
     },
   );
 
@@ -129,36 +127,40 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
           className="mr-3 w-[20px] h-[20px] cursor-pointer"
           onClick={() => setStep((v) => v - 1)}
         />{' '}
-        <h1 className="text-3xl font-semibold">Confirmation</h1>
+        <h1 className="text-3xl font-semibold">{t('confirmation')}</h1>
       </div>
 
-      <p className="mb-8">Please ensure that everything below is correct</p>
+      <p className="mb-8">{t('ensure_everything_below_is_ok')}</p>
 
       <section className="mb-6">
         <p className="text-sm text-gray-400 font-medium mb-4">
-          Your contact information
+          {t('your_contact_information')}
         </p>
         <div className="w-full border rounded-lg p-5 flex justify-between items-center">
           <div>
             <label className="mb-4 block">
               <span className="text-[13px] text-gray-400 mb-2">
-                English name of student
+                {t('english_name')}
               </span>
               <p className="text-gray-950 font-medium">{user.firstName}</p>
             </label>
 
             <label className="mb-4 block">
-              <span className="text-[13px] text-gray-400 mb-2">Email</span>
+              <span className="text-[13px] text-gray-400 mb-2">
+                {t('email')}
+              </span>
               <p className="text-gray-950 font-medium">{user.email}</p>
             </label>
             <label>
               <span className="text-[13px] text-gray-400 mb-2">
-                Phone number
+                {t('phone_number')}
               </span>
               <p className="text-gray-950 font-medium">{user.phoneNumber}</p>
             </label>
             <label>
-              <span className="text-[13px] text-gray-400 mb-2">Time zone</span>
+              <span className="text-[13px] text-gray-400 mb-2">
+                {t('time_zone')}
+              </span>
               <p className="text-gray-950 font-medium">{user.timeZone}</p>
             </label>
           </div>
@@ -172,7 +174,9 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
       </section>
 
       <section className="mb-6">
-        <p className="text-sm text-gray-400 font-medium mb-4">Lesson details</p>
+        <p className="text-sm text-gray-400 font-medium mb-4">
+          {t('lesson_details')}
+        </p>
         <div className="w-full border rounded-lg p-5 flex justify-between items-center">
           <div>
             <h3 className="font-bold text-lg mb-5">
@@ -180,14 +184,16 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
             </h3>
             <div className="flex gap-6">
               <label className="block">
-                <span className="text-[13px] text-gray-400">Level</span>
+                <span className="text-[13px] text-gray-400">{t('level')}</span>
                 <p className="text-gray-950 font-medium">
                   {languageLevel.title}
                 </p>
               </label>
 
               <label className="block">
-                <span className="text-[13px] text-gray-400">Topic</span>
+                <span className="text-[13px] text-gray-400">
+                  {t('lesson_topic')}
+                </span>
                 <p className="text-gray-950 font-medium">{lessonTopic.title}</p>
               </label>
             </div>
@@ -202,7 +208,9 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
       </section>
 
       <section className="mb-6">
-        <p className="text-sm text-gray-400 font-medium mb-4">Date and Time</p>
+        <p className="text-sm text-gray-400 font-medium mb-4">
+          {t('date_and_time')}
+        </p>
         <div className="w-full border rounded-lg p-5 flex justify-between items-center">
           <div>
             <h3 className="font-bold text-lg mb-4">{`${scheduleStartTimeFormat} - ${scheduleEndTimeFormat}`}</h3>
@@ -218,7 +226,7 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
       </section>
 
       <Button className="w-full h-14 sm:h-16 my-10" onClick={trialSignUp}>
-        Continue
+        {t('continue_button', { ns: 'common' })}
       </Button>
     </div>
   );

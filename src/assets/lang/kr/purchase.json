@@ -5,7 +5,7 @@
   "times_per_week": "주 {{count}}회",
   "agreement": "웹사이트 이용 동의",
   "clicking": "아래 버튼을 클릭하면 다음의 사항에 동의하시게 됩니다.",
-  "terms": "이용 약관",
+  "terms": "이용약관",
   "checkout": "계속하기",
   "payment_success": "결제완료! 성공적으로 결제되었습니다",
   "payment_confirmed": "Payment confirmed",

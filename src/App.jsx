@@ -20,7 +20,6 @@ import ForgotPasswordText from './pages/Auth/ForgotPasswordText';
 // Authentication Path
 import Login from './pages/Auth/Login';
 import ResetPassword from './pages/Auth/ResetPassword';
-import ApproveRequest from './pages/Mentors/ApproveRequest/ApproveRequest';
 import './App.scss';
 
 import { Toaster } from 'react-hot-toast';
@@ -175,12 +174,6 @@ function App() {
               role="student_parent"
               path="/select-profile"
               component={SelectProfile}
-            />
-
-            <PrivateRoute
-              role="mentor"
-              path="/approve-requests"
-              component={ApproveRequest}
             />
 
             <PrivateRoute
