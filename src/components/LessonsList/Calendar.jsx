@@ -154,7 +154,7 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
           'flex items-center px-2 min-h-[28px] h-full w-full text-gray-800 bg-gray-800 bg-opacity-15 hover:bg-opacity-100 transition-all duration-150 ease-in-out hover:text-white rounded-[4px] border-l-4 border-l-gray-800 overflow-hidden truncate',
           data.isTrial
             ? courseColorsDict[COURSE_COLORS.GREEN]?.event
-            : courseColorsDict[getColorByCourseId(data.courseId)]?.event,
+            : getColorByCourseId(data.courseId)?.event,
         )}
       >
         {content}

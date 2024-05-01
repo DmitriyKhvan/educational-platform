@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { COURSE_COLORS } from 'src/constants/global';
+import { courseColorsDict, COURSE_COLORS } from 'src/constants/global';
 import { COURSES } from 'src/modules/graphql/queries/courses/courses';
 
 let ready = false;
@@ -35,7 +35,8 @@ export const useCourseDetails = () => {
 
       sortedData.forEach((val) => {
         if (!courseColors[String(val.id)]) {
-          courseColors[String(val.id)] = courseColorsArray[colorsIdx++];
+          courseColors[String(val.id)] =
+            courseColorsDict[courseColorsArray[colorsIdx++]];
         }
       });
 
@@ -63,7 +64,8 @@ export const useCourseDetails = () => {
   const getColorByCourseId = useCallback((id) => {
     if (!id || !ready) return;
     if (!courseColors[String(id)]) {
-      courseColors[String(id)] = courseColorsArray[colorsIdx++];
+      courseColors[String(id)] =
+        courseColorsDict[courseColorsArray[colorsIdx++]];
     }
     return courseColors[id];
   }, []);

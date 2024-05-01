@@ -125,7 +125,7 @@ const CalendarHeader = ({ calendarRef }) => {
             <span
               className={cn(
                 'w-[10px] h-[10px] block rounded-[3px]',
-                courseColorsDict[getColorByCourseId(c.id)]?.indicator,
+                getColorByCourseId(c.id)?.indicator,
               )}
             ></span>
             <p>{getTitleByCourseId(c.id)}</p>
