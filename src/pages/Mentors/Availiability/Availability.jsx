@@ -19,7 +19,7 @@ const Availability = () => {
   const {
     data: { mentor: mentorInfo } = {},
     loading: loadingMentor,
-    // refetch: refetchMentor,
+    refetch: refetchMentor,
   } = useQuery(GET_MENTOR, {
     fetchPolicy: 'no-cache',
     variables: { id: user?.mentor?.id },
@@ -145,7 +145,10 @@ const Availability = () => {
             useSetGatherAvailabilities={useSetGatherAvailabilities}
           />
 
-          <AvailabilityExceptions />
+          <AvailabilityExceptions
+            mentor={mentorInfo}
+            refetchMentor={refetchMentor}
+          />
         </div>
       </div>
     </Layout>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { useMutation, useQuery } from '@apollo/client';
-import { GET_MENTOR } from 'src/modules/auth/graphql';
+import { useMutation } from '@apollo/client';
 import { UPSERT_EXCEPTION_DATES } from 'src/modules/graphql/mutations/upsertExceptionDates';
 import { format, parse } from 'date-fns';
 import { v4 as uuid } from 'uuid';
@@ -14,7 +13,7 @@ import notify from 'src/utils/notify';
 import Loader from 'src/components/Loader/Loader';
 import Swal from 'sweetalert2';
 
-export const AvailabilityExceptions = () => {
+export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
   const [t] = useTranslation('common');
 
   const [availabilityExceptions, setAvailabilityExceptions] = useState([]);
@@ -23,13 +22,6 @@ export const AvailabilityExceptions = () => {
   const [updateExceptionDate, setUpdateExceptionDate] = useState(null);
 
   const { user } = useAuth();
-  const { data: { mentor } = {}, refetch: refetchMentor } = useQuery(
-    GET_MENTOR,
-    {
-      fetchPolicy: 'no-cache',
-      variables: { id: user?.mentor?.id },
-    },
-  );
 
   const [upsertExceptionDates, { loading: loadingExceptionDates }] =
     useMutation(UPSERT_EXCEPTION_DATES);
@@ -192,7 +184,7 @@ export const AvailabilityExceptions = () => {
         </div>
       )}
 
-      <div className="min-w-[410px] grow p-6 border border-gray-100 rounded-lg shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
+      <div className="min-w-[410px] w-fit p-6 border border-gray-100 rounded-lg shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
         <div className="space-y-2 mb-6">
           <h1 className="text-xl text-color-dark-purple font-bold">
             Date overrides
