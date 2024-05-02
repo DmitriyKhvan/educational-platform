@@ -838,3 +838,54 @@ export const MentorAvailabilityType = {
   ONLY_TRIAL: 'only_trial',
   REGULAR_AND_TRIAL: 'regular_and_trial',
 };
+
+export const COURSE_COLORS = {
+  PURPLE: 'purple',
+  ORANGE: 'orange',
+  BLUE: 'blue',
+  PINK: 'pink',
+  BROWN: 'brown',
+  YELLOW: 'yellow',
+  TEAL: 'teal',
+  RED: 'red',
+  GREEN: 'green',
+};
+
+export const courseColorsDict = {
+  [COURSE_COLORS.PURPLE]: {
+    event: 'text-color-purple bg-color-purple border-l-color-purple',
+    indicator: 'bg-color-purple',
+  },
+  [COURSE_COLORS.ORANGE]: {
+    event: 'text-[#FF9335] bg-[#FF9335] border-l-[#FF9335]',
+    indicator: 'bg-[#FF9335]',
+  },
+  [COURSE_COLORS.BLUE]: {
+    event: 'text-[#19BBFE] bg-[#19BBFE] border-l-[#19BBFE]',
+    indicator: 'bg-[#19BBFE]',
+  },
+  [COURSE_COLORS.PINK]: {
+    event: 'text-pink-500 bg-pink-500 border-l-pink-500',
+    indicator: 'bg-pink-500',
+  },
+  [COURSE_COLORS.RED]: {
+    event: 'text-red-600 bg-red-600 border-l-red-600',
+    indicator: 'bg-red-600',
+  },
+  [COURSE_COLORS.BROWN]: {
+    event: 'text-yellow-900 bg-yellow-900 border-l-yellow-900',
+    indicator: 'bg-yellow-900',
+  },
+  [COURSE_COLORS.YELLOW]: {
+    event: 'text-yellow-300 bg-yellow-300 border-l-yellow-300',
+    indicator: 'bg-yellow-300',
+  },
+  [COURSE_COLORS.TEAL]: {
+    event: 'text-teal-600 bg-teal-600 border-l-teal-600',
+    indicator: 'bg-teal-600',
+  },
+  [COURSE_COLORS.GREEN]: {
+    event: 'text-[#00D986] bg-[#00D986] border-l-[#00D986]',
+    indicator: 'bg-[#00D986]',
+  },
+};

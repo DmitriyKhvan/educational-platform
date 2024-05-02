@@ -8,7 +8,7 @@ import StatusIndicator from './StatusIndicator';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import LessonControls from './LessonControls';
 import { useAuth } from 'src/modules/auth';
-import { useCourseTranslation } from 'src/utils/useCourseTranslation';
+import { useCourseDetails } from 'src/utils/useCourseDetails';
 import { Roles } from 'src/constants/global';
 
 export const LessonTable = ({
@@ -17,7 +17,7 @@ export const LessonTable = ({
   userTimezone,
   handleOpenFeedbackModal,
 }) => {
-  const { getTitleByCourseId } = useCourseTranslation();
+  const { getTitleByCourseId } = useCourseDetails();
   const { t, i18n } = useTranslation(['lessons', 'common']);
   const { user, currentStudent } = useAuth();
 

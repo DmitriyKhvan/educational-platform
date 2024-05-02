@@ -12,10 +12,10 @@ import { getItemToLocalStorage } from 'src/constants/global';
 
 import Button from 'src/components/Form/Button';
 import { FaPlus } from 'react-icons/fa6';
-import { useCourseTranslation } from 'src/utils/useCourseTranslation';
+import { useCourseDetails } from 'src/utils/useCourseDetails';
 
 const Subscriptions = () => {
-  const { getTitleByCourseId } = useCourseTranslation();
+  const { getTitleByCourseId } = useCourseDetails();
   const [t] = useTranslation(['common', 'sidebar']);
   const [selectedTab, setSelectedTab] = useState('current');
   const navigate = useHistory();

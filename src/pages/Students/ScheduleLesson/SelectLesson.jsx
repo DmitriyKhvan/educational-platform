@@ -12,7 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '../../../components/Tooltip';
-import { useCourseTranslation } from 'src/utils/useCourseTranslation';
+import { useCourseDetails } from 'src/utils/useCourseDetails';
 import { ucFirst } from 'src/utils/ucFirst';
 import CheckboxField from 'src/components/Form/CheckboxField';
 import { ModalPurchase } from 'src/components/ModalPurchase';
@@ -25,7 +25,7 @@ const SelectLesson = ({
   clicked,
   setClicked,
 }) => {
-  const { getTitleByCourseId } = useCourseTranslation();
+  const { getTitleByCourseId } = useCourseDetails();
   const [t] = useTranslation(['lessons', 'common', 'modals']);
   const history = useHistory();
   const { id } = useParams();
