@@ -252,7 +252,7 @@ export const ScheduleProvider = ({
 
       setAvailableTimes(availableSlots);
     }
-  }, [timeOfDayInterval.start.toString()]);
+  }, [timeOfDayInterval.start]);
 
   return (
     <ScheduleContext.Provider

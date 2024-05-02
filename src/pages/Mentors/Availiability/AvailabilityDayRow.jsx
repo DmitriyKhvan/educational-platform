@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import AvailabilityPicker from '../pages/Mentors/Availiability/AvailabilityPicker';
+import AvailabilityPicker from './AvailabilityPicker';
 
 import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
@@ -10,17 +10,15 @@ import { formatTimeToSeconds } from 'src/pages/Mentors/Availiability/lib/formatT
 import { timeGroup } from 'src/pages/Mentors/Availiability/lib/timeGroup';
 import { timeGroups } from 'src/pages/Mentors/Availiability/lib/timeGroups';
 
-import '../assets/styles/availability.scss';
-import CheckboxField from './Form/CheckboxField';
+import CheckboxField from '../../../components/Form/CheckboxField';
 import { LuPlus } from 'react-icons/lu';
-import Button from './Form/Button';
+import Button from '../../../components/Form/Button';
 
 const AvailabilityDayRow = ({
   day,
-  setGatherAvailabilities,
+  useSetGatherAvailabilities,
   allGatherAvailabilities, // trial/regular availabilities
   gatherAvailabilities,
-  AvailabilitySlots,
   mentorAvailabilityType,
 }) => {
   const [toggle, setToggle] = useState(false);
@@ -94,19 +92,20 @@ const AvailabilityDayRow = ({
           ],
         },
       ];
-      setGatherAvailabilities(newAvailabilities, mentorAvailabilityType);
+      useSetGatherAvailabilities(newAvailabilities);
     } else {
-      setGatherAvailabilities(
+      useSetGatherAvailabilities(
         gatherAvailabilities.filter((q) => q.day !== day),
-        mentorAvailabilityType,
       );
     }
   };
 
-  const isTimeEndReached = () => {
-    const currentData = gatherAvailabilities.filter((el) => el.day === day);
-    return currentData[currentData.length - 1]?.slots[0]?.to >= '23:30';
-  };
+  const isTimeEndReached = useMemo(() => {
+    if (gatherAvailabilities) {
+      const currentData = gatherAvailabilities.filter((el) => el.day === day);
+      return currentData[currentData.length - 1]?.slots[0]?.to >= '23:30';
+    }
+  }, [gatherAvailabilities]);
 
   const addAvailRowUpFn = () => {
     const daySlots = gatherAvailabilities.filter((aval) => aval.day === day);
@@ -134,7 +133,7 @@ const AvailabilityDayRow = ({
         ],
       },
     ];
-    setGatherAvailabilities(newAvailabilities, mentorAvailabilityType);
+    useSetGatherAvailabilities(newAvailabilities);
   };
 
   return (
@@ -163,15 +162,13 @@ const AvailabilityDayRow = ({
               if (k.day === day) {
                 return (
                   <AvailabilityPicker
-                    day={day}
                     key={k.id}
+                    day={day}
                     id={k.id}
-                    setGatherAvailabilities={setGatherAvailabilities}
-                    gatherAvailabilities={gatherAvailabilities}
                     frmTime={k.slots[0].from}
                     tTime={k.slots[0].to}
-                    AvailabilitySlots={AvailabilitySlots}
-                    mentorAvailabilityType={mentorAvailabilityType}
+                    useSetGatherAvailabilities={useSetGatherAvailabilities}
+                    gatherAvailabilities={gatherAvailabilities}
                     timeOptionsSort={timeOptionsSort}
                     timeGroupsSort={timeGroupsSort}
                   />
@@ -185,7 +182,7 @@ const AvailabilityDayRow = ({
               theme="clear"
               className="flex items-center justify-center w-[32px] h-[32px] p-0 rounded-[4px] bg-[rgba(134,_46,_231,_0.20)]"
               onClick={addAvailRowUpFn}
-              disabled={isTimeEndReached()}
+              disabled={isTimeEndReached}
             >
               <LuPlus className="text-color-purple" />
             </Button>

@@ -193,7 +193,15 @@ export const AvailabilityExceptions = () => {
       )}
 
       <div className="min-w-[410px] grow p-6 border border-gray-100 rounded-lg shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
-        <h2 className="date_override_title mb-3">Add date overrides</h2>
+        <div className="space-y-2 mb-6">
+          <h1 className="text-xl text-color-dark-purple font-bold">
+            Date overrides
+          </h1>
+          <h3 className="max-w-[425px] text-sm text-gray-400">
+            Override your availability for specific dates when your hours differ
+            from your regular weekly hours.
+          </h3>
+        </div>
 
         <div className="space-y-4">
           {availabilityExceptions.map((exception) => {
