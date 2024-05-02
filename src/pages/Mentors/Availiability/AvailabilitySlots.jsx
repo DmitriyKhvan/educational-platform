@@ -13,8 +13,8 @@ import notify from 'src/utils/notify';
 import { useAuth } from 'src/modules/auth';
 import { MUTATION_UPDATE_USER } from 'src/modules/auth/graphql';
 import { useMutation } from '@apollo/client';
-import { UPSERT_AVAILIABILITY } from './graphql';
 import ReactLoader from 'src/components/common/Loader';
+import { UPSERT_TIMESHEETS } from 'src/modules/graphql/mutations/upsertTimesheets';
 
 export const AvailabilitySlots = ({
   mentorInfo,
@@ -37,7 +37,7 @@ export const AvailabilitySlots = ({
   const [timeZone, setTimeZone] = useState(user?.timeZone);
 
   const [updateUser] = useMutation(MUTATION_UPDATE_USER);
-  const [upsertAvailiability] = useMutation(UPSERT_AVAILIABILITY);
+  const [upsertTimesheets] = useMutation(UPSERT_TIMESHEETS);
 
   const parseAndSaveAvailabilities = (mentorAvailabilityType) => {
     // combines slots on repeating days
@@ -101,7 +101,7 @@ export const AvailabilitySlots = ({
         });
       }
 
-      await upsertAvailiability({
+      await upsertTimesheets({
         variables: {
           data: {
             mentorId: mentorInfo?.id,
