@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import ScheduleCard from '../../../components/student-dashboard/ScheduleCardRebranding';
 import {
@@ -16,13 +16,13 @@ import { FaArrowRight } from 'react-icons/fa6';
 import { useMediaQuery } from 'react-responsive';
 import Button from 'src/components/Form/Button';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { ModalPurchase } from 'src/components/ModalPurchase';
 
 const MyLessons = ({
   appointments,
   packageSubscriptions,
   fetchAppointments,
 }) => {
-  const navigate = useHistory();
   const isDesktop = useMediaQuery({ minWidth: 1307 });
   const [t] = useTranslation(['dashboard', 'lessons']);
 
@@ -90,25 +90,8 @@ const MyLessons = ({
                 }}
               />
             </p>
-            <AdaptiveDialog
-              button={
-                <Button>{t('purchase_package', { ns: 'lessons' })}</Button>
-              }
-            >
-              <div className="w-full max-w-[400px] m-auto text-center">
-                <h2 className="mb-4 text-[22px] text-color-dark-purple font-bold">
-                  {t('purchase_lessons_here', { ns: 'lessons' })}
-                </h2>
-                <p className="mb-6 text-[15px] text-color-dark-purple">
-                  {t('purchase_lessons_here_text', { ns: 'lessons' })}
-                </p>
-                <Button
-                  onClick={() => navigate.push('/purchase')}
-                  className="w-full h-14"
-                >
-                  {t('select_package', { ns: 'lessons' })}
-                </Button>
-              </div>
+            <AdaptiveDialog button={<Button>Purchase a package</Button>}>
+              <ModalPurchase />
             </AdaptiveDialog>
           </div>
         </div>

@@ -26,7 +26,7 @@ const MyProgress = ({ appointments, fetchAppointments }) => {
           duration={lastCompleted.duration}
           lesson={lastCompleted?.packageSubscription?.package?.course?.title}
           mentor={lastCompleted.mentor}
-          zoom={lastCompleted?.zoom}
+          playground={lastCompleted?.playground}
           date={new Date(lastCompleted.startAt)}
           data={lastCompleted}
           fetchAppointments={fetchAppointments}

@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { AVAILABLE_MENTORS } from 'src/modules/graphql/queries/mentors/availableMentors';
 
-import { format } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
+import { format, utcToZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
 
 import Layout from '../../../layouts/DashboardLayout';
@@ -31,7 +30,12 @@ const useAvailableMentors = (isoTime, duration, studentId) => {
   };
 };
 
-const SelectMentorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
+const SelectMentorCards = ({
+  setTabIndex,
+  setSelectMentor,
+  schedule,
+  step,
+}) => {
   const [t] = useTranslation(['lessons', 'common']);
 
   const { availableMentors, loading } = useAvailableMentors(
@@ -47,7 +51,7 @@ const SelectMentorCards = ({ setTabIndex, setSelectTutor, schedule, step }) => {
   }, [availableMentors]);
 
   const onClick = (mentor) => {
-    setSelectTutor(mentor);
+    setSelectMentor(mentor);
     setTabIndex(4);
   };
 

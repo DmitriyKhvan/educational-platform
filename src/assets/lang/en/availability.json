@@ -9,5 +9,9 @@
   "substitute_lesson_desc_two": "Please note that substitute requests may be made up until two hours before the class.",
   "substitute_us_holidays": "Want to teach on US holidays?",
   "enable_us_holidays_substitute": "Enable holiday bookings",
-  "save_return_settings": "Save and Return"
+  "save_return_settings": "Save and Return",
+  "weekly_hours": "Weekly hours",
+  "choose_week": "Choose a week",
+  "choose_day": "Choose a day",
+  "choose_time": "Choose time of day"
 }

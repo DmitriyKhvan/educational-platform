@@ -19,17 +19,6 @@ const tutorNavLinks = [
     link: '/mentor/lesson-calendar',
     icon: FaRegCalendarAlt,
   },
-  // {
-  //   label: 'messages',
-  //   link: '/messages',
-  //   icon: Icon2,
-  //   activeIcon: ActiveIcon2,
-  // },
-  {
-    label: 'check_requests',
-    link: '/approve-requests',
-    icon: HiGift,
-  },
   {
     label: 'my_availability',
     link: '/mentor/availability',
@@ -52,6 +41,7 @@ const studentNavLinks = [
     label: 'mentors',
     link: '/student/mentors-list',
     icon: FaGraduationCap,
+    trial: true,
   },
   {
     label: 'subscriptions',

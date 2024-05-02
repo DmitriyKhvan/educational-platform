@@ -165,22 +165,24 @@ const CancelWarningModal = ({
         {t('continue_cancel')}
       </Button>
 
-      <div className="mt-6 flex justify-center">
-        <CheckboxField
-          label={
-            type === ModalType.CANCEL
-              ? t('cancel_lessons')
-              : t('reschedule_lessons')
-          }
-          id="cancel"
-          value="cancel"
-          onChange={() => setRepeatLessons((v) => !v)}
-          checked={repeatLessons}
-          disabled={disableCancelLesson}
-          name="lesson"
-          square
-        />
-      </div>
+      {user.role === Roles.STUDENT && (
+        <div className="mt-6 flex justify-center">
+          <CheckboxField
+            label={
+              type === ModalType.CANCEL
+                ? t('cancel_lessons')
+                : t('reschedule_lessons')
+            }
+            id="cancel"
+            value="cancel"
+            onChange={() => setRepeatLessons((v) => !v)}
+            checked={repeatLessons}
+            disabled={disableCancelLesson}
+            name="lesson"
+            square
+          />
+        </div>
+      )}
 
       <div className="flex items-center justify-center gap-x-8 mt-4">
         {type !== ModalType.RESCHEDULE && (

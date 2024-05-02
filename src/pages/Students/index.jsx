@@ -1,8 +1,5 @@
-import { Switch, useRouteMatch, Route } from 'react-router-dom';
-// Student Path
-// import StudentCalendar from './Calendar';
+import { Switch, useRouteMatch, Route, Redirect } from 'react-router-dom';
 import ClassMaterials from './ClassMaterials';
-// import GroupScheduleLesson from './GroupLessons';
 import StudentListAppointments from './StudentDashboard';
 import ScheduleLesson from './ScheduleLesson';
 import Profile from './Profile';
@@ -10,7 +7,30 @@ import ScheduleLessonSteps from './ScheduleLesson/ScheduleLessonSteps';
 import Referal from './Referal/Referal';
 import Mentors from './MentorsList/Mentors';
 import Subscriptions from './Subscriptions/Subscriptions';
-import LessonsList from './LessonsList';
+import Lessons from './Lessons';
+import { useAuth } from 'src/modules/auth';
+import { ErrorPage } from '../ErrorPage';
+
+function SubPrivateRoute({ component: Component, isTrial, ...rest }) {
+  const { currentStudent } = useAuth();
+
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        return currentStudent?.isTrial !== isTrial ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '',
+            }}
+          />
+        );
+      }}
+    />
+  );
+}
 
 export default function StudentRoutes() {
   let { path } = useRouteMatch();
@@ -25,9 +45,12 @@ export default function StudentRoutes() {
         <StudentListAppointments />
       </Route>
 
-      <Route path={`${path}/schedule-lesson/select/:id?`}>
-        <ScheduleLesson />
-      </Route>
+      <SubPrivateRoute
+        // isTrial={true}
+        exact
+        path={`${path}/schedule-lesson/select/:id?`}
+        component={ScheduleLesson}
+      />
 
       {/* <Route path={`${path}/schedule-lesson/group-select`}>
         <GroupScheduleLesson />
@@ -42,8 +65,7 @@ export default function StudentRoutes() {
       </Route>
 
       <Route path={`${path}/lesson-calendar`}>
-        {/* <StudentCalendar /> */}
-        <LessonsList />
+        <Lessons />
       </Route>
 
       <Route path={`${path}/class-materials`}>
@@ -58,13 +80,17 @@ export default function StudentRoutes() {
         <Referal />
       </Route>
 
-      <Route path={`${path}/mentors-list/:id?`}>
-        <Mentors />
-      </Route>
+      <SubPrivateRoute
+        isTrial={true}
+        exact
+        path={`${path}/mentors-list/:id?`}
+        component={Mentors}
+      />
 
       <Route path={`${path}/subscriptions`}>
         <Subscriptions />
       </Route>
+      <Route component={ErrorPage} />
     </Switch>
   );
 }

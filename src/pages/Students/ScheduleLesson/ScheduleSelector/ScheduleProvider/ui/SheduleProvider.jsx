@@ -1,34 +1,52 @@
 import { useState, useEffect } from 'react';
 
 import { format, utcToZonedTime } from 'date-fns-tz';
-import { addMonths, isSameDay, isWithinInterval, parse } from 'date-fns';
+import {
+  addHours,
+  addMonths,
+  differenceInHours,
+  isSameDay,
+  isWithinInterval,
+  parse,
+} from 'date-fns';
 import { useLazyQuery } from '@apollo/client';
 
-import { COMBINED_TIMESHEETS } from 'src/modules/graphql/queries/combinedTimesheets';
 import { ScheduleContext } from '../lib/ScheduleContext';
 import { useAuth } from 'src/modules/auth';
 import { useDebounce } from 'src/utils/useDebounce';
 import { getItemToLocalStorage } from 'src/constants/global';
 import { scrollToElement } from 'src/utils/scrollToElement';
+import notify from 'src/utils/notify';
 
 export const ScheduleProvider = ({
+  query,
   setTabIndex,
   setSchedule,
   selectedMentor,
+  setSelectMentor, // trial
+  timeZone,
   duration,
   children,
 }) => {
   const [
     getTimesheetsData,
     { loading: timesheetsLoading, data: timesheetsData },
-  ] = useLazyQuery(COMBINED_TIMESHEETS, {
-    fetchPolicy: 'network-only',
+  ] = useLazyQuery(query, {
+    // fetchPolicy: 'network-only',
+    fetchPolicy: 'no-cache',
+    onError: (error) => {
+      notify(error.message, 'error');
+      resetAll();
+    },
   });
+
+  const hourPrior = process.env.REACT_APP_PRODUCTION === 'true' ? 48 : 0;
 
   const { user } = useAuth();
 
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
+    timeZone ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const todayUserTimezone = utcToZonedTime(new Date(), userTimezone);
@@ -46,7 +64,6 @@ export const ScheduleProvider = ({
 
   const endMonth = addMonths(todayUserTimezone, 1);
   const isToday = isSameDay(new Date(day), todayUserTimezone);
-  const isEndMonth = isSameDay(new Date(day), endMonth);
 
   const morningInterval = {
     start: parse('00:00', 'HH:mm', new Date(day)),
@@ -81,7 +98,7 @@ export const ScheduleProvider = ({
           date: format(new Date(debouncedTimesheetsData), 'yyyy-MM-dd', {
             timeZone: userTimezone,
           }),
-          duration: String(duration).toString(),
+          duration: duration && String(duration).toString(),
           ...(selectedMentor && {
             mentorId: selectedMentor.id,
           }),
@@ -92,7 +109,7 @@ export const ScheduleProvider = ({
   }, [debouncedTimesheetsData]);
 
   // formation morning/afternoon/evening taking into account the current time and available metor slots
-  const setDayInterval = (currentTime, lastTime) => {
+  const setDayInterval = ({ currentTime, lastTime }) => {
     let morning = false;
     let afternoon = false;
     let evening = false;
@@ -155,7 +172,10 @@ export const ScheduleProvider = ({
       }
     }
 
-    structuredClone(timesheetsData?.combinedTimesheets)
+    structuredClone(
+      timesheetsData?.combinedTimesheets ||
+        timesheetsData?.combinedTimesheetsForTrials,
+    )
       .sort(
         (a, b) =>
           parse(a.from, 'HH:mm', new Date(day)) -
@@ -193,12 +213,14 @@ export const ScheduleProvider = ({
   // morning/afternoon/evening formation
   useEffect(() => {
     if (timesheetsData) {
-      if (isToday) {
-        setDayInterval(todayUserTimezone);
-      } else if (isEndMonth) {
-        setDayInterval(null, endMonth);
+      if (differenceInHours(new Date(day), todayUserTimezone) <= hourPrior) {
+        setDayInterval({
+          currentTime: addHours(todayUserTimezone, hourPrior),
+        });
+      } else if (differenceInHours(endMonth, new Date(day)) < 24) {
+        setDayInterval({ lastTime: endMonth });
       } else {
-        setDayInterval();
+        setDayInterval({ currentTime: '' });
       }
       setTimeout(() => scrollToElement('timeOfDay'), 100);
     }
@@ -208,7 +230,12 @@ export const ScheduleProvider = ({
   useEffect(() => {
     if (timeOfDayInterval.start && timeOfDayInterval.end) {
       const availableSlots = [];
-      timesheetsData?.combinedTimesheets.forEach((timesheet) => {
+
+      (
+        timesheetsData?.combinedTimesheets ||
+        // eslint-disable-next-line no-unsafe-optional-chaining
+        timesheetsData?.combinedTimesheetsForTrials
+      ).forEach((timesheet) => {
         const tempTime = parse(timesheet.from, 'HH:mm', new Date(day));
 
         if (
@@ -218,17 +245,19 @@ export const ScheduleProvider = ({
           availableSlots.push({
             time: timesheet.from,
             reserved: timesheet.reserved,
+            mentorId: timesheet.mentors && timesheet.mentors[0],
           });
         }
       });
 
       setAvailableTimes(availableSlots);
     }
-  }, [timeOfDayInterval.start.toString()]);
+  }, [timeOfDayInterval.start]);
 
   return (
     <ScheduleContext.Provider
       value={{
+        userTimezone,
         setTabIndex,
         setSchedule,
         selectedMentor,
@@ -254,8 +283,9 @@ export const ScheduleProvider = ({
         eveningInterval,
         endMonth,
         isToday,
-        isEndMonth,
         resetAll,
+        setSelectMentor,
+        hourPrior,
       }}
     >
       {children}

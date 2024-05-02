@@ -25,7 +25,7 @@ export const SubscriptionCard = ({
       </div>
       {active && credits > 0 && (
         <Indicator className="bg-[#02C97E] text-[#02C97E] mb-4 bg-opacity-10">
-          <FaCheck /> Active subscription
+          <FaCheck /> {t('active_subscription')}
         </Indicator>
       )}
       <div className="flex">

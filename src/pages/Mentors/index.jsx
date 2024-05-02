@@ -3,14 +3,13 @@ import EditMentorProfile from './Profile/EditMentorProfile';
 import SubmitVideo from './Profile/SubmitVideo/SubmitVideo';
 import Submited from './Profile/SubmitVideo/Submited';
 import StudentsList from './StudentsList/StudentsList';
-import AvailabilitySettings from './Availiability/AvailabilitySettings';
-import TutorCalendar from './Calendar';
-import LessonInfo from './LessonInfo';
 import { Switch, useRouteMatch, Route } from 'react-router-dom';
 import TutorDashboard from './MentorDashboard';
-import AvailabilityLayout from './Availiability';
+import Availability from './Availiability';
 import Layout from 'src/layouts/DashboardLayout';
 import MentorProfile from './Profile/MentorProfile';
+import { ErrorPage } from '../ErrorPage';
+import Lessons from './Lessons';
 
 export default function TutorPages() {
   let { path } = useRouteMatch();
@@ -24,19 +23,11 @@ export default function TutorPages() {
       </Route>
 
       <Route exact path={`${path}/lesson-calendar`}>
-        <TutorCalendar />
+        <Lessons />
       </Route>
 
       <Route path={`${path}/availability`}>
-        <AvailabilityLayout />
-      </Route>
-
-      <Route path={`${path}/avail/settings`}>
-        <AvailabilitySettings />
-      </Route>
-
-      <Route exact path={`${path}/lesson-calendar/lesson/:lessonID`}>
-        <LessonInfo />
+        <Availability />
       </Route>
 
       <Route path={`${path}/students-list/:id?`}>
@@ -58,6 +49,7 @@ export default function TutorPages() {
       <Route path={`${path}/edit-profiles/submit-videos/submited`}>
         <Submited />
       </Route>
+      <Route component={ErrorPage} />
     </Switch>
   );
 }

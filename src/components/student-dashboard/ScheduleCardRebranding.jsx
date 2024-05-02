@@ -1,13 +1,16 @@
 import React from 'react';
 import { useAuth } from '../../modules/auth';
-import { LessonsStatusType, Roles } from '../../constants/global';
+import { LessonsStatusType, Roles, localeDic } from '../../constants/global';
 import { addMinutes } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import StatusIndicator from './StatusIndicator';
 import LessonControls from './LessonControls';
-import { useCourseTranslation } from 'src/utils/useCourseTranslation';
+import { useCourseDetails } from 'src/utils/useCourseDetails';
 import { useTranslation } from 'react-i18next';
+import { MdEventRepeat } from 'react-icons/md';
+import Indicator from '../Indicator';
+import { PiStarFourFill } from 'react-icons/pi';
 
 const ScheduleCard = ({
   // lesson,
@@ -19,9 +22,10 @@ const ScheduleCard = ({
   setCanceledLessons,
   duration,
   subscription,
+  repeat = null,
 }) => {
-  const { getTitleByCourseId } = useCourseTranslation();
-  const [t] = useTranslation(['lessons', 'common']);
+  const { getTitleByCourseId } = useCourseDetails();
+  const [t, i18n] = useTranslation(['lessons', 'common']);
   const { user } = useAuth();
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -32,10 +36,11 @@ const ScheduleCard = ({
     const eventDate = format(
       utcToZonedTime(dateLesson, userTimezone),
       'MMM, do',
-      { timeZone: userTimezone },
+      { timeZone: userTimezone, locale: localeDic[i18n.language] },
     );
     const start = format(utcToZonedTime(dateLesson, userTimezone), 'hh:mm a', {
       timeZone: userTimezone,
+      locale: localeDic[i18n.language],
     });
 
     const end = format(
@@ -44,7 +49,7 @@ const ScheduleCard = ({
         subscription?.package?.sessionTime || duration,
       ),
       'hh:mm a',
-      { timeZone: userTimezone },
+      { timeZone: userTimezone, locale: localeDic[i18n.language] },
     );
     return (
       <div className="text-[30px] font-normal text-black m-0 flex flex-col items-start">
@@ -69,7 +74,22 @@ const ScheduleCard = ({
           <div className="w-full">
             <div className="flex justify-between items-center mb-4">
               {displayDate()}
-              <StatusIndicator status={data.status} />
+              {repeat ? (
+                <div className="text-color-purple flex items-center text-sm gap-2">
+                  <MdEventRepeat className="text-[20px]" /> For {repeat}{' '}
+                  month(s)
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  {data.isTrial && (
+                    <Indicator className="bg-green-300 text-green-500">
+                      <PiStarFourFill /> {t('trial', { ns: 'common' })}
+                    </Indicator>
+                  )}
+
+                  <StatusIndicator status={data.status} />
+                </div>
+              )}
             </div>
             {/* TODO: add this to translation.json */}
 

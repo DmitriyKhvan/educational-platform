@@ -8,12 +8,17 @@ import Button from '../../components/Form/Button/Button';
 import InputWithError from '../../components/Form/InputWithError';
 import notify from '../../utils/notify';
 import { Link } from 'react-router-dom';
-import { Roles } from 'src/constants/global';
+import { setItemToLocalStorage } from 'src/constants/global';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
+import { useAuth } from 'src/modules/auth';
 
 const Login = () => {
-  localStorage.removeItem('studentId');
+  const { logout } = useAuth();
+
+  useEffect(() => {
+    logout();
+  }, []);
 
   const [t] = useTranslation('common');
 
@@ -43,11 +48,22 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (data) {
+    if (!data) {
+      return;
+    }
+
+    if (data?.authResult?.user?.students.length) {
+      setItemToLocalStorage(
+        'studentId',
+        data?.authResult?.user?.students[0]?.id,
+      );
+
       location.href =
-        data.authResult.user.role === Roles.STUDENT
+        data?.authResult?.user?.students.length > 1
           ? '/select-profile'
-          : '/mentor/manage-appointments';
+          : '/student/manage-lessons';
+    } else {
+      location.href = '/mentor/manage-appointments';
     }
   }, [data]);
 

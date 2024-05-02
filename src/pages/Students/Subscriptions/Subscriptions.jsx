@@ -10,22 +10,15 @@ import { PACKAGE_QUERY } from '../../../modules/auth/graphql';
 import { useHistory } from 'react-router-dom';
 import { getItemToLocalStorage } from 'src/constants/global';
 
-import '../../../assets/styles/subscriptions.scss';
 import Button from 'src/components/Form/Button';
 import { FaPlus } from 'react-icons/fa6';
-import { COURSES } from 'src/modules/graphql/queries/courses/courses';
-import { useCourseTranslation } from 'src/utils/useCourseTranslation';
+import { useCourseDetails } from 'src/utils/useCourseDetails';
 
 const Subscriptions = () => {
-  const { getTitleByCourseId } = useCourseTranslation();
+  const { getTitleByCourseId } = useCourseDetails();
   const [t] = useTranslation(['common', 'sidebar']);
   const [selectedTab, setSelectedTab] = useState('current');
   const navigate = useHistory();
-
-  const { data: coursesData } = useQuery(COURSES, {
-    fetchPolicy: 'network-only',
-  });
-
   const { data: { packageSubscriptions: planStatus = [] } = {}, loading } =
     useQuery(PACKAGE_QUERY, {
       fetchPolicy: 'no-cache',
@@ -41,7 +34,7 @@ const Subscriptions = () => {
   const [selectedPackages, setSelectedPackages] = useState([]);
 
   useEffect(() => {
-    if (planStatus?.length && coursesData?.courses?.length) {
+    if (planStatus?.length) {
       setSelectedPackages(
         selectedTab === 'current'
           ? planStatus.filter((x) => x.active && x.credits)
@@ -52,7 +45,7 @@ const Subscriptions = () => {
 
   return (
     <Layout>
-      <div className="referal-wrapper max-w-[440px] mx-auto px-5 min-h-[calc(100vh-80px)]">
+      <div className="max-w-[440px] mx-auto px-5 py-[50px] min-h-[calc(100vh-80px)]">
         <div className="flex w-full">
           <Button
             theme="outline"
@@ -73,15 +66,15 @@ const Subscriptions = () => {
             <span>{t('previous')}</span>
           </Button>
         </div>
-        <div className="section">
-          <div className="section-row">
+        <div>
+          <div>
             {loading ? (
               <div className="mt-10">
                 <Loader />
               </div>
             ) : selectedPackages.length > 0 ? (
-              <div className="cards-content w-full">
-                <div className="content rounded w-full">
+              <div className="rounded-[10px] mt-[30px] w-full">
+                <div className="flex flex-col gap-3 items-start rounded w-full">
                   {selectedPackages.map((x, i) => (
                     <SubscriptionCard
                       key={i}
@@ -103,8 +96,8 @@ const Subscriptions = () => {
                 </div>
               </div>
             ) : (
-              <div className="no-items-content mt-16">
-                <div className="no-subscriptions">
+              <div className="w-fulll text-center mt-16">
+                <div className="block text-center opacity-70 text-base">
                   {t('no_active_subscriptions', { ns: 'common' })}
                 </div>
               </div>

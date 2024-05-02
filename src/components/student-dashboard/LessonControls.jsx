@@ -7,10 +7,11 @@ import { isBetween } from 'src/utils/isBetween';
 import { useAuth } from 'src/modules/auth';
 import { useTranslation } from 'react-i18next';
 import RescheduleAndCancelModal from './RescheduleAndCancelModalRebranding';
-import ZoomWarningModal from './ZoomWarningModal';
+import PlaygroundWarningModal from './PlaygroundWarningModal';
 import LessonInfoModal from './LessonInfoModal';
 import { addMinutes, isAfter } from 'date-fns';
 import { isWithinHours } from 'src/utils/isWithinHours';
+import { CancelTrialLessonModal } from './CancelTrialLessonModal';
 
 const LessonControls = ({
   date,
@@ -64,7 +65,9 @@ const LessonControls = ({
       })
     ) {
       window.open(
-        user.role === Roles.MENTOR ? data?.zoom?.startUrl : data?.zoom?.joinUrl,
+        user.role === Roles.MENTOR
+          ? data?.playground?.startUrl
+          : data?.playground?.joinUrl,
         '_blank',
       );
     } else {
@@ -87,16 +90,24 @@ const LessonControls = ({
   const rescheduleAndCancelModal = (
     <RescheduleAndCancelModal
       data={data}
-      isOpen={isOpen}
-      closeModal={closeModal}
+      // isOpen={isOpen}
+      // closeModal={closeModal}
       setTabIndex={setTabIndex}
       setIsOpen={setIsOpen}
       fetchAppointments={refetch}
       tabIndex={tabIndex}
       type={modalType}
-      // cancelled={cancelled}
       setCanceledLessons={setCanceledLessons}
       duration={duration}
+    />
+  );
+
+  const cancelTrialLessonModal = (
+    <CancelTrialLessonModal
+      data={data}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      fetchAppointments={refetch}
     />
   );
 
@@ -139,11 +150,16 @@ const LessonControls = ({
       );
     }
 
-    if (!isAfterLesson && !isWithin24Hours) {
+    if (
+      !isAfterLesson &&
+      !isWithin24Hours &&
+      !data.isTrial &&
+      user.role !== Roles.MENTOR
+    ) {
       controls.push(
         <AdaptiveDialog
-          open={isOpen}
-          setOpen={setIsOpen}
+          // open={isOpen}
+          // setOpen={setIsOpen}
           button={
             <Button
               theme="dark_purple"
@@ -164,8 +180,7 @@ const LessonControls = ({
         <AdaptiveDialog
           button={
             <Button
-              // TODO: implement onClick
-              disabled={!data?.zoom?.recordingUrl}
+              disabled={!data?.playground?.recordingUrl}
               className="grow gap-1 sm:gap-2 text-xs sm:text-sm px-2"
             >
               <FaPlay />
@@ -176,7 +191,7 @@ const LessonControls = ({
           <LessonInfoModal
             date={date}
             data={data}
-            zoom={data?.zoom}
+            playground={data?.playground}
             refetch={refetch}
             duration={duration}
             setCanceledLessons={setCanceledLessons}
@@ -186,11 +201,11 @@ const LessonControls = ({
       );
     }
 
-    if (!isAfterLesson) {
+    if (!isAfterLesson && !(user.role === Roles.MENTOR && data.isTrial)) {
       controls.push(
         <AdaptiveDialog
-          open={isOpen}
-          setOpen={setIsOpen}
+          // open={isOpen}
+          // setOpen={setIsOpen}
           button={
             <Button
               theme="red"
@@ -201,7 +216,7 @@ const LessonControls = ({
             </Button>
           }
         >
-          {rescheduleAndCancelModal}
+          {data.isTrial ? cancelTrialLessonModal : rescheduleAndCancelModal}
         </AdaptiveDialog>,
       );
     }
@@ -222,7 +237,7 @@ const LessonControls = ({
       </div>
 
       {isWarningOpen && (
-        <ZoomWarningModal
+        <PlaygroundWarningModal
           isWarningOpen={isWarningOpen}
           closeModal={closeModal}
           setIsWarningOpen={setIsWarningOpen}

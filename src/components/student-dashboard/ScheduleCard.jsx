@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RescheduleAndCancelModal from './RescheduleAndCancelModal';
-import ZoomWarningModal from './ZoomWarningModal';
+import PlaygroundWarningModal from './PlaygroundWarningModal';
 import { useAuth } from '../../modules/auth';
 
 import { LessonsStatusType, ModalType, Roles } from '../../constants/global';
@@ -13,7 +13,7 @@ import { Avatar } from 'src/widgets/Avatar/Avatar';
 const ScheduleCard = ({
   index,
   lesson,
-  zoom,
+  playground,
   date, //utc +0
   student,
   mentor,
@@ -61,7 +61,7 @@ const ScheduleCard = ({
       })
     ) {
       window.open(
-        user.role === Roles.MENTOR ? zoom.startUrl : zoom.joinUrl,
+        user.role === Roles.MENTOR ? playground.startUrl : playground.joinUrl,
         '_blank',
       );
     } else {
@@ -92,44 +92,40 @@ const ScheduleCard = ({
 
   return (
     <div
-      className={`mb-5 rounded-[10px] p-5 shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)] ${
-        !LessonsStatusType[data?.status?.toUpperCase()]
-          ? 'bg-color-light-grey2 opacity-60'
-          : index === 0
+      className={`mb-5 rounded-[10px] p-5 shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)] ${!LessonsStatusType[data?.status?.toUpperCase()]
+        ? 'bg-color-light-grey2 opacity-60'
+        : index === 0
           ? 'bg-color-purple'
           : 'border border-color-border-grey bg-white'
-      }`}
+        }`}
     >
       <div className="mb-2">
         <div className="flex items-center justify-between">
           <div>
             <h1
-              className={`text-[30px] font-normal ${
-                index === 0 && LessonsStatusType[data?.status?.toUpperCase()]
-                  ? 'text-white m-0'
-                  : 'text-black m-0'
-              }`}
+              className={`text-[30px] font-normal ${index === 0 && LessonsStatusType[data?.status?.toUpperCase()]
+                ? 'text-white m-0'
+                : 'text-black m-0'
+                }`}
             >
               {lesson}
             </h1>
             {/* TODO: add this to translation.json */}
             <h3
-              className={`text-base font-semibold tracking-tight ${
-                index === 0 && LessonsStatusType[data?.status?.toUpperCase()]
-                  ? 'text-color-light-purple'
-                  : 'text-color-light-grey'
-              }`}
+              className={`text-base font-semibold tracking-tight ${index === 0 && LessonsStatusType[data?.status?.toUpperCase()]
+                ? 'text-color-light-purple'
+                : 'text-color-light-grey'
+                }`}
             >
               {displayDate()}
             </h3>
 
             {user.role === Roles.MENTOR && (
               <p
-                className={`text-sm ${
-                  index === 0
-                    ? 'text-color-light-purple'
-                    : 'text-color-light-grey'
-                }`}
+                className={`text-sm ${index === 0
+                  ? 'text-color-light-purple'
+                  : 'text-color-light-grey'
+                  }`}
               >
                 {student?.user.email}
               </p>
@@ -153,11 +149,10 @@ const ScheduleCard = ({
         <div className="flex flex-wrap items-center gap-2 xl:gap-3">
           {user.role !== Roles.MENTOR && (
             <a
-              className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px] ${
-                index === 0
-                  ? 'text-color-purple'
-                  : 'border border-color-border-grey text-black'
-              } 
+              className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px] ${index === 0
+                ? 'text-color-purple'
+                : 'border border-color-border-grey text-black'
+                } 
        
               `}
               onClick={onSelect}
@@ -167,11 +162,10 @@ const ScheduleCard = ({
           )}
           <a
             onClick={onCancel}
-            className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px] ${
-              index === 0
-                ? 'text-color-purple'
-                : 'border border-color-border-grey text-black'
-            } `}
+            className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px] ${index === 0
+              ? 'text-color-purple'
+              : 'border border-color-border-grey text-black'
+              } `}
           >
             {t('cancel', { ns: 'common' })}
           </a>
@@ -184,15 +178,13 @@ const ScheduleCard = ({
             target="_blank"
             rel="noreferrer"
             className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px]  rounded-[5px]
-          ${
-            index === 0
-              ? 'text-color-purple'
-              : 'border border-color-border-grey text-black'
-          } ${
-              data.status !== LessonsStatusType.APPROVED
+          ${index === 0
+                ? 'text-color-purple'
+                : 'border border-color-border-grey text-black'
+              } ${data.status !== LessonsStatusType.APPROVED
                 ? 'text-color-purple bg-[#b099d7]'
                 : 'grey-border text-black bg-white'
-            }`}
+              }`}
           >
             {t('join_lesson')}
           </a>
@@ -200,11 +192,10 @@ const ScheduleCard = ({
       ) : (
         <div>
           <h1
-            className={`text-[30px] font-normal ${
-              index === 0 && LessonsStatusType[data?.status?.toUpperCase()]
-                ? 'text-white m-0'
-                : 'text-black m-0'
-            }`}
+            className={`text-[30px] font-normal ${index === 0 && LessonsStatusType[data?.status?.toUpperCase()]
+              ? 'text-white m-0'
+              : 'text-black m-0'
+              }`}
           >
             {t(data.cancelReason)}
           </h1>
@@ -224,7 +215,7 @@ const ScheduleCard = ({
         duration={subscription?.duration || duration}
       />
       {isWarningOpen && (
-        <ZoomWarningModal
+        <PlaygroundWarningModal
           isWarningOpen={isWarningOpen}
           closeModal={closeModal}
           setIsWarningOpen={setIsWarningOpen}

@@ -1,10 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Layout from '../../../layouts/DashboardLayout';
-import capitalize from 'lodash/capitalize';
-import { useQuery } from '@apollo/client';
-import { PACKAGE_QUERY } from '../../../modules/auth/graphql';
 import Loader from '../../../components/Loader/Loader';
 import Button from '../../../components/Form/Button/Button';
 import { FaArrowRight } from 'react-icons/fa6';
@@ -15,8 +12,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '../../../components/Tooltip';
-import { getItemToLocalStorage } from 'src/constants/global';
-import { useCourseTranslation } from 'src/utils/useCourseTranslation';
+import { useCourseDetails } from 'src/utils/useCourseDetails';
+import { ucFirst } from 'src/utils/ucFirst';
+import CheckboxField from 'src/components/Form/CheckboxField';
+import { ModalPurchase } from 'src/components/ModalPurchase';
+import { useActivePackages } from 'src/utils/useActivePackages';
 
 const SelectLesson = ({
   setSelectedPlan,
@@ -24,74 +24,76 @@ const SelectLesson = ({
   setTabIndex,
   clicked,
   setClicked,
-  lesson,
 }) => {
-  const { getTitleByCourseId } = useCourseTranslation();
+  const { getTitleByCourseId } = useCourseDetails();
   const [t] = useTranslation(['lessons', 'common', 'modals']);
   const history = useHistory();
   const { id } = useParams();
 
-  const {
-    data: { packageSubscriptions: planStatus = [] } = {},
-    loading: planStatusesLoading,
-  } = useQuery(PACKAGE_QUERY, {
-    variables: {
-      studentId: getItemToLocalStorage('studentId'),
-    },
-    fetchPolicy: 'network-only',
-  });
   const disabled = clicked === null ? true : false;
 
-  useEffect(() => {
-    if (lesson) {
-      setSelectedPlan(planStatus[0]);
-      setTabIndex(1);
-    }
-  }, [lesson]);
+  const { activePackages, isLoading } = useActivePackages();
 
   const returnToDashboard = () => {
     history.push('/student/manage-lessons');
   };
 
-  const LessonCard = ({ title, duration, remaining, data, i, active }) => {
+  const LessonCard = ({
+    title,
+    duration,
+    remaining,
+    data,
+    i,
+    active,
+    total,
+  }) => {
     return (
       <TooltipProvider>
         <Tooltip delayDuration={200}>
-          <TooltipTrigger>
-            <div
+          <TooltipTrigger className="block w-full mb-6">
+            <label
               className={cn(
-                `cursor-pointer p-5 border rounded-lg w-[315px]`,
+                `flex justify-between cursor-pointer p-5 border rounded-lg w-full`,
                 !active &&
                   'grayscale bg-white brightness-75 opacity-80 cursor-not-allowed',
                 i === clicked &&
                   active &&
                   'border-color-purple border-2 shadow-[0_0_0_4px_#F0EBF7]',
               )}
-              // onClick={() => {
-              //   setClicked(i);
-              //   setSelectedPlan(data);
-              // }}
-              onClick={active ? () => selectPlan(i, data) : undefined}
             >
-              <div>
-                <h1 className="text-color-dark-purple text-xl tracking-tight font-semibold mb-4 truncate">
-                  {capitalize(title)}
+              <div className="flex items-start flex-col gap-2 flex-wrap">
+                <h1 className="font-bold text-base sm:text-lg leading-7 tracking-[-0.6px] text-color-dark-purple">
+                  {ucFirst(title) || 'Title'}
                 </h1>
 
-                <div className="flex gap-2 flex-row">
-                  <div className="text-color-dark-purple font-medium text-[17px] border border-color-border-grey rounded px-2.5 py-[5px] flex-grow text-center whitespace-nowrap">
-                    {t('lessons_remaining_schedule', {
-                      ns: 'lessons',
-                      count: remaining,
-                    })}
+                <div className="flex gap-7 items-center">
+                  <div>
+                    <span className="block text-xs sm:text-sm text-color-light-grey">
+                      {t('lessons_remaining', { ns: 'profile' })}
+                    </span>
+                    <span className="block text-xs sm:text-sm text-color-dark-purple text-left">
+                      {remaining && `${remaining}/${total}`}
+                    </span>
                   </div>
-                  <div className="flex items-center justify-center font-medium text-[17px] px-2.5 py-[5px] text-color-purple bg-color-light-purple rounded">
-                    {duration}
-                    {t('minutes_short', { ns: 'common' })}
+                  <div>
+                    <span className="block text-xs sm:text-sm text-color-light-grey">
+                      {t('duration', { ns: 'lessons' })}
+                    </span>
+                    <span className="block text-xs sm:text-sm text-color-dark-purple text-left">
+                      {duration}
+                    </span>
                   </div>
                 </div>
               </div>
-            </div>
+
+              <CheckboxField
+                disabled={!active}
+                type="radio"
+                name="package"
+                checked={i === clicked && active}
+                onChange={() => selectPlan(i, data)}
+              />
+            </label>
           </TooltipTrigger>
           {!active && (
             <TooltipContent>
@@ -120,26 +122,20 @@ const SelectLesson = ({
 
   return (
     <Layout>
-      <div className="h-full overflow-y-auto p-5 sm:px-10 sm:py-8 lg:pt-12 lg:px-12 xl:py-[65px]">
-        <div className="flex flex-col gap-2.5 mb-[27px]">
-          <h1 className="text-[clamp(1.5rem,_5vw,_2.5rem)] text-color-dark-purple leading-normal tracking-tight">
-            {!id
-              ? t('schedule_lesson')
-              : t('reschedule_lesson', { ns: 'modals' })}
-          </h1>
-          <p className="text-[clamp(1rem,_4vw,_1.25rem)] text-color-light-grey font-medium tracking-tight">
-            {!id
-              ? t('schedule_lesson_subtitle')
-              : t('reschedule_lesson_subtitle')}
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-x-[29px] gap-y-6 mb-10">
-          {planStatusesLoading ? (
-            <Loader />
-          ) : (
-            planStatus
-              .filter((pkg) => pkg.credits > 0)
-              .map((x, i) => (
+      <div className="h-full max-w-[488px] mx-auto">
+        {isLoading ? (
+          <Loader height="100%" />
+        ) : activePackages?.length > 0 ? (
+          <>
+            <div className="flex flex-col gap-2.5 mb-[27px]">
+              <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold leading-normal tracking-tight">
+                {!id
+                  ? t('schedule_lesson')
+                  : t('reschedule_lesson', { ns: 'modals' })}
+              </h1>
+            </div>
+            <div className="mb-10">
+              {activePackages?.map((x, i) => (
                 <LessonCard
                   title={getTitleByCourseId(x.package?.course?.id)}
                   duration={x.package?.sessionTime}
@@ -149,27 +145,30 @@ const SelectLesson = ({
                   key={i}
                   expirationDate={x.periodEnd}
                   active={x.active}
+                  total={x.package?.totalSessions}
                 />
-              ))
-          )}
-        </div>
-        <div className="flex gap-5">
-          <Button theme="outline" onClick={returnToDashboard}>
-            {t('return_to_dash')}
-          </Button>
+              ))}
+            </div>
+            <div className="flex gap-5 mb-4">
+              <Button theme="outline" onClick={returnToDashboard}>
+                {t('return_to_dash')}
+              </Button>
 
-          <Button
-            theme="purple"
-            disabled={disabled}
-            // onClick={() => setTabIndex(1)}
-            onClick={sheduleLesson}
-          >
-            <span className="flex flex-row items-center justify-center gap-x-2">
-              <span>{t('continue_custom')}</span>
-              <FaArrowRight />
-            </span>
-          </Button>
-        </div>
+              <Button
+                theme="purple"
+                disabled={disabled}
+                onClick={sheduleLesson}
+              >
+                <span className="flex flex-row items-center justify-center gap-x-2">
+                  <span>{t('continue_custom')}</span>
+                  <FaArrowRight />
+                </span>
+              </Button>
+            </div>
+          </>
+        ) : (
+          <ModalPurchase />
+        )}
       </div>
     </Layout>
   );

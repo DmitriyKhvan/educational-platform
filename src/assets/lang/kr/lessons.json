@@ -11,6 +11,7 @@
   "mentor": "멘토",
   "class_feedback": "수업 피드백",
   "no_lessons": "수업이 없습니다.",
+  "student": "학생",
   "student_name": "학생 이름",
   "student_email": "학생 이메일",
   "calendar_month": "월",
@@ -67,7 +68,7 @@
   "lessons_remaining_schedule_plural": "예약 가능 횟수 : {{count}} 회",
   "disabled_package": "죄송합니다, 귀하의 서비스 구독이 만료되었거나 유효하지 않습니다. 관리자에게 문의하여 추가 지원을 받으실 수 있습니다.",
   "recording": "수업 녹화",
-  "repeat_lesson": "동일한 수업 일정 반복 예약",
+  "repeat_lesson": "매주 {{weekDay}} {{count}}개월간 수업 일정 반복",
   "max_month": "최대 1달",
   "lesson_not_approved": "멘토 선생님의 예약확정을 기다리고 있습니다.",
   "reason_subtitle": "예약 취소 사유를 말씀해주세요?",
@@ -97,5 +98,6 @@
   "purchase_package": "패키지 구매",
   "purchase_lessons_here": "수업 구매하러 가기",
   "purchase_lessons_here_text": " 나오나우에서 영어 목표를 달성하기 위해 가장 적합한 패키지를 선택해주세요.",
-  "select_package": "패키지 선택하기"
+  "select_package": "패키지 선택하기",
+  "view_my_lessons": "레슨 보기"
 }

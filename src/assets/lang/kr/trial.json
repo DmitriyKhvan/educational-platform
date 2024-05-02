@@ -1,0 +1,20 @@
+{
+  "trial_booking_confirmed": "체험 수업 예약 완료",
+  "lesson_details": "레슨 정보",
+  "course": "과정",
+  "first_select_course": "먼저 과정을 선택해주세요.",
+  "select_course": "과정을 선택해주세요.",
+  "level": "레벨",
+  "first_select_level": "먼저 레벨을 선택해주세요.",
+  "select_level": "레벨을 선택해주세요.",
+  "lesson_topic": "레슨 주제",
+  "select_lesson_topic": "레슨 주제를 선택해주세요.",
+  "confirmation": "최종 확인",
+  "ensure_everything_below_is_ok": "아래 사항이 모두 올바르게 작성되어있는지 확인해주세요",
+  "your_contact_information": "연락처",
+  "english_name": "학생 영어 이름",
+  "email": "이메일",
+  "phone_number": "전화 번호",
+  "time_zone": "시간대",
+  "date_and_time": "날짜와 시간"
+}

@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const COURSES = gql`
-  query courses {
-    courses {
+  query courses($trialFilter: GeneralTrialFilterType) {
+    courses(trialFilter: $trialFilter) {
       id
       title
       description

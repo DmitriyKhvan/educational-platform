@@ -603,3 +603,12 @@ thead .fc-scroller {
 .fc-col-header-cell-cushion {
   font-weight: 500;
 }
+
+.fc-daygrid-dot-event:hover,
+.fc-daygrid-dot-event:focus,
+.fc-daygrid-dot-event:active,
+.fc-daygrid-dot-event:focus::after,
+.fc-timegrid-event-harness > a.fc-timegrid-event {
+  background: transparent;
+  box-shadow: none;
+}

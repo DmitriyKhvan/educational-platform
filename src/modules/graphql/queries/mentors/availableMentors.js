@@ -42,8 +42,7 @@ export const AVAILABLE_MENTORS = gql`
         #availabilities {
         #  id
         #}
-        zoomUserId
-        zoomEmail
+        playgroundId
       }
     }
   }

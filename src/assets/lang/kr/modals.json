@@ -1,6 +1,6 @@
 {
-  "zoom_modal_title": "수업할 준비가 되셨습니까?",
-  "zoom_modal_desc": "줌 링크는 수업 시작시간에 활성화됩니다.",
+  "playground_modal_title": "수업할 준비가 되셨습니까?",
+  "playground_modal_desc": "링크는 수업 시작 10분 전부터 활성화됩니다.",
   "warning": "경고",
   "cancel_modal_desc": "이번달 일정 변경 및 취소 가능한 횟수:",
   "cancel_modal_desc2": "(고객센터로 진료 확인서 제출 시 예외 적용)",
@@ -33,6 +33,10 @@
   "reschedule_lesson": "레슨 일정 변경",
   "lesson_cancellation": "레슨 취소",
   "cancellation_policy": "Nao Now의 1:1 수업은 학생들이 24시간 이전에 미루거나 취소할 수 있으며 수업 횟수(크레딧)는 차감되지 않습니다. 남아있는 수업 크레딧으로 더 편리한 시간에 수업을 다시 예약할 수 있습니다. 수업 변경 및 취소는 한 달에 총 3번까지 가능하며, 이는 멘토와 학생들 모두의 일정을 존중하고 학생들에게 가능한 최고의 학습 경험을 제공하기 위한 제한입니다.",
+  "cancellation_policy_1": "Nao Now의 1-on-1 레슨에 대한 학생 측의 24시간 초과 수업에 대한 일정 변경 혹은 수업 취소는 크레딧 차감 없이 진행됩니다. 더 편하신 시간으로 변경 혹은 취소 해주시면 됩니다.",
+  "cancellation_policy_2": "24시간 이내 수업을 취소할 경우에는 크레딧이 차감됩니다. 병원 서류와 같은 병결을 증명할 수 있는 서류를 제출해주실 경우에는 크레딧 복구가 진행됩니다.",
+  "cancellation_policy_3": "수업 일정 변경 및 취소는 한 달에 3번까지 가능합니다.",
+  "cancellation_policy_4": "멘토 선생님과 학생들의 일정을 존중하며 학생들에게 최상의 학습 경험을 제공하기 위해 수업 일정 변경 및 취소에 제한이 있는 점 양해 바랍니다.",
   "cancellation_policy_notice": "아래는 Nao Now의 취소 정책입니다s",
   "cancellation_policy_tutor_one": "불이익을 피하려면 레슨 시작 24시간 전에 레슨을 취소해 주세요",
   "cancellation_policy_tutor_two": "3개월당 3번은 특별한 사유 없이 레슨 취소가 가능합니다",
@@ -66,5 +70,10 @@
   "are_you_sure_to_logout": "Are you sure you want to log out of your account?",
   "yes_logout": "Yes, log out",
   "cancel": "Cancel",
-  "info": "정보"
+  "info": "정보",
+  "not_enough_credits": "{{count}}개월 수업 예약을 하기 위한 크레딧이 부족합니다.",
+  "some_classes_cant_be_scheduled": "크레딧 부족으로 수업 예약에 실패했습니다. 수업 일정 반복 예약을 원하시면 패키지 추가 구독 후 다시 시도해주세요.",
+  "continue_booking": "계속해서 예약하기",
+  "purchase_more_credits": "크레딧 추가 구독하기",
+  "are_you_sure_to_cancel_trial": "예약하신 체험 수업을 취소하시겠습니까? 체험 수업 크레딧은 다른 일정에 체험 수업을 예약할 수 있도록 복구됩니다."
 }

@@ -9,5 +9,9 @@
   "substitute_lesson_desc_two": "대체 수업은 최소 수업 시작 2시간 전에 요청해야 합니다.",
   "substitute_us_holidays": "미국 휴일에도 레슨을 진행하시나요?",
   "enable_us_holidays_substitute": "휴일 예약 활성화",
-  "save_return_settings": "저장 후 돌아가기"
+  "save_return_settings": "저장 후 돌아가기",
+  "weekly_hours": "Weekly hours",
+  "choose_week": "주를 선택해주세요",
+  "choose_day": "날짜를 선택해주세요",
+  "choose_time": "시간대를 선택해주세요"
 }

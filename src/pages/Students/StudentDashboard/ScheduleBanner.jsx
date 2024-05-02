@@ -5,7 +5,10 @@ import { useTranslation } from 'react-i18next';
 import duckImage from '../../../assets/images/duck.png';
 import bannerLogo from '../../../assets/images/banner-logo.png';
 
-const ScheduleBanner = () => {
+import Button from 'src/components/Form/Button';
+import { StudentTriggerAction } from 'src/components/StudentTriggerAction';
+
+const ScheduleBanner = ({ activePackages }) => {
   const [t] = useTranslation('dashboard');
 
   return (
@@ -30,18 +33,36 @@ const ScheduleBanner = () => {
           </p>
         </div>
         <div className="flex justify-start gap-3 md:w-11/12 z-[3]">
-          <Link
-            to="/student/schedule-lesson/select"
-            className="rounded-lg bg-color-dark-purple px-4 py-4 text-white font-medium sm:font-semibold text-xs sm:text-sm text-center"
-          >
-            {t('schedule_by_time', { ns: 'dashboard' })}
-          </Link>
-          <Link
-            to="/student/mentors-list"
-            className="rounded-lg bg-white px-4 py-4 text-color-dark-purple font-medium sm:font-semibold text-xs sm:text-sm text-center"
-          >
-            {t('schedule_by_mentor', { ns: 'dashboard' })}
-          </Link>
+          <StudentTriggerAction
+            trialStudentAction={
+              <Button theme="dark_purple">
+                {t('schedule_by_time', { ns: 'dashboard' })}
+              </Button>
+            }
+            studentAction={
+              <Link to="/student/schedule-lesson/select">
+                <Button theme="dark_purple">
+                  {t('schedule_by_time', { ns: 'dashboard' })}
+                </Button>
+              </Link>
+            }
+            condition={!activePackages?.length}
+          />
+
+          <StudentTriggerAction
+            trialStudentAction={
+              <Button theme="outline">
+                {t('schedule_by_mentor', { ns: 'dashboard' })}
+              </Button>
+            }
+            studentAction={
+              <Link to="/student/mentors-list">
+                <Button theme="outline">
+                  {t('schedule_by_mentor', { ns: 'dashboard' })}
+                </Button>
+              </Link>
+            }
+          />
         </div>
       </div>
     </div>
