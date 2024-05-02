@@ -1,6 +1,6 @@
-import React, { useEffect, useContext, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AvailProv } from './AvailabilityProvider';
+
 import Alert from '../../../components/Popup/Alert';
 import Select from 'react-select';
 import { formatTimeToSeconds } from './lib/formatTimeToSeconds';
@@ -15,12 +15,11 @@ const AvailabilityPicker = ({
   id,
   frmTime,
   tTime,
-  AvailabilitySlots,
-  mentorAvailabilityType,
+  useSetGatherAvailabilities,
+  gatherAvailabilities,
   timeOptionsSort,
   timeGroupsSort,
 }) => {
-  const { removeAvailabilityRow } = useContext(AvailProv);
   const { t } = useTranslation('modals');
 
   const [timeGroupSort, setTimeGroupSort] = useState(
@@ -64,7 +63,7 @@ const AvailabilityPicker = ({
       if (timeGroupSort[idxTime]?.value >= toTime.value) {
         setToTime(timeGroupSort[idxTime + 1]);
 
-        AvailabilitySlots(
+        updateAvailability(
           formatTime(t), // fromTime
           formatTime(timeGroupSort[idxTime + 1]?.value), // toTime
           String(id),
@@ -81,7 +80,7 @@ const AvailabilityPicker = ({
           setToTime(timeGroupSort[idxTime + 1]);
         }
 
-        AvailabilitySlots(formatTime(t), toTime, String(id), day);
+        updateAvailability(formatTime(t), toTime, String(id), day);
       }
     } else {
       setToTime(timeGroupSort[idxTime]);
@@ -89,24 +88,38 @@ const AvailabilityPicker = ({
       //if toTime <= fromTime
       if (timeGroupSort[idxTime].value <= fromTime.value) {
         setFromTime(timeGroupSort[idxTime - 1]);
-        AvailabilitySlots(
+        updateAvailability(
           formatTime(timeGroupSort[idxTime - 1].value), //fromTime
           formatTime(t), //toTime
           String(id),
           day,
         );
       } else {
-        AvailabilitySlots(frmTime, formatTime(t), String(id), day);
+        updateAvailability(frmTime, formatTime(t), String(id), day);
       }
     }
   };
 
-  const removeRowDown = (mentorAvailabilityType) => {
+  const updateAvailability = (fromTime, toTime, id, day) => {
+    const avail = { id, day, slots: [{ from: fromTime, to: toTime }] };
+
+    const idx = gatherAvailabilities.findIndex((avail) => avail.id === id);
+
+    if (idx !== -1) {
+      const data = gatherAvailabilities.toSpliced(idx, 1, avail);
+      useSetGatherAvailabilities(data);
+    }
+  };
+
+  const removeRowDown = () => {
     Alert(
       t('swal_fire_title'),
       '',
       'warning',
-      () => removeAvailabilityRow({ id, day, mentorAvailabilityType }),
+      () =>
+        useSetGatherAvailabilities(
+          gatherAvailabilities.filter((q) => q.id !== id),
+        ),
       true,
       t('swal_confirm_Button_Text'),
       t('swal_cancel_Button_Text'),
@@ -138,10 +151,7 @@ const AvailabilityPicker = ({
         }}
       />
 
-      <button
-        type="button"
-        onClick={() => removeRowDown(mentorAvailabilityType)}
-      >
+      <button type="button" onClick={removeRowDown}>
         <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
       </button>
     </div>

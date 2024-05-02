@@ -3,7 +3,6 @@ import EditMentorProfile from './Profile/EditMentorProfile';
 import SubmitVideo from './Profile/SubmitVideo/SubmitVideo';
 import Submited from './Profile/SubmitVideo/Submited';
 import StudentsList from './StudentsList/StudentsList';
-import AvailabilitySettings from './Availiability/AvailabilitySettings';
 import LessonInfo from './LessonInfo';
 import { Switch, useRouteMatch, Route } from 'react-router-dom';
 import TutorDashboard from './MentorDashboard';
@@ -30,10 +29,6 @@ export default function TutorPages() {
 
       <Route path={`${path}/availability`}>
         <AvailabilityLayout />
-      </Route>
-
-      <Route path={`${path}/avail/settings`}>
-        <AvailabilitySettings />
       </Route>
 
       <Route exact path={`${path}/lesson-calendar/lesson/:lessonID`}>
