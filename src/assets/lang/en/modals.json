@@ -75,5 +75,6 @@
   "not_enough_credits_plural": "Not enough credits for {{count}} months booking",
   "some_classes_cant_be_scheduled": "Some classes can’t be scheduled due to insufficient credits. If you wish to book more lessons in advance, please try again after purchasing more credits",
   "continue_booking": "Continue booking",
-  "purchase_more_credits": "Purchase more credits"
+  "purchase_more_credits": "Purchase more credits",
+  "are_you_sure_to_cancel_trial": "Are you sure you want to cancel this lesson? The trial lesson credit will be refunded to rebook at a different time."
 }
