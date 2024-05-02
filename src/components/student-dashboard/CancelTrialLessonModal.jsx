@@ -51,8 +51,7 @@ export const CancelTrialLessonModal = ({
         </h2>
 
         <p className="text-base text-center mb-6">
-          Are you sure you want to cancel this lesson? The trial lesson credit
-          will be refunded to rebook at a different time.
+          {t('are_you_sure_to_cancel_trial', { ns: 'modals' })}
         </p>
 
         <div className="flex gap-3">
@@ -68,7 +67,7 @@ export const CancelTrialLessonModal = ({
             className="w-1/2 h-14"
             onClick={onCancelLesson}
           >
-            {t('cancel', { ns: 'common' })}
+            {t('confirm', { ns: 'common' })}
           </Button>
         </div>
       </div>

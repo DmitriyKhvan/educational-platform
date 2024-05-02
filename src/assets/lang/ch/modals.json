@@ -64,5 +64,6 @@
   "invalid_date": "導師無法上課",
   "same_date": "同一天",
   "lesson_not_created": "尚未建立課程",
-  "info": "更多資訊"
+  "info": "更多資訊",
+  "are_you_sure_to_cancel_trial": "Are you sure you want to cancel this lesson? The trial lesson credit will be refunded to rebook at a different time."
 }
