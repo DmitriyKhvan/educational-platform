@@ -100,5 +100,6 @@
   "purchase_package": "Purchase a package",
   "purchase_lessons_here": "Purchase lessons here!",
   "purchase_lessons_here_text": "Start your journey with NaoNow by selecting the package that best suits your needs",
-  "select_package": "Select a package"
+  "select_package": "Select a package",
+  "view_my_lessons": "View my lessons"
 }
