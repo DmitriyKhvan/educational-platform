@@ -49,11 +49,12 @@ const CalendarHeader = ({ calendarRef }) => {
   };
 
   useEffect(() => {
-    // dayGridMonth,timeGridWeek,timeGridDay
-    const calendarApi = calendarRef.current.getApi();
-    calendarApi.changeView(view);
-    calendarApi.today();
-    setDate(calendarApi.getDate());
+    queueMicrotask(() => {
+      const calendarApi = calendarRef.current.getApi();
+      calendarApi.changeView(view);
+      calendarApi.today();
+      setDate(calendarApi.getDate());
+    });
   }, [view]);
 
   if (!calendarRef || !colorsReady) return null;
