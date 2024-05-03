@@ -190,8 +190,7 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
             Date overrides
           </h1>
           <h3 className="max-w-[425px] text-sm text-gray-400">
-            Override your availability for specific dates when your hours differ
-            from your regular weekly hours.
+            Override your availability for specific dates.
           </h3>
         </div>
 

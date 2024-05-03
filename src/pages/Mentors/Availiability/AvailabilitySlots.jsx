@@ -25,7 +25,6 @@ export const AvailabilitySlots = ({
   const { user, refetchUser } = useAuth();
 
   const [t] = useTranslation(['common', 'availability']);
-  const selectSettings = useMemo(() => selectStyle(), []);
 
   const [disableSave, handleDisableSave] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -134,7 +133,7 @@ export const AvailabilitySlots = ({
         </div>
 
         <SelectField
-          styles={selectSettings}
+          styles={selectStyle}
           value={timeZone}
           options={timezoneWithTime}
           onChange={setTimeZone}

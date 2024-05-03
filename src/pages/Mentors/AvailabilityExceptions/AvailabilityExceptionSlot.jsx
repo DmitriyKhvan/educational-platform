@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { startOfDay, addMinutes, format } from 'date-fns';
 // import { v4 as uuid } from 'uuid';
 import Select from 'react-select';
-import { PiTrashFill } from 'react-icons/pi';
 // import { FaPlus } from 'react-icons/fa';
 import Alert from 'src/components/Popup/Alert';
 import { useTranslation } from 'react-i18next';
+import { selectStyle } from '../Availiability/lib/selectStyle';
+import { FaXmark } from 'react-icons/fa6';
 
 export const AvailabilityExceptionSlot = ({
   // index,
@@ -118,6 +119,7 @@ export const AvailabilityExceptionSlot = ({
   return (
     <div className="flex items-center gap-2">
       <Select
+        styles={selectStyle}
         value={fromTime}
         options={fromTimeOptions}
         onChange={(e) => {
@@ -128,6 +130,7 @@ export const AvailabilityExceptionSlot = ({
       <span className="">-</span>
 
       <Select
+        styles={selectStyle}
         value={toTime}
         options={toTimeOptions}
         onChange={(e) => {
@@ -135,12 +138,8 @@ export const AvailabilityExceptionSlot = ({
         }}
       />
 
-      <button
-        type="button"
-        className="btn ms-3 "
-        onClick={removeAvailabilityExceptionSlotConfirm}
-      >
-        <PiTrashFill className="text-2xl text-color-border-grey" />
+      <button type="button" onClick={removeAvailabilityExceptionSlotConfirm}>
+        <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
       </button>
     </div>
   );

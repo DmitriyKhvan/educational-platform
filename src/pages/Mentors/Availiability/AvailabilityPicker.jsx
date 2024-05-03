@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Alert from '../../../components/Popup/Alert';
@@ -43,8 +43,6 @@ const AvailabilityPicker = ({
   useEffect(() => {
     prevTimeGroupSortRef.current = timeGroupSort;
   }, [timeGroupSort]);
-
-  const selectSettings = useMemo(() => selectStyle(), []);
 
   const onChangeTime = (time, timeType) => {
     let t = parseInt(time);
@@ -132,7 +130,7 @@ const AvailabilityPicker = ({
   return (
     <div className="flex items-center gap-2">
       <Select
-        styles={selectSettings}
+        styles={selectStyle}
         value={fromTime}
         options={fromTimeOptions}
         onChange={(e) => {
@@ -143,7 +141,7 @@ const AvailabilityPicker = ({
       <span className="">-</span>
 
       <Select
-        styles={selectSettings}
+        styles={selectStyle}
         value={toTime}
         options={toTimeOptions}
         onChange={(e) => {

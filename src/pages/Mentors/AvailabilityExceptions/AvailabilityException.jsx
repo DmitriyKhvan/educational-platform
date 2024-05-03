@@ -3,11 +3,11 @@ import { DatePicker } from '@tremor/react';
 import { AvailabilityExceptionSlot } from './AvailabilityExceptionSlot';
 import { addMinutes, format, parse } from 'date-fns';
 
-import { PiTrashFill } from 'react-icons/pi';
 import Alert from 'src/components/Popup/Alert';
 import { useTranslation } from 'react-i18next';
 import Button from 'src/components/Form/Button';
 import { v4 as uuid } from 'uuid';
+import { FaXmark } from 'react-icons/fa6';
 
 export const AvailabilityException = ({
   availabilityExceptionSlots,
@@ -65,7 +65,7 @@ export const AvailabilityException = ({
   return (
     <>
       <div>
-        <div className="flex items-center mb-4">
+        <div className="flex items-center mb-4 gap-2">
           <DatePicker
             onValueChange={onChangeDate}
             value={parse(exception.date, 'yyyy-MM-dd', new Date())}
@@ -74,15 +74,9 @@ export const AvailabilityException = ({
             className="max-w-sm rounded border"
           />
 
-          <div className="">
-            <button
-              type="button"
-              className="btn ms-3"
-              onClick={removeAvailabilityExceptionConfirm}
-            >
-              <PiTrashFill className="text-2xl text-color-border-grey" />
-            </button>
-          </div>
+          <button type="button" onClick={removeAvailabilityExceptionConfirm}>
+            <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
+          </button>
         </div>
 
         <div className="flex flex-col space-y-3">
