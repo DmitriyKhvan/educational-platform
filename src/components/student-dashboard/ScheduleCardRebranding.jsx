@@ -12,6 +12,7 @@ import { MdEventRepeat } from 'react-icons/md';
 import Indicator from '../Indicator';
 import { PiStarFourFill } from 'react-icons/pi';
 import { cn } from 'src/utils/functions';
+import LabelBox from './LabelBox';
 
 const ScheduleCard = ({
   // lesson,
@@ -97,52 +98,44 @@ const ScheduleCard = ({
                 </div>
               )}
             </div>
-            {/* TODO: add this to translation.json */}
 
             <div className="flex justify-between w-full gap-3">
-              <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">
-                <label className="text-xs font-medium text-gray-300 block">
-                  {t('lesson_package')}
-                </label>
-                {getTitleByCourseId(data.packageSubscription.package.course.id)}
-              </div>
+              <LabelBox
+                label={t('lesson_package')}
+                content={getTitleByCourseId(
+                  data?.packageSubscription?.package?.course?.id,
+                )}
+              />
 
               {mentor ? (
-                <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate flex">
-                  <Avatar
-                    gender={
-                      user.role === Roles.MENTOR
-                        ? student?.gender
-                        : mentor?.gender
-                    }
-                    avatarUrl={
-                      user.role === Roles.MENTOR
-                        ? student?.avatar?.url
-                        : mentor?.avatar?.url
-                    }
-                    fallback={user.role === Roles.MENTOR ? 'duck' : 'user'}
-                    className={cn(
-                      'w-9 h-9 rounded-full overflow-hidden mr-3 min-h-9 min-w-9',
-                      user.role === Roles.MENTOR && 'bg-color-purple',
-                    )}
-                  />
-                  <div className=" overflow-hidden truncate">
-                    <label className="text-xs font-medium text-gray-300 block">
-                      {user.role === Roles.MENTOR ? t('student') : t('mentor')}
-                    </label>
-                    {userToDisplay?.firstName}{' '}
-                    {userToDisplay?.lastName[0]
-                      ? `${userToDisplay?.lastName[0]}.`
-                      : ''}
-                  </div>
-                </div>
+                <LabelBox
+                  preElement={
+                    <Avatar
+                      avatarUrl={userToDisplay?.avatar?.url}
+                      fallback={user.role === Roles.MENTOR ? 'duck' : 'user'}
+                      className={cn(
+                        'w-9 h-9 rounded-full overflow-hidden mr-3 min-h-9 min-w-9',
+                        user.role === Roles.MENTOR && 'bg-color-purple',
+                      )}
+                    />
+                  }
+                  label={
+                    user.role === Roles.MENTOR ? t('student') : t('mentor')
+                  }
+                  content={
+                    <>
+                      {userToDisplay?.firstName}{' '}
+                      {userToDisplay?.lastName[0]
+                        ? `${userToDisplay?.lastName[0]}.`
+                        : ''}
+                    </>
+                  }
+                />
               ) : (
-                <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">
-                  <label className="text-xs font-medium text-gray-300 block">
-                    {t('duration')}
-                  </label>
-                  {duration} {t('minutes', { ns: 'common' })}
-                </div>
+                <LabelBox
+                  label={t('duration')}
+                  content={`${duration} ${t('minutes', { ns: 'common' })}`}
+                />
               )}
             </div>
           </div>
