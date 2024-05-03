@@ -576,6 +576,9 @@ export const APPOINTMENTS_QUERY = gql`
       canceledBy
       canceledAt
       isTrial
+      topic {
+        title
+      }
       mentor {
         id
         firstName

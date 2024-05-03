@@ -12,6 +12,7 @@ import { Roles, localeDic } from 'src/constants/global';
 import Indicator from '../Indicator';
 import { PiStarFourFill } from 'react-icons/pi';
 import { cn } from 'src/utils/functions';
+import LabelBox from './LabelBox';
 
 const LessonInfoModal = ({
   date,
@@ -23,7 +24,7 @@ const LessonInfoModal = ({
   userTimezone,
 }) => {
   const { getTitleByCourseId } = useCourseDetails();
-  const [t, i18n] = useTranslation(['lessons', 'common']);
+  const [t, i18n] = useTranslation(['lessons', 'common', 'trial']);
   const { user, currentStudent } = useAuth();
 
   const userToDisplay =
@@ -81,46 +82,62 @@ const LessonInfoModal = ({
       )}
 
       <div className="grid grid-cols-2 gap-3 mt-6 pt-6 border-t">
-        <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">
-          <label className="text-xs font-medium text-gray-300 block">
-            {t('lesson_package')}
-          </label>
-          {getTitleByCourseId(data?.packageSubscription?.package?.course?.id)}
-        </div>
+        <LabelBox
+          label={t('lesson_package')}
+          content={getTitleByCourseId(
+            data?.packageSubscription?.package?.course?.id,
+          )}
+        />
 
-        <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate flex">
-          <Avatar
-            avatarUrl={userToDisplay?.avatar?.url}
-            fallback={user.role === Roles.MENTOR ? 'duck' : 'user'}
-            className={cn(
-              'w-9 h-9 rounded-full overflow-hidden mr-3 min-h-9 min-w-9',
-              user.role === Roles.MENTOR && 'bg-color-purple',
-            )}
-          />
-          <div className=" overflow-hidden truncate">
-            <label className="text-xs font-medium text-gray-300 block">
-              {user.role === Roles.MENTOR ? t('student') : t('mentor')}
-            </label>
-            {userToDisplay?.firstName}{' '}
-            {userToDisplay?.lastName[0] ? `${userToDisplay?.lastName[0]}.` : ''}
-          </div>
-        </div>
+        <LabelBox
+          preElement={
+            <Avatar
+              avatarUrl={userToDisplay?.avatar?.url}
+              fallback={user.role === Roles.MENTOR ? 'duck' : 'user'}
+              className={cn(
+                'w-9 h-9 rounded-full overflow-hidden mr-3 min-h-9 min-w-9',
+                user.role === Roles.MENTOR && 'bg-color-purple',
+              )}
+            />
+          }
+          label={user.role === Roles.MENTOR ? t('student') : t('mentor')}
+          content={
+            <>
+              {userToDisplay?.firstName}{' '}
+              {userToDisplay?.lastName[0]
+                ? `${userToDisplay?.lastName[0]}.`
+                : ''}
+            </>
+          }
+        />
 
-        <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">
-          <label className="text-xs font-medium text-gray-300 block">
-            {t('level')}
-          </label>
-          {data?.student?.languageLevel?.title ??
+        <LabelBox
+          label={t('level')}
+          content={
+            data?.student?.languageLevel?.title ??
             data?.student?.langLevel ??
-            currentStudent?.languageLevel?.title}
-        </div>
+            currentStudent?.languageLevel?.title
+          }
+        />
 
-        <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">
-          <label className="text-xs font-medium text-gray-300 block">
-            {t('duration')}
-          </label>
-          {duration} {t('minutes', { ns: 'common' })}
-        </div>
+        <LabelBox
+          label={t('duration')}
+          content={`${duration} ${t('minutes', { ns: 'common' })}`}
+        />
+
+        {data?.isTrial && (
+          <LabelBox
+            label={t('lesson_topic', { ns: 'trial' })}
+            content={data?.topic?.title}
+          />
+        )}
+
+        {user.role === Roles.MENTOR && (
+          <LabelBox
+            label={t('student_email', { ns: 'lessons' })}
+            content={userToDisplay?.user?.email}
+          />
+        )}
       </div>
     </div>
   );
