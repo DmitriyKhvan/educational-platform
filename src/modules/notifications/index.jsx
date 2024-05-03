@@ -28,13 +28,21 @@ export const NotificationsProvider = ({ children }) => {
 
   useEffect(() => {
     if (newNotifications?.newMessages) {
-      setNotification([newNotifications.newMessages, ...notifications]);
+      setNotification(
+        [newNotifications.newMessages, ...notifications].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+        ),
+      );
     }
   }, [newNotifications]);
 
   useEffect(() => {
     if (allNotifications?.getUserNotifications.length) {
-      setNotification([...allNotifications.getUserNotifications]);
+      setNotification(
+        [...allNotifications.getUserNotifications].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+        ),
+      );
     } else {
       setNotification([]);
     }
