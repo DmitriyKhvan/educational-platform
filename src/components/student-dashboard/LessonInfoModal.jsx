@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Roles, localeDic } from 'src/constants/global';
 import Indicator from '../Indicator';
 import { PiStarFourFill } from 'react-icons/pi';
+import { cn } from 'src/utils/functions';
 
 const LessonInfoModal = ({
   date,
@@ -90,7 +91,11 @@ const LessonInfoModal = ({
         <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate flex">
           <Avatar
             avatarUrl={userToDisplay?.avatar?.url}
-            className="w-9 h-9 rounded-full overflow-hidden mr-3 min-h-9 min-w-9"
+            fallback={user.role === Roles.MENTOR ? 'duck' : 'user'}
+            className={cn(
+              'w-9 h-9 rounded-full overflow-hidden mr-3 min-h-9 min-w-9',
+              user.role === Roles.MENTOR && 'bg-color-purple',
+            )}
           />
           <div className=" overflow-hidden truncate">
             <label className="text-xs font-medium text-gray-300 block">

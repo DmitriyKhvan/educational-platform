@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { MdEventRepeat } from 'react-icons/md';
 import Indicator from '../Indicator';
 import { PiStarFourFill } from 'react-icons/pi';
+import { cn } from 'src/utils/functions';
 
 const ScheduleCard = ({
   // lesson,
@@ -29,6 +30,11 @@ const ScheduleCard = ({
   const { user } = useAuth();
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const userToDisplay =
+    user.role === Roles.MENTOR
+      ? student ?? data?.student
+      : mentor ?? data?.mentor;
 
   const dateLesson = new Date(date); //current time zone avtomaticaly
 
@@ -114,14 +120,20 @@ const ScheduleCard = ({
                         ? student?.avatar?.url
                         : mentor?.avatar?.url
                     }
-                    className="w-9 h-9 rounded-full overflow-hidden mr-3 min-h-9 min-w-9"
+                    fallback={user.role === Roles.MENTOR ? 'duck' : 'user'}
+                    className={cn(
+                      'w-9 h-9 rounded-full overflow-hidden mr-3 min-h-9 min-w-9',
+                      user.role === Roles.MENTOR && 'bg-color-purple',
+                    )}
                   />
                   <div className=" overflow-hidden truncate">
                     <label className="text-xs font-medium text-gray-300 block">
-                      {t('mentor')}
+                      {user.role === Roles.MENTOR ? t('student') : t('mentor')}
                     </label>
-                    {mentor.firstName}{' '}
-                    {mentor?.lastName[0] ? `${mentor?.lastName[0]}.` : ''}
+                    {userToDisplay?.firstName}{' '}
+                    {userToDisplay?.lastName[0]
+                      ? `${userToDisplay?.lastName[0]}.`
+                      : ''}
                   </div>
                 </div>
               ) : (
