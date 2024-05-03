@@ -57,13 +57,6 @@ const SelectMentorCards = ({
   return (
     <Layout>
       <div className="">
-        {/* <Button className="p-0" theme="clear" onClick={() => setTabIndex(1)}>
-          <HiMiniChevronLeft className="text-2xl mr-2" />
-          <span className="text-[15px] font-semibold">
-            {t('back', { ns: 'common' })}
-          </span>
-        </Button> */}
-
         <div className="flex flex-col md:items-center">
           <div className="flex items-center gap-3 mb-[10px]">
             <button
