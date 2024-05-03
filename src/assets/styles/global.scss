@@ -5,13 +5,14 @@
 @import './variable.scss';
 @import url(https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900);
 
-.intercom-lightweight-app-launcher {
-  bottom: 85px !important;
-}
+@media (max-width: 1024px) {
+  .intercom-lightweight-app-launcher {
+    bottom: 72px !important;
+  }
 
-.intercom-launcher-frame {
-  position: absolute !important;
-  bottom: 65px !important;
+  iframe[name='intercom-notifications-frame'] {
+    bottom: 124px !important;
+  }
 }
 
 @layer components {
