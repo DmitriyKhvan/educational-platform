@@ -10,11 +10,10 @@ import { OrderSummary } from 'src/components/BuyPackage/OrderSummary';
 import Loader from '../../components/Loader/Loader';
 import { useTranslation } from 'react-i18next';
 import { COURSES } from 'src/modules/graphql/queries/courses/courses';
-import { useCourseDetails } from 'src/utils/useCourseDetails';
+import { Language } from 'src/constants/global';
 
 export default function BuyPackage() {
-  const { getTitleByCourseId } = useCourseDetails();
-  const [t] = useTranslation('purchase');
+  const [t, i18n] = useTranslation('purchase');
 
   const [courses, setCourse] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -44,9 +43,14 @@ export default function BuyPackage() {
         .filter((course) => course.packages.length > 0 && course.active)
         .sort((a, b) => a.sequence - b.sequence)
         .map((course) => {
+          const title =
+            i18n.language === Language.EN
+              ? course.title
+              : course.translations?.find((t) => t.language === i18n.language)
+                  ?.title || course.title;
           return {
             ...course,
-            title: getTitleByCourseId(course.id),
+            title,
             packages: course.packages
               .filter((pkg) => pkg.period !== 1)
               .sort((a, b) => a.period - b.period),
