@@ -8,9 +8,8 @@ import { useTranslation } from 'react-i18next';
 import Layout from '../../../layouts/DashboardLayout';
 import { MentorsView } from '../MentorsList/MentorsView';
 import Loader from 'src/components/Loader/Loader';
-import Button from 'src/components/Form/Button';
 import { getItemToLocalStorage } from 'src/constants/global';
-import { HiMiniChevronLeft } from 'react-icons/hi2';
+import { IoArrowBack } from 'react-icons/io5';
 
 const useAvailableMentors = (isoTime, duration, studentId) => {
   const { data: { availableMentors } = {}, loading } = useQuery(
@@ -57,18 +56,22 @@ const SelectMentorCards = ({
 
   return (
     <Layout>
-      <div className="p-5 md:p-8 lg:p-10">
-        <Button className="p-0" theme="clear" onClick={() => setTabIndex(1)}>
-          <HiMiniChevronLeft className="text-2xl mr-2" />
-          <span className="text-[15px] font-semibold">
-            {t('back', { ns: 'common' })}
-          </span>
-        </Button>
-
+      <div className="">
         <div className="flex flex-col md:items-center">
-          <h1 className="text-3xl sm:text-4xl md:text-[40px] font-bold tracking-[-1px] text-color-dark-purple mb-[10px]">
-            {t('select_mentor')}
-          </h1>
+          <div className="flex items-center gap-3 mb-[10px]">
+            <button
+              onClick={() => {
+                setTabIndex(1);
+              }}
+            >
+              <IoArrowBack className="text-2xl" />
+            </button>
+
+            <h1 className="text-3xl sm:text-4xl md:text-[40px] font-bold tracking-[-1px] text-color-dark-purple">
+              {t('select_mentor')}
+            </h1>
+          </div>
+
           <p className="text-base leading-6 tracking-[-0.6px] text-color-light-grey">
             {t('select_mentor_subtitle')}
           </p>
