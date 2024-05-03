@@ -135,7 +135,9 @@ const Availability = () => {
           ) : null}
         </div>
 
-        <AcceptingStudents />
+        {mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR && (
+          <AcceptingStudents />
+        )}
 
         <div className="flex flex-wrap gap-6">
           <AvailabilitySlots
