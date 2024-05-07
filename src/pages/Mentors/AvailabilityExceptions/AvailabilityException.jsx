@@ -1,42 +1,48 @@
-import { DatePicker } from '@tremor/react';
-
+// import { DatePicker } from '@tremor/react';
+import { DayPicker } from 'react-day-picker';
 import { AvailabilityExceptionSlot } from './AvailabilityExceptionSlot';
 import { addMinutes, format, parse } from 'date-fns';
 
-import Alert from 'src/components/Popup/Alert';
-import { useTranslation } from 'react-i18next';
 import Button from 'src/components/Form/Button';
 import { v4 as uuid } from 'uuid';
-import { FaXmark } from 'react-icons/fa6';
+import { useMemo, useState } from 'react';
+import { LuPlus } from 'react-icons/lu';
+
+import 'react-day-picker/dist/style.css';
+import './lib/dayPicker.css';
 
 export const AvailabilityException = ({
-  availabilityExceptionSlots,
-  exception,
-  removeAvailabilityException,
+  oldException,
+  onSubmit,
+  setOpen,
+  availabilityExceptions,
+  // availabilityExceptionSlots,
   disabledDates,
 }) => {
-  const { t } = useTranslation('modals');
+  const [exception, setException] = useState(oldException);
+
+  const disabledAddAvail = useMemo(() => {
+    return (
+      !exception || exception?.slots[exception.slots.length - 1]?.to >= '23:00'
+    );
+  }, [exception]);
 
   const onChangeDate = (date) => {
     if (date) {
-      const newException = { ...exception, date: format(date, 'yyyy-MM-dd') };
-      availabilityExceptionSlots(newException);
-    }
-  };
+      const exception = {
+        id: uuid(),
 
-  const removeAvailabilityExceptionConfirm = () => {
-    Alert(
-      t('swal_fire_title'),
-      '',
-      'warning',
-      () => removeAvailabilityException(exception),
-      true,
-      t('swal_confirm_Button_Text'),
-      t('swal_cancel_Button_Text'),
-      t('swal_fire_title_conform_msg'),
-      t('swal_fire_title_conform_msg1'),
-      t('swal_fire_title_conform_msg2'),
-    );
+        // slots: [{ id: uuid(), from: '00:00', to: '23:30' }],
+        slots: [],
+        ...oldException,
+        date: format(date, 'yyyy-MM-dd'),
+      };
+
+      setException(exception);
+
+      // const newException = { ...exception, date: format(date, 'yyyy-MM-dd') };
+      // availabilityExceptionSlots(newException);
+    }
   };
 
   const addAvailabilityExceptionSlot = () => {
@@ -59,52 +65,122 @@ export const AvailabilityException = ({
 
     const newException = { ...exception, slots: newSlots };
 
-    availabilityExceptionSlots(newException);
+    setException(newException);
+
+    // availabilityExceptionSlots(newException);
+  };
+
+  const submitHandler = () => {
+    debugger;
+
+    // Чтоб не было погрешности в дате
+    const newException = {
+      ...exception,
+      date: format(
+        parse(exception.date, 'yyyy-MM-dd', new Date()),
+        'yyyy-MM-dd',
+      ),
+    };
+
+    let newAvailabilityExceptions = [];
+
+    // availabilityExceptionSlots(newException);
+
+    const idx = availabilityExceptions.findIndex(
+      (aval) => aval.id === newException.id,
+    );
+    if (idx !== -1) {
+      newAvailabilityExceptions = [
+        ...availabilityExceptions.slice(0, idx),
+        newException,
+        ...availabilityExceptions.slice(idx + 1),
+      ];
+    } else {
+      newAvailabilityExceptions = [...availabilityExceptions, newException];
+    }
+
+    debugger;
+
+    onSubmit(newAvailabilityExceptions);
   };
 
   return (
-    <>
-      <div>
-        <div className="flex items-center mb-4 gap-2">
-          <DatePicker
+    <div className="w-[384px]">
+      <h2 className="text-xl font-bold leading-7">
+        Select the date(s) you want to assign date overrides
+      </h2>
+      <div className="flex items-center mb-4 gap-2">
+        {/* <DatePicker
             onValueChange={onChangeDate}
             value={parse(exception.date, 'yyyy-MM-dd', new Date())}
             disabledDates={disabledDates}
             displayFormat="dd MMM yyyy"
             className="max-w-sm rounded border"
-          />
+          /> */}
 
-          <button type="button" onClick={removeAvailabilityExceptionConfirm}>
-            <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
-          </button>
-        </div>
-
-        <div className="flex flex-col space-y-3">
-          {exception.slots.map((slot, index) => {
-            return (
-              <AvailabilityExceptionSlot
-                key={slot.id}
-                slot={slot}
-                index={index}
-                exception={exception}
-                availabilityExceptionSlots={availabilityExceptionSlots}
-              />
-            );
-          })}
-
-          <div className="flex">
-            <Button
-              disabled={
-                exception.slots[exception.slots.length - 1]?.to >= '23:00'
-              }
-              onClick={addAvailabilityExceptionSlot}
-            >
-              Add time slot
-            </Button>
-          </div>
-        </div>
+        <DayPicker
+          // captionLayout="dropdown-buttons"
+          // fromYear={2024}
+          // toYear={2034}
+          fromDate={new Date()}
+          mode="single"
+          disabled={disabledDates}
+          selected={new Date(exception?.date)}
+          onSelect={onChangeDate}
+          formatters={{
+            formatWeekdayName: (date) => format(date, 'EEE'),
+          }}
+        />
       </div>
-      <div className="divider "></div>
-    </>
+
+      <div className="space-y-4 py-6 border-y border-gray-200">
+        {exception?.slots.length > 0 && (
+          <div className="space-y-4">
+            <h4 className="text-sm font-semibold">
+              What hours are you unavailable?
+            </h4>
+            {exception?.slots?.map((slot, index) => {
+              return (
+                <AvailabilityExceptionSlot
+                  key={slot.id}
+                  slot={slot}
+                  index={index}
+                  exception={exception}
+                  setException={setException}
+                  // availabilityExceptionSlots={availabilityExceptionSlots}
+                />
+              );
+            })}
+          </div>
+        )}
+
+        <Button
+          theme="clear"
+          className="h-auto p-0 gap-1 text-color-purple disabled:bg-transparent disabled:text-gray-300"
+          disabled={disabledAddAvail}
+          onClick={disabledAddAvail ? undefined : addAvailabilityExceptionSlot}
+        >
+          <LuPlus className="text-base" />
+          <span>Add time slot</span>
+        </Button>
+      </div>
+
+      <div className="flex gap-4 mt-8">
+        <Button
+          theme="outline"
+          className="basis-1/2"
+          onClick={() => setOpen(false)}
+        >
+          Cancel
+        </Button>
+        <Button
+          disabled={!exception}
+          className="basis-1/2"
+          onClick={!exception ? undefined : submitHandler}
+        >
+          Apply
+        </Button>
+      </div>
+    </div>
   );
 };

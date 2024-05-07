@@ -3,8 +3,8 @@ import { startOfDay, addMinutes, format } from 'date-fns';
 // import { v4 as uuid } from 'uuid';
 import Select from 'react-select';
 // import { FaPlus } from 'react-icons/fa';
-// import Alert from 'src/components/Popup/Alert';
-// import { useTranslation } from 'react-i18next';
+import Alert from 'src/components/Popup/Alert';
+import { useTranslation } from 'react-i18next';
 import { selectStyle } from '../Availiability/lib/selectStyle';
 import { FaXmark } from 'react-icons/fa6';
 
@@ -12,10 +12,9 @@ export const AvailabilityExceptionSlot = ({
   // index,
   exception,
   slot,
-  setException,
-  // availabilityExceptionSlots,
+  availabilityExceptionSlots,
 }) => {
-  // const { t } = useTranslation('modals');
+  const { t } = useTranslation('modals');
 
   const timeOptions = Array.from({ length: 48 }, (_, i) => {
     const temp = addMinutes(startOfDay(new Date()), i * 30);
@@ -86,33 +85,36 @@ export const AvailabilityExceptionSlot = ({
 
     const newException = { ...exception, slots: newSlots };
 
-    setException(newException);
-    // availabilityExceptionSlots(newException);
+    availabilityExceptionSlots(newException);
   };
 
   const removeAvailabilityExceptionSlot = () => {
-    const newSlots = exception.slots.filter((sl) => sl.id !== slot.id);
+    const slotIdx = exception.slots.findIndex((sl) => sl.id === slot.id);
+
+    const newSlots = [
+      ...exception.slots.slice(0, slotIdx),
+      ...exception.slots.slice(slotIdx + 1),
+    ];
 
     const newException = { ...exception, slots: newSlots };
 
-    setException(newException);
-    // availabilityExceptionSlots(newException);
+    availabilityExceptionSlots(newException);
   };
 
-  // const removeAvailabilityExceptionSlotConfirm = () => {
-  //   Alert(
-  //     t('swal_fire_title'),
-  //     '',
-  //     'warning',
-  //     () => removeAvailabilityExceptionSlot(),
-  //     true,
-  //     t('swal_confirm_Button_Text'),
-  //     t('swal_cancel_Button_Text'),
-  //     t('swal_fire_title_conform_msg'),
-  //     t('swal_fire_title_conform_msg1'),
-  //     t('swal_fire_title_conform_msg2'),
-  //   );
-  // };
+  const removeAvailabilityExceptionSlotConfirm = () => {
+    Alert(
+      t('swal_fire_title'),
+      '',
+      'warning',
+      () => removeAvailabilityExceptionSlot(),
+      true,
+      t('swal_confirm_Button_Text'),
+      t('swal_cancel_Button_Text'),
+      t('swal_fire_title_conform_msg'),
+      t('swal_fire_title_conform_msg1'),
+      t('swal_fire_title_conform_msg2'),
+    );
+  };
 
   return (
     <div className="flex items-center gap-2">
@@ -136,7 +138,7 @@ export const AvailabilityExceptionSlot = ({
         }}
       />
 
-      <button type="button" onClick={removeAvailabilityExceptionSlot}>
+      <button type="button" onClick={removeAvailabilityExceptionSlotConfirm}>
         <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
       </button>
     </div>

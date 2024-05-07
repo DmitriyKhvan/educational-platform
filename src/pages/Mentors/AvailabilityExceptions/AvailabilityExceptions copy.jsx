@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import { useMutation } from '@apollo/client';
 import { UPSERT_EXCEPTION_DATES } from 'src/modules/graphql/mutations/upsertExceptionDates';
-import { parse } from 'date-fns';
+import { format, parse } from 'date-fns';
 import { v4 as uuid } from 'uuid';
-// import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from 'src/modules/auth';
 
 import { AvailabilityException } from './AvailabilityException';
@@ -12,21 +12,13 @@ import Button from 'src/components/Form/Button';
 import notify from 'src/utils/notify';
 import Loader from 'src/components/Loader/Loader';
 import Swal from 'sweetalert2';
-import { LuPlus } from 'react-icons/lu';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
-import { AvailabilityExceptionModal } from './AvailabilityExceptionModal';
 
 export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
-  const [open, setOpen] = useState(false);
-
-  // const [t] = useTranslation('common');
+  const [t] = useTranslation('common');
 
   const [availabilityExceptions, setAvailabilityExceptions] = useState([]);
-  console.log('availabilityExceptions', availabilityExceptions);
-  // const [disableSave, setDisableSave] = useState(true);
+  const [disableSave, setDisableSave] = useState(true);
   const [disabledDates, setDisabledDates] = useState([]);
-
-  console.log('disabledDates', disabledDates);
   const [updateExceptionDate, setUpdateExceptionDate] = useState(null);
 
   const { user } = useAuth();
@@ -62,7 +54,7 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
     });
   };
 
-  const onSubmit = (availabilityExceptions) => {
+  const onSubmit = () => {
     if (availabilityExceptions) {
       const exceptionDates = availabilityExceptions.map((aval) => {
         return {
@@ -94,7 +86,7 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
         },
       });
 
-      // setDisableSave(true);
+      setDisableSave(true);
     }
   };
 
@@ -142,6 +134,48 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
     }
   }, [mentor, updateExceptionDate]);
 
+  const addAvailabilityException = () => {
+    const availabilityException = {
+      id: uuid(),
+      date: format(new Date(), 'yyyy-MM-dd'),
+      // slots: [{ id: uuid(), from: '00:00', to: '23:30' }],
+      slots: [],
+    };
+
+    setAvailabilityExceptions([
+      ...availabilityExceptions,
+      availabilityException,
+    ]);
+
+    setDisableSave(false);
+  };
+
+  const removeAvailabilityException = (exception) => {
+    const idx = availabilityExceptions.findIndex(
+      (aval) => aval.id === exception.id,
+    );
+    setAvailabilityExceptions([
+      ...availabilityExceptions.slice(0, idx),
+      ...availabilityExceptions.slice(idx + 1),
+    ]);
+
+    setDisableSave(false);
+  };
+
+  // set date and time
+  const availabilityExceptionSlots = (exception) => {
+    const idx = availabilityExceptions.findIndex(
+      (aval) => aval.id === exception.id,
+    );
+    setAvailabilityExceptions([
+      ...availabilityExceptions.slice(0, idx),
+      exception,
+      ...availabilityExceptions.slice(idx + 1),
+    ]);
+
+    setDisableSave(false);
+  };
+
   return (
     <>
       {loadingExceptionDates && (
@@ -150,7 +184,7 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
         </div>
       )}
 
-      <div className="space-y-6 min-w-[410px] w-fit p-6 border border-gray-100 rounded-lg shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
+      <div className="min-w-[410px] w-fit p-6 border border-gray-100 rounded-lg shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
         <div className="space-y-2 mb-6">
           <h1 className="text-xl text-color-dark-purple font-bold">
             Date overrides
@@ -160,40 +194,29 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
           </h3>
         </div>
 
-        <AdaptiveDialog
-          open={open}
-          setOpen={setOpen}
-          button={
-            <Button
-              theme="outline"
-              className="gap-2 shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)] focus:shadow-[0_0_0_0.25rem_rgba(13,110,253,0.25)] text-color-purple hover:text-white"
-            >
-              <LuPlus />
-              <span>Add a date override</span>
-            </Button>
-          }
-        >
-          <AvailabilityException
-            onSubmit={onSubmit}
-            setOpen={setOpen}
-            disabledDates={disabledDates}
-            availabilityExceptions={availabilityExceptions}
-          />
-        </AdaptiveDialog>
-
-        <ul>
+        <div className="space-y-4">
           {availabilityExceptions.map((exception) => {
             return (
-              <AvailabilityExceptionModal
+              <AvailabilityException
                 key={exception.id}
                 exception={exception}
                 disabledDates={disabledDates}
-                onSubmit={onSubmit}
-                availabilityExceptions={availabilityExceptions}
+                availabilityExceptionSlots={availabilityExceptionSlots}
+                removeAvailabilityException={removeAvailabilityException}
               />
             );
           })}
-        </ul>
+        </div>
+
+        <div className="flex items-center justify-between mt-4">
+          <Button onClick={addAvailabilityException} theme="outline">
+            Add a date override
+          </Button>
+
+          <Button onClick={onSubmit} disabled={disableSave} className="">
+            {t('save', { ns: 'common' })}
+          </Button>
+        </div>
       </div>
     </>
   );
