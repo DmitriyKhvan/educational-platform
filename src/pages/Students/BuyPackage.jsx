@@ -10,7 +10,7 @@ import { OrderSummary } from 'src/components/BuyPackage/OrderSummary';
 import Loader from '../../components/Loader/Loader';
 import { useTranslation } from 'react-i18next';
 import { COURSES } from 'src/modules/graphql/queries/courses/courses';
-import { Language } from 'src/constants/global';
+import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 
 export default function BuyPackage() {
   const [t, i18n] = useTranslation('purchase');
@@ -42,20 +42,13 @@ export default function BuyPackage() {
       const coursesFiltered = data.courses
         .filter((course) => course.packages.length > 0 && course.active)
         .sort((a, b) => a.sequence - b.sequence)
-        .map((course) => {
-          const title =
-            i18n.language === Language.EN
-              ? course.title
-              : course.translations?.find((t) => t.language === i18n.language)
-                  ?.title || course.title;
-          return {
-            ...course,
-            title,
-            packages: course.packages
-              .filter((pkg) => pkg.period !== 1)
-              .sort((a, b) => a.period - b.period),
-          };
-        });
+        .map((course) => ({
+          ...course,
+          title: getTranslatedTitle(course, i18n.language),
+          packages: course.packages
+            .filter((pkg) => pkg.period !== 1)
+            .sort((a, b) => a.period - b.period),
+        }));
 
       setCourse(coursesFiltered);
 

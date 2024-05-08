@@ -16,7 +16,6 @@ import CheckboxField from '../../../components/Form/CheckboxField';
 import { getItemToLocalStorage } from 'src/constants/global';
 import Button from 'src/components/Form/Button';
 import MentorImageRow from './MentorImageRow';
-import { useCourseDetails } from 'src/utils/useCourseDetails';
 import { utcToZonedTime, format } from 'date-fns-tz';
 import { addMinutes } from 'date-fns';
 import { IoArrowBack } from 'react-icons/io5';
@@ -25,9 +24,9 @@ import { useHistory } from 'react-router-dom';
 import notify from 'src/utils/notify';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { AiOutlineInfo } from 'react-icons/ai';
-// import { getLessonsToScheduleCount } from 'src/utils/getLessonsToScheduleCount';
 import NotEnoughCreditsModal from './NotEnoughCreditsModal';
 import { notEnoughCredits } from 'src/utils/notEnoughCredits';
+import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 
 const LessonConfirmation = ({
   plan,
@@ -41,7 +40,6 @@ const LessonConfirmation = ({
   setRepeat,
 }) => {
   const history = useHistory();
-  const { getTitleByCourseId } = useCourseDetails();
   const [t, i18n] = useTranslation([
     'common',
     'lessons',
@@ -197,7 +195,10 @@ const LessonConfirmation = ({
             <div className="flex">
               <LessonCard
                 setTabIndex={setTabIndex}
-                lesson={getTitleByCourseId(plan?.package?.course.id)}
+                lesson={getTranslatedTitle(
+                  plan?.package?.course,
+                  i18n.language,
+                )}
                 duration={`${plan?.package?.sessionTime} ${t('minutes', {
                   ns: 'common',
                 })}`}

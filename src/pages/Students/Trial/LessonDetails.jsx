@@ -10,6 +10,11 @@ import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { useForm } from 'react-hook-form';
 import InputWithError from 'src/components/Form/InputWithError';
 import { useTranslation } from 'react-i18next';
+import {
+  getTranslatedDescription,
+  getTranslatedTitle,
+} from 'src/utils/getTranslatedTitle';
+
 const LessonDetails = ({
   schedule,
   selectedPlan,
@@ -49,11 +54,16 @@ const LessonDetails = ({
           ...pkg,
           course: {
             ...pkg.course,
-            title:
-              pkg.course.translations?.find((t) => t.language === i18n.language)
-                ?.title ??
-              pkg.course.title ??
-              '',
+            title: getTranslatedTitle(pkg.course, i18n.language),
+            languageLevels: pkg?.course?.languageLevels?.map((level) => ({
+              ...level,
+              description: getTranslatedDescription(level, i18n.language),
+              title: getTranslatedTitle(level, i18n.language),
+              topics: level?.topics?.map((topic) => ({
+                ...topic,
+                title: getTranslatedTitle(topic, i18n.language),
+              })),
+            })),
           },
         };
       });
@@ -78,7 +88,7 @@ const LessonDetails = ({
 
   const course = useMemo(() => {
     if (watch('packageId')) {
-      const currentPackage = packagesData?.trialPackages.find(
+      const currentPackage = packagesData?.trialPackages?.find(
         (pkg) => pkg.id === watch('packageId'),
       );
       setCurrentPackage(currentPackage);
@@ -101,7 +111,7 @@ const LessonDetails = ({
 
   const languageLevel = useMemo(() => {
     if (currentPackage) {
-      const currentLevel = currentPackage?.course?.languageLevels.find(
+      const currentLevel = currentPackage?.course?.languageLevels?.find(
         (level) => level.id === watch('languageLevelId'),
       );
       setCurrentLevel(currentLevel);
@@ -120,7 +130,7 @@ const LessonDetails = ({
         {t('first_select_course', { ns: 'trial' })}
       </span>
     );
-  }, [watch('languageLevelId'), currentPackage]);
+  }, [watch('languageLevelId'), currentPackage, t]);
 
   const lessonTopic = useMemo(() => {
     if (currentLevel) {
@@ -144,7 +154,7 @@ const LessonDetails = ({
         {t('first_select_level', { ns: 'trial' })}
       </span>
     );
-  }, [watch('lessonTopicId'), currentLevel]);
+  }, [watch('lessonTopicId'), currentLevel, t]);
 
   return (
     <div className="w-full max-w-[440px] mx-auto">

@@ -12,11 +12,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '../../../components/Tooltip';
-import { useCourseDetails } from 'src/utils/useCourseDetails';
 import { ucFirst } from 'src/utils/ucFirst';
 import CheckboxField from 'src/components/Form/CheckboxField';
 import { ModalPurchase } from 'src/components/ModalPurchase';
 import { useActivePackages } from 'src/utils/useActivePackages';
+import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 
 const SelectLesson = ({
   setSelectedPlan,
@@ -25,8 +25,7 @@ const SelectLesson = ({
   clicked,
   setClicked,
 }) => {
-  const { getTitleByCourseId } = useCourseDetails();
-  const [t] = useTranslation(['lessons', 'common', 'modals']);
+  const [t, i18n] = useTranslation(['lessons', 'common', 'modals']);
   const history = useHistory();
   const { id } = useParams();
 
@@ -137,7 +136,7 @@ const SelectLesson = ({
             <div className="mb-10">
               {activePackages?.map((x, i) => (
                 <LessonCard
-                  title={getTitleByCourseId(x.package?.course?.id)}
+                  title={getTranslatedTitle(x.package?.course, i18n.language)}
                   duration={x.package?.sessionTime}
                   remaining={x.credits}
                   data={x}

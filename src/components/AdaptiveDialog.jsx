@@ -10,6 +10,7 @@ export const AdaptiveDialog = ({
   button,
   classNameDrawer,
   children,
+  hideCloseBtn,
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });
   return isMobile ? (
@@ -22,7 +23,12 @@ export const AdaptiveDialog = ({
       {children}
     </MyDrawer>
   ) : (
-    <MyDialog open={open} setOpen={setOpen} button={button}>
+    <MyDialog
+      open={open}
+      setOpen={setOpen}
+      button={button}
+      hideCloseBtn={hideCloseBtn}
+    >
       {children}
     </MyDialog>
   );

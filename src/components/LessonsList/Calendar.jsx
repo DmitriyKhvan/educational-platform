@@ -12,7 +12,6 @@ import chLocale from '@fullcalendar/core/locales/zh-tw';
 import enLocale from '@fullcalendar/core/locales/en-gb';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { useCourseDetails } from 'src/utils/useCourseDetails';
 import { useMediaQuery } from 'react-responsive';
 import { LessonsCalendarHeader } from 'src/components/LessonsList';
 import { format } from 'date-fns';
@@ -27,14 +26,15 @@ import { cn } from 'src/utils/functions';
 
 import 'src/assets/styles/calendar.scss';
 import Loader from '../Loader/Loader';
+import { useCourseColors } from 'src/utils/useCourseColors';
+import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 
 const Calendar = ({ calendarAppointments, getAppointments }) => {
   // eslint-disable-next-line no-unused-vars
   const [_, i18n] = useTranslation();
   const isTablet = useMediaQuery({ maxWidth: 1024 });
   const calendarRef = useRef();
-  const { getTitleByCourseId, getColorByCourseId, colorsReady } =
-    useCourseDetails();
+  const { getColorByCourseId, colorsReady } = useCourseColors();
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [calendarEvent, setCalendarEvent] = useState({});
@@ -62,7 +62,7 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
       });
       setCalendarEvents([...tempEvents]);
     }
-  }, [calendarAppointments, getTitleByCourseId]);
+  }, [calendarAppointments]);
 
   const customStyles = {
     content: {
@@ -118,12 +118,16 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
 
   const renderEventContent = (eventInfo) => {
     const data = eventInfo.event.extendedProps.resource;
+
     let content = <></>;
 
     if (user.role === Roles.STUDENT) {
       content = (
         <p className="font-medium truncate">
-          {getTitleByCourseId(data?.courseId)}
+          {getTranslatedTitle(
+            data?.packageSubscription?.package?.course,
+            i18n.language,
+          )}
         </p>
       );
     } else if (

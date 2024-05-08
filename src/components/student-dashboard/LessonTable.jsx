@@ -8,9 +8,9 @@ import StatusIndicator from './StatusIndicator';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import LessonControls from './LessonControls';
 import { useAuth } from 'src/modules/auth';
-import { useCourseDetails } from 'src/utils/useCourseDetails';
 import { Roles } from 'src/constants/global';
 import { cn } from 'src/utils/functions';
+import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 
 export const LessonTable = ({
   displayTableData,
@@ -18,7 +18,6 @@ export const LessonTable = ({
   userTimezone,
   handleOpenFeedbackModal,
 }) => {
-  const { getTitleByCourseId } = useCourseDetails();
   const { t, i18n } = useTranslation(['lessons', 'common']);
   const { user, currentStudent } = useAuth();
 
@@ -105,8 +104,9 @@ export const LessonTable = ({
                 </td>
                 <td className="border-b group-last:border-b-0 h-[80px] p-1 align-middle">
                   <p className="text-sm lg:text-[15px] font-medium text-color-dark-purple tracking-tight text-[15px] leading-normal">
-                    {getTitleByCourseId(
-                      data.packageSubscription.package.course.id,
+                    {getTranslatedTitle(
+                      data?.packageSubscription?.package?.course,
+                      i18n.language,
                     )}
                   </p>
                 </td>

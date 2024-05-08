@@ -15,6 +15,7 @@ import { ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER } from 'src/modules/graphql/mutat
 import { localeDic, setItemToLocalStorage } from 'src/constants/global';
 import Loader from 'src/components/Loader/Loader';
 import { LOGIN_MUTATION } from 'src/modules/auth/graphql';
+import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 
 const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
   const history = useHistory();
@@ -180,13 +181,15 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
         <div className="w-full border rounded-lg p-5 flex justify-between items-center">
           <div>
             <h3 className="font-bold text-lg mb-5">
-              {packageSubscription.course.title}
+              {getTranslatedTitle(packageSubscription.course, i18n.language)}
+              {/* {packageSubscription.course.title} */}
             </h3>
             <div className="flex gap-6">
               <label className="block">
                 <span className="text-[13px] text-gray-400">{t('level')}</span>
                 <p className="text-gray-950 font-medium">
-                  {languageLevel.title}
+                  {getTranslatedTitle(languageLevel, i18n.language)}
+                  {/* {languageLevel.title} */}
                 </p>
               </label>
 
@@ -194,7 +197,10 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
                 <span className="text-[13px] text-gray-400">
                   {t('lesson_topic')}
                 </span>
-                <p className="text-gray-950 font-medium">{lessonTopic.title}</p>
+                <p className="text-gray-950 font-medium">
+                  {getTranslatedTitle(lessonTopic, i18n.language)}
+                  {/* {lessonTopic.title} */}
+                </p>
               </label>
             </div>
           </div>

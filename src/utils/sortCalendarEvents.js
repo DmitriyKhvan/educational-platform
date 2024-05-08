@@ -34,6 +34,8 @@ export const sortCalendarEvents = (data, timeZone) => {
         eventDate,
         status: eventDate.status,
         packageSubscription: eventDate.packageSubscription,
+        topic: eventDate.topic,
+        languageLevel: eventDate.languageLevel,
       };
 
       calendarEvents.push(iterateEvents);
