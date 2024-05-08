@@ -21,7 +21,6 @@
     "@radix-ui/react-tooltip": "^1.0.6",
     "@stripe/react-stripe-js": "^2.1.0",
     "@stripe/stripe-js": "^1.54.0",
-    "@tremor/react": "^3.12.1",
     "@u-wave/react-vimeo": "^0.9.5",
     "apollo-upload-client": "^17.0.0",
     "clsx": "^2.1.0",

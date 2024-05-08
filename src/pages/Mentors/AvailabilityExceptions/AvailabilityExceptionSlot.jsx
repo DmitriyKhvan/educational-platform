@@ -9,14 +9,10 @@ import { selectStyle } from '../Availiability/lib/selectStyle';
 import { FaXmark } from 'react-icons/fa6';
 
 export const AvailabilityExceptionSlot = ({
-  // index,
   exception,
   slot,
   setException,
-  // availabilityExceptionSlots,
 }) => {
-  // const { t } = useTranslation('modals');
-
   const timeOptions = Array.from({ length: 48 }, (_, i) => {
     const temp = addMinutes(startOfDay(new Date()), i * 30);
     return {
@@ -87,7 +83,6 @@ export const AvailabilityExceptionSlot = ({
     const newException = { ...exception, slots: newSlots };
 
     setException(newException);
-    // availabilityExceptionSlots(newException);
   };
 
   const removeAvailabilityExceptionSlot = () => {
@@ -96,44 +91,32 @@ export const AvailabilityExceptionSlot = ({
     const newException = { ...exception, slots: newSlots };
 
     setException(newException);
-    // availabilityExceptionSlots(newException);
   };
-
-  // const removeAvailabilityExceptionSlotConfirm = () => {
-  //   Alert(
-  //     t('swal_fire_title'),
-  //     '',
-  //     'warning',
-  //     () => removeAvailabilityExceptionSlot(),
-  //     true,
-  //     t('swal_confirm_Button_Text'),
-  //     t('swal_cancel_Button_Text'),
-  //     t('swal_fire_title_conform_msg'),
-  //     t('swal_fire_title_conform_msg1'),
-  //     t('swal_fire_title_conform_msg2'),
-  //   );
-  // };
 
   return (
     <div className="flex items-center gap-2">
       <Select
+        // menuPortalTarget={document.body}
         styles={selectStyle}
         value={fromTime}
         options={fromTimeOptions}
         onChange={(e) => {
           onChangeTime(e.value, 'from');
         }}
+        menuPlacement="auto"
       />
 
       <span className="">-</span>
 
       <Select
+        // menuPortalTarget={document.body}
         styles={selectStyle}
         value={toTime}
         options={toTimeOptions}
         onChange={(e) => {
           onChangeTime(e.value, 'to');
         }}
+        menuPlacement="auto"
       />
 
       <button type="button" onClick={removeAvailabilityExceptionSlot}>

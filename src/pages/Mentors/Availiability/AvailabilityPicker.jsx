@@ -130,6 +130,7 @@ const AvailabilityPicker = ({
   return (
     <div className="flex items-center gap-2">
       <Select
+        menuPlacement="auto"
         styles={selectStyle}
         value={fromTime}
         options={fromTimeOptions}
@@ -141,6 +142,7 @@ const AvailabilityPicker = ({
       <span className="">-</span>
 
       <Select
+        menuPlacement="auto"
         styles={selectStyle}
         value={toTime}
         options={toTimeOptions}

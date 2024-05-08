@@ -17,4 +17,5 @@ export const selectStyle = {
     ...styles,
     display: 'none',
   }),
+  // menuPortal: (base) => ({ ...base, zIndex: 9999 }),
 };

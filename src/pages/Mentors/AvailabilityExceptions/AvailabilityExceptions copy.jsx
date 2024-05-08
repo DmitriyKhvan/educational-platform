@@ -7,7 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from 'src/modules/auth';
 
-import { AvailabilityException } from './AvailabilityException';
+import { AvailabilityException } from './AvailabilityExceptionPicker';
 import Button from 'src/components/Form/Button';
 import notify from 'src/utils/notify';
 import Loader from 'src/components/Loader/Loader';

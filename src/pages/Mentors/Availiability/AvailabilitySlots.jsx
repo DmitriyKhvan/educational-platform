@@ -122,7 +122,7 @@ export const AvailabilitySlots = ({
   return (
     <div className="w-fit space-y-8 p-6 border border-gray-100 rounded-lg shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
       {isLoading && <ReactLoader />}
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center gap-6">
         <div className="space-y-2">
           <h1 className="text-xl text-color-dark-purple font-bold">
             {t('weekly_hours', { ns: 'availability' })}
@@ -138,6 +138,17 @@ export const AvailabilitySlots = ({
           options={timezoneWithTime}
           onChange={setTimeZone}
         />
+
+        <div className="flex">
+          <Button
+            type="submit"
+            onClick={onSubmit}
+            disabled={disableSave}
+            className=""
+          >
+            Save changes
+          </Button>
+        </div>
       </div>
 
       <div className="divider"></div>
@@ -153,16 +164,6 @@ export const AvailabilitySlots = ({
             mentorAvailabilityType={mentorAvailabilityType}
           />
         ))}
-        <div className="flex">
-          <Button
-            type="submit"
-            onClick={onSubmit}
-            disabled={disableSave}
-            className="w-[15%]"
-          >
-            {t('save', { ns: 'common' })}
-          </Button>
-        </div>
       </div>
     </div>
   );

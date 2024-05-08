@@ -1,32 +1,34 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useMutation } from '@apollo/client';
 import { UPSERT_EXCEPTION_DATES } from 'src/modules/graphql/mutations/upsertExceptionDates';
 import { parse } from 'date-fns';
 import { v4 as uuid } from 'uuid';
-// import { useTranslation } from 'react-i18next';
 import { useAuth } from 'src/modules/auth';
 
-import { AvailabilityException } from './AvailabilityException';
+import { AvailabilityExceptionPicker } from './AvailabilityExceptionPicker';
 import Button from 'src/components/Form/Button';
 import notify from 'src/utils/notify';
 import Loader from 'src/components/Loader/Loader';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 import { LuPlus } from 'react-icons/lu';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
-import { AvailabilityExceptionModal } from './AvailabilityExceptionModal';
+import { AvailabilityException } from './AvailabilityException';
+import { AvailabilityModalConfirm } from './AvailabilityModalConfirm';
+import { IoIosWarning } from 'react-icons/io';
+import { format } from 'date-fns-tz';
+import { formatTimeToSeconds } from '../Availiability/lib/formatTimeToSeconds';
+import { formatTime } from '../Availiability/lib/formatTime';
 
 export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
-  const [open, setOpen] = useState(false);
-
-  // const [t] = useTranslation('common');
+  const [errorExceptionalDates, setErrorExceptionalDates] = useState();
 
   const [availabilityExceptions, setAvailabilityExceptions] = useState([]);
   console.log('availabilityExceptions', availabilityExceptions);
-  // const [disableSave, setDisableSave] = useState(true);
+  const [disableSave, setDisableSave] = useState(true);
   const [disabledDates, setDisabledDates] = useState([]);
 
-  console.log('disabledDates', disabledDates);
   const [updateExceptionDate, setUpdateExceptionDate] = useState(null);
 
   const { user } = useAuth();
@@ -41,26 +43,26 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
         throw new Error();
       }
       if (errorData?.errorExceptionalDates) {
-        removeAvailabilityExceptionConfirm(errorData?.errorExceptionalDates);
+        setErrorExceptionalDates(errorData?.errorExceptionalDates);
       }
     } catch (e) {
       notify(error.message, 'error');
     }
   };
 
-  const removeAvailabilityExceptionConfirm = (errorExceptionalDates) => {
-    const message = errorExceptionalDates.reduce((acc, cur) => {
-      return `${acc}<li>${cur.date}: <b>${cur.from}</b> - <b>${cur.to}</b></li>`;
-    }, '');
-    Swal.fire({
-      title: 'Exceptional dates is not saved',
-      html: `<p>The following exceptional time interval contain scheduled lessons:</p></br><ul>${message}</ul></br><p>Please, reschedule these lessons.</p>`,
-      icon: 'warning',
-      showCancelButton: false,
-      confirmButtonColor: '#6133af',
-      confirmButtonText: 'ok',
-    });
-  };
+  // const removeAvailabilityExceptionConfirm = (errorExceptionalDates) => {
+  //   const message = errorExceptionalDates.reduce((acc, cur) => {
+  //     return `${acc}<li>${cur.date}: <b>${cur.from}</b> - <b>${cur.to}</b></li>`;
+  //   }, '');
+  //   Swal.fire({
+  //     title: 'Exceptional dates is not saved',
+  //     html: `<p>The following exceptional time interval contain scheduled lessons:</p></br><ul>${message}</ul></br><p>Please, reschedule these lessons.</p>`,
+  //     icon: 'warning',
+  //     showCancelButton: false,
+  //     confirmButtonColor: '#6133af',
+  //     confirmButtonText: 'ok',
+  //   });
+  // };
 
   const onSubmit = (availabilityExceptions) => {
     if (availabilityExceptions) {
@@ -94,7 +96,7 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
         },
       });
 
-      // setDisableSave(true);
+      setDisableSave(true);
     }
   };
 
@@ -161,8 +163,6 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
         </div>
 
         <AdaptiveDialog
-          open={open}
-          setOpen={setOpen}
           button={
             <Button
               theme="outline"
@@ -173,18 +173,18 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
             </Button>
           }
         >
-          <AvailabilityException
+          <AvailabilityExceptionPicker
             onSubmit={onSubmit}
-            setOpen={setOpen}
             disabledDates={disabledDates}
             availabilityExceptions={availabilityExceptions}
+            disableSave={disableSave}
           />
         </AdaptiveDialog>
 
         <ul>
           {availabilityExceptions.map((exception) => {
             return (
-              <AvailabilityExceptionModal
+              <AvailabilityException
                 key={exception.id}
                 exception={exception}
                 disabledDates={disabledDates}
@@ -195,6 +195,72 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
           })}
         </ul>
       </div>
+
+      {errorExceptionalDates && (
+        <AdaptiveDialog
+          open={!!errorExceptionalDates}
+          setOpen={setErrorExceptionalDates}
+        >
+          <AvailabilityModalConfirm
+            icon={
+              <div className="w-full flex justify-center mb-6">
+                <div className="p-3 rounded-lg bg-[rgba(234,_33,_33,_0.10)]">
+                  <IoIosWarning className="text-2xl text-[#EA2121]" />
+                </div>
+              </div>
+            }
+            title="Overlapping lesson(s)"
+            text={
+              <>
+                You have {errorExceptionalDates.length}{' '}
+                <b>lesson(s) scheduled</b>:
+                <ul>
+                  {errorExceptionalDates.map((date, index) => {
+                    return (
+                      <li key={index}>
+                        {format(
+                          parse(date.date, 'yyyy-MM-dd', new Date()),
+                          'dd MMM yyyy',
+                        )}{' '}
+                        <b>
+                          {formatTime(
+                            formatTimeToSeconds(date.from),
+                            'hh:mm a',
+                          )}
+                        </b>{' '}
+                        -{' '}
+                        <b>
+                          {formatTime(formatTimeToSeconds(date.to), 'hh:mm a')}
+                        </b>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </>
+            }
+            btns={
+              <div className="flex gap-3">
+                <Link className="basis-1/2" to="/mentor/lesson-calendar">
+                  <Button
+                    className="w-full"
+                    onClick={() => setErrorExceptionalDates(false)}
+                  >
+                    Go to Lessons
+                  </Button>
+                </Link>
+
+                <Button
+                  onClick={() => setErrorExceptionalDates(false)}
+                  theme="gray"
+                  className="basis-1/2"
+                >
+                  Back
+                </Button>
+              </div>
+            }
+          />
+        </AdaptiveDialog>
+      )}
     </>
   );
 };
