@@ -24,7 +24,7 @@ const LessonInfoModal = ({
   userTimezone,
 }) => {
   const [t, i18n] = useTranslation(['lessons', 'common', 'trial']);
-  const { user } = useAuth();
+  const { user, currentStudent } = useAuth();
 
   const userToDisplay =
     user.role === Roles.MENTOR ? data?.student : data?.mentor;
@@ -116,6 +116,7 @@ const LessonInfoModal = ({
           content={
             getTranslatedTitle(data?.languageLevel, i18n.language) ??
             getTranslatedTitle(data?.student?.languageLevel, i18n.language) ??
+            getTranslatedTitle(currentStudent?.languageLevel, i18n.language) ??
             data?.student?.langLevel ??
             ''
           }

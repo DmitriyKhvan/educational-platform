@@ -128,6 +128,10 @@ export const ME_QUERY = gql`
         langLevel
         languageLevel {
           title
+          translations {
+            title
+            language
+          }
         }
         birthday
         about
@@ -749,6 +753,15 @@ export const CREATE_APPOINTMENT = gql`
       }
       #student
       isTrial
+      languageLevel {
+        id
+        title
+        translations {
+          id
+          title
+          language
+        }
+      }
       packageSubscription {
         id
         periodStart
