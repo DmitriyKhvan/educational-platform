@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import React, { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
@@ -10,21 +10,33 @@ import CheckboxField from 'src/components/Form/CheckboxField';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import notify from 'src/utils/notify';
+import { PLAYGROUND_LESSON } from '../../modules/graphql/queries/lessons/playgroundLesson';
+import { CHANGE_STUDENT_LEVEL } from 'src/modules/graphql/queries/levels/changeStudentLanguageLevel';
 
 const LevelAfterTrialModal = () => {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const [currentLevel, setCurrentLevel] = useState();
   const urlSearchParams = new URLSearchParams(window.location.search);
-  const lessonId = urlSearchParams.get('lessonId');
+  const playgroundId = urlSearchParams.get('playground');
+
+  const { data: lessonData } = useQuery(PLAYGROUND_LESSON, {
+    variables: { playgroundId },
+    skip: !playgroundId,
+  });
+  const lesson = lessonData?.playgroundLesson;
 
   const { data: levelsData } = useQuery(LANGUAGE_LEVELS_WITH_PAGINATION, {
     variables: { limit: 999 },
+    skip: !playgroundId,
   });
+
+  const [changeStudentLevel, { loading: mutationLoading }] =
+    useMutation(CHANGE_STUDENT_LEVEL);
 
   const { register, handleSubmit, watch } = useForm({
     values: {
-      languageLevelId: '3',
+      languageLevelId: lesson?.student?.languageLevel?.id,
     },
   });
 
@@ -43,15 +55,22 @@ const LevelAfterTrialModal = () => {
     );
   }, [watch('languageLevelId'), currentLevel]);
 
+  const onSubmit = ({ languageLevelId }) => {
+    changeStudentLevel({
+      variables: {
+        studentId: lesson?.student?.id,
+        languageLevelId: Number(languageLevelId),
+      },
+      onCompleted: () => {
+        history.push('/mentor/manage-appointments');
+        notify('Student level successfully updated');
+      },
+    });
+  };
+
   return (
-    <AdaptiveDialog open={!!lessonId} hideCloseBtn={true}>
-      <form
-        onSubmit={handleSubmit((data) => {
-          console.log(data, 'SUBMIT');
-          history.push('/mentor/manage-appointments');
-          notify('Student level successfully updated');
-        })}
-      >
+    <AdaptiveDialog open={!!playgroundId} hideCloseBtn={true}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-7">
           <h2 className="text-xl font-bold text-color-dark-violet mb-4">
             Trial student level
@@ -68,9 +87,11 @@ const LevelAfterTrialModal = () => {
           />
           <div>
             <p className="text-color-dark-violet text-sm font-medium">
-              Eunsoo Change
+              {lesson?.student?.firstName} {lesson?.student?.lastName}
             </p>
-            <p className="text-color-purple text-sm">Level 1</p>
+            <p className="text-color-purple text-sm">
+              {lesson?.student?.languageLevel?.title}
+            </p>
           </div>
         </div>
 
@@ -103,11 +124,10 @@ const LevelAfterTrialModal = () => {
                         <p>{topic.title}</p>
                         <CheckboxField
                           type="radio"
-                          name="topic"
                           value={topic.id}
                           onClick={() => setIsOpen(false)}
                           {...register('languageLevelId', {
-                            required: 'Topic is required',
+                            required: 'Language level is required',
                           })}
                         />
                       </label>
@@ -118,7 +138,11 @@ const LevelAfterTrialModal = () => {
             </ul>
           </MyDropdownMenu>
         </div>
-        <Button type="submit" className="w-full">
+        <Button
+          disabled={mutationLoading || !watch('languageLevelId')}
+          type="submit"
+          className="w-full"
+        >
           Save
         </Button>
       </form>
