@@ -134,9 +134,17 @@ export const LessonTable = ({
 
                 <td className="border-b group-last:border-b-0 h-[80px] p-1 align-middle">
                   <p className="text-sm lg:text-[15px] font-medium text-color-dark-purple tracking-tight text-[15px] leading-normal">
-                    {data?.student?.languageLevel?.title ??
+                    {getTranslatedTitle(data?.languageLevel, i18n.language) ??
+                      getTranslatedTitle(
+                        data?.student?.languageLevel,
+                        i18n.language,
+                      ) ??
+                      getTranslatedTitle(
+                        currentStudent?.languageLevel,
+                        i18n.language,
+                      ) ??
                       data?.student?.langLevel ??
-                      currentStudent?.languageLevel?.title}
+                      ''}
                   </p>
                 </td>
 
