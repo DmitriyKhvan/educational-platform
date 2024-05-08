@@ -12,11 +12,10 @@ import { getItemToLocalStorage } from 'src/constants/global';
 
 import Button from 'src/components/Form/Button';
 import { FaPlus } from 'react-icons/fa6';
-import { useCourseDetails } from 'src/utils/useCourseDetails';
+import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 
 const Subscriptions = () => {
-  const { getTitleByCourseId } = useCourseDetails();
-  const [t] = useTranslation(['common', 'sidebar']);
+  const [t, i18n] = useTranslation(['common', 'sidebar']);
   const [selectedTab, setSelectedTab] = useState('current');
   const navigate = useHistory();
   const { data: { packageSubscriptions: planStatus = [] } = {}, loading } =
@@ -85,7 +84,10 @@ const Subscriptions = () => {
                       }
                       months={x.package?.period}
                       duration={x.package?.sessionTime}
-                      title={getTitleByCourseId(x.package?.course?.id)}
+                      title={getTranslatedTitle(
+                        x.package?.course,
+                        i18n.language,
+                      )}
                       totalSessions={x.package?.totalSessions}
                       sessionsPerWeek={x.package?.sessionsPerWeek}
                       costPerClass={x.package?.price / x.package?.totalSessions}

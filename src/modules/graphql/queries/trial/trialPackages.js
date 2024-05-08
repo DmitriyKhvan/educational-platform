@@ -26,12 +26,23 @@ export const TRIAL_PACKAGES = gql`
           id
           title
           description
+          translations {
+            id
+            title
+            description
+            language
+          }
           topics {
             id
             title
             description
             createdAt
             updatedAt
+            translations {
+              id
+              title
+              language
+            }
           }
           createdAt
           updatedAt

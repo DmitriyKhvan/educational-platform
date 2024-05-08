@@ -12,11 +12,11 @@ import {
   localeDic,
 } from 'src/constants/global';
 import { cn } from 'src/utils/functions';
-import { useCourseDetails } from 'src/utils/useCourseDetails';
+import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
+import { useCourseColors } from 'src/utils/useCourseColors';
 
 const CalendarHeader = ({ calendarRef }) => {
-  const { getTitleByCourseId, getColorByCourseId, coursesList, colorsReady } =
-    useCourseDetails();
+  const { getColorByCourseId, coursesList, colorsReady } = useCourseColors();
   const [t, i18n] = useTranslation(['lessons', 'common']);
   const [view, setView] = useState(CalendarView.WEEK_VIEW);
   const [date, setDate] = useState(new Date());
@@ -128,7 +128,7 @@ const CalendarHeader = ({ calendarRef }) => {
                 getColorByCourseId(c.id)?.indicator,
               )}
             ></span>
-            <p>{getTitleByCourseId(c.id)}</p>
+            <p>{getTranslatedTitle(c, i18n.language)}</p>
           </div>
         ))}
         <div className="bg-color-grey3 h-[33px] py-2 px-3 flex items-center gap-2 rounded-lg">
