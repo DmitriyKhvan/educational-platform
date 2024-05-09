@@ -1,15 +1,12 @@
-import { DayPicker } from 'react-day-picker';
-import { AvailabilityExceptionSlot } from './AvailabilityExceptionSlot';
+import { useMemo, useState } from 'react';
 import { addMinutes, format, parse } from 'date-fns';
+import { AvailabilityExceptionSlot } from './AvailabilityExceptionSlot';
 
+import * as Dialog from '@radix-ui/react-dialog';
 import Button from 'src/components/Form/Button';
 import { v4 as uuid } from 'uuid';
-import { useMemo, useState } from 'react';
 import { LuPlus } from 'react-icons/lu';
-
-import 'react-day-picker/dist/style.css';
-import './lib/dayPicker.css';
-import * as Dialog from '@radix-ui/react-dialog';
+import { DayPickerCustom } from 'src/components/DayPickerCustom/DayPicker';
 
 export const AvailabilityExceptionPicker = ({
   oldException,
@@ -101,7 +98,7 @@ export const AvailabilityExceptionPicker = ({
         Select the date(s) you want to assign date overrides
       </h2>
       <div className="flex items-center mb-4 gap-2">
-        <DayPicker
+        <DayPickerCustom
           // captionLayout="dropdown-buttons"
           // fromYear={2024}
           // toYear={2034}

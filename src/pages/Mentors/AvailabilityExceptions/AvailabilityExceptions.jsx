@@ -25,7 +25,6 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
   const [errorExceptionalDates, setErrorExceptionalDates] = useState();
 
   const [availabilityExceptions, setAvailabilityExceptions] = useState([]);
-  console.log('availabilityExceptions', availabilityExceptions);
   const [disableSave, setDisableSave] = useState(true);
   const [disabledDates, setDisabledDates] = useState([]);
 
