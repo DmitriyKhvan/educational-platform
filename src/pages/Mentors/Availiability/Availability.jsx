@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { MentorAvailabilityType } from '../../../constants/global';
 import Layout from '../../../layouts/DashboardLayout';
@@ -11,10 +12,14 @@ import { AcceptingStudents } from '../AcceptingStudents';
 import { AvailabilityExceptions } from '../AvailabilityExceptions/AvailabilityExceptions';
 import { AvailabilitySlots } from './AvailabilitySlots';
 import { Tab } from './Tab';
+import Tabs from './Tabs';
+import AvailabilityCalendar from './AvailabilityCalendar/AvailabilityCalendar';
 
 const Availability = () => {
   const { user } = useAuth();
   const [mentorAvailabilityType, setMentorAvailabilityType] = useState();
+
+  const [selectedView, setSelectedView] = useState('list');
 
   const {
     data: { mentor: mentorInfo } = {},
@@ -94,7 +99,15 @@ const Availability = () => {
           My Availability
         </h2>
 
-        <div className="relative w-full flex items-center after:content-[''] after:absolute after:bottom-0 after:w-full after:h-[2px] after:bg-gray-100 after:-z-10">
+        <Tabs
+          mentorInfo={mentorInfo}
+          mentorAvailabilityType={mentorAvailabilityType}
+          setMentorAvailabilityType={setMentorAvailabilityType}
+          selectedView={selectedView}
+          setSelectedView={setSelectedView}
+        />
+
+        {/* <div className="relative w-full flex items-center after:content-[''] after:absolute after:bottom-0 after:w-full after:h-[2px] after:bg-gray-100 after:-z-10">
           {mentorInfo.mentorAvailability ===
           MentorAvailabilityType.REGULAR_AND_TRIAL ? (
             <>
@@ -133,25 +146,30 @@ const Availability = () => {
               Trial Students
             </Tab>
           ) : null}
-        </div>
+        </div> */}
+        {selectedView === 'list' ? (
+          <>
+            {mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR && (
+              <AcceptingStudents />
+            )}
 
-        {mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR && (
-          <AcceptingStudents />
+            <div className="flex flex-wrap gap-6">
+              <AvailabilitySlots
+                mentorInfo={mentorInfo}
+                gatherAvailabilities={gatherAvailabilities}
+                mentorAvailabilityType={mentorAvailabilityType}
+                useSetGatherAvailabilities={useSetGatherAvailabilities}
+              />
+
+              <AvailabilityExceptions
+                mentor={mentorInfo}
+                refetchMentor={refetchMentor}
+              />
+            </div>
+          </>
+        ) : (
+          <AvailabilityCalendar gatherAvailabilities={gatherAvailabilities} />
         )}
-
-        <div className="flex flex-wrap gap-6">
-          <AvailabilitySlots
-            mentorInfo={mentorInfo}
-            gatherAvailabilities={gatherAvailabilities}
-            mentorAvailabilityType={mentorAvailabilityType}
-            useSetGatherAvailabilities={useSetGatherAvailabilities}
-          />
-
-          <AvailabilityExceptions
-            mentor={mentorInfo}
-            refetchMentor={refetchMentor}
-          />
-        </div>
       </div>
     </Layout>
   );
