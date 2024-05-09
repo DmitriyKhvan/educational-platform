@@ -6,7 +6,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import Button from 'src/components/Form/Button';
 import { v4 as uuid } from 'uuid';
 import { LuPlus } from 'react-icons/lu';
-import { DayPickerCustom } from 'src/components/DayPickerCustom/DayPicker';
+import { DayPickerCustom } from 'src/components/DayPickerCustom';
 
 export const AvailabilityExceptionPicker = ({
   oldException,

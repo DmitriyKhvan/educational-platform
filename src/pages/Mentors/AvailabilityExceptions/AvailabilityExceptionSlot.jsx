@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { startOfDay, addMinutes, format } from 'date-fns';
-// import { v4 as uuid } from 'uuid';
+
 import Select from 'react-select';
-// import { FaPlus } from 'react-icons/fa';
-// import Alert from 'src/components/Popup/Alert';
-// import { useTranslation } from 'react-i18next';
 import { selectStyle } from '../Availiability/lib/selectStyle';
 import { FaXmark } from 'react-icons/fa6';
 

@@ -7,7 +7,7 @@ import { useQuery } from '@apollo/client';
 import { GET_MENTOR } from '../../../modules/auth/graphql';
 import Loader from 'src/components/Loader/Loader';
 import { AcceptingStudents } from '../AcceptingStudents';
-import { AvailabilityExceptions } from '../AvailabilityExceptions/AvailabilityExceptions';
+import { AvailabilityExceptions } from '../AvailabilityExceptions';
 import { AvailabilitySlots } from './AvailabilitySlots';
 import { Tab } from './Tab';
 
