@@ -818,7 +818,7 @@ export const DiscountType = {
 export const Language = {
   EN: 'en',
   KR: 'kr',
-  CH: 'ch',
+  CH: 'cn',
 };
 
 export const localeDic = {

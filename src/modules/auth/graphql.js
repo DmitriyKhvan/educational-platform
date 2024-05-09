@@ -128,6 +128,10 @@ export const ME_QUERY = gql`
         langLevel
         languageLevel {
           title
+          translations {
+            title
+            language
+          }
         }
         birthday
         about
@@ -496,6 +500,10 @@ export const PACKAGE_QUERY = gql`
           id
           title
           description
+          translations {
+            title
+            language
+          }
         }
       }
       payment {
@@ -578,6 +586,17 @@ export const APPOINTMENTS_QUERY = gql`
       isTrial
       topic {
         title
+        translations {
+          title
+          language
+        }
+      }
+      languageLevel {
+        title
+        translations {
+          title
+          language
+        }
       }
       mentor {
         id
@@ -646,6 +665,11 @@ export const APPOINTMENTS_QUERY = gql`
           course {
             id
             title
+            translations {
+              id
+              title
+              language
+            }
           }
         }
         paymentId
@@ -729,6 +753,15 @@ export const CREATE_APPOINTMENT = gql`
       }
       #student
       isTrial
+      languageLevel {
+        id
+        title
+        translations {
+          id
+          title
+          language
+        }
+      }
       packageSubscription {
         id
         periodStart
@@ -740,6 +773,10 @@ export const CREATE_APPOINTMENT = gql`
           course {
             id
             title
+            translations {
+              title
+              language
+            }
           }
         }
         paymentId

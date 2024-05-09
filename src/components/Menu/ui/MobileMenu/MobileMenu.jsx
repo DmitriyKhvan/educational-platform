@@ -8,14 +8,15 @@ import { MobileMenuItem } from './MobileMenuItem';
 export const MobileMenu = () => {
   const navLinks = useMenuList();
   const minNavLinks = navLinks.slice(0, 4);
+  const gridStyle = {
+    gridTemplateColumns: `repeat(${minNavLinks.length + 1}, minmax(0, 1fr))`,
+  };
 
   const [open, setOpen] = useState(false);
 
   return (
     <div className="sticky bottom-0 left-0 flex justify-center items-center w-full h-16 sm:h-20 bg-white shadow-[4px_0px_16px_0px_rgba(0,_0,_0,_0.04)]">
-      <ul
-        className={`grid w-full sm:w-auto grid-cols-${minNavLinks.length + 1}`}
-      >
+      <ul style={gridStyle} className="grid w-full sm:w-auto">
         {minNavLinks.map((menu) => {
           return <MobileMenuItem key={menu.link} menu={menu} />;
         })}

@@ -6,13 +6,13 @@ import { format, utcToZonedTime } from 'date-fns-tz';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import StatusIndicator from './StatusIndicator';
 import LessonControls from './LessonControls';
-import { useCourseDetails } from 'src/utils/useCourseDetails';
 import { useTranslation } from 'react-i18next';
 import { MdEventRepeat } from 'react-icons/md';
 import Indicator from '../Indicator';
 import { PiStarFourFill } from 'react-icons/pi';
 import { cn } from 'src/utils/functions';
 import LabelBox from './LabelBox';
+import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 
 const ScheduleCard = ({
   // lesson,
@@ -26,7 +26,6 @@ const ScheduleCard = ({
   subscription,
   repeat = null,
 }) => {
-  const { getTitleByCourseId } = useCourseDetails();
   const [t, i18n] = useTranslation(['lessons', 'common']);
   const { user } = useAuth();
   const userTimezone =
@@ -102,8 +101,9 @@ const ScheduleCard = ({
             <div className="flex justify-between w-full gap-3">
               <LabelBox
                 label={t('lesson_package')}
-                content={getTitleByCourseId(
-                  data?.packageSubscription?.package?.course?.id,
+                content={getTranslatedTitle(
+                  data?.packageSubscription?.package?.course,
+                  i18n.language,
                 )}
               />
 
