@@ -145,7 +145,7 @@ i18next.init({
       trial: trialKr,
       notifications: notificationsKr,
     },
-    ch: {
+    cn: {
       common: commonCh,
       sidebar: sidebarCh,
       lessons: lessonsCh,

@@ -6,13 +6,13 @@ import StatusIndicator from './StatusIndicator';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { PlaygroundRecordingModal } from '../PlaygroundRecordingModal';
 import { useAuth } from 'src/modules/auth';
-import { useCourseDetails } from 'src/utils/useCourseDetails';
 import { useTranslation } from 'react-i18next';
 import { Roles, localeDic } from 'src/constants/global';
 import Indicator from '../Indicator';
 import { PiStarFourFill } from 'react-icons/pi';
 import { cn } from 'src/utils/functions';
 import LabelBox from './LabelBox';
+import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 
 const LessonInfoModal = ({
   date,
@@ -23,7 +23,6 @@ const LessonInfoModal = ({
   setCanceledLessons,
   userTimezone,
 }) => {
-  const { getTitleByCourseId } = useCourseDetails();
   const [t, i18n] = useTranslation(['lessons', 'common', 'trial']);
   const { user, currentStudent } = useAuth();
 
@@ -84,8 +83,9 @@ const LessonInfoModal = ({
       <div className="grid grid-cols-2 gap-3 mt-6 pt-6 border-t">
         <LabelBox
           label={t('lesson_package')}
-          content={getTitleByCourseId(
-            data?.packageSubscription?.package?.course?.id,
+          content={getTranslatedTitle(
+            data?.packageSubscription?.package?.course,
+            i18n.language,
           )}
         />
 
@@ -114,9 +114,11 @@ const LessonInfoModal = ({
         <LabelBox
           label={t('level')}
           content={
-            data?.student?.languageLevel?.title ??
+            getTranslatedTitle(data?.languageLevel, i18n.language) ??
+            getTranslatedTitle(data?.student?.languageLevel, i18n.language) ??
+            getTranslatedTitle(currentStudent?.languageLevel, i18n.language) ??
             data?.student?.langLevel ??
-            currentStudent?.languageLevel?.title
+            ''
           }
         />
 
@@ -128,7 +130,7 @@ const LessonInfoModal = ({
         {data?.isTrial && (
           <LabelBox
             label={t('lesson_topic', { ns: 'trial' })}
-            content={data?.topic?.title}
+            content={getTranslatedTitle(data?.topic, i18n.language)}
           />
         )}
 

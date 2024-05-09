@@ -18,6 +18,7 @@ import {
   startOfDay,
   subMinutes,
 } from 'date-fns';
+import LevelAfterTrialModal from './LevelAfterTrialModal';
 
 const TutorDashboard = () => {
   const [t] = useTranslation('dashboard');
@@ -163,6 +164,8 @@ const TutorDashboard = () => {
         </div>
       </div>
       {isLoading && <Loader />}
+
+      <LevelAfterTrialModal />
 
       <FeedbackLessonModal
         modalState="mentor"
