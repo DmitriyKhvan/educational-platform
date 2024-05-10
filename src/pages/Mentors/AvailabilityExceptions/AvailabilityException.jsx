@@ -34,7 +34,7 @@ export const AvailabilityException = ({
 
   return (
     <li key={exception.id} className="text-sm">
-      {exception.slots.length === 0 && (
+      {(exception.slots.length === 0 || exception.slots.length > 1) && (
         <div className="flex items-center justify-between p-2">
           <AvailabilityExceptionModal
             availabilityExceptions={availabilityExceptions}
