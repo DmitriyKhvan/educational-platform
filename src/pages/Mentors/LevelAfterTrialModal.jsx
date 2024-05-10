@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from '@apollo/client';
-import React, { useMemo, useState } from 'react';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
@@ -15,7 +15,8 @@ import { CHANGE_STUDENT_LEVEL } from 'src/modules/graphql/queries/levels/changeS
 
 const LevelAfterTrialModal = () => {
   const history = useHistory();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const [currentLevel, setCurrentLevel] = useState();
   const urlSearchParams = new URLSearchParams(window.location.search);
   const playgroundId = urlSearchParams.get('playground');
@@ -26,10 +27,12 @@ const LevelAfterTrialModal = () => {
   });
   const lesson = lessonData?.playgroundLesson;
 
-  const { data: levelsData } = useQuery(LANGUAGE_LEVELS_WITH_PAGINATION, {
-    variables: { limit: 999 },
-    skip: !playgroundId,
-  });
+  const [getLevels, { data: levelsData }] = useLazyQuery(
+    LANGUAGE_LEVELS_WITH_PAGINATION,
+    {
+      variables: { limit: 999 },
+    },
+  );
 
   const [changeStudentLevel, { loading: mutationLoading }] =
     useMutation(CHANGE_STUDENT_LEVEL);
@@ -39,6 +42,13 @@ const LevelAfterTrialModal = () => {
       languageLevelId: lesson?.student?.languageLevel?.id,
     },
   });
+
+  useEffect(() => {
+    if (lesson?.isTrial) {
+      getLevels();
+      setIsOpenModal(true);
+    }
+  }, [lesson]);
 
   const languageLevel = useMemo(() => {
     const currentLevel =
@@ -62,6 +72,7 @@ const LevelAfterTrialModal = () => {
         languageLevelId: Number(languageLevelId),
       },
       onCompleted: () => {
+        setIsOpenModal(false);
         history.push('/mentor/manage-appointments');
         notify('Student level successfully updated');
       },
@@ -69,7 +80,7 @@ const LevelAfterTrialModal = () => {
   };
 
   return (
-    <AdaptiveDialog open={!!playgroundId} hideCloseBtn={true}>
+    <AdaptiveDialog open={isOpenModal} hideCloseBtn={true}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-7">
           <h2 className="text-xl font-bold text-color-dark-violet mb-4">
@@ -100,8 +111,8 @@ const LevelAfterTrialModal = () => {
             Final level
           </p>
           <MyDropdownMenu
-            open={isOpen}
-            setOpen={setIsOpen}
+            open={isOpenDropdown}
+            setOpen={setIsOpenDropdown}
             button={
               <Button
                 theme="clear"
@@ -125,7 +136,7 @@ const LevelAfterTrialModal = () => {
                         <CheckboxField
                           type="radio"
                           value={topic.id}
-                          onClick={() => setIsOpen(false)}
+                          onClick={() => setIsOpenDropdown(false)}
                           {...register('languageLevelId', {
                             required: 'Language level is required',
                           })}
