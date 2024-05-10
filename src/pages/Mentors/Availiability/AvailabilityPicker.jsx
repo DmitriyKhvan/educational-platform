@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-
-import Alert from '../../../components/Popup/Alert';
 import Select from 'react-select';
+
 import { formatTimeToSeconds } from './lib/formatTimeToSeconds';
 import { timeOptions } from './lib/timeOptions';
 import { formatTime } from './lib/formatTime';
@@ -20,8 +18,6 @@ const AvailabilityPicker = ({
   timeOptionsSort,
   timeGroupsSort,
 }) => {
-  const { t } = useTranslation('modals');
-
   const [timeGroupSort, setTimeGroupSort] = useState(
     timeGroup(timeGroupsSort, formatTimeToSeconds(frmTime)),
   );
@@ -109,24 +105,6 @@ const AvailabilityPicker = ({
     }
   };
 
-  const removeRowDown = () => {
-    Alert(
-      t('swal_fire_title'),
-      '',
-      'warning',
-      () =>
-        useSetGatherAvailabilities(
-          gatherAvailabilities.filter((q) => q.id !== id),
-        ),
-      true,
-      t('swal_confirm_Button_Text'),
-      t('swal_cancel_Button_Text'),
-      t('swal_fire_title_conform_msg'),
-      t('swal_fire_title_conform_msg1'),
-      t('swal_fire_title_conform_msg2'),
-    );
-  };
-
   return (
     <div className="flex items-center gap-2">
       <Select
@@ -151,9 +129,49 @@ const AvailabilityPicker = ({
         }}
       />
 
-      <button type="button" onClick={removeRowDown}>
+      <button
+        onClick={() =>
+          useSetGatherAvailabilities(
+            gatherAvailabilities.filter((q) => q.id !== id),
+          )
+        }
+      >
         <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
       </button>
+
+      {/* <AdaptiveDialog
+        button={
+          <button>
+            <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
+          </button>
+        }
+      >
+        <AvailabilityModalConfirm
+          title="Delete date availability slot"
+          text="Are you sure you want to delete this date availability slot?"
+          btns={
+            <div className="flex gap-3">
+              <Button
+                theme="destructive"
+                className="basis-1/2"
+                onClick={() =>
+                  useSetGatherAvailabilities(
+                    gatherAvailabilities.filter((q) => q.id !== id),
+                  )
+                }
+              >
+                Yes, delete
+              </Button>
+
+              <Dialog.Close asChild>
+                <Button theme="gray" className="basis-1/2">
+                  Cancel
+                </Button>
+              </Dialog.Close>
+            </div>
+          }
+        />
+      </AdaptiveDialog> */}
     </div>
   );
 };
