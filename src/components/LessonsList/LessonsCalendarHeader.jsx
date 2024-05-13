@@ -1,5 +1,4 @@
 import { format } from 'date-fns';
-import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import MyDropdownMenu from 'src/components/DropdownMenu';
@@ -13,49 +12,19 @@ import {
 } from 'src/constants/global';
 import { cn } from 'src/utils/functions';
 import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
+import { useCalendarControls } from 'src/utils/useCalendarControls';
 import { useCourseColors } from 'src/utils/useCourseColors';
 
-const CalendarHeader = ({ calendarRef }) => {
+const LessonsCalendarHeader = ({ calendarRef }) => {
   const { getColorByCourseId, coursesList, colorsReady } = useCourseColors();
-  const [t, i18n] = useTranslation(['lessons', 'common']);
-  const [view, setView] = useState(CalendarView.WEEK_VIEW);
-  const [date, setDate] = useState(new Date());
 
-  const viewDictionary = useMemo(
-    () => ({
-      [CalendarView.DAY_VIEW]: t('calendar_day'),
-      [CalendarView.WEEK_VIEW]: t('calendar_week'),
-      [CalendarView.MONTH_VIEW]: t('calendar_month'),
-    }),
-    [i18n, i18n.language, t],
-  );
-
-  const goNext = () => {
-    const calendarApi = calendarRef.current.getApi();
-    calendarApi.next();
-    setDate(calendarApi.getDate());
-  };
-
-  const goPrev = () => {
-    const calendarApi = calendarRef.current.getApi();
-    calendarApi.prev();
-    setDate(calendarApi.getDate());
-  };
-
-  const goToday = () => {
-    const calendarApi = calendarRef.current.getApi();
-    calendarApi.today();
-    setDate(calendarApi.getDate());
-  };
-
-  useEffect(() => {
-    queueMicrotask(() => {
-      const calendarApi = calendarRef.current.getApi();
-      calendarApi.changeView(view);
-      calendarApi.today();
-      setDate(calendarApi.getDate());
+  const { goNext, goPrev, goToday, setView, date, view, viewDictionary } =
+    useCalendarControls({
+      calendarRef,
+      initialView: CalendarView.WEEK_VIEW,
     });
-  }, [view]);
+
+  const [t, i18n] = useTranslation(['lessons', 'common']);
 
   if (!calendarRef || !colorsReady) return null;
 
@@ -146,4 +115,4 @@ const CalendarHeader = ({ calendarRef }) => {
   );
 };
 
-export default CalendarHeader;
+export default LessonsCalendarHeader;

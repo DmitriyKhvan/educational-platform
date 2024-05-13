@@ -23,6 +23,8 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
 
   const { user } = useAuth();
 
+  console.log(availabilityExceptions, "availablityExceptions")
+  console.log(disabledDates, "disabledDates")
   const [upsertExceptionDates, { loading: loadingExceptionDates }] =
     useMutation(UPSERT_EXCEPTION_DATES);
 

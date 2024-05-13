@@ -107,46 +107,6 @@ const Availability = () => {
           setSelectedView={setSelectedView}
         />
 
-        {/* <div className="relative w-full flex items-center after:content-[''] after:absolute after:bottom-0 after:w-full after:h-[2px] after:bg-gray-100 after:-z-10">
-          {mentorInfo.mentorAvailability ===
-          MentorAvailabilityType.REGULAR_AND_TRIAL ? (
-            <>
-              <Tab
-                active={
-                  mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR
-                }
-                onClick={() =>
-                  setMentorAvailabilityType(MentorAvailabilityType.ONLY_REGULAR)
-                }
-              >
-                Regular Students
-              </Tab>
-
-              <Tab
-                active={
-                  mentorAvailabilityType === MentorAvailabilityType.ONLY_TRIAL
-                }
-                onClick={() =>
-                  setMentorAvailabilityType(MentorAvailabilityType.ONLY_TRIAL)
-                }
-              >
-                Trial Students
-              </Tab>
-            </>
-          ) : mentorInfo.mentorAvailability ===
-            MentorAvailabilityType.ONLY_TRIAL ? (
-            <Tab
-              active={
-                mentorAvailabilityType === MentorAvailabilityType.ONLY_TRIAL
-              }
-              onClick={() =>
-                setMentorAvailabilityType(MentorAvailabilityType.ONLY_TRIAL)
-              }
-            >
-              Trial Students
-            </Tab>
-          ) : null}
-        </div> */}
         {selectedView === 'list' ? (
           <>
             {mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR && (
@@ -168,7 +128,11 @@ const Availability = () => {
             </div>
           </>
         ) : (
-          <AvailabilityCalendar gatherAvailabilities={gatherAvailabilities} />
+          <AvailabilityCalendar
+            gatherAvailabilities={gatherAvailabilities}
+            mentorInfo={mentorInfo}
+            refetchMentor={refetchMentor}
+          />
         )}
       </div>
     </Layout>

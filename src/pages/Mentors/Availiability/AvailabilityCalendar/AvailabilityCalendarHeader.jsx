@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import MyDropdownMenu from 'src/components/DropdownMenu';
@@ -12,47 +12,27 @@ import {
   localeDic,
 } from 'src/constants/global';
 import { cn } from 'src/utils/functions';
-// import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
+import { useCalendarControls } from 'src/utils/useCalendarControls';
 
-const AvailabilityCalendarHeader = ({ calendarRef }) => {
+const AvailabilityCalendarHeader = ({ calendarRef, updateEvents }) => {
   const [t, i18n] = useTranslation(['lessons', 'common']);
-  const [view, setView] = useState(CalendarView.MONTH_VIEW);
-  const [date, setDate] = useState(new Date());
 
-  const viewDictionary = useMemo(
-    () => ({
-      [CalendarView.DAY_VIEW]: t('calendar_day'),
-      [CalendarView.WEEK_VIEW]: t('calendar_week'),
-      [CalendarView.MONTH_VIEW]: t('calendar_month'),
-    }),
-    [i18n, i18n.language, t],
-  );
-
-  const goNext = () => {
-    const calendarApi = calendarRef.current.getApi();
-    calendarApi.next();
-    setDate(calendarApi.getDate());
-  };
-
-  const goPrev = () => {
-    const calendarApi = calendarRef.current.getApi();
-    calendarApi.prev();
-    setDate(calendarApi.getDate());
-  };
-
-  const goToday = () => {
-    const calendarApi = calendarRef.current.getApi();
-    calendarApi.today();
-    setDate(calendarApi.getDate());
-  };
+  const {
+    goNext,
+    goPrev,
+    goToday,
+    setMonthView,
+    setWeekView,
+    date,
+    view,
+    viewDictionary,
+  } = useCalendarControls({
+    calendarRef,
+    initialView: CalendarView.MONTH_VIEW,
+  });
 
   useEffect(() => {
-    queueMicrotask(() => {
-      const calendarApi = calendarRef.current.getApi();
-      calendarApi.changeView(view);
-      calendarApi.today();
-      setDate(calendarApi.getDate());
-    });
+    updateEvents(view);
   }, [view]);
 
   if (!calendarRef) return null;
@@ -80,7 +60,7 @@ const AvailabilityCalendarHeader = ({ calendarRef }) => {
             <div className="flex flex-col">
               <CheckboxField
                 checked={view === CalendarView.WEEK_VIEW}
-                onChange={() => setView(CalendarView.WEEK_VIEW)}
+                onChange={() => setWeekView()}
                 type="radio"
                 name="calendarView"
                 label={viewDictionary[CalendarView.WEEK_VIEW]}
@@ -89,23 +69,12 @@ const AvailabilityCalendarHeader = ({ calendarRef }) => {
 
               <CheckboxField
                 checked={view === CalendarView.MONTH_VIEW}
-                onChange={() => setView(CalendarView.MONTH_VIEW)}
+                onChange={() => setMonthView()}
                 type="radio"
                 name="calendarView"
                 label={viewDictionary[CalendarView.MONTH_VIEW]}
                 className="flex-row-reverse justify-between h-[56px] border-b  pl-1 pr-4"
               />
-              {/* {Object.values(CalendarView).map((v) => (
-                <CheckboxField
-                  key={v}
-                  checked={view === v}
-                  onChange={() => setView(v)}
-                  type="radio"
-                  name="calendarView"
-                  label={viewDictionary[v]}
-                  className="flex-row-reverse justify-between h-[56px] border-b  pl-1 pr-4"
-                />
-              ))} */}
             </div>
           </MyDropdownMenu>
 

@@ -489,6 +489,9 @@
 
 .fc-event {
   cursor: pointer;
+  border: 0;
+  padding-top: 1px;
+  padding-bottom: 2px;
 }
 .fc-timegrid-slots td {
   height: 100px !important;
@@ -611,4 +614,17 @@ thead .fc-scroller {
 .fc-timegrid-event-harness > a.fc-timegrid-event {
   background: transparent;
   box-shadow: none;
+}
+
+.fc-timegrid-col.fc-day-today {
+  background-color: #fff !important;
+}
+
+.fc-bg-event {
+  opacity: 1 !important;
+  background: transparent !important;
+}
+
+.fc-event-main {
+  padding: 0 !important;
 }

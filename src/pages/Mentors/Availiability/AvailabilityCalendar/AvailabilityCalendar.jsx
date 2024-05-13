@@ -1,109 +1,106 @@
-import FullCalendar from '@fullcalendar/react';
 import React, { useEffect, useRef, useState } from 'react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import {
-  COURSE_COLORS,
-  CalendarView,
-  Language,
-  courseColorsDict,
-} from 'src/constants/global';
+import { CalendarView } from 'src/constants/global';
 import AvailabilityCalendarHeader from './AvailabilityCalendarHeader';
-import { addMonths, format, subMonths } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
 import { useAuth } from 'src/modules/auth';
-import { useTranslation } from 'react-i18next';
-import koLocale from '@fullcalendar/core/locales/ko';
-import chLocale from '@fullcalendar/core/locales/zh-tw';
-import enLocale from '@fullcalendar/core/locales/en-gb';
-import { cn } from 'src/utils/functions';
-// import { format } from 'date-fns';
-// import { utcToZonedTime } from 'date-fns-tz';
+import { useQuery } from '@apollo/client';
+import { APPOINTMENTS_QUERY } from 'src/modules/auth/graphql';
+import MonthlyEvent from './Events/MonthlyEvent';
+import WeeklyEvent from './Events/WeeklyEvent';
+import { renderReccurEvents } from './Events/lib/renderReccurEvents';
+import { renderSingleEvents } from './Events/lib/renderSingleEvents';
+import { Calendar } from 'src/components/Calendar';
 
-const AvailabilityCalendar = ({ gatherAvailabilities }) => {
+const AvailabilityCalendar = ({ mentorInfo, refetchMentor }) => {
   // eslint-disable-next-line no-unused-vars
-  const [_, i18n] = useTranslation();
   const { user } = useAuth();
   const calendarRef = useRef();
 
-  const userTimezone =
-    user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  console.log(gatherAvailabilities, 'gatherAvailabilities');
+  const { data: appointments, loading: loadingAppointments } = useQuery(
+    APPOINTMENTS_QUERY,
+    {
+      variables: {
+        mentorId: user?.mentor?.id,
+        status: `approved,scheduled,rescheduled`,
+      },
+      fetchPolicy: 'no-cache',
+    },
+  );
 
   const [calendarEvents, setCalendarEvents] = useState([]);
+  const [monthlyEvents, setMonthlyEvents] = useState([]);
+  const [weeklyEvents, setWeeklyEvents] = useState([]);
+
+  const updateEvents = (view) => {
+    if (view === CalendarView.MONTH_VIEW) setCalendarEvents(monthlyEvents);
+    if (view === CalendarView.WEEK_VIEW) setCalendarEvents(weeklyEvents);
+  };
 
   useEffect(() => {
-    if (gatherAvailabilities) {
-      const tempEvents = gatherAvailabilities?.only_regular?.map(
-        (ap, index) => {
-          return {
-            id: index,
-            title: `${ap.day} ${ap.slots[0].from} ${ap.slots[0].to}`,
-            daysOfWeek: ap.day === 'Sunday' ? [0] : [],
-            startRecur: subMonths(new Date(), 3),
-            endRecur: addMonths(new Date(), 3),
-            // start: new Date(),
-            // end: ap.end_at,
-            resource: ap,
-          };
-        },
+    refetchMentor();
+  }, []);
+
+  useEffect(() => {
+    if (mentorInfo?.availabilities && !loadingAppointments && appointments) {
+      const regular = mentorInfo?.availabilities?.regular;
+      const trial = mentorInfo?.availabilities?.trial;
+      const exceptions = mentorInfo?.exceptionDates;
+
+      const { monthlyViewEvents, weeklyViewEvents } = renderReccurEvents(
+        regular,
+        trial,
+        exceptions,
       );
-      setCalendarEvents([...tempEvents]);
+
+      const { lessonEvents, exceptionsMonthlyEvents, exceptionsWeeklyEvents } =
+        renderSingleEvents({ appointments, exceptions, monthlyViewEvents });
+
+      setWeeklyEvents([
+        ...weeklyViewEvents,
+        ...exceptionsWeeklyEvents,
+        ...lessonEvents,
+      ]);
+
+      setMonthlyEvents([...monthlyViewEvents, ...exceptionsMonthlyEvents]);
+
+      setCalendarEvents([...monthlyViewEvents, ...exceptionsMonthlyEvents]);
     }
-  }, [gatherAvailabilities]);
+  }, [mentorInfo, appointments]);
 
   const renderEventContent = (eventInfo) => {
-    const data = eventInfo.event.extendedProps.resource;
-    console.log(data, "DATA")
-    console.log(eventInfo, "eventInfo")
+    const data = eventInfo.event.extendedProps;
 
-    let content = <></>;
+    if (
+      eventInfo.view.type !== CalendarView.WEEK_VIEW &&
+      data.view === CalendarView.WEEK_VIEW
+    )
+      return;
 
-    return (
-      <div
-        className={cn(
-          'flex items-center px-2 min-h-[28px] h-full w-full text-gray-800 bg-gray-800 bg-opacity-15 hover:bg-opacity-100 transition-all duration-150 ease-in-out hover:text-white rounded-[4px] border-l-4 border-l-gray-800 overflow-hidden truncate',
-          data.isTrial && courseColorsDict[COURSE_COLORS.YELLOW]?.event,
-        )}
-      >
-        {content}
-      </div>
-    );
+    if (data?.exception && !data?.exception?.from && !data?.exception?.to) {
+      return (
+        <div className="px-3 py-2 min-h-[41px] h-full 2xl:mx-2 bg-[#EDEEF0] text-[#C0C0C3] font-medium text-xs flex items-center justify-center rounded-lg overflow-hidden truncate shadow-[0px_0px_8px_0px_#00000014]">
+          Date Override
+        </div>
+      );
+    }
+
+    if (data.view === CalendarView.MONTH_VIEW) {
+      return <MonthlyEvent data={data} />;
+    }
+
+    return <WeeklyEvent data={data} eventInfo={eventInfo} />;
   };
 
   return (
-    <div className="border border-color-border-grey rounded-xl shadow-[0px_0px_8px_0px_#00000014]">
-      <AvailabilityCalendarHeader calendarRef={calendarRef} />
-      <FullCalendar
+    <div className="border border-color-border-grey rounded-xl">
+      <AvailabilityCalendarHeader
+        calendarRef={calendarRef}
+        updateEvents={updateEvents}
+      />
+
+      <Calendar
         ref={calendarRef}
-        headerToolbar={null}
-        scrollTimeReset={false}
-        nowIndicator={true}
-        locales={[enLocale, koLocale, chLocale]}
-        locale={
-          i18n.language === Language.KR
-            ? koLocale
-            : i18n.language === Language.CH
-            ? chLocale
-            : Language.EN
-        }
         events={calendarEvents}
         eventContent={renderEventContent}
-        s
-        plugins={[dayGridPlugin, timeGridPlugin]}
-        dayMaxEvents={true}
-        initialView={CalendarView.MONTH_VIEW}
-        allDaySlot={false}
-        displayEventTime={false}
-        eventBackgroundColor="transparent"
-        eventBorderColor="transparent"
-        dayPopoverFormat={{ month: 'long', day: 'numeric' }}
-        slotDuration="01:00:00"
-        scrollTime={format(
-          utcToZonedTime(new Date(), userTimezone),
-          'HH:00:00',
-        )}
       />
     </div>
   );

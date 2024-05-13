@@ -3,22 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from 'src/modules/auth';
 import Modal from 'react-modal';
 import LessonInfoModal from 'src/components/student-dashboard/LessonInfoModal';
-import { utcToZonedTime } from 'date-fns-tz';
-import FullCalendar from '@fullcalendar/react';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import koLocale from '@fullcalendar/core/locales/ko';
-import chLocale from '@fullcalendar/core/locales/zh-tw';
-
-import enLocale from '@fullcalendar/core/locales/en-gb';
-
-import dayGridPlugin from '@fullcalendar/daygrid';
-import { useMediaQuery } from 'react-responsive';
 import { LessonsCalendarHeader } from 'src/components/LessonsList';
 import { format } from 'date-fns';
 import {
   COURSE_COLORS,
   CalendarView,
-  Language,
   Roles,
   courseColorsDict,
 } from 'src/constants/global';
@@ -28,11 +17,11 @@ import 'src/assets/styles/calendar.scss';
 import Loader from '../Loader/Loader';
 import { useCourseColors } from 'src/utils/useCourseColors';
 import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
+import { Calendar } from '../Calendar';
 
-const Calendar = ({ calendarAppointments, getAppointments }) => {
+const LessonsCalendar = ({ calendarAppointments, getAppointments }) => {
   // eslint-disable-next-line no-unused-vars
   const [_, i18n] = useTranslation();
-  const isTablet = useMediaQuery({ maxWidth: 1024 });
   const calendarRef = useRef();
   const { getColorByCourseId, colorsReady } = useCourseColors();
   const { user } = useAuth();
@@ -60,6 +49,7 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
           resource: ap,
         };
       });
+      console.log(tempEvents, 'tempEvents');
       setCalendarEvents([...tempEvents]);
     }
   }, [calendarAppointments]);
@@ -173,41 +163,11 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
   return (
     <>
       <LessonsCalendarHeader calendarRef={calendarRef} />
-      <FullCalendar
+      <Calendar
         ref={calendarRef}
-        headerToolbar={null}
-        scrollTimeReset={false}
-        nowIndicator={true}
-        views={{
-          dayGridMonth: {
-            dayHeaderFormat: { weekday: isTablet ? 'short' : 'long' },
-          },
-        }}
-        locales={[enLocale, koLocale, chLocale]}
-        locale={
-          i18n.language === Language.KR
-            ? koLocale
-            : i18n.language === Language.CH
-            ? chLocale
-            : Language.EN
-        }
-        now={utcToZonedTime(new Date(), userTimezone)}
         events={calendarEvents}
-        plugins={[dayGridPlugin, timeGridPlugin]}
-        dayMaxEvents={true}
-        initialView={CalendarView.WEEK_VIEW}
-        allDaySlot={false}
-        displayEventTime={false}
-        eventClick={onSelectEvent}
-        eventBackgroundColor="transparent"
-        eventBorderColor="transparent"
-        dayPopoverFormat={{ month: 'long', day: 'numeric' }}
-        slotDuration="01:00:00"
         eventContent={renderEventContent}
-        scrollTime={format(
-          utcToZonedTime(new Date(), userTimezone),
-          'HH:00:00',
-        )}
+        eventClick={onSelectEvent}
       />
 
       {isOpen && <CustomModal />}
@@ -215,4 +175,4 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
   );
 };
 
-export default Calendar;
+export default LessonsCalendar;
