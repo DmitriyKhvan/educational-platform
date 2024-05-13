@@ -49,20 +49,6 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
     }
   };
 
-  // const removeAvailabilityExceptionConfirm = (errorExceptionalDates) => {
-  //   const message = errorExceptionalDates.reduce((acc, cur) => {
-  //     return `${acc}<li>${cur.date}: <b>${cur.from}</b> - <b>${cur.to}</b></li>`;
-  //   }, '');
-  //   Swal.fire({
-  //     title: 'Exceptional dates is not saved',
-  //     html: `<p>The following exceptional time interval contain scheduled lessons:</p></br><ul>${message}</ul></br><p>Please, reschedule these lessons.</p>`,
-  //     icon: 'warning',
-  //     showCancelButton: false,
-  //     confirmButtonColor: '#6133af',
-  //     confirmButtonText: 'ok',
-  //   });
-  // };
-
   const onSubmit = (availabilityExceptions) => {
     if (availabilityExceptions) {
       const exceptionDates = availabilityExceptions.map((aval) => {
