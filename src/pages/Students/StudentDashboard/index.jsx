@@ -39,6 +39,8 @@ const StudentListAppointments = () => {
     },
   });
 
+  console.log('appointments', appointments);
+
   const [completedAppointment, setCompleteAppointment] = useState(null);
   const onDismiss = () => setCompleteAppointment(null);
 

@@ -3,17 +3,27 @@ import { CalendarView } from 'src/constants/global';
 import AvailabilityCalendarHeader from './AvailabilityCalendarHeader';
 import { useAuth } from 'src/modules/auth';
 import { useQuery } from '@apollo/client';
-import { APPOINTMENTS_QUERY } from 'src/modules/auth/graphql';
+import { APPOINTMENTS_QUERY, GET_MENTOR } from 'src/modules/auth/graphql';
 import MonthlyEvent from './Events/MonthlyEvent';
 import WeeklyEvent from './Events/WeeklyEvent';
 import { renderReccurEvents } from './Events/lib/renderReccurEvents';
 import { renderSingleEvents } from './Events/lib/renderSingleEvents';
 import { Calendar } from 'src/components/Calendar';
+import Loader from 'src/components/Loader/Loader';
 
-const AvailabilityCalendar = ({ mentorInfo, refetchMentor }) => {
+export const AvailabilityCalendar = () => {
   // eslint-disable-next-line no-unused-vars
   const { user } = useAuth();
   const calendarRef = useRef();
+
+  const {
+    data: { mentor: mentorInfo } = {},
+    loading: loadingMentor,
+    refetch: refetchMentor,
+  } = useQuery(GET_MENTOR, {
+    fetchPolicy: 'no-cache',
+    variables: { id: user?.mentor?.id },
+  });
 
   const { data: appointments, loading: loadingAppointments } = useQuery(
     APPOINTMENTS_QUERY,
@@ -64,7 +74,7 @@ const AvailabilityCalendar = ({ mentorInfo, refetchMentor }) => {
 
       setCalendarEvents([...monthlyViewEvents, ...exceptionsMonthlyEvents]);
     }
-  }, [mentorInfo, appointments]);
+  }, [mentorInfo, appointments, loadingMentor]);
 
   const renderEventContent = (eventInfo) => {
     const data = eventInfo.event.extendedProps;
@@ -90,6 +100,10 @@ const AvailabilityCalendar = ({ mentorInfo, refetchMentor }) => {
     return <WeeklyEvent data={data} eventInfo={eventInfo} />;
   };
 
+  if (loadingMentor || loadingAppointments) {
+    return <Loader height="calc(100vh - 80px)" />;
+  }
+
   return (
     <div className="border border-color-border-grey rounded-xl">
       <AvailabilityCalendarHeader
@@ -105,5 +119,3 @@ const AvailabilityCalendar = ({ mentorInfo, refetchMentor }) => {
     </div>
   );
 };
-
-export default AvailabilityCalendar;

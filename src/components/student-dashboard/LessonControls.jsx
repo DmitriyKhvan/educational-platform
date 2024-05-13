@@ -32,6 +32,10 @@ const LessonControls = ({
   const [tabIndex, setTabIndex] = useState(0);
   const [controls, setControls] = useState([]);
 
+  const gridStyle = {
+    gridTemplateColumns: `repeat(${controls.length}, minmax(0, 1fr))`,
+  };
+
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -226,9 +230,7 @@ const LessonControls = ({
 
   return (
     <>
-      <div
-        className={`grid gap-2 xl:gap-3 h-[52px] grid-cols-${controls.length}`}
-      >
+      <div style={gridStyle} className="grid gap-2 xl:gap-3 h-[52px]">
         {controls.map((control, index) => (
           <div className="grid" key={index}>
             {control}

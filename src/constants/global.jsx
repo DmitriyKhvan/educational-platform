@@ -1,4 +1,3 @@
-// import timezones from 'timezones-list';
 import { enUS, ko, zhTW } from 'date-fns/locale';
 import { getData } from 'country-list';
 import { format, utcToZonedTime } from 'date-fns-tz';

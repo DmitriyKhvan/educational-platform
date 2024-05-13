@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import NotificationManager from '../../../components/NotificationManager';
 import Layout from '../../../layouts/DashboardLayout';
 import ScheduleCard from './ScheduleCard';
 import Loader from '../../../components/common/Loader';
@@ -152,7 +151,7 @@ const LessonConfirmation = ({
         );
       }
     } catch (error) {
-      NotificationManager.error(error.message, t);
+      notify(error.message, 'error');
     } finally {
       setIsLoading(false);
     }

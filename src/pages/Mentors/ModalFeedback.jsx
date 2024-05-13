@@ -9,7 +9,7 @@ import { Avatar } from '../../components/Avatar';
 import { renderFormField, renderSelect } from '../../components/Global';
 
 import '../../assets/styles/student.scss';
-import AppointmentApi from '../../api/AppointmentApi';
+// import AppointmentApi from '../../api/AppointmentApi';
 
 const ModalFeedback = ({ visible, onDismiss, group }) => {
   const [t] = useTranslation('translation');
@@ -73,12 +73,12 @@ const ModalFeedback = ({ visible, onDismiss, group }) => {
   const submitComplete = async () => {
     setLoading(true);
     try {
-      await AppointmentApi.addFeedbackToStudent({
-        ...formData,
-        homework_assignment: formData.homework_assignment?.value,
-        group_id: group.id,
-        student_id: student?.id,
-      });
+      // await AppointmentApi.addFeedbackToStudent({
+      //   ...formData,
+      //   homework_assignment: formData.homework_assignment?.value,
+      //   group_id: group.id,
+      //   student_id: student?.id,
+      // });
 
       onDismiss();
     } catch (e) {
