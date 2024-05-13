@@ -36,9 +36,9 @@ export default function StudentRoutes() {
 
   return (
     <Switch>
-      <Route path={`${path}/lesson-complete/:complete_appoint_id`}>
+      {/* <Route path={`${path}/lesson-complete/:complete_appoint_id`}>
         <StudentListAppointments />
-      </Route>
+      </Route> */}
 
       <Route path={`${path}/manage-lessons`}>
         <StudentListAppointments />

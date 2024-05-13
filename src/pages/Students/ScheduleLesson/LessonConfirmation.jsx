@@ -15,7 +15,7 @@ import CheckboxField from '../../../components/Form/CheckboxField';
 import { getItemToLocalStorage } from 'src/constants/global';
 import Button from 'src/components/Form/Button';
 import MentorImageRow from './MentorImageRow';
-import { utcToZonedTime, format } from 'date-fns-tz';
+import { toZonedTime, format } from 'date-fns-tz';
 import { addMinutes } from 'date-fns';
 import { IoArrowBack } from 'react-icons/io5';
 import koLocale from 'date-fns/locale/ko';
@@ -80,14 +80,14 @@ const LessonConfirmation = ({
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const scheduleDate = format(
-    utcToZonedTime(new Date(time), userTimezone),
+    toZonedTime(new Date(time), userTimezone),
     'eeee, MMM dd',
     {
       locale: i18n.language === 'kr' ? koLocale : undefined,
     },
   );
   const scheduleStartTime = format(
-    utcToZonedTime(new Date(time), userTimezone),
+    toZonedTime(new Date(time), userTimezone),
     'hh:mm a',
     {
       locale: i18n.language === 'kr' ? koLocale : undefined,
@@ -95,7 +95,7 @@ const LessonConfirmation = ({
   );
   const scheduleEndTime = format(
     addMinutes(
-      utcToZonedTime(new Date(time), userTimezone),
+      toZonedTime(new Date(time), userTimezone),
       plan?.package?.sessionTime,
     ),
     'hh:mm a',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { format, toZonedTime } from 'date-fns-tz';
 import { ko as kr } from 'date-fns/locale';
 import { addMinutes } from 'date-fns';
 
@@ -79,7 +79,7 @@ export const LessonTable = ({
                 </td>
                 <td className="border-b group-last:border-b-0 h-[80px] font-medium text-color-dark-purple p-1 align-middle">
                   {format(
-                    utcToZonedTime(new Date(data.startAt), userTimezone),
+                    toZonedTime(new Date(data.startAt), userTimezone),
                     'eee, MMM do',
                     { timeZone: userTimezone, locale: locale },
                   )}
@@ -87,14 +87,14 @@ export const LessonTable = ({
                 <td className="border-b group-last:border-b-0 h-[80px] p-1 align-middle">
                   <p className="font-medium text-color-dark-purple">
                     {format(
-                      utcToZonedTime(new Date(data.startAt), userTimezone),
+                      toZonedTime(new Date(data.startAt), userTimezone),
                       'hh:mm a',
                       { timeZone: userTimezone, locale: locale },
                     )}
                     {' - '}
                     {format(
                       addMinutes(
-                        utcToZonedTime(new Date(data.startAt), userTimezone),
+                        toZonedTime(new Date(data.startAt), userTimezone),
                         data.duration,
                       ),
                       'hh:mm a',
