@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ScheduleCard } from './ScheduleCard';
 import { useSchedule } from '../ScheduleProvider';
 import { IoArrowBack } from 'react-icons/io5';
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { format, toZonedTime } from 'date-fns-tz';
 import {
   addHours,
   addMinutes,
@@ -44,7 +44,7 @@ export const AvailableTimes = memo(function AvailableTimes() {
     const dateParse = parse(
       `${formattedDay} ${scheduleStartTime.time}`,
       'yyyy-MM-dd HH:mm',
-      utcToZonedTime(new Date(), userTimezone),
+      toZonedTime(new Date(), userTimezone),
     );
 
     const selectedSchedule = format(dateParse, 'EEE MMM dd yyyy HH:mm:ss XXX', {

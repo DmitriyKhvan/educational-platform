@@ -1,10 +1,10 @@
-import { parse } from 'date-fns';
 import { format } from 'date-fns-tz';
 import React from 'react';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { formatTime } from '../Availiability/lib/formatTime';
 import { formatTimeToSeconds } from '../Availiability/lib/formatTimeToSeconds';
 import { AvailabilityExceptionPicker } from './AvailabilityExceptionPicker';
+import { parse } from 'date-fns';
 
 export const AvailabilityExceptionModal = ({
   availabilityExceptions,

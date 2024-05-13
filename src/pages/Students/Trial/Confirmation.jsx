@@ -5,7 +5,7 @@ import { FaArrowLeft, FaPencil } from 'react-icons/fa6';
 import Button from 'src/components/Form/Button';
 
 import { useTranslation } from 'react-i18next';
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { format, toZonedTime } from 'date-fns-tz';
 import { addMinutes } from 'date-fns';
 import { TRIAL_SIGN_UP } from 'src/modules/graphql/mutations/trial/trialSignUp';
 import { useMutation } from '@apollo/client';
@@ -29,7 +29,7 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const dateParse = utcToZonedTime(new Date(schedule), user.timeZone);
+  const dateParse = toZonedTime(new Date(schedule), user.timeZone);
 
   const dayFormat = format(dateParse, 'EEEE, MMM dd', {
     timeZone: user.timeZone,

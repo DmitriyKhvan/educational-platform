@@ -1,7 +1,7 @@
 import React from 'react';
 import LessonControls from './LessonControls';
 import { addMinutes, format } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
+import { toZonedTime } from 'date-fns-tz';
 import StatusIndicator from './StatusIndicator';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { PlaygroundRecordingModal } from '../PlaygroundRecordingModal';
@@ -34,23 +34,19 @@ const LessonInfoModal = ({
       <header className="flex justify-between items-center mb-6">
         <div>
           <h2 className="text-[28px] font-bold text-color-dark-purple">
-            {format(
-              utcToZonedTime(new Date(date), userTimezone),
-              'eee, MMM do',
-              { timeZone: userTimezone, locale: localeDic[i18n.language] },
-            )}
+            {format(toZonedTime(new Date(date), userTimezone), 'eee, MMM do', {
+              timeZone: userTimezone,
+              locale: localeDic[i18n.language],
+            })}
           </h2>
           <p>
-            {format(utcToZonedTime(new Date(date), userTimezone), 'hh:mm a', {
+            {format(toZonedTime(new Date(date), userTimezone), 'hh:mm a', {
               timeZone: userTimezone,
               locale: localeDic[i18n.language],
             })}
             {' - '}
             {format(
-              addMinutes(
-                utcToZonedTime(new Date(date), userTimezone),
-                duration,
-              ),
+              addMinutes(toZonedTime(new Date(date), userTimezone), duration),
               'hh:mm a',
               { timeZone: userTimezone, locale: localeDic[i18n.language] },
             )}

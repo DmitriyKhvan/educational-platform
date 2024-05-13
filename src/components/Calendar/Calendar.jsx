@@ -11,7 +11,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import rrulePlugin from '@fullcalendar/rrule';
 import { format } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
+import { toZonedTime } from 'date-fns-tz';
 import { useAuth } from 'src/modules/auth';
 import { useMediaQuery } from 'react-responsive';
 
@@ -44,7 +44,7 @@ export const Calendar = forwardRef((props, ref) => {
           ? chLocale
           : Language.EN
       }
-      now={utcToZonedTime(new Date(), userTimezone)}
+      now={toZonedTime(new Date(), userTimezone)}
       plugins={[dayGridPlugin, timeGridPlugin, rrulePlugin]}
       dayMaxEvents={true}
       allDaySlot={false}
@@ -53,7 +53,7 @@ export const Calendar = forwardRef((props, ref) => {
       eventBorderColor="transparent"
       dayPopoverFormat={{ month: 'long', day: 'numeric' }}
       slotDuration="01:00:00"
-      scrollTime={format(utcToZonedTime(new Date(), userTimezone), 'HH:00:00')}
+      scrollTime={format(toZonedTime(new Date(), userTimezone), 'HH:00:00')}
       {...props}
     />
   );
