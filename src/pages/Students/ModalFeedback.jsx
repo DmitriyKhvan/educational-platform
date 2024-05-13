@@ -35,11 +35,11 @@ const ModalFeedback = ({ visible, onDismiss, appointment }) => {
     setFormData({ review: option });
   };
 
-  const { tutor } = appointment;
+  const { mentor } = appointment;
 
-  useEffect(async () => {
+  useEffect(() => {
     // replace with proper review graphql query later
-  }, [tutor, setTutorReviewData]);
+  }, [mentor, setTutorReviewData]);
 
   const onSubmit = async () => {
     // replace with proper review graphql query later
@@ -55,17 +55,20 @@ const ModalFeedback = ({ visible, onDismiss, appointment }) => {
       <p className="title">{t('after_lesson')}</p>
       <div className="tutor-info">
         <div>
-          <Avatar avatar={tutor?.user?.avatar} />
+          <Avatar avatar={mentor?.user?.avatar} />
           <div className="basic-info">
             <div className="name-heart">
-              <p>{getAbbrName(tutor.first_name, tutor.last_name)}</p>
-              <FavouriteIcon isFavourite={tutor.favorite} tutor_id={tutor.id} />
+              <p>{getAbbrName(mentor.first_name, mentor.last_name)}</p>
+              <FavouriteIcon
+                isFavourite={mentor.favorite}
+                tutor_id={mentor.id}
+              />
             </div>
             <div className="ratings">
               <Stars points={tutorReviewData?.average_review} />
               <span>({t('overall_ratings')})</span>
             </div>
-            <p className="major">{tutor.major}</p>
+            <p className="major">{mentor.major}</p>
           </div>
         </div>
         <div className="btn outlined">{t('see_profile')}</div>
