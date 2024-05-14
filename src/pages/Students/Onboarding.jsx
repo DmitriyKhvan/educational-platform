@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
@@ -18,6 +18,8 @@ import InputField from 'src/components/Form/InputField';
 import notify from 'src/utils/notify';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import PhoneNumberField from 'src/components/Form/PhoneNumberField';
+import { SelectField } from 'src/components/Form/SelectField';
+import { timezoneOptions } from 'src/constants/global';
 
 export default function Onboarding() {
   localStorage.removeItem('studentId');
@@ -32,6 +34,7 @@ export default function Onboarding() {
   const {
     handleSubmit,
     register,
+    control,
     resetField,
     formState: { errors, isValid },
     setValue,
@@ -144,6 +147,28 @@ export default function Onboarding() {
                   },
                 })}
               />
+            </InputWithError>
+
+            <InputWithError errorsField={errors?.timeZone}>
+              <label className="font-semibold text-base text-color-dark-purple">
+                {t('time_zone', { ns: 'common' })}
+
+                <Controller
+                  control={control}
+                  defaultValue=""
+                  name="timeZone"
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { value, onChange } }) => (
+                    <SelectField
+                      value={value}
+                      options={timezoneOptions}
+                      onChange={onChange}
+                    />
+                  )}
+                />
+              </label>
             </InputWithError>
 
             <InputWithError errorsField={errors?.password}>
