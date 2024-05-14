@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
+import { toZonedTime } from 'date-fns-tz';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaCheckCircle } from 'react-icons/fa';
@@ -60,7 +60,7 @@ const ScheduleSuccess = ({ lessons }) => {
             >
               <h3>
                 {format(
-                  utcToZonedTime(new Date(l.startAt), userTimezone),
+                  toZonedTime(new Date(l.startAt), userTimezone),
                   'MMMM do',
                   {
                     locale: localeDic[i18n.language],

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from 'src/modules/auth';
 import Modal from 'react-modal';
 import LessonInfoModal from 'src/components/student-dashboard/LessonInfoModal';
-import { utcToZonedTime } from 'date-fns-tz';
+import { toZonedTime } from 'date-fns-tz';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import koLocale from '@fullcalendar/core/locales/ko';
@@ -191,7 +191,7 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
             ? chLocale
             : Language.EN
         }
-        now={utcToZonedTime(new Date(), userTimezone)}
+        now={toZonedTime(new Date(), userTimezone)}
         events={calendarEvents}
         plugins={[dayGridPlugin, timeGridPlugin]}
         dayMaxEvents={true}
@@ -204,10 +204,7 @@ const Calendar = ({ calendarAppointments, getAppointments }) => {
         dayPopoverFormat={{ month: 'long', day: 'numeric' }}
         slotDuration="01:00:00"
         eventContent={renderEventContent}
-        scrollTime={format(
-          utcToZonedTime(new Date(), userTimezone),
-          'HH:00:00',
-        )}
+        scrollTime={format(toZonedTime(new Date(), userTimezone), 'HH:00:00')}
       />
 
       {isOpen && <CustomModal />}

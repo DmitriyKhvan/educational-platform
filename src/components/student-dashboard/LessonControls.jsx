@@ -35,6 +35,10 @@ const LessonControls = ({
     gridTemplateColumns: `repeat(${controls.length}, minmax(0, 1fr))`,
   };
 
+  const gridStyle = {
+    gridTemplateColumns: `repeat(${controls.length}, minmax(0, 1fr))`,
+  };
+
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 

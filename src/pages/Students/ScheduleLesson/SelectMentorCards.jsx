@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { AVAILABLE_MENTORS } from 'src/modules/graphql/queries/mentors/availableMentors';
 
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { format, toZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
 
 import Layout from '../../../layouts/DashboardLayout';
@@ -38,7 +38,7 @@ const SelectMentorCards = ({
   const [t] = useTranslation(['lessons', 'common']);
 
   const { availableMentors, loading } = useAvailableMentors(
-    format(utcToZonedTime(new Date(schedule), 'UTC'), "yyyy-MM-dd'T'HH:mm:ss", {
+    format(toZonedTime(new Date(schedule), 'UTC'), "yyyy-MM-dd'T'HH:mm:ss", {
       timeZone: 'UTC',
     }),
     step,

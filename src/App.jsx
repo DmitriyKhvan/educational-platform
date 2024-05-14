@@ -1,10 +1,7 @@
-import 'react-notifications-component/dist/theme.css';
 import './assets/styles/global.scss';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
 /* eslint-disable import/first */
 import React, { Suspense, lazy } from 'react';
 
-import { ReactNotifications } from 'react-notifications-component';
 import {
   BrowserRouter as Router,
   Redirect,
@@ -103,7 +100,6 @@ function App() {
   return (
     <>
       <Router>
-        <ReactNotifications />
         <div className="App"></div>
         <Suspense
           fallback={

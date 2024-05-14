@@ -10,7 +10,6 @@ import InputField from '../../components/Form/InputField';
 import useNewPassword from '../../modules/auth/hooks/newPassword';
 import Button from '../../components/Form/Button/Button';
 
-import 'react-toastify/dist/ReactToastify.css';
 import notify from '../../utils/notify';
 
 const ResetPassword = () => {

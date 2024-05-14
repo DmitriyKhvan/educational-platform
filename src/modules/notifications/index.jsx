@@ -5,7 +5,7 @@ import { GET_USER_NOTIFICATIONS } from '../graphql/queries/notifications';
 
 import { MARK_MESSAGE_AS_READ } from '../graphql/mutations/notifications';
 
-export const NotificationsContext = createContext({});
+const NotificationsContext = createContext({});
 
 export const NotificationsProvider = ({ children }) => {
   const [notifications, setNotification] = useState([]);

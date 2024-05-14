@@ -1,116 +1,129 @@
-import { DatePicker } from '@tremor/react';
+import React from 'react';
+import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 
-import { AvailabilityExceptionSlot } from './AvailabilityExceptionSlot';
-import { addMinutes, format, parse } from 'date-fns';
-
-import { PiTrashFill } from 'react-icons/pi';
-import Alert from 'src/components/Popup/Alert';
-import { useTranslation } from 'react-i18next';
+import { FaXmark } from 'react-icons/fa6';
+import { AvailabilityModalConfirm } from './AvailabilityModalConfirm';
 import Button from 'src/components/Form/Button';
-import { v4 as uuid } from 'uuid';
+import * as Dialog from '@radix-ui/react-dialog';
+import { AvailabilityExceptionModal } from './AvailabilityExceptionModal';
 
 export const AvailabilityException = ({
-  availabilityExceptionSlots,
   exception,
-  removeAvailabilityException,
   disabledDates,
+  onSubmit,
+  availabilityExceptions,
 }) => {
-  const { t } = useTranslation('modals');
-
-  const onChangeDate = (date) => {
-    if (date) {
-      const newException = { ...exception, date: format(date, 'yyyy-MM-dd') };
-      availabilityExceptionSlots(newException);
-    }
-  };
-
-  const removeAvailabilityExceptionConfirm = () => {
-    Alert(
-      t('swal_fire_title'),
-      '',
-      'warning',
-      () => removeAvailabilityException(exception),
-      true,
-      t('swal_confirm_Button_Text'),
-      t('swal_cancel_Button_Text'),
-      t('swal_fire_title_conform_msg'),
-      t('swal_fire_title_conform_msg1'),
-      t('swal_fire_title_conform_msg2'),
-    );
-  };
-
-  const addAvailabilityExceptionSlot = () => {
-    let newTime = { id: uuid(), from: '00:00', to: '23:30' };
-
-    if (exception.slots.length) {
-      const from = exception.slots[exception.slots.length - 1].to;
-      let to = '';
-
-      if (from >= '23:00') {
-        to = format(addMinutes(parse(from, 'HH:mm', new Date()), 30), 'HH:mm');
-      } else {
-        to = format(addMinutes(parse(from, 'HH:mm', new Date()), 60), 'HH:mm');
-      }
-
-      newTime = { ...newTime, from, to };
-    }
-
-    const newSlots = [...exception.slots, newTime];
-
+  const removeAvailabilityExceptionSlot = (exception, slot) => {
+    const newSlots = exception.slots.filter((sl) => sl.id !== slot.id);
     const newException = { ...exception, slots: newSlots };
 
-    availabilityExceptionSlots(newException);
+    const newAvailabilityExceptions = availabilityExceptions.map((aval) =>
+      aval.id === newException.id ? newException : aval,
+    );
+
+    onSubmit(newAvailabilityExceptions);
+  };
+
+  const removeAvailabilityException = (exception) => {
+    const newAvailabilityExceptions = availabilityExceptions.filter(
+      (aval) => aval.id !== exception.id,
+    );
+
+    onSubmit(newAvailabilityExceptions);
   };
 
   return (
-    <>
-      <div>
-        <div className="flex items-center mb-4">
-          <DatePicker
-            onValueChange={onChangeDate}
-            value={parse(exception.date, 'yyyy-MM-dd', new Date())}
+    <li key={exception.id} className="text-sm">
+      {(exception.slots.length === 0 || exception.slots.length > 1) && (
+        <div className="flex items-center justify-between p-2">
+          <AvailabilityExceptionModal
+            availabilityExceptions={availabilityExceptions}
+            exception={exception}
+            onSubmit={onSubmit}
             disabledDates={disabledDates}
-            displayFormat="dd MMM yyyy"
-            className="max-w-sm rounded border"
           />
 
-          <div className="">
-            <button
-              type="button"
-              className="btn ms-3"
-              onClick={removeAvailabilityExceptionConfirm}
-            >
-              <PiTrashFill className="text-2xl text-color-border-grey" />
-            </button>
-          </div>
-        </div>
+          <AdaptiveDialog
+            button={
+              <button>
+                <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
+              </button>
+            }
+          >
+            <AvailabilityModalConfirm
+              title="Delete date override"
+              text="Are you sure you want to delete this date override?"
+              btns={
+                <div className="flex gap-3">
+                  <Button
+                    theme="destructive"
+                    className="basis-1/2"
+                    onClick={() => removeAvailabilityException(exception)}
+                  >
+                    Yes, delete
+                  </Button>
 
-        <div className="flex flex-col space-y-3">
-          {exception.slots.map((slot, index) => {
-            return (
-              <AvailabilityExceptionSlot
-                key={slot.id}
-                slot={slot}
-                index={index}
-                exception={exception}
-                availabilityExceptionSlots={availabilityExceptionSlots}
-              />
-            );
-          })}
-
-          <div className="flex">
-            <Button
-              disabled={
-                exception.slots[exception.slots.length - 1]?.to >= '23:00'
+                  <Dialog.Close asChild>
+                    <Button theme="gray" className="basis-1/2">
+                      Cancel
+                    </Button>
+                  </Dialog.Close>
+                </div>
               }
-              onClick={addAvailabilityExceptionSlot}
-            >
-              Add time slot
-            </Button>
-          </div>
+            />
+          </AdaptiveDialog>
         </div>
-      </div>
-      <div className="divider "></div>
-    </>
+      )}
+
+      <ul>
+        {exception.slots.map((slot) => {
+          return (
+            <li key={slot.id} className="flex items-center justify-between p-2">
+              <AvailabilityExceptionModal
+                availabilityExceptions={availabilityExceptions}
+                exception={exception}
+                slot={slot}
+                onSubmit={onSubmit}
+                disabledDates={disabledDates}
+              />
+
+              <AdaptiveDialog
+                button={
+                  <button>
+                    <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
+                  </button>
+                }
+              >
+                <AvailabilityModalConfirm
+                  title="Delete date override slot"
+                  text="Are you sure you want to delete this date override slot?"
+                  btns={
+                    <div className="flex gap-3">
+                      <Button
+                        theme="destructive"
+                        className="basis-1/2"
+                        onClick={() =>
+                          exception.slots.length > 1
+                            ? removeAvailabilityExceptionSlot(exception, slot)
+                            : removeAvailabilityException(exception)
+                        }
+                      >
+                        Yes, delete
+                      </Button>
+
+                      <Dialog.Close asChild>
+                        <Button theme="gray" className="basis-1/2">
+                          Cancel
+                        </Button>
+                      </Dialog.Close>
+                    </div>
+                  }
+                />
+              </AdaptiveDialog>
+            </li>
+          );
+        })}
+      </ul>
+    </li>
   );
 };

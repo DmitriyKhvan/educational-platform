@@ -6,7 +6,7 @@ import CheckboxField from '../Form/CheckboxField';
 import { FaXmark } from 'react-icons/fa6';
 import Button from '../Form/Button/Button';
 import { format } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
+import { toZonedTime } from 'date-fns-tz';
 import { isWithinHours } from 'src/utils/isWithinHours';
 
 const CancelWarningModal = ({
@@ -92,10 +92,7 @@ const CancelWarningModal = ({
                 ? t('swal_cancel_Button_Text').toLowerCase()
                 : t('reschedule').toLowerCase(),
             date: format(
-              utcToZonedTime(
-                new Date(data?.startAt ?? new Date()),
-                userTimezone,
-              ),
+              toZonedTime(new Date(data?.startAt ?? new Date()), userTimezone),
               'eee, MMM do',
               { timeZone: userTimezone },
             ),
