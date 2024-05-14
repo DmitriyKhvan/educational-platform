@@ -49,7 +49,6 @@ const LessonsCalendar = ({ calendarAppointments, getAppointments }) => {
           resource: ap,
         };
       });
-      console.log(tempEvents, 'tempEvents');
       setCalendarEvents([...tempEvents]);
     }
   }, [calendarAppointments]);

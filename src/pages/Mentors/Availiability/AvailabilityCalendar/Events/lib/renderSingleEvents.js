@@ -20,11 +20,6 @@ export function renderSingleEvents({
       (mve) => mve.day === DAY[exDate.getDay()],
     );
 
-    console.log(ex.date, 'ex.date');
-    console.log(
-      exceptionsMonthlyEvents,
-      'eexceptionsMonthlyEveexceptionsMonthlyEvents',
-    );
     const eveIdx = exceptionsMonthlyEvents.findIndex(
       (eve) => eve.date === ex.date,
     );
