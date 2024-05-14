@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { addWeeks, endOfISOWeek, startOfISOWeek } from 'date-fns';
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { format, toZonedTime } from 'date-fns-tz';
 import { ko as kr } from 'date-fns/locale';
 
 import { useSchedule } from './ScheduleProvider';
@@ -80,7 +80,7 @@ export const ScheduleSelector = ({ lesson }) => {
               <>
                 {t('currently_scheduled', { ns: 'modals' })}{' '}
                 {format(
-                  utcToZonedTime(new Date(lesson.startAt), userTimezone),
+                  toZonedTime(new Date(lesson.startAt), userTimezone),
                   'eeee, MMM dd hh:mm a',
                   {
                     timeZone: userTimezone,

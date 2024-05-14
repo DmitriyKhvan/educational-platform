@@ -2,7 +2,7 @@ import React from 'react';
 import { useAuth } from '../../modules/auth';
 import { LessonsStatusType, Roles, localeDic } from '../../constants/global';
 import { addMinutes } from 'date-fns';
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { format, toZonedTime } from 'date-fns-tz';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import StatusIndicator from './StatusIndicator';
 import LessonControls from './LessonControls';
@@ -39,19 +39,18 @@ const ScheduleCard = ({
   const dateLesson = new Date(date); //current time zone avtomaticaly
 
   const displayDate = () => {
-    const eventDate = format(
-      utcToZonedTime(dateLesson, userTimezone),
-      'MMM, do',
-      { timeZone: userTimezone, locale: localeDic[i18n.language] },
-    );
-    const start = format(utcToZonedTime(dateLesson, userTimezone), 'hh:mm a', {
+    const eventDate = format(toZonedTime(dateLesson, userTimezone), 'MMM, do', {
+      timeZone: userTimezone,
+      locale: localeDic[i18n.language],
+    });
+    const start = format(toZonedTime(dateLesson, userTimezone), 'hh:mm a', {
       timeZone: userTimezone,
       locale: localeDic[i18n.language],
     });
 
     const end = format(
       addMinutes(
-        utcToZonedTime(dateLesson, userTimezone),
+        toZonedTime(dateLesson, userTimezone),
         subscription?.package?.sessionTime || duration,
       ),
       'hh:mm a',

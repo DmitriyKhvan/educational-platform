@@ -315,14 +315,6 @@ export const GET_MENTOR = gql`
   }
 `;
 
-export const USERS_QUERY = gql`
-  query users {
-    users {
-      id
-    }
-  }
-`;
-
 export const LOGIN_MUTATION = gql`
   mutation login($email: String!, $password: String!) {
     authResult: signIn(email: $email, password: $password) {
@@ -393,26 +385,6 @@ export const MUTATION_UPDATE_STUDENT = gql`
   mutation updateStudent($id: ID!, $data: StudentUpdateInput!) {
     updateStudent(id: $id, data: $data) {
       id
-    }
-  }
-`;
-
-export const GROUPS_QUERY = gql`
-  query groups {
-    groups {
-      id
-      tutorId
-      lessonId
-      lessonType
-      lessonTitle
-      lessonDesc
-      seatCount
-      startAt
-      duration
-      completed
-      cancelAction
-      lessonTopic
-      lastPartLesson
     }
   }
 `;
@@ -504,50 +476,6 @@ export const PACKAGE_QUERY = gql`
             title
             language
           }
-        }
-      }
-      payment {
-        id
-        status
-        provider
-        cancelReason
-        buyPrice
-        metadata
-      }
-      lessons {
-        id
-        startAt
-        duration
-        status
-        cancelAction
-        cancelReason
-        canceledBy
-      }
-      active
-    }
-  }
-`;
-
-export const ALL_PACKAGE_QUERY = gql`
-  query packageSubscriptions($userId: ID!) {
-    packageSubscriptions: packageSubscriptions(userId: $userId) {
-      id
-      periodStart
-      periodEnd
-      credits
-      modifyCredits
-      package {
-        id
-        totalSessions
-        sessionsPerWeek
-        sessionTime
-        price
-        period
-        discount
-        course {
-          id
-          title
-          description
         }
       }
       payment {

@@ -3,7 +3,6 @@ import ClassMaterials from './ClassMaterials';
 import StudentListAppointments from './StudentDashboard';
 import ScheduleLesson from './ScheduleLesson';
 import Profile from './Profile';
-import ScheduleLessonSteps from './ScheduleLesson/ScheduleLessonSteps';
 import Referal from './Referal/Referal';
 import Mentors from './MentorsList/Mentors';
 import Subscriptions from './Subscriptions/Subscriptions';
@@ -37,9 +36,9 @@ export default function StudentRoutes() {
 
   return (
     <Switch>
-      <Route path={`${path}/lesson-complete/:complete_appoint_id`}>
+      {/* <Route path={`${path}/lesson-complete/:complete_appoint_id`}>
         <StudentListAppointments />
-      </Route>
+      </Route> */}
 
       <Route path={`${path}/manage-lessons`}>
         <StudentListAppointments />
@@ -55,10 +54,6 @@ export default function StudentRoutes() {
       {/* <Route path={`${path}/schedule-lesson/group-select`}>
         <GroupScheduleLesson />
       </Route> */}
-
-      <Route exact path={`${path}/schedule-lesson`}>
-        <ScheduleLessonSteps />
-      </Route>
 
       <Route exact path={`${path}/appointments`}>
         <StudentListAppointments />

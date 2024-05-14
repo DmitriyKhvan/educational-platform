@@ -60,7 +60,7 @@ import {
 } from '@apollo/client';
 
 import { AuthProvider } from './modules/auth';
-import { createUploadLink } from 'apollo-upload-client';
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 import './index.css';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { createWsLink } from './utils/subscriptions';
