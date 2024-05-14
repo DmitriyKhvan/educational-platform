@@ -1,4 +1,4 @@
-import { addMonths, intervalToDuration } from 'date-fns';
+import { intervalToDuration } from 'date-fns';
 import { CalendarView, DAY } from 'src/constants/global';
 import { EventType } from './EventType';
 
@@ -18,7 +18,7 @@ export function renderReccurEvents(regular, trial, exceptions) {
       freq: 'weekly',
       byweekday: [rruleWeekdays[idx]],
       dtstart: dtstart,
-      until: addMonths(new Date(), 3).toISOString().substring(0, 10),
+      // until: addMonths(new Date(), 3).toISOString().substring(0, 10),
     });
 
     monthlyViewEvents.push({

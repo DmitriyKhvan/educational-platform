@@ -16,14 +16,14 @@ export const AvailabilityCalendar = () => {
   const { user } = useAuth();
   const calendarRef = useRef();
 
-  const {
-    data: { mentor: mentorInfo } = {},
-    loading: loadingMentor,
-    refetch: refetchMentor,
-  } = useQuery(GET_MENTOR, {
-    fetchPolicy: 'no-cache',
-    variables: { id: user?.mentor?.id },
-  });
+  const userTimezone =
+    user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const { data: { mentor: mentorInfo } = {}, loading: loadingMentor } =
+    useQuery(GET_MENTOR, {
+      fetchPolicy: 'no-cache',
+      variables: { id: user?.mentor?.id },
+    });
 
   const { data: appointments, loading: loadingAppointments } = useQuery(
     APPOINTMENTS_QUERY,
@@ -46,10 +46,6 @@ export const AvailabilityCalendar = () => {
   };
 
   useEffect(() => {
-    refetchMentor();
-  }, []);
-
-  useEffect(() => {
     if (mentorInfo?.availabilities && !loadingAppointments && appointments) {
       const regular = mentorInfo?.availabilities?.regular;
       const trial = mentorInfo?.availabilities?.trial;
@@ -62,7 +58,12 @@ export const AvailabilityCalendar = () => {
       );
 
       const { lessonEvents, exceptionsMonthlyEvents, exceptionsWeeklyEvents } =
-        renderSingleEvents({ appointments, exceptions, monthlyViewEvents });
+        renderSingleEvents({
+          appointments,
+          exceptions,
+          monthlyViewEvents,
+          userTimezone,
+        });
 
       setWeeklyEvents([
         ...weeklyViewEvents,
@@ -85,7 +86,7 @@ export const AvailabilityCalendar = () => {
     )
       return;
 
-    if (data?.exception && !data?.exception?.from && !data?.exception?.to) {
+    if (data?.exception && data?.exception?.find((e) => !e.from && !e.to)) {
       return (
         <div className="px-3 py-2 min-h-[41px] h-full 2xl:mx-2 bg-[#EDEEF0] text-[#C0C0C3] font-medium text-xs flex items-center justify-center rounded-lg overflow-hidden truncate shadow-[0px_0px_8px_0px_#00000014]">
           Date Override

@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import MyDropdownMenu from 'src/components/DropdownMenu';
@@ -16,6 +17,7 @@ import { useCalendarControls } from 'src/utils/useCalendarControls';
 import { useCourseColors } from 'src/utils/useCourseColors';
 
 const LessonsCalendarHeader = ({ calendarRef }) => {
+  const [open, setOpen] = useState(false);
   const { getColorByCourseId, coursesList, colorsReady } = useCourseColors();
 
   const { goNext, goPrev, goToday, setView, date, view, viewDictionary } =
@@ -58,6 +60,8 @@ const LessonsCalendarHeader = ({ calendarRef }) => {
         </div>
         <div className="flex space-x-3">
           <MyDropdownMenu
+            open={open}
+            setOpen={setOpen}
             button={
               <Button theme="outline" className="gap-6 shadow">
                 {viewDictionary[view]} <FaChevronDown />
@@ -75,6 +79,7 @@ const LessonsCalendarHeader = ({ calendarRef }) => {
                   name="calendarView"
                   label={viewDictionary[v]}
                   className="flex-row-reverse justify-between h-[56px] border-b  pl-1 pr-4"
+                  onClick={() => setOpen(false)}
                 />
               ))}
             </div>

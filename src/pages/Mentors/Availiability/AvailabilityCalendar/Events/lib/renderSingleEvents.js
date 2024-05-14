@@ -1,11 +1,13 @@
 import { CalendarView, DAY } from 'src/constants/global';
 import { EventType } from './EventType';
 import { addMinutes } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
 
 export function renderSingleEvents({
   appointments,
   exceptions,
   monthlyViewEvents,
+  userTimezone,
 }) {
   const exceptionsMonthlyEvents = [];
   const exceptionsWeeklyEvents = [];
@@ -18,13 +20,30 @@ export function renderSingleEvents({
       (mve) => mve.day === DAY[exDate.getDay()],
     );
 
-    exceptionsMonthlyEvents.push({
-      ...mve,
-      rrule: undefined,
-      exception: { from: ex.from, to: ex.to },
-      allDay: true,
-      start: exDate,
-    });
+    console.log(ex.date, 'ex.date');
+    console.log(
+      exceptionsMonthlyEvents,
+      'eexceptionsMonthlyEveexceptionsMonthlyEvents',
+    );
+    const eveIdx = exceptionsMonthlyEvents.findIndex(
+      (eve) => eve.date === ex.date,
+    );
+
+    if (eveIdx >= 0) {
+      exceptionsMonthlyEvents[eveIdx].exception.push({
+        from: ex.from,
+        to: ex.to,
+      });
+    } else {
+      exceptionsMonthlyEvents.push({
+        ...mve,
+        rrule: undefined,
+        date: ex.date,
+        exception: [{ from: ex.from, to: ex.to }],
+        allDay: true,
+        start: exDate,
+      });
+    }
 
     exceptionsWeeklyEvents.push({
       type: EventType.EXCEPTION,
@@ -38,8 +57,8 @@ export function renderSingleEvents({
     view: CalendarView.WEEK_VIEW,
     title: `${l.student.firstName} ${l.student.lastName}`,
     allDay: false,
-    start: new Date(l.startAt),
-    end: addMinutes(new Date(l.startAt), l.duration),
+    start: toZonedTime(new Date(l.startAt), userTimezone),
+    end: addMinutes(toZonedTime(new Date(l.startAt), userTimezone), l.duration),
     type: EventType.LESSON,
     isTrial: l.isTrial,
     test: true,

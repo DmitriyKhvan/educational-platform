@@ -1,35 +1,32 @@
 import { format } from 'date-fns';
 import React from 'react';
-import { useMediaQuery } from 'react-responsive';
 
 const MonthlyEvent = ({ data }) => {
-  const isLaptop = useMediaQuery({ maxWidth: 1440 });
-
   const reformatTime = (time) =>
-    format(new Date(`01/01/2011 ${time}:00`), isLaptop ? 'h aa' : 'hh:mm aa');
+    format(
+      new Date(`01/01/2011 ${time}:00`),
+      `h${time.match(/\d*:30/) ? ':mm' : ''} aa`,
+    );
 
   return (
     <div className="mx-auto py-2 min-h-[41px] h-full 2xl:mx-2 bg-white text-black border rounded-lg overflow-hidden truncate shadow-[0px_0px_8px_0px_#00000014]">
-      <div className="text-center mb-1">
+      <div className="text-center mb-1 text-[10px] xl:text-xs">
         {data?.regular?.map((v) => (
-          <p key={v.from} className="text-color-purple font-medium text-xs">
+          <p key={v.from} className="text-color-purple font-medium">
             {reformatTime(v.from)} - {reformatTime(v.to)}
           </p>
         ))}
         {data?.trial?.map((v) => (
-          <p key={v.from} className="text-[#FF9335] font-medium text-xs">
+          <p key={v.from} className="text-[#FF9335] font-medium">
             {reformatTime(v.from)} - {reformatTime(v.to)}
           </p>
         ))}
-        {data?.exception && (
-          <p
-            key={data?.exception?.from}
-            className="text-[#C0C0C3] font-medium text-xs"
-          >
-            {reformatTime(data?.exception?.from)} -{' '}
-            {reformatTime(data?.exception?.to)}
+
+        {data?.exception?.map((v) => (
+          <p key={v.from} className="text-[#C0C0C3] font-medium">
+            {reformatTime(v.from)} - {reformatTime(v.to)}
           </p>
-        )}
+        ))}
       </div>
       <div className="flex gap-1 justify-center">
         {data?.regular && (

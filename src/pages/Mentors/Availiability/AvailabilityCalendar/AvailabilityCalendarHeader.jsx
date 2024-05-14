@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import MyDropdownMenu from 'src/components/DropdownMenu';
@@ -15,6 +15,7 @@ import { cn } from 'src/utils/functions';
 import { useCalendarControls } from 'src/utils/useCalendarControls';
 
 const AvailabilityCalendarHeader = ({ calendarRef, updateEvents }) => {
+  const [open, setOpen] = useState(false);
   const [t, i18n] = useTranslation(['lessons', 'common']);
 
   const {
@@ -50,6 +51,8 @@ const AvailabilityCalendarHeader = ({ calendarRef, updateEvents }) => {
         </div>
         <div className="flex space-x-3">
           <MyDropdownMenu
+            open={open}
+            setOpen={setOpen}
             button={
               <Button theme="outline" className="gap-6 shadow h-10">
                 {viewDictionary[view]} <FaChevronDown />
@@ -65,6 +68,7 @@ const AvailabilityCalendarHeader = ({ calendarRef, updateEvents }) => {
                 name="calendarView"
                 label={viewDictionary[CalendarView.WEEK_VIEW]}
                 className="flex-row-reverse justify-between h-[56px] border-b  pl-1 pr-4"
+                onClick={() => setOpen(false)}
               />
 
               <CheckboxField
@@ -74,6 +78,7 @@ const AvailabilityCalendarHeader = ({ calendarRef, updateEvents }) => {
                 name="calendarView"
                 label={viewDictionary[CalendarView.MONTH_VIEW]}
                 className="flex-row-reverse justify-between h-[56px] border-b  pl-1 pr-4"
+                onClick={() => setOpen(false)}
               />
             </div>
           </MyDropdownMenu>
