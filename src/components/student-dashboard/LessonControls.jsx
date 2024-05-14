@@ -31,9 +31,6 @@ const LessonControls = ({
   const [isOpen, setIsOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [controls, setControls] = useState([]);
-  const gridStyle = {
-    gridTemplateColumns: `repeat(${controls.length}, minmax(0, 1fr))`,
-  };
 
   const gridStyle = {
     gridTemplateColumns: `repeat(${controls.length}, minmax(0, 1fr))`,
