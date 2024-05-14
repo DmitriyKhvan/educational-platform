@@ -7,10 +7,11 @@ import { isBetween } from 'src/utils/isBetween';
 import { useAuth } from 'src/modules/auth';
 import { useTranslation } from 'react-i18next';
 import RescheduleAndCancelModal from './RescheduleAndCancelModalRebranding';
-import ZoomWarningModal from './ZoomWarningModal';
+import PlaygroundWarningModal from './PlaygroundWarningModal';
 import LessonInfoModal from './LessonInfoModal';
 import { addMinutes, isAfter } from 'date-fns';
 import { isWithinHours } from 'src/utils/isWithinHours';
+import { CancelTrialLessonModal } from './CancelTrialLessonModal';
 
 const LessonControls = ({
   date,
@@ -30,6 +31,9 @@ const LessonControls = ({
   const [isOpen, setIsOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [controls, setControls] = useState([]);
+  const gridStyle = {
+    gridTemplateColumns: `repeat(${controls.length}, minmax(0, 1fr))`,
+  };
 
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -64,7 +68,9 @@ const LessonControls = ({
       })
     ) {
       window.open(
-        user.role === Roles.MENTOR ? data?.zoom?.startUrl : data?.zoom?.joinUrl,
+        user.role === Roles.MENTOR
+          ? data?.playground?.startUrl
+          : data?.playground?.joinUrl,
         '_blank',
       );
     } else {
@@ -87,16 +93,24 @@ const LessonControls = ({
   const rescheduleAndCancelModal = (
     <RescheduleAndCancelModal
       data={data}
-      isOpen={isOpen}
-      closeModal={closeModal}
+      // isOpen={isOpen}
+      // closeModal={closeModal}
       setTabIndex={setTabIndex}
       setIsOpen={setIsOpen}
       fetchAppointments={refetch}
       tabIndex={tabIndex}
       type={modalType}
-      // cancelled={cancelled}
       setCanceledLessons={setCanceledLessons}
       duration={duration}
+    />
+  );
+
+  const cancelTrialLessonModal = (
+    <CancelTrialLessonModal
+      data={data}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      fetchAppointments={refetch}
     />
   );
 
@@ -109,7 +123,7 @@ const LessonControls = ({
       data.status === LessonsStatusType.APPROVED
     ) {
       controls.push(
-        <Button className="w-full text-xs sm:text-sm p-0" onClick={joinLesson}>
+        <Button className="w-full text-xs sm:text-sm px-2" onClick={joinLesson}>
           {t('join_lesson')}
         </Button>,
       );
@@ -119,8 +133,11 @@ const LessonControls = ({
       controls.push(
         <AdaptiveDialog
           button={
-            <Button className="grow text-xs sm:text-sm p-0" theme="dark_purple">
-              Info
+            <Button
+              className="grow text-xs sm:text-sm px-2"
+              theme="dark_purple"
+            >
+              {t('info')}
             </Button>
           }
         >
@@ -136,15 +153,20 @@ const LessonControls = ({
       );
     }
 
-    if (!isAfterLesson && !isWithin24Hours) {
+    if (
+      !isAfterLesson &&
+      !isWithin24Hours &&
+      !data.isTrial &&
+      user.role !== Roles.MENTOR
+    ) {
       controls.push(
         <AdaptiveDialog
-          open={isOpen}
-          setOpen={setIsOpen}
+          // open={isOpen}
+          // setOpen={setIsOpen}
           button={
             <Button
               theme="dark_purple"
-              className="grow text-xs sm:text-sm p-0"
+              className="grow text-xs sm:text-sm px-2"
               onClick={onSelect}
             >
               {t('reschedule')}
@@ -156,14 +178,13 @@ const LessonControls = ({
       );
     }
 
-    if (isAfterLesson) {
+    if (isAfterLesson && user.role === Roles.STUDENT) {
       controls.push(
         <AdaptiveDialog
           button={
             <Button
-              // TODO: implement onClick
-              disabled={!data?.zoom?.recordingUrl}
-              className="grow gap-1 sm:gap-2 text-xs sm:text-sm p-0"
+              disabled={!data?.playground?.recordingUrl}
+              className="grow gap-1 sm:gap-2 text-xs sm:text-sm px-2"
             >
               <FaPlay />
               {t('watch_recording')}
@@ -173,7 +194,7 @@ const LessonControls = ({
           <LessonInfoModal
             date={date}
             data={data}
-            zoom={data?.zoom}
+            playground={data?.playground}
             refetch={refetch}
             duration={duration}
             setCanceledLessons={setCanceledLessons}
@@ -183,34 +204,32 @@ const LessonControls = ({
       );
     }
 
-    if (!isAfterLesson) {
+    if (!isAfterLesson && !(user.role === Roles.MENTOR && data.isTrial)) {
       controls.push(
         <AdaptiveDialog
-          open={isOpen}
-          setOpen={setIsOpen}
+          // open={isOpen}
+          // setOpen={setIsOpen}
           button={
             <Button
               theme="red"
-              className="grow text-xs sm:text-sm p-0"
+              className="grow text-xs sm:text-sm px-2"
               onClick={onCancel}
             >
               {t('cancel', { ns: 'common' })}
             </Button>
           }
         >
-          {rescheduleAndCancelModal}
+          {data.isTrial ? cancelTrialLessonModal : rescheduleAndCancelModal}
         </AdaptiveDialog>,
       );
     }
 
     setControls(controls);
-  }, [modalType, tabIndex, isOpen]);
+  }, [modalType, tabIndex, isOpen, t]);
 
   return (
     <>
-      <div
-        className={`grid gap-2 xl:gap-3 h-[52px] grid-cols-${controls.length}`}
-      >
+      <div style={gridStyle} className="grid gap-2 xl:gap-3 h-[52px]">
         {controls.map((control, index) => (
           <div className="grid" key={index}>
             {control}
@@ -219,7 +238,7 @@ const LessonControls = ({
       </div>
 
       {isWarningOpen && (
-        <ZoomWarningModal
+        <PlaygroundWarningModal
           isWarningOpen={isWarningOpen}
           closeModal={closeModal}
           setIsWarningOpen={setIsWarningOpen}

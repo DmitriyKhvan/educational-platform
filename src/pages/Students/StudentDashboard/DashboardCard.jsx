@@ -1,8 +1,10 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { FaChevronRight } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 
 const DashboardCard = ({ title, subtitle, children, hrefTo }) => {
+  const [t] = useTranslation('dashboard');
   return (
     <section className="bg-white w-full shadow-sm p-5 sm:p-6 sm:rounded-xl mx-auto sm:max-w-[524px]">
       <div className="flex justify-between mb-6">
@@ -20,7 +22,7 @@ const DashboardCard = ({ title, subtitle, children, hrefTo }) => {
             to={hrefTo}
             className="text-color-purple font-medium flex items-center gap-1"
           >
-            View All <FaChevronRight className="w-3 h-3" />
+            {t('view_all')} <FaChevronRight className="w-3 h-3" />
           </Link>
         )}
       </div>

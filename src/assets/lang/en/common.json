@@ -32,8 +32,9 @@
   "error_empty_field": "This field should not be empty.",
   "upload": "Upload",
   "choose_other": "Select another",
-  "korean": "Korean",
+  "korean": "한국어",
   "english": "English",
+  "chinese": "漢語",
   "cancel": "Cancel",
   "approve": "Approve",
   "save": "Save",
@@ -42,6 +43,7 @@
   "back": "Back",
   "confirm": "Confirm",
   "settings": "Settings",
+  "minutes_full": "minutes",
   "minutes": "min.",
   "kor_day": "",
   "January": "January",
@@ -113,5 +115,12 @@
   "birth_invalid": "Invalid Birthday",
   "digits": "{{count}} digits",
   "automatically_renews": "Automatically renews every month",
-  "changed_avatar": "Avatar is changed"
+  "changed_avatar": "Avatar is changed",
+  "current": "Current",
+  "previous": "Previous",
+  "lessons_total": "Lessons total",
+  "add_package": "Add a package",
+  "active_subscription": "Active subscription",
+  "add_switch_profile": "Add/Switch profile",
+  "trial": "Trial"
 }

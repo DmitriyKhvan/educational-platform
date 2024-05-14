@@ -1,14 +1,21 @@
 import React from 'react';
 import { useAuth } from '../../modules/auth';
-import { LessonsStatusType, Roles } from '../../constants/global';
+import { LessonsStatusType, Roles, localeDic } from '../../constants/global';
 import { addMinutes } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import StatusIndicator from './StatusIndicator';
 import LessonControls from './LessonControls';
+import { useTranslation } from 'react-i18next';
+import { MdEventRepeat } from 'react-icons/md';
+import Indicator from '../Indicator';
+import { PiStarFourFill } from 'react-icons/pi';
+import { cn } from 'src/utils/functions';
+import LabelBox from './LabelBox';
+import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 
 const ScheduleCard = ({
-  lesson,
+  // lesson,
   date, //utc +0
   student,
   mentor,
@@ -17,10 +24,17 @@ const ScheduleCard = ({
   setCanceledLessons,
   duration,
   subscription,
+  repeat = null,
 }) => {
+  const [t, i18n] = useTranslation(['lessons', 'common']);
   const { user } = useAuth();
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const userToDisplay =
+    user.role === Roles.MENTOR
+      ? student ?? data?.student
+      : mentor ?? data?.mentor;
 
   const dateLesson = new Date(date); //current time zone avtomaticaly
 
@@ -28,10 +42,11 @@ const ScheduleCard = ({
     const eventDate = format(
       utcToZonedTime(dateLesson, userTimezone),
       'MMM, do',
-      { timeZone: userTimezone },
+      { timeZone: userTimezone, locale: localeDic[i18n.language] },
     );
     const start = format(utcToZonedTime(dateLesson, userTimezone), 'hh:mm a', {
       timeZone: userTimezone,
+      locale: localeDic[i18n.language],
     });
 
     const end = format(
@@ -40,7 +55,7 @@ const ScheduleCard = ({
         subscription?.package?.sessionTime || duration,
       ),
       'hh:mm a',
-      { timeZone: userTimezone },
+      { timeZone: userTimezone, locale: localeDic[i18n.language] },
     );
     return (
       <div className="text-[30px] font-normal text-black m-0 flex flex-col items-start">
@@ -65,48 +80,62 @@ const ScheduleCard = ({
           <div className="w-full">
             <div className="flex justify-between items-center mb-4">
               {displayDate()}
-              <StatusIndicator status={data.status} />
-            </div>
-            {/* TODO: add this to translation.json */}
-
-            <div className="flex justify-between w-full gap-3">
-              <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">
-                <label className="text-xs font-medium text-gray-300 block">
-                  Package
-                </label>
-                {lesson}
-              </div>
-
-              {mentor ? (
-                <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate flex">
-                  <Avatar
-                    gender={
-                      user.role === Roles.MENTOR
-                        ? student?.gender
-                        : mentor?.gender
-                    }
-                    avatarUrl={
-                      user.role === Roles.MENTOR
-                        ? student?.avatar?.url
-                        : mentor?.avatar?.url
-                    }
-                    className="w-9 h-9 rounded-full overflow-hidden mr-3 min-h-9 min-w-9"
-                  />
-                  <div className=" overflow-hidden truncate">
-                    <label className="text-xs font-medium text-gray-300 block">
-                      Mentor
-                    </label>
-                    {mentor.firstName}{' '}
-                    {mentor?.lastName[0] ? `${mentor?.lastName[0]}.` : ''}
-                  </div>
+              {repeat ? (
+                <div className="text-color-purple flex items-center text-sm gap-2">
+                  <MdEventRepeat className="text-[20px]" /> For {repeat}{' '}
+                  month(s)
                 </div>
               ) : (
-                <div className="w-full h-[61px] bg-gray-50 px-4 py-3 rounded-lg overflow-hidden truncate">
-                  <label className="text-xs font-medium text-gray-300 block">
-                    Duration
-                  </label>
-                  {duration} min.
+                <div className="flex items-center gap-2">
+                  {data.isTrial && (
+                    <Indicator className="bg-green-300 text-green-500">
+                      <PiStarFourFill /> {t('trial', { ns: 'common' })}
+                    </Indicator>
+                  )}
+
+                  <StatusIndicator status={data.status} />
                 </div>
+              )}
+            </div>
+
+            <div className="flex justify-between w-full gap-3">
+              <LabelBox
+                label={t('lesson_package')}
+                content={getTranslatedTitle(
+                  data?.packageSubscription?.package?.course,
+                  i18n.language,
+                )}
+              />
+
+              {mentor ? (
+                <LabelBox
+                  preElement={
+                    <Avatar
+                      avatarUrl={userToDisplay?.avatar?.url}
+                      fallback={user.role === Roles.MENTOR ? 'duck' : 'user'}
+                      className={cn(
+                        'w-9 h-9 rounded-full overflow-hidden mr-3 min-h-9 min-w-9',
+                        user.role === Roles.MENTOR && 'bg-color-purple',
+                      )}
+                    />
+                  }
+                  label={
+                    user.role === Roles.MENTOR ? t('student') : t('mentor')
+                  }
+                  content={
+                    <>
+                      {userToDisplay?.firstName}{' '}
+                      {userToDisplay?.lastName[0]
+                        ? `${userToDisplay?.lastName[0]}.`
+                        : ''}
+                    </>
+                  }
+                />
+              ) : (
+                <LabelBox
+                  label={t('duration')}
+                  content={`${duration} ${t('minutes', { ns: 'common' })}`}
+                />
               )}
             </div>
           </div>

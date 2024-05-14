@@ -1,6 +1,4 @@
-import continue_arrow from '../../../assets/images/continue_arrow.svg';
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useQuery } from '@apollo/client';
 import Layout from '../../../layouts/DashboardLayout';
@@ -12,13 +10,14 @@ import { PACKAGE_QUERY } from '../../../modules/auth/graphql';
 import { useHistory } from 'react-router-dom';
 import { getItemToLocalStorage } from 'src/constants/global';
 
-import '../../../assets/styles/subscriptions.scss';
+import Button from 'src/components/Form/Button';
+import { FaPlus } from 'react-icons/fa6';
+import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 
 const Subscriptions = () => {
-  const [t] = useTranslation(['common', 'sidebar']);
-
+  const [t, i18n] = useTranslation(['common', 'sidebar']);
+  const [selectedTab, setSelectedTab] = useState('current');
   const navigate = useHistory();
-
   const { data: { packageSubscriptions: planStatus = [] } = {}, loading } =
     useQuery(PACKAGE_QUERY, {
       fetchPolicy: 'no-cache',
@@ -31,21 +30,51 @@ const Subscriptions = () => {
     navigate.push('/purchase');
   };
 
+  const [selectedPackages, setSelectedPackages] = useState([]);
+
+  useEffect(() => {
+    if (planStatus?.length) {
+      setSelectedPackages(
+        selectedTab === 'current'
+          ? planStatus.filter((x) => x.active && x.credits)
+          : planStatus.filter((x) => !x.active || !x.credits),
+      );
+    }
+  }, [selectedTab, planStatus]);
+
   return (
     <Layout>
-      <div className="referal-wrapper">
-        <h2 className="title">{t('subscriptions', { ns: 'sidebar' })}</h2>
-        <div className="description">
-          {t('manage_subscriptions', { ns: 'common' })}
+      <div className="max-w-[440px] mx-auto px-5 py-[50px] min-h-[calc(100vh-80px)]">
+        <div className="flex w-full">
+          <Button
+            theme="outline"
+            className={`w-[50%] ml-0 rounded-r-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
+              selectedTab === 'current' && 'bg-color-dark-purple text-white'
+            }`}
+            onClick={() => setSelectedTab('current')}
+          >
+            <span>{t('current')}</span>
+          </Button>
+          <Button
+            theme="outline"
+            className={`ml-[-4px] w-[50%] rounded-l-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
+              selectedTab === 'previous' && 'bg-color-dark-purple text-white'
+            }`}
+            onClick={() => setSelectedTab('previous')}
+          >
+            <span>{t('previous')}</span>
+          </Button>
         </div>
-        <div className="section">
-          <div className="section-row">
+        <div>
+          <div>
             {loading ? (
-              <Loader />
-            ) : planStatus.length > 0 ? (
-              <div className="cards-content">
-                <div className="content rounded">
-                  {planStatus.map((x, i) => (
+              <div className="mt-10">
+                <Loader />
+              </div>
+            ) : selectedPackages.length > 0 ? (
+              <div className="rounded-[10px] mt-[30px] w-full">
+                <div className="flex flex-col gap-3 items-start rounded w-full">
+                  {selectedPackages.map((x, i) => (
                     <SubscriptionCard
                       key={i}
                       price={
@@ -53,7 +82,12 @@ const Subscriptions = () => {
                           ? x.payment?.buyPrice
                           : x.package?.price
                       }
-                      title={x.package?.course?.title}
+                      months={x.package?.period}
+                      duration={x.package?.sessionTime}
+                      title={getTranslatedTitle(
+                        x.package?.course,
+                        i18n.language,
+                      )}
                       totalSessions={x.package?.totalSessions}
                       sessionsPerWeek={x.package?.sessionsPerWeek}
                       costPerClass={x.package?.price / x.package?.totalSessions}
@@ -64,24 +98,19 @@ const Subscriptions = () => {
                 </div>
               </div>
             ) : (
-              <div className="no-items-content mt-16">
-                <div className="no-subscriptions">
+              <div className="w-fulll text-center mt-16">
+                <div className="block text-center opacity-70 text-base">
                   {t('no_active_subscriptions', { ns: 'common' })}
                 </div>
               </div>
             )}
           </div>
-          <button
-            className="rounded-lg bg-color-purple text-white text-center to-packages mt-4 px-4 py-2 font-semibold"
-            onClick={toPurchase}
-          >
+          <Button className="w-full mt-10 h-16" onClick={toPurchase}>
             <div className="flex items-center">
-              <span className="me-2">{t('packages', { ns: 'common' })}</span>
-              <span className="continue-arrow">
-                <img src={continue_arrow} alt="" />
-              </span>
+              <FaPlus className="mr-3" />
+              <span className="me-2">{t('add_package', { ns: 'common' })}</span>
             </div>
-          </button>
+          </Button>
         </div>
       </div>
     </Layout>

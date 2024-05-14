@@ -1,31 +1,41 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from 'src/assets/images/logo_purple.svg';
-import Dropdown from '../Dropdown';
 
 import { Roles } from '../../constants/global';
 import { useAuth } from '../../modules/auth';
 
-import { HiUserCircle } from 'react-icons/hi2';
-import { FiLogOut } from 'react-icons/fi';
-import { useStudentsDropdown } from './useStudentsDropdown';
-import { NotificationDropdownMenu } from './Notification/NotificationDropdownMenu';
-import { useTranslation } from 'react-i18next';
 import { useMediaQuery } from 'react-responsive';
+import MyDropdownMenu from '../DropdownMenu';
+import { FaAngleDown } from 'react-icons/fa6';
+import { Avatar } from 'src/widgets/Avatar/Avatar';
+import { MyDrawer } from '../Drawer';
+import MyProfileModal from './MyProfileModal';
+import { useTranslation } from 'react-i18next';
+import { Notifications } from './Notification/Notifications';
 
-// eslint-disable-next-line react/display-name
 const Navbar = memo(() => {
   const [t] = useTranslation('common');
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
+  const isMobile = useMediaQuery({ maxWidth: 639 });
   const isTablet = useMediaQuery({ maxWidth: 1023 });
 
-  const { studentsRender, studentList } = useStudentsDropdown();
-
-  const handleLogout = async () => {
-    await logout();
-    window.Intercom('shutdown');
-    window.location.reload(true);
-  };
+  const myProfileButton = (
+    <label className="py-[14px] rounded-lg select-none cursor-pointer">
+      <div className="flex flex-col items-center justify-between gap-2 sm:gap-0">
+        <Avatar
+          fallback={user.role === Roles.STUDENT ? 'duck' : 'user'}
+          avatarUrl={user?.avatar?.url}
+          className="w-[32px] h-[32px] bg-color-purple rounded-full overflow-hidden"
+          iconClassName="text-white w-[20px]"
+        />
+        <div className="hidden sm:flex items-center font-bold gap-1">
+          <p>{t('my_profile')}</p>
+          <FaAngleDown className="w-3" />
+        </div>
+      </div>
+    </label>
+  );
 
   return (
     <div className="nav-bar sticky top-0 flex items-center justify-between bg-white h-20 px-5 sm:px-10 shadow-[0px_4px_16px_0px_rgba(0,_0,_0,_0.04)] z-20">
@@ -44,64 +54,26 @@ const Navbar = memo(() => {
       </div>
 
       <div className="flex items-center justify-between gap-5">
-        {user.role === Roles.STUDENT && (
-          <Dropdown
-            icon={
-              user?.avatar ? (
-                user?.avatar.url
-              ) : (
-                <HiUserCircle className="text-[30px] text-color-purple " />
-              )
-            }
-            label={user?.firstName}
-            className="w-[30px] h-[30px] rounded-full border-2 border-color-white object-center object-cover "
-            renderChild={studentsRender}
-            items={studentList}
-          />
+        <Notifications />
+
+        {isMobile ? (
+          <MyDrawer button={myProfileButton}>
+            <MyProfileModal />
+          </MyDrawer>
+        ) : (
+          <MyDropdownMenu
+            button={myProfileButton}
+            contentClassName="min-w-[210px] overflow-hidden"
+            align="end"
+          >
+            <MyProfileModal />
+          </MyDropdownMenu>
         )}
-
-        <NotificationDropdownMenu />
-
-        <Dropdown
-          className="w-[30px] h-[30px] rounded-full border-2 border-color-white object-center object-cover "
-          icon={
-            user?.avatar ? (
-              user?.avatar.url
-            ) : (
-              <HiUserCircle className="text-[30px] text-color-purple " />
-            )
-          }
-          label="My Account"
-          items={[
-            {
-              label: t('my_profile'),
-              // icon: IconMyprofile,
-              // activeIcon: IconMyprofile,
-              customIcon: (
-                <HiUserCircle className="text-[30px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
-              ),
-              customIconActive: (
-                <HiUserCircle className="text-[30px] text-white" />
-              ),
-              href:
-                user.role === Roles.MENTOR
-                  ? '/mentor/profile'
-                  : '/student/profile',
-            },
-            {
-              label: t('logout'),
-              // icon: LogoutImg,
-              customIcon: (
-                <FiLogOut className="text-[24px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />
-              ),
-
-              onClick: handleLogout,
-            },
-          ]}
-        />
       </div>
     </div>
   );
 });
+
+Navbar.displayName = 'Navbar';
 
 export default Navbar;

@@ -16,13 +16,13 @@ export const TermsConditionsModal = ({
         {t('terms', { ns: 'purchase' })}
       </h3>
       <p
-        className="mt-4 text-[17px] leading-7"
+        className="mt-4 text-[17px] leading-7 break-keep"
         dangerouslySetInnerHTML={{
           __html: t('terms_link', { ns: 'purchase' }),
         }}
       ></p>
       <CheckboxField
-        className="mt-4 w-[250px]"
+        className="mt-4 w-[250px] break-keep"
         label={t('terms_agree')}
         onChange={(e) => setAgree(e.target.checked)}
       />

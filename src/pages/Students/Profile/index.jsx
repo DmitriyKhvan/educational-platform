@@ -3,9 +3,9 @@ import { Switch, useRouteMatch, Route } from 'react-router-dom';
 import Layout from '../../../layouts/DashboardLayout';
 import { useAuth } from '../../../modules/auth';
 import StudentProfile from './profile/StudentProfile';
-import EditTopics from './editTopics/EditTopics';
+import EditProflileStudent from './editInfo/EditStudentProfile';
 
-export const Profile = () => {
+const Profile = () => {
   let { path } = useRouteMatch();
   const { user } = useAuth();
 
@@ -15,8 +15,8 @@ export const Profile = () => {
         <Route exact path={`${path}`}>
           <StudentProfile currentUser={user} isAdmin={false} />
         </Route>
-        <Route path={`${path}/edit-topics`}>
-          <EditTopics />
+        <Route path={`${path}/edit`}>
+          <EditProflileStudent />
         </Route>
       </Switch>
     </Layout>

@@ -69,8 +69,7 @@ export const SIGN_UP = gql`
         visibilityStatus
         # avatar
         # availabilities
-        zoomUserId
-        zoomEmail
+        playgroundId
       }
       packageSubscriptions {
         id
@@ -127,10 +126,19 @@ export const ME_QUERY = gql`
         parentName
         level
         langLevel
+        languageLevel {
+          title
+          translations {
+            title
+            language
+          }
+        }
         birthday
         about
         pronouns
         isActive
+        isTrial
+        trialStartAt
         # user
         # lessons
         avatarId
@@ -170,8 +178,7 @@ export const ME_QUERY = gql`
           url
         }
         # availabilities
-        zoomUserId
-        zoomEmail
+        playgroundId
         acceptingStudents
       }
       avatarId
@@ -288,10 +295,18 @@ export const GET_MENTOR = gql`
         url
       }
       availabilities {
-        id
-        day
-        from
-        to
+        regular {
+          id
+          day
+          from
+          to
+        }
+        trial {
+          id
+          day
+          from
+          to
+        }
       }
       exceptionDates {
         id
@@ -299,8 +314,8 @@ export const GET_MENTOR = gql`
         from
         to
       }
-      zoomUserId
-      zoomEmail
+      playgroundId
+      mentorAvailability
     }
   }
 `;
@@ -490,6 +505,54 @@ export const PACKAGE_QUERY = gql`
           id
           title
           description
+          translations {
+            title
+            language
+          }
+        }
+      }
+      payment {
+        id
+        status
+        provider
+        cancelReason
+        buyPrice
+        metadata
+      }
+      lessons {
+        id
+        startAt
+        duration
+        status
+        cancelAction
+        cancelReason
+        canceledBy
+      }
+      active
+    }
+  }
+`;
+
+export const ALL_PACKAGE_QUERY = gql`
+  query packageSubscriptions($userId: ID!) {
+    packageSubscriptions: packageSubscriptions(userId: $userId) {
+      id
+      periodStart
+      periodEnd
+      credits
+      modifyCredits
+      package {
+        id
+        totalSessions
+        sessionsPerWeek
+        sessionTime
+        price
+        period
+        discount
+        course {
+          id
+          title
+          description
         }
       }
       payment {
@@ -525,6 +588,21 @@ export const APPOINTMENTS_QUERY = gql`
       cancelReason
       canceledBy
       canceledAt
+      isTrial
+      topic {
+        title
+        translations {
+          title
+          language
+        }
+      }
+      languageLevel {
+        title
+        translations {
+          title
+          language
+        }
+      }
       mentor {
         id
         firstName
@@ -555,8 +633,7 @@ export const APPOINTMENTS_QUERY = gql`
           url
         }
         # availabilities
-        zoomUserId
-        zoomEmail
+        playgroundId
       }
       student {
         id
@@ -566,6 +643,9 @@ export const APPOINTMENTS_QUERY = gql`
         parentName
         level
         langLevel
+        languageLevel {
+          title
+        }
         birthday
         about
         pronouns
@@ -588,12 +668,18 @@ export const APPOINTMENTS_QUERY = gql`
         modifyCredits
         package {
           course {
+            id
             title
+            translations {
+              id
+              title
+              language
+            }
           }
         }
         paymentId
       }
-      zoom {
+      playground {
         id
         meetingId
         startUrl
@@ -617,8 +703,18 @@ export const APPROVE_APPOINTMENT = gql`
 `;
 
 export const CANCEL_APPOINTMENT = gql`
-  mutation CANCEL_LESSON($id: ID!, $cancelReason: String, $repeat: Boolean) {
-    cancelLessons(id: $id, cancelReason: $cancelReason, repeat: $repeat) {
+  mutation CANCEL_LESSON(
+    $id: ID!
+    $cancelReason: String
+    $repeat: Boolean
+    $isTrial: Boolean
+  ) {
+    cancelLessons(
+      id: $id
+      cancelReason: $cancelReason
+      repeat: $repeat
+      isTrial: $isTrial
+    ) {
       id
       startAt
       duration
@@ -635,7 +731,7 @@ export const CREATE_APPOINTMENT = gql`
     $subscriptionId: ID!
     $startAt: DateTime!
     $duration: Int!
-    $repeat: Boolean
+    $repeat: Int
   ) {
     lesson: createLessons(
       mentorId: $mentorId
@@ -651,8 +747,26 @@ export const CREATE_APPOINTMENT = gql`
       status
       cancelAction
       cancelReason
-      #mentor
+      mentor {
+        id
+        firstName
+        lastName
+        gender
+        avatar {
+          url
+        }
+      }
       #student
+      isTrial
+      languageLevel {
+        id
+        title
+        translations {
+          id
+          title
+          language
+        }
+      }
       packageSubscription {
         id
         periodStart
@@ -662,7 +776,12 @@ export const CREATE_APPOINTMENT = gql`
         modifyCredits
         package {
           course {
+            id
             title
+            translations {
+              title
+              language
+            }
           }
         }
         paymentId
@@ -701,6 +820,7 @@ export const UPDATE_APPOINTMENT = gql`
         modifyCredits
         package {
           course {
+            id
             title
           }
         }
@@ -770,6 +890,8 @@ export const LESSON_QUERY = gql`
           id
           period
           sessionTime
+
+          totalSessions
           course {
             id
             title

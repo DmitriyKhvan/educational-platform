@@ -1,6 +1,6 @@
 {
-  "zoom_modal_title": "Are you ready to begin the class?",
-  "zoom_modal_desc": "Your zoom link will become active 10 minutes before the start of class.",
+  "playground_modal_title": "Are you ready to begin the class?",
+  "playground_modal_desc": "Your link will become active 10 minutes before the start of class.",
   "warning": "Warning",
   "cancel_modal_desc": "Number of lessons left in your package that you can reschedule or cancel:",
   "cancel_modal_desc2": "If you're unable to attend class because of illness, please contact our customer service team and provide a doctor's note. This will enable us to return your lesson credit.",
@@ -8,6 +8,8 @@
   "cancel_modal_desc4": "Your lesson credit(s) will be returned since you're cancelling/rescheduling with more than 24 hours' notice.",
   "confirm_cancel": "Are you sure you want to cancel?",
   "review_cancellation_policy": "Review Cancellation Policy",
+  "are_you_sure_reschedule_cancel": "Are you sure you want to {{cancelReschedule}} <strong>{{date}}</strong> lesson?",
+  "n_cancelations_left": "<primary>{{count}}/3 cancellations</primary> <secondary>left this month</secondary>",
   "continue_cancel": "Continue",
   "join_lesson": "Join",
   "watch_recording": "Watch",
@@ -63,5 +65,16 @@
   "lesson_not_updated": "Lesson not updated",
   "invalid_date": "Mentor Not Available",
   "same_date": "Same date",
-  "lesson_not_created": "Lesson not created"
+  "lesson_not_created": "Lesson not created",
+  "logging_out": "Logging out",
+  "are_you_sure_to_logout": "Are you sure you want to log out of your account?",
+  "yes_logout": "Yes, log out",
+  "cancel": "Cancel",
+  "info": "Info",
+  "not_enough_credits": "Not enough credits for {{count}} month booking",
+  "not_enough_credits_plural": "Not enough credits for {{count}} months booking",
+  "some_classes_cant_be_scheduled": "Some classes can’t be scheduled due to insufficient credits. If you wish to book more lessons in advance, please try again after purchasing more credits",
+  "continue_booking": "Continue booking",
+  "purchase_more_credits": "Purchase more credits",
+  "are_you_sure_to_cancel_trial": "Are you sure you want to cancel this lesson? The trial lesson credit will be refunded to rebook at a different time."
 }

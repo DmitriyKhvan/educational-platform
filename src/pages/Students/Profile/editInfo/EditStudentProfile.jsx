@@ -23,8 +23,13 @@ import InputField from '../../../../components/Form/InputField';
 import { SelectField } from '../../../../components/Form/SelectField';
 import { Avatar } from '../../../../widgets/Avatar/Avatar';
 import { trimSpaces } from 'src/utils/trimSpaces';
+import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { FaChevronLeft } from 'react-icons/fa6';
+import PhoneNumberField from 'src/components/Form/PhoneNumberField';
+import InputWithError from 'src/components/Form/InputWithError';
 
-const EditProflileStudent = ({ closeModal, setLoading }) => {
+const EditProflileStudent = () => {
+  const history = useHistory();
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
   const [updateUser] = useMutation(MUTATION_UPDATE_USER);
 
@@ -33,20 +38,27 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
 
   const { user, refetchUser } = useAuth();
 
-  const { register, handleSubmit, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    control,
+    resetField,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       koreanEquivalent: user?.koreanEquivalent,
       gender: user?.gender,
       lastName: user?.lastName,
       firstName: user?.firstName,
-      phoneNumber: user?.phoneNumber,
+      phoneNumber: '',
+      phoneNumberWithoutCode: '',
       address: user?.address,
     },
   });
 
   const onSubmit = async (area) => {
-    setLoading(true);
-
     const {
       firstName,
       lastName,
@@ -60,7 +72,6 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
 
     await updateStudent({
       variables: {
-        // id: parseInt(user?.student?.id),
         id: parseInt(getItemToLocalStorage('studentId')),
         data: {
           avatar: file,
@@ -86,12 +97,10 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
         },
       },
       onCompleted: async () => {
-        closeModal();
-
         setTimeout(async () => {
           await refetchUser();
-          setLoading(false);
           notify(t('student_information_changed', { ns: 'profile' }));
+          history.push('/student/profile');
         }, 400);
       },
       onError: () => {
@@ -106,9 +115,14 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
   const removePreviewImage = () => setFile(null);
 
   return (
-    <section className="">
-      <div className="mb-5">
-        <h3 className="text-black m-0 text-[20px]">{t('edit_profile')}</h3>
+    <section className="max-w-[400px] px-5 sm:px-0 mx-auto mt-10">
+      <div className="mb-5 flex items-center">
+        <Link className="mr-3" to="/student/profile">
+          <FaChevronLeft className="text-[16px] font-bold" />
+        </Link>
+        <h3 className="text-black m-0 text-[32px] font-bold">
+          {t('edit_profile')}
+        </h3>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -238,13 +252,26 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
           </section>
 
           <section className="mt-4">
-            <InputField
+            <InputWithError
+              errorsField={
+                errors?.phoneNumberWithoutCode ?? errors?.phoneNumber
+              }
+            >
+              <PhoneNumberField
+                register={register}
+                resetField={resetField}
+                defaultNumber={user?.phoneNumber}
+                setValue={setValue}
+                watch={watch}
+              />
+            </InputWithError>
+            {/* <InputField
               className="w-full"
               label={t('phone_number', { ns: 'common' })}
               type={'text'}
               placeholder="+1(555)555-5555"
               {...register('phoneNumber')}
-            />
+            /> */}
           </section>
 
           <section className="mt-4">
@@ -258,7 +285,12 @@ const EditProflileStudent = ({ closeModal, setLoading }) => {
           </section>
         </section>
 
-        <Button className="mt-10 w-full" type="submit" theme="purple">
+        <Button
+          // disabled={!isValid}
+          className="my-10 h-[60px] w-full"
+          type="submit"
+          theme="purple"
+        >
           {t('save', { ns: 'common' })}
         </Button>
       </form>

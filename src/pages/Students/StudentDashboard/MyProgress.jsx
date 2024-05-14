@@ -5,7 +5,7 @@ import ScheduleCard from 'src/components/student-dashboard/ScheduleCardRebrandin
 import { useTranslation } from 'react-i18next';
 
 const MyProgress = ({ appointments, fetchAppointments }) => {
-  const [t] = useTranslation('dashboard');
+  const [t] = useTranslation(['dashboard', 'lessons']);
 
   const lastCompleted = useMemo(
     () =>
@@ -26,7 +26,7 @@ const MyProgress = ({ appointments, fetchAppointments }) => {
           duration={lastCompleted.duration}
           lesson={lastCompleted?.packageSubscription?.package?.course?.title}
           mentor={lastCompleted.mentor}
-          zoom={lastCompleted?.zoom}
+          playground={lastCompleted?.playground}
           date={new Date(lastCompleted.startAt)}
           data={lastCompleted}
           fetchAppointments={fetchAppointments}
@@ -34,7 +34,7 @@ const MyProgress = ({ appointments, fetchAppointments }) => {
       ) : (
         <div className="flex justify-center items-center gap-4 md:gap-[30px] w-full bg-gray-50 h-72 rounded-lg">
           <p className="text-[15px] text-gray-300 tracking-tight mb-6">
-            You don&apos;t have completed lessons yet
+            {t('no_completed_lessons', { ns: 'lessons' })}
           </p>
         </div>
       )}

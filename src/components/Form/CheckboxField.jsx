@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { cn } from 'src/utils/functions';
 
 const CheckboxField = forwardRef(
   (
@@ -15,7 +16,10 @@ const CheckboxField = forwardRef(
   ) => {
     return (
       <label
-        className={`relative inline-flex items-center cursor-pointer ${className}`}
+        className={cn(
+          'relative inline-flex items-center cursor-pointer',
+          className,
+        )}
       >
         <input
           className={`
@@ -27,7 +31,8 @@ const CheckboxField = forwardRef(
             bg-[#F5F5F5]
             text-transparent
             cursor-pointer
-            focus:ring-transparent
+            focus:ring-transparent 
+            focus:shadow-[0_0_0_0.35rem_rgba(13,110,253,0.25)]
             checked:bg-none
             checked:bg-color-purple
             ${square ? 'rounded-[4px]' : 'rounded-full'}
@@ -49,7 +54,7 @@ const CheckboxField = forwardRef(
           <svg
             className="
             absolute 
-            w-4 h-4 ml-1
+            w-4 h-4 mx-1
             hidden peer-checked:block
             text-white"
             xmlns="http://www.w3.org/2000/svg"

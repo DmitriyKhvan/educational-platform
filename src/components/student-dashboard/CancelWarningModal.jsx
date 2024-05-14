@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useAuth } from '../../modules/auth';
-import { MAX_MODIFY_COUNT, Roles } from '../../constants/global';
+import { MAX_MODIFY_COUNT, ModalType, Roles } from '../../constants/global';
 import CheckboxField from '../Form/CheckboxField';
 import { FaXmark } from 'react-icons/fa6';
 import Button from '../Form/Button/Button';
@@ -76,25 +76,38 @@ const CancelWarningModal = ({
   const disableCancelLesson =
     user.role === Roles.MENTOR || modifyCredits !== 0 ? false : true;
   return (
-    <div className="max-w-[336px] mx-auto">
+    <div className="w-[336px] mx-auto">
       <div className="mb-5 text-2xl font-bold text-center">
-        {type === 'cancel' ? t('cancel_lesson') : t('reschedule_lesson')}
+        {type === ModalType.CANCEL
+          ? t('cancel_lesson')
+          : t('reschedule_lesson')}
       </div>
       <p className="text-base text-center mb-4">
-        Are you sure want to {type === 'cancel' ? 'cancel' : 'recshedule'}
-        <br />
-        <span className="font-semibold">
-          {format(
-            utcToZonedTime(new Date(data?.startAt ?? new Date()), userTimezone),
-            'eee, MMM do',
-            { timeZone: userTimezone },
-          )}
-        </span>{' '}
-        lesson?
+        <Trans
+          t={t}
+          i18nKey="are_you_sure_reschedule_cancel"
+          values={{
+            cancelReschedule:
+              type === 'cancel'
+                ? t('swal_cancel_Button_Text').toLowerCase()
+                : t('reschedule').toLowerCase(),
+            date: format(
+              utcToZonedTime(
+                new Date(data?.startAt ?? new Date()),
+                userTimezone,
+              ),
+              'eee, MMM do',
+              { timeZone: userTimezone },
+            ),
+          }}
+          components={{
+            strong: <span className="font-semibold" />,
+          }}
+        />
       </p>
       {user.role !== Roles.MENTOR && (
         <div className="space-y-3">
-          {(type === 'cancel' || isLate) && (
+          {(type === ModalType.CANCEL || isLate) && (
             <div className="w-full bg-color-red bg-opacity-10 flex items-center p-4 rounded-lg">
               <span className="bg-color-red min-w-6 h-6 block rounded-full text-center text-white mr-4 text-base">
                 !
@@ -118,12 +131,19 @@ const CancelWarningModal = ({
 
           <div className="w-full p-4 flex items-center justify-between mt-5 rounded-lg bg-color-purple bg-opacity-20">
             <div>
-              <p className="font-semibold text-[15px] text-color-purple">
-                {cancellationCount}/3 cancellations
-              </p>
-              <span className="text-[14px] text-color-purple">
-                left this month
-              </span>
+              <Trans
+                t={t}
+                i18nKey="n_cancelations_left"
+                values={{
+                  count: cancellationCount,
+                }}
+                components={{
+                  primary: (
+                    <p className="font-semibold text-[15px] text-color-purple" />
+                  ),
+                  secondary: <span className="text-[14px] text-color-purple" />,
+                }}
+              />
             </div>
             <div className="flex">{cancellationDots}</div>
           </div>
@@ -134,32 +154,38 @@ const CancelWarningModal = ({
         className="h-[56px] px-[10px] w-full mt-6"
         theme="purple"
         onClick={
-          disableCancelLesson || (isLate && type === 'reschedule')
+          disableCancelLesson || (isLate && type === ModalType.RESCHEDULE)
             ? undefined
             : onClick
         }
-        disabled={disableCancelLesson || (isLate && type === 'reschedule')}
+        disabled={
+          disableCancelLesson || (isLate && type === ModalType.RESCHEDULE)
+        }
       >
         {t('continue_cancel')}
       </Button>
 
-      <div className="mt-6 flex justify-center">
-        <CheckboxField
-          label={
-            type === 'cancel' ? t('cancel_lessons') : t('reschedule_lessons')
-          }
-          id="cancel"
-          value="cancel"
-          onChange={() => setRepeatLessons((v) => !v)}
-          checked={repeatLessons}
-          disabled={disableCancelLesson}
-          name="lesson"
-          square
-        />
-      </div>
+      {user.role === Roles.STUDENT && (
+        <div className="mt-6 flex justify-center">
+          <CheckboxField
+            label={
+              type === ModalType.CANCEL
+                ? t('cancel_lessons')
+                : t('reschedule_lessons')
+            }
+            id="cancel"
+            value="cancel"
+            onChange={() => setRepeatLessons((v) => !v)}
+            checked={repeatLessons}
+            disabled={disableCancelLesson}
+            name="lesson"
+            square
+          />
+        </div>
+      )}
 
       <div className="flex items-center justify-center gap-x-8 mt-4">
-        {type !== 'reschedule' && (
+        {type !== ModalType.RESCHEDULE && (
           <button
             className="h-[38px] px-[10px] text-color-purple text-sm hover:underline"
             onClick={() => setTabIndex(10)}

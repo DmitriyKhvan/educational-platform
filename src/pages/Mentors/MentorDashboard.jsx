@@ -18,6 +18,7 @@ import {
   startOfDay,
   subMinutes,
 } from 'date-fns';
+import LevelAfterTrialModal from './LevelAfterTrialModal';
 
 const TutorDashboard = () => {
   const [t] = useTranslation('dashboard');
@@ -149,7 +150,7 @@ const TutorDashboard = () => {
                 <ScheduleCard
                   lesson={event?.packageSubscription?.package?.course?.title}
                   duration={event?.duration}
-                  zoom={event?.zoom}
+                  playground={event?.playground}
                   date={event?.startAt}
                   data={event}
                   student={event.student}
@@ -163,6 +164,8 @@ const TutorDashboard = () => {
         </div>
       </div>
       {isLoading && <Loader />}
+
+      <LevelAfterTrialModal />
 
       <FeedbackLessonModal
         modalState="mentor"

@@ -522,18 +522,12 @@ select {
   letter-spacing: -0.6px;
   color: $color-light-grey;
 }
-.form-check-input {
-  position: relative;
-}
+
 .form-check-label {
   display: inline-block;
   margin-top: 0.25em;
 }
-.form-check-input[type='checkbox'] {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-}
+
 .form-check {
   display: flex;
   min-height: 1.5rem;
@@ -565,9 +559,7 @@ select {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
-.col-auto .pt-2 {
-  margin-left: -13px;
-}
+
 .align-date {
   align-items: center;
 }
@@ -1109,12 +1101,6 @@ select {
     align-items: center;
     display: flex;
     text-align: center !important;
-  }
-  .text-muted {
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    display: flex;
   }
 
   .summary-information {

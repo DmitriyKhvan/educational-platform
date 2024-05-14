@@ -474,5 +474,7 @@
   "Show_tutors": "모든 튜터 표시",
   "Favorite_tutors": "즐겨찾기한 튜터만 표시",
   "booking_request": "예약 요청",
-  "back": "← 뒤"
+  "back": "← 뒤",
+  "yes": "예",
+  "no": "아니요"
 }

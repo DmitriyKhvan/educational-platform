@@ -1,6 +1,9 @@
 // import timezones from 'timezones-list';
+import { enUS, ko, zhTW } from 'date-fns/locale';
 import { getData } from 'country-list';
+import { format, utcToZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
+import * as flags from 'src/assets/flags';
 // import { useMemo } from 'react';
 
 export const genders = [
@@ -21,102 +24,102 @@ export const useGenderDic = () => {
   return genders;
 };
 
-export const pronouns = [
-  { label: 'He/Him/His', value: 'male' },
-  { label: 'She/Her/Hers', value: 'female' },
-  { label: 'They/Them/Theirs', value: 'transgender' },
-  { label: 'She and/or He', value: 'nonbinary' },
-  { label: 'Other', value: 'other' },
-];
-
-// export const timezoneOptions = timezones.map(({ label, tzCode }) => {
-//   return {
-//     label,
-//     value: tzCode,
-//   };
-// });
-
 export const phoneCodes = [
   {
     code: '+1',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/ca.svg',
+    flag: flags.ca,
     iso: 'CA',
     mask: '(###)###-####',
     name: 'Canada',
   },
   {
     code: '+62',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/id.svg',
+    flag: flags.id,
     iso: 'ID',
     mask: '##-###-##',
     name: 'Indonesia',
   },
   {
     code: '+33',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/fr.svg',
+    flag: flags.fr,
     iso: 'FR',
     mask: '(###)###-###',
     name: 'France',
   },
   {
     code: '+81',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/jp.svg',
+    flag: flags.jp,
     iso: 'JP',
     mask: '(###)###-###',
     name: 'Japan',
   },
   {
     code: '+82',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/kr.svg',
+    flag: flags.kr,
     iso: 'KR',
     mask: '##-####-####',
     name: 'Korea, Republic of South Korea',
   },
   {
     code: '+60',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/my.svg',
+    flag: flags.my,
     iso: 'MY',
     mask: '#-###-###',
     name: 'Malaysia',
   },
   {
     code: '+52',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/mx.svg',
+    flag: flags.mx,
     iso: 'MX',
     mask: '##-##-####',
     name: 'Mexico',
   },
   {
     code: '+63',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/ph.svg',
+    flag: flags.ph,
     iso: 'PH',
     mask: '(###)###-####',
     name: 'Philippines',
   },
   {
     code: '+66',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/th.svg',
+    flag: flags.th,
     iso: 'TH',
     mask: '##-###-###',
     name: 'Thailand',
   },
   {
     code: '+1',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/us.svg',
+    flag: flags.us,
     iso: 'US',
     mask: '(###)###-####',
     name: 'United States',
   },
   {
     code: '+84',
-    flag: 'https://cdn.kcak11.com/CountryFlags/countries/vn.svg',
+    flag: flags.vn,
     iso: 'VN',
     mask: '##-####-###',
     name: 'Vietnam',
   },
+  {
+    name: 'Taiwan',
+    code: '+886',
+    iso: 'TW',
+    flag: flags.tw,
+    mask: '#-####-####',
+  },
 ];
 
 export const timezoneOptions = [
+  {
+    label: 'Asia/Seoul',
+    value: 'Asia/Seoul',
+  },
+  {
+    label: 'Asia/Taipei',
+    value: 'Asia/Taipei',
+  },
   {
     label: 'Pacific/Midway',
     value: 'Pacific/Midway',
@@ -558,10 +561,6 @@ export const timezoneOptions = [
     value: 'Asia/Hong_Kong',
   },
   {
-    label: 'Asia/Taipei',
-    value: 'Asia/Taipei',
-  },
-  {
     label: 'Asia/Kuala_Lumpur',
     value: 'Asia/Kuala_Lumpur',
   },
@@ -576,10 +575,6 @@ export const timezoneOptions = [
   {
     label: 'Asia/Yakutsk',
     value: 'Asia/Yakutsk',
-  },
-  {
-    label: 'Asia/Seoul',
-    value: 'Asia/Seoul',
   },
   {
     label: 'Asia/Tokyo',
@@ -647,16 +642,16 @@ export const timezoneOptions = [
   },
 ];
 
-export const LANGUAGES = [
-  { label: 'english', value: 'english' },
-  { label: 'spanish', value: 'spanish' },
-];
+export const timezoneWithTimeOptions = timezoneOptions.map((timezone) => {
+  const time = format(utcToZonedTime(new Date(), timezone.value), 'HH:mm a', {
+    timeZone: timezone.value,
+  });
 
-export const languageLevels = [
-  { label: 'beginner', value: 'beginner' },
-  { label: 'intermediate', value: 'intermediate' },
-  { label: 'fluent', value: 'fluent' },
-];
+  return {
+    ...timezone,
+    label: `${timezone.value} (${time})`,
+  };
+});
 
 export const countries = getData().map((country) => {
   return {
@@ -674,35 +669,6 @@ export const DAY = [
   'Thursday',
   'Friday',
   'Saturday',
-];
-
-export const course_options = [
-  { label: '1-on-1', value: '1-on-1' },
-  { label: 'Group Lesson', value: 'group' },
-];
-export const courses = [
-  { value: 'english', package: 'english', label: 'english', options: [0, 1] },
-  { value: 'writing', package: 'writing', label: 'writing', options: [0, 1] },
-];
-
-export const class_durations = ['30min', '60min'];
-
-export const class_types = ['1-on-1', 'group'];
-
-export const subscription_periods = [
-  '1month',
-  '3months',
-  '6months',
-  '12months',
-];
-
-export const currencies = ['$', '₩'];
-
-export const introsteps = [
-  'dress_smart',
-  'brand_yourself',
-  'smile_look_camera',
-  'speak_ca',
 ];
 
 export const cancel_lesson_reasons_student = [
@@ -823,6 +789,15 @@ export const LessonsStatusType = {
   PAID: 'paid',
 };
 
+export const LangLevelType = {
+  PRE_LEVEL: 'Pre-level 1',
+  LEVEL_1: 'Level 1',
+  LEVEL_2: 'Level 2',
+  LEVEL_3: 'Level 3',
+  LEVEL_4: 'Level 4',
+  LEVEL_5: 'Level 5',
+};
+
 export const ModalType = {
   CANCEL: 'cancel',
   RESCHEDULE: 'reschedule',
@@ -843,4 +818,74 @@ export const DiscountType = {
 export const Language = {
   EN: 'en',
   KR: 'kr',
+  CH: 'cn',
+};
+
+export const localeDic = {
+  [Language.EN]: enUS,
+  [Language.KR]: ko,
+  [Language.CH]: zhTW,
+};
+
+export const CalendarView = {
+  DAY_VIEW: 'timeGridDay',
+  WEEK_VIEW: 'timeGridWeek',
+  MONTH_VIEW: 'dayGridMonth',
+};
+
+export const MentorAvailabilityType = {
+  ONLY_REGULAR: 'only_regular',
+  ONLY_TRIAL: 'only_trial',
+  REGULAR_AND_TRIAL: 'regular_and_trial',
+};
+
+export const COURSE_COLORS = {
+  PURPLE: 'purple',
+  ORANGE: 'orange',
+  BLUE: 'blue',
+  PINK: 'pink',
+  BROWN: 'brown',
+  YELLOW: 'yellow',
+  TEAL: 'teal',
+  RED: 'red',
+  GREEN: 'green',
+};
+
+export const courseColorsDict = {
+  [COURSE_COLORS.PURPLE]: {
+    event: 'text-color-purple bg-color-purple border-l-color-purple',
+    indicator: 'bg-color-purple',
+  },
+  [COURSE_COLORS.ORANGE]: {
+    event: 'text-[#FF9335] bg-[#FF9335] border-l-[#FF9335]',
+    indicator: 'bg-[#FF9335]',
+  },
+  [COURSE_COLORS.BLUE]: {
+    event: 'text-[#19BBFE] bg-[#19BBFE] border-l-[#19BBFE]',
+    indicator: 'bg-[#19BBFE]',
+  },
+  [COURSE_COLORS.PINK]: {
+    event: 'text-pink-500 bg-pink-500 border-l-pink-500',
+    indicator: 'bg-pink-500',
+  },
+  [COURSE_COLORS.RED]: {
+    event: 'text-red-600 bg-red-600 border-l-red-600',
+    indicator: 'bg-red-600',
+  },
+  [COURSE_COLORS.BROWN]: {
+    event: 'text-yellow-900 bg-yellow-900 border-l-yellow-900',
+    indicator: 'bg-yellow-900',
+  },
+  [COURSE_COLORS.YELLOW]: {
+    event: 'text-yellow-300 bg-yellow-300 border-l-yellow-300',
+    indicator: 'bg-yellow-300',
+  },
+  [COURSE_COLORS.TEAL]: {
+    event: 'text-teal-600 bg-teal-600 border-l-teal-600',
+    indicator: 'bg-teal-600',
+  },
+  [COURSE_COLORS.GREEN]: {
+    event: 'text-[#00D986] bg-[#00D986] border-l-[#00D986]',
+    indicator: 'bg-[#00D986]',
+  },
 };

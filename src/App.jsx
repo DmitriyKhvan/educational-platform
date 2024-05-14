@@ -20,7 +20,6 @@ import ForgotPasswordText from './pages/Auth/ForgotPasswordText';
 // Authentication Path
 import Login from './pages/Auth/Login';
 import ResetPassword from './pages/Auth/ResetPassword';
-import ApproveRequest from './pages/Mentors/ApproveRequest/ApproveRequest';
 import './App.scss';
 
 import { Toaster } from 'react-hot-toast';
@@ -35,6 +34,12 @@ import { SelectProfile } from './pages/Auth/SelectProfile/SelectProfile';
 import { getItemToLocalStorage, Roles } from './constants/global';
 import { AddStudentProfile } from './pages/Auth/SelectProfile/AddProfile';
 import { ErrorPage } from './pages/ErrorPage';
+import Trial from './pages/Students/Trial';
+
+const TrialMarketingChannel = lazy(() =>
+  import('src/pages/TrialMarketingChannel'),
+);
+const BuyPackage = lazy(() => import('src/pages/Students/BuyPackage'));
 
 function PrivateRoute({ component: Component, role, ...rest }) {
   const { user } = useAuth();
@@ -121,6 +126,12 @@ function App() {
             />
 
             <PublicRoute path="/onboarding" component={Onboarding} />
+            <PublicRoute exact path="/trial" component={Trial} />
+            <PublicRoute
+              exact
+              path="/trial/thank-you"
+              component={TrialMarketingChannel}
+            />
 
             <PublicRoute path="/referral/:referalcode" component={IsReferal} />
 
@@ -142,8 +153,7 @@ function App() {
               role="student_parent"
               exact
               path="/purchase"
-              // component={BuyPackage}
-              component={lazy(() => import('./pages/Students/BuyPackage'))}
+              component={BuyPackage}
             />
 
             <PrivateRoute
@@ -164,12 +174,6 @@ function App() {
               role="student_parent"
               path="/select-profile"
               component={SelectProfile}
-            />
-
-            <PrivateRoute
-              role="mentor"
-              path="/approve-requests"
-              component={ApproveRequest}
             />
 
             <PrivateRoute

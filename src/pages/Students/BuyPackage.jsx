@@ -10,10 +10,10 @@ import { OrderSummary } from 'src/components/BuyPackage/OrderSummary';
 import Loader from '../../components/Loader/Loader';
 import { useTranslation } from 'react-i18next';
 import { COURSES } from 'src/modules/graphql/queries/courses/courses';
+import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 
 export default function BuyPackage() {
   const [t, i18n] = useTranslation('purchase');
-  const currentLanguage = i18n.language;
 
   const [courses, setCourse] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -32,28 +32,26 @@ export default function BuyPackage() {
 
   const { error, data, loading } = useQuery(COURSES, {
     fetchPolicy: 'network-only',
+    variables: {
+      trialFilter: 'only_regular',
+    },
   });
 
   useEffect(() => {
     if (data) {
       const coursesFiltered = data.courses
         .filter((course) => course.packages.length > 0 && course.active)
-        .map((course) => {
-          const title =
-            course.translations.find(
-              (translation) => translation.language === currentLanguage,
-            )?.title || course.title;
-
-          return {
-            ...course,
-            title,
-            packages: course.packages
-              .filter((pkg) => pkg.period !== 1)
-              .sort((a, b) => a.period - b.period),
-          };
-        });
+        .sort((a, b) => a.sequence - b.sequence)
+        .map((course) => ({
+          ...course,
+          title: getTranslatedTitle(course, i18n.language),
+          packages: course.packages
+            .filter((pkg) => pkg.period !== 1)
+            .sort((a, b) => a.period - b.period),
+        }));
 
       setCourse(coursesFiltered);
+
       setSelectedCourse(coursesFiltered[0]);
     }
   }, [data, t]);
