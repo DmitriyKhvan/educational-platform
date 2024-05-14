@@ -45,6 +45,7 @@ const BasicForm = () => {
       timeZone: user?.timeZone,
       address: user?.address,
       convertAvailabilityTime: true,
+      googleCalendarSync: user.googleCalendarSync,
     },
   });
 
@@ -58,6 +59,7 @@ const BasicForm = () => {
       timeZone,
       address,
       convertAvailabilityTime,
+      googleCalendarSync,
     } = trimSpaces(values);
 
     await updateUser({
@@ -69,6 +71,7 @@ const BasicForm = () => {
           timeZone: timeZone,
           address: address,
           convertAvailabilityTime: convertAvailabilityTime,
+          googleCalendarSync: googleCalendarSync,
         },
       },
       // onCompleted: () => {
@@ -199,11 +202,37 @@ const BasicForm = () => {
             />
           </label>
 
-          <CheckboxField
-            className="mb-6"
-            label="Update mentor availability and calendar to reflect new timezone"
-            {...register('convertAvailabilityTime')}
-          />
+          <div>
+            <CheckboxField
+              className="mb-6"
+              label="Update mentor availability and calendar to reflect new timezone"
+              {...register('convertAvailabilityTime')}
+            />
+          </div>
+
+          {user.googleCalendarSync && (
+            <div>
+              <CheckboxField
+                className="mb-6"
+                label={t('google_calendar_sync', { ns: 'profile' })}
+                {...register('googleCalendarSync')}
+              />
+            </div>
+          )}
+
+          {!user.googleCalendarSync && (
+            <a href={user.googleAuth.url}>
+              <Button className="w-[420px] mb-6">
+                Enable google calendar sync
+              </Button>
+            </a>
+          )}
+
+          {user.googleCalendarSync && user.googleAuth.url && (
+            <a href={user.googleAuth.url}>
+              <Button className="w-[420px] mb-6">Refresh Google token</Button>
+            </a>
+          )}
         </div>
 
         <Button className="w-[420px]" type="submit">

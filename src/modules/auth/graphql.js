@@ -190,6 +190,11 @@ export const ME_QUERY = gql`
       role
       cardLast4
       newToken
+      googleCalendarSync
+      googleAuth {
+        url
+        refreshTokenDaysRemaining
+      }
     }
   }
 `;

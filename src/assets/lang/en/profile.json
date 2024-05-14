@@ -57,6 +57,7 @@
   "deactivated_student": "This student's account has been deactivated or is no longer valid. Please reach out to the relevant administrator or support personnel for further assistance.",
   "select_profile": "Select a Profile",
   "add_account": "Add Account",
+  "google_calendar_sync": "Enable Google Calendar Sync",
   "lessons_remaining": "Lessons remaining",
   "deactivated": "Deactivated"
 }
