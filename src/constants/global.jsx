@@ -766,6 +766,7 @@ export const COURSE_COLORS = {
   YELLOW: 'yellow',
   TEAL: 'teal',
   RED: 'red',
+  GRAY: 'gray',
   GREEN: 'green',
 };
 
@@ -801,6 +802,10 @@ export const courseColorsDict = {
   [COURSE_COLORS.TEAL]: {
     event: 'text-teal-600 bg-teal-600 border-l-teal-600',
     indicator: 'bg-teal-600',
+  },
+  [COURSE_COLORS.GRAY]: {
+    event: 'text-gray-300 bg-gray-300 border-l-gray-300',
+    indicator: 'bg-gray-300',
   },
   [COURSE_COLORS.GREEN]: {
     event: 'text-[#00D986] bg-[#00D986] border-l-[#00D986]',

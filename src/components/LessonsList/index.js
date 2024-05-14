@@ -1,5 +1,5 @@
-import LessonsCalendar from './Calendar';
-import LessonsCalendarHeader from './CalendarHeader';
+import LessonsCalendar from './LessonsCalendar';
+import LessonsCalendarHeader from './LessonsCalendarHeader';
 import NoLessonsMessage from './NoLessonsMessage';
 import LessonsTable from './Table';
 import LessonsList from './LessonsList';
