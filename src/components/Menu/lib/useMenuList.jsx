@@ -7,8 +7,11 @@ import { FaRegCalendarAlt } from 'react-icons/fa';
 import { HiGift } from 'react-icons/hi2';
 import { FaGraduationCap } from 'react-icons/fa6';
 import { IoLibrarySharp } from 'react-icons/io5';
+import { MdOutlineGroups } from 'react-icons/md';
+import { ModalPurchase } from 'src/components/ModalPurchase';
+import { Info } from 'src/components/ReferBanner/ui/Info';
 
-const tutorNavLinks = [
+const mentorNavLinks = [
   {
     label: 'manage_appointments',
     link: '/mentor/manage-appointments',
@@ -41,7 +44,8 @@ const studentNavLinks = [
     label: 'mentors',
     link: '/student/mentors-list',
     icon: FaGraduationCap,
-    trial: true,
+    type: 'trial',
+    modal: <ModalPurchase />,
   },
   {
     label: 'subscriptions',
@@ -49,10 +53,17 @@ const studentNavLinks = [
     icon: HiGift,
   },
   {
+    label: 'refer',
+    link: '#',
+    icon: MdOutlineGroups,
+    type: 'modal',
+    modal: <Info />,
+  },
+  {
     label: 'class_material',
     link: classMaterialURL || 'https://naonow.instructure.com/',
     icon: IoLibrarySharp,
-    external: true,
+    type: 'external',
   },
 ];
 
@@ -62,7 +73,7 @@ export const useMenuList = () => {
 
   useEffect(() => {
     if (user.role === Roles.MENTOR) {
-      setNavLinks(tutorNavLinks);
+      setNavLinks(mentorNavLinks);
     } else if (user.role === Roles.STUDENT) {
       setNavLinks(studentNavLinks);
     }
