@@ -20,6 +20,7 @@ import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import PhoneNumberField from 'src/components/Form/PhoneNumberField';
 import { SelectField } from 'src/components/Form/SelectField';
 import { timezoneOptions } from 'src/constants/global';
+// import MySelect from 'src/components/Form/MySelect';
 
 export default function Onboarding() {
   localStorage.removeItem('studentId');
@@ -48,6 +49,9 @@ export default function Onboarding() {
   const [signUp] = useMutation(SIGN_UP);
 
   const onSubmit = async (data) => {
+    console.log('data', data);
+
+    if (data) return;
     setIsLoading(true);
 
     try {
@@ -150,25 +154,42 @@ export default function Onboarding() {
             </InputWithError>
 
             <InputWithError errorsField={errors?.timeZone}>
-              <label className="font-semibold text-base text-color-dark-purple">
+              <label className="font-semibold text-base text-color-dark-purple mb-2">
                 {t('time_zone', { ns: 'common' })}
-
-                <Controller
-                  control={control}
-                  defaultValue=""
-                  name="timeZone"
-                  rules={{
-                    required: true,
-                  }}
-                  render={({ field: { value, onChange } }) => (
-                    <SelectField
-                      value={value}
-                      options={timezoneOptions}
-                      onChange={onChange}
-                    />
-                  )}
-                />
               </label>
+              <Controller
+                control={control}
+                defaultValue=""
+                name="timeZone"
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { value, onChange } }) => (
+                  <SelectField
+                    // menuPortalTarget={document.body}
+                    menuPlacement="auto"
+                    value={value}
+                    options={timezoneOptions}
+                    onChange={onChange}
+                  />
+                )}
+              />
+
+              {/* <Controller
+                control={control}
+                defaultValue=""
+                name="timeZone"
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { value, onChange } }) => (
+                  <MySelect
+                    value={value}
+                    options={timezoneOptions}
+                    onChange={onChange}
+                  />
+                )}
+              /> */}
             </InputWithError>
 
             <InputWithError errorsField={errors?.password}>

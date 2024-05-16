@@ -33,12 +33,12 @@ export const LangSwitcher = () => {
       localStorage.getItem('language') === Language.EN
         ? Language.EN
         : localStorage.getItem('language') === Language.KR
-        ? Language.KR
-        : localStorage.getItem('language') === Language.CH
-        ? Language.CH
-        : user.role === Roles.MENTOR
-        ? Language.EN
-        : Language.KR;
+          ? Language.KR
+          : localStorage.getItem('language') === Language.CH
+            ? Language.CH
+            : user.role === Roles.MENTOR
+              ? Language.EN
+              : Language.KR;
 
     return languages.find((lang) => lang.value === currentLangValue);
   }, []);
@@ -69,7 +69,7 @@ export const LangSwitcher = () => {
       }
     >
       {/* <ul className="w-[calc(100vw-2*24px)] sm:w-[514px]"> */}
-      <ul>
+      <ul className="w-[200px]">
         {languages.map((lang) => {
           return (
             <li

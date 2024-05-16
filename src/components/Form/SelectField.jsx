@@ -41,6 +41,7 @@ export const SelectField = forwardRef(function SelectField(
           scrollbarWidth: '5px',
           scrollbarColor: 'red',
         }),
+        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
       }
     );
   }, []);
