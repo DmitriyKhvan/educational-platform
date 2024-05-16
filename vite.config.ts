@@ -30,7 +30,7 @@ export default defineConfig({
       apply(this, config, { mode, command }) {
         return command === 'build' && mode === 'analyze' ? true : false;
       },
-    } as PluginOption,
+    } as unknown as PluginOption,
     viteImageMin(),
   ],
 

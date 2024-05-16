@@ -4,6 +4,7 @@ import { startOfDay, addMinutes, format } from 'date-fns';
 import Select from 'react-select';
 import { selectStyle } from '../Availiability/lib/selectStyle';
 import { FaXmark } from 'react-icons/fa6';
+// import MySelect from 'src/components/Form/MySelect';
 
 export const AvailabilityExceptionSlot = ({
   exception,
@@ -33,6 +34,7 @@ export const AvailabilityExceptionSlot = ({
   );
 
   const onChangeTime = (time, timeType) => {
+    console.log('time', time);
     const findTimeIdx = timeOptions.findIndex((t) => t.value === time);
 
     let newTime = { ...slot, [timeType]: time };
@@ -101,7 +103,16 @@ export const AvailabilityExceptionSlot = ({
           onChangeTime(e.value, 'from');
         }}
         menuPlacement="auto"
+        // menuShouldScrollIntoView={false}
       />
+
+      {/* <MySelect
+        value={fromTime.value}
+        options={fromTimeOptions}
+        onChange={(e) => {
+          onChangeTime(e, 'from');
+        }}
+      /> */}
 
       <span className="">-</span>
 
