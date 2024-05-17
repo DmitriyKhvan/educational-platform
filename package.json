@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.10.3",
-    "@esbuild/win32-x64": "^0.21.3",
     "@formkit/auto-animate": "^0.8.2",
     "@fullcalendar/core": "^6.1.11",
     "@fullcalendar/daygrid": "^6.1.11",
