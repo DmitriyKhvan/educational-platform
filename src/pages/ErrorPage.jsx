@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Roles } from 'src/constants/global';
 import { useAuth } from 'src/modules/auth';
 
-export function ErrorPage() {
+export default function ErrorPage() {
   const { user } = useAuth();
 
   return (

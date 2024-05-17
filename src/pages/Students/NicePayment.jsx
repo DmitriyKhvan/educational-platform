@@ -20,7 +20,7 @@ import { CREATE_NICE_PAYMENT } from '../../modules/auth/graphql';
 import { getItemToLocalStorage } from 'src/constants/global';
 import { PaymentLayout } from 'src/layouts/PaymentLayout';
 
-export const NicePayment = () => {
+export default function NicePayment() {
   const [parent] = useAutoAnimate();
 
   const [createNicePayment, { loading, error }] =
@@ -278,4 +278,4 @@ export const NicePayment = () => {
       </div>
     </PaymentLayout>
   );
-};
+}

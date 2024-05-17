@@ -1,3 +1,3 @@
 import SelectProfile from './SelectProfile';
 
-export { SelectProfile };
+export default SelectProfile;

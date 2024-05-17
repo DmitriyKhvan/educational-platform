@@ -1,54 +1,42 @@
-import React from 'react';
-import EditMentorProfile from './Profile/EditMentorProfile';
-import SubmitVideo from './Profile/SubmitVideo/SubmitVideo';
-import Submited from './Profile/SubmitVideo/Submited';
-import StudentsList from './StudentsList/StudentsList';
+import React, { lazy } from 'react';
 import { Switch, useRouteMatch, Route } from 'react-router-dom';
-import TutorDashboard from './MentorDashboard';
-import Availability from './Availiability';
-import Layout from 'src/layouts/DashboardLayout';
-import MentorProfile from './Profile/MentorProfile';
-import { ErrorPage } from '../ErrorPage';
-import Lessons from './Lessons';
 
-export default function TutorPages() {
+const MentorDashboard = lazy(() => import('./MentorDashboard'));
+const Lessons = lazy(() => import('./Lessons'));
+const Availability = lazy(() => import('./Availiability'));
+const StudentsList = lazy(() => import('./StudentsList/StudentsList'));
+const MentorProfile = lazy(() => import('./Profile/MentorProfile'));
+const EditMentorProfile = lazy(() => import('./Profile/EditMentorProfile'));
+const SubmitVideo = lazy(() => import('./Profile/SubmitVideo/SubmitVideo'));
+const Submited = lazy(() => import('./Profile/SubmitVideo/Submited'));
+const ErrorPage = lazy(() => import('../ErrorPage'));
+
+export default function MentorPages() {
   let { path } = useRouteMatch();
 
   return (
     <Switch>
-      <Route path={`${path}/manage-appointments`}>
-        <Layout>
-          <TutorDashboard />
-        </Layout>
-      </Route>
+      <Route path={`${path}/manage-appointments`} component={MentorDashboard} />
 
-      <Route exact path={`${path}/lesson-calendar`}>
-        <Lessons />
-      </Route>
+      <Route exact path={`${path}/lesson-calendar`} component={Lessons} />
 
-      <Route path={`${path}/availability`}>
-        <Availability />
-      </Route>
+      <Route path={`${path}/availability`} component={Availability} />
 
-      <Route path={`${path}/students-list/:id?`}>
-        <StudentsList />
-      </Route>
+      <Route path={`${path}/students-list/:id?`} component={StudentsList} />
 
-      <Route path={`${path}/profile`}>
-        <MentorProfile />
-      </Route>
+      <Route path={`${path}/profile`} component={MentorProfile} />
 
-      <Route path={`${path}/edit-profile`}>
-        <EditMentorProfile />
-      </Route>
+      <Route path={`${path}/edit-profile`} component={EditMentorProfile} />
 
-      <Route path={`${path}/edit-profiles/submit-video`}>
-        <SubmitVideo />
-      </Route>
+      <Route
+        path={`${path}/edit-profiles/submit-video`}
+        component={SubmitVideo}
+      />
 
-      <Route path={`${path}/edit-profiles/submit-videos/submited`}>
-        <Submited />
-      </Route>
+      <Route
+        path={`${path}/edit-profiles/submit-videos/submited`}
+        component={Submited}
+      />
       <Route component={ErrorPage} />
     </Switch>
   );

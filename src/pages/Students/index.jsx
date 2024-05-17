@@ -1,35 +1,15 @@
-import { Switch, useRouteMatch, Route, Redirect } from 'react-router-dom';
-import ClassMaterials from './ClassMaterials';
-import StudentListAppointments from './StudentDashboard';
-import ScheduleLesson from './ScheduleLesson';
-import Profile from './Profile';
-import Referal from './Referal/Referal';
-import Mentors from './MentorsList/Mentors';
-import Subscriptions from './Subscriptions/Subscriptions';
-import Lessons from './Lessons';
-import { useAuth } from 'src/modules/auth';
-import { ErrorPage } from '../ErrorPage';
+import { lazy } from 'react';
+import { Switch, useRouteMatch, Route } from 'react-router-dom';
+import { SubPrivateRoute } from 'src/app/providers/router/lib/SubPrivateRoute';
 
-function SubPrivateRoute({ component: Component, isTrial, ...rest }) {
-  const { currentStudent } = useAuth();
-
-  return (
-    <Route
-      {...rest}
-      render={(props) => {
-        return currentStudent?.isTrial !== isTrial ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: '',
-            }}
-          />
-        );
-      }}
-    />
-  );
-}
+const StudentListAppointments = lazy(() => import('./StudentDashboard'));
+const ScheduleLesson = lazy(() => import('./ScheduleLesson'));
+const Profile = lazy(() => import('./Profile'));
+const Referal = lazy(() => import('./Referal/Referal'));
+const Mentors = lazy(() => import('./MentorsList/Mentors'));
+const Subscriptions = lazy(() => import('./Subscriptions/Subscriptions'));
+const Lessons = lazy(() => import('./Lessons'));
+const ErrorPage = lazy(() => import('../ErrorPage'));
 
 export default function StudentRoutes() {
   let { path } = useRouteMatch();
@@ -40,40 +20,28 @@ export default function StudentRoutes() {
         <StudentListAppointments />
       </Route> */}
 
-      <Route path={`${path}/manage-lessons`}>
-        <StudentListAppointments />
-      </Route>
+      <Route
+        path={`${path}/manage-lessons`}
+        component={StudentListAppointments}
+      />
 
       <SubPrivateRoute
-        // isTrial={true}
         exact
         path={`${path}/schedule-lesson/select/:id?`}
         component={ScheduleLesson}
       />
 
-      {/* <Route path={`${path}/schedule-lesson/group-select`}>
-        <GroupScheduleLesson />
-      </Route> */}
+      <Route
+        exact
+        path={`${path}/appointments`}
+        component={StudentListAppointments}
+      />
 
-      <Route exact path={`${path}/appointments`}>
-        <StudentListAppointments />
-      </Route>
+      <Route path={`${path}/lesson-calendar`} component={Lessons} />
 
-      <Route path={`${path}/lesson-calendar`}>
-        <Lessons />
-      </Route>
+      <Route path={`${path}/profile`} component={Profile} />
 
-      <Route path={`${path}/class-materials`}>
-        <ClassMaterials />
-      </Route>
-
-      <Route path={`${path}/profile`}>
-        <Profile />
-      </Route>
-
-      <Route path={`${path}/referal`}>
-        <Referal />
-      </Route>
+      <Route path={`${path}/referal`} component={Referal} />
 
       <SubPrivateRoute
         isTrial={true}
@@ -82,9 +50,7 @@ export default function StudentRoutes() {
         component={Mentors}
       />
 
-      <Route path={`${path}/subscriptions`}>
-        <Subscriptions />
-      </Route>
+      <Route path={`${path}/subscriptions`} component={Subscriptions} />
       <Route component={ErrorPage} />
     </Switch>
   );

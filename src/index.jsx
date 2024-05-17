@@ -66,6 +66,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { createWsLink } from './utils/subscriptions';
 import { Language } from './constants/global';
 import { NotificationsProvider } from './modules/notifications';
+import { BrowserRouter } from 'react-router-dom';
 
 const httpLink = createUploadLink({
   uri: `${process.env.REACT_APP_SERVER_URL}/graphql`,
@@ -110,8 +111,8 @@ i18next.init({
     localStorage.getItem('language') === Language.KR
       ? Language.KR
       : localStorage.getItem('language') === Language.CH
-      ? Language.CH
-      : Language.EN, // language to use
+        ? Language.CH
+        : Language.EN, // language to use
   resources: {
     en: {
       common: commonEn,
@@ -170,7 +171,9 @@ root.render(
     <I18nextProvider i18n={i18next}>
       <NotificationsProvider>
         <AuthProvider>
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </AuthProvider>
       </NotificationsProvider>
     </I18nextProvider>

@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 
-export const AddStudentProfile = () => {
+const AddStudentProfile = () => {
   const [t] = useTranslation(['onboarding', 'common', 'translations']);
   const [parent] = useAutoAnimate();
 
@@ -105,3 +105,5 @@ export const AddStudentProfile = () => {
     </OnboardingLayout>
   );
 };
+
+export default AddStudentProfile;
