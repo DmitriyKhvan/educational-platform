@@ -179,7 +179,7 @@ const LessonControls = ({
       );
     }
 
-    if (isAfterLesson && user.role === Roles.STUDENT) {
+    if (isAfterLesson) {
       controls.push(
         <AdaptiveDialog
           button={
