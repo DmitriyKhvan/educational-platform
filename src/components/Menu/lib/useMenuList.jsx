@@ -7,9 +7,9 @@ import { FaRegCalendarAlt } from 'react-icons/fa';
 import { HiGift } from 'react-icons/hi2';
 import { FaGraduationCap } from 'react-icons/fa6';
 import { IoLibrarySharp } from 'react-icons/io5';
-import { MdOutlineGroups } from 'react-icons/md';
+// import { MdOutlineGroups } from 'react-icons/md';
 import { ModalPurchase } from 'src/components/ModalPurchase';
-import { Info } from 'src/components/ReferBanner/ui/Info';
+// import { Info } from 'src/components/ReferBanner/ui/Info';
 
 const mentorNavLinks = [
   {
@@ -52,13 +52,13 @@ const studentNavLinks = [
     link: '/student/subscriptions',
     icon: HiGift,
   },
-  {
-    label: 'refer',
-    link: '#',
-    icon: MdOutlineGroups,
-    type: 'modal',
-    modal: <Info />,
-  },
+  // {
+  //   label: 'refer',
+  //   link: '#',
+  //   icon: MdOutlineGroups,
+  //   type: 'modal',
+  //   modal: <Info />,
+  // },
   {
     label: 'class_material',
     link: classMaterialURL || 'https://naonow.instructure.com/',
