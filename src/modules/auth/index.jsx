@@ -1,8 +1,9 @@
-import { createContext, useState, useContext } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import { ME_QUERY, INVITE_SET_PASSWORD_MUTATION } from './graphql';
-import { getItemToLocalStorage, Roles } from 'src/constants/global';
+import { createContext, useContext, useState } from 'react';
+import { Roles, getItemToLocalStorage } from 'src/constants/global';
+import { deleteReferralCodeCookie } from 'src/utils/referralCodeCookie';
 import { useNotifications } from '../notifications';
+import { INVITE_SET_PASSWORD_MUTATION, ME_QUERY } from './graphql';
 
 const AuthContext = createContext({});
 
@@ -48,6 +49,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
+    // delete cookie referralCode
+    deleteReferralCodeCookie();
     localStorage.removeItem('token');
     localStorage.removeItem('studentId');
   };
