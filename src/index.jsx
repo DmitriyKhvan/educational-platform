@@ -1,45 +1,22 @@
-import { createRoot } from 'react-dom/client';
-import App from './App';
-import { I18nextProvider } from 'react-i18next';
+import {
+  ApolloClient,
+  ApolloLink,
+  ApolloProvider,
+  InMemoryCache,
+  concat,
+  split,
+} from '@apollo/client';
 import i18next from 'i18next';
-import {
-  commonEn,
-  sidebarEn,
-  lessonsEn,
-  dashboardEn,
-  modalsEn,
-  studentMentorEn,
-  availabilityEn,
-  referEn,
-  profileEn,
-  onboardingEn,
-  translationsEn,
-  purchaseEn,
-  trialEn,
-  notificationsEn,
-} from './assets/lang/en';
-import {
-  commonKr,
-  sidebarKr,
-  lessonsKr,
-  dashboardKr,
-  modalsKr,
-  studentMentorKr,
-  availabilityKr,
-  referKr,
-  profileKr,
-  onboardingKr,
-  translationsKr,
-  purchaseKr,
-  trialKr,
-  notificationsKr,
-} from './assets/lang/kr';
+import { createRoot } from 'react-dom/client';
+import { I18nextProvider } from 'react-i18next';
+import App from './App';
 import {
   availabilityCh,
   commonCh,
   dashboardCh,
   lessonsCh,
   modalsCh,
+  notificationsCh,
   onboardingCh,
   profileCh,
   purchaseCh,
@@ -48,24 +25,48 @@ import {
   studentMentorCh,
   translationsCh,
   trialCh,
-  notificationsCh,
 } from './assets/lang/ch';
 import {
-  ApolloClient,
-  ApolloLink,
-  InMemoryCache,
-  ApolloProvider,
-  concat,
-  split,
-} from '@apollo/client';
+  availabilityEn,
+  commonEn,
+  dashboardEn,
+  lessonsEn,
+  modalsEn,
+  notificationsEn,
+  onboardingEn,
+  profileEn,
+  purchaseEn,
+  referEn,
+  sidebarEn,
+  studentMentorEn,
+  translationsEn,
+  trialEn,
+} from './assets/lang/en';
+import {
+  availabilityKr,
+  commonKr,
+  dashboardKr,
+  lessonsKr,
+  modalsKr,
+  notificationsKr,
+  onboardingKr,
+  profileKr,
+  purchaseKr,
+  referKr,
+  sidebarKr,
+  studentMentorKr,
+  translationsKr,
+  trialKr,
+} from './assets/lang/kr';
 
-import { AuthProvider } from './modules/auth';
-import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
-import './index.css';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { createWsLink } from './utils/subscriptions';
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 import { Language } from './constants/global';
+import './index.css';
+import { AuthProvider } from './modules/auth';
 import { NotificationsProvider } from './modules/notifications';
+import { getReferralCodeCookie } from './utils/referralCodeCookie';
+import { createWsLink } from './utils/subscriptions';
 
 const httpLink = createUploadLink({
   uri: `${process.env.REACT_APP_SERVER_URL}/graphql`,
@@ -75,9 +76,11 @@ const httpLink = createUploadLink({
 });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
+  const referralCode = getReferralCodeCookie(document);
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
+      ...(referralCode? { referralCode } : {}),
       authorization: 'Bearer ' + localStorage.getItem('token') || null,
     },
   }));
