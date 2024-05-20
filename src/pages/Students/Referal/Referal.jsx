@@ -1,7 +1,11 @@
 import '../../../assets/styles/referal.scss';
 
-import React from 'react';
 
+import { useMutation } from '@apollo/client';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { getItemToLocalStorage } from 'src/constants/global';
+import { GENERATE_REFERRAL_LINK } from 'src/modules/graphql/mutations/referralCodes';
 import card from '../../../assets/images/card.png';
 import email from '../../../assets/images/email.svg';
 import facebook from '../../../assets/images/facebook.png';
@@ -12,12 +16,28 @@ import present from '../../../assets/images/present.png';
 import videotut from '../../../assets/images/videoTut.png';
 import whatsapp from '../../../assets/images/whatsapp.svg';
 import Layout from '../../../layouts/DashboardLayout';
-import { useAuth } from '../../../modules/auth';
-import { useTranslation } from 'react-i18next';
 
 const Referal = () => {
   // const user = useSelector(state => state.users.user)
-  const { user } = useAuth();
+  // const { user } = useAuth();
+  
+  const [generateReferralLink, { data }] = useMutation(GENERATE_REFERRAL_LINK)
+  const [ referralUrl, setReferralUrl ] = useState(data?.generateReferralLink?.referralUrl);
+  useEffect(() => {
+      const referralLink = async() => {
+        await generateReferralLink({
+        variables: {
+          studentId:  getItemToLocalStorage('studentId'),
+        },
+        fetchPolicy: 'no-cache',
+        onCompleted: (data)=> {
+          setReferralUrl(data?.generateReferralLink?.referralUrl)
+        }
+      });
+    }
+    referralLink();
+    
+  }, [generateReferralLink]);
   const [t] = useTranslation('refer');
 
   const copyText = (link) => {
@@ -30,7 +50,6 @@ const Referal = () => {
         console.error('Error in copying text: ', err);
       });
   };
-
   return (
     <Layout>
       <div className="referal-wrapper">
@@ -57,11 +76,11 @@ const Referal = () => {
                   <span
                     onClick={() =>
                       copyText(
-                        `${window.location.origin}/referral/${user.referalCode}`,
+                        `${data?.generateReferralLink?.referralUrl}`,
                       )
                     }
                   >
-                    {window.location.origin}/referral/{user.referalCode}
+                    {data?.generateReferralLink?.referralUrl}
                   </span>
                 </div>
               </div>
@@ -79,12 +98,13 @@ const Referal = () => {
             <div className="left_share">
               <input
                 type={'text'}
-                value={`${window.location.origin}/referral/${user.referalCode}`}
+                value={referralUrl}
+                onChange={ e => setReferralUrl(e.target.value)}
               />
               <span
                 onClick={() =>
                   copyText(
-                    `${window.location.origin}/referral/${user.referalCode}`,
+                    `${data?.generateReferralLink?.referralUrl}`,
                   )
                 }
               >
@@ -93,19 +113,19 @@ const Referal = () => {
             </div>
             <div className="right_share">
               <a
-                href={`mailto:insertyouremail@gmail.com?subject=look at this website&body=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referalCode}`}
+                href={`mailto:insertyouremail@gmail.com?subject=look at this website&body=Hi,I found this website and thought you might like it ${data?.generateReferralLink?.referralUrl}`}
               >
                 <div>
                   <img src={email} alt="" />
                 </div>
               </a>
               <a
-                href={`sms:phone number&body=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referalCode}`}
+                href={`sms:phone number&body=Hi,I found this website and thought you might like it ${data?.generateReferralLink?.referralUrl}`}
               >
                 <img src={Message} alt="" />
               </a>
               <a
-                href={`https://wa.me/?text=Hi,I found this website and thought you might like it ${window.location.origin}/referral/${user.referalCode}`}
+                href={`https://wa.me/?text=Hi,I found this website and thought you might like it ${data?.generateReferralLink?.referralUrl}`}
               >
                 <img src={whatsapp} alt="" />
               </a>
