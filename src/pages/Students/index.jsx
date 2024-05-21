@@ -1,57 +1,63 @@
 import { lazy } from 'react';
-import { Switch, useRouteMatch, Route } from 'react-router-dom';
-import { SubPrivateRoute } from 'src/app/providers/router/lib/SubPrivateRoute';
+import { Route, Routes } from 'react-router-dom';
+
+import { TrialRoute } from 'src/app/providers/router/lib/TrialRoute';
 
 const StudentListAppointments = lazy(() => import('./StudentDashboard'));
 const ScheduleLesson = lazy(() => import('./ScheduleLesson'));
-const Profile = lazy(() => import('./Profile'));
+
 const Referal = lazy(() => import('./Referal/Referal'));
 const Mentors = lazy(() => import('./MentorsList/Mentors'));
 const Subscriptions = lazy(() => import('./Subscriptions/Subscriptions'));
 const Lessons = lazy(() => import('./Lessons'));
-const ErrorPage = lazy(() => import('../ErrorPage'));
+const StudentProfile = lazy(() => import('./Profile/profile/StudentProfile'));
+const EditProflileStudent = lazy(
+  () => import('./Profile/editInfo/EditStudentProfile'),
+);
+// const ErrorPage = lazy(() => import('../ErrorPage'));
 
 export default function StudentRoutes() {
-  let { path } = useRouteMatch();
-
   return (
-    <Switch>
-      {/* <Route path={`${path}/lesson-complete/:complete_appoint_id`}>
+    <Routes>
+      {/* <Route path={`lesson-complete/:complete_appoint_id`}>
         <StudentListAppointments />
       </Route> */}
 
-      <Route
-        path={`${path}/manage-lessons`}
-        component={StudentListAppointments}
-      />
-
-      <SubPrivateRoute
-        exact
-        path={`${path}/schedule-lesson/select/:id?`}
-        component={ScheduleLesson}
-      />
+      <Route path={`manage-lessons`} element={<StudentListAppointments />} />
 
       <Route
-        exact
-        path={`${path}/appointments`}
-        component={StudentListAppointments}
+        path="schedule-lesson/select/:id?"
+        element={
+          <TrialRoute>
+            <ScheduleLesson />
+          </TrialRoute>
+        }
       />
 
-      <Route path={`${path}/lesson-calendar`} component={Lessons} />
-
-      <Route path={`${path}/profile`} component={Profile} />
-
-      <Route path={`${path}/referal`} component={Referal} />
-
-      <SubPrivateRoute
-        isTrial={true}
+      <Route
         exact
-        path={`${path}/mentors-list/:id?`}
-        component={Mentors}
+        path={`appointments`}
+        element={<StudentListAppointments />}
       />
 
-      <Route path={`${path}/subscriptions`} component={Subscriptions} />
-      <Route component={ErrorPage} />
-    </Switch>
+      <Route path={`lesson-calendar`} element={<Lessons />} />
+
+      <Route exact path={`profile`} element={<StudentProfile />} />
+      <Route path={`profile/edit`} element={<EditProflileStudent />} />
+
+      <Route path={`referal`} element={<Referal />} />
+
+      <Route
+        path="mentors-list/:id?"
+        element={
+          <TrialRoute>
+            <Mentors />
+          </TrialRoute>
+        }
+      />
+
+      <Route path={`subscriptions`} element={<Subscriptions />} />
+      {/* <Route path="*" element={<ErrorPage />} /> */}
+    </Routes>
   );
 }

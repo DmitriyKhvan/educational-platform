@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaCheckCircle } from 'react-icons/fa';
 import { FaCircleXmark } from 'react-icons/fa6';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from 'src/components/Form/Button';
 import Indicator from 'src/components/Indicator';
 import ScheduleCard from 'src/components/student-dashboard/ScheduleCardRebranding';
@@ -15,7 +15,7 @@ import { useAuth } from 'src/modules/auth';
 const ScheduleSuccess = ({ lessons }) => {
   const { user } = useAuth;
   const [t, i18n] = useTranslation(['lessons', 'modals']);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const userTimezone =
     user?.timeZone?.split(' ')[0] ||
@@ -51,7 +51,7 @@ const ScheduleSuccess = ({ lessons }) => {
               date={l?.startAt}
               data={l}
               // repeat={repeat}
-              fetchAppointments={() => history.push('/student/manage-lessons')}
+              fetchAppointments={() => navigate('/student/manage-lessons')}
             />
           ) : (
             <div
@@ -76,14 +76,14 @@ const ScheduleSuccess = ({ lessons }) => {
 
         <Button
           className="w-full h-[57px] mb-3 mt-5"
-          onClick={() => history.push('/student/lesson-calendar')}
+          onClick={() => navigate('/student/lesson-calendar')}
         >
           {t('view_my_lessons')}
         </Button>
         <Button
           className="w-full h-[57px]"
           theme="gray"
-          onClick={() => history.push('/student/manage-lessons')}
+          onClick={() => navigate('/student/manage-lessons')}
         >
           {t('return_to_dash')}
         </Button>

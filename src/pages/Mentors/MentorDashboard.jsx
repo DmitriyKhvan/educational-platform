@@ -19,7 +19,6 @@ import {
   subMinutes,
 } from 'date-fns';
 import LevelAfterTrialModal from './LevelAfterTrialModal';
-import Layout from 'src/layouts/DashboardLayout';
 
 const MentorDashboard = () => {
   const [t] = useTranslation('dashboard');
@@ -78,53 +77,51 @@ const MentorDashboard = () => {
   const handleCloseModal = () => setFeedbackShow(false);
 
   return (
-    <Layout>
-      <div className="main-dashboard overflow-auto h-full">
-        <div className="flex-container">
-          <div className="student-dashboard flex-left children-wrapper flex-change ">
-            <div className="set-container">
-              <h4 className="welcome-message">
-                {t('student_dashboard_welcome', {
-                  name: user?.firstName,
-                })}
-              </h4>
-              <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px]">
-                {t('mentor_welcome_back')}
-              </p>
+    <div className="main-dashboard overflow-auto h-full">
+      <div className="flex-container">
+        <div className="student-dashboard flex-left children-wrapper flex-change ">
+          <div className="set-container">
+            <h4 className="welcome-message">
+              {t('student_dashboard_welcome', {
+                name: user?.firstName,
+              })}
+            </h4>
+            <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px]">
+              {t('mentor_welcome_back')}
+            </p>
 
-              <div className="schedule-lesson-select pt-3">
-                <div className="page-card bg-color-purple large-card py-5 flex flex-col gap-4">
-                  <div className="flex gap-4">
-                    <div className="max-w-32 max-h-fit m-auto">
-                      <img
-                        src={ImgCalendar}
-                        alt=""
-                        className="img-fluid large-card-icon self-center"
-                      />
+            <div className="schedule-lesson-select pt-3">
+              <div className="page-card bg-color-purple large-card py-5 flex flex-col gap-4">
+                <div className="flex gap-4">
+                  <div className="max-w-32 max-h-fit m-auto">
+                    <img
+                      src={ImgCalendar}
+                      alt=""
+                      className="img-fluid large-card-icon self-center"
+                    />
+                  </div>
+                  <div className="w-full">
+                    <div className="titles_align_desktop">
+                      <p className="titles mt-1  laptop-title mobile_align_dash">
+                        {t('review_my_schedule')}
+                      </p>
                     </div>
-                    <div className="w-full">
-                      <div className="titles_align_desktop">
-                        <p className="titles mt-1  laptop-title mobile_align_dash">
-                          {t('review_my_schedule')}
-                        </p>
+                    <div className="row mobile-view-buttons mt-4">
+                      <div className="col-6 desktop w-full">
+                        <Link
+                          to="/mentor/lesson-calendar"
+                          className="enter-btn dashboard_cal-scl_button"
+                        >
+                          {t('calendar')}
+                        </Link>
                       </div>
-                      <div className="row mobile-view-buttons mt-4">
-                        <div className="col-6 desktop w-full">
-                          <Link
-                            to="/mentor/lesson-calendar"
-                            className="enter-btn dashboard_cal-scl_button"
-                          >
-                            {t('calendar')}
-                          </Link>
-                        </div>
-                        <div className="col-6 w-full">
-                          <Link
-                            to="/mentor/availability"
-                            className="enter-btn dashboard_cal-scl_button"
-                          >
-                            {t('availability')}
-                          </Link>
-                        </div>
+                      <div className="col-6 w-full">
+                        <Link
+                          to="/mentor/availability"
+                          className="enter-btn dashboard_cal-scl_button"
+                        >
+                          {t('availability')}
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -132,50 +129,50 @@ const MentorDashboard = () => {
               </div>
             </div>
           </div>
-          <div className="student-list-appointments-wrapper flex-right pt-5">
-            <div className="child-set_container">
-              {/* {displayBookingRequest(hasLessonApprovals)} */}
-              <h4 className="weekly-schedule mt-4">{t('daily_schedule')}</h4>
-              <h4 className="text-purple weekly-schedule-subtitle">
-                {t('upcoming_lessons')}
-              </h4>
-              {t('mentor_dashboard_total_lessons', {
-                total_lessons: upcomingLessons.length,
-                t: upcomingLessons.length > 1 ? 's' : '',
-              })}
-              <Link to="/mentor/lesson-calendar" className="enter-btn ms-0 p-3">
-                {t('student_dashboard_view_all_lessons')}
-              </Link>
-              <div className="weekly-schedule-scroll">
-                {/* {displayDailySchedule(upcomingLessons)} */}
-                {upcomingLessons?.map((event, i) => (
-                  <ScheduleCard
-                    lesson={event?.packageSubscription?.package?.course?.title}
-                    duration={event?.duration}
-                    playground={event?.playground}
-                    date={event?.startAt}
-                    data={event}
-                    student={event.student}
-                    index={i}
-                    key={i}
-                    fetchAppointments={fetchAppointments}
-                  />
-                ))}
-              </div>
+        </div>
+        <div className="student-list-appointments-wrapper flex-right pt-5">
+          <div className="child-set_container">
+            {/* {displayBookingRequest(hasLessonApprovals)} */}
+            <h4 className="weekly-schedule mt-4">{t('daily_schedule')}</h4>
+            <h4 className="text-purple weekly-schedule-subtitle">
+              {t('upcoming_lessons')}
+            </h4>
+            {t('mentor_dashboard_total_lessons', {
+              total_lessons: upcomingLessons.length,
+              t: upcomingLessons.length > 1 ? 's' : '',
+            })}
+            <Link to="/mentor/lesson-calendar" className="enter-btn ms-0 p-3">
+              {t('student_dashboard_view_all_lessons')}
+            </Link>
+            <div className="weekly-schedule-scroll">
+              {/* {displayDailySchedule(upcomingLessons)} */}
+              {upcomingLessons?.map((event, i) => (
+                <ScheduleCard
+                  lesson={event?.packageSubscription?.package?.course?.title}
+                  duration={event?.duration}
+                  playground={event?.playground}
+                  date={event?.startAt}
+                  data={event}
+                  student={event.student}
+                  index={i}
+                  key={i}
+                  fetchAppointments={fetchAppointments}
+                />
+              ))}
             </div>
           </div>
         </div>
-        {isLoading && <Loader />}
-
-        <LevelAfterTrialModal />
-
-        <FeedbackLessonModal
-          modalState="mentor"
-          isOpen={isFeedbackShow}
-          closeModal={handleCloseModal}
-        />
       </div>
-    </Layout>
+      {isLoading && <Loader />}
+
+      <LevelAfterTrialModal />
+
+      <FeedbackLessonModal
+        modalState="mentor"
+        isOpen={isFeedbackShow}
+        closeModal={handleCloseModal}
+      />
+    </div>
   );
 };
 

@@ -57,8 +57,10 @@ export const MenuItem = ({ menu }) => {
       ) : (
         <NavLink
           to={menu.link}
-          activeClassName="bg-color-purple active"
-          className="flex items-center gap-4 p-4 rounded-[15px] cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple"
+          className={({ isActive }) =>
+            'flex items-center gap-4 p-4 rounded-[15px] cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple' +
+            (isActive ? ' bg-color-purple active' : '')
+          }
         >
           <menu.icon className="text-[22px] text-color-dark-purple transition ease-in-out delay-150 group-hover:text-white group-[.active]:text-white" />
 

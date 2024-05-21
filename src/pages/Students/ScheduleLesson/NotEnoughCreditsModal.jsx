@@ -1,9 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { AiOutlineInfo } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 import Button from 'src/components/Form/Button';
 
 const NotEnoughCreditsModal = ({ confirmLesson, repeat }) => {
+  const navigate = useNavigate();
   const [t] = useTranslation('modals');
   return (
     <section className="w-[336px] text-center">
@@ -25,7 +27,7 @@ const NotEnoughCreditsModal = ({ confirmLesson, repeat }) => {
       <Button
         theme="dark_purple"
         className="w-full h-14"
-        onClick={() => history.push('/purchase')}
+        onClick={() => navigate('/purchase')}
       >
         {t('purchase_more_credits')}
       </Button>

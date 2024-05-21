@@ -1,24 +1,25 @@
 import React, { Suspense, lazy } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Loader from 'src/components/Loader/Loader';
 import { useAuth } from 'src/modules/auth';
-import { PrivateRoute, PublicRoute } from '../../router';
-import { Roles } from 'src/constants/global';
+
+import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
+import Layout from 'src/layouts/DashboardLayout';
+import { StudentRoute } from '../../router/lib/StudentRoute';
+import { MentorRoute } from '../../router/lib/MentorRoute';
 
 import 'src/assets/styles/global.scss';
 
 const Login = lazy(() => import('src/pages/Auth/Login'));
 const ForgotPassword = lazy(() => import('src/pages/Auth/ForgotPassword'));
-const ForgotPasswordText = lazy(
-  () => import('src/pages/Auth/ForgotPasswordText'),
-);
+
 const ResetPassword = lazy(() => import('src/pages/Auth/ResetPassword'));
 const Onboarding = lazy(() => import('src/pages/Students/Onboarding'));
 const TrialMarketingChannel = lazy(
   () => import('src/pages/TrialMarketingChannel'),
 );
 const Trial = lazy(() => import('src/pages/Students/Trial'));
-const IsReferal = lazy(() => import('src/pages/Students/Referal/isReferal'));
+
 const AddStudentProfile = lazy(
   () => import('src/pages/Auth/SelectProfile/AddProfile'),
 );
@@ -27,9 +28,10 @@ const BuyPackage = lazy(() => import('src/pages/Students/BuyPackage'));
 const ConfirmPayment = lazy(() => import('src/pages/ConfirmPayment'));
 const StripePayment = lazy(() => import('src/pages/Students/StripePayment'));
 const SelectProfile = lazy(() => import('src/components/SelectProfile'));
-const ErrorPage = lazy(() => import('src/pages/ErrorPage'));
 const StudentPages = lazy(() => import('src/pages/Students'));
 const MentorPages = lazy(() => import('src/pages/Mentors'));
+const IsReferal = lazy(() => import('src/pages/Students/Referal/isReferal'));
+const ErrorPage = lazy(() => import('src/pages/ErrorPage'));
 
 export const AppRouter = () => {
   const { isLoading } = useAuth();
@@ -43,87 +45,130 @@ export const AppRouter = () => {
   if (isLoading) return <Loader height={'100vh'} />;
 
   return (
-    <Suspense
-      fallback={
-        <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
-          <Loader />
-        </div>
-      }
-    >
-      <Switch>
-        <PublicRoute exact path="/" component={Login} />
-        <PublicRoute path="/forgot-password" component={ForgotPassword} />
-        <PublicRoute
-          path="/forgot-password-guide"
-          component={ForgotPasswordText}
-        />
-        <PublicRoute path="/reset-password" component={ResetPassword} />
-        <PublicRoute path="/welcome-set-password" component={ResetPassword} />
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <Suspense
+            fallback={
+              <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
+                <Loader />
+              </div>
+            }
+          >
+            <OnboardingLayout />
+          </Suspense>
+        }
+      >
+        {/* <Route exact path="/" element={Login} /> */}
+        <Route index element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/welcome-set-password" element={<ResetPassword />} />
 
-        <PublicRoute path="/onboarding" component={Onboarding} />
-        <PublicRoute exact path="/trial" component={Trial} />
-        <PublicRoute
+        <Route path="/onboarding" element={<Onboarding />} />
+        <Route exact path="/trial" element={<Trial />} />
+        <Route
           exact
           path="/trial/thank-you"
-          component={TrialMarketingChannel}
+          element={<TrialMarketingChannel />}
         />
+      </Route>
 
-        <PublicRoute path="/referral/:referalcode" component={IsReferal} />
-
-        <PrivateRoute
-          role="student_parent"
+      <Route
+        path="/"
+        element={
+          <StudentRoute>
+            <Suspense
+              fallback={
+                <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
+                  <Loader />
+                </div>
+              }
+            >
+              <OnboardingLayout />
+            </Suspense>
+          </StudentRoute>
+        }
+      >
+        <Route
           exact
           path="/add-student-profile"
-          component={AddStudentProfile}
+          element={<AddStudentProfile />}
         />
 
-        <PrivateRoute
-          role="student_parent"
-          exact
-          path="/purchase/nice-payment"
-          component={NicePayment}
-        />
+        <Route exact path="/purchase/nice-payment" element={<NicePayment />} />
 
-        <PrivateRoute
-          role="student_parent"
-          exact
-          path="/purchase"
-          component={BuyPackage}
-        />
+        <Route exact path="/purchase" element={<BuyPackage />} />
 
-        <PrivateRoute
-          role="student_parent"
+        <Route
           exact
           path="/purchase/:packageId/complete"
-          component={ConfirmPayment}
+          element={<ConfirmPayment />}
         />
 
-        <PrivateRoute
-          role="student_parent"
+        <Route
           exact
           path="/purchase/:packageId/payment/:clientSecret"
-          component={StripePayment}
+          element={<StripePayment />}
         />
 
-        <PrivateRoute
-          role="student_parent"
-          path="/select-profile"
-          component={SelectProfile}
-        />
+        <Route path="/select-profile" element={<SelectProfile />} />
+      </Route>
 
-        <PrivateRoute
-          role={Roles.STUDENT}
-          path="/student"
-          component={StudentPages}
-        />
-        <PrivateRoute
-          role={Roles.MENTOR}
-          path="/mentor"
-          component={MentorPages}
-        />
+      <Route
+        path="/"
+        element={
+          <StudentRoute>
+            <Suspense
+              fallback={
+                <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
+                  <Loader />
+                </div>
+              }
+            >
+              <Layout />
+            </Suspense>
+          </StudentRoute>
+        }
+      >
+        <Route path="student/*" element={<StudentPages />} />
+        <Route path="/referral/:referalcode" element={<IsReferal />} />
+      </Route>
 
-        <Route component={ErrorPage} />
-      </Switch>
-    </Suspense>
+      <Route
+        path="/"
+        element={
+          <MentorRoute>
+            <Suspense
+              fallback={
+                <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
+                  <Loader />
+                </div>
+              }
+            >
+              <Layout />
+            </Suspense>
+          </MentorRoute>
+        }
+      >
+        <Route path="mentor/*" element={<MentorPages />} />
+      </Route>
+
+      <Route
+        path="*"
+        element={
+          <Suspense
+            fallback={
+              <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
+                <Loader />
+              </div>
+            }
+          >
+            <ErrorPage />
+          </Suspense>
+        }
+      />
+    </Routes>
   );
 };

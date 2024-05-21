@@ -1,10 +1,10 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from './Form/Button';
 import { useTranslation } from 'react-i18next';
 
 export const ModalPurchase = () => {
-  const navigate = useHistory();
+  const navigate = useNavigate();
   const [t] = useTranslation('lessons');
 
   return (
@@ -15,10 +15,7 @@ export const ModalPurchase = () => {
       <p className="mb-6 text-[15px] text-color-dark-purple">
         {t('purchase_lessons_here_text')}
       </p>
-      <Button
-        onClick={() => navigate.push('/purchase')}
-        className="w-full h-14"
-      >
+      <Button onClick={() => navigate('/purchase')} className="w-full h-14">
         {t('select_package')}
       </Button>
     </div>

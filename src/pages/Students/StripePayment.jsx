@@ -9,7 +9,6 @@ import { loadStripe } from '@stripe/stripe-js';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from 'src/modules/auth';
-import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 import Button from 'src/components/Form/Button';
 import Loader from 'src/components/Loader/Loader';
 
@@ -57,7 +56,7 @@ const CheckoutForm = () => {
   };
 
   return (
-    <OnboardingLayout>
+    <>
       {isLoading && (
         <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
           <Loader />
@@ -81,7 +80,7 @@ const CheckoutForm = () => {
           </Button>
         </form>
       </div>
-    </OnboardingLayout>
+    </>
   );
 };
 

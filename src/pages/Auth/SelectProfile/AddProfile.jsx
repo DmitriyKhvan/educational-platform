@@ -6,7 +6,6 @@ import Loader from 'src/components/Loader/Loader';
 import { ATTACH_STUDENT_TO_USER } from 'src/modules/auth/graphql';
 import { useAuth } from 'src/modules/auth';
 import notify from 'src/utils/notify';
-import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 import InputWithError from 'src/components/Form/InputWithError';
 import InputField from 'src/components/Form/InputField';
 import { useTranslation } from 'react-i18next';
@@ -53,7 +52,7 @@ const AddStudentProfile = () => {
   }
 
   return (
-    <OnboardingLayout>
+    <>
       {loading && (
         <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
           <Loader />
@@ -102,7 +101,7 @@ const AddStudentProfile = () => {
           </Button>
         </form>
       </div>
-    </OnboardingLayout>
+    </>
   );
 };
 

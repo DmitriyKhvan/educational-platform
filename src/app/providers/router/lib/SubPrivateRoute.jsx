@@ -1,7 +1,7 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Navigate, Route } from 'react-router-dom';
 import { useAuth } from 'src/modules/auth';
 
-export const SubPrivateRoute = ({ component: Component, isTrial, ...rest }) => {
+export const SubPrivateRoute = ({ element: Component, isTrial, ...rest }) => {
   const { currentStudent } = useAuth();
 
   return (
@@ -11,7 +11,7 @@ export const SubPrivateRoute = ({ component: Component, isTrial, ...rest }) => {
         return currentStudent?.isTrial !== isTrial ? (
           <Component {...props} />
         ) : (
-          <Redirect
+          <Navigate
             to={{
               pathname: '',
             }}

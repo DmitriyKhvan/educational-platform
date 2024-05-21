@@ -11,7 +11,6 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { FaCircleXmark } from 'react-icons/fa6';
 
 import { useAuth } from 'src/modules/auth';
-import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 import { MarketingChannelForm } from 'src/components/onboarding/MarketingChannel';
 import Button from 'src/components/Form/Button';
 import Loader from 'src/components/Loader/Loader';
@@ -63,9 +62,8 @@ export default function ConfirmPayment() {
     try {
       const stripe = await stripePromise;
 
-      const { paymentIntent } = await stripe.retrievePaymentIntent(
-        clientSecret,
-      );
+      const { paymentIntent } =
+        await stripe.retrievePaymentIntent(clientSecret);
 
       switch (paymentIntent.status) {
         case 'succeeded': {
@@ -122,42 +120,38 @@ export default function ConfirmPayment() {
   if (!message) return <Loader height="100vh" />;
 
   return (
-    <OnboardingLayout>
-      <div className="px-5 sm:px-20 py-6 sm:py-8">
-        {error ? (
-          <div className="max-w-[440px] m-auto space-y-8 flex flex-col items-center">
-            <FaCircleXmark className="w-16 h-16 text-red-500" />
-            <h1 className="font-bold text-2xl sm:text-3xl text-center">
-              {t(message)}
-            </h1>
+    <div className="px-5 sm:px-20 py-6 sm:py-8">
+      {error ? (
+        <div className="max-w-[440px] m-auto space-y-8 flex flex-col items-center">
+          <FaCircleXmark className="w-16 h-16 text-red-500" />
+          <h1 className="font-bold text-2xl sm:text-3xl text-center">
+            {t(message)}
+          </h1>
 
-            <Link className="w-full" to="/student/manage-lessons">
+          <Link className="w-full" to="/student/manage-lessons">
+            <Button className="w-full h-auto p-5">{t('dashboard')}</Button>
+          </Link>
+        </div>
+      ) : (
+        <div className="w-full sm:w-[480px] m-auto rounded-lg sm:p-8">
+          <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+            <FaCheckCircle className="w-6 h-6 sm:w-9 sm:h-9 text-[#039855]" />
+            <h1 className="font-bold text-2xl sm:text-[32px]">{t(message)}</h1>
+          </div>
+
+          {planStatus.length ? (
+            // href for authenticatedUser to work
+            <a
+              className="w-full mt-28 block"
+              href={`${window.location.origin}/student/manage-lessons`}
+            >
               <Button className="w-full h-auto p-5">{t('dashboard')}</Button>
-            </Link>
-          </div>
-        ) : (
-          <div className="w-full sm:w-[480px] m-auto rounded-lg sm:p-8">
-            <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
-              <FaCheckCircle className="w-6 h-6 sm:w-9 sm:h-9 text-[#039855]" />
-              <h1 className="font-bold text-2xl sm:text-[32px]">
-                {t(message)}
-              </h1>
-            </div>
-
-            {planStatus.length ? (
-              // href for authenticatedUser to work
-              <a
-                className="w-full mt-28 block"
-                href={`${window.location.origin}/student/manage-lessons`}
-              >
-                <Button className="w-full h-auto p-5">{t('dashboard')}</Button>
-              </a>
-            ) : (
-              <MarketingChannelForm />
-            )}
-          </div>
-        )}
-      </div>
-    </OnboardingLayout>
+            </a>
+          ) : (
+            <MarketingChannelForm />
+          )}
+        </div>
+      )}
+    </div>
   );
 }

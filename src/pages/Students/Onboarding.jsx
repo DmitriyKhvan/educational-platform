@@ -11,7 +11,6 @@ import useLogin from '../../modules/auth/hooks/login';
 
 import Loader from '../../components/Loader/Loader';
 import Button from 'src/components/Form/Button';
-import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 
 import InputWithError from 'src/components/Form/InputWithError';
 import InputField from 'src/components/Form/InputField';
@@ -76,7 +75,7 @@ export default function Onboarding() {
   }, [loginData]);
 
   return (
-    <OnboardingLayout>
+    <>
       {isLoading && (
         <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
           <Loader />
@@ -233,6 +232,6 @@ export default function Onboarding() {
           </p>
         </form>
       </div>
-    </OnboardingLayout>
+    </>
   );
 }

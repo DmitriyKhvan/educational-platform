@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@apollo/client';
@@ -26,13 +26,13 @@ export default function NicePayment() {
   const [createNicePayment, { loading, error }] =
     useMutation(CREATE_NICE_PAYMENT);
   const { user } = useAuth();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const location = useLocation();
 
   useEffect(() => {
     if (!location.state) {
-      history.push('/purchase');
+      navigate('/purchase');
     }
   }, [location]);
 
@@ -67,7 +67,7 @@ export default function NicePayment() {
         pwd2Digit: password,
       },
       onCompleted: () => {
-        history.push(`/purchase/${packageId}/complete?success=true`);
+        navigate(`/purchase/${packageId}/complete?success=true`);
       },
       onError: (error) => {
         notify(error.message, 'error');
