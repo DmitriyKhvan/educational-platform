@@ -47,10 +47,6 @@ export default function ConfirmPayment() {
     variables: { paymentIntentId: paymentIntentId },
   });
 
-  const isNiceSuccess = new URLSearchParams(window.location.search).get(
-    'success',
-  );
-
   const [t] = useTranslation(['purchase', 'onboarding']);
 
   const [message, setMessage] = useState(null);
@@ -104,12 +100,6 @@ export default function ConfirmPayment() {
       setError(true);
     }
   };
-
-  useEffect(() => {
-    if (isNiceSuccess) {
-      setMessage('payment_confirmed');
-    }
-  }, [isNiceSuccess]);
 
   useEffect(() => {
     if (clientSecret && data) {

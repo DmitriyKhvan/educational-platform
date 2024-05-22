@@ -22,7 +22,6 @@ const Trial = lazy(() => import('src/pages/Students/Trial'));
 const AddStudentProfile = lazy(
   () => import('src/pages/Auth/SelectProfile/AddProfile'),
 );
-const NicePayment = lazy(() => import('src/pages/Students/NicePayment'));
 const BuyPackage = lazy(() => import('src/pages/Students/BuyPackage'));
 const ConfirmPayment = lazy(() => import('src/pages/ConfirmPayment'));
 const StripePayment = lazy(() => import('src/pages/Students/StripePayment'));
@@ -95,8 +94,6 @@ export const AppRouter = () => {
           path="/add-student-profile"
           element={<AddStudentProfile />}
         />
-
-        <Route exact path="/purchase/nice-payment" element={<NicePayment />} />
 
         <Route exact path="/purchase" element={<BuyPackage />} />
 
