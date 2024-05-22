@@ -5,10 +5,9 @@ import { useAuth } from 'src/modules/auth';
 
 import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 import Layout from 'src/layouts/DashboardLayout';
-import { StudentRoute } from '../../router/lib/StudentRoute';
-import { MentorRoute } from '../../router/lib/MentorRoute';
 
 import 'src/assets/styles/global.scss';
+import { MentorRoute, StudentRoute } from '../../router';
 
 const Login = lazy(() => import('src/pages/Auth/Login'));
 const ForgotPassword = lazy(() => import('src/pages/Auth/ForgotPassword'));
@@ -28,9 +27,9 @@ const BuyPackage = lazy(() => import('src/pages/Students/BuyPackage'));
 const ConfirmPayment = lazy(() => import('src/pages/ConfirmPayment'));
 const StripePayment = lazy(() => import('src/pages/Students/StripePayment'));
 const SelectProfile = lazy(() => import('src/components/SelectProfile'));
+const IsReferal = lazy(() => import('src/pages/Students/Referal/isReferal'));
 const StudentPages = lazy(() => import('src/pages/Students'));
 const MentorPages = lazy(() => import('src/pages/Mentors'));
-const IsReferal = lazy(() => import('src/pages/Students/Referal/isReferal'));
 const ErrorPage = lazy(() => import('src/pages/ErrorPage'));
 
 export const AppRouter = () => {

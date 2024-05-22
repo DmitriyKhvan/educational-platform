@@ -1,5 +1,6 @@
-import { PrivateRoute } from './lib/PrivateRoute';
-import { PublicRoute } from './lib/PublicRoute';
+import { MentorRoute } from './lib/MentorRoute';
+import { StudentRoute } from './lib/StudentRoute';
+import { TrialRoute } from './lib/TrialRoute';
 import { AppRouter } from '../AuthProvider/ui/AppRouter';
 
-export { PublicRoute, PrivateRoute, AppRouter };
+export { MentorRoute, StudentRoute, TrialRoute, AppRouter };

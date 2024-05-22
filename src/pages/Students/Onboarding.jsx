@@ -22,8 +22,6 @@ import { timezoneOptions } from 'src/constants/global';
 // import MySelect from 'src/components/Form/MySelect';
 
 export default function Onboarding() {
-  localStorage.removeItem('studentId');
-
   const [t] = useTranslation(['onboarding', 'common', 'translations']);
 
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -48,9 +46,6 @@ export default function Onboarding() {
   const [signUp] = useMutation(SIGN_UP);
 
   const onSubmit = async (data) => {
-    console.log('data', data);
-
-    if (data) return;
     setIsLoading(true);
 
     try {
@@ -60,7 +55,7 @@ export default function Onboarding() {
         },
       });
 
-      login(data.email, data.password);
+      await login(data.email, data.password);
     } catch (error) {
       notify(error.message, 'error');
     }

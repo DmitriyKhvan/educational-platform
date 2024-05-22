@@ -7,19 +7,16 @@ import useLogin from '../../modules/auth/hooks/login';
 import Button from '../../components/Form/Button/Button';
 import InputWithError from '../../components/Form/InputWithError';
 import notify from '../../utils/notify';
-import { Link, useLocation } from 'react-router-dom';
-import { setItemToLocalStorage } from 'src/constants/global';
+import { Link } from 'react-router-dom';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 // import { useAuth } from 'src/modules/auth';
 
 const Login = () => {
-  const loc = useLocation();
+  // const loc = useLocation();
+  // const fromPage = loc.state?.from?.pathname || '/';
+  // console.log('fromPage', fromPage);
+
   // const { logout } = useAuth();
-
-  const fromPage = loc.state?.from?.pathname || '/';
-
-  console.log('fromPage', fromPage);
-
   // useEffect(() => {
   //   logout();
   // }, []);
@@ -40,11 +37,6 @@ const Login = () => {
     },
   });
 
-  // const { search } = useLocation();
-
-  // const queryParams = new URLSearchParams(search);
-  // const redirectPath = queryParams.get('redirect');
-
   const { login, loading, error, data } = useLogin();
 
   const handleLogin = ({ email, password }) => {
@@ -57,11 +49,6 @@ const Login = () => {
     }
 
     if (data?.authResult?.user?.students.length) {
-      setItemToLocalStorage(
-        'studentId',
-        data?.authResult?.user?.students[0]?.id,
-      );
-
       location.href =
         data?.authResult?.user?.students.length > 1
           ? '/select-profile'

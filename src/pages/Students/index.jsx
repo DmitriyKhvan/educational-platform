@@ -1,7 +1,6 @@
 import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-
-import { TrialRoute } from 'src/app/providers/router/lib/TrialRoute';
+import { TrialRoute } from 'src/app/providers/router';
 
 const StudentListAppointments = lazy(() => import('./StudentDashboard'));
 const ScheduleLesson = lazy(() => import('./ScheduleLesson'));
