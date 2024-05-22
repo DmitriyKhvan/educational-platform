@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { FaArrowLeft, FaPencil } from 'react-icons/fa6';
 import Button from 'src/components/Form/Button';
@@ -18,7 +18,7 @@ import { LOGIN_MUTATION } from 'src/modules/auth/graphql';
 import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 
 const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { user: currentUser, refetchUser } = useAuth();
   const { languageLevel, lessonTopic, packageSubscription } = selectedPlan;
 
@@ -106,7 +106,7 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
           setItemToLocalStorage('studentId', studentId);
 
           refetchUser({ studentId });
-          history.push('/trial/thank-you');
+          navigate('/trial/thank-you');
         }
       }
     } catch (error) {

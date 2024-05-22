@@ -1,5 +1,4 @@
 import React from 'react';
-import Layout from '../../../layouts/DashboardLayout';
 import { useTranslation } from 'react-i18next';
 import { getItemToLocalStorage } from '../../../constants/global';
 import { useAuth } from '../../../modules/auth';
@@ -37,7 +36,7 @@ const StudentListAppointments = () => {
   });
 
   return (
-    <Layout>
+    <>
       {lessonLoading || isLoading ? (
         <Loader height="100%" />
       ) : (
@@ -79,7 +78,7 @@ const StudentListAppointments = () => {
           )}
         </div>
       )}
-    </Layout>
+    </>
   );
 };
 export default StudentListAppointments;

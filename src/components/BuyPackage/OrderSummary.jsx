@@ -1,7 +1,7 @@
 import { useMemo, memo, useState } from 'react';
 
 import { gql, useMutation } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
@@ -35,7 +35,7 @@ export const OrderSummary = memo(function OrderSummary({
   const [open, setOpen] = useState(false);
   const [openTermsConditions, setIsOpenTermsConditions] = useState(false);
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const [parent] = useAutoAnimate();
   const [t] = useTranslation('purchase');
 
@@ -59,9 +59,7 @@ export const OrderSummary = memo(function OrderSummary({
         onCompleted: (data) => {
           const { clientSecret } = data.createPaymentIntent;
           if (clientSecret) {
-            history.push(
-              `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
-            );
+            navigate(`/purchase/${selectedPackage.id}/payment/${clientSecret}`);
           }
         },
         onError: (error) => {

@@ -52,8 +52,10 @@ export const MobileMenuItem = ({ menu }) => {
       ) : (
         <NavLink
           to={menu.link}
-          activeClassName="active"
-          className="group flex flex-col items-center gap-[5px] sm:w-[118px] cursor-pointer"
+          className={({ isActive }) =>
+            'group flex flex-col items-center gap-[5px] sm:w-[118px] cursor-pointer' +
+            (isActive ? ' active' : '')
+          }
         >
           <menu.icon className="text-[22px] transition ease-in-out delay-150 text-[#C0C0C3] font-medium group-hover:text-color-purple group-[.active]:text-color-purple" />
           <span className="text-[13px] transition ease-in-out delay-150 text-[#C0C0C3] font-medium group-hover:text-color-purple group-[.active]:text-color-purple text-center">

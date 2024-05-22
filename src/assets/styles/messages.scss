@@ -1,4 +1,4 @@
-@import "./variable.scss";
+@import './variable.scss';
 .view-messages {
   .header-title {
     align-items: center;
@@ -23,7 +23,7 @@
     height: 100%;
     overflow: hidden;
     position: relative;
-    .no-chat-history {
+    .no-chat-navigate {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -333,13 +333,13 @@
             .user-image {
               margin-left: 22px;
               margin-right: 0px;
-              }
+            }
             .message-text {
               background: $color-white;
               margin-right: 20px;
 
               &::before {
-                content: " ";
+                content: ' ';
                 position: absolute;
                 width: 0;
                 height: 0;
@@ -352,7 +352,7 @@
               }
 
               &::after {
-                content: " ";
+                content: ' ';
                 position: absolute;
                 width: 0;
                 height: 0;
@@ -370,7 +370,7 @@
             .user-image {
               margin-right: 22px;
               margin-left: 0px;
-              }
+            }
             .message-text {
               background: #faf7ff;
               border: 0.5px solid rgba(106, 28, 234, 0.15);
@@ -379,7 +379,7 @@
               margin-left: 20px;
 
               &::before {
-                content: " ";
+                content: ' ';
                 position: absolute;
                 width: 0;
                 height: 0;
@@ -388,11 +388,12 @@
                 top: 37px;
                 bottom: auto;
                 border: 11px solid;
-                border-color: rgba(106, 28, 234, 0.15) rgba(106, 28, 234, 0.15) transparent transparent;
+                border-color: rgba(106, 28, 234, 0.15) rgba(106, 28, 234, 0.15)
+                  transparent transparent;
               }
 
               &::after {
-                content: " ";
+                content: ' ';
                 position: absolute;
                 width: 0;
                 height: 0;

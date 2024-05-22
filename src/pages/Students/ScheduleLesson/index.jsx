@@ -11,7 +11,7 @@ import '../../../assets/styles/tutor.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { ScheduleProvider } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/ScheduleProvider';
 import { AvailableTimes } from './ScheduleSelector/AvailableTimes';
-import Layout from 'src/layouts/DashboardLayout';
+
 import ScheduleSuccess from './ScheduleSuccess';
 import { COMBINED_TIMESHEETS_TRIAL } from 'src/modules/graphql/queries/trial/combinedTimesheetsForTrials';
 import { useAuth } from 'src/modules/auth';
@@ -73,17 +73,9 @@ const ScheduleLesson = () => {
           setSelectMentor={currentStudent?.isTrial && setSelectMentor}
           duration={selectedPlan?.package?.sessionTime}
         >
-          {tabIndex === 1 && (
-            <Layout>
-              <ScheduleSelector lesson={scheduledLesson} />
-            </Layout>
-          )}
+          {tabIndex === 1 && <ScheduleSelector lesson={scheduledLesson} />}
 
-          {tabIndex === 2 && (
-            <Layout>
-              <AvailableTimes />
-            </Layout>
-          )}
+          {tabIndex === 2 && <AvailableTimes />}
         </ScheduleProvider>
       )}
 

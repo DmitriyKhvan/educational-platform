@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Layout from '../../../layouts/DashboardLayout';
 import ScheduleCard from './ScheduleCard';
 import Loader from '../../../components/common/Loader';
 import { useAuth } from '../../../modules/auth';
@@ -19,7 +18,7 @@ import { toZonedTime, format } from 'date-fns-tz';
 import { addMinutes } from 'date-fns';
 import { IoArrowBack } from 'react-icons/io5';
 import koLocale from 'date-fns/locale/ko';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import notify from 'src/utils/notify';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { AiOutlineInfo } from 'react-icons/ai';
@@ -38,7 +37,7 @@ const LessonConfirmation = ({
   repeat,
   setRepeat,
 }) => {
-  const history = useHistory();
+  const history = useNavigate();
   const [t, i18n] = useTranslation([
     'common',
     'lessons',
@@ -167,7 +166,8 @@ const LessonConfirmation = ({
     });
 
   return (
-    <Layout>
+    <>
+      {isLoading && <Loader />}
       <div className="flex flex-wrap lg:flex-nowrap min-h-full">
         <div className="grow max-w-[488px] mx-auto">
           <div className="flex items-center gap-3">
@@ -282,8 +282,7 @@ const LessonConfirmation = ({
           </Button>
         </div>
       </div>
-      {isLoading && <Loader />}
-    </Layout>
+    </>
   );
 };
 

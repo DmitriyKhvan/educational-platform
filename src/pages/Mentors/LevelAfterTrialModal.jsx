@@ -8,13 +8,13 @@ import MyDropdownMenu from 'src/components/DropdownMenu';
 import Button from 'src/components/Form/Button';
 import CheckboxField from 'src/components/Form/CheckboxField';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useNavigate } from 'react-router-dom';
 import notify from 'src/utils/notify';
 import { PLAYGROUND_LESSON } from '../../modules/graphql/queries/lessons/playgroundLesson';
 import { CHANGE_STUDENT_LEVEL } from 'src/modules/graphql/queries/levels/changeStudentLanguageLevel';
 
 const LevelAfterTrialModal = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const [currentLevel, setCurrentLevel] = useState();
@@ -73,7 +73,7 @@ const LevelAfterTrialModal = () => {
       },
       onCompleted: () => {
         setIsOpenModal(false);
-        history.push('/mentor/manage-appointments');
+        navigate('/mentor/manage-appointments');
         notify('Student level successfully updated');
       },
     });

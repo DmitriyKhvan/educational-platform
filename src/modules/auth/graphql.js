@@ -217,32 +217,6 @@ export const ATTACH_STUDENT_TO_USER = gql`
   }
 `;
 
-export const CREATE_NICE_PAYMENT = gql`
-  mutation CREATE_NICE_PAYMENT(
-    $studentId: ID!
-    $packageId: ID!
-    $amount: Int!
-    $courseTitle: String!
-    $cardNumber: String!
-    $expiry: String!
-    $birth: String!
-    $pwd2Digit: String!
-  ) {
-    createNicePayment(
-      studentId: $studentId
-      packageId: $packageId
-      amount: $amount
-      courseTitle: $courseTitle
-      cardNumber: $cardNumber
-      expiry: $expiry
-      birth: $birth
-      pwd2Digit: $pwd2Digit
-    ) {
-      id
-    }
-  }
-`;
-
 export const GET_MENTOR = gql`
   query GET_MENTOR($id: ID!) {
     mentor(id: $id) {
