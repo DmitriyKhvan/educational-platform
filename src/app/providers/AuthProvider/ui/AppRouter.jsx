@@ -44,20 +44,7 @@ export const AppRouter = () => {
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          <Suspense
-            fallback={
-              <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
-                <Loader />
-              </div>
-            }
-          >
-            <OnboardingLayout />
-          </Suspense>
-        }
-      >
+      <Route path="/" element={<OnboardingLayout />}>
         {/* <Route exact path="/" element={Login} /> */}
         <Route index element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -77,15 +64,7 @@ export const AppRouter = () => {
         path="/"
         element={
           <StudentRoute>
-            <Suspense
-              fallback={
-                <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
-                  <Loader />
-                </div>
-              }
-            >
-              <OnboardingLayout />
-            </Suspense>
+            <OnboardingLayout />
           </StudentRoute>
         }
       >
@@ -116,15 +95,7 @@ export const AppRouter = () => {
         path="/"
         element={
           <StudentRoute>
-            <Suspense
-              fallback={
-                <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
-                  <Loader />
-                </div>
-              }
-            >
-              <Layout />
-            </Suspense>
+            <Layout />
           </StudentRoute>
         }
       >
@@ -136,15 +107,7 @@ export const AppRouter = () => {
         path="/"
         element={
           <MentorRoute>
-            <Suspense
-              fallback={
-                <div className="absolute z-10 top-0 left-0 flex justify-center items-center h-screen w-screen">
-                  <Loader />
-                </div>
-              }
-            >
-              <Layout />
-            </Suspense>
+            <Layout />
           </MentorRoute>
         }
       >
