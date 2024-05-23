@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import App from './App';
+import App from './app/App';
 import { I18nextProvider } from 'react-i18next';
 import i18next from 'i18next';
 import {
@@ -67,6 +67,7 @@ import { createWsLink } from './utils/subscriptions';
 import { Language } from './constants/global';
 import { NotificationsProvider } from './modules/notifications';
 import { BrowserRouter } from 'react-router-dom';
+import { ErrorBoundary } from './app/providers/ErrorBoundary';
 
 const httpLink = createUploadLink({
   uri: `${process.env.REACT_APP_SERVER_URL}/graphql`,
@@ -172,7 +173,9 @@ root.render(
       <NotificationsProvider>
         <AuthProvider>
           <BrowserRouter>
-            <App />
+            <ErrorBoundary>
+              <App />
+            </ErrorBoundary>
           </BrowserRouter>
         </AuthProvider>
       </NotificationsProvider>
