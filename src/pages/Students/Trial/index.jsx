@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import OnboardingTrial from './OnboardingTrial';
+import { useEffect, useState } from 'react';
 import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
-import LessonDetails from './LessonDetails';
-import StepIndicator from './StepIndicator';
-import Confirmation from './Confirmation';
-import { ScheduleProvider } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/ScheduleProvider';
+import { COMBINED_TIMESHEETS_TRIAL } from 'src/modules/graphql/queries/trial/combinedTimesheetsForTrials';
 import { ScheduleSelector } from 'src/pages/Students/ScheduleLesson/ScheduleSelector';
 import { AvailableTimes } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/AvailableTimes';
-import { COMBINED_TIMESHEETS_TRIAL } from 'src/modules/graphql/queries/trial/combinedTimesheetsForTrials';
+import { ScheduleProvider } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/ScheduleProvider';
+import Confirmation from './Confirmation';
+import LessonDetails from './LessonDetails';
+import OnboardingTrial from './OnboardingTrial';
+import StepIndicator from './StepIndicator';
 
 import { useAuth } from 'src/modules/auth';
 
@@ -19,7 +19,6 @@ const Trial = () => {
   const [selectedPlan, setSelectedPlan] = useState({});
   const [schedule, setSchedule] = useState('');
   const [selectMentor, setSelectMentor] = useState('');
-
   useEffect(() => {
     if (currentUser) {
       const { phoneNumber, email, timeZone } = currentUser;

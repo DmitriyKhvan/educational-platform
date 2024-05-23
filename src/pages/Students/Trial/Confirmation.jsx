@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { FaArrowLeft, FaPencil } from 'react-icons/fa6';
 import Button from 'src/components/Form/Button';
 
-import { useTranslation } from 'react-i18next';
-import { format, toZonedTime } from 'date-fns-tz';
-import { addMinutes } from 'date-fns';
-import { TRIAL_SIGN_UP } from 'src/modules/graphql/mutations/trial/trialSignUp';
 import { useMutation } from '@apollo/client';
-import notify from 'src/utils/notify';
-import { useAuth } from 'src/modules/auth';
-import { ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER } from 'src/modules/graphql/mutations/trial/attachTrialStudentToUserResolver';
-import { localeDic, setItemToLocalStorage } from 'src/constants/global';
+import { addMinutes } from 'date-fns';
+import { format, toZonedTime } from 'date-fns-tz';
+import { useTranslation } from 'react-i18next';
 import Loader from 'src/components/Loader/Loader';
+import { localeDic, setItemToLocalStorage } from 'src/constants/global';
+import { useAuth } from 'src/modules/auth';
 import { LOGIN_MUTATION } from 'src/modules/auth/graphql';
+import { ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER } from 'src/modules/graphql/mutations/trial/attachTrialStudentToUserResolver';
+import { TRIAL_SIGN_UP } from 'src/modules/graphql/mutations/trial/trialSignUp';
 import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
+import notify from 'src/utils/notify';
 
 const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
   const history = useHistory();
@@ -83,7 +83,7 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
         await signUp({
           variables: {
             data: {
-              user,
+              user: {...user,  referralCode: localStorage.getItem('referalcode') },
               packageId: parseInt(packageSubscription.id),
               languageLevelId: parseInt(languageLevel.id),
               lessonTopicId: parseInt(lessonTopic.id),

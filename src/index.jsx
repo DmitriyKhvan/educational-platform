@@ -65,7 +65,6 @@ import { Language } from './constants/global';
 import './index.css';
 import { AuthProvider } from './modules/auth';
 import { NotificationsProvider } from './modules/notifications';
-import { getReferralCodeCookie } from './utils/referralCodeCookie';
 import { createWsLink } from './utils/subscriptions';
 
 const httpLink = createUploadLink({
@@ -76,11 +75,9 @@ const httpLink = createUploadLink({
 });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
-  const referralCode = getReferralCodeCookie(document);
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
-      ...(referralCode? { referralCode } : {}),
       authorization: 'Bearer ' + localStorage.getItem('token') || null,
     },
   }));

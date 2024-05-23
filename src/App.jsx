@@ -3,10 +3,10 @@ import './assets/styles/global.scss';
 import React, { Suspense, lazy } from 'react';
 
 import {
-  BrowserRouter as Router,
   Redirect,
-  Switch,
   Route,
+  BrowserRouter as Router,
+  Switch,
   useHistory,
 } from 'react-router-dom';
 
@@ -15,22 +15,22 @@ import { useAuth } from './modules/auth';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 import ForgotPasswordText from './pages/Auth/ForgotPasswordText';
 // Authentication Path
+import './App.scss';
 import Login from './pages/Auth/Login';
 import ResetPassword from './pages/Auth/ResetPassword';
-import './App.scss';
 
 import { Toaster } from 'react-hot-toast';
 
-import IsReferal from './pages/Students/Referal/isReferal';
 import Loader from './components/Loader/Loader';
-import Onboarding from './pages/Students/Onboarding';
-import StripePayment from './pages/Students/StripePayment';
-import ConfirmPayment from './pages/ConfirmPayment';
-import { NicePayment } from './pages/Students/NicePayment';
-import { SelectProfile } from './pages/Auth/SelectProfile/SelectProfile';
-import { getItemToLocalStorage, Roles } from './constants/global';
+import { Roles, getItemToLocalStorage } from './constants/global';
 import { AddStudentProfile } from './pages/Auth/SelectProfile/AddProfile';
+import { SelectProfile } from './pages/Auth/SelectProfile/SelectProfile';
+import ConfirmPayment from './pages/ConfirmPayment';
 import { ErrorPage } from './pages/ErrorPage';
+import { NicePayment } from './pages/Students/NicePayment';
+import Onboarding from './pages/Students/Onboarding';
+import IsReferal from './pages/Students/Referal/isReferal';
+import StripePayment from './pages/Students/StripePayment';
 import Trial from './pages/Students/Trial';
 
 const TrialMarketingChannel = lazy(() =>
@@ -96,7 +96,6 @@ function App() {
   });
 
   if (isLoading) return <Loader height={'100vh'} />;
-
   return (
     <>
       <Router>
@@ -129,7 +128,7 @@ function App() {
               component={TrialMarketingChannel}
             />
 
-            <PublicRoute path="/referral/:referalcode" component={IsReferal} />
+            <PublicRoute path="/referral/:referralcode" component={IsReferal} />
 
             <PrivateRoute
               role="student_parent"

@@ -8,6 +8,7 @@ export const SIGN_UP = gql`
     $password: String!
     $phoneNumber: String
     $timeZone: String
+    $referralCode: String
   ) {
     signUp(
       data: {
@@ -17,6 +18,7 @@ export const SIGN_UP = gql`
         password: $password
         phoneNumber: $phoneNumber
         timeZone: $timeZone
+        referralCode: $referralCode
       }
     ) {
       id
