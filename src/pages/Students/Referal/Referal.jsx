@@ -11,7 +11,6 @@ import Message from '../../../assets/images/message.svg';
 import present from '../../../assets/images/present.png';
 import videotut from '../../../assets/images/videoTut.png';
 import whatsapp from '../../../assets/images/whatsapp.svg';
-import Layout from '../../../layouts/DashboardLayout';
 import { useAuth } from '../../../modules/auth';
 import { useTranslation } from 'react-i18next';
 
