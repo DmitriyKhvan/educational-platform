@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Language, setItemToLocalStorage } from 'src/constants/global';
 
 import Logo from 'src/assets/images/logo_purple.svg';
+import Loader from 'src/components/Loader/Loader';
 
 export const OnboardingLayout = () => {
   const urlObject = new URL(window.location.href);
@@ -109,7 +110,15 @@ export const OnboardingLayout = () => {
         </div>
       </header>
       <main className="overflow-auto w-screen h-[calc(100vh-60px)] sm:h-[calc(100vh-97px)]">
-        <Outlet />
+        <Suspense
+          fallback={
+            <div className="flex justify-center items-center h-full w-full">
+              <Loader />
+            </div>
+          }
+        >
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   );
