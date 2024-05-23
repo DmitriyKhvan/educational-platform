@@ -33,12 +33,6 @@ export default function StudentRoutes() {
         }
       />
 
-      <Route
-        exact
-        path={`appointments`}
-        element={<StudentListAppointments />}
-      />
-
       <Route path={`lesson-calendar`} element={<Lessons />} />
 
       <Route exact path={`profile`} element={<StudentProfile />} />

@@ -41,7 +41,7 @@ const SubmitVideo = () => {
           data: { videoUrl: renderVideo(area.videoUrl) },
         },
         onCompleted: () => {
-          navigate('/mentor/edit-profiles/submit-videos/submited');
+          navigate('/mentor/profile/edit/submit-videos/submited');
         },
       });
     }
@@ -114,7 +114,7 @@ const SubmitVideo = () => {
 
         <div className="flex gap-[10px] mt-[35px]">
           <Button
-            onClick={() => navigate('/mentor/edit-profile')}
+            onClick={() => navigate('/mentor/profile/edit')}
             className="w-full"
             theme="outline"
           >
