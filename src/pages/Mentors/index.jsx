@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-// const MentorDashboard = lazy(() => import('./MentorDashboard'));
+const MentorDashboard = lazy(() => import('./MentorDashboard'));
 const Lessons = lazy(() => import('./Lessons'));
 const Availability = lazy(() => import('./Availiability'));
 const StudentsList = lazy(() => import('./StudentsList/StudentsList'));
@@ -14,7 +14,7 @@ const Submited = lazy(() => import('./Profile/SubmitVideo/Submited'));
 export default function MentorPages() {
   return (
     <Routes>
-      {/* <Route path={`manage-appointments`} element={<MentorDashboard />} /> */}
+      <Route path={`manage-appointments`} element={<MentorDashboard />} />
 
       <Route exact path={`lesson-calendar`} element={<Lessons />} />
 

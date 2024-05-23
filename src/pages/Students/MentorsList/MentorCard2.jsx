@@ -75,16 +75,14 @@ export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
                   <Link
                     to={
                       mentor?.availabilities?.regular?.length > 0
-                        ? {
-                            pathname: `/student/schedule-lesson/select`,
-                            state: {
-                              tutor: {
-                                ...mentor,
-                              },
-                            },
-                          }
+                        ? `/student/schedule-lesson/select`
                         : '#'
                     }
+                    state={{
+                      mentor: {
+                        ...mentor,
+                      },
+                    }}
                   >
                     <Button
                       theme="purple"
@@ -96,7 +94,7 @@ export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
                   </Link>
                 </TooltipTrigger>
 
-                {mentor?.availabilities?.length === 0 && (
+                {mentor?.availabilities?.regular?.length === 0 && (
                   <TooltipPortal>
                     <TooltipContent>
                       <div className="text-center">

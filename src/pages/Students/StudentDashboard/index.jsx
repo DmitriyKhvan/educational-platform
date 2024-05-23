@@ -13,7 +13,7 @@ import { useMediaQuery } from 'react-responsive';
 import Loader from 'src/components/Loader/Loader';
 import { useActivePackages } from 'src/utils/useActivePackages';
 
-const StudentListAppointments = () => {
+const StudentDashboard = () => {
   const isDesktop = useMediaQuery({ minWidth: 1400 });
 
   const [t] = useTranslation('dashboard');
@@ -81,4 +81,4 @@ const StudentListAppointments = () => {
     </>
   );
 };
-export default StudentListAppointments;
+export default StudentDashboard;

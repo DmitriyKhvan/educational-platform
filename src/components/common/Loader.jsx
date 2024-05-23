@@ -1,11 +1,11 @@
 import React from 'react';
-import Loader from 'react-loader-spinner';
+import { TailSpin } from 'react-loader-spinner';
 
-const ReactLoader = ({ className = 'absolute', type = 'TailSpin' }) => {
+const ReactLoader = ({ className }) => {
   return (
-    <Loader
+    <TailSpin
       color="#00BFFF"
-      className={`
+      wrapperClass={`
         fixed
         bg-slate-400/20 
         z-[10000] 
@@ -18,7 +18,6 @@ const ReactLoader = ({ className = 'absolute', type = 'TailSpin' }) => {
         justify-center
         ${className}
         `}
-      type={type}
       height={80}
       width={80}
     />

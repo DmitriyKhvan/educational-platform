@@ -2,7 +2,7 @@ import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { TrialRoute } from 'src/app/providers/router';
 
-const StudentListAppointments = lazy(() => import('./StudentDashboard'));
+const StudentDashboard = lazy(() => import('./StudentDashboard'));
 const ScheduleLesson = lazy(() => import('./ScheduleLesson'));
 
 const Referal = lazy(() => import('./Referal/Referal'));
@@ -22,7 +22,7 @@ export default function StudentRoutes() {
         <StudentListAppointments />
       </Route> */}
 
-      <Route path={`manage-lessons`} element={<StudentListAppointments />} />
+      <Route path={`manage-lessons`} element={<StudentDashboard />} />
 
       <Route
         path="schedule-lesson/select/:id?"
