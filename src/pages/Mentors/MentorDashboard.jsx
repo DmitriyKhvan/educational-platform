@@ -34,20 +34,13 @@ const MentorDashboard = () => {
         status: 'scheduled,paid,completed,in_progress,approved',
       },
     },
+    { fetchPolicy: 'network-only' },
   );
-
-  const tutor = user.tutor;
 
   const fetchAppointments = async () => {
     refetch();
     setIsLoading(false);
   };
-
-  useEffect(() => {
-    (async () => {
-      await fetchAppointments();
-    })();
-  }, [tutor]);
 
   useEffect(() => {
     if (appointments && appointments?.length > 0) {
