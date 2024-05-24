@@ -6,7 +6,7 @@ import {
   MUTATION_UPDATE_MENTOR,
   MUTATION_UPDATE_USER,
 } from '../../../../modules/auth/graphql';
-// import { useHistory } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -29,7 +29,7 @@ const BasicForm = () => {
 
   const genders = useGenderDic();
 
-  // const history = useHistory();
+  // const navigate = useNavigate();
 
   const { user, refetchUser } = useAuth();
 
@@ -93,7 +93,7 @@ const BasicForm = () => {
       },
       onCompleted: () => {
         notify('Basic information is changed!');
-        // history.push('/mentor/profile');
+        // navigate('/mentor/profile');
       },
       onError: (error) => {
         notify(error.message, 'error');

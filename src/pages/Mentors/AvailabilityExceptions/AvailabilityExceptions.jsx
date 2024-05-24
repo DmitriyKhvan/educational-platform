@@ -72,7 +72,7 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
         onCompleted: () => {
           refetchMentor();
 
-          notify('Exceptional dates is saved');
+          notify('Date override is saved');
 
           setUpdateExceptionDate(Date.now());
         },

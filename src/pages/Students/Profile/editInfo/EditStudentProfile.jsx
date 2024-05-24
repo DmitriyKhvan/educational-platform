@@ -23,13 +23,13 @@ import InputField from '../../../../components/Form/InputField';
 import { SelectField } from '../../../../components/Form/SelectField';
 import { Avatar } from '../../../../widgets/Avatar/Avatar';
 import { trimSpaces } from 'src/utils/trimSpaces';
-import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaChevronLeft } from 'react-icons/fa6';
 import PhoneNumberField from 'src/components/Form/PhoneNumberField';
 import InputWithError from 'src/components/Form/InputWithError';
 
 const EditProflileStudent = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
   const [updateUser] = useMutation(MUTATION_UPDATE_USER);
 
@@ -100,7 +100,7 @@ const EditProflileStudent = () => {
         setTimeout(async () => {
           await refetchUser();
           notify(t('student_information_changed', { ns: 'profile' }));
-          history.push('/student/profile');
+          navigate('/student/profile');
         }, 400);
       },
       onError: () => {

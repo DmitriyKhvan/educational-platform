@@ -5,7 +5,6 @@ import Button from 'src/components/Form/Button';
 import { Badge } from 'src/components/Badge';
 import { useNotifications } from 'src/modules/notifications';
 import { LessonsStatusType } from 'src/constants/global';
-import Layout from 'src/layouts/DashboardLayout';
 import Loader from 'src/components/Loader/Loader';
 import { LessonsCalendar, LessonsTable } from 'src/components/LessonsList';
 import { useAuth } from 'src/modules/auth';
@@ -82,7 +81,7 @@ const LessonsList = ({
   }, [isMobile]);
 
   return (
-    <Layout>
+    <>
       {loadingAppointments ? (
         <Loader height="100%" />
       ) : (
@@ -155,7 +154,7 @@ const LessonsList = ({
           </div>
         </div>
       )}
-    </Layout>
+    </>
   );
 };
 

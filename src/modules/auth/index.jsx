@@ -35,6 +35,15 @@ export const AuthProvider = ({ children }) => {
     },
   });
 
+  if (user) {
+    window.Intercom('boot', {
+      api_base: 'https://api-iam.intercom.io',
+      app_id: 'ohhixtgv',
+      name: `${user.firstName} ${user.lastName}`,
+      email: user.email,
+    });
+  }
+
   const [redeemInvitePasswordSetToken] = useMutation(
     INVITE_SET_PASSWORD_MUTATION,
   );

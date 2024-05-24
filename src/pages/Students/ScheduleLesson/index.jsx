@@ -8,10 +8,9 @@ import { useQuery } from '@apollo/client';
 import { LESSON_QUERY } from '../../../modules/auth/graphql';
 
 import '../../../assets/styles/tutor.scss';
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { ScheduleProvider } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/ScheduleProvider';
 import { AvailableTimes } from './ScheduleSelector/AvailableTimes';
-import Layout from 'src/layouts/DashboardLayout';
+
 import ScheduleSuccess from './ScheduleSuccess';
 import { COMBINED_TIMESHEETS_TRIAL } from 'src/modules/graphql/queries/trial/combinedTimesheetsForTrials';
 import { useAuth } from 'src/modules/auth';
@@ -21,6 +20,7 @@ const ScheduleLesson = () => {
   const { currentStudent } = useAuth();
   const { id = null } = useParams();
   const location = useLocation();
+
   const { data, loading } = useQuery(LESSON_QUERY, {
     variables: { id },
     skip: !id,
@@ -69,26 +69,18 @@ const ScheduleLesson = () => {
           }
           setTabIndex={setTabIndex}
           setSchedule={setSchedule}
-          selectedMentor={location?.state?.tutor}
+          selectedMentor={location?.state?.mentor}
           setSelectMentor={currentStudent?.isTrial && setSelectMentor}
           duration={selectedPlan?.package?.sessionTime}
         >
-          {tabIndex === 1 && (
-            <Layout>
-              <ScheduleSelector lesson={scheduledLesson} />
-            </Layout>
-          )}
+          {tabIndex === 1 && <ScheduleSelector lesson={scheduledLesson} />}
 
-          {tabIndex === 2 && (
-            <Layout>
-              <AvailableTimes />
-            </Layout>
-          )}
+          {tabIndex === 2 && <AvailableTimes />}
         </ScheduleProvider>
       )}
 
       {tabIndex === 3 &&
-        !location?.state?.tutor &&
+        !location?.state?.mentor &&
         !currentStudent?.isTrial && (
           <SelectMentorCards
             tabIndex={tabIndex}
@@ -101,13 +93,13 @@ const ScheduleLesson = () => {
         )}
 
       {(tabIndex === 4 ||
-        (tabIndex === 3 && location?.state?.tutor) ||
+        (tabIndex === 3 && location?.state?.mentor) ||
         (tabIndex === 3 && currentStudent?.isTrial)) && (
         <LessonConfirmation
           plan={selectedPlan}
           time={schedule}
-          mentor={selectMentor || location?.state?.tutor}
-          isMentorScheduled={!!location?.state?.tutor}
+          mentor={selectMentor || location?.state?.mentor}
+          isMentorScheduled={!!location?.state?.mentor}
           setTabIndex={setTabIndex}
           lesson={scheduledLesson}
           lessonId={id}

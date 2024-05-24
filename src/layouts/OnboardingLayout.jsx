@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, Suspense } from 'react';
+import { Link, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Language, setItemToLocalStorage } from 'src/constants/global';
 
 import Logo from 'src/assets/images/logo_purple.svg';
+import Loader from 'src/components/Loader/Loader';
 
-export const OnboardingLayout = ({ children }) => {
+export const OnboardingLayout = () => {
   const urlObject = new URL(window.location.href);
 
   const [language, setLanguage] = useState(null);
@@ -30,15 +31,15 @@ export const OnboardingLayout = ({ children }) => {
         localStorage.getItem('language') === Language.KR
           ? Language.KR
           : localStorage.getItem('language') === Language.CH
-          ? Language.CH
-          : Language.EN;
+            ? Language.CH
+            : Language.EN;
     } else {
       localStorageLang =
         localStorage.getItem('language') === Language.EN
           ? Language.EN
           : localStorage.getItem('language') === Language.CH
-          ? Language.CH
-          : Language.KR;
+            ? Language.CH
+            : Language.KR;
     }
 
     setLanguage(localStorageLang);
@@ -109,7 +110,15 @@ export const OnboardingLayout = ({ children }) => {
         </div>
       </header>
       <main className="overflow-auto w-screen h-[calc(100vh-60px)] sm:h-[calc(100vh-97px)]">
-        {children}
+        <Suspense
+          fallback={
+            <div className="flex justify-center items-center h-full w-full">
+              <Loader />
+            </div>
+          }
+        >
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   );

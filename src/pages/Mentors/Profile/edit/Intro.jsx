@@ -53,7 +53,7 @@ const Intro = () => {
           </h3>
 
           <Button theme="outline" className="w-full mt-3 ml-[-2px]">
-            <Link to={'/mentor/edit-profiles/submit-video'}>
+            <Link to={'/mentor/profile/edit/submit-video'}>
               {t('submit_video')}
             </Link>
           </Button>

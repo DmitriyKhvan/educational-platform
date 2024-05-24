@@ -9,6 +9,10 @@ const useLogin = () => {
       variables: { email, password },
       onCompleted: async (data) => {
         localStorage.setItem('token', data.authResult.sessionToken);
+        localStorage.setItem(
+          'studentId',
+          data?.authResult?.user?.students[0]?.id,
+        );
       },
     });
   };

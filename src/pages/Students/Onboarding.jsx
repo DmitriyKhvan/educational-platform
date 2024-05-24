@@ -11,7 +11,6 @@ import useLogin from '../../modules/auth/hooks/login';
 
 import Loader from '../../components/Loader/Loader';
 import Button from 'src/components/Form/Button';
-import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 
 import InputWithError from 'src/components/Form/InputWithError';
 import InputField from 'src/components/Form/InputField';
@@ -23,8 +22,6 @@ import { timezoneOptions } from 'src/constants/global';
 // import MySelect from 'src/components/Form/MySelect';
 
 export default function Onboarding() {
-  localStorage.removeItem('studentId');
-
   const [t] = useTranslation(['onboarding', 'common', 'translations']);
 
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -49,9 +46,6 @@ export default function Onboarding() {
   const [signUp] = useMutation(SIGN_UP);
 
   const onSubmit = async (data) => {
-    console.log('data', data);
-
-    if (data) return;
     setIsLoading(true);
 
     try {
@@ -61,7 +55,7 @@ export default function Onboarding() {
         },
       });
 
-      login(data.email, data.password);
+      await login(data.email, data.password);
     } catch (error) {
       notify(error.message, 'error');
     }
@@ -76,7 +70,7 @@ export default function Onboarding() {
   }, [loginData]);
 
   return (
-    <OnboardingLayout>
+    <>
       {isLoading && (
         <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
           <Loader />
@@ -233,6 +227,6 @@ export default function Onboarding() {
           </p>
         </form>
       </div>
-    </OnboardingLayout>
+    </>
   );
 }

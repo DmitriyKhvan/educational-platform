@@ -1,12 +1,12 @@
 import React from 'react';
 import { FaPencil } from 'react-icons/fa6';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from 'src/components/Form/Button';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 
 const MentorImageRow = ({ mentor, setTabIndex, isMentorScheduled }) => {
   const { avatar, gender, firstName, lastName, university, degree } = mentor;
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
     <div className="flex items-center justify-between gap-4 sm:gap-8 border w-full border-color-border-grey rounded-lg bg-white p-5 shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.04)]">
       <div className="flex gap-4 sm:gap-8 items-center">
@@ -31,7 +31,7 @@ const MentorImageRow = ({ mentor, setTabIndex, isMentorScheduled }) => {
           className="bg-opacity-10 text-color-purple hover:bg-opacity-100 hover:text-white aspect-square p-1 w-8 h-8"
           onClick={() =>
             isMentorScheduled
-              ? history.push('/student/mentors-list')
+              ? navigate('/student/mentors-list')
               : setTabIndex(3)
           }
         >

@@ -6,7 +6,6 @@ import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 
 import cls from './MentorProfile.module.scss';
 import { useAuth } from '../../../modules/auth';
-import Layout from 'src/layouts/DashboardLayout';
 
 const MentorProfile = () => {
   const [t] = useTranslation(['profile', 'common']);
@@ -70,117 +69,116 @@ const MentorProfile = () => {
   }, [user]);
 
   return (
-    <Layout>
-      <div className={cls.profile_page}>
-        <header className={cls.profile_header}>
-          <div className={cls.profile_header_row}>
-            <img className="avatar_preview" src={profileImage} alt="" />
+    <div className={cls.profile_page}>
+      <header className={cls.profile_header}>
+        <div className={cls.profile_header_row}>
+          <img className="avatar_preview" src={profileImage} alt="" />
 
-            <div className={cls.tutor_name}>
-              <h1>
-                {/* {actions?.user?.fullName ? actions?.user.fullName : 'Nickname'} */}
-                {actions?.user?.firstName} {actions?.user?.lastName}
-              </h1>
-              <h2 className={cls.text_primary}>
-                {actions?.user?.mentor?.degree &&
-                actions?.user?.mentor?.university
-                  ? `
+          <div className={cls.tutor_name}>
+            <h1>
+              {/* {actions?.user?.fullName ? actions?.user.fullName : 'Nickname'} */}
+              {actions?.user?.firstName} {actions?.user?.lastName}
+            </h1>
+            <h2 className={cls.text_primary}>
+              {actions?.user?.mentor?.degree &&
+              actions?.user?.mentor?.university
+                ? `
                           ${actions?.user?.mentor?.degree},
                           ${actions?.user?.mentor?.university}
                         `
-                  : ''}
-              </h2>
-            </div>
+                : ''}
+            </h2>
           </div>
-        </header>
-        <main className={cls.profile_content}>
-          <Link to={'/mentor/edit-profile'}>{t('edit_profile')}</Link>
-          <div className={cls.profile_content_row}>
-            <div className={cls.profile_content_row_left}>
-              <h2>{t('summary')}</h2>
+        </div>
+      </header>
+      <main className={cls.profile_content}>
+        <Link to={'/mentor/profile/edit'}>{t('edit_profile')}</Link>
+        <div className={cls.profile_content_row}>
+          <div className={cls.profile_content_row_left}>
+            <h2>{t('summary')}</h2>
 
-              <p>
-                {actions.user?.mentor?.introduction &&
-                  actions.user?.mentor?.introduction}
-              </p>
-            </div>
-
-            <div className={cls.profile_content_row_right}>
-              <section>
-                <div className="">
-                  {actions.user?.country && (
-                    <>
-                      <h1>{t('country', { ns: 'common' })}</h1>
-                      <h2>{actions.user?.country}</h2>
-                    </>
-                  )}
-                </div>
-                <div className="">
-                  {actions.user?.timezone && (
-                    <>
-                      <h1>{t('timezone', { ns: 'common' })}</h1>
-                      <h2>{actions.user?.timezone}</h2>
-                    </>
-                  )}
-                </div>
-                <div className="">
-                  {actions.user?.email && (
-                    <>
-                      <h1>{t('email')}</h1>
-                      <h2>{actions.user?.email}</h2>
-                    </>
-                  )}
-                </div>
-              </section>
-              <section>
-                <div className="">
-                  {actions.user?.phoneNumber && (
-                    <>
-                      <h1>{t('phone_number', { ns: 'common' })}</h1>
-                      <h2>{actions.user?.phoneNumber}</h2>
-                    </>
-                  )}
-                </div>
-
-                <div className="">
-                  {actions.user?.mentor?.university && (
-                    <>
-                      <h1>{t('university')}</h1>
-                      <h2>{actions.user?.mentor?.university}</h2>
-                    </>
-                  )}
-                </div>
-              </section>
-            </div>
+            <p>
+              {actions.user?.mentor?.introduction &&
+                actions.user?.mentor?.introduction}
+            </p>
           </div>
-        </main>
-        <footer className={cls.profile_footer}>
-          <section className={cls.profile_footer_left}>
-            <div>
-              <h2>{t('intro_video')}</h2>
+
+          <div className={cls.profile_content_row_right}>
+            <section>
+              <div className="">
+                {actions.user?.country && (
+                  <>
+                    <h1>{t('country', { ns: 'common' })}</h1>
+                    <h2>{actions.user?.country}</h2>
+                  </>
+                )}
+              </div>
+              <div className="">
+                {actions.user?.timezone && (
+                  <>
+                    <h1>{t('timezone', { ns: 'common' })}</h1>
+                    <h2>{actions.user?.timezone}</h2>
+                  </>
+                )}
+              </div>
+              <div className="">
+                {actions.user?.email && (
+                  <>
+                    <h1>{t('email')}</h1>
+                    <h2>{actions.user?.email}</h2>
+                  </>
+                )}
+              </div>
+            </section>
+            <section>
+              <div className="">
+                {actions.user?.phoneNumber && (
+                  <>
+                    <h1>{t('phone_number', { ns: 'common' })}</h1>
+                    <h2>{actions.user?.phoneNumber}</h2>
+                  </>
+                )}
+              </div>
+
+              <div className="">
+                {actions.user?.mentor?.university && (
+                  <>
+                    <h1>{t('university')}</h1>
+                    <h2>{actions.user?.mentor?.university}</h2>
+                  </>
+                )}
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+      <footer className={cls.profile_footer}>
+        <section className={cls.profile_footer_left}>
+          <div>
+            <h2>{t('intro_video')}</h2>
+          </div>
+
+          {videoLink?.length === 0 && (
+            <div className={cls.no_video}>
+              <h2>No video!</h2>
             </div>
+          )}
 
-            {videoLink?.length === 0 && (
-              <div className={cls.no_video}>
-                <h2>No video!</h2>
-              </div>
-            )}
-
-            {videoLink?.length !== 0 && (
-              <div className={cls.video}>
-                <iframe
-                  width="560"
-                  height="315"
-                  src={videoLink}
-                  title="YouTube video player"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  style={{ border: 0 }}
-                ></iframe>
-              </div>
-            )}
-          </section>
-          {/* <section className={cls.profile_footer_right}>
+          {videoLink?.length !== 0 && (
+            <div className={cls.video}>
+              <iframe
+                width="560"
+                height="315"
+                src={videoLink}
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                style={{ border: 0 }}
+              ></iframe>
+            </div>
+          )}
+        </section>
+        {/* <section className={cls.profile_footer_right}>
           <div className={cls.profile_footer_right_topics}>
             <h2>{t('topics')}</h2>
             <div className={cls.approved_row}>
@@ -225,9 +223,8 @@ const MentorProfile = () => {
             </div>
           </div>
         </section> */}
-        </footer>
-      </div>
-    </Layout>
+      </footer>
+    </div>
   );
 };
 

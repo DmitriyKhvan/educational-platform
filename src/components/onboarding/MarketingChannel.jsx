@@ -7,13 +7,13 @@ import { useMutation } from '@apollo/client';
 import { MUTATION_UPDATE_USER } from 'src/modules/auth/graphql';
 import { useAuth } from 'src/modules/auth';
 import notify from 'src/utils/notify';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { setItemToLocalStorage } from 'src/constants/global';
 import Loader from '../Loader/Loader';
 
 export const MarketingChannelForm = () => {
   const [t] = useTranslation('onboarding');
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { user, currentStudent } = useAuth();
 
@@ -52,7 +52,7 @@ export const MarketingChannelForm = () => {
           'studentId',
           currentStudent?.id ?? user.students[0].id,
         );
-        history.push('/student/manage-lessons');
+        navigate('/student/manage-lessons');
       },
       onError: (error) => {
         notify(error.message, 'error');

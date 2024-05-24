@@ -5,7 +5,7 @@ import { PACKAGE_QUERY } from '../../../../modules/auth/graphql';
 import { useTranslation } from 'react-i18next';
 import { Avatar } from '../../../../widgets/Avatar/Avatar';
 import { getItemToLocalStorage } from 'src/constants/global';
-import { Link } from 'react-router-dom/cjs/react-router-dom';
+import { Link } from 'react-router-dom';
 import { FaPencil } from 'react-icons/fa6';
 import Button from 'src/components/Form/Button';
 import { FiLogOut } from 'react-icons/fi';

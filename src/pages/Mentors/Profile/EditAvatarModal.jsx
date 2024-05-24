@@ -3,7 +3,7 @@ import React from 'react';
 import { useAuth } from '../../../modules/auth';
 import { MUTATION_UPDATE_MENTOR } from '../../../modules/auth/graphql';
 import { useMutation } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -18,7 +18,7 @@ const EditAvatarModal = ({ closeModal }) => {
   const [t] = useTranslation('common');
   const { user, refetchUser } = useAuth();
   const [updateMentor, { loading }] = useMutation(MUTATION_UPDATE_MENTOR);
-  const history = useHistory();
+  const navigate = useNavigate();
   const [file, setFile] = React.useState(null);
 
   const { handleSubmit } = useForm();
@@ -32,7 +32,7 @@ const EditAvatarModal = ({ closeModal }) => {
         },
         onCompleted: () => {
           notify(t('changed_avatar'));
-          history.push('/mentor/profile');
+          navigate('/mentor/profile');
           closeModal();
         },
       });

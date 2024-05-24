@@ -1,6 +1,5 @@
 import '../../../assets/styles/referal.scss';
 
-
 import { useMutation } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -15,28 +14,28 @@ import Message from '../../../assets/images/message.svg';
 import present from '../../../assets/images/present.png';
 import videotut from '../../../assets/images/videoTut.png';
 import whatsapp from '../../../assets/images/whatsapp.svg';
-import Layout from '../../../layouts/DashboardLayout';
 
 const Referal = () => {
   // const user = useSelector(state => state.users.user)
   // const { user } = useAuth();
-  
-  const [generateReferralLink, { data }] = useMutation(GENERATE_REFERRAL_LINK)
-  const [ referralUrl, setReferralUrl ] = useState(data?.generateReferralLink?.referralUrl);
+
+  const [generateReferralLink, { data }] = useMutation(GENERATE_REFERRAL_LINK);
+  const [referralUrl, setReferralUrl] = useState(
+    data?.generateReferralLink?.referralUrl,
+  );
   useEffect(() => {
-      const referralLink = async() => {
-        await generateReferralLink({
+    const referralLink = async () => {
+      await generateReferralLink({
         variables: {
-          studentId:  getItemToLocalStorage('studentId'),
+          studentId: getItemToLocalStorage('studentId'),
         },
         fetchPolicy: 'no-cache',
-        onCompleted: (data)=> {
-          setReferralUrl(data?.generateReferralLink?.referralUrl)
-        }
+        onCompleted: (data) => {
+          setReferralUrl(data?.generateReferralLink?.referralUrl);
+        },
       });
-    }
+    };
     referralLink();
-    
   }, [generateReferralLink]);
   const [t] = useTranslation('refer');
 
@@ -51,23 +50,16 @@ const Referal = () => {
       });
   };
   return (
-    <Layout>
-      <div className="referal-wrapper">
-        <h2 className="title">{t('refer')}</h2>
-        <div className="description">{t('refer_desc')}</div>
-        <div className="main_section">
-          <div className="main_section-row">
-            <div className="left_side">
-              <div className="refer_card">
-                <h2>{t('refer_from_title')}</h2>
-                <p>{t('refer_card_subtitle')}</p>
-                <span>{t('refer_card_desc')}</span>
-              </div>
-              <div className="refer_card">
-                <h2>{t('refer_to_title')}</h2>
-                <p>{t('refer_card_subtitle')}</p>
-                <span>{t('refer_card_desc')}</span>
-              </div>
+    <div className="referal-wrapper">
+      <h2 className="title">{t('refer')}</h2>
+      <div className="description">{t('refer_desc')}</div>
+      <div className="main_section">
+        <div className="main_section-row">
+          <div className="left_side">
+            <div className="refer_card">
+              <h2>{t('refer_from_title')}</h2>
+              <p>{t('refer_card_subtitle')}</p>
+              <span>{t('refer_card_desc')}</span>
             </div>
             <div className="right_side">
               <div className="gift_banner">
@@ -75,9 +67,7 @@ const Referal = () => {
                   <h3>{t('share_link')}</h3>
                   <span
                     onClick={() =>
-                      copyText(
-                        `${data?.generateReferralLink?.referralUrl}`,
-                      )
+                      copyText(`${data?.generateReferralLink?.referralUrl}`)
                     }
                   >
                     {data?.generateReferralLink?.referralUrl}
@@ -99,13 +89,11 @@ const Referal = () => {
               <input
                 type={'text'}
                 value={referralUrl}
-                onChange={ e => setReferralUrl(e.target.value)}
+                onChange={(e) => setReferralUrl(e.target.value)}
               />
               <span
                 onClick={() =>
-                  copyText(
-                    `${data?.generateReferralLink?.referralUrl}`,
-                  )
+                  copyText(`${data?.generateReferralLink?.referralUrl}`)
                 }
               >
                 {t('copy_link')}
@@ -180,7 +168,7 @@ const Referal = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 

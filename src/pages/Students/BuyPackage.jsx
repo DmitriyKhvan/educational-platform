@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@apollo/client';
 
-import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 import { Courses } from 'src/components/BuyPackage/Courses';
 import { SessionsPerWeek } from 'src/components/BuyPackage/SessionsPerWeek';
 import { SessionsTime } from 'src/components/BuyPackage/SessionsTime';
@@ -109,7 +108,7 @@ export default function BuyPackage() {
 
   // For Nice Payment
   // const submitNice = () => {
-  //   history.push(`/purchase/nice-payment`, {
+  //   navigate(`/purchase/nice-payment`, {
   //     packageId: selectedPackage.id,
   //     courseTitle: courseData.title,
   //     amount: calculatePriceWithDiscount(selectedPackage),
@@ -123,51 +122,49 @@ export default function BuyPackage() {
   }
 
   return (
-    <OnboardingLayout>
-      <div className="flex flex-wrap lg:flex-nowrap w-full gap-8 sm:gap-10 xl:gap-12 px-5 sm:px-20 py-6 sm:py-8">
-        {/* left block */}
-        <div className="grow">
-          <h2 className="text-3xl sm:text-4xl font-bold sm:leading-[52px] mb-10">
-            {t('choose_package')}
-          </h2>
+    <div className="flex flex-wrap lg:flex-nowrap w-full gap-8 sm:gap-10 xl:gap-12 px-5 sm:px-20 py-6 sm:py-8">
+      {/* left block */}
+      <div className="grow">
+        <h2 className="text-3xl sm:text-4xl font-bold sm:leading-[52px] mb-10">
+          {t('choose_package')}
+        </h2>
 
-          <div className="space-y-8">
-            <Courses
-              courses={courses}
-              setSelectedCourse={setSelectedCourse}
-              selectedCourse={selectedCourse}
-            />
+        <div className="space-y-8">
+          <Courses
+            courses={courses}
+            setSelectedCourse={setSelectedCourse}
+            selectedCourse={selectedCourse}
+          />
 
-            <SessionsPerWeek
-              uniqueSessionsPerWeek={uniqueSessionsPerWeek}
-              setSelectedSessionsPerWeek={setSelectedSessionsPerWeek}
-              selectedSessionsPerWeek={selectedSessionsPerWeek}
-            />
+          <SessionsPerWeek
+            uniqueSessionsPerWeek={uniqueSessionsPerWeek}
+            setSelectedSessionsPerWeek={setSelectedSessionsPerWeek}
+            selectedSessionsPerWeek={selectedSessionsPerWeek}
+          />
 
-            <SessionsTime
-              uniqueSessionsTime={uniqueSessionsTime}
-              setSelectedSessionTime={setSelectedSessionTime}
-              selectedSessionTime={selectedSessionTime}
-            />
+          <SessionsTime
+            uniqueSessionsTime={uniqueSessionsTime}
+            setSelectedSessionTime={setSelectedSessionTime}
+            selectedSessionTime={selectedSessionTime}
+          />
 
-            <Packages
-              filteredPackage={filteredPackage}
-              setSelectedPackage={setSelectedPackage}
-              selectedPackage={selectedPackage}
-              setPromoPackage={setPromoPackage}
-            />
-          </div>
-        </div>
-
-        {/* right block */}
-        <div className="w-full md:min-w-[414px] md:max-w-[414px]">
-          <OrderSummary
+          <Packages
+            filteredPackage={filteredPackage}
+            setSelectedPackage={setSelectedPackage}
             selectedPackage={selectedPackage}
             setPromoPackage={setPromoPackage}
-            promoPackage={promoPackage}
           />
         </div>
       </div>
-    </OnboardingLayout>
+
+      {/* right block */}
+      <div className="w-full md:min-w-[414px] md:max-w-[414px]">
+        <OrderSummary
+          selectedPackage={selectedPackage}
+          setPromoPackage={setPromoPackage}
+          promoPackage={promoPackage}
+        />
+      </div>
+    </div>
   );
 }

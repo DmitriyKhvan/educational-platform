@@ -1,5 +1,4 @@
 import React from 'react';
-import Layout from '../../../layouts/DashboardLayout';
 import { useTranslation } from 'react-i18next';
 import { getItemToLocalStorage } from '../../../constants/global';
 import { useAuth } from '../../../modules/auth';
@@ -14,7 +13,7 @@ import { useMediaQuery } from 'react-responsive';
 import Loader from 'src/components/Loader/Loader';
 import { useActivePackages } from 'src/utils/useActivePackages';
 
-const StudentListAppointments = () => {
+const StudentDashboard = () => {
   const isDesktop = useMediaQuery({ minWidth: 1400 });
 
   const [t] = useTranslation('dashboard');
@@ -37,7 +36,7 @@ const StudentListAppointments = () => {
   });
 
   return (
-    <Layout>
+    <>
       {lessonLoading || isLoading ? (
         <Loader height="100%" />
       ) : (
@@ -79,7 +78,7 @@ const StudentListAppointments = () => {
           )}
         </div>
       )}
-    </Layout>
+    </>
   );
 };
-export default StudentListAppointments;
+export default StudentDashboard;

@@ -20,7 +20,7 @@ import {
 } from 'date-fns';
 import LevelAfterTrialModal from './LevelAfterTrialModal';
 
-const TutorDashboard = () => {
+const MentorDashboard = () => {
   const [t] = useTranslation('dashboard');
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
@@ -34,20 +34,13 @@ const TutorDashboard = () => {
         status: 'scheduled,paid,completed,in_progress,approved',
       },
     },
+    { fetchPolicy: 'network-only' },
   );
-
-  const tutor = user.tutor;
 
   const fetchAppointments = async () => {
     refetch();
     setIsLoading(false);
   };
-
-  useEffect(() => {
-    (async () => {
-      await fetchAppointments();
-    })();
-  }, [tutor]);
 
   useEffect(() => {
     if (appointments && appointments?.length > 0) {
@@ -176,4 +169,4 @@ const TutorDashboard = () => {
   );
 };
 
-export default TutorDashboard;
+export default MentorDashboard;

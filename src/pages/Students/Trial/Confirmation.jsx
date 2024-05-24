@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { FaArrowLeft, FaPencil } from 'react-icons/fa6';
 import Button from 'src/components/Form/Button';
@@ -18,7 +18,7 @@ import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 import notify from 'src/utils/notify';
 
 const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { user: currentUser, refetchUser } = useAuth();
   const { languageLevel, lessonTopic, packageSubscription } = selectedPlan;
 
@@ -83,7 +83,10 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
         await signUp({
           variables: {
             data: {
-              user: {...user,  referralCode: localStorage.getItem('referalcode') },
+              user: {
+                ...user,
+                referralCode: localStorage.getItem('referalcode'),
+              },
               packageId: parseInt(packageSubscription.id),
               languageLevelId: parseInt(languageLevel.id),
               lessonTopicId: parseInt(lessonTopic.id),
@@ -106,7 +109,7 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
           setItemToLocalStorage('studentId', studentId);
 
           refetchUser({ studentId });
-          history.push('/trial/thank-you');
+          navigate('/trial/thank-you');
         }
       }
     } catch (error) {
