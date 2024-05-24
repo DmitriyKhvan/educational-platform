@@ -10,7 +10,7 @@ import { MobileMenu } from 'src/components/Menu/ui/MobileMenu';
 
 import { Roles } from 'src/constants/global';
 import Logo from 'src/assets/images/logo_purple.svg';
-import { BugButton } from 'src/app/providers/ErrorBoundary';
+// import { BugButton } from 'src/app/providers/ErrorBoundary';
 
 export const Sidebar = () => {
   const { user } = useAuth();
@@ -37,7 +37,7 @@ export const Sidebar = () => {
 
           <LangSwitcher />
 
-          <BugButton />
+          {/* <BugButton /> */}
         </div>
       )}
     </>
