@@ -27,7 +27,7 @@ const SelectProfile = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-y-[70px] py-6 sm:py-8 lg:py-10 md:px-10">
+    <div className="flex flex-col items-center gap-y-[70px]">
       <h1 className="text-xl leading-5 sm:text-[36px] sm:leading-[48px] font-bold text-color-dark-purple tracking-[-1px]">
         {t('select_profile')}
       </h1>

@@ -42,7 +42,7 @@ const Subscriptions = () => {
   }, [selectedTab, planStatus]);
 
   return (
-    <div className="max-w-[440px] mx-auto px-5 py-[50px] min-h-[calc(100vh-80px)]">
+    <div className="max-w-[440px] mx-auto px-5 py-[50px]">
       <div className="flex w-full">
         <Button
           theme="outline"

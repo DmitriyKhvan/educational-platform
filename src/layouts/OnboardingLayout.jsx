@@ -109,7 +109,7 @@ export const OnboardingLayout = () => {
           </label>
         </div>
       </header>
-      <main className="overflow-auto w-screen h-[calc(100vh-60px)] sm:h-[calc(100vh-97px)]">
+      <main className="relative overflow-auto w-screen h-[calc(100vh-60px)] sm:h-[calc(100vh-97px)] px-5 sm:px-20 py-6 sm:py-8 lg:py-10">
         <Suspense
           fallback={
             <div className="flex justify-center items-center h-full w-full">

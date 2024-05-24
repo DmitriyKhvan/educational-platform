@@ -62,24 +62,24 @@ const CheckoutForm = () => {
           <Loader />
         </div>
       )}
-      <div className="min-w-full min-h-full px-5 sm:px-20 py-6 sm:py-8 bg-[#F7F8FA]">
-        <form
-          className="w-full sm:w-[480px] m-auto p-8 rounded-xl bg-white"
-          onSubmit={handleSubmit}
+      <div className="absolute top-0 left-0 bottom-0 right-0 bg-[#F7F8FA] -z-10"></div>
+
+      <form
+        className="w-full sm:w-[480px] p-4 sm:p-8 m-auto rounded-xl bg-white"
+        onSubmit={handleSubmit}
+      >
+        <PaymentElement />
+        <p className="text-red-500 mt-2">
+          {errorMessage && <div>*{errorMessage}</div>}
+        </p>
+        <Button
+          type="submit"
+          disabled={isLoading}
+          className="w-full h-auto mt-8 p-5"
         >
-          <PaymentElement />
-          <p className="text-red-500 mt-2">
-            {errorMessage && <div>*{errorMessage}</div>}
-          </p>
-          <Button
-            type="submit"
-            disabled={isLoading}
-            className="w-full h-auto mt-8 p-5"
-          >
-            {t('pay')}
-          </Button>
-        </form>
-      </div>
+          {t('pay')}
+        </Button>
+      </form>
     </>
   );
 };

@@ -122,7 +122,7 @@ export default function BuyPackage() {
   }
 
   return (
-    <div className="flex flex-wrap lg:flex-nowrap w-full gap-8 sm:gap-10 xl:gap-12 px-5 sm:px-20 py-6 sm:py-8">
+    <div className="flex flex-wrap lg:flex-nowrap w-full gap-8 sm:gap-10 xl:gap-12">
       {/* left block */}
       <div className="grow">
         <h2 className="text-3xl sm:text-4xl font-bold sm:leading-[52px] mb-10">

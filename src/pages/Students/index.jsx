@@ -5,7 +5,6 @@ import { TrialRoute } from 'src/app/providers/router';
 const StudentDashboard = lazy(() => import('./StudentDashboard'));
 const ScheduleLesson = lazy(() => import('./ScheduleLesson'));
 
-const Referal = lazy(() => import('./Referal/Referal'));
 const Mentors = lazy(() => import('./MentorsList/Mentors'));
 const Subscriptions = lazy(() => import('./Subscriptions/Subscriptions'));
 const Lessons = lazy(() => import('./Lessons'));
@@ -37,8 +36,6 @@ export default function StudentRoutes() {
 
       <Route exact path={`profile`} element={<StudentProfile />} />
       <Route path={`profile/edit`} element={<EditProflileStudent />} />
-
-      <Route path={`referal`} element={<Referal />} />
 
       <Route
         path="mentors-list/:id?"

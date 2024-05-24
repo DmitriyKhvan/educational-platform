@@ -110,7 +110,7 @@ export default function ConfirmPayment() {
   if (!message) return <Loader height="100vh" />;
 
   return (
-    <div className="px-5 sm:px-20 py-6 sm:py-8">
+    <>
       {error ? (
         <div className="max-w-[440px] m-auto space-y-8 flex flex-col items-center">
           <FaCircleXmark className="w-16 h-16 text-red-500" />
@@ -142,6 +142,6 @@ export default function ConfirmPayment() {
           )}
         </div>
       )}
-    </div>
+    </>
   );
 }
