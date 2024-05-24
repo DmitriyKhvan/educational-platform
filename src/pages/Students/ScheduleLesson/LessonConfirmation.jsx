@@ -37,7 +37,7 @@ const LessonConfirmation = ({
   repeat,
   setRepeat,
 }) => {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const [t, i18n] = useTranslation([
     'common',
     'lessons',
@@ -128,7 +128,7 @@ const LessonConfirmation = ({
           },
         });
         notify(t('lesson_rescheduled', { ns: 'lessons' }));
-        history.push('/student/lesson-calendar');
+        navigate('/student/lesson-calendar');
       } else {
         const {
           data: { lesson: createdLesson },
