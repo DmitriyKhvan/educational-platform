@@ -6,8 +6,8 @@ import Education from './edit/Education';
 import Intro from './edit/Intro';
 import EditAvatarModal from './EditAvatarModal';
 import BasicForm from './edit/BasicForm';
-import { useAuth } from '../../../modules/auth';
-import { MUTATION_UPDATE_MENTOR } from '../../../modules/auth/graphql';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { MUTATION_UPDATE_MENTOR } from '../../../shared/apollo/graphql';
 import { useMutation } from '@apollo/client';
 import { Link } from 'react-scroll';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +16,7 @@ import { Avatar } from '../../../widgets/Avatar/Avatar';
 import Button from '../../../components/Form/Button/Button';
 
 import { FaTrashAlt } from 'react-icons/fa';
-import { cn } from '../../../utils/functions';
+import { cn } from '../../../shared/utils/functions';
 
 const EditMentorProfile = () => {
   const [t] = useTranslation(['profile', 'common']);

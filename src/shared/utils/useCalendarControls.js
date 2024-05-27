@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CalendarView } from 'src/constants/global';
+import { CalendarView } from 'src/shared/constants/global';
 
 export function useCalendarControls({ calendarRef, initialView }) {
   const [t, i18n] = useTranslation(['lessons', 'common']);

@@ -6,7 +6,7 @@ import ReactInputMask from 'react-input-mask';
 import InputField from './InputField';
 import { useMediaQuery } from 'react-responsive';
 import { useTranslation } from 'react-i18next';
-import { phoneCodes } from 'src/constants/global';
+import { phoneCodes } from 'src/shared/constants/global';
 import { useEffect, useState } from 'react';
 import Button from './Button';
 

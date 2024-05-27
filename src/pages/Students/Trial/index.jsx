@@ -6,9 +6,9 @@ import Confirmation from './Confirmation';
 import { ScheduleProvider } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/ScheduleProvider';
 import { ScheduleSelector } from 'src/pages/Students/ScheduleLesson/ScheduleSelector';
 import { AvailableTimes } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/AvailableTimes';
-import { COMBINED_TIMESHEETS_TRIAL } from 'src/modules/graphql/queries/trial/combinedTimesheetsForTrials';
+import { COMBINED_TIMESHEETS_TRIAL } from 'src/shared/apollo/queries/trial/combinedTimesheetsForTrials';
 
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 const Trial = () => {
   const { user: currentUser } = useAuth();

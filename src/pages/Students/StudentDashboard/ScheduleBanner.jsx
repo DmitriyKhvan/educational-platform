@@ -8,7 +8,7 @@ import bannerLogo from '../../../assets/images/banner-logo.png';
 import Button from 'src/components/Form/Button';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { ModalPurchase } from 'src/components/ModalPurchase';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 const ScheduleBanner = ({ activePackages }) => {
   const { currentStudent } = useAuth();

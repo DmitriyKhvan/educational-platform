@@ -1,10 +1,12 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { createContext, useContext, useState } from 'react';
-import { Roles, getItemToLocalStorage } from 'src/constants/global';
-import { useNotifications } from '../notifications';
-import { INVITE_SET_PASSWORD_MUTATION, ME_QUERY } from './graphql';
-
-const AuthContext = createContext({});
+import { useState } from 'react';
+import { useNotifications } from 'src/app/providers/NotificationProvider';
+import {
+  INVITE_SET_PASSWORD_MUTATION,
+  ME_QUERY,
+} from 'src/shared/apollo/graphql';
+import { Roles, getItemToLocalStorage } from 'src/shared/constants/global';
+import { AuthContext } from '../lib/AuthContext';
 
 export const AuthProvider = ({ children }) => {
   const { getAllNotifications } = useNotifications();
@@ -57,7 +59,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    localStorage.removeItem('referalcode')
+    localStorage.removeItem('referalcode');
     localStorage.removeItem('token');
     localStorage.removeItem('studentId');
   };
@@ -77,9 +79,4 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const contextValues = useContext(AuthContext);
-  return contextValues;
 };

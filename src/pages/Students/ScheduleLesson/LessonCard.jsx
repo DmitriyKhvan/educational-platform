@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaPencil } from 'react-icons/fa6';
 import Button from 'src/components/Form/Button';
-import { ucFirst } from 'src/utils/ucFirst';
+import { ucFirst } from 'src/shared/utils/ucFirst';
 
 const LessonCard = ({ lesson, duration, remaining, total, setTabIndex }) => {
   const [t] = useTranslation(['profile', 'lessons']);

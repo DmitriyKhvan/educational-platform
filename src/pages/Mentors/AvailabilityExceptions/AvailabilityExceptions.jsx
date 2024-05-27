@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useMutation } from '@apollo/client';
-import { UPSERT_EXCEPTION_DATES } from 'src/modules/graphql/mutations/upsertExceptionDates';
+import { UPSERT_EXCEPTION_DATES } from 'src/shared/apollo/mutations/upsertExceptionDates';
 import { parse } from 'date-fns';
 import { v4 as uuid } from 'uuid';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 import { AvailabilityExceptionPicker } from './AvailabilityExceptionPicker';
 import Button from 'src/components/Form/Button';
-import notify from 'src/utils/notify';
+import notify from 'src/shared/utils/notify';
 import Loader from 'src/components/Loader/Loader';
 // import Swal from 'sweetalert2';
 import { LuPlus } from 'react-icons/lu';

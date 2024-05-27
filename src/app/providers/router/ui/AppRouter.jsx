@@ -1,14 +1,13 @@
 import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Loader from 'src/components/Loader/Loader';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
-import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
-import Layout from 'src/layouts/DashboardLayout';
-
-import 'src/assets/styles/global.scss';
 import { MentorRoute, StudentRoute } from '..';
 import ErrorPage from 'src/pages/ErrorPage';
+import { Layout, OnboardingLayout } from 'src/shared/layouts';
+
+import 'src/app/styles/global.scss';
 
 const Login = lazy(() => import('src/pages/Auth/Login'));
 const ForgotPassword = lazy(() => import('src/pages/Auth/ForgotPassword'));

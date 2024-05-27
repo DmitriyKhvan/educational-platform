@@ -1,5 +1,4 @@
 import { toZonedTime } from 'date-fns-tz';
-import { useAuth } from 'src/modules/auth';
 
 export const isWithinHours = ({ dateEnd, dateStart, hours, userTimezone }) => {
   const isWithinHours =

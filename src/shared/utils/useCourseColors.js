@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { useCallback, useEffect, useState } from 'react';
-import { courseColorsDict, COURSE_COLORS } from 'src/constants/global';
-import { COURSES } from 'src/modules/graphql/queries/courses/courses';
+import { courseColorsDict, COURSE_COLORS } from 'src/shared/constants/global';
+import { COURSES } from 'src/shared/apollo/queries/courses/courses';
 
 let ready = false;
 let colorsIdx = 0;

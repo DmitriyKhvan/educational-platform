@@ -2,8 +2,8 @@ import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from 'src/assets/images/logo_purple.svg';
 
-import { Roles } from '../../constants/global';
-import { useAuth } from '../../modules/auth';
+import { Roles } from '../../shared/constants/global';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 import { useMediaQuery } from 'react-responsive';
 import MyDropdownMenu from '../DropdownMenu';

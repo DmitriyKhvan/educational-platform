@@ -4,7 +4,7 @@ import { format, formatDistanceToNow } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 
 import { Avatar } from 'src/widgets/Avatar/Avatar';
-import { localeDic } from 'src/constants/global';
+import { localeDic } from 'src/shared/constants/global';
 
 export const NotificationItem = ({ notification }) => {
   const [t, i18n] = useTranslation('lessons', 'notifications');

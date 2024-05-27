@@ -5,7 +5,7 @@ import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
 import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 
 import cls from './MentorProfile.module.scss';
-import { useAuth } from '../../../modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 const MentorProfile = () => {
   const [t] = useTranslation(['profile', 'common']);

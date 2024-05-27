@@ -1,9 +1,9 @@
 import { useMutation } from '@apollo/client';
 import * as Switch from '@radix-ui/react-switch';
 import Loader from 'src/components/Loader/Loader';
-import { useAuth } from 'src/modules/auth';
-import { ACCEPT_NEW_STUDENTS } from 'src/modules/graphql/mutations/acceptNewStudents';
-import notify from 'src/utils/notify';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { ACCEPT_NEW_STUDENTS } from 'src/shared/apollo/mutations/acceptNewStudents';
+import notify from 'src/shared/utils/notify';
 
 export const AcceptingStudents = () => {
   const { user, refetchUser } = useAuth();

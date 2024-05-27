@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import DashboardCard from './DashboardCard';
-import { LessonsStatusType } from 'src/constants/global';
+import { LessonsStatusType } from 'src/shared/constants/global';
 import ScheduleCard from 'src/components/student-dashboard/ScheduleCardRebranding';
 import { useTranslation } from 'react-i18next';
 

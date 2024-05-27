@@ -1,5 +1,5 @@
 import React from 'react';
-import '../assets/styles/auth.scss';
+import 'src/app/styles/auth.scss';
 import Logo from '../assets/images/logo_purple.svg';
 import Butterfly from '../assets/images/butterfly.svg';
 

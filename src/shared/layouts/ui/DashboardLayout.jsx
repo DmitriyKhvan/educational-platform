@@ -1,11 +1,12 @@
-import Navbar from '../components/Navbar/Navbar';
-import { Sidebar } from '../components/Sidebar';
-import '../assets/styles/layout.scss';
+import Navbar from '../../../components/Navbar/Navbar';
+import { Sidebar } from '../../../components/Sidebar';
 import { Outlet } from 'react-router-dom';
 import Loader from 'src/components/Loader/Loader';
 import { Suspense } from 'react';
 
-const Layout = () => {
+import 'src/app/styles/layout.scss';
+
+export const Layout = () => {
   return (
     <div className="relative">
       <div className="content flex flex-col-reverse lg:flex-row">
@@ -31,5 +32,3 @@ const Layout = () => {
     </div>
   );
 };
-
-export default Layout;

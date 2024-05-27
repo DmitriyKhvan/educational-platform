@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNotifications } from 'src/modules/notifications';
+import { useNotifications } from 'src/app/providers/NotificationProvider';
 import { Badge } from '../../../Badge';
 import { NavLink } from 'react-router-dom';
 import Button from 'src/components/Form/Button';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 
 export const MobileMenuItem = ({ menu }) => {

@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import ImgCalendar from '../../assets/images/calendar_icon.svg';
 import ScheduleCard from '../../components/student-dashboard/ScheduleCard';
 import Loader from '../../components/common/Loader';
-import { useAuth } from '../../modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import FeedbackLessonModal from './FeedbackLessonModal';
 import { useQuery } from '@apollo/client';
-import { APPOINTMENTS_QUERY } from '../../modules/auth/graphql';
-import 'src/assets/styles/dashboard.scss';
+import { APPOINTMENTS_QUERY } from '../../shared/apollo/graphql';
+import 'src/app/styles/dashboard.scss';
 import {
   addMinutes,
   endOfDay,

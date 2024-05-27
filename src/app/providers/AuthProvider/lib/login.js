@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client';
-import { LOGIN_MUTATION } from '../graphql';
+import { LOGIN_MUTATION } from '../../../../shared/apollo/graphql';
 
-const useLogin = () => {
+export const useLogin = () => {
   const [loginMutation, { loading, error, data }] = useMutation(LOGIN_MUTATION);
 
   const login = (email, password) => {
@@ -19,5 +19,3 @@ const useLogin = () => {
 
   return { login, loading, error, data };
 };
-
-export default useLogin;

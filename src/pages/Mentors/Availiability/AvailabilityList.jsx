@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { MentorAvailabilityType } from '../../../constants/global';
+import { MentorAvailabilityType } from '../../../shared/constants/global';
 
 import { v4 as uuid } from 'uuid';
-import { useAuth } from '../../../modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { useQuery } from '@apollo/client';
-import { GET_MENTOR } from '../../../modules/auth/graphql';
+import { GET_MENTOR } from '../../../shared/apollo/graphql';
 import Loader from 'src/components/Loader/Loader';
 import { AcceptingStudents } from '../AcceptingStudents';
 import { AvailabilityExceptions } from '../AvailabilityExceptions';

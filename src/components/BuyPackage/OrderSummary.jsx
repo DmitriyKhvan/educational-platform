@@ -6,15 +6,15 @@ import { useTranslation } from 'react-i18next';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 
-import { currencyFormat } from 'src/utils/currencyFormat';
-import { calculatePriceWithDiscount } from 'src/utils/calculatePriceWithDiscount';
+import { currencyFormat } from 'src/shared/utils/currencyFormat';
+import { calculatePriceWithDiscount } from 'src/shared/utils/calculatePriceWithDiscount';
 
 import { PromoModal } from './PromoModal';
 import { TermsConditionsModal } from './TermsConditionsModal';
 import Button from '../Form/Button';
 import { RiErrorWarningFill } from 'react-icons/ri';
 import { BsPlus } from 'react-icons/bs';
-import notify from 'src/utils/notify';
+import notify from 'src/shared/utils/notify';
 import Loader from '../Loader/Loader';
 
 import { AdaptiveDialog } from '../AdaptiveDialog';

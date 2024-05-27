@@ -5,14 +5,14 @@ import koLocale from '@fullcalendar/core/locales/ko';
 import chLocale from '@fullcalendar/core/locales/zh-tw';
 import enLocale from '@fullcalendar/core/locales/en-gb';
 import { useTranslation } from 'react-i18next';
-import { Language } from 'src/constants/global';
+import { Language } from 'src/shared/constants/global';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import rrulePlugin from '@fullcalendar/rrule';
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { useMediaQuery } from 'react-responsive';
 
 export const Calendar = forwardRef((props, ref) => {
@@ -41,8 +41,8 @@ export const Calendar = forwardRef((props, ref) => {
         i18n.language === Language.KR
           ? koLocale
           : i18n.language === Language.CH
-          ? chLocale
-          : Language.EN
+            ? chLocale
+            : Language.EN
       }
       now={toZonedTime(new Date(), userTimezone)}
       plugins={[dayGridPlugin, timeGridPlugin, rrulePlugin]}

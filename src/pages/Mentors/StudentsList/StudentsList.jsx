@@ -6,7 +6,7 @@ import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
 import './Students.scss';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { STUDENTS_QUERY } from '../../../modules/auth/graphql';
+import { STUDENTS_QUERY } from '../../../shared/apollo/graphql';
 import Loader from '../../../components/Loader/Loader';
 import StudentsModal from './StudentsModal';
 import { useTranslation } from 'react-i18next';

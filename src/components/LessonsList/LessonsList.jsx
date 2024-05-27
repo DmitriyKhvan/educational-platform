@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next';
 
 import Button from 'src/components/Form/Button';
 import { Badge } from 'src/components/Badge';
-import { useNotifications } from 'src/modules/notifications';
-import { LessonsStatusType } from 'src/constants/global';
+import { useNotifications } from 'src/app/providers/NotificationProvider';
+import { LessonsStatusType } from 'src/shared/constants/global';
 import Loader from 'src/components/Loader/Loader';
 import { LessonsCalendar, LessonsTable } from 'src/components/LessonsList';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { useMediaQuery } from 'react-responsive';
-import { sortCalendarEvents } from 'src/utils/sortCalendarEvents';
+import { sortCalendarEvents } from 'src/shared/utils/sortCalendarEvents';
 
 const LessonsList = ({
   getAppointments,

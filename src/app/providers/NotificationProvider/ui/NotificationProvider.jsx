@@ -1,13 +1,11 @@
 import { useLazyQuery, useMutation, useSubscription } from '@apollo/client';
-import React, { useState, useEffect, createContext, useContext } from 'react';
-import { MESSAGE_SUBSCRIPTIONS } from 'src/utils/subscriptions';
-import { GET_USER_NOTIFICATIONS } from '../graphql/queries/notifications';
+import { useEffect, useState } from 'react';
+import { MARK_MESSAGE_AS_READ } from 'src/shared/apollo/mutations/notifications';
+import { GET_USER_NOTIFICATIONS } from 'src/shared/apollo/queries/notifications';
+import { MESSAGE_SUBSCRIPTIONS } from 'src/shared/utils/subscriptions';
+import { NotificationContext } from '../lib/NotificationContext';
 
-import { MARK_MESSAGE_AS_READ } from '../graphql/mutations/notifications';
-
-const NotificationsContext = createContext({});
-
-export const NotificationsProvider = ({ children }) => {
+export const NotificationProvider = ({ children }) => {
   const [notifications, setNotification] = useState([]);
   const [updateNotifications, setUpdateNotifications] = useState('');
 
@@ -84,7 +82,7 @@ export const NotificationsProvider = ({ children }) => {
   };
 
   return (
-    <NotificationsContext.Provider
+    <NotificationContext.Provider
       value={{
         notifications,
         getCountNotification,
@@ -93,10 +91,6 @@ export const NotificationsProvider = ({ children }) => {
       }}
     >
       {children}
-    </NotificationsContext.Provider>
+    </NotificationContext.Provider>
   );
-};
-
-export const useNotifications = () => {
-  return useContext(NotificationsContext);
 };

@@ -3,13 +3,13 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import ClipLoader from 'react-spinners/ClipLoader';
 import InputField from '../../components/Form/InputField';
-import useLogin from '../../modules/auth/hooks/login';
 import Button from '../../components/Form/Button/Button';
 import InputWithError from '../../components/Form/InputWithError';
-import notify from '../../utils/notify';
+import notify from '../../shared/utils/notify';
 import { Link } from 'react-router-dom';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
-// import { useAuth } from 'src/modules/auth';
+import { useLogin } from 'src/app/providers/AuthProvider';
+// import { useAuth } from 'src/app/providers/AuthProvider';
 
 const Login = () => {
   // const loc = useLocation();

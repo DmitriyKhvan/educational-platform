@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { IoIosWarning } from 'react-icons/io';
 import { Navigate, useParams } from 'react-router-dom';
 import Loader from 'src/components/Loader/Loader';
-import { VALIDATE_REFERRAL_CODE } from 'src/modules/graphql/mutations/referralCodes';
+import { VALIDATE_REFERRAL_CODE } from 'src/shared/apollo/mutations/referralCodes';
 
 const IsReferal = () => {
   localStorage.removeItem('referalcode');

@@ -8,8 +8,8 @@ import { Packages } from 'src/components/BuyPackage/Packages';
 import { OrderSummary } from 'src/components/BuyPackage/OrderSummary';
 import Loader from '../../components/Loader/Loader';
 import { useTranslation } from 'react-i18next';
-import { COURSES } from 'src/modules/graphql/queries/courses/courses';
-import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
+import { COURSES } from 'src/shared/apollo/queries/courses/courses';
+import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 
 export default function BuyPackage() {
   const [t, i18n] = useTranslation('purchase');

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { getItemToLocalStorage } from '../../../constants/global';
-import { useAuth } from '../../../modules/auth';
-import { APPOINTMENTS_QUERY } from '../../../modules/auth/graphql';
+import { getItemToLocalStorage } from '../../../shared/constants/global';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { APPOINTMENTS_QUERY } from '../../../shared/apollo/graphql';
 import { useQuery } from '@apollo/client';
 
 import DashboardCard from './DashboardCard';
@@ -11,7 +11,7 @@ import MyLessons from './MyLessons';
 import MyProgress from './MyProgress';
 import { useMediaQuery } from 'react-responsive';
 import Loader from 'src/components/Loader/Loader';
-import { useActivePackages } from 'src/utils/useActivePackages';
+import { useActivePackages } from 'src/shared/utils/useActivePackages';
 
 const StudentDashboard = () => {
   const isDesktop = useMediaQuery({ minWidth: 1400 });

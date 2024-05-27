@@ -8,7 +8,7 @@ import {
 import { loadStripe } from '@stripe/stripe-js';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import Button from 'src/components/Form/Button';
 import Loader from 'src/components/Loader/Loader';
 

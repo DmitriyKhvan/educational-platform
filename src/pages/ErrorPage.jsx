@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Roles } from 'src/constants/global';
-import { useAuth } from 'src/modules/auth';
+import { Roles } from 'src/shared/constants/global';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 export default function ErrorPage() {
   const { user } = useAuth();

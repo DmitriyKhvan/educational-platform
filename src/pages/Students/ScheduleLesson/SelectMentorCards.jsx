@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { AVAILABLE_MENTORS } from 'src/modules/graphql/queries/mentors/availableMentors';
+import { AVAILABLE_MENTORS } from 'src/shared/apollo/queries/mentors/availableMentors';
 
 import { format, toZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
 
 import { MentorsView } from '../MentorsList/MentorsView';
 import Loader from 'src/components/Loader/Loader';
-import { getItemToLocalStorage } from 'src/constants/global';
+import { getItemToLocalStorage } from 'src/shared/constants/global';
 import { IoArrowBack } from 'react-icons/io5';
 
 const useAvailableMentors = (isoTime, duration, studentId) => {

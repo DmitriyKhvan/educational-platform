@@ -1,10 +1,10 @@
 import React, { useMemo, useState } from 'react';
-import { useAuth } from '../../../../modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { useQuery } from '@apollo/client';
-import { PACKAGE_QUERY } from '../../../../modules/auth/graphql';
+import { PACKAGE_QUERY } from '../../../../shared/apollo/graphql';
 import { useTranslation } from 'react-i18next';
 import { Avatar } from '../../../../widgets/Avatar/Avatar';
-import { getItemToLocalStorage } from 'src/constants/global';
+import { getItemToLocalStorage } from 'src/shared/constants/global';
 import { Link } from 'react-router-dom';
 import { FaPencil } from 'react-icons/fa6';
 import Button from 'src/components/Form/Button';
