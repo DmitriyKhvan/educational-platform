@@ -1,4 +1,5 @@
 import React from 'react';
+import { IoIosWarning } from 'react-icons/io';
 import Button from 'src/components/Form/Button';
 
 export const PageError = () => {
@@ -7,11 +8,21 @@ export const PageError = () => {
   };
 
   return (
-    <div className="flex items-center justify-center w-screen h-screen">
-      <div className="flex flex-col items-center gap-4">
-        <h2 className="text-2xl font-medium">Somesing went wrong!!!</h2>
+    <div className="flex w-screen h-screen">
+      <div className="max-w-[440px] m-auto flex flex-col items-center">
+        <div className="p-3 rounded-lg bg-[rgba(234,_33,_33,_0.10)]">
+          <IoIosWarning className="text-2xl text-[#EA2121]" />
+        </div>
+        <h2 className="text-[clamp(1rem,8vw,2rem)] sm:text-[38px] font-bold leading-8 mt-8">
+          Something went wrong
+        </h2>
+        <p className="text-center mt-4">
+          Sorry, random error occurred. Please refresh the page
+        </p>
 
-        <Button onClick={reloadPage}>Reload page</Button>
+        <Button className="h-[57px] px-12 mt-10" onClick={reloadPage}>
+          Refresh the page
+        </Button>
       </div>
     </div>
   );
