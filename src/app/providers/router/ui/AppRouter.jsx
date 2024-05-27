@@ -7,7 +7,7 @@ import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 import Layout from 'src/layouts/DashboardLayout';
 
 import 'src/assets/styles/global.scss';
-import { MentorRoute, StudentRoute } from '../../router';
+import { MentorRoute, StudentRoute } from '../../AuthProvider/../router';
 
 const Login = lazy(() => import('src/pages/Auth/Login'));
 const ForgotPassword = lazy(() => import('src/pages/Auth/ForgotPassword'));
