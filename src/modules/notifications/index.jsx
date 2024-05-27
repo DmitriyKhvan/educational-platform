@@ -78,7 +78,7 @@ export const NotificationsProvider = ({ children }) => {
 
   const getCountNotification = (type) => {
     const count = notifications.filter(
-      (notification) => notification?.meta.lesson.type === type,
+      (notification) => notification?.meta?.lesson?.type === type,
     );
     return count.length;
   };

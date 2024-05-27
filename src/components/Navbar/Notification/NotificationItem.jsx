@@ -27,11 +27,16 @@ export const NotificationItem = ({ notification }) => {
       </div>
       <div className="mb-4">
         <span className="font-medium text-sm">
-          {t(notification.body)} (
-          {format(new Date(notification.meta.lesson.date), 'eee, MMM do', {
-            locale: localeDic[i18n.language],
-          })}
-          )
+          {t(notification.body)}
+
+          {notification?.meta?.lesson?.date &&
+            `(${format(
+              new Date(notification?.meta?.lesson?.date),
+              'eee, MMM do',
+              {
+                locale: localeDic[i18n.language],
+              },
+            )})`}
         </span>
       </div>
       <div>
