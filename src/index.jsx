@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import App from './App';
+import App from './app/App';
 import { I18nextProvider } from 'react-i18next';
 import i18next from 'i18next';
 import {
@@ -60,12 +60,14 @@ import {
 } from '@apollo/client';
 
 import { AuthProvider } from './modules/auth';
-import { createUploadLink } from 'apollo-upload-client';
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 import './index.css';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { createWsLink } from './utils/subscriptions';
 import { Language } from './constants/global';
 import { NotificationsProvider } from './modules/notifications';
+import { BrowserRouter } from 'react-router-dom';
+import { ErrorBoundary } from './app/providers/ErrorBoundary';
 
 const httpLink = createUploadLink({
   uri: `${process.env.REACT_APP_SERVER_URL}/graphql`,
@@ -110,8 +112,8 @@ i18next.init({
     localStorage.getItem('language') === Language.KR
       ? Language.KR
       : localStorage.getItem('language') === Language.CH
-      ? Language.CH
-      : Language.EN, // language to use
+        ? Language.CH
+        : Language.EN, // language to use
   resources: {
     en: {
       common: commonEn,
@@ -170,7 +172,11 @@ root.render(
     <I18nextProvider i18n={i18next}>
       <NotificationsProvider>
         <AuthProvider>
-          <App />
+          <BrowserRouter>
+            <ErrorBoundary>
+              <App />
+            </ErrorBoundary>
+          </BrowserRouter>
         </AuthProvider>
       </NotificationsProvider>
     </I18nextProvider>

@@ -1,17 +1,17 @@
 import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const IsReferal = () => {
   const { referalcode } = useParams();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (!localStorage.getItem('referalcode')) {
       localStorage.setItem('referalcode', referalcode);
     } else {
-      history.push('/signup');
+      navigate('/signup');
     }
-  }, [referalcode, history]);
+  }, [referalcode, navigate]);
 
   return <></>;
 };

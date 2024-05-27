@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-
+.navigate
 # production
 /build
 /dist

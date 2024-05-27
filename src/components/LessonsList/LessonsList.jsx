@@ -5,9 +5,7 @@ import Button from 'src/components/Form/Button';
 import { Badge } from 'src/components/Badge';
 import { useNotifications } from 'src/modules/notifications';
 import { LessonsStatusType } from 'src/constants/global';
-import Layout from 'src/layouts/DashboardLayout';
 import Loader from 'src/components/Loader/Loader';
-import ReviewLessonModal from 'src/components/student-dashboard/ReviewLessonModal';
 import { LessonsCalendar, LessonsTable } from 'src/components/LessonsList';
 import { useAuth } from 'src/modules/auth';
 import { useMediaQuery } from 'react-responsive';
@@ -75,8 +73,6 @@ const LessonsList = ({
     setSelectedTab('calendar');
   };
 
-  const [isReviewLessonModalOpen, setReviewLessonModal] = useState(false);
-
   useEffect(() => {
     if (isMobile && selectedTab === 'calendar') {
       setIsCalendar(false);
@@ -85,7 +81,7 @@ const LessonsList = ({
   }, [isMobile]);
 
   return (
-    <Layout>
+    <>
       {loadingAppointments ? (
         <Loader height="100%" />
       ) : (
@@ -158,12 +154,7 @@ const LessonsList = ({
           </div>
         </div>
       )}
-
-      <ReviewLessonModal
-        isOpen={isReviewLessonModalOpen}
-        setIsOpen={setReviewLessonModal}
-      />
-    </Layout>
+    </>
   );
 };
 

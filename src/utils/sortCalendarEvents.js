@@ -1,5 +1,5 @@
 import { addMinutes } from 'date-fns';
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { format, toZonedTime } from 'date-fns-tz';
 
 export const sortCalendarEvents = (data, timeZone) => {
   if (!data) return;
@@ -22,9 +22,9 @@ export const sortCalendarEvents = (data, timeZone) => {
         playground: eventDate.playground,
         lesson: eventDate?.packageSubscription?.package?.course?.title,
         courseId: eventDate?.packageSubscription?.package?.course?.id,
-        startAt: utcToZonedTime(new Date(eventDate.startAt), timeZone),
+        startAt: toZonedTime(new Date(eventDate.startAt), timeZone),
         end_at: addMinutes(
-          utcToZonedTime(new Date(eventDate.startAt), timeZone),
+          toZonedTime(new Date(eventDate.startAt), timeZone),
           eventDate.duration,
         ),
         type: eventDate.type,
@@ -53,13 +53,13 @@ export const sortCalendarEvents = (data, timeZone) => {
         : '';
 
       const startTime = format(
-        utcToZonedTime(new Date(eventDate.startAt), timeZone),
+        toZonedTime(new Date(eventDate.startAt), timeZone),
         'hh:mm a',
         { timeZone: timeZone },
       );
       const endTime = format(
         addMinutes(
-          utcToZonedTime(new Date(eventDate.startAt), timeZone),
+          toZonedTime(new Date(eventDate.startAt), timeZone),
           eventDate.duration,
         ),
         'hh:mm a',
@@ -71,7 +71,7 @@ export const sortCalendarEvents = (data, timeZone) => {
           startTime,
           endTime: endTime,
           date: format(
-            utcToZonedTime(new Date(eventDate.startAt), timeZone),
+            toZonedTime(new Date(eventDate.startAt), timeZone),
             'eee, MMM do',
             { timeZone: timeZone },
           ),

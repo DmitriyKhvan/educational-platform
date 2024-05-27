@@ -1,7 +1,6 @@
-// import timezones from 'timezones-list';
 import { enUS, ko, zhTW } from 'date-fns/locale';
 import { getData } from 'country-list';
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { format, toZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
 import * as flags from 'src/assets/flags';
 // import { useMemo } from 'react';
@@ -643,7 +642,7 @@ export const timezoneOptions = [
 ];
 
 export const timezoneWithTimeOptions = timezoneOptions.map((timezone) => {
-  const time = format(utcToZonedTime(new Date(), timezone.value), 'HH:mm a', {
+  const time = format(toZonedTime(new Date(), timezone.value), 'HH:mm a', {
     timeZone: timezone.value,
   });
 
@@ -660,7 +659,6 @@ export const countries = getData().map((country) => {
   };
 });
 
-export const DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 export const DAY = [
   'Sunday',
   'Monday',
@@ -671,90 +669,10 @@ export const DAY = [
   'Saturday',
 ];
 
-export const cancel_lesson_reasons_student = [
-  { label: 'cancel_reason_1', value: 1 },
-  { label: 'cancel_reason_2', value: 2 },
-  { label: 'cancel_reason_3', value: 3 },
-  { label: 'cancel_reason_4', value: 4 },
-  { label: 'cancel_reason_5', value: 5 },
-  { label: 'cancel_reason_6', value: 6 },
-  { label: 'cancel_reason_7', value: 7 },
-  { label: 'cancel_reason_8', value: 8 },
-  { label: 'cancel_reason_9', value: 9 },
-];
-
-export const cancel_lesson_reasons_tutor = [
-  { label: 'cancel_reason_2', value: 1 },
-  { label: 'cancel_reason_3', value: 2 },
-  { label: 'cancel_reason_4', value: 3 },
-  { label: 'cancel_reason_10', value: 4 },
-  { label: 'cancel_reason_9', value: 5 },
-];
-
-export const getAvatarName = (firstname, lastname) => {
-  return `${(firstname || '').charAt(0).toUpperCase()}${(lastname || '')
-    .charAt(0)
-    .toUpperCase()}`;
-};
-
-export const getAbbrName = (firstname, lastname) => {
-  return `${firstname} ${(lastname || '').charAt(0).toUpperCase()}.`;
-};
-
-export const filterLessonsByStatus = (status, appointments) => {
-  const today = new Date();
-  return appointments
-    .filter((apt) => {
-      const date = new Date(apt.start_at);
-      if (status === 'upcoming')
-        return (
-          apt.students[0]?.GroupStudent?.approved &&
-          !apt.completed &&
-          date >= today
-        );
-      if (status === 'past') return date < today;
-    })
-    .map((apt) => {
-      let lessonDate = new Date(apt.start_at);
-      return {
-        id: apt.id,
-        studentId: apt.students[0].id,
-        first_name: apt.students[0].user.first_name,
-        last_name: apt.students[0].user.last_name,
-        lessonDate: lessonDate.toLocaleString(),
-        lessonType: apt.lesson.type,
-        level: apt.students[0].level,
-        img: apt.students[0].user.avatar,
-        students: apt.students,
-        student: apt.students[0],
-        completed: apt.completed,
-        tutor: apt.tutor
-          ? getAbbrName(apt.tutor.user?.first_name, apt.tutor.user?.last_name)
-          : getAbbrName(apt.first_name, apt.last_name),
-        lesson_topic: apt.lesson_topic,
-        last_part_lesson: apt.last_part_lesson,
-        group_student: apt.GroupStudent,
-        feedbacks: apt.students[0]?.feedbacks || [],
-      };
-    });
-};
-
 export const getItemToLocalStorage = (key, devaultValue) =>
   localStorage.getItem(key) || devaultValue;
 export const setItemToLocalStorage = (key, value) =>
   localStorage.setItem(key, value);
-
-export const getTimezoneValue = (timezone) => {
-  let offsetstring = timezone.replace(/utc/i, '').split(':');
-
-  try {
-    let result = offsetstring[0] * 60 + (offsetstring[1] || 0);
-    return result;
-  } catch (e) {
-    console.error('Converting Error:', e);
-    return 0;
-  }
-};
 
 export const feedbackURL = process.env.REACT_APP_FEEDBACK_URL;
 export const gameLinkURL = process.env.REACT_APP_GAME_URL;
@@ -848,6 +766,7 @@ export const COURSE_COLORS = {
   YELLOW: 'yellow',
   TEAL: 'teal',
   RED: 'red',
+  GRAY: 'gray',
   GREEN: 'green',
 };
 
@@ -883,6 +802,10 @@ export const courseColorsDict = {
   [COURSE_COLORS.TEAL]: {
     event: 'text-teal-600 bg-teal-600 border-l-teal-600',
     indicator: 'bg-teal-600',
+  },
+  [COURSE_COLORS.GRAY]: {
+    event: 'text-gray-300 bg-gray-300 border-l-gray-300',
+    indicator: 'bg-gray-300',
   },
   [COURSE_COLORS.GREEN]: {
     event: 'text-[#00D986] bg-[#00D986] border-l-[#00D986]',

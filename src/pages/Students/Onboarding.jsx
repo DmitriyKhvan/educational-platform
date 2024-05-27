@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
@@ -11,17 +11,17 @@ import useLogin from '../../modules/auth/hooks/login';
 
 import Loader from '../../components/Loader/Loader';
 import Button from 'src/components/Form/Button';
-import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
 
 import InputWithError from 'src/components/Form/InputWithError';
 import InputField from 'src/components/Form/InputField';
 import notify from 'src/utils/notify';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import PhoneNumberField from 'src/components/Form/PhoneNumberField';
+import { SelectField } from 'src/components/Form/SelectField';
+import { timezoneOptions } from 'src/constants/global';
+// import MySelect from 'src/components/Form/MySelect';
 
 export default function Onboarding() {
-  localStorage.removeItem('studentId');
-
   const [t] = useTranslation(['onboarding', 'common', 'translations']);
 
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -32,6 +32,7 @@ export default function Onboarding() {
   const {
     handleSubmit,
     register,
+    control,
     resetField,
     formState: { errors, isValid },
     setValue,
@@ -54,7 +55,7 @@ export default function Onboarding() {
         },
       });
 
-      login(data.email, data.password);
+      await login(data.email, data.password);
     } catch (error) {
       notify(error.message, 'error');
     }
@@ -69,7 +70,7 @@ export default function Onboarding() {
   }, [loginData]);
 
   return (
-    <OnboardingLayout>
+    <>
       {isLoading && (
         <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
           <Loader />
@@ -146,6 +147,45 @@ export default function Onboarding() {
               />
             </InputWithError>
 
+            <InputWithError errorsField={errors?.timeZone}>
+              <label className="font-semibold text-base text-color-dark-purple mb-2">
+                {t('time_zone', { ns: 'common' })}
+              </label>
+              <Controller
+                control={control}
+                defaultValue=""
+                name="timeZone"
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { value, onChange } }) => (
+                  <SelectField
+                    // menuPortalTarget={document.body}
+                    menuPlacement="auto"
+                    value={value}
+                    options={timezoneOptions}
+                    onChange={onChange}
+                  />
+                )}
+              />
+
+              {/* <Controller
+                control={control}
+                defaultValue=""
+                name="timeZone"
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { value, onChange } }) => (
+                  <MySelect
+                    value={value}
+                    options={timezoneOptions}
+                    onChange={onChange}
+                  />
+                )}
+              /> */}
+            </InputWithError>
+
             <InputWithError errorsField={errors?.password}>
               <InputField
                 className="w-full"
@@ -187,6 +227,6 @@ export default function Onboarding() {
           </p>
         </form>
       </div>
-    </OnboardingLayout>
+    </>
   );
 }

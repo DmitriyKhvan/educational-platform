@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import Layout from '../../../layouts/DashboardLayout';
-import { useParams } from 'react-router-dom';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { getItemToLocalStorage } from '../../../constants/global';
-import ModalFeedback from '../ModalFeedback';
 import { useAuth } from '../../../modules/auth';
 import { APPOINTMENTS_QUERY } from '../../../modules/auth/graphql';
 import { useQuery } from '@apollo/client';
@@ -16,10 +13,9 @@ import { useMediaQuery } from 'react-responsive';
 import Loader from 'src/components/Loader/Loader';
 import { useActivePackages } from 'src/utils/useActivePackages';
 
-const StudentListAppointments = () => {
+const StudentDashboard = () => {
   const isDesktop = useMediaQuery({ minWidth: 1400 });
 
-  const { complete_appoint_id } = useParams();
   const [t] = useTranslation('dashboard');
 
   const { user } = useAuth();
@@ -39,20 +35,8 @@ const StudentListAppointments = () => {
     },
   });
 
-  const [completedAppointment, setCompleteAppointment] = useState(null);
-  const onDismiss = () => setCompleteAppointment(null);
-
-  useEffect(() => {
-    if (complete_appoint_id) {
-      const feedbackAppt = appointments?.find(
-        (apt) => apt.id == complete_appoint_id,
-      );
-      setCompleteAppointment(feedbackAppt);
-    }
-  }, [appointments, complete_appoint_id]);
-
   return (
-    <Layout>
+    <>
       {lessonLoading || isLoading ? (
         <Loader height="100%" />
       ) : (
@@ -94,18 +78,7 @@ const StudentListAppointments = () => {
           )}
         </div>
       )}
-
-      {completedAppointment && (
-        <ModalFeedback
-          onDismiss={() => {
-            refetch();
-            onDismiss();
-          }}
-          visible={true}
-          appointment={completedAppointment}
-        />
-      )}
-    </Layout>
+    </>
   );
 };
-export default StudentListAppointments;
+export default StudentDashboard;

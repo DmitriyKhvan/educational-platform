@@ -1,0 +1,85 @@
+:root {
+  --cell-size: 48px;
+}
+
+.rdp {
+  margin: 0;
+}
+
+.rdp-head_cell {
+  font-weight: normal;
+  width: var(--cell-size);
+}
+
+.rdp-tbody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rdp-head_row,
+.rdp-row {
+  display: flex;
+  gap: 8px;
+}
+
+.rdp-cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+}
+
+.rdp-weeknumber,
+.rdp-day {
+  position: relative;
+  width: var(--cell-size);
+  max-width: var(--cell-size);
+  height: var(--cell-size);
+  border-radius: 8px;
+  background: rgba(134, 46, 231, 0.1);
+  color: #862ee7;
+  font-size: 13px;
+}
+
+.rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
+  background: #862ee7;
+  color: #ffffff;
+}
+
+.rdp-day_selected,
+.rdp-day_selected:focus-visible,
+.rdp-day_selected:hover {
+  background: #862ee7;
+  color: #ffffff;
+}
+
+.rdp-button:hover:not([disabled]):not(.rdp-day_selected)::after {
+  background: #ffffff;
+}
+
+.rdp-day_today:not(.rdp-day_outside) {
+  font-weight: normal;
+}
+
+.rdp-day_today:not(.rdp-day_outside)::after {
+  content: '';
+  position: absolute;
+  bottom: 7px;
+  width: 5px;
+  height: 5px;
+  border-radius: 100%;
+  background: #862ee7;
+}
+
+.rdp-button[disabled]:not(.rdp-day_selected) {
+  cursor: not-allowed;
+}
+
+.rdp-caption_label {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.rdp-nav_button svg {
+  width: 13px;
+  height: 13px;
+}

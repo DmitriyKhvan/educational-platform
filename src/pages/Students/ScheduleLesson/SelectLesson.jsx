@@ -1,7 +1,6 @@
 import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Layout from '../../../layouts/DashboardLayout';
 import Loader from '../../../components/Loader/Loader';
 import Button from '../../../components/Form/Button/Button';
 import { FaArrowRight } from 'react-icons/fa6';
@@ -26,7 +25,7 @@ const SelectLesson = ({
   setClicked,
 }) => {
   const [t, i18n] = useTranslation(['lessons', 'common', 'modals']);
-  const history = useHistory();
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const disabled = clicked === null ? true : false;
@@ -34,7 +33,7 @@ const SelectLesson = ({
   const { activePackages, isLoading } = useActivePackages();
 
   const returnToDashboard = () => {
-    history.push('/student/manage-lessons');
+    navigate('/student/manage-lessons');
   };
 
   const LessonCard = ({
@@ -120,56 +119,50 @@ const SelectLesson = ({
   };
 
   return (
-    <Layout>
-      <div className="h-full max-w-[488px] mx-auto">
-        {isLoading ? (
-          <Loader height="100%" />
-        ) : activePackages?.length > 0 ? (
-          <>
-            <div className="flex flex-col gap-2.5 mb-[27px]">
-              <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold leading-normal tracking-tight">
-                {!id
-                  ? t('schedule_lesson')
-                  : t('reschedule_lesson', { ns: 'modals' })}
-              </h1>
-            </div>
-            <div className="mb-10">
-              {activePackages?.map((x, i) => (
-                <LessonCard
-                  title={getTranslatedTitle(x.package?.course, i18n.language)}
-                  duration={x.package?.sessionTime}
-                  remaining={x.credits}
-                  data={x}
-                  i={i}
-                  key={i}
-                  expirationDate={x.periodEnd}
-                  active={x.active}
-                  total={x.package?.totalSessions}
-                />
-              ))}
-            </div>
-            <div className="flex gap-5 mb-4">
-              <Button theme="outline" onClick={returnToDashboard}>
-                {t('return_to_dash')}
-              </Button>
+    <div className="h-full max-w-[488px] mx-auto">
+      {isLoading ? (
+        <Loader height="100%" />
+      ) : activePackages?.length > 0 ? (
+        <>
+          <div className="flex flex-col gap-2.5 mb-[27px]">
+            <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold leading-normal tracking-tight">
+              {!id
+                ? t('schedule_lesson')
+                : t('reschedule_lesson', { ns: 'modals' })}
+            </h1>
+          </div>
+          <div className="mb-10">
+            {activePackages?.map((x, i) => (
+              <LessonCard
+                title={getTranslatedTitle(x.package?.course, i18n.language)}
+                duration={x.package?.sessionTime}
+                remaining={x.credits}
+                data={x}
+                i={i}
+                key={i}
+                expirationDate={x.periodEnd}
+                active={x.active}
+                total={x.package?.totalSessions}
+              />
+            ))}
+          </div>
+          <div className="flex gap-5 mb-4">
+            <Button theme="outline" onClick={returnToDashboard}>
+              {t('return_to_dash')}
+            </Button>
 
-              <Button
-                theme="purple"
-                disabled={disabled}
-                onClick={sheduleLesson}
-              >
-                <span className="flex flex-row items-center justify-center gap-x-2">
-                  <span>{t('continue_custom')}</span>
-                  <FaArrowRight />
-                </span>
-              </Button>
-            </div>
-          </>
-        ) : (
-          <ModalPurchase />
-        )}
-      </div>
-    </Layout>
+            <Button theme="purple" disabled={disabled} onClick={sheduleLesson}>
+              <span className="flex flex-row items-center justify-center gap-x-2">
+                <span>{t('continue_custom')}</span>
+                <FaArrowRight />
+              </span>
+            </Button>
+          </div>
+        </>
+      ) : (
+        <ModalPurchase />
+      )}
+    </div>
   );
 };
 

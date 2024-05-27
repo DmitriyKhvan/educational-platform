@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { format, utcToZonedTime } from 'date-fns-tz';
+import { format, toZonedTime } from 'date-fns-tz';
 import {
   addHours,
   addMonths,
@@ -49,7 +49,7 @@ export const ScheduleProvider = ({
     timeZone ||
     Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const todayUserTimezone = utcToZonedTime(new Date(), userTimezone);
+  const todayUserTimezone = toZonedTime(new Date(), userTimezone);
 
   const [day, setDay] = useState(todayUserTimezone);
   const [timesOfDay, setTimesOfDay] = useState([]);

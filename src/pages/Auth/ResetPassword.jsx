@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AuthLayout from '../../components/AuthLayout';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
@@ -10,11 +10,10 @@ import InputField from '../../components/Form/InputField';
 import useNewPassword from '../../modules/auth/hooks/newPassword';
 import Button from '../../components/Form/Button/Button';
 
-import 'react-toastify/dist/ReactToastify.css';
 import notify from '../../utils/notify';
 
 const ResetPassword = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [t] = useTranslation('common');
   const [token, setToken] = useState();
 
@@ -41,7 +40,7 @@ const ResetPassword = () => {
   useEffect(() => {
     if (data) {
       notify(t('reset_password'), 'success');
-      history.push('/');
+      navigate('/');
     }
   }, [data]);
 

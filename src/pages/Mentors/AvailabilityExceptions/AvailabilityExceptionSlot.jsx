@@ -1,20 +1,16 @@
 import { useState } from 'react';
 import { startOfDay, addMinutes, format } from 'date-fns';
-// import { v4 as uuid } from 'uuid';
+
 import Select from 'react-select';
-import { PiTrashFill } from 'react-icons/pi';
-// import { FaPlus } from 'react-icons/fa';
-import Alert from 'src/components/Popup/Alert';
-import { useTranslation } from 'react-i18next';
+import { selectStyle } from '../Availiability/lib/selectStyle';
+import { FaXmark } from 'react-icons/fa6';
+// import MySelect from 'src/components/Form/MySelect';
 
 export const AvailabilityExceptionSlot = ({
-  // index,
   exception,
   slot,
-  availabilityExceptionSlots,
+  setException,
 }) => {
-  const { t } = useTranslation('modals');
-
   const timeOptions = Array.from({ length: 48 }, (_, i) => {
     const temp = addMinutes(startOfDay(new Date()), i * 30);
     return {
@@ -84,63 +80,54 @@ export const AvailabilityExceptionSlot = ({
 
     const newException = { ...exception, slots: newSlots };
 
-    availabilityExceptionSlots(newException);
+    setException(newException);
   };
 
   const removeAvailabilityExceptionSlot = () => {
-    const slotIdx = exception.slots.findIndex((sl) => sl.id === slot.id);
-
-    const newSlots = [
-      ...exception.slots.slice(0, slotIdx),
-      ...exception.slots.slice(slotIdx + 1),
-    ];
+    const newSlots = exception.slots.filter((sl) => sl.id !== slot.id);
 
     const newException = { ...exception, slots: newSlots };
 
-    availabilityExceptionSlots(newException);
-  };
-
-  const removeAvailabilityExceptionSlotConfirm = () => {
-    Alert(
-      t('swal_fire_title'),
-      '',
-      'warning',
-      () => removeAvailabilityExceptionSlot(),
-      true,
-      t('swal_confirm_Button_Text'),
-      t('swal_cancel_Button_Text'),
-      t('swal_fire_title_conform_msg'),
-      t('swal_fire_title_conform_msg1'),
-      t('swal_fire_title_conform_msg2'),
-    );
+    setException(newException);
   };
 
   return (
     <div className="flex items-center gap-2">
       <Select
+        // menuPortalTarget={document.body}
+        styles={selectStyle}
         value={fromTime}
         options={fromTimeOptions}
         onChange={(e) => {
           onChangeTime(e.value, 'from');
         }}
+        menuPlacement="auto"
+        // menuShouldScrollIntoView={false}
       />
+
+      {/* <MySelect
+        value={fromTime.value}
+        options={fromTimeOptions}
+        onChange={(e) => {
+          onChangeTime(e, 'from');
+        }}
+      /> */}
 
       <span className="">-</span>
 
       <Select
+        // menuPortalTarget={document.body}
+        styles={selectStyle}
         value={toTime}
         options={toTimeOptions}
         onChange={(e) => {
           onChangeTime(e.value, 'to');
         }}
+        menuPlacement="auto"
       />
 
-      <button
-        type="button"
-        className="btn ms-3 "
-        onClick={removeAvailabilityExceptionSlotConfirm}
-      >
-        <PiTrashFill className="text-2xl text-color-border-grey" />
+      <button type="button" onClick={removeAvailabilityExceptionSlot}>
+        <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
       </button>
     </div>
   );
