@@ -62,24 +62,26 @@ const CheckoutForm = () => {
           <Loader />
         </div>
       )}
-      <div className="absolute top-0 left-0 bottom-0 right-0 bg-[#F7F8FA] -z-10"></div>
+      {/* <div className="absolute top-0 left-0 bottom-0 right-0 bg-[#F7F8FA] -z-10"></div> */}
 
-      <form
-        className="w-full sm:w-[480px] p-4 sm:p-8 m-auto rounded-xl bg-white"
-        onSubmit={handleSubmit}
-      >
-        <PaymentElement />
-        <p className="text-red-500 mt-2">
-          {errorMessage && <div>*{errorMessage}</div>}
-        </p>
-        <Button
-          type="submit"
-          disabled={isLoading}
-          className="w-full h-auto mt-8 p-5"
+      <div className="flex min-h-[calc(100dvh-60px)] sm:min-h-[calc(100dvh-97px)] bg-[#F7F8FA] p-5 -mx-5 sm:-mx-20 -my-6 sm:-my-8 lg:-my-10">
+        <form
+          className="w-full sm:w-[480px] p-4 sm:p-8 m-auto rounded-xl bg-white"
+          onSubmit={handleSubmit}
         >
-          {t('pay')}
-        </Button>
-      </form>
+          <PaymentElement />
+          <p className="text-red-500 mt-2">
+            {errorMessage && <div>*{errorMessage}</div>}
+          </p>
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="w-full h-auto mt-8 p-5"
+          >
+            {t('pay')}
+          </Button>
+        </form>
+      </div>
     </>
   );
 };
