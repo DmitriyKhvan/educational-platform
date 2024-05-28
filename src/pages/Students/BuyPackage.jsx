@@ -1,15 +1,15 @@
-import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@apollo/client';
+import { useEffect, useMemo, useState } from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { Courses } from 'src/components/BuyPackage/Courses';
+import { OrderSummary } from 'src/components/BuyPackage/OrderSummary';
+import { Packages } from 'src/components/BuyPackage/Packages';
 import { SessionsPerWeek } from 'src/components/BuyPackage/SessionsPerWeek';
 import { SessionsTime } from 'src/components/BuyPackage/SessionsTime';
-import { Packages } from 'src/components/BuyPackage/Packages';
-import { OrderSummary } from 'src/components/BuyPackage/OrderSummary';
-import Loader from '../../components/Loader/Loader';
-import { useTranslation } from 'react-i18next';
 import { COURSES } from 'src/shared/apollo/queries/courses/courses';
 import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
+import Loader from '../../components/Loader/Loader';
 
 export default function BuyPackage() {
   const [t, i18n] = useTranslation('purchase');
@@ -33,6 +33,7 @@ export default function BuyPackage() {
     fetchPolicy: 'network-only',
     variables: {
       trialFilter: 'only_regular',
+      applyPersonalDiscountCode: true,
     },
   });
 
