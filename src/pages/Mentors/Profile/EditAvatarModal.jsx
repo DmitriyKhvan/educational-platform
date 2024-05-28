@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { useAuth } from '../../../modules/auth';
-import { MUTATION_UPDATE_MENTOR } from '../../../modules/auth/graphql';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { MUTATION_UPDATE_MENTOR } from '../../../shared/apollo/graphql';
 import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import notify from '../../../utils/notify';
+import notify from '../../../shared/utils/notify';
 import Button from '../../../components/Form/Button/Button';
 import { Avatar } from '../../../widgets/Avatar/Avatar';
 import ReactLoader from '../../../components/common/Loader';

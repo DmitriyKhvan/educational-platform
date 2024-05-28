@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 
 import { IoNotifications } from 'react-icons/io5';
-import { useNotifications } from 'src/modules/notifications';
 import { Badge } from 'src/components/Badge';
 import { FaAngleDown } from 'react-icons/fa6';
 import { useMediaQuery } from 'react-responsive';
@@ -9,6 +8,7 @@ import { MyDrawer } from 'src/components/Drawer';
 import MyDropdownMenu from 'src/components/DropdownMenu';
 import NotificationsModal from './NotificationsModal';
 import { useTranslation } from 'react-i18next';
+import { useNotifications } from 'src/app/providers/NotificationProvider';
 
 // eslint-disable-next-line react/display-name
 export const Notifications = memo(() => {

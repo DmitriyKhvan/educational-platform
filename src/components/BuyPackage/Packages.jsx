@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import CheckboxField from '../Form/CheckboxField';
-import { currencyFormat } from 'src/utils/currencyFormat';
-import { calculatePriceWithDiscount } from 'src/utils/calculatePriceWithDiscount';
+import { currencyFormat } from 'src/shared/utils/currencyFormat';
+import { calculatePriceWithDiscount } from 'src/shared/utils/calculatePriceWithDiscount';
 
 export const Packages = memo(function Packages({
   filteredPackage,

@@ -4,10 +4,12 @@ import { useTranslation } from 'react-i18next';
 
 import { FaRegCircleCheck } from 'react-icons/fa6';
 
-const images = import.meta.glob('../../../assets/samples/*', {
+const images = import.meta.glob('src/shared/assets/images/samples/*.jpg', {
   eager: true,
   as: 'url',
 });
+
+console.log(images);
 
 const SampleModal = () => {
   const [t] = useTranslation('profile');

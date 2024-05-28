@@ -1,9 +1,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
-import { MUTATION_UPDATE_MENTOR } from '../../../../modules/auth/graphql';
-import { useAuth } from '../../../../modules/auth';
-import notify from '../../../../utils/notify';
+import { MUTATION_UPDATE_MENTOR } from '../../../../shared/apollo/graphql';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import notify from '../../../../shared/utils/notify';
 // import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import InputField from '../../../../components/Form/InputField';

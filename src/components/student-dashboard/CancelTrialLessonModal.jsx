@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '../Form/Button';
-import { CANCEL_APPOINTMENT } from 'src/modules/auth/graphql';
+import { CANCEL_APPOINTMENT } from 'src/shared/apollo/graphql';
 import { useMutation } from '@apollo/client';
-import notify from 'src/utils/notify';
+import notify from 'src/shared/utils/notify';
 import Loader from '../Loader/Loader';
 
 export const CancelTrialLessonModal = ({

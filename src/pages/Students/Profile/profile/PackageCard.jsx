@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { cn } from 'src/utils/functions';
+import { cn } from 'src/shared/utils/functions';
 
 const PackageCard = ({ item }) => {
   const [t] = useTranslation(['profile', 'common', 'lessons']);

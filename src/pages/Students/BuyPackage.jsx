@@ -1,15 +1,15 @@
-import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@apollo/client';
+import { useEffect, useMemo, useState } from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { Courses } from 'src/components/BuyPackage/Courses';
+import { OrderSummary } from 'src/components/BuyPackage/OrderSummary';
+import { Packages } from 'src/components/BuyPackage/Packages';
 import { SessionsPerWeek } from 'src/components/BuyPackage/SessionsPerWeek';
 import { SessionsTime } from 'src/components/BuyPackage/SessionsTime';
-import { Packages } from 'src/components/BuyPackage/Packages';
-import { OrderSummary } from 'src/components/BuyPackage/OrderSummary';
+import { COURSES } from 'src/shared/apollo/queries/courses/courses';
+import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 import Loader from '../../components/Loader/Loader';
-import { useTranslation } from 'react-i18next';
-import { COURSES } from 'src/modules/graphql/queries/courses/courses';
-import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 
 export default function BuyPackage() {
   const [t, i18n] = useTranslation('purchase');
@@ -33,6 +33,7 @@ export default function BuyPackage() {
     fetchPolicy: 'network-only',
     variables: {
       trialFilter: 'only_regular',
+      applyPersonalDiscountCode: true,
     },
   });
 
@@ -122,7 +123,7 @@ export default function BuyPackage() {
   }
 
   return (
-    <div className="flex flex-wrap lg:flex-nowrap w-full gap-8 sm:gap-10 xl:gap-12 px-5 sm:px-20 py-6 sm:py-8">
+    <div className="flex flex-wrap lg:flex-nowrap w-full gap-8 sm:gap-10 xl:gap-12">
       {/* left block */}
       <div className="grow">
         <h2 className="text-3xl sm:text-4xl font-bold sm:leading-[52px] mb-10">

@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next';
 
 import Loader from '../../../components/Loader/Loader';
 import { SubscriptionCard } from './SubscriptionCard';
-import { PACKAGE_QUERY } from '../../../modules/auth/graphql';
+import { PACKAGE_QUERY } from '../../../shared/apollo/graphql';
 import { useNavigate } from 'react-router-dom';
-import { getItemToLocalStorage } from 'src/constants/global';
+import { getItemToLocalStorage } from 'src/shared/constants/global';
 
 import Button from 'src/components/Form/Button';
 import { FaPlus } from 'react-icons/fa6';
-import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
+import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 
 const Subscriptions = () => {
   const [t, i18n] = useTranslation(['common', 'sidebar']);
@@ -42,7 +42,7 @@ const Subscriptions = () => {
   }, [selectedTab, planStatus]);
 
   return (
-    <div className="max-w-[440px] mx-auto px-5 py-[50px] min-h-[calc(100vh-80px)]">
+    <div className="max-w-[440px] mx-auto px-5 py-[50px]">
       <div className="flex w-full">
         <Button
           theme="outline"

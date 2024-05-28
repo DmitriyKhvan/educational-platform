@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
-import { cn } from 'src/utils/functions';
+import { cn } from 'src/shared/utils/functions';
 import {
   Tooltip,
   TooltipContent,

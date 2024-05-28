@@ -9,10 +9,10 @@ import InputWithError from 'src/components/Form/InputWithError';
 import InputField from 'src/components/Form/InputField';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 
-import { timezoneOptions } from 'src/constants/global';
+import { timezoneOptions } from 'src/shared/constants/global';
 import { SelectField } from 'src/components/Form/SelectField';
 import PhoneNumberField from 'src/components/Form/PhoneNumberField';
-import { trimSpaces } from 'src/utils/trimSpaces';
+import { trimSpaces } from 'src/shared/utils/trimSpaces';
 import { usePublicMentors } from './lib/usePublicMentors';
 
 export default memo(function OnboardingTrial({

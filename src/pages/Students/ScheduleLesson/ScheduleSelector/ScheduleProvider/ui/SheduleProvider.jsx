@@ -12,11 +12,11 @@ import {
 import { useLazyQuery } from '@apollo/client';
 
 import { ScheduleContext } from '../lib/ScheduleContext';
-import { useAuth } from 'src/modules/auth';
-import { useDebounce } from 'src/utils/useDebounce';
-import { getItemToLocalStorage } from 'src/constants/global';
-import { scrollToElement } from 'src/utils/scrollToElement';
-import notify from 'src/utils/notify';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { useDebounce } from 'src/shared/utils/useDebounce';
+import { getItemToLocalStorage } from 'src/shared/constants/global';
+import { scrollToElement } from 'src/shared/utils/scrollToElement';
+import notify from 'src/shared/utils/notify';
 
 export const ScheduleProvider = ({
   query,

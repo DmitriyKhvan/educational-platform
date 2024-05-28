@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import Modal from 'react-modal';
 import LessonInfoModal from 'src/components/student-dashboard/LessonInfoModal';
 import { LessonsCalendarHeader } from 'src/components/LessonsList';
@@ -10,13 +10,13 @@ import {
   CalendarView,
   Roles,
   courseColorsDict,
-} from 'src/constants/global';
-import { cn } from 'src/utils/functions';
+} from 'src/shared/constants/global';
+import { cn } from 'src/shared/utils/functions';
 
-import 'src/assets/styles/calendar.scss';
+import 'src/app/styles/calendar.scss';
 import Loader from '../Loader/Loader';
-import { useCourseColors } from 'src/utils/useCourseColors';
-import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
+import { useCourseColors } from 'src/shared/utils/useCourseColors';
+import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 import { Calendar } from '../Calendar';
 
 const LessonsCalendar = ({ calendarAppointments, getAppointments }) => {

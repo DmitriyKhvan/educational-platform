@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import { MUTATION_UPDATE_MENTOR } from '../../../../modules/auth/graphql';
+import { MUTATION_UPDATE_MENTOR } from '../../../../shared/apollo/graphql';
 import { useMutation } from '@apollo/client';
-import { useAuth } from '../../../../modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -11,8 +11,8 @@ import Button from '../../../../components/Form/Button';
 import { FaVimeo, FaYoutube } from 'react-icons/fa';
 import InputField from '../../../../components/Form/InputField';
 import InputWithError from '../../../../components/Form/InputWithError';
-import notify from '../../../../utils/notify';
-import { renderVideo } from 'src/utils/renderVideo';
+import notify from '../../../../shared/utils/notify';
+import { renderVideo } from 'src/shared/utils/renderVideo';
 
 const SubmitVideo = () => {
   const navigate = useNavigate();

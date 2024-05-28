@@ -7,6 +7,10 @@ import {
   IoEllipseSharp,
 } from 'react-icons/io5';
 import { InfoItem } from './InfoItem';
+import notify from 'src/shared/utils/notify';
+import { GENERATE_REFERRAL_LINK } from 'src/shared/apollo/mutations/referralCodes';
+import { useMutation } from '@apollo/client';
+import { getItemToLocalStorage } from 'src/shared/constants/global';
 
 export const Info = () => {
   const info = [
@@ -30,11 +34,23 @@ export const Info = () => {
     },
   ];
 
-  const writeClipboardText = async (text) => {
+  const [generateReferralLink] = useMutation(GENERATE_REFERRAL_LINK);
+
+  const copyReferralLink = async () => {
     try {
-      await navigator.clipboard.writeText(text);
+      const referralUrl = await generateReferralLink({
+        variables: {
+          studentId: getItemToLocalStorage('studentId'),
+        },
+        fetchPolicy: 'no-cache',
+      });
+
+      await navigator.clipboard.writeText(
+        referralUrl.data?.generateReferralLink?.referralUrl,
+      );
+      notify('Referral link copied to clipboard');
     } catch (error) {
-      console.error(error.message);
+      notify('Error in copying referral link: ', error, 'error');
     }
   };
 
@@ -57,7 +73,7 @@ export const Info = () => {
       </div>
 
       <Button
-        onClick={() => writeClipboardText()}
+        onClick={() => copyReferralLink()}
         className="w-full h-[60px] space-x-3 mt-6"
       >
         <FaCopy />

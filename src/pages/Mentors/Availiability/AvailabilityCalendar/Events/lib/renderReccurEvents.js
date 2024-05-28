@@ -1,5 +1,5 @@
 import { intervalToDuration } from 'date-fns';
-import { CalendarView, DAY } from 'src/constants/global';
+import { CalendarView, DAY } from 'src/shared/constants/global';
 import { EventType } from './EventType';
 
 const rruleWeekdays = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];

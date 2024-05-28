@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'src/components/Form/Button';
 import Indicator from 'src/components/Indicator';
 import ScheduleCard from 'src/components/student-dashboard/ScheduleCardRebranding';
-import { localeDic } from 'src/constants/global';
-import { useAuth } from 'src/modules/auth';
+import { localeDic } from 'src/shared/constants/global';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 const ScheduleSuccess = ({ lessons }) => {
   const { user } = useAuth;

@@ -4,17 +4,17 @@ import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { loadStripe } from '@stripe/stripe-js';
 import { useMutation, useQuery } from '@apollo/client';
-import { PACKAGE_QUERY } from 'src/modules/auth/graphql';
-import { CREATE_PAYMENT } from 'src/modules/graphql/mutations/payment/createPayment';
-import { CHECK_STRIPE_PAYMENT_STATUS } from 'src/modules/graphql/queries/payment/checkStripePaymentStatus';
+import { PACKAGE_QUERY } from 'src/shared/apollo/graphql';
+import { CREATE_PAYMENT } from 'src/shared/apollo/mutations/payment/createPayment';
+import { CHECK_STRIPE_PAYMENT_STATUS } from 'src/shared/apollo/queries/payment/checkStripePaymentStatus';
 import { FaCheckCircle } from 'react-icons/fa';
 import { FaCircleXmark } from 'react-icons/fa6';
 
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { MarketingChannelForm } from 'src/components/onboarding/MarketingChannel';
 import Button from 'src/components/Form/Button';
 import Loader from 'src/components/Loader/Loader';
-import { getItemToLocalStorage } from 'src/constants/global';
+import { getItemToLocalStorage } from 'src/shared/constants/global';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
@@ -110,7 +110,7 @@ export default function ConfirmPayment() {
   if (!message) return <Loader height="100vh" />;
 
   return (
-    <div className="px-5 sm:px-20 py-6 sm:py-8">
+    <>
       {error ? (
         <div className="max-w-[440px] m-auto space-y-8 flex flex-col items-center">
           <FaCircleXmark className="w-16 h-16 text-red-500" />
@@ -142,6 +142,6 @@ export default function ConfirmPayment() {
           )}
         </div>
       )}
-    </div>
+    </>
   );
 }
