@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
     window.Intercom('boot', {
       api_base: 'https://api-iam.intercom.io',
       app_id: 'ohhixtgv',
-      name: `${user.firstName} ${user.lastName}`,
+      name: `${user?.authenticatedUser?.firstName} ${user?.authenticatedUser?.lastName}`,
       email: user.email,
     });
   }

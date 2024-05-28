@@ -4,7 +4,7 @@ import Loader from 'src/components/Loader/Loader';
 import { useAuth } from 'src/app/providers/AuthProvider';
 
 import { MentorRoute, StudentRoute } from '..';
-import ErrorPage from 'src/pages/ErrorPage';
+import NotFoundPage from 'src/pages/NotFoundPage';
 import { Layout, OnboardingLayout } from 'src/shared/layouts';
 
 const Login = lazy(() => import('src/pages/Auth/Login'));
@@ -111,7 +111,7 @@ export const AppRouter = () => {
         <Route path="mentor/*" element={<MentorPages />} />
       </Route>
 
-      <Route path="*" element={<ErrorPage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };
