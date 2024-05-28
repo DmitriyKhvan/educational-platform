@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
-export const MESSAGE_SUBSCRIPTIONS = gql`
-  subscription OnNewMessages {
+export const NEW_MESSAGES = gql`
+  subscription newMessages {
     newMessages {
       id
       body

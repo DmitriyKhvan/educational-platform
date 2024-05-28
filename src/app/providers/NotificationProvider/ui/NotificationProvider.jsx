@@ -2,14 +2,14 @@ import { useLazyQuery, useMutation, useSubscription } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { MARK_MESSAGE_AS_READ } from 'src/shared/apollo/mutations/notifications';
 import { GET_USER_NOTIFICATIONS } from 'src/shared/apollo/queries/notifications';
-import { MESSAGE_SUBSCRIPTIONS } from 'src/shared/utils/subscriptions';
 import { NotificationContext } from '../lib/NotificationContext';
+import { NEW_MESSAGES } from 'src/shared/apollo/subscriptions/newMessages';
 
 export const NotificationProvider = ({ children }) => {
   const [notifications, setNotification] = useState([]);
   const [updateNotifications, setUpdateNotifications] = useState('');
 
-  const { data: newNotifications } = useSubscription(MESSAGE_SUBSCRIPTIONS, {
+  const { data: newNotifications } = useSubscription(NEW_MESSAGES, {
     variables: { authToken: `Bearer ${localStorage.getItem('token')}` },
   });
 
@@ -53,7 +53,7 @@ export const NotificationProvider = ({ children }) => {
 
     if (type) {
       notificationIds = notifications
-        .filter((notification) => notification?.meta.lesson.type === type)
+        .filter((notification) => notification?.meta?.lesson?.type === type)
         .map((notification) => {
           return notification.id;
         });
