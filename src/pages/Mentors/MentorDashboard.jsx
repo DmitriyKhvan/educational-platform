@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import ImgCalendar from '../../assets/images/calendar_icon.svg';
+import ImgCalendar from 'src/shared/assets/images/calendar_icon.svg';
 import ScheduleCard from '../../components/student-dashboard/ScheduleCard';
 import Loader from '../../components/common/Loader';
 import { useAuth } from 'src/app/providers/AuthProvider';

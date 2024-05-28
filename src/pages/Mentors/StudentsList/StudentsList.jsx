@@ -1,8 +1,8 @@
 import React from 'react';
 
-import FavIcon from '../../../assets/images/Favorite.png';
-import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
+import FavIcon from 'src/shared/assets/images/Favorite.png';
+import femaleAvatar from 'src/shared/assets/images/avatars/img_avatar_female.png';
+import maleAvatar from 'src/shared/assets/images/avatars/img_avatar_male.png';
 import './Students.scss';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';

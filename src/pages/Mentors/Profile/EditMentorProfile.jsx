@@ -1,5 +1,5 @@
 import React from 'react';
-import Stick from '../../../assets/stick.png';
+import Stick from 'src/shared/assets/images/stick.png';
 import SampleModal from './SampleModal';
 import Biography from './edit/Biography';
 import Education from './edit/Education';

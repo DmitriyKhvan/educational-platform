@@ -58,6 +58,11 @@
  * until https://github.com/facebook/create-react-app/issues/11771
  * gets fixed, let's hide the problem and not address it
  */
+
+html {
+  scroll-behavior: smooth;
+}
+
 body
   > iframe[style*='2147483647']:not([id='webpack-dev-server-client-overlay']) {
   display: none;

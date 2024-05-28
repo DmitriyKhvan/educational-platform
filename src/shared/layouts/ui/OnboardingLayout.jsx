@@ -3,7 +3,7 @@ import { Link, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Language, setItemToLocalStorage } from 'src/shared/constants/global';
 
-import Logo from 'src/assets/images/logo_purple.svg';
+import Logo from 'src/shared/assets/images/logo_purple.svg';
 import Loader from 'src/components/Loader/Loader';
 
 export const OnboardingLayout = () => {

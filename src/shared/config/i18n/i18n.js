@@ -15,7 +15,7 @@ import {
   studentMentorCh,
   translationsCh,
   trialCh,
-} from 'src/assets/lang/ch';
+} from 'src/shared/assets/lang/ch';
 import {
   availabilityEn,
   commonEn,
@@ -31,7 +31,7 @@ import {
   studentMentorEn,
   translationsEn,
   trialEn,
-} from 'src/assets/lang/en';
+} from 'src/shared/assets/lang/en';
 import {
   availabilityKr,
   commonKr,
@@ -47,7 +47,7 @@ import {
   studentMentorKr,
   translationsKr,
   trialKr,
-} from 'src/assets/lang/kr';
+} from 'src/shared/assets/lang/kr';
 
 import { Language } from 'src/shared/constants/global';
 

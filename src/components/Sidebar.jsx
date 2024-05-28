@@ -9,7 +9,7 @@ import { Menu } from 'src/components/Menu';
 import { MobileMenu } from 'src/components/Menu/ui/MobileMenu';
 
 import { Roles } from 'src/shared/constants/global';
-import Logo from 'src/assets/images/logo_purple.svg';
+import Logo from 'src/shared/assets/images/logo_purple.svg';
 // import { BugButton } from 'src/app/providers/ErrorBoundary';
 
 export const Sidebar = () => {

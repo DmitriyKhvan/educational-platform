@@ -7,8 +7,6 @@ import { MentorRoute, StudentRoute } from '..';
 import ErrorPage from 'src/pages/ErrorPage';
 import { Layout, OnboardingLayout } from 'src/shared/layouts';
 
-import 'src/app/styles/global.scss';
-
 const Login = lazy(() => import('src/pages/Auth/Login'));
 const ForgotPassword = lazy(() => import('src/pages/Auth/ForgotPassword'));
 

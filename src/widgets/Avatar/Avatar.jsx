@@ -1,5 +1,5 @@
 import { FaUserLarge } from 'react-icons/fa6';
-import duckAvatar from 'src/assets/images/avatars/duck-avatar.png';
+import duckAvatar from 'src/shared/assets/images/avatars/duck-avatar.png';
 
 import cls from './Avatar.module.css';
 import { cn } from 'src/shared/utils/functions';
