@@ -199,6 +199,11 @@ export const ME_QUERY = gql`
         url
         refreshTokenDaysRemaining
       }
+      personalPromotionCodes {
+        id
+        code
+        discountType
+      }
     }
   }
 `;
