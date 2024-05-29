@@ -9,8 +9,6 @@ const images = import.meta.glob('src/shared/assets/images/samples/*.jpg', {
   as: 'url',
 });
 
-console.log(images);
-
 const SampleModal = () => {
   const [t] = useTranslation('profile');
   const sampleInfo = [

@@ -30,13 +30,10 @@ export const MENTORS = gql`
       user {
         id
         email
-
         phoneNumber
         address
-
         timeZone
         country
-
         role
         referalCode
         referalId

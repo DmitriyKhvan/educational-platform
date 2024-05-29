@@ -10,8 +10,16 @@ import { SessionsTime } from 'src/components/BuyPackage/SessionsTime';
 import { COURSES } from 'src/shared/apollo/queries/courses/courses';
 import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 import Loader from '../../components/Loader/Loader';
+import { FaCheck } from 'react-icons/fa6';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { PromoBanner } from 'src/components/BuyPackage/PromoBanner';
+
+import gift from 'src/shared/assets/images/🎁.png';
+import { DiscountType } from 'src/shared/constants/global';
+import { currencyFormat } from 'src/shared/utils/currencyFormat';
 
 export default function BuyPackage() {
+  const { user } = useAuth();
   const [t, i18n] = useTranslation('purchase');
 
   const [courses, setCourse] = useState([]);
@@ -27,13 +35,23 @@ export default function BuyPackage() {
 
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [promoPackage, setPromoPackage] = useState(null);
-  // const [selectedProvider, setSelectedProvider] = useState('stripe');
+
+  const discount = useMemo(() => {
+    if (user?.personalPromotionCodes?.length > 0) {
+      return user.personalPromotionCodes[0]?.discountType ===
+        DiscountType.PERCENT
+        ? `${user.personalPromotionCodes[0].value}%`
+        : currencyFormat({ number: user.personalPromotionCodes[0].value });
+    }
+  }, [user]);
 
   const { error, data, loading } = useQuery(COURSES, {
     fetchPolicy: 'network-only',
     variables: {
       trialFilter: 'only_regular',
-      applyPersonalDiscountCode: true,
+      ...(user.personalPromotionCodes.length && {
+        applyPersonalDiscountCode: true,
+      }),
     },
   });
 
@@ -107,15 +125,6 @@ export default function BuyPackage() {
     }
   }, [changeCourse, selectedSessionTime, selectedSessionsPerWeek]);
 
-  // For Nice Payment
-  // const submitNice = () => {
-  //   navigate(`/purchase/nice-payment`, {
-  //     packageId: selectedPackage.id,
-  //     courseTitle: courseData.title,
-  //     amount: calculatePriceWithDiscount(selectedPackage),
-  //   });
-  // };
-
   if (loading) return <Loader height="100vh" />;
 
   if (error) {
@@ -126,6 +135,24 @@ export default function BuyPackage() {
     <div className="flex flex-wrap lg:flex-nowrap w-full gap-8 sm:gap-10 xl:gap-12">
       {/* left block */}
       <div className="grow">
+        {user.personalPromotionCodes.length > 0 && !promoPackage && (
+          <PromoBanner
+            icon={<img src={gift} alt="discount" />}
+            title={`You received a ${discount} discount`}
+            text="Purchase a package to use it now!"
+            className="bg-[#F14E1C]"
+          />
+        )}
+
+        {promoPackage && (
+          <PromoBanner
+            icon={<FaCheck />}
+            title={`${discount} discount is activated`}
+            text="Please complete purchase the form below"
+            className="bg-[#00D986]"
+          />
+        )}
+
         <h2 className="text-3xl sm:text-4xl font-bold sm:leading-[52px] mb-10">
           {t('choose_package')}
         </h2>

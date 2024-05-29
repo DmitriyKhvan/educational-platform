@@ -202,6 +202,7 @@ export const ME_QUERY = gql`
       personalPromotionCodes {
         id
         code
+        value
         discountType
       }
     }

@@ -62,7 +62,7 @@ export default memo(function OnboardingTrial({
         firstName,
         lastName,
         phoneNumber,
-        email,
+        email: email || localStorage.getItem('referralEmail'),
         timeZone,
         password,
       });
@@ -129,7 +129,9 @@ export default memo(function OnboardingTrial({
 
         <InputWithError errorsField={errors?.email}>
           <InputField
-            disabled={currentUser && true}
+            disabled={
+              (currentUser || localStorage.getItem('referralEmail')) && true
+            }
             className="w-full"
             label={t('email', { ns: 'common' })}
             placeholder="student@example.com"

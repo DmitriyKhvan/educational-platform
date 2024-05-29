@@ -96,5 +96,6 @@
   "level": "級數",
   "months": "月",
   "no_completed_lessons": "尚未完成課程",
-  "you_have_n_available_lessons": "還有 <purple>{{count}}</purple> 堂課程"
+  "you_have_n_available_lessons": "還有 <purple>{{count}}</purple> 堂課程",
+  "referral_package_purchased": "Congratulations! Your friend purchased classes using your referral link. You get <purple>{{count}} free classes</purple>!"
 }

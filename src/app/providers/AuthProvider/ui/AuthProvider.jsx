@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
       api_base: 'https://api-iam.intercom.io',
       app_id: 'ohhixtgv',
       name: `${user?.authenticatedUser?.firstName} ${user?.authenticatedUser?.lastName}`,
-      email: user.email,
+      email: user?.authenticatedUser.email,
     });
   }
 
@@ -59,7 +59,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    localStorage.removeItem('referalcode');
     localStorage.removeItem('token');
     localStorage.removeItem('studentId');
   };

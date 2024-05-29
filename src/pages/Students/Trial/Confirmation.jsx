@@ -85,7 +85,7 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
             data: {
               user: {
                 ...user,
-                referralCode: localStorage.getItem('referalcode'),
+                referralCode: localStorage.getItem('referralCode'),
               },
               packageId: parseInt(packageSubscription.id),
               languageLevelId: parseInt(languageLevel.id),
@@ -97,6 +97,9 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
             },
           },
         });
+
+        localStorage.removeItem('referralCode');
+        localStorage.removeItem('referralEmail');
 
         const { data: loginData } = await loginMutation({
           variables: { email: user.email, password: user.password },

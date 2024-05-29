@@ -7,7 +7,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { useMutation } from '@apollo/client';
 import { SIGN_UP } from '../../shared/apollo/graphql';
-import useLogin from '../../app/providers/AuthProvider/lib/login';
 
 import Loader from '../../components/Loader/Loader';
 import Button from 'src/components/Form/Button';
@@ -19,6 +18,7 @@ import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import PhoneNumberField from 'src/components/Form/PhoneNumberField';
 import { SelectField } from 'src/components/Form/SelectField';
 import { timezoneOptions } from 'src/shared/constants/global';
+import { useLogin } from 'src/app/providers/AuthProvider';
 // import MySelect from 'src/components/Form/MySelect';
 
 export default function Onboarding() {
