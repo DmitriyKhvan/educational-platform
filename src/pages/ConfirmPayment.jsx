@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
-import { useTranslation } from 'react-i18next';
-import { loadStripe } from '@stripe/stripe-js';
 import { useMutation, useQuery } from '@apollo/client';
+import { loadStripe } from '@stripe/stripe-js';
+import { useTranslation } from 'react-i18next';
+import { FaCheckCircle } from 'react-icons/fa';
+import { FaCircleXmark } from 'react-icons/fa6';
 import { PACKAGE_QUERY } from 'src/modules/auth/graphql';
 import { CREATE_PAYMENT } from 'src/modules/graphql/mutations/payment/createPayment';
 import { CHECK_STRIPE_PAYMENT_STATUS } from 'src/modules/graphql/queries/payment/checkStripePaymentStatus';
-import { FaCheckCircle } from 'react-icons/fa';
-import { FaCircleXmark } from 'react-icons/fa6';
 
-import { useAuth } from 'src/modules/auth';
-import { MarketingChannelForm } from 'src/components/onboarding/MarketingChannel';
 import Button from 'src/components/Form/Button';
 import Loader from 'src/components/Loader/Loader';
+import { MarketingChannelForm } from 'src/components/onboarding/MarketingChannel';
 import { getItemToLocalStorage } from 'src/constants/global';
+import { useAuth } from 'src/modules/auth';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
@@ -74,6 +74,7 @@ export default function ConfirmPayment() {
               packageId: parseInt(params.packageId),
               provider: 'stripe',
               metadata: JSON.stringify(paymentIntent),
+              currency: 'usd',
             },
           });
 

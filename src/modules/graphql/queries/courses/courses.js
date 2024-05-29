@@ -13,7 +13,10 @@ export const COURSES = gql`
         totalSessions
         sessionsPerWeek
         sessionTime
-        price
+        prices {
+          currency
+          price
+        }
         period
         discount
         courseId

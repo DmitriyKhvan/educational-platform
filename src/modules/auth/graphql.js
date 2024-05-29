@@ -448,7 +448,10 @@ export const PACKAGE_QUERY = gql`
         totalSessions
         sessionsPerWeek
         sessionTime
-        price
+        prices {
+          currency
+          price
+        }
         period
         discount
         course {
