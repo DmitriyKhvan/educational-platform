@@ -1,9 +1,9 @@
 import { addMinutes, isAfter } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { LessonTableMobile } from 'src/components/student-dashboard/LessonTableMobile';
-import { LessonsStatusType, Roles } from 'src/constants/global';
-import { useAuth } from 'src/modules/auth';
-import { isWithinHours } from 'src/utils/isWithinHours';
+import { LessonsStatusType, Roles } from 'src/shared/constants/global';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { isWithinHours } from 'src/shared/utils/isWithinHours';
 import { NoLessonsMessage } from 'src/components/LessonsList';
 import { useMediaQuery } from 'react-responsive';
 import { LessonTable } from 'src/components/student-dashboard/LessonTable';

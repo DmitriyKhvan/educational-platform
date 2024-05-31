@@ -1,8 +1,12 @@
 import { useState, useMemo } from 'react';
 import MyDropdownMenu from './DropdownMenu';
 import Button from './Form/Button';
-import { Language, Roles, setItemToLocalStorage } from 'src/constants/global';
-import { useAuth } from 'src/modules/auth';
+import {
+  Language,
+  Roles,
+  setItemToLocalStorage,
+} from 'src/shared/constants/global';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { useTranslation } from 'react-i18next';
 import CheckboxField from './Form/CheckboxField';
 import { FaAngleDown } from 'react-icons/fa6';

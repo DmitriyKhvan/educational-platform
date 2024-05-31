@@ -3,15 +3,15 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
-import { LANGUAGE_LEVELS_WITH_PAGINATION } from 'src/modules/graphql/queries/levels/languageLevelsWithPagination';
+import { LANGUAGE_LEVELS_WITH_PAGINATION } from 'src/shared/apollo/queries/levels/languageLevelsWithPagination';
 import MyDropdownMenu from 'src/components/DropdownMenu';
 import Button from 'src/components/Form/Button';
 import CheckboxField from 'src/components/Form/CheckboxField';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { useNavigate } from 'react-router-dom';
-import notify from 'src/utils/notify';
-import { PLAYGROUND_LESSON } from '../../modules/graphql/queries/lessons/playgroundLesson';
-import { CHANGE_STUDENT_LEVEL } from 'src/modules/graphql/queries/levels/changeStudentLanguageLevel';
+import notify from 'src/shared/utils/notify';
+import { PLAYGROUND_LESSON } from '../../shared/apollo/queries/lessons/playgroundLesson';
+import { CHANGE_STUDENT_LEVEL } from 'src/shared/apollo/queries/levels/changeStudentLanguageLevel';
 
 const LevelAfterTrialModal = () => {
   const navigate = useNavigate();

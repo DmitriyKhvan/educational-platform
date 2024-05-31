@@ -3,11 +3,11 @@ import { format } from 'date-fns-tz';
 // import { ko as kr } from 'date-fns/locale';
 
 import { useTranslation } from 'react-i18next';
-import { cn } from 'src/utils/functions';
+import { cn } from 'src/shared/utils/functions';
 import { useSchedule } from '../ScheduleProvider';
 import CheckboxField from 'src/components/Form/CheckboxField';
-import { scrollToElement } from 'src/utils/scrollToElement';
-import { localeDic } from 'src/constants/global';
+import { scrollToElement } from 'src/shared/utils/scrollToElement';
+import { localeDic } from 'src/shared/constants/global';
 
 export const ScheduleCard = ({
   startTime,

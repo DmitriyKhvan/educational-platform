@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { CalendarView } from 'src/constants/global';
+import { CalendarView } from 'src/shared/constants/global';
 import AvailabilityCalendarHeader from './AvailabilityCalendarHeader';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { useQuery } from '@apollo/client';
-import { APPOINTMENTS_QUERY, GET_MENTOR } from 'src/modules/auth/graphql';
+import { APPOINTMENTS_QUERY, GET_MENTOR } from 'src/shared/apollo/graphql';
 import MonthlyEvent from './Events/MonthlyEvent';
 import WeeklyEvent from './Events/WeeklyEvent';
 import { renderReccurEvents } from './Events/lib/renderReccurEvents';

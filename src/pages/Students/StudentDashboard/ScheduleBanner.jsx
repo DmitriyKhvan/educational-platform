@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import duckImage from '../../../assets/images/duck.png';
-import bannerLogo from '../../../assets/images/banner-logo.png';
+import duckImage from 'src/shared/assets/images/duck.png';
+import bannerLogo from 'src/shared/assets/images/banner-logo.png';
 
 import Button from 'src/components/Form/Button';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { ModalPurchase } from 'src/components/ModalPurchase';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 const ScheduleBanner = ({ activePackages }) => {
   const { currentStudent } = useAuth();

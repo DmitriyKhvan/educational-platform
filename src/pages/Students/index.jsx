@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { TrialRoute } from 'src/app/providers/router';
+import NotFoundPage from '../NotFoundPage';
 
 const StudentDashboard = lazy(() => import('./StudentDashboard'));
 const ScheduleLesson = lazy(() => import('./ScheduleLesson'));
@@ -12,7 +13,6 @@ const StudentProfile = lazy(() => import('./Profile/profile/StudentProfile'));
 const EditProflileStudent = lazy(
   () => import('./Profile/editInfo/EditStudentProfile'),
 );
-// const ErrorPage = lazy(() => import('../ErrorPage'));
 
 export default function StudentRoutes() {
   return (
@@ -47,7 +47,7 @@ export default function StudentRoutes() {
       />
 
       <Route path={`subscriptions`} element={<Subscriptions />} />
-      {/* <Route path="*" element={<ErrorPage />} /> */}
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }

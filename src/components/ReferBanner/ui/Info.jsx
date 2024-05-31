@@ -7,10 +7,10 @@ import {
   IoEllipseSharp,
 } from 'react-icons/io5';
 import { InfoItem } from './InfoItem';
-import notify from 'src/utils/notify';
-import { GENERATE_REFERRAL_LINK } from 'src/modules/graphql/mutations/referralCodes';
+import notify from 'src/shared/utils/notify';
+import { GENERATE_REFERRAL_LINK } from 'src/shared/apollo/mutations/referralCodes';
 import { useMutation } from '@apollo/client';
-import { getItemToLocalStorage } from 'src/constants/global';
+import { getItemToLocalStorage } from 'src/shared/constants/global';
 
 export const Info = () => {
   const info = [

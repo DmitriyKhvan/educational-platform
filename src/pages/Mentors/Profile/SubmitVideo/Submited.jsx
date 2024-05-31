@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import notify from '../../../../utils/notify';
+import notify from '../../../../shared/utils/notify';
 
 import cls from './Submited.module.scss';
 

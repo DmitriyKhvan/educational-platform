@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from 'src/utils/functions';
+import { cn } from 'src/shared/utils/functions';
 
 const Indicator = ({ children, className = 'bg-gray-300 text-gray-700' }) => {
   if (!children) return <></>;

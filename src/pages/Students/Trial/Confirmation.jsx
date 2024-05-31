@@ -9,13 +9,13 @@ import { addMinutes } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
 import Loader from 'src/components/Loader/Loader';
-import { localeDic, setItemToLocalStorage } from 'src/constants/global';
-import { useAuth } from 'src/modules/auth';
-import { LOGIN_MUTATION } from 'src/modules/auth/graphql';
-import { ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER } from 'src/modules/graphql/mutations/trial/attachTrialStudentToUserResolver';
-import { TRIAL_SIGN_UP } from 'src/modules/graphql/mutations/trial/trialSignUp';
-import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
-import notify from 'src/utils/notify';
+import { localeDic, setItemToLocalStorage } from 'src/shared/constants/global';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { LOGIN_MUTATION } from 'src/shared/apollo/graphql';
+import { ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER } from 'src/shared/apollo/mutations/trial/attachTrialStudentToUserResolver';
+import { TRIAL_SIGN_UP } from 'src/shared/apollo/mutations/trial/trialSignUp';
+import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
+import notify from 'src/shared/utils/notify';
 
 const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
   const navigate = useNavigate();
@@ -85,7 +85,7 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
             data: {
               user: {
                 ...user,
-                referralCode: localStorage.getItem('referalcode'),
+                referralCode: localStorage.getItem('referralCode'),
               },
               packageId: parseInt(packageSubscription.id),
               languageLevelId: parseInt(languageLevel.id),
@@ -97,6 +97,9 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
             },
           },
         });
+
+        localStorage.removeItem('referralCode');
+        localStorage.removeItem('referralEmail');
 
         const { data: loginData } = await loginMutation({
           variables: { email: user.email, password: user.password },

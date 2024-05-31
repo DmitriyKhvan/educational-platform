@@ -4,17 +4,18 @@ import { Link, useParams } from 'react-router-dom';
 import { useMutation, useQuery } from '@apollo/client';
 import { loadStripe } from '@stripe/stripe-js';
 import { useTranslation } from 'react-i18next';
+
+import { PACKAGE_QUERY } from 'src/shared/apollo/graphql';
+import { CREATE_PAYMENT } from 'src/shared/apollo/mutations/payment/createPayment';
+import { CHECK_STRIPE_PAYMENT_STATUS } from 'src/shared/apollo/queries/payment/checkStripePaymentStatus';
 import { FaCheckCircle } from 'react-icons/fa';
 import { FaCircleXmark } from 'react-icons/fa6';
-import { PACKAGE_QUERY } from 'src/modules/auth/graphql';
-import { CREATE_PAYMENT } from 'src/modules/graphql/mutations/payment/createPayment';
-import { CHECK_STRIPE_PAYMENT_STATUS } from 'src/modules/graphql/queries/payment/checkStripePaymentStatus';
 
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { MarketingChannelForm } from 'src/components/onboarding/MarketingChannel';
 import Button from 'src/components/Form/Button';
 import Loader from 'src/components/Loader/Loader';
-import { MarketingChannelForm } from 'src/components/onboarding/MarketingChannel';
-import { getItemToLocalStorage } from 'src/constants/global';
-import { useAuth } from 'src/modules/auth';
+import { getItemToLocalStorage } from 'src/shared/constants/global';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 

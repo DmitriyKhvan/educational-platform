@@ -4,18 +4,18 @@ import { useTranslation } from 'react-i18next';
 import Loader from '../../../components/Loader/Loader';
 import Button from '../../../components/Form/Button/Button';
 import { FaArrowRight } from 'react-icons/fa6';
-import { cn } from '../../../utils/functions';
+import { cn } from '../../../shared/utils/functions';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '../../../components/Tooltip';
-import { ucFirst } from 'src/utils/ucFirst';
+import { ucFirst } from 'src/shared/utils/ucFirst';
 import CheckboxField from 'src/components/Form/CheckboxField';
 import { ModalPurchase } from 'src/components/ModalPurchase';
-import { useActivePackages } from 'src/utils/useActivePackages';
-import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
+import { useActivePackages } from 'src/shared/utils/useActivePackages';
+import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 
 const SelectLesson = ({
   setSelectedPlan,

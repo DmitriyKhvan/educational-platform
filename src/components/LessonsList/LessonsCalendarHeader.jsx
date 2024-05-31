@@ -10,11 +10,11 @@ import {
   CalendarView,
   courseColorsDict,
   localeDic,
-} from 'src/constants/global';
-import { cn } from 'src/utils/functions';
-import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
-import { useCalendarControls } from 'src/utils/useCalendarControls';
-import { useCourseColors } from 'src/utils/useCourseColors';
+} from 'src/shared/constants/global';
+import { cn } from 'src/shared/utils/functions';
+import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
+import { useCalendarControls } from 'src/shared/utils/useCalendarControls';
+import { useCourseColors } from 'src/shared/utils/useCourseColors';
 
 const LessonsCalendarHeader = ({ calendarRef }) => {
   const [open, setOpen] = useState(false);

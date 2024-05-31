@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa6';
-import { LessonsStatusType } from 'src/constants/global';
+import { LessonsStatusType } from 'src/shared/constants/global';
 import Indicator from '../Indicator';
 
 const StatusIndicator = ({ status }) => {

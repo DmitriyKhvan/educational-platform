@@ -6,19 +6,19 @@ import { Controller, useForm } from 'react-hook-form';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { useMutation } from '@apollo/client';
-import { SIGN_UP } from '../../modules/auth/graphql';
-import useLogin from '../../modules/auth/hooks/login';
+import { SIGN_UP } from '../../shared/apollo/graphql';
 
 import Loader from '../../components/Loader/Loader';
 import Button from 'src/components/Form/Button';
 
 import InputWithError from 'src/components/Form/InputWithError';
 import InputField from 'src/components/Form/InputField';
-import notify from 'src/utils/notify';
+import notify from 'src/shared/utils/notify';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import PhoneNumberField from 'src/components/Form/PhoneNumberField';
 import { SelectField } from 'src/components/Form/SelectField';
-import { timezoneOptions } from 'src/constants/global';
+import { timezoneOptions } from 'src/shared/constants/global';
+import { useLogin } from 'src/app/providers/AuthProvider';
 // import MySelect from 'src/components/Form/MySelect';
 
 export default function Onboarding() {

@@ -1,12 +1,12 @@
 import { useQuery } from '@apollo/client';
 import { IoIosWarning } from 'react-icons/io';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useParams, useSearchParams } from 'react-router-dom';
 import Loader from 'src/components/Loader/Loader';
-import { VALIDATE_REFERRAL_CODE } from 'src/modules/graphql/mutations/referralCodes';
+import { VALIDATE_REFERRAL_CODE } from 'src/shared/apollo/mutations/referralCodes';
 
 const IsReferal = () => {
-  localStorage.removeItem('referalcode');
   const { referralcode } = useParams();
+  const [searchParams] = useSearchParams();
 
   const { data, loading } = useQuery(VALIDATE_REFERRAL_CODE, {
     variables: { referralCode: referralcode },
@@ -16,7 +16,8 @@ const IsReferal = () => {
   if (loading) return <Loader height="100%" />;
 
   if (data?.validateReferralCode?.isValid) {
-    localStorage.setItem('referalcode', referralcode);
+    localStorage.setItem('referralCode', referralcode);
+    localStorage.setItem('referralEmail', searchParams.get('email') || '');
     return <Navigate to="/trial" />;
   } else {
     return (

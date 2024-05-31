@@ -7,10 +7,10 @@ import ClipLoader from 'react-spinners/ClipLoader';
 
 import InputWithError from '../../components/Form/InputWithError';
 import InputField from '../../components/Form/InputField';
-import useNewPassword from '../../modules/auth/hooks/newPassword';
 import Button from '../../components/Form/Button/Button';
 
-import notify from '../../utils/notify';
+import notify from '../../shared/utils/notify';
+import { useNewPassword } from 'src/app/providers/AuthProvider';
 
 const ResetPassword = () => {
   const navigate = useNavigate();

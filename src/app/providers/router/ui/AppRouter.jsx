@@ -1,14 +1,12 @@
 import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Loader from 'src/components/Loader/Loader';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
-import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
-import Layout from 'src/layouts/DashboardLayout';
-
-import 'src/assets/styles/global.scss';
 import { MentorRoute, StudentRoute } from '..';
-import ErrorPage from 'src/pages/ErrorPage';
+import NotFoundPage from 'src/pages/NotFoundPage';
+import { Layout, OnboardingLayout } from 'src/shared/layouts';
+import { LoginRoute } from '../lib/LoginRoute';
 
 const Login = lazy(() => import('src/pages/Auth/Login'));
 const ForgotPassword = lazy(() => import('src/pages/Auth/ForgotPassword'));
@@ -45,8 +43,14 @@ export const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<OnboardingLayout />}>
-        {/* <Route exact path="/" element={Login} /> */}
-        <Route index element={<Login />} />
+        <Route
+          index
+          element={
+            <LoginRoute>
+              <Login />
+            </LoginRoute>
+          }
+        />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/welcome-set-password" element={<ResetPassword />} />
@@ -114,7 +118,7 @@ export const AppRouter = () => {
         <Route path="mentor/*" element={<MentorPages />} />
       </Route>
 
-      <Route path="*" element={<ErrorPage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };

@@ -1,5 +1,6 @@
 import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import NotFoundPage from '../NotFoundPage';
 
 const MentorDashboard = lazy(() => import('./MentorDashboard'));
 const Lessons = lazy(() => import('./Lessons'));
@@ -9,7 +10,6 @@ const MentorProfile = lazy(() => import('./Profile/MentorProfile'));
 const EditMentorProfile = lazy(() => import('./Profile/EditMentorProfile'));
 const SubmitVideo = lazy(() => import('./Profile/SubmitVideo/SubmitVideo'));
 const Submited = lazy(() => import('./Profile/SubmitVideo/Submited'));
-// const ErrorPage = lazy(() => import('../ErrorPage'));
 
 export default function MentorPages() {
   return (
@@ -32,7 +32,7 @@ export default function MentorPages() {
         path={`profile/edit/submit-videos/submited`}
         element={<Submited />}
       />
-      {/* <Route element={<ErrorPage />} /> */}
+      <Route element={<NotFoundPage />} />
     </Routes>
   );
 }

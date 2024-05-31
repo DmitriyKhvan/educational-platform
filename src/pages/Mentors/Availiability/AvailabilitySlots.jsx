@@ -3,18 +3,18 @@ import {
   DAY,
   MentorAvailabilityType,
   timezoneWithTimeOptions,
-} from 'src/constants/global';
+} from 'src/shared/constants/global';
 import AvailabilityDayRow from './AvailabilityDayRow';
 import Button from 'src/components/Form/Button';
 import { SelectField } from 'src/components/Form/SelectField';
 import { useTranslation } from 'react-i18next';
 import { selectStyle } from './lib/selectStyle';
-import notify from 'src/utils/notify';
-import { useAuth } from 'src/modules/auth';
-import { MUTATION_UPDATE_USER } from 'src/modules/auth/graphql';
+import notify from 'src/shared/utils/notify';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { MUTATION_UPDATE_USER } from 'src/shared/apollo/graphql';
 import { useMutation } from '@apollo/client';
 import ReactLoader from 'src/components/common/Loader';
-import { UPSERT_TIMESHEETS } from 'src/modules/graphql/mutations/upsertTimesheets';
+import { UPSERT_TIMESHEETS } from 'src/shared/apollo/mutations/upsertTimesheets';
 
 export const AvailabilitySlots = ({
   mentorInfo,

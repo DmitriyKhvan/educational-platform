@@ -1,8 +1,20 @@
 import { Drawer } from 'vaul';
 
-export function MyDrawer({ open, setOpen, button, className, children }) {
+export function MyDrawer({
+  open,
+  setOpen,
+  button,
+  className,
+  children,
+  dismissible,
+}) {
   return (
-    <Drawer.Root open={open} onOpenChange={setOpen} shouldScaleBackground>
+    <Drawer.Root
+      open={open}
+      onOpenChange={setOpen}
+      dismissible={dismissible}
+      shouldScaleBackground
+    >
       <Drawer.Trigger asChild>{button}</Drawer.Trigger>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40 z-30" />

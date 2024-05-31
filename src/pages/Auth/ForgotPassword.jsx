@@ -5,12 +5,12 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ClipLoader } from 'react-spinners';
 
-import useResetPassword from '../../modules/auth/hooks/resetPassword';
 import Button from '../../components/Form/Button/Button';
 import InputWithError from '../../components/Form/InputWithError';
 
 import InputField from '../../components/Form/InputField';
-import notify from '../../utils/notify';
+import notify from '../../shared/utils/notify';
+import { useResetPassword } from 'src/app/providers/AuthProvider';
 
 const ForgotPassword = () => {
   const { t, i18n } = useTranslation('common');

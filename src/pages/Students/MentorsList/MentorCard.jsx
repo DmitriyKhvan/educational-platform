@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { Avatar } from 'src/widgets/Avatar/Avatar';
-import FavIcon from 'src/assets/images/Favorite.png';
+import FavIcon from 'src/shared/assets/images/Favorite.png';
 import Button from 'src/components/Form/Button';
 import {
   Tooltip,

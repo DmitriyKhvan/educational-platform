@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Roles, classMaterialURL } from 'src/constants/global';
-import { useAuth } from 'src/modules/auth';
+import { Roles, classMaterialURL } from 'src/shared/constants/global';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 import { GoHomeFill } from 'react-icons/go';
 import { FaRegCalendarAlt } from 'react-icons/fa';
