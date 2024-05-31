@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import { useTranslation } from 'react-i18next';
@@ -14,6 +14,7 @@ import { useResetPassword } from 'src/app/providers/AuthProvider';
 
 const ForgotPassword = () => {
   const { t, i18n } = useTranslation('common');
+  const navigate = useNavigate();
 
   const currentLanguage = i18n.language;
 
@@ -33,6 +34,7 @@ const ForgotPassword = () => {
   useEffect(() => {
     if (data) {
       notify(t('reset_password_message'), 'success');
+      navigate('/');
     }
   }, [data]);
 

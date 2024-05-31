@@ -28,7 +28,7 @@ import { FaChevronLeft } from 'react-icons/fa6';
 import PhoneNumberField from 'src/components/Form/PhoneNumberField';
 import InputWithError from 'src/components/Form/InputWithError';
 
-const EditProflileStudent = () => {
+const EditProfileStudent = () => {
   const navigate = useNavigate();
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
   const [updateUser] = useMutation(MUTATION_UPDATE_USER);
@@ -298,4 +298,4 @@ const EditProflileStudent = () => {
   );
 };
 
-export default EditProflileStudent;
+export default EditProfileStudent;
