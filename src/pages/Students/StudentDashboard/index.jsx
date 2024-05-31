@@ -19,7 +19,6 @@ import { PromoBanner } from 'src/components/BuyPackage/PromoBanner';
 
 import { Link } from 'react-router-dom';
 import { currencyFormat } from 'src/shared/utils/currencyFormat';
-import gift from 'src/shared/assets/images/🎁.png';
 
 const StudentDashboard = () => {
   const isDesktop = useMediaQuery({ minWidth: 1400 });
@@ -80,7 +79,7 @@ const StudentDashboard = () => {
                 {user.personalPromotionCodes.length > 0 && (
                   <Link className="block" to="/purchase">
                     <PromoBanner
-                      icon={<img src={gift} alt="discount" />}
+                      icon={<span className="text-xl">🎁</span>}
                       title={`You received a ${discount} discount`}
                       text="Purchase a package to use it now!"
                       className="flex bg-[#F14E1C]"
@@ -106,7 +105,7 @@ const StudentDashboard = () => {
               {user.personalPromotionCodes.length > 0 && (
                 <Link className="block" to="/purchase">
                   <PromoBanner
-                    icon={<img src={gift} alt="discount" />}
+                    icon={<span className="text-xl">🎁</span>}
                     title={`You received a ${discount} discount`}
                     text="Purchase a package to use it now!"
                     className="flex bg-[#F14E1C]"

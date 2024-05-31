@@ -3,7 +3,6 @@ import { useNotifications } from 'src/app/providers/NotificationProvider';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { ModalConfirm } from 'src/entities/ModalConfirm';
 import Button from 'src/components/Form/Button';
-import gift from 'src/shared/assets/images/🎁.png';
 import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 export const NotificationDialog = memo(function NotificationDialog() {
@@ -38,14 +37,14 @@ export const NotificationDialog = memo(function NotificationDialog() {
         icon={
           <div className="w-full flex justify-center mb-6">
             <div className="flex items-center justify-center w-[56px] h-[56px] bg-[#D7BAF7] rounded-lg">
-              <img src={gift} alt="discount" />
+              <span className="text-xl">🎁</span>
             </div>
           </div>
         }
         title={`You have received ${bonus?.meta?.bonusLessonsCount} FREE CLASSES`}
         text="Your friend used your referral link, and you have earned a gift!"
         btns={
-          <Link to="/student/mentors-list">
+          <Link to="/student/schedule-lesson/select">
             <Button onClick={confirmBonus} className="w-full h-[56px]">
               Book FREE classes
             </Button>
