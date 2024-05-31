@@ -616,6 +616,14 @@ export const APPOINTMENTS_QUERY = gql`
         joinUrl
         recordingUrl
       }
+      studentReview {
+        id
+        rating
+      }
+      mentorReview {
+        id
+        rating
+      }
     }
   }
 `;
@@ -820,13 +828,55 @@ export const LESSON_QUERY = gql`
           id
           period
           sessionTime
-
           totalSessions
           course {
             id
             title
+            translations {
+              title
+              language
+              description
+            }
           }
         }
+      }
+      topic {
+        title
+        description
+        translations {
+          language
+          title
+          description
+        }
+      }
+      languageLevel {
+        title
+        description
+        translations {
+          language
+          title
+          description
+        }
+      }
+      playground {
+        recordingUrl
+      }
+      studentReview {
+        id
+        rating
+      }
+      mentorReview {
+        id
+        rating
+        improvement
+        mastered
+        fluency
+        pronunciation
+        vocabulary
+        reading
+        listening
+        expressions
+        confidence
       }
     }
   }

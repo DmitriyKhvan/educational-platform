@@ -1,13 +1,13 @@
 import { gql } from '@apollo/client';
 
 export const CREATE_REVIEW = gql`
-  mutation createReview(
+  mutation createStudentReview(
     $lessonId: ID!
     $studentId: ID!
     $rating: Int!
     $tags: [ID!]
   ) {
-    createReview(
+    createStudentReview(
       lessonId: $lessonId
       studentId: $studentId
       rating: $rating

@@ -6,7 +6,7 @@ import Profile from './Profile';
 import Referal from './Referal/Referal';
 import Mentors from './MentorsList/Mentors';
 import Subscriptions from './Subscriptions/Subscriptions';
-import Lessons from './Lessons';
+import { Lessons, Feedback } from './Lessons';
 import { useAuth } from 'src/modules/auth';
 import { ErrorPage } from '../ErrorPage';
 
@@ -59,8 +59,12 @@ export default function StudentRoutes() {
         <StudentListAppointments />
       </Route>
 
-      <Route path={`${path}/lesson-calendar`}>
+      <Route path={`${path}/lesson-calendar`} exact>
         <Lessons />
+      </Route>
+
+      <Route path={`${path}/lesson-calendar/feedback/:id`}>
+        <Feedback />
       </Route>
 
       <Route path={`${path}/class-materials`}>

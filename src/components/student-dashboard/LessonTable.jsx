@@ -157,6 +157,7 @@ export const LessonTable = ({
                     mentor={data?.mentor}
                     lesson={data?.packageSubscription?.package?.course?.title}
                     duration={data.duration}
+                    pattern="table"
                   />
                 </td>
               </tr>

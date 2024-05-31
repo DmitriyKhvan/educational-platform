@@ -81,8 +81,8 @@ const LessonReviewModal = ({ studentId, lessonId, closeModal }) => {
           <p className="text-color-light-grey text-[13px] md:text-[14px] mb-4">
             {tagsLabel}
           </p>
-          <div className="flex gap-2">
-            {data?.reviewTagsByType?.map((tag) => (
+          <div className="flex gap-2 flex-wrap">
+            {data?.studentReviewTagsByType?.map((tag) => (
               <TagField
                 key={tag.id}
                 type="checkbox"
