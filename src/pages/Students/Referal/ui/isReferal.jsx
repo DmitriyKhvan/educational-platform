@@ -17,7 +17,7 @@ const IsReferal = () => {
 
   if (data?.validateReferralCode?.isValid) {
     localStorage.setItem('referralCode', referralcode);
-    localStorage.setItem('referralEmail', searchParams.get('email'));
+    localStorage.setItem('referralEmail', searchParams.get('email') || '');
     return <Navigate to="/trial" />;
   } else {
     return (

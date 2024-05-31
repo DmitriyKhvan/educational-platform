@@ -17,8 +17,10 @@ import { PromoBanner } from 'src/components/BuyPackage/PromoBanner';
 import gift from 'src/shared/assets/images/🎁.png';
 import { DiscountType } from 'src/shared/constants/global';
 import { currencyFormat } from 'src/shared/utils/currencyFormat';
+import { useMediaQuery } from 'react-responsive';
 
 export default function BuyPackage() {
+  const isTablet = useMediaQuery({ minWidth: 1280 });
   const { user } = useAuth();
   const [t, i18n] = useTranslation('purchase');
 
@@ -135,22 +137,26 @@ export default function BuyPackage() {
     <div className="flex flex-wrap lg:flex-nowrap w-full gap-8 sm:gap-10 xl:gap-12">
       {/* left block */}
       <div className="grow">
-        {user.personalPromotionCodes.length > 0 && !promoPackage && (
-          <PromoBanner
-            icon={<img src={gift} alt="discount" />}
-            title={`You received a ${discount} discount`}
-            text="Purchase a package to use it now!"
-            className="bg-[#F14E1C]"
-          />
-        )}
+        {!isTablet && (
+          <>
+            {user.personalPromotionCodes.length > 0 && !promoPackage && (
+              <PromoBanner
+                icon={<img src={gift} alt="discount" />}
+                title={`You received a ${discount} discount`}
+                text="Purchase a package to use it now!"
+                className="flex bg-[#F14E1C]"
+              />
+            )}
 
-        {promoPackage && (
-          <PromoBanner
-            icon={<FaCheck />}
-            title={`${discount} discount is activated`}
-            text="Please complete purchase the form below"
-            className="bg-[#00D986]"
-          />
+            {promoPackage && (
+              <PromoBanner
+                icon={<FaCheck />}
+                title={`${discount} discount is activated`}
+                text="Please complete purchase the form below"
+                className="flex bg-[#00D986]"
+              />
+            )}
+          </>
         )}
 
         <h2 className="text-3xl sm:text-4xl font-bold sm:leading-[52px] mb-10">
@@ -187,6 +193,27 @@ export default function BuyPackage() {
 
       {/* right block */}
       <div className="w-full md:min-w-[414px] md:max-w-[414px]">
+        {isTablet && (
+          <>
+            {user.personalPromotionCodes.length > 0 && !promoPackage && (
+              <PromoBanner
+                icon={<img src={gift} alt="discount" />}
+                title={`You received a ${discount} discount`}
+                text="Purchase a package to use it now!"
+                className="flex bg-[#F14E1C]"
+              />
+            )}
+
+            {promoPackage && (
+              <PromoBanner
+                icon={<FaCheck />}
+                title={`${discount} discount is activated`}
+                text="Please complete purchase the form below"
+                className="flex bg-[#00D986]"
+              />
+            )}
+          </>
+        )}
         <OrderSummary
           selectedPackage={selectedPackage}
           setPromoPackage={setPromoPackage}

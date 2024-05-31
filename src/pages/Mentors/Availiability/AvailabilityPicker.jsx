@@ -146,7 +146,7 @@ const AvailabilityPicker = ({
           </button>
         }
       >
-        <AvailabilityModalConfirm
+        <ModalConfirm
           title="Delete date availability slot"
           text="Are you sure you want to delete this date availability slot?"
           btns={

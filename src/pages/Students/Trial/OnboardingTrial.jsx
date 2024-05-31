@@ -129,9 +129,7 @@ export default memo(function OnboardingTrial({
 
         <InputWithError errorsField={errors?.email}>
           <InputField
-            disabled={
-              (currentUser || localStorage.getItem('referralEmail')) && true
-            }
+            disabled={currentUser && true}
             className="w-full"
             label={t('email', { ns: 'common' })}
             placeholder="student@example.com"

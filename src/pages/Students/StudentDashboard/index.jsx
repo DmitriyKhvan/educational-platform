@@ -17,9 +17,9 @@ import Loader from 'src/components/Loader/Loader';
 import { useActivePackages } from 'src/shared/utils/useActivePackages';
 import { PromoBanner } from 'src/components/BuyPackage/PromoBanner';
 
-import gift from 'src/shared/assets/images/🎁.png';
 import { Link } from 'react-router-dom';
 import { currencyFormat } from 'src/shared/utils/currencyFormat';
+import gift from 'src/shared/assets/images/🎁.png';
 
 const StudentDashboard = () => {
   const isDesktop = useMediaQuery({ minWidth: 1400 });

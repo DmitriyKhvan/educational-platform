@@ -5,6 +5,7 @@ import Loader from 'src/components/Loader/Loader';
 import { Suspense } from 'react';
 
 import 'src/app/styles/layout.scss';
+import { NotificationDialog } from 'src/widgets/NotificationDialog/ui/NotificationDialog';
 
 export const Layout = () => {
   return (
@@ -29,6 +30,7 @@ export const Layout = () => {
           </div>
         </div>
       </div>
+      <NotificationDialog />
     </div>
   );
 };
