@@ -24,7 +24,7 @@ export const Packages = memo(function Packages({
           return (
             <label
               key={pkg.id}
-              className={`flex items-center justify-between w-full md:w-[387px] p-5 rounded-lg border border-color-border-grey transition duration-300 ease-in-out cursor-pointer ${
+              className={`flex items-center justify-between w-full md:w-[387px] p-5 rounded-lg border border-color-border-grey transition duration-300 ease-in-out cursor-pointer hover:border-color-purple/50 ${
                 selectedPackage === pkg && 'border-color-purple/50'
               }`}
             >
@@ -34,7 +34,7 @@ export const Packages = memo(function Packages({
                   name="package"
                   onChange={() => {
                     setSelectedPackage(pkg);
-                    setPromoPackage(pkg);
+                    setPromoPackage(null);
                   }}
                 />
                 <div className="grow flex flex-col gap-2">

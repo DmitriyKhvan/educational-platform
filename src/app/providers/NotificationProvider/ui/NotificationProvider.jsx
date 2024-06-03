@@ -53,7 +53,11 @@ export const NotificationProvider = ({ children }) => {
 
     if (type) {
       notificationIds = notifications
-        .filter((notification) => notification?.meta?.lesson?.type === type)
+        .filter(
+          (notification) =>
+            notification?.meta?.lesson?.type === type ||
+            notification?.body === type,
+        )
         .map((notification) => {
           return notification.id;
         });

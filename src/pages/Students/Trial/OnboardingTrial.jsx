@@ -62,7 +62,7 @@ export default memo(function OnboardingTrial({
         firstName,
         lastName,
         phoneNumber,
-        email,
+        email: email || localStorage.getItem('referralEmail'),
         timeZone,
         password,
       });

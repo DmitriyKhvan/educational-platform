@@ -21,7 +21,11 @@ export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen }) => {
     handleSubmit,
     register,
     formState: { isValid },
-  } = useForm({});
+  } = useForm({
+    defaultValues: {
+      promo: selectedPackage?.promotionCode?.code,
+    },
+  });
 
   const onSubmitHandler = ({ promo }) => {
     applyDiscount({

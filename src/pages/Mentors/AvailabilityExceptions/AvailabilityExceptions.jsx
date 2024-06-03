@@ -15,7 +15,7 @@ import Loader from 'src/components/Loader/Loader';
 import { LuPlus } from 'react-icons/lu';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { AvailabilityException } from './AvailabilityException';
-import { AvailabilityModalConfirm } from './AvailabilityModalConfirm';
+import { ModalConfirm } from 'src/entities/ModalConfirm';
 import { IoIosWarning } from 'react-icons/io';
 import { format } from 'date-fns-tz';
 import { formatTimeToSeconds } from '../Availiability/lib/formatTimeToSeconds';
@@ -186,7 +186,7 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
           open={!!errorExceptionalDates}
           setOpen={setErrorExceptionalDates}
         >
-          <AvailabilityModalConfirm
+          <ModalConfirm
             icon={
               <div className="w-full flex justify-center mb-6">
                 <div className="p-3 rounded-lg bg-[rgba(234,_33,_33,_0.10)]">

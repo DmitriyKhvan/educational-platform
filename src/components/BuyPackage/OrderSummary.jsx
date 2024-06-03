@@ -21,7 +21,10 @@ import { AdaptiveDialog } from '../AdaptiveDialog';
 
 const CREATE_PAYMENT_INTENT = gql`
   mutation CreatePaymentIntent($id: Int!, $applyPersonalDiscountCode: Boolean) {
-    createPaymentIntent(packageId: $id, applyPersonalDiscountCode: $applyPersonalDiscountCode) {
+    createPaymentIntent(
+      packageId: $id
+      applyPersonalDiscountCode: $applyPersonalDiscountCode
+    ) {
       clientSecret
     }
   }
@@ -55,7 +58,7 @@ export const OrderSummary = memo(function OrderSummary({
       getSecret({
         variables: {
           id: parseInt(selectedPackage.id),
-          applyPersonalDiscountCode: true, //TODO
+          ...(promoPackage && { applyPersonalDiscountCode: true }),
         },
         onCompleted: (data) => {
           const { clientSecret } = data.createPaymentIntent;
@@ -140,7 +143,9 @@ export const OrderSummary = memo(function OrderSummary({
                 <span>{t('total')}</span>
                 <span>
                   {currencyFormat({
-                    number: calculatePriceWithDiscount(promoPackage),
+                    number: calculatePriceWithDiscount(
+                      promoPackage ? promoPackage : selectedPackage,
+                    ),
                   })}
                 </span>
               </div>
