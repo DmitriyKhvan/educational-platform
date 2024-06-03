@@ -1,4 +1,4 @@
-import React, { lazy } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Loader from 'src/components/Loader/Loader';
 import { useAuth } from 'src/app/providers/AuthProvider';
@@ -55,8 +55,22 @@ export const AppRouter = () => {
           path="/trial/thank-you"
           element={<TrialMarketingChannel />}
         />
-        <Route path="/referral/:referralcode" element={<IsReferal />} />
       </Route>
+
+      <Route
+        path="/referral/:referralcode"
+        element={
+          <Suspense
+            fallback={
+              <div className="flex justify-center items-center h-screen w-full">
+                <Loader height="100vh" />
+              </div>
+            }
+          >
+            <IsReferal />
+          </Suspense>
+        }
+      />
 
       <Route
         path="/"

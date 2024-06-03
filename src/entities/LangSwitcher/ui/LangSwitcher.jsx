@@ -9,9 +9,10 @@ import { useTranslation } from 'react-i18next';
 import CheckboxField from '../../../components/Form/CheckboxField';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
 import { useCurrentLang } from '..';
+import { cn } from 'src/shared/utils/functions';
 // import { VscGlobe } from 'react-icons/vsc';
 
-export const LangSwitcher = ({ currentLang }) => {
+export const LangSwitcher = ({ currentLang, theme = 'default' }) => {
   const [open, setOpen] = useState(false);
   const [t, i18n] = useTranslation('common');
 
@@ -31,7 +32,11 @@ export const LangSwitcher = ({ currentLang }) => {
       button={
         <Button
           theme="clear"
-          className="flex justify-between items-center gap-3 w-full border border-gray-200"
+          className={cn(
+            'flex justify-between items-center gap-3 w-full border border-gray-200',
+            theme === 'purple' &&
+              'border border-white border-opacity-15 bg-[#A462ED] text-white',
+          )}
         >
           {/* <VscGlobe className="text-2xl" /> */}
           <span className="grow text-left">{t(language.label)}</span>
@@ -40,15 +45,29 @@ export const LangSwitcher = ({ currentLang }) => {
       }
     >
       {/* <ul className="w-[calc(100vw-2*24px)] sm:w-[514px]"> */}
-      <ul className="w-[200px]">
+      <ul
+        className={cn(
+          'w-[200px]',
+          theme === 'purple' &&
+            'border border-white border-opacity-15 bg-[#A462ED] text-white',
+        )}
+      >
         {languagesDic.map((lang) => {
           return (
             <li
               key={lang.value}
-              className="border-b border-color-border-grey last:border-b-0"
+              className={cn(
+                'border-b border-color-border-grey last:border-b-0',
+                theme === 'purple' && 'border-opacity-15 text-white',
+              )}
             >
               <label className="flex items-center justify-between gap-3 p-4 cursor-pointer ">
-                <span className="text-sm font-medium text-color-dark-purple">
+                <span
+                  className={cn(
+                    'text-sm font-medium text-color-dark-purple',
+                    theme === 'purple' && 'text-white',
+                  )}
+                >
                   {t(lang.label)}
                 </span>
                 <CheckboxField

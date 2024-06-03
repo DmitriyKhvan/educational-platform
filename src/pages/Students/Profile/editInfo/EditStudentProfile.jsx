@@ -26,7 +26,7 @@ import PhoneNumberField from 'src/components/Form/PhoneNumberField';
 import InputWithError from 'src/components/Form/InputWithError';
 import { UPDATE_USER } from 'src/shared/apollo/mutations/user/updateUser';
 
-const EditProflileStudent = () => {
+const EditProfileStudent = () => {
   const navigate = useNavigate();
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
   const [updateUser] = useMutation(UPDATE_USER);
@@ -296,4 +296,4 @@ const EditProflileStudent = () => {
   );
 };
 
-export default EditProflileStudent;
+export default EditProfileStudent;
