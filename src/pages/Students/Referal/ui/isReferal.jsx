@@ -1,27 +1,26 @@
 import { useQuery } from '@apollo/client';
 import { IoIosWarning } from 'react-icons/io';
-import { Navigate, useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Loader from 'src/components/Loader/Loader';
 import { VALIDATE_REFERRAL_CODE } from 'src/shared/apollo/mutations/referralCodes';
+import ReferalLanding from './ReferalLanding';
 
 const IsReferal = () => {
   const { referralcode } = useParams();
-  const [searchParams] = useSearchParams();
 
   const { data, loading } = useQuery(VALIDATE_REFERRAL_CODE, {
     variables: { referralCode: referralcode },
     fetchPolicy: 'no-cache',
   });
 
-  if (loading) return <Loader height="100%" />;
+  if (loading) return <Loader height="100vh" />;
 
   if (data?.validateReferralCode?.isValid) {
     localStorage.setItem('referralCode', referralcode);
-    localStorage.setItem('referralEmail', searchParams.get('email') || '');
-    return <Navigate to="/trial" />;
+    return <ReferalLanding />;
   } else {
     return (
-      <div className="flex w-full h-full">
+      <div className="flex w-full h-screen">
         <div className="max-w-[400px] m-auto flex flex-col items-center">
           <div className="p-3 rounded-lg bg-[rgba(234,_33,_33,_0.10)]">
             <IoIosWarning className="text-2xl text-[#EA2121]" />
