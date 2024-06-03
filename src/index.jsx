@@ -11,20 +11,23 @@ import client from 'src/shared/config/apollo/client';
 import i18next from 'src/shared/config/i18n/i18n';
 
 import 'src/app/styles/global.scss';
+import { CurrencyProvider } from './app/providers/CurrencyProvider';
 
 const root = createRoot(document.getElementById('root'));
 root.render(
   <ApolloProvider client={client}>
     <I18nextProvider i18n={i18next}>
-      <NotificationProvider>
-        <AuthProvider>
-          <BrowserRouter>
-            <ErrorBoundary>
-              <App />
-            </ErrorBoundary>
-          </BrowserRouter>
-        </AuthProvider>
-      </NotificationProvider>
+      <CurrencyProvider>
+        <NotificationProvider>
+          <AuthProvider>
+            <BrowserRouter>
+              <ErrorBoundary>
+                <App />
+              </ErrorBoundary>
+            </BrowserRouter>
+          </AuthProvider>
+        </NotificationProvider>
+      </CurrencyProvider>
     </I18nextProvider>
   </ApolloProvider>,
 );

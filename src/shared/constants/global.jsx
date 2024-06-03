@@ -739,6 +739,45 @@ export const Language = {
   CH: 'cn',
 };
 
+export const Currencies = {
+  USD: 'USD',
+  KRW: 'KRW',
+  TWD: 'TWD',
+};
+
+export const languagesDic = [
+  {
+    label: 'english',
+    value: Language.EN,
+  },
+  {
+    label: 'korean',
+    value: Language.KR,
+  },
+  {
+    label: 'chinese',
+    value: Language.CH,
+  },
+];
+
+export const currenciesDic = [
+  {
+    label: `${Currencies.USD} ($)`,
+    value: Currencies.USD,
+    locales: 'en-US',
+  },
+  {
+    label: `${Currencies.KRW} (₩)`,
+    value: Currencies.KRW,
+    locales: 'ko-KR',
+  },
+  {
+    label: `${Currencies.TWD} (NT$)`,
+    value: Currencies.TWD,
+    locales: 'zh-TW',
+  },
+];
+
 export const localeDic = {
   [Language.EN]: enUS,
   [Language.KR]: ko,

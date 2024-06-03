@@ -11,10 +11,10 @@ import { useTranslation } from 'react-i18next';
 import { selectStyle } from './lib/selectStyle';
 import notify from 'src/shared/utils/notify';
 import { useAuth } from 'src/app/providers/AuthProvider';
-import { MUTATION_UPDATE_USER } from 'src/shared/apollo/graphql';
 import { useMutation } from '@apollo/client';
 import ReactLoader from 'src/components/common/Loader';
 import { UPSERT_TIMESHEETS } from 'src/shared/apollo/mutations/upsertTimesheets';
+import { UPDATE_USER } from 'src/shared/apollo/mutations/user/updateUser';
 
 export const AvailabilitySlots = ({
   mentorInfo,
@@ -35,7 +35,7 @@ export const AvailabilitySlots = ({
 
   const [timeZone, setTimeZone] = useState(user?.timeZone);
 
-  const [updateUser] = useMutation(MUTATION_UPDATE_USER);
+  const [updateUser] = useMutation(UPDATE_USER);
   const [upsertTimesheets] = useMutation(UPSERT_TIMESHEETS);
 
   const parseAndSaveAvailabilities = (mentorAvailabilityType) => {

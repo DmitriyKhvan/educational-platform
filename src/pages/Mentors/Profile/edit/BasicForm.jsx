@@ -2,10 +2,7 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useAuth } from 'src/app/providers/AuthProvider';
 import { useMutation } from '@apollo/client';
-import {
-  MUTATION_UPDATE_MENTOR,
-  MUTATION_UPDATE_USER,
-} from '../../../../shared/apollo/graphql';
+import { MUTATION_UPDATE_MENTOR } from '../../../../shared/apollo/graphql';
 // import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -21,10 +18,11 @@ import { SelectField } from '../../../../components/Form/SelectField';
 import Button from '../../../../components/Form/Button/Button';
 import ReactLoader from '../../../../components/common/Loader';
 import { trimSpaces } from 'src/shared/utils/trimSpaces';
+import { UPDATE_USER } from 'src/shared/apollo/mutations/user/updateUser';
 
 const BasicForm = () => {
   const [t] = useTranslation(['common', 'profile']);
-  const [updateUser] = useMutation(MUTATION_UPDATE_USER);
+  const [updateUser] = useMutation(UPDATE_USER);
   const [updateMentor, { loading }] = useMutation(MUTATION_UPDATE_MENTOR);
 
   const genders = useGenderDic();
