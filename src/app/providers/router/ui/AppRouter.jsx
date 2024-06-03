@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Loader from 'src/components/Loader/Loader';
@@ -63,8 +62,6 @@ export const AppRouter = () => {
           path="/trial/thank-you"
           element={<TrialMarketingChannel />}
         />
-
-        {/* <Route path="/referral/:referralcode" element={<IsReferal />} /> */}
       </Route>
 
       <Route
