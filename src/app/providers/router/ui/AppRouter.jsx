@@ -6,6 +6,7 @@ import { useAuth } from 'src/app/providers/AuthProvider';
 import { MentorRoute, StudentRoute } from '..';
 import NotFoundPage from 'src/pages/NotFoundPage';
 import { Layout, OnboardingLayout } from 'src/shared/layouts';
+import { LoginRoute } from '../lib/LoginRoute';
 
 const Login = lazy(() => import('src/pages/Auth/Login'));
 const ForgotPassword = lazy(() => import('src/pages/Auth/ForgotPassword'));
@@ -43,7 +44,14 @@ export const AppRouter = () => {
     <Routes>
       <Route path="/" element={<OnboardingLayout />}>
         {/* <Route exact path="/" element={Login} /> */}
-        <Route index element={<Login />} />
+        <Route
+          index
+          element={
+            <LoginRoute>
+              <Login />
+            </LoginRoute>
+          }
+        />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/welcome-set-password" element={<ResetPassword />} />
