@@ -41,7 +41,7 @@ export const LangSwitcher = ({ theme = 'default' }) => {
           ? Language.KR
           : localStorage.getItem('language') === Language.CH
             ? Language.CH
-            : user.role === Roles.MENTOR
+            : user?.role === Roles.MENTOR
               ? Language.EN
               : Language.KR;
 
