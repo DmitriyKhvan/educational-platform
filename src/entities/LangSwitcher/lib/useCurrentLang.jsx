@@ -10,7 +10,7 @@ export const useCurrentLang = () => {
   const currentLang = useMemo(() => {
     const currentLangValue = localStorage.getItem('language')
       ? localStorage.getItem('language')
-      : location.pathname === '/' || user.role === Roles.MENTOR
+      : location.pathname === '/' || user?.role === Roles.MENTOR
         ? Language.EN
         : Language.KR;
 
@@ -18,11 +18,9 @@ export const useCurrentLang = () => {
       (lang) => lang.value === currentLangValue,
     );
 
-    // i18n.changeLanguage(currentLang.value);
-    i18n.on('languageChanged', () => {
-      i18n.setDefaultNamespace(currentLang.value);
-    });
-    localStorage.setItem('language', currentLang.value);
+    if (!localStorage.getItem('language')) {
+      i18n.changeLanguage(currentLang.value);
+    }
 
     return currentLang;
   }, [localStorage.getItem('language')]);
