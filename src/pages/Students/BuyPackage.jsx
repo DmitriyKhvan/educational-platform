@@ -17,10 +17,12 @@ import { PromoBanner } from 'src/components/BuyPackage/PromoBanner';
 import { DiscountType } from 'src/shared/constants/global';
 import { currencyFormat } from 'src/shared/utils/currencyFormat';
 import { useMediaQuery } from 'react-responsive';
+import { useCurrency } from 'src/app/providers/CurrencyProvider';
 
 export default function BuyPackage() {
   const isTablet = useMediaQuery({ minWidth: 1280 });
   const { user } = useAuth();
+  const { curCurrency } = useCurrency();
   const [t, i18n] = useTranslation('purchase');
 
   const [courses, setCourse] = useState([]);
@@ -103,28 +105,35 @@ export default function BuyPackage() {
     if (selectedSessionTime && selectedSessionsPerWeek) {
       setSelectedPackage(null);
 
-      return selectedCourse?.packages.filter((pkg) => {
-        const conditions = [true];
+      return selectedCourse?.packages
+        .filter((pkg) => {
+          const conditions = [true];
 
-        // conditions.push(pkg.period !== 1);
+          // conditions.push(pkg.period !== 1);
 
-        if (!selectedSessionTime) {
-          conditions.push(true);
-        } else {
-          conditions.push(pkg.sessionTime === selectedSessionTime);
-        }
+          if (!selectedSessionTime) {
+            conditions.push(true);
+          } else {
+            conditions.push(pkg.sessionTime === selectedSessionTime);
+          }
 
-        if (!selectedSessionsPerWeek) {
-          conditions.push(true);
-        } else {
-          conditions.push(pkg.sessionsPerWeek === selectedSessionsPerWeek);
-        }
+          if (!selectedSessionsPerWeek) {
+            conditions.push(true);
+          } else {
+            conditions.push(pkg.sessionsPerWeek === selectedSessionsPerWeek);
+          }
 
-        return conditions.every((condition) => condition);
-      });
+          return conditions.every((condition) => condition);
+        })
+        .map((pkg) => ({
+          ...pkg,
+          price: pkg.prices.find(
+            (price) => price.currency === curCurrency.value.toLocaleLowerCase(),
+          ).price,
+        }));
       // .sort((a, b) => a.period - b.period);
     }
-  }, [changeCourse, selectedSessionTime, selectedSessionsPerWeek]);
+  }, [changeCourse, selectedSessionTime, selectedSessionsPerWeek, curCurrency]);
 
   if (loading) return <Loader height="100vh" />;
 

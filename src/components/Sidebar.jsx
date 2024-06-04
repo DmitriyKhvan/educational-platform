@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 
 import { useAuth } from 'src/app/providers/AuthProvider';
-import { LangSwitcher } from 'src/components/LangSwitcher';
 import { Menu } from 'src/components/Menu';
 import { MobileMenu } from 'src/components/Menu/ui/MobileMenu';
 
 import { Roles } from 'src/shared/constants/global';
 import Logo from 'src/shared/assets/images/logo_purple.svg';
+import { LangCurrencySwitcher } from 'src/widgets/LangCurrencySwitcher';
 // import { BugButton } from 'src/app/providers/ErrorBoundary';
 
 export const Sidebar = () => {
@@ -34,8 +34,7 @@ export const Sidebar = () => {
           </Link>
 
           <Menu />
-
-          <LangSwitcher />
+          <LangCurrencySwitcher />
 
           {/* <BugButton /> */}
         </div>

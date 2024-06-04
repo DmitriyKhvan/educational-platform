@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
-import { useTranslation } from 'react-i18next';
-import { loadStripe } from '@stripe/stripe-js';
 import { useMutation, useQuery } from '@apollo/client';
+import { loadStripe } from '@stripe/stripe-js';
+import { useTranslation } from 'react-i18next';
+
 import { PACKAGE_QUERY } from 'src/shared/apollo/graphql';
 import { CREATE_PAYMENT } from 'src/shared/apollo/mutations/payment/createPayment';
 import { CHECK_STRIPE_PAYMENT_STATUS } from 'src/shared/apollo/queries/payment/checkStripePaymentStatus';
@@ -74,6 +75,7 @@ export default function ConfirmPayment() {
               packageId: parseInt(params.packageId),
               provider: 'stripe',
               metadata: JSON.stringify(paymentIntent),
+              currency: 'usd',
             },
           });
 

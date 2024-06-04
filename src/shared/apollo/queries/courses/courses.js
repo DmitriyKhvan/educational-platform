@@ -1,8 +1,16 @@
 import { gql } from '@apollo/client';
 
 export const COURSES = gql`
-  query courses($trialFilter: GeneralTrialFilterType, $studentId: ID, $applyPersonalDiscountCode: Boolean) {
-    courses(trialFilter: $trialFilter, studentId: $studentId, applyPersonalDiscountCode: $applyPersonalDiscountCode) {
+  query courses(
+    $trialFilter: GeneralTrialFilterType
+    $studentId: ID
+    $applyPersonalDiscountCode: Boolean
+  ) {
+    courses(
+      trialFilter: $trialFilter
+      studentId: $studentId
+      applyPersonalDiscountCode: $applyPersonalDiscountCode
+    ) {
       id
       title
       description
@@ -13,7 +21,10 @@ export const COURSES = gql`
         totalSessions
         sessionsPerWeek
         sessionTime
-        price
+        prices {
+          currency
+          price
+        }
         period
         discount
         discountPrice
