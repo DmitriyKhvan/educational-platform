@@ -7,10 +7,10 @@ import { addMinutes } from 'date-fns';
 import StatusIndicator from './StatusIndicator';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import LessonControls from './LessonControls';
-import { useAuth } from 'src/modules/auth';
-import { Roles } from 'src/constants/global';
-import { cn } from 'src/utils/functions';
-import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { Roles } from 'src/shared/constants/global';
+import { cn } from 'src/shared/utils/functions';
+import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 
 export const LessonTable = ({
   displayTableData,

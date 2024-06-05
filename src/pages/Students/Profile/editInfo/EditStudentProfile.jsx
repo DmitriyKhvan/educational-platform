@@ -1,13 +1,13 @@
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useAuth } from '../../../../modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 import {
   MUTATION_UPDATE_STUDENT,
   MUTATION_UPDATE_USER,
-} from '../../../../modules/auth/graphql';
+} from '../../../../shared/apollo/graphql';
 import { useMutation } from '@apollo/client';
-import notify from '../../../../utils/notify';
+import notify from '../../../../shared/utils/notify';
 
 import { BsPencil } from 'react-icons/bs';
 
@@ -17,19 +17,19 @@ import {
   genders,
   getItemToLocalStorage,
   timezoneOptions,
-} from '../../../../constants/global';
+} from '../../../../shared/constants/global';
 import Button from '../../../../components/Form/Button/Button';
 import InputField from '../../../../components/Form/InputField';
 import { SelectField } from '../../../../components/Form/SelectField';
 import { Avatar } from '../../../../widgets/Avatar/Avatar';
-import { trimSpaces } from 'src/utils/trimSpaces';
-import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { trimSpaces } from 'src/shared/utils/trimSpaces';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaChevronLeft } from 'react-icons/fa6';
 import PhoneNumberField from 'src/components/Form/PhoneNumberField';
 import InputWithError from 'src/components/Form/InputWithError';
 
-const EditProflileStudent = () => {
-  const history = useHistory();
+const EditProfileStudent = () => {
+  const navigate = useNavigate();
   const [updateStudent] = useMutation(MUTATION_UPDATE_STUDENT);
   const [updateUser] = useMutation(MUTATION_UPDATE_USER);
 
@@ -100,7 +100,7 @@ const EditProflileStudent = () => {
         setTimeout(async () => {
           await refetchUser();
           notify(t('student_information_changed', { ns: 'profile' }));
-          history.push('/student/profile');
+          navigate('/student/profile');
         }, 400);
       },
       onError: () => {
@@ -298,4 +298,4 @@ const EditProflileStudent = () => {
   );
 };
 
-export default EditProflileStudent;
+export default EditProfileStudent;

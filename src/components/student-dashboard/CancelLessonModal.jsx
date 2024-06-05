@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation } from '@apollo/client';
-import { CANCEL_APPOINTMENT } from '../../modules/auth/graphql';
-import { useAuth } from '../../modules/auth';
-import { Roles, cancellationArr } from '../../constants/global';
-import notify from '../../utils/notify';
+import { CANCEL_APPOINTMENT } from '../../shared/apollo/graphql';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { Roles, cancellationArr } from '../../shared/constants/global';
+import notify from '../../shared/utils/notify';
 import Button from '../Form/Button';
 import CheckboxField from '../Form/CheckboxField';
 import Loader from '../Loader/Loader';

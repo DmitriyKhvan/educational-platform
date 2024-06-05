@@ -1,6 +1,6 @@
 import React from 'react';
-import { COURSE_COLORS, courseColorsDict } from 'src/constants/global';
-import { cn } from 'src/utils/functions';
+import { COURSE_COLORS, courseColorsDict } from 'src/shared/constants/global';
+import { cn } from 'src/shared/utils/functions';
 import { EventType } from './lib/EventType';
 
 const WeeklyEvent = ({ data, eventInfo }) => {

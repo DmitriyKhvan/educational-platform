@@ -1,22 +1,29 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import Button from '../Form/Button';
 import { AdaptiveDialog } from '../AdaptiveDialog';
 // import { FaPlay } from 'react-icons/fa6';
-import { LessonsStatusType, ModalType, Roles } from 'src/constants/global';
-import { isBetween } from 'src/utils/isBetween';
-import { useAuth } from 'src/modules/auth';
+import {
+  LessonsStatusType,
+  ModalType,
+  Roles,
+} from 'src/shared/constants/global';
+import { isBetween } from 'src/shared/utils/isBetween';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { useTranslation } from 'react-i18next';
 import RescheduleAndCancelModal from './RescheduleAndCancelModalRebranding';
 import PlaygroundWarningModal from './PlaygroundWarningModal';
 import LessonInfoModal from './LessonInfoModal';
 import { addMinutes, isAfter } from 'date-fns';
-import { isWithinHours } from 'src/utils/isWithinHours';
+import { isWithinHours } from 'src/shared/utils/isWithinHours';
 import { CancelTrialLessonModal } from './CancelTrialLessonModal';
 import { FaStar } from 'react-icons/fa6';
-import { cn } from 'src/utils/functions';
+// import { cn } from 'src/utils/functions';
 import LessonReviewModal from './LessonReviewModal';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import MentorFeedbackModal from '../MentorFeedbackModal';
+import { useNavigate } from 'react-router-dom';
+import { cn } from 'src/shared/utils/functions';
 
 const LessonControls = ({
   date,
@@ -28,7 +35,7 @@ const LessonControls = ({
 }) => {
   console.log('🚀 ~ data:', data);
   const dateLesson = new Date(date);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { user } = useAuth();
 
@@ -42,11 +49,11 @@ const LessonControls = ({
   // console.log('🚀 ~ openReview:', openReview);
 
   // НЕ ЗАБЫТЬ УБРАТЬ ЭТО
-  // const isAfterLesson = true;
-  const isAfterLesson = isAfter(
-    new Date(),
-    addMinutes(new Date(date), data.duration),
-  );
+  const isAfterLesson = true;
+  // const isAfterLesson = isAfter(
+  //   new Date(),
+  //   addMinutes(new Date(date), data.duration),
+  // );
 
   const gridStyle = {
     gridTemplateColumns: `repeat(${pattern === 'table' && user.role === Roles.STUDENT && isAfterLesson ? 3 : controls.length}, minmax(0, 1fr))`,
@@ -240,7 +247,7 @@ const LessonControls = ({
           // open={openReview}
           // setOpen={setOpenReview}
         >
-          <MentorFeedbackModal />
+          <MentorFeedbackModal data={data} />
         </AdaptiveDialog>,
       );
     }
@@ -254,7 +261,9 @@ const LessonControls = ({
             pattern === 'table' && 'col-span-2',
           )}
           theme="dark_purple"
-          onClick={() => history.push(`lesson-calendar/feedback/${data.id}`)}
+          onClick={() =>
+            navigate(`/student/lesson-calendar/feedback/${data.id}`)
+          }
         >
           Lesson Feedback
         </Button>,

@@ -4,7 +4,7 @@ import { MobileMenuFullItem } from './MobileMenuFullItem';
 
 import { FaXmark } from 'react-icons/fa6';
 import { LangSwitcher } from '../../../LangSwitcher';
-// import { ReferBanner } from 'src/components/ReferBanner';
+import { ReferBanner } from 'src/components/ReferBanner';
 
 export const MobileMenuFull = ({ setOpen }) => {
   const navLinks = useMenuList();
@@ -23,7 +23,7 @@ export const MobileMenuFull = ({ setOpen }) => {
         })}
       </ul>
 
-      {/* <ReferBanner /> */}
+      <ReferBanner />
 
       <LangSwitcher />
     </div>

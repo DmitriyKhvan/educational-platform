@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useMutation } from '@apollo/client';
-import { UPSERT_EXCEPTION_DATES } from 'src/modules/graphql/mutations/upsertExceptionDates';
+import { UPSERT_EXCEPTION_DATES } from 'src/shared/apollo/mutations/upsertExceptionDates';
 import { parse } from 'date-fns';
 import { v4 as uuid } from 'uuid';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 import { AvailabilityExceptionPicker } from './AvailabilityExceptionPicker';
 import Button from 'src/components/Form/Button';
-import notify from 'src/utils/notify';
+import notify from 'src/shared/utils/notify';
 import Loader from 'src/components/Loader/Loader';
 // import Swal from 'sweetalert2';
 import { LuPlus } from 'react-icons/lu';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { AvailabilityException } from './AvailabilityException';
-import { AvailabilityModalConfirm } from './AvailabilityModalConfirm';
+import { ModalConfirm } from 'src/entities/ModalConfirm';
 import { IoIosWarning } from 'react-icons/io';
 import { format } from 'date-fns-tz';
 import { formatTimeToSeconds } from '../Availiability/lib/formatTimeToSeconds';
@@ -72,7 +72,7 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
         onCompleted: () => {
           refetchMentor();
 
-          notify('Exceptional dates is saved');
+          notify('Date override is saved');
 
           setUpdateExceptionDate(Date.now());
         },
@@ -186,7 +186,7 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
           open={!!errorExceptionalDates}
           setOpen={setErrorExceptionalDates}
         >
-          <AvailabilityModalConfirm
+          <ModalConfirm
             icon={
               <div className="w-full flex justify-center mb-6">
                 <div className="p-3 rounded-lg bg-[rgba(234,_33,_33,_0.10)]">

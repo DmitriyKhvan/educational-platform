@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { useQuery } from '@apollo/client';
-import { APPOINTMENTS_QUERY } from 'src/modules/auth/graphql';
+import { APPOINTMENTS_QUERY } from 'src/shared/apollo/graphql';
 import { LessonsList } from 'src/components/LessonsList';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 const Lessons = () => {
   const { user } = useAuth();

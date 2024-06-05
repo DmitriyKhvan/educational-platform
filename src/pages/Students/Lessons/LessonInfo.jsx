@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
+import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
+// import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 
 function LessonInfo({ data }) {
   // eslint-disable-next-line no-unused-vars

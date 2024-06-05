@@ -1,9 +1,11 @@
-import React from 'react';
-import Layout from '../../../layouts/DashboardLayout';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getItemToLocalStorage } from '../../../constants/global';
-import { useAuth } from '../../../modules/auth';
-import { APPOINTMENTS_QUERY } from '../../../modules/auth/graphql';
+import {
+  DiscountType,
+  getItemToLocalStorage,
+} from 'src/shared/constants/global';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { APPOINTMENTS_QUERY } from 'src/shared/apollo/graphql';
 import { useQuery } from '@apollo/client';
 
 import DashboardCard from './DashboardCard';
@@ -12,14 +14,27 @@ import MyLessons from './MyLessons';
 import MyProgress from './MyProgress';
 import { useMediaQuery } from 'react-responsive';
 import Loader from 'src/components/Loader/Loader';
-import { useActivePackages } from 'src/utils/useActivePackages';
+import { useActivePackages } from 'src/shared/utils/useActivePackages';
+import { PromoBanner } from 'src/components/BuyPackage/PromoBanner';
 
-const StudentListAppointments = () => {
+import { Link } from 'react-router-dom';
+import { currencyFormat } from 'src/shared/utils/currencyFormat';
+
+const StudentDashboard = () => {
   const isDesktop = useMediaQuery({ minWidth: 1400 });
 
   const [t] = useTranslation('dashboard');
 
   const { user } = useAuth();
+
+  const discount = useMemo(() => {
+    if (user?.personalPromotionCodes?.length > 0) {
+      return user.personalPromotionCodes[0]?.discountType ===
+        DiscountType.PERCENT
+        ? `${user.personalPromotionCodes[0].value}%`
+        : currencyFormat({ number: user.personalPromotionCodes[0].value });
+    }
+  }, [user]);
 
   const { activePackages, isLoading } = useActivePackages();
 
@@ -37,7 +52,7 @@ const StudentListAppointments = () => {
   });
 
   return (
-    <Layout>
+    <>
       {lessonLoading || isLoading ? (
         <Loader height="100%" />
       ) : (
@@ -54,12 +69,23 @@ const StudentListAppointments = () => {
             </DashboardCard>
 
             {!isDesktop && (
-              <div>
+              <div className="space-y-1 sm:space-y-8">
                 <MyLessons
                   fetchAppointments={refetch}
                   appointments={appointments}
                   packageSubscriptions={activePackages}
                 />
+
+                {user.personalPromotionCodes.length > 0 && (
+                  <Link className="block" to="/purchase">
+                    <PromoBanner
+                      icon={<span className="text-xl">🎁</span>}
+                      title={`You received a ${discount} discount`}
+                      text="Purchase a package to use it now!"
+                      className="flex bg-[#F14E1C]"
+                    />
+                  </Link>
+                )}
               </div>
             )}
             <MyProgress
@@ -69,17 +95,28 @@ const StudentListAppointments = () => {
           </div>
 
           {isDesktop && (
-            <div className="w-full mx-auto sm:max-w-[524px] sm:mt-10 mt-1">
+            <div className="w-full mx-auto sm:max-w-[524px] sm:mt-10 mt-1 space-y-1 sm:space-y-8">
               <MyLessons
                 fetchAppointments={refetch}
                 appointments={appointments}
                 packageSubscriptions={activePackages}
               />
+
+              {user.personalPromotionCodes.length > 0 && (
+                <Link className="block" to="/purchase">
+                  <PromoBanner
+                    icon={<span className="text-xl">🎁</span>}
+                    title={`You received a ${discount} discount`}
+                    text="Purchase a package to use it now!"
+                    className="flex bg-[#F14E1C]"
+                  />
+                </Link>
+              )}
             </div>
           )}
         </div>
       )}
-    </Layout>
+    </>
   );
 };
-export default StudentListAppointments;
+export default StudentDashboard;

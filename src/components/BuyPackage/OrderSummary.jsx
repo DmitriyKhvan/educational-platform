@@ -1,27 +1,30 @@
-import { useMemo, memo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 
 import { gql, useMutation } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 
-import { currencyFormat } from 'src/utils/currencyFormat';
-import { calculatePriceWithDiscount } from 'src/utils/calculatePriceWithDiscount';
+import { calculatePriceWithDiscount } from 'src/shared/utils/calculatePriceWithDiscount';
+import { currencyFormat } from 'src/shared/utils/currencyFormat';
 
+import { BsPlus } from 'react-icons/bs';
+import { RiErrorWarningFill } from 'react-icons/ri';
+import notify from 'src/shared/utils/notify';
+import Button from '../Form/Button';
+import Loader from '../Loader/Loader';
 import { PromoModal } from './PromoModal';
 import { TermsConditionsModal } from './TermsConditionsModal';
-import Button from '../Form/Button';
-import { RiErrorWarningFill } from 'react-icons/ri';
-import { BsPlus } from 'react-icons/bs';
-import notify from 'src/utils/notify';
-import Loader from '../Loader/Loader';
 
 import { AdaptiveDialog } from '../AdaptiveDialog';
 
 const CREATE_PAYMENT_INTENT = gql`
-  mutation CreatePaymentIntent($id: Int!) {
-    createPaymentIntent(packageId: $id) {
+  mutation CreatePaymentIntent($id: Int!, $applyPersonalDiscountCode: Boolean) {
+    createPaymentIntent(
+      packageId: $id
+      applyPersonalDiscountCode: $applyPersonalDiscountCode
+    ) {
       clientSecret
     }
   }
@@ -35,7 +38,7 @@ export const OrderSummary = memo(function OrderSummary({
   const [open, setOpen] = useState(false);
   const [openTermsConditions, setIsOpenTermsConditions] = useState(false);
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const [parent] = useAutoAnimate();
   const [t] = useTranslation('purchase');
 
@@ -55,13 +58,12 @@ export const OrderSummary = memo(function OrderSummary({
       getSecret({
         variables: {
           id: parseInt(selectedPackage.id),
+          ...(promoPackage && { applyPersonalDiscountCode: true }),
         },
         onCompleted: (data) => {
           const { clientSecret } = data.createPaymentIntent;
           if (clientSecret) {
-            history.push(
-              `/purchase/${selectedPackage.id}/payment/${clientSecret}`,
-            );
+            navigate(`/purchase/${selectedPackage.id}/payment/${clientSecret}`);
           }
         },
         onError: (error) => {
@@ -141,7 +143,9 @@ export const OrderSummary = memo(function OrderSummary({
                 <span>{t('total')}</span>
                 <span>
                   {currencyFormat({
-                    number: calculatePriceWithDiscount(promoPackage),
+                    number: calculatePriceWithDiscount(
+                      promoPackage ? promoPackage : selectedPackage,
+                    ),
                   })}
                 </span>
               </div>

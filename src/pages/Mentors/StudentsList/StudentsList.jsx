@@ -1,20 +1,19 @@
 import React from 'react';
-import Layout from '../../../layouts/DashboardLayout';
 
-import FavIcon from '../../../assets/images/Favorite.png';
-import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
+import FavIcon from 'src/shared/assets/images/Favorite.png';
+import femaleAvatar from 'src/shared/assets/images/avatars/img_avatar_female.png';
+import maleAvatar from 'src/shared/assets/images/avatars/img_avatar_male.png';
 import './Students.scss';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { STUDENTS_QUERY } from '../../../modules/auth/graphql';
+import { STUDENTS_QUERY } from '../../../shared/apollo/graphql';
 import Loader from '../../../components/Loader/Loader';
 import StudentsModal from './StudentsModal';
 import { useTranslation } from 'react-i18next';
 
 export default function StudentsList() {
   const [showStudentModal, setShowStudentModal] = React.useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
   const { data } = useQuery(STUDENTS_QUERY, {
     errorPolicy: 'ignore',
   });
@@ -26,14 +25,14 @@ export default function StudentsList() {
 
   const handleMoreTutor = (id) => {
     if (id) {
-      history.push(`/mentor/students-list/${id}`);
+      navigate(`/mentor/students-list/${id}`);
     }
 
     setShowStudentModal(true);
   };
 
   return (
-    <Layout>
+    <>
       <div className="tutors_section">
         <div className="tutors_title">
           <h1>{t('student_list', { ns: 'studentMentor' })}</h1>
@@ -55,8 +54,8 @@ export default function StudentsList() {
                       item?.avatar
                         ? item.avatar?.url
                         : item?.user?.gender === 'male'
-                        ? maleAvatar
-                        : femaleAvatar
+                          ? maleAvatar
+                          : femaleAvatar
                     }") center / cover`,
                   }}
                 >
@@ -86,6 +85,6 @@ export default function StudentsList() {
           setShowStudentModal={setShowStudentModal}
         />
       )}
-    </Layout>
+    </>
   );
 }

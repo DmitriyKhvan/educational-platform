@@ -5,8 +5,9 @@ import StarRatings from 'react-star-ratings';
 import { REVIEW_TAGS_BY_TYPE } from 'src/modules/graphql/queries/review/reviewTagsByType';
 import Button from '../Form/Button';
 import { CREATE_REVIEW } from 'src/modules/graphql/mutations/review/createReview';
-import notify from 'src/utils/notify';
+// import notify from 'src/utils/notify';
 import TagField from '../Form/TagField';
+import notify from 'src/shared/utils/notify';
 
 const ratingTypes = [null, 'bad', 'bad', 'neutral', 'neutral', 'good'];
 

@@ -1,55 +1,38 @@
-import React from 'react';
-import EditMentorProfile from './Profile/EditMentorProfile';
-import SubmitVideo from './Profile/SubmitVideo/SubmitVideo';
-import Submited from './Profile/SubmitVideo/Submited';
-import StudentsList from './StudentsList/StudentsList';
-import { Switch, useRouteMatch, Route } from 'react-router-dom';
-import TutorDashboard from './MentorDashboard';
-import Availability from './Availiability';
-import Layout from 'src/layouts/DashboardLayout';
-import MentorProfile from './Profile/MentorProfile';
-import { ErrorPage } from '../ErrorPage';
-import Lessons from './Lessons';
+import React, { lazy } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import NotFoundPage from '../NotFoundPage';
 
-export default function TutorPages() {
-  let { path } = useRouteMatch();
+const MentorDashboard = lazy(() => import('./MentorDashboard'));
+const Lessons = lazy(() => import('./Lessons'));
+const Availability = lazy(() => import('./Availiability'));
+const StudentsList = lazy(() => import('./StudentsList/StudentsList'));
+const MentorProfile = lazy(() => import('./Profile/MentorProfile'));
+const EditMentorProfile = lazy(() => import('./Profile/EditMentorProfile'));
+const SubmitVideo = lazy(() => import('./Profile/SubmitVideo/SubmitVideo'));
+const Submited = lazy(() => import('./Profile/SubmitVideo/Submited'));
 
+export default function MentorPages() {
   return (
-    <Switch>
-      <Route path={`${path}/manage-appointments`}>
-        <Layout>
-          <TutorDashboard />
-        </Layout>
-      </Route>
+    <Routes>
+      <Route path={`manage-appointments`} element={<MentorDashboard />} />
 
-      <Route exact path={`${path}/lesson-calendar`}>
-        <Lessons />
-      </Route>
+      <Route exact path={`lesson-calendar`} element={<Lessons />} />
 
-      <Route path={`${path}/availability`}>
-        <Availability />
-      </Route>
+      <Route path={`availability`} element={<Availability />} />
 
-      <Route path={`${path}/students-list/:id?`}>
-        <StudentsList />
-      </Route>
+      <Route path={`students-list/:id?`} element={<StudentsList />} />
 
-      <Route path={`${path}/profile`}>
-        <MentorProfile />
-      </Route>
+      <Route path={`profile`} element={<MentorProfile />} />
 
-      <Route path={`${path}/edit-profile`}>
-        <EditMentorProfile />
-      </Route>
+      <Route path={`profile/edit`} element={<EditMentorProfile />} />
 
-      <Route path={`${path}/edit-profiles/submit-video`}>
-        <SubmitVideo />
-      </Route>
+      <Route path={`profile/edit/submit-video`} element={<SubmitVideo />} />
 
-      <Route path={`${path}/edit-profiles/submit-videos/submited`}>
-        <Submited />
-      </Route>
-      <Route component={ErrorPage} />
-    </Switch>
+      <Route
+        path={`profile/edit/submit-videos/submited`}
+        element={<Submited />}
+      />
+      <Route element={<NotFoundPage />} />
+    </Routes>
   );
 }

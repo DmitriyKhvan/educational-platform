@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { format, formatDistanceToNow } from 'date-fns';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
 import { Avatar } from 'src/widgets/Avatar/Avatar';
-import { localeDic } from 'src/constants/global';
+import { localeDic } from 'src/shared/constants/global';
 
 export const NotificationItem = ({ notification }) => {
-  const [t, i18n] = useTranslation('lessons', 'notifications');
+  const [i18n] = useTranslation();
 
   return (
     <div
@@ -27,11 +27,25 @@ export const NotificationItem = ({ notification }) => {
       </div>
       <div className="mb-4">
         <span className="font-medium text-sm">
-          {t(notification.body)} (
-          {format(new Date(notification.meta.lesson.date), 'eee, MMM do', {
-            locale: localeDic[i18n.language],
-          })}
-          )
+          <Trans
+            i18nKey={notification.body}
+            ns="lessons"
+            values={{
+              count: 2,
+            }}
+            components={{
+              purple: <span className="text-color-purple" />,
+            }}
+          />
+
+          {notification?.meta?.lesson?.date &&
+            ` (${format(
+              new Date(notification?.meta?.lesson?.date),
+              'eee, MMM do',
+              {
+                locale: localeDic[i18n.language],
+              },
+            )})`}
         </span>
       </div>
       <div>

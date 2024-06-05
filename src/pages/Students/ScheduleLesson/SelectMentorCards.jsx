@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { AVAILABLE_MENTORS } from 'src/modules/graphql/queries/mentors/availableMentors';
+import { AVAILABLE_MENTORS } from 'src/shared/apollo/queries/mentors/availableMentors';
 
 import { format, toZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
 
-import Layout from '../../../layouts/DashboardLayout';
 import { MentorsView } from '../MentorsList/MentorsView';
 import Loader from 'src/components/Loader/Loader';
-import { getItemToLocalStorage } from 'src/constants/global';
+import { getItemToLocalStorage } from 'src/shared/constants/global';
 import { IoArrowBack } from 'react-icons/io5';
 
 const useAvailableMentors = (isoTime, duration, studentId) => {
@@ -55,42 +54,40 @@ const SelectMentorCards = ({
   };
 
   return (
-    <Layout>
-      <div className="">
-        <div className="flex flex-col md:items-center">
-          <div className="flex items-center gap-3 mb-[10px]">
-            <button
-              onClick={() => {
-                setTabIndex(1);
-              }}
-            >
-              <IoArrowBack className="text-2xl" />
-            </button>
+    <div className="">
+      <div className="flex flex-col md:items-center">
+        <div className="flex items-center gap-3 mb-[10px]">
+          <button
+            onClick={() => {
+              setTabIndex(1);
+            }}
+          >
+            <IoArrowBack className="text-2xl" />
+          </button>
 
-            <h1 className="text-3xl sm:text-4xl md:text-[40px] font-bold tracking-[-1px] text-color-dark-purple">
-              {t('select_mentor')}
-            </h1>
-          </div>
-
-          <p className="text-base leading-6 tracking-[-0.6px] text-color-light-grey">
-            {t('select_mentor_subtitle')}
-          </p>
+          <h1 className="text-3xl sm:text-4xl md:text-[40px] font-bold tracking-[-1px] text-color-dark-purple">
+            {t('select_mentor')}
+          </h1>
         </div>
 
-        {loading ? (
-          <Loader />
-        ) : availableMentors?.length ? (
-          <MentorsView
-            mentorList={availableMentors}
-            handleSelectMentor={onClick}
-          />
-        ) : (
-          <p className="w-full text-center text-gray-500 uppercase">
-            {t('no_mentors_available')}
-          </p>
-        )}
+        <p className="text-base leading-6 tracking-[-0.6px] text-color-light-grey">
+          {t('select_mentor_subtitle')}
+        </p>
       </div>
-    </Layout>
+
+      {loading ? (
+        <Loader />
+      ) : availableMentors?.length ? (
+        <MentorsView
+          mentorList={availableMentors}
+          handleSelectMentor={onClick}
+        />
+      ) : (
+        <p className="w-full text-center text-gray-500 uppercase">
+          {t('no_mentors_available')}
+        </p>
+      )}
+    </div>
   );
 };
 
