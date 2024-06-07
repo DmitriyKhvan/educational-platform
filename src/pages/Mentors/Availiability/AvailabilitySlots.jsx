@@ -9,7 +9,6 @@ import Button from 'src/components/Form/Button';
 import { SelectField } from 'src/components/Form/SelectField';
 import { useTranslation } from 'react-i18next';
 import { selectStyle } from './lib/selectStyle';
-import notify from 'src/shared/utils/notify';
 import { useAuth } from 'src/app/providers/AuthProvider';
 import { useMutation } from '@apollo/client';
 import ReactLoader from 'src/components/common/Loader';
@@ -19,12 +18,16 @@ import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { ModalConfirm } from 'src/entities/ModalConfirm';
 import { IoIosWarning } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import { parseErrorMessage } from './lib/parseErrorMessage';
+import notify from 'src/shared/utils/notify';
 
 export const AvailabilitySlots = ({
   mentorInfo,
   gatherAvailabilities,
   mentorAvailabilityType,
   useSetGatherAvailabilities,
+  refetchMentor,
+  setError,
 }) => {
   const [errorExceptionalDates, setErrorExceptionalDates] = useState(null);
   const { user, refetchUser } = useAuth();
@@ -103,6 +106,8 @@ export const AvailabilitySlots = ({
             },
           },
         });
+
+        await refetchUser();
       }
 
       await upsertTimesheets({
@@ -114,17 +119,17 @@ export const AvailabilitySlots = ({
         },
       });
 
-      await refetchUser();
-
       handleDisableSave(true);
     } catch (error) {
-      const errorMsg = JSON.parse(error.message);
-      if (errorMsg?.regularLessons || errorMsg?.trialLessons) {
-        setErrorExceptionalDates(errorMsg);
+      setError(error);
+      await refetchMentor();
+
+      const parseError = parseErrorMessage(error);
+      if (parseError) {
+        setErrorExceptionalDates(parseError);
       } else {
         notify(error.message, 'error');
       }
-      console.log('🚀 ~ onSubmit ~ error:', JSON.parse(error.message));
     } finally {
       setIsLoading(false);
     }
