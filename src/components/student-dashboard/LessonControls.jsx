@@ -188,7 +188,10 @@ const LessonControls = ({
         <AdaptiveDialog
           button={
             <Button
-              disabled={!data?.playground?.recordingUrl}
+              disabled={
+                !data?.playground?.recordingUrl &&
+                !data?.playground?.recordingReady
+              }
               className="grow gap-1 sm:gap-2 text-xs sm:text-sm px-2"
             >
               <FaPlay />
