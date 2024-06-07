@@ -592,6 +592,7 @@ export const APPOINTMENTS_QUERY = gql`
         startUrl
         joinUrl
         recordingUrl
+        recordingReady
       }
     }
   }
