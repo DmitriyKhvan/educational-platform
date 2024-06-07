@@ -20,6 +20,7 @@ import { IoIosWarning } from 'react-icons/io';
 import { format } from 'date-fns-tz';
 import { formatTimeToSeconds } from '../Availiability/lib/formatTimeToSeconds';
 import { formatTime } from '../Availiability/lib/formatTime';
+import { parseErrorMessage } from '../Availiability/lib/parseErrorMessage';
 
 export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
   const [errorExceptionalDates, setErrorExceptionalDates] = useState();
@@ -34,20 +35,6 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
 
   const [upsertExceptionDates, { loading: loadingExceptionDates }] =
     useMutation(UPSERT_EXCEPTION_DATES);
-
-  const parseErrorMessage = (error) => {
-    try {
-      const errorData = JSON.parse(error.message);
-      if (typeof errorData !== 'object') {
-        throw new Error();
-      }
-      if (errorData?.errorExceptionalDates) {
-        setErrorExceptionalDates(errorData?.errorExceptionalDates);
-      }
-    } catch (e) {
-      notify(error.message, 'error');
-    }
-  };
 
   const onSubmit = (availabilityExceptions) => {
     if (availabilityExceptions) {
@@ -77,7 +64,12 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
           setUpdateExceptionDate(Date.now());
         },
         onError: (error) => {
-          parseErrorMessage(error);
+          const parseError = parseErrorMessage(error);
+          if (parseError) {
+            setErrorExceptionalDates(parseError);
+          } else {
+            notify(error.message, 'error');
+          }
         },
       });
 
@@ -197,29 +189,34 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
             title="Overlapping lesson(s)"
             text={
               <>
-                You have {errorExceptionalDates.length}{' '}
+                You have {errorExceptionalDates.errorExceptionalDates.length}{' '}
                 <b>lesson(s) scheduled</b>:
                 <ul>
-                  {errorExceptionalDates.map((date, index) => {
-                    return (
-                      <li key={index}>
-                        {format(
-                          parse(date.date, 'yyyy-MM-dd', new Date()),
-                          'dd MMM yyyy',
-                        )}{' '}
-                        <b>
-                          {formatTime(
-                            formatTimeToSeconds(date.from),
-                            'hh:mm a',
-                          )}
-                        </b>{' '}
-                        -{' '}
-                        <b>
-                          {formatTime(formatTimeToSeconds(date.to), 'hh:mm a')}
-                        </b>
-                      </li>
-                    );
-                  })}
+                  {errorExceptionalDates.errorExceptionalDates.map(
+                    (date, index) => {
+                      return (
+                        <li key={index}>
+                          {format(
+                            parse(date.date, 'yyyy-MM-dd', new Date()),
+                            'dd MMM yyyy',
+                          )}{' '}
+                          <b>
+                            {formatTime(
+                              formatTimeToSeconds(date.from),
+                              'hh:mm a',
+                            )}
+                          </b>{' '}
+                          -{' '}
+                          <b>
+                            {formatTime(
+                              formatTimeToSeconds(date.to),
+                              'hh:mm a',
+                            )}
+                          </b>
+                        </li>
+                      );
+                    },
+                  )}
                 </ul>
               </>
             }
