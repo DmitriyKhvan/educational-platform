@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import LessonControls from './LessonControls';
 import { addMinutes, format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
@@ -13,9 +12,6 @@ import { PiStarFourFill } from 'react-icons/pi';
 import { cn } from 'src/shared/utils/functions';
 import LabelBox from './LabelBox';
 import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
-import Button from '../Form/Button';
-import { AdaptiveDialog } from '../AdaptiveDialog';
-import LessonReviewModal from './LessonReviewModal';
 
 const LessonInfoModal = ({
   date,
@@ -31,8 +27,6 @@ const LessonInfoModal = ({
 
   const userToDisplay =
     user.role === Roles.MENTOR ? data?.student : data?.mentor;
-
-  const [openReview, setOpenReview] = useState(false);
 
   return (
     <div className="sm:min-w-[400px] max-w-[520px] w-full bg-white">
@@ -80,20 +74,6 @@ const LessonInfoModal = ({
           setCanceledLessons={setCanceledLessons}
         />
       )}
-
-      <div>
-        <AdaptiveDialog
-          button={<Button className="w-full">Submit Review</Button>}
-          open={openReview}
-          setOpen={setOpenReview}
-        >
-          <LessonReviewModal
-            studentId={data?.student?.id}
-            lessonId={data?.id}
-            closeModal={() => setOpenReview(false)}
-          />
-        </AdaptiveDialog>
-      </div>
 
       <div className="grid grid-cols-2 gap-3 mt-6 pt-6 border-t">
         <LabelBox

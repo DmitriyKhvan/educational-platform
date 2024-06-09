@@ -859,6 +859,15 @@ export const LESSON_QUERY = gql`
         listening
         expressions
         confidence
+        homeworks {
+          id
+          title
+          description
+        }
+        vocabularies {
+          id
+          word
+        }
       }
     }
   }

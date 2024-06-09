@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import Button from '../Form/Button';
 import { AdaptiveDialog } from '../AdaptiveDialog';
-// import { FaPlay } from 'react-icons/fa6';
 import {
   LessonsStatusType,
   ModalType,
@@ -17,10 +15,8 @@ import LessonInfoModal from './LessonInfoModal';
 import { addMinutes, isAfter } from 'date-fns';
 import { isWithinHours } from 'src/shared/utils/isWithinHours';
 import { CancelTrialLessonModal } from './CancelTrialLessonModal';
-import { FaStar } from 'react-icons/fa6';
-// import { cn } from 'src/utils/functions';
+import { FaCheck, FaRegClock, FaStar } from 'react-icons/fa6';
 import LessonReviewModal from './LessonReviewModal';
-// import { useHistory } from 'react-router-dom';
 import MentorFeedbackModal from '../MentorFeedbackModal';
 import { useNavigate } from 'react-router-dom';
 import { cn } from 'src/shared/utils/functions';
@@ -45,18 +41,22 @@ const LessonControls = ({
   const [isOpen, setIsOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [controls, setControls] = useState([]);
-  // const [openReview, setOpenReview] = useState(false);
-  // console.log('🚀 ~ openReview:', openReview);
 
-  // НЕ ЗАБЫТЬ УБРАТЬ ЭТО
-  const isAfterLesson = true;
-  // const isAfterLesson = isAfter(
-  //   new Date(),
-  //   addMinutes(new Date(date), data.duration),
-  // );
+  const [mentorReviewOpen, setMentorReviewOpen] = useState(false);
+  const [openStudentReview, setOpenStudentReview] = useState(false);
+  const [openCancel, setOpenCancel] = useState(false);
+  const [openReschedule, setOpenReschedule] = useState(false);
+  const [openInfo, setOpenInfo] = useState(false);
+
+  // НЕ ЗАБЫТЬ УДАЛИТЬ!!!
+  // const isAfterLesson = true;
+  const isAfterLesson = isAfter(
+    new Date(),
+    addMinutes(new Date(date), data.duration),
+  );
 
   const gridStyle = {
-    gridTemplateColumns: `repeat(${pattern === 'table' && user.role === Roles.STUDENT && isAfterLesson ? 3 : controls.length}, minmax(0, 1fr))`,
+    gridTemplateColumns: `repeat(${pattern === 'table' && user.role === Roles.STUDENT && isAfterLesson ? 3 : controls}, minmax(0, 1fr))`,
   };
 
   const userTimezone =
@@ -112,8 +112,6 @@ const LessonControls = ({
   const rescheduleAndCancelModal = (
     <RescheduleAndCancelModal
       data={data}
-      // isOpen={isOpen}
-      // closeModal={closeModal}
       setTabIndex={setTabIndex}
       setIsOpen={setIsOpen}
       fetchAppointments={refetch}
@@ -134,191 +132,34 @@ const LessonControls = ({
   );
 
   useEffect(() => {
-    let controls = [];
+    let controls = 0;
 
     if (
       !isAfterLesson &&
       isWithin24Hours &&
       data.status === LessonsStatusType.APPROVED
     ) {
-      controls.push(
-        <Button
-          key="join"
-          className="w-full text-xs sm:text-sm px-2"
-          onClick={joinLesson}
-        >
-          {t('join_lesson')}
-        </Button>,
-      );
+      controls++;
     }
-
     if (pattern === 'info' && !isAfterLesson) {
-      // if (pattern === 'info') {
-      controls.push(
-        <AdaptiveDialog
-          key="info"
-          button={
-            <Button
-              className="grow text-xs sm:text-sm px-2"
-              theme="dark_purple"
-            >
-              {t('info')}
-            </Button>
-          }
-        >
-          <LessonInfoModal
-            date={date}
-            data={data}
-            refetch={refetch}
-            duration={duration}
-            setCanceledLessons={setCanceledLessons}
-            userTimezone={userTimezone}
-          />
-        </AdaptiveDialog>,
-      );
+      controls++;
     }
-
     if (
       !isAfterLesson &&
       !isWithin24Hours &&
       !data.isTrial &&
       user.role !== Roles.MENTOR
     ) {
-      controls.push(
-        <AdaptiveDialog
-          key="reschedule"
-          // open={isOpen}
-          // setOpen={setIsOpen}
-          button={
-            <Button
-              theme="dark_purple"
-              className="grow text-xs sm:text-sm px-2"
-              onClick={onSelect}
-            >
-              {t('reschedule')}
-            </Button>
-          }
-        >
-          {rescheduleAndCancelModal}
-        </AdaptiveDialog>,
-      );
+      controls++;
     }
-
-    // if (isAfterLesson) {
-    //   controls.push(
-    //     <AdaptiveDialog
-    //       button={
-    //         <Button
-    //           disabled={!data?.playground?.recordingUrl}
-    //           className="grow gap-1 sm:gap-2 text-xs sm:text-sm px-2"
-    //         >
-    //           <FaPlay />
-    //           {t('watch_recording')}
-    //         </Button>
-    //       }
-    //     >
-    //       <LessonInfoModal
-    //         date={date}
-    //         data={data}
-    //         playground={data?.playground}
-    //         refetch={refetch}
-    //         duration={duration}
-    //         setCanceledLessons={setCanceledLessons}
-    //         userTimezone={userTimezone}
-    //       />
-    //     </AdaptiveDialog>,
-    //   );
-    // }
-
     if (isAfterLesson && user.role === Roles.MENTOR) {
-      controls.push(
-        <AdaptiveDialog
-          key="review"
-          button={
-            <Button
-              className={cn(
-                'grow text-xs sm:text-sm px-2 gap-2',
-                // pattern === 'table' && 'col-span-1',
-              )}
-            >
-              <FaStar /> Submit feedback
-            </Button>
-          }
-          // open={openReview}
-          // setOpen={setOpenReview}
-        >
-          <MentorFeedbackModal data={data} />
-        </AdaptiveDialog>,
-      );
+      controls++;
     }
-
     if (isAfterLesson && user.role === Roles.STUDENT) {
-      controls.push(
-        <Button
-          key="feedback"
-          className={cn(
-            'grow text-xs sm:text-sm px-2',
-            pattern === 'table' && 'col-span-2',
-          )}
-          theme="dark_purple"
-          onClick={() =>
-            navigate(`/student/lesson-calendar/feedback/${data.id}`)
-          }
-        >
-          Lesson Feedback
-        </Button>,
-        <AdaptiveDialog
-          key="review"
-          button={
-            <Button
-              className={cn(
-                'grow text-xs sm:text-sm px-2 gap-2',
-                pattern === 'table' && 'col-span-1',
-              )}
-            >
-              <FaStar /> {pattern !== 'table' && 'Submit review'}
-            </Button>
-          }
-          // open={openReview}
-          // setOpen={setOpenReview}
-        >
-          <LessonReviewModal
-            studentId={data?.student?.id}
-            lessonId={data?.id}
-            closeModal={() => window.location.reload()}
-          />
-        </AdaptiveDialog>,
-        // <Button
-        //   key="review"
-        // className={cn(
-        //   'grow text-xs sm:text-sm px-2 gap-2',
-        //   pattern === 'table' && 'col-span-1',
-        // )}
-        // >
-        //   <FaStar /> {pattern !== 'table' && 'Submit review'}
-        // </Button>,
-      );
+      controls += 2;
     }
-
     if (!isAfterLesson && !(user.role === Roles.MENTOR && data.isTrial)) {
-      controls.push(
-        <AdaptiveDialog
-          key="cancel"
-          // open={isOpen}
-          // setOpen={setIsOpen}
-          button={
-            <Button
-              theme="red"
-              className="grow text-xs sm:text-sm px-2"
-              onClick={onCancel}
-            >
-              {t('cancel', { ns: 'common' })}
-            </Button>
-          }
-        >
-          {data.isTrial ? cancelTrialLessonModal : rescheduleAndCancelModal}
-        </AdaptiveDialog>,
-      );
+      controls++;
     }
 
     setControls(controls);
@@ -326,19 +167,154 @@ const LessonControls = ({
 
   return (
     <>
-      <div
-        style={gridStyle}
-        className={cn(
-          'gap-2 xl:gap-3 h-[52px] grid',
-          // pattern === 'table' ? 'flex' : 'grid',
+      <div style={gridStyle} className={cn('gap-2 xl:gap-3 h-[52px] grid')}>
+        {!isAfterLesson &&
+          isWithin24Hours &&
+          data.status === LessonsStatusType.APPROVED && (
+            <Button
+              className="w-full text-xs sm:text-sm px-2"
+              onClick={joinLesson}
+            >
+              {t('join_lesson')}
+            </Button>
+          )}
+
+        {pattern === 'info' && !isAfterLesson && (
+          <AdaptiveDialog
+            button={
+              <Button
+                className="grow text-xs sm:text-sm px-2"
+                theme="dark_purple"
+              >
+                {t('info')}
+              </Button>
+            }
+            open={openInfo}
+            setOpen={setOpenInfo}
+          >
+            <LessonInfoModal
+              date={date}
+              data={data}
+              refetch={refetch}
+              duration={duration}
+              setCanceledLessons={setCanceledLessons}
+              userTimezone={userTimezone}
+            />
+          </AdaptiveDialog>
         )}
-      >
-        {controls}
-        {/* {controls.map((control, index) => (
-          <div className="grid" key={index}>
-            {control}
-          </div>
-        ))} */}
+
+        {!isAfterLesson &&
+          !isWithin24Hours &&
+          !data.isTrial &&
+          user.role !== Roles.MENTOR && (
+            <AdaptiveDialog
+              open={openReschedule}
+              setOpen={setOpenReschedule}
+              button={
+                <Button
+                  theme="dark_purple"
+                  className="grow text-xs sm:text-sm px-2"
+                  onClick={onSelect}
+                >
+                  {t('reschedule')}
+                </Button>
+              }
+            >
+              {rescheduleAndCancelModal}
+            </AdaptiveDialog>
+          )}
+
+        {isAfterLesson && user.role === Roles.STUDENT && (
+          <>
+            <Button
+              disabled={!data?.mentorReview}
+              className={cn(
+                'grow text-xs sm:text-sm px-2 gap-2',
+                pattern === 'table' && 'col-span-2',
+              )}
+              theme="dark_purple"
+              onClick={() =>
+                navigate(`/student/lesson-calendar/feedback/${data.id}`)
+              }
+            >
+              {data?.mentorReview ? (
+                'Lesson Feedback'
+              ) : (
+                <>
+                  <FaRegClock /> Feedback pending
+                </>
+              )}
+            </Button>
+            <AdaptiveDialog
+              button={
+                <Button
+                  // disabled={true}
+                  disabled={data?.studentReview}
+                  className={cn(
+                    'grow text-xs sm:text-sm px-2 gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#0EC541]',
+                    pattern === 'table' && 'col-span-1',
+                  )}
+                >
+                  {data?.studentReview ? <FaCheck /> : <FaStar />}{' '}
+                  {pattern !== 'table' &&
+                    (data?.studentReview ? 'Review submited' : 'Submit review')}
+                </Button>
+              }
+              open={openStudentReview}
+              setOpen={setOpenStudentReview}
+            >
+              <LessonReviewModal
+                studentId={data?.student?.id}
+                lessonId={data?.id}
+                closeModal={() => {
+                  setOpenStudentReview(false);
+                  refetch();
+                }}
+              />
+            </AdaptiveDialog>
+          </>
+        )}
+
+        {!isAfterLesson && !(user.role === Roles.MENTOR && data.isTrial) && (
+          <AdaptiveDialog
+            open={openCancel}
+            setOpen={setOpenCancel}
+            button={
+              <Button
+                theme="red"
+                className="grow text-xs sm:text-sm px-2"
+                onClick={onCancel}
+              >
+                {t('cancel', { ns: 'common' })}
+              </Button>
+            }
+          >
+            {data.isTrial ? cancelTrialLessonModal : rescheduleAndCancelModal}
+          </AdaptiveDialog>
+        )}
+
+        {isAfterLesson && user.role === Roles.MENTOR && (
+          <AdaptiveDialog
+            open={mentorReviewOpen}
+            setOpen={setMentorReviewOpen}
+            button={
+              <Button
+                disabled={data?.mentorReview}
+                className={cn(
+                  'grow text-xs sm:text-sm px-2 gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#0EC541]',
+                )}
+              >
+                {!data?.mentorReview && <FaStar />}{' '}
+                {data?.mentorReview ? 'Feedback submitted' : 'Submit feedback'}
+              </Button>
+            }
+          >
+            <MentorFeedbackModal
+              data={data}
+              closeModal={() => setMentorReviewOpen(false)}
+            />
+          </AdaptiveDialog>
+        )}
       </div>
 
       {isWarningOpen && (

@@ -2,10 +2,9 @@ import { useLazyQuery, useMutation } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import StarRatings from 'react-star-ratings';
-import { REVIEW_TAGS_BY_TYPE } from 'src/modules/graphql/queries/review/reviewTagsByType';
+import { REVIEW_TAGS_BY_TYPE } from 'src/shared/apollo/queries/review/reviewTagsByType';
 import Button from '../Form/Button';
-import { CREATE_REVIEW } from 'src/modules/graphql/mutations/review/createReview';
-// import notify from 'src/utils/notify';
+import { CREATE_REVIEW } from 'src/shared/apollo/mutations/review/createReview';
 import TagField from '../Form/TagField';
 import notify from 'src/shared/utils/notify';
 
@@ -54,7 +53,7 @@ const LessonReviewModal = ({ studentId, lessonId, closeModal }) => {
   };
 
   return (
-    <div className="sm:min-w-[400px]">
+    <div className="mx-auto sm:w-[400px]">
       <h2 className="font-bold text-2xl text-color-dark-violet mb-6 md:text-2xl">
         Lesson Review
       </h2>

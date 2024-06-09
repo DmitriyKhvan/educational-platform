@@ -19,17 +19,24 @@ import { useState } from 'react';
 import CheckboxField from '../Form/CheckboxField';
 import { GET_LESSON_SECTIONS } from 'src/shared/apollo/queries/lessons/lessonSections';
 
-function FeedbackLessonInfo({ data, setStep }) {
+function FeedbackLessonInfo({
+  data,
+  setStep,
+  choosenTopic,
+  setChoosenTopic,
+  choosenSection,
+  setChoosenSection,
+}) {
   // eslint-disable-next-line no-unused-vars
   const [t, i18n] = useTranslation('common');
   const { user } = useAuth();
 
-  const [completedLesson, setCompletedLesson] = useState(true);
+  const [completedLesson, setCompletedLesson] = useState(!choosenSection);
 
   const [openTopics, setOpenTopics] = useState(false);
-  const [choosenTopic, setChoosenTopic] = useState(data?.topic?.id);
+  // const [choosenTopic, setChoosenTopic] = useState(data?.topic?.id);
   const [openSections, setOpenSections] = useState(false);
-  const [choosenSection, setChoosenSection] = useState(null);
+  // const [choosenSection, setChoosenSection] = useState(null);
 
   console.log(data);
 
@@ -137,6 +144,7 @@ function FeedbackLessonInfo({ data, setStep }) {
                       type="radio"
                       name="lang"
                       checked={topic?.value === choosenTopic?.value}
+                      onClick={() => setOpenTopics(false)}
                     />
                     <span className={cn('text-sm font-medium ')}>
                       {topic?.label}
@@ -157,7 +165,10 @@ function FeedbackLessonInfo({ data, setStep }) {
           <CheckboxField
             label="Yes"
             name="completeLesson"
-            onChange={() => setCompletedLesson(true)}
+            onChange={() => {
+              setCompletedLesson(true);
+              setChoosenSection(null);
+            }}
             checked={completedLesson}
             dot
             type="radio"
@@ -215,6 +226,7 @@ function FeedbackLessonInfo({ data, setStep }) {
                           type="radio"
                           name="lang"
                           checked={section?.value === choosenSection?.value}
+                          onClick={() => setOpenSections(false)}
                         />
                         <span className={cn('text-sm font-medium ')}>
                           {section?.label}
@@ -231,7 +243,7 @@ function FeedbackLessonInfo({ data, setStep }) {
 
       <Button
         className="w-full h-[56px]"
-        disabled={!choosenTopic?.value}
+        disabled={!choosenTopic?.value || (!completedLesson && !choosenSection)}
         onClick={() => setStep(2)}
       >
         Next
