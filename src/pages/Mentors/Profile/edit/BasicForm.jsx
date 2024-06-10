@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import {
   countries,
-  timezoneOptions,
+  // timezoneOptions,
   useGenderDic,
 } from '../../../../shared/constants/global';
 import notify from '../../../../shared/utils/notify';
@@ -40,7 +40,7 @@ const BasicForm = () => {
       gender: user?.gender,
       phoneNumber: user?.phoneNumber,
       country: user?.country,
-      timeZone: user?.timeZone,
+      // timeZone: user?.timeZone,
       address: user?.address,
       convertAvailabilityTime: true,
       googleCalendarSync: user.googleCalendarSync,
@@ -54,7 +54,7 @@ const BasicForm = () => {
       gender,
       phoneNumber,
       country,
-      timeZone,
+      // timeZone,
       address,
       convertAvailabilityTime,
       googleCalendarSync,
@@ -66,7 +66,7 @@ const BasicForm = () => {
         data: {
           phoneNumber: phoneNumber,
           country: country,
-          timeZone: timeZone,
+          // timeZone: timeZone,
           address: address,
           convertAvailabilityTime: convertAvailabilityTime,
           googleCalendarSync: googleCalendarSync,
@@ -183,7 +183,7 @@ const BasicForm = () => {
             {...register('address')}
           />
 
-          <label className="block w-[420px] mb-6 not-italic font-semibold text-base text-color-dark-purple">
+          {/* <label className="block w-[420px] mb-6 not-italic font-semibold text-base text-color-dark-purple">
             {t('time_zone')}
 
             <Controller
@@ -198,7 +198,7 @@ const BasicForm = () => {
                 />
               )}
             />
-          </label>
+          </label> */}
 
           <div>
             <CheckboxField

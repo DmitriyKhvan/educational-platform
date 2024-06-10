@@ -13,7 +13,6 @@ import { useAuth } from 'src/app/providers/AuthProvider';
 import { useMutation } from '@apollo/client';
 import ReactLoader from 'src/components/common/Loader';
 import { UPSERT_TIMESHEETS } from 'src/shared/apollo/mutations/upsertTimesheets';
-import { UPDATE_USER } from 'src/shared/apollo/mutations/user/updateUser';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { ModalConfirm } from 'src/entities/ModalConfirm';
 import { IoIosWarning } from 'react-icons/io';
@@ -30,7 +29,7 @@ export const AvailabilitySlots = ({
   setError,
 }) => {
   const [errorExceptionalDates, setErrorExceptionalDates] = useState(null);
-  const { user, refetchUser } = useAuth();
+  const { user } = useAuth();
 
   const [t] = useTranslation(['common', 'availability']);
 
@@ -42,8 +41,8 @@ export const AvailabilitySlots = ({
   }, []);
 
   const [timeZone, setTimeZone] = useState(user?.timeZone);
+  const [prevTimeZone, setPrevTimeZone] = useState(user?.timeZone);
 
-  const [updateUser] = useMutation(UPDATE_USER);
   const [upsertTimesheets] = useMutation(UPSERT_TIMESHEETS);
 
   const parseAndSaveAvailabilities = (mentorAvailabilityType) => {
@@ -97,31 +96,22 @@ export const AvailabilitySlots = ({
     }
 
     try {
-      if (user.timeZone !== timeZone) {
-        await updateUser({
-          variables: {
-            id: user?.id,
-            data: {
-              timeZone,
-            },
-          },
-        });
-
-        await refetchUser();
-      }
-
       await upsertTimesheets({
         variables: {
           data: {
             mentorId: mentorInfo?.id,
             availabilities: slotsToSave,
+            ...(timeZone && { timeZone }),
           },
         },
       });
 
+      setPrevTimeZone(timeZone);
       handleDisableSave(true);
     } catch (error) {
       setError(error);
+      setTimeZone(prevTimeZone);
+      // await refetchUser();
       await refetchMentor();
 
       const parseError = parseErrorMessage(error);
