@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { FaArrowLeft, FaPencil } from 'react-icons/fa6';
 import Button from 'src/components/Form/Button';
 
-import { useTranslation } from 'react-i18next';
-import { format, toZonedTime } from 'date-fns-tz';
-import { addMinutes } from 'date-fns';
-import { TRIAL_SIGN_UP } from 'src/modules/graphql/mutations/trial/trialSignUp';
 import { useMutation } from '@apollo/client';
-import notify from 'src/utils/notify';
-import { useAuth } from 'src/modules/auth';
-import { ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER } from 'src/modules/graphql/mutations/trial/attachTrialStudentToUserResolver';
-import { localeDic, setItemToLocalStorage } from 'src/constants/global';
+import { addMinutes } from 'date-fns';
+import { format, toZonedTime } from 'date-fns-tz';
+import { useTranslation } from 'react-i18next';
 import Loader from 'src/components/Loader/Loader';
-import { LOGIN_MUTATION } from 'src/modules/auth/graphql';
-import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
+import { localeDic, setItemToLocalStorage } from 'src/shared/constants/global';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { LOGIN_MUTATION } from 'src/shared/apollo/graphql';
+import { ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER } from 'src/shared/apollo/mutations/trial/attachTrialStudentToUserResolver';
+import { TRIAL_SIGN_UP } from 'src/shared/apollo/mutations/trial/trialSignUp';
+import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
+import notify from 'src/shared/utils/notify';
 
 const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { user: currentUser, refetchUser } = useAuth();
   const { languageLevel, lessonTopic, packageSubscription } = selectedPlan;
 
@@ -83,7 +83,10 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
         await signUp({
           variables: {
             data: {
-              user,
+              user: {
+                ...user,
+                referralCode: localStorage.getItem('referralCode'),
+              },
               packageId: parseInt(packageSubscription.id),
               languageLevelId: parseInt(languageLevel.id),
               lessonTopicId: parseInt(lessonTopic.id),
@@ -94,6 +97,9 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
             },
           },
         });
+
+        localStorage.removeItem('referralCode');
+        localStorage.removeItem('referralEmail');
 
         const { data: loginData } = await loginMutation({
           variables: { email: user.email, password: user.password },
@@ -106,7 +112,7 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
           setItemToLocalStorage('studentId', studentId);
 
           refetchUser({ studentId });
-          history.push('/trial/thank-you');
+          navigate('/trial/thank-you');
         }
       }
     } catch (error) {

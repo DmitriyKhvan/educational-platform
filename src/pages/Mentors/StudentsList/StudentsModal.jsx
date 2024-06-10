@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import FavIcon from '../../../assets/images/Favorite.png';
+import FavIcon from 'src/shared/assets/images/Favorite.png';
 
 import './StudentsModal.scss';
 

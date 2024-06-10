@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { useAuth } from '../../modules/auth';
-import { MAX_MODIFY_COUNT, ModalType, Roles } from '../../constants/global';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import {
+  MAX_MODIFY_COUNT,
+  ModalType,
+  Roles,
+} from '../../shared/constants/global';
 import CheckboxField from '../Form/CheckboxField';
 import { FaXmark } from 'react-icons/fa6';
 import Button from '../Form/Button/Button';
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
-import { isWithinHours } from 'src/utils/isWithinHours';
+import { isWithinHours } from 'src/shared/utils/isWithinHours';
 
 const CancelWarningModal = ({
   data,

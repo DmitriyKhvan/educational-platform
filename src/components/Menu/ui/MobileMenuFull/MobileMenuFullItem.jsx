@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNotifications } from 'src/modules/notifications';
+import { useNotifications } from 'src/app/providers/NotificationProvider';
 import { Badge } from '../../../Badge';
 import { NavLink } from 'react-router-dom';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 
 export const MobileMenuFullItem = ({ menu }) => {
@@ -48,8 +48,10 @@ export const MobileMenuFullItem = ({ menu }) => {
       ) : (
         <NavLink
           to={menu.link}
-          activeClassName="group/active active bg-color-purple"
-          className="group/item flex flex-col justify-center items-center gap-3 h-[84px] sm:h-[106px] rounded-lg transition ease-in-out delay-150 bg-[#F7F8FA] hover:bg-color-purple cursor-pointer"
+          className={({ isActive }) =>
+            'group/item flex flex-col justify-center items-center gap-3 h-[84px] sm:h-[106px] rounded-lg transition ease-in-out delay-150 bg-[#F7F8FA] hover:bg-color-purple cursor-pointer' +
+            (isActive ? ' group/active active bg-color-purple' : '')
+          }
         >
           <menu.icon className="text-[28px] transition ease-in-out delay-150 text-color-dark-purple font-medium group-hover/item:text-white group-[.active]/active:text-white" />
           <span className="text-[13px] transition ease-in-out delay-150 text-color-dark-purple font-medium group-hover/item:text-white group-[.active]/active:text-white">

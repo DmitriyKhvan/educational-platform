@@ -1,11 +1,11 @@
 import { useMutation } from '@apollo/client';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-// import { useHistory } from 'react-router-dom';
-import { useAuth } from '../../../../modules/auth';
-import { MUTATION_UPDATE_MENTOR } from '../../../../modules/auth/graphql';
+// import { useNavigate } from 'react-router-dom';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { MUTATION_UPDATE_MENTOR } from '../../../../shared/apollo/graphql';
 
-import notify from '../../../../utils/notify';
+import notify from '../../../../shared/utils/notify';
 
 import { useTranslation } from 'react-i18next';
 import Button from '../../../../components/Form/Button/Button';
@@ -18,7 +18,7 @@ const Biography = () => {
 
   const { user, refetchUser } = useAuth();
 
-  // const history = useHistory();
+  // const navigate = useNavigate();
   const { register, handleSubmit } = useForm({
     defaultValues: {
       introduction: user?.mentor?.introduction,
@@ -35,7 +35,7 @@ const Biography = () => {
       },
       onCompleted: () => {
         notify('Biography information is changed!', 'success');
-        // history.push('/mentor/profile');
+        // navigate('/mentor/profile');
       },
       onError: (error) => {
         notify(error.message, 'error');

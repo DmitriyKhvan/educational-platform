@@ -34,7 +34,6 @@ export const AvailabilityExceptionSlot = ({
   );
 
   const onChangeTime = (time, timeType) => {
-    console.log('time', time);
     const findTimeIdx = timeOptions.findIndex((t) => t.value === time);
 
     let newTime = { ...slot, [timeType]: time };

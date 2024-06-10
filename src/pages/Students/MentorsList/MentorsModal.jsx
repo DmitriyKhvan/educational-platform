@@ -7,6 +7,13 @@ import { Avatar } from '../../../widgets/Avatar/Avatar';
 import Button from '../../../components/Form/Button/Button';
 import StarRatings from 'react-star-ratings';
 import { useMediaQuery } from 'react-responsive';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipPortal,
+  TooltipProvider,
+  TooltipTrigger,
+} from 'src/components/Tooltip';
 // import { EmblaCarousel } from 'src/components/Carousel';
 
 const MentorsModal = ({ mentor }) => {
@@ -37,28 +44,42 @@ const MentorsModal = ({ mentor }) => {
 
           <div className="flex flex-col gap-8 mt-6">
             {!isMobile && (
-              <Link
-                to={
-                  mentor?.availabilities?.length > 0
-                    ? {
-                        pathname: `/student/schedule-lesson/select`,
-                        state: {
-                          tutor: {
-                            ...mentor,
-                          },
-                        },
+              <TooltipProvider>
+                <Tooltip delayDuration={200}>
+                  <TooltipTrigger asChild>
+                    <Link
+                      to={
+                        mentor?.availabilities?.regular?.length > 0
+                          ? `/student/schedule-lesson/select`
+                          : '#'
                       }
-                    : '#'
-                }
-              >
-                <Button
-                  theme="purple"
-                  className="px-[48px] h-[50px]"
-                  disabled={mentor?.availabilities?.length === 0}
-                >
-                  {t('schedule')}
-                </Button>
-              </Link>
+                      state={{
+                        mentor: {
+                          ...mentor,
+                        },
+                      }}
+                    >
+                      <Button
+                        theme="purple"
+                        className="px-[48px] h-[50px]"
+                        disabled={mentor?.availabilities?.regular?.length === 0}
+                      >
+                        {t('schedule')}
+                      </Button>
+                    </Link>
+                  </TooltipTrigger>
+
+                  {mentor?.availabilities?.regular?.length === 0 && (
+                    <TooltipPortal>
+                      <TooltipContent>
+                        <p className="text-center text-color-dark-purple text-sm font-semibold max-w-[16rem]">
+                          We apologize, but this mentor has no availability
+                        </p>
+                      </TooltipContent>
+                    </TooltipPortal>
+                  )}
+                </Tooltip>
+              </TooltipProvider>
             )}
 
             <div className="flex flex-wrap gap-8">
@@ -149,28 +170,42 @@ const MentorsModal = ({ mentor }) => {
 
       {isMobile && (
         <div className="sticky -bottom-6 w-full pb-6 bg-white z-10">
-          <Link
-            to={
-              mentor?.availabilities?.length > 0
-                ? {
-                    pathname: `/student/schedule-lesson/select`,
-                    state: {
-                      tutor: {
-                        ...mentor,
-                      },
-                    },
+          <TooltipProvider>
+            <Tooltip delayDuration={200}>
+              <TooltipTrigger asChild>
+                <Link
+                  to={
+                    mentor?.availabilities?.regular?.length > 0
+                      ? `/student/schedule-lesson/select`
+                      : '#'
                   }
-                : '#'
-            }
-          >
-            <Button
-              theme="purple"
-              className="w-full px-[48px] h-[50px]"
-              disabled={mentor?.availabilities?.length === 0}
-            >
-              {t('schedule')}
-            </Button>
-          </Link>
+                  state={{
+                    mentor: {
+                      ...mentor,
+                    },
+                  }}
+                >
+                  <Button
+                    theme="purple"
+                    className="w-full px-[48px] h-[50px]"
+                    disabled={mentor?.availabilities?.regular?.length === 0}
+                  >
+                    {t('schedule')}
+                  </Button>
+                </Link>
+              </TooltipTrigger>
+
+              {mentor?.availabilities?.regular?.length === 0 && (
+                <TooltipPortal>
+                  <TooltipContent>
+                    <p className="text-center text-color-dark-purple text-sm font-semibold max-w-[16rem]">
+                      We apologize, but this mentor has no availability
+                    </p>
+                  </TooltipContent>
+                </TooltipPortal>
+              )}
+            </Tooltip>
+          </TooltipProvider>
         </div>
       )}
     </div>

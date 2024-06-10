@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNotifications } from 'src/modules/notifications';
+import { useNotifications } from 'src/app/providers/NotificationProvider';
 import { Badge } from '../../../Badge';
 import { NavLink } from 'react-router-dom';
 import Button from 'src/components/Form/Button';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 
 export const MobileMenuItem = ({ menu }) => {
@@ -52,8 +52,10 @@ export const MobileMenuItem = ({ menu }) => {
       ) : (
         <NavLink
           to={menu.link}
-          activeClassName="active"
-          className="group flex flex-col items-center gap-[5px] sm:w-[118px] cursor-pointer"
+          className={({ isActive }) =>
+            'group flex flex-col items-center gap-[5px] sm:w-[118px] cursor-pointer' +
+            (isActive ? ' active' : '')
+          }
         >
           <menu.icon className="text-[22px] transition ease-in-out delay-150 text-[#C0C0C3] font-medium group-hover:text-color-purple group-[.active]:text-color-purple" />
           <span className="text-[13px] transition ease-in-out delay-150 text-[#C0C0C3] font-medium group-hover:text-color-purple group-[.active]:text-color-purple text-center">

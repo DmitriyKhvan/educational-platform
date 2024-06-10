@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { Avatar } from 'src/widgets/Avatar/Avatar';
-import FavIcon from 'src/assets/images/Favorite.png';
+import FavIcon from 'src/shared/assets/images/Favorite.png';
 import Button from 'src/components/Form/Button';
 import {
   Tooltip,
@@ -82,16 +82,14 @@ export const MentorCard = ({ mentor, handleSelectMentor }) => {
                     className="m-1"
                     to={
                       mentor?.availabilities?.regular?.length > 0
-                        ? {
-                            pathname: `/student/schedule-lesson/select`,
-                            state: {
-                              tutor: {
-                                ...mentor,
-                              },
-                            },
-                          }
+                        ? `/student/schedule-lesson/select`
                         : '#'
                     }
+                    state={{
+                      mentor: {
+                        ...mentor,
+                      },
+                    }}
                   >
                     <Button
                       theme="purple"
@@ -103,7 +101,7 @@ export const MentorCard = ({ mentor, handleSelectMentor }) => {
                   </Link>
                 </TooltipTrigger>
 
-                {mentor?.availabilities?.length === 0 && (
+                {mentor?.availabilities?.regular?.length === 0 && (
                   <TooltipPortal>
                     <TooltipContent>
                       <p className="text-center text-color-dark-purple text-sm font-semibold max-w-[16rem]">

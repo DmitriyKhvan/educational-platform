@@ -3,7 +3,7 @@ import AvailabilityPicker from './AvailabilityPicker';
 
 import { v4 as uuid } from 'uuid';
 import { useTranslation } from 'react-i18next';
-import { MentorAvailabilityType } from 'src/constants/global';
+import { MentorAvailabilityType } from 'src/shared/constants/global';
 import { timesOfDay } from 'src/pages/Mentors/Availiability/lib/timesOfDay';
 import { formatTime } from 'src/pages/Mentors/Availiability/lib/formatTime';
 import { formatTimeToSeconds } from 'src/pages/Mentors/Availiability/lib/formatTimeToSeconds';

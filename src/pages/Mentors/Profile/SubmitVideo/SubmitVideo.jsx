@@ -1,10 +1,9 @@
 import React from 'react';
-import Layout from '../../../../layouts/DashboardLayout';
 
-import { useHistory } from 'react-router-dom';
-import { MUTATION_UPDATE_MENTOR } from '../../../../modules/auth/graphql';
+import { useNavigate } from 'react-router-dom';
+import { MUTATION_UPDATE_MENTOR } from '../../../../shared/apollo/graphql';
 import { useMutation } from '@apollo/client';
-import { useAuth } from '../../../../modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -12,11 +11,11 @@ import Button from '../../../../components/Form/Button';
 import { FaVimeo, FaYoutube } from 'react-icons/fa';
 import InputField from '../../../../components/Form/InputField';
 import InputWithError from '../../../../components/Form/InputWithError';
-import notify from '../../../../utils/notify';
-import { renderVideo } from 'src/utils/renderVideo';
+import notify from '../../../../shared/utils/notify';
+import { renderVideo } from 'src/shared/utils/renderVideo';
 
 const SubmitVideo = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [typeVideo, setTypeVideo] = React.useState('yt');
 
   const [t] = useTranslation(['profile', 'common']);
@@ -42,7 +41,7 @@ const SubmitVideo = () => {
           data: { videoUrl: renderVideo(area.videoUrl) },
         },
         onCompleted: () => {
-          history.push('/mentor/edit-profiles/submit-videos/submited');
+          navigate('/mentor/profile/edit/submit-videos/submited');
         },
       });
     }
@@ -55,89 +54,87 @@ const SubmitVideo = () => {
   }
 
   return (
-    <Layout>
-      <div className="p-[50px]">
-        <h2 className="text-[40px] leading-[48px] trackign-[-1px]">
-          {t('edit_profile')}
-        </h2>
+    <div className="p-[50px]">
+      <h2 className="text-[40px] leading-[48px] trackign-[-1px]">
+        {t('edit_profile')}
+      </h2>
 
-        <form
-          onSubmit={handleSubmit(handleEditVideo)}
-          className="sm:w-1/2 xl:w-[380px]"
-        >
-          <div>
-            <p className="text-[15px] text-color-light-grey font-semibold leading-[18px] tracking-[-0.3px] mb-[15px]">
-              {t('prerecorded')}
-            </p>
-            <p className="text-[15px] text-color-light-grey font-semibold leading-[18px] tracking-[-0.3px] mb-[15px]">
-              Upload video via youtube share!
-            </p>
+      <form
+        onSubmit={handleSubmit(handleEditVideo)}
+        className="sm:w-1/2 xl:w-[380px]"
+      >
+        <div>
+          <p className="text-[15px] text-color-light-grey font-semibold leading-[18px] tracking-[-0.3px] mb-[15px]">
+            {t('prerecorded')}
+          </p>
+          <p className="text-[15px] text-color-light-grey font-semibold leading-[18px] tracking-[-0.3px] mb-[15px]">
+            Upload video via youtube share!
+          </p>
 
-            <div className="flex gap-5 mb-5">
-              <Button
-                onClick={() => setTypeVideo('vm')}
-                theme="outline"
-                className={typeVideo === 'vm' && 'bg-color-purple text-white'}
-              >
-                <span className="flex items-center justify-center gap-[10px]">
-                  <span>Vimeo</span>
-                  <FaVimeo className="text-2xl text-color-pale-blue" />
-                </span>
-              </Button>
-
-              <Button
-                onClick={() => setTypeVideo('yt')}
-                theme="outline"
-                className={typeVideo === 'yt' && 'bg-color-purple text-white'}
-              >
-                <span className="flex items-center justify-center gap-[10px]">
-                  <span>Youtube</span>
-                  <FaYoutube className="text-2xl text-red-500" />
-                </span>
-              </Button>
-            </div>
-
-            <InputWithError errorsField={errors?.videoUrl}>
-              <InputField
-                className="w-full"
-                placeholder={
-                  typeVideo === 'yt' ? 'youtube.com/video' : 'vimeo.com/video'
-                }
-                {...register('videoUrl', {
-                  required: 'Video is required',
-                  pattern: {
-                    value: /^(https?:\/\/)?(www\.)?(youtube\.com|vimeo\.com)/,
-                    message: 'Invalid URL. It should be a YouTube or Vimeo URL',
-                  },
-                })}
-              />
-            </InputWithError>
-          </div>
-
-          <div className="flex gap-[10px] mt-[35px]">
+          <div className="flex gap-5 mb-5">
             <Button
-              onClick={() => history.push('/mentor/edit-profile')}
-              className="w-full"
+              onClick={() => setTypeVideo('vm')}
               theme="outline"
+              className={typeVideo === 'vm' && 'bg-color-purple text-white'}
             >
-              Cancel and Return
+              <span className="flex items-center justify-center gap-[10px]">
+                <span>Vimeo</span>
+                <FaVimeo className="text-2xl text-color-pale-blue" />
+              </span>
             </Button>
+
             <Button
-              className="w-full"
+              onClick={() => setTypeVideo('yt')}
               theme="outline"
-              type="submit"
-              disabled={!isValid}
+              className={typeVideo === 'yt' && 'bg-color-purple text-white'}
             >
-              {loading ? (
-                <ClipLoader loading={loading} size={20} color="white" />
-              ) : (
-                'Submit My Video'
-              )}
+              <span className="flex items-center justify-center gap-[10px]">
+                <span>Youtube</span>
+                <FaYoutube className="text-2xl text-red-500" />
+              </span>
             </Button>
           </div>
-        </form>
-      </div>
-    </Layout>
+
+          <InputWithError errorsField={errors?.videoUrl}>
+            <InputField
+              className="w-full"
+              placeholder={
+                typeVideo === 'yt' ? 'youtube.com/video' : 'vimeo.com/video'
+              }
+              {...register('videoUrl', {
+                required: 'Video is required',
+                pattern: {
+                  value: /^(https?:\/\/)?(www\.)?(youtube\.com|vimeo\.com)/,
+                  message: 'Invalid URL. It should be a YouTube or Vimeo URL',
+                },
+              })}
+            />
+          </InputWithError>
+        </div>
+
+        <div className="flex gap-[10px] mt-[35px]">
+          <Button
+            onClick={() => navigate('/mentor/profile/edit')}
+            className="w-full"
+            theme="outline"
+          >
+            Cancel and Return
+          </Button>
+          <Button
+            className="w-full"
+            theme="outline"
+            type="submit"
+            disabled={!isValid}
+          >
+            {loading ? (
+              <ClipLoader loading={loading} size={20} color="white" />
+            ) : (
+              'Submit My Video'
+            )}
+          </Button>
+        </div>
+      </form>
+    </div>
   );
 };
 

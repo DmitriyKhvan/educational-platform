@@ -1,6 +1,6 @@
 import React from 'react';
 import Indicator from 'src/components/Indicator';
-import { LangLevelType } from 'src/constants/global';
+import { LangLevelType } from 'src/shared/constants/global';
 
 const levelDict = {
   [LangLevelType.PRE_LEVEL]:

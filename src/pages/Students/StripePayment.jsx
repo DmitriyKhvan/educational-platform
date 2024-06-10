@@ -8,8 +8,7 @@ import {
 import { loadStripe } from '@stripe/stripe-js';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from 'src/modules/auth';
-import { OnboardingLayout } from 'src/layouts/OnboardingLayout';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import Button from 'src/components/Form/Button';
 import Loader from 'src/components/Loader/Loader';
 
@@ -57,15 +56,17 @@ const CheckoutForm = () => {
   };
 
   return (
-    <OnboardingLayout>
+    <>
       {isLoading && (
         <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
           <Loader />
         </div>
       )}
-      <div className="min-w-full min-h-full px-5 sm:px-20 py-6 sm:py-8 bg-[#F7F8FA]">
+      {/* <div className="absolute top-0 left-0 bottom-0 right-0 bg-[#F7F8FA] -z-10"></div> */}
+
+      <div className="flex min-h-[calc(100dvh-60px)] sm:min-h-[calc(100dvh-97px)] bg-[#F7F8FA] p-5 -mx-5 sm:-mx-20 -my-6 sm:-my-8 lg:-my-10">
         <form
-          className="w-full sm:w-[480px] m-auto p-8 rounded-xl bg-white"
+          className="w-full sm:w-[480px] p-4 sm:p-8 m-auto rounded-xl bg-white"
           onSubmit={handleSubmit}
         >
           <PaymentElement />
@@ -81,7 +82,7 @@ const CheckoutForm = () => {
           </Button>
         </form>
       </div>
-    </OnboardingLayout>
+    </>
   );
 };
 

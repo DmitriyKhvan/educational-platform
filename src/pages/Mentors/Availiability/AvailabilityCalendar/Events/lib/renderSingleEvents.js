@@ -1,4 +1,4 @@
-import { CalendarView, DAY } from 'src/constants/global';
+import { CalendarView, DAY } from 'src/shared/constants/global';
 import { EventType } from './EventType';
 import { addMinutes } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';

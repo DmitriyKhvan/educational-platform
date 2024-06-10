@@ -1,35 +1,33 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { useAuth } from '../../../../modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { useMutation } from '@apollo/client';
-import {
-  MUTATION_UPDATE_MENTOR,
-  MUTATION_UPDATE_USER,
-} from '../../../../modules/auth/graphql';
-// import { useHistory } from 'react-router-dom';
+import { MUTATION_UPDATE_MENTOR } from '../../../../shared/apollo/graphql';
+// import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import {
   countries,
   timezoneOptions,
   useGenderDic,
-} from '../../../../constants/global';
-import notify from '../../../../utils/notify';
+} from '../../../../shared/constants/global';
+import notify from '../../../../shared/utils/notify';
 import CheckboxField from '../../../../components/Form/CheckboxField';
 import InputField from '../../../../components/Form/InputField';
 import { SelectField } from '../../../../components/Form/SelectField';
 import Button from '../../../../components/Form/Button/Button';
 import ReactLoader from '../../../../components/common/Loader';
-import { trimSpaces } from 'src/utils/trimSpaces';
+import { trimSpaces } from 'src/shared/utils/trimSpaces';
+import { UPDATE_USER } from 'src/shared/apollo/mutations/user/updateUser';
 
 const BasicForm = () => {
   const [t] = useTranslation(['common', 'profile']);
-  const [updateUser] = useMutation(MUTATION_UPDATE_USER);
+  const [updateUser] = useMutation(UPDATE_USER);
   const [updateMentor, { loading }] = useMutation(MUTATION_UPDATE_MENTOR);
 
   const genders = useGenderDic();
 
-  // const history = useHistory();
+  // const navigate = useNavigate();
 
   const { user, refetchUser } = useAuth();
 
@@ -93,7 +91,7 @@ const BasicForm = () => {
       },
       onCompleted: () => {
         notify('Basic information is changed!');
-        // history.push('/mentor/profile');
+        // navigate('/mentor/profile');
       },
       onError: (error) => {
         notify(error.message, 'error');

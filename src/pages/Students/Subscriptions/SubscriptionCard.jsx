@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa6';
 import Indicator from 'src/components/Indicator';
-import { currencyFormat } from 'src/utils/currencyFormat';
+import { currencyFormat } from 'src/shared/utils/currencyFormat';
 
 export const SubscriptionCard = ({
   title,

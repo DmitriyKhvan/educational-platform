@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RescheduleAndCancelModal from './RescheduleAndCancelModal';
 import PlaygroundWarningModal from './PlaygroundWarningModal';
-import { useAuth } from '../../modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
-import { LessonsStatusType, ModalType, Roles } from '../../constants/global';
+import {
+  LessonsStatusType,
+  ModalType,
+  Roles,
+} from '../../shared/constants/global';
 import { addMinutes } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
-import { isBetween } from '../../utils/isBetween';
+import { isBetween } from '../../shared/utils/isBetween';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 
 const ScheduleCard = ({
@@ -94,8 +98,8 @@ const ScheduleCard = ({
         !LessonsStatusType[data?.status?.toUpperCase()]
           ? 'bg-color-light-grey2 opacity-60'
           : index === 0
-          ? 'bg-color-purple'
-          : 'border border-color-border-grey bg-white'
+            ? 'bg-color-purple'
+            : 'border border-color-border-grey bg-white'
       }`}
     >
       <div className="mb-2">
@@ -187,10 +191,10 @@ const ScheduleCard = ({
               ? 'text-color-purple'
               : 'border border-color-border-grey text-black'
           } ${
-              data.status !== LessonsStatusType.APPROVED
-                ? 'text-color-purple bg-[#b099d7]'
-                : 'grey-border text-black bg-white'
-            }`}
+            data.status !== LessonsStatusType.APPROVED
+              ? 'text-color-purple bg-[#b099d7]'
+              : 'grey-border text-black bg-white'
+          }`}
           >
             {t('join_lesson')}
           </a>

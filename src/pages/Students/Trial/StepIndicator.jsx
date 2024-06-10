@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from 'src/utils/functions';
+import { cn } from 'src/shared/utils/functions';
 
 const StepIndicator = ({ step }) => {
   return (
