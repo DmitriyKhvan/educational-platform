@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaChevronLeft } from 'react-icons/fa6';
-import { Roles } from 'src/constants/global';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { Roles } from 'src/shared/constants/global';
 
 const CancellationPolicyModal = ({ setTabIndex }) => {
   const [t] = useTranslation('modals');
@@ -31,23 +31,34 @@ const CancellationPolicyModal = ({ setTabIndex }) => {
             Lesson Cancellation Policies
           </h3>
           <ul className="list-disc pl-5 leading-[22px]">
-            <li>Mentors can cancel up to 6 times in 6 months.</li>
+            <li>
+              Mentors can cancel{' '}
+              <span className="underline">up to 6 times in 6 months.</span>
+            </li>
             <li>
               One cancellation equates to one day (in KST) of approved classes.
             </li>
             <li>
-              Cancellations within 24 hours result in a strike and a fine.
+              Cancellations <span className="underline">within 24 hours</span>{' '}
+              result in a strike and a fine.
             </li>
             <li>
-              Cancellations outside 24 hours but within 2 weeks result in a
-              strike without a fine.
+              Cancellations{' '}
+              <span className="underline">
+                outside 24 hours but within 2 weeks
+              </span>{' '}
+              result in a strike without a fine.
             </li>
             <li>
-              Cancellations outside 2 weeks will not incur a strike or fine.
+              Cancellations <span className="underline">outside 2 weeks</span>{' '}
+              will not incur a strike or fine.
             </li>
             <li>
-              Exceeding 6 cancellations in 6 months leads to contract review and
-              fines for each additional cancellation.
+              <span className="underline">
+                Exceeding 6 cancellations in 6 months
+              </span>{' '}
+              leads to contract review and fines for each additional
+              cancellation.
             </li>
           </ul>
         </div>
@@ -127,12 +138,14 @@ const CancellationPolicyModal = ({ setTabIndex }) => {
     );
 
   return (
-    <div className="flex flex-col max-w-[400px] w-full mx-auto p-4">
+    <div className="flex flex-col max-w-[416px] w-full mx-auto p-4">
       <h2 className="text-[22px] font-bold mb-6 justify-center relative flex items-center">
         <button className="absolute left-0 ms-0" onClick={() => setTabIndex(0)}>
           <FaChevronLeft className="w-5 h-5" />
         </button>
-        Cancellation Policy
+        {user.role === Roles.STUDENT
+          ? 'Cancellation Policy'
+          : 'Mentor Policies'}
       </h2>
       {content}
     </div>

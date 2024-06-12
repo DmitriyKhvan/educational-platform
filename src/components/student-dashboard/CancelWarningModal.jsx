@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAuth } from 'src/app/providers/AuthProvider';
 import {
+  HOURS_IN_WEEK,
   MAX_MODIFY_COUNT,
   ModalType,
   Roles,
@@ -12,6 +13,8 @@ import Button from '../Form/Button/Button';
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 import { isWithinHours } from 'src/shared/utils/isWithinHours';
+import { useQuery } from '@apollo/client';
+import { MENTOR_CONTRACT } from 'src/shared/apollo/queries/contract/mentorContract';
 
 const CancelWarningModal = ({
   data,
@@ -30,11 +33,22 @@ const CancelWarningModal = ({
   const [cancellationDots, setCancellationDots] = useState([]);
   const [cancellationCount, setCancellationCount] = useState(MAX_MODIFY_COUNT);
 
+  const { data: contractData } = useQuery(MENTOR_CONTRACT, {
+    fetchPolicy: 'network-only',
+    skip: user?.role !== Roles.MENTOR,
+  });
+
   const isLate = isWithinHours({
     dateEnd: new Date(data?.startAt ?? new Date()),
     dateStart: new Date(),
     hours: 24,
     userTimezone,
+  });
+
+  const isWithinTwoWeeks = isWithinHours({
+    dateEnd: new Date(data?.startAt ?? new Date()),
+    dateStart: new Date(),
+    hours: HOURS_IN_WEEK * 2,
   });
 
   useEffect(() => {
@@ -80,41 +94,66 @@ const CancelWarningModal = ({
   const disableCancelLesson =
     user.role === Roles.MENTOR || modifyCredits !== 0 ? false : true;
   return (
-    <div className="w-[336px] mx-auto">
+    <div className="w-full max-w-[416px] mx-auto">
       <div className="mb-5 text-2xl font-bold text-center">
         {type === ModalType.CANCEL
           ? t('cancel_lesson')
           : t('reschedule_lesson')}
       </div>
-      <p className="text-base text-center mb-4">
-        <Trans
-          t={t}
-          i18nKey="are_you_sure_reschedule_cancel"
-          values={{
-            cancelReschedule:
-              type === 'cancel'
-                ? t('swal_cancel_Button_Text').toLowerCase()
-                : t('reschedule').toLowerCase(),
-            date: format(
-              toZonedTime(new Date(data?.startAt ?? new Date()), userTimezone),
-              'eee, MMM do',
-              { timeZone: userTimezone },
-            ),
-          }}
-          components={{
-            strong: <span className="font-semibold" />,
-          }}
-        />
-      </p>
-      {user.role !== Roles.MENTOR && (
-        <div className="space-y-3">
-          {(type === ModalType.CANCEL || isLate) && (
+
+      {user.role === Roles.MENTOR && (
+        <>
+          <p className="text-[#464752] text-[15px] text-center mb-4">
+            {isWithinTwoWeeks
+              ? isLate
+                ? 'Warning you are cancelling a lesson within 24 hours.'
+                : 'Warning you are cancelling a lesson outside of 24 hours but within 2 weeks.'
+              : 'Are you sure you want to cancel this lesson more than two weeks in advance?'}
+          </p>
+          {isWithinTwoWeeks && (
+            <p className="text-[#464752] text-[15px] text-center font-semibold mb-4">
+              1 day of classes equals 1 strike
+            </p>
+          )}
+        </>
+      )}
+
+      {user.role === Roles.STUDENT && (
+        <p className="text-base text-center mb-4">
+          <Trans
+            t={t}
+            i18nKey="are_you_sure_reschedule_cancel"
+            values={{
+              cancelReschedule:
+                type === 'cancel'
+                  ? t('swal_cancel_Button_Text').toLowerCase()
+                  : t('reschedule').toLowerCase(),
+              date: format(
+                toZonedTime(
+                  new Date(data?.startAt ?? new Date()),
+                  userTimezone,
+                ),
+                'eee, MMM do',
+                { timeZone: userTimezone },
+              ),
+            }}
+            components={{
+              strong: <span className="font-semibold" />,
+            }}
+          />
+        </p>
+      )}
+
+      <div className="space-y-3">
+        {(user?.role === Roles.STUDENT &&
+          (type === ModalType.CANCEL || isLate)) ||
+          (user?.role === Roles.MENTOR && isWithinTwoWeeks && (
             <div className="w-full bg-color-red bg-opacity-10 flex items-center p-4 rounded-lg">
               <span className="bg-color-red min-w-6 h-6 block rounded-full text-center text-white mr-4 text-base">
                 !
               </span>
               <div className="max-w-[300px] space-y-3 font-medium text-color-dark-purple leading-5">
-                {type === 'cancel' ? (
+                {user?.role === Roles.STUDENT && type === 'cancel' ? (
                   isLate ? (
                     <>
                       <p>{t('cancel_modal_desc3')}</p>
@@ -124,12 +163,19 @@ const CancelWarningModal = ({
                     <p>{t('cancel_modal_desc4')}</p>
                   )
                 ) : (
-                  <p>You cannot reschedule within 24 hours.</p>
+                  <p>
+                    {user?.role === Roles.MENTOR
+                      ? isLate
+                        ? 'You will be fined $5 for this 25 min lesson'
+                        : 'After 6 cancellations, you will be fined for each additional cancellation.'
+                      : 'You cannot reschedule within 24 hours.'}
+                  </p>
                 )}
               </div>
             </div>
-          )}
+          ))}
 
+        {user?.role === Roles.STUDENT && (
           <div className="w-full p-4 flex items-center justify-between mt-5 rounded-lg bg-color-purple bg-opacity-20">
             <div>
               <Trans
@@ -148,8 +194,48 @@ const CancelWarningModal = ({
             </div>
             <div className="flex">{cancellationDots}</div>
           </div>
-        </div>
-      )}
+        )}
+
+        {user?.role === Roles.MENTOR && isWithinTwoWeeks && (
+          <div className="w-full p-4 mt-5 rounded-lg bg-color-purple bg-opacity-20">
+            <p className="block text-[15px] font-semibold text-color-purple">
+              {contractData?.mentorContract?.penalties?.length}/6 cancellations
+            </p>
+            <p className="block text-sm text-color-purple mb-4">
+              {format(
+                contractData?.mentorContract?.startDate ?? new Date(),
+                'MM-dd-yyyy',
+              )}{' '}
+              to{' '}
+              {format(
+                contractData?.mentorContract?.endDate ?? new Date(),
+                'MM-dd-yyyy',
+              )}{' '}
+              (6 month contract)
+            </p>
+            <div className="flex gap-3 justify-between">
+              {contractData?.mentorContract?.penalties?.slice(0, 6).map((p) => (
+                <div
+                  key={p.id}
+                  className="w-[50px] h-[50px] text-xs bg-[#F14E1C] rounded-[4px] text-white flex flex-col justify-center items-center gap-1"
+                >
+                  <FaXmark />
+                  <p>{format(p?.createdAt ?? new Date(), 'MMM dd')}</p>
+                </div>
+              ))}
+              {contractData?.mentorContract?.penalties &&
+                [
+                  ...Array(6 - contractData?.mentorContract?.penalties?.length),
+                ].map((_, idx) => (
+                  <div
+                    key={idx}
+                    className="w-[50px] h-[50px] bg-color-purple bg-opacity-30 rounded-[4px]"
+                  ></div>
+                ))}
+            </div>
+          </div>
+        )}
+      </div>
 
       <Button
         className="h-[56px] px-[10px] w-full mt-6"
