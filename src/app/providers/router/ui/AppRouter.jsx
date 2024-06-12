@@ -26,6 +26,8 @@ const BuyPackage = lazy(() => import('src/pages/Students/BuyPackage'));
 const ConfirmPayment = lazy(() => import('src/pages/ConfirmPayment'));
 const StripePayment = lazy(() => import('src/pages/Students/StripePayment'));
 const SelectProfile = lazy(() => import('src/components/SelectProfile'));
+const Questionnaire = lazy(() => import('src/pages/Students/Questionnaire/'));
+
 const StudentPages = lazy(() => import('src/pages/Students'));
 const MentorPages = lazy(() => import('src/pages/Mentors'));
 
@@ -109,6 +111,8 @@ export const AppRouter = () => {
         />
 
         <Route path="/select-profile" element={<SelectProfile />} />
+
+        <Route path={`/questionnaire`} element={<Questionnaire />} />
       </Route>
 
       <Route
