@@ -21,7 +21,7 @@ export const StepIndicator = ({ step, setStep }) => {
         </div>
       </div>
 
-      <div className="w-full h-[5px] rounded-lg overflow-hidden">
+      <div className="w-full h-[5px] bg-gray-100 rounded-lg overflow-hidden">
         <div
           style={{ width: `${(step / 5) * 100}%` }}
           className="h-full bg-color-purple"

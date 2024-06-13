@@ -3,6 +3,9 @@ import { StepIndicator } from './StepIndicator';
 import { useForm } from 'react-hook-form';
 import { EnergyLevel } from './EnergyLevel';
 import Button from 'src/components/Form/Button';
+import { Interests } from './Interests';
+import { Gender } from './Gender';
+import { TeachingPersonality } from './TeachingPersonality';
 
 export const Questionnaire = () => {
   const [step, setStep] = useState(1);
@@ -14,16 +17,16 @@ export const Questionnaire = () => {
     // formState: { errors, isValid },
   } = useForm({
     mode: 'all',
-    // defaultValues: {
-    //   energyLevel: '',
-    //   interesets: [],
-    //   gender: '',
-    //   teachingPersonality: '',
-    //   availability: {
-    //     time: [],
-    //     days: [],
-    //   },
-    // },
+    defaultValues: {
+      energyLevel: '',
+      interests: [],
+      gender: '',
+      teachingPersonality: '',
+      availability: {
+        time: [],
+        days: [],
+      },
+    },
   });
 
   const onSubmit = (data) => {
@@ -37,7 +40,32 @@ export const Questionnaire = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {step === 1 && (
           <EnergyLevel
+            setStep={setStep}
             {...register('energyLevel', { required: true })}
+            watch={watch}
+          />
+        )}
+
+        {step === 2 && (
+          <Interests
+            setStep={setStep}
+            {...register('interests', { required: true })}
+            watch={watch}
+          />
+        )}
+
+        {step === 3 && (
+          <Gender
+            setStep={setStep}
+            {...register('gender', { required: true })}
+            watch={watch}
+          />
+        )}
+
+        {step === 4 && (
+          <TeachingPersonality
+            setStep={setStep}
+            {...register('teachingPersonality', { required: true })}
             watch={watch}
           />
         )}
