@@ -118,5 +118,6 @@
   "add_package": "패키지 추가",
   "active_subscription": "활성화된 구독 패키지",
   "add_switch_profile": "프로필 추가/교체",
-  "trial": "체험수업"
+  "trial": "체험수업",
+  "error_system": "Something went wrong!"
 }
