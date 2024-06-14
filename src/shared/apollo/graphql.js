@@ -818,7 +818,10 @@ export const APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER = gql`
         totalSessions
         sessionsPerWeek
         sessionTime
-        price
+        prices {
+          currency
+          price
+        }
         period
         discount
         courseId
