@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { StepIndicator } from './StepIndicator';
 import { useForm } from 'react-hook-form';
-import { EnergyLevel } from './EnergyLevel';
 import Button from 'src/components/Form/Button';
-import { Interests } from './Interests';
-import { Gender } from './Gender';
-import { TeachingPersonality } from './TeachingPersonality';
-import { Time } from './Time';
-import { Days } from './Days';
-import { StepWrap } from './StepWrap';
+
+import {
+  StepIndicator,
+  StepWrap,
+  EnergyLevel,
+  Interests,
+  Gender,
+  TeachingPersonality,
+  Time,
+  Days,
+} from 'src/entities/Questionnaire';
 
 export const Steps = () => {
   const [step, setStep] = useState(1);
