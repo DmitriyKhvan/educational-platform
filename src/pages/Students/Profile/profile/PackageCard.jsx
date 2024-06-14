@@ -18,6 +18,7 @@ const PackageCard = ({ item }) => {
           !item.credits ? 'text-gray-400' : 'text-color-dark-purple',
         )}
       >
+        {item?.package?.isReferral && '🎁 '}
         {item.package.course.title}
       </h3>
 

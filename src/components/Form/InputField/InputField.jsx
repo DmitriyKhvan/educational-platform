@@ -36,8 +36,8 @@ const InputField = forwardRef(function InputField(
             icon && positionIcon === 'right'
               ? ' rounded-l-md border-l border-y border-r-0 [clip-path:inset(-3px_1px_-3px_-3px)]'
               : icon && positionIcon === 'left'
-              ? 'rounded-r-md border-r border-y border-l-0 [clip-path:inset(-3px_-3px_-3px_1px)]'
-              : 'rounded-md border'
+                ? 'rounded-r-md border-r border-y border-l-0 [clip-path:inset(-3px_-3px_-3px_1px)]'
+                : 'rounded-md border'
           }
         `}
           type={type}

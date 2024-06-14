@@ -446,6 +446,7 @@ export const PACKAGE_QUERY = gql`
         totalSessions
         sessionsPerWeek
         sessionTime
+        isReferral
         prices {
           currency
           price

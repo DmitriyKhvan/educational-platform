@@ -3,14 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 
-import Loader from '../../../components/Loader/Loader';
-import { SubscriptionCard } from './SubscriptionCard';
-import { PACKAGE_QUERY } from '../../../shared/apollo/graphql';
 import { useNavigate } from 'react-router-dom';
 import { getItemToLocalStorage } from 'src/shared/constants/global';
+import Loader from '../../../components/Loader/Loader';
+import { PACKAGE_QUERY } from '../../../shared/apollo/graphql';
+import { SubscriptionCard } from './SubscriptionCard';
 
-import Button from 'src/components/Form/Button';
 import { FaPlus } from 'react-icons/fa6';
+import Button from 'src/components/Form/Button';
 import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 
 const Subscriptions = () => {
@@ -88,6 +88,7 @@ const Subscriptions = () => {
                     costPerClass={x.package?.price / x.package?.totalSessions}
                     credits={x.credits}
                     active={x.active}
+                    isReferral={x.package?.isReferral}
                   />
                 ))}
               </div>
