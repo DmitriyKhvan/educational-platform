@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const SIGN_UP = gql`
   mutation SignUp(
@@ -446,6 +446,7 @@ export const PACKAGE_QUERY = gql`
         totalSessions
         sessionsPerWeek
         sessionTime
+        isReferral
         prices {
           currency
           price
