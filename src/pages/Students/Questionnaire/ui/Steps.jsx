@@ -6,15 +6,18 @@ import Button from 'src/components/Form/Button';
 import { Interests } from './Interests';
 import { Gender } from './Gender';
 import { TeachingPersonality } from './TeachingPersonality';
+import { Availability } from './Availability';
+import { Time } from './Time';
+import { Days } from './Days';
 
-export const Questionnaire = () => {
+export const Steps = () => {
   const [step, setStep] = useState(1);
 
   const {
     register,
     handleSubmit,
     watch,
-    // formState: { errors, isValid },
+    formState: { isValid },
   } = useForm({
     mode: 'all',
     defaultValues: {
@@ -70,7 +73,33 @@ export const Questionnaire = () => {
           />
         )}
 
-        <Button type="submit">Submit</Button>
+        {step === 5 && (
+          <>
+            <Availability>
+              <Time
+                watch={watch}
+                {...register('availability.time', {
+                  validate: (value) => value.length > 0,
+                })}
+              />
+              <Days
+                watch={watch}
+                {...register('availability.days', {
+                  validate: (value) => value.length > 0,
+                })}
+              />
+            </Availability>
+
+            <Button
+              type="submit"
+              disabled={!isValid}
+              theme="purple"
+              className="w-full h-[57px] mt-12"
+            >
+              Next
+            </Button>
+          </>
+        )}
       </form>
     </div>
   );

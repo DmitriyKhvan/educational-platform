@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Start } from './Start';
-import { Questionnaire } from './Questionnaire';
+import { Steps } from './Steps';
 
-export const Main = () => {
+export const Questionnaire = () => {
   const [page, setPage] = useState('start');
 
   if (page === 'start') {
@@ -10,6 +10,6 @@ export const Main = () => {
   }
 
   if (page === 'questionnaire') {
-    return <Questionnaire />;
+    return <Steps />;
   }
 };

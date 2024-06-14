@@ -1,3 +1,3 @@
-import { Main } from './ui/Main';
+import { Questionnaire } from './ui/Questionnarie';
 
-export default Main;
+export default Questionnaire;
