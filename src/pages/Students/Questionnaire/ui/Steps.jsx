@@ -6,9 +6,9 @@ import Button from 'src/components/Form/Button';
 import { Interests } from './Interests';
 import { Gender } from './Gender';
 import { TeachingPersonality } from './TeachingPersonality';
-import { Availability } from './Availability';
 import { Time } from './Time';
 import { Days } from './Days';
+import { StepWrap } from './StepWrap';
 
 export const Steps = () => {
   const [step, setStep] = useState(1);
@@ -42,40 +42,66 @@ export const Steps = () => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         {step === 1 && (
-          <EnergyLevel
-            setStep={setStep}
-            {...register('energyLevel', { required: true })}
-            watch={watch}
-          />
+          <StepWrap
+            title="What energy level do you prefer in a mentor?"
+            subTitle="Select an option"
+          >
+            <EnergyLevel
+              setStep={setStep}
+              {...register('energyLevel', { required: true })}
+              watch={watch}
+            />
+          </StepWrap>
         )}
 
         {step === 2 && (
-          <Interests
-            setStep={setStep}
-            {...register('interests', { required: true })}
-            watch={watch}
-          />
+          <StepWrap
+            title=" What are your interests?"
+            subTitle="You can select multiple options"
+            tag={true}
+          >
+            <Interests
+              setStep={setStep}
+              {...register('interests', { required: true })}
+              watch={watch}
+            />
+          </StepWrap>
         )}
 
         {step === 3 && (
-          <Gender
-            setStep={setStep}
-            {...register('gender', { required: true })}
-            watch={watch}
-          />
+          <StepWrap
+            title="Do you have a preference for the gender of your mentor?"
+            subTitle="Select an option"
+          >
+            <Gender
+              setStep={setStep}
+              {...register('gender', { required: true })}
+              watch={watch}
+            />
+          </StepWrap>
         )}
 
         {step === 4 && (
-          <TeachingPersonality
-            setStep={setStep}
-            {...register('teachingPersonality', { required: true })}
-            watch={watch}
-          />
+          <StepWrap
+            title="What teaching personality do you prefer in a mentor?"
+            subTitle="You can select multiple options"
+            tag={true}
+          >
+            <TeachingPersonality
+              setStep={setStep}
+              {...register('teachingPersonality', { required: true })}
+              watch={watch}
+            />
+          </StepWrap>
         )}
 
         {step === 5 && (
           <>
-            <Availability>
+            <StepWrap
+              title="What is your availability?"
+              subTitle="Please select as many options as possible"
+              tag={true}
+            >
               <Time
                 watch={watch}
                 {...register('availability.time', {
@@ -88,7 +114,7 @@ export const Steps = () => {
                   validate: (value) => value.length > 0,
                 })}
               />
-            </Availability>
+            </StepWrap>
 
             <Button
               type="submit"

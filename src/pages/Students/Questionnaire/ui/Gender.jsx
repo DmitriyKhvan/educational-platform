@@ -24,12 +24,6 @@ export const Gender = forwardRef(function Gender(
 
   return (
     <>
-      <h2 className="text-center text-[30px] font-bold leading-[120%] mb-10">
-        Do you have a preference for the gender of your mentor?
-      </h2>
-
-      <h4 className="text-gray-400 mb-4 font-normal">Select an option</h4>
-
       <div className="space-y-4 mb-12">
         {gender.map((gender) => {
           return (

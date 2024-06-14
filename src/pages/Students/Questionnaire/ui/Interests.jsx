@@ -88,14 +88,6 @@ export const Interests = forwardRef(function Interests(
 
   return (
     <>
-      <h2 className="text-center text-[30px] font-bold leading-[120%] mb-3">
-        What are your interests?
-      </h2>
-
-      <h4 className="text-center text-color-dark-purple mb-10 font-normal">
-        You can select multiple options
-      </h4>
-
       <div className="flex flex-wrap justify-center gap-x-3 gap-y-4 mb-12">
         {interests.map((interest) => {
           const { imoji, label, value } = interest;

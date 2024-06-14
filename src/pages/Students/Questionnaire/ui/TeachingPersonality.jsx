@@ -46,14 +46,6 @@ export const TeachingPersonality = forwardRef(function TeachingPersonality(
 
   return (
     <>
-      <h2 className="text-center text-[30px] font-bold leading-[120%] mb-3">
-        What teaching personality do you prefer in a mentor?
-      </h2>
-
-      <h4 className="text-center text-color-dark-purple mb-10 font-normal">
-        You can select up to 3 options
-      </h4>
-
       <div className="flex flex-wrap justify-center gap-x-3 gap-y-4 mb-12">
         {teachingPersonality.map((teachingPersonality) => {
           const { imoji, label, value } = teachingPersonality;

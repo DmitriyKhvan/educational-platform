@@ -11,12 +11,6 @@ export const EnergyLevel = forwardRef(function EnergyLevel(
 
   return (
     <>
-      <h2 className="text-center text-[30px] font-bold leading-[120%] mb-10">
-        What energy level do you prefer in a mentor?
-      </h2>
-
-      <h4 className="text-gray-400 mb-4 font-normal">Select an option</h4>
-
       <div className="flex gap-4 mb-12">
         <label
           className={cn(
