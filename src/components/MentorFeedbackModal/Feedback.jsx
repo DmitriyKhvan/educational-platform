@@ -24,10 +24,7 @@ function Feedback({
   closeModal,
   lessonId,
 }) {
-  console.log('🚀 ~ Feedback ~ choosenSection:', choosenSection);
-  console.log('🚀 ~ Feedback ~ choosenTopic:', choosenTopic);
   const { user } = useAuth();
-  console.log('🚀 ~ Feedback ~ user:', user);
   const isMobile = useMediaQuery({ maxWidth: 420 });
   const [rating, setRating] = useState(0);
 
@@ -46,16 +43,6 @@ function Feedback({
     },
   });
 
-  // const overviewFields = [
-  //   { key: 'fluency', label: 'Fluency' },
-  //   { key: 'pronunciation', label: 'Pronunciation' },
-  //   { key: 'vocabulary', label: 'Vocabulary' },
-  //   { key: 'reading', label: 'Reading comprehension' },
-  //   { key: 'expressions', label: 'Proper use of english expressions' },
-  //   { key: 'confidence', label: 'Confidence' },
-  //   { key: 'listening', label: 'Listening' },
-  // ];
-
   const {
     register,
     watch,
@@ -64,7 +51,6 @@ function Feedback({
   } = useForm({ mode: 'all' });
 
   const onSubmit = (data) => {
-    console.log(data);
     createReview({
       variables: {
         data: {
@@ -151,7 +137,7 @@ function Feedback({
             <MyDropdownMenu
               align="end"
               button={
-                <button className="flex items-center gap-3">
+                <button type="button" className="flex items-center gap-3">
                   <span className="grow text-left text-[15px]">
                     {watch(field.key) ? (
                       <span className="text-color-purple">

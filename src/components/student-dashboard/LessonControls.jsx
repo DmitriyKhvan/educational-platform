@@ -29,7 +29,6 @@ const LessonControls = ({
   setCanceledLessons,
   pattern = 'card', // card, table, info
 }) => {
-  console.log('🚀 ~ data:', data);
   const dateLesson = new Date(date);
   const navigate = useNavigate();
 
@@ -78,6 +77,7 @@ const LessonControls = ({
     setModalType(ModalType.CANCEL);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <effect must be triggered on isOpen change>
   useEffect(() => {
     setTabIndex(0);
   }, [isOpen]);
@@ -131,6 +131,7 @@ const LessonControls = ({
     />
   );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     let controls = 0;
 
@@ -311,7 +312,10 @@ const LessonControls = ({
           >
             <MentorFeedbackModal
               data={data}
-              closeModal={() => setMentorReviewOpen(false)}
+              closeModal={() => {
+                setMentorReviewOpen(false);
+                refetch();
+              }}
             />
           </AdaptiveDialog>
         )}

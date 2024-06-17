@@ -10,7 +10,7 @@ const TagField = forwardRef(
     return (
       <label
         className={cn(
-          'has-[:checked]:bg-color-purple has-[:checked]:text-white transition-colors text-color-dark-violet text-[13px] px-4 py-[10px] rounded-full border border-color-border-grey shadow-[0px_0px_8px_0px_#00000014]',
+          'has-[:checked]:bg-color-purple has-[:checked]:text-white transition-colors text-color-dark-violet text-[13px] px-4 py-[10px] rounded-full border border-color-border-grey shadow-[0px_0px_8px_0px_#00000014] cursor-pointer',
           className,
         )}
       >
