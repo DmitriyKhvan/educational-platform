@@ -1,3 +1,6 @@
+// import { Lessons, Feedback } from './Lessons';
+// import { useAuth } from 'src/modules/auth';
+
 import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { TrialRoute } from 'src/app/providers/router';
@@ -9,6 +12,7 @@ const ScheduleLesson = lazy(() => import('./ScheduleLesson'));
 const Mentors = lazy(() => import('./MentorsList/Mentors'));
 const Subscriptions = lazy(() => import('./Subscriptions/Subscriptions'));
 const Lessons = lazy(() => import('./Lessons'));
+const Feedback = lazy(() => import('./Feedback'));
 const StudentProfile = lazy(() => import('./Profile/profile/StudentProfile'));
 const EditProfileStudent = lazy(
   () => import('./Profile/editInfo/EditStudentProfile'),
@@ -32,7 +36,11 @@ export default function StudentRoutes() {
         }
       />
 
-      <Route path={`lesson-calendar`} element={<Lessons />} />
+      <Route path={`lesson-calendar`} exact element={<Lessons />} />
+
+      <Route path={`lesson-calendar/feedback/:id`} element={<Feedback />} />
+
+      {/* </Route> */}
 
       <Route exact path={`profile`} element={<StudentProfile />} />
       <Route path={`profile/edit`} element={<EditProfileStudent />} />

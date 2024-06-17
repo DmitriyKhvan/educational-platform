@@ -852,3 +852,22 @@ export const courseColorsDict = {
     indicator: 'bg-[#00D986]',
   },
 };
+
+export const overviewFields = [
+  { key: 'fluency', label: 'Fluency' },
+  { key: 'pronunciation', label: 'Pronunciation' },
+  { key: 'vocabulary', label: 'Vocabulary' },
+  { key: 'reading', label: 'Reading comprehension' },
+  { key: 'expressions', label: 'Proper use of english expressions' },
+  { key: 'confidence', label: 'Confidence' },
+  { key: 'listening', label: 'Listening' },
+];
+
+export const overviewGrade = {
+  INSUFFICIENT: 'Insufficient',
+  BASIC: 'Basic',
+  FAIR: 'Fair',
+  GOOD: 'Good',
+  GREAT: 'Great',
+  EXCELLENT: 'Excellent',
+};

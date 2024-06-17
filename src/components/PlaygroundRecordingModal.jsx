@@ -6,7 +6,7 @@ export const PlaygroundRecordingModal = ({ urlRecording, width = '100%' }) => {
     <div
       className={`max-w-[${
         width === '100%' ? '456px' : width
-      }] w-full mx-auto overflow-hidden rounded-lg mb-6`}
+      }] w-full mx-auto overflow-hidden rounded-lg mb-6 bg-gray-500 aspect-video`}
     >
       <ReactPlayer
         light
@@ -15,7 +15,7 @@ export const PlaygroundRecordingModal = ({ urlRecording, width = '100%' }) => {
         controls
         volume={0.8}
         width={width}
-        height="auto"
+        height="100%"
       />
     </div>
   );

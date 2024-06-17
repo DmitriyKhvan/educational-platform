@@ -12,17 +12,23 @@ export const SubscriptionCard = ({
   duration,
   credits,
   active,
+  isReferral = false,
 }) => {
   const [t] = useTranslation(['common', 'lessons']);
   return (
     <div
       className={`w-full p-4 rounded-[10px] border border-solid select-none`}
     >
-      <div className="text-lg font-bold capitalize mb-3">{title}</div>
-
-      <div className="text-sm font-normal mb-4">
-        {currencyFormat({ number: price })}
+      <div className="text-lg font-bold capitalize mb-3">
+        {isReferral && '🎁 '}
+        {title}
       </div>
+
+      {!isReferral && (
+        <div className="text-sm font-normal mb-4">
+          {currencyFormat({ number: price })}
+        </div>
+      )}
       {active && credits > 0 && (
         <Indicator className="bg-[#02C97E] text-[#02C97E] mb-4 bg-opacity-10">
           <FaCheck /> {t('active_subscription')}

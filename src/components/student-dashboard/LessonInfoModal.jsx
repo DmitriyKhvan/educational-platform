@@ -1,4 +1,3 @@
-import React from 'react';
 import LessonControls from './LessonControls';
 import { addMinutes, format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';

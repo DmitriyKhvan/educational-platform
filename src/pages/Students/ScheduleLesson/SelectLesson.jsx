@@ -1,21 +1,21 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Loader from '../../../components/Loader/Loader';
-import Button from '../../../components/Form/Button/Button';
 import { FaArrowRight } from 'react-icons/fa6';
-import { cn } from '../../../shared/utils/functions';
+import { useNavigate, useParams } from 'react-router-dom';
+import CheckboxField from 'src/components/Form/CheckboxField';
+import { ModalPurchase } from 'src/components/ModalPurchase';
+import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
+import { ucFirst } from 'src/shared/utils/ucFirst';
+import { useActivePackages } from 'src/shared/utils/useActivePackages';
+import Button from '../../../components/Form/Button/Button';
+import Loader from '../../../components/Loader/Loader';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '../../../components/Tooltip';
-import { ucFirst } from 'src/shared/utils/ucFirst';
-import CheckboxField from 'src/components/Form/CheckboxField';
-import { ModalPurchase } from 'src/components/ModalPurchase';
-import { useActivePackages } from 'src/shared/utils/useActivePackages';
-import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
+import { cn } from '../../../shared/utils/functions';
 
 const SelectLesson = ({
   setSelectedPlan,
@@ -44,6 +44,7 @@ const SelectLesson = ({
     i,
     active,
     total,
+    isReferral = false,
   }) => {
     return (
       <TooltipProvider>
@@ -61,6 +62,7 @@ const SelectLesson = ({
             >
               <div className="flex items-start flex-col gap-2 flex-wrap">
                 <h1 className="font-bold text-base sm:text-lg leading-7 tracking-[-0.6px] text-color-dark-purple">
+                  {isReferral && '🎁 '}
                   {ucFirst(title) || 'Title'}
                 </h1>
 
@@ -143,6 +145,7 @@ const SelectLesson = ({
                 expirationDate={x.periodEnd}
                 active={x.active}
                 total={x.package?.totalSessions}
+                isReferral={x.package?.isReferral}
               />
             ))}
           </div>

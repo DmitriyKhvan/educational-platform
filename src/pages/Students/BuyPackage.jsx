@@ -105,6 +105,8 @@ export default function BuyPackage() {
     if (selectedSessionTime && selectedSessionsPerWeek) {
       setSelectedPackage(null);
 
+      // debugger;
+
       return selectedCourse?.packages
         .filter((pkg) => {
           const conditions = [true];
@@ -129,7 +131,7 @@ export default function BuyPackage() {
           ...pkg,
           price: pkg.prices.find(
             (price) => price.currency === curCurrency.value.toLocaleLowerCase(),
-          ).price,
+          )?.price,
         }));
       // .sort((a, b) => a.period - b.period);
     }
