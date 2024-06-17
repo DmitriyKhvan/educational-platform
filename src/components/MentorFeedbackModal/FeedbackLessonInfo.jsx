@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-// import LevelBadge from 'src/pages/Students/Profile/profile/LevelBadge';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import Indicator from '../Indicator';
 import { format, toZonedTime } from 'date-fns-tz';
@@ -9,12 +7,10 @@ import { useTranslation } from 'react-i18next';
 import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 import { useQuery } from '@apollo/client';
 import { GET_TOPICS } from 'src/shared/apollo/queries/topics/topics';
-import { SelectField } from '../Form/SelectField';
 import MyDropdownMenu from '../DropdownMenu';
 import { cn } from 'src/shared/utils/functions';
 import Button from '../Form/Button';
 import { FaAngleDown } from 'react-icons/fa6';
-import { VscGlobe } from 'react-icons/vsc';
 import { useState } from 'react';
 import CheckboxField from '../Form/CheckboxField';
 import { GET_LESSON_SECTIONS } from 'src/shared/apollo/queries/lessons/lessonSections';
@@ -34,11 +30,7 @@ function FeedbackLessonInfo({
   const [completedLesson, setCompletedLesson] = useState(!choosenSection);
 
   const [openTopics, setOpenTopics] = useState(false);
-  // const [choosenTopic, setChoosenTopic] = useState(data?.topic?.id);
   const [openSections, setOpenSections] = useState(false);
-  // const [choosenSection, setChoosenSection] = useState(null);
-
-  console.log(data);
 
   const { data: topicsData } = useQuery(GET_TOPICS);
   const { data: sectionsData } = useQuery(GET_LESSON_SECTIONS, {
@@ -55,8 +47,6 @@ function FeedbackLessonInfo({
     label: t.title,
     value: t.id,
   }));
-  console.log('🚀 ~ FeedbackLessonInfo ~ topics:', topicsData);
-  console.log('🚀 ~ FeedbackLessonInfo ~ sectionsData:', sectionsData);
 
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;

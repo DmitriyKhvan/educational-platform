@@ -6,7 +6,6 @@ function LessonInfo({ data }) {
   // eslint-disable-next-line no-unused-vars
   const [t, i18n] = useTranslation('common');
 
-  console.log('🚀 ~ LessonInfo ~ data:', data);
   return (
     <div className="mt-6 space-y-6">
       <div>
