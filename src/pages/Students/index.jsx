@@ -47,6 +47,7 @@ export default function StudentRoutes() {
       />
 
       <Route path={`subscriptions`} element={<Subscriptions />} />
+
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
