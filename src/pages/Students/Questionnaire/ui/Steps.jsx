@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import Button from 'src/components/Form/Button';
 
 import {
@@ -15,6 +16,7 @@ import {
 
 export const Steps = () => {
   const [step, setStep] = useState(1);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -37,6 +39,7 @@ export const Steps = () => {
 
   const onSubmit = (data) => {
     console.log('data', data);
+    navigate('/mentor-matches-list');
   };
 
   return (

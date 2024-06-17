@@ -10,15 +10,15 @@ export const Tag = forwardRef(function Tag(
       ref={ref}
       className={cn(
         `flex items-center gap-2 px-3 py-[10px] border border-gray-200 rounded-3xl
-        cursor-pointer`,
+        cursor-pointer text-sm`,
         className,
         active && 'border-color-purple text-color-purple',
       )}
     >
       <input className="hidden" type="checkbox" value={value} {...props} />
 
-      {imoji && <span className="text-sm">{imoji}</span>}
-      <span className="text-sm font-medium">{label}</span>
+      {imoji && <span className="text-base">{imoji}</span>}
+      <span className="font-medium">{label}</span>
     </label>
   );
 });
