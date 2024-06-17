@@ -43,6 +43,7 @@ export const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<OnboardingLayout />}>
+        {/* <Route exact path="/" element={Login} /> */}
         <Route
           index
           element={

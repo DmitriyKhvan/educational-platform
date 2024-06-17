@@ -122,5 +122,6 @@
   "add_package": "Add a package",
   "active_subscription": "Active subscription",
   "add_switch_profile": "Add/Switch profile",
-  "trial": "Trial"
+  "trial": "Trial",
+  "error_system": "Something went wrong!"
 }

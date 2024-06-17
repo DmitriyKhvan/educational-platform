@@ -1,6 +1,6 @@
 import { memo, useMemo, useState } from 'react';
 
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line import/no-unresolved
@@ -18,23 +18,15 @@ import { PromoModal } from './PromoModal';
 import { TermsConditionsModal } from './TermsConditionsModal';
 
 import { AdaptiveDialog } from '../AdaptiveDialog';
-
-const CREATE_PAYMENT_INTENT = gql`
-  mutation CreatePaymentIntent($id: Int!, $applyPersonalDiscountCode: Boolean) {
-    createPaymentIntent(
-      packageId: $id
-      applyPersonalDiscountCode: $applyPersonalDiscountCode
-    ) {
-      clientSecret
-    }
-  }
-`;
+import { CREATE_PAYMENT_INTENT } from 'src/shared/apollo/mutations/payment/createPaymentIntent';
+import { useCurrency } from 'src/app/providers/CurrencyProvider';
 
 export const OrderSummary = memo(function OrderSummary({
   selectedPackage,
   setPromoPackage,
   promoPackage,
 }) {
+  const { curCurrency } = useCurrency();
   const [open, setOpen] = useState(false);
   const [openTermsConditions, setIsOpenTermsConditions] = useState(false);
 
@@ -57,7 +49,8 @@ export const OrderSummary = memo(function OrderSummary({
     if (selectedPackage) {
       getSecret({
         variables: {
-          id: parseInt(selectedPackage.id),
+          packageId: parseInt(selectedPackage.id),
+          currency: curCurrency.value.toLowerCase(),
           ...(promoPackage && { applyPersonalDiscountCode: true }),
         },
         onCompleted: (data) => {

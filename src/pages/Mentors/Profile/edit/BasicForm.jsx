@@ -2,16 +2,13 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useAuth } from 'src/app/providers/AuthProvider';
 import { useMutation } from '@apollo/client';
-import {
-  MUTATION_UPDATE_MENTOR,
-  MUTATION_UPDATE_USER,
-} from '../../../../shared/apollo/graphql';
+import { MUTATION_UPDATE_MENTOR } from '../../../../shared/apollo/graphql';
 // import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import {
   countries,
-  timezoneOptions,
+  // timezoneOptions,
   useGenderDic,
 } from '../../../../shared/constants/global';
 import notify from '../../../../shared/utils/notify';
@@ -21,10 +18,11 @@ import { SelectField } from '../../../../components/Form/SelectField';
 import Button from '../../../../components/Form/Button/Button';
 import ReactLoader from '../../../../components/common/Loader';
 import { trimSpaces } from 'src/shared/utils/trimSpaces';
+import { UPDATE_USER } from 'src/shared/apollo/mutations/user/updateUser';
 
 const BasicForm = () => {
   const [t] = useTranslation(['common', 'profile']);
-  const [updateUser] = useMutation(MUTATION_UPDATE_USER);
+  const [updateUser] = useMutation(UPDATE_USER);
   const [updateMentor, { loading }] = useMutation(MUTATION_UPDATE_MENTOR);
 
   const genders = useGenderDic();
@@ -42,7 +40,7 @@ const BasicForm = () => {
       gender: user?.gender,
       phoneNumber: user?.phoneNumber,
       country: user?.country,
-      timeZone: user?.timeZone,
+      // timeZone: user?.timeZone,
       address: user?.address,
       convertAvailabilityTime: true,
       googleCalendarSync: user.googleCalendarSync,
@@ -56,7 +54,7 @@ const BasicForm = () => {
       gender,
       phoneNumber,
       country,
-      timeZone,
+      // timeZone,
       address,
       convertAvailabilityTime,
       googleCalendarSync,
@@ -68,7 +66,7 @@ const BasicForm = () => {
         data: {
           phoneNumber: phoneNumber,
           country: country,
-          timeZone: timeZone,
+          // timeZone: timeZone,
           address: address,
           convertAvailabilityTime: convertAvailabilityTime,
           googleCalendarSync: googleCalendarSync,
@@ -185,7 +183,7 @@ const BasicForm = () => {
             {...register('address')}
           />
 
-          <label className="block w-[420px] mb-6 not-italic font-semibold text-base text-color-dark-purple">
+          {/* <label className="block w-[420px] mb-6 not-italic font-semibold text-base text-color-dark-purple">
             {t('time_zone')}
 
             <Controller
@@ -200,7 +198,7 @@ const BasicForm = () => {
                 />
               )}
             />
-          </label>
+          </label> */}
 
           <div>
             <CheckboxField

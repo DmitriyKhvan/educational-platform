@@ -53,12 +53,9 @@ import { Language } from 'src/shared/constants/global';
 
 i18next.init({
   interpolation: { escapeValue: false }, // React already does escaping
-  lng:
-    localStorage.getItem('language') === Language.KR
-      ? Language.KR
-      : localStorage.getItem('language') === Language.CH
-        ? Language.CH
-        : Language.EN, // language to use
+  lng: localStorage.getItem('language')
+    ? localStorage.getItem('language')
+    : Language.EN, // language to use
   resources: {
     en: {
       common: commonEn,

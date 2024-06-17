@@ -14,6 +14,7 @@ import { Tab } from './Tab';
 export const AvailabilityList = () => {
   const { user } = useAuth();
   const [mentorAvailabilityType, setMentorAvailabilityType] = useState();
+  const [error, setError] = useState(null);
 
   const {
     data: { mentor: mentorInfo } = {},
@@ -71,7 +72,7 @@ export const AvailabilityList = () => {
         MentorAvailabilityType.ONLY_TRIAL,
       );
     }
-  }, [mentorInfo]);
+  }, [mentorInfo, error]);
 
   const useSetGatherAvailabilities = (data) => {
     setGatherAvailabilities((gatherAvailabilities) => {
@@ -139,6 +140,8 @@ export const AvailabilityList = () => {
           gatherAvailabilities={gatherAvailabilities}
           mentorAvailabilityType={mentorAvailabilityType}
           useSetGatherAvailabilities={useSetGatherAvailabilities}
+          refetchMentor={refetchMentor}
+          setError={setError}
         />
 
         <AvailabilityExceptions

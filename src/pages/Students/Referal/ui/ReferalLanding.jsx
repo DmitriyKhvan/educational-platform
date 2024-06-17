@@ -3,7 +3,6 @@ import learnThinkSpeak from 'src/shared/assets/images/learn_think_speak.svg';
 import duck from 'src/shared/assets/images/duck.png';
 import referalGirl from 'src/shared/assets/images/referal_girl.png';
 
-import { LangSwitcher } from 'src/components/LangSwitcher';
 import {
   FaAngleRight,
   FaInstagram,
@@ -20,6 +19,7 @@ import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { LangSwitcher } from 'src/entities/LangSwitcher';
 
 const ReferalLanding = () => {
   const { t } = useTranslation('common');

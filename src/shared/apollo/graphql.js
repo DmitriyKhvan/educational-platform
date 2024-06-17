@@ -354,14 +354,6 @@ export const INVITE_SET_PASSWORD_MUTATION = gql`
   }
 `;
 
-export const MUTATION_UPDATE_USER = gql`
-  mutation updateUser($id: ID!, $data: UserUpdateInput!) {
-    updateUser(id: $id, data: $data) {
-      id
-    }
-  }
-`;
-
 export const MUTATION_UPDATE_MENTOR = gql`
   mutation updateMentor($id: ID!, $data: MentorUpdateInput!) {
     updateMentor(id: $id, data: $data) {
@@ -454,7 +446,11 @@ export const PACKAGE_QUERY = gql`
         totalSessions
         sessionsPerWeek
         sessionTime
-        price
+        isReferral
+        prices {
+          currency
+          price
+        }
         period
         discount
         course {
@@ -597,6 +593,7 @@ export const APPOINTMENTS_QUERY = gql`
         startUrl
         joinUrl
         recordingUrl
+        recordingReady
       }
       studentReview {
         id
@@ -881,7 +878,10 @@ export const APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER = gql`
         totalSessions
         sessionsPerWeek
         sessionTime
-        price
+        prices {
+          currency
+          price
+        }
         period
         discount
         courseId
