@@ -93,6 +93,9 @@ const CancelWarningModal = ({
 
   const disableCancelLesson =
     user.role === Roles.MENTOR || modifyCredits !== 0 ? false : true;
+
+  const penaltiesCount = contractData?.mentorContract?.penalties?.length ?? 0;
+
   return (
     <div className="w-full max-w-[416px] mx-auto">
       <div className="mb-5 text-2xl font-bold text-center">
@@ -199,7 +202,7 @@ const CancelWarningModal = ({
         {user?.role === Roles.MENTOR && isWithinTwoWeeks && (
           <div className="w-full p-4 mt-5 rounded-lg bg-color-purple bg-opacity-20">
             <p className="block text-[15px] font-semibold text-color-purple">
-              {contractData?.mentorContract?.penalties?.length}/6 cancellations
+              {penaltiesCount}/6 cancellations
             </p>
             <p className="block text-sm text-color-purple mb-4">
               {format(
@@ -224,14 +227,14 @@ const CancelWarningModal = ({
                 </div>
               ))}
               {contractData?.mentorContract?.penalties &&
-                [
-                  ...Array(6 - contractData?.mentorContract?.penalties?.length),
-                ].map((_, idx) => (
-                  <div
-                    key={idx}
-                    className="w-[50px] h-[50px] bg-color-purple bg-opacity-30 rounded-[4px]"
-                  ></div>
-                ))}
+                [...Array(penaltiesCount > 6 ? 0 : 6 - penaltiesCount)].map(
+                  (_, idx) => (
+                    <div
+                      key={idx}
+                      className="w-[50px] h-[50px] bg-color-purple bg-opacity-30 rounded-[4px]"
+                    ></div>
+                  ),
+                )}
             </div>
           </div>
         )}
