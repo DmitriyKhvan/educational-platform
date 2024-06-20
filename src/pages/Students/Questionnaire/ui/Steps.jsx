@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -13,10 +14,15 @@ import {
   Time,
   Days,
 } from 'src/entities/Questionnaire';
+import { MATCHING_PROFILE } from 'src/shared/apollo/queries/matching/matchingProfile';
 
 export const Steps = () => {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
+
+  const { data: dictionaries } = useQuery(MATCHING_PROFILE);
+
+  console.log('dictionaries', dictionaries);
 
   const {
     register,
@@ -53,10 +59,16 @@ export const Steps = () => {
             subTitle="Select an option"
           >
             <EnergyLevel
-              setStep={setStep}
               {...register('energyLevel', { required: true })}
               watch={watch}
             />
+            <Button
+              onClick={() => setStep((step) => step + 1)}
+              disabled={watch('energyLevel') ? false : true}
+              className="w-full h-[57px] mt-12"
+            >
+              Next
+            </Button>
           </StepWrap>
         )}
 
@@ -67,10 +79,17 @@ export const Steps = () => {
             tag={true}
           >
             <Interests
-              setStep={setStep}
+              dictionaries={dictionaries}
               {...register('interests', { required: true })}
               watch={watch}
             />
+            <Button
+              onClick={() => setStep((step) => step + 1)}
+              disabled={watch('interests')?.length ? false : true}
+              className="w-full h-[57px] mt-12"
+            >
+              Next
+            </Button>
           </StepWrap>
         )}
 
@@ -79,11 +98,14 @@ export const Steps = () => {
             title="Do you have a preference for the gender of your mentor?"
             subTitle="Select an option"
           >
-            <Gender
-              setStep={setStep}
-              {...register('gender', { required: true })}
-              watch={watch}
-            />
+            <Gender {...register('gender', { required: true })} watch={watch} />
+            <Button
+              onClick={() => setStep((step) => step + 1)}
+              disabled={watch('gender') ? false : true}
+              className="w-full h-[57px] mt-12"
+            >
+              Next
+            </Button>
           </StepWrap>
         )}
 
@@ -94,10 +116,17 @@ export const Steps = () => {
             tag={true}
           >
             <TeachingPersonality
-              setStep={setStep}
+              dictionaries={dictionaries}
               {...register('teachingPersonality', { required: true })}
               watch={watch}
             />
+            <Button
+              onClick={() => setStep((step) => step + 1)}
+              disabled={watch('teachingPersonality')?.length ? false : true}
+              className="w-full h-[57px] mt-12"
+            >
+              Next
+            </Button>
           </StepWrap>
         )}
 
@@ -125,7 +154,6 @@ export const Steps = () => {
             <Button
               type="submit"
               disabled={!isValid}
-              theme="purple"
               className="w-full h-[57px] mt-12"
             >
               Next

@@ -94,12 +94,7 @@ const ResetPassword = () => {
             </InputWithError>
           </div>
 
-          <Button
-            type="submit"
-            disabled={!isValid}
-            theme="purple"
-            className="w-full"
-          >
+          <Button type="submit" disabled={!isValid} className="w-full">
             {loading ? (
               <ClipLoader loading={loading} size={20} color="white" />
             ) : (

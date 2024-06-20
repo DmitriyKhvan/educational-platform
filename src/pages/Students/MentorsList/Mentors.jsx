@@ -18,7 +18,7 @@ const Mentors = () => {
   });
 
   return (
-    <div className="h-full">
+    <div className="w-full h-full">
       <div className="flex flex-col md:items-center">
         <h1 className="text-3xl sm:text-4xl md:text-[40px] font-bold tracking-[-1px] text-color-dark-purple mb-[10px]">
           {t('mentor_list', { ns: 'studentMentor' })}

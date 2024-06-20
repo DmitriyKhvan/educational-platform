@@ -275,7 +275,6 @@ const LessonConfirmation = ({
 
           <Button
             className="w-full text-xl h-auto p-[18px] mt-10"
-            theme="purple"
             onClick={() => confirmLesson()}
           >
             {t('booking_lesson', { ns: 'lessons' })}

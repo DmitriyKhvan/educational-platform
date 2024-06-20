@@ -58,9 +58,11 @@ export const AuthProvider = ({ children }) => {
     return { data };
   };
 
-  const logout = async () => {
+  const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('studentId');
+    window.Intercom('shutdown');
+    window.location.reload(true);
   };
 
   return (

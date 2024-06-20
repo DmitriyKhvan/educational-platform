@@ -18,7 +18,6 @@ export const Start = ({ setPage }) => {
 
       <Button
         onClick={() => setPage('questionnaire')}
-        theme="purple"
         className="w-full h-[57px]"
       >
         Get started

@@ -15,8 +15,6 @@ const MyProfileModal = () => {
 
   const handleLogout = async () => {
     await logout();
-    window.Intercom('shutdown');
-    window.location.reload(true);
   };
 
   return (

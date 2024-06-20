@@ -6,7 +6,7 @@ export const TextareaField = forwardRef(
       placeholder = '',
       label = '',
       text = '',
-      className = 'w-[570px] h-[300px]',
+      className = 'w-full h-[300px]',
       ...props
     },
     ref,
@@ -33,6 +33,7 @@ export const TextareaField = forwardRef(
             rounded-[10px]
             font-medium
             text-lg
+            text-color-light-grey
             leading-[22px]
             tracking-[-0.5px]
             p-[15px]

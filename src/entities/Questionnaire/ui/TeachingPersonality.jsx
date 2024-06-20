@@ -1,76 +1,34 @@
 import React, { forwardRef } from 'react';
-import Button from 'src/components/Form/Button';
 import { Tag } from './Tag';
+import { cn } from 'src/shared/utils/functions';
 
 export const TeachingPersonality = forwardRef(function TeachingPersonality(
-  { watch, setStep, ...props },
+  { watch, className, dictionaries, ...props },
   ref,
 ) {
-  const teachingPersonality = [
-    {
-      imoji: '✦',
-      label: 'Empathetic',
-      value: 'Empathetic',
-    },
-    {
-      imoji: '✦',
-      label: 'Charismatic',
-      value: 'Charismatic',
-    },
-    {
-      imoji: '✦',
-      label: 'Academic',
-      value: 'Academic',
-    },
-    {
-      imoji: '✦',
-      label: 'Playful',
-      value: 'Playful',
-    },
-    {
-      imoji: '✦',
-      label: 'Creative',
-      value: 'Creative',
-    },
-    {
-      imoji: '✦',
-      label: 'Enthusiastic',
-      value: 'Enthusiastic',
-    },
-    {
-      imoji: '✦',
-      label: 'Encouraging',
-      value: 'Encouraging',
-    },
-  ];
+  const { teachingStyles } = dictionaries.matchingProfile;
 
   return (
-    <>
-      <div className="flex flex-wrap justify-center gap-x-3 gap-y-4 mb-12">
-        {teachingPersonality.map((teachingPersonality) => {
-          const { imoji, label, value } = teachingPersonality;
-          return (
-            <Tag
-              key={value}
-              ref={ref}
-              active={watch('teachingPersonality')?.includes(value)}
-              imoji={imoji}
-              label={label}
-              value={value}
-              {...props}
-            />
-          );
-        })}
-      </div>
-
-      <Button
-        onClick={() => setStep((step) => step + 1)}
-        disabled={watch('teachingPersonality')?.length ? false : true}
-        theme="purple"
-        className="w-full h-[57px]"
-      >
-        Next
-      </Button>
-    </>
+    <div
+      className={cn(
+        'flex flex-wrap justify-center gap-x-3 gap-y-4 mb-12',
+        className,
+      )}
+    >
+      {teachingStyles.map((item) => {
+        const { teachingStyle, id } = item;
+        return (
+          <Tag
+            key={id}
+            ref={ref}
+            active={watch('teachingPersonality')?.includes(id)}
+            icon={<span className="text-base">✦</span>}
+            label={teachingStyle}
+            value={id}
+            {...props}
+          />
+        );
+      })}
+    </div>
   );
 });

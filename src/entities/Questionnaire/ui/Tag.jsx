@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import { cn } from 'src/shared/utils/functions';
 
 export const Tag = forwardRef(function Tag(
-  { active, imoji, value, label, className, ...props },
+  { active, icon, value, label, className, type = 'checkbox', ...props },
   ref,
 ) {
   return (
@@ -12,12 +12,12 @@ export const Tag = forwardRef(function Tag(
         `flex items-center gap-2 px-3 py-[10px] border border-gray-200 rounded-3xl
         cursor-pointer text-sm`,
         className,
-        active && 'border-color-purple text-color-purple',
+        active && 'border-transparent bg-color-purple/10 text-color-purple',
       )}
     >
-      <input className="hidden" type="checkbox" value={value} {...props} />
+      <input className="hidden" type={type} value={value} {...props} />
 
-      {imoji && <span className="text-base">{imoji}</span>}
+      {icon && icon}
       <span className="font-medium">{label}</span>
     </label>
   );

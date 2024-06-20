@@ -158,17 +158,13 @@ export const ME_QUERY = gql`
         lastName
         gender
         major
-        language
         university
-        graduatingYear
         degree
         introduction
         about
-        experience
         relevantExperience
         isActive
         hourlyRate
-        facts
         uniqueFacts
         fullName
         userId
@@ -233,17 +229,13 @@ export const GET_MENTOR = gql`
       lastName
       gender
       major
-      language
       university
-      graduatingYear
       degree
       introduction
       about
-      experience
       relevantExperience
       isActive
       hourlyRate
-      facts
       uniqueFacts
       fullName
       userId

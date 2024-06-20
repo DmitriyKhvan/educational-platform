@@ -153,7 +153,6 @@ const CancelWarningModal = ({
 
       <Button
         className="h-[56px] px-[10px] w-full mt-6"
-        theme="purple"
         onClick={
           disableCancelLesson || (isLate && type === ModalType.RESCHEDULE)
             ? undefined

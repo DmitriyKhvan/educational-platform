@@ -60,7 +60,6 @@ const MentorsModal = ({ mentor }) => {
                       }}
                     >
                       <Button
-                        theme="purple"
                         className="px-[48px] h-[50px]"
                         disabled={mentor?.availabilities?.regular?.length === 0}
                       >
@@ -186,7 +185,6 @@ const MentorsModal = ({ mentor }) => {
                   }}
                 >
                   <Button
-                    theme="purple"
                     className="w-full px-[48px] h-[50px]"
                     disabled={mentor?.availabilities?.regular?.length === 0}
                   >

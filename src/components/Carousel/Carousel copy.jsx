@@ -6,7 +6,7 @@ import {
   NextButton,
   usePrevNextButtons,
 } from './EmblaCarouselArrowButtons';
-// import { CarouselCard } from './CarouselCard';
+import { CarouselCard } from './CarouselCard';
 
 export const EmblaCarousel = (props) => {
   const { slides, options } = props;
@@ -24,17 +24,16 @@ export const EmblaCarousel = (props) => {
 
   return (
     <div className="relative">
-      <div className="w-full overflow-hidden" ref={emblaRef}>
+      <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex touch-pan-y -ml-4">
-          {slides}
-          {/* {slides.map((index) => (
+          {slides.map((index) => (
             <div
               className="relative min-w-0 grow-0 shrink-0 basis-full sm:basis-1/2 pl-4"
               key={index}
             >
               <CarouselCard />
             </div>
-          ))} */}
+          ))}
         </div>
       </div>
 

@@ -32,14 +32,14 @@ export const TopMentorCard = () => {
 
         <div className="flex gap-[6px] whitespace-nowrap">
           <Tag
-            imoji="✦"
+            icon="✦"
             label="Academic"
             className="text-color-purple px-[10px] text-xs"
           />
 
           <div className="flex">
             <Tag
-              imoji="✦"
+              icon="✦"
               label="Creative"
               className="text-color-purple px-[10px] text-xs"
             />
@@ -49,9 +49,7 @@ export const TopMentorCard = () => {
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <Button theme="purple" className="">
-          Schedule
-        </Button>
+        <Button className="">Schedule</Button>
         <Button theme="dark_purple" className="">
           View profile
         </Button>

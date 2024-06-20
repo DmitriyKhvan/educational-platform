@@ -113,7 +113,7 @@ const EditProfileStudent = () => {
   const removePreviewImage = () => setFile(null);
 
   return (
-    <section className="max-w-[400px] px-5 sm:px-0 mx-auto mt-10">
+    <section className="max-w-[400px] mx-auto mt-10">
       <div className="mb-5 flex items-center">
         <Link className="mr-3" to="/student/profile">
           <FaChevronLeft className="text-[16px] font-bold" />
@@ -287,7 +287,6 @@ const EditProfileStudent = () => {
           // disabled={!isValid}
           className="my-10 h-[60px] w-full"
           type="submit"
-          theme="purple"
         >
           {t('save', { ns: 'common' })}
         </Button>

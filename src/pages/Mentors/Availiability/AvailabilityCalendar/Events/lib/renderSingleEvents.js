@@ -1,4 +1,4 @@
-import { CalendarView, DAY } from 'src/shared/constants/global';
+import { CalendarView, DAYS } from 'src/shared/constants/global';
 import { EventType } from './EventType';
 import { addMinutes } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
@@ -17,7 +17,7 @@ export function renderSingleEvents({
     if (exDate < new Date()) return;
 
     const mve = monthlyViewEvents.find(
-      (mve) => mve.day === DAY[exDate.getDay()],
+      (mve) => mve.day === DAYS[exDate.getDay()],
     );
 
     const eveIdx = exceptionsMonthlyEvents.findIndex(

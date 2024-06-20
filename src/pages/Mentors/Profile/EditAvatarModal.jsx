@@ -44,26 +44,18 @@ const EditAvatarModal = ({ closeModal }) => {
   return (
     <>
       {loading && <ReactLoader />}
-      <form
-        onSubmit={handleSubmit(updateAvatar)}
-        className="w-[500px] h-auto bg-white rounded-[10px] pt-[30px] pb-[20px] shadow-[0px_2px_15px_rgba(0,_0,_0,_0.06)]"
-      >
+      <form onSubmit={handleSubmit(updateAvatar)} className="w-[400px] h-auto">
         {!file ? (
-          <div className="h-[250px] px-[30px] overflow-hidden">
-            <Avatar
-              className="object-contain "
-              avatarUrl={user?.mentor?.avatar?.url}
-            />
-          </div>
+          <Avatar className="h-[250px]" avatarUrl={user?.mentor?.avatar?.url} />
         ) : (
           <img
             src={URL.createObjectURL(file)}
             alt="Thumb"
-            className="w-full object-contain h-[250px] px-[30px]"
+            className="w-full object-contain h-[250px]"
           />
         )}
 
-        <div className="px-[30px] pb-[10px] border-b border-solid border-color-border-grey">
+        <div className=" border-b border-solid border-color-border-grey">
           {file ? (
             <label
               onClick={() => setFile(null)}
@@ -100,7 +92,7 @@ const EditAvatarModal = ({ closeModal }) => {
           </button> */}
         </div>
 
-        <div className="flex gap-[10px] mt-4 px-[30px]">
+        <div className="flex gap-[10px] mt-4">
           <Button theme="outline" className="w-full" onClick={closeModal}>
             {t('cancel')}
           </Button>

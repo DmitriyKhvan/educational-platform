@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect } from 'react';
 import {
-  DAY,
+  DAYS,
   MentorAvailabilityType,
   timezoneWithTimeOptions,
 } from 'src/shared/constants/global';
@@ -161,7 +161,7 @@ export const AvailabilitySlots = ({
         <div className="divider"></div>
 
         <div className="space-y-8">
-          {DAY.map((day) => (
+          {DAYS.map((day) => (
             <AvailabilityDayRow
               key={day}
               day={day}

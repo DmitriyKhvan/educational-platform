@@ -5,59 +5,49 @@ import { useAuth } from 'src/app/providers/AuthProvider';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../components/Form/Button/Button';
-import { HiOutlineVideoCamera } from 'react-icons/hi2';
+import ReactPlayer from 'react-player';
+import { BsPlayFill } from 'react-icons/bs';
 
 const Intro = () => {
   const [t] = useTranslation('profile');
-  const [videoLink, setVideoLink] = React.useState('');
 
-  const actions = useAuth();
-
-  const videoUrl = actions.user?.mentor?.videoUrl;
-
-  React.useEffect(() => {
-    setVideoLink(videoUrl || '');
-  }, [actions]);
+  const { user } = useAuth();
+  const videoUrl = user?.mentor?.videoUrl;
 
   return (
-    <div className="px-[66px] py-[50px]" id={'intro'}>
-      <h2 className="mb-5 text-[27px] font-medium leading-[33px] tracking-[-1px] text-color-dark-purple">
+    <div className="" id={'intro'}>
+      <h2 className="mb-5 text-[20px] font-bold text-color-dark-purple tracking-[-0.6px] leading-6">
         {t('intro_video')}
       </h2>
 
-      <div className="flex flex-wrap gap-10">
-        <div>
-          {videoLink?.length === 0 && (
-            <div className="w-[420px] h-[342px] flex items-center justify-center">
-              <h2 className="text-color-darker-grey">No video!</h2>
-            </div>
-          )}
+      <div className="flex flex-wrap gap-7">
+        {videoUrl?.length === 0 ? (
+          <h2>No video!</h2>
+        ) : (
+          <ReactPlayer
+            playIcon={
+              <div className="flex items-center justify-center w-[40px] h-[40px] bg-color-purple rounded-full">
+                <BsPlayFill className="text-white text-2xl" />
+              </div>
+            }
+            light
+            url={user?.mentor?.videoUrl}
+            playing
+            controls
+            volume={0.8}
+            width="100%"
+            height="267px"
+          />
+        )}
 
-          {videoLink?.length !== 0 && (
-            <iframe
-              className="w-[420px] h-[342px]"
-              src={videoLink}
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              style={{ border: 0 }}
-            ></iframe>
-          )}
-        </div>
-
-        <div className="w-[420px] h-[342px] px-[30px] py-[15px] bg-white border border-solid border-color-border-grey rounded-[10px]">
-          <HiOutlineVideoCamera className="text-color-purple text-[35px]" />
-
-          <h3 className="mt-5 font-semibold text-[20px] leading-6 trackign-[-0.6px] text-color-purple">
+        <Button
+          theme="clear"
+          className="w-full bg-color-purple/10 text-color-purple"
+        >
+          <Link to={'/mentor/profile/edit/submit-video'}>
             {t('upload_video')}
-          </h3>
-
-          <Button theme="outline" className="w-full mt-3 ml-[-2px]">
-            <Link to={'/mentor/profile/edit/submit-video'}>
-              {t('submit_video')}
-            </Link>
-          </Button>
-        </div>
+          </Link>
+        </Button>
       </div>
     </div>
   );

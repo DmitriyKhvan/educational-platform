@@ -21,10 +21,11 @@ const AvailabilityDayRow = ({
   gatherAvailabilities,
   mentorAvailabilityType,
 }) => {
+  console.log('day', day);
   const [toggle, setToggle] = useState(false);
   const [timeGroupsSort, setTimeGroupsSort] = useState([]);
 
-  const [t] = useTranslation('common');
+  const [t] = useTranslation(['common', 'translations']);
 
   useEffect(() => {
     var days = [];
@@ -151,7 +152,7 @@ const AvailabilityDayRow = ({
         />
 
         <span className="text-[15px] text-color-dark-purple font-bold uppercase ml-3">
-          {t(day.slice(0, 3))}
+          {t(day.slice(0, 3).toLowerCase(), { ns: 'translations' })}
         </span>
       </div>
 

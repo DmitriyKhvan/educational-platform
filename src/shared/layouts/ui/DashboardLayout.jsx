@@ -15,7 +15,7 @@ export const Layout = () => {
           <Sidebar />
         </div>
 
-        <div className="grow">
+        <div className="grow overflow-hidden">
           <Navbar />
           <div className="relative overflow-auto h-[calc(100dvh-80px-64px)] sm:h-[calc(100dvh-2*80px)] lg:h-[calc(100dvh-80px)] p-5 sm:px-10 sm:py-8">
             <Suspense

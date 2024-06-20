@@ -92,7 +92,6 @@ export const MentorCard = ({ mentor, handleSelectMentor }) => {
                     }}
                   >
                     <Button
-                      theme="purple"
                       className="w-full h-[57px]"
                       disabled={mentor?.availabilities?.regular?.length === 0}
                     >
@@ -114,7 +113,6 @@ export const MentorCard = ({ mentor, handleSelectMentor }) => {
             </TooltipProvider>
           ) : (
             <Button
-              theme="purple"
               className="p-2 m-1 h-[57px]"
               onClick={() => handleSelectMentor(mentor)}
             >

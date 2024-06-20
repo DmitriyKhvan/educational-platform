@@ -154,7 +154,7 @@ const SelectLesson = ({
               {t('return_to_dash')}
             </Button>
 
-            <Button theme="purple" disabled={disabled} onClick={sheduleLesson}>
+            <Button disabled={disabled} onClick={sheduleLesson}>
               <span className="flex flex-row items-center justify-center gap-x-2">
                 <span>{t('continue_custom')}</span>
                 <FaArrowRight />

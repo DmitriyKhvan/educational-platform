@@ -659,7 +659,7 @@ export const countries = getData().map((country) => {
   };
 });
 
-export const DAY = [
+export const DAYS = [
   'Sunday',
   'Monday',
   'Tuesday',

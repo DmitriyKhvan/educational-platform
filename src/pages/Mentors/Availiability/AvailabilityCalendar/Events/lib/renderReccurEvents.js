@@ -1,5 +1,5 @@
 import { intervalToDuration } from 'date-fns';
-import { CalendarView, DAY } from 'src/shared/constants/global';
+import { CalendarView, DAYS } from 'src/shared/constants/global';
 import { EventType } from './EventType';
 
 const rruleWeekdays = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
@@ -8,7 +8,7 @@ export function renderReccurEvents(regular, trial, exceptions) {
   const monthlyViewEvents = [];
   const weeklyViewEvents = [];
 
-  DAY.forEach((weekDay, idx) => {
+  DAYS.forEach((weekDay, idx) => {
     const regularWeekDays = regular?.filter((v) => v.day === weekDay);
     const trialWeekDays = trial?.filter((v) => v.day === weekDay);
 

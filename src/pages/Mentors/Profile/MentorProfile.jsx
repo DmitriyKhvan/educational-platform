@@ -1,229 +1,300 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { FaPencil } from 'react-icons/fa6';
+import { FiLogOut } from 'react-icons/fi';
+import ReactPlayer from 'react-player';
 import { Link } from 'react-router-dom';
-import femaleAvatar from 'src/shared/assets/images/avatars/img_avatar_female.png';
-import maleAvatar from 'src/shared/assets/images/avatars/img_avatar_male.png';
-
-import cls from './MentorProfile.module.scss';
 import { useAuth } from 'src/app/providers/AuthProvider';
+import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import Button from 'src/components/Form/Button';
+import { Avatar } from 'src/widgets/Avatar/Avatar';
+import { BsPlayFill } from 'react-icons/bs';
+import { Tag } from 'src/entities/Questionnaire/ui/Tag';
+import { PiSealCheckFill } from 'react-icons/pi';
+
+const energyLevel = '🧘 Calm energy';
+const interests = [
+  '🐶 Animals',
+  '💃 Dance',
+  '🎨 Art',
+  '🍿 Movies',
+  '📜 History',
+  '🎼 Music',
+  '📐 Math',
+  '⚽ Sports',
+];
+
+const teachingStyle = [
+  'Empathetic',
+  'Charismatic',
+  'Playful',
+  'Creative',
+  'Enthusiastic',
+];
+
+const specialization = ['Pre-level 1', 'Writing', 'Speaking competitions'];
+
+const certifications = ['TESOL', 'TEFL'];
 
 const MentorProfile = () => {
+  const [logoutOpen, setLogoutOpen] = useState(false);
+
   const [t] = useTranslation(['profile', 'common']);
-  const [profileImage, setProfileImage] = useState('');
-  const [videoLink, setVideoLink] = React.useState('');
 
-  const [, setAbout] = React.useState('');
+  const { user, logout } = useAuth();
 
-  const actions = useAuth();
-
-  const user = actions?.user;
-
-  useEffect(() => {
-    if (user?.mentor?.avatar?.url) {
-      setProfileImage(user?.mentor?.avatar?.url);
-    } else if (user.gender === 'female') {
-      setProfileImage(femaleAvatar);
-    } else if (user.gender === 'male') {
-      setProfileImage(maleAvatar);
-    } else {
-      setProfileImage(maleAvatar);
-    }
-  }, [user]);
-
-  const videoUrl = actions.user?.mentor?.videoUrl;
-
-  function renderAbout() {
-    var text = actions.user?.mentor?.introduction;
-    var textLength = actions.user?.mentor?.introduction?.length;
-    var news = '';
-    if (textLength) {
-      for (var i = 0; i < textLength; i++) {
-        if (i === 50) {
-          news += '\n';
-        } else if (i === 100) {
-          news += '\n';
-        } else if (i === 150) {
-          news += '\n';
-        } else if (i === 200) {
-          news += '\n';
-        } else if (i === 250) {
-          news += '\n';
-        } else if (i === 300) {
-          news += '\n';
-        } else if (i === 350) {
-          news += '\n';
-        } else {
-          news += text[i];
-        }
-      }
-    }
-
-    if (news) {
-      setAbout(news);
-    }
-  }
-
-  React.useEffect(() => {
-    renderAbout();
-    setVideoLink(videoUrl || '');
-  }, [user]);
+  const videoUrl = user?.mentor?.videoUrl;
 
   return (
-    <div className={cls.profile_page}>
-      <header className={cls.profile_header}>
-        <div className={cls.profile_header_row}>
-          <img className="avatar_preview" src={profileImage} alt="" />
+    <div className="max-w-[400px] mx-auto space-y-[30px]">
+      <div className="w-full space-y-8">
+        <header className="flex items-center w-full space-x-4 ">
+          <div className="w-16 h-16 sm:w-20 sm:h-20">
+            <Avatar
+              avatarUrl={user?.avatar?.url}
+              className="w-full h-full min-w-16 sm:min-w-20 rounded-full border"
+            />
+          </div>
+          <div className="w-full h-auto py-2">
+            <div className="flex justify-between ml-auto w-full">
+              <div className="flex justify-between w-full">
+                <div>
+                  <h2 className="text-[20px] sm:text-[24px] font-bold leading-6 tracking-[-1px] text-color-dark-purple">
+                    {user?.firstName + ' '}
+                    {user?.lastName}
+                  </h2>
+                  <Link
+                    to="/mentor/profile/edit"
+                    className="text-color-purple flex items-center gap-2 hover:underline font-medium text-[13px] sm:text-sm"
+                  >
+                    <FaPencil /> {t('edit_profile')}
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
 
-          <div className={cls.tutor_name}>
-            <h1>
-              {/* {actions?.user?.fullName ? actions?.user.fullName : 'Nickname'} */}
-              {actions?.user?.firstName} {actions?.user?.lastName}
-            </h1>
-            <h2 className={cls.text_primary}>
-              {actions?.user?.mentor?.degree &&
-              actions?.user?.mentor?.university
-                ? `
-                          ${actions?.user?.mentor?.degree},
-                          ${actions?.user?.mentor?.university}
-                        `
-                : ''}
-            </h2>
+        <div className="w-full ">
+          <h2 className="mb-5 text-[20px] font-bold text-color-dark-purple tracking-[-0.6px] leading-6">
+            {t('add_details')}
+          </h2>
+
+          <div className="flex flex-col gap-5">
+            <div className="flex justify-between border-b">
+              <h4 className="font-medium text-sm text-gray-400 leading-6 tracking-[-0.6px] mb-[10px]">
+                {t('email')}
+              </h4>
+              <p className="font-medium text-sm text-color-dark-purple leading-6 tracking-[-0.6px]">
+                {user?.email}
+              </p>
+            </div>
+
+            {user?.koreanEquivalent && (
+              <div className="flex justify-between border-b">
+                <h4 className="font-medium text-sm text-gray-400 leading-6 tracking-[-0.6px] mb-[10px]">
+                  {t('korean_name')}
+                </h4>
+                <p className="font-medium text-sm text-color-dark-purple leading-6 tracking-[-0.6px]">
+                  {user?.koreanEquivalent}
+                </p>
+              </div>
+            )}
+
+            {user?.gender && (
+              <div className="flex justify-between border-b">
+                <h4 className="font-medium text-sm text-gray-400 leading-6 tracking-[-0.6px] mb-[10px]">
+                  {t('gender')}
+                </h4>
+                <p className="font-medium text-sm text-color-dark-purple  leading-6 tracking-[-0.6px]">
+                  {user?.gender}
+                </p>
+              </div>
+            )}
+
+            {user?.country && (
+              <div className="flex justify-between border-b">
+                <h4 className="font-medium text-sm text-gray-400 leading-6 tracking-[-0.6px] mb-[10px]">
+                  {t('country', { ns: 'common' })}
+                </h4>
+                <p className="font-medium text-sm text-color-dark-purple leading-6 tracking-[-0.6px]">
+                  {user?.country ? user?.country : 'Korea'}
+                </p>
+              </div>
+            )}
+
+            {user?.address && (
+              <div className="flex justify-between border-b">
+                <h4 className="font-medium text-sm text-gray-400 leading-6 tracking-[-0.6px] mb-[10px]">
+                  {t('address', { ns: 'common' })}
+                </h4>
+                <p className="font-medium text-sm text-color-dark-purple leading-6 tracking-[-0.6px]">
+                  {user?.address}
+                </p>
+              </div>
+            )}
+
+            {user?.phoneNumber && (
+              <div className="flex justify-between border-b">
+                <h4 className="font-medium text-sm text-gray-400 leading-6 tracking-[-0.6px] mb-[10px]">
+                  {t('phone_number', { ns: 'common' })}
+                </h4>
+                <p className="font-medium text-sm text-color-dark-purple leading-6 tracking-[-0.6px]">
+                  {user?.phoneNumber}
+                </p>
+              </div>
+            )}
+
+            {user?.timeZone && (
+              <div className="flex justify-between border-b">
+                <h4 className="font-medium text-sm text-gray-400 leading-6 tracking-[-0.6px] mb-[10px]">
+                  {t('time_zone', { ns: 'common' })}
+                </h4>
+                <p className="font-medium text-sm text-color-dark-purple leading-6 tracking-[-0.6px]">
+                  {user?.timeZone ? user?.timeZone : 'PST (GMT-8)'}
+                </p>
+              </div>
+            )}
           </div>
         </div>
-      </header>
-      <main className={cls.profile_content}>
-        <Link to={'/mentor/profile/edit'}>{t('edit_profile')}</Link>
-        <div className={cls.profile_content_row}>
-          <div className={cls.profile_content_row_left}>
-            <h2>{t('summary')}</h2>
+      </div>
 
-            <p>
-              {actions.user?.mentor?.introduction &&
-                actions.user?.mentor?.introduction}
-            </p>
-          </div>
+      <div className="w-full">
+        <h2 className="mb-5 text-[20px] font-bold text-color-dark-purple tracking-[-0.6px] leading-6">
+          {t('intro_video')}
+        </h2>
 
-          <div className={cls.profile_content_row_right}>
-            <section>
-              <div className="">
-                {actions.user?.country && (
-                  <>
-                    <h1>{t('country', { ns: 'common' })}</h1>
-                    <h2>{actions.user?.country}</h2>
-                  </>
-                )}
+        {videoUrl?.length === 0 ? (
+          <h2>No video!</h2>
+        ) : (
+          <ReactPlayer
+            playIcon={
+              <div className="flex items-center justify-center w-[40px] h-[40px] bg-color-purple rounded-full">
+                <BsPlayFill className="text-white text-2xl" />
               </div>
-              <div className="">
-                {actions.user?.timezone && (
-                  <>
-                    <h1>{t('timezone', { ns: 'common' })}</h1>
-                    <h2>{actions.user?.timezone}</h2>
-                  </>
-                )}
-              </div>
-              <div className="">
-                {actions.user?.email && (
-                  <>
-                    <h1>{t('email')}</h1>
-                    <h2>{actions.user?.email}</h2>
-                  </>
-                )}
-              </div>
-            </section>
-            <section>
-              <div className="">
-                {actions.user?.phoneNumber && (
-                  <>
-                    <h1>{t('phone_number', { ns: 'common' })}</h1>
-                    <h2>{actions.user?.phoneNumber}</h2>
-                  </>
-                )}
-              </div>
+            }
+            light
+            url={user?.mentor?.videoUrl}
+            playing
+            controls
+            volume={0.8}
+            width="100%"
+            height="267px"
+          />
+        )}
+      </div>
 
-              <div className="">
-                {actions.user?.mentor?.university && (
-                  <>
-                    <h1>{t('university')}</h1>
-                    <h2>{actions.user?.mentor?.university}</h2>
-                  </>
-                )}
-              </div>
-            </section>
+      <div className="full space-y-6">
+        <h2 className="mb-5 text-[20px] font-bold text-color-dark-purple tracking-[-0.6px] leading-6">
+          Information for student matching
+        </h2>
+
+        <div className="space-y-4">
+          <h4 className="text-sm font-normal text-gray-400">Energy level</h4>
+
+          <div className="flex flex-wrap gap-x-3 gap-y-4">
+            <Tag className="border-none bg-gray-50" label={energyLevel} />
           </div>
         </div>
-      </main>
-      <footer className={cls.profile_footer}>
-        <section className={cls.profile_footer_left}>
-          <div>
-            <h2>{t('intro_video')}</h2>
-          </div>
 
-          {videoLink?.length === 0 && (
-            <div className={cls.no_video}>
-              <h2>No video!</h2>
-            </div>
-          )}
+        <div className="space-y-4">
+          <h4 className="text-sm font-normal text-gray-400">Interests</h4>
 
-          {videoLink?.length !== 0 && (
-            <div className={cls.video}>
-              <iframe
-                width="560"
-                height="315"
-                src={videoLink}
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                style={{ border: 0 }}
-              ></iframe>
-            </div>
-          )}
-        </section>
-        {/* <section className={cls.profile_footer_right}>
-          <div className={cls.profile_footer_right_topics}>
-            <h2>{t('topics')}</h2>
-            <div className={cls.approved_row}>
-              <button className={cls.appr_topic}>Topic A</button>
-              <button className={cls.appr_topic}>Topic A</button>
-              <button className={cls.appr_topic}>Topic A</button>
-              <button className={cls.appr_add}>Add More</button>
-            </div>
-          </div>
-          <div className={cls.profile_footer_right_students}>
-            <div className={cls.profile_footer_right_students_title}>
-              <h2>{t('my_students')}</h2>
-              <Link to={''}>{t('view_more', { ns: 'common' })}</Link>
-            </div>
-
-            <div className={cls.profile_footer_right_students_card}>
-              <div className={cls.st_card}>
-                <img
-                  src="https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg"
-                  alt=""
+          <div className="flex flex-wrap gap-x-3 gap-y-4">
+            {interests.map((interest) => {
+              return (
+                <Tag
+                  key={interest}
+                  className="border-none bg-gray-50"
+                  label={interest}
                 />
-                <h3>Lisa</h3>
-              </div>
-              <div className={cls.st_card}>
-                <img
-                  src="https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg"
-                  alt=""
-                />
-                <h3>Lisa</h3>
-              </div>
-              <div className={cls.st_card}>
-                <img
-                  src="https://www.heysigmund.com/wp-content/uploads/building-resilience-in-children.jpg"
-                  alt=""
-                />
-                <h3>Lisa</h3>
-              </div>
-            </div>
-
-            <div className={cls.randomizer}>
-              <button>Randomize</button>
-            </div>
+              );
+            })}
           </div>
-        </section> */}
-      </footer>
+        </div>
+
+        <div className="space-y-4">
+          <h4 className="text-sm font-normal text-gray-400">Teaching style</h4>
+
+          <div className="flex flex-wrap gap-x-3 gap-y-4">
+            {teachingStyle.map((style) => {
+              return (
+                <Tag
+                  key={style}
+                  icon={<span className="text-base text-color-purple">✦</span>}
+                  className="border-none bg-gray-50"
+                  label={style}
+                />
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <h4 className="text-sm font-normal text-gray-400">Specialization</h4>
+
+          <div className="flex flex-wrap gap-x-3 gap-y-4">
+            {specialization.map((special) => {
+              return (
+                <Tag
+                  key={special}
+                  className="border-none bg-gray-50"
+                  label={special}
+                />
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <h4 className="text-sm font-normal text-gray-400">Certifications</h4>
+
+          <div className="flex flex-wrap gap-x-3 gap-y-4">
+            {certifications.map((certif) => {
+              return (
+                <Tag
+                  key={certif}
+                  icon={
+                    <PiSealCheckFill className="text-[rgba(0,_217,_134,_1)]" />
+                  }
+                  className="border-none bg-gray-50"
+                  label={certif}
+                />
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      <AdaptiveDialog
+        button={
+          <Button theme="red" className="w-full h-[60px]">
+            <FiLogOut className="mr-2" /> Log out
+          </Button>
+        }
+        open={logoutOpen}
+        setOpen={setLogoutOpen}
+      >
+        <div className="text-center">
+          <h2 className="font-bold text-[22px] mb-4">
+            {t('logging_out', { ns: 'modals' })}
+          </h2>
+          <p className="text-[15px] mb-6">
+            {t('are_you_sure_to_logout', { ns: 'modals' })}
+          </p>
+
+          <Button onClick={logout} theme="destructive" className="w-full mb-3">
+            {t('yes_logout', { ns: 'modals' })}
+          </Button>
+          <Button
+            onClick={() => setLogoutOpen(false)}
+            theme="gray"
+            className="w-full"
+          >
+            {t('cancel', { ns: 'modals' })}
+          </Button>
+        </div>
+      </AdaptiveDialog>
     </div>
   );
 };

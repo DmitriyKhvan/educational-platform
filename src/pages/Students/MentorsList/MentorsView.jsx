@@ -6,6 +6,8 @@ import { MentorCard2 } from './MentorCard2';
 import { FiSearch } from 'react-icons/fi';
 import { FaList } from 'react-icons/fa6';
 import { BsFillGridFill } from 'react-icons/bs';
+import { EmblaCarousel } from 'src/components/Carousel';
+import { TopMentorCard } from 'src/entities/TopMentorCard';
 
 export const MentorsView = ({ mentorList, handleSelectMentor }) => {
   const [t] = useTranslation(['studentMentor', 'common']);
@@ -59,6 +61,31 @@ export const MentorsView = ({ mentorList, handleSelectMentor }) => {
             }`}
           />
         </div>
+      </div>
+
+      <div className="w-full">
+        <EmblaCarousel
+          options={{ align: 'start' }}
+          slides={
+            <>
+              <div className="pl-4">
+                <TopMentorCard />
+              </div>
+              <div className="pl-4">
+                <TopMentorCard />
+              </div>
+              <div className="pl-4">
+                <TopMentorCard />
+              </div>
+              <div className="pl-4">
+                <TopMentorCard />
+              </div>
+              <div className="pl-4">
+                <TopMentorCard />
+              </div>
+            </>
+          }
+        />
       </div>
 
       <div className="flex flex-wrap mt-10 gap-6 select-none">
