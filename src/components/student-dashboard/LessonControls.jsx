@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../Form/Button';
-import { AdaptiveDialog } from '../AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog';
 import {
   LessonsStatusType,
   ModalType,
@@ -16,10 +16,10 @@ import { addMinutes, isAfter } from 'date-fns';
 import { isWithinHours } from 'src/shared/utils/isWithinHours';
 import { CancelTrialLessonModal } from './CancelTrialLessonModal';
 import { FaCheck, FaRegClock, FaStar } from 'react-icons/fa6';
-import LessonReviewModal from './LessonReviewModal';
-import MentorFeedbackModal from '../MentorFeedbackModal';
+import MentorFeedbackModal from 'src/entities/MentorFeedbackModal';
 import { useNavigate } from 'react-router-dom';
 import { cn } from 'src/shared/utils/functions';
+import StudentReviewModal from 'src/entities/StudentReviewModal';
 
 const LessonControls = ({
   date,
@@ -264,7 +264,7 @@ const LessonControls = ({
               open={openStudentReview}
               setOpen={setOpenStudentReview}
             >
-              <LessonReviewModal
+              <StudentReviewModal
                 studentId={data?.student?.id}
                 lessonId={data?.id}
                 closeModal={() => {

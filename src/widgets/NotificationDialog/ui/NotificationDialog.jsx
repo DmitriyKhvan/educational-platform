@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react';
 import { useNotifications } from 'src/app/providers/NotificationProvider';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog/index.jsx';
 import { ModalConfirm } from 'src/entities/ModalConfirm';
 import Button from 'src/components/Form/Button';
 import { Link } from 'react-router-dom';

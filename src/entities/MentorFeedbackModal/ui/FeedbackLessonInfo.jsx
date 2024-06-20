@@ -1,5 +1,4 @@
 import { Avatar } from 'src/widgets/Avatar/Avatar';
-import Indicator from '../Indicator';
 import { format, toZonedTime } from 'date-fns-tz';
 import { useAuth } from 'src/app/providers/AuthProvider';
 import { localeDic } from 'src/shared/constants/global';
@@ -7,13 +6,14 @@ import { useTranslation } from 'react-i18next';
 import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 import { useQuery } from '@apollo/client';
 import { GET_TOPICS } from 'src/shared/apollo/queries/topics/topics';
-import MyDropdownMenu from '../DropdownMenu';
 import { cn } from 'src/shared/utils/functions';
-import Button from '../Form/Button';
 import { FaAngleDown } from 'react-icons/fa6';
 import { useState } from 'react';
-import CheckboxField from '../Form/CheckboxField';
 import { GET_LESSON_SECTIONS } from 'src/shared/apollo/queries/lessons/lessonSections';
+import Indicator from 'src/components/Indicator';
+import MyDropdownMenu from 'src/components/DropdownMenu';
+import Button from 'src/components/Form/Button';
+import CheckboxField from 'src/components/Form/CheckboxField';
 
 function FeedbackLessonInfo({
   data,

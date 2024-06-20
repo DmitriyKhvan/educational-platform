@@ -13,7 +13,7 @@ import { useAuth } from 'src/app/providers/AuthProvider';
 import { useMutation } from '@apollo/client';
 import ReactLoader from 'src/components/common/Loader';
 import { UPSERT_TIMESHEETS } from 'src/shared/apollo/mutations/upsertTimesheets';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog/index.jsx';
 import { ModalConfirm } from 'src/entities/ModalConfirm';
 import { IoIosWarning } from 'react-icons/io';
 import { Link } from 'react-router-dom';

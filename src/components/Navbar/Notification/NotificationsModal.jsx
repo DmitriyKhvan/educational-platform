@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { NotificationItem } from './NotificationItem';
 import Button from 'src/components/Form/Button';
 import { HiTrash } from 'react-icons/hi';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog';
 import { isAfter, subMonths, subWeeks, subYears } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 

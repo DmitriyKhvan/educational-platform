@@ -6,7 +6,7 @@ import { useNotifications } from 'src/app/providers/NotificationProvider';
 import { Badge } from '../../Badge';
 import Button from 'src/components/Form/Button';
 import { useAuth } from 'src/app/providers/AuthProvider';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog/index.jsx';
 
 export const MenuItem = ({ menu }) => {
   const { currentStudent } = useAuth();

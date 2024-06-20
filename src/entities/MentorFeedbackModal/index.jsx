@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa6';
 import { cn } from 'src/shared/utils/functions';
-import FeedbackLessonInfo from './FeedbackLessonInfo';
-import Feedback from './Feedback';
+import FeedbackLessonInfo from './ui/FeedbackLessonInfo';
+import Feedback from './ui/Feedback';
 // import { cn } from 'src/utils/functions';
 
 const MentorFeedbackModal = ({ data, closeModal }) => {

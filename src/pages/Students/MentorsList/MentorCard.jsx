@@ -17,7 +17,7 @@ import { HiMiniChevronRight } from 'react-icons/hi2';
 
 import MentorsModal from './MentorsModal';
 
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog';
 
 export const MentorCard = ({ mentor, handleSelectMentor }) => {
   const [t] = useTranslation(['studentMentor', 'common', 'lessons']);

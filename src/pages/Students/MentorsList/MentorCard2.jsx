@@ -12,7 +12,7 @@ import Button from 'src/components/Form/Button';
 import { HiMiniChevronRight } from 'react-icons/hi2';
 import MentorsModal from './MentorsModal';
 import { useMediaQuery } from 'react-responsive';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog';
 
 export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });

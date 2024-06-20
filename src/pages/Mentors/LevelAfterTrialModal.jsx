@@ -2,7 +2,7 @@ import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog/index.jsx';
 import { LANGUAGE_LEVELS_WITH_PAGINATION } from 'src/shared/apollo/queries/levels/languageLevelsWithPagination';
 import MyDropdownMenu from 'src/components/DropdownMenu';
 import Button from 'src/components/Form/Button';
