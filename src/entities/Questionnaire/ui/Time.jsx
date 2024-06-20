@@ -9,15 +9,15 @@ export const Time = forwardRef(function Time({ watch, ...props }, ref) {
       slots: [
         {
           label: '9-12',
-          value: '9-12',
+          value: '09:00',
         },
         {
           label: '12-15',
-          value: '12-15',
+          value: '12:00',
         },
         {
           label: '15-18',
-          value: '15-18',
+          value: '15:00',
         },
       ],
     },
@@ -26,15 +26,15 @@ export const Time = forwardRef(function Time({ watch, ...props }, ref) {
       slots: [
         {
           label: '18-21',
-          value: '18-21',
+          value: '18:00',
         },
         {
           label: '21-24',
-          value: '21-24',
+          value: '21:00',
         },
         {
           label: '0-3',
-          value: '0-3',
+          value: '00:00',
         },
       ],
     },
@@ -43,11 +43,11 @@ export const Time = forwardRef(function Time({ watch, ...props }, ref) {
       slots: [
         {
           label: '3-6',
-          value: '3-6',
+          value: '03:00',
         },
         {
           label: '6-9',
-          value: '6-9',
+          value: '06:00',
         },
       ],
     },
@@ -69,7 +69,7 @@ export const Time = forwardRef(function Time({ watch, ...props }, ref) {
                       `flex flex-col items-center gap-3 px-4 py-4 sm:py-5 font-medium 
                       rounded-lg border border-gray-100 cursor-pointer
                       shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]`,
-                      watch('availability.time').includes(slot.value) &&
+                      watch('availabilities.time').includes(slot.value) &&
                         'border-color-purple text-color-purple',
                     )}
                     key={slot.value}

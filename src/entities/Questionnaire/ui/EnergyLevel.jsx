@@ -13,7 +13,7 @@ export const EnergyLevel = forwardRef(function EnergyLevel(
           `relative grow flex flex-col items-center px-4 py-6 sm:py-8 
         rounded-lg border border-gray-100 shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)] 
         transition ease-in-out delay-150 hover:border-color-purple cursor-pointer`,
-          watch('energyLevel') === 'calm' && 'border-color-purple',
+          watch('energy') === 'calm' && 'border-color-purple',
         )}
         ref={ref}
       >
@@ -33,7 +33,7 @@ export const EnergyLevel = forwardRef(function EnergyLevel(
           `relative grow flex flex-col items-center px-4 py-6 sm:py-8 
           rounded-lg border border-gray-100 shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)] 
           transition ease-in-out delay-150 hover:border-color-purple cursor-pointer`,
-          watch('energyLevel') === 'high' && 'border-color-purple',
+          watch('energy') === 'high' && 'border-color-purple',
         )}
         ref={ref}
       >

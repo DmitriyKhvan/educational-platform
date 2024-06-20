@@ -52,17 +52,13 @@ export const SIGN_UP = gql`
         lastName
         gender
         major
-        language
         university
-        graduatingYear
         degree
         introduction
         about
-        experience
         relevantExperience
         isActive
         hourlyRate
-        facts
         uniqueFacts
         fullName
         userId

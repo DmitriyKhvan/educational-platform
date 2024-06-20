@@ -1,7 +1,12 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { TopMentorCard } from 'src/entities/TopMentorCard';
 
 export default function MentorMatchesList() {
+  const location = useLocation();
+
+  console.log('location', location);
+
   return (
     <div className="max-w-[584px] mx-auto space-y-10">
       <h2 className="text-center text-[30px] font-bold leading-[120%]">

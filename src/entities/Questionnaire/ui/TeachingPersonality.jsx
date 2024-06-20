@@ -21,7 +21,7 @@ export const TeachingPersonality = forwardRef(function TeachingPersonality(
           <Tag
             key={id}
             ref={ref}
-            active={watch('teachingPersonality')?.includes(id)}
+            active={watch('teachingStyles')?.includes(id)}
             icon={<span className="text-base">✦</span>}
             label={teachingStyle}
             value={id}

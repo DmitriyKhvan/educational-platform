@@ -16,7 +16,7 @@ export const Days = forwardRef(function Days({ watch, ...props }, ref) {
             <Tag
               ref={ref}
               key={day}
-              active={watch('availability.days').includes(day)}
+              active={watch('availabilities.days').includes(day)}
               label={t(day.slice(0, 3).toLowerCase())}
               value={day}
               className="px-6 py-3 shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]"

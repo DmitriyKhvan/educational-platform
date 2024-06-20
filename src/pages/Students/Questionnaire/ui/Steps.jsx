@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -14,13 +14,19 @@ import {
   Time,
   Days,
 } from 'src/entities/Questionnaire';
+import { CREATE_MATCHING_PROFILE_FOR_STUDENT } from 'src/shared/apollo/mutations/matching/createMatchingProfileForStudent';
 import { MATCHING_PROFILE } from 'src/shared/apollo/queries/matching/matchingProfile';
+import { getItemToLocalStorage } from 'src/shared/constants/global';
+import notify from 'src/shared/utils/notify';
 
 export const Steps = () => {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
 
   const { data: dictionaries } = useQuery(MATCHING_PROFILE);
+  const [createMatchingProfileForStudent] = useMutation(
+    CREATE_MATCHING_PROFILE_FOR_STUDENT,
+  );
 
   console.log('dictionaries', dictionaries);
 
@@ -32,11 +38,11 @@ export const Steps = () => {
   } = useForm({
     mode: 'all',
     defaultValues: {
-      energyLevel: '',
+      energy: '',
       interests: [],
       gender: '',
-      teachingPersonality: '',
-      availability: {
+      teachingStyles: '',
+      availabilities: {
         time: [],
         days: [],
       },
@@ -45,7 +51,36 @@ export const Steps = () => {
 
   const onSubmit = (data) => {
     console.log('data', data);
-    navigate('/mentor-matches-list');
+    const { energy, interests, gender, teachingStyles } = data;
+
+    const availabilities = dictionaries.matchingProfile.availabilities
+      .filter((avail) => {
+        return (
+          data.availabilities.time.includes(avail.from) &&
+          data.availabilities.days.includes(avail.day)
+        );
+      })
+      .map((avail) => avail.id);
+    console.log('availabilities', availabilities);
+
+    const dataFilter = {
+      studentId: getItemToLocalStorage('studentId'),
+      energy,
+      interests,
+      gender,
+      teachingStyles,
+      availabilities,
+    };
+
+    createMatchingProfileForStudent({
+      variables: { ...dataFilter },
+      onCompleted: () => {
+        navigate('/mentor-matches-list', { state: dataFilter });
+      },
+      onError: (error) => {
+        notify(error.message, 'error');
+      },
+    });
   };
 
   return (
@@ -59,12 +94,12 @@ export const Steps = () => {
             subTitle="Select an option"
           >
             <EnergyLevel
-              {...register('energyLevel', { required: true })}
+              {...register('energy', { required: true })}
               watch={watch}
             />
             <Button
               onClick={() => setStep((step) => step + 1)}
-              disabled={watch('energyLevel') ? false : true}
+              disabled={watch('energy') ? false : true}
               className="w-full h-[57px] mt-12"
             >
               Next
@@ -117,12 +152,12 @@ export const Steps = () => {
           >
             <TeachingPersonality
               dictionaries={dictionaries}
-              {...register('teachingPersonality', { required: true })}
+              {...register('teachingStyles', { required: true })}
               watch={watch}
             />
             <Button
               onClick={() => setStep((step) => step + 1)}
-              disabled={watch('teachingPersonality')?.length ? false : true}
+              disabled={watch('teachingStyles')?.length ? false : true}
               className="w-full h-[57px] mt-12"
             >
               Next
@@ -139,13 +174,13 @@ export const Steps = () => {
             >
               <Time
                 watch={watch}
-                {...register('availability.time', {
+                {...register('availabilities.time', {
                   validate: (value) => value.length > 0,
                 })}
               />
               <Days
                 watch={watch}
-                {...register('availability.days', {
+                {...register('availabilities.days', {
                   validate: (value) => value.length > 0,
                 })}
               />
