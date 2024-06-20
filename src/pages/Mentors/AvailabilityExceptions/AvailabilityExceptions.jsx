@@ -13,7 +13,7 @@ import notify from 'src/shared/utils/notify';
 import Loader from 'src/components/Loader/Loader';
 // import Swal from 'sweetalert2';
 import { LuPlus } from 'react-icons/lu';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog/index.jsx';
 import { AvailabilityException } from './AvailabilityException';
 import { ModalConfirm } from 'src/entities/ModalConfirm';
 import { IoIosWarning } from 'react-icons/io';

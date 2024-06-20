@@ -6,7 +6,7 @@ import CheckboxField from 'src/components/Form/CheckboxField';
 import LevelModal from './LevelModal';
 import { useQuery } from '@apollo/client';
 import { TRIAL_PACKAGES } from 'src/shared/apollo/queries/trial/trialPackages';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog';
 import { useForm } from 'react-hook-form';
 import InputWithError from 'src/components/Form/InputWithError';
 import { useTranslation } from 'react-i18next';

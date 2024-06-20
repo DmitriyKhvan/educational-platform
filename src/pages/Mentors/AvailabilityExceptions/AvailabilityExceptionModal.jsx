@@ -1,6 +1,6 @@
 import { format } from 'date-fns-tz';
 import React from 'react';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog/index.jsx';
 import { formatTime } from '../Availiability/lib/formatTime';
 import { formatTimeToSeconds } from '../Availiability/lib/formatTimeToSeconds';
 import { AvailabilityExceptionPicker } from './AvailabilityExceptionPicker';

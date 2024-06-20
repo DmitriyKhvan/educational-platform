@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import StarRatings from 'react-star-ratings';
 import { REVIEW_TAGS_BY_TYPE } from 'src/shared/apollo/queries/review/reviewTagsByType';
-import Button from '../Form/Button';
 import { CREATE_REVIEW } from 'src/shared/apollo/mutations/review/createReview';
-import TagField from '../Form/TagField';
 import notify from 'src/shared/utils/notify';
+import TagField from 'src/components/Form/TagField';
+import Button from 'src/components/Form/Button';
 
 const ratingTypes = [null, 'bad', 'bad', 'neutral', 'neutral', 'good'];
 
-const LessonReviewModal = ({ studentId, lessonId, closeModal }) => {
+const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
   const [rating, setRating] = useState(0);
   const [ratingType, setRatingType] = useState(null);
   const [tagsIds, setTagsIds] = useState([]);
@@ -112,4 +112,4 @@ const LessonReviewModal = ({ studentId, lessonId, closeModal }) => {
   );
 };
 
-export default LessonReviewModal;
+export default StudentReviewModal;

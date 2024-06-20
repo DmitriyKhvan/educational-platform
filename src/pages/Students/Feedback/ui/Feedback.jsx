@@ -5,19 +5,20 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PiStarFourFill } from 'react-icons/pi';
 import { useParams } from 'react-router-dom';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog/index.jsx';
 import Button from 'src/components/Form/Button';
 import Indicator from 'src/components/Indicator';
 import { PlaygroundRecordingModal } from 'src/components/PlaygroundRecordingModal';
-import LessonReviewModal from 'src/components/student-dashboard/LessonReviewModal';
 import StatusIndicator from 'src/components/student-dashboard/StatusIndicator';
 import FeedbackInfo from './FeedbackInfo';
-import LessonInfo from '../Lessons/LessonInfo';
+import LessonInfo from './LessonInfo';
 import { FaCheck, FaStar } from 'react-icons/fa6';
 import { useAuth } from 'src/app/providers/AuthProvider';
 import { LESSON_QUERY } from 'src/shared/apollo/graphql';
 import { localeDic } from 'src/shared/constants/global';
 import Loader from 'src/components/Loader/Loader';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from 'src/shared/ui/Tabs';
+import StudentReviewModal from 'src/entities/StudentReviewModal';
 
 function Feedback() {
   const params = useParams();
@@ -25,7 +26,6 @@ function Feedback() {
   const { user } = useAuth();
 
   const [openReview, setOpenReview] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('feedback');
 
   const {
     data: lessonData,
@@ -45,9 +45,8 @@ function Feedback() {
   }
 
   return (
-    // <Layout>
     <>
-      <header className=" max-w-[514px] xl:max-w-none mx-auto flex justify-between items-center mb-6">
+      <header className="max-w-[514px] xl:max-w-none mx-auto flex justify-between items-center mb-6">
         <div>
           <h2 className="text-[28px] font-bold text-color-dark-purple">
             {format(
@@ -112,7 +111,7 @@ function Feedback() {
               open={openReview}
               setOpen={setOpenReview}
             >
-              <LessonReviewModal
+              <StudentReviewModal
                 studentId={data?.student?.id}
                 lessonId={data?.id}
                 closeModal={() => {
@@ -125,39 +124,25 @@ function Feedback() {
         </section>
 
         <section className="basis-1/2">
-          <div className="grid grid-cols-2 w-full">
-            <Button
-              theme="outline"
-              className={`relative ml-0 rounded-r-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
-                selectedTab === 'feedback' && 'bg-color-dark-purple text-white'
-              }`}
-              onClick={() => setSelectedTab('feedback')}
-            >
-              <span>Feedback</span>
-            </Button>
-            <Button
-              theme="outline"
-              className={`ml-[-4px] rounded-l-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
-                selectedTab === 'lessonInfo' &&
-                'bg-color-dark-purple text-white'
-              }`}
-              onClick={() => setSelectedTab('lessonInfo')}
-            >
-              <span>Lesson info</span>
-            </Button>
-          </div>
-
-          <div>
-            {selectedTab === 'feedback' ? (
+          <Tabs defaultValue="feedback">
+            <TabsList className="w-full">
+              <TabsTrigger value="feedback" className="w-full">
+                Feedback
+              </TabsTrigger>
+              <TabsTrigger value="lessonInfo" className="w-full">
+                Lesson info
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="feedback">
               <FeedbackInfo data={data} />
-            ) : (
+            </TabsContent>
+            <TabsContent value="lessonInfo">
               <LessonInfo data={data} />
-            )}
-          </div>
+            </TabsContent>
+          </Tabs>
         </section>
       </div>
     </>
-    // </Layout>
   );
 }
 

@@ -1,9 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
-import TagField from '../Form/TagField';
 import { GET_VOCABULARY } from 'src/shared/apollo/queries/vocabulary/vocabulary';
 import { GET_HOMEWORK } from 'src/shared/apollo/queries/homework/homework';
-import CheckboxField from '../Form/CheckboxField';
-import MyDropdownMenu from '../DropdownMenu';
 import { cn } from 'src/shared/utils/functions';
 import { FaAngleDown } from 'react-icons/fa6';
 import { overviewFields, overviewGrade } from 'src/shared/constants/global';
@@ -11,11 +8,14 @@ import { useForm } from 'react-hook-form';
 import StarRatings from 'react-star-ratings';
 import { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { TextareaField } from '../Form/TextareaField';
-import Button from '../Form/Button';
 import { CREATE_MENTOR_REVIEW } from 'src/shared/apollo/mutations/review/createMentorReview';
 import notify from 'src/shared/utils/notify';
 import { useAuth } from 'src/app/providers/AuthProvider';
+import TagField from 'src/components/Form/TagField';
+import CheckboxField from 'src/components/Form/CheckboxField';
+import MyDropdownMenu from 'src/components/DropdownMenu';
+import { TextareaField } from 'src/components/Form/TextareaField';
+import Button from 'src/components/Form/Button';
 
 function Feedback({
   choosenTopic,
@@ -27,6 +27,12 @@ function Feedback({
   const { user } = useAuth();
   const isMobile = useMediaQuery({ maxWidth: 420 });
   const [rating, setRating] = useState(0);
+
+  const [overviews, setOverviews] = useState(
+    overviewFields
+      .map((o) => o.key)
+      .reduce((ac, a) => ({ ...ac, [a]: false }), {}),
+  );
 
   const [createReview, { loading: createLoading }] =
     useMutation(CREATE_MENTOR_REVIEW);
@@ -135,9 +141,25 @@ function Feedback({
               {field.label}
             </p>
             <MyDropdownMenu
+              open={overviews[field.key]}
+              setOpen={(val) => {
+                setOverviews((ov) => ({
+                  ...ov,
+                  [field.key]: val,
+                }));
+              }}
               align="end"
               button={
-                <button type="button" className="flex items-center gap-3">
+                <button
+                  type="button"
+                  className="flex items-center gap-3"
+                  onClick={() =>
+                    setOverviews((ov) => ({
+                      ...ov,
+                      [field.key]: true,
+                    }))
+                  }
+                >
                   <span className="grow text-left text-[15px]">
                     {watch(field.key) ? (
                       <span className="text-color-purple">
@@ -167,6 +189,12 @@ function Feedback({
                       {...register(field.key, {
                         required: `${field.label} overview is required`,
                       })}
+                      onClick={() =>
+                        setOverviews((ov) => ({
+                          ...ov,
+                          [field.key]: false,
+                        }))
+                      }
                     />
                   </li>
                 ))}

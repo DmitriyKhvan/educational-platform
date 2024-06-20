@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { FaPencil } from 'react-icons/fa6';
 import Button from 'src/components/Form/Button';
 import { FiLogOut } from 'react-icons/fi';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog';
 import LevelBadge from './LevelBadge';
 import PackageCard from './PackageCard';
 

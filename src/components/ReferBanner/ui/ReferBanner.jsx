@@ -1,5 +1,5 @@
 import React from 'react';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog';
 import Button from 'src/components/Form/Button';
 import { Info } from './Info';
 

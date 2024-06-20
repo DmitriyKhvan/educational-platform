@@ -15,7 +15,7 @@ import DashboardCard from './DashboardCard';
 import { FaArrowRight } from 'react-icons/fa6';
 import { useMediaQuery } from 'react-responsive';
 import Button from 'src/components/Form/Button';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog';
 import { ModalPurchase } from 'src/components/ModalPurchase';
 
 const MyLessons = ({

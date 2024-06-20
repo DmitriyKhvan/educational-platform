@@ -50,14 +50,14 @@ function FeedbackInfo({ data }) {
                   <p className="text-color-dark-violet font-semibold text-[15px]">
                     {label}
                   </p>
-                  <span className="grow border-b border-dashed"></span>
+                  <span className="grow border-b border-dashed" />
                   <p className="text-color-purple">
                     {data?.mentorReview[key].toLocaleUpperCase()}
                   </p>
                 </li>
               );
             }
-            return <></>;
+            return undefined;
           })}
         </ul>
       </section>

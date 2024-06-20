@@ -1,7 +1,7 @@
 import React from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { MyDrawer } from './Drawer';
-import { MyDialog } from './MyDialog';
+import { MyDrawer } from '../../../components/Drawer';
+import { MyDialog } from '../../../components/MyDialog';
 
 export const AdaptiveDialog = ({
   open,
