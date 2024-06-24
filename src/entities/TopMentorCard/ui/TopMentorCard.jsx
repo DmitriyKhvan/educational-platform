@@ -12,9 +12,13 @@ export const TopMentorCard = () => {
           <span className="text-lg font-bold text-color-dark-purple">
             Monica
           </span>
-          <span className="flex items-center gap-2 text-[rgba(0,_217,_134,_1)]">
-            <PiSealCheckFill className="" />
-            <span className="text-[13px]">TESOL certified</span>
+          <span className="flex items-center  text-[rgba(0,_217,_134,_1)]">
+            <div className="relative w-5 h-4">
+              <PiSealCheckFill className="absolute" />
+              {/* <PiSealCheckFill className="absolute ml-1" /> */}
+            </div>
+
+            <span className="text-[13px]">TESOL, TEFL certified</span>
           </span>
         </div>
         <Avatar className="w-[64px] h-[64px] rounded-s-lg overflow-hidden"></Avatar>

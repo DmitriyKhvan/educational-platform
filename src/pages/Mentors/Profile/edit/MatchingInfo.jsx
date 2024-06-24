@@ -62,7 +62,6 @@ export const MatchingInfo = () => {
             <Interests
               className="justify-start"
               {...register('interests', { required: true })}
-              watch={watch}
             />
           </div>
 

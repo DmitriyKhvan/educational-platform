@@ -14,17 +14,13 @@ export const MENTORS = gql`
         url
       }
       major
-      language
       university
-      graduatingYear
       degree
       introduction
       about
-      experience
       relevantExperience
       isActive
       hourlyRate
-      facts
       uniqueFacts
       videoUrl
       user {

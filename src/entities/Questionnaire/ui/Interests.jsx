@@ -10,10 +10,7 @@ export const Interests = forwardRef(function Interests(
 
   return (
     <div
-      className={cn(
-        'flex flex-wrap justify-center gap-x-3 gap-y-4 mb-12',
-        className,
-      )}
+      className={cn('flex flex-wrap justify-center gap-x-3 gap-y-4', className)}
     >
       {interests.map((item) => {
         const { icon, interest, id } = item;

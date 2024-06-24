@@ -28,8 +28,6 @@ export const Steps = () => {
     CREATE_MATCHING_PROFILE_FOR_STUDENT,
   );
 
-  console.log('dictionaries', dictionaries);
-
   const {
     register,
     handleSubmit,
@@ -55,10 +53,19 @@ export const Steps = () => {
 
     const availabilities = dictionaries.matchingProfile.availabilities
       .filter((avail) => {
-        return (
-          data.availabilities.time.includes(avail.from) &&
-          data.availabilities.days.includes(avail.day)
-        );
+        if (
+          data.availabilities.time.length &&
+          data.availabilities.days.length
+        ) {
+          return (
+            data.availabilities.time.includes(avail.from) &&
+            data.availabilities.days.includes(avail.day)
+          );
+        } else if (data.availabilities.time.length) {
+          return data.availabilities.time.includes(avail.from);
+        } else {
+          return data.availabilities.days.includes(avail.day);
+        }
       })
       .map((avail) => avail.id);
     console.log('availabilities', availabilities);
@@ -94,8 +101,8 @@ export const Steps = () => {
             subTitle="Select an option"
           >
             <EnergyLevel
-              {...register('energy', { required: true })}
               watch={watch}
+              {...register('energy', { required: true })}
             />
             <Button
               onClick={() => setStep((step) => step + 1)}
@@ -115,8 +122,8 @@ export const Steps = () => {
           >
             <Interests
               dictionaries={dictionaries}
-              {...register('interests', { required: true })}
               watch={watch}
+              {...register('interests', { required: true })}
             />
             <Button
               onClick={() => setStep((step) => step + 1)}
@@ -133,7 +140,12 @@ export const Steps = () => {
             title="Do you have a preference for the gender of your mentor?"
             subTitle="Select an option"
           >
-            <Gender {...register('gender', { required: true })} watch={watch} />
+            <div className="space-y-4">
+              <Gender
+                {...register('gender', { required: true })}
+                watch={watch}
+              />
+            </div>
             <Button
               onClick={() => setStep((step) => step + 1)}
               disabled={watch('gender') ? false : true}

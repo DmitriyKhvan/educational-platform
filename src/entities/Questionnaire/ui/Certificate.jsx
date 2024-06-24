@@ -6,7 +6,7 @@ export const Certificate = forwardRef(function Certificate(
   { watch, setValue, className, ...props },
   ref,
 ) {
-  const [certificate, setCertificate] = useState(true);
+  const [certificate, setCertificate] = useState();
 
   const certificates = [
     {
@@ -36,7 +36,7 @@ export const Certificate = forwardRef(function Certificate(
   return (
     <div
       className={cn(
-        'flex flex-wrap justify-between gap-x-3 gap-y-4 mb-12',
+        'flex flex-wrap justify-between gap-x-3 gap-y-4',
         className,
       )}
     >

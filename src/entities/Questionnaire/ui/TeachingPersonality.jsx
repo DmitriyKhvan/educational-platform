@@ -10,10 +10,7 @@ export const TeachingPersonality = forwardRef(function TeachingPersonality(
 
   return (
     <div
-      className={cn(
-        'flex flex-wrap justify-center gap-x-3 gap-y-4 mb-12',
-        className,
-      )}
+      className={cn('flex flex-wrap justify-center gap-x-3 gap-y-4', className)}
     >
       {teachingStyles.map((item) => {
         const { teachingStyle, id } = item;
