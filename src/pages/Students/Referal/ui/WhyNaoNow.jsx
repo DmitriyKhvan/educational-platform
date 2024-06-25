@@ -1,60 +1,53 @@
+import { useTranslation } from 'react-i18next';
 import { BiSolidUserVoice } from 'react-icons/bi';
 import { FaStar } from 'react-icons/fa6';
 import { IoGameController } from 'react-icons/io5';
 import { MdInsertChart } from 'react-icons/md';
 
 function WhyNaoNow() {
+  const [t] = useTranslation('refer');
+
   return (
     <section className="text-center">
-      <h2 className="font-bold text-[64px] mb-16">Why Nao Now</h2>
-      <div className="flex gap-10">
-        <div className="flex flex-col items-center">
+      <h2 className="font-bold text-[36px] md:text-[64px] mb-16">
+        {t('why_nao_now')}
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:flex gap-10 px-5">
+        <div className="flex flex-col items-center max-w-[360px] mx-auto">
           <span className="bg-color-purple bg-opacity-10 p-4 block rounded-lg mb-6">
             <FaStar className="text-color-purple text-[32px]" />
           </span>{' '}
           <p className="font-semibold text-xl mb-3 h-[2lh]">
-            Expertise Meets Excellence
+            {t('reason_title_1')}
           </p>
-          <span>
-            Our mentors are knowledgeable experts and distinguished educators,
-            who serve as role models for our students
-          </span>
+          <span>{t('reason_text_1')}</span>
         </div>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center max-w-[360px] mx-auto">
           <span className="bg-color-purple bg-opacity-10 p-4 block rounded-lg mb-6">
             <BiSolidUserVoice className="text-color-purple text-[32px]" />
           </span>{' '}
           <p className="font-semibold text-xl mb-3 h-[2lh]">
-            Speaking-Focused Curriculum
+            {t('reason_title_2')}
           </p>
-          <span>
-            Our goal is to engage students so deeply in interesting topics that
-            they naturally begin to speak English
-          </span>
+          <span>{t('reason_text_2')}</span>
         </div>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center max-w-[360px] mx-auto">
           <span className="bg-color-purple bg-opacity-10 p-4 block rounded-lg mb-6">
             <IoGameController className="text-color-purple text-[32px]" />
           </span>{' '}
           <p className="font-semibold text-xl mb-3 h-[2lh]">
-            Engagement Through Interactivity
+            {t('reason_title_3')}
           </p>
-          <span>
-            Our platform uses interactive simulations, games, and real-world
-            scenarios to keep you engaged
-          </span>
+          <span>{t('reason_text_3')}</span>
         </div>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center max-w-[360px] mx-auto">
           <span className="bg-color-purple bg-opacity-10 p-4 block rounded-lg mb-6">
             <MdInsertChart className="text-color-purple text-[32px]" />
           </span>{' '}
           <p className="font-semibold text-xl mb-3 h-[2lh]">
-            Real-time Progress Tracking
+            {t('reason_title_4')}
           </p>
-          <span>
-            With our intuitive dashboard, you can monitor your learning
-            milestones and course completions in real-time
-          </span>
+          <span>{t('reason_text_4')}</span>
         </div>
       </div>
     </section>

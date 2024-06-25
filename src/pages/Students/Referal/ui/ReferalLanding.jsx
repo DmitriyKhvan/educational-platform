@@ -1,30 +1,53 @@
+/* eslint-disable no-unused-vars */
 import purpleLogo from 'src/shared/assets/images/logo_purple.svg';
 import whiteLogo from 'src/shared/assets/images/logo_white.svg';
 
+import { useEffect, useRef, useState } from 'react';
+import { FaMapMarkerAlt } from 'react-icons/fa';
 import {
   FaAngleRight,
   FaInstagram,
   FaLinkedin,
   FaPhone,
 } from 'react-icons/fa6';
-import Button from 'src/components/Form/Button';
 import { IoLogoFacebook, IoMdMail } from 'react-icons/io';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import { LuMenu, LuX } from 'react-icons/lu';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { SiNaver } from 'react-icons/si';
-import { useRef } from 'react';
+import { useMediaQuery } from 'react-responsive';
+import Button from 'src/components/Form/Button';
+import { LangSwitcher, useCurrentLang } from 'src/entities/LangSwitcher';
+import FormCard from './FormCard';
+import ReferalIntro from './ReferalIntro';
 import Reviews from './Reviews';
 import WhyNaoNow from './WhyNaoNow';
-import ReferalIntro from './ReferalIntro';
-import FormCard from './FormCard';
+import { useTranslation } from 'react-i18next';
 
 const ReferalLanding = ({ student }) => {
   const inputRef = useRef();
+  const formRef = useRef();
+  const currentLang = useCurrentLang();
+  const [t] = useTranslation(['refer', 'common']);
+
+  const isTablet = useMediaQuery({ maxWidth: 1280 });
+  const [openMenu, setOpenMenu] = useState(false);
 
   const onBannerClick = () => {
+    formRef.current?.scrollIntoView({ behavior: 'smooth' });
     inputRef.current?.focus();
-    inputRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  useEffect(() => {
+    if (openMenu) {
+      document.body.style.overflow = 'hidden';
+      window.scrollTo(0, 0);
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    if (!isTablet) {
+      setOpenMenu(false)
+    }
+  }, [openMenu, isTablet]);
 
   const quickLinks = [
     {
@@ -92,20 +115,22 @@ const ReferalLanding = ({ student }) => {
   ];
 
   const navLinks = [
-    { title: 'Courses', href: 'https://www.naonow.com' },
-    { title: 'Mentors', href: 'https://www.naonow.com/mentors' },
-    { title: 'Free Trial', href: 'https://www.naonow.com' },
-    { title: 'Blog', href: 'https://www.naonow.com/blog' },
-    { title: 'Become a Mentor', href: 'https://www.naonow.com/mentors-apply' },
+    { title: t('courses'), href: 'https://www.naonow.com' },
+    { title: t('mentors'), href: 'https://www.naonow.com/mentors' },
+    { title: t('free_trial'), href: 'https://www.naonow.com' },
+    { title: t('blog'), href: 'https://www.naonow.com/blog' },
+    {
+      title: t('become_a_mentor'),
+      href: 'https://www.naonow.com/mentors-apply',
+    },
   ];
 
   return (
     <>
-      <section className="">
-        <header className="flex mb-6 justify-between items-center gap-2 px-5 py-[10px] md:px-20 md:py-6 md:mb-0">
+      <section className="break-keep">
+        <header className="flex mb-6 justify-between items-center gap-2 px-5 py-[10px] xl:px-20 md:py-6 md:mb-0">
           <img src={purpleLogo} alt="NAONOW" className="h-5 md:h-6" />
-
-          <nav className="flex lg:gap-5 xl:gap-12">
+          <nav className="hidden xl:flex lg:gap-5 xl:gap-12">
             {navLinks.map((link) => (
               <a
                 key={link.title}
@@ -117,39 +142,91 @@ const ReferalLanding = ({ student }) => {
               </a>
             ))}
           </nav>
-
-          <div className="flex gap-4">
-            <Button
-              className="px-8 py-4 text-color-purple border-color-purple hover:text-white"
-              theme="outline"
-            >
-              Login
-            </Button>
-            <Button className="px-8 py-4">Sign Up</Button>
+          <div className="flex gap-1 sm:gap-4">
+            <div>
+              <LangSwitcher currentLang={currentLang} theme="purple" />
+            </div>
+            {isTablet ? (
+              <Button
+                onClick={() => setOpenMenu((prev) => !prev)}
+                theme="outline"
+                className="border-none hover:bg-white hover:text-black"
+              >
+                {openMenu ? (
+                  <LuX className="w-6 h-6" />
+                ) : (
+                  <LuMenu className="w-6 h-6" />
+                )}
+              </Button>
+            ) : (
+              <>
+                <a
+                  href="https://dashboard.naonow.com"
+                  className="flex w-full transition h-12 items-center justify-center rounded-lg font-semibold text-sm hover:bg-color-purple border px-8 py-4 text-color-purple border-color-purple hover:text-white"
+                >
+                  {t('sign_in', { ns: 'common' })}
+                </a>
+                <a
+                  href="https://dashboard.naonow.com/onboarding"
+                  className="flex whitespace-nowrap border border-color-purple w-full h-12 items-center justify-center rounded-lg font-semibold text-sm bg-color-purple px-8 py-4 text-white"
+                >
+                  {t('signup', { ns: 'common' })}
+                </a>
+              </>
+            )}
           </div>
         </header>
 
+        {isTablet && openMenu && (
+          <div className="fixed p-4 bg-white w-screen left-0 right-0 bottom-0 h-[calc(100vh-68px)] md:h-[calc(100vh-96px)] z-10">
+            <nav className="flex flex-col mb-12">
+              {navLinks.map((link) => (
+                <a
+                  key={link.title}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="py-4 border-b"
+                  href={link.href}
+                >
+                  {link.title}
+                </a>
+              ))}
+            </nav>
+
+            <a
+              href="https://dashboard.naonow.com/onboarding"
+              className="flex whitespace-nowrap mb-4 border border-color-purple w-full h-12 items-center justify-center rounded-lg font-semibold text-sm bg-color-purple px-8 py-4 text-white"
+            >
+              {t('signup', { ns: 'common' })}
+            </a>
+            <a
+              href="https://dashboard.naonow.com"
+              className="flex w-full transition h-12 items-center justify-center rounded-lg font-semibold text-sm hover:bg-color-purple border px-8 py-4 text-color-purple border-color-purple hover:text-white"
+            >
+              {t('sign_in', { ns: 'common' })}
+            </a>
+          </div>
+        )}
+
         <div
           onClick={onBannerClick}
-          className="mx-5 mb-10 flex gap-3 items-center bg-[#00D986] hover:bg-opacity-80 hover:cursor-pointer transition-colors min-h-16 rounded-[10px] p-3 md md:rounded-none md:mx-0"
+          className="mb-10 flex gap-3 items-center bg-[#00D986] hover:bg-opacity-80 hover:cursor-pointer transition-colors min-h-16 p-3 rounded-none mx-0"
         >
-          <span className="md:hidden text-2xl flex justify-center items-center w-12 h-12 rounded-lg bg-white bg-opacity-10">
-            🎁
-          </span>
-          <div className="md:flex md:justify-center md:items-center md:w-full gap-2">
-            <span className="hidden md:block text-xl">🎁</span>
-            <p className="font-semibold text-sm">Claim your exclusive offer!</p>
-            <p className="text-sm">Get a free trial and 10% discount</p>
-            <span className="hidden md:block text-xl">🎁</span>
+          <div className="flex items-center w-full justify-between sm:justify-center sm:gap-3">
+            <span className="block text-xl">🎁</span>
+            <div className="sm:flex sm:gap-2">
+              <p className="font-semibold text-sm">{t('claim_your_offer')}</p>
+              <p className="text-sm">{t('get_trial_and_discount')}</p>
+            </div>
+            <span className="block text-xl">🎁</span>
           </div>
-          <FaAngleRight className="ml-auto md:hidden" />
         </div>
 
         <main className="max-w-[1280px] mx-auto space-y-28 mb-16">
-          <div className="w-full flex justify-between items-start">
+          <div className="w-full flex flex-col items-center xl:flex-row justify-between xl:items-start">
             <ReferalIntro student={student} />
 
-            <FormCard inputRef={inputRef} />
+            <FormCard inputRef={inputRef} formRef={formRef} />
           </div>
 
           <WhyNaoNow />
