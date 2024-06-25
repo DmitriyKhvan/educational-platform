@@ -1,9 +1,6 @@
-/* eslint-disable no-unused-vars */
-
 import AutoScroll from 'embla-carousel-auto-scroll';
 import useEmblaCarousel from 'embla-carousel-react';
 import { Trans, useTranslation } from 'react-i18next';
-import { useMediaQuery } from 'react-responsive';
 import botLeft from 'src/shared/assets/images/samples/bot-left.jpg';
 import botMid from 'src/shared/assets/images/samples/bot-mid.jpg';
 import botRight from 'src/shared/assets/images/samples/bot-right.jpg';
@@ -16,7 +13,6 @@ const imgs = [topLeft, topMid, topRight, botLeft, botMid, botRight];
 function ReferalIntro({ student }) {
   const [t] = useTranslation('refer');
 
-  const isTablet = useMediaQuery({ maxWidth: 812 });
   const [emblaRef] = useEmblaCarousel({ loop: true }, [
     AutoScroll({
       playOnInit: true,
@@ -87,38 +83,6 @@ function ReferalIntro({ student }) {
           ))}
         </div>
       </div>
-
-      {/* {isTablet ? <><div className="overflow-hidden w-screen relative" ref={emblaRef}>
-				<div className="flex touch-pan-y -ml-4">
-					{imgs.map((url) => (
-						<div
-							className="relative min-w-0 grow-0 shrink-0 basis-1/3 pl-4"
-							key={url}
-						>
-							<img src={url} alt="mentor" className="rounded-xl" />
-						</div>
-					))}
-				</div>
-			</div>
-			<div className="overflow-hidden w-screen relative" ref={emblaRef2}>
-				<div className="flex touch-pan-y -ml-4">
-					{imgs.map((url) => (
-						<div
-							className="relative min-w-0 grow-0 shrink-0 basis-1/3 pl-4"
-							key={url}
-						>
-							<img src={url} alt="mentor" className="rounded-xl" />
-						</div>
-					))}
-				</div>
-			</div></> :<div className="flex flex-wrap gap-6 mb-3">
-				<img src={topLeft} alt="mentor" className="rounded-xl" />
-				<img src={topMid} alt="mentor" className="rounded-xl" />
-				<img src={topRight} alt="mentor" className="rounded-xl" />
-				<img src={botLeft} alt="mentor" className="rounded-xl" />
-				<img src={botMid} alt="mentor" className="rounded-xl" />
-				<img src={botRight} alt="mentor" className="rounded-xl" />
-			</div>} */}
     </section>
   );
 }
