@@ -6,11 +6,13 @@ import {
   NextButton,
   usePrevNextButtons,
 } from './EmblaCarouselArrowButtons';
-// import { CarouselCard } from './CarouselCard';
+import AutoScroll from 'embla-carousel-auto-scroll';
 
 export const EmblaCarousel = (props) => {
   const { slides, options } = props;
-  const [emblaRef, emblaApi] = useEmblaCarousel(options);
+  const [emblaRef, emblaApi] = useEmblaCarousel(options, [
+    AutoScroll({ playOnInit: false }),
+  ]);
 
   const { selectedIndex, scrollSnaps, onDotButtonClick } =
     useDotButton(emblaApi);
@@ -25,17 +27,7 @@ export const EmblaCarousel = (props) => {
   return (
     <div className="relative">
       <div className="w-full overflow-hidden" ref={emblaRef}>
-        <div className="flex touch-pan-y -ml-4">
-          {slides}
-          {/* {slides.map((index) => (
-            <div
-              className="relative min-w-0 grow-0 shrink-0 basis-full sm:basis-1/2 pl-4"
-              key={index}
-            >
-              <CarouselCard />
-            </div>
-          ))} */}
-        </div>
+        <div className="flex touch-pan-y -ml-4">{slides}</div>
       </div>
 
       <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />

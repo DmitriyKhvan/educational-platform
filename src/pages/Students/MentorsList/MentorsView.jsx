@@ -5,7 +5,7 @@ import { MentorCard } from './MentorCard';
 import { MentorCard2 } from './MentorCard2';
 import { FiSearch } from 'react-icons/fi';
 
-import { EmblaCarousel } from 'src/components/Carousel';
+import { EmblaCarousel } from 'src/shared/ui/Carousel';
 import { TopMentorCard } from 'src/entities/TopMentorCard';
 
 import { FilterMatching } from 'src/features/FilterMatching';
@@ -68,6 +68,22 @@ export const MentorsView = ({ mentorList, handleSelectMentor }) => {
                 </div>
               );
             })}
+            // slides={
+            //   <>
+            //     <div className="pl-4">
+            //       <TopMentorCard />
+            //     </div>
+            //     <div className="pl-4">
+            //       <TopMentorCard />
+            //     </div>
+            //     <div className="pl-4">
+            //       <TopMentorCard />
+            //     </div>
+            //     <div className="pl-4">
+            //       <TopMentorCard />
+            //     </div>
+            //   </>
+            // }
           />
         </div>
       )}

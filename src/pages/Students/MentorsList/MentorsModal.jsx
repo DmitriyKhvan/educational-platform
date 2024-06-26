@@ -14,14 +14,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from 'src/components/Tooltip';
-// import { EmblaCarousel } from 'src/components/Carousel';
+// import { EmblaCarousel } from 'src/shared/ui/Carousel';
+// import { Review } from 'src/entities/Review';
 
 const MentorsModal = ({ mentor }) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });
   const [t] = useTranslation(['common', 'profile']);
-
-  // const SLIDE_COUNT = 5;
-  // const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 
   return (
     <div className="flex flex-col gap-8 w-full sm:w-[calc(100vw-120px)] max-w-[880px] sm:h-full sm:min-h-[415px]">
@@ -160,7 +158,25 @@ const MentorsModal = ({ mentor }) => {
             Reviews
           </h3>
           <EmblaCarousel
-            slides={SLIDES}
+            slides={
+              <>
+                <div className="relative min-w-0 grow-0 shrink-0 basis-full sm:basis-1/2 pl-4">
+                  <Review />
+                </div>
+                <div className="relative min-w-0 grow-0 shrink-0 basis-full sm:basis-1/2 pl-4">
+                  <Review />
+                </div>
+                <div className="relative min-w-0 grow-0 shrink-0 basis-full sm:basis-1/2 pl-4">
+                  <Review />
+                </div>
+                <div className="relative min-w-0 grow-0 shrink-0 basis-full sm:basis-1/2 pl-4">
+                  <Review />
+                </div>
+                <div className="relative min-w-0 grow-0 shrink-0 basis-full sm:basis-1/2 pl-4">
+                  <Review />
+                </div>
+              </>
+            }
             // options={{ align: 'start', loop: true }}
             options={{ align: 'start' }}
           />

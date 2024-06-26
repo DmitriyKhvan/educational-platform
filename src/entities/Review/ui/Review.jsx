@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const CarouselCard = () => {
+export const Review = () => {
   return (
     <div className="shadow rounded-md p-4 w-full mx-auto bg-slate-50">
       <div className="animate-pulse">

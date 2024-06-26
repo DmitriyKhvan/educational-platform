@@ -1,12 +1,10 @@
-import React, { forwardRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BsFillGridFill } from 'react-icons/bs';
-import { FaAngleUp, FaList } from 'react-icons/fa6';
+import { FaList } from 'react-icons/fa6';
 import { IoFilter } from 'react-icons/io5';
 import MyDropdownMenu from 'src/components/DropdownMenu';
 import Button from 'src/components/Form/Button';
 
-import * as Accordion from '@radix-ui/react-accordion';
-import { cn } from 'src/shared/utils/functions';
 import {
   Days,
   EnergyLevel,
@@ -22,66 +20,12 @@ import { MATCHING_PROFILE } from 'src/shared/apollo/queries/matching/matchingPro
 import { TitleFilter } from './TitleFilter';
 import { UPDATE_MATCHING_PROFILE } from 'src/shared/apollo/mutations/matching/updateMatchingProfile';
 import { useAuth } from 'src/app/providers/AuthProvider';
-
-const AccordionItem = forwardRef(function AccordionItem(
-  { children, className, ...props },
-  forwardedRef,
-) {
-  return (
-    <Accordion.Item
-      className={cn(
-        'mt-px overflow-hidden first:mt-0 first:rounded-t last:rounded-b focus-within:relative focus-within:z-10',
-        className,
-      )}
-      {...props}
-      ref={forwardedRef}
-    >
-      {children}
-    </Accordion.Item>
-  );
-});
-
-const AccordionTrigger = forwardRef(function AccordionTrigger(
-  { children, className, ...props },
-  forwardedRef,
-) {
-  return (
-    <Accordion.Header className="flex">
-      <Accordion.Trigger
-        className={cn(
-          'hover:bg-gray-50 group flex h-[45px] flex-1 cursor-default items-center justify-between bg-white px-5 text-[15px] leading-none border-b outline-none',
-          className,
-        )}
-        {...props}
-        ref={forwardedRef}
-      >
-        {children}
-        <FaAngleUp
-          className="ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-180"
-          aria-hidden
-        />
-      </Accordion.Trigger>
-    </Accordion.Header>
-  );
-});
-
-const AccordionContent = forwardRef(function AccordionContent(
-  { children, className, ...props },
-  forwardedRef,
-) {
-  return (
-    <Accordion.Content
-      className={cn(
-        'p-4 data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden text-[15px] border-b',
-        className,
-      )}
-      {...props}
-      ref={forwardedRef}
-    >
-      {children}
-    </Accordion.Content>
-  );
-});
+import {
+  AccordionContent,
+  AccordionItem,
+  AccordionRoot,
+  AccordionTrigger,
+} from 'src/shared/ui/Accordion';
 
 export const FilterMatching = ({
   findMatches,
@@ -106,11 +50,6 @@ export const FilterMatching = ({
     daysSet.add(avail.day);
   });
 
-  // const parseAvails = {
-  //   time: Array.from(daysSet).length > 1 ? Array.from(timesSet) : [],
-  //   days: Array.from(timesSet).length > 1 ? Array.from(daysSet) : [],
-  // };
-
   const parseAvails = {
     time: Array.from(timesSet),
     days: Array.from(daysSet),
@@ -126,6 +65,9 @@ export const FilterMatching = ({
   const parseData = (data) => {
     return data.map((item) => item.id);
   };
+
+  const [time, setTime] = useState([]);
+  const [days, setDays] = useState([]);
 
   const {
     register,
@@ -149,42 +91,21 @@ export const FilterMatching = ({
     },
   });
 
-  // const availabilities = useMemo(() => {
-  //   // debugger;
-  //   if (
-  //     (watch('availabilities.days') || watch('availabilities.time')) &&
-  //     dictionaries
-  //   ) {
-  //     return dictionaries?.matchingProfile?.availabilities
-  //       .filter((avail) => {
-  //         if (
-  //           watch('availabilities.time').length &&
-  //           watch('availabilities.days').length
-  //         ) {
-  //           return (
-  //             watch('availabilities.time').includes(avail.from) &&
-  //             watch('availabilities.days').includes(avail.day)
-  //           );
-  //         } else if (watch('availabilities.time').length) {
-  //           return watch('availabilities.time').includes(avail.from);
-  //         } else {
-  //           return watch('availabilities.days').includes(avail.day);
-  //         }
-  //       })
-  //       .map((avail) => avail.id);
-  //   }
-  // }, [
-  //   watch('availabilities.time'),
-  //   watch('availabilities.days'),
-  //   dictionaries,
-  // ]);
-
   useEffect(() => {
-    let availabilities = [];
     if (dictionaries) {
-      debugger;
-      if (watch('availabilities.days') || watch('availabilities.time')) {
-        availabilities = dictionaries?.matchingProfile?.availabilities
+      let newAvailabilities = availabilities;
+      const newTime = watch('availabilities.time');
+      const newDays = watch('availabilities.days');
+      // if (watch('availabilities.days') || watch('availabilities.time')) {
+      if (
+        time.toString() !== newTime.toString() ||
+        days.toString() !== newDays.toString()
+      ) {
+        setTime(newTime);
+        setDays(newDays);
+        debugger;
+
+        newAvailabilities = dictionaries?.matchingProfile?.availabilities
           .filter((avail) => {
             if (
               watch('availabilities.time').length &&
@@ -202,15 +123,14 @@ export const FilterMatching = ({
           })
           .map((avail) => avail.id);
 
-        setAvailabilities(availabilities);
+        setAvailabilities(newAvailabilities);
       }
 
-      // debugger;
       const data = {
         energy: watch('energy'),
         interests: watch('interests'),
         teachingStyles: watch('teachingStyles'),
-        availabilities,
+        availabilities: newAvailabilities,
       };
 
       updateMatchingProfile({
@@ -268,12 +188,7 @@ export const FilterMatching = ({
           </div>
         </div>
 
-        <Accordion.Root
-          className="w-full"
-          type="single"
-          defaultValue="item-1"
-          collapsible
-        >
+        <AccordionRoot>
           <AccordionItem value="item-1">
             <AccordionTrigger className="text-[15px] font-bold">
               <TitleFilter
@@ -356,7 +271,7 @@ export const FilterMatching = ({
               />
             </AccordionContent>
           </AccordionItem>
-        </Accordion.Root>
+        </AccordionRoot>
       </div>
     </MyDropdownMenu>
   );
