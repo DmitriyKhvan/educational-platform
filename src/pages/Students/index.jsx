@@ -1,19 +1,18 @@
 import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { TrialRoute } from 'src/app/providers/router';
+import NotFoundPage from '../NotFoundPage';
 
 const StudentDashboard = lazy(() => import('./StudentDashboard'));
 const ScheduleLesson = lazy(() => import('./ScheduleLesson'));
 
-const Referal = lazy(() => import('./Referal/Referal'));
 const Mentors = lazy(() => import('./MentorsList/Mentors'));
 const Subscriptions = lazy(() => import('./Subscriptions/Subscriptions'));
 const Lessons = lazy(() => import('./Lessons'));
 const StudentProfile = lazy(() => import('./Profile/profile/StudentProfile'));
-const EditProflileStudent = lazy(
+const EditProfileStudent = lazy(
   () => import('./Profile/editInfo/EditStudentProfile'),
 );
-// const ErrorPage = lazy(() => import('../ErrorPage'));
 
 export default function StudentRoutes() {
   return (
@@ -36,9 +35,7 @@ export default function StudentRoutes() {
       <Route path={`lesson-calendar`} element={<Lessons />} />
 
       <Route exact path={`profile`} element={<StudentProfile />} />
-      <Route path={`profile/edit`} element={<EditProflileStudent />} />
-
-      <Route path={`referal`} element={<Referal />} />
+      <Route path={`profile/edit`} element={<EditProfileStudent />} />
 
       <Route
         path="mentors-list/:id?"
@@ -50,7 +47,7 @@ export default function StudentRoutes() {
       />
 
       <Route path={`subscriptions`} element={<Subscriptions />} />
-      {/* <Route path="*" element={<ErrorPage />} /> */}
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }

@@ -1,17 +1,28 @@
-import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from '@apollo/client';
+import { useEffect, useMemo, useState } from 'react';
 
+import { useTranslation } from 'react-i18next';
 import { Courses } from 'src/components/BuyPackage/Courses';
+import { OrderSummary } from 'src/components/BuyPackage/OrderSummary';
+import { Packages } from 'src/components/BuyPackage/Packages';
 import { SessionsPerWeek } from 'src/components/BuyPackage/SessionsPerWeek';
 import { SessionsTime } from 'src/components/BuyPackage/SessionsTime';
-import { Packages } from 'src/components/BuyPackage/Packages';
-import { OrderSummary } from 'src/components/BuyPackage/OrderSummary';
+import { COURSES } from 'src/shared/apollo/queries/courses/courses';
+import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 import Loader from '../../components/Loader/Loader';
-import { useTranslation } from 'react-i18next';
-import { COURSES } from 'src/modules/graphql/queries/courses/courses';
-import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
+import { FaCheck } from 'react-icons/fa6';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { PromoBanner } from 'src/components/BuyPackage/PromoBanner';
+
+import { DiscountType } from 'src/shared/constants/global';
+import { currencyFormat } from 'src/shared/utils/currencyFormat';
+import { useMediaQuery } from 'react-responsive';
+import { useCurrency } from 'src/app/providers/CurrencyProvider';
 
 export default function BuyPackage() {
+  const isTablet = useMediaQuery({ minWidth: 1280 });
+  const { user } = useAuth();
+  const { curCurrency } = useCurrency();
   const [t, i18n] = useTranslation('purchase');
 
   const [courses, setCourse] = useState([]);
@@ -27,12 +38,23 @@ export default function BuyPackage() {
 
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [promoPackage, setPromoPackage] = useState(null);
-  // const [selectedProvider, setSelectedProvider] = useState('stripe');
+
+  const discount = useMemo(() => {
+    if (user?.personalPromotionCodes?.length > 0) {
+      return user.personalPromotionCodes[0]?.discountType ===
+        DiscountType.PERCENT
+        ? `${user.personalPromotionCodes[0].value}%`
+        : currencyFormat({ number: user.personalPromotionCodes[0].value });
+    }
+  }, [user]);
 
   const { error, data, loading } = useQuery(COURSES, {
     fetchPolicy: 'network-only',
     variables: {
       trialFilter: 'only_regular',
+      ...(user.personalPromotionCodes.length && {
+        applyPersonalDiscountCode: true,
+      }),
     },
   });
 
@@ -83,37 +105,37 @@ export default function BuyPackage() {
     if (selectedSessionTime && selectedSessionsPerWeek) {
       setSelectedPackage(null);
 
-      return selectedCourse?.packages.filter((pkg) => {
-        const conditions = [true];
+      // debugger;
 
-        // conditions.push(pkg.period !== 1);
+      return selectedCourse?.packages
+        .filter((pkg) => {
+          const conditions = [true];
 
-        if (!selectedSessionTime) {
-          conditions.push(true);
-        } else {
-          conditions.push(pkg.sessionTime === selectedSessionTime);
-        }
+          // conditions.push(pkg.period !== 1);
 
-        if (!selectedSessionsPerWeek) {
-          conditions.push(true);
-        } else {
-          conditions.push(pkg.sessionsPerWeek === selectedSessionsPerWeek);
-        }
+          if (!selectedSessionTime) {
+            conditions.push(true);
+          } else {
+            conditions.push(pkg.sessionTime === selectedSessionTime);
+          }
 
-        return conditions.every((condition) => condition);
-      });
+          if (!selectedSessionsPerWeek) {
+            conditions.push(true);
+          } else {
+            conditions.push(pkg.sessionsPerWeek === selectedSessionsPerWeek);
+          }
+
+          return conditions.every((condition) => condition);
+        })
+        .map((pkg) => ({
+          ...pkg,
+          price: pkg.prices.find(
+            (price) => price.currency === curCurrency.value.toLocaleLowerCase(),
+          )?.price,
+        }));
       // .sort((a, b) => a.period - b.period);
     }
-  }, [changeCourse, selectedSessionTime, selectedSessionsPerWeek]);
-
-  // For Nice Payment
-  // const submitNice = () => {
-  //   navigate(`/purchase/nice-payment`, {
-  //     packageId: selectedPackage.id,
-  //     courseTitle: courseData.title,
-  //     amount: calculatePriceWithDiscount(selectedPackage),
-  //   });
-  // };
+  }, [changeCourse, selectedSessionTime, selectedSessionsPerWeek, curCurrency]);
 
   if (loading) return <Loader height="100vh" />;
 
@@ -122,9 +144,31 @@ export default function BuyPackage() {
   }
 
   return (
-    <div className="flex flex-wrap lg:flex-nowrap w-full gap-8 sm:gap-10 xl:gap-12 px-5 sm:px-20 py-6 sm:py-8">
+    <div className="flex flex-wrap lg:flex-nowrap w-full gap-8 sm:gap-10 xl:gap-12">
       {/* left block */}
       <div className="grow">
+        {!isTablet && (
+          <>
+            {user.personalPromotionCodes.length > 0 && !promoPackage && (
+              <PromoBanner
+                icon={<span className="text-xl">🎁</span>}
+                title={`You received a ${discount} discount`}
+                text="Purchase a package to use it now!"
+                className="flex bg-[#F14E1C]"
+              />
+            )}
+
+            {promoPackage && (
+              <PromoBanner
+                icon={<FaCheck />}
+                title={`${discount} discount is activated`}
+                text="Please complete purchase the form below"
+                className="flex bg-[#00D986]"
+              />
+            )}
+          </>
+        )}
+
         <h2 className="text-3xl sm:text-4xl font-bold sm:leading-[52px] mb-10">
           {t('choose_package')}
         </h2>
@@ -159,6 +203,27 @@ export default function BuyPackage() {
 
       {/* right block */}
       <div className="w-full md:min-w-[414px] md:max-w-[414px]">
+        {isTablet && (
+          <>
+            {user.personalPromotionCodes.length > 0 && !promoPackage && (
+              <PromoBanner
+                icon={<span className="text-xl">🎁</span>}
+                title={`You received a ${discount} discount`}
+                text="Purchase a package to use it now!"
+                className="flex bg-[#F14E1C]"
+              />
+            )}
+
+            {promoPackage && (
+              <PromoBanner
+                icon={<FaCheck />}
+                title={`${discount} discount is activated`}
+                text="Please complete purchase the form below"
+                className="flex bg-[#00D986]"
+              />
+            )}
+          </>
+        )}
         <OrderSummary
           selectedPackage={selectedPackage}
           setPromoPackage={setPromoPackage}

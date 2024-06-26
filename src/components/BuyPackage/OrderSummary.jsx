@@ -1,37 +1,32 @@
-import { useMemo, memo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 
-import { gql, useMutation } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 
-import { currencyFormat } from 'src/utils/currencyFormat';
-import { calculatePriceWithDiscount } from 'src/utils/calculatePriceWithDiscount';
+import { calculatePriceWithDiscount } from 'src/shared/utils/calculatePriceWithDiscount';
+import { currencyFormat } from 'src/shared/utils/currencyFormat';
 
+import { BsPlus } from 'react-icons/bs';
+import { RiErrorWarningFill } from 'react-icons/ri';
+import notify from 'src/shared/utils/notify';
+import Button from '../Form/Button';
+import Loader from '../Loader/Loader';
 import { PromoModal } from './PromoModal';
 import { TermsConditionsModal } from './TermsConditionsModal';
-import Button from '../Form/Button';
-import { RiErrorWarningFill } from 'react-icons/ri';
-import { BsPlus } from 'react-icons/bs';
-import notify from 'src/utils/notify';
-import Loader from '../Loader/Loader';
 
 import { AdaptiveDialog } from '../AdaptiveDialog';
-
-const CREATE_PAYMENT_INTENT = gql`
-  mutation CreatePaymentIntent($id: Int!) {
-    createPaymentIntent(packageId: $id) {
-      clientSecret
-    }
-  }
-`;
+import { CREATE_PAYMENT_INTENT } from 'src/shared/apollo/mutations/payment/createPaymentIntent';
+import { useCurrency } from 'src/app/providers/CurrencyProvider';
 
 export const OrderSummary = memo(function OrderSummary({
   selectedPackage,
   setPromoPackage,
   promoPackage,
 }) {
+  const { curCurrency } = useCurrency();
   const [open, setOpen] = useState(false);
   const [openTermsConditions, setIsOpenTermsConditions] = useState(false);
 
@@ -54,7 +49,9 @@ export const OrderSummary = memo(function OrderSummary({
     if (selectedPackage) {
       getSecret({
         variables: {
-          id: parseInt(selectedPackage.id),
+          packageId: parseInt(selectedPackage.id),
+          currency: curCurrency.value.toLowerCase(),
+          ...(promoPackage && { applyPersonalDiscountCode: true }),
         },
         onCompleted: (data) => {
           const { clientSecret } = data.createPaymentIntent;
@@ -139,7 +136,9 @@ export const OrderSummary = memo(function OrderSummary({
                 <span>{t('total')}</span>
                 <span>
                   {currencyFormat({
-                    number: calculatePriceWithDiscount(promoPackage),
+                    number: calculatePriceWithDiscount(
+                      promoPackage ? promoPackage : selectedPackage,
+                    ),
                   })}
                 </span>
               </div>

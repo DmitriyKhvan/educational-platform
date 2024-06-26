@@ -10,9 +10,9 @@ import {
   CalendarView,
   courseColorsDict,
   localeDic,
-} from 'src/constants/global';
-import { cn } from 'src/utils/functions';
-import { useCalendarControls } from 'src/utils/useCalendarControls';
+} from 'src/shared/constants/global';
+import { cn } from 'src/shared/utils/functions';
+import { useCalendarControls } from 'src/shared/utils/useCalendarControls';
 
 const AvailabilityCalendarHeader = ({ calendarRef, updateEvents }) => {
   const [open, setOpen] = useState(false);

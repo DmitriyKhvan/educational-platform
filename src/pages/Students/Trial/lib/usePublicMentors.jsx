@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { PUBLIC_MENTOR_LIST } from 'src/modules/graphql/queries/mentors/publicMentorList';
+import { PUBLIC_MENTOR_LIST } from 'src/shared/apollo/queries/mentors/publicMentorList';
 
 export const usePublicMentors = () => {
   const { data: { publicMentorList: trialMentors } = [] } = useQuery(

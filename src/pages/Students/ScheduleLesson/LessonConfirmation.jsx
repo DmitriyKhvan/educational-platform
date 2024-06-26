@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ScheduleCard from './ScheduleCard';
 import Loader from '../../../components/common/Loader';
-import { useAuth } from '../../../modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import LessonCard from './LessonCard';
 import { useMutation } from '@apollo/client';
 import {
   CREATE_APPOINTMENT,
   UPDATE_APPOINTMENT,
-} from '../../../modules/auth/graphql';
+} from '../../../shared/apollo/graphql';
 
 import CheckboxField from '../../../components/Form/CheckboxField';
-import { getItemToLocalStorage } from 'src/constants/global';
+import { getItemToLocalStorage } from 'src/shared/constants/global';
 import Button from 'src/components/Form/Button';
 import MentorImageRow from './MentorImageRow';
 import { toZonedTime, format } from 'date-fns-tz';
@@ -19,12 +19,12 @@ import { addMinutes } from 'date-fns';
 import { IoArrowBack } from 'react-icons/io5';
 import koLocale from 'date-fns/locale/ko';
 import { useNavigate } from 'react-router-dom';
-import notify from 'src/utils/notify';
+import notify from 'src/shared/utils/notify';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { AiOutlineInfo } from 'react-icons/ai';
 import NotEnoughCreditsModal from './NotEnoughCreditsModal';
-import { notEnoughCredits } from 'src/utils/notEnoughCredits';
-import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
+import { notEnoughCredits } from 'src/shared/utils/notEnoughCredits';
+import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 
 const LessonConfirmation = ({
   plan,

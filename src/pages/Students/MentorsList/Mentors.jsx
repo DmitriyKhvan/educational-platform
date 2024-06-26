@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@apollo/client';
-import { MENTORS } from 'src/modules/graphql/queries/mentors/mentors';
+import { MENTORS } from 'src/shared/apollo/queries/mentors/mentors';
 
 import Loader from '../../../components/Loader/Loader';
 
-import { getItemToLocalStorage } from 'src/constants/global';
+import { getItemToLocalStorage } from 'src/shared/constants/global';
 
 import { MentorsView } from './MentorsView';
 

@@ -5,14 +5,14 @@ import { toZonedTime } from 'date-fns-tz';
 import StatusIndicator from './StatusIndicator';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 import { PlaygroundRecordingModal } from '../PlaygroundRecordingModal';
-import { useAuth } from 'src/modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { useTranslation } from 'react-i18next';
-import { Roles, localeDic } from 'src/constants/global';
+import { Roles, localeDic } from 'src/shared/constants/global';
 import Indicator from '../Indicator';
 import { PiStarFourFill } from 'react-icons/pi';
-import { cn } from 'src/utils/functions';
+import { cn } from 'src/shared/utils/functions';
 import LabelBox from './LabelBox';
-import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
+import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 
 const LessonInfoModal = ({
   date,

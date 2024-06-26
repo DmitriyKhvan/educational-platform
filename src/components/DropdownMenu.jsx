@@ -1,6 +1,6 @@
 import React from 'react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { cn } from 'src/utils/functions';
+import { cn } from 'src/shared/utils/functions';
 
 const MyDropdownMenu = ({
   setOpen,

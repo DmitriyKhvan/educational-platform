@@ -2,15 +2,19 @@ import React, { useState, useEffect } from 'react';
 import Button from '../Form/Button';
 import { AdaptiveDialog } from '../AdaptiveDialog';
 import { FaPlay } from 'react-icons/fa6';
-import { LessonsStatusType, ModalType, Roles } from 'src/constants/global';
-import { isBetween } from 'src/utils/isBetween';
-import { useAuth } from 'src/modules/auth';
+import {
+  LessonsStatusType,
+  ModalType,
+  Roles,
+} from 'src/shared/constants/global';
+import { isBetween } from 'src/shared/utils/isBetween';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { useTranslation } from 'react-i18next';
 import RescheduleAndCancelModal from './RescheduleAndCancelModalRebranding';
 import PlaygroundWarningModal from './PlaygroundWarningModal';
 import LessonInfoModal from './LessonInfoModal';
 import { addMinutes, isAfter } from 'date-fns';
-import { isWithinHours } from 'src/utils/isWithinHours';
+import { isWithinHours } from 'src/shared/utils/isWithinHours';
 import { CancelTrialLessonModal } from './CancelTrialLessonModal';
 
 const LessonControls = ({
@@ -184,7 +188,10 @@ const LessonControls = ({
         <AdaptiveDialog
           button={
             <Button
-              disabled={!data?.playground?.recordingUrl}
+              disabled={
+                !data?.playground?.recordingUrl &&
+                !data?.playground?.recordingReady
+              }
               className="grow gap-1 sm:gap-2 text-xs sm:text-sm px-2"
             >
               <FaPlay />

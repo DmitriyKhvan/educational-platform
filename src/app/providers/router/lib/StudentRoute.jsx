@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { Roles, getItemToLocalStorage } from 'src/constants/global';
-import { useAuth } from 'src/modules/auth';
+import { Roles, getItemToLocalStorage } from 'src/shared/constants/global';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 export const StudentRoute = ({ children }) => {
   const location = useLocation();

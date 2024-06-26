@@ -5,16 +5,16 @@ import { ScheduleSelector } from './ScheduleSelector';
 import SelectLesson from './SelectLesson';
 import SelectMentorCards from './SelectMentorCards';
 import { useQuery } from '@apollo/client';
-import { LESSON_QUERY } from '../../../modules/auth/graphql';
+import { LESSON_QUERY } from '../../../shared/apollo/graphql';
 
-import '../../../assets/styles/tutor.scss';
+import 'src/app/styles/tutor.scss';
 import { ScheduleProvider } from 'src/pages/Students/ScheduleLesson/ScheduleSelector/ScheduleProvider';
 import { AvailableTimes } from './ScheduleSelector/AvailableTimes';
 
 import ScheduleSuccess from './ScheduleSuccess';
-import { COMBINED_TIMESHEETS_TRIAL } from 'src/modules/graphql/queries/trial/combinedTimesheetsForTrials';
-import { useAuth } from 'src/modules/auth';
-import { COMBINED_TIMESHEETS } from 'src/modules/graphql/queries/combinedTimesheets';
+import { COMBINED_TIMESHEETS_TRIAL } from 'src/shared/apollo/queries/trial/combinedTimesheetsForTrials';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { COMBINED_TIMESHEETS } from 'src/shared/apollo/queries/combinedTimesheets';
 
 const ScheduleLesson = () => {
   const { currentStudent } = useAuth();

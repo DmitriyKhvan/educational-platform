@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { cn } from 'src/utils/functions';
+import { cn } from 'src/shared/utils/functions';
 
 const PackageCard = ({ item }) => {
   const [t] = useTranslation(['profile', 'common', 'lessons']);
@@ -18,6 +18,7 @@ const PackageCard = ({ item }) => {
           !item.credits ? 'text-gray-400' : 'text-color-dark-purple',
         )}
       >
+        {item?.package?.isReferral && '🎁 '}
         {item.package.course.title}
       </h3>
 

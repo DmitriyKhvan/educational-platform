@@ -3,10 +3,10 @@ import InputField from '../Form/InputField';
 import { useForm } from 'react-hook-form';
 import Button from '../Form/Button';
 import { useMutation } from '@apollo/client';
-import { APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER } from 'src/modules/auth/graphql';
-import { currencyFormat } from 'src/utils/currencyFormat';
-import notify from 'src/utils/notify';
-import { DiscountType } from 'src/constants/global';
+import { APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER } from 'src/shared/apollo/graphql';
+import { currencyFormat } from 'src/shared/utils/currencyFormat';
+import notify from 'src/shared/utils/notify';
+import { DiscountType } from 'src/shared/constants/global';
 import Loader from '../Loader/Loader';
 import { useTranslation } from 'react-i18next';
 
@@ -21,7 +21,11 @@ export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen }) => {
     handleSubmit,
     register,
     formState: { isValid },
-  } = useForm({});
+  } = useForm({
+    defaultValues: {
+      promo: selectedPackage?.promotionCode?.code,
+    },
+  });
 
   const onSubmitHandler = ({ promo }) => {
     applyDiscount({

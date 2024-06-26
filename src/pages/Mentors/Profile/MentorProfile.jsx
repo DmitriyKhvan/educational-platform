@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import femaleAvatar from '../../../assets/images/avatars/img_avatar_female.png';
-import maleAvatar from '../../../assets/images/avatars/img_avatar_male.png';
+import femaleAvatar from 'src/shared/assets/images/avatars/img_avatar_female.png';
+import maleAvatar from 'src/shared/assets/images/avatars/img_avatar_male.png';
 
 import cls from './MentorProfile.module.scss';
-import { useAuth } from '../../../modules/auth';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 const MentorProfile = () => {
   const [t] = useTranslation(['profile', 'common']);

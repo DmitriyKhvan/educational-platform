@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { useQuery } from '@apollo/client';
-import { APPOINTMENTS_QUERY, PACKAGE_QUERY } from 'src/modules/auth/graphql';
-import { getItemToLocalStorage } from 'src/constants/global';
+import { APPOINTMENTS_QUERY, PACKAGE_QUERY } from 'src/shared/apollo/graphql';
+import { getItemToLocalStorage } from 'src/shared/constants/global';
 import { LessonsList } from 'src/components/LessonsList';
 
 const Lessons = () => {

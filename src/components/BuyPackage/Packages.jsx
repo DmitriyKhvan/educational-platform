@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import CheckboxField from '../Form/CheckboxField';
-import { currencyFormat } from 'src/utils/currencyFormat';
-import { calculatePriceWithDiscount } from 'src/utils/calculatePriceWithDiscount';
+import { currencyFormat } from 'src/shared/utils/currencyFormat';
+import { calculatePriceWithDiscount } from 'src/shared/utils/calculatePriceWithDiscount';
+import { useCurrency } from 'src/app/providers/CurrencyProvider';
 
 export const Packages = memo(function Packages({
   filteredPackage,
@@ -12,6 +13,7 @@ export const Packages = memo(function Packages({
   selectedPackage,
   setPromoPackage,
 }) {
+  const { curCurrency } = useCurrency();
   const [t] = useTranslation(['purchase', 'common', 'translations']);
   const [parent] = useAutoAnimate();
   return (
@@ -24,7 +26,7 @@ export const Packages = memo(function Packages({
           return (
             <label
               key={pkg.id}
-              className={`flex items-center justify-between w-full md:w-[387px] p-5 rounded-lg border border-color-border-grey transition duration-300 ease-in-out cursor-pointer ${
+              className={`flex items-center justify-between w-full md:w-[387px] p-5 rounded-lg border border-color-border-grey transition duration-300 ease-in-out cursor-pointer hover:border-color-purple/50 ${
                 selectedPackage === pkg && 'border-color-purple/50'
               }`}
             >
@@ -34,7 +36,7 @@ export const Packages = memo(function Packages({
                   name="package"
                   onChange={() => {
                     setSelectedPackage(pkg);
-                    setPromoPackage(pkg);
+                    setPromoPackage(null);
                   }}
                 />
                 <div className="grow flex flex-col gap-2">
@@ -49,15 +51,27 @@ export const Packages = memo(function Packages({
                       <>
                         <span>
                           {currencyFormat({
+                            currency: curCurrency.value,
+                            locales: curCurrency.locales,
                             number: calculatePriceWithDiscount(pkg),
                           })}
                         </span>
                         <span className="ml-[6px] text-color-red line-through">
-                          {currencyFormat({ number: pkg.price })}
+                          {currencyFormat({
+                            currency: curCurrency.value,
+                            locales: curCurrency.locales,
+                            number: pkg.price,
+                          })}
                         </span>
                       </>
                     ) : (
-                      <span>{currencyFormat({ number: pkg.price })}</span>
+                      <span>
+                        {currencyFormat({
+                          currency: curCurrency.value,
+                          locales: curCurrency.locales,
+                          number: pkg.price,
+                        })}
+                      </span>
                     )}
                   </p>
 
@@ -65,6 +79,8 @@ export const Packages = memo(function Packages({
                     {`${pkg.totalSessions} ${t('lessons', {
                       ns: 'common',
                     })}, ${currencyFormat({
+                      currency: curCurrency.value,
+                      locales: curCurrency.locales,
                       number: Math.round(
                         calculatePriceWithDiscount(pkg) / pkg.totalSessions,
                       ),

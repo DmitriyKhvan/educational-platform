@@ -2,10 +2,10 @@ import React from 'react';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 
 import { FaXmark } from 'react-icons/fa6';
-import { AvailabilityModalConfirm } from './AvailabilityModalConfirm';
 import Button from 'src/components/Form/Button';
 import * as Dialog from '@radix-ui/react-dialog';
 import { AvailabilityExceptionModal } from './AvailabilityExceptionModal';
+import { ModalConfirm } from 'src/entities/ModalConfirm';
 
 export const AvailabilityException = ({
   exception,
@@ -50,7 +50,7 @@ export const AvailabilityException = ({
               </button>
             }
           >
-            <AvailabilityModalConfirm
+            <ModalConfirm
               title="Delete date override"
               text="Are you sure you want to delete this date override?"
               btns={
@@ -94,7 +94,7 @@ export const AvailabilityException = ({
                   </button>
                 }
               >
-                <AvailabilityModalConfirm
+                <ModalConfirm
                   title="Delete date override slot"
                   text="Are you sure you want to delete this date override slot?"
                   btns={
