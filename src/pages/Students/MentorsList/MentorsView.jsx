@@ -9,9 +9,15 @@ import { EmblaCarousel } from 'src/components/Carousel';
 import { TopMentorCard } from 'src/entities/TopMentorCard';
 
 import { FilterMatching } from 'src/features/FilterMatching';
+import { useMutation } from '@apollo/client';
+import { FIND_MATCHES } from 'src/shared/apollo/mutations/matching/findMatches';
 
 export const MentorsView = ({ mentorList, handleSelectMentor }) => {
   const [t] = useTranslation(['studentMentor', 'common']);
+
+  const [findMatches, { data: findMatchesData }] = useMutation(FIND_MATCHES);
+
+  console.log('findMatchesData', findMatchesData);
 
   const [mentors, setMentors] = useState(
     [...mentorList].sort((a, b) => a.sortOrder - b.sortOrder),
@@ -44,33 +50,27 @@ export const MentorsView = ({ mentorList, handleSelectMentor }) => {
           onChange={(e) => searchMentors(e.target.value)}
         />
 
-        <FilterMatching setViewMentorList={setViewMentorList} viewMentorList={viewMentorList} />
-      </div>
-
-      <div className="w-full">
-        <EmblaCarousel
-          options={{ align: 'start' }}
-          slides={
-            <>
-              <div className="pl-4">
-                <TopMentorCard />
-              </div>
-              <div className="pl-4">
-                <TopMentorCard />
-              </div>
-              <div className="pl-4">
-                <TopMentorCard />
-              </div>
-              <div className="pl-4">
-                <TopMentorCard />
-              </div>
-              <div className="pl-4">
-                <TopMentorCard />
-              </div>
-            </>
-          }
+        <FilterMatching
+          findMatches={findMatches}
+          setViewMentorList={setViewMentorList}
+          viewMentorList={viewMentorList}
         />
       </div>
+
+      {findMatchesData?.findMatches?.length > 0 && (
+        <div className="w-full">
+          <EmblaCarousel
+            options={{ align: 'start' }}
+            slides={findMatchesData?.findMatches?.map((mentor) => {
+              return (
+                <div key={mentor.id} className="pl-4">
+                  <TopMentorCard mentor={mentor} />
+                </div>
+              );
+            })}
+          />
+        </div>
+      )}
 
       <div className="flex flex-wrap mt-10 gap-6 select-none">
         {mentors?.length !== 0 ? (

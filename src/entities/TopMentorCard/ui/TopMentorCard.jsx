@@ -1,10 +1,23 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { PiSealCheckFill } from 'react-icons/pi';
+import { Link } from 'react-router-dom';
+import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import Button from 'src/components/Form/Button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipPortal,
+  TooltipProvider,
+  TooltipTrigger,
+} from 'src/components/Tooltip';
 import { Tag } from 'src/entities/Questionnaire/ui/Tag';
+import MentorsModal from 'src/pages/Students/MentorsList/MentorsModal';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 
-export const TopMentorCard = () => {
+export const TopMentorCard = ({ mentor }) => {
+  // const {fullName, } = mentor
+  const [t] = useTranslation(['common']);
   return (
     <div className="w-full min-[400px]:w-[280px] space-y-5 p-5 rounded-[10px] border border-gray-100 shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
       <div className="flex justify-between gap-4">
@@ -53,10 +66,52 @@ export const TopMentorCard = () => {
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <Button className="">Schedule</Button>
-        <Button theme="dark_purple" className="">
-          View profile
-        </Button>
+        <TooltipProvider>
+          <Tooltip delayDuration={200}>
+            <TooltipTrigger asChild>
+              <Link
+                to={
+                  mentor?.availabilities?.regular?.length > 0
+                    ? `/student/schedule-lesson/select`
+                    : '#'
+                }
+                state={{
+                  mentor: {
+                    ...mentor,
+                  },
+                }}
+              >
+                <Button
+                  className="w-full"
+                  disabled={mentor?.availabilities?.regular?.length === 0}
+                >
+                  {t('schedule', { ns: 'common' })}
+                </Button>
+              </Link>
+            </TooltipTrigger>
+
+            {mentor?.availabilities?.regular?.length === 0 && (
+              <TooltipPortal>
+                <TooltipContent>
+                  <p className="text-center text-color-dark-purple text-sm font-semibold max-w-[16rem]">
+                    We apologize, but this mentor has no availability
+                  </p>
+                </TooltipContent>
+              </TooltipPortal>
+            )}
+          </Tooltip>
+        </TooltipProvider>
+
+        <AdaptiveDialog
+          button={
+            <Button theme="dark_purple" className="">
+              View profile
+            </Button>
+          }
+          classNameDrawer="h-[80%]"
+        >
+          <MentorsModal mentor={mentor} />
+        </AdaptiveDialog>
       </div>
     </div>
   );

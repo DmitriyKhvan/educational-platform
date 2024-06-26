@@ -17,9 +17,11 @@ import {
 } from 'src/entities/Questionnaire';
 import { useForm } from 'react-hook-form';
 import { Certificate } from 'src/entities/Questionnaire/ui/Certificate';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { MATCHING_PROFILE } from 'src/shared/apollo/queries/matching/matchingProfile';
 import { TitleFilter } from './TitleFilter';
+import { UPDATE_MATCHING_PROFILE } from 'src/shared/apollo/mutations/matching/updateMatchingProfile';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 const AccordionItem = forwardRef(function AccordionItem(
   { children, className, ...props },
@@ -81,9 +83,49 @@ const AccordionContent = forwardRef(function AccordionContent(
   );
 });
 
-export const FilterMatching = ({ setViewMentorList, viewMentorList }) => {
-  const { data: dictionaries } = useQuery(MATCHING_PROFILE);
+export const FilterMatching = ({
+  findMatches,
+  setViewMentorList,
+  viewMentorList,
+}) => {
   const [availabilities, setAvailabilities] = useState([]);
+  const { user } = useAuth();
+  const {
+    id: matchingId,
+    energy,
+    interests,
+    teachingStyles,
+    availabilities: avails,
+  } = user.matchingProfile;
+
+  const timesSet = new Set();
+  const daysSet = new Set();
+
+  avails.forEach((avail) => {
+    timesSet.add(avail.from);
+    daysSet.add(avail.day);
+  });
+
+  // const parseAvails = {
+  //   time: Array.from(daysSet).length > 1 ? Array.from(timesSet) : [],
+  //   days: Array.from(timesSet).length > 1 ? Array.from(daysSet) : [],
+  // };
+
+  const parseAvails = {
+    time: Array.from(timesSet),
+    days: Array.from(daysSet),
+  };
+
+  console.log('parseAvails', parseAvails);
+
+  const { data: dictionaries } = useQuery(MATCHING_PROFILE);
+  const [updateMatchingProfile] = useMutation(UPDATE_MATCHING_PROFILE, {
+    fetchPolicy: 'network-only',
+  });
+
+  const parseData = (data) => {
+    return data.map((item) => item.id);
+  };
 
   const {
     register,
@@ -94,45 +136,76 @@ export const FilterMatching = ({ setViewMentorList, viewMentorList }) => {
   } = useForm({
     mode: 'all',
     defaultValues: {
-      energy: '',
-      interests: [],
+      energy,
+      interests: parseData(interests),
       gender: '',
-      teachingStyles: '',
-      availabilities: {
-        time: [],
-        days: [],
-      },
+      teachingStyles: parseData(teachingStyles),
+      // availabilities: {
+      //   time: [],
+      //   days: [],
+      // },
+      availabilities: parseAvails,
       certificate: [],
     },
   });
 
+  // const availabilities = useMemo(() => {
+  //   // debugger;
+  //   if (
+  //     (watch('availabilities.days') || watch('availabilities.time')) &&
+  //     dictionaries
+  //   ) {
+  //     return dictionaries?.matchingProfile?.availabilities
+  //       .filter((avail) => {
+  //         if (
+  //           watch('availabilities.time').length &&
+  //           watch('availabilities.days').length
+  //         ) {
+  //           return (
+  //             watch('availabilities.time').includes(avail.from) &&
+  //             watch('availabilities.days').includes(avail.day)
+  //           );
+  //         } else if (watch('availabilities.time').length) {
+  //           return watch('availabilities.time').includes(avail.from);
+  //         } else {
+  //           return watch('availabilities.days').includes(avail.day);
+  //         }
+  //       })
+  //       .map((avail) => avail.id);
+  //   }
+  // }, [
+  //   watch('availabilities.time'),
+  //   watch('availabilities.days'),
+  //   dictionaries,
+  // ]);
+
   useEffect(() => {
-    if (
-      (watch('availabilities.days') || watch('availabilities.days')) &&
-      dictionaries
-    ) {
-      const availabilities = dictionaries.matchingProfile.availabilities
-        .filter((avail) => {
-          if (
-            watch('availabilities.time').length &&
-            watch('availabilities.days').length
-          ) {
-            return (
-              watch('availabilities.time').includes(avail.from) &&
-              watch('availabilities.days').includes(avail.day)
-            );
-          } else if (watch('availabilities.time').length) {
-            return watch('availabilities.time').includes(avail.from);
-          } else {
-            return watch('availabilities.days').includes(avail.day);
-          }
-        })
-        .map((avail) => avail.id);
+    let availabilities = [];
+    if (dictionaries) {
+      debugger;
+      if (watch('availabilities.days') || watch('availabilities.time')) {
+        availabilities = dictionaries?.matchingProfile?.availabilities
+          .filter((avail) => {
+            if (
+              watch('availabilities.time').length &&
+              watch('availabilities.days').length
+            ) {
+              return (
+                watch('availabilities.time').includes(avail.from) &&
+                watch('availabilities.days').includes(avail.day)
+              );
+            } else if (watch('availabilities.time').length) {
+              return watch('availabilities.time').includes(avail.from);
+            } else {
+              return watch('availabilities.days').includes(avail.day);
+            }
+          })
+          .map((avail) => avail.id);
 
-      console.log('availabilities', availabilities);
+        setAvailabilities(availabilities);
+      }
 
-      setAvailabilities(availabilities);
-
+      // debugger;
       const data = {
         energy: watch('energy'),
         interests: watch('interests'),
@@ -140,20 +213,25 @@ export const FilterMatching = ({ setViewMentorList, viewMentorList }) => {
         availabilities,
       };
 
-      console.log('data', data);
+      updateMatchingProfile({
+        variables: { id: matchingId, ...data },
+        onCompleted: () => {
+          findMatches({
+            variables: {
+              matchingProfileId: matchingId,
+            },
+          });
+        },
+      });
     }
-  }, [watch('availabilities.days'), watch('availabilities.time')]);
-
-  useEffect(() => {
-    const data = {
-      energy: watch('energy'),
-      interests: watch('interests'),
-      teachingStyles: watch('teachingStyles'),
-      availabilities,
-    };
-
-    console.log('data', data);
-  }, [watch('interests'), watch('teachingStyles'), watch('energy')]);
+  }, [
+    watch('interests').toString(),
+    watch('teachingStyles').toString(),
+    watch('energy'),
+    watch('availabilities.days').toString(),
+    watch('availabilities.time').toString(),
+    dictionaries?.toString(),
+  ]);
 
   return (
     <MyDropdownMenu
@@ -199,7 +277,7 @@ export const FilterMatching = ({ setViewMentorList, viewMentorList }) => {
           <AccordionItem value="item-1">
             <AccordionTrigger className="text-[15px] font-bold">
               <TitleFilter
-                count={availabilities.length}
+                count={availabilities?.length}
                 title="Preferable time and days"
               />
             </AccordionTrigger>
