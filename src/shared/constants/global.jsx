@@ -761,21 +761,24 @@ export const languagesDic = [
 ];
 
 export const currenciesDic = [
-  // {
-  //   label: `${Currencies.USD} ($)`,
-  //   value: Currencies.USD,
-  //   locales: 'en-US',
-  // },
+  {
+    label: `${Currencies.USD} ($)`,
+    value: Currencies.USD,
+    locales: 'en-US',
+    active: false,
+  },
   {
     label: `${Currencies.KRW} (₩)`,
     value: Currencies.KRW,
     locales: 'ko-KR',
+    active: true,
   },
-  // {
-  //   label: `${Currencies.TWD} ($)`,
-  //   value: Currencies.TWD,
-  //   locales: 'zh-TW',
-  // },
+  {
+    label: `${Currencies.TWD} ($)`,
+    value: Currencies.TWD,
+    locales: 'zh-TW',
+    active: false,
+  },
 ];
 
 export const localeDic = {
