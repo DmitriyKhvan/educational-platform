@@ -17,7 +17,7 @@ const IsReferal = () => {
 
   if (data?.validateReferralCode?.isValid) {
     localStorage.setItem('referralCode', referralcode);
-    return <ReferalLanding />;
+    return <ReferalLanding student={data?.validateReferralCode?.student} />;
   } else {
     return (
       <div className="flex w-full h-screen">

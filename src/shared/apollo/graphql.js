@@ -493,6 +493,7 @@ export const PACKAGE_QUERY = gql`
         provider
         cancelReason
         buyPrice
+        currency
         metadata
       }
       lessons {
