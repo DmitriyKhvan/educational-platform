@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -11,9 +11,12 @@ import {
 } from 'src/entities/Questionnaire';
 import { Certificate } from 'src/entities/Questionnaire/ui/Certificate';
 import { MUTATION_UPDATE_MENTOR } from 'src/shared/apollo/graphql';
+import { MATCHING_PROFILE } from 'src/shared/apollo/queries/matching/matchingProfile';
 
 export const MatchingInfo = () => {
   const [t] = useTranslation(['common']);
+  const { loading: matchingProfileLoading, data: dictionaries } =
+    useQuery(MATCHING_PROFILE);
   const [updateMentor, { loading }] = useMutation(MUTATION_UPDATE_MENTOR);
 
   const {
@@ -25,9 +28,9 @@ export const MatchingInfo = () => {
   } = useForm({
     mode: 'all',
     defaultValues: {
-      energyLevel: '',
+      energy: '',
       interests: [],
-      teachingPersonality: '',
+      teachingStyles: '',
       certificate: [],
     },
   });
@@ -39,6 +42,10 @@ export const MatchingInfo = () => {
     }
     updateMentor();
   };
+
+  if (matchingProfileLoading) {
+    return <ReactLoader />;
+  }
 
   return (
     <>
@@ -52,7 +59,7 @@ export const MatchingInfo = () => {
           <div className="space-y-4">
             <h6 className="text-sm font-normal text-gray-400">Energy level</h6>
             <EnergyLevel
-              {...register('energyLevel', { required: true })}
+              {...register('energy', { required: true })}
               watch={watch}
             />
           </div>
@@ -60,6 +67,8 @@ export const MatchingInfo = () => {
           <div className="space-y-4">
             <h6 className="text-sm font-normal text-gray-400">Interests</h6>
             <Interests
+              dictionaries={dictionaries}
+              watch={watch}
               className="justify-start"
               {...register('interests', { required: true })}
             />
@@ -70,8 +79,9 @@ export const MatchingInfo = () => {
               Teaching style
             </h6>
             <TeachingPersonality
+              dictionaries={dictionaries}
               className="justify-start"
-              {...register('teachingPersonality', { required: true })}
+              {...register('teachingStyles', { required: true })}
               watch={watch}
             />
           </div>

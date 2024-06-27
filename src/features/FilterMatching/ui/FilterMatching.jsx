@@ -55,8 +55,6 @@ export const FilterMatching = ({
     days: Array.from(daysSet),
   };
 
-  console.log('parseAvails', parseAvails);
-
   const { data: dictionaries } = useQuery(MATCHING_PROFILE);
   const [updateMatchingProfile] = useMutation(UPDATE_MATCHING_PROFILE, {
     fetchPolicy: 'network-only',
@@ -103,7 +101,6 @@ export const FilterMatching = ({
       ) {
         setTime(newTime);
         setDays(newDays);
-        debugger;
 
         newAvailabilities = dictionaries?.matchingProfile?.availabilities
           .filter((avail) => {

@@ -48,7 +48,6 @@ export const Steps = () => {
   });
 
   const onSubmit = (data) => {
-    console.log('data', data);
     const { energy, interests, gender, teachingStyles } = data;
 
     const availabilities = dictionaries.matchingProfile.availabilities
@@ -68,7 +67,6 @@ export const Steps = () => {
         }
       })
       .map((avail) => avail.id);
-    console.log('availabilities', availabilities);
 
     const dataFilter = {
       studentId: getItemToLocalStorage('studentId'),

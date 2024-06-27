@@ -20,9 +20,11 @@ const Intro = () => {
         {t('intro_video')}
       </h2>
 
-      <div className="flex flex-wrap gap-7">
-        {videoUrl?.length === 0 ? (
-          <h2>No video!</h2>
+      <div className="flex flex-col gap-7">
+        {!videoUrl ? (
+          <h2 className="text-center text-gray-300 font-medium text-2xl">
+            No video!
+          </h2>
         ) : (
           <ReactPlayer
             playIcon={
