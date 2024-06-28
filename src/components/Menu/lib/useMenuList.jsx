@@ -4,12 +4,15 @@ import { useAuth } from 'src/app/providers/AuthProvider';
 
 import { GoHomeFill } from 'react-icons/go';
 import { FaRegCalendarAlt } from 'react-icons/fa';
-import { HiGift } from 'react-icons/hi2';
 import { FaGraduationCap } from 'react-icons/fa6';
-import { IoLibrarySharp } from 'react-icons/io5';
-import { MdOutlineGroups } from 'react-icons/md';
+import { IoGiftOutline } from 'react-icons/io5';
 import { ModalPurchase } from 'src/components/ModalPurchase';
 import { Info } from 'src/components/ReferBanner/ui/Info';
+import {
+  MdOutlineShoppingBag,
+  MdLibraryBooks,
+  MdEventNote,
+} from 'react-icons/md';
 
 const mentorNavLinks = [
   {
@@ -38,7 +41,7 @@ const studentNavLinks = [
   {
     label: 'lessons',
     link: '/student/lesson-calendar',
-    icon: FaRegCalendarAlt,
+    icon: MdEventNote,
   },
   {
     label: 'mentors',
@@ -48,21 +51,21 @@ const studentNavLinks = [
     modal: <ModalPurchase />,
   },
   {
-    label: 'subscriptions',
+    label: 'purchase',
     link: '/student/subscriptions',
-    icon: HiGift,
+    icon: MdOutlineShoppingBag,
   },
   {
-    label: 'refer',
+    label: 'free_classes',
     link: '#',
-    icon: MdOutlineGroups,
+    icon: IoGiftOutline,
     type: 'modal',
     modal: <Info />,
   },
   {
     label: 'class_material',
     link: classMaterialURL || 'https://naonow.instructure.com/',
-    icon: IoLibrarySharp,
+    icon: MdLibraryBooks,
     type: 'external',
   },
 ];
