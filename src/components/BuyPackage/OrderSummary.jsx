@@ -114,6 +114,8 @@ export const OrderSummary = memo(function OrderSummary({
                 </span>
                 <span className="font-semibold">
                   {currencyFormat({
+                    currency: curCurrency.value,
+                    locales: curCurrency.locales,
                     number: calculatePriceWithDiscount(selectedPackage),
                   })}
                 </span>
@@ -124,6 +126,8 @@ export const OrderSummary = memo(function OrderSummary({
                   <span>{t('promo_code')}</span>
                   <span className="font-semibold text-color-purple">
                     {`- ${currencyFormat({
+                      currency: curCurrency.value,
+                      locales: curCurrency.locales,
                       number: discount,
                     })}`}
                   </span>
@@ -136,6 +140,8 @@ export const OrderSummary = memo(function OrderSummary({
                 <span>{t('total')}</span>
                 <span>
                   {currencyFormat({
+                    currency: curCurrency.value,
+                    locales: curCurrency.locales,
                     number: calculatePriceWithDiscount(
                       promoPackage ? promoPackage : selectedPackage,
                     ),

@@ -159,7 +159,7 @@ export default function BuyPackage() {
               />
             )}
 
-            {promoPackage && (
+            {promoPackage && discount && (
               <PromoBanner
                 icon={<FaCheck />}
                 title={`${discount} discount is activated`}
