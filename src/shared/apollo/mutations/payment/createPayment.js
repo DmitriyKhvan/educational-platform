@@ -4,7 +4,6 @@ export const CREATE_PAYMENT = gql`
   mutation createPayment(
     $studentId: ID!
     $packageId: ID!
-    $currency: Currency!
     $provider: PaymentProviderType
     $metadata: String
   ) {
@@ -13,7 +12,6 @@ export const CREATE_PAYMENT = gql`
       packageId: $packageId
       provider: $provider
       metadata: $metadata
-      currency: $currency
     ) {
       id
       status
