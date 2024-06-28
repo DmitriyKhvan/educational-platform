@@ -765,7 +765,7 @@ export const currenciesDic = [
     label: `${Currencies.USD} ($)`,
     value: Currencies.USD,
     locales: 'en-US',
-    active: true,
+    active: false,
   },
   {
     label: `${Currencies.KRW} (₩)`,

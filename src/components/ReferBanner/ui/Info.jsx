@@ -11,24 +11,27 @@ import notify from 'src/shared/utils/notify';
 import { GENERATE_REFERRAL_LINK } from 'src/shared/apollo/mutations/referralCodes';
 import { useMutation } from '@apollo/client';
 import { getItemToLocalStorage } from 'src/shared/constants/global';
+import { useTranslation } from 'react-i18next';
 
 export const Info = () => {
+  const { t } = useTranslation(['refer']);
+
   const info = [
     {
-      title: 'Share your referral code with a friend',
-      text: 'Copy the link below and share it with your friends or network',
+      title: t('share_how_1_title'),
+      text: t('share_how_1_subtitle'),
       icon: <IoSquareSharp className="rotate-45 text-[rgba(255,147,53,1)]" />,
       color: '255,147,53',
     },
     {
-      title: 'You get 2 free classes',
-      text: 'You will get 2 free classes after your friend’s second Nao Now class',
+      title: t('share_how_2_title'),
+      text: t('share_how_2_subtitle'),
       icon: <IoEllipseSharp className="text-[rgba(0,217,134,1)]" />,
       color: '0,217,134',
     },
     {
-      title: 'Your friend buys lessons and saves 10%',
-      text: 'If your friend is a new user, they will get a 10% discount on their first purchase over $200',
+      title: t('share_how_3_title'),
+      text: t('share_how_3_subtitle'),
       icon: <IoTriangleSharp className="text-[rgba(25,187,254,1)]" />,
       color: '25,187,254',
     },
@@ -57,13 +60,13 @@ export const Info = () => {
   return (
     <div className="w-full sm:w-[436px]">
       <h2 className="text-[28px] font-bold text-color-dark-purple text-center">
-        Refer a friend and get FREE CLASSES{' '}
+        {t('share_title')}{' '}
       </h2>
       <h5 className="text-gray-400 leading-6 text-center mt-4">
-        2 free classes – for you
+        {t('share_subtitle')}
       </h5>
       <h5 className="text-gray-400 leading-6 text-center">
-        $10 discount – for your friend
+        {t('share_subtitle_2')}
       </h5>
 
       <div className="space-y-3 mt-6">
@@ -77,7 +80,7 @@ export const Info = () => {
         className="w-full h-[60px] space-x-3 mt-6"
       >
         <FaCopy />
-        <span className="text-[15px] font-semibold">Copy my referral link</span>
+        <span className="text-[15px] font-semibold">{t('copy_link')}</span>
       </Button>
     </div>
   );
