@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import Button from 'src/components/Form/Button';
 import ReactLoader from 'src/components/common/Loader';
 import {
@@ -10,14 +11,18 @@ import {
   TeachingPersonality,
 } from 'src/entities/Questionnaire';
 import { Certificate } from 'src/entities/Questionnaire/ui/Certificate';
-import { MUTATION_UPDATE_MENTOR } from 'src/shared/apollo/graphql';
+import { CREATE_MATCHING_PROFILE_FOR_MENTOR } from 'src/shared/apollo/mutations/matching/createMatchingProfileForMentor';
 import { MATCHING_PROFILE } from 'src/shared/apollo/queries/matching/matchingProfile';
 
 export const MatchingInfo = () => {
   const [t] = useTranslation(['common']);
+  const { user } = useAuth();
+
   const { loading: matchingProfileLoading, data: dictionaries } =
     useQuery(MATCHING_PROFILE);
-  const [updateMentor, { loading }] = useMutation(MUTATION_UPDATE_MENTOR);
+  const [createMatchingProfileForMentor, { loading }] = useMutation(
+    CREATE_MATCHING_PROFILE_FOR_MENTOR,
+  );
 
   const {
     register,
@@ -36,11 +41,16 @@ export const MatchingInfo = () => {
   });
 
   const handleEditMatchingInfo = (data) => {
-    if (data) {
-      console.log('data', data);
-      return;
-    }
-    updateMentor();
+    // if (data) {
+    //   console.log('data', data);
+    //   return;
+    // }
+    createMatchingProfileForMentor({
+      variables: {
+        mentorId: user.mentor.id,
+        ...data,
+      },
+    });
   };
 
   if (matchingProfileLoading) {
