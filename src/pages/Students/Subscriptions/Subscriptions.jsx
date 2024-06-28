@@ -75,11 +75,8 @@ const Subscriptions = () => {
                 {selectedPackages.map((x, i) => (
                   <SubscriptionCard
                     key={i}
-                    price={
-                      x.payment?.buyPrice
-                        ? x.payment?.buyPrice
-                        : x.package?.price
-                    }
+                    price={x.payment?.buyPrice}
+                    currency={x.payment?.currency}
                     months={x.package?.period}
                     duration={x.package?.sessionTime}
                     title={getTranslatedTitle(x.package?.course, i18n.language)}
