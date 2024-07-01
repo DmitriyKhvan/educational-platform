@@ -41,10 +41,6 @@ export const MatchingInfo = () => {
   });
 
   const handleEditMatchingInfo = (data) => {
-    // if (data) {
-    //   console.log('data', data);
-    //   return;
-    // }
     createMatchingProfileForMentor({
       variables: {
         mentorId: user.mentor.id,

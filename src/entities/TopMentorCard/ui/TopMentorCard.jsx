@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { PiSealCheckFill } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import Button from 'src/components/Form/Button';
@@ -14,54 +13,61 @@ import {
 import { Tag } from 'src/entities/Questionnaire/ui/Tag';
 import MentorsModal from 'src/pages/Students/MentorsList/MentorsModal';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
+import certificate from 'src/shared/assets/images/certificate.png';
 
 export const TopMentorCard = ({ mentor }) => {
-  // const {fullName, } = mentor
+  const { fullName, matchingProfile } = mentor;
   const [t] = useTranslation(['common']);
   return (
     <div className="w-full min-[400px]:w-[280px] space-y-5 p-5 rounded-[10px] border border-gray-100 shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
       <div className="flex justify-between gap-4">
         <div className="space-y-[10px]">
           <span className="text-lg font-bold text-color-dark-purple">
-            Monica
+            {fullName}
           </span>
-          <span className="flex items-center  text-[rgba(0,_217,_134,_1)]">
-            <div className="relative w-5 h-4">
-              <PiSealCheckFill className="absolute" />
-              {/* <PiSealCheckFill className="absolute ml-1" /> */}
-            </div>
+          <span className="flex items-center text-[rgba(0,_217,_134,_1)] gap-[2px]">
+            <img src={certificate} alt="certificate" className="w-7" />
 
             <span className="text-[13px]">TESOL, TEFL certified</span>
           </span>
         </div>
-        <Avatar className="w-[64px] h-[64px] rounded-s-lg overflow-hidden"></Avatar>
+        <Avatar className="w-[56px] h-[56px] rounded-s-lg overflow-hidden"></Avatar>
       </div>
 
       <div className="space-y-3">
         <div className="flex gap-[6px] whitespace-nowrap">
-          <Tag label="💻 Technology" className="px-[10px] text-xs" />
+          {matchingProfile?.interests?.slice(0, 2).map((item) => (
+            <Tag
+              key={item.interest}
+              icon={item.icon}
+              label={item.interest}
+              className="px-[10px] text-xs"
+            />
+          ))}
 
-          <div className="flex">
-            <Tag label="🌳 Ecology" className="px-[10px] text-xs" />
-            <Tag label="+3" className="bg-white " />
-          </div>
+          {matchingProfile?.interests?.slice(2).length > 0 && (
+            <Tag
+              label={`+${matchingProfile?.interests?.slice(2).length}`}
+              className="bg-white "
+            />
+          )}
         </div>
 
         <div className="flex gap-[6px] whitespace-nowrap">
-          <Tag
-            icon="✦"
-            label="Academic"
-            className="text-color-purple px-[10px] text-xs"
-          />
-
-          <div className="flex">
+          {matchingProfile?.teachingStyles?.slice(0, 2).map((item) => (
             <Tag
+              key={item.teachingStyle}
               icon="✦"
-              label="Creative"
+              label={item.teachingStyle}
               className="text-color-purple px-[10px] text-xs"
             />
-            <Tag label="+3" className="bg-white " />
-          </div>
+          ))}
+          {matchingProfile?.teachingStyles?.slice(2).length > 0 && (
+            <Tag
+              label={`+${matchingProfile?.teachingStyles?.slice(2).length}`}
+              className="bg-white "
+            />
+          )}
         </div>
       </div>
 

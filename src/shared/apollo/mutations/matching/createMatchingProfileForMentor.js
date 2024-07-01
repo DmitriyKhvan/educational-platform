@@ -5,17 +5,13 @@ export const CREATE_MATCHING_PROFILE_FOR_MENTOR = gql`
     $mentorId: ID!
     $interests: [ID!]!
     $teachingStyles: [ID!]!
-    $availabilities: [ID!]!
     $energy: MentorEnergy!
-    $gender: GenderType!
   ) {
     createMatchingProfileForMentor(
       mentorId: $mentorId
       interests: $interests
       teachingStyles: $teachingStyles
-      availabilities: $availabilities
       energy: $energy
-      gender: $gender
     ) {
       id
     }
