@@ -3,7 +3,7 @@ import { useMenuList } from '../../lib/useMenuList';
 import { MobileMenuFullItem } from './MobileMenuFullItem';
 
 import { FaXmark } from 'react-icons/fa6';
-import { ReferBanner } from 'src/components/ReferBanner';
+// import { ReferBanner } from 'src/components/ReferBanner';
 import { LangCurrencySwitcher } from 'src/widgets/LangCurrencySwitcher';
 
 export const MobileMenuFull = ({ setOpen }) => {
@@ -23,7 +23,7 @@ export const MobileMenuFull = ({ setOpen }) => {
         })}
       </ul>
 
-      <ReferBanner />
+      {/* <ReferBanner /> */}
       <LangCurrencySwitcher align="end" />
     </div>
   );

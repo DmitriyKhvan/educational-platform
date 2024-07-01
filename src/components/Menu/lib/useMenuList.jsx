@@ -5,9 +5,9 @@ import { useAuth } from 'src/app/providers/AuthProvider';
 import { GoHomeFill } from 'react-icons/go';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import { FaGraduationCap } from 'react-icons/fa6';
-import { IoGiftOutline } from 'react-icons/io5';
+// import { IoGiftOutline } from 'react-icons/io5';
 import { ModalPurchase } from 'src/components/ModalPurchase';
-import { Info } from 'src/components/ReferBanner/ui/Info';
+// import { Info } from 'src/components/ReferBanner/ui/Info';
 import {
   MdOutlineShoppingBag,
   MdLibraryBooks,
@@ -55,13 +55,13 @@ const studentNavLinks = [
     link: '/student/subscriptions',
     icon: MdOutlineShoppingBag,
   },
-  {
-    label: 'free_classes',
-    link: '#',
-    icon: IoGiftOutline,
-    type: 'modal',
-    modal: <Info />,
-  },
+  // {
+  //   label: 'free_classes',
+  //   link: '#',
+  //   icon: IoGiftOutline,
+  //   type: 'modal',
+  //   modal: <Info />,
+  // },
   {
     label: 'class_material',
     link: classMaterialURL || 'https://naonow.instructure.com/',
