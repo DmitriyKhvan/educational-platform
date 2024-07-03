@@ -298,6 +298,7 @@ const LessonControls = ({
           <AdaptiveDialog
             open={mentorReviewOpen}
             setOpen={setMentorReviewOpen}
+            classNameDrawer="h-[95%]"
             button={
               <Button
                 disabled={data?.mentorReview}

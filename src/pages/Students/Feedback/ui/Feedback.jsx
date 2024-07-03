@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
-import { addMinutes, format } from 'date-fns';
-import { toZonedTime } from 'date-fns-tz';
+import { addMinutes } from 'date-fns';
+import { format, toZonedTime } from 'date-fns-tz';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PiStarFourFill } from 'react-icons/pi';

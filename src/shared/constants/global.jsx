@@ -3,6 +3,7 @@ import { getData } from 'country-list';
 import { format, toZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
 import * as flags from 'src/shared/assets/images/flags';
+import { ucFirst } from '../utils/ucFirst';
 // import { useMemo } from 'react';
 
 export const genders = [
@@ -852,21 +853,33 @@ export const courseColorsDict = {
   },
 };
 
-export const overviewFields = [
-  { key: 'fluency', label: 'Fluency' },
-  { key: 'pronunciation', label: 'Pronunciation' },
-  { key: 'vocabulary', label: 'Vocabulary' },
-  { key: 'reading', label: 'Reading comprehension' },
-  { key: 'expressions', label: 'Proper use of english expressions' },
-  { key: 'confidence', label: 'Confidence' },
-  { key: 'listening', label: 'Listening' },
+export const overviewFieldsDic = [
+  { value: 'fluency', label: 'Fluency' },
+  { value: 'pronunciation', label: 'Pronunciation' },
+  { value: 'vocabulary', label: 'Vocabulary' },
+  { value: 'reading', label: 'Reading comprehension' },
+  { value: 'expressions', label: 'Proper use of english expressions' },
+  { value: 'confidence', label: 'Confidence' },
+  { value: 'listening', label: 'Listening' },
 ];
 
-export const overviewGrade = {
-  INSUFFICIENT: 'Insufficient',
-  BASIC: 'Basic',
-  FAIR: 'Fair',
-  GOOD: 'Good',
-  GREAT: 'Great',
-  EXCELLENT: 'Excellent',
+export const OverviewGrade = {
+  INSUFFICIENT: 'insufficient',
+  BASIC: 'basic',
+  FAIR: 'fair',
+  GOOD: 'good',
+  GREAT: 'great',
+  EXCELLENT: 'excellent',
 };
+
+export const overviewGradeDic = [
+  {
+    label: ucFirst(OverviewGrade.INSUFFICIENT),
+    value: OverviewGrade.INSUFFICIENT,
+  },
+  { label: ucFirst(OverviewGrade.BASIC), value: OverviewGrade.BASIC },
+  { label: ucFirst(OverviewGrade.FAIR), value: OverviewGrade.FAIR },
+  { label: ucFirst(OverviewGrade.GOOD), value: OverviewGrade.GOOD },
+  { label: ucFirst(OverviewGrade.GREAT), value: OverviewGrade.GREAT },
+  { label: ucFirst(OverviewGrade.EXCELLENT), value: OverviewGrade.EXCELLENT },
+];

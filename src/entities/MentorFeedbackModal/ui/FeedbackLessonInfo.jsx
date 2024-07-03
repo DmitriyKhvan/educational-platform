@@ -34,14 +34,9 @@ function FeedbackLessonInfo({
 
   const { data: topicsData } = useQuery(GET_TOPICS);
   const { data: sectionsData } = useQuery(GET_LESSON_SECTIONS, {
-    variables: { topicId: choosenTopic?.value },
-    skip: !choosenTopic?.value,
+    variables: { topicId: choosenTopic?.id },
+    skip: !choosenTopic?.id,
   });
-
-  const topics = topicsData?.topics?.map((t) => ({
-    label: t.title,
-    value: t.id,
-  }));
 
   const sections = sectionsData?.lessonSections?.map((t) => ({
     label: t.title,
@@ -112,17 +107,17 @@ function FeedbackLessonInfo({
               )}
             >
               <span className="grow text-left">
-                {choosenTopic?.label ? choosenTopic?.label : 'Choose topic...'}
+                {choosenTopic?.title ? choosenTopic?.title : 'Choose topic...'}
               </span>
               <FaAngleDown />
             </Button>
           }
         >
           <ul className={cn('w-[400px] max-h-[400px] overflow-y-auto')}>
-            {topics?.map((topic) => {
+            {topicsData?.topics?.map((topic) => {
               return (
                 <li
-                  key={topic?.value}
+                  key={topic?.id}
                   className={cn(
                     ' border-b border-color-border-grey last:border-b-0 overflow-hidden',
                   )}
@@ -132,12 +127,12 @@ function FeedbackLessonInfo({
                       className="hidden"
                       onChange={() => setChoosenTopic(topic)}
                       type="radio"
-                      name="lang"
-                      checked={topic?.value === choosenTopic?.value}
+                      name="topic"
+                      checked={topic?.id === choosenTopic?.id}
                       onClick={() => setOpenTopics(false)}
                     />
                     <span className={cn('text-sm font-medium ')}>
-                      {topic?.label}
+                      {topic?.title}
                     </span>
                   </label>
                 </li>
@@ -233,7 +228,7 @@ function FeedbackLessonInfo({
 
       <Button
         className="w-full h-[56px]"
-        disabled={!choosenTopic?.value || (!completedLesson && !choosenSection)}
+        disabled={!choosenTopic?.id || (!completedLesson && !choosenSection)}
         onClick={() => setStep(2)}
       >
         Next
