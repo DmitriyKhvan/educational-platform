@@ -51,8 +51,8 @@ function FeedbackInfo({ data }) {
                     {label}
                   </p>
                   <span className="grow border-b border-dashed" />
-                  <p className="text-color-purple">
-                    {data?.mentorReview[value].toLocaleUpperCase()}
+                  <p className="text-color-purple first-letter:uppercase">
+                    {data?.mentorReview[value]}
                   </p>
                 </li>
               );

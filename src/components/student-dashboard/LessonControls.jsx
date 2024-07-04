@@ -19,7 +19,7 @@ import { FaCheck, FaRegClock, FaStar } from 'react-icons/fa6';
 import MentorFeedbackModal from 'src/entities/MentorFeedbackModal';
 import { useNavigate } from 'react-router-dom';
 import { cn } from 'src/shared/utils/functions';
-import StudentReviewModal from 'src/entities/StudentReviewModal';
+import { StudentReviewModal } from 'src/entities/StudentReviewModal';
 
 const LessonControls = ({
   date,

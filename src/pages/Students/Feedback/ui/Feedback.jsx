@@ -18,7 +18,7 @@ import { LESSON_QUERY } from 'src/shared/apollo/graphql';
 import { localeDic } from 'src/shared/constants/global';
 import Loader from 'src/components/Loader/Loader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'src/shared/ui/Tabs';
-import StudentReviewModal from 'src/entities/StudentReviewModal';
+import { StudentReviewModal } from 'src/entities/StudentReviewModal';
 
 function Feedback() {
   const params = useParams();

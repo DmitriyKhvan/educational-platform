@@ -35,8 +35,9 @@ function Feedback({
     overviewFieldsDic.reduce((ac, a) => ({ ...ac, [a.key]: false }), {}),
   );
 
-  const [createReview, { loading: createLoading }] =
-    useMutation(CREATE_MENTOR_REVIEW);
+  const [loading, setLoading] = useState(false);
+
+  const [createReview] = useMutation(CREATE_MENTOR_REVIEW);
 
   const { data: vocabData } = useQuery(GET_VOCABULARY, {
     variables: {
@@ -75,6 +76,7 @@ function Feedback({
   });
 
   const onSubmit = (data) => {
+    setLoading(true);
     createReview({
       variables: {
         data: {
@@ -89,7 +91,12 @@ function Feedback({
         notify('Review created successfully!');
         closeModal();
       },
+      onError: (error) => {
+        notify(error.message, 'error');
+      },
     });
+
+    setLoading(false);
   };
 
   return (
@@ -329,7 +336,7 @@ function Feedback({
         <Button
           className="basis-1/2"
           type="submit"
-          disabled={!isValid || createLoading}
+          disabled={!isValid || loading}
         >
           Submit Feedback
         </Button>

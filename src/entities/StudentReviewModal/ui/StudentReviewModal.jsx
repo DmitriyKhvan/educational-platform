@@ -10,18 +10,15 @@ import Button from 'src/components/Form/Button';
 
 const ratingTypes = [null, 'bad', 'bad', 'neutral', 'neutral', 'good'];
 
-const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
+export const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
   const [rating, setRating] = useState(0);
   const [ratingType, setRatingType] = useState(null);
   const [tagsIds, setTagsIds] = useState([]);
   const isMobile = useMediaQuery({ maxWidth: 420 });
+  const [loading, setLoading] = useState(false);
 
-  const [getTags, { data, loading }] = useLazyQuery(REVIEW_TAGS_BY_TYPE);
-  const [createReview, { loading: createLoading }] = useMutation(CREATE_REVIEW);
-
-  useEffect(() => {
-    setRatingType(ratingTypes[rating]);
-  }, [rating]);
+  const [getTags, { data }] = useLazyQuery(REVIEW_TAGS_BY_TYPE);
+  const [createReview] = useMutation(CREATE_REVIEW);
 
   useEffect(() => {
     if (ratingType) {
@@ -38,6 +35,7 @@ const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
         : 'What did you love?';
 
   const onSubmit = () => {
+    setLoading(true);
     createReview({
       variables: {
         lessonId,
@@ -49,7 +47,12 @@ const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
         notify('Review sent successfully!');
         closeModal();
       },
+      onError: (error) => {
+        notify(error.message, 'error');
+      },
     });
+
+    setLoading(false);
   };
 
   return (
@@ -64,7 +67,10 @@ const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
 
       <div className="border border-color-border-grey p-5 rounded-lg shadow-[0px_0px_8px_0px_#00000014] flex justify-center mb-6">
         <StarRatings
-          changeRating={(rating) => setRating(rating)}
+          changeRating={(rating) => {
+            setRating(rating);
+            setRatingType(ratingTypes[rating]);
+          }}
           rating={rating}
           starHoverColor="#862EE7"
           starEmptyColor="#EDEEF0"
@@ -103,7 +109,7 @@ const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
 
       <Button
         className="w-full mt-10"
-        disabled={!ratingType || !tagsIds.length || createLoading || loading}
+        disabled={!tagsIds.length || loading}
         onClick={() => onSubmit()}
       >
         Submit
@@ -111,5 +117,3 @@ const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
     </div>
   );
 };
-
-export default StudentReviewModal;
