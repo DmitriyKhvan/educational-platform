@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa6';
 import { useCurrency } from 'src/app/providers/CurrencyProvider';
@@ -32,11 +33,13 @@ export const SubscriptionCard = ({
 
       {!isReferral && (
         <div className="text-sm font-normal mb-4">
-          {currencyFormat({
-            number: price,
-            currency: curCurrency.value,
-            locales: curCurrency.locales,
-          })}
+          {/* {price} */}
+          {curCurrency &&
+            currencyFormat({
+              number: price,
+              currency: curCurrency.value,
+              locales: curCurrency.locales,
+            })}
         </div>
       )}
       {active && credits > 0 && (
