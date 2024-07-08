@@ -16,10 +16,10 @@ import { addMinutes, isAfter } from 'date-fns';
 import { isWithinHours } from 'src/shared/utils/isWithinHours';
 import { CancelTrialLessonModal } from './CancelTrialLessonModal';
 import { FaCheck, FaRegClock, FaStar } from 'react-icons/fa6';
-import MentorFeedbackModal from 'src/entities/MentorFeedbackModal';
 import { useNavigate } from 'react-router-dom';
 import { cn } from 'src/shared/utils/functions';
 import { StudentReviewModal } from 'src/entities/StudentReviewModal';
+import { MentorFeedbackModal } from 'src/entities/MentorFeedbackModal';
 
 const LessonControls = ({
   date,

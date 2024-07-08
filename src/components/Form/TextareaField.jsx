@@ -8,7 +8,6 @@ export const TextareaField = forwardRef(
       label = '',
       text = '',
       className = 'w-[570px] h-[300px]',
-      children,
       ...props
     },
     ref,
@@ -44,9 +43,7 @@ export const TextareaField = forwardRef(
           placeholder={placeholder}
           ref={ref}
           {...props}
-        >
-          {children}
-        </textarea>
+        ></textarea>
       </div>
     );
   },

@@ -3,12 +3,15 @@ import { format, toZonedTime } from 'date-fns-tz';
 import { useAuth } from 'src/app/providers/AuthProvider';
 import { localeDic } from 'src/shared/constants/global';
 import { useTranslation } from 'react-i18next';
-import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
+import {
+  getTranslatedDescription,
+  getTranslatedTitle,
+} from 'src/shared/utils/getTranslatedTitle';
 import { useQuery } from '@apollo/client';
 import { GET_TOPICS } from 'src/shared/apollo/queries/topics/topics';
 import { cn } from 'src/shared/utils/functions';
 import { FaAngleDown } from 'react-icons/fa6';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { GET_LESSON_SECTIONS } from 'src/shared/apollo/queries/lessons/lessonSections';
 import Indicator from 'src/components/Indicator';
 import MyDropdownMenu from 'src/components/DropdownMenu';
@@ -37,6 +40,18 @@ function FeedbackLessonInfo({
     variables: { topicId: choosenTopic?.id },
     skip: !choosenTopic?.id,
   });
+
+  const topics = useMemo(() => {
+    if (topicsData) {
+      return topicsData?.topics?.map((topic) => ({
+        ...topic,
+        title: getTranslatedTitle(topic, i18n.language),
+        description: getTranslatedDescription(topic, i18n.language),
+      }));
+    }
+  }, [topicsData, t]);
+
+  console.log('topics', topics);
 
   const sections = sectionsData?.lessonSections?.map((t) => ({
     label: t.title,
@@ -114,7 +129,7 @@ function FeedbackLessonInfo({
           }
         >
           <ul className={cn('w-[400px] max-h-[400px] overflow-y-auto')}>
-            {topicsData?.topics?.map((topic) => {
+            {topics?.map((topic) => {
               return (
                 <li
                   key={topic?.id}

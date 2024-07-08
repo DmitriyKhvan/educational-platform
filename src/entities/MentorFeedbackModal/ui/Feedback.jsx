@@ -108,9 +108,11 @@ function Feedback({
           Summary of the lesson
         </p>
 
-        <TextareaField className="w-full h-[120px]" readOnly>
-          {choosenTopic?.description}
-        </TextareaField>
+        <TextareaField
+          className="w-full h-[120px]"
+          readOnly
+          value={choosenTopic?.description}
+        ></TextareaField>
       </section>
 
       <section>

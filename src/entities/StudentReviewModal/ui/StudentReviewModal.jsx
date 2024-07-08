@@ -7,10 +7,13 @@ import { CREATE_REVIEW } from 'src/shared/apollo/mutations/review/createReview';
 import notify from 'src/shared/utils/notify';
 import TagField from 'src/components/Form/TagField';
 import Button from 'src/components/Form/Button';
+import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
+import { useTranslation } from 'react-i18next';
 
 const ratingTypes = [null, 'bad', 'bad', 'neutral', 'neutral', 'good'];
 
 export const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
+  const { i18n } = useTranslation();
   const [rating, setRating] = useState(0);
   const [ratingType, setRatingType] = useState(null);
   const [tagsIds, setTagsIds] = useState([]);
@@ -93,7 +96,7 @@ export const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
                 key={tag.id}
                 type="checkbox"
                 name="reviewTag"
-                label={tag.title}
+                label={getTranslatedTitle(tag, i18n.language)}
                 onChange={() =>
                   setTagsIds((val) =>
                     val.includes(tag.id)
