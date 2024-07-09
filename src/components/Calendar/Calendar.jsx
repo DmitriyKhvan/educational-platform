@@ -1,19 +1,21 @@
 import FullCalendar from '@fullcalendar/react';
 import React, { forwardRef } from 'react';
 
+import enLocale from '@fullcalendar/core/locales/en-gb';
 import koLocale from '@fullcalendar/core/locales/ko';
 import chLocale from '@fullcalendar/core/locales/zh-tw';
-import enLocale from '@fullcalendar/core/locales/en-gb';
 import { useTranslation } from 'react-i18next';
 import { Language } from 'src/shared/constants/global';
 
 import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
 import rrulePlugin from '@fullcalendar/rrule';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
-import { useAuth } from 'src/app/providers/AuthProvider';
 import { useMediaQuery } from 'react-responsive';
+import { useAuth } from 'src/app/providers/AuthProvider';
+
+import 'src/app/styles/calendar.scss';
 
 export const Calendar = forwardRef((props, ref) => {
   // eslint-disable-next-line no-unused-vars
