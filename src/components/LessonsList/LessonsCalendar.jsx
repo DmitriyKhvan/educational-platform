@@ -1,10 +1,10 @@
+import { format } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from 'src/app/providers/AuthProvider';
 import Modal from 'react-modal';
-import LessonInfoModal from 'src/components/student-dashboard/LessonInfoModal';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import { LessonsCalendarHeader } from 'src/components/LessonsList';
-import { format } from 'date-fns';
+import LessonInfoModal from 'src/components/student-dashboard/LessonInfoModal';
 import {
   COURSE_COLORS,
   CalendarView,
@@ -13,11 +13,10 @@ import {
 } from 'src/shared/constants/global';
 import { cn } from 'src/shared/utils/functions';
 
-import 'src/app/styles/calendar.scss';
-import Loader from '../Loader/Loader';
-import { useCourseColors } from 'src/shared/utils/useCourseColors';
 import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
+import { useCourseColors } from 'src/shared/utils/useCourseColors';
 import { Calendar } from '../Calendar';
+import Loader from '../Loader/Loader';
 
 const LessonsCalendar = ({ calendarAppointments, getAppointments }) => {
   // eslint-disable-next-line no-unused-vars

@@ -50,26 +50,28 @@ export const CurrencySwitcher = () => {
       }
     >
       <ul className="w-[200px]">
-        {currenciesDic.map((currency) => {
-          return (
-            <li
-              key={currency.value}
-              className="border-b border-color-border-grey last:border-b-0"
-            >
-              <label className="flex items-center justify-between gap-3 p-4 cursor-pointer ">
-                <span className="text-sm font-medium text-color-dark-purple">
-                  {currency.label}
-                </span>
-                <CheckboxField
-                  onChange={() => onChangeCurrency(currency)}
-                  type="radio"
-                  name="currency"
-                  checked={currency.value === curCurrency.value}
-                />
-              </label>
-            </li>
-          );
-        })}
+        {currenciesDic
+          .filter((currency) => currency.active)
+          .map((currency) => {
+            return (
+              <li
+                key={currency.value}
+                className="border-b border-color-border-grey last:border-b-0"
+              >
+                <label className="flex items-center justify-between gap-3 p-4 cursor-pointer ">
+                  <span className="text-sm font-medium text-color-dark-purple">
+                    {currency.label}
+                  </span>
+                  <CheckboxField
+                    onChange={() => onChangeCurrency(currency)}
+                    type="radio"
+                    name="currency"
+                    checked={currency.value === curCurrency.value}
+                  />
+                </label>
+              </li>
+            );
+          })}
       </ul>
     </MyDropdownMenu>
   );

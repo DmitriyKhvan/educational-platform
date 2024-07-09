@@ -130,7 +130,8 @@ export default function BuyPackage() {
         .map((pkg) => ({
           ...pkg,
           price: pkg.prices.find(
-            (price) => price.currency === curCurrency.value.toLocaleLowerCase(),
+            (price) =>
+              price.currency === curCurrency?.value?.toLocaleLowerCase(),
           )?.price,
         }));
       // .sort((a, b) => a.period - b.period);
@@ -158,7 +159,7 @@ export default function BuyPackage() {
               />
             )}
 
-            {promoPackage && (
+            {promoPackage && discount && (
               <PromoBanner
                 icon={<FaCheck />}
                 title={`${discount} discount is activated`}
