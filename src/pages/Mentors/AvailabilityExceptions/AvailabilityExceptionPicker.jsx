@@ -92,6 +92,8 @@ export const AvailabilityExceptionPicker = ({
     setException(null);
   };
 
+  console.log('exception', exception?.date);
+
   return (
     <div className="m-auto w-[384px]">
       <h2 className="text-xl font-bold leading-7">
@@ -105,7 +107,7 @@ export const AvailabilityExceptionPicker = ({
           fromDate={new Date()}
           mode="single"
           disabled={disabledDates}
-          selected={new Date(exception?.date)}
+          selected={parse(exception?.date, 'yyyy-MM-dd', new Date())}
           onSelect={onChangeDate}
           formatters={{
             formatWeekdayName: (date) => format(date, 'EEE'),
