@@ -35,7 +35,7 @@ export const MENTORS = gql`
         timeZone
         country
         role
-        referalCode
+        #referalCode
         referalId
         isActive
         createdAt

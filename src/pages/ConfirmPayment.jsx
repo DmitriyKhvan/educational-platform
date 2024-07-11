@@ -75,7 +75,7 @@ export default function ConfirmPayment() {
               packageId: parseInt(params.packageId),
               provider: 'stripe',
               metadata: JSON.stringify(paymentIntent),
-              currency: 'usd',
+              // currency: 'usd',
             },
           });
 

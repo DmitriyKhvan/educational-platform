@@ -13,7 +13,7 @@ export const GET_USER_NOTIFICATIONS = gql`
         address
         timeZone
         country
-        referalCode
+        #referalCode
         referalId
         # students
         # mentor
