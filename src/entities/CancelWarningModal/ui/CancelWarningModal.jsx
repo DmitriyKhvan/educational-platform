@@ -6,15 +6,16 @@ import {
   MAX_MODIFY_COUNT,
   ModalType,
   Roles,
-} from '../../shared/constants/global';
-import CheckboxField from '../Form/CheckboxField';
+} from '../../../shared/constants/global';
+import CheckboxField from '../../../components/Form/CheckboxField';
 import { FaXmark } from 'react-icons/fa6';
-import Button from '../Form/Button/Button';
+import Button from '../../../components/Form/Button/Button';
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 import { isWithinHours } from 'src/shared/utils/isWithinHours';
 import { useQuery } from '@apollo/client';
 import { MENTOR_CONTRACT } from 'src/shared/apollo/queries/contract/mentorContract';
+import { WarningMessage } from './WarningMessage';
 
 const CancelWarningModal = ({
   data,
@@ -24,6 +25,8 @@ const CancelWarningModal = ({
   setRepeatLessons,
   repeatLessons,
 }) => {
+  console.log('modifyCredits', modifyCredits);
+
   const [t] = useTranslation('modals');
   const { user } = useAuth();
 
@@ -38,7 +41,7 @@ const CancelWarningModal = ({
     skip: user?.role !== Roles.MENTOR,
   });
 
-  const isLate = isWithinHours({
+  const isWithin24Hours = isWithinHours({
     dateEnd: new Date(data?.startAt ?? new Date()),
     dateStart: new Date(),
     hours: 24,
@@ -52,7 +55,7 @@ const CancelWarningModal = ({
   });
 
   useEffect(() => {
-    if (modifyCredits !== undefined) {
+    if (modifyCredits) {
       const cancellationDots = [];
       for (let i = 0; i < MAX_MODIFY_COUNT; i++) {
         if (i < modifyCredits) {
@@ -109,7 +112,7 @@ const CancelWarningModal = ({
         <>
           <p className="text-[#464752] text-[15px] text-center mb-4">
             {isWithinTwoWeeks
-              ? isLate
+              ? isWithin24Hours
                 ? 'Warning you are cancelling a lesson within 24 hours.'
                 : 'Warning you are cancelling a lesson outside of 24 hours but within 2 weeks.'
               : 'Are you sure you want to cancel this lesson more than two weeks in advance?'}
@@ -120,37 +123,26 @@ const CancelWarningModal = ({
                 1 day of classes equals 1 strike
               </p>
 
-              <div className="w-full bg-color-red bg-opacity-10 flex items-center p-4 rounded-lg">
-                <span className="bg-color-red min-w-6 h-6 block rounded-full text-center text-white mr-4 text-base">
-                  !
-                </span>
-                <div className="max-w-[300px] space-y-3 font-medium text-color-dark-purple leading-5">
-                  <p>
-                    {user?.role === Roles.MENTOR
-                      ? isLate
-                        ? 'You will be fined $5 for this 25 min lesson'
-                        : 'After 6 cancellations, you will be fined for each additional cancellation.'
-                      : 'You cannot reschedule within 24 hours.'}
-                  </p>
-                </div>
-              </div>
+              <WarningMessage
+                role={Roles.MENTOR}
+                isWithin24Hours={isWithin24Hours}
+              />
 
-              <div className="w-full p-4 mt-5 rounded-lg bg-color-purple bg-opacity-20">
-                <p className="block text-[15px] font-semibold text-color-purple">
+              <div className="w-full p-4 mt-5 rounded-lg bg-color-purple/20">
+                <p className="text-[15px] font-semibold text-color-purple">
                   {penaltiesCount}/6 cancellations
                 </p>
-                <p className="block text-sm text-color-purple mb-4">
-                  {format(
+
+                <p className="text-sm text-color-purple mb-4">
+                  {`${format(
                     contractData?.mentorContract?.startDate ?? new Date(),
                     'MM-dd-yyyy',
-                  )}{' '}
-                  to{' '}
-                  {format(
+                  )} to ${format(
                     contractData?.mentorContract?.endDate ?? new Date(),
                     'MM-dd-yyyy',
-                  )}{' '}
-                  (6 month contract)
+                  )} (6 month contract)`}
                 </p>
+
                 <div className="flex gap-3 justify-between">
                   {contractData?.mentorContract?.penalties
                     ?.slice(0, 6)
@@ -178,7 +170,6 @@ const CancelWarningModal = ({
           )}
         </>
       )}
-
       {/* ====================================================== */}
 
       {/* ======================= Student ==================== */}
@@ -208,27 +199,23 @@ const CancelWarningModal = ({
             />
           </p>
           <div className="space-y-3">
-            {(type === ModalType.CANCEL || isLate) && (
+            {type === ModalType.CANCEL && (
+              <WarningMessage
+                role={Roles.STUDENT}
+                isWithin24Hours={isWithin24Hours}
+              />
+            )}
+
+            {/* {type === ModalType.RESCHEDULE && isWithin24Hours && (
               <div className="w-full bg-color-red bg-opacity-10 flex items-center p-4 rounded-lg">
                 <span className="bg-color-red min-w-6 h-6 block rounded-full text-center text-white mr-4 text-base">
                   !
                 </span>
                 <div className="max-w-[300px] space-y-3 font-medium text-color-dark-purple leading-5">
-                  {type === 'cancel' ? (
-                    isLate ? (
-                      <>
-                        <p>{t('cancel_modal_desc3')}</p>
-                        <p>{t('cancel_modal_desc2')}</p>
-                      </>
-                    ) : (
-                      <p>{t('cancel_modal_desc4')}</p>
-                    )
-                  ) : (
-                    <p>You cannot reschedule within 24 hours.</p>
-                  )}
+                  <p>You cannot reschedule within 24 hours.</p>
                 </div>
               </div>
-            )}
+            )} */}
 
             <div className="w-full p-4 flex items-center justify-between mt-5 rounded-lg bg-color-purple bg-opacity-20">
               <div>
@@ -259,12 +246,14 @@ const CancelWarningModal = ({
         className="h-[56px] px-[10px] w-full mt-6"
         theme="purple"
         onClick={
-          disableCancelLesson || (isLate && type === ModalType.RESCHEDULE)
+          disableCancelLesson ||
+          (isWithin24Hours && type === ModalType.RESCHEDULE)
             ? undefined
             : onClick
         }
         disabled={
-          disableCancelLesson || (isLate && type === ModalType.RESCHEDULE)
+          disableCancelLesson ||
+          (isWithin24Hours && type === ModalType.RESCHEDULE)
         }
       >
         {t('continue_cancel')}
