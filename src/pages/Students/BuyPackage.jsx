@@ -49,7 +49,7 @@ export default function BuyPackage() {
   }, [user]);
 
   const { error, data, loading } = useQuery(COURSES, {
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'no-cache',
     variables: {
       trialFilter: 'only_regular',
       ...(user.personalPromotionCodes.length && {
@@ -215,7 +215,7 @@ export default function BuyPackage() {
               />
             )}
 
-            {promoPackage && (
+            {promoPackage && discount && (
               <PromoBanner
                 icon={<FaCheck />}
                 title={`${discount} discount is activated`}
