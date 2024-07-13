@@ -5,7 +5,7 @@ import { Badge } from '../../../Badge';
 import { NavLink } from 'react-router-dom';
 import Button from 'src/components/Form/Button';
 import { useAuth } from 'src/app/providers/AuthProvider';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog/index.jsx';
 
 export const MobileMenuItem = ({ menu }) => {
   const { currentStudent } = useAuth();

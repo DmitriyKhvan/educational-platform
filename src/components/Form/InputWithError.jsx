@@ -1,6 +1,11 @@
-const InputWithError = ({ errorsField, children }) => {
+import { forwardRef } from 'react';
+
+const InputWithError = forwardRef(function InputWithError(
+  { errorsField, children },
+  ref,
+) {
   return (
-    <div>
+    <div ref={ref}>
       {children}
 
       {errorsField && (
@@ -9,6 +14,6 @@ const InputWithError = ({ errorsField, children }) => {
       {/* {JSON.stringify(errorsField, null, 2)} */}
     </div>
   );
-};
+});
 
 export default InputWithError;

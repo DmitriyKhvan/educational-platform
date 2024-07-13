@@ -6,7 +6,7 @@ import duckImage from 'src/shared/assets/images/duck.png';
 import bannerLogo from 'src/shared/assets/images/banner-logo.png';
 
 import Button from 'src/components/Form/Button';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog';
 import { ModalPurchase } from 'src/components/ModalPurchase';
 import { useAuth } from 'src/app/providers/AuthProvider';
 

@@ -20,7 +20,7 @@ import { IoArrowBack } from 'react-icons/io5';
 import koLocale from 'date-fns/locale/ko';
 import { useNavigate } from 'react-router-dom';
 import notify from 'src/shared/utils/notify';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog';
 import { AiOutlineInfo } from 'react-icons/ai';
 import NotEnoughCreditsModal from './NotEnoughCreditsModal';
 import { notEnoughCredits } from 'src/shared/utils/notEnoughCredits';

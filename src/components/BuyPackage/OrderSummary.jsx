@@ -17,7 +17,7 @@ import Loader from '../Loader/Loader';
 import { PromoModal } from './PromoModal';
 import { TermsConditionsModal } from './TermsConditionsModal';
 
-import { AdaptiveDialog } from '../AdaptiveDialog';
+import { AdaptiveDialog } from '../../shared/ui/AdaptiveDialog/index.jsx';
 import { CREATE_PAYMENT_INTENT } from 'src/shared/apollo/mutations/payment/createPaymentIntent';
 import { useCurrency } from 'src/app/providers/CurrencyProvider';
 

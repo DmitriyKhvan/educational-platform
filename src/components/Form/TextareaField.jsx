@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { cn } from 'src/shared/utils/functions';
 
 export const TextareaField = forwardRef(
   (
@@ -12,7 +13,7 @@ export const TextareaField = forwardRef(
     ref,
   ) => {
     return (
-      <div className="mb-[25px]">
+      <div className="">
         {label && (
           <p className="font-semibold text-[17px] leading-[21px] tracking-[-0.6px] text-color-dark-purple">
             {label}
@@ -24,24 +25,25 @@ export const TextareaField = forwardRef(
           </p>
         )}
         <textarea
-          className={`
-            bg-white 
-            mt-[15px]
+          className={cn(
+            `bg-white 
             border
             border-solid
             border-color-border-grey
-            rounded-[10px]
-            font-medium
-            text-lg
+            font-inter 
+            text-sm 
+            text-color-dark-purple
+            font-normal
             leading-[22px]
             tracking-[-0.5px]
-            p-[15px]
-            ${className}
-          `}
+            shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.04)]
+            p-[15px]`,
+            className,
+          )}
           placeholder={placeholder}
           ref={ref}
           {...props}
-        />
+        ></textarea>
       </div>
     );
   },
