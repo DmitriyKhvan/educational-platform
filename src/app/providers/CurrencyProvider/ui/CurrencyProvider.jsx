@@ -25,7 +25,7 @@ export const CurrencyProvider = ({ children }) => {
 
   const findCurrency = (value) => {
     return currenciesDic.find(
-      (currency) => currency.value === value.toUpperCase(),
+      (currency) => currency.value === value?.toString()?.toUpperCase(),
     );
   };
 

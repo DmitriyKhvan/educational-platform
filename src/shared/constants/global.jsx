@@ -777,7 +777,7 @@ export const currenciesDic = [
     label: `${Currencies.TWD} ($)`,
     value: Currencies.TWD,
     locales: 'zh-TW',
-    active: false,
+    active: true,
   },
 ];
 
