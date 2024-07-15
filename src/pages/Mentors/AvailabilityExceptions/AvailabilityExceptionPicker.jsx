@@ -92,8 +92,6 @@ export const AvailabilityExceptionPicker = ({
     setException(null);
   };
 
-  console.log('exception', exception?.date);
-
   return (
     <div className="m-auto w-[384px]">
       <h2 className="text-xl font-bold leading-7">

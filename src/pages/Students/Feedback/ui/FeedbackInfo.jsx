@@ -33,7 +33,10 @@ function FeedbackInfo({ data }) {
         <p className="text-color-light-grey text-sm mb-2">Homework</p>
         <ul className="list-inside">
           {data?.mentorReview?.homeworks?.map((w) => (
-            <li key={w.id}>{w?.title}</li>
+            <li key={w.id}>
+              <h6 className="font-semibold">{w?.title}</h6>
+              <p>{w?.description}</p>
+            </li>
           ))}
         </ul>
       </section>

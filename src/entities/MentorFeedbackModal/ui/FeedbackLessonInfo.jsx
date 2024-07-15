@@ -17,6 +17,8 @@ import Indicator from 'src/components/Indicator';
 import MyDropdownMenu from 'src/components/DropdownMenu';
 import Button from 'src/components/Form/Button';
 import CheckboxField from 'src/components/Form/CheckboxField';
+import Select from 'react-select';
+import { selectStyle } from 'src/pages/Mentors/Availiability/lib/selectStyle';
 
 function FeedbackLessonInfo({
   data,
@@ -32,7 +34,7 @@ function FeedbackLessonInfo({
 
   const [completedLesson, setCompletedLesson] = useState(!choosenSection);
 
-  const [openTopics, setOpenTopics] = useState(false);
+  // const [openTopics, setOpenTopics] = useState(false);
   const [openSections, setOpenSections] = useState(false);
 
   const { data: topicsData } = useQuery(GET_TOPICS);
@@ -47,11 +49,13 @@ function FeedbackLessonInfo({
         ...topic,
         title: getTranslatedTitle(topic, i18n.language),
         description: getTranslatedDescription(topic, i18n.language),
+        value: topic,
+        label: getTranslatedTitle(topic, i18n.language),
       }));
     }
-  }, [topicsData, t]);
 
-  console.log('topics', topics);
+    return [];
+  }, [topicsData, t]);
 
   const sections = sectionsData?.lessonSections?.map((t) => ({
     label: t.title,
@@ -110,51 +114,15 @@ function FeedbackLessonInfo({
 
       <section>
         <h3 className="mb-4 text-color-light-grey text-sm">Lesson topic</h3>
-        <MyDropdownMenu
-          align="end"
-          open={openTopics}
-          setOpen={setOpenTopics}
-          button={
-            <Button
-              theme="outline"
-              className={cn(
-                'flex justify-between items-center gap-3 w-full h-[56px]',
-              )}
-            >
-              <span className="grow text-left">
-                {choosenTopic?.title ? choosenTopic?.title : 'Choose topic...'}
-              </span>
-              <FaAngleDown />
-            </Button>
-          }
-        >
-          <ul className={cn('w-[400px] max-h-[400px] overflow-y-auto')}>
-            {topics?.map((topic) => {
-              return (
-                <li
-                  key={topic?.id}
-                  className={cn(
-                    ' border-b border-color-border-grey last:border-b-0 overflow-hidden',
-                  )}
-                >
-                  <label className="flex items-center gap-3 p-4 cursor-pointer hover:bg-color-purple text-color-dark-purple  hover:text-white has-[:checked]:text-white has-[:checked]:bg-color-purple">
-                    <input
-                      className="hidden"
-                      onChange={() => setChoosenTopic(topic)}
-                      type="radio"
-                      name="topic"
-                      checked={topic?.id === choosenTopic?.id}
-                      onClick={() => setOpenTopics(false)}
-                    />
-                    <span className={cn('text-sm font-medium ')}>
-                      {topic?.title}
-                    </span>
-                  </label>
-                </li>
-              );
-            })}
-          </ul>
-        </MyDropdownMenu>
+
+        <Select
+          // menuPortalTarget={document.body}
+          styles={selectStyle}
+          isClearable={true}
+          value={choosenTopic}
+          options={topics}
+          onChange={setChoosenTopic}
+        />
       </section>
 
       <section>
