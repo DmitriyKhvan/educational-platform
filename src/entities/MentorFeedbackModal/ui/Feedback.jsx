@@ -41,13 +41,13 @@ function Feedback({
 
   const { data: vocabData } = useQuery(GET_VOCABULARY, {
     variables: {
-      topicId: choosenTopic?.value,
+      topicId: choosenTopic?.id,
     },
   });
 
   const { data: homeworkData } = useQuery(GET_HOMEWORK, {
     variables: {
-      topicId: choosenTopic?.value,
+      topicId: choosenTopic?.id,
     },
   });
 
@@ -72,6 +72,9 @@ function Feedback({
       rating: 0,
       improvement: '',
       mastered: '',
+    },
+    values: {
+      vocabularyIds: vocabData?.vocabulary?.map((vocab) => vocab.id),
     },
   });
 
@@ -125,9 +128,13 @@ function Feedback({
                 className="bg-[#F7F8FA] rounded-lg font-medium text-color-dark-violet border-none"
                 key={vocab.id}
                 type="checkbox"
-                {...register('vocabularyIds', {
-                  required: 'Vocabulary is required',
-                })}
+                {...register(
+                  'vocabularyIds',
+                  //   {
+                  //   required: 'Vocabulary is required',
+                  // }
+                )}
+                disabled
                 value={vocab.id}
                 label={vocab.word}
               />
@@ -146,7 +153,7 @@ function Feedback({
                 key={hw.id}
                 className="flex-row-reverse w-full justify-between border border-color-border-grey p-4 rounded-lg has-[:checked]:border-color-purple shadow-[0px_0px_8px_0px_#0000000A]"
                 square
-                type="checkbox"
+                type="radio"
                 {...register('homeworkIds', {
                   required: 'Homework is required',
                 })}

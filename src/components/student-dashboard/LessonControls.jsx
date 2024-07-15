@@ -258,7 +258,9 @@ const LessonControls = ({
                 >
                   {data?.studentReview ? <FaCheck /> : <FaStar />}{' '}
                   {pattern !== 'table' &&
-                    (data?.studentReview ? 'Review submited' : 'Submit review')}
+                    (data?.studentReview
+                      ? 'Review submitted'
+                      : 'Submit review')}
                 </Button>
               }
               open={openStudentReview}

@@ -105,7 +105,7 @@ function Feedback() {
                   className="w-full h-[57px] mb-10 font-semibold gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#039855]"
                 >
                   {data?.studentReview ? <FaCheck /> : <FaStar />}{' '}
-                  {data?.studentReview ? 'Review submited' : 'Submit review'}
+                  {data?.studentReview ? 'Review submitted' : 'Submit review'}
                 </Button>
               }
               open={openReview}
