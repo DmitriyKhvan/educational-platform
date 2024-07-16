@@ -3,17 +3,22 @@ import { format, toZonedTime } from 'date-fns-tz';
 import { useAuth } from 'src/app/providers/AuthProvider';
 import { localeDic } from 'src/shared/constants/global';
 import { useTranslation } from 'react-i18next';
-import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
+import {
+  getTranslatedDescription,
+  getTranslatedTitle,
+} from 'src/shared/utils/getTranslatedTitle';
 import { useQuery } from '@apollo/client';
 import { GET_TOPICS } from 'src/shared/apollo/queries/topics/topics';
 import { cn } from 'src/shared/utils/functions';
 import { FaAngleDown } from 'react-icons/fa6';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { GET_LESSON_SECTIONS } from 'src/shared/apollo/queries/lessons/lessonSections';
 import Indicator from 'src/components/Indicator';
 import MyDropdownMenu from 'src/components/DropdownMenu';
 import Button from 'src/components/Form/Button';
 import CheckboxField from 'src/components/Form/CheckboxField';
+import Select from 'react-select';
+import { selectStyle } from 'src/pages/Mentors/Availiability/lib/selectStyle';
 
 function FeedbackLessonInfo({
   data,
@@ -29,19 +34,28 @@ function FeedbackLessonInfo({
 
   const [completedLesson, setCompletedLesson] = useState(!choosenSection);
 
-  const [openTopics, setOpenTopics] = useState(false);
+  // const [openTopics, setOpenTopics] = useState(false);
   const [openSections, setOpenSections] = useState(false);
 
   const { data: topicsData } = useQuery(GET_TOPICS);
   const { data: sectionsData } = useQuery(GET_LESSON_SECTIONS, {
-    variables: { topicId: choosenTopic?.value },
-    skip: !choosenTopic?.value,
+    variables: { topicId: choosenTopic?.id },
+    skip: !choosenTopic?.id,
   });
 
-  const topics = topicsData?.topics?.map((t) => ({
-    label: t.title,
-    value: t.id,
-  }));
+  const topics = useMemo(() => {
+    if (topicsData) {
+      return topicsData?.topics?.map((topic) => ({
+        ...topic,
+        title: getTranslatedTitle(topic, i18n.language),
+        description: getTranslatedDescription(topic, i18n.language),
+        value: topic,
+        label: getTranslatedTitle(topic, i18n.language),
+      }));
+    }
+
+    return [];
+  }, [topicsData, t]);
 
   const sections = sectionsData?.lessonSections?.map((t) => ({
     label: t.title,
@@ -100,51 +114,15 @@ function FeedbackLessonInfo({
 
       <section>
         <h3 className="mb-4 text-color-light-grey text-sm">Lesson topic</h3>
-        <MyDropdownMenu
-          align="end"
-          open={openTopics}
-          setOpen={setOpenTopics}
-          button={
-            <Button
-              theme="outline"
-              className={cn(
-                'flex justify-between items-center gap-3 w-full h-[56px]',
-              )}
-            >
-              <span className="grow text-left">
-                {choosenTopic?.label ? choosenTopic?.label : 'Choose topic...'}
-              </span>
-              <FaAngleDown />
-            </Button>
-          }
-        >
-          <ul className={cn('w-[400px] max-h-[400px] overflow-y-auto')}>
-            {topics?.map((topic) => {
-              return (
-                <li
-                  key={topic?.value}
-                  className={cn(
-                    ' border-b border-color-border-grey last:border-b-0 overflow-hidden',
-                  )}
-                >
-                  <label className="flex items-center gap-3 p-4 cursor-pointer hover:bg-color-purple text-color-dark-purple  hover:text-white has-[:checked]:text-white has-[:checked]:bg-color-purple">
-                    <input
-                      className="hidden"
-                      onChange={() => setChoosenTopic(topic)}
-                      type="radio"
-                      name="lang"
-                      checked={topic?.value === choosenTopic?.value}
-                      onClick={() => setOpenTopics(false)}
-                    />
-                    <span className={cn('text-sm font-medium ')}>
-                      {topic?.label}
-                    </span>
-                  </label>
-                </li>
-              );
-            })}
-          </ul>
-        </MyDropdownMenu>
+
+        <Select
+          // menuPortalTarget={document.body}
+          styles={selectStyle}
+          isClearable={true}
+          value={choosenTopic}
+          options={topics}
+          onChange={setChoosenTopic}
+        />
       </section>
 
       <section>
@@ -233,7 +211,7 @@ function FeedbackLessonInfo({
 
       <Button
         className="w-full h-[56px]"
-        disabled={!choosenTopic?.value || (!completedLesson && !choosenSection)}
+        disabled={!choosenTopic?.id || (!completedLesson && !choosenSection)}
         onClick={() => setStep(2)}
       >
         Next

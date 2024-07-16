@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa6';
+import { useCurrency } from 'src/app/providers/CurrencyProvider';
 import Indicator from 'src/components/Indicator';
 import { currencyFormat } from 'src/shared/utils/currencyFormat';
 
@@ -8,12 +10,17 @@ export const SubscriptionCard = ({
   sessionsPerWeek,
   totalSessions,
   price,
+  currency,
   months,
   duration,
   credits,
   active,
   isReferral = false,
 }) => {
+  const { findCurrency } = useCurrency();
+
+  const curCurrency = findCurrency(currency);
+
   const [t] = useTranslation(['common', 'lessons']);
   return (
     <div
@@ -26,7 +33,13 @@ export const SubscriptionCard = ({
 
       {!isReferral && (
         <div className="text-sm font-normal mb-4">
-          {currencyFormat({ number: price })}
+          {/* {price} */}
+          {curCurrency &&
+            currencyFormat({
+              number: price,
+              currency: curCurrency.value,
+              locales: curCurrency.locales,
+            })}
         </div>
       )}
       {active && credits > 0 && (

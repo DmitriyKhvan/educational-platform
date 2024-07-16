@@ -22,6 +22,7 @@
     "apollo-upload-client": "^18.0.1",
     "clsx": "^2.1.1",
     "country-list": "^2.3.0",
+    "embla-carousel-auto-scroll": "^8.1.5",
     "embla-carousel-react": "^8.0.4",
     "graphql": "^16.8.1",
     "graphql-ws": "^5.16.0",

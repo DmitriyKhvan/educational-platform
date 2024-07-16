@@ -1,6 +1,6 @@
 import { useMediaQuery } from 'react-responsive';
 import StarRatings from 'react-star-ratings';
-import { overviewFields } from 'src/shared/constants/global';
+import { overviewFieldsDic } from 'src/shared/constants/global';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 
 function FeedbackInfo({ data }) {
@@ -33,7 +33,10 @@ function FeedbackInfo({ data }) {
         <p className="text-color-light-grey text-sm mb-2">Homework</p>
         <ul className="list-inside">
           {data?.mentorReview?.homeworks?.map((w) => (
-            <li key={w.id}>{w?.title}</li>
+            <li key={w.id}>
+              <h6 className="font-semibold">{w?.title}</h6>
+              <p>{w?.description}</p>
+            </li>
           ))}
         </ul>
       </section>
@@ -43,16 +46,16 @@ function FeedbackInfo({ data }) {
           Overview of English language skills
         </p>
         <ul className="list-inside">
-          {overviewFields?.map(({ key, label }) => {
-            if (data?.mentorReview[key]) {
+          {overviewFieldsDic?.map(({ value, label }) => {
+            if (data?.mentorReview[value]) {
               return (
-                <li key={key} className="flex justify-between">
+                <li key={value} className="flex justify-between">
                   <p className="text-color-dark-violet font-semibold text-[15px]">
                     {label}
                   </p>
                   <span className="grow border-b border-dashed" />
-                  <p className="text-color-purple">
-                    {data?.mentorReview[key].toLocaleUpperCase()}
+                  <p className="text-color-purple first-letter:uppercase">
+                    {data?.mentorReview[value]}
                   </p>
                 </li>
               );

@@ -18,10 +18,10 @@ jobs:
       REACT_APP_SERVER_WS_URL: ${{ secrets.REACT_APP_SERVER_WS_URL }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set node version
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
@@ -33,12 +33,12 @@ jobs:
         run: npm run build
 
       - id: auth
-        uses: google-github-actions/auth@v1
+        uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_JSON }}
 
       - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
+        uses: google-github-actions/setup-gcloud@v2
 
       - name: Upload to bucket
         run: gcloud storage cp -r dist/** gs://dashboard-naonow-com/

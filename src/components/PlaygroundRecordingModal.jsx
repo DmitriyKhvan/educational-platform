@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactPlayer from 'react-player/file';
 
-export const PlaygroundRecordingModal = ({ urlRecording, width = '100%' }) => {
+export const PlaygroundRecordingModal = ({
+  urlRecording,
+  width = '100%',
+  autoPlay,
+}) => {
   return (
     <div
       className={`max-w-[${
@@ -9,7 +13,7 @@ export const PlaygroundRecordingModal = ({ urlRecording, width = '100%' }) => {
       }] w-full mx-auto overflow-hidden rounded-lg mb-6 bg-gray-500 aspect-video`}
     >
       <ReactPlayer
-        light
+        light={!autoPlay}
         url={urlRecording}
         playing
         controls

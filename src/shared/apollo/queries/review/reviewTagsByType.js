@@ -6,6 +6,11 @@ export const REVIEW_TAGS_BY_TYPE = gql`
       id
       type
       title
+      translations {
+        id
+        title
+        language
+      }
     }
   }
 `;

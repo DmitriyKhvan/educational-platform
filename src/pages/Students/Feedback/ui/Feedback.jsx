@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
-import { addMinutes, format } from 'date-fns';
-import { toZonedTime } from 'date-fns-tz';
+import { addMinutes } from 'date-fns';
+import { format, toZonedTime } from 'date-fns-tz';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PiStarFourFill } from 'react-icons/pi';
@@ -18,7 +18,7 @@ import { LESSON_QUERY } from 'src/shared/apollo/graphql';
 import { localeDic } from 'src/shared/constants/global';
 import Loader from 'src/components/Loader/Loader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'src/shared/ui/Tabs';
-import StudentReviewModal from 'src/entities/StudentReviewModal';
+import { StudentReviewModal } from 'src/entities/StudentReviewModal';
 
 function Feedback() {
   const params = useParams();
@@ -105,7 +105,7 @@ function Feedback() {
                   className="w-full h-[57px] mb-10 font-semibold gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#039855]"
                 >
                   {data?.studentReview ? <FaCheck /> : <FaStar />}{' '}
-                  {data?.studentReview ? 'Review submited' : 'Submit review'}
+                  {data?.studentReview ? 'Review submitted' : 'Submit review'}
                 </Button>
               }
               open={openReview}
