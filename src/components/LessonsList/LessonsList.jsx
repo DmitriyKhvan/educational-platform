@@ -10,6 +10,7 @@ import { LessonsCalendar, LessonsTable } from 'src/components/LessonsList';
 import { useAuth } from 'src/app/providers/AuthProvider';
 import { useMediaQuery } from 'react-responsive';
 import { sortCalendarEvents } from 'src/shared/utils/sortCalendarEvents';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const LessonsList = ({
   getAppointments,
@@ -17,6 +18,13 @@ const LessonsList = ({
   loadingAppointments,
   planStatus,
 }) => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams({
+    selectedTab: 'upcomingLessons',
+  });
+
+  console.log('selectedTab', searchParams.get('selectedTab'));
+
   const isMobile = useMediaQuery({ maxWidth: 640 });
 
   const [t] = useTranslation(['lessons']);
@@ -27,7 +35,7 @@ const LessonsList = ({
 
   useEffect(() => {
     getAppointments();
-    if (selectedTab === 'upcomingLessons') {
+    if (searchParams.get('selectedTab') === 'upcomingLessons') {
       setTimeout(() => {
         removeNotifications(LessonsStatusType.APPROVED);
       }, 300);
@@ -36,6 +44,8 @@ const LessonsList = ({
 
   const [calendarAppointments, setCalendarAppointments] = useState([]);
   const [tableAppointments, setTableAppointments] = useState([]);
+
+  console.log('tableAppointments', tableAppointments);
 
   useEffect(() => {
     if (appointments) {
@@ -53,30 +63,22 @@ const LessonsList = ({
     }
   }, [appointments]);
 
-  const [selectedTab, setSelectedTab] = useState('upcomingLessons');
-
-  const [isCalendar, setIsCalendar] = useState(false);
-
   const onClickPastLessons = () => {
-    setIsCalendar(false);
-    setSelectedTab('pastLessons');
+    navigate('?selectedTab=pastLessons');
   };
 
   const onClickUpcomingLessons = () => {
-    setIsCalendar(false);
-    setSelectedTab('upcomingLessons');
+    navigate('?selectedTab=upcomingLessons');
     removeNotifications(LessonsStatusType.APPROVED);
   };
 
   const onCalendarClick = () => {
-    setIsCalendar(true);
-    setSelectedTab('calendar');
+    navigate('?selectedTab=calendar');
   };
 
   useEffect(() => {
-    if (isMobile && selectedTab === 'calendar') {
-      setIsCalendar(false);
-      setSelectedTab('upcomingLessons');
+    if (isMobile && searchParams.get('selectedTab') === 'calendar') {
+      navigate('?selectedTab=upcomingLessons');
     }
   }, [isMobile]);
 
@@ -96,7 +98,7 @@ const LessonsList = ({
                   <Button
                     theme="outline"
                     className={`relative ml-0 rounded-r-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
-                      selectedTab === 'upcomingLessons' &&
+                      searchParams.get('selectedTab') === 'upcomingLessons' &&
                       'bg-color-dark-purple text-white'
                     }`}
                     onClick={onClickUpcomingLessons}
@@ -111,7 +113,7 @@ const LessonsList = ({
                   <Button
                     theme="outline"
                     className={`ml-[-4px] rounded-l-none focus:shadow-none hover:bg-color-dark-purple hover:text-white ${
-                      selectedTab === 'pastLessons' &&
+                      searchParams.get('selectedTab') === 'pastLessons' &&
                       'bg-color-dark-purple text-white'
                     }`}
                     onClick={onClickPastLessons}
@@ -123,7 +125,7 @@ const LessonsList = ({
                 <Button
                   theme="outline"
                   className={`focus:shadow-none hidden sm:block hover:bg-color-dark-purple hover:text-white ${
-                    selectedTab === 'calendar' &&
+                    searchParams.get('selectedTab') === 'calendar' &&
                     'bg-color-dark-purple text-white'
                   }`}
                   onClick={onCalendarClick}
@@ -135,22 +137,25 @@ const LessonsList = ({
           </div>
 
           <div>
-            {!loadingAppointments && !isCalendar && (
-              <LessonsTable
-                tableAppointments={tableAppointments}
-                planStatus={planStatus}
-                selectedTab={selectedTab}
-                getAppointments={getAppointments}
-              />
-            )}
-            {!isMobile && !loadingAppointments && isCalendar && (
-              <div className="mt-4">
-                <LessonsCalendar
-                  calendarAppointments={calendarAppointments}
+            {!loadingAppointments &&
+              searchParams.get('selectedTab') !== 'calendar' && (
+                <LessonsTable
+                  tableAppointments={tableAppointments}
+                  planStatus={planStatus}
+                  selectedTab={searchParams.get('selectedTab')}
                   getAppointments={getAppointments}
                 />
-              </div>
-            )}
+              )}
+            {!isMobile &&
+              !loadingAppointments &&
+              searchParams.get('selectedTab') === 'calendar' && (
+                <div className="mt-4">
+                  <LessonsCalendar
+                    calendarAppointments={calendarAppointments}
+                    getAppointments={getAppointments}
+                  />
+                </div>
+              )}
           </div>
         </div>
       )}
