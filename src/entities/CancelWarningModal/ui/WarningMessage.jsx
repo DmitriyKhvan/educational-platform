@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Roles } from 'src/shared/constants/global';
+import { ModalType, Roles } from 'src/shared/constants/global';
 
-export const WarningMessage = ({ role, isWithin24Hours }) => {
+export const WarningMessage = ({ role, isWithin24Hours, type }) => {
   const [t] = useTranslation('modals');
   return (
     <div className="w-full bg-color-red bg-opacity-10 flex items-center p-4 rounded-lg">
@@ -17,6 +17,7 @@ export const WarningMessage = ({ role, isWithin24Hours }) => {
               : 'After 6 cancellations, you will be fined for each additional cancellation.')}
 
           {role === Roles.STUDENT &&
+            type === ModalType.CANCEL &&
             (isWithin24Hours ? (
               <>
                 {t('cancel_modal_desc3')}
@@ -25,6 +26,10 @@ export const WarningMessage = ({ role, isWithin24Hours }) => {
             ) : (
               t('cancel_modal_desc4')
             ))}
+
+          {type === ModalType.RESCHEDULE && isWithin24Hours && (
+            <>You cannot reschedule within 24 hours.</>
+          )}
         </p>
       </div>
     </div>
