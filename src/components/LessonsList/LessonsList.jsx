@@ -23,8 +23,6 @@ const LessonsList = ({
     selectedTab: 'upcomingLessons',
   });
 
-  console.log('selectedTab', searchParams.get('selectedTab'));
-
   const isMobile = useMediaQuery({ maxWidth: 640 });
 
   const [t] = useTranslation(['lessons']);
@@ -44,8 +42,6 @@ const LessonsList = ({
 
   const [calendarAppointments, setCalendarAppointments] = useState([]);
   const [tableAppointments, setTableAppointments] = useState([]);
-
-  console.log('tableAppointments', tableAppointments);
 
   useEffect(() => {
     if (appointments) {
