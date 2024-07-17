@@ -5,7 +5,6 @@ import ImgCalendar from 'src/shared/assets/images/calendar_icon.svg';
 import ScheduleCard from '../../components/student-dashboard/ScheduleCard';
 import Loader from '../../components/common/Loader';
 import { useAuth } from 'src/app/providers/AuthProvider';
-import FeedbackLessonModal from './FeedbackLessonModal';
 import { useQuery } from '@apollo/client';
 import { APPOINTMENTS_QUERY } from '../../shared/apollo/graphql';
 import 'src/app/styles/dashboard.scss';
@@ -64,10 +63,6 @@ const MentorDashboard = () => {
       );
     }
   }, [appointments]);
-
-  const [isFeedbackShow, setFeedbackShow] = React.useState(false);
-
-  const handleCloseModal = () => setFeedbackShow(false);
 
   return (
     <div className="main-dashboard overflow-auto h-full">
@@ -159,12 +154,6 @@ const MentorDashboard = () => {
       {isLoading && <Loader />}
 
       <LevelAfterTrialModal />
-
-      <FeedbackLessonModal
-        modalState="mentor"
-        isOpen={isFeedbackShow}
-        closeModal={handleCloseModal}
-      />
     </div>
   );
 };
