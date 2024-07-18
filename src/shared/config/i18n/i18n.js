@@ -15,6 +15,7 @@ import {
   studentMentorCh,
   translationsCh,
   trialCh,
+  feedbackCh,
 } from 'src/shared/assets/lang/ch';
 import {
   availabilityEn,
@@ -31,6 +32,7 @@ import {
   studentMentorEn,
   translationsEn,
   trialEn,
+  feedbackEn,
 } from 'src/shared/assets/lang/en';
 import {
   availabilityKr,
@@ -47,6 +49,7 @@ import {
   studentMentorKr,
   translationsKr,
   trialKr,
+  feedbackKr,
 } from 'src/shared/assets/lang/kr';
 
 import { Language } from 'src/shared/constants/global';
@@ -72,6 +75,7 @@ i18next.init({
       purchase: purchaseEn,
       trial: trialEn,
       notifications: notificationsEn,
+      feedback: feedbackEn,
     },
     kr: {
       common: commonKr,
@@ -88,6 +92,7 @@ i18next.init({
       purchase: purchaseKr,
       trial: trialKr,
       notifications: notificationsKr,
+      feedback: feedbackKr,
     },
     cn: {
       common: commonCh,
@@ -104,6 +109,7 @@ i18next.init({
       purchase: purchaseCh,
       trial: trialCh,
       notifications: notificationsCh,
+      feedback: feedbackCh,
     },
   },
 });

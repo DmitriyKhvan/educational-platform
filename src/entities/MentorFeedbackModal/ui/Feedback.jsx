@@ -20,6 +20,7 @@ import MyDropdownMenu from 'src/components/DropdownMenu';
 import { TextareaField } from 'src/components/Form/TextareaField';
 import Button from 'src/components/Form/Button';
 import InputWithError from 'src/components/Form/InputWithError';
+import { useTranslation } from 'react-i18next';
 
 function Feedback({
   choosenTopic,
@@ -28,6 +29,7 @@ function Feedback({
   closeModal,
   lessonId,
 }) {
+  const [t] = useTranslation(['feedback', 'common']);
   const { user } = useAuth();
   const isMobile = useMediaQuery({ maxWidth: 420 });
 
@@ -104,11 +106,11 @@ function Feedback({
 
   return (
     <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="text-2xl font-bold">Feedback</h2>
+      <h2 className="text-2xl font-bold">{t('lesson_feedback')}</h2>
 
       <section>
         <p className="text-sm text-color-light-grey mb-4">
-          Summary of the lesson
+          {t('summary_lesson')}
         </p>
 
         <TextareaField
@@ -119,7 +121,7 @@ function Feedback({
       </section>
 
       <section>
-        <p className="text-sm text-color-light-grey mb-4">Vocabulary</p>
+        <p className="text-sm text-color-light-grey mb-4">{t('vocabulary')}</p>
 
         <InputWithError errorsField={errors?.vocabularyIds}>
           <div className="flex gap-2">
@@ -144,7 +146,7 @@ function Feedback({
       </section>
 
       <section>
-        <p className="text-sm text-color-light-grey mb-4">Homework</p>
+        <p className="text-sm text-color-light-grey mb-4">{t('homework')}</p>
 
         <InputWithError errorsField={errors?.homeworkIds}>
           <div className="flex gap-4 flex-col ">
@@ -164,7 +166,7 @@ function Feedback({
                       {hw.title}
                     </span>
                     <span className="bg-color-purple text-[13px] bg-opacity-10 rounded-md px-3 py-[6px] text-color-purple">
-                      Homework {idx + 1}
+                      {t('homework')} {idx + 1}
                     </span>
                   </span>
                 }
@@ -176,7 +178,7 @@ function Feedback({
 
       <section>
         <p className="text-sm text-color-light-grey mb-4">
-          Overview of English language skills
+          {t('english_skills')}
         </p>
 
         {overviewFieldsDic.map((field) => (
@@ -187,7 +189,7 @@ function Feedback({
             <InputWithError errorsField={errors?.[field.value]}>
               <div className="flex gap-2 justify-between">
                 <p className="text-color-dark-violet font-semibold">
-                  {field.label}
+                  {t(field.label)}
                 </p>
                 <MyDropdownMenu
                   open={overviews[field.value]}
@@ -240,7 +242,7 @@ function Feedback({
                           className="flex-row-reverse justify-between w-full p-4"
                           type="radio"
                           value={value}
-                          label={label}
+                          label={t(label)}
                           {...register(field.value, {
                             required: `${field.label} overview is required`,
                           })}
@@ -263,7 +265,7 @@ function Feedback({
 
       <section>
         <p className="text-sm text-color-light-grey mb-4">
-          Overall assesment of class participation
+          {t('overall_assessment')}
         </p>
         <InputWithError errorsField={errors?.rating}>
           <div className="border border-color-border-grey p-5 rounded-lg shadow-[0px_0px_8px_0px_#00000014] flex justify-center">
@@ -292,9 +294,7 @@ function Feedback({
       </section>
 
       <section>
-        <p className="text-sm text-color-light-grey mb-4">
-          Opportunity for improvement
-        </p>
+        <p className="text-sm text-color-light-grey mb-4">{t('improvement')}</p>
         <InputWithError errorsField={errors?.improvement}>
           <TextareaField
             {...register('improvement', {
@@ -314,7 +314,7 @@ function Feedback({
       </section>
 
       <section>
-        <p className="text-sm text-color-light-grey mb-4">Area mastered</p>
+        <p className="text-sm text-color-light-grey mb-4">{t('mastered')}</p>
 
         <InputWithError errorsField={errors?.mastered}>
           <TextareaField
@@ -340,14 +340,14 @@ function Feedback({
           theme="dark_purple"
           onClick={() => setStep(1)}
         >
-          Back
+          {t('back', { ns: 'common' })}
         </Button>
         <Button
           className="basis-1/2"
           type="submit"
           disabled={!isValid || loading}
         >
-          Submit Feedback
+          {t('submit', { ns: 'common' })}
         </Button>
       </section>
     </form>

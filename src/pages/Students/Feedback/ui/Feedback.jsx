@@ -22,7 +22,7 @@ import { StudentReviewModal } from 'src/entities/StudentReviewModal';
 
 function Feedback() {
   const params = useParams();
-  const [t, i18n] = useTranslation('common');
+  const [t, i18n] = useTranslation(['common', 'feedback']);
   const { user } = useAuth();
 
   const [openReview, setOpenReview] = useState(false);
@@ -105,7 +105,9 @@ function Feedback() {
                   className="w-full h-[57px] mb-10 font-semibold gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#039855]"
                 >
                   {data?.studentReview ? <FaCheck /> : <FaStar />}{' '}
-                  {data?.studentReview ? 'Review submitted' : 'Submit review'}
+                  {data?.studentReview
+                    ? t('review_submitted', { ns: 'feedback' })
+                    : t('submit_review', { ns: 'feedback' })}
                 </Button>
               }
               open={openReview}
@@ -127,7 +129,7 @@ function Feedback() {
           <Tabs defaultValue="feedback">
             <TabsList className="w-full">
               <TabsTrigger value="feedback" className="w-full">
-                Feedback
+                {t('lesson_feedback', { ns: 'feedback' })}
               </TabsTrigger>
               <TabsTrigger value="lessonInfo" className="w-full">
                 Lesson info

@@ -3,8 +3,10 @@ import { FaArrowLeft } from 'react-icons/fa6';
 import { cn } from 'src/shared/utils/functions';
 import FeedbackLessonInfo from './FeedbackLessonInfo';
 import Feedback from './Feedback';
+import { useTranslation } from 'react-i18next';
 
 export const MentorFeedbackModal = ({ data, closeModal }) => {
+  const [t] = useTranslation(['common']);
   const [step, setStep] = useState(1);
 
   const [choosenTopic, setChoosenTopic] = useState(data?.topic?.id);
@@ -20,7 +22,7 @@ export const MentorFeedbackModal = ({ data, closeModal }) => {
             disabled={step === 1}
             className="flex items-center gap-1 disabled:text-[#C0C0C3]"
           >
-            <FaArrowLeft /> Back
+            <FaArrowLeft /> {t('back')}
           </button>
           Step {step}/2
         </div>
