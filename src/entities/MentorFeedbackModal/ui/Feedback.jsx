@@ -214,11 +214,11 @@ function Feedback({
                       <span className="grow text-left text-[15px]">
                         {watch(field.value) ? (
                           <span className="text-color-purple font-medium">
-                            {
+                            {t(
                               overviewGradeDic.find(
                                 (item) => item.value === watch(field.value),
-                              ).label
-                            }
+                              ).label,
+                            )}
                           </span>
                         ) : (
                           <span className="text-[#C0C0C3]">
