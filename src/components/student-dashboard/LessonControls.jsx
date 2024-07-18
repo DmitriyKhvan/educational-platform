@@ -54,6 +54,10 @@ const LessonControls = ({
     addMinutes(new Date(date), data.duration),
   );
 
+  console.log('pattern', pattern);
+  console.log('role', user.role);
+  console.log('isAfterLesson', isAfterLesson);
+
   const gridStyle = {
     gridTemplateColumns: `repeat(${pattern === 'table' && user.role === Roles.STUDENT && isAfterLesson ? 3 : controls}, minmax(0, 1fr))`,
   };

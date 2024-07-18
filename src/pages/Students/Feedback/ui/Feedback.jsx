@@ -129,10 +129,10 @@ function Feedback() {
           <Tabs defaultValue="feedback">
             <TabsList className="w-full">
               <TabsTrigger value="feedback" className="w-full">
-                {t('lesson_feedback', { ns: 'feedback' })}
+                {t('feedback', { ns: 'feedback' })}
               </TabsTrigger>
               <TabsTrigger value="lessonInfo" className="w-full">
-                Lesson info
+                {t('lesson_info', { ns: 'feedback' })}
               </TabsTrigger>
             </TabsList>
             <TabsContent value="feedback">
