@@ -4,7 +4,7 @@ import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 
 function LessonInfo({ data }) {
   // eslint-disable-next-line no-unused-vars
-  const [t, i18n] = useTranslation(['common', 'feedback']);
+  const [t, i18n] = useTranslation(['common', 'feedback', 'lessons']);
 
   return (
     <div className="mt-6 space-y-6">
@@ -19,7 +19,7 @@ function LessonInfo({ data }) {
 
       <div>
         <p className="text-color-light-grey text-sm mb-3">
-          {t('package', { ns: 'feedback' })}
+          {t('lesson_package', { ns: 'lessons' })}
         </p>
         <p className="bg-color-dashboard-bg p-4 font-medium text-color-dark-violet text-sm min-h-14 rounded-lg">
           {getTranslatedTitle(
@@ -31,7 +31,7 @@ function LessonInfo({ data }) {
 
       <div>
         <p className="text-color-light-grey text-sm mb-3">
-          {t('mentor', { ns: 'feedback' })}
+          {t('mentor', { ns: 'lessons' })}
         </p>
         <p className="bg-color-dashboard-bg p-4 font-medium text-color-dark-violet text-sm min-h-14 rounded-lg">
           {data?.mentor?.firstName}{' '}
@@ -41,7 +41,7 @@ function LessonInfo({ data }) {
 
       <div>
         <p className="text-color-light-grey text-sm mb-3">
-          {t('level', { ns: 'feedback' })}
+          {t('level', { ns: 'lessons' })}
         </p>
         <p className="bg-color-dashboard-bg p-4 font-medium text-color-dark-violet text-sm min-h-14 rounded-lg">
           {getTranslatedTitle(data?.languageLevel, i18n?.language)}

@@ -1,4 +1,6 @@
 {
+  "lesson_info": "레슨 정보",
+  "feedback": "피드백",
   "lesson_feedback": "레슨 피드백",
   "feedback_pending": "피드백 대기 중",
   "summary_lesson": "레슨 요약",
@@ -24,9 +26,5 @@
   "submit_review": "리뷰 보내기",
   "lesson_review": "수업 리뷰",
   "submit_rating": "이번 수업을 평가해주세요!",
-  "topic_lesson": "레슨 주제",
-  "package": "수업 패키지 종류",
-  "mentor": "멘토",
-  "level": "레벨",
-  "duration": "수업 시간"
+  "topic_lesson": "레슨 주제"
 }

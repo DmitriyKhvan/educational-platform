@@ -1,4 +1,6 @@
 {
+  "lesson_info": "Lesson Info",
+  "feedback": "Feedback",
   "lesson_feedback": "Lesson Feedback",
   "feedback_pending": "Feedback pending",
   "summary_lesson": "Summary of lesson",
@@ -24,9 +26,5 @@
   "submit_review": "Submit Review",
   "lesson_review": "Lesson Review",
   "submit_rating": "Please submit your rating",
-  "topic_lesson": "Topic of Lesson",
-  "package": "Package",
-  "mentor": "Mentor",
-  "level": "Level",
-  "duration": "Duration"
+  "topic_lesson": "Topic of Lesson"
 }

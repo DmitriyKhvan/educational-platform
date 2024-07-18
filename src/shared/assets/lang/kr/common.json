@@ -92,7 +92,7 @@
   "continue_button": "계속하기",
   "invalid_expired_token": "이용 불가능한 토큰입니다",
   "manage_subscriptions": "구독 관리",
-  "no_active_subscriptions": "활성 계획이 없습니다.",
+  "no_active_subscriptions": "해당하는 패키지가 없습니다",
   "packages": "패키지",
   "cost_per_class": "수업당 비용",
   "lesson_per_week": "주당 수업",
