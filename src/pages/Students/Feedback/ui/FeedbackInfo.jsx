@@ -1,9 +1,12 @@
+import { useTranslation } from 'react-i18next';
 import { useMediaQuery } from 'react-responsive';
 import StarRatings from 'react-star-ratings';
 import { overviewFieldsDic } from 'src/shared/constants/global';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
 
 function FeedbackInfo({ data }) {
+  const [t] = useTranslation(['feedback']);
+
   const isMobile = useMediaQuery({ maxWidth: 420 });
   return (
     <div className="mt-6 p-6 border border-color-dashboard-bg rounded-xl shadow-[0px_0px_16px_0px_#00000014]">
@@ -16,12 +19,14 @@ function FeedbackInfo({ data }) {
       </section>
 
       <section className="mb-4">
-        <p className="text-color-light-grey text-sm mb-2">Summary of lesson</p>
+        <p className="text-color-light-grey text-sm mb-2">
+          {t('summary_lesson')}
+        </p>
         <p>{data?.topic?.description}</p>
       </section>
 
       <section className="mb-4">
-        <p className="text-color-light-grey text-sm mb-2">Vocabulary</p>
+        <p className="text-color-light-grey text-sm mb-2">{t('vocabulary')}</p>
         <ul className="list-disc list-inside">
           {data?.mentorReview?.vocabularies?.map((w) => (
             <li key={w.id}>{w?.word}</li>
@@ -30,7 +35,7 @@ function FeedbackInfo({ data }) {
       </section>
 
       <section className="mb-4">
-        <p className="text-color-light-grey text-sm mb-2">Homework</p>
+        <p className="text-color-light-grey text-sm mb-2">{t('homework')}</p>
         <ul className="list-inside">
           {data?.mentorReview?.homeworks?.map((w) => (
             <li key={w.id}>
@@ -43,7 +48,7 @@ function FeedbackInfo({ data }) {
 
       <section className="mb-4">
         <p className="text-color-light-grey text-sm mb-2">
-          Overview of English language skills
+          {t('english_skills')}
         </p>
         <ul className="list-inside">
           {overviewFieldsDic?.map(({ value, label }) => {
@@ -51,11 +56,11 @@ function FeedbackInfo({ data }) {
               return (
                 <li key={value} className="flex justify-between">
                   <p className="text-color-dark-violet font-semibold text-[15px]">
-                    {label}
+                    {t(label)}
                   </p>
                   <span className="grow border-b border-dashed" />
                   <p className="text-color-purple first-letter:uppercase">
-                    {data?.mentorReview[value]}
+                    {t(data?.mentorReview[value])}
                   </p>
                 </li>
               );
@@ -67,7 +72,7 @@ function FeedbackInfo({ data }) {
 
       <section className="mb-4">
         <p className="text-color-light-grey text-sm mb-2">
-          Overall assesment of class participation
+          {t('overall_assessment')}
         </p>
         <div className="border border-color-border-grey p-5 rounded-lg shadow-[0px_0px_8px_0px_#00000014] flex justify-center mb-6">
           <StarRatings
@@ -83,16 +88,14 @@ function FeedbackInfo({ data }) {
       </section>
 
       <section className="mb-4">
-        <p className="text-color-light-grey text-sm mb-2">
-          Area for improvement
-        </p>
+        <p className="text-color-light-grey text-sm mb-2">{t('improvement')}</p>
         <p className="text-[15px] text-color-dark-violet">
           {data?.mentorReview?.improvement}
         </p>
       </section>
 
       <section>
-        <p className="text-color-light-grey text-sm mb-2">Area mastered</p>
+        <p className="text-color-light-grey text-sm mb-2">{t('mastered')}</p>
         <p className="text-[15px] text-color-dark-violet">
           {data?.mentorReview?.mastered}
         </p>

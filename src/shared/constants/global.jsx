@@ -3,7 +3,6 @@ import { getData } from 'country-list';
 import { format, toZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
 import * as flags from 'src/shared/assets/images/flags';
-import { ucFirst } from '../utils/ucFirst';
 // import { useMemo } from 'react';
 
 export const genders = [
@@ -857,13 +856,13 @@ export const courseColorsDict = {
 };
 
 export const overviewFieldsDic = [
-  { value: 'fluency', label: 'Fluency' },
-  { value: 'pronunciation', label: 'Pronunciation' },
-  { value: 'vocabulary', label: 'Vocabulary' },
-  { value: 'reading', label: 'Reading comprehension' },
-  { value: 'expressions', label: 'Proper use of english expressions' },
-  { value: 'confidence', label: 'Confidence' },
-  { value: 'listening', label: 'Listening' },
+  { value: 'fluency', label: 'fluency' },
+  { value: 'pronunciation', label: 'pronunciation' },
+  { value: 'vocabulary', label: 'vocabulary' },
+  { value: 'reading', label: 'reading' },
+  { value: 'expressions', label: 'expressions' },
+  { value: 'confidence', label: 'confidence' },
+  { value: 'listening', label: 'listening' },
 ];
 
 export const OverviewGrade = {
@@ -877,12 +876,12 @@ export const OverviewGrade = {
 
 export const overviewGradeDic = [
   {
-    label: ucFirst(OverviewGrade.INSUFFICIENT),
+    label: OverviewGrade.INSUFFICIENT,
     value: OverviewGrade.INSUFFICIENT,
   },
-  { label: ucFirst(OverviewGrade.BASIC), value: OverviewGrade.BASIC },
-  { label: ucFirst(OverviewGrade.FAIR), value: OverviewGrade.FAIR },
-  { label: ucFirst(OverviewGrade.GOOD), value: OverviewGrade.GOOD },
-  { label: ucFirst(OverviewGrade.GREAT), value: OverviewGrade.GREAT },
-  { label: ucFirst(OverviewGrade.EXCELLENT), value: OverviewGrade.EXCELLENT },
+  { label: OverviewGrade.BASIC, value: OverviewGrade.BASIC },
+  { label: OverviewGrade.FAIR, value: OverviewGrade.FAIR },
+  { label: OverviewGrade.GOOD, value: OverviewGrade.GOOD },
+  { label: OverviewGrade.GREAT, value: OverviewGrade.GREAT },
+  { label: OverviewGrade.EXCELLENT, value: OverviewGrade.EXCELLENT },
 ];

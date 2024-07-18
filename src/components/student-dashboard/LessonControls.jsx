@@ -34,7 +34,7 @@ const LessonControls = ({
 
   const { user } = useAuth();
 
-  const [t] = useTranslation(['modals', 'common']);
+  const [t] = useTranslation(['modals', 'common', 'feedback']);
   const [isWarningOpen, setIsWarningOpen] = useState(false);
   const [modalType, setModalType] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -239,10 +239,10 @@ const LessonControls = ({
               }
             >
               {data?.mentorReview ? (
-                'Lesson Feedback'
+                t('lesson_feedback', { ns: 'feedback' })
               ) : (
                 <>
-                  <FaRegClock /> Feedback pending
+                  <FaRegClock /> {t('feedback_pending', { ns: 'feedback' })}
                 </>
               )}
             </Button>
@@ -259,8 +259,8 @@ const LessonControls = ({
                   {data?.studentReview ? <FaCheck /> : <FaStar />}{' '}
                   {pattern !== 'table' &&
                     (data?.studentReview
-                      ? 'Review submitted'
-                      : 'Submit review')}
+                      ? t('review_submitted', { ns: 'feedback' })
+                      : t('submit_review', { ns: 'feedback' }))}
                 </Button>
               }
               open={openStudentReview}

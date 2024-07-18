@@ -12,3 +12,4 @@ export * as translationsEn from './translations.json';
 export * as purchaseEn from './purchase.json';
 export * as trialEn from './trial.json';
 export * as notificationsEn from './notifications.json';
+export * as feedbackEn from './feedback.json';

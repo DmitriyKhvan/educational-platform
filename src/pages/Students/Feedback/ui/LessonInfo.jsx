@@ -4,13 +4,13 @@ import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 
 function LessonInfo({ data }) {
   // eslint-disable-next-line no-unused-vars
-  const [t, i18n] = useTranslation('common');
+  const [t, i18n] = useTranslation(['common', 'feedback']);
 
   return (
     <div className="mt-6 space-y-6">
       <div>
         <p className="text-color-light-grey text-sm mb-3 block">
-          Topic of lesson
+          {t('topic_lesson', { ns: 'feedback' })}
         </p>
         <p className="bg-color-dashboard-bg p-4 font-medium text-color-dark-violet text-sm min-h-14 rounded-lg">
           {getTranslatedTitle(data?.topic, i18n?.language)}
@@ -18,7 +18,9 @@ function LessonInfo({ data }) {
       </div>
 
       <div>
-        <p className="text-color-light-grey text-sm mb-3">Package</p>
+        <p className="text-color-light-grey text-sm mb-3">
+          {t('package', { ns: 'feedback' })}
+        </p>
         <p className="bg-color-dashboard-bg p-4 font-medium text-color-dark-violet text-sm min-h-14 rounded-lg">
           {getTranslatedTitle(
             data?.packageSubscription?.package?.course,
@@ -28,7 +30,9 @@ function LessonInfo({ data }) {
       </div>
 
       <div>
-        <p className="text-color-light-grey text-sm mb-3">Mentor</p>
+        <p className="text-color-light-grey text-sm mb-3">
+          {t('mentor', { ns: 'feedback' })}
+        </p>
         <p className="bg-color-dashboard-bg p-4 font-medium text-color-dark-violet text-sm min-h-14 rounded-lg">
           {data?.mentor?.firstName}{' '}
           {data?.mentor?.lastName && `${data?.mentor?.lastName[0]}.`}
@@ -36,14 +40,18 @@ function LessonInfo({ data }) {
       </div>
 
       <div>
-        <p className="text-color-light-grey text-sm mb-3">Level</p>
+        <p className="text-color-light-grey text-sm mb-3">
+          {t('level', { ns: 'feedback' })}
+        </p>
         <p className="bg-color-dashboard-bg p-4 font-medium text-color-dark-violet text-sm min-h-14 rounded-lg">
           {getTranslatedTitle(data?.languageLevel, i18n?.language)}
         </p>
       </div>
 
       <div>
-        <p className="text-color-light-grey text-sm mb-3">Duration</p>
+        <p className="text-color-light-grey text-sm mb-3">
+          {t('duration', { ns: 'feedback' })}
+        </p>
         <p className="bg-color-dashboard-bg p-4 font-medium text-color-dark-violet text-sm min-h-14 rounded-lg">
           {data?.duration} {t('minutes')}
         </p>

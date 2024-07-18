@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 const ratingTypes = [null, 'bad', 'bad', 'neutral', 'neutral', 'good'];
 
 export const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
-  const { i18n } = useTranslation();
+  const [t, i18n] = useTranslation(['feedback', 'common']);
   const [rating, setRating] = useState(0);
   const [ratingType, setRatingType] = useState(null);
   const [tagsIds, setTagsIds] = useState([]);
@@ -61,11 +61,11 @@ export const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
   return (
     <div className="mx-auto sm:w-[400px]">
       <h2 className="font-bold text-2xl text-color-dark-violet mb-6 md:text-2xl">
-        Lesson Review
+        {t('lesson_review', { ns: 'feedback' })}
       </h2>
 
       <p className="text-color-light-grey text-[13px] mb-4 md:text-[14px]">
-        Please submit your rating
+        {t('submit_rating', { ns: 'feedback' })}
       </p>
 
       <div className="border border-color-border-grey p-5 rounded-lg shadow-[0px_0px_8px_0px_#00000014] flex justify-center mb-6">
@@ -115,7 +115,7 @@ export const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
         disabled={!tagsIds.length || loading}
         onClick={() => onSubmit()}
       >
-        Submit
+        {t('submit', { ns: 'common' })}
       </Button>
     </div>
   );

@@ -29,7 +29,7 @@ function FeedbackLessonInfo({
   setChoosenSection,
 }) {
   // eslint-disable-next-line no-unused-vars
-  const [t, i18n] = useTranslation('common');
+  const [t, i18n] = useTranslation(['common', 'feedback']);
   const { user } = useAuth();
 
   const [completedLesson, setCompletedLesson] = useState(!choosenSection);
@@ -113,7 +113,9 @@ function FeedbackLessonInfo({
       </section>
 
       <section>
-        <h3 className="mb-4 text-color-light-grey text-sm">Lesson topic</h3>
+        <h3 className="mb-4 text-color-light-grey text-sm">
+          {t('topic_lesson', { ns: 'feedback' })}
+        </h3>
 
         <Select
           // menuPortalTarget={document.body}
