@@ -313,43 +313,50 @@ function Feedback({
 
       <section>
         <p className="text-sm text-color-light-grey mb-4">{t('improvement')}</p>
-        <InputWithError errorsField={errors?.improvement}>
-          <TextareaField
-            {...register('improvement', {
-              required: 'Opportunity for improvement is required',
-              minLength: {
-                message: 'Text is too short',
-                value: 280,
-              },
-              maxLength: {
-                message: 'Text is too long',
-                value: 5000,
-              },
-            })}
-            className="w-full h-[120px]"
-          />
-        </InputWithError>
+        <TextareaField
+          {...register('improvement', {
+            required: 'Opportunity for improvement is required',
+            minLength: 280,
+            maxLength: {
+              message: 'Text is too long',
+              value: 5000,
+            },
+          })}
+          className="w-full h-[120px]"
+        />
+        {errors?.improvement?.type === 'minLength' ? (
+          <p className="text-[#df1b41] mt-1">
+            {280 - watch('improvement').length} characters remaining. Please
+            write detailed feedback to make your student happy! :)
+          </p>
+        ) : (
+          <p className="text-[#df1b41] mt-1">{errors?.improvement?.message}</p>
+        )}
       </section>
 
       <section>
         <p className="text-sm text-color-light-grey mb-4">{t('mastered')}</p>
 
-        <InputWithError errorsField={errors?.mastered}>
-          <TextareaField
-            {...register('mastered', {
-              required: 'Area mastered is required',
-              minLength: {
-                message: 'Text is too short',
-                value: 280,
-              },
-              maxLength: {
-                message: 'Text is too long',
-                value: 5000,
-              },
-            })}
-            className="w-full h-[120px] resize-none"
-          />
-        </InputWithError>
+        <TextareaField
+          {...register('mastered', {
+            required: 'Area mastered is required',
+            minLength: 280,
+            maxLength: {
+              message: 'Text is too long',
+              value: 5000,
+            },
+          })}
+          className="w-full h-[120px] resize-none"
+        />
+
+        {errors?.mastered?.type === 'minLength' ? (
+          <p className="text-[#df1b41] mt-1">
+            {280 - watch('mastered').length} characters remaining. Please write
+            detailed feedback to make your student happy! :)
+          </p>
+        ) : (
+          <p className="text-[#df1b41] mt-1">{errors?.mastered?.message}</p>
+        )}
       </section>
 
       <section className="flex gap-3">
