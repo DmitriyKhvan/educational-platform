@@ -13,7 +13,7 @@ export const MentorFeedbackModal = ({ data, closeModal }) => {
   const [choosenSection, setChoosenSection] = useState(null);
 
   return (
-    <div className="sm:min-w-[410px]">
+    <div className="sm:w-[410px]">
       <header className="mb-8">
         <div className="flex justify-between text-color-purple text-sm font-medium mb-4">
           <button
