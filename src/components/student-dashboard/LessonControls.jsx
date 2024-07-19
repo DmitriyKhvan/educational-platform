@@ -225,58 +225,60 @@ const LessonControls = ({
             </AdaptiveDialog>
           )}
 
-        {isAfterLesson && user.role === Roles.STUDENT && (
-          <>
-            <Button
-              disabled={!data?.mentorReview}
-              className={cn(
-                'grow text-xs sm:text-sm px-2 gap-2',
-                pattern === 'table' && 'col-span-2',
-              )}
-              theme="dark_purple"
-              onClick={() =>
-                navigate(`/student/lesson-calendar/feedback/${data.id}`)
-              }
-            >
-              {data?.mentorReview ? (
-                t('lesson_feedback', { ns: 'feedback' })
-              ) : (
-                <>
-                  <FaRegClock /> {t('feedback_pending', { ns: 'feedback' })}
-                </>
-              )}
-            </Button>
-            <AdaptiveDialog
-              button={
-                <Button
-                  // disabled={true}
-                  disabled={data?.studentReview}
-                  className={cn(
-                    'grow text-xs sm:text-sm px-2 gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#0EC541]',
-                    pattern === 'table' && 'col-span-1',
-                  )}
-                >
-                  {data?.studentReview ? <FaCheck /> : <FaStar />}{' '}
-                  {pattern !== 'table' &&
-                    (data?.studentReview
-                      ? t('review_submitted', { ns: 'feedback' })
-                      : t('submit_review', { ns: 'feedback' }))}
-                </Button>
-              }
-              open={openStudentReview}
-              setOpen={setOpenStudentReview}
-            >
-              <StudentReviewModal
-                studentId={data?.student?.id}
-                lessonId={data?.id}
-                closeModal={() => {
-                  setOpenStudentReview(false);
-                  refetch();
-                }}
-              />
-            </AdaptiveDialog>
-          </>
-        )}
+        {isAfterLesson &&
+          user.role === Roles.STUDENT &&
+          process.env.REACT_APP_PRODUCTION === 'false' && (
+            <>
+              <Button
+                disabled={!data?.mentorReview}
+                className={cn(
+                  'grow text-xs sm:text-sm px-2 gap-2',
+                  pattern === 'table' && 'col-span-2',
+                )}
+                theme="dark_purple"
+                onClick={() =>
+                  navigate(`/student/lesson-calendar/feedback/${data.id}`)
+                }
+              >
+                {data?.mentorReview ? (
+                  t('lesson_feedback', { ns: 'feedback' })
+                ) : (
+                  <>
+                    <FaRegClock /> {t('feedback_pending', { ns: 'feedback' })}
+                  </>
+                )}
+              </Button>
+              <AdaptiveDialog
+                button={
+                  <Button
+                    // disabled={true}
+                    disabled={data?.studentReview}
+                    className={cn(
+                      'grow text-xs sm:text-sm px-2 gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#0EC541]',
+                      pattern === 'table' && 'col-span-1',
+                    )}
+                  >
+                    {data?.studentReview ? <FaCheck /> : <FaStar />}{' '}
+                    {pattern !== 'table' &&
+                      (data?.studentReview
+                        ? t('review_submitted', { ns: 'feedback' })
+                        : t('submit_review', { ns: 'feedback' }))}
+                  </Button>
+                }
+                open={openStudentReview}
+                setOpen={setOpenStudentReview}
+              >
+                <StudentReviewModal
+                  studentId={data?.student?.id}
+                  lessonId={data?.id}
+                  closeModal={() => {
+                    setOpenStudentReview(false);
+                    refetch();
+                  }}
+                />
+              </AdaptiveDialog>
+            </>
+          )}
 
         {!isAfterLesson && !(user.role === Roles.MENTOR && data.isTrial) && (
           <AdaptiveDialog
@@ -296,32 +298,36 @@ const LessonControls = ({
           </AdaptiveDialog>
         )}
 
-        {isAfterLesson && user.role === Roles.MENTOR && (
-          <AdaptiveDialog
-            open={mentorReviewOpen}
-            setOpen={setMentorReviewOpen}
-            classNameDrawer="h-[95%]"
-            button={
-              <Button
-                disabled={data?.mentorReview}
-                className={cn(
-                  'grow text-xs sm:text-sm px-2 gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#0EC541]',
-                )}
-              >
-                {!data?.mentorReview && <FaStar />}{' '}
-                {data?.mentorReview ? 'Feedback submitted' : 'Submit feedback'}
-              </Button>
-            }
-          >
-            <MentorFeedbackModal
-              data={data}
-              closeModal={() => {
-                setMentorReviewOpen(false);
-                refetch();
-              }}
-            />
-          </AdaptiveDialog>
-        )}
+        {isAfterLesson &&
+          user.role === Roles.MENTOR &&
+          process.env.REACT_APP_PRODUCTION === 'false' && (
+            <AdaptiveDialog
+              open={mentorReviewOpen}
+              setOpen={setMentorReviewOpen}
+              classNameDrawer="h-[95%]"
+              button={
+                <Button
+                  disabled={data?.mentorReview}
+                  className={cn(
+                    'grow text-xs sm:text-sm px-2 gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#0EC541]',
+                  )}
+                >
+                  {!data?.mentorReview && <FaStar />}{' '}
+                  {data?.mentorReview
+                    ? 'Feedback submitted'
+                    : 'Submit feedback'}
+                </Button>
+              }
+            >
+              <MentorFeedbackModal
+                data={data}
+                closeModal={() => {
+                  setMentorReviewOpen(false);
+                  refetch();
+                }}
+              />
+            </AdaptiveDialog>
+          )}
       </div>
 
       {isWarningOpen && (
