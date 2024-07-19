@@ -58,7 +58,7 @@ function Feedback({
     watch,
     handleSubmit,
     control,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     mode: 'all',
     defaultValues: {
@@ -71,7 +71,7 @@ function Feedback({
       confidence: '',
       expressions: '',
       listening: '',
-      rating: 0,
+      // rating: 0,
       improvement: '',
       mastered: '',
     },
@@ -125,22 +125,31 @@ function Feedback({
 
         <InputWithError errorsField={errors?.vocabularyIds}>
           <div className="flex gap-2">
-            {vocabData?.vocabulary?.map((vocab) => (
-              <TagField
-                className="bg-[#F7F8FA] rounded-lg font-medium text-color-dark-violet border-none"
-                key={vocab.id}
-                type="checkbox"
-                {...register(
-                  'vocabularyIds',
-                  //   {
-                  //   required: 'Vocabulary is required',
-                  // }
-                )}
-                disabled
-                value={vocab.id}
-                label={vocab.word}
+            {vocabData?.vocabulary?.length ? (
+              vocabData?.vocabulary?.map((vocab) => (
+                <TagField
+                  className="bg-[#F7F8FA] rounded-lg font-medium text-color-dark-violet border-none"
+                  key={vocab.id}
+                  type="checkbox"
+                  {...register(
+                    'vocabularyIds',
+                    //   {
+                    //   required: 'Vocabulary is required',
+                    // }
+                  )}
+                  disabled
+                  value={vocab.id}
+                  label={vocab.word}
+                />
+              ))
+            ) : (
+              <input
+                className="hidden"
+                {...register('vocabularyIds', {
+                  required: 'Vocabulary is required',
+                })}
               />
-            ))}
+            )}
           </div>
         </InputWithError>
       </section>
@@ -150,28 +159,37 @@ function Feedback({
 
         <InputWithError errorsField={errors?.homeworkIds}>
           <div className="flex gap-4 flex-col ">
-            {homeworkData?.homework?.map((hw, idx) => (
-              <CheckboxField
-                key={hw.id}
-                className="flex-row-reverse w-full justify-between border border-color-border-grey p-4 rounded-lg has-[:checked]:border-color-purple shadow-[0px_0px_8px_0px_#0000000A]"
-                square
-                type="radio"
+            {homeworkData?.homework?.length ? (
+              homeworkData?.homework?.map((hw, idx) => (
+                <CheckboxField
+                  key={hw.id}
+                  className="flex-row-reverse w-full justify-between border border-color-border-grey p-4 rounded-lg has-[:checked]:border-color-purple shadow-[0px_0px_8px_0px_#0000000A] gap-3"
+                  square
+                  type="radio"
+                  {...register('homeworkIds', {
+                    required: 'Homework is required',
+                  })}
+                  value={hw.id}
+                  label={
+                    <span className="block">
+                      <span className="block font-semibold text-base mb-3">
+                        {hw.title}
+                      </span>
+                      <span className="bg-color-purple text-[13px] bg-opacity-10 rounded-md px-3 py-[6px] text-color-purple">
+                        {t('homework')} {idx + 1}
+                      </span>
+                    </span>
+                  }
+                />
+              ))
+            ) : (
+              <input
+                className="hidden"
                 {...register('homeworkIds', {
                   required: 'Homework is required',
                 })}
-                value={hw.id}
-                label={
-                  <span className="block">
-                    <span className="block font-semibold text-base mb-3">
-                      {hw.title}
-                    </span>
-                    <span className="bg-color-purple text-[13px] bg-opacity-10 rounded-md px-3 py-[6px] text-color-purple">
-                      {t('homework')} {idx + 1}
-                    </span>
-                  </span>
-                }
-              />
-            ))}
+              ></input>
+            )}
           </div>
         </InputWithError>
       </section>
@@ -342,11 +360,7 @@ function Feedback({
         >
           {t('back', { ns: 'common' })}
         </Button>
-        <Button
-          className="basis-1/2"
-          type="submit"
-          disabled={!isValid || loading}
-        >
+        <Button className="basis-1/2" type="submit" disabled={loading}>
           {t('submit', { ns: 'common' })}
         </Button>
       </section>
