@@ -103,11 +103,7 @@ export default function BuyPackage() {
 
   const filteredPackage = useMemo(() => {
     if (selectedSessionTime && selectedSessionsPerWeek) {
-      setSelectedPackage(null);
-
-      // debugger;
-
-      return selectedCourse?.packages
+      const packages = selectedCourse?.packages
         .filter((pkg) => {
           const conditions = [true];
 
@@ -135,6 +131,13 @@ export default function BuyPackage() {
           )?.price,
         }));
       // .sort((a, b) => a.period - b.period);
+
+      // setSelectedPackage(
+      //   packages.find((pkg) => pkg.id === selectedPackage?.id) || null,
+      // );
+
+      setSelectedPackage(null);
+      return packages;
     }
   }, [changeCourse, selectedSessionTime, selectedSessionsPerWeek, curCurrency]);
 

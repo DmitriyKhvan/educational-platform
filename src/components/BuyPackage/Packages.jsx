@@ -34,6 +34,7 @@ export const Packages = memo(function Packages({
                 <CheckboxField
                   type="radio"
                   name="package"
+                  checked={selectedPackage === pkg}
                   onChange={() => {
                     setSelectedPackage(pkg);
                     setPromoPackage(null);
@@ -53,15 +54,18 @@ export const Packages = memo(function Packages({
                           {currencyFormat({
                             currency: curCurrency.value,
                             locales: curCurrency.locales,
-                            number: calculatePriceWithDiscount(pkg),
+                            number:
+                              calculatePriceWithDiscount(pkg) / pkg.period,
                           })}
+                          /mo.
                         </span>
-                        <span className="ml-[6px] text-color-red line-through">
+                        <span className="text-[13px] ml-[6px] text-color-red line-through">
                           {currencyFormat({
                             currency: curCurrency.value,
                             locales: curCurrency.locales,
-                            number: pkg.price,
+                            number: pkg.price / pkg.period,
                           })}
+                          /mo.
                         </span>
                       </>
                     ) : (

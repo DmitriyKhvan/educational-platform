@@ -30,7 +30,7 @@ export const SessionsTime = memo(function SessionsTime({
                 }}
               />
 
-              <div className="flex justify-center md:w-[188px] p-4 rounded-lg border border-color-border-grey peer-checked:text-color-purple peer-checked:border-color-purple/50 peer-checked:bg-[#F3EAFD] transition duration-300 ease-in-out cursor-pointer">
+              <div className="flex justify-center md:w-[188px] p-4 rounded-lg border border-color-border-grey peer-checked:text-color-purple peer-checked:border-color-purple/50 peer-checked:bg-[#F3EAFD] hover:border-color-purple/50 transition duration-300 ease-in-out cursor-pointer">
                 <span className="text-sm truncate">
                   {sessionTime} {t('minutes', { ns: 'common' })}
                 </span>

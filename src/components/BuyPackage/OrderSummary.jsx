@@ -9,7 +9,6 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { calculatePriceWithDiscount } from 'src/shared/utils/calculatePriceWithDiscount';
 import { currencyFormat } from 'src/shared/utils/currencyFormat';
 
-import { BsPlus } from 'react-icons/bs';
 import { RiErrorWarningFill } from 'react-icons/ri';
 import notify from 'src/shared/utils/notify';
 import Button from '../Form/Button';
@@ -20,6 +19,9 @@ import { TermsConditionsModal } from './TermsConditionsModal';
 import { AdaptiveDialog } from '../../shared/ui/AdaptiveDialog/index.jsx';
 import { CREATE_PAYMENT_INTENT } from 'src/shared/apollo/mutations/payment/createPaymentIntent';
 import { useCurrency } from 'src/app/providers/CurrencyProvider';
+
+import { BsPlus } from 'react-icons/bs';
+import { FiMinus } from 'react-icons/fi';
 
 export const OrderSummary = memo(function OrderSummary({
   selectedPackage,
@@ -75,37 +77,51 @@ export const OrderSummary = memo(function OrderSummary({
       )}
       <div
         className="w-full p-6 rounded-lg bg-[#F7F8FA] space-y-6"
-        ref={parent}
+        // ref={parent}
       >
         <h3 className="text-2xl font-bold">{t('order_summary')}</h3>
 
-        {selectedPackage && (
-          <>
-            <AdaptiveDialog
-              open={open}
-              setOpen={setOpen}
-              button={
-                <button
-                  type="button"
-                  className="flex items-center justify-center gap-2"
-                >
-                  <span className="flex items-center justify-center w-5 h-5 rounded-full bg-color-purple/10">
-                    <BsPlus className="text-color-purple" />
-                  </span>
-                  <span className="text-[13px] font-medium text-color-purple">
-                    {t('add_promo')}
-                  </span>
-                </button>
-              }
-            >
-              <PromoModal
-                setIsOpen={setOpen}
-                selectedPackage={selectedPackage}
-                setPromoPackage={setPromoPackage}
-              />
-            </AdaptiveDialog>
+        {selectedPackage && !promoPackage && (
+          <AdaptiveDialog
+            open={open}
+            setOpen={setOpen}
+            button={
+              <button type="button" className="flex items-center gap-2 w-full">
+                <span className="flex items-center justify-center w-5 h-5 rounded-full bg-color-purple/10">
+                  <BsPlus className="text-color-purple" />
+                </span>
+                <span className="text-[13px] font-medium text-color-purple">
+                  {t('add_promo')}
+                </span>
+              </button>
+            }
+          >
+            <PromoModal
+              setIsOpen={setOpen}
+              selectedPackage={selectedPackage}
+              setPromoPackage={setPromoPackage}
+            />
+          </AdaptiveDialog>
+        )}
 
-            <div className="space-y-3" ref={parent}>
+        {promoPackage && (
+          <button
+            type="button"
+            className="flex items-center gap-2 w-full"
+            onClick={() => setPromoPackage(null)}
+          >
+            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-color-red/10">
+              <FiMinus className="text-xs text-color-red" />
+            </span>
+            <span className="text-[13px] font-medium text-color-red">
+              Remove promo code
+            </span>
+          </button>
+        )}
+
+        <div ref={parent}>
+          {selectedPackage && (
+            <div className="space-y-3">
               <div className="flex items-center justify-between text-sm">
                 <span>
                   {`${selectedPackage.period} ${t('months', {
@@ -116,8 +132,11 @@ export const OrderSummary = memo(function OrderSummary({
                   {currencyFormat({
                     currency: curCurrency.value,
                     locales: curCurrency.locales,
-                    number: calculatePriceWithDiscount(selectedPackage),
+                    number:
+                      calculatePriceWithDiscount(selectedPackage) /
+                      selectedPackage.period,
                   })}
+                  /mo.
                 </span>
               </div>
 
@@ -128,8 +147,9 @@ export const OrderSummary = memo(function OrderSummary({
                     {`- ${currencyFormat({
                       currency: curCurrency.value,
                       locales: curCurrency.locales,
-                      number: discount,
+                      number: discount / selectedPackage.period,
                     })}`}
+                    /mo.
                   </span>
                 </div>
               )}
@@ -142,18 +162,20 @@ export const OrderSummary = memo(function OrderSummary({
                   {currencyFormat({
                     currency: curCurrency.value,
                     locales: curCurrency.locales,
-                    number: calculatePriceWithDiscount(
-                      promoPackage ? promoPackage : selectedPackage,
-                    ),
+                    number:
+                      calculatePriceWithDiscount(
+                        promoPackage ? promoPackage : selectedPackage,
+                      ) / selectedPackage.period,
                   })}
+                  /mo.
                 </span>
               </div>
             </div>
-          </>
-        )}
+          )}
+        </div>
 
         <div className="flex items-center gap-4 w-full bg-[#EAECF0] rounded-md px-4 py-3">
-          <RiErrorWarningFill className="w-5 h-5 text-[#908E97]" />
+          <RiErrorWarningFill className="min-w-5 min-h-5 text-[#908E97]" />
           <div className="text-[#908E97] space-y-1">
             <p>{t('installments_text')}</p>
           </div>
