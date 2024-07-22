@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaPlay } from 'react-icons/fa6';
-import { AdaptiveDialog } from 'src/components/AdaptiveDialog';
 import { PlaygroundRecordingModal } from 'src/components/PlaygroundRecordingModal';
 import preview1 from 'src/shared/assets/images/samples/preview1.jpg';
 import preview2 from 'src/shared/assets/images/samples/preview2.jpg';
 import preview3 from 'src/shared/assets/images/samples/preview3.jpg';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog';
 
 const videoUrls = [
   'https://info.naonow.com/hubfs/Jays%20Mom.mp4',

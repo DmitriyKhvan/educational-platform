@@ -11,7 +11,7 @@ const Indicator = ({ children, className = 'bg-gray-300 text-gray-700' }) => {
         className,
       )}
     >
-      <span className="flex items-center gap-1 whitespace-nowrap">
+      <span className="flex items-center justify-center gap-1 whitespace-nowrap truncate">
         {children}
       </span>
     </div>

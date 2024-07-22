@@ -854,3 +854,34 @@ export const courseColorsDict = {
     indicator: 'bg-[#00D986]',
   },
 };
+
+export const overviewFieldsDic = [
+  { value: 'fluency', label: 'fluency' },
+  { value: 'pronunciation', label: 'pronunciation' },
+  { value: 'vocabulary', label: 'vocabulary' },
+  { value: 'reading', label: 'reading' },
+  { value: 'expressions', label: 'expressions' },
+  { value: 'confidence', label: 'confidence' },
+  { value: 'listening', label: 'listening' },
+];
+
+export const OverviewGrade = {
+  INSUFFICIENT: 'insufficient',
+  BASIC: 'basic',
+  FAIR: 'fair',
+  GOOD: 'good',
+  GREAT: 'great',
+  EXCELLENT: 'excellent',
+};
+
+export const overviewGradeDic = [
+  {
+    label: OverviewGrade.INSUFFICIENT,
+    value: OverviewGrade.INSUFFICIENT,
+  },
+  { label: OverviewGrade.BASIC, value: OverviewGrade.BASIC },
+  { label: OverviewGrade.FAIR, value: OverviewGrade.FAIR },
+  { label: OverviewGrade.GOOD, value: OverviewGrade.GOOD },
+  { label: OverviewGrade.GREAT, value: OverviewGrade.GREAT },
+  { label: OverviewGrade.EXCELLENT, value: OverviewGrade.EXCELLENT },
+];

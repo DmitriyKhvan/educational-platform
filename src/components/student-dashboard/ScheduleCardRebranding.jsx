@@ -144,7 +144,6 @@ const ScheduleCard = ({
           </div>
         </div>
       </div>
-
       <LessonControls
         date={date}
         data={data}
