@@ -23,6 +23,8 @@ export const CurrencyProvider = ({ children }) => {
 
   const [curCurrency, setCurCurrency] = useState(defaultCurrency);
 
+  const [loadingCurrency, setLoadingCurrency] = useState(false);
+
   const findCurrency = (value) => {
     return currenciesDic.find(
       (currency) => currency.value === value?.toString()?.toUpperCase(),
@@ -35,6 +37,8 @@ export const CurrencyProvider = ({ children }) => {
         findCurrency,
         curCurrency,
         setCurCurrency,
+        setLoadingCurrency,
+        loadingCurrency,
       }}
     >
       {children}
