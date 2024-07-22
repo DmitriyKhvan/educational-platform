@@ -75,10 +75,7 @@ export const OrderSummary = memo(function OrderSummary({
           <Loader />
         </div>
       )}
-      <div
-        className="w-full p-6 rounded-lg bg-[#F7F8FA] space-y-6"
-        // ref={parent}
-      >
+      <div className="w-full p-6 rounded-lg bg-[#F7F8FA] space-y-6">
         <h3 className="text-2xl font-bold">{t('order_summary')}</h3>
 
         {selectedPackage && !promoPackage && (
@@ -121,7 +118,7 @@ export const OrderSummary = memo(function OrderSummary({
 
         <div ref={parent}>
           {selectedPackage && (
-            <div className="space-y-3">
+            <div ref={parent} className="space-y-3">
               <div className="flex items-center justify-between text-sm">
                 <span>
                   {`${selectedPackage.period} ${t('months', {

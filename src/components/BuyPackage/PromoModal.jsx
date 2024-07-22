@@ -64,8 +64,8 @@ export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen }) => {
         }
         setPromoPackage(promoPackage);
       },
-      onError: () => {
-        notify('Promo code not valid', 'error');
+      onError: (error) => {
+        notify(error.message, 'error');
       },
     });
 

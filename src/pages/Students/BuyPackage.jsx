@@ -14,7 +14,7 @@ import { FaCheck } from 'react-icons/fa6';
 import { useAuth } from 'src/app/providers/AuthProvider';
 import { PromoBanner } from 'src/components/BuyPackage/PromoBanner';
 
-import { DiscountType } from 'src/shared/constants/global';
+import { Currencies, DiscountType } from 'src/shared/constants/global';
 import { currencyFormat } from 'src/shared/utils/currencyFormat';
 import { useMediaQuery } from 'react-responsive';
 import { useCurrency } from 'src/app/providers/CurrencyProvider';
@@ -148,92 +148,102 @@ export default function BuyPackage() {
   }
 
   return (
-    <div className="flex flex-wrap lg:flex-nowrap w-full gap-8 sm:gap-10 xl:gap-12">
-      {/* left block */}
-      <div className="grow">
-        {!isTablet && (
-          <>
-            {user.personalPromotionCodes.length > 0 && !promoPackage && (
-              <PromoBanner
-                icon={<span className="text-xl">🎁</span>}
-                title={`You received a ${discount} discount`}
-                text="Purchase a package to use it now!"
-                className="flex bg-[#F14E1C]"
-              />
-            )}
+    <>
+      <div className="flex flex-wrap lg:flex-nowrap w-full gap-8 sm:gap-10 xl:gap-12">
+        {/* left block */}
+        <div className="grow">
+          {!isTablet && (
+            <>
+              {user.personalPromotionCodes.length > 0 && !promoPackage && (
+                <PromoBanner
+                  icon={<span className="text-xl">🎁</span>}
+                  title={`You received a ${discount} discount`}
+                  text="Purchase a package to use it now!"
+                  className="flex bg-[#F14E1C]"
+                />
+              )}
 
-            {promoPackage && discount && (
-              <PromoBanner
-                icon={<FaCheck />}
-                title={`${discount} discount is activated`}
-                text="Please complete purchase the form below"
-                className="flex bg-[#00D986]"
-              />
-            )}
-          </>
-        )}
+              {promoPackage && discount && (
+                <PromoBanner
+                  icon={<FaCheck />}
+                  title={`${discount} discount is activated`}
+                  text="Please complete purchase the form below"
+                  className="flex bg-[#00D986]"
+                />
+              )}
+            </>
+          )}
 
-        <h2 className="text-3xl sm:text-4xl font-bold sm:leading-[52px] mb-10">
-          {t('choose_package')}
-        </h2>
+          <h2 className="text-3xl sm:text-4xl font-bold sm:leading-[52px] mb-10">
+            {t('choose_package')}
+          </h2>
 
-        <div className="space-y-8">
-          <Courses
-            courses={courses}
-            setSelectedCourse={setSelectedCourse}
-            selectedCourse={selectedCourse}
-          />
+          <div className="space-y-8">
+            <Courses
+              courses={courses}
+              setSelectedCourse={setSelectedCourse}
+              selectedCourse={selectedCourse}
+            />
 
-          <SessionsPerWeek
-            uniqueSessionsPerWeek={uniqueSessionsPerWeek}
-            setSelectedSessionsPerWeek={setSelectedSessionsPerWeek}
-            selectedSessionsPerWeek={selectedSessionsPerWeek}
-          />
+            <SessionsPerWeek
+              uniqueSessionsPerWeek={uniqueSessionsPerWeek}
+              setSelectedSessionsPerWeek={setSelectedSessionsPerWeek}
+              selectedSessionsPerWeek={selectedSessionsPerWeek}
+            />
 
-          <SessionsTime
-            uniqueSessionsTime={uniqueSessionsTime}
-            setSelectedSessionTime={setSelectedSessionTime}
-            selectedSessionTime={selectedSessionTime}
-          />
+            <SessionsTime
+              uniqueSessionsTime={uniqueSessionsTime}
+              setSelectedSessionTime={setSelectedSessionTime}
+              selectedSessionTime={selectedSessionTime}
+            />
 
-          <Packages
-            filteredPackage={filteredPackage}
-            setSelectedPackage={setSelectedPackage}
+            <Packages
+              filteredPackage={filteredPackage}
+              setSelectedPackage={setSelectedPackage}
+              selectedPackage={selectedPackage}
+              setPromoPackage={setPromoPackage}
+            />
+          </div>
+        </div>
+
+        {/* right block */}
+        <div className="w-full md:min-w-[414px] md:max-w-[414px]">
+          {isTablet && (
+            <>
+              {user.personalPromotionCodes.length > 0 && !promoPackage && (
+                <PromoBanner
+                  icon={<span className="text-xl">🎁</span>}
+                  title={`You received a ${discount} discount`}
+                  text="Purchase a package to use it now!"
+                  className="flex bg-[#F14E1C]"
+                />
+              )}
+
+              {promoPackage && discount && (
+                <PromoBanner
+                  icon={<FaCheck />}
+                  title={`${discount} discount is activated`}
+                  text="Please complete purchase the form below"
+                  className="flex bg-[#00D986]"
+                />
+              )}
+            </>
+          )}
+          <OrderSummary
             selectedPackage={selectedPackage}
             setPromoPackage={setPromoPackage}
+            promoPackage={promoPackage}
           />
         </div>
       </div>
 
-      {/* right block */}
-      <div className="w-full md:min-w-[414px] md:max-w-[414px]">
-        {isTablet && (
-          <>
-            {user.personalPromotionCodes.length > 0 && !promoPackage && (
-              <PromoBanner
-                icon={<span className="text-xl">🎁</span>}
-                title={`You received a ${discount} discount`}
-                text="Purchase a package to use it now!"
-                className="flex bg-[#F14E1C]"
-              />
-            )}
-
-            {promoPackage && discount && (
-              <PromoBanner
-                icon={<FaCheck />}
-                title={`${discount} discount is activated`}
-                text="Please complete purchase the form below"
-                className="flex bg-[#00D986]"
-              />
-            )}
-          </>
-        )}
-        <OrderSummary
-          selectedPackage={selectedPackage}
-          setPromoPackage={setPromoPackage}
-          promoPackage={promoPackage}
-        />
-      </div>
-    </div>
+      {curCurrency.value === Currencies.TWD && (
+        <div className="mt-10">
+          <p className="text-sm">
+            請注意：結帳時的最終費用可能略有不同。不用擔心，只需繼續付款即可，結帳時看到的金額將是最終費用。
+          </p>
+        </div>
+      )}
+    </>
   );
 }

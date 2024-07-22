@@ -5,9 +5,7 @@ export const currencyFormat = ({
   style = 'currency',
   currency = Currencies.KRW,
   number,
-  ...props
 }) => {
-  // const formatNumber = currency === Currencies.KRW ? number : number / 100;
   let formatNumber = number;
 
   switch (currency) {
@@ -24,7 +22,6 @@ export const currencyFormat = ({
   return new Intl.NumberFormat(locales, {
     style,
     currency,
-    ...props,
     ...(currency === Currencies.TWD && { minimumFractionDigits: 0 }),
   }).format(formatNumber);
 };
