@@ -12,12 +12,13 @@ import notify from 'src/shared/utils/notify';
 
 export const CurrencySwitcher = () => {
   const { user } = useAuth();
-  const { curCurrency, setCurCurrency } = useCurrency();
+  const { curCurrency, setCurCurrency, setLoadingCurrency } = useCurrency();
   const [open, setOpen] = useState(false);
   const [updateUser] = useMutation(UPDATE_USER);
 
-  const onChangeCurrency = (currency) => {
-    updateUser({
+  const onChangeCurrency = async (currency) => {
+    setLoadingCurrency(true);
+    await updateUser({
       variables: {
         id: parseInt(user?.id),
         data: {
@@ -33,6 +34,7 @@ export const CurrencySwitcher = () => {
         notify(error.message, 'error');
       },
     });
+    setLoadingCurrency(false);
   };
 
   return (
