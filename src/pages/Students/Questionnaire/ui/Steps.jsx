@@ -2,7 +2,9 @@ import { useMutation, useQuery } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from 'src/app/providers/AuthProvider';
 import Button from 'src/components/Form/Button';
+import ReactLoader from 'src/components/common/Loader';
 
 import {
   StepIndicator,
@@ -28,6 +30,8 @@ export const Steps = ({ setCache, questionnaire }) => {
     teachingStyles,
     availabilities,
   } = questionnaire || {};
+  const { refetchUser } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(currentStep || 1);
   const navigate = useNavigate();
 
@@ -56,12 +60,8 @@ export const Steps = ({ setCache, questionnaire }) => {
     },
   });
 
-  const onSubmit = (data) => {
-    if (data) {
-      console.log('data', data);
-      return;
-    }
-
+  const onSubmit = async (data) => {
+    setLoading(true);
     const { energy, interests, gender, teachingStyles } = data;
 
     const availabilities = dictionaries.matchingProfile.availabilities
@@ -91,15 +91,21 @@ export const Steps = ({ setCache, questionnaire }) => {
       availabilities,
     };
 
-    createMatchingProfileForStudent({
-      variables: { ...dataFilter },
-      onCompleted: () => {
+    try {
+      const response = await createMatchingProfileForStudent({
+        variables: { ...dataFilter },
+      });
+
+      if (response) {
+        await refetchUser();
+        localStorage.removeItem('questionnaire');
         navigate('/mentor-matches-list');
-      },
-      onError: (error) => {
-        notify(error.message, 'error');
-      },
-    });
+      }
+    } catch (error) {
+      notify(error.message, 'error');
+    }
+
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -154,123 +160,126 @@ export const Steps = ({ setCache, questionnaire }) => {
   }, [watch]);
 
   return (
-    <div className="max-w-[400px] mx-auto">
-      <StepIndicator step={step} setStep={setStep} />
+    <>
+      {loading && <ReactLoader />}
+      <div className="max-w-[400px] mx-auto">
+        <StepIndicator step={step} setStep={setStep} />
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {step === 1 && (
-          <StepWrap
-            title="What energy level do you prefer in a mentor?"
-            subTitle="Select an option"
-          >
-            <EnergyLevel
-              watch={watch}
-              {...register('energy', { required: true })}
-            />
-            <Button
-              onClick={() => setStep((step) => step + 1)}
-              disabled={watch('energy') ? false : true}
-              className="w-full h-[57px] mt-12"
-            >
-              Next
-            </Button>
-          </StepWrap>
-        )}
-
-        {step === 2 && (
-          <StepWrap
-            title=" What are your interests?"
-            subTitle="You can select multiple options"
-            tag={true}
-          >
-            <Interests
-              dictionaries={dictionaries}
-              watch={watch}
-              {...register('interests', { required: true })}
-            />
-            <Button
-              onClick={() => setStep((step) => step + 1)}
-              disabled={watch('interests')?.length ? false : true}
-              className="w-full h-[57px] mt-12"
-            >
-              Next
-            </Button>
-          </StepWrap>
-        )}
-
-        {step === 3 && (
-          <StepWrap
-            title="Do you have a preference for the gender of your mentor?"
-            subTitle="Select an option"
-          >
-            <div className="space-y-4">
-              <Gender
-                {...register('gender', { required: true })}
-                watch={watch}
-              />
-            </div>
-            <Button
-              onClick={() => setStep((step) => step + 1)}
-              disabled={watch('gender') ? false : true}
-              className="w-full h-[57px] mt-12"
-            >
-              Next
-            </Button>
-          </StepWrap>
-        )}
-
-        {step === 4 && (
-          <StepWrap
-            title="What teaching personality do you prefer in a mentor?"
-            subTitle="You can select multiple options"
-            tag={true}
-          >
-            <TeachingPersonality
-              dictionaries={dictionaries}
-              {...register('teachingStyles', { required: true })}
-              watch={watch}
-            />
-            <Button
-              onClick={() => setStep((step) => step + 1)}
-              disabled={watch('teachingStyles')?.length ? false : true}
-              className="w-full h-[57px] mt-12"
-            >
-              Next
-            </Button>
-          </StepWrap>
-        )}
-
-        {step === 5 && (
-          <>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {step === 1 && (
             <StepWrap
-              title="What is your availability?"
-              subTitle="Please select as many options as possible"
+              title="What energy level do you prefer in a mentor?"
+              subTitle="Select an option"
+            >
+              <EnergyLevel
+                watch={watch}
+                {...register('energy', { required: true })}
+              />
+              <Button
+                onClick={() => setStep((step) => step + 1)}
+                disabled={watch('energy') ? false : true}
+                className="w-full h-[57px] mt-12"
+              >
+                Next
+              </Button>
+            </StepWrap>
+          )}
+
+          {step === 2 && (
+            <StepWrap
+              title=" What are your interests?"
+              subTitle="You can select multiple options"
               tag={true}
             >
-              <Time
+              <Interests
+                dictionaries={dictionaries}
                 watch={watch}
-                {...register('availabilities.time', {
-                  validate: (value) => value.length > 0,
-                })}
+                {...register('interests', { required: true })}
               />
-              <Days
-                watch={watch}
-                {...register('availabilities.days', {
-                  validate: (value) => value.length > 0,
-                })}
-              />
+              <Button
+                onClick={() => setStep((step) => step + 1)}
+                disabled={watch('interests')?.length ? false : true}
+                className="w-full h-[57px] mt-12"
+              >
+                Next
+              </Button>
             </StepWrap>
+          )}
 
-            <Button
-              type="submit"
-              disabled={!isValid}
-              className="w-full h-[57px] mt-12"
+          {step === 3 && (
+            <StepWrap
+              title="Do you have a preference for the gender of your mentor?"
+              subTitle="Select an option"
             >
-              Next
-            </Button>
-          </>
-        )}
-      </form>
-    </div>
+              <div className="space-y-4">
+                <Gender
+                  {...register('gender', { required: true })}
+                  watch={watch}
+                />
+              </div>
+              <Button
+                onClick={() => setStep((step) => step + 1)}
+                disabled={watch('gender') ? false : true}
+                className="w-full h-[57px] mt-12"
+              >
+                Next
+              </Button>
+            </StepWrap>
+          )}
+
+          {step === 4 && (
+            <StepWrap
+              title="What teaching personality do you prefer in a mentor?"
+              subTitle="You can select multiple options"
+              tag={true}
+            >
+              <TeachingPersonality
+                dictionaries={dictionaries}
+                {...register('teachingStyles', { required: true })}
+                watch={watch}
+              />
+              <Button
+                onClick={() => setStep((step) => step + 1)}
+                disabled={watch('teachingStyles')?.length ? false : true}
+                className="w-full h-[57px] mt-12"
+              >
+                Next
+              </Button>
+            </StepWrap>
+          )}
+
+          {step === 5 && (
+            <>
+              <StepWrap
+                title="What is your availability?"
+                subTitle="Please select as many options as possible"
+                tag={true}
+              >
+                <Time
+                  watch={watch}
+                  {...register('availabilities.time', {
+                    validate: (value) => value.length > 0,
+                  })}
+                />
+                <Days
+                  watch={watch}
+                  {...register('availabilities.days', {
+                    validate: (value) => value.length > 0,
+                  })}
+                />
+              </StepWrap>
+
+              <Button
+                type="submit"
+                disabled={!isValid}
+                className="w-full h-[57px] mt-12"
+              >
+                Next
+              </Button>
+            </>
+          )}
+        </form>
+      </div>
+    </>
   );
 };

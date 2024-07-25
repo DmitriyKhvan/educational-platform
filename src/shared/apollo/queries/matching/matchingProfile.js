@@ -33,6 +33,7 @@ export const MATCHING_PROFILE = gql`
         issuedAt
       }
       energy
+      gender
     }
   }
 `;

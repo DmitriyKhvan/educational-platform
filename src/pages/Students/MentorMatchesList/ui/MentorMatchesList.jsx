@@ -5,10 +5,9 @@ import { FIND_MATCHES } from 'src/shared/apollo/mutations/matching/findMatches';
 
 export default function MentorMatchesList() {
   const { user } = useAuth();
-  const { id: matchingId } = user.matchingProfile;
+  const { id: matchingId } = user.matchingProfile || {};
   const { data } = useQuery(FIND_MATCHES, {
     fetchPolicy: 'network-only',
-
     variables: {
       matchingProfileId: matchingId,
     },

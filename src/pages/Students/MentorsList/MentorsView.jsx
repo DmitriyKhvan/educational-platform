@@ -9,13 +9,23 @@ import { EmblaCarousel } from 'src/shared/ui/Carousel';
 import { TopMentorCard } from 'src/entities/TopMentorCard';
 
 import { FilterMatching } from 'src/features/FilterMatching';
-import { useLazyQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { FIND_MATCHES } from 'src/shared/apollo/mutations/matching/findMatches';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 export const MentorsView = ({ mentorList, handleSelectMentor }) => {
+  const { user } = useAuth();
+
+  const { id: matchingId } = user.matchingProfile || {};
+
   const [t] = useTranslation(['studentMentor', 'common']);
 
-  const [findMatches, { data: findMatchesData }] = useLazyQuery(FIND_MATCHES);
+  const { data: findMatchesData, refetch } = useQuery(FIND_MATCHES, {
+    fetchPolicy: 'network-only',
+    variables: {
+      matchingProfileId: matchingId,
+    },
+  });
 
   console.log('findMatchesData', findMatchesData);
 
@@ -51,7 +61,7 @@ export const MentorsView = ({ mentorList, handleSelectMentor }) => {
         />
 
         <FilterMatching
-          findMatches={findMatches}
+          findMatches={refetch}
           setViewMentorList={setViewMentorList}
           viewMentorList={viewMentorList}
         />

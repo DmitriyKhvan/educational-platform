@@ -14,13 +14,15 @@ import {
 } from 'src/entities/Questionnaire';
 import { CREATE_MATCHING_PROFILE_FOR_MENTOR } from 'src/shared/apollo/mutations/matching/createMatchingProfileForMentor';
 import { UPDATE_MATCHING_PROFILE } from 'src/shared/apollo/mutations/matching/updateMatchingProfile';
-import { LANGUAGE_LEVELS_WITH_PAGINATION } from 'src/shared/apollo/queries/levels/languageLevelsWithPagination';
+
 import { MATCHING_PROFILE } from 'src/shared/apollo/queries/matching/matchingProfile';
 import notify from 'src/shared/utils/notify';
 
 export const MatchingInfo = () => {
   const [t] = useTranslation(['common']);
   const { user, refetchUser } = useAuth();
+
+  console.log('user', user);
 
   const {
     id: matchingId,
@@ -33,12 +35,6 @@ export const MatchingInfo = () => {
 
   const { loading: matchingProfileLoading, data: dictionaries } =
     useQuery(MATCHING_PROFILE);
-
-  const { data } = useQuery(LANGUAGE_LEVELS_WITH_PAGINATION, {
-    variables: {
-      limit: 999,
-    },
-  });
 
   const [createMatchingProfileForMentor, { loading: createLoading }] =
     useMutation(CREATE_MATCHING_PROFILE_FOR_MENTOR, {
@@ -60,7 +56,7 @@ export const MatchingInfo = () => {
     formState: { isValid },
   } = useForm({
     mode: 'all',
-    defaultValues: {
+    values: {
       energy: energy || '',
       interests: interests?.map((int) => int.id) || [],
       teachingStyles: teachingStyles?.map((tech) => tech.id) || [],
@@ -147,7 +143,6 @@ export const MatchingInfo = () => {
           <div className="space-y-4">
             <h6 className="text-sm font-normal text-gray-400">Expertise</h6>
             <Specializations
-              dictionaries={data?.languageLevelsWithPagination?.languageLevels}
               className="justify-start"
               {...register('specializations', { required: true })}
               watch={watch}

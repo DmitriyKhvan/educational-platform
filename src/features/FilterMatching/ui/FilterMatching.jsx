@@ -10,6 +10,7 @@ import {
   EnergyLevel,
   Gender,
   Interests,
+  Specializations,
   TeachingPersonality,
   Time,
 } from 'src/entities/Questionnaire';
@@ -27,6 +28,7 @@ import {
   AccordionTrigger,
 } from 'src/shared/ui/Accordion';
 import { useNavigate } from 'react-router-dom';
+import notify from 'src/shared/utils/notify';
 
 export const FilterMatching = ({
   findMatches,
@@ -43,6 +45,7 @@ export const FilterMatching = ({
     interests,
     teachingStyles,
     certifications,
+    specializations,
     gender,
     availabilities: avails,
   } = user.matchingProfile || {};
@@ -64,7 +67,10 @@ export const FilterMatching = ({
 
   console.log('parseAvails', parseAvails);
 
-  const { data: dictionaries } = useQuery(MATCHING_PROFILE);
+  const { data: dictionaries } = useQuery(MATCHING_PROFILE, {
+    fetchPolicy: 'network-only',
+  });
+
   const [updateMatchingProfile] = useMutation(UPDATE_MATCHING_PROFILE, {
     fetchPolicy: 'network-only',
   });
@@ -84,7 +90,7 @@ export const FilterMatching = ({
     // formState: { isValid },
   } = useForm({
     mode: 'all',
-    defaultValues: {
+    values: {
       energy,
       interests: parseData(interests),
       gender,
@@ -95,15 +101,16 @@ export const FilterMatching = ({
       // },
       availabilities: parseAvails,
       certifications: parseData(certifications) || [],
+      specializations: parseData(specializations) || [],
     },
   });
 
   useEffect(() => {
-    if (dictionaries && matchingId) {
+    const subscription = watch(async (value) => {
       let newAvailabilities = availabilities;
-      const newTime = watch('availabilities.time');
-      const newDays = watch('availabilities.days');
-      // if (watch('availabilities.days') || watch('availabilities.time')) {
+      const newTime = value.availabilities.time;
+      const newDays = value.availabilities.days;
+
       if (
         time.toString() !== newTime.toString() ||
         days.toString() !== newDays.toString()
@@ -113,18 +120,14 @@ export const FilterMatching = ({
 
         newAvailabilities = dictionaries?.matchingProfile?.availabilities
           .filter((avail) => {
-            if (
-              watch('availabilities.time').length &&
-              watch('availabilities.days').length
-            ) {
+            if (newTime.length && newDays.length) {
               return (
-                watch('availabilities.time').includes(avail.from) &&
-                watch('availabilities.days').includes(avail.day)
+                newTime.includes(avail.from) && newDays.includes(avail.day)
               );
-            } else if (watch('availabilities.time').length) {
-              return watch('availabilities.time').includes(avail.from);
+            } else if (newTime.length) {
+              return newTime.includes(avail.from);
             } else {
-              return watch('availabilities.days').includes(avail.day);
+              return newDays.includes(avail.day);
             }
           })
           .map((avail) => avail.id);
@@ -132,33 +135,27 @@ export const FilterMatching = ({
         setAvailabilities(newAvailabilities);
       }
 
-      const data = {
-        energy: watch('energy'),
-        interests: watch('interests'),
-        teachingStyles: watch('teachingStyles'),
-        availabilities: newAvailabilities,
-      };
+      console.log('newAvailabilities', newAvailabilities);
 
-      updateMatchingProfile({
-        variables: { id: matchingId, ...data },
-        onCompleted: () => {
-          findMatches({
-            variables: {
-              matchingProfileId: matchingId,
-            },
-          });
-        },
-      });
-    }
-  }, [
-    watch('interests')?.toString(),
-    watch('teachingStyles')?.toString(),
-    watch('sertifications')?.toString(),
-    watch('energy'),
-    watch('availabilities.days')?.toString(),
-    watch('availabilities.time')?.toString(),
-    dictionaries?.toString(),
-  ]);
+      try {
+        const response = await updateMatchingProfile({
+          variables: {
+            id: matchingId,
+            ...value,
+            availabilities: newAvailabilities,
+          },
+        });
+
+        if (response) {
+          await findMatches();
+        }
+      } catch (error) {
+        notify(error.message, 'error');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [watch, dictionaries]);
 
   return (
     <>
@@ -208,6 +205,21 @@ export const FilterMatching = ({
                 <AccordionContent>
                   <Time watch={watch} {...register('availabilities.time')} />
                   <Days watch={watch} {...register('availabilities.days')} />
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-2">
+                <AccordionTrigger className="text-[15px] font-bold">
+                  <TitleFilter
+                    count={watch('specializations')?.length}
+                    title="Specialization"
+                  />
+                </AccordionTrigger>
+                <AccordionContent>
+                  <Specializations
+                    {...register('specializations', { required: true })}
+                    watch={watch}
+                  />
                 </AccordionContent>
               </AccordionItem>
 
