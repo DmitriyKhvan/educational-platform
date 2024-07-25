@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const FIND_MATCHES = gql`
-  mutation findMatches($matchingProfileId: ID!) {
+  query findMatches($matchingProfileId: ID!) {
     findMatches(matchingProfileId: $matchingProfileId) {
       id
       firstName

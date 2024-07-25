@@ -9,13 +9,13 @@ import { EmblaCarousel } from 'src/shared/ui/Carousel';
 import { TopMentorCard } from 'src/entities/TopMentorCard';
 
 import { FilterMatching } from 'src/features/FilterMatching';
-import { useMutation } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { FIND_MATCHES } from 'src/shared/apollo/mutations/matching/findMatches';
 
 export const MentorsView = ({ mentorList, handleSelectMentor }) => {
   const [t] = useTranslation(['studentMentor', 'common']);
 
-  const [findMatches, { data: findMatchesData }] = useMutation(FIND_MATCHES);
+  const [findMatches, { data: findMatchesData }] = useLazyQuery(FIND_MATCHES);
 
   console.log('findMatchesData', findMatchesData);
 

@@ -3,7 +3,18 @@ import Button from 'src/components/Form/Button';
 
 import questinnarie from 'src/shared/assets/images/questinnarie.svg';
 
-export const Start = ({ setPage }) => {
+export const Start = ({ setPage, setCache }) => {
+  const nextPage = () => {
+    setPage('questionnaire');
+    setCache((prev) => {
+      localStorage.setItem(
+        'questionnaire',
+        JSON.stringify({ ...prev, page: 'questionnaire' }),
+      );
+      return { ...prev, page: 'questionnaire' };
+    });
+  };
+
   return (
     <div className="max-w-[400px] mx-auto">
       <img className="mx-auto mb-6" src={questinnarie} alt="questinnarie" />
@@ -16,10 +27,7 @@ export const Start = ({ setPage }) => {
         matches.
       </p>
 
-      <Button
-        onClick={() => setPage('questionnaire')}
-        className="w-full h-[57px]"
-      >
+      <Button onClick={nextPage} className="w-full h-[57px]">
         Get started
       </Button>
     </div>

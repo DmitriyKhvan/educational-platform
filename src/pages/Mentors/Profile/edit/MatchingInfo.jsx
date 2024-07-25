@@ -6,22 +6,50 @@ import { useAuth } from 'src/app/providers/AuthProvider';
 import Button from 'src/components/Form/Button';
 import ReactLoader from 'src/components/common/Loader';
 import {
+  Certificate,
   EnergyLevel,
   Interests,
+  Specializations,
   TeachingPersonality,
 } from 'src/entities/Questionnaire';
-import { Certificate } from 'src/entities/Questionnaire/ui/Certificate';
 import { CREATE_MATCHING_PROFILE_FOR_MENTOR } from 'src/shared/apollo/mutations/matching/createMatchingProfileForMentor';
+import { UPDATE_MATCHING_PROFILE } from 'src/shared/apollo/mutations/matching/updateMatchingProfile';
+import { LANGUAGE_LEVELS_WITH_PAGINATION } from 'src/shared/apollo/queries/levels/languageLevelsWithPagination';
 import { MATCHING_PROFILE } from 'src/shared/apollo/queries/matching/matchingProfile';
+import notify from 'src/shared/utils/notify';
 
 export const MatchingInfo = () => {
   const [t] = useTranslation(['common']);
-  const { user } = useAuth();
+  const { user, refetchUser } = useAuth();
+
+  const {
+    id: matchingId,
+    energy,
+    interests,
+    teachingStyles,
+    specializations,
+    certifications,
+  } = user.matchingProfile || {};
 
   const { loading: matchingProfileLoading, data: dictionaries } =
     useQuery(MATCHING_PROFILE);
-  const [createMatchingProfileForMentor, { loading }] = useMutation(
-    CREATE_MATCHING_PROFILE_FOR_MENTOR,
+
+  const { data } = useQuery(LANGUAGE_LEVELS_WITH_PAGINATION, {
+    variables: {
+      limit: 999,
+    },
+  });
+
+  const [createMatchingProfileForMentor, { loading: createLoading }] =
+    useMutation(CREATE_MATCHING_PROFILE_FOR_MENTOR, {
+      fetchPolicy: 'network-only',
+    });
+
+  const [updateMatchingProfile, { loading: updateLoading }] = useMutation(
+    UPDATE_MATCHING_PROFILE,
+    {
+      fetchPolicy: 'network-only',
+    },
   );
 
   const {
@@ -36,17 +64,48 @@ export const MatchingInfo = () => {
       energy: '',
       interests: [],
       teachingStyles: '',
-      certificate: [],
+      specializations: [],
+      certifications: [],
+    },
+    values: {
+      energy,
+      interests: interests?.map((int) => int.id) || [],
+      teachingStyles: teachingStyles?.map((tech) => tech.id) || [],
+      specializations: specializations?.map((spec) => spec.id) || [],
+      certifications: certifications?.map((cert) => cert.id) || [],
     },
   });
 
-  const handleEditMatchingInfo = (data) => {
-    createMatchingProfileForMentor({
-      variables: {
-        mentorId: user.mentor.id,
-        ...data,
-      },
-    });
+  const handleEditMatchingInfo = async (data) => {
+    if (matchingId) {
+      await updateMatchingProfile({
+        variables: {
+          id: matchingId,
+          ...data,
+        },
+        onCompleted: () => {
+          notify('Matching information is changed!');
+        },
+        onError: (error) => {
+          notify(error.message, 'error');
+        },
+      });
+    } else {
+      await createMatchingProfileForMentor({
+        variables: {
+          mentorId: user.mentor.id,
+          ...data,
+        },
+        onCompleted: () => {
+          notify('Matching information is changed!');
+        },
+        onError: (error) => {
+          notify(error.message, 'error');
+        },
+      });
+    }
+
+    await refetchUser();
   };
 
   if (matchingProfileLoading) {
@@ -55,7 +114,7 @@ export const MatchingInfo = () => {
 
   return (
     <>
-      {loading && <ReactLoader />}
+      {(createLoading || updateLoading) && <ReactLoader />}
       <form onSubmit={handleSubmit(handleEditMatchingInfo)}>
         <fieldset className="flex flex-col space-y-6">
           <legend className="text-[20px] font-bold text-color-dark-purple tracking-[-0.6px] leading-6">
@@ -93,10 +152,21 @@ export const MatchingInfo = () => {
           </div>
 
           <div className="space-y-4">
+            <h6 className="text-sm font-normal text-gray-400">Expertise</h6>
+            <Specializations
+              dictionaries={data?.languageLevelsWithPagination?.languageLevels}
+              className="justify-start"
+              {...register('specializations', { required: true })}
+              watch={watch}
+            />
+          </div>
+
+          <div className="space-y-4">
             <h6 className="text-sm font-normal text-gray-400">Certificate</h6>
             <Certificate
+              dictionaries={dictionaries}
               className="justify-start"
-              {...register('certificate')}
+              {...register('certifications')}
               setValue={setValue}
               watch={watch}
             />

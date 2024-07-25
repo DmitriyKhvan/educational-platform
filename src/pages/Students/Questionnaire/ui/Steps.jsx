@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Button from 'src/components/Form/Button';
@@ -19,11 +19,19 @@ import { MATCHING_PROFILE } from 'src/shared/apollo/queries/matching/matchingPro
 import { getItemToLocalStorage } from 'src/shared/constants/global';
 import notify from 'src/shared/utils/notify';
 
-export const Steps = () => {
-  const [step, setStep] = useState(1);
+export const Steps = ({ setCache, questionnaire }) => {
+  const {
+    step: currentStep,
+    energy,
+    interests,
+    gender,
+    teachingStyles,
+  } = questionnaire || {};
+  const [step, setStep] = useState(currentStep || 1);
   const navigate = useNavigate();
 
   const { data: dictionaries } = useQuery(MATCHING_PROFILE);
+
   const [createMatchingProfileForStudent] = useMutation(
     CREATE_MATCHING_PROFILE_FOR_STUDENT,
   );
@@ -36,10 +44,10 @@ export const Steps = () => {
   } = useForm({
     mode: 'all',
     defaultValues: {
-      energy: '',
-      interests: [],
-      gender: '',
-      teachingStyles: '',
+      energy: energy || '',
+      interests: interests || [],
+      gender: gender || '',
+      teachingStyles: teachingStyles || [],
       availabilities: {
         time: [],
         days: [],
@@ -48,6 +56,11 @@ export const Steps = () => {
   });
 
   const onSubmit = (data) => {
+    if (data) {
+      console.log('data', data);
+      return;
+    }
+
     const { energy, interests, gender, teachingStyles } = data;
 
     const availabilities = dictionaries.matchingProfile.availabilities
@@ -80,13 +93,37 @@ export const Steps = () => {
     createMatchingProfileForStudent({
       variables: { ...dataFilter },
       onCompleted: () => {
-        navigate('/mentor-matches-list', { state: dataFilter });
+        navigate('/mentor-matches-list');
       },
       onError: (error) => {
         notify(error.message, 'error');
       },
     });
   };
+
+  useEffect(() => {
+    setCache((prev) => {
+      localStorage.setItem('questionnaire', JSON.stringify({ ...prev, step }));
+      return { ...prev, step };
+    });
+  }, [step]);
+
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => {
+      console.log('value', value);
+      console.log('name', name);
+      console.log('type', type);
+
+      setCache((prev) => {
+        localStorage.setItem(
+          'questionnaire',
+          JSON.stringify({ ...prev, [name]: value[name] }),
+        );
+        return { ...prev, [name]: value[name] };
+      });
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
   return (
     <div className="max-w-[400px] mx-auto">

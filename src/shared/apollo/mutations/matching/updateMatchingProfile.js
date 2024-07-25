@@ -7,16 +7,18 @@ export const UPDATE_MATCHING_PROFILE = gql`
     $teachingStyles: [ID!]
     $availabilities: [ID!]
     $energy: MentorEnergy!
-  ) #$gender: GenderType!
-  {
+    $specializations: [ID!]
+    $certifications: [ID!]
+  ) {
     updateMatchingProfile(
       id: $id
       interests: $interests
       teachingStyles: $teachingStyles
       availabilities: $availabilities
       energy: $energy
-    ) #gender: $gender
-    {
+      specializations: $specializations
+      certifications: $certifications
+    ) {
       id
     }
   }

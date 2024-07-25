@@ -12,29 +12,7 @@ import { BsPlayFill } from 'react-icons/bs';
 import { Tag } from 'src/entities/Questionnaire/ui/Tag';
 import { PiSealCheckFill } from 'react-icons/pi';
 
-const energyLevel = '🧘 Calm energy';
-const interests = [
-  '🐶 Animals',
-  '💃 Dance',
-  '🎨 Art',
-  '🍿 Movies',
-  '📜 History',
-  '🎼 Music',
-  '📐 Math',
-  '⚽ Sports',
-];
-
-const teachingStyle = [
-  'Empathetic',
-  'Charismatic',
-  'Playful',
-  'Creative',
-  'Enthusiastic',
-];
-
-const specialization = ['Pre-level 1', 'Writing', 'Speaking competitions'];
-
-const certifications = ['TESOL', 'TEFL'];
+// const specialization = ['Pre-level 1', 'Writing', 'Speaking competitions'];
 
 const MentorProfile = () => {
   const [logoutOpen, setLogoutOpen] = useState(false);
@@ -44,6 +22,9 @@ const MentorProfile = () => {
   const { user, logout } = useAuth();
 
   const videoUrl = user?.mentor?.videoUrl;
+
+  const { energy, interests, teachingStyles, specializations, certifications } =
+    user.matchingProfile || {};
 
   return (
     <div className="max-w-[400px] mx-auto space-y-[30px]">
@@ -164,8 +145,10 @@ const MentorProfile = () => {
           {t('intro_video')}
         </h2>
 
-        {videoUrl?.length === 0 ? (
-          <h2>No video!</h2>
+        {!videoUrl || videoUrl?.length === 0 ? (
+          <h2 className="text-center text-gray-300 font-medium text-2xl">
+            No video!
+          </h2>
         ) : (
           <ReactPlayer
             playIcon={
@@ -193,7 +176,11 @@ const MentorProfile = () => {
           <h4 className="text-sm font-normal text-gray-400">Energy level</h4>
 
           <div className="flex flex-wrap gap-x-3 gap-y-4">
-            <Tag className="border-none bg-gray-50" label={energyLevel} />
+            <Tag
+              icon={energy === 'high' ? '🏃' : energy === 'calm' ? '🧘' : null}
+              className="border-none bg-gray-50 cursor-context-menu"
+              label={energy}
+            />
           </div>
         </div>
 
@@ -201,11 +188,13 @@ const MentorProfile = () => {
           <h4 className="text-sm font-normal text-gray-400">Interests</h4>
 
           <div className="flex flex-wrap gap-x-3 gap-y-4">
-            {interests.map((interest) => {
+            {interests?.map((item) => {
+              const { id, interest, icon } = item;
               return (
                 <Tag
-                  key={interest}
-                  className="border-none bg-gray-50"
+                  key={id}
+                  icon={icon}
+                  className="border-none bg-gray-50 cursor-context-menu"
                   label={interest}
                 />
               );
@@ -217,13 +206,14 @@ const MentorProfile = () => {
           <h4 className="text-sm font-normal text-gray-400">Teaching style</h4>
 
           <div className="flex flex-wrap gap-x-3 gap-y-4">
-            {teachingStyle.map((style) => {
+            {teachingStyles?.map((item) => {
+              const { id, teachingStyle } = item;
               return (
                 <Tag
-                  key={style}
+                  key={id}
                   icon={<span className="text-base text-color-purple">✦</span>}
-                  className="border-none bg-gray-50"
-                  label={style}
+                  className="border-none bg-gray-50 cursor-context-menu"
+                  label={teachingStyle}
                 />
               );
             })}
@@ -234,12 +224,13 @@ const MentorProfile = () => {
           <h4 className="text-sm font-normal text-gray-400">Specialization</h4>
 
           <div className="flex flex-wrap gap-x-3 gap-y-4">
-            {specialization.map((special) => {
+            {specializations?.map((special) => {
+              const { id, title } = special;
               return (
                 <Tag
-                  key={special}
-                  className="border-none bg-gray-50"
-                  label={special}
+                  key={id}
+                  className="border-none bg-gray-50 cursor-context-menu"
+                  label={title}
                 />
               );
             })}
@@ -250,15 +241,16 @@ const MentorProfile = () => {
           <h4 className="text-sm font-normal text-gray-400">Certifications</h4>
 
           <div className="flex flex-wrap gap-x-3 gap-y-4">
-            {certifications.map((certif) => {
+            {certifications?.map((item) => {
+              const { id, certification } = item;
               return (
                 <Tag
-                  key={certif}
+                  key={id}
                   icon={
                     <PiSealCheckFill className="text-[rgba(0,_217,_134,_1)]" />
                   }
-                  className="border-none bg-gray-50"
-                  label={certif}
+                  className="border-none bg-gray-50 cursor-context-menu"
+                  label={certification}
                 />
               );
             })}

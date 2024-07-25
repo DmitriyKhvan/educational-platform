@@ -231,7 +231,12 @@ export const ME_QUERY = gql`
           shareLink
           issuedAt
         }
+        specializations {
+          id
+          title
+        }
         energy
+        gender
       }
     }
   }

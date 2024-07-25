@@ -3,35 +3,39 @@ import { Tag } from './Tag';
 import { cn } from 'src/shared/utils/functions';
 
 export const Certificate = forwardRef(function Certificate(
-  { watch, setValue, className, ...props },
+  { watch, setValue, dictionaries, className, ...props },
   ref,
 ) {
   const [certificate, setCertificate] = useState();
 
-  const certificates = [
-    {
-      label: 'TESOL',
-      value: 'TESOL',
-    },
-    {
-      label: 'TEFL',
-      value: 'TEFL',
-    },
-  ];
+  const { certifications } = dictionaries.matchingProfile;
+
+  console.log('certifications', certifications);
+
+  // const certificates = [
+  //   {
+  //     label: 'TESOL',
+  //     value: 'TESOL',
+  //   },
+  //   {
+  //     label: 'TEFL',
+  //     value: 'TEFL',
+  //   },
+  // ];
 
   useEffect(() => {
     if (certificate) {
-      setValue('certificate', []);
+      setValue('certifications', []);
     }
   }, [certificate]);
 
   useEffect(() => {
-    if (watch('certificate').length) {
+    if (watch('certifications').length) {
       setCertificate(false);
     } else {
       setCertificate(true);
     }
-  }, [watch('certificate')]);
+  }, [watch('certifications')]);
 
   return (
     <div
@@ -49,15 +53,15 @@ export const Certificate = forwardRef(function Certificate(
         }}
       />
 
-      {certificates.map((certificate) => {
-        const { label, value } = certificate;
+      {certifications.map((certificate) => {
+        const { id, certification } = certificate;
         return (
           <Tag
-            key={value}
+            key={id}
             ref={ref}
-            active={watch('certificate').includes(value)}
-            label={label}
-            value={value}
+            active={watch('certifications')?.includes(id)}
+            label={certification}
+            value={id}
             {...props}
           />
         );
