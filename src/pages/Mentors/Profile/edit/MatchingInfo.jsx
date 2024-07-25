@@ -61,14 +61,7 @@ export const MatchingInfo = () => {
   } = useForm({
     mode: 'all',
     defaultValues: {
-      energy: '',
-      interests: [],
-      teachingStyles: '',
-      specializations: [],
-      certifications: [],
-    },
-    values: {
-      energy,
+      energy: energy || '',
       interests: interests?.map((int) => int.id) || [],
       teachingStyles: teachingStyles?.map((tech) => tech.id) || [],
       specializations: specializations?.map((spec) => spec.id) || [],

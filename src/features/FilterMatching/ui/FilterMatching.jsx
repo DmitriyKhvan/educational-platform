@@ -47,6 +47,8 @@ export const FilterMatching = ({
     availabilities: avails,
   } = user.matchingProfile || {};
 
+  console.log('avails', avails);
+
   const timesSet = new Set();
   const daysSet = new Set();
 
@@ -59,6 +61,8 @@ export const FilterMatching = ({
     time: Array.from(timesSet),
     days: Array.from(daysSet),
   };
+
+  console.log('parseAvails', parseAvails);
 
   const { data: dictionaries } = useQuery(MATCHING_PROFILE);
   const [updateMatchingProfile] = useMutation(UPDATE_MATCHING_PROFILE, {

@@ -26,6 +26,7 @@ export const Steps = ({ setCache, questionnaire }) => {
     interests,
     gender,
     teachingStyles,
+    availabilities,
   } = questionnaire || {};
   const [step, setStep] = useState(currentStep || 1);
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ export const Steps = ({ setCache, questionnaire }) => {
       interests: interests || [],
       gender: gender || '',
       teachingStyles: teachingStyles || [],
-      availabilities: {
+      availabilities: availabilities || {
         time: [],
         days: [],
       },
@@ -114,13 +115,40 @@ export const Steps = ({ setCache, questionnaire }) => {
       console.log('name', name);
       console.log('type', type);
 
-      setCache((prev) => {
-        localStorage.setItem(
-          'questionnaire',
-          JSON.stringify({ ...prev, [name]: value[name] }),
-        );
-        return { ...prev, [name]: value[name] };
-      });
+      if (name === 'availabilities.days' || name === 'availabilities.time') {
+        const [avail, availType] = name.split('.');
+
+        console.log('avail', avail);
+        console.log('availType', availType);
+
+        setCache((prev) => {
+          localStorage.setItem(
+            'questionnaire',
+            JSON.stringify({
+              ...prev,
+              [avail]: {
+                ...prev[avail],
+                [availType]: value[avail][availType],
+              },
+            }),
+          );
+          return {
+            ...prev,
+            [avail]: {
+              ...prev[avail],
+              [availType]: value[avail][availType],
+            },
+          };
+        });
+      } else {
+        setCache((prev) => {
+          localStorage.setItem(
+            'questionnaire',
+            JSON.stringify({ ...prev, [name]: value[name] }),
+          );
+          return { ...prev, [name]: value[name] };
+        });
+      }
     });
     return () => subscription.unsubscribe();
   }, [watch]);
