@@ -1,9 +1,9 @@
 {
-  "title": "Notifications",
-  "no_notifications": "No notifications",
-  "last_week": "Last week",
-  "last_month": "Last month",
-  "last_year": "Last year",
-  "clear_all_messages": "Clear All Messages",
-  "are_you_sure_to_clear": "Are you sure you want to clear all messages?"
+	"title": "Notifications",
+	"no_notifications": "No notifications",
+	"last_week": "Last week",
+	"last_month": "Last month",
+	"last_year": "Last year",
+	"clear_all_messages": "Clear All Messages",
+	"are_you_sure_to_clear": "Are you sure you want to clear all messages?"
 }

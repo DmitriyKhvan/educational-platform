@@ -1,1 +1,0 @@
-export { AvailabilityCalendar } from './AvailabilityCalendar';

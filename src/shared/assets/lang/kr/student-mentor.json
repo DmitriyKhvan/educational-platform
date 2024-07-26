@@ -1,7 +1,7 @@
 {
-  "mentor_list": "멘토 목록",
-  "mentor_list_desc": "아래 멘토들을 추천합니다.",
-  "student_list": "학생 목록",
-  "student_list_desc": "새로운 학생 찾거나 마음에 드신 학생에게 연락해보세요.",
-  "cannot_find_mentors": "멘토를 찾을 수 없습니다!"
+	"mentor_list": "멘토 목록",
+	"mentor_list_desc": "아래 멘토들을 추천합니다.",
+	"student_list": "학생 목록",
+	"student_list_desc": "새로운 학생 찾거나 마음에 드신 학생에게 연락해보세요.",
+	"cannot_find_mentors": "멘토를 찾을 수 없습니다!"
 }

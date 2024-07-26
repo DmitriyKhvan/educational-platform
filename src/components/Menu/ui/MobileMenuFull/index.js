@@ -1,1 +1,0 @@
-export { MobileMenuFull } from './MobileMenuFull';

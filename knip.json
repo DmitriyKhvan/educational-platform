@@ -1,8 +1,8 @@
 {
-  "$schema": "https://unpkg.com/knip@5/schema.json",
-  "entry": ["src/index.{js,ts,jsx,tsx}"],
-  "project": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"],
-  "paths": {
-    "src/*": ["./src/*"]
-  }
+	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"entry": ["src/index.{js,ts,jsx,tsx}"],
+	"project": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"],
+	"paths": {
+		"src/*": ["./src/*"]
+	}
 }

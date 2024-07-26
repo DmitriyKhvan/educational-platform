@@ -1,13 +1,13 @@
 {
-  "dashboard": "Dashboard",
-  "navigation": "Navigation",
-  "lessons": "Lessons",
-  "games": "Games",
-  "class_material": "Materials",
-  "mentors": "Mentors",
-  "students": "Students",
-  "free_classes": "Free classes",
-  "manage_appointments": "Manage Lessons",
-  "my_availability": "My Availability",
-  "purchase": "Purchase"
+	"dashboard": "Dashboard",
+	"navigation": "Navigation",
+	"lessons": "Lessons",
+	"games": "Games",
+	"class_material": "Materials",
+	"mentors": "Mentors",
+	"students": "Students",
+	"free_classes": "Free classes",
+	"manage_appointments": "Manage Lessons",
+	"my_availability": "My Availability",
+	"purchase": "Purchase"
 }
