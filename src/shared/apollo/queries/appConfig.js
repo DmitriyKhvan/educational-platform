@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 export const APP_CONFIG = gql`
   query appConfig {
     appConfigs {
-      id
+      idd
       configName
       configValue
       description

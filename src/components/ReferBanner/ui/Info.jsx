@@ -96,7 +96,7 @@ export const Info = () => {
 
   if (error) {
     notify(error.message, 'error');
-    return <div></div>;
+    return <div className="w-full min-h-[calc(100svh*0.5)] sm:w-[436px]"></div>;
   }
 
   if (loading) {
