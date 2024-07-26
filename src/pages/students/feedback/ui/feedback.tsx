@@ -12,13 +12,13 @@ import { useTranslation } from "react-i18next";
 import { FaCheck, FaStar } from "react-icons/fa6";
 import { PiStarFourFill } from "react-icons/pi";
 import { useParams } from "react-router-dom";
-import { useAuth } from "src/app/providers/auth-provider";
+import { useAuth } from "@/app/providers/auth-provider";
 import { StudentReviewModal } from "src/entities/student-review-modal";
-import { localeDic } from "src/shared/constants/global";
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog/index.jsx";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "src/shared/ui/tabs";
-import FeedbackInfo from "./FeedbackInfo";
-import LessonInfo from "./LessonInfo";
+import { localeDic } from "@/shared/constants/global";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog/index.jsx";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
+import FeedbackInfo from "@/pages/students/feedback/ui/feedback-info";
+import LessonInfo from "@/pages/students/feedback/ui/lesson-info";
 
 function Feedback() {
 	const params = useParams();

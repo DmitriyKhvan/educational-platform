@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Link } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
@@ -12,8 +12,8 @@ import {
 } from "@/components/tooltip";
 import { useMediaQuery } from "react-responsive";
 import StarRatings from "react-star-ratings";
-import Button from "../../../components/form/button/Button";
-import { Avatar } from "../../../widgets/avatar/Avatar";
+import Button from "@/components/form/button/button";
+import { Avatar } from "@/widgets/avatar/avatar";
 // import { EmblaCarousel } from 'src/components/Carousel';
 
 const MentorsModal = ({ mentor }) => {

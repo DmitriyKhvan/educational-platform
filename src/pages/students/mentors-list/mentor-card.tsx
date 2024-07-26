@@ -1,4 +1,4 @@
-import React from "react";
+
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
@@ -10,14 +10,14 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/tooltip";
-import FavIcon from "src/shared/assets/images/Favorite.png";
-import { Avatar } from "src/widgets/avatar/Avatar";
+import FavIcon from "@/shared/assets/images/Favorite.png";
+import { Avatar } from "@/widgets/avatar/avatar";
 
 import { HiMiniChevronRight } from "react-icons/hi2";
 
-import MentorsModal from "./MentorsModal";
+import MentorsModal from "@/pages/students/mentors-list/mentors-modal";
 
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
 
 export const MentorCard = ({ mentor, handleSelectMentor }) => {
 	const [t] = useTranslation(["studentMentor", "common", "lessons"]);

@@ -2,11 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 import Select from "react-select";
 
 import { FaXmark } from "react-icons/fa6";
-import { formatTime } from "./lib/format-time";
-import { formatTimeToSeconds } from "./lib/format-time-to-seconds";
-import { selectStyle } from "./lib/select-style";
-import { timeGroup } from "./lib/time-group";
-import { timeOptions } from "./lib/time-options";
+import { formatTime } from "@/pages/mentors/availability/lib/format-time";
+import { formatTimeToSeconds } from "@/pages/mentors/availability/lib/format-time-to-seconds";
+import { selectStyle } from "@/pages/mentors/availability/lib/select-style";
+import { timeGroup } from "@/pages/mentors/availability/lib/time-group";
+import { timeOptions } from "@/pages/mentors/availability/lib/time-options";
 
 const AvailabilityPicker = ({
 	day,

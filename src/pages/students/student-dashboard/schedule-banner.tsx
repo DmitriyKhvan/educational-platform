@@ -1,14 +1,14 @@
-import React from "react";
+
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import bannerLogo from "src/shared/assets/images/banner-logo.png";
-import duckImage from "src/shared/assets/images/duck.png";
+import bannerLogo from "@/shared/assets/images/banner-logo.png";
+import duckImage from "@/shared/assets/images/duck.png";
 
 import Button from "@/components/form/button";
 import { ModalPurchase } from "@/components/modal-purchase";
-import { useAuth } from "src/app/providers/auth-provider";
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog";
+import { useAuth } from "@/app/providers/auth-provider";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
 
 const ScheduleBanner = ({ activePackages }) => {
 	const { currentStudent } = useAuth();

@@ -9,13 +9,13 @@ import { PACKAGE_QUERY } from "@/shared/apollo/graphql";
 import { CHECK_STRIPE_PAYMENT_STATUS } from "@/shared/apollo/queries/payment/check-stripe-payment-status";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
-import { CREATE_PAYMENT } from "src/shared/apollo/mutations/payment/create-payment";
+import { CREATE_PAYMENT } from "@/shared/apollo/mutations/payment/create-payment";
 
 import Button from "@/components/form/button";
 import Loader from "@/components/loader/loader";
 import { MarketingChannelForm } from "@/components/onboarding/marketing-channel";
-import { useAuth } from "src/app/providers/auth-provider";
-import { getItemToLocalStorage } from "src/shared/constants/global";
+import { useAuth } from "@/app/providers/auth-provider";
+import { getItemToLocalStorage } from "@/shared/constants/global";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 

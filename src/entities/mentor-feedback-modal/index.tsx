@@ -1,1 +1,1 @@
-export { MentorFeedbackModal } from "./ui/mentor-feedback-modal";
+export { MentorFeedbackModal } from "@/entities/mentor-feedback-modal/ui/mentor-feedback-modal";

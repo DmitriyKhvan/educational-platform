@@ -1,7 +1,7 @@
-import React from "react";
+
 import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "src/app/providers/auth-provider";
-import { Roles } from "src/shared/constants/global";
+import { useAuth } from "@/app/providers/auth-provider";
+import { Roles } from "@/shared/constants/global";
 
 export const MentorRoute = ({ children }) => {
 	const location = useLocation();

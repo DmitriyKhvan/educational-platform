@@ -1,33 +1,33 @@
 import Loader from "@/components/loader/loader";
 import React, { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import { useAuth } from "src/app/providers/auth-provider";
+import { useAuth } from "@/app/providers/auth-provider";
 
-import NotFoundPage from "@/pages/notFoundPage";
-import { Layout, OnboardingLayout } from "src/shared/layouts";
+import NotFoundPage from "@/pages/not-found-page";
+import { Layout, OnboardingLayout } from "@/shared/layouts";
 import { MentorRoute, StudentRoute } from "..";
-import { LoginRoute } from "../lib/login-route";
+import { LoginRoute } from "@/app/providers/router/lib/login-route";
 
 const Login = lazy(() => import("@/pages/auth/login"));
-const ForgotPassword = lazy(() => import("src/pages/auth/ForgotPassword"));
+const ForgotPassword = lazy(() => import("@/pages/auth/forgot-password"));
 
-const ResetPassword = lazy(() => import("src/pages/auth/ResetPassword"));
+const ResetPassword = lazy(() => import("@/pages/auth/reset-password"));
 const Onboarding = lazy(() => import("@/pages/students/on-boarding"));
 const TrialMarketingChannel = lazy(
 	() => import("@/pages/trial-marketing-channel"),
 );
-const Trial = lazy(() => import("src/pages/students/trial"));
-const IsReferal = lazy(() => import("src/pages/students/referal"));
+const Trial = lazy(() => import("@/pages/students/trial"));
+const IsReferal = lazy(() => import("@/pages/students/referal"));
 
 const AddStudentProfile = lazy(
-	() => import("@/pages/auth/select-profile/AddProfile"),
+	() => import("@/pages/auth/select-profile/add-profile"),
 );
 const BuyPackage = lazy(() => import("@/pages/students/buy-package"));
 const ConfirmPayment = lazy(() => import("@/pages/confirm-payment"));
 const StripePayment = lazy(() => import("@/pages/students/stripe-payment"));
 const SelectProfile = lazy(() => import("@/components/select-profile"));
-const StudentPages = lazy(() => import("src/pages/students"));
-const MentorPages = lazy(() => import("src/pages/mentors"));
+const StudentPages = lazy(() => import("@/pages/students"));
+const MentorPages = lazy(() => import("@/pages/mentors"));
 
 export const AppRouter = () => {
 	const { isLoading } = useAuth();

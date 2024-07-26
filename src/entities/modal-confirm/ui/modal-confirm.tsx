@@ -1,4 +1,3 @@
-import React from "react";
 
 export const ModalConfirm = ({ icon, title, text, btns }) => {
 	return (

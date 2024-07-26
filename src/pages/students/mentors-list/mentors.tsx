@@ -2,11 +2,11 @@ import { MENTORS } from "@/shared/apollo/queries/mentors/mentors";
 import { useQuery } from "@apollo/client";
 import { useTranslation } from "react-i18next";
 
-import Loader from "../../../components/loader/loader";
+import Loader from "@/components/loader/loader";
 
-import { getItemToLocalStorage } from "src/shared/constants/global";
+import { getItemToLocalStorage } from "@/shared/constants/global";
 
-import { MentorsView } from "./MentorsView";
+import { MentorsView } from "@/pages/students/mentors-list/mentors-view";
 
 const Mentors = () => {
 	const studentId = getItemToLocalStorage("studentId");

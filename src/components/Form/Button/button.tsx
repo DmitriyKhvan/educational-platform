@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import cls from "./Button.module.css";
+import cls from "@/components/form/button/button.module.css";
 
 const Button = forwardRef(function Button(props, ref) {
 	const {

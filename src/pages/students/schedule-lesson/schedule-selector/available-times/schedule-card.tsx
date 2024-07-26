@@ -6,8 +6,8 @@ import CheckboxField from "@/components/form/checkbox-field";
 import { cn } from "@/shared/utils/functions";
 import { scrollToElement } from "@/shared/utils/scroll-to-element";
 import { useTranslation } from "react-i18next";
-import { localeDic } from "src/shared/constants/global";
-import { useSchedule } from "../schedule-provider";
+import { localeDic } from "@/shared/constants/global";
+import { useSchedule } from "@/pages/students/schedule-lesson/schedule-selector/schedule-provider";
 
 export const ScheduleCard = ({
 	startTime,

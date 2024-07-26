@@ -3,7 +3,7 @@ import { currencyFormat } from "@/shared/utils/currency-format";
 /* eslint-disable no-unused-vars */
 import { useTranslation } from "react-i18next";
 import { FaCheck } from "react-icons/fa6";
-import { useCurrency } from "src/app/providers/currency-provider";
+import { useCurrency } from "@/app/providers/currency-provider";
 
 export const SubscriptionCard = ({
 	title,

@@ -1,8 +1,8 @@
 import Button from "@/components/form/button";
-import React from "react";
+
 import { FaPencil } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import { Avatar } from "src/widgets/avatar/Avatar";
+import { Avatar } from "@/widgets/avatar/avatar";
 
 const MentorImageRow = ({ mentor, setTabIndex, isMentorScheduled }) => {
 	const { avatar, gender, firstName, lastName, university, degree } = mentor;

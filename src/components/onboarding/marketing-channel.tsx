@@ -1,15 +1,14 @@
 import { UPDATE_USER } from "@/shared/apollo/mutations/user/update-user";
 import notify from "@/shared/utils/notify";
 import { useMutation } from "@apollo/client";
-import React, { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "src/app/providers/auth-provider";
-import { setItemToLocalStorage } from "src/shared/constants/global";
-import Button from "../form/button";
-import CheckboxField from "../form/checkbox-field";
-import Loader from "../loader/loader";
+import { useAuth } from "@/app/providers/auth-provider";
+import { setItemToLocalStorage } from "@/shared/constants/global";
+import Button from "@/components/form/button";
+import CheckboxField from "@/components/form/checkbox-field";
+import Loader from "@/components/loader/loader";
 
 export const MarketingChannelForm = () => {
 	const [t] = useTranslation("onboarding");

@@ -6,10 +6,9 @@ import {
 	TooltipTrigger,
 } from "@/components/tooltip";
 import { cn } from "@/shared/utils/functions";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { MdLock } from "react-icons/md";
-import { Avatar } from "src/widgets/avatar/Avatar";
+import { Avatar } from "@/widgets/avatar/avatar";
 
 export const ProfileCard = ({ student, studentId, selectProfile }) => {
 	const [t] = useTranslation("profile");

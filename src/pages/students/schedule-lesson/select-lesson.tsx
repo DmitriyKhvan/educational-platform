@@ -3,19 +3,18 @@ import { ModalPurchase } from "@/components/modal-purchase";
 import { getTranslatedTitle } from "@/shared/utils/get-translated-title";
 import { ucFirst } from "@/shared/utils/uc-first";
 import { useActivePackages } from "@/shared/utils/use-active-packages";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaArrowRight } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
-import Button from "../../../components/form/button/Button";
-import Loader from "../../../components/loader/loader";
+import Button from "@/components/form/button/button";
+import Loader from "@/components/loader/loader";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from "../../../components/tooltip";
-import { cn } from "../../../shared/utils/functions";
+} from "@/components/tooltip";
+import { cn } from "@/shared/utils/functions";
 
 const SelectLesson = ({
 	setSelectedPlan,

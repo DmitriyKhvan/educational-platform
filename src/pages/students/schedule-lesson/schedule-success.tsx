@@ -3,13 +3,12 @@ import Indicator from "@/components/indicator";
 import ScheduleCard from "@/components/student-dashboard/schedule-card-rebranding";
 import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "src/app/providers/auth-provider";
-import { localeDic } from "src/shared/constants/global";
+import { useAuth } from "@/app/providers/auth-provider";
+import { localeDic } from "@/shared/constants/global";
 
 const ScheduleSuccess = ({ lessons }) => {
 	const { user } = useAuth;

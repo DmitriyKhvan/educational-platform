@@ -10,7 +10,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { useAuth } from "src/app/providers/auth-provider";
+import { useAuth } from "@/app/providers/auth-provider";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 

@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo } from "react";
+import  { forwardRef, useMemo } from "react";
 import Select from "react-select";
 
 export const SelectField = forwardRef(function SelectField(

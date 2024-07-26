@@ -4,11 +4,11 @@ import { useTranslation } from "react-i18next";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
-import { useLogin } from "src/app/providers/auth-provider";
-import Button from "../../components/form/button/Button";
-import InputField from "../../components/form/input-field";
-import InputWithError from "../../components/form/input-with-error";
-import notify from "../../shared/utils/notify";
+import { useLogin } from "@/app/providers/auth-provider";
+import Button from "@/components/form/button/button";
+import InputField from "@/components/form/input-field";
+import InputWithError from "@/components/form/input-with-error";
+import notify from "@/shared/utils/notify";
 // import { useAuth } from 'src/app/providers/AuthProvider';
 
 const Login = () => {

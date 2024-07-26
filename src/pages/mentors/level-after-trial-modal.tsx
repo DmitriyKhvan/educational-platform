@@ -5,13 +5,13 @@ import { CHANGE_STUDENT_LEVEL } from "@/shared/apollo/queries/levels/change-stud
 import { LANGUAGE_LEVELS_WITH_PAGINATION } from "@/shared/apollo/queries/levels/language-levels-with-pagination";
 import notify from "@/shared/utils/notify";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog/index.jsx";
-import { Avatar } from "src/widgets/avatar/Avatar";
-import { PLAYGROUND_LESSON } from "../../shared/apollo/queries/lessons/playground-lesson";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog/index.jsx";
+import { Avatar } from "@/widgets/avatar/avatar";
+import { PLAYGROUND_LESSON } from "@/shared/apollo/queries/lessons/playground-lesson";
 
 const LevelAfterTrialModal = () => {
 	const navigate = useNavigate();

@@ -1,8 +1,8 @@
 import ScheduleCard from "@/components/student-dashboard/schedule-card-rebranding";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { LessonsStatusType } from "src/shared/constants/global";
-import DashboardCard from "./dashboard-card";
+import { LessonsStatusType } from "@/shared/constants/global";
+import DashboardCard from "@/pages/students/student-dashboard/dashboard-card";
 
 const MyProgress = ({ appointments, fetchAppointments }) => {
 	const [t] = useTranslation(["dashboard", "lessons"]);

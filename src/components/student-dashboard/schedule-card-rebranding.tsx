@@ -2,21 +2,20 @@ import { cn } from "@/shared/utils/functions";
 import { getTranslatedTitle } from "@/shared/utils/get-translated-title";
 import { addMinutes } from "date-fns";
 import { format, toZonedTime } from "date-fns-tz";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { MdEventRepeat } from "react-icons/md";
 import { PiStarFourFill } from "react-icons/pi";
-import { useAuth } from "src/app/providers/auth-provider";
-import { Avatar } from "src/widgets/avatar/Avatar";
+import { useAuth } from "@/app/providers/auth-provider";
+import { Avatar } from "@/widgets/avatar/avatar";
 import {
 	LessonsStatusType,
 	Roles,
 	localeDic,
-} from "../../shared/constants/global";
-import Indicator from "../indicator";
-import LabelBox from "./label-box";
-import LessonControls from "./lesson-controls";
-import StatusIndicator from "./status-indicator";
+} from "@/shared/constants/global";
+import Indicator from "@/components/indicator";
+import LabelBox from "@/components/student-dashboard/label-box";
+import LessonControls from "@/components/student-dashboard/lesson-controls";
+import StatusIndicator from "@/components/student-dashboard/status-indicator";
 
 const ScheduleCard = ({
 	// lesson,

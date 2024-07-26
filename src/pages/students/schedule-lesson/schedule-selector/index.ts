@@ -1,3 +1,3 @@
-import { ScheduleSelector } from "./schedule-selector";
+import { ScheduleSelector } from "@/pages/students/schedule-lesson/schedule-selector/schedule-selector";
 
 export { ScheduleSelector };

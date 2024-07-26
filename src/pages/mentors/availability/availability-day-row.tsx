@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useMemo } from "react";
-import AvailabilityPicker from "./availability-picker";
+import AvailabilityPicker from "@/pages/mentors/availability/availability-picker";
 
-import { formatTime } from "@/pages/mentors/availiability/lib/format-time";
-import { formatTimeToSeconds } from "@/pages/mentors/availiability/lib/format-time-to-seconds";
-import { timeGroup } from "@/pages/mentors/availiability/lib/time-group";
-import { timeGroups } from "@/pages/mentors/availiability/lib/time-groups";
-import { timesOfDay } from "@/pages/mentors/availiability/lib/times-of-day";
+import { formatTime } from "@/pages/mentors/availability/lib/format-time";
+import { formatTimeToSeconds } from "@/pages/mentors/availability/lib/format-time-to-seconds";
+import { timeGroup } from "@/pages/mentors/availability/lib/time-group";
+import { timeGroups } from "@/pages/mentors/availability/lib/time-groups";
+import { timesOfDay } from "@/pages/mentors/availability/lib/times-of-day";
 import { useTranslation } from "react-i18next";
-import { MentorAvailabilityType } from "src/shared/constants/global";
+import { MentorAvailabilityType } from "@/shared/constants/global";
 import { v4 as uuid } from "uuid";
 
 import { LuPlus } from "react-icons/lu";
-import Button from "../../../components/form/button";
-import CheckboxField from "../../../components/form/checkbox-field";
+import Button from "@/components/form/button";
+import CheckboxField from "@/components/form/checkbox-field";
 
 const AvailabilityDayRow = ({
 	day,

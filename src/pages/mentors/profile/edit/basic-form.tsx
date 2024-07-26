@@ -3,22 +3,22 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 // import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
-import { useAuth } from "src/app/providers/auth-provider";
-import { MUTATION_UPDATE_MENTOR } from "../../../../shared/apollo/graphql";
+import { useAuth } from "@/app/providers/auth-provider";
+import { MUTATION_UPDATE_MENTOR } from "@/shared/apollo/graphql";
 
 import { UPDATE_USER } from "@/shared/apollo/mutations/user/update-user";
 import { trimSpaces } from "@/shared/utils/trim-spaces";
-import ReactLoader from "../../../../components/common/loader";
-import Button from "../../../../components/form/button/Button";
-import CheckboxField from "../../../../components/form/checkbox-field";
-import InputField from "../../../../components/form/input-field";
-import { SelectField } from "../../../../components/form/select-field";
+import ReactLoader from "@/components/common/loader";
+import Button from "@/components/form/button/button";
+import CheckboxField from "@/components/form/checkbox-field";
+import InputField from "@/components/form/input-field";
+import { SelectField } from "@/components/form/select-field";
 import {
 	countries,
 	// timezoneOptions,
 	useGenderDic,
-} from "../../../../shared/constants/global";
-import notify from "../../../../shared/utils/notify";
+} from "@/shared/constants/global";
+import notify from "@/shared/utils/notify";
 
 const BasicForm = () => {
 	const [t] = useTranslation(["common", "profile"]);

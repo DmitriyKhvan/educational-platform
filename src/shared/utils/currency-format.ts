@@ -1,4 +1,4 @@
-import { Currencies } from "../constants/global";
+import { Currencies } from "@/shared/constants/global";
 
 export const currencyFormat = ({
 	locales = "ko-KR",

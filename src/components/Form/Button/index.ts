@@ -1,3 +1,3 @@
-import Button from "./Button";
+import Button from "@/components/form/button/button";
 
 export default Button;

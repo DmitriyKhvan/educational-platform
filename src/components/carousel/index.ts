@@ -1,3 +1,3 @@
-import { EmblaCarousel } from "./carousel";
+import { EmblaCarousel } from "@/components/carousel/carousel";
 
 export { EmblaCarousel };

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LuPlus } from "react-icons/lu";
-import { useAuth } from "src/app/providers/auth-provider";
-import { setItemToLocalStorage } from "src/shared/constants/global";
-import { ProfileCard } from "./profile-card";
+import { useAuth } from "@/app/providers/auth-provider";
+import { setItemToLocalStorage } from "@/shared/constants/global";
+import { ProfileCard } from "@/components/select-profile/profile-card";
 
 const SelectProfile = () => {
 	const [t] = useTranslation("profile");

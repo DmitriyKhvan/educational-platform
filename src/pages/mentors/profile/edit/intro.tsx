@@ -2,10 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
-import { useAuth } from "src/app/providers/auth-provider";
+import { useAuth } from "@/app/providers/auth-provider";
 
 import { HiOutlineVideoCamera } from "react-icons/hi2";
-import Button from "../../../../components/form/button/Button";
+import Button from "@/components/form/button/button";
 
 const Intro = () => {
 	const [t] = useTranslation("profile");

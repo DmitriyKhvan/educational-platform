@@ -1,5 +1,5 @@
 import { cn } from "@/shared/utils/functions";
-import React from "react";
+
 
 export const PromoBanner = ({ icon, title, text, className }) => {
 	return (

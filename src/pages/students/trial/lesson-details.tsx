@@ -12,8 +12,8 @@ import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog";
-import LevelModal from "./level-modal";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
+import LevelModal from "@/pages/students/trial/level-modal";
 
 const LessonDetails = ({
 	schedule,

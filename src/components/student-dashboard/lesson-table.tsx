@@ -1,16 +1,16 @@
 import { addMinutes } from "date-fns";
 import { format, toZonedTime } from "date-fns-tz";
 import { ko as kr } from "date-fns/locale";
-import React from "react";
+
 import { useTranslation } from "react-i18next";
 
 import { cn } from "@/shared/utils/functions";
 import { getTranslatedTitle } from "@/shared/utils/get-translated-title";
-import { useAuth } from "src/app/providers/auth-provider";
-import { Roles } from "src/shared/constants/global";
-import { Avatar } from "src/widgets/avatar/Avatar";
-import LessonControls from "./lesson-controls";
-import StatusIndicator from "./status-indicator";
+import { useAuth } from "@/app/providers/auth-provider";
+import { Roles } from "@/shared/constants/global";
+import { Avatar } from "@/widgets/avatar/avatar";
+import LessonControls from "@/components/student-dashboard/lesson-controls";
+import StatusIndicator from "@/components/student-dashboard/status-indicator";
 
 export const LessonTable = ({
 	displayTableData,

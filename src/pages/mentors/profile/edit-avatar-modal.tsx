@@ -4,13 +4,13 @@ import { useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "src/app/providers/auth-provider";
-import { MUTATION_UPDATE_MENTOR } from "../../../shared/apollo/graphql";
+import { useAuth } from "@/app/providers/auth-provider";
+import { MUTATION_UPDATE_MENTOR } from "@/shared/apollo/graphql";
 
-import ReactLoader from "../../../components/common/loader";
-import Button from "../../../components/form/button/Button";
-import notify from "../../../shared/utils/notify";
-import { Avatar } from "../../../widgets/avatar/Avatar";
+import ReactLoader from "@/components/common/loader";
+import Button from "@/components/form/button/button";
+import notify from "@/shared/utils/notify";
+import { Avatar } from "@/widgets/avatar/avatar";
 
 import { HiOutlineUpload } from "react-icons/hi";
 

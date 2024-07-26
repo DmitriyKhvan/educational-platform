@@ -1,3 +1,3 @@
-import InputField from "./input-field";
+import InputField from "@/components/form/input-field/input-field";
 
 export default InputField;

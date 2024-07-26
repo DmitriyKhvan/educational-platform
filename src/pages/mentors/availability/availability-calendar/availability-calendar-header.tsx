@@ -12,7 +12,7 @@ import {
 	CalendarView,
 	courseColorsDict,
 	localeDic,
-} from "src/shared/constants/global";
+} from "@/shared/constants/global";
 
 const AvailabilityCalendarHeader = ({ calendarRef, updateEvents }) => {
 	const [open, setOpen] = useState(false);

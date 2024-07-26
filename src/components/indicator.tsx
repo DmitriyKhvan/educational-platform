@@ -1,5 +1,4 @@
 import { cn } from "@/shared/utils/functions";
-import React from "react";
 
 const Indicator = ({ children, className = "bg-gray-300 text-gray-700" }) => {
 	if (!children) return <></>;

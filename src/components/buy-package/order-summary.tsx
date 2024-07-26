@@ -7,18 +7,18 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import { currencyFormat } from "@/shared/utils/currency-format.js";
-import { calculatePriceWithDiscount } from "src/shared/utils/calculate-price-with-discount.js";
+import { calculatePriceWithDiscount } from "@/shared/utils/calculate-price-with-discount.js";
 
 import notify from "@/shared/utils/notify.js";
 import { RiErrorWarningFill } from "react-icons/ri";
-import Button from "../form/button/index.js";
-import Loader from "../loader/loader.jsx";
-import { PromoModal } from "./promo-modal.jsx";
-import { TermsConditionsModal } from "./terms-conditions-modal.jsx";
+import Button from "@/components/form/button/index.js";
+import Loader from
+import { PromoModal } from "@/components/buy-package/promo-modal";
+import { TermsConditionsModal } from "@/components/buy-package/terms-conditions-modal";
 
 import { CREATE_PAYMENT_INTENT } from "@/shared/apollo/mutations/payment/create-payment-intent.js";
-import { useCurrency } from "src/app/providers/currency-provider";
-import { AdaptiveDialog } from "../../shared/ui/adaptive-dialog/index.jsx";
+import { useCurrency } from "@/app/providers/currency-provider";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog/index.jsx";
 
 import { BsPlus } from "react-icons/bs";
 import { FiMinus } from "react-icons/fi";

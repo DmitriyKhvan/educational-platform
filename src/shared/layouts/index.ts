@@ -1,4 +1,4 @@
-import { Layout } from "./ui/dashboard-layout";
-import { OnboardingLayout } from "./ui/onboarding-layout";
+import { Layout } from "@/shared/layouts/ui/dashboard-layout";
+import { OnboardingLayout } from "@/shared/layouts/ui/onboarding-layout";
 
 export { OnboardingLayout, Layout };

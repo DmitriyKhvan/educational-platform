@@ -1,5 +1,5 @@
 import Button from "@/components/form/button";
-import React from "react";
+
 import { useTranslation } from "react-i18next";
 import { AiOutlineInfo } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";

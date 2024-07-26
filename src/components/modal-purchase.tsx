@@ -1,7 +1,7 @@
-import React from "react";
+
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import Button from "./form/button";
+import Button from "@/components/form/button";
 
 export const ModalPurchase = () => {
 	const navigate = useNavigate();

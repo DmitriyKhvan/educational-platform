@@ -15,12 +15,12 @@ import { useTranslation } from "react-i18next";
 import { FaAngleDown } from "react-icons/fa6";
 import { useMediaQuery } from "react-responsive";
 import StarRatings from "react-star-ratings";
-import { useAuth } from "src/app/providers/auth-provider";
-import { GET_VOCABULARY } from "src/shared/apollo/queries/vocabulary/vocabulary";
+import { useAuth } from "@/app/providers/auth-provider";
+import { GET_VOCABULARY } from "@/shared/apollo/queries/vocabulary/vocabulary";
 import {
 	overviewFieldsDic,
 	overviewGradeDic,
-} from "src/shared/constants/global";
+} from "@/shared/constants/global";
 
 function Feedback({
 	choosenTopic,

@@ -1,4 +1,3 @@
-import React from "react";
 
 export const InfoItem = ({ info }) => {
 	const { title, text, icon, color } = info;

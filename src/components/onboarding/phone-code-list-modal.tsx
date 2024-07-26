@@ -1,7 +1,6 @@
-import React from "react";
 
-import { phoneCodes } from "src/shared/constants/global";
-import CheckboxField from "../form/checkbox-field";
+import { phoneCodes } from "@/shared/constants/global";
+import CheckboxField from "@/components/form/checkbox-field";
 
 export const PhoneCodeListModal = ({
 	setCountry,

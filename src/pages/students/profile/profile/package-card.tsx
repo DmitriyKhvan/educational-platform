@@ -1,5 +1,5 @@
 import { cn } from "@/shared/utils/functions";
-import React from "react";
+
 import { useTranslation } from "react-i18next";
 
 const PackageCard = ({ item }) => {

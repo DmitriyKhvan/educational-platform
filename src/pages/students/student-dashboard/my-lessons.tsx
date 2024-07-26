@@ -14,9 +14,9 @@ import { Trans, useTranslation } from "react-i18next";
 import { FaArrowRight } from "react-icons/fa6";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog";
-import ScheduleCard from "../../../components/student-dashboard/schedule-card-rebranding";
-import DashboardCard from "./dashboard-card";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
+import ScheduleCard from "@/components/student-dashboard/schedule-card-rebranding";
+import DashboardCard from "@/pages/students/student-dashboard/dashboard-card";
 
 const MyLessons = ({
 	appointments,

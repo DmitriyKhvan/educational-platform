@@ -1,5 +1,4 @@
 import { format } from "date-fns";
-import React from "react";
 
 const MonthlyEvent = ({ data }) => {
 	const reformatTime = (time) =>

@@ -4,9 +4,9 @@ import { isWithinHours } from "@/shared/utils/is-within-hours";
 import { addMinutes, isAfter } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { useAuth } from "src/app/providers/auth-provider";
+import { useAuth } from "@/app/providers/auth-provider";
 import { NoLessonsMessage } from "src/components/lessons-list";
-import { LessonsStatusType, Roles } from "src/shared/constants/global";
+import { LessonsStatusType, Roles } from "@/shared/constants/global";
 
 const Table = ({
 	tableAppointments,

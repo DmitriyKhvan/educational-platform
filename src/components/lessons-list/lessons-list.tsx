@@ -7,10 +7,10 @@ import Loader from "@/components/loader/loader";
 import { sortCalendarEvents } from "@/shared/utils/sort-calendar-events";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAuth } from "src/app/providers/auth-provider";
-import { useNotifications } from "src/app/providers/notification-provider";
+import { useAuth } from "@/app/providers/auth-provider";
+import { useNotifications } from "@/app/providers/notification-provider";
 import { LessonsCalendar, LessonsTable } from "src/components/lessons-list";
-import { LessonsStatusType } from "src/shared/constants/global";
+import { LessonsStatusType } from "@/shared/constants/global";
 
 const LessonsList = ({
 	getAppointments,

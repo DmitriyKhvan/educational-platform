@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { MentorAvailabilityType } from "../../../shared/constants/global";
+import { MentorAvailabilityType } from "@/shared/constants/global";
 
 import Loader from "@/components/loader/loader";
 import { useQuery } from "@apollo/client";
-import { useAuth } from "src/app/providers/auth-provider";
+import { useAuth } from "@/app/providers/auth-provider";
 import { v4 as uuid } from "uuid";
-import { GET_MENTOR } from "../../../shared/apollo/graphql";
-import { AcceptingStudents } from "../accepting-students";
-import { AvailabilityExceptions } from "../availability-exceptions";
-import { AvailabilitySlots } from "./availability-slots";
-import { Tab } from "./tab";
+import { GET_MENTOR } from "@/shared/apollo/graphql";
+import { AcceptingStudents } from "@/pages/mentors/accepting-students";
+import { AvailabilityExceptions } from "@/pages/mentors/availability-exceptions";
+import { AvailabilitySlots } from "@/pages/mentors/availability/availability-slots";
+import { Tab } from "@/pages/mentors/availability/tab";
 
 export const AvailabilityList = () => {
 	const { user } = useAuth();

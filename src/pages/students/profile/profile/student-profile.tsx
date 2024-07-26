@@ -5,13 +5,13 @@ import { useTranslation } from "react-i18next";
 import { FaPencil } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { useAuth } from "src/app/providers/auth-provider";
-import { getItemToLocalStorage } from "src/shared/constants/global";
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog";
-import { PACKAGE_QUERY } from "../../../../shared/apollo/graphql";
-import { Avatar } from "../../../../widgets/avatar/Avatar";
-import LevelBadge from "./level-badge";
-import PackageCard from "./package-card";
+import { useAuth } from "@/app/providers/auth-provider";
+import { getItemToLocalStorage } from "@/shared/constants/global";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
+import { PACKAGE_QUERY } from "@/shared/apollo/graphql";
+import { Avatar } from "@/widgets/avatar/avatar";
+import LevelBadge from "@/pages/students/profile/profile/level-badge";
+import PackageCard from "@/pages/students/profile/profile/package-card";
 
 const StudentProfile = () => {
 	const [logoutOpen, setLogoutOpen] = useState(false);

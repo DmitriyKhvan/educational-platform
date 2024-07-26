@@ -3,7 +3,7 @@ import { VALIDATE_REFERRAL_CODE } from "@/shared/apollo/mutations/referral-codes
 import { useQuery } from "@apollo/client";
 import { IoIosWarning } from "react-icons/io";
 import { useParams } from "react-router-dom";
-import ReferalLanding from "./referal-landing";
+import ReferalLanding from "@/pages/students/referal/ui/referal-landing";
 
 const IsReferal = () => {
 	const { referralcode } = useParams();

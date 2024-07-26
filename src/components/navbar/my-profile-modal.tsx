@@ -1,13 +1,13 @@
-import React from "react";
+
 import { useTranslation } from "react-i18next";
 import { FaRegUser } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
 import { MdAddCircleOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { useAuth } from "src/app/providers/auth-provider";
-import { Roles } from "src/shared/constants/global";
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog";
-import SelectProfile from "../select-profile";
+import { useAuth } from "@/app/providers/auth-provider";
+import { Roles } from "@/shared/constants/global";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
+import SelectProfile from "@/components/select-profile/select-profile";
 
 const MyProfileModal = () => {
 	const [t] = useTranslation("common");

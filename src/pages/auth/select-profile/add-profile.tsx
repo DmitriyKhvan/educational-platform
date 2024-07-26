@@ -10,7 +10,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "src/app/providers/auth-provider";
+import { useAuth } from "@/app/providers/auth-provider";
 
 const AddStudentProfile = () => {
 	const [t] = useTranslation(["onboarding", "common", "translations"]);

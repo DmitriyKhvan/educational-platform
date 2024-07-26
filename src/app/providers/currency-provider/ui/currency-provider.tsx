@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
-import { Currencies, currenciesDic } from "src/shared/constants/global";
-import { CurrencyContext } from "../lib/currency-context";
+import { Currencies, currenciesDic } from "@/shared/constants/global";
+import { CurrencyContext } from "@/app/providers/currency-provider/lib/currency-context";
 
 export const CurrencyProvider = ({ children }) => {
 	const defaultCurrency = useMemo(() => {

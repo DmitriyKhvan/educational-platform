@@ -7,8 +7,8 @@ import { useTranslation } from "react-i18next";
 import { FaAngleDown } from "react-icons/fa6";
 import { IoNotifications } from "react-icons/io5";
 import { useMediaQuery } from "react-responsive";
-import { useNotifications } from "src/app/providers/notification-provider";
-import NotificationsModal from "./notifications-modal";
+import { useNotifications } from "@/app/providers/notification-provider";
+import NotificationsModal from "@/components/navbar/notification/notifications-modal";
 
 // eslint-disable-next-line react/display-name
 export const Notifications = memo(() => {

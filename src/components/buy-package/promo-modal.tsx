@@ -2,13 +2,12 @@ import { APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER } from "@/shared/apollo/graph
 import { currencyFormat } from "@/shared/utils/currency-format";
 import notify from "@/shared/utils/notify";
 import { useMutation } from "@apollo/client";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { DiscountType } from "src/shared/constants/global";
-import Button from "../form/button";
-import InputField from "../form/input-field";
-import Loader from "../loader/loader";
+import { DiscountType } from "@/shared/constants/global";
+import Button from "@/components/form/button";
+import InputField from "@/components/form/input-field";
+import Loader from "@/components/loader/loader";
 
 export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen }) => {
 	const [t] = useTranslation("purchase");

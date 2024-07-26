@@ -4,8 +4,8 @@ import {
 } from "@/shared/apollo/graphql";
 import { useMutation, useQuery } from "@apollo/client";
 import { useState } from "react";
-import { useNotifications } from "src/app/providers/notification-provider";
-import { Roles, getItemToLocalStorage } from "src/shared/constants/global";
+import { useNotifications } from "@/app/providers/notification-provider";
+import { Roles, getItemToLocalStorage } from "@/shared/constants/global";
 import { AuthContext } from "../lib/auth-context";
 
 export const AuthProvider = ({ children }) => {

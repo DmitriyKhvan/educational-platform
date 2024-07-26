@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { FaXmark } from "react-icons/fa6";
 import Select from "react-select";
-import { selectStyle } from "../availiability/lib/select-style";
+import { selectStyle } from "@/pages/mentors/availability/lib/select-style";
 // import MySelect from 'src/components/Form/MySelect';
 
 export const AvailabilityExceptionSlot = ({

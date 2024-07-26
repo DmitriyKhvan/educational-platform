@@ -1,5 +1,4 @@
 import { MarketingChannelForm } from "@/components/onboarding/marketing-channel";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaRegCheckCircle } from "react-icons/fa";
 

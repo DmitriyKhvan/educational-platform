@@ -2,10 +2,10 @@ import { PlaygroundRecordingModal } from "@/components/playground-recording-moda
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaPlay } from "react-icons/fa6";
-import preview1 from "src/shared/assets/images/samples/preview1.jpg";
-import preview2 from "src/shared/assets/images/samples/preview2.jpg";
-import preview3 from "src/shared/assets/images/samples/preview3.jpg";
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog";
+import preview1 from "@/shared/assets/images/samples/preview1.jpg";
+import preview2 from "@/shared/assets/images/samples/preview2.jpg";
+import preview3 from "@/shared/assets/images/samples/preview3.jpg";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
 
 const videoUrls = [
 	"https://info.naonow.com/hubfs/Jays%20Mom.mp4",

@@ -1,7 +1,7 @@
 import { addHours, differenceInHours } from "date-fns";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { useSchedule } from "../schedule-provider";
+import { useSchedule } from "@/pages/students/schedule-lesson/schedule-selector/schedule-provider";
 
 import Button from "@/components/form/button";
 

@@ -1,18 +1,18 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import { Link } from "react-router-dom";
-import Logo from "src/shared/assets/images/logo_purple.svg";
+import Logo from "@/shared/assets/images/logo_purple.svg";
 
-import { useAuth } from "src/app/providers/auth-provider";
-import { Roles } from "../../shared/constants/global";
+import { useAuth } from "@/app/providers/auth-provider";
+import { Roles } from "@/shared/constants/global";
 
 import { useTranslation } from "react-i18next";
 import { FaAngleDown } from "react-icons/fa6";
 import { useMediaQuery } from "react-responsive";
-import { Avatar } from "src/widgets/avatar/Avatar";
-import { MyDrawer } from "../drawer";
-import MyDropdownMenu from "../dropdown-menu";
-import MyProfileModal from "./my-profile-modal";
-import { Notifications } from "./notification/notifications";
+import { Avatar } from "@/widgets/avatar/avatar";
+import { MyDrawer } from "@/components/drawer";
+import MyDropdownMenu from "@/components/dropdown-menu";
+import MyProfileModal from "@/components/navbar/my-profile-modal";
+import { Notifications } from "@/components/navbar/notification/notifications";
 
 const Navbar = memo(() => {
 	const [t] = useTranslation("common");

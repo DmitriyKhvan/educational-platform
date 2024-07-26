@@ -1,5 +1,5 @@
 import Button from "@/components/form/button";
-import React from "react";
+
 import { FaPencil } from "react-icons/fa6";
 
 const ScheduleCard = ({ startTime, endTime, date, setTabIndex }) => {

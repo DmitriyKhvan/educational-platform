@@ -1,4 +1,4 @@
-import { Host, VIMEO_EMBED, YOUTUBE_EMBED } from "src/shared/constants/global";
+import { Host, VIMEO_EMBED, YOUTUBE_EMBED } from "@/shared/constants/global";
 
 export const renderVideo = (videoUrl) => {
 	const urlParams = new URL(videoUrl);

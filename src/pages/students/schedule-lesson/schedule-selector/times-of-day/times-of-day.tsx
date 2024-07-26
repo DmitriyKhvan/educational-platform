@@ -1,9 +1,9 @@
 import Button from "@/components/form/button";
-import React from "react";
+
 import { useTranslation } from "react-i18next";
-import { useSchedule } from "../schedule-provider";
-import { SkeletonTimesheets } from "./skeleton-time-sheets";
-import { TimeOfDay } from "./time-of-day";
+import { useSchedule } from "@/pages/students/schedule-lesson/schedule-selector/schedule-provider";
+import { SkeletonTimesheets } from "@/pages/students/schedule-lesson/schedule-selector/times-of-day/skeleton-time-sheets";
+import { TimeOfDay } from "@/pages/students/schedule-lesson/schedule-selector/times-of-day/time-of-day";
 
 export const TimesOfDay = () => {
 	const [t] = useTranslation(["common", "availability"]);

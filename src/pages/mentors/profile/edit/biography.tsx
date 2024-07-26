@@ -1,16 +1,16 @@
 import { useMutation } from "@apollo/client";
-import React from "react";
+
 import { useForm } from "react-hook-form";
 // import { useNavigate } from 'react-router-dom';
-import { useAuth } from "src/app/providers/auth-provider";
-import { MUTATION_UPDATE_MENTOR } from "../../../../shared/apollo/graphql";
+import { useAuth } from "@/app/providers/auth-provider";
+import { MUTATION_UPDATE_MENTOR } from "@/shared/apollo/graphql";
 
-import notify from "../../../../shared/utils/notify";
+import notify from "@/shared/utils/notify";
 
 import { useTranslation } from "react-i18next";
-import ReactLoader from "../../../../components/common/loader";
-import Button from "../../../../components/form/button/Button";
-import { TextareaField } from "../../../../components/form/textarea-field";
+import ReactLoader from "@/components/common/loader";
+import Button from "@/components/form/button/button";
+import { TextareaField } from "@/components/form/textarea-field";
 
 const Biography = () => {
 	const [t] = useTranslation(["profile", "common"]);

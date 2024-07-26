@@ -4,14 +4,14 @@ import { format } from "date-fns";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
-import { useAuth } from "src/app/providers/auth-provider";
+import { useAuth } from "@/app/providers/auth-provider";
 import { LessonsCalendarHeader } from "src/components/lessons-list";
 import {
 	COURSE_COLORS,
 	CalendarView,
 	Roles,
 	courseColorsDict,
-} from "src/shared/constants/global";
+} from "@/shared/constants/global";
 
 import { getTranslatedTitle } from "@/shared/utils/get-translated-title";
 import { useCourseColors } from "@/shared/utils/use-course-colors";

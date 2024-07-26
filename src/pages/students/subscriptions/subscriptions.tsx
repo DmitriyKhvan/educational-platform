@@ -4,10 +4,10 @@ import { useQuery } from "@apollo/client";
 import { useTranslation } from "react-i18next";
 
 import { useNavigate } from "react-router-dom";
-import { getItemToLocalStorage } from "src/shared/constants/global";
-import Loader from "../../../components/loader/loader";
-import { PACKAGE_QUERY } from "../../../shared/apollo/graphql";
-import { SubscriptionCard } from "./subscription-card";
+import { getItemToLocalStorage } from "@/shared/constants/global";
+import Loader from "@/components/loader/loader";
+import { PACKAGE_QUERY } from "@/shared/apollo/graphql";
+import { SubscriptionCard } from "@/pages/students/subscriptions/subscription-card";
 
 import Button from "@/components/form/button";
 import { getTranslatedTitle } from "@/shared/utils/get-translated-title";

@@ -1,5 +1,5 @@
 import { cn } from "@/shared/utils/functions";
-import React from "react";
+
 
 const LabelBox = ({ label, content, preElement = undefined }) => {
 	return (

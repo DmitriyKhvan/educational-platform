@@ -10,9 +10,9 @@ import { useTranslation } from "react-i18next";
 import { HiMiniChevronRight } from "react-icons/hi2";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog";
-import { Avatar } from "src/widgets/avatar/Avatar";
-import MentorsModal from "./MentorsModal";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
+import { Avatar } from "@/widgets/avatar/avatar";
+import MentorsModal from "@/pages/students/mentors-list/mentors-modal";
 
 export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
 	const isMobile = useMediaQuery({ maxWidth: 639 });

@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 
 import Button from "@/components/form/button";
 import { cn } from "@/shared/utils/functions";
-import { localeDic } from "src/shared/constants/global";
-import { useSchedule } from "../schedule-provider";
+import { localeDic } from "@/shared/constants/global";
+import { useSchedule } from "@/pages/students/schedule-lesson/schedule-selector/schedule-provider";
 
 export const Day = memo(function Day({ dayOfWeek, idx }) {
 	const { setDay, setDayClicked, dayClicked, userTimezone } = useSchedule();

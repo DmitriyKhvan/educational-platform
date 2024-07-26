@@ -1,5 +1,4 @@
 import Button from "@/components/form/button";
-import React from "react";
 import { IoIosWarning } from "react-icons/io";
 
 export const PageError = () => {

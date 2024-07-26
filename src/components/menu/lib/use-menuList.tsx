@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "src/app/providers/auth-provider";
-import { Roles, classMaterialURL } from "src/shared/constants/global";
+import { useAuth } from "@/app/providers/auth-provider";
+import { Roles, classMaterialURL } from "@/shared/constants/global";
 
 import { ModalPurchase } from "@/components/modal-purchase";
 import { Info } from "@/components/refer-banner/ui/info";

@@ -12,8 +12,8 @@ import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import PhoneNumberField from "@/components/form/phone-number-field";
 import { SelectField } from "@/components/form/select-field";
 import { trimSpaces } from "@/shared/utils/trim-spaces";
-import { timezoneOptions } from "src/shared/constants/global";
-import { usePublicMentors } from "./lib/use-public-mentors";
+import { timezoneOptions } from "@/shared/constants/global";
+import { usePublicMentors } from "@/pages/students/trial/lib/use-public-mentors";
 
 export default memo(function OnboardingTrial({
 	currentUser,

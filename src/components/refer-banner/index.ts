@@ -1,1 +1,1 @@
-export { ReferBanner } from "./ui/ReferBanner";
+export { ReferBanner } from "@/components/refer-banner/ui/refer-banner";

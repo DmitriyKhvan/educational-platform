@@ -3,12 +3,12 @@ import { useTranslation } from "react-i18next";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import ReactInputMask from "react-input-mask";
 import { useMediaQuery } from "react-responsive";
-import { phoneCodes } from "src/shared/constants/global";
-import { MyDrawer } from "../drawer";
+import { phoneCodes } from "@/shared/constants/global";
+import { MyDrawer } from "@/components/drawer";
 import MyDropdownMenu from "../dropdown-menu";
 import { PhoneCodeListModal } from "../onboarding/phone-code-list-modal";
-import Button from "./button";
-import InputField from "./input-field";
+import Button from "@/components/form/button/button";
+import InputField from "@/components/form/input-field";
 
 const PhoneNumberField = ({
 	register,

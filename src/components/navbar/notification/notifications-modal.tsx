@@ -3,8 +3,8 @@ import { isAfter, subMonths, subWeeks, subYears } from "date-fns";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiTrash } from "react-icons/hi";
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog";
-import { NotificationItem } from "./notification-item";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
+import { NotificationItem } from "@/components/navbar/notification/notification-item";
 
 const NotificationsModal = ({ notifications, removeNotifications }) => {
 	const [t] = useTranslation(["notifications", "common", "translations"]);

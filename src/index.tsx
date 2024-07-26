@@ -1,17 +1,17 @@
 import { ApolloProvider } from "@apollo/client";
 import { createRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
-import App from "./app/App";
+import App from "@/app/app"
 
 import { BrowserRouter } from "react-router-dom";
-import { AuthProvider } from "src/app/providers/auth-provider";
-import client from "src/shared/config/apollo/client";
-import i18next from "src/shared/config/i18n/i18n";
-import { ErrorBoundary } from "./app/providers/error-boundary";
-import { NotificationProvider } from "./app/providers/notification-provider";
+import { AuthProvider } from "@/app/providers/auth-provider";
+import client from "@/shared/config/apollo/client";
+import i18next from "@/shared/config/i18n/i18n";
+import { ErrorBoundary } from "@/app/providers/error-boundary";
+import { NotificationProvider } from "@/app/providers/notification-provider";
 
-import "src/app/styles/global.scss";
-import { CurrencyProvider } from "./app/providers/currency-provider";
+import "@/app/styles/global.scss";
+import { CurrencyProvider } from "@/app/providers/currency-provider";
 
 const root = createRoot(document.getElementById("root"));
 root.render(

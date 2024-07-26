@@ -1,8 +1,8 @@
-import React from "react";
+
 import { useTranslation } from "react-i18next";
 import { FaCheck } from "react-icons/fa6";
-import { LessonsStatusType } from "src/shared/constants/global";
-import Indicator from "../indicator";
+import { LessonsStatusType } from "@/shared/constants/global";
+import Indicator from "@/components/indicator";
 
 const StatusIndicator = ({ status }) => {
 	const [t] = useTranslation("lessons");

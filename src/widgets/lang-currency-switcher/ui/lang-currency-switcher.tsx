@@ -4,8 +4,8 @@ import { CurrencySwitcher } from "@/entities/currency-switcher/ui/currency-switc
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
-import { useCurrency } from "src/app/providers/currency-provider";
-import { LangSwitcher, useCurrentLang } from "src/entities/lang-switcher";
+import { useCurrency } from "@/app/providers/currency-provider";
+import { LangSwitcher, useCurrentLang } from "@/entities/lang-switcher";
 
 export const LangCurrencySwitcher = ({ align }) => {
 	const { curCurrency } = useCurrency();

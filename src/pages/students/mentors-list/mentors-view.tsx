@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import { BsFillGridFill } from "react-icons/bs";
 import { FaList } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
-import { MentorCard } from "./mentor-card";
-import { MentorCard2 } from "./mentor-card-2";
+import { MentorCard } from "@/pages/students/mentors-list/mentor-card";
+import { MentorCard2 } from "@/pages/students/mentors-list/mentor-card-2";
 
 export const MentorsView = ({ mentorList, handleSelectMentor }) => {
 	const [t] = useTranslation(["studentMentor", "common"]);

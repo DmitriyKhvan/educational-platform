@@ -2,7 +2,7 @@ import { getData } from "country-list";
 import { format, toZonedTime } from "date-fns-tz";
 import { enUS, ko, zhTW } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
-import * as flags from "src/shared/assets/images/flags";
+import * as flags from "@/shared/assets/images/flags";
 // import { useMemo } from 'react';
 
 export const genders = [

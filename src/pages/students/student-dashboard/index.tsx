@@ -2,20 +2,20 @@ import { APPOINTMENTS_QUERY } from "@/shared/apollo/graphql";
 import { useQuery } from "@apollo/client";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "src/app/providers/auth-provider";
+import { useAuth } from "@/app/providers/auth-provider";
 import {
 	DiscountType,
 	getItemToLocalStorage,
-} from "src/shared/constants/global";
+} from "@/shared/constants/global";
 
 import { PromoBanner } from "@/components/buy-package/promo-banner";
 import Loader from "@/components/loader/loader";
 import { useActivePackages } from "@/shared/utils/use-active-packages";
 import { useMediaQuery } from "react-responsive";
-import DashboardCard from "./dashboard-card";
-import MyLessons from "./my-lessons";
-import MyProgress from "./my-progress";
-import ScheduleBanner from "./schedule-banner";
+import DashboardCard from "@/pages/students/student-dashboard/dashboard-card";
+import MyLessons from "@/pages/students/student-dashboard/my-lessons";
+import MyProgress from "@/pages/students/student-dashboard/my-progress";
+import ScheduleBanner from "@/pages/students/student-dashboard/schedule-banner";
 
 import { currencyFormat } from "@/shared/utils/currency-format";
 import { Link } from "react-router-dom";

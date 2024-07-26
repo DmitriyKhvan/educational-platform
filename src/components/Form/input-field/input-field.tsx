@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import cls from "./InputField.module.css";
+import cls from "@/components/form/input-field/input-field.module.css";
 
 const InputField = forwardRef(function InputField(
 	{

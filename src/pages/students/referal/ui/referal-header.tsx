@@ -1,4 +1,4 @@
-import purpleLogo from "src/shared/assets/images/logo_purple.svg";
+import purpleLogo from "@/shared/assets/images/logo_purple.svg";
 
 import Button from "@/components/form/button";
 import { useEffect, useState } from "react";

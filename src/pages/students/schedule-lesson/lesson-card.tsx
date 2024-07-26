@@ -1,6 +1,6 @@
 import Button from "@/components/form/button";
 import { ucFirst } from "@/shared/utils/uc-first";
-import React from "react";
+
 import { useTranslation } from "react-i18next";
 import { FaPencil } from "react-icons/fa6";
 

@@ -3,7 +3,7 @@ import { FaInstagram, FaLinkedin, FaPhone } from "react-icons/fa6";
 import { IoLogoFacebook, IoMdMail } from "react-icons/io";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { SiNaver } from "react-icons/si";
-import whiteLogo from "src/shared/assets/images/logo_white.svg";
+import whiteLogo from "@/shared/assets/images/logo_white.svg";
 
 function ReferalFooter() {
 	const quickLinks = [

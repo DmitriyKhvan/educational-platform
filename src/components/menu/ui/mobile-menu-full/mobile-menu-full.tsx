@@ -1,10 +1,10 @@
-import React from "react";
-import { useMenuList } from "../../lib/use-menuList";
-import { MobileMenuFullItem } from "./mobile-menu-full-item";
+
+import { useMenuList } from "@/components/menu/lib/use-menuList";
+import { MobileMenuFullItem } from "@/components/menu/ui/mobile-menu-full/mobile-menu-full-item";
 
 import { FaXmark } from "react-icons/fa6";
 import { ReferBanner } from "src/components/refer-banner";
-import { LangCurrencySwitcher } from "src/widgets/lang-currency-switcher";
+import { LangCurrencySwitcher } from "@/widgets/lang-currency-switcher";
 
 export const MobileMenuFull = ({ setOpen }) => {
 	const navLinks = useMenuList();

@@ -1,7 +1,7 @@
-import React from "react";
+
 import { Navigate } from "react-router-dom";
-import { Roles } from "src/shared/constants/global";
-import { useAuth } from "../../auth-provider";
+import { Roles } from "@/shared/constants/global";
+import { useAuth } from "@/app/providers/auth-provider/lib/use-auth";
 
 export const LoginRoute = ({ children }) => {
 	const { user } = useAuth();

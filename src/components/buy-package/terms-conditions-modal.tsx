@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import Button from "../form/button";
-import CheckboxField from "../form/checkbox-field";
+import Button from "@/components/form/button";
+import CheckboxField from "@/components/form/checkbox-field";
 
 export const TermsConditionsModal = ({
 	submitStripe,

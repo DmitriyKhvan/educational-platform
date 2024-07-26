@@ -1,7 +1,7 @@
 import { cn } from "@/shared/utils/functions";
-import React from "react";
-import { COURSE_COLORS, courseColorsDict } from "src/shared/constants/global";
-import { EventType } from "./lib/event-type";
+
+import { COURSE_COLORS, courseColorsDict } from "@/shared/constants/global";
+import { EventType } from "@/pages/mentors/availability/availability-calendar/events/lib/event-type";
 
 const WeeklyEvent = ({ data, eventInfo }) => {
 	return (

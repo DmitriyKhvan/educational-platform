@@ -1,5 +1,5 @@
-import { useMenuList } from "../lib/use-menuList";
-import { MenuItem } from "./menu-item";
+import { useMenuList } from "@/components/menu/lib/use-menuList";
+import { MenuItem } from "@/components/menu/ui/menu-item";
 
 export const Menu = () => {
 	const navLinks = useMenuList();

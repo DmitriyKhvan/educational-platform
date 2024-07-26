@@ -1,11 +1,11 @@
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import FormCard from "./form-card";
-import ReferalFooter from "./referal-footer";
-import ReferalHeader from "./referal-header";
-import ReferalIntro from "./referal-intro";
-import Reviews from "./reviews";
-import WhyNaoNow from "./why-naonow";
+import FormCard from "@/pages/students/referal/ui/form-card";
+import ReferalFooter from "@/pages/students/referal/ui/referal-footer";
+import ReferalHeader from "@/pages/students/referal/ui/referal-header";
+import ReferalIntro from "@/pages/students/referal/ui/referal-intro";
+import Reviews from "@/pages/students/referal/ui/reviews";
+import WhyNaoNow from "@/pages/students/referal/ui/why-naonow";
 
 const ReferalLanding = ({ student }) => {
 	const inputRef = useRef();

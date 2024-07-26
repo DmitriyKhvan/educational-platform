@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { SIGN_UP } from "../../shared/apollo/graphql";
+import { SIGN_UP } from "@/shared/apollo/graphql";
 
 import Button from "@/components/form/button";
-import Loader from "../../components/loader/loader";
+import Loader from "@/components/loader/loader";
 
 import InputField from "@/components/form/input-field";
 import InputWithError from "@/components/form/input-with-error";
@@ -17,8 +17,8 @@ import PhoneNumberField from "@/components/form/phone-number-field";
 import { SelectField } from "@/components/form/select-field";
 import notify from "@/shared/utils/notify";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
-import { useLogin } from "src/app/providers/auth-provider";
-import { timezoneOptions } from "src/shared/constants/global";
+import { useLogin } from "@/app/providers/auth-provider";
+import { timezoneOptions } from "@/shared/constants/global";
 // import MySelect from 'src/components/Form/MySelect';
 
 export default function Onboarding() {

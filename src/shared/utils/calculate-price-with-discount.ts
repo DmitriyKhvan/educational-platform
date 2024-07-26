@@ -1,4 +1,4 @@
-import { DiscountType } from "src/shared/constants/global";
+import { DiscountType } from "@/shared/constants/global";
 
 export const calculatePriceWithDiscount = (pkg) => {
 	const minimumPaymentAmount = 1000; //KRW

@@ -1,11 +1,11 @@
 import Loader from "@/components/loader/loader";
 import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
-import Navbar from "../../../components/navbar/navbar";
-import { Sidebar } from "../../../components/sidebar";
+import Navbar from "@/components/navbar/navbar";
+import { Sidebar } from "@/components/sidebar";
 
-import "src/app/styles/layout.scss";
-import { NotificationDialog } from "@/widgets/notification-dialog/ui/NotificationDialog";
+import "@/app/styles/layout.scss";
+import { NotificationDialog } from "@/widgets/notification-dialog/ui/notification-dialog";
 
 export const Layout = () => {
 	return (

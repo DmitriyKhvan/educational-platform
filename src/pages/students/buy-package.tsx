@@ -10,14 +10,14 @@ import { SessionsTime } from "@/components/buy-package/sessions-time";
 import { getTranslatedTitle } from "@/shared/utils/get-translated-title";
 import { useTranslation } from "react-i18next";
 import { FaCheck } from "react-icons/fa6";
-import { useAuth } from "src/app/providers/auth-provider";
-import { COURSES } from "src/shared/apollo/queries/courses/courses";
-import Loader from "../../components/loader/loader";
+import { useAuth } from "@/app/providers/auth-provider";
+import { COURSES } from "@/shared/apollo/queries/courses/courses";
+import Loader from "@/components/loader/loader";
 
 import { currencyFormat } from "@/shared/utils/currency-format";
 import { useMediaQuery } from "react-responsive";
-import { useCurrency } from "src/app/providers/currency-provider";
-import { Currencies, DiscountType } from "src/shared/constants/global";
+import { useCurrency } from "@/app/providers/currency-provider";
+import { Currencies, DiscountType } from "@/shared/constants/global";
 
 export default function BuyPackage() {
 	const isTablet = useMediaQuery({ minWidth: 1280 });

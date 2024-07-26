@@ -1,8 +1,8 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import FavIcon from "src/shared/assets/images/Favorite.png";
 
-import "./StudentsModal.scss";
+import { useParams } from "react-router-dom";
+import FavIcon from "@/shared/assets/images/Favorite.png";
+
+import "@/pages/mentors/students-list/students-modal.scss";
 
 const StudentsModal = ({ setShowStudentModal, studentId, studentList }) => {
 	const { id } = useParams();

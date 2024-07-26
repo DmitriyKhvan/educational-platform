@@ -2,24 +2,24 @@ import { cn } from "@/shared/utils/functions";
 import { isBetween } from "@/shared/utils/is-between";
 import { isWithinHours } from "@/shared/utils/is-within-hours";
 import { addMinutes, isAfter } from "date-fns";
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCheck, FaPlay, FaRegClock, FaStar } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "src/app/providers/auth-provider";
-import { MentorFeedbackModal } from "src/entities/mentor-feedback-modal";
-import { StudentReviewModal } from "src/entities/student-review-modal";
+import { useAuth } from "@/app/providers/auth-provider";
+import { MentorFeedbackModal } from "@/entities/mentor-feedback-modal";
+import { StudentReviewModal } from "@/entities/student-review-modal";
 import {
 	LessonsStatusType,
 	ModalType,
 	Roles,
-} from "src/shared/constants/global";
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog";
-import Button from "../form/button";
-import { CancelTrialLessonModal } from "./cancel-trial-lesson-modal";
-import LessonInfoModal from "./lesson-info-modal";
-import PlaygroundWarningModal from "./playground-warning-modal";
-import RescheduleAndCancelModal from "./reschedule-and-cancel-modal-rebranding";
+} from "@/shared/constants/global";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
+import Button from "@/components/form/button";
+import { CancelTrialLessonModal } from "@/components/student-dashboard/cancel-trial-lesson-modal";
+import LessonInfoModal from "@/components/student-dashboard/lesson-info-modal";
+import PlaygroundWarningModal from "@/components/student-dashboard/playground-warning-modal";
+import RescheduleAndCancelModal from "@/components/student-dashboard/reschedule-and-cancel-modal-rebranding";
 
 const LessonControls = ({
 	date,

@@ -1,6 +1,5 @@
-import React from "react";
 
-import "./Loader.css";
+import "@/components/loader/loader.css";
 
 export default function Loader({ height }) {
 	return (

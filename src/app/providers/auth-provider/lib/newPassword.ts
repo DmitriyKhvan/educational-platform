@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { NEW_PASSWORD_MUTATION } from "../../../../shared/apollo/graphql";
+import { NEW_PASSWORD_MUTATION } from "@/shared/apollo/graphql";
 
 export const useNewPassword = () => {
 	const [redeemUserPasswordResetToken, { loading, error, data }] = useMutation(

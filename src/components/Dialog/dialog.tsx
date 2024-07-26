@@ -1,10 +1,12 @@
-import React, { forwardRef, useState } from "react";
-import { FaXmark } from "react-icons/fa6";
+
+import { forwardRef, useState } from "react";
+
 import Modal from "react-modal";
 
-import "./Dialog.css";
+import './dialog.css';
+import { FaXmark } from "react-icons/fa6";
 
-Modal.setAppElement("#root");
+Modal.setAppElement('#root');
 
 export const MyDialog = forwardRef(function MyDialog(
 	{ open, setOpen, button, paddingContent = "40px 32px", children },

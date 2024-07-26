@@ -1,10 +1,10 @@
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useAuth } from "src/app/providers/auth-provider";
+import { useAuth } from "@/app/providers/auth-provider";
 
 import { useMutation } from "@apollo/client";
-import { MUTATION_UPDATE_STUDENT } from "../../../../shared/apollo/graphql";
-import notify from "../../../../shared/utils/notify";
+import { MUTATION_UPDATE_STUDENT } from "@/shared/apollo/graphql";
+import notify from "@/shared/utils/notify";
 
 import { BsPencil } from "react-icons/bs";
 
@@ -15,16 +15,16 @@ import { trimSpaces } from "@/shared/utils/trim-spaces";
 import { useTranslation } from "react-i18next";
 import { FaChevronLeft } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../../../../components/form/button/Button";
-import InputField from "../../../../components/form/input-field";
-import { SelectField } from "../../../../components/form/select-field";
+import Button from "@/components/form/button/button";
+import InputField from "@/components/form/input-field";
+import { SelectField } from "@/components/form/select-field";
 import {
 	countries,
 	genders,
 	getItemToLocalStorage,
 	timezoneOptions,
-} from "../../../../shared/constants/global";
-import { Avatar } from "../../../../widgets/avatar/Avatar";
+} from "@/shared/constants/global";
+import { Avatar } from "@/widgets/avataravatar";
 
 const EditProfileStudent = () => {
 	const navigate = useNavigate();

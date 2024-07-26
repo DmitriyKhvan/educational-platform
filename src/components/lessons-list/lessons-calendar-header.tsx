@@ -14,7 +14,7 @@ import {
 	CalendarView,
 	courseColorsDict,
 	localeDic,
-} from "src/shared/constants/global";
+} from "@/shared/constants/global";
 
 const LessonsCalendarHeader = ({ calendarRef }) => {
 	const [open, setOpen] = useState(false);

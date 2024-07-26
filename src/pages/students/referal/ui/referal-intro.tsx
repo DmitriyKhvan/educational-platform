@@ -1,12 +1,12 @@
 import AutoScroll from "embla-carousel-auto-scroll";
 import useEmblaCarousel from "embla-carousel-react";
 import { Trans, useTranslation } from "react-i18next";
-import botLeft from "src/shared/assets/images/samples/bot-left.jpg";
-import botMid from "src/shared/assets/images/samples/bot-mid.jpg";
-import botRight from "src/shared/assets/images/samples/bot-right.jpg";
-import topLeft from "src/shared/assets/images/samples/top-left.jpg";
-import topMid from "src/shared/assets/images/samples/top-mid.jpg";
-import topRight from "src/shared/assets/images/samples/top-right.jpg";
+import botLeft from "@/shared/assets/images/samples/bot-left.jpg";
+import botMid from "@/shared/assets/images/samples/bot-mid.jpg";
+import botRight from "@/shared/assets/images/samples/bot-right.jpg";
+import topLeft from "@/shared/assets/images/samples/top-left.jpg";
+import topMid from "@/shared/assets/images/samples/top-mid.jpg";
+import topRight from "@/shared/assets/images/samples/top-right.jpg";
 
 const imgs = [topLeft, topMid, topRight, botLeft, botMid, botRight];
 

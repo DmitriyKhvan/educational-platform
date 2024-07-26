@@ -1,10 +1,9 @@
 import { parse } from "date-fns";
 import { format } from "date-fns-tz";
-import React from "react";
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog/index.jsx";
-import { formatTime } from "../availiability/lib/format-time";
-import { formatTimeToSeconds } from "../availiability/lib/format-time-to-seconds";
-import { AvailabilityExceptionPicker } from "./availability-exception-picker";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog/index.jsx";
+import { formatTime } from "@/pages/mentors/availability/lib/format-time";
+import { formatTimeToSeconds } from "@/pages/mentors/availability/lib/format-time-to-seconds";
+import { AvailabilityExceptionPicker } from "@/pages/mentors/availability-exceptions/availability-exception-picker";
 
 export const AvailabilityExceptionModal = ({
 	availabilityExceptions,

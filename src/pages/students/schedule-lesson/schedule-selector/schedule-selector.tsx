@@ -4,10 +4,10 @@ import { ko as kr } from "date-fns/locale";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useSchedule } from "./schedule-provider";
+import { useSchedule } from "@/pages/students/schedule-lesson/schedule-selector/schedule-provider";
 
-import { Days } from "./days";
-import { TimesOfDay } from "./times-of-day";
+import { Days } from "@/pages/students/schedule-lesson/schedule-selector/days";
+import { TimesOfDay } from "@/pages/students/schedule-lesson/schedule-selector/times-of-day/times-of-day";
 
 import { IoArrowBack } from "react-icons/io5";
 

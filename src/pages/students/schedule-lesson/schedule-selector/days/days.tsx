@@ -9,8 +9,8 @@ import { format } from "date-fns-tz";
 import { memo, useEffect, useState } from "react";
 
 import { useTranslation } from "react-i18next";
-import { useSchedule } from "../schedule-provider";
-import { Day } from "./day";
+import { useSchedule } from "@/pages/students/schedule-lesson/schedule-selector/schedule-provider";
+import { Day } from "@/pages/students/schedule-lesson/schedule-selector/days/day";
 
 export const Days = memo(function Days({ startOfWeek, counter }) {
 	const [t] = useTranslation("availability");

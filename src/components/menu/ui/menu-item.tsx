@@ -1,12 +1,12 @@
-import React from "react";
+
 import { NavLink } from "react-router-dom";
 
 import Button from "@/components/form/button";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "src/app/providers/auth-provider";
-import { useNotifications } from "src/app/providers/notification-provider";
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog/index.jsx";
-import { Badge } from "../../badge";
+import { useAuth } from "@/app/providers/auth-provider";
+import { useNotifications } from "@/app/providers/notification-provider";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog/index.jsx";
+import { Badge } from "@/components/badge";
 
 export const MenuItem = ({ menu }) => {
 	const { currentStudent } = useAuth();

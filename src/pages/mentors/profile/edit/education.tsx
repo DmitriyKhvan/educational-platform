@@ -1,14 +1,13 @@
 import { useMutation } from "@apollo/client";
-import React from "react";
 import { useForm } from "react-hook-form";
 // import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
-import { useAuth } from "src/app/providers/auth-provider";
-import ReactLoader from "../../../../components/common/loader";
-import Button from "../../../../components/form/button/Button";
-import InputField from "../../../../components/form/input-field";
-import { MUTATION_UPDATE_MENTOR } from "../../../../shared/apollo/graphql";
-import notify from "../../../../shared/utils/notify";
+import { useAuth } from "@/app/providers/auth-provider";
+import ReactLoader from "@/components/common/loader";
+import Button from "@/components/form/button/button";
+import InputField from "@/components/form/input-field";
+import { MUTATION_UPDATE_MENTOR } from "@/shared/apollo/graphql";
+import notify from "@/shared/utils/notify";
 
 const Education = () => {
 	const [t] = useTranslation(["profile", "common"]);

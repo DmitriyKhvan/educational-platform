@@ -1,3 +1,3 @@
-import { MyDialog } from "./dialog";
+import { MyDialog } from "@/components/dialog/dialog";
 
 export { MyDialog };

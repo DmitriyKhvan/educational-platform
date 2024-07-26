@@ -1,5 +1,5 @@
 import React from "react";
-import { PageError } from "src/widgets/page-error";
+import { PageError } from "@/widgets/page-error";
 
 class ErrorBoundary extends React.Component {
 	constructor(props) {

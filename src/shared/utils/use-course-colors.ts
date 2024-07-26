@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { useCallback, useEffect, useState } from "react";
-import { COURSES } from "src/shared/apollo/queries/courses/courses";
-import { COURSE_COLORS, courseColorsDict } from "src/shared/constants/global";
+import { COURSES } from "@/shared/apollo/queries/courses/courses";
+import { COURSE_COLORS, courseColorsDict } from "@/shared/constants/global";
 
 let ready = false;
 let colorsIdx = 0;

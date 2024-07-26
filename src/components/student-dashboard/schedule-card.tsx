@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "src/app/providers/auth-provider";
-import PlaygroundWarningModal from "./playground-warning-modal";
-import RescheduleAndCancelModal from "./reschedule-and-cancel-modal";
+import { useAuth } from "@/app/providers/auth-provider";
+import PlaygroundWarningModal from "@/components/student-dashboard/playground-warning-modal";
+import RescheduleAndCancelModal from "@/components/student-dashboard/reschedule-and-cancel-modal";
 
 import { addMinutes } from "date-fns";
 import { format, toZonedTime } from "date-fns-tz";
-import { Avatar } from "src/widgets/avatar/Avatar";
+import { Avatar } from "@/widgets/avatar/avatar";
 import {
 	LessonsStatusType,
 	ModalType,
 	Roles,
-} from "../../shared/constants/global";
-import { isBetween } from "../../shared/utils/is-between";
+} from "@/shared/constants/global";
+import { isBetween } from "@/shared/utils/is-between";
 
 const ScheduleCard = ({
 	index,

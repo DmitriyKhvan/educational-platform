@@ -1,21 +1,19 @@
-// import { Lessons, Feedback } from './Lessons';
-// import { useAuth } from 'src/modules/auth';
 
 import { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import { TrialRoute } from "src/app/providers/router";
-import NotFoundPage from "../not-found-page";
+import { TrialRoute } from "@/app/providers/router";
+import NotFoundPage from "@/pages/not-found-page";
 
-const StudentDashboard = lazy(() => import("./student-dashboard"));
-const ScheduleLesson = lazy(() => import("./ScheduleLesson"));
+const StudentDashboard = lazy(() => import("@/pages/students/student-dashboard"));
+const ScheduleLesson = lazy(() => import("@/pages/students/schedule-lesson"));
 
-const Mentors = lazy(() => import("./mentors-list/mentors"));
-const Subscriptions = lazy(() => import("./subscriptions/subscriptions"));
-const Lessons = lazy(() => import("./lessons"));
-const Feedback = lazy(() => import("./feedback"));
-const StudentProfile = lazy(() => import("./profile/profile/student-profile"));
+const Mentors = lazy(() => import("@/pages/students/mentors-list/mentors"));
+const Subscriptions = lazy(() => import("@/pages/students/subscriptions/subscriptions"));
+const Lessons = lazy(() => import("@/pages/students/lessons"));
+const Feedback = lazy(() => import("@/pages/students/feedback"));
+const StudentProfile = lazy(() => import("@/pages/students/profile/profile/student-profile"));
 const EditProfileStudent = lazy(
-	() => import("./profile/editInfo/EditStudentProfile"),
+	() => import("@/pages/students/profile/edit-info/edit-student-profile"),
 );
 
 export default function StudentRoutes() {

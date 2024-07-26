@@ -1,10 +1,9 @@
-import React from "react";
 
 import { useTranslation } from "react-i18next";
 
 import { FaRegCircleCheck } from "react-icons/fa6";
 
-const images = import.meta.glob("src/shared/assets/images/samples/*.jpg", {
+const images = import.meta.glob("@/shared/assets/images/samples/*.jpg", {
 	eager: true,
 	as: "url",
 });

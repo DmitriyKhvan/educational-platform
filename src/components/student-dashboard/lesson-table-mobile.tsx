@@ -1,5 +1,5 @@
-import React from "react";
-import ScheduleCard from "./schedule-card-rebranding";
+
+import ScheduleCard from "@/components/student-dashboard/schedule-card-rebranding";
 
 export const LessonTableMobile = ({ displayTableData, getAppointments }) => {
 	return (

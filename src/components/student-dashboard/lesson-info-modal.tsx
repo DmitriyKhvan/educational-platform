@@ -4,14 +4,14 @@ import { addMinutes, format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
 import { useTranslation } from "react-i18next";
 import { PiStarFourFill } from "react-icons/pi";
-import { useAuth } from "src/app/providers/auth-provider";
-import { Roles, localeDic } from "src/shared/constants/global";
-import { Avatar } from "src/widgets/avatar/Avatar";
-import Indicator from "../indicator";
+import { useAuth } from "@/app/providers/auth-provider";
+import { Roles, localeDic } from "@/shared/constants/global";
+import { Avatar } from "@/widgets/avatar/avatar";
+import Indicator from "@/components/indicator";
 import { PlaygroundRecordingModal } from "../playground-recording-modal";
-import LabelBox from "./label-box";
-import LessonControls from "./lesson-controls";
-import StatusIndicator from "./status-indicator";
+import LabelBox from "@/components/student-dashboard/label-box";
+import LessonControls from "@/components/student-dashboard/lesson-controls";
+import StatusIndicator from "@/components/student-dashboard/status-indicator";
 
 const LessonInfoModal = ({
 	date,

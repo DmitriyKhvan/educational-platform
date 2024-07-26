@@ -1,1 +1,1 @@
-export { DayPickerCustom } from "./day-picker-custom.jsx/index.js";
+export { DayPickerCustom } from "@/components/day-picker-custom/day-picker-custom";

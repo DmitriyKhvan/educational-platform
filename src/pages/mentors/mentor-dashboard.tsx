@@ -2,12 +2,12 @@ import { useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { useAuth } from "src/app/providers/auth-provider";
-import ImgCalendar from "src/shared/assets/images/calendar_icon.svg";
-import Loader from "../../components/common/loader";
-import ScheduleCard from "../../components/student-dashboard/schedule-card";
-import { APPOINTMENTS_QUERY } from "../../shared/apollo/graphql";
-import "src/app/styles/dashboard.scss";
+import { useAuth } from "@/app/providers/auth-provider";
+import ImgCalendar from "@/shared/assets/images/calendar_icon.svg";
+import Loader from "@/components/common/loader";
+import ScheduleCard from "@/components/student-dashboard/schedule-card";
+import { APPOINTMENTS_QUERY } from "@/shared/apollo/graphql";
+import "@/app/styles/dashboard.scss";
 import {
 	addMinutes,
 	endOfDay,
@@ -17,7 +17,7 @@ import {
 	startOfDay,
 	subMinutes,
 } from "date-fns";
-import LevelAfterTrialModal from "./level-after-trial-modal";
+import LevelAfterTrialModal from "@/pages/mentors/level-after-trial-modal";
 
 const MentorDashboard = () => {
 	const [t] = useTranslation("dashboard");

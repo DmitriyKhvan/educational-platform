@@ -1,7 +1,7 @@
 import { addMinutes } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
-import { CalendarView, DAY } from "src/shared/constants/global";
-import { EventType } from "./event-type";
+import { CalendarView, DAY } from "@/shared/constants/global";
+import { EventType } from "@/pages/mentors/availability/availability-calendar/events/lib/event-type";
 
 export function renderSingleEvents({
 	appointments,

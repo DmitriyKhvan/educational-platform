@@ -5,12 +5,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ClipLoader } from "react-spinners";
 
-import Button from "../../components/form/button/Button";
-import InputWithError from "../../components/form/input-with-error";
+import Button from "@/components/form/button/button";
+import InputWithError from "@/components/form/input-with-error";
 
-import { useResetPassword } from "src/app/providers/auth-provider";
-import InputField from "../../components/form/input-field";
-import notify from "../../shared/utils/notify";
+import { useResetPassword } from "@/app/providers/auth-provider";
+import InputField from "@/components/form/input-field";
+import notify from "@/shared/utils/notify";
 
 const ForgotPassword = () => {
 	const { t, i18n } = useTranslation("common");

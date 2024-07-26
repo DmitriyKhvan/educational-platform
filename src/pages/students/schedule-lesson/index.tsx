@@ -1,20 +1,20 @@
 import { useQuery } from "@apollo/client";
 import React, { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { LESSON_QUERY } from "../../../shared/apollo/graphql";
-import SelectLesson from "./SelectLesson";
-import LessonConfirmation from "./lesson-confirmation";
-import { ScheduleSelector } from "./schedule-selector";
-import SelectMentorCards from "./select-mentor-cards";
+import { LESSON_QUERY } from "@/shared/apollo/graphql";
+import SelectLesson from "@/pages/students/schedule-lesson/select-lesson";
+import LessonConfirmation from "@/pages/students/schedule-lesson/lesson-confirmation";
+import { ScheduleSelector } from "@/pages/students/schedule-lesson/schedule-selector";
+import SelectMentorCards from "@/pages/students/schedule-lesson/select-mentor-cards";
 
-import "src/app/styles/tutor.scss";
-import { ScheduleProvider } from "src/pages/students/ScheduleLesson/ScheduleSelector/ScheduleProvider";
-import { AvailableTimes } from "./schedule-selector/available-times";
+import "@/app/styles/tutor.scss";
+import { ScheduleProvider } from "@/pages/students/schedule-lesson/schedule-selector/schedule-provider"; 
+import { AvailableTimes } from "@/pages/students/schedule-lesson/schedule-selector/available-times";
 
 import { COMBINED_TIMESHEETS } from "@/shared/apollo/queries/combined-timesheets";
 import { COMBINED_TIMESHEETS_TRIAL } from "@/shared/apollo/queries/trial/combined-time-sheets-for-trials";
-import { useAuth } from "src/app/providers/auth-provider";
-import ScheduleSuccess from "./schedule-success";
+import { useAuth } from "@/app/providers/auth-provider";
+import ScheduleSuccess from "@/pages/students/schedule-lesson/schedule-success";
 
 const ScheduleLesson = () => {
 	const { currentStudent } = useAuth();

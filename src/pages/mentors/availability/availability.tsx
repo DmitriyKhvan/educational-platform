@@ -2,8 +2,8 @@ import Button from "@/components/form/button";
 import { useState } from "react";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { FaListUl } from "react-icons/fa6";
-import { AvailabilityCalendar } from "./availability-calendar";
-import { AvailabilityList } from "./availability-list";
+import { AvailabilityCalendar } from "@/pages/mentors/availability/availability-calendar";
+import { AvailabilityList } from "@/pages/mentors/availability/availability-list";
 
 const Availability = () => {
 	const [availabilityView, setAvailabilityView] = useState("list");

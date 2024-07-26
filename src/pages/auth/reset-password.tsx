@@ -3,14 +3,14 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
-import AuthLayout from "../../components/auth-layout";
+import AuthLayout from "@/components/auth-layout";
 
-import Button from "../../components/form/button/Button";
-import InputField from "../../components/form/input-field";
-import InputWithError from "../../components/form/input-with-error";
+import Button from "@/components/form/button/button";
+import InputField from "@/components/form/input-field";
+import InputWithError from "@/components/form/input-with-error";
 
-import { useNewPassword } from "src/app/providers/auth-provider";
-import notify from "../../shared/utils/notify";
+import { useNewPassword } from "@/app/providers/auth-provider";
+import notify from "@/shared/utils/notify";
 
 const ResetPassword = () => {
 	const navigate = useNavigate();

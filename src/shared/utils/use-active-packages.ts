@@ -1,7 +1,7 @@
 import { PACKAGE_QUERY } from "@/shared/apollo/graphql";
 import { useQuery } from "@apollo/client";
 import { useMemo, useState } from "react";
-import { getItemToLocalStorage } from "src/shared/constants/global";
+import { getItemToLocalStorage } from "@/shared/constants/global";
 
 export const useActivePackages = () => {
 	const [isLoading, setIsLoading] = useState(true);

@@ -14,9 +14,9 @@ import { format, toZonedTime } from "date-fns-tz";
 import notify from "@/shared/utils/notify";
 import { scrollToElement } from "@/shared/utils/scroll-to-element";
 import { useDebounce } from "@/shared/utils/use-debounce";
-import { useAuth } from "src/app/providers/auth-provider";
-import { getItemToLocalStorage } from "src/shared/constants/global";
-import { ScheduleContext } from "../lib/schedule-context";
+import { useAuth } from "@/app/providers/auth-provider";
+import { getItemToLocalStorage } from "@/shared/constants/global";
+import { ScheduleContext } from "@/pages/students/schedule-lesson/schedule-selector/schedule-provider/lib/schedule-context";
 
 export const ScheduleProvider = ({
 	query,

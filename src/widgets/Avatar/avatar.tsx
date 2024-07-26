@@ -1,8 +1,8 @@
 import { FaUserLarge } from "react-icons/fa6";
-import duckAvatar from "src/shared/assets/images/avatars/duck-avatar.png";
+import duckAvatar from "@/shared/assets/images/avatars/duck-avatar.png";
 
 import { cn } from "@/shared/utils/functions";
-import cls from "./Avatar.module.css";
+import cls from "@/widgets/avatar/avatar.module.css";
 
 export const Avatar = ({
 	avatarUrl,

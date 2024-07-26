@@ -1,6 +1,6 @@
 import { intervalToDuration } from "date-fns";
-import { CalendarView, DAY } from "src/shared/constants/global";
-import { EventType } from "./event-type";
+import { CalendarView, DAY } from "@/shared/constants/global";
+import { EventType } from "@/pages/mentors/availability/availability-calendar/events/lib/event-type";
 
 const rruleWeekdays = ["su", "mo", "tu", "we", "th", "fr", "sa"];
 

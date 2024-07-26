@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import React from "react";
+
 import { FaXmark } from "react-icons/fa6";
 
 export const MyDialog = ({ open, setOpen, button, children, hideCloseBtn }) => {

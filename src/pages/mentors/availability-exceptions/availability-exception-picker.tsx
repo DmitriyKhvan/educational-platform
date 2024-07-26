@@ -1,11 +1,11 @@
 import { addMinutes, format, parse } from "date-fns";
 import { useMemo, useState } from "react";
-import { AvailabilityExceptionSlot } from "./availability-exception-slot";
+import { AvailabilityExceptionSlot } from "@/pages/mentors/availability-exceptions/availability-exception-slot";
 
 import Button from "@/components/form/button";
 import * as Dialog from "@radix-ui/react-dialog";
 import { LuPlus } from "react-icons/lu";
-import { DayPickerCustom } from "src/components/day-picker-custom";
+import { DayPickerCustom } from "@/components/day-picker-custom";
 import { v4 as uuid } from "uuid";
 
 export const AvailabilityExceptionPicker = ({

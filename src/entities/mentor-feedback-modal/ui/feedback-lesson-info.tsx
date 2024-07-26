@@ -16,9 +16,9 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaAngleDown } from "react-icons/fa6";
 import Select from "react-select";
-import { useAuth } from "src/app/providers/auth-provider";
-import { localeDic } from "src/shared/constants/global";
-import { Avatar } from "src/widgets/avatar/Avatar";
+import { useAuth } from "@/app/providers/auth-provider";
+import { localeDic } from "@/shared/constants/global";
+import { Avatar } from "@/widgets/avatar/avatar";
 
 function FeedbackLessonInfo({
 	data,

@@ -2,9 +2,9 @@ import Button from "@/components/form/button";
 import React, { memo, useMemo } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
-import { useNotifications } from "src/app/providers/notification-provider";
-import { ModalConfirm } from "src/entities/modal-confirm";
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog/index.jsx";
+import { useNotifications } from "@/app/providers/notification-provider";
+import { ModalConfirm } from "@/entities/modal-confirm";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog/index.jsx";
 export const NotificationDialog = memo(function NotificationDialog() {
 	const isMobile = useMediaQuery({ maxWidth: 639 });
 	const { notifications, removeNotifications } = useNotifications();

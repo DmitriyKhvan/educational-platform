@@ -1,14 +1,14 @@
 import { COMBINED_TIMESHEETS_TRIAL } from "@/shared/apollo/queries/trial/combined-time-sheets-for-trials";
 import { useEffect, useState } from "react";
-import { ScheduleSelector } from "src/pages/students/ScheduleLesson/ScheduleSelector";
-import { AvailableTimes } from "src/pages/students/ScheduleLesson/ScheduleSelector/AvailableTimes";
-import { ScheduleProvider } from "src/pages/students/ScheduleLesson/ScheduleSelector/ScheduleProvider";
-import Confirmation from "./confirmation";
-import LessonDetails from "./lesson-details";
-import OnboardingTrial from "./onboarding-trial";
-import StepIndicator from "./step-indicator";
+import { ScheduleSelector } from "@/pages/students/schedule-lesson/schedule-selector";
+import { AvailableTimes } from "@/pages/students/schedule-lesson/schedule-selector/available-times/available-times";
+import { ScheduleProvider } from "@/pages/students/schedule-lesson/schedule-selector/schedule-provider";
+import Confirmation from "@/pages/students/trial/confirmation";
+import LessonDetails from "@/pages/students/trial/lesson-details";
+import OnboardingTrial from "@/pages/students/trial/onboarding-trial";
+import StepIndicator from "@/pages/students/trial/step-indicator";
 
-import { useAuth } from "src/app/providers/auth-provider";
+import { useAuth } from "@/app/providers/auth-provider";
 
 const Trial = () => {
 	const { user: currentUser } = useAuth();

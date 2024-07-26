@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Button from "@/components/form/button";
@@ -14,8 +14,8 @@ import { useMutation } from "@apollo/client";
 import { addMinutes } from "date-fns";
 import { format, toZonedTime } from "date-fns-tz";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "src/app/providers/auth-provider";
-import { localeDic, setItemToLocalStorage } from "src/shared/constants/global";
+import { useAuth } from "@/app/providers/auth-provider";
+import { localeDic, setItemToLocalStorage } from "@/shared/constants/global";
 
 const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
 	const navigate = useNavigate();

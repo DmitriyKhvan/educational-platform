@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "src/app/providers/auth-provider";
-import { Language, Roles, languagesDic } from "src/shared/constants/global";
+import { useAuth } from "@/app/providers/auth-provider";
+import { Language, Roles, languagesDic } from "@/shared/constants/global";
 
 export const useCurrentLang = () => {
 	const { user } = useAuth();

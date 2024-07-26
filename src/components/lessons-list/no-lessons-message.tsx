@@ -1,8 +1,8 @@
-import React from "react";
+
 import { Trans, useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { useAuth } from "src/app/providers/auth-provider";
-import { Roles } from "src/shared/constants/global";
+import { useAuth } from "@/app/providers/auth-provider";
+import { Roles } from "@/shared/constants/global";
 
 const NoLessonsMessage = ({ selectedTab, availableCredits }) => {
 	const [t] = useTranslation(["lessons"]);

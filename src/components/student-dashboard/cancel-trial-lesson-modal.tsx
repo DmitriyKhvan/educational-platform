@@ -3,8 +3,8 @@ import notify from "@/shared/utils/notify";
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import Button from "../form/button";
-import Loader from "../loader/loader";
+import Button from "@/components/form/button";
+import Loader from "@/components/loader/loader";
 
 export const CancelTrialLessonModal = ({
 	data,

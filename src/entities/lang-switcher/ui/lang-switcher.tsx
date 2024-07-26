@@ -5,11 +5,11 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import {
 	languagesDic,
 	setItemToLocalStorage,
-} from "src/shared/constants/global";
-import { useCurrentLang } from "..";
-import MyDropdownMenu from "../../../components/dropdown-menu";
-import Button from "../../../components/form/button";
-import CheckboxField from "../../../components/form/checkbox-field";
+} from "@/shared/constants/global";
+import { useCurrentLang } from "@/entities/lang-switcher/lib/use-current-lang";
+import MyDropdownMenu from "@/components/dropdown-menu";
+import Button from "@/components/form/button";
+import CheckboxField from "@/components/form/checkbox-field";
 // import { VscGlobe } from 'react-icons/vsc';
 
 export const LangSwitcher = ({ currentLang, theme = "default" }) => {

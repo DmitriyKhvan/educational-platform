@@ -2,8 +2,8 @@ import { Suspense } from "react";
 import { Link, Outlet } from "react-router-dom";
 
 import Loader from "@/components/loader/loader";
-import Logo from "src/shared/assets/images/logo_purple.svg";
-import { LangCurrencySwitcher } from "src/widgets/lang-currency-switcher";
+import Logo from "@/shared/assets/images/logo_purple.svg";
+import { LangCurrencySwitcher } from "@/widgets/lang-currency-switcher";
 
 export const OnboardingLayout = () => {
 	return (

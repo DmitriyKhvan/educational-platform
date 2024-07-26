@@ -16,7 +16,7 @@ import {
 	studentMentorCh,
 	translationsCh,
 	trialCh,
-} from "src/shared/assets/lang/ch";
+} from "@/shared/assets/lang/ch";
 import {
 	availabilityEn,
 	commonEn,
@@ -33,7 +33,7 @@ import {
 	studentMentorEn,
 	translationsEn,
 	trialEn,
-} from "src/shared/assets/lang/en";
+} from "@/shared/assets/lang/en";
 import {
 	availabilityKr,
 	commonKr,
@@ -50,9 +50,9 @@ import {
 	studentMentorKr,
 	translationsKr,
 	trialKr,
-} from "src/shared/assets/lang/kr";
+} from "@/shared/assets/lang/kr";
 
-import { Language } from "src/shared/constants/global";
+import { Language } from "@/shared/constants/global";
 
 i18next.init({
 	interpolation: { escapeValue: false }, // React already does escaping

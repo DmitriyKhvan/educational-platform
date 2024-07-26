@@ -7,8 +7,8 @@ import { useTranslation } from "react-i18next";
 
 import Loader from "@/components/loader/loader";
 import { IoArrowBack } from "react-icons/io5";
-import { getItemToLocalStorage } from "src/shared/constants/global";
-import { MentorsView } from "../mentors-list/MentorsView";
+import { getItemToLocalStorage } from "@/shared/constants/global";
+import { MentorsView } from "@/pages/students/mentors-list/mentors-view";
 
 const useAvailableMentors = (isoTime, duration, studentId) => {
 	const {

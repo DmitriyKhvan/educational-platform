@@ -2,8 +2,8 @@ import { cn } from "@/shared/utils/functions";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaArrowLeft } from "react-icons/fa6";
-import Feedback from "./feedback";
-import FeedbackLessonInfo from "./feedback-lesson-info";
+import Feedback from "@/entities/mentor-feedback-modal/ui/feedback";
+import FeedbackLessonInfo from "@/entities/mentor-feedback-modal/ui/feedback-lesson-info";
 
 export const MentorFeedbackModal = ({ data, closeModal }) => {
 	const [t] = useTranslation(["common"]);

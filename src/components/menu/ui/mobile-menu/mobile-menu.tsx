@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { MdMoreHoriz } from "react-icons/md";
-import { MyDrawer } from "../../../drawer";
-import { useMenuList } from "../../lib/use-menuList";
-import { MobileMenuFull } from "../mobile-menu-full";
-import { MobileMenuItem } from "./mobile-menu-item";
+import { MyDrawer } from "@/components/drawer";
+import { useMenuList } from "@/components/menu/lib/use-menuList";
+import { MobileMenuFull } from "@/components/menu/ui/mobile-menu-full";
+import { MobileMenuItem } from "@/components/menu/ui/mobile-menu/mobile-menu-item";
 
 export const MobileMenu = () => {
 	const navLinks = useMenuList();

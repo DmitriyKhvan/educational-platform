@@ -1,14 +1,14 @@
 import { useMutation } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "src/app/providers/auth-provider";
-import Loader from "../../../components/common/loader";
+import { useAuth } from "@/app/providers/auth-provider";
+import Loader from "@/components/common/loader";
 import {
 	CREATE_APPOINTMENT,
 	UPDATE_APPOINTMENT,
-} from "../../../shared/apollo/graphql";
-import LessonCard from "./lesson-card";
-import ScheduleCard from "./schedule-card";
+} from "@/shared/apollo/graphql";
+import LessonCard from "@/pages/students/schedule-lesson/lesson-card";
+import ScheduleCard from "@/pages/students/schedule-lesson/schedule-card";
 
 import Button from "@/components/form/button";
 import { getTranslatedTitle } from "@/shared/utils/get-translated-title";
@@ -20,11 +20,11 @@ import koLocale from "date-fns/locale/ko";
 import { AiOutlineInfo } from "react-icons/ai";
 import { IoArrowBack } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { getItemToLocalStorage } from "src/shared/constants/global";
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog";
-import CheckboxField from "../../../components/form/checkbox-field";
-import MentorImageRow from "./mentor-image-row";
-import NotEnoughCreditsModal from "./not-enough-credits-modal";
+import { getItemToLocalStorage } from "@/shared/constants/global";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
+import CheckboxField from "@/components/form/checkbox-field";
+import MentorImageRow from "@/pages/students/schedule-lesson/mentor-image-row";
+import NotEnoughCreditsModal from "@/pages/students/schedule-lesson/not-enough-credits-modal";
 
 const LessonConfirmation = ({
 	plan,

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { UPSERT_EXCEPTION_DATES } from "@/shared/apollo/mutations/upsert-exception-dates";
 import { useMutation } from "@apollo/client";
 import { parse } from "date-fns";
-import { useAuth } from "src/app/providers/auth-provider";
+import { useAuth } from "@/app/providers/auth-provider";
 import { v4 as uuid } from "uuid";
 
 import Button from "@/components/form/button";
@@ -14,13 +14,13 @@ import { format } from "date-fns-tz";
 import { IoIosWarning } from "react-icons/io";
 // import Swal from 'sweetalert2';
 import { LuPlus } from "react-icons/lu";
-import { ModalConfirm } from "src/entities/modal-confirm";
-import { AdaptiveDialog } from "src/shared/ui/adaptive-dialog/index.jsx";
-import { formatTime } from "../availiability/lib/format-time";
-import { formatTimeToSeconds } from "../availiability/lib/format-time-to-seconds";
-import { parseErrorMessage } from "../availiability/lib/parse-error-message";
-import { AvailabilityException } from "./availability-exception";
-import { AvailabilityExceptionPicker } from "./availability-exception-picker";
+import { ModalConfirm } from "@/entities/modal-confirm";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog/index.jsx";
+import { formatTime } from "@/pages/mentors/availability/lib/format-time";
+import { formatTimeToSeconds } from "@/pages/mentors/availability/lib/format-time-to-seconds";
+import { parseErrorMessage } from "@/pages/mentors/availability/lib/parse-error-message";
+import { AvailabilityException } from "@/pages/mentors/availability-exceptions/availability-exception";
+import { AvailabilityExceptionPicker } from "@/pages/mentors/availability-exceptions/availability-exception-picker";
 
 export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
 	const [errorExceptionalDates, setErrorExceptionalDates] = useState();

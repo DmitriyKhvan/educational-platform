@@ -6,9 +6,9 @@ import notify from "@/shared/utils/notify";
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
-import { useAuth } from "src/app/providers/auth-provider";
-import { useCurrency } from "src/app/providers/currency-provider";
-import { currenciesDic } from "src/shared/constants/global";
+import { useAuth } from "@/app/providers/auth-provider";
+import { useCurrency } from "@/app/providers/currency-provider";
+import { currenciesDic } from "@/shared/constants/global";
 
 export const CurrencySwitcher = () => {
 	const { user } = useAuth();

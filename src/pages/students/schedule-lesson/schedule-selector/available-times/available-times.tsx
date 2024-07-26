@@ -12,8 +12,8 @@ import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoArrowBack } from "react-icons/io5";
 import Swal from "sweetalert2";
-import { useSchedule } from "../schedule-provider";
-import { ScheduleCard } from "./schedule-card";
+import { useSchedule } from "@/pages/students/schedule-lesson/schedule-selector/schedule-provider";
+import { ScheduleCard } from "@/pages/students/schedule-lesson/schedule-selector/available-times/schedule-card";
 
 export const AvailableTimes = memo(function AvailableTimes() {
 	const {

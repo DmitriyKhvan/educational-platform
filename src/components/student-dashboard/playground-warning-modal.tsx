@@ -1,6 +1,5 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
-import ModalWrapper from "../modal-wrapper/modal-wrapper";
+import ModalWrapper from "@/components/modal-wrapper/modal-wrapper";
 
 const PlaygroundWarningModal = ({ isWarningOpen, closeModal }) => {
 	const [t] = useTranslation("modals");

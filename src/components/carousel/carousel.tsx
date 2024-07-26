@@ -1,12 +1,12 @@
 import useEmblaCarousel from "embla-carousel-react";
-import React from "react";
-import { CarouselCard } from "./carousel-card";
+
+import { CarouselCard } from "@/components/carousel/carousel-card";
 import {
 	NextButton,
 	PrevButton,
 	usePrevNextButtons,
-} from "./embla-carousel-arrow-buttons";
-import { DotButton, useDotButton } from "./embla-carousel-dot-button";
+} from "@/components/carousel/embla-carousel-arrow-buttons";
+import { DotButton, useDotButton } from "@/components/carousel/embla-carousel-dot-button";
 
 export const EmblaCarousel = (props) => {
 	const { slides, options } = props;

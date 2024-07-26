@@ -1,1 +1,1 @@
-export { MobileMenu } from "./mobile-menu";
+export { MobileMenu } from "@/components/menu/ui/mobile-menu/mobile-menu";

@@ -2,7 +2,6 @@ import Button from "@/components/form/button";
 import { GENERATE_REFERRAL_LINK } from "@/shared/apollo/mutations/referral-codes";
 import notify from "@/shared/utils/notify";
 import { useMutation } from "@apollo/client";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { FaCopy } from "react-icons/fa";
 import {
@@ -10,8 +9,8 @@ import {
 	IoSquareSharp,
 	IoTriangleSharp,
 } from "react-icons/io5";
-import { getItemToLocalStorage } from "src/shared/constants/global";
-import { InfoItem } from "./info-item";
+import { getItemToLocalStorage } from "@/shared/constants/global";
+import { InfoItem } from "@/components/refer-banner/ui/info-item";
 
 export const Info = () => {
 	const { t } = useTranslation(["refer"]);

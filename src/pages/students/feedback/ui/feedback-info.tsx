@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { useMediaQuery } from "react-responsive";
 import StarRatings from "react-star-ratings";
-import { overviewFieldsDic } from "src/shared/constants/global";
-import { Avatar } from "src/widgets/avatar/Avatar";
+import { overviewFieldsDic } from "@/shared/constants/global";
+import { Avatar } from "@/widgets/avatar/avatar";
 
 function FeedbackInfo({ data }) {
 	const [t] = useTranslation(["feedback"]);

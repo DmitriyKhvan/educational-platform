@@ -3,7 +3,7 @@ import { ACCEPT_NEW_STUDENTS } from "@/shared/apollo/mutations/accept-new-studen
 import notify from "@/shared/utils/notify";
 import { useMutation } from "@apollo/client";
 import * as Switch from "@radix-ui/react-switch";
-import { useAuth } from "src/app/providers/auth-provider";
+import { useAuth } from "@/app/providers/auth-provider";
 
 export const AcceptingStudents = () => {
 	const { user, refetchUser } = useAuth();

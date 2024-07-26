@@ -1,10 +1,10 @@
 import { isWithinHours } from "@/shared/utils/is-within-hours";
 import { format } from "date-fns";
 import { toZonedTime } from "date-fns-tz";
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { FaXmark } from "react-icons/fa6";
-import { useAuth } from "src/app/providers/auth-provider";
+import { useAuth } from "@/app/providers/auth-provider";
 import {
 	MAX_MODIFY_COUNT,
 	ModalType,

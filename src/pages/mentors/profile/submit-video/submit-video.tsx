@@ -7,12 +7,12 @@ import { useTranslation } from "react-i18next";
 import { FaVimeo, FaYoutube } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
-import { useAuth } from "src/app/providers/auth-provider";
-import Button from "../../../../components/form/button";
-import InputField from "../../../../components/form/input-field";
-import InputWithError from "../../../../components/form/input-with-error";
-import { MUTATION_UPDATE_MENTOR } from "../../../../shared/apollo/graphql";
-import notify from "../../../../shared/utils/notify";
+import { useAuth } from "@/app/providers/auth-provider";
+import Button from "@/components/form/button";
+import InputField from "@/components/form/input-field";
+import InputWithError from "@/components/form/input-with-error";
+import { MUTATION_UPDATE_MENTOR } from "@/shared/apollo/graphql";
+import notify from "@/shared/utils/notify";
 
 const SubmitVideo = () => {
 	const navigate = useNavigate();

@@ -3,9 +3,9 @@ import { currencyFormat } from "@/shared/utils/currency-format";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { useCurrency } from "src/app/providers/currency-provider";
-import { calculatePriceWithDiscount } from "src/shared/utils/calculate-price-with-discount";
-import CheckboxField from "../form/checkbox-field";
+import { useCurrency } from "@/app/providers/currency-provider";
+import { calculatePriceWithDiscount } from "@/shared/utils/calculate-price-with-discount";
+import CheckboxField from "@/components/form/checkbox-field";
 
 export const Packages = memo(function Packages({
 	filteredPackage,

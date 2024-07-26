@@ -3,7 +3,7 @@ import { GET_USER_NOTIFICATIONS } from "@/shared/apollo/queries/notifications";
 import { NEW_MESSAGES } from "@/shared/apollo/subscriptions/new-messages";
 import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
 import { useEffect, useState } from "react";
-import { NotificationContext } from "../lib/notification-context";
+import { NotificationContext } from "@/app/providers/notification-provider/lib/notification-context";
 
 export const NotificationProvider = ({ children }) => {
 	const [notifications, setNotification] = useState([]);

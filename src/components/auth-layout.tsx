@@ -1,7 +1,6 @@
-import React from "react";
-import "src/app/styles/auth.scss";
-import Butterfly from "src/shared/assets/images/butterfly.svg";
-import Logo from "src/shared/assets/images/logo_purple.svg";
+import "@/app/styles/auth.scss";
+import Butterfly from "@/shared/assets/images/butterfly.svg";
+import Logo from "@/shared/assets/images/logo_purple.svg";
 
 const AuthLayout = ({ children }) => {
 	return (

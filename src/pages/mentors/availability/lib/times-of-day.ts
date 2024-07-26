@@ -1,5 +1,5 @@
-import { formatTimeToSeconds } from "./format-time-to-seconds";
-import { timeOptions } from "./time-options";
+import { formatTimeToSeconds } from "@/pages/mentors/availability/lib/format-time-to-seconds";
+import { timeOptions } from "@/pages/mentors/availability/lib/time-options";
 
 export const timesOfDay = (availabilities, day) => {
 	// available time slots
