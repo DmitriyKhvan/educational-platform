@@ -22,8 +22,6 @@ export const MatchingInfo = () => {
   const [t] = useTranslation(['common']);
   const { user, refetchUser } = useAuth();
 
-  console.log('user', user);
-
   const {
     id: matchingId,
     energy,

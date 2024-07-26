@@ -13,10 +13,12 @@ import {
 import { Tag } from 'src/entities/Questionnaire/ui/Tag';
 import MentorsModal from 'src/pages/Students/MentorsList/MentorsModal';
 import { Avatar } from 'src/widgets/Avatar/Avatar';
+import certificates from 'src/shared/assets/images/certificates.png';
 import certificate from 'src/shared/assets/images/certificate.png';
 
 export const TopMentorCard = ({ mentor }) => {
   const { fullName, matchingProfile } = mentor;
+
   const [t] = useTranslation(['common']);
   return (
     <div className="w-full min-[400px]:w-[280px] space-y-5 p-5 rounded-[10px] border border-gray-100 shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.08)]">
@@ -25,10 +27,26 @@ export const TopMentorCard = ({ mentor }) => {
           <span className="text-lg font-bold text-color-dark-purple">
             {fullName}
           </span>
-          <span className="flex items-center text-[rgba(0,_217,_134,_1)] gap-[2px]">
-            <img src={certificate} alt="certificate" className="w-7" />
+          <span className="flex items-center text-[rgba(0,_217,_134,_1)]">
+            {matchingProfile?.certifications?.length > 0 && (
+              <>
+                <img
+                  src={
+                    matchingProfile?.certifications?.length === 1
+                      ? certificate
+                      : certificates
+                  }
+                  alt="certificate"
+                />
 
-            <span className="text-[13px]">TESOL, TEFL certified</span>
+                <span className="text-[13px]">
+                  {matchingProfile?.certifications
+                    .map((item) => item.certification)
+                    .join(', ')}{' '}
+                  certified
+                </span>
+              </>
+            )}
           </span>
         </div>
         <Avatar className="w-[56px] h-[56px] rounded-s-lg overflow-hidden"></Avatar>

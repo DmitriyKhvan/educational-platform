@@ -5,8 +5,6 @@ import { Steps } from './Steps';
 export const Questionnaire = () => {
   const questionnaire = JSON.parse(localStorage.getItem('questionnaire'));
 
-  console.log('questionnaire', questionnaire);
-
   const { page: currentPage } = questionnaire || {};
 
   const [page, setPage] = useState(currentPage || 'start');

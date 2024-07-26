@@ -116,16 +116,9 @@ export const Steps = ({ setCache, questionnaire }) => {
   }, [step]);
 
   useEffect(() => {
-    const subscription = watch((value, { name, type }) => {
-      console.log('value', value);
-      console.log('name', name);
-      console.log('type', type);
-
+    const subscription = watch((value, { name }) => {
       if (name === 'availabilities.days' || name === 'availabilities.time') {
         const [avail, availType] = name.split('.');
-
-        console.log('avail', avail);
-        console.log('availType', availType);
 
         setCache((prev) => {
           localStorage.setItem(

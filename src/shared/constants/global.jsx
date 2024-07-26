@@ -765,7 +765,7 @@ export const currenciesDic = [
     label: `${Currencies.USD} ($)`,
     value: Currencies.USD,
     locales: 'en-US',
-    active: false,
+    active: true,
   },
   {
     label: `${Currencies.KRW} (₩)`,
@@ -777,7 +777,7 @@ export const currenciesDic = [
     label: `${Currencies.TWD} ($)`,
     value: Currencies.TWD,
     locales: 'zh-TW',
-    active: false,
+    active: true,
   },
 ];
 

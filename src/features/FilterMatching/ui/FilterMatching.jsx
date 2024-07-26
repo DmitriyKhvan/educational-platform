@@ -37,7 +37,6 @@ export const FilterMatching = ({
 }) => {
   const navigate = useNavigate();
 
-  const [availabilities, setAvailabilities] = useState([]);
   const { user } = useAuth();
   const {
     id: matchingId,
@@ -50,7 +49,7 @@ export const FilterMatching = ({
     availabilities: avails,
   } = user.matchingProfile || {};
 
-  console.log('avails', avails);
+  const [availabilities, setAvailabilities] = useState(avails || []);
 
   const timesSet = new Set();
   const daysSet = new Set();
@@ -65,10 +64,9 @@ export const FilterMatching = ({
     days: Array.from(daysSet),
   };
 
-  console.log('parseAvails', parseAvails);
-
   const { data: dictionaries } = useQuery(MATCHING_PROFILE, {
-    fetchPolicy: 'network-only',
+    // fetchPolicy: 'network-only',
+    fetchPolicy: 'no-cache',
   });
 
   const [updateMatchingProfile] = useMutation(UPDATE_MATCHING_PROFILE, {
@@ -134,8 +132,6 @@ export const FilterMatching = ({
 
         setAvailabilities(newAvailabilities);
       }
-
-      console.log('newAvailabilities', newAvailabilities);
 
       try {
         const response = await updateMatchingProfile({
@@ -223,7 +219,7 @@ export const FilterMatching = ({
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-2">
+              <AccordionItem value="item-3">
                 <AccordionTrigger className="text-[15px] font-bold">
                   <TitleFilter
                     count={watch('certifications')?.length}
@@ -240,7 +236,7 @@ export const FilterMatching = ({
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-3">
+              <AccordionItem value="item-4">
                 <AccordionTrigger className="text-[15px] font-bold">
                   Energy level
                 </AccordionTrigger>
@@ -249,7 +245,7 @@ export const FilterMatching = ({
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-4">
+              <AccordionItem value="item-5">
                 <AccordionTrigger className="text-[15px] font-bold">
                   <TitleFilter
                     count={watch('interests')?.length}
@@ -265,7 +261,7 @@ export const FilterMatching = ({
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-5">
+              <AccordionItem value="item-6">
                 <AccordionTrigger className="text-[15px] font-bold">
                   Gender
                 </AccordionTrigger>
@@ -278,7 +274,7 @@ export const FilterMatching = ({
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-6">
+              <AccordionItem value="item-7">
                 <AccordionTrigger className="text-[15px] font-bold">
                   <TitleFilter
                     count={watch('teachingStyles')?.length}

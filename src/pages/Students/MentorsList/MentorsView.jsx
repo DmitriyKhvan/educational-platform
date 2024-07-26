@@ -27,8 +27,6 @@ export const MentorsView = ({ mentorList, handleSelectMentor }) => {
     },
   });
 
-  console.log('findMatchesData', findMatchesData);
-
   const [mentors, setMentors] = useState(
     [...mentorList].sort((a, b) => a.sortOrder - b.sortOrder),
   );

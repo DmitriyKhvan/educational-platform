@@ -1,41 +1,12 @@
-import React, { forwardRef, useEffect, useState } from 'react';
+import React, { forwardRef } from 'react';
 import { Tag } from './Tag';
 import { cn } from 'src/shared/utils/functions';
 
 export const Certificate = forwardRef(function Certificate(
-  { watch, setValue, dictionaries, className, ...props },
+  { watch, dictionaries, setValue, className, ...props },
   ref,
 ) {
-  const [certificate, setCertificate] = useState();
-
   const { certifications } = dictionaries.matchingProfile;
-
-  console.log('certifications', certifications);
-
-  // const certificates = [
-  //   {
-  //     label: 'TESOL',
-  //     value: 'TESOL',
-  //   },
-  //   {
-  //     label: 'TEFL',
-  //     value: 'TEFL',
-  //   },
-  // ];
-
-  useEffect(() => {
-    if (certificate) {
-      setValue('certifications', []);
-    }
-  }, [certificate]);
-
-  useEffect(() => {
-    if (watch('certifications').length) {
-      setCertificate(false);
-    } else {
-      setCertificate(true);
-    }
-  }, [watch('certifications')]);
 
   return (
     <div
@@ -45,11 +16,10 @@ export const Certificate = forwardRef(function Certificate(
       )}
     >
       <Tag
-        active={certificate}
         label={'No certificate'}
-        value={'No certificate'}
+        active={watch('certifications').length === 0}
         onClick={() => {
-          setCertificate(true);
+          setValue('certifications', []);
         }}
       />
 

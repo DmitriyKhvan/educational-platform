@@ -21,7 +21,6 @@ const AvailabilityDayRow = ({
   gatherAvailabilities,
   mentorAvailabilityType,
 }) => {
-  console.log('day', day);
   const [toggle, setToggle] = useState(false);
   const [timeGroupsSort, setTimeGroupsSort] = useState([]);
 
