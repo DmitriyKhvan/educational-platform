@@ -53,12 +53,16 @@
   },
   "scripts": {
     "start": "vite",
+    "dev": "vite",
     "serve": "vite preview",
-    "build": "vite build",
-    "format": "prettier --write './src/**/*.{js,jsx,ts,tsx,html,css,md,json}' --config ./.prettierrc",
+    "build": "tsc && vite build",
     "analyze": "vite build --mode analyze",
-    "lint": "eslint . --ext .js,.jsx",
-    "knip": "knip"
+    "knip": "knip",
+    "lint": "biome lint --error-on-warnings",
+    "format": "biome format --write",
+    "check": "biome check --write",
+    "prepare": "husky"
+
   },
   "eslintConfig": {
     "extends": [
@@ -79,8 +83,11 @@
     ]
   },
   "devDependencies": {
+    "@biomejs/biome": "1.8.3",
     "@tailwindcss/forms": "^0.5.7",
     "@types/node": "^20.12.11",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.16",
     "date-fns": "^3.6.0",
@@ -89,13 +96,14 @@
     "eslint-config-prettier": "^8.10.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-react": "^7.32.2",
+    "husky": "^9.1.2",
     "knip": "^5.15.1",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "rollup-plugin-visualizer": "^5.12.0",
     "tailwindcss": "^3.4.3",
     "terser": "^5.17.6",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.4",
     "vite": "^4.5.3",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-env-compatible": "^2.0.1",

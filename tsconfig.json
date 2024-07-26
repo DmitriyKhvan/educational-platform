@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+      "target": "ES6",
+      "lib": ["ES2020"],
+      "module": "CommonJS",
+      "moduleResolution": "node",
+      "rootDir": "./src",
+      "resolveJsonModule": true,
+      "allowJs": true,
+      "sourceMap": true,
+      "outDir": "./build",
+      "removeComments": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "strict": true,
+      "noImplicitAny": true,
+      "skipLibCheck": true,
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["./src/*"]
+      }
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "build"],
+    "lib": ["esnext"],
+    "tsx": {
+      "esm": true,
+      "require": ["tsconfig-paths/register"]
+    }
+  }
+  

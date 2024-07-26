@@ -7,6 +7,7 @@ import viteCompression from 'vite-plugin-compression';
 import viteImageMin from 'vite-plugin-imagemin';
 import eslint from 'vite-plugin-eslint';
 import { splitVendorChunkPlugin } from 'vite';
+import path from 'path';
 const ENV_PREFIX = 'REACT_APP_';
 
 // https://vitejs.dev/config/
@@ -40,7 +41,7 @@ export default defineConfig({
 
   resolve: {
     alias: {
-      src: '/src',
+      "@": path.resolve(__dirname, "src"),
     },
   },
 });
