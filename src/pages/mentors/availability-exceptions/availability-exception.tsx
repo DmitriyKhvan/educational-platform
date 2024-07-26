@@ -1,11 +1,10 @@
-
-import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog/index.jsx";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
 
 import Button from "@/components/form/button";
-import * as Dialog from "@radix-ui/react-dialog";
-import { FaXmark } from "react-icons/fa6";
 import { ModalConfirm } from "@/entities/modal-confirm";
 import { AvailabilityExceptionModal } from "@/pages/mentors/availability-exceptions/availability-exception-modal";
+import * as Dialog from "@radix-ui/react-dialog";
+import { FaXmark } from "react-icons/fa6";
 
 export const AvailabilityException = ({
 	exception,

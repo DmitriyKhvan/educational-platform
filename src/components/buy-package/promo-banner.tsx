@@ -1,7 +1,16 @@
 import { cn } from "@/shared/utils/functions";
 
-
-export const PromoBanner = ({ icon, title, text, className }) => {
+export const PromoBanner = ({
+	icon,
+	title,
+	text,
+	className,
+}: {
+	icon: React.ReactNode;
+	title: string;
+	text: string;
+	className?: string;
+}) => {
 	return (
 		<div
 			className={cn(

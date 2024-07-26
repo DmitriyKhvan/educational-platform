@@ -1,55 +1,81 @@
+import {
+	type Notification,
+	NotificationContext,
+	type NotificationContextType,
+} from "@/app/providers/notification-provider/lib/notification-context";
 import { MARK_MESSAGE_AS_READ } from "@/shared/apollo/mutations/notifications";
 import { GET_USER_NOTIFICATIONS } from "@/shared/apollo/queries/notifications";
 import { NEW_MESSAGES } from "@/shared/apollo/subscriptions/new-messages";
 import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
-import { useEffect, useState } from "react";
-import { NotificationContext } from "@/app/providers/notification-provider/lib/notification-context";
+import { type ReactNode, useEffect, useState } from "react";
 
-export const NotificationProvider = ({ children }) => {
-	const [notifications, setNotification] = useState([]);
-	const [updateNotifications, setUpdateNotifications] = useState("");
+interface NewMessagesData {
+	newMessages: Notification;
+}
 
-	const { data: newNotifications } = useSubscription(NEW_MESSAGES, {
-		variables: { authToken: `Bearer ${localStorage.getItem("token")}` },
-	});
+interface GetUserNotificationsData {
+	getUserNotifications: Notification[];
+}
+
+interface MarkMessageAsReadData {
+	markMessageAsRead: boolean;
+}
+
+interface MarkMessageAsReadVars {
+	id: string[];
+}
+
+export const NotificationProvider = ({ children }: { children: ReactNode }) => {
+	const [notifications, setNotification] = useState<Notification[]>([]);
+	const [updateNotifications, setUpdateNotifications] = useState<string>("");
+
+	const { data: newNotifications } = useSubscription<NewMessagesData>(
+		NEW_MESSAGES,
+		{
+			variables: { authToken: `Bearer ${localStorage.getItem("token")}` },
+		},
+	);
 
 	const [
 		getAllNotifications,
-
 		{ data: allNotifications, refetch: refetchNotifications },
-	] = useLazyQuery(GET_USER_NOTIFICATIONS, {
-		// fetchPolicy: 'no-cache',
+	] = useLazyQuery<GetUserNotificationsData>(GET_USER_NOTIFICATIONS, {
 		notifyOnNetworkStatusChange: true,
 	});
 
-	const [markMessageAsRead] = useMutation(MARK_MESSAGE_AS_READ);
+	const [markMessageAsRead] = useMutation<
+		MarkMessageAsReadData,
+		MarkMessageAsReadVars
+	>(MARK_MESSAGE_AS_READ);
 
 	useEffect(() => {
 		if (newNotifications?.newMessages) {
 			setNotification(
 				[newNotifications.newMessages, ...notifications].sort(
-					(a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+					(a, b) =>
+						new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
 				),
 			);
 		}
-	}, [newNotifications]);
+	}, [newNotifications, notifications]);
 
 	useEffect(() => {
 		if (allNotifications?.getUserNotifications.length) {
 			setNotification(
 				[...allNotifications.getUserNotifications].sort(
-					(a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+					(a, b) =>
+						new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
 				),
 			);
 		} else {
 			setNotification([]);
 		}
-	}, [allNotifications, updateNotifications]);
+	}, [allNotifications]);
 
-	const removeNotifications = (type) => {
+	const removeNotifications = (type?: string) => {
 		if (!notifications.length) return;
 
-		let notificationIds = [];
+		let notificationIds: string[] = [];
 
 		if (type) {
 			notificationIds = notifications
@@ -58,9 +84,7 @@ export const NotificationProvider = ({ children }) => {
 						notification?.meta?.lesson?.type === type ||
 						notification?.body === type,
 				)
-				.map((notification) => {
-					return notification.id;
-				});
+				.map((notification) => notification.id);
 		} else {
 			notificationIds = notifications.map((notification) => notification.id);
 		}
@@ -72,28 +96,28 @@ export const NotificationProvider = ({ children }) => {
 				},
 				onCompleted: () => {
 					refetchNotifications();
-					setUpdateNotifications(Date.now()); //to update the list of notifications
+					setUpdateNotifications(Date.now().toString());
 				},
 			});
 		}
 	};
 
-	const getCountNotification = (type) => {
+	const getCountNotification = (type: string): number => {
 		const count = notifications.filter(
 			(notification) => notification?.meta?.lesson?.type === type,
 		);
 		return count.length;
 	};
 
+	const contextValue: NotificationContextType = {
+		notifications,
+		getCountNotification,
+		removeNotifications,
+		getAllNotifications,
+	};
+
 	return (
-		<NotificationContext.Provider
-			value={{
-				notifications,
-				getCountNotification,
-				removeNotifications,
-				getAllNotifications,
-			}}
-		>
+		<NotificationContext.Provider value={contextValue}>
 			{children}
 		</NotificationContext.Provider>
 	);

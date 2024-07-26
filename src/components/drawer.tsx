@@ -7,6 +7,13 @@ export function MyDrawer({
 	className,
 	children,
 	dismissible,
+}: {
+	open: boolean;
+	setOpen: (open: boolean) => void;
+	button: React.ReactNode;
+	className?: string;
+	children: React.ReactNode;
+	dismissible?: boolean;
 }) {
 	return (
 		<Drawer.Root

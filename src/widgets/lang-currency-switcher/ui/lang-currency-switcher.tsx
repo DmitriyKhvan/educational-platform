@@ -1,13 +1,15 @@
 import MyDropdownMenu from "@/components/dropdown-menu";
 import Button from "@/components/form/button";
 import { CurrencySwitcher } from "@/entities/currency-switcher/ui/currency-switcher";
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { useCurrency } from "@/app/providers/currency-provider";
 import { LangSwitcher, useCurrentLang } from "@/entities/lang-switcher";
 
-export const LangCurrencySwitcher = ({ align }) => {
+export const LangCurrencySwitcher = ({ align } : {
+	align?: "start" | "end";
+}) => {
 	const { curCurrency } = useCurrency();
 	const currentLang = useCurrentLang();
 
@@ -24,7 +26,10 @@ export const LangCurrencySwitcher = ({ align }) => {
 					theme="gray"
 					className="flex w-full justify-between items-center gap-2"
 				>
-					<span className="grow text-left">{`${t(currentLang.label, { ns: "common" })}, ${curCurrency?.label}`}</span>
+					{currentLang?.label && (
+
+						<span className="grow text-left">{`${t(currentLang?.label, { ns: "common" })}, ${curCurrency?.label}`}</span>
+					)}
 					{open ? <FaAngleUp /> : <FaAngleDown />}
 				</Button>
 			}

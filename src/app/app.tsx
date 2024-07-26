@@ -1,8 +1,8 @@
 import Loader from "@/components/loader/loader";
-import React from "react";
-import { Toaster } from "react-hot-toast";
+
 import { useCurrency } from "@/app/providers/currency-provider";
 import { AppRouter } from "@/app/providers/router";
+import { Toaster } from "react-hot-toast";
 
 function App() {
 	const { loadingCurrency } = useCurrency();

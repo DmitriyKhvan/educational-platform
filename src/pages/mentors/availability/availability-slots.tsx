@@ -1,24 +1,24 @@
+import { useAuth } from "@/app/providers/auth-provider";
 import ReactLoader from "@/components/common/loader";
 import Button from "@/components/form/button";
 import { SelectField } from "@/components/form/select-field";
+import { ModalConfirm } from "@/entities/modal-confirm/ui/modal-confirm";
+import AvailabilityDayRow from "@/pages/mentors/availability/availability-day-row";
+import { parseErrorMessage } from "@/pages/mentors/availability/lib/parse-error-message";
+import { selectStyle } from "@/pages/mentors/availability/lib/select-style";
 import { UPSERT_TIMESHEETS } from "@/shared/apollo/mutations/upsert-timesheets";
+import {
+	DAY,
+	MentorAvailabilityType,
+	timezoneWithTimeOptions,
+} from "@/shared/constants/global";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
 import notify from "@/shared/utils/notify";
 import { useMutation } from "@apollo/client";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoIosWarning } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { useAuth } from "@/app/providers/auth-provider";
-import { ModalConfirm } from "src/entities/modal-confirm";
-import {
-	DAY,
-	MentorAvailabilityType,
-	timezoneWithTimeOptions,
-} from "@/shared/constants/global";
-import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog/index.jsx";
-import AvailabilityDayRow from "@/pages/mentors/availability/availability-day-row";
-import { parseErrorMessage } from "@/pages/mentors/availability/lib/parse-error-message";
-import { selectStyle } from "@/pages/mentors/availability/lib/select-style";
 
 export const AvailabilitySlots = ({
 	mentorInfo,

@@ -1,10 +1,10 @@
 import Button from "@/components/form/button";
-import React, { memo, useMemo } from "react";
+import { memo, useMemo } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
 import { useNotifications } from "@/app/providers/notification-provider";
 import { ModalConfirm } from "@/entities/modal-confirm";
-import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog/index.jsx";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
 export const NotificationDialog = memo(function NotificationDialog() {
 	const isMobile = useMediaQuery({ maxWidth: 639 });
 	const { notifications, removeNotifications } = useNotifications();
@@ -19,7 +19,7 @@ export const NotificationDialog = memo(function NotificationDialog() {
 	// Because MyDrawer launches confirmBonus when opening
 	let countOpenNotifications = useMemo(() => {
 		return 1;
-	}, [bonus]);
+	}, []);
 
 	const confirmBonus = () => {
 		if (countOpenNotifications > 1) {
@@ -30,7 +30,7 @@ export const NotificationDialog = memo(function NotificationDialog() {
 
 	return (
 		<AdaptiveDialog
-			open={bonus}
+			open={!!bonus}
 			setOpen={isMobile ? confirmBonus : () => removeNotifications(bonus?.body)}
 		>
 			<ModalConfirm

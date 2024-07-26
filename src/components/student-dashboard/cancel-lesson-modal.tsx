@@ -1,14 +1,14 @@
+import { useAuth } from "@/app/providers/auth-provider";
+import Button from "@/components/form/button";
+import CheckboxField from "@/components/form/checkbox-field";
+import Loader from "@/components/loader/loader";
+import { CANCEL_APPOINTMENT } from "@/shared/apollo/graphql";
+import { Roles, cancellationArr } from "@/shared/constants/global";
+import notify from "@/shared/utils/notify";
 import { useMutation } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaChevronLeft } from "react-icons/fa6";
-import { useAuth } from "@/app/providers/auth-provider";
-import { CANCEL_APPOINTMENT } from "@/shared/apollo/graphql";
-import { Roles, cancellationArr } from "@/shared/constants/global";
-import notify from "@/shared/utils/notify";
-import Button from "@/components/form/button";
-import CheckboxField from "@/components/form/checkbox-field";
-import Loader from "@/components/loader/loader";
 
 const CancelLessonModal = ({
 	setTabIndex,

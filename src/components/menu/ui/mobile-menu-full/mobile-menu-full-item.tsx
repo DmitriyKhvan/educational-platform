@@ -1,10 +1,9 @@
-
-import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
 import { useAuth } from "@/app/providers/auth-provider";
 import { useNotifications } from "@/app/providers/notification-provider";
-import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog/index.jsx";
 import { Badge } from "@/components/badge";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
+import { useTranslation } from "react-i18next";
+import { NavLink } from "react-router-dom";
 
 export const MobileMenuFullItem = ({ menu }) => {
 	const { currentStudent } = useAuth();

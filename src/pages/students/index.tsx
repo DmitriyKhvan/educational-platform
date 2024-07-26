@@ -34,13 +34,13 @@ export default function StudentRoutes() {
 				}
 			/>
 
-			<Route path={`lesson-calendar`} exact element={<Lessons />} />
+			<Route path={`lesson-calendar`} element={<Lessons />} />
 
 			<Route path={`lesson-calendar/feedback/:id`} element={<Feedback />} />
 
 			{/* </Route> */}
 
-			<Route exact path={`profile`} element={<StudentProfile />} />
+			<Route  path={`profile`} element={<StudentProfile />} />
 			<Route path={`profile/edit`} element={<EditProfileStudent />} />
 
 			<Route

@@ -6,12 +6,18 @@ import { useTranslation } from "react-i18next";
 import { useCurrency } from "@/app/providers/currency-provider";
 import { calculatePriceWithDiscount } from "@/shared/utils/calculate-price-with-discount";
 import CheckboxField from "@/components/form/checkbox-field";
+import type { Package } from "@/types/types.generated";
 
 export const Packages = memo(function Packages({
 	filteredPackage,
 	setSelectedPackage,
 	selectedPackage,
 	setPromoPackage,
+}: {
+	filteredPackage: Package[];
+	setSelectedPackage: (pkg: Package) => void;
+	selectedPackage: Package | null;
+	setPromoPackage: (pkg: Package | null) => void;
 }) {
 	const { curCurrency } = useCurrency();
 	const [t] = useTranslation(["purchase", "common", "translations"]);
@@ -43,7 +49,7 @@ export const Packages = memo(function Packages({
 								<div className="grow flex flex-col gap-2">
 									<p className="text-xl font-bold">
 										{`${pkg.period} ${t("months", {
-											count: pkg.period,
+											count: pkg.period as number,
 										})}`}
 									</p>
 
@@ -52,18 +58,18 @@ export const Packages = memo(function Packages({
 											<>
 												<span>
 													{currencyFormat({
-														currency: curCurrency.value,
-														locales: curCurrency.locales,
+														currency: curCurrency?.value,
+														locales: curCurrency?.locales,
 														number:
-															calculatePriceWithDiscount(pkg) / pkg.period,
+														pkg.period ? calculatePriceWithDiscount(pkg) / pkg.period : 0,
 													})}
 													/mo.
 												</span>
 												<span className="text-[13px] ml-[6px] text-color-red line-through">
 													{currencyFormat({
-														currency: curCurrency.value,
-														locales: curCurrency.locales,
-														number: pkg.price / pkg.period,
+														currency: curCurrency?.value,
+														locales: curCurrency?.locales,
+														number: pkg.prices?.[0]?.price && pkg.period && (pkg.prices?.[0]?.price / pkg.period) || 0,
 													})}
 													/mo.
 												</span>
@@ -71,9 +77,9 @@ export const Packages = memo(function Packages({
 										) : (
 											<span>
 												{currencyFormat({
-													currency: curCurrency.value,
-													locales: curCurrency.locales,
-													number: pkg.price,
+													currency: curCurrency?.value,
+													locales: curCurrency?.locales,
+													number: pkg?.prices?.[0]?.price && (pkg?.prices?.[0]?.price) || 0,
 												})}
 											</span>
 										)}
@@ -83,11 +89,11 @@ export const Packages = memo(function Packages({
 										{`${pkg.totalSessions} ${t("lessons", {
 											ns: "common",
 										})}, ${currencyFormat({
-											currency: curCurrency.value,
-											locales: curCurrency.locales,
-											number: Math.round(
+											currency: curCurrency?.value,
+											locales: curCurrency?.locales,
+											number: pkg.totalSessions && Math.round(
 												calculatePriceWithDiscount(pkg) / pkg.totalSessions,
-											),
+											) || 0,
 										})}/${t("lesson", {
 											ns: "translations",
 										})}`}
@@ -95,7 +101,7 @@ export const Packages = memo(function Packages({
 								</div>
 							</div>
 
-							{pkg?.discount > 0 && (
+							{pkg?.discount && (
 								<span className="text-[11px] font-semibold text-white bg-color-red px-[10px] py-[5px] rounded-lg whitespace-nowrap">
 									{pkg?.discount}% OFF
 								</span>

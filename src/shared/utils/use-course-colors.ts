@@ -1,47 +1,52 @@
+import { COURSES } from "@/shared/apollo/queries/courses/courses";
+import {
+	COURSE_COLORS,
+	type CourseColorType,
+	courseColorsDict,
+} from "@/shared/constants/global";
+import type { Course, Query } from "@/types/types.generated";
 import { useQuery } from "@apollo/client";
 import { useCallback, useEffect, useState } from "react";
-import { COURSES } from "@/shared/apollo/queries/courses/courses";
-import { COURSE_COLORS, courseColorsDict } from "@/shared/constants/global";
 
 let ready = false;
 let colorsIdx = 0;
-const courseColors = {};
+const courseColors: { [key: string]: { event: string; indicator: string } } =
+	{};
 const courseColorsArray = Object.values(COURSE_COLORS);
 
 export const useCourseColors = () => {
-	const { data: colorData, loading } = useQuery(COURSES, {
+	const { data: colorData, loading } = useQuery<Query>(COURSES, {
 		fetchPolicy: "cache-and-network",
 		variables: {
 			trialFilter: "only_regular",
 		},
 	});
 
-	const [sortedData, setSortedData] = useState();
+	const [sortedData, setSortedData] = useState<Course[] | undefined>(undefined);
 
 	useEffect(() => {
-		if (colorData) {
-			const sortedData = colorData?.courses
-				.filter((c) => c.active)
-				.sort((a, b) => Number(a.id) - Number(b.id));
+		if (colorData?.courses) {
+			const sorted = colorData.courses
+				.filter((c) => c?.active)
+				.sort((a, b) => Number(a?.id) - Number(b?.id));
 
-			sortedData.forEach((val) => {
-				if (!courseColors[String(val.id)]) {
-					courseColors[String(val.id)] =
-						courseColorsDict[courseColorsArray[colorsIdx++]];
+			for (const val of sorted) {
+				if (!courseColors[String(val?.id)]) {
+					courseColors[String(val?.id)] =
+						courseColorsDict[courseColorsArray[colorsIdx++] as CourseColorType];
 				}
-			});
-
-			setSortedData(sortedData);
+			}
+			setSortedData(sorted as Course[]);
 
 			ready = true;
 		}
 	}, [colorData]);
 
-	const getColorByCourseId = useCallback((id) => {
+	const getColorByCourseId = useCallback((id: string) => {
 		if (!id || !ready) return;
 		if (!courseColors[String(id)]) {
 			courseColors[String(id)] =
-				courseColorsDict[courseColorsArray[colorsIdx++]];
+				courseColorsDict[courseColorsArray[colorsIdx++] as CourseColorType];
 		}
 		return courseColors[id];
 	}, []);

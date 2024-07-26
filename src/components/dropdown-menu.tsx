@@ -8,6 +8,13 @@ const MyDropdownMenu = ({
 	children,
 	contentClassName = "",
 	align = "start",
+}: {
+	setOpen: (open: boolean) => void;
+	open: boolean;
+	button: React.ReactNode;
+	children: React.ReactNode;
+	contentClassName?: string;
+	align?: "start" | "end";
 }) => {
 	return (
 		<DropdownMenu.Root open={open} onOpenChange={setOpen}>

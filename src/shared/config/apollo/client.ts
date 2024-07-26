@@ -21,7 +21,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 	operation.setContext(({ headers = {} }) => ({
 		headers: {
 			...headers,
-			authorization: "Bearer " + localStorage.getItem("token") || null,
+			authorization: `Bearer ${localStorage.getItem("token")}` || null,
 		},
 	}));
 
@@ -30,7 +30,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 
 const wsLink = new GraphQLWsLink(
 	createClient({
-		url: process.env.REACT_APP_SERVER_WS_URL,
+		url: process.env.REACT_APP_SERVER_WS_URL ?? "",
 		retryAttempts: Number.POSITIVE_INFINITY,
 		connectionParams: {
 			authToken: `Bearer ${localStorage.getItem("token")}`,

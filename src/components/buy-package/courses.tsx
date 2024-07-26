@@ -1,3 +1,4 @@
+import type { Course } from "@/types/types.generated";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -5,6 +6,10 @@ export const Courses = memo(function Courses({
 	courses,
 	setSelectedCourse,
 	selectedCourse,
+}: {
+	courses?: Course[];
+	setSelectedCourse: (course: Course) => void;
+	selectedCourse: Course | null;
 }) {
 	const [t] = useTranslation("purchase");
 
@@ -14,7 +19,7 @@ export const Courses = memo(function Courses({
 				1. {t("choose_course")}
 			</h4>
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:flex md:flex-wrap gap-3">
-				{courses.map((course) => {
+				{courses?.map((course) => {
 					return (
 						<label key={course.id}>
 							<input

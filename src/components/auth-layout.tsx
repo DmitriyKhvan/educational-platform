@@ -1,8 +1,11 @@
 import "@/app/styles/auth.scss";
 import Butterfly from "@/shared/assets/images/butterfly.svg";
 import Logo from "@/shared/assets/images/logo_purple.svg";
+import type { ReactNode } from "react";
 
-const AuthLayout = ({ children }) => {
+const AuthLayout = ({ children } : {
+	children: ReactNode;
+}) => {
 	return (
 		<div className="auth-layout">
 			<div className="auth-body">

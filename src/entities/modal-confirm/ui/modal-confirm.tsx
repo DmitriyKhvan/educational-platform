@@ -1,5 +1,14 @@
-
-export const ModalConfirm = ({ icon, title, text, btns }) => {
+export const ModalConfirm = ({
+	icon,
+	title,
+	text,
+	btns,
+}: {
+	icon: any;
+	title: string;
+	text: any;
+	btns: any;
+}) => {
 	return (
 		<div className="w-[336px] m-auto">
 			{icon}

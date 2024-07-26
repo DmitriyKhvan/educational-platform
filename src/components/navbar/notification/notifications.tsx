@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import  { memo } from "react";
 
 import { Badge } from "@/components/badge";
 import { MyDrawer } from "@/components/drawer";

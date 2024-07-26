@@ -1,5 +1,5 @@
-import { FaUserLarge } from "react-icons/fa6";
 import duckAvatar from "@/shared/assets/images/avatars/duck-avatar.png";
+import { FaUserLarge } from "react-icons/fa6";
 
 import { cn } from "@/shared/utils/functions";
 import cls from "@/widgets/avatar/avatar.module.css";
@@ -9,6 +9,11 @@ export const Avatar = ({
 	className = "",
 	fallback = "user",
 	iconClassName = "",
+}: {
+	avatarUrl?: string;
+	className?: string;
+	fallback?: "user" | "duck";
+	iconClassName?: string;
 }) => {
 	return avatarUrl || fallback === "duck" ? (
 		<img

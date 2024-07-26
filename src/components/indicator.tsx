@@ -1,6 +1,12 @@
 import { cn } from "@/shared/utils/functions";
 
-const Indicator = ({ children, className = "bg-gray-300 text-gray-700" }) => {
+const Indicator = ({
+	children,
+	className = "bg-gray-300 text-gray-700",
+}: {
+	children: React.ReactNode;
+	className?: string;
+}) => {
 	if (!children) return <></>;
 
 	return (

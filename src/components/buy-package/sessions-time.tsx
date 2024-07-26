@@ -7,6 +7,10 @@ export const SessionsTime = memo(function SessionsTime({
 	uniqueSessionsTime,
 	setSelectedSessionTime,
 	selectedSessionTime,
+} : {
+	uniqueSessionsTime: number[];
+	setSelectedSessionTime: (sessionTime: number) => void;
+	selectedSessionTime: number | null;
 }) {
 	const [t] = useTranslation(["common", "purchase"]);
 	const [parent] = useAutoAnimate();

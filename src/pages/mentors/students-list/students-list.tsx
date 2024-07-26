@@ -4,12 +4,12 @@ import FavIcon from "@/shared/assets/images/Favorite.png";
 import femaleAvatar from "@/shared/assets/images/avatars/img_avatar_female.png";
 import maleAvatar from "@/shared/assets/images/avatars/img_avatar_male.png";
 import "@/pages/mentors/students-list/students.scss";
+import Loader from "@/components/loader/loader";
+import StudentsModal from "@/pages/mentors/students-list/students-modal";
+import { STUDENTS_QUERY } from "@/shared/apollo/graphql";
 import { useQuery } from "@apollo/client";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import Loader from "@/components/loader/loader";
-import { STUDENTS_QUERY } from "@/shared/apollo/graphql";
-import StudentsModal from "@/pages/mentors/students-list/students-modal";
 
 export default function StudentsList() {
 	const [showStudentModal, setShowStudentModal] = React.useState(false);

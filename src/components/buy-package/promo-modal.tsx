@@ -8,11 +8,16 @@ import { DiscountType } from "@/shared/constants/global";
 import Button from "@/components/form/button";
 import InputField from "@/components/form/input-field";
 import Loader from "@/components/loader/loader";
+import type { Mutation, Package } from "@/types/types.generated";
 
-export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen }) => {
+export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen } : {
+	selectedPackage: Package,
+	setPromoPackage: (promoPackage: Package | null) => void,
+	setIsOpen: (isOpen: boolean) => void,
+}) => {
 	const [t] = useTranslation("purchase");
 
-	const [applyDiscount, { loading }] = useMutation(
+	const [applyDiscount, { loading }] = useMutation<Mutation>(
 		APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER,
 	);
 
@@ -26,13 +31,17 @@ export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen }) => {
 		},
 	});
 
-	const onSubmitHandler = ({ promo }) => {
+	const onSubmitHandler = ({ promo }: {promo: string}) => {
 		applyDiscount({
 			variables: {
 				code: promo,
 				packageId: selectedPackage.id,
 			},
 			onCompleted: (data) => {
+				if (!data.applyPromotionCodeForPackage.promotionCode) {
+					notify("Promo code is invalid", "error");
+					return;
+				}
 				const discount =
 					data.applyPromotionCodeForPackage.promotionCode.discountType ==
 					"percent"
@@ -52,7 +61,7 @@ export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen }) => {
 					DiscountType.PERCENT
 				) {
 					promoPackage.discount =
-						selectedPackage.discount +
+						selectedPackage.discount  +
 						data.applyPromotionCodeForPackage.promotionCode.value;
 				} else {
 					promoPackage.promotionCode = {

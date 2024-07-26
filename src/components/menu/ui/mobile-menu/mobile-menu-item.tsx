@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "@/app/providers/auth-provider";
 import { useNotifications } from "@/app/providers/notification-provider";
-import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog/index.jsx";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
 import { Badge } from "@/components/badge";
 
 export const MobileMenuItem = ({ menu }) => {

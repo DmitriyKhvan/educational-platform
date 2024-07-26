@@ -1,24 +1,24 @@
+import MyDropdownMenu from "@/components/dropdown-menu";
+import Button from "@/components/form/button";
+import CheckboxField from "@/components/form/checkbox-field";
+import { useCurrentLang } from "@/entities/lang-switcher/lib/use-current-lang";
+import { languagesDic, setItemToLocalStorage, type LanguageDictionary } from "@/shared/constants/global";
 import { cn } from "@/shared/utils/functions";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
-import {
-	languagesDic,
-	setItemToLocalStorage,
-} from "@/shared/constants/global";
-import { useCurrentLang } from "@/entities/lang-switcher/lib/use-current-lang";
-import MyDropdownMenu from "@/components/dropdown-menu";
-import Button from "@/components/form/button";
-import CheckboxField from "@/components/form/checkbox-field";
 // import { VscGlobe } from 'react-icons/vsc';
 
-export const LangSwitcher = ({ currentLang, theme = "default" }) => {
+export const LangSwitcher = ({ currentLang, theme = "default" }: {
+	currentLang?: { label: string; value: string };
+	theme?: "default" | "purple";
+}) => {
 	const [open, setOpen] = useState(false);
 	const [t, i18n] = useTranslation("common");
 
 	const [language, setLanguage] = useState(currentLang || useCurrentLang());
 
-	const onChangeLanguage = (currentLang) => {
+	const onChangeLanguage = (currentLang: LanguageDictionary) => {
 		setOpen(false);
 		setItemToLocalStorage("language", currentLang.value);
 		setLanguage(currentLang);
@@ -38,7 +38,10 @@ export const LangSwitcher = ({ currentLang, theme = "default" }) => {
 					)}
 				>
 					{/* <VscGlobe className="text-2xl" /> */}
-					<span className="grow text-left">{t(language.label)}</span>
+					{language?.label && (
+
+						<span className="grow text-left">{t(language?.label)}</span>
+					)}
 					{open ? <FaAngleUp /> : <FaAngleDown />}
 				</Button>
 			}
@@ -66,7 +69,7 @@ export const LangSwitcher = ({ currentLang, theme = "default" }) => {
 									onChange={() => onChangeLanguage(lang)}
 									type="radio"
 									name="lang"
-									checked={lang.value === language.value}
+									checked={lang.value === language?.value}
 								/>
 							</label>
 						</li>

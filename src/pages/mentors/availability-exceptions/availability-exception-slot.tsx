@@ -1,10 +1,10 @@
 import { addMinutes, format, startOfDay } from "date-fns";
 import { useState } from "react";
 
+import { selectStyle } from "@/pages/mentors/availability/lib/select-style";
 import { FaXmark } from "react-icons/fa6";
 import Select from "react-select";
-import { selectStyle } from "@/pages/mentors/availability/lib/select-style";
-// import MySelect from 'src/components/Form/MySelect';
+// import MySelect from '@/components/Form/MySelect';
 
 export const AvailabilityExceptionSlot = ({
 	exception,

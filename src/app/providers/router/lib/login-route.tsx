@@ -1,9 +1,9 @@
-
-import { Navigate } from "react-router-dom";
-import { Roles } from "@/shared/constants/global";
 import { useAuth } from "@/app/providers/auth-provider/lib/use-auth";
+import { Roles } from "@/shared/constants/global";
+import type { ReactNode } from "react";
+import { Navigate } from "react-router-dom";
 
-export const LoginRoute = ({ children }) => {
+export const LoginRoute = ({ children }: { children: ReactNode }) => {
 	const { user } = useAuth();
 
 	if (user?.role === Roles.STUDENT) {

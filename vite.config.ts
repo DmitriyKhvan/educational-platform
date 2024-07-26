@@ -5,7 +5,7 @@ import { type PluginOption, defineConfig } from "vite";
 import { splitVendorChunkPlugin } from "vite";
 import viteCompression from "vite-plugin-compression";
 import envCompatible from "vite-plugin-env-compatible";
-import eslint from "vite-plugin-eslint";
+
 import viteImageMin from "vite-plugin-imagemin";
 import svgrPlugin from "vite-plugin-svgr";
 const ENV_PREFIX = "REACT_APP_";
@@ -14,9 +14,7 @@ const ENV_PREFIX = "REACT_APP_";
 export default defineConfig({
 	plugins: [
 		react(),
-		eslint({
-			useEslintrc: true,
-		}),
+
 		svgrPlugin(),
 		envCompatible({ prefix: ENV_PREFIX }),
 		viteCompression(),

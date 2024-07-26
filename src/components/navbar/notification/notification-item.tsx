@@ -1,9 +1,8 @@
-
 import { format, formatDistanceToNow } from "date-fns";
 import { Trans, useTranslation } from "react-i18next";
 
 import { localeDic } from "@/shared/constants/global";
-import { Avatar } from "@/widgets/avataravatar";
+import { Avatar } from "@/widgets/avatar/avatar";
 
 export const NotificationItem = ({ notification }) => {
 	const [i18n] = useTranslation();

@@ -11,6 +11,14 @@ export const AdaptiveDialog = ({
 	children,
 	hideCloseBtn,
 	dismissible,
+}: {
+	open: boolean;
+	setOpen: (open: boolean) => void;
+	button?: React.ReactNode;
+	classNameDrawer?: string;
+	children: React.ReactNode;
+	hideCloseBtn?: boolean;
+	dismissible?: boolean;
 }) => {
 	const isMobile = useMediaQuery({ maxWidth: 639 });
 	return isMobile ? (

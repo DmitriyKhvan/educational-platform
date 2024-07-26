@@ -1,1 +1,1 @@
-export { AvailabilityCalendar } from "@/pages/mentors/availability/availability-calendar/availability-calendar";
+export { AvailabilityCalendar } from '@/pages/mentors/availability/availability-calendar/availability-calendar';

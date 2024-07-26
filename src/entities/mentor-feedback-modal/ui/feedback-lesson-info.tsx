@@ -2,7 +2,7 @@ import MyDropdownMenu from "@/components/dropdown-menu";
 import Button from "@/components/form/button";
 import CheckboxField from "@/components/form/checkbox-field";
 import Indicator from "@/components/indicator";
-import { selectStyle } from "@/pages/mentors/availiability/lib/select-style";
+import { selectStyle } from "@/pages/mentors/availability/lib/select-style"; 
 import { GET_LESSON_SECTIONS } from "@/shared/apollo/queries/lessons/lesson-sections";
 import { GET_TOPICS } from "@/shared/apollo/queries/topics/topics";
 import { cn } from "@/shared/utils/functions";

@@ -1,12 +1,13 @@
+import { useAuth } from "@/app/providers/auth-provider";
 import Loader from "@/components/loader/loader";
 import React, { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import { useAuth } from "@/app/providers/auth-provider";
 
+import { LoginRoute } from "@/app/providers/router/lib/login-route";
+import { MentorRoute } from "@/app/providers/router/lib/mentor-route";
+import { StudentRoute } from "@/app/providers/router/lib/student-route";
 import NotFoundPage from "@/pages/not-found-page";
 import { Layout, OnboardingLayout } from "@/shared/layouts";
-import { MentorRoute, StudentRoute } from "..";
-import { LoginRoute } from "@/app/providers/router/lib/login-route";
 
 const Login = lazy(() => import("@/pages/auth/login"));
 const ForgotPassword = lazy(() => import("@/pages/auth/forgot-password"));
@@ -57,12 +58,8 @@ export const AppRouter = () => {
 				<Route path="/welcome-set-password" element={<ResetPassword />} />
 
 				<Route path="/onboarding" element={<Onboarding />} />
-				<Route exact path="/trial" element={<Trial />} />
-				<Route
-					exact
-					path="/trial/thank-you"
-					element={<TrialMarketingChannel />}
-				/>
+				<Route path="/trial" element={<Trial />} />
+				<Route path="/trial/thank-you" element={<TrialMarketingChannel />} />
 			</Route>
 
 			<Route
@@ -88,22 +85,16 @@ export const AppRouter = () => {
 					</StudentRoute>
 				}
 			>
-				<Route
-					exact
-					path="/add-student-profile"
-					element={<AddStudentProfile />}
-				/>
+				<Route path="/add-student-profile" element={<AddStudentProfile />} />
 
-				<Route exact path="/purchase" element={<BuyPackage />} />
+				<Route path="/purchase" element={<BuyPackage />} />
 
 				<Route
-					exact
 					path="/purchase/:packageId/complete"
 					element={<ConfirmPayment />}
 				/>
 
 				<Route
-					exact
 					path="/purchase/:packageId/payment/:clientSecret"
 					element={<StripePayment />}
 				/>

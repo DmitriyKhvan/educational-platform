@@ -1,15 +1,15 @@
-import Loader from "@/components/loader/loader";
-import { APPOINTMENTS_QUERY, GET_MENTOR } from "@/shared/apollo/graphql";
-import { useQuery } from "@apollo/client";
-import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/app/providers/auth-provider";
-import  Calendar  from "src/components/calendar";
-import { CalendarView } from "@/shared/constants/global";
+import { Calendar } from "@fullcalendar/core";
+import Loader from "@/components/loader/loader";
 import AvailabilityCalendarHeader from "@/pages/mentors/availability/availability-calendar/availability-calendar-header";
 import { renderReccurEvents } from "@/pages/mentors/availability/availability-calendar/events/lib/render-reccur-events";
 import { renderSingleEvents } from "@/pages/mentors/availability/availability-calendar/events/lib/render-single-events";
 import MonthlyEvent from "@/pages/mentors/availability/availability-calendar/events/monthly-event";
 import WeeklyEvent from "@/pages/mentors/availability/availability-calendar/events/weekly-event";
+import { APPOINTMENTS_QUERY, GET_MENTOR } from "@/shared/apollo/graphql";
+import { CalendarView } from "@/shared/constants/global";
+import { useQuery } from "@apollo/client";
+import { useEffect, useRef, useState } from "react";
 
 export const AvailabilityCalendar = () => {
 	// eslint-disable-next-line no-unused-vars

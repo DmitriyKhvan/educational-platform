@@ -13,7 +13,7 @@ import { NotificationProvider } from "@/app/providers/notification-provider";
 import "@/app/styles/global.scss";
 import { CurrencyProvider } from "@/app/providers/currency-provider";
 
-const root = createRoot(document.getElementById("root"));
+const root = createRoot(document.getElementById("root") as HTMLElement);
 root.render(
 	<ApolloProvider client={client}>
 		<I18nextProvider i18n={i18next}>

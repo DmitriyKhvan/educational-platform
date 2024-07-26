@@ -7,6 +7,10 @@ export const SessionsPerWeek = memo(function SessionsPerWeek({
 	uniqueSessionsPerWeek,
 	setSelectedSessionsPerWeek,
 	selectedSessionsPerWeek,
+}: {
+	uniqueSessionsPerWeek: number[];
+	setSelectedSessionsPerWeek: (sessionsPerWeek: number) => void;
+	selectedSessionsPerWeek: number | null;
 }) {
 	const [t] = useTranslation("purchase");
 	const [parent] = useAutoAnimate();

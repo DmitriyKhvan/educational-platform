@@ -1,9 +1,9 @@
-import { parse } from "date-fns";
-import { format } from "date-fns-tz";
-import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog/index.jsx";
+import { AvailabilityExceptionPicker } from "@/pages/mentors/availability-exceptions/availability-exception-picker";
 import { formatTime } from "@/pages/mentors/availability/lib/format-time";
 import { formatTimeToSeconds } from "@/pages/mentors/availability/lib/format-time-to-seconds";
-import { AvailabilityExceptionPicker } from "@/pages/mentors/availability-exceptions/availability-exception-picker";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
+import { parse } from "date-fns";
+import { format } from "date-fns-tz";
 
 export const AvailabilityExceptionModal = ({
 	availabilityExceptions,

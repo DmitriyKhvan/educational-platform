@@ -4,7 +4,9 @@ import { FaCheck } from "react-icons/fa6";
 import { LessonsStatusType } from "@/shared/constants/global";
 import Indicator from "@/components/indicator";
 
-const StatusIndicator = ({ status }) => {
+const StatusIndicator = ({ status }: {
+	status: LessonsStatusType;
+}) => {
 	const [t] = useTranslation("lessons");
 
 	switch (status) {

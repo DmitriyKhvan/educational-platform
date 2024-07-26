@@ -4,7 +4,7 @@ import { LOGIN_MUTATION } from "@/shared/apollo/graphql";
 export const useLogin = () => {
 	const [loginMutation, { loading, error, data }] = useMutation(LOGIN_MUTATION);
 
-	const login = (email, password) => {
+	const login = (email: string, password: string) => {
 		loginMutation({
 			variables: { email, password },
 			onCompleted: async (data) => {

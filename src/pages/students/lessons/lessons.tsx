@@ -1,8 +1,7 @@
-
+import { LessonsList } from "@/components/lessons-list";
 import { APPOINTMENTS_QUERY, PACKAGE_QUERY } from "@/shared/apollo/graphql";
-import { useQuery } from "@apollo/client";
-import { LessonsList } from "src/components/lessons-list";
 import { getItemToLocalStorage } from "@/shared/constants/global";
+import { useQuery } from "@apollo/client";
 
 const Lessons = () => {
 	const {

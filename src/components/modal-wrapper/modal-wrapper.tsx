@@ -2,7 +2,7 @@
 import { FaXmark } from "react-icons/fa6";
 import Modal from "react-modal";
 
-import "@/components/modal-wrapper.css";
+import "@/components/modal-wrapper/modal-wrapper.css";
 
 Modal.setAppElement("#root");
 

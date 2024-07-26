@@ -2,7 +2,19 @@ import * as Dialog from "@radix-ui/react-dialog";
 
 import { FaXmark } from "react-icons/fa6";
 
-export const MyDialog = ({ open, setOpen, button, children, hideCloseBtn }) => {
+export const MyDialog = ({
+	open,
+	setOpen,
+	button,
+	children,
+	hideCloseBtn,
+}: {
+	open: boolean;
+	setOpen: (value: boolean) => void;
+	button: React.ReactNode;
+	children: React.ReactNode;
+	hideCloseBtn?: boolean;
+}) => {
 	return (
 		<Dialog.Root open={open} onOpenChange={setOpen}>
 			<Dialog.Trigger asChild>{button}</Dialog.Trigger>

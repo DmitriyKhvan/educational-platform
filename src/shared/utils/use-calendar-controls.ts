@@ -1,11 +1,23 @@
+import { CalendarView, type CalendarViewType } from "@/shared/constants/global";
+import type { Calendar, CalendarApi } from "@fullcalendar/core";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CalendarView } from "@/shared/constants/global";
 
-export function useCalendarControls({ calendarRef, initialView }) {
-	const [t, i18n] = useTranslation(["lessons", "common"]);
-	const [view, setView] = useState(initialView || CalendarView.MONTH_VIEW);
-	const [date, setDate] = useState(new Date());
+interface UseCalendarControlsProps {
+	calendarRef: React.MutableRefObject<Calendar | null>;
+	initialView?: CalendarViewType;
+}
+
+export function useCalendarControls({
+	calendarRef,
+	initialView,
+}: UseCalendarControlsProps) {
+	console.log("🚀 ~ calendarRef:", calendarRef);
+	const { t, i18n } = useTranslation(["lessons", "common"]);
+	const [view, setView] = useState<CalendarViewType>(
+		initialView || CalendarView.MONTH_VIEW,
+	);
+	const [date, setDate] = useState<Date>(new Date());
 
 	const viewDictionary = useMemo(
 		() => ({
@@ -13,47 +25,55 @@ export function useCalendarControls({ calendarRef, initialView }) {
 			[CalendarView.WEEK_VIEW]: t("calendar_week"),
 			[CalendarView.MONTH_VIEW]: t("calendar_month"),
 		}),
-		[i18n, i18n.language, t],
+		[t],
 	);
 
 	useEffect(() => {
 		queueMicrotask(() => {
-			const calendarApi = calendarRef.current.getApi();
-			calendarApi.changeView(view);
-			calendarApi.today();
-			setDate(calendarApi.getDate());
+			const calendarApi = calendarRef.current?.getApi();
+			if (calendarApi) {
+				calendarApi.changeView(view);
+				calendarApi.today();
+				setDate(calendarApi.getDate());
+			}
 		});
-	}, [view]);
+	}, [view, calendarRef]);
 
 	const goNext = useCallback(() => {
-		const calendarApi = calendarRef.current.getApi();
-		calendarApi.next();
-		setDate(calendarApi.getDate());
+		const calendarApi = calendarRef.current?.getApi();
+		if (calendarApi) {
+			calendarApi.next();
+			setDate(calendarApi.getDate());
+		}
 	}, [calendarRef]);
 
 	const goPrev = useCallback(() => {
-		const calendarApi = calendarRef.current.getApi();
-		calendarApi.prev();
-		setDate(calendarApi.getDate());
+		const calendarApi = calendarRef.current?.getApi();
+		if (calendarApi) {
+			calendarApi.prev();
+			setDate(calendarApi.getDate());
+		}
 	}, [calendarRef]);
 
 	const goToday = useCallback(() => {
-		const calendarApi = calendarRef.current.getApi();
-		calendarApi.today();
-		setDate(calendarApi.getDate());
+		const calendarApi = calendarRef.current?.getApi();
+		if (calendarApi) {
+			calendarApi.today();
+			setDate(calendarApi.getDate());
+		}
 	}, [calendarRef]);
 
 	const setMonthView = useCallback(() => {
 		setView(CalendarView.MONTH_VIEW);
-	}, [calendarRef]);
+	}, []);
 
 	const setWeekView = useCallback(() => {
 		setView(CalendarView.WEEK_VIEW);
-	}, [calendarRef]);
+	}, []);
 
 	const setDayView = useCallback(() => {
 		setView(CalendarView.DAY_VIEW);
-	}, [calendarRef]);
+	}, []);
 
 	return {
 		view,

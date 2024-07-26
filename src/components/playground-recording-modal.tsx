@@ -5,6 +5,10 @@ export const PlaygroundRecordingModal = ({
 	urlRecording,
 	width = "100%",
 	autoPlay,
+}: {
+	urlRecording: string;
+	width?: string;
+	autoPlay?: boolean;
 }) => {
 	return (
 		<div

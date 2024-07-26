@@ -1,8 +1,8 @@
-
 import { Link } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
 
+import Button from "@/components/form/button/button";
 import {
 	Tooltip,
 	TooltipContent,
@@ -10,11 +10,10 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/tooltip";
+import { Avatar } from "@/widgets/avatar/avatar";
 import { useMediaQuery } from "react-responsive";
 import StarRatings from "react-star-ratings";
-import Button from "@/components/form/button/button";
-import { Avatar } from "@/widgets/avatar/avatar";
-// import { EmblaCarousel } from 'src/components/Carousel';
+// import { EmblaCarousel } from '@/components/Carousel';
 
 const MentorsModal = ({ mentor }) => {
 	const isMobile = useMediaQuery({ maxWidth: 639 });

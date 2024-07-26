@@ -1,9 +1,15 @@
+import { useAuth } from "@/app/providers/auth-provider";
 import Button from "@/components/form/button";
 import Indicator from "@/components/indicator";
 import Loader from "@/components/loader/loader";
 import { PlaygroundRecordingModal } from "@/components/playground-recording-modal";
 import StatusIndicator from "@/components/student-dashboard/status-indicator";
+import FeedbackInfo from "@/pages/students/feedback/ui/feedback-info";
+import LessonInfo from "@/pages/students/feedback/ui/lesson-info";
 import { LESSON_QUERY } from "@/shared/apollo/graphql";
+import { localeDic } from "@/shared/constants/global";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
 import { useQuery } from "@apollo/client";
 import { addMinutes } from "date-fns";
 import { format, toZonedTime } from "date-fns-tz";
@@ -12,13 +18,7 @@ import { useTranslation } from "react-i18next";
 import { FaCheck, FaStar } from "react-icons/fa6";
 import { PiStarFourFill } from "react-icons/pi";
 import { useParams } from "react-router-dom";
-import { useAuth } from "@/app/providers/auth-provider";
 import { StudentReviewModal } from "src/entities/student-review-modal";
-import { localeDic } from "@/shared/constants/global";
-import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog/index.jsx";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/ui/tabs";
-import FeedbackInfo from "@/pages/students/feedback/ui/feedback-info";
-import LessonInfo from "@/pages/students/feedback/ui/lesson-info";
 
 function Feedback() {
 	const params = useParams();

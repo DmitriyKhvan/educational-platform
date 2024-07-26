@@ -15,7 +15,7 @@ import { IoIosWarning } from "react-icons/io";
 // import Swal from 'sweetalert2';
 import { LuPlus } from "react-icons/lu";
 import { ModalConfirm } from "@/entities/modal-confirm";
-import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog/index.jsx";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
 import { formatTime } from "@/pages/mentors/availability/lib/format-time";
 import { formatTimeToSeconds } from "@/pages/mentors/availability/lib/format-time-to-seconds";
 import { parseErrorMessage } from "@/pages/mentors/availability/lib/parse-error-message";

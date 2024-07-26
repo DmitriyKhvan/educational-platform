@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useAuth } from "@/app/providers/auth-provider";
+import { useNotifications } from "@/app/providers/notification-provider";
 import { Badge } from "@/components/badge";
 import Button from "@/components/form/button";
+import { LessonsCalendar, LessonsTable } from "@/components/lessons-list";
 import Loader from "@/components/loader/loader";
+import { LessonsStatusType } from "@/shared/constants/global";
 import { sortCalendarEvents } from "@/shared/utils/sort-calendar-events";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAuth } from "@/app/providers/auth-provider";
-import { useNotifications } from "@/app/providers/notification-provider";
-import { LessonsCalendar, LessonsTable } from "src/components/lessons-list";
-import { LessonsStatusType } from "@/shared/constants/global";
 
 const LessonsList = ({
 	getAppointments,

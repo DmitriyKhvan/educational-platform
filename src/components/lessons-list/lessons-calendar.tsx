@@ -1,22 +1,22 @@
-import LessonInfoModal from "@/components/student-dashboard/lesson-info-modal";
-import { cn } from "@/shared/utils/functions";
-import { format } from "date-fns";
-import { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import Modal from "react-modal";
 import { useAuth } from "@/app/providers/auth-provider";
-import { LessonsCalendarHeader } from "src/components/lessons-list";
+import { LessonsCalendarHeader } from "@/components/lessons-list";
+import LessonInfoModal from "@/components/student-dashboard/lesson-info-modal";
 import {
 	COURSE_COLORS,
 	CalendarView,
 	Roles,
 	courseColorsDict,
 } from "@/shared/constants/global";
+import { cn } from "@/shared/utils/functions";
+import { format } from "date-fns";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import Modal from "react-modal";
 
+import { Calendar } from "@/components/calendar/index";
+import Loader from "@/components/loader/loader";
 import { getTranslatedTitle } from "@/shared/utils/get-translated-title";
 import { useCourseColors } from "@/shared/utils/use-course-colors";
-import { Calendar } from "../calendar";
-import Loader from "../loader/loader";
 
 const LessonsCalendar = ({ calendarAppointments, getAppointments }) => {
 	// eslint-disable-next-line no-unused-vars

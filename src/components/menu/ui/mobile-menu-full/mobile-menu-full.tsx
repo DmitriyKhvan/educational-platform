@@ -1,10 +1,9 @@
-
 import { useMenuList } from "@/components/menu/lib/use-menuList";
 import { MobileMenuFullItem } from "@/components/menu/ui/mobile-menu-full/mobile-menu-full-item";
 
-import { FaXmark } from "react-icons/fa6";
-import { ReferBanner } from "src/components/refer-banner";
+import { ReferBanner } from "@/components/refer-banner";
 import { LangCurrencySwitcher } from "@/widgets/lang-currency-switcher";
+import { FaXmark } from "react-icons/fa6";
 
 export const MobileMenuFull = ({ setOpen }) => {
 	const navLinks = useMenuList();

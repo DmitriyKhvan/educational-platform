@@ -1,7 +1,15 @@
 import { cn } from "@/shared/utils/functions";
+import type React from "react";
 import { forwardRef } from "react";
 
-const CheckboxField = forwardRef(
+interface CheckboxFieldProps
+	extends React.InputHTMLAttributes<HTMLInputElement> {
+	label?: string;
+	square?: boolean;
+	dot?: boolean;
+}
+
+const CheckboxField = forwardRef<HTMLInputElement, CheckboxFieldProps>(
 	(
 		{
 			label = "",
@@ -52,11 +60,7 @@ const CheckboxField = forwardRef(
 					<div className="absolute hidden peer-checked:block ml-2 rounded-full bg-color-purple w-2 h-2" />
 				) : (
 					<svg
-						className="
-            absolute 
-            w-4 h-4 mx-1
-            hidden peer-checked:block
-            text-white"
+						className="absolute w-4 h-4 mx-1 hidden peer-checked:block text-white"
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 24 24"
 						fill="none"
@@ -65,7 +69,8 @@ const CheckboxField = forwardRef(
 						strokeLinecap="round"
 						strokeLinejoin="round"
 					>
-						<polyline points="20 6 9 17 4 12"></polyline>
+						<title>Checked</title>
+						<polyline points="20 6 9 17 4 12" />
 					</svg>
 				)}
 				{label && <p className="ml-3 leading-6 text-gray-900">{label}</p>}

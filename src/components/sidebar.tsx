@@ -1,11 +1,10 @@
-
 import { Link } from "react-router-dom";
 
 import { useMediaQuery } from "react-responsive";
 
-import { MobileMenu } from "@/components/menu/ui/mobile-menu";
 import { useAuth } from "@/app/providers/auth-provider";
-import { Menu } from "src/components/menu";
+import { Menu } from "@/components/menu";
+import { MobileMenu } from "@/components/menu/ui/mobile-menu";
 
 import Logo from "@/shared/assets/images/logo_purple.svg";
 import { Roles } from "@/shared/constants/global";
@@ -25,7 +24,7 @@ export const Sidebar = () => {
 					<Link
 						className="flex items-center h-[79px]"
 						to={
-							user.role === Roles.MENTOR
+							user?.role === Roles.MENTOR
 								? "/mentor/manage-appointments"
 								: "/student/manage-lessons"
 						}

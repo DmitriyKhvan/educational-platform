@@ -27,7 +27,7 @@ const ScheduleCard = ({
 	setCanceledLessons,
 	duration,
 	subscription,
-}) => {
+} ) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [t] = useTranslation(["modals", "common"]);
 	const [isWarningOpen, setIsWarningOpen] = useState(false);

@@ -1,12 +1,12 @@
+import { useAuth } from "@/app/providers/auth-provider";
+import { NoLessonsMessage } from "@/components/lessons-list";
 import { LessonTable } from "@/components/student-dashboard/lesson-table";
 import { LessonTableMobile } from "@/components/student-dashboard/lesson-table-mobile";
+import { LessonsStatusType, Roles } from "@/shared/constants/global";
 import { isWithinHours } from "@/shared/utils/is-within-hours";
 import { addMinutes, isAfter } from "date-fns";
 import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { useAuth } from "@/app/providers/auth-provider";
-import { NoLessonsMessage } from "src/components/lessons-list";
-import { LessonsStatusType, Roles } from "@/shared/constants/global";
 
 const Table = ({
 	tableAppointments,

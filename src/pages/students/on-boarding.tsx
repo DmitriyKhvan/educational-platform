@@ -3,23 +3,23 @@ import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+import { SIGN_UP } from "@/shared/apollo/graphql";
 import { useMutation } from "@apollo/client";
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { SIGN_UP } from "@/shared/apollo/graphql";
 
 import Button from "@/components/form/button";
 import Loader from "@/components/loader/loader";
 
+import { useLogin } from "@/app/providers/auth-provider";
 import InputField from "@/components/form/input-field";
 import InputWithError from "@/components/form/input-with-error";
 import PhoneNumberField from "@/components/form/phone-number-field";
 import { SelectField } from "@/components/form/select-field";
+import { timezoneOptions } from "@/shared/constants/global";
 import notify from "@/shared/utils/notify";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
-import { useLogin } from "@/app/providers/auth-provider";
-import { timezoneOptions } from "@/shared/constants/global";
-// import MySelect from 'src/components/Form/MySelect';
+// import MySelect from '@/components/Form/MySelect';
 
 export default function Onboarding() {
 	const [t] = useTranslation(["onboarding", "common", "translations"]);

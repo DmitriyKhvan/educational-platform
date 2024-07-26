@@ -6,15 +6,15 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useTranslation } from "react-i18next";
 
 import { PACKAGE_QUERY } from "@/shared/apollo/graphql";
+import { CREATE_PAYMENT } from "@/shared/apollo/mutations/payment/create-payment";
 import { CHECK_STRIPE_PAYMENT_STATUS } from "@/shared/apollo/queries/payment/check-stripe-payment-status";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
-import { CREATE_PAYMENT } from "@/shared/apollo/mutations/payment/create-payment";
 
+import { useAuth } from "@/app/providers/auth-provider";
 import Button from "@/components/form/button";
 import Loader from "@/components/loader/loader";
 import { MarketingChannelForm } from "@/components/onboarding/marketing-channel";
-import { useAuth } from "@/app/providers/auth-provider";
 import { getItemToLocalStorage } from "@/shared/constants/global";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
@@ -22,8 +22,8 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 export default function ConfirmPayment() {
 	const { user, currentStudent } = useAuth();
 
-	const studentId = getItemToLocalStorage("studentId")
-		? getItemToLocalStorage("studentId")
+	const studentId = getItemToLocalStorage("studentId", "")
+		? getItemToLocalStorage("studentId", "")
 		: currentStudent?.id ?? user.students[0].id;
 
 	const {
@@ -59,7 +59,7 @@ export default function ConfirmPayment() {
 			const stripe = await stripePromise;
 
 			const { paymentIntent } =
-				await stripe.retrievePaymentIntent(clientSecret);
+				await stripe?.retrievePaymentIntent(clientSecret);
 
 			switch (paymentIntent.status) {
 				case "succeeded": {

@@ -1,22 +1,30 @@
 import MyDropdownMenu from "@/components/dropdown-menu";
 import Button from "@/components/form/button";
 import CheckboxField from "@/components/form/checkbox-field";
+import {
+	COURSE_COLORS,
+	CalendarView,
+	type CourseColorType,
+	courseColorsDict,
+	localeDic,
+} from "@/shared/constants/global";
 import { cn } from "@/shared/utils/functions";
 import { getTranslatedTitle } from "@/shared/utils/get-translated-title";
 import { useCalendarControls } from "@/shared/utils/use-calendar-controls";
 import { useCourseColors } from "@/shared/utils/use-course-colors";
+import type { Calendar } from "@fullcalendar/core";
 import { format } from "date-fns";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaChevronDown, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
-import {
-	COURSE_COLORS,
-	CalendarView,
-	courseColorsDict,
-	localeDic,
-} from "@/shared/constants/global";
 
-const LessonsCalendarHeader = ({ calendarRef }) => {
+interface LessonsCalendarHeaderProps {
+	calendarRef: React.RefObject<Calendar>;
+}
+
+const LessonsCalendarHeader: React.FC<LessonsCalendarHeaderProps> = ({
+	calendarRef,
+}) => {
 	const [open, setOpen] = useState(false);
 	const { getColorByCourseId, coursesList, colorsReady } = useCourseColors();
 
@@ -26,7 +34,7 @@ const LessonsCalendarHeader = ({ calendarRef }) => {
 			initialView: CalendarView.WEEK_VIEW,
 		});
 
-	const [t, i18n] = useTranslation(["lessons", "common"]);
+	const { t, i18n } = useTranslation(["lessons", "common"]);
 
 	if (!calendarRef || !colorsReady) return null;
 
@@ -36,7 +44,7 @@ const LessonsCalendarHeader = ({ calendarRef }) => {
 				<div className="flex items-center mb-6">
 					<h2 className="font-semibold text-2xl whitespace-nowrap mr-4">
 						{format(date, "LLLL yyyy", {
-							locale: localeDic[i18n.language],
+							locale: localeDic[i18n.language as keyof typeof localeDic],
 						})}
 					</h2>
 					<div className="flex space-x-2">
@@ -67,7 +75,7 @@ const LessonsCalendarHeader = ({ calendarRef }) => {
 								{viewDictionary[view]} <FaChevronDown />
 							</Button>
 						}
-						contentClassName=" rounded-xl overflow-hidden border"
+						contentClassName="rounded-xl overflow-hidden border"
 					>
 						<div className="flex flex-col">
 							{Object.values(CalendarView).map((v) => (
@@ -85,7 +93,7 @@ const LessonsCalendarHeader = ({ calendarRef }) => {
 						</div>
 					</MyDropdownMenu>
 
-					<Button theme="outline" onClick={goToday} className=" shadow">
+					<Button theme="outline" onClick={goToday} className="shadow">
 						{t("calendar_today")}
 					</Button>
 				</div>
@@ -102,7 +110,7 @@ const LessonsCalendarHeader = ({ calendarRef }) => {
 								"w-[10px] h-[10px] block rounded-[3px]",
 								getColorByCourseId(c.id)?.indicator,
 							)}
-						></span>
+						/>
 						<p>{getTranslatedTitle(c, i18n.language)}</p>
 					</div>
 				))}
@@ -110,7 +118,8 @@ const LessonsCalendarHeader = ({ calendarRef }) => {
 					<span
 						className={cn(
 							"w-[10px] h-[10px] block rounded-[3px]",
-							courseColorsDict[COURSE_COLORS.GREEN]?.indicator,
+							courseColorsDict[COURSE_COLORS.GREEN as CourseColorType]
+								?.indicator,
 						)}
 					></span>
 					<p>{t("trial", { ns: "common" })}</p>

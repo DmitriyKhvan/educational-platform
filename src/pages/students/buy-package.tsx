@@ -1,23 +1,24 @@
 import { useQuery } from "@apollo/client";
 import { useEffect, useMemo, useState } from "react";
 
+import { useAuth } from "@/app/providers/auth-provider";
 import { Courses } from "@/components/buy-package/courses";
 import { OrderSummary } from "@/components/buy-package/order-summary";
 import { Packages } from "@/components/buy-package/packages";
 import { PromoBanner } from "@/components/buy-package/promo-banner";
 import { SessionsPerWeek } from "@/components/buy-package/sessions-per-week";
 import { SessionsTime } from "@/components/buy-package/sessions-time";
+import Loader from "@/components/loader/loader";
+import { COURSES } from "@/shared/apollo/queries/courses/courses";
 import { getTranslatedTitle } from "@/shared/utils/get-translated-title";
 import { useTranslation } from "react-i18next";
 import { FaCheck } from "react-icons/fa6";
-import { useAuth } from "@/app/providers/auth-provider";
-import { COURSES } from "@/shared/apollo/queries/courses/courses";
-import Loader from "@/components/loader/loader";
 
-import { currencyFormat } from "@/shared/utils/currency-format";
-import { useMediaQuery } from "react-responsive";
 import { useCurrency } from "@/app/providers/currency-provider";
 import { Currencies, DiscountType } from "@/shared/constants/global";
+import { currencyFormat } from "@/shared/utils/currency-format";
+import type { Course, Package, Query } from "@/types/types.generated";
+import { useMediaQuery } from "react-responsive";
 
 export default function BuyPackage() {
 	const isTablet = useMediaQuery({ minWidth: 1280 });
@@ -25,34 +26,43 @@ export default function BuyPackage() {
 	const { curCurrency } = useCurrency();
 	const [t, i18n] = useTranslation("purchase");
 
-	const [courses, setCourse] = useState([]);
-	const [selectedCourse, setSelectedCourse] = useState(null);
+	const [courses, setCourses] = useState<Course[]>([]);
+	const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
-	const [selectedSessionTime, setSelectedSessionTime] = useState(null);
-	const [selectedSessionsPerWeek, setSelectedSessionsPerWeek] = useState(null);
+	const [selectedSessionTime, setSelectedSessionTime] = useState<number | null>(
+		null,
+	);
+	const [selectedSessionsPerWeek, setSelectedSessionsPerWeek] = useState<
+		number | null
+	>(null);
 
-	const [uniqueSessionsTime, setUniqueSessionsTime] = useState([]);
-	const [uniqueSessionsPerWeek, setUniqueSessionsPerWeek] = useState([]);
+	const [uniqueSessionsTime, setUniqueSessionsTime] = useState<number[]>([]);
+	const [uniqueSessionsPerWeek, setUniqueSessionsPerWeek] = useState<number[]>(
+		[],
+	);
 
-	const [changeCourse, setChageCourse] = useState(null);
+	const [changeCourse, setChangeCourse] = useState<Course | null>(null);
 
-	const [selectedPackage, setSelectedPackage] = useState(null);
-	const [promoPackage, setPromoPackage] = useState(null);
+	const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
+	const [promoPackage, setPromoPackage] = useState<Package | null>(null);
 
 	const discount = useMemo(() => {
-		if (user?.personalPromotionCodes?.length > 0) {
+		if (user?.personalPromotionCodes?.length) {
 			return user.personalPromotionCodes[0]?.discountType ===
 				DiscountType.PERCENT
 				? `${user.personalPromotionCodes[0].value}%`
-				: currencyFormat({ number: user.personalPromotionCodes[0].value });
+				: user?.personalPromotionCodes?.[0]?.value &&
+						currencyFormat({
+							number: user?.personalPromotionCodes?.[0]?.value,
+						});
 		}
 	}, [user]);
 
-	const { error, data, loading } = useQuery(COURSES, {
+	const { error, data, loading } = useQuery<Query>(COURSES, {
 		fetchPolicy: "no-cache",
 		variables: {
 			trialFilter: "only_regular",
-			...(user.personalPromotionCodes.length && {
+			...(user?.personalPromotionCodes?.length && {
 				applyPersonalDiscountCode: true,
 			}),
 		},
@@ -61,85 +71,92 @@ export default function BuyPackage() {
 	useEffect(() => {
 		if (data) {
 			const coursesFiltered = data.courses
-				.filter((course) => course.packages.length > 0 && course.active)
-				.sort((a, b) => a.sequence - b.sequence)
+				.filter(
+					(course): course is Course =>
+						!!course?.active && !!course?.packages?.length,
+				)
 				.map((course) => ({
 					...course,
 					title: getTranslatedTitle(course, i18n.language),
 					packages: course.packages
-						.filter((pkg) => pkg.period !== 1)
-						.sort((a, b) => a.period - b.period),
-				}));
+						?.filter((pkg) => pkg?.period !== 1)
+						?.sort((a, b) => (a?.period ?? 0) - (b?.period ?? 0)),
+				}))
+				.sort((a, b) => (a.sequence ?? 0) - (b.sequence ?? 0));
 
-			setCourse(coursesFiltered);
+			setCourses(coursesFiltered);
 
-			setSelectedCourse(coursesFiltered[0]);
+			setSelectedCourse(coursesFiltered[0] || null);
 		}
-	}, [data, t]);
+	}, [data, i18n.language]);
 
 	useEffect(() => {
 		if (selectedCourse) {
 			const uniqueSessionsTime = [
 				...new Set(
-					selectedCourse?.packages?.map((item) => item.sessionTime) ?? [],
+					selectedCourse?.packages
+						?.map((item) => item?.sessionTime)
+						.filter((time) => time !== null && time !== undefined) ?? [],
 				),
-			].sort((a, b) => a - b);
+			].sort((a, b) => (a ?? 0) - (b ?? 0));
 
 			const uniqueSessionsPerWeek = [
 				...new Set(
-					selectedCourse?.packages?.map((item) => item.sessionsPerWeek) ?? [],
+					selectedCourse?.packages
+						?.map((item) => item?.sessionsPerWeek)
+						.filter(
+							(sessions) => sessions !== null && sessions !== undefined,
+						) ?? [],
 				),
-			].sort((a, b) => a - b);
+			].sort((a, b) => (a ?? 0) - (b ?? 0));
 
 			setUniqueSessionsTime(uniqueSessionsTime);
 			setUniqueSessionsPerWeek(uniqueSessionsPerWeek);
 
-			setSelectedSessionTime(uniqueSessionsTime[0]);
-			setSelectedSessionsPerWeek(uniqueSessionsPerWeek[0]);
+			setSelectedSessionTime(uniqueSessionsTime[0] ?? null);
+			setSelectedSessionsPerWeek(uniqueSessionsPerWeek[0] ?? null);
 
-			setChageCourse(selectedCourse); //so that filtering always occurs after changing sessionTime and selectedSessionsPerWeek
+			setChangeCourse(selectedCourse); // so that filtering always occurs after changing sessionTime and selectedSessionsPerWeek
 		}
 	}, [selectedCourse]);
 
 	const filteredPackage = useMemo(() => {
 		if (selectedSessionTime && selectedSessionsPerWeek) {
 			const packages = selectedCourse?.packages
-				.filter((pkg) => {
+				?.filter((pkg) => {
 					const conditions = [true];
-
-					// conditions.push(pkg.period !== 1);
 
 					if (!selectedSessionTime) {
 						conditions.push(true);
 					} else {
-						conditions.push(pkg.sessionTime === selectedSessionTime);
+						conditions.push(pkg?.sessionTime === selectedSessionTime);
 					}
 
 					if (!selectedSessionsPerWeek) {
 						conditions.push(true);
 					} else {
-						conditions.push(pkg.sessionsPerWeek === selectedSessionsPerWeek);
+						conditions.push(pkg?.sessionsPerWeek === selectedSessionsPerWeek);
 					}
 
 					return conditions.every((condition) => condition);
 				})
 				.map((pkg) => ({
 					...pkg,
-					price: pkg.prices.find(
+					price: pkg?.prices?.find(
 						(price) =>
-							price.currency === curCurrency?.value?.toLocaleLowerCase(),
+							price?.currency === curCurrency?.value?.toLocaleLowerCase(),
 					)?.price,
 				}));
-			// .sort((a, b) => a.period - b.period);
-
-			// setSelectedPackage(
-			//   packages.find((pkg) => pkg.id === selectedPackage?.id) || null,
-			// );
 
 			setSelectedPackage(null);
 			return packages;
 		}
-	}, [changeCourse, selectedSessionTime, selectedSessionsPerWeek, curCurrency]);
+	}, [
+		selectedSessionTime,
+		selectedSessionsPerWeek,
+		curCurrency,
+		selectedCourse?.packages,
+	]);
 
 	if (loading) return <Loader height="100vh" />;
 
@@ -154,7 +171,7 @@ export default function BuyPackage() {
 				<div className="grow">
 					{!isTablet && (
 						<>
-							{user.personalPromotionCodes.length > 0 && !promoPackage && (
+							{user?.personalPromotionCodes?.length && !promoPackage && (
 								<PromoBanner
 									icon={<span className="text-xl">🎁</span>}
 									title={`You received a ${discount} discount`}
@@ -197,12 +214,14 @@ export default function BuyPackage() {
 							selectedSessionTime={selectedSessionTime}
 						/>
 
-						<Packages
-							filteredPackage={filteredPackage}
-							setSelectedPackage={setSelectedPackage}
-							selectedPackage={selectedPackage}
-							setPromoPackage={setPromoPackage}
-						/>
+						{filteredPackage && (
+							<Packages
+								filteredPackage={filteredPackage}
+								setSelectedPackage={setSelectedPackage}
+								selectedPackage={selectedPackage}
+								setPromoPackage={setPromoPackage}
+							/>
+						)}
 					</div>
 				</div>
 
@@ -210,7 +229,7 @@ export default function BuyPackage() {
 				<div className="w-full md:min-w-[414px] md:max-w-[414px]">
 					{isTablet && (
 						<>
-							{user.personalPromotionCodes.length > 0 && !promoPackage && (
+							{user?.personalPromotionCodes?.length && !promoPackage && (
 								<PromoBanner
 									icon={<span className="text-xl">🎁</span>}
 									title={`You received a ${discount} discount`}
@@ -237,7 +256,7 @@ export default function BuyPackage() {
 				</div>
 			</div>
 
-			{curCurrency.value === Currencies.TWD && (
+			{curCurrency?.value === Currencies.TWD && (
 				<div className="mt-10">
 					<p className="text-sm">
 						請注意：結帳時的最終費用可能略有不同。不用擔心，只需繼續付款即可，結帳時看到的金額將是最終費用。
