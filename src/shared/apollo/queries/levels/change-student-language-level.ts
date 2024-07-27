@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const CHANGE_STUDENT_LEVEL = gql`
   mutation changeStudentLanguageLevel($studentId: ID!, $languageLevelId: Int!) {

@@ -9,8 +9,8 @@ export const MyDialog = ({
 	children,
 	hideCloseBtn,
 }: {
-	open: boolean;
-	setOpen: (value: boolean) => void;
+	open?: boolean;
+	setOpen?: (value: boolean) => void;
 	button: React.ReactNode;
 	children: React.ReactNode;
 	hideCloseBtn?: boolean;

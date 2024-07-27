@@ -14,6 +14,7 @@ export const LangCurrencySwitcher = ({ align } : {
 	const currentLang = useCurrentLang();
 
 	const [t] = useTranslation(["translations", "common"]);
+
 	const [open, setOpen] = useState(false);
 
 	return (

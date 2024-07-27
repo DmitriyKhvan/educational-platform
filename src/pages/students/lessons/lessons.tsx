@@ -10,7 +10,7 @@ const Lessons = () => {
 		loading: loadingAppointments,
 	} = useQuery(APPOINTMENTS_QUERY, {
 		variables: {
-			studentId: getItemToLocalStorage("studentId"),
+			studentId: getItemToLocalStorage("studentId", ""),
 			status: `approved,scheduled,rescheduled,paid,completed,in_progress,canceled`,
 		},
 		fetchPolicy: "no-cache",
@@ -21,7 +21,7 @@ const Lessons = () => {
 	} = useQuery(PACKAGE_QUERY, {
 		fetchPolicy: "no-cache",
 		variables: {
-			studentId: getItemToLocalStorage("studentId"),
+			studentId: getItemToLocalStorage("studentId", ""),
 		},
 	});
 

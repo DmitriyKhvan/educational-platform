@@ -1,3 +1,3 @@
-import Calendar from "@/components/calendar/calendar";
+import Calendar from '@/components/calendar/calendar';
 
 export { Calendar };

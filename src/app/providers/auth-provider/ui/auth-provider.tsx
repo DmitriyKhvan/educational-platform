@@ -8,6 +8,7 @@ import {
 	ME_QUERY,
 } from "@/shared/apollo/graphql";
 import { Roles, getItemToLocalStorage } from "@/shared/constants/global";
+import useLocalStorage from "@/shared/utils/use-local-storage";
 import type { AuthenticatedUser } from "@/types/types.generated";
 import { useMutation, useQuery } from "@apollo/client";
 import { type ReactNode, useState } from "react";
@@ -29,6 +30,7 @@ interface InviteSetPasswordMutationVars {
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const { getAllNotifications } = useNotifications();
 	const [currentStudent, setCurrentStudent] = useState<Student | null>(null);
+	const [studentId, setStudentId] = useLocalStorage('studentId', null);
 
 	const {
 		data: user,
@@ -40,7 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		},
 		onCompleted: (data) => {
 			const student = data?.authenticatedUser?.students?.find(
-				(student) => student?.id === getItemToLocalStorage("studentId", ""),
+				(student) => student?.id === studentId,
 			);
 
 			setCurrentStudent(student || null);

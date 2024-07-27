@@ -20,14 +20,21 @@ import { CancelTrialLessonModal } from "@/components/student-dashboard/cancel-tr
 import LessonInfoModal from "@/components/student-dashboard/lesson-info-modal";
 import PlaygroundWarningModal from "@/components/student-dashboard/playground-warning-modal";
 import RescheduleAndCancelModal from "@/components/student-dashboard/reschedule-and-cancel-modal-rebranding";
+import type { CalendarEvent } from "@/types";
 
 const LessonControls = ({
 	date,
 	data,
 	refetch,
 	duration,
-	setCanceledLessons,
 	pattern = "card", // card, table, info
+}: {
+	date: Date;
+	data: CalendarEvent;
+	refetch: () => void;
+	duration: number;
+
+	pattern?: string;
 }) => {
 	const dateLesson = new Date(date);
 	const navigate = useNavigate();
@@ -36,10 +43,10 @@ const LessonControls = ({
 
 	const [t] = useTranslation(["modals", "common", "feedback"]);
 	const [isWarningOpen, setIsWarningOpen] = useState(false);
-	const [modalType, setModalType] = useState("");
+	const [modalType, setModalType] = useState<ModalType| null>(null);
 	const [isOpen, setIsOpen] = useState(false);
 	const [tabIndex, setTabIndex] = useState(0);
-	const [controls, setControls] = useState([]);
+	const [controls, setControls] = useState<number[]>([]);
 
 	const [mentorReviewOpen, setMentorReviewOpen] = useState(false);
 	const [openStudentReview, setOpenStudentReview] = useState(false);
@@ -51,11 +58,11 @@ const LessonControls = ({
 	// const isAfterLesson = true;
 	const isAfterLesson = isAfter(
 		new Date(),
-		addMinutes(new Date(date), data.duration),
+		addMinutes(new Date(date), duration),
 	);
 
 	const gridStyle = {
-		gridTemplateColumns: `repeat(${pattern === "table" && user.role === Roles.STUDENT && isAfterLesson && process.env.REACT_APP_PRODUCTION === "false" ? 3 : controls}, minmax(0, 1fr))`,
+		gridTemplateColumns: `repeat(${pattern === "table" && user?.role === Roles.STUDENT && isAfterLesson && process.env.REACT_APP_PRODUCTION === "false" ? 3 : controls}, minmax(0, 1fr))`,
 		// gridTemplateColumns: `repeat(${controls}, minmax(0, 1fr))`,
 	};
 
@@ -93,7 +100,7 @@ const LessonControls = ({
 			})
 		) {
 			window.open(
-				user.role === Roles.MENTOR
+				user?.role === Roles.MENTOR
 					? data?.playground?.startUrl
 					: data?.playground?.joinUrl,
 				"_blank",
@@ -150,21 +157,21 @@ const LessonControls = ({
 			!isAfterLesson &&
 			!isWithin24Hours &&
 			!data.isTrial &&
-			user.role !== Roles.MENTOR
+			user?.role !== Roles.MENTOR
 		) {
 			controls++;
 		}
-		if (isAfterLesson && user.role === Roles.MENTOR) {
+		if (isAfterLesson && user?.role === Roles.MENTOR) {
 			controls++;
 		}
 		if (
 			isAfterLesson &&
-			user.role === Roles.STUDENT &&
+			user?.role === Roles.STUDENT &&
 			process.env.REACT_APP_PRODUCTION === "false"
 		) {
 			controls += 2;
 		}
-		if (!isAfterLesson && !(user.role === Roles.MENTOR && data.isTrial)) {
+		if (!isAfterLesson && !(user?.role === Roles.MENTOR && data.isTrial)) {
 			controls++;
 		}
 

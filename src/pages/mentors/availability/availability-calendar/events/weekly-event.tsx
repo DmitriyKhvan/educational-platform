@@ -1,9 +1,12 @@
 import { cn } from "@/shared/utils/functions";
 
 import { COURSE_COLORS, courseColorsDict } from "@/shared/constants/global";
-import { EventType } from "@/pages/mentors/availability/availability-calendar/events/lib/event-type";
+import { EventType } from "@/types"; 
 
-const WeeklyEvent = ({ data, eventInfo }) => {
+const WeeklyEvent = ({ data, eventInfo }: {
+	data: { type: string; isTrial?: boolean; };
+	eventInfo: { event: { title: string; }; };
+}) => {
 	return (
 		<div
 			className={cn(

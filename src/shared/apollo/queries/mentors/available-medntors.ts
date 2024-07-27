@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const AVAILABLE_MENTORS = gql`
   query availableMentors($time: String!, $duration: Int!, $studentId: String!) {

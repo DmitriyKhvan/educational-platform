@@ -1,7 +1,9 @@
 
 import { TailSpin } from "react-loader-spinner";
 
-const ReactLoader = ({ className }) => {
+const ReactLoader = ({ className }: {
+    className?: string;
+}) => {
 	return (
 		<TailSpin
 			color="#00BFFF"

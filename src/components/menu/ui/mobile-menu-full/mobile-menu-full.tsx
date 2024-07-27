@@ -5,7 +5,9 @@ import { ReferBanner } from "@/components/refer-banner";
 import { LangCurrencySwitcher } from "@/widgets/lang-currency-switcher";
 import { FaXmark } from "react-icons/fa6";
 
-export const MobileMenuFull = ({ setOpen }) => {
+export const MobileMenuFull = ({ setOpen }: {
+	setOpen: (open: boolean) => void;
+}) => {
 	const navLinks = useMenuList();
 	return (
 		<div className="w-full sm:w-[514px] mx-auto mb-4 space-y-10">

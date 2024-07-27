@@ -1,21 +1,18 @@
-import { useMutation } from "@apollo/client";
-import { LOGIN_MUTATION } from "@/shared/apollo/graphql";
+import { LOGIN_MUTATION } from '@/shared/apollo/graphql';
+import { useMutation } from '@apollo/client';
 
 export const useLogin = () => {
-	const [loginMutation, { loading, error, data }] = useMutation(LOGIN_MUTATION);
+  const [loginMutation, { loading, error, data }] = useMutation(LOGIN_MUTATION);
 
-	const login = (email: string, password: string) => {
-		loginMutation({
-			variables: { email, password },
-			onCompleted: async (data) => {
-				localStorage.setItem("token", data.authResult.sessionToken);
-				localStorage.setItem(
-					"studentId",
-					data?.authResult?.user?.students[0]?.id,
-				);
-			},
-		});
-	};
+  const login = (email: string, password: string) => {
+    loginMutation({
+      variables: { email, password },
+      onCompleted: async (data) => {
+        localStorage.setItem('token', data.authResult.sessionToken);
+        localStorage.setItem('studentId', data?.authResult?.user?.students[0]?.id);
+      },
+    });
+  };
 
-	return { login, loading, error, data };
+  return { login, loading, error, data };
 };

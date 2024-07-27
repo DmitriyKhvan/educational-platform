@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const PLAYGROUND_LESSON = gql`
   query playgroundLesson($playgroundId: String!) {

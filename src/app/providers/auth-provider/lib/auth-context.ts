@@ -1,11 +1,6 @@
 import type { InviteSetPasswordMutationData } from '@/app/providers/auth-provider/ui/auth-provider';
-import type { AuthenticatedUser } from '@/types/types.generated';
+import type { AuthenticatedUser, Student } from '@/types/types.generated';
 import { createContext } from 'react';
-
-export interface Student {
-  id: string;
-  [key: string]: unknown;
-}
 
 export interface AuthContextType {
   user: AuthenticatedUser | null;

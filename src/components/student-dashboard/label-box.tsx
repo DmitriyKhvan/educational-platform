@@ -1,7 +1,11 @@
 import { cn } from "@/shared/utils/functions";
 
 
-const LabelBox = ({ label, content, preElement = undefined }) => {
+const LabelBox = ({ label, content, preElement = undefined }: {
+	label: string;
+	content: string | JSX.Element;
+	preElement?: JSX.Element;
+}) => {
 	return (
 		<div
 			className={cn(

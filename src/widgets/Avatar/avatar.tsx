@@ -15,7 +15,7 @@ export const Avatar = ({
 	fallback?: "user" | "duck";
 	iconClassName?: string;
 }) => {
-	return avatarUrl || fallback === "duck" ? (
+	return avatarUrl ?? fallback === "duck" ? (
 		<img
 			className={`${cls.img} ${className}`}
 			src={avatarUrl ?? duckAvatar}

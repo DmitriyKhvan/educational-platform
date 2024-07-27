@@ -1,1 +1,1 @@
-export { StudentReviewModal } from "@/entities/student-review-modal/ui/student-review-modal";
+export { StudentReviewModal } from '@/entities/student-review-modal/ui/student-review-modal';

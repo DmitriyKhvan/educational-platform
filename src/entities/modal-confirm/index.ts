@@ -1,1 +1,1 @@
-export { ModalConfirm } from "@/entities/modal-confirm/ui/modal-confirm";
+export { ModalConfirm } from '@/entities/modal-confirm/ui/modal-confirm';

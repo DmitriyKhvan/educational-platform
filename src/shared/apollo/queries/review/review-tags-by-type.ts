@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const REVIEW_TAGS_BY_TYPE = gql`
   query studentReviewTagsByType($type: StudentReviewTagType!) {

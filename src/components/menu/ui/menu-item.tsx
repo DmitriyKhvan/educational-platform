@@ -7,12 +7,20 @@ import Button from "@/components/form/button";
 import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
 import { useTranslation } from "react-i18next";
 
-export const MenuItem = ({ menu }) => {
+export const MenuItem = ({ menu }: {
+	menu: {
+		label: string;
+		link: string;
+		icon: any;
+		type: "modal" | "internal" | "external" | "trial";
+		modal?: any;
+	};
+}) => {
 	const { currentStudent } = useAuth();
 	const [t] = useTranslation("sidebar");
 	const { notifications } = useNotifications();
 
-	const getCountNotification = (type) => {
+	const getCountNotification = (type: string) => {
 		const count = notifications.filter(
 			(notification) => notification?.meta?.dashboard === type,
 		);

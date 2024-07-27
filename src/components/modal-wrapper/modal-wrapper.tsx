@@ -13,45 +13,50 @@ const ModalWrapper = ({
 	widthContent = "auto",
 	heightContent,
 	paddingContent = "25px 20px",
+}: {
+	children: React.ReactNode;
+	isOpen: boolean;
+	closeModal: (isOpen: boolean) => void;
+	widthContent?: string;
+	heightContent?: string;
+	paddingContent?: string;
 }) => {
-	const customStyles = {
-		overlay: {
-			position: "fixed",
-			top: 0,
-			left: 0,
-			right: 0,
-			bottom: 0,
-			backgroundColor: "rgba(0, 0, 0, 0.45)",
-			zIndex: "9999",
-			display: "flex",
-			justifyContent: "center",
-			// alignItems: 'center',
-		},
-		content: {
-			top: "auto",
-			left: "auto",
-			right: "auto",
-			bottom: "auto",
-			zIndex: 100,
-			border: "0.5px solid #b2b2b2",
-			boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.01)",
-			borderRadius: "10px",
-			// padding: '25px 20px',
-			padding: paddingContent,
-			minWidth: "360px",
-			maxHeight: "calc(100vh - 100px)",
-			background: "#fff",
-			width: widthContent,
-			height: heightContent,
-		},
-	};
+
 
 	return (
 		<Modal
 			closeTimeoutMS={400}
 			isOpen={isOpen}
 			contentLabel="modal"
-			style={customStyles}
+			style={	{overlay: {
+				position: "fixed",
+				top: 0,
+				left: 0,
+				right: 0,
+				bottom: 0,
+				backgroundColor: "rgba(0, 0, 0, 0.45)",
+				zIndex: "9999",
+				display: "flex",
+				justifyContent: "center",
+				// alignItems: 'center',
+			},
+			content: {
+				top: "auto",
+				left: "auto",
+				right: "auto",
+				bottom: "auto",
+				zIndex: 100,
+				border: "0.5px solid #b2b2b2",
+				boxShadow: "0px 10px 30px rgba(0, 0, 0, 0.01)",
+				borderRadius: "10px",
+				// padding: '25px 20px',
+				padding: paddingContent,
+				minWidth: "360px",
+				maxHeight: "calc(100vh - 100px)",
+				background: "#fff",
+				width: widthContent,
+				height: heightContent,
+			}}}
 			onRequestClose={() => closeModal(false)}
 		>
 			<button

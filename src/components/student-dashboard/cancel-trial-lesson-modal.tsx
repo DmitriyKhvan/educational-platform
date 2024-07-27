@@ -5,11 +5,16 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Button from "@/components/form/button";
 import Loader from "@/components/loader/loader";
+import type { CalendarEvent } from "@/types";
 
 export const CancelTrialLessonModal = ({
 	data,
 	setIsOpen,
 	fetchAppointments,
+}: {
+	data: CalendarEvent
+	setIsOpen: (isOpen: boolean) => void;
+	fetchAppointments: () => void;
 }) => {
 	const [t] = useTranslation(["modals", "common"]);
 
@@ -30,8 +35,14 @@ export const CancelTrialLessonModal = ({
 			await fetchAppointments();
 			setIsOpen(false);
 			notify("Your lesson has been cancelled successfully");
-		} catch (error) {
-			notify(error.message, "error");
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+
+				notify(error.message, "error");
+			}
+			else {
+				notify("An unknown error occurred", "error");
+			}
 		} finally {
 			setIsLoading(false);
 		}

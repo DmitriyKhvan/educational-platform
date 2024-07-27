@@ -8,6 +8,7 @@ export interface Notification {
 			type: string;
 		};
 		bonusLessonsCount?: number;
+		dashboard?: string
 	};
 	body?: string;
 }

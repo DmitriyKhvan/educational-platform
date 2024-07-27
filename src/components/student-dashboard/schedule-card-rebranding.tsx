@@ -16,18 +16,36 @@ import Indicator from "@/components/indicator";
 import LabelBox from "@/components/student-dashboard/label-box";
 import LessonControls from "@/components/student-dashboard/lesson-controls";
 import StatusIndicator from "@/components/student-dashboard/status-indicator";
+import type { Mentor, Student } from "@/types/types.generated";
+import type { CalendarEvent } from "@/types";
 
 const ScheduleCard = ({
-	// lesson,
+	index,
+	lesson,
+	playground,
 	date, //utc +0
 	student,
 	mentor,
 	data,
 	fetchAppointments,
+	// cancelled,
 	setCanceledLessons,
 	duration,
 	subscription,
-	repeat = null,
+	repeat,
+} : {
+	index: number;
+	lesson: string;
+	playground: string;
+	date: string;
+	student?: Student;
+	mentor?: Mentor;
+	data: CalendarEvent;
+	fetchAppointments: () => void;
+	setCanceledLessons?: (arg0: any) => void;
+	duration: number;
+	subscription: any;
+	repeat?: number | null;
 }) => {
 	const [t, i18n] = useTranslation(["lessons", "common"]);
 	const { user } = useAuth();
@@ -35,7 +53,7 @@ const ScheduleCard = ({
 		user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 	const userToDisplay =
-		user.role === Roles.MENTOR
+		user?.role === Roles.MENTOR
 			? student ?? data?.student
 			: mentor ?? data?.mentor;
 
@@ -44,11 +62,11 @@ const ScheduleCard = ({
 	const displayDate = () => {
 		const eventDate = format(toZonedTime(dateLesson, userTimezone), "MMM, do", {
 			timeZone: userTimezone,
-			locale: localeDic[i18n.language],
+			locale: localeDic[i18n.language as keyof typeof localeDic],
 		});
 		const start = format(toZonedTime(dateLesson, userTimezone), "hh:mm a", {
 			timeZone: userTimezone,
-			locale: localeDic[i18n.language],
+			locale: localeDic[i18n.language as keyof typeof localeDic],
 		});
 
 		const end = format(
@@ -57,7 +75,7 @@ const ScheduleCard = ({
 				subscription?.package?.sessionTime || duration,
 			),
 			"hh:mm a",
-			{ timeZone: userTimezone, locale: localeDic[i18n.language] },
+			{ timeZone: userTimezone, locale: localeDic[i18n.language as keyof typeof localeDic] },
 		);
 		return (
 			<div className="text-[30px] font-normal text-black m-0 flex flex-col items-start">
@@ -72,7 +90,7 @@ const ScheduleCard = ({
 	return (
 		<div
 			className={`mb-5 rounded-[10px] p-5 shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)] ${
-				!LessonsStatusType[data?.status?.toUpperCase()]
+				!LessonsStatusType[data?.status?.toUpperCase() as keyof typeof LessonsStatusType]
 					? "bg-color-light-grey2 opacity-60"
 					: "border border-color-border-grey bg-white"
 			}`}
@@ -114,15 +132,15 @@ const ScheduleCard = ({
 									preElement={
 										<Avatar
 											avatarUrl={userToDisplay?.avatar?.url}
-											fallback={user.role === Roles.MENTOR ? "duck" : "user"}
+											fallback={user?.role === Roles.MENTOR ? "duck" : "user"}
 											className={cn(
 												"w-9 h-9 rounded-full overflow-hidden mr-3 min-h-9 min-w-9",
-												user.role === Roles.MENTOR && "bg-color-purple",
+												user?.role === Roles.MENTOR && "bg-color-purple",
 											)}
 										/>
 									}
 									label={
-										user.role === Roles.MENTOR ? t("student") : t("mentor")
+										user?.role === Roles.MENTOR ? t("student") : t("mentor")
 									}
 									content={
 										<>

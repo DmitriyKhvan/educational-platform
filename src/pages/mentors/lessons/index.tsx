@@ -1,7 +1,7 @@
 import { useAuth } from "@/app/providers/auth-provider";
 import { LessonsList } from "@/components/lessons-list";
 import { APPOINTMENTS_QUERY } from "@/shared/apollo/graphql";
-import { useQuery } from "@apollo/client";
+import { useQuery, type QueryResult } from "@apollo/client";
 
 const Lessons = () => {
 	const { user } = useAuth();
@@ -19,11 +19,16 @@ const Lessons = () => {
 	});
 
 	return (
-		<LessonsList
+		<>
+		{appointments && (
+			<LessonsList
 			getAppointments={getAppointments}
 			appointments={appointments}
 			loadingAppointments={loadingAppointments}
-		/>
+			planStatus={appointments?.packageSubscription}
+			/>
+		)}
+		</>
 	);
 };
 

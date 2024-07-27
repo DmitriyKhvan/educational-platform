@@ -12,14 +12,15 @@ import { cn } from "@/shared/utils/functions";
 import { getTranslatedTitle } from "@/shared/utils/get-translated-title";
 import { useCalendarControls } from "@/shared/utils/use-calendar-controls";
 import { useCourseColors } from "@/shared/utils/use-course-colors";
-import type { Calendar } from "@fullcalendar/core";
+
 import { format } from "date-fns";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaChevronDown, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
+import type FullCalendar from "@fullcalendar/react";
 
 interface LessonsCalendarHeaderProps {
-	calendarRef: React.RefObject<Calendar>;
+	calendarRef: React.RefObject<FullCalendar>;
 }
 
 const LessonsCalendarHeader: React.FC<LessonsCalendarHeaderProps> = ({

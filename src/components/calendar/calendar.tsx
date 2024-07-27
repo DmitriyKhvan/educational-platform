@@ -1,28 +1,22 @@
-import  FullCalendar from "@fullcalendar/react";
 import { forwardRef } from "react";
-
 import { Language } from "@/shared/constants/global";
 import enLocale from "@fullcalendar/core/locales/en-gb";
 import koLocale from "@fullcalendar/core/locales/ko";
 import chLocale from "@fullcalendar/core/locales/zh-tw";
 import { useTranslation } from "react-i18next";
-
 import dayGridPlugin from "@fullcalendar/daygrid";
 import rrulePlugin from "@fullcalendar/rrule";
 import timeGridPlugin from "@fullcalendar/timegrid";
-
 import { useAuth } from "@/app/providers/auth-provider";
 import { useMediaQuery } from "react-responsive";
-
 import "@/app/styles/calendar.scss";
 import { format, toZonedTime } from "date-fns-tz";
+import FullCalendar from "@fullcalendar/react";
+import type { CalendarOptions } from "@fullcalendar/core";
 
+interface CalendarProps extends CalendarOptions {}
 
-interface CalendarProps extends React.ComponentProps<typeof FullCalendar> {}
-
-type CalendarRef = FullCalendar | null;
-
-const Calendar = forwardRef<CalendarRef, CalendarProps>((props, ref) => {
+const Calendar = forwardRef<FullCalendar, CalendarProps>((props, ref) => {
   const { i18n } = useTranslation();
   const { user } = useAuth();
 

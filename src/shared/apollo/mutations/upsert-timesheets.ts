@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const UPSERT_TIMESHEETS = gql`
   mutation upsertTimesheets($data: TimesheetInput!) {

@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER = gql`
   mutation attachTrialStudentToUserResolver($data: AttachTrialStudentInput!) {

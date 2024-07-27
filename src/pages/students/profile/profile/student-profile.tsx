@@ -1,6 +1,6 @@
 import Button from "@/components/form/button";
 import { useQuery } from "@apollo/client";
-import React, { useMemo, useState } from "react";
+import  { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaPencil } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
@@ -12,6 +12,7 @@ import { PACKAGE_QUERY } from "@/shared/apollo/graphql";
 import { Avatar } from "@/widgets/avatar/avatar";
 import LevelBadge from "@/pages/students/profile/profile/level-badge";
 import PackageCard from "@/pages/students/profile/profile/package-card";
+import type { Query } from "@/types/types.generated";
 
 const StudentProfile = () => {
 	const [logoutOpen, setLogoutOpen] = useState(false);
@@ -21,23 +22,23 @@ const StudentProfile = () => {
 	const { user, currentStudent, logout } = useAuth();
 
 	const handleLogout = async () => {
-		await logout();
+		void logout();
 		window.Intercom("shutdown");
-		window.location.reload(true);
+		window.location.reload();
 	};
 
 	const {
 		data: { packageSubscriptions: planStatus } = {},
-	} = useQuery(PACKAGE_QUERY, {
+	} = useQuery<Query>(PACKAGE_QUERY, {
 		variables: {
-			studentId: getItemToLocalStorage("studentId"),
+			studentId: getItemToLocalStorage("studentId", ""),
 		},
 	});
 
 	const [uncompletedPackages, completedPackages] = useMemo(
 		() => [
-			planStatus?.filter((x) => x.credits),
-			planStatus?.filter((x) => !x.credits),
+			planStatus?.filter((x) => x?.credits),
+			planStatus?.filter((x) => !x?.credits),
 		],
 		[planStatus],
 	);
@@ -50,7 +51,7 @@ const StudentProfile = () => {
 						<div className="w-16 h-16 sm:w-20 sm:h-20">
 							<Avatar
 								fallback="duck"
-								avatarUrl={user?.avatar?.url}
+								avatarUrl={user?.avatar?.url ?? undefined}
 								className="w-full h-full min-w-16 sm:min-w-20 rounded-full border"
 							/>
 						</div>
@@ -173,7 +174,7 @@ const StudentProfile = () => {
 					</h2>
 					{uncompletedPackages &&
 						uncompletedPackages.map((item) => (
-							<PackageCard key={item.id} item={item} />
+							<PackageCard key={item?.id} item={item} />
 						))}
 
 					{uncompletedPackages?.length === 0 && (
@@ -187,7 +188,7 @@ const StudentProfile = () => {
 					</h2>
 					{completedPackages &&
 						completedPackages.map((item) => (
-							<PackageCard key={item.id} item={item} />
+							<PackageCard key={item?.id} item={item} />
 						))}
 
 					{completedPackages?.length === 0 && (

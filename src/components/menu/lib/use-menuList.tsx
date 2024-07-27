@@ -14,7 +14,21 @@ import {
 	MdOutlineShoppingBag,
 } from "react-icons/md";
 
-const mentorNavLinks = [
+interface MentorNavLinks {
+	label: string;
+	link: string;
+	icon: any;
+}
+
+interface StudentNavLinks {
+	label: string;
+	link: string;
+	type?: "trial" | "modal" | "external";
+	modal?: JSX.Element;
+	icon: any;
+}
+
+const mentorNavLinks: MentorNavLinks[] = [
 	{
 		label: "manage_appointments",
 		link: "/mentor/manage-appointments",
@@ -32,7 +46,8 @@ const mentorNavLinks = [
 	},
 ];
 
-const studentNavLinks = [
+
+const studentNavLinks: StudentNavLinks[] = [
 	{
 		label: "dashboard",
 		link: "/student/manage-lessons",
@@ -72,12 +87,12 @@ const studentNavLinks = [
 
 export const useMenuList = () => {
 	const { user } = useAuth();
-	const [navLinks, setNavLinks] = useState([]);
+	const [navLinks, setNavLinks] = useState<MentorNavLinks[] | StudentNavLinks[]>([]);
 
 	useEffect(() => {
-		if (user.role === Roles.MENTOR) {
+		if (user?.role === Roles.MENTOR) {
 			setNavLinks(mentorNavLinks);
-		} else if (user.role === Roles.STUDENT) {
+		} else if (user?.role === Roles.STUDENT) {
 			setNavLinks(studentNavLinks);
 		}
 	}, [user]);

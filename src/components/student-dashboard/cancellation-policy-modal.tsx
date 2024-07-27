@@ -2,7 +2,9 @@
 import { useTranslation } from "react-i18next";
 import { FaChevronLeft } from "react-icons/fa6";
 
-const CancellationPolicyModal = ({ setTabIndex }) => {
+const CancellationPolicyModal = ({ setTabIndex }: {
+	setTabIndex: (index: number) => void;
+}) => {
 	const [t] = useTranslation("modals");
 	return (
 		<div className="flex flex-col max-w-[400px] w-full mx-auto p-4">

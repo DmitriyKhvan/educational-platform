@@ -1,18 +1,18 @@
-import { addMinutes, isWithinInterval, subMinutes } from "date-fns";
-import { toZonedTime } from "date-fns-tz";
+import { addMinutes, isWithinInterval, subMinutes } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
 
 export const isBetween = ({ dateStart, duration, userTimezone }) => {
-	const dateLesson = toZonedTime(dateStart, userTimezone);
+  const dateLesson = toZonedTime(dateStart, userTimezone);
 
-	const today = toZonedTime(new Date(), userTimezone);
+  const today = toZonedTime(new Date(), userTimezone);
 
-	const tenMinuteBeforeStart = subMinutes(dateLesson, 10);
-	const beforeEndLesson = addMinutes(dateLesson, duration);
+  const tenMinuteBeforeStart = subMinutes(dateLesson, 10);
+  const beforeEndLesson = addMinutes(dateLesson, duration);
 
-	const isBetween = isWithinInterval(today, {
-		start: tenMinuteBeforeStart,
-		end: beforeEndLesson,
-	});
+  const isBetween = isWithinInterval(today, {
+    start: tenMinuteBeforeStart,
+    end: beforeEndLesson,
+  });
 
-	return isBetween;
+  return isBetween;
 };

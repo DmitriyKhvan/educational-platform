@@ -8,8 +8,8 @@ export function MyDrawer({
 	children,
 	dismissible,
 }: {
-	open: boolean;
-	setOpen: (open: boolean) => void;
+	open?: boolean;
+	setOpen?: (open: boolean) => void;
 	button: React.ReactNode;
 	className?: string;
 	children: React.ReactNode;

@@ -1,1 +1,1 @@
-export { LangCurrencySwitcher } from "@/widgets/lang-currency-switcher/ui/lang-currency-switcher";
+export { LangCurrencySwitcher } from '@/widgets/lang-currency-switcher/ui/lang-currency-switcher';

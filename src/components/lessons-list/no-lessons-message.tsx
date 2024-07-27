@@ -4,11 +4,14 @@ import { Link } from "react-router-dom";
 import { useAuth } from "@/app/providers/auth-provider";
 import { Roles } from "@/shared/constants/global";
 
-const NoLessonsMessage = ({ selectedTab, availableCredits }) => {
+const NoLessonsMessage = ({ selectedTab, availableCredits }: {
+	selectedTab?: string;
+	availableCredits: number;
+}) => {
 	const [t] = useTranslation(["lessons"]);
 	const { user } = useAuth();
 
-	if (user.role === Roles.MENTOR) {
+	if (user?.role === Roles.MENTOR) {
 		return (
 			<div className="w-full bg-gray-50 rounded-lg mt-8 py-[47px]">
 				<p className="text-color-dark-purple text-sm text-center mb-6">
