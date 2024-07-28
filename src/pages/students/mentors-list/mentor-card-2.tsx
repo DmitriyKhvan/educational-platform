@@ -13,8 +13,12 @@ import { Link } from "react-router-dom";
 import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
 import { Avatar } from "@/widgets/avatar/avatar";
 import MentorsModal from "@/pages/students/mentors-list/mentors-modal";
+import type { Mentor } from "@/types/types.generated";
 
-export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
+export const MentorCard2 = ({ mentor, handleSelectMentor }: {
+	mentor: Mentor,	
+	handleSelectMentor: (mentor: any) => void;
+}) => {
 	const isMobile = useMediaQuery({ maxWidth: 639 });
 
 	const [t] = useTranslation(["studentMentor", "common", "lessons"]);
@@ -22,7 +26,7 @@ export const MentorCard2 = ({ mentor, handleSelectMentor }) => {
 	return (
 		<div className="flex w-full gap-4 sm:gap-6">
 			<div className="relative min-w-[64px] max-w-[64px] sm:min-w-[80px] sm:max-w-[80px] h-[80px] overflow-hidden rounded-lg">
-				<Avatar avatarUrl={mentor.avatar?.url} gender={mentor.gender} />
+				<Avatar avatarUrl={mentor.avatar?.url ?? undefined} />
 				{/* <div className="absolute left-0 right-0 bottom-0 py-[2px] rounded-b-lg bg-[#FF5F4B] text-white text-[10px] text-center font-semibold">
           Top mentor
         </div> */}

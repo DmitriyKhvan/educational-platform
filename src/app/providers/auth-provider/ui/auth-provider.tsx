@@ -1,6 +1,6 @@
 import {
 	AuthContext,
-	type Student,
+
 } from "@/app/providers/auth-provider/lib/auth-context";
 import { useNotifications } from "@/app/providers/notification-provider";
 import {
@@ -9,7 +9,7 @@ import {
 } from "@/shared/apollo/graphql";
 import { Roles, getItemToLocalStorage } from "@/shared/constants/global";
 import useLocalStorage from "@/shared/utils/use-local-storage";
-import type { AuthenticatedUser } from "@/types/types.generated";
+import type { AuthenticatedUser, AuthStudent, Student } from "@/types/types.generated";
 import { useMutation, useQuery } from "@apollo/client";
 import { type ReactNode, useState } from "react";
 
@@ -29,7 +29,7 @@ interface InviteSetPasswordMutationVars {
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const { getAllNotifications } = useNotifications();
-	const [currentStudent, setCurrentStudent] = useState<Student | null>(null);
+	const [currentStudent, setCurrentStudent] = useState<AuthStudent | null>(null);
 	const [studentId, setStudentId] = useLocalStorage('studentId', null);
 
 	const {

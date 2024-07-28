@@ -1,4 +1,5 @@
 import * as flags from '@/shared/assets/images/flags';
+import type { MentorReview } from '@/types/types.generated';
 import { getData } from 'country-list';
 import { format, toZonedTime } from 'date-fns-tz';
 import { enUS, ko, zhTW } from 'date-fns/locale';
@@ -542,12 +543,18 @@ export const courseColorsDict: Record<CourseColorType, { event: string; indicato
   },
 };
 
-export interface OverviewField {
-  value: string;
-  label: string;
-}
+type OverviewField = {
+  value: OverviewGradeType;
+  label: OverviewGradeType;
+};
 
-export const overviewFieldsDic: OverviewField[] = [
+export const overviewFieldsDic: {
+  value: keyof Omit<
+    MentorReview,
+    '__typename' | 'id' | 'lesson' | 'mentor' | 'student' | 'vocabularies' | 'homeworks'
+  >;
+  label: string;
+}[] = [
   { value: 'fluency', label: 'fluency' },
   { value: 'pronunciation', label: 'pronunciation' },
   { value: 'vocabulary', label: 'vocabulary' },

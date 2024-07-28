@@ -15,13 +15,9 @@ const StudentProfile = lazy(() => import("@/pages/students/profile/profile/stude
 const EditProfileStudent = lazy(
 	() => import("@/pages/students/profile/edit-info/edit-student-profile"),
 );
-
 export default function StudentRoutes() {
 	return (
 		<Routes>
-			{/* <Route path={`lesson-complete/:complete_appoint_id`}>
-        <StudentListAppointments />
-      </Route> */}
 
 			<Route path={`manage-lessons`} element={<StudentDashboard />} />
 
@@ -33,12 +29,10 @@ export default function StudentRoutes() {
 					</TrialRoute>
 				}
 			/>
-
 			<Route path={`lesson-calendar`} element={<Lessons />} />
 
 			<Route path={`lesson-calendar/feedback/:id`} element={<Feedback />} />
 
-			{/* </Route> */}
 
 			<Route  path={`profile`} element={<StudentProfile />} />
 			<Route path={`profile/edit`} element={<EditProfileStudent />} />

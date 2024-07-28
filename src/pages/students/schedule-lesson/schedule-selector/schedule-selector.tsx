@@ -13,8 +13,12 @@ import { IoArrowBack } from "react-icons/io5";
 
 import Button from "@/components/form/button";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import type { Lesson } from "@/types/types.generated";
+import { localeDic } from "@/shared/constants/global";
 
-export const ScheduleSelector = ({ lesson }) => {
+export const ScheduleSelector = ({ lesson }: {
+	lesson: Lesson
+}) => {
 	const { setTabIndex, resetAll, todayUserTimezone, userTimezone } =
 		useSchedule();
 
@@ -26,7 +30,6 @@ export const ScheduleSelector = ({ lesson }) => {
 	]);
 
 	const currentLanguage = i18n.language;
-	const locale = currentLanguage === "kr" ? kr : null;
 
 	const [counter, setCounter] = useState(0);
 
@@ -40,12 +43,12 @@ export const ScheduleSelector = ({ lesson }) => {
 
 	const startOfWeekFormatted = format(startOfWeek, "MMM d", {
 		timeZone: userTimezone,
-		locale: locale,
+		locale: localeDic[currentLanguage as keyof typeof localeDic],
 	});
 
 	const endOfWeekFormatted = format(endOfWeek, "MMM d", {
 		timeZone: userTimezone,
-		locale: locale,
+		locale: localeDic[currentLanguage as keyof typeof localeDic],
 	});
 
 	useEffect(() => {

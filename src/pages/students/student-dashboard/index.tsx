@@ -47,7 +47,7 @@ const StudentDashboard = () => {
 		notifyOnNetworkStatusChange: true,
 		variables: {
 			status: "scheduled,rescheduled,paid,completed,in_progress,approved",
-			studentId: getItemToLocalStorage("studentId"),
+			studentId: getItemToLocalStorage("studentId", ""),
 		},
 	});
 

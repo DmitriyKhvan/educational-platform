@@ -117,11 +117,6 @@ export interface RenderRecurEventsResult {
   weeklyViewEvents: WeeklyViewEvent[];
 }
 
-export interface Slot {
-  from: string;
-  to: string;
-}
-
 export interface SlotToSave {
   day: string;
   slots: { from: string; to: string }[];
@@ -149,9 +144,19 @@ export interface Exception {
   to?: string;
 }
 
-export interface GatherAvailabilities {
-  [key: string]: Availability[];
-}
+export type Slot = {
+  from: string;
+  to: string;
+};
+export type AvailabilitySlot = {
+  id: string;
+  day: string;
+  slots: Slot[];
+};
+
+export type GatherAvailabilities = {
+  [key in MentorAvailabilityType]: AvailabilitySlot[];
+};
 
 export interface ErrorExceptionalDates {
   regularLessons?: number;

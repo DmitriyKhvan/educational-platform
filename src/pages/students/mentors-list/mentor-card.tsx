@@ -18,8 +18,12 @@ import { HiMiniChevronRight } from "react-icons/hi2";
 import MentorsModal from "@/pages/students/mentors-list/mentors-modal";
 
 import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
+import type { Mentor } from "@/types/types.generated";
 
-export const MentorCard = ({ mentor, handleSelectMentor }) => {
+export const MentorCard = ({ mentor, handleSelectMentor }: {
+	mentor: Mentor,
+	handleSelectMentor: (mentor: Mentor) => void;
+}) => {
 	const [t] = useTranslation(["studentMentor", "common", "lessons"]);
 
 	// const resizerUsername = (name) => {
@@ -30,18 +34,10 @@ export const MentorCard = ({ mentor, handleSelectMentor }) => {
 		// <div className="w-full sm:w-[45%] xl:w-[30%] 2xl:w-[300px]">
 		<div className="flex flex-col w-[calc(50%-0.75rem)] sm:w-[256px]">
 			<div className="relative w-full h-[176px] sm:h-[240px] overflow-hidden rounded-lg">
-				<Avatar avatarUrl={mentor.avatar?.url} gender={mentor.gender} />
-				{mentor.isFavourite && (
-					<img
-						className="absolute top-[5%] right-[5%] w-10 h-10 object-cover"
-						src={FavIcon}
-						alt=""
-					/>
-				)}
+				<Avatar avatarUrl={mentor.avatar?.url ?? undefined} />
+			
 
-				{/* <div className="absolute left-2 bottom-2 px-3 py-[6px] rounded-lg bg-[#FF5F4B] text-white text-xs font-semibold">
-          Top mentor
-        </div> */}
+		
 			</div>
 
 			<div className="flex flex-col justify-content-between grow mt-4 overflow-hidden">

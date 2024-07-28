@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
 import LevelModal from "@/pages/students/trial/level-modal";
+import type { Query } from "@/types/types.generated";
 
 const LessonDetails = ({
 	schedule,
@@ -21,7 +22,7 @@ const LessonDetails = ({
 	setSelectedPlan,
 	setStep,
 }) => {
-	const { data } = useQuery(TRIAL_PACKAGES);
+	const { data } = useQuery<Query>(TRIAL_PACKAGES);
 
 	const [t, i18n] = useTranslation(["common", "trial"]);
 	const [currentPackage, setCurrentPackage] = useState();

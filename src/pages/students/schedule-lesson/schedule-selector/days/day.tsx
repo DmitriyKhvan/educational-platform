@@ -7,34 +7,39 @@ import { cn } from "@/shared/utils/functions";
 import { localeDic } from "@/shared/constants/global";
 import { useSchedule } from "@/pages/students/schedule-lesson/schedule-selector/schedule-provider";
 
-export const Day = memo(function Day({ dayOfWeek, idx }) {
-	const { setDay, setDayClicked, dayClicked, userTimezone } = useSchedule();
+interface DayProps {
+  dayOfWeek: string;
+  idx: number;
+}
 
-	const [t, i18n] = useTranslation("common");
+export const Day = memo(function Day({ dayOfWeek, idx }: DayProps) {
+  const { setDay, setDayClicked, dayClicked, userTimezone } = useSchedule();
 
-	const locale = useMemo(() => localeDic[i18n.language], [t]);
+  const [t, i18n] = useTranslation("common");
 
-	const selectDay = () => {
-		setDayClicked(idx);
-		setDay(dayOfWeek);
-	};
+  const locale = useMemo(() => localeDic[i18n.language as keyof typeof localeDic] , [i18n.language]);
 
-	return (
-		<Button
-			theme="outline"
-			className={cn(
-				"w-full sm:w-[calc(100%/2-6px)] h-[50px] text-sm font-normal",
-				idx === dayClicked && "text-white bg-color-purple",
-				idx % 2 !== 0 && "sm:ml-3",
-			)}
-			onClick={selectDay}
-		>
-			{t(
-				format(new Date(dayOfWeek), "EEEE (MMM d)", {
-					timeZone: userTimezone,
-					locale,
-				}),
-			)}
-		</Button>
-	);
+  const selectDay = () => {
+    setDayClicked(idx);
+    setDay(new Date(dayOfWeek));
+  };
+
+  return (
+    <Button
+      theme="outline"
+      className={cn(
+        "w-full sm:w-[calc(100%/2-6px)] h-[50px] text-sm font-normal",
+        idx === dayClicked && "text-white bg-color-purple",
+        idx % 2 !== 0 && "sm:ml-3"
+      )}
+      onClick={selectDay}
+    >
+      {t(
+        format(new Date(dayOfWeek), "EEEE (MMM d)", {
+          timeZone: userTimezone,
+          locale,
+        })
+      )}
+    </Button>
+  );
 });

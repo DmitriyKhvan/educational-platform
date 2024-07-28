@@ -1,8 +1,11 @@
 import { getTranslatedTitle } from "@/shared/utils/get-translated-title";
+import type { Lesson } from "@/types/types.generated";
 import { useTranslation } from "react-i18next";
 // import { getTranslatedTitle } from 'src/utils/getTranslatedTitle';
 
-function LessonInfo({ data }) {
+function LessonInfo({ data }: {
+	data: Lesson
+}) {
 	// eslint-disable-next-line no-unused-vars
 	const [t, i18n] = useTranslation(["common", "feedback", "lessons"]);
 

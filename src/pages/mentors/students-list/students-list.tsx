@@ -1,4 +1,3 @@
-import React from "react";
 
 import FavIcon from "@/shared/assets/images/Favorite.png";
 import femaleAvatar from "@/shared/assets/images/avatars/img_avatar_female.png";
@@ -10,20 +9,22 @@ import { STUDENTS_QUERY } from "@/shared/apollo/graphql";
 import { useQuery } from "@apollo/client";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import type { Query, Student } from "@/types/types.generated";
+import { useState } from "react";
 
 export default function StudentsList() {
-	const [showStudentModal, setShowStudentModal] = React.useState(false);
+	const [showStudentModal, setShowStudentModal] = useState(false);
 	const navigate = useNavigate();
-	const { data } = useQuery(STUDENTS_QUERY, {
+	const { data } = useQuery<Query>(STUDENTS_QUERY, {
 		errorPolicy: "ignore",
 	});
-	const students = data?.students?.filter((i) => i.user?.isActive);
+	const students = data?.students?.filter((i) => i?.user?.isActive);
 
 	const [t] = useTranslation(["common", "studentMentor"]);
 
 	const handleStatusTutor = () => {};
 
-	const handleMoreTutor = (id) => {
+	const handleMoreTutor = (id: string) => {
 		if (id) {
 			navigate(`/mentor/students-list/${id}`);
 		}
@@ -46,29 +47,29 @@ export default function StudentsList() {
 
 					{students &&
 						students.map((item) => (
-							<div key={item.id} className="tutors_card">
+							<div key={item?.id} className="tutors_card">
 								<div
 									className="tutors_card-img"
 									style={{
 										background: `url("${
 											item?.avatar
 												? item.avatar?.url
-												: item?.user?.gender === "male"
+												: item?.gender === "male"
 													? maleAvatar
 													: femaleAvatar
 										}") center / cover`,
 									}}
 								>
-									{item.isFavourite && <img src={FavIcon} alt="" />}
+									{/* {item.isFavourite && <img src={FavIcon} alt="" />} */}
 								</div>
 								<div className="tutors_card-body">
 									<div className="tutors_info">
-										<h2>{item.userName}</h2>
-										<p>{item.university}</p>
-										<span>{item.language}</span>
+										{/* <h2>{item?.userName}</h2>
+										<p>{item?.user.university}</p>
+										<span>{item.language}</span> */}
 									</div>
 									<div className="tutors_control-buttons">
-										<button onClick={() => handleMoreTutor(item.id)}>
+										<button onClick={() => handleMoreTutor(item?.id)}>
 											{t("learn_more", { ns: "common" })}
 										</button>
 									</div>

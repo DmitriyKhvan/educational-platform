@@ -54,9 +54,16 @@ import {
 
 import { Language } from '@/shared/constants/global';
 
+type SupportedLanguages = 'en' | 'kr' | 'cn';
+const supportedLanguages: SupportedLanguages[] = [Language.EN, Language.KR, Language.CH];
+
+let lng = localStorage.getItem('language') ?? Language.EN;
+if (!supportedLanguages.includes(lng as SupportedLanguages)) {
+  lng = Language.EN;
+}
 i18next.init({
-  interpolation: { escapeValue: false }, // React already does escaping
-  lng: localStorage.getItem('language') ?? Language.EN,
+  interpolation: { escapeValue: false },
+  lng,
   resources: {
     en: {
       common: commonEn,

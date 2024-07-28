@@ -24,7 +24,7 @@ export default function ConfirmPayment() {
 
 	const studentId = getItemToLocalStorage("studentId", "")
 		? getItemToLocalStorage("studentId", "")
-		: currentStudent?.id ?? user.students[0].id;
+		: currentStudent?.id ?? user?.students?.[0]?.id;
 
 	const {
 		data: { packageSubscriptions: planStatus = [] } = {},

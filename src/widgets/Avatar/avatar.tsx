@@ -9,11 +9,13 @@ export const Avatar = ({
 	className = "",
 	fallback = "user",
 	iconClassName = "",
+
 }: {
 	avatarUrl?: string;
 	className?: string;
 	fallback?: "user" | "duck";
 	iconClassName?: string;
+	
 }) => {
 	return avatarUrl ?? fallback === "duck" ? (
 		<img

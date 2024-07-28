@@ -41,7 +41,7 @@ export const NotificationItem = ({ notification }) => {
 							new Date(notification?.meta?.lesson?.date),
 							"eee, MMM do",
 							{
-								locale: localeDic[i18n.language],
+								locale: localeDic[i18n.language] ,
 							},
 						)})`}
 				</span>

@@ -23,7 +23,7 @@ const Subscriptions = () => {
 	} = useQuery(PACKAGE_QUERY, {
 		fetchPolicy: "no-cache",
 		variables: {
-			studentId: getItemToLocalStorage("studentId"),
+			studentId: getItemToLocalStorage("studentId", ""),
 		},
 	});
 

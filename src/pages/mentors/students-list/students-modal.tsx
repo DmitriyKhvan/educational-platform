@@ -3,8 +3,13 @@ import { useParams } from "react-router-dom";
 import FavIcon from "@/shared/assets/images/Favorite.png";
 
 import "@/pages/mentors/students-list/students-modal.scss";
+import type { Student } from "@/types/types.generated";
 
-const StudentsModal = ({ setShowStudentModal, studentId, studentList }) => {
+const StudentsModal = ({ setShowStudentModal, studentId, studentList }: {
+	setShowStudentModal: (value: boolean) => void;
+	studentId?: string;
+	studentList: Student[];
+}) => {
 	const { id } = useParams();
 
 	const renderSelectedTutor = studentList?.find(
@@ -27,7 +32,7 @@ const StudentsModal = ({ setShowStudentModal, studentId, studentList }) => {
 
 				{avatar && (
 					<img
-						src={renderSelectedTutor?.avatar?.url}
+						src={renderSelectedTutor?.avatar?.url ?? undefined}
 						width="500px"
 						className="student_image pl-2"
 						alt=""

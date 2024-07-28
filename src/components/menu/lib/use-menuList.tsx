@@ -13,22 +13,23 @@ import {
 	MdLibraryBooks,
 	MdOutlineShoppingBag,
 } from "react-icons/md";
+import type { IconType } from "react-icons";
 
-interface MentorNavLinks {
+export interface MentorNavLink {
 	label: string;
 	link: string;
-	icon: any;
+	icon: IconType;
 }
 
-interface StudentNavLinks {
+export interface StudentNavLink {
 	label: string;
 	link: string;
 	type?: "trial" | "modal" | "external";
 	modal?: JSX.Element;
-	icon: any;
+	icon: IconType;
 }
 
-const mentorNavLinks: MentorNavLinks[] = [
+const mentorNavLinks: MentorNavLink[] = [
 	{
 		label: "manage_appointments",
 		link: "/mentor/manage-appointments",
@@ -47,7 +48,7 @@ const mentorNavLinks: MentorNavLinks[] = [
 ];
 
 
-const studentNavLinks: StudentNavLinks[] = [
+const studentNavLinks: StudentNavLink[] = [
 	{
 		label: "dashboard",
 		link: "/student/manage-lessons",
@@ -87,7 +88,7 @@ const studentNavLinks: StudentNavLinks[] = [
 
 export const useMenuList = () => {
 	const { user } = useAuth();
-	const [navLinks, setNavLinks] = useState<MentorNavLinks[] | StudentNavLinks[]>([]);
+	const [navLinks, setNavLinks] = useState<MentorNavLink[] | StudentNavLink[]>([]);
 
 	useEffect(() => {
 		if (user?.role === Roles.MENTOR) {

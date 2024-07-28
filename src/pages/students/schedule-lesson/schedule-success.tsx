@@ -9,9 +9,12 @@ import { FaCircleXmark } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/app/providers/auth-provider";
 import { localeDic } from "@/shared/constants/global";
+import type { Lesson } from "@/types/types.generated";
 
-const ScheduleSuccess = ({ lessons }) => {
-	const { user } = useAuth;
+const ScheduleSuccess = ({ lessons }: {
+	lessons : Lesson[]
+}) => {
+	const { user } = useAuth();
 	const [t, i18n] = useTranslation(["lessons", "modals"]);
 	const navigate = useNavigate();
 

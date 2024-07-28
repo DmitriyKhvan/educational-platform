@@ -1,126 +1,156 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import Button from "@/components/form/button";
+import { useTranslation } from "react-i18next";
+import { useMutation } from "@apollo/client";
 import { FaArrowLeft, FaPencil } from "react-icons/fa6";
+import { addMinutes } from "date-fns";
+import {  toZonedTime, format } from "date-fns-tz";
 
+import { useAuth } from "@/app/providers/auth-provider";
+import Button from "@/components/form/button";
 import Loader from "@/components/loader/loader";
 import { LOGIN_MUTATION } from "@/shared/apollo/graphql";
 import { ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER } from "@/shared/apollo/mutations/trial/attach-trial-student-to-user-resolver";
 import { TRIAL_SIGN_UP } from "@/shared/apollo/mutations/trial/trial-sign-up";
 import { getTranslatedTitle } from "@/shared/utils/get-translated-title";
 import notify from "@/shared/utils/notify";
-import { useMutation } from "@apollo/client";
-import { addMinutes } from "date-fns";
-import { format, toZonedTime } from "date-fns-tz";
-import { useTranslation } from "react-i18next";
-import { useAuth } from "@/app/providers/auth-provider";
 import { localeDic, setItemToLocalStorage } from "@/shared/constants/global";
+import type {AuthenticatedUser, User } from "@/types/types.generated";
 
-const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
-	const navigate = useNavigate();
-	const { user: currentUser, refetchUser } = useAuth();
-	const { languageLevel, lessonTopic, packageSubscription } = selectedPlan;
+interface ConfirmationProps {
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+  user: AuthenticatedUser
+  
+  selectedPlan: {
+    languageLevel: {
+      id: string;
+    };
+    lessonTopic: {
+      id: string;
+    };
+    packageSubscription: {
+      id: string;
+      sessionTime: number;
+      course: {
+        title: string;
+      };
+    };
+  };
+  schedule: string;
+  mentorId: string;
+}
 
-	const [t, i18n] = useTranslation(["trial", "common"]);
-	const [signUp] = useMutation(TRIAL_SIGN_UP);
-	const [addTrialUser] = useMutation(ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER);
-	const [loginMutation] = useMutation(LOGIN_MUTATION);
+const Confirmation: React.FC<ConfirmationProps> = ({
+  setStep,
+  user,
+  selectedPlan,
+  schedule,
+  mentorId,
+}) => {
+  const navigate = useNavigate();
+  const { user: currentUser, refetchUser } = useAuth();
+  const { languageLevel, lessonTopic, packageSubscription } = selectedPlan;
 
-	const [isLoading, setIsLoading] = useState(false);
+  const [t, i18n] = useTranslation(["trial", "common"]);
+  const [signUp] = useMutation(TRIAL_SIGN_UP);
+  const [addTrialUser] = useMutation(ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER);
+  const [loginMutation] = useMutation(LOGIN_MUTATION);
 
-	const dateParse = toZonedTime(new Date(schedule), user.timeZone);
+  const [isLoading, setIsLoading] = useState(false);
 
-	const dayFormat = format(dateParse, "EEEE, MMM dd", {
-		timeZone: user.timeZone,
-		locale: localeDic[i18n.language],
-	});
+  const dateParse = toZonedTime(new Date(schedule), user.timeZone);
 
-	const scheduleStartTimeFormat = format(dateParse, "hh:mm a", {
-		timeZone: user.timeZone,
-		locale: localeDic[i18n.language],
-	});
+  const dayFormat = format(dateParse, "EEEE, MMM dd", {
+    timeZone: user.timeZone,
+    locale: localeDic[i18n.language as keyof typeof localeDic],
+  });
 
-	const scheduleEndTimeFormat = format(
-		addMinutes(dateParse, packageSubscription.sessionTime),
-		"hh:mm a",
-		{
-			timeZone: user.timeZone,
-			locale: localeDic[i18n.language],
-		},
-	);
+  const scheduleStartTimeFormat = format(dateParse, "hh:mm a", {
+    timeZone: user.timeZone,
+    locale: localeDic[i18n.language as keyof typeof localeDic],
+  });
 
-	const trialSignUp = async () => {
-		setIsLoading(true);
+  const scheduleEndTimeFormat = format(
+    addMinutes(dateParse, packageSubscription.sessionTime),
+    "hh:mm a",
+    {
+      timeZone: user.timeZone,
+      locale: localeDic[i18n.language as keyof typeof localeDic],
+    }
+  );
 
-		try {
-			if (currentUser) {
-				const trialUserData = await addTrialUser({
-					variables: {
-						data: {
-							user: {
-								userId: currentUser.id,
-								firstName: user.firstName,
-								lastName: user.lastName,
-							},
-							packageId: Number.parseInt(packageSubscription.id),
-							languageLevelId: Number.parseInt(languageLevel.id),
-							lessonTopicId: Number.parseInt(lessonTopic.id),
-							lessonBooking: {
-								mentorId,
-								startAt: new Date(schedule),
-							},
-						},
-					},
-				});
+  const trialSignUp = async () => {
+    setIsLoading(true);
 
-				setItemToLocalStorage(
-					"studentId",
-					trialUserData?.data?.attachTrialStudentToUserResolver?.id,
-				);
-				location.href = "/student/manage-lessons";
-			} else {
-				await signUp({
-					variables: {
-						data: {
-							user: {
-								...user,
-								referralCode: localStorage.getItem("referralCode"),
-							},
-							packageId: Number.parseInt(packageSubscription.id),
-							languageLevelId: Number.parseInt(languageLevel.id),
-							lessonTopicId: Number.parseInt(lessonTopic.id),
-							lessonBooking: {
-								mentorId,
-								startAt: new Date(schedule),
-							},
-						},
-					},
-				});
+    try {
+      if (currentUser) {
+        const trialUserData = await addTrialUser({
+          variables: {
+            data: {
+              user: {
+                userId: currentUser.id,
+                firstName: currentUser.firstName,
+                lastName: currentUser.lastName,
+              },
+              packageId: Number.parseInt(packageSubscription.id),
+              languageLevelId: Number.parseInt(languageLevel.id),
+              lessonTopicId: Number.parseInt(lessonTopic.id),
+              lessonBooking: {
+                mentorId,
+                startAt: new Date(schedule),
+              },
+            },
+          },
+        });
 
-				localStorage.removeItem("referralCode");
-				localStorage.removeItem("referralEmail");
+        setItemToLocalStorage(
+          "studentId",
+          trialUserData?.data?.attachTrialStudentToUserResolver?.id
+        );
+        location.href = "/student/manage-lessons";
+      } else {
+        await signUp({
+          variables: {
+            data: {
+              user: {
+                ...user,
+                referralCode: localStorage.getItem("referralCode"),
+              },
+              packageId: Number.parseInt(packageSubscription.id),
+              languageLevelId: Number.parseInt(languageLevel.id),
+              lessonTopicId: Number.parseInt(lessonTopic.id),
+              lessonBooking: {
+                mentorId,
+                startAt: new Date(schedule),
+              },
+            },
+          },
+        });
 
-				const { data: loginData } = await loginMutation({
-					variables: { email: user.email, password: user.password },
-				});
+        localStorage.removeItem("referralCode");
+        localStorage.removeItem("referralEmail");
 
-				if (loginData) {
-					const studentId = loginData.authResult.user.students[0].id;
+        // const { data: loginData } = await loginMutation({
+        //   variables: { email: user.email, password: user.password },   // password is not defined in the user
+        // });
 
-					setItemToLocalStorage("token", loginData.authResult.sessionToken);
-					setItemToLocalStorage("studentId", studentId);
+        // if (loginData) {
+        //   const studentId = loginData.authResult.user.students[0].id;
 
-					refetchUser({ studentId });
-					navigate("/trial/thank-you");
-				}
-			}
-		} catch (error) {
-			notify(error.message, "error");
-		}
+        //   setItemToLocalStorage("token", loginData.authResult.sessionToken);
+        //   setItemToLocalStorage("studentId", studentId);
 
-		setIsLoading(false);
-	};
+        //   refetchUser({ studentId });
+        //   navigate("/trial/thank-you");
+        // }
+      }
+    } catch (error: any) {
+      notify(error.message, "error");
+    }
+
+    setIsLoading(false);
+  };
+
 
 	return (
 		<div className="">

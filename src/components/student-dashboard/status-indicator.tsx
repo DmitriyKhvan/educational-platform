@@ -5,7 +5,7 @@ import { LessonsStatusType } from "@/shared/constants/global";
 import Indicator from "@/components/indicator";
 
 const StatusIndicator = ({ status }: {
-	status: LessonsStatusType;
+	status?: LessonsStatusType | null
 }) => {
 	const [t] = useTranslation("lessons");
 

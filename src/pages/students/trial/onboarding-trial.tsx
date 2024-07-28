@@ -14,6 +14,7 @@ import { SelectField } from "@/components/form/select-field";
 import { trimSpaces } from "@/shared/utils/trim-spaces";
 import { timezoneOptions } from "@/shared/constants/global";
 import { usePublicMentors } from "@/pages/students/trial/lib/use-public-mentors";
+import type { AuthenticatedUser } from "@/types/types.generated";
 
 export default memo(function OnboardingTrial({
 	currentUser,
@@ -22,6 +23,13 @@ export default memo(function OnboardingTrial({
 	setUser,
 	setStep,
 	setSelectMentor,
+}: {
+	currentUser: AuthenticatedUser
+	selectedPlan: any;
+	user: any;
+	setUser: any;
+	setStep: any;
+	setSelectMentor: ({id}: {id: string}) => void;
 }) {
 	const { firstName, lastName, phoneNumber, email, timeZone, password } = user;
 

@@ -9,7 +9,7 @@ import { getItemToLocalStorage } from "@/shared/constants/global";
 import { MentorsView } from "@/pages/students/mentors-list/mentors-view";
 
 const Mentors = () => {
-	const studentId = getItemToLocalStorage("studentId");
+	const studentId = getItemToLocalStorage("studentId", "");
 
 	const [t] = useTranslation(["studentMentor", "common"]);
 	const { data, loading } = useQuery(MENTORS, {

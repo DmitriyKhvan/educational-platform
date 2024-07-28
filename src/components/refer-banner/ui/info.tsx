@@ -42,7 +42,7 @@ export const Info = () => {
 		try {
 			const referralUrl = await generateReferralLink({
 				variables: {
-					studentId: getItemToLocalStorage("studentId"),
+					studentId: getItemToLocalStorage("studentId", ""),
 				},
 				fetchPolicy: "no-cache",
 			});

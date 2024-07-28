@@ -9,31 +9,27 @@ import OnboardingTrial from "@/pages/students/trial/onboarding-trial";
 import StepIndicator from "@/pages/students/trial/step-indicator";
 
 import { useAuth } from "@/app/providers/auth-provider";
+import type { AuthenticatedUser } from "@/types/types.generated";
 
 const Trial = () => {
 	const { user: currentUser } = useAuth();
 
 	const [step, setStep] = useState(-1);
-	const [user, setUser] = useState({});
+	const [user, setUser] = useState<AuthenticatedUser>();
 	const [selectedPlan, setSelectedPlan] = useState({});
 	const [schedule, setSchedule] = useState("");
-	const [selectMentor, setSelectMentor] = useState("");
+	const [selectMentor, setSelectMentor] = useState<{id: string}>();
 	useEffect(() => {
 		if (currentUser) {
-			const { phoneNumber, email, timeZone } = currentUser;
-
-			setUser({
-				phoneNumber,
-				email,
-				timeZone,
-			});
+	
+			setUser(currentUser);
 		}
 	}, [currentUser]);
 
 	return (
 		<div className="max-w-[440px] mx-auto">
 			{step > -1 && step < 4 && <StepIndicator step={step} />}
-			{step === -1 && (
+			{step === -1 && currentUser && (
 				<OnboardingTrial
 					currentUser={currentUser}
 					user={user}
@@ -66,7 +62,10 @@ const Trial = () => {
 				{step === 2 && <AvailableTimes />}
 			</ScheduleProvider>
 
-			{step === 3 && (
+			{step === 3 && user && (
+
+
+
 				<Confirmation
 					setStep={setStep}
 					user={user}

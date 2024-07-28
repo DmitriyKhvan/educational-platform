@@ -15,6 +15,7 @@ import { COMBINED_TIMESHEETS } from "@/shared/apollo/queries/combined-timesheets
 import { COMBINED_TIMESHEETS_TRIAL } from "@/shared/apollo/queries/trial/combined-time-sheets-for-trials";
 import { useAuth } from "@/app/providers/auth-provider";
 import ScheduleSuccess from "@/pages/students/schedule-lesson/schedule-success";
+import type { Mentor } from "@/types/types.generated";
 
 const ScheduleLesson = () => {
 	const { currentStudent } = useAuth();
@@ -27,15 +28,15 @@ const ScheduleLesson = () => {
 	});
 
 	const urlParams = new URLSearchParams(window.location.search);
-	const [repeat, setRepeat] = useState(
-		JSON.parse(urlParams.get("repeatLessons") || null),
+	const [repeat, setRepeat] = useState<string>(
+		JSON.parse(urlParams.get("repeatLessons") ?? "") ?? null,
 	);
 
 	const [clicked, setClicked] = useState(null);
 	const [selectedPlan, setSelectedPlan] = useState({});
-	const [schedule, setSchedule] = useState();
+	const [schedule, setSchedule] = useState<string>("");
 	const [tabIndex, setTabIndex] = useState(id ? 1 : 0);
-	const [selectMentor, setSelectMentor] = useState();
+	const [selectMentor, setSelectMentor] = useState<Mentor>();
 	const [createdLessons, setCreatedLessons] = useState(null);
 
 	const scheduledLesson = data?.lesson || null;
@@ -70,7 +71,7 @@ const ScheduleLesson = () => {
 					setTabIndex={setTabIndex}
 					setSchedule={setSchedule}
 					selectedMentor={location?.state?.mentor}
-					setSelectMentor={currentStudent?.isTrial && setSelectMentor}
+					setSelectMentor={  currentStudent?.isTrial ? setSelectMentor: undefined}
 					duration={selectedPlan?.package?.sessionTime}
 				>
 					{tabIndex === 1 && <ScheduleSelector lesson={scheduledLesson} />}

@@ -18,134 +18,141 @@ import { useTranslation } from "react-i18next";
 import { FaCheck, FaStar } from "react-icons/fa6";
 import { PiStarFourFill } from "react-icons/pi";
 import { useParams } from "react-router-dom";
-import { StudentReviewModal } from "src/entities/student-review-modal";
+import { StudentReviewModal } from "@/entities/student-review-modal";
+import type { Query, Lesson } from "@/types/types.generated";
 
 function Feedback() {
-	const params = useParams();
-	const [t, i18n] = useTranslation(["common", "feedback"]);
-	const { user } = useAuth();
+  const params = useParams();
+  const [t, i18n] = useTranslation(["common", "feedback"]);
+  const { user } = useAuth();
 
-	const [openReview, setOpenReview] = useState(false);
+  const [openReview, setOpenReview] = useState(false);
 
-	const {
-		data: lessonData,
-		loading,
-		refetch,
-	} = useQuery(LESSON_QUERY, {
-		fetchPolicy: "network-only",
-		variables: { id: params?.id },
-	});
-	const data = lessonData?.lesson;
+  const {
+    data: lessonData,
+    loading,
+    refetch,
+  } = useQuery<Query>(LESSON_QUERY, {
+    fetchPolicy: "network-only",
+    variables: { id: params?.id },
+  });
 
-	const userTimezone =
-		user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const userTimezone =
+    user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-	if (loading && !data) {
-		return <Loader height="100%" />;
-	}
+  const lesson = lessonData?.lesson as Lesson | undefined;
 
-	return (
-		<>
-			<header className="max-w-[514px] xl:max-w-none mx-auto flex justify-between items-center mb-6">
-				<div>
-					<h2 className="text-[28px] font-bold text-color-dark-purple">
-						{format(
-							toZonedTime(new Date(data?.startAt), userTimezone),
-							"eee, MMM do",
-							{
-								timeZone: userTimezone,
-								locale: localeDic[i18n.language],
-							},
-						)}
-					</h2>
-					<p>
-						{format(
-							toZonedTime(new Date(data?.startAt), userTimezone),
-							"hh:mm a",
-							{
-								timeZone: userTimezone,
-								locale: localeDic[i18n.language],
-							},
-						)}
-						{" - "}
-						{format(
-							addMinutes(
-								toZonedTime(new Date(data?.startAt), userTimezone),
-								data?.duration,
-							),
-							"hh:mm a",
-							{ timeZone: userTimezone, locale: localeDic[i18n.language] },
-						)}
-					</p>
-				</div>
+  return (
+    <>
+      {loading || !lesson ? (
+        <Loader height="100%" />
+      ) : (
+        <>
+          <header className="max-w-[514px] xl:max-w-none mx-auto flex justify-between items-center mb-6">
+            <div>
+              <h2 className="text-[28px] font-bold text-color-dark-purple">
+                {format(
+                  toZonedTime(new Date(lesson?.startAt), userTimezone),
+                  "eee, MMM do",
+                  {
+                    timeZone: userTimezone,
+                    locale: localeDic[i18n.language as keyof typeof localeDic],
+                  }
+                )}
+              </h2>
+              <p>
+                {format(
+                  toZonedTime(new Date(lesson.startAt), userTimezone),
+                  "hh:mm a",
+                  {
+                    timeZone: userTimezone,
+                    locale: localeDic[i18n.language as keyof typeof localeDic],
+                  }
+                )}
+                {" - "}
+                {format(
+                  addMinutes(
+                    toZonedTime(new Date(lesson?.startAt), userTimezone),
+                    Number(lesson.duration)
+                  ),
+                  "hh:mm a",
+                  {
+                    timeZone: userTimezone,
+                    locale: localeDic[i18n.language as keyof typeof localeDic],
+                  }
+                )}
+              </p>
+            </div>
 
-				<div className="flex items-center gap-2">
-					{data?.isTrial && (
-						<Indicator className="bg-green-300 text-green-500">
-							<PiStarFourFill /> {t("trial", { ns: "common" })}
-						</Indicator>
-					)}
+            <div className="flex items-center gap-2">
+              {lesson?.isTrial && (
+                <Indicator className="bg-green-300 text-green-500">
+                  <PiStarFourFill /> {t("trial", { ns: "common" })}
+                </Indicator>
+              )}
 
-					<StatusIndicator status={data?.status} />
-				</div>
-			</header>
-			<div className="flex flex-col xl:flex-row-reverse max-w-[514px] mx-auto xl:max-w-none xl:gap-20">
-				<section className="basis-1/2">
-					{data?.playground?.recordingUrl && (
-						<PlaygroundRecordingModal
-							urlRecording={data?.playground?.recordingUrl}
-						/>
-					)}
+              <StatusIndicator status={lesson.status} />
+            </div>
+          </header>
+          <div className="flex flex-col xl:flex-row-reverse max-w-[514px] mx-auto xl:max-w-none xl:gap-20">
+            <section className="basis-1/2">
+              {lesson?.playground?.recordingUrl && (
+                <PlaygroundRecordingModal
+                  urlRecording={lesson?.playground?.recordingUrl}
+                />
+              )}
 
-					<div className="">
-						<AdaptiveDialog
-							button={
-								<Button
-									disabled={data?.studentReview}
-									className="w-full h-[57px] mb-10 font-semibold gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#039855]"
-								>
-									{data?.studentReview ? <FaCheck /> : <FaStar />}{" "}
-									{data?.studentReview
-										? t("review_submitted", { ns: "feedback" })
-										: t("submit_review", { ns: "feedback" })}
-								</Button>
-							}
-							open={openReview}
-							setOpen={setOpenReview}
-						>
-							<StudentReviewModal
-								studentId={data?.student?.id}
-								lessonId={data?.id}
-								closeModal={() => {
-									refetch();
-									setOpenReview(false);
-								}}
-							/>
-						</AdaptiveDialog>
-					</div>
-				</section>
+              <div className="">
+                <AdaptiveDialog
+                  button={
+                    <Button
+                      disabled={!!lesson?.studentReview}
+                      className="w-full h-[57px] mb-10 font-semibold gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#039855]"
+                    >
+                      {lesson?.studentReview ? <FaCheck /> : <FaStar />}{" "}
+                      {lesson?.studentReview
+                        ? t("review_submitted", { ns: "feedback" })
+                        : t("submit_review", { ns: "feedback" })}
+                    </Button>
+                  }
+                  open={openReview}
+                  setOpen={setOpenReview}
+                >
+                  <StudentReviewModal
+                    studentId={lesson?.student?.id}
+                    lessonId={lesson?.id}
+                    closeModal={() => {
+                      refetch();
+                      setOpenReview(false);
+                    }}
+                  />
+                </AdaptiveDialog>
+              </div>
+            </section>
 
-				<section className="basis-1/2">
-					<Tabs defaultValue="feedback">
-						<TabsList className="w-full">
-							<TabsTrigger value="feedback" className="w-full">
-								{t("feedback", { ns: "feedback" })}
-							</TabsTrigger>
-							<TabsTrigger value="lessonInfo" className="w-full">
-								{t("lesson_info", { ns: "feedback" })}
-							</TabsTrigger>
-						</TabsList>
-						<TabsContent value="feedback">
-							<FeedbackInfo data={data} />
-						</TabsContent>
-						<TabsContent value="lessonInfo">
-							<LessonInfo data={data} />
-						</TabsContent>
-					</Tabs>
-				</section>
-			</div>
-		</>
-	);
+            <section className="basis-1/2">
+              <Tabs defaultValue="feedback">
+                <TabsList className="w-full">
+                  <TabsTrigger value="feedback" className="w-full">
+                    {t("feedback", { ns: "feedback" })}
+                  </TabsTrigger>
+                  <TabsTrigger value="lessonInfo" className="w-full">
+                    {t("lesson_info", { ns: "feedback" })}
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="feedback">
+                  <FeedbackInfo data={lesson} />
+                </TabsContent>
+                <TabsContent value="lessonInfo">
+                  <LessonInfo data={lesson} />
+                </TabsContent>
+              </Tabs>
+            </section>
+          </div>
+        </>
+      )}
+    </>
+  );
 }
 
 export default Feedback;

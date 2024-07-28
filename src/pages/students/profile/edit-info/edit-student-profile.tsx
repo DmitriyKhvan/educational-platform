@@ -24,7 +24,7 @@ import {
 	getItemToLocalStorage,
 	timezoneOptions,
 } from "@/shared/constants/global";
-import { Avatar } from "@/widgets/avataravatar";
+import { Avatar } from "@/widgets/avatar/avatar";
 
 const EditProfileStudent = () => {
 	const navigate = useNavigate();
@@ -70,7 +70,7 @@ const EditProfileStudent = () => {
 
 		await updateStudent({
 			variables: {
-				id: Number.parseInt(getItemToLocalStorage("studentId")),
+				id: Number.parseInt(getItemToLocalStorage("studentId", "")),
 				data: {
 					avatar: file,
 					firstName: firstName,

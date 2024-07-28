@@ -1,5 +1,5 @@
 import type { InviteSetPasswordMutationData } from '@/app/providers/auth-provider/ui/auth-provider';
-import type { AuthenticatedUser, Student } from '@/types/types.generated';
+import type { AuthStudent, AuthenticatedUser } from '@/types/types.generated';
 import { createContext } from 'react';
 
 export interface AuthContextType {
@@ -13,7 +13,7 @@ export interface AuthContextType {
   ) => Promise<{ data?: InviteSetPasswordMutationData | null }>;
   isLoading: boolean;
   isAuthorized: boolean;
-  currentStudent: Student | null;
+  currentStudent: AuthStudent | null;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);

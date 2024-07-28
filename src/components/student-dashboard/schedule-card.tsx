@@ -13,6 +13,7 @@ import {
 	Roles,
 } from "@/shared/constants/global";
 import { isBetween } from "@/shared/utils/is-between";
+import type { Mentor, Student } from "@/types/types.generated";
 
 const ScheduleCard = ({
 	index,
@@ -23,10 +24,21 @@ const ScheduleCard = ({
 	mentor,
 	data,
 	fetchAppointments,
-	// cancelled,
 	setCanceledLessons,
 	duration,
 	subscription,
+}: {
+	index: number;
+	lesson: string;
+	playground: { startUrl: string; joinUrl: string };
+	date: string;
+	student: Student;
+	mentor: Mentor;
+	data: any;
+	fetchAppointments: () => void;
+	setCanceledLessons: any;
+	duration: number;
+	subscription: any;
 } ) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [t] = useTranslation(["modals", "common"]);
@@ -65,7 +77,7 @@ const ScheduleCard = ({
 			})
 		) {
 			window.open(
-				user.role === Roles.MENTOR ? playground.startUrl : playground.joinUrl,
+				user?.role === Roles.MENTOR ? playground.startUrl : playground.joinUrl,
 				"_blank",
 			);
 		} else {
@@ -95,7 +107,7 @@ const ScheduleCard = ({
 	return (
 		<div
 			className={`mb-5 rounded-[10px] p-5 shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)] ${
-				!LessonsStatusType[data?.status?.toUpperCase()]
+				!LessonsStatusType[data?.status?.toUpperCase() as keyof typeof LessonsStatusType]
 					? "bg-color-light-grey2 opacity-60"
 					: index === 0
 						? "bg-color-purple"
@@ -107,7 +119,7 @@ const ScheduleCard = ({
 					<div>
 						<h1
 							className={`text-[30px] font-normal ${
-								index === 0 && LessonsStatusType[data?.status?.toUpperCase()]
+								index === 0 && LessonsStatusType[data?.status?.toUpperCase() as keyof typeof LessonsStatusType]
 									? "text-white m-0"
 									: "text-black m-0"
 							}`}
@@ -117,7 +129,7 @@ const ScheduleCard = ({
 						{/* TODO: add this to translation.json */}
 						<h3
 							className={`text-base font-semibold tracking-tight ${
-								index === 0 && LessonsStatusType[data?.status?.toUpperCase()]
+								index === 0 && LessonsStatusType[data?.status?.toUpperCase() as keyof typeof LessonsStatusType]
 									? "text-color-light-purple"
 									: "text-color-light-grey"
 							}`}
@@ -125,7 +137,7 @@ const ScheduleCard = ({
 							{displayDate()}
 						</h3>
 
-						{user.role === Roles.MENTOR && (
+						{user?.role === Roles.MENTOR && (
 							<p
 								className={`text-sm ${
 									index === 0
@@ -133,27 +145,25 @@ const ScheduleCard = ({
 										: "text-color-light-grey"
 								}`}
 							>
-								{student?.user.email}
+								{student?.user?.email}
 							</p>
 						)}
 					</div>
 					<div className="w-[65px] h-[65px] overflow-hidden rounded-full relative">
 						<Avatar
-							gender={
-								user.role === Roles.MENTOR ? student?.gender : mentor?.gender
-							}
+							
 							avatarUrl={
-								user.role === Roles.MENTOR
-									? student?.avatar?.url
-									: mentor?.avatar?.url
+								user?.role === Roles.MENTOR
+									? student?.avatar?.url ?? undefined
+									: mentor?.avatar?.url ?? undefined
 							}
 						/>
 					</div>
 				</div>
 			</div>
-			{LessonsStatusType[data?.status?.toUpperCase()] ? (
+			{LessonsStatusType[data?.status?.toUpperCase() as keyof typeof LessonsStatusType] ? (
 				<div className="flex flex-wrap items-center gap-2 xl:gap-3">
-					{user.role !== Roles.MENTOR && (
+					{user?.role !== Roles.MENTOR && (
 						<a
 							className={`cursor-pointer w-full text-center sm:w-auto sm:text-left text-[15px] font-semibold tracking-tighter inline-block py-2.5 px-[15px] bg-white rounded-[5px] ${
 								index === 0
@@ -203,7 +213,7 @@ const ScheduleCard = ({
 				<div>
 					<h1
 						className={`text-[30px] font-normal ${
-							index === 0 && LessonsStatusType[data?.status?.toUpperCase()]
+							index === 0 && LessonsStatusType[data?.status?.toUpperCase() as keyof typeof LessonsStatusType]
 								? "text-white m-0"
 								: "text-black m-0"
 						}`}
@@ -229,7 +239,6 @@ const ScheduleCard = ({
 				<PlaygroundWarningModal
 					isWarningOpen={isWarningOpen}
 					closeModal={closeModal}
-					setIsWarningOpen={setIsWarningOpen}
 				/>
 			)}
 		</div>

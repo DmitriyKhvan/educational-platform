@@ -31,11 +31,22 @@ const LessonConfirmation = ({
 	mentor,
 	time,
 	setTabIndex,
-	lessonId = null,
+	lessonId,
 	isMentorScheduled = false,
 	setCreatedLessons,
 	repeat,
 	setRepeat,
+}: {
+	plan: any;
+	mentor: any;
+	time: string;
+	setTabIndex: any;
+	lessonId?: string;
+	isMentorScheduled?: boolean;
+	setCreatedLessons: any;
+	repeat: number;
+	setRepeat: any;
+
 }) => {
 	const navigate = useNavigate();
 	const [t, i18n] = useTranslation([
@@ -135,7 +146,7 @@ const LessonConfirmation = ({
 				} = await createAppointment({
 					variables: {
 						mentorId: mentor.id,
-						studentId: getItemToLocalStorage("studentId"),
+						studentId: getItemToLocalStorage("studentId", ""),
 						subscriptionId: plan?.id,
 						startAt: utcIsoTimeString,
 						duration: plan?.package?.sessionTime,

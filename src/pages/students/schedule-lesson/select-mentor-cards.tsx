@@ -41,7 +41,7 @@ const SelectMentorCards = ({
 			timeZone: "UTC",
 		}),
 		step,
-		getItemToLocalStorage("studentId"),
+		getItemToLocalStorage("studentId", ""),
 	);
 
 	useEffect(() => {
