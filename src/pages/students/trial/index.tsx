@@ -9,16 +9,16 @@ import OnboardingTrial from "@/pages/students/trial/onboarding-trial";
 import StepIndicator from "@/pages/students/trial/step-indicator";
 
 import { useAuth } from "@/app/providers/auth-provider";
-import type { AuthenticatedUser } from "@/types/types.generated";
+import type { AuthenticatedUser, Mentor, Package, TrialPackage } from "@/types/types.generated";
 
 const Trial = () => {
 	const { user: currentUser } = useAuth();
 
 	const [step, setStep] = useState(-1);
 	const [user, setUser] = useState<AuthenticatedUser>();
-	const [selectedPlan, setSelectedPlan] = useState({});
+	const [selectedPlan, setSelectedPlan] = useState<TrialPackage>();
 	const [schedule, setSchedule] = useState("");
-	const [selectMentor, setSelectMentor] = useState<{id: string}>();
+	const [selectMentor, setSelectMentor] = useState<{mentorId: string}>();
 	useEffect(() => {
 		if (currentUser) {
 	
@@ -32,7 +32,7 @@ const Trial = () => {
 			{step === -1 && currentUser && (
 				<OnboardingTrial
 					currentUser={currentUser}
-					user={user}
+					user={currentUser}
 					selectedPlan={selectedPlan}
 					setUser={setUser}
 					setStep={setStep}

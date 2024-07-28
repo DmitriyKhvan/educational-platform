@@ -1,161 +1,166 @@
-import MyDropdownMenu from "@/components/dropdown-menu";
-import Button from "@/components/form/button";
-import CheckboxField from "@/components/form/checkbox-field";
-import InputWithError from "@/components/form/input-with-error";
-import { TRIAL_PACKAGES } from "@/shared/apollo/queries/trial/trial-packages";
-import {
-	getTranslatedDescription,
-	getTranslatedTitle,
-} from "@/shared/utils/get-translated-title";
-import { useQuery } from "@apollo/client";
 import { useMemo, useState } from "react";
+import { useQuery } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
+import { TRIAL_PACKAGES } from "@/shared/apollo/queries/trial/trial-packages";
+import { getTranslatedDescription, getTranslatedTitle } from "@/shared/utils/get-translated-title";
+import Button from "@/components/form/button";
+import CheckboxField from "@/components/form/checkbox-field";
+import InputWithError from "@/components/form/input-with-error";
+import MyDropdownMenu from "@/components/dropdown-menu";
+
 import LevelModal from "@/pages/students/trial/level-modal";
-import type { Query } from "@/types/types.generated";
+import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
+import type { LanguageLevel, Lesson, Query, Topic, TrialPackage } from "@/types/types.generated";
+
+interface LessonDetailsProps {
+  schedule: boolean;
+  selectedPlan: Lesson;
+  setSelectedPlan: (plan: TrialPackage) => void;
+  setStep: (step: number) => void;
+}
 
 const LessonDetails = ({
-	schedule,
-	selectedPlan,
-	setSelectedPlan,
-	setStep,
-}) => {
-	const { data } = useQuery<Query>(TRIAL_PACKAGES);
+  schedule,
+  selectedPlan,
+  setSelectedPlan,
+  setStep,
+}: LessonDetailsProps) => {
+  const { data } = useQuery<Query>(TRIAL_PACKAGES);
 
-	const [t, i18n] = useTranslation(["common", "trial"]);
-	const [currentPackage, setCurrentPackage] = useState();
-	const [currentLevel, setCurrentLevel] = useState();
-	const [currentTopic, setCurrentTopic] = useState();
+  const { t, i18n } = useTranslation(["common", "trial"]);
+  const [currentPackage, setCurrentPackage] = useState<TrialPackage | undefined>();
+  const [currentLevel, setCurrentLevel] = useState<LanguageLevel>();
+  const [currentTopic, setCurrentTopic] = useState<Topic>();
 
-	const [isOpenCourse, setIsOpenCourse] = useState(false);
-	const [isOpenLevel, setIsOpenLevel] = useState(false);
-	const [isOpenTopic, setIsOpenTopic] = useState(false);
+  const [isOpenCourse, setIsOpenCourse] = useState(false);
+  const [isOpenLevel, setIsOpenLevel] = useState(false);
+  const [isOpenTopic, setIsOpenTopic] = useState(false);
 
-	const {
-		handleSubmit,
-		register,
-		watch,
-		formState: { errors, isValid },
-	} = useForm({
-		mode: "onChange",
-		// mode: 'all',
-		defaultValues: {
-			packageId: selectedPlan?.packageSubscription?.id,
-			languageLevelId: selectedPlan?.languageLevel?.id,
-			lessonTopicId: selectedPlan?.lessonTopic?.id,
-		},
-	});
+  const {
+    handleSubmit,
+    register,
+    watch,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      packageId: selectedPlan?.packageSubscription?.id || "",
+    },
+  });
 
-	const packagesData = useMemo(() => {
-		if (data) {
-			const translatePackages = data.trialPackages.map((pkg) => {
-				return {
-					...pkg,
-					course: {
-						...pkg.course,
-						title: getTranslatedTitle(pkg.course, i18n.language),
-						languageLevels: pkg?.course?.languageLevels?.map((level) => ({
-							...level,
-							description: getTranslatedDescription(level, i18n.language),
-							title: getTranslatedTitle(level, i18n.language),
-							topics: level?.topics?.map((topic) => ({
-								...topic,
-								title: getTranslatedTitle(topic, i18n.language),
-							})),
-						})),
-					},
-				};
-			});
+  const languageLevel= useMemo(() => {
+    if (currentPackage) {
+      const currentLevel = currentPackage?.course?.languageLevels?.find(
+        (level) => level?.id === watch("languageLevelId"),
+      );
+      setCurrentLevel(currentLevel);
 
-			return { trialPackages: translatePackages };
-		}
-	}, [data, t]);
+      return (
+        currentLevel?.title || (
+          <span className="text-[#BBBBC4]">
+            {t("select_level", { ns: "trial" })}
+          </span>
+        )
+      );
+    }
 
-	const onSubmit = () => {
-		setSelectedPlan({
-			packageSubscription: { ...currentPackage },
-			languageLevel: { ...currentLevel },
-			lessonTopic: { ...currentTopic },
-		});
+    return (
+      <span className="text-[#BBBBC4]">
+        {t("first_select_course", { ns: "trial" })}
+      </span>
+    );
+  }, [watch("languageLevelId"), currentPackage, t]);
 
-		if (schedule) {
-			setStep(3);
-		} else {
-			setStep((v) => v + 1);
-		}
-	};
+  const packagesData = useMemo(() => {
+    if (data) {
+      const translatePackages = data.trialPackages?.map((pkg) => ({
+        ...pkg,
+        course: {
+          ...pkg?.course,
+          title: getTranslatedTitle(pkg?.course, i18n.language),
+          languageLevels: pkg?.course?.languageLevels?.map((level) => ({
+            ...level,
+            description: getTranslatedDescription(level, i18n.language),
+            title: getTranslatedTitle(level, i18n.language),
+            topics: level?.topics?.map((topic) => ({
+              ...topic,
+              title: getTranslatedTitle(topic, i18n.language),
+            })),
+          })),
+        },
+      }));
 
-	const course = useMemo(() => {
-		if (watch("packageId")) {
-			const currentPackage = packagesData?.trialPackages?.find(
-				(pkg) => pkg.id === watch("packageId"),
-			);
-			setCurrentPackage(currentPackage);
+      return { trialPackages: translatePackages };
+    }
+  }, [data, i18n.language]);
 
-			return (
-				currentPackage?.course?.title || (
-					<span className="text-[#BBBBC4]">
-						{t("select_course", { ns: "trial" })}
-					</span>
-				)
-			);
-		}
+  const onSubmit = () => {
+    setSelectedPlan({
+      packageSubscription: { ...currentPackage },
+      languageLevel: { ...currentLevel },
+      lessonTopic: { ...currentTopic },
+    });
 
-		return (
-			<span className="text-[#BBBBC4]">
-				{t("select_course", { ns: "trial" })}
-			</span>
-		);
-	}, [watch("packageId"), t]);
+    if (schedule) {
+      setStep(3);
+    } else {
+      setStep((v) => v + 1);
+    }
+  };
 
-	const languageLevel = useMemo(() => {
-		if (currentPackage) {
-			const currentLevel = currentPackage?.course?.languageLevels?.find(
-				(level) => level.id === watch("languageLevelId"),
-			);
-			setCurrentLevel(currentLevel);
+  const course = useMemo(() => {
+    if (watch("packageId")) {
+      const currentPackage = packagesData?.trialPackages?.find(
+        (pkg) => pkg.id === watch("packageId"),
+      );
 
-			return (
-				currentLevel?.title || (
-					<span className="text-[#BBBBC4]">
-						{t("select_level", { ns: "trial" })}
-					</span>
-				)
-			);
-		}
+      if (currentPackage) {
+        setCurrentPackage(currentPackage);
+      }
 
-		return (
-			<span className="text-[#BBBBC4]">
-				{t("first_select_course", { ns: "trial" })}
-			</span>
-		);
-	}, [watch("languageLevelId"), currentPackage, t]);
+      return (
+        currentPackage?.course?.title || (
+          <span className="text-[#BBBBC4]">
+            {t("select_course", { ns: "trial" })}
+          </span>
+        )
+      );
+    }
 
-	const lessonTopic = useMemo(() => {
-		if (currentLevel) {
-			const currentTopic = currentLevel?.topics?.find(
-				(topic) => topic.id === watch("lessonTopicId"),
-			);
+    return (
+      <span className="text-[#BBBBC4]">
+        {t("select_course", { ns: "trial" })}
+      </span>
+    );
+  }, [watch("packageId"), packagesData, t]);
 
-			setCurrentTopic(currentTopic);
+  const lessonTopic = useMemo(() => {
+    if (currentLevel) {
+      const currentTopic = currentLevel.topics?.find(
+        (topic) => topic?.id === watch("lessonTopicId"),
+      );
 
-			return (
-				currentTopic?.title || (
-					<span className="text-[#BBBBC4]">
-						{t("select_lesson_topic", { ns: "trial" })}
-					</span>
-				)
-			);
-		}
+      if (currentTopic) {
+        setCurrentTopic(currentTopic);
+      }
 
-		return (
-			<span className="text-[#BBBBC4]">
-				{t("first_select_level", { ns: "trial" })}
-			</span>
-		);
-	}, [watch("lessonTopicId"), currentLevel, t]);
+      return (
+        currentTopic?.title || (
+          <span className="text-[#BBBBC4]">
+            {t("select_lesson_topic", { ns: "trial" })}
+          </span>
+        )
+      );
+    }
+
+    return (
+      <span className="text-[#BBBBC4]">
+        {t("first_select_level", { ns: "trial" })}
+      </span>
+    );
+  }, [watch("lessonTopicId"), currentLevel, t]);
 
 	return (
 		<div className="w-full max-w-[440px] mx-auto">
@@ -196,7 +201,6 @@ const LessonDetails = ({
 												<CheckboxField
 													type="radio"
 													value={pkg.id}
-													name="package"
 													onClick={() => {
 														setIsOpenCourse(false);
 													}}

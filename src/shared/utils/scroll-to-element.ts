@@ -1,4 +1,4 @@
-export const scrollToElement = (id) => {
+export const scrollToElement = (id: string) => {
   document.getElementById(id)?.scrollIntoView({
     behavior: 'smooth',
     block: 'start',

@@ -124,9 +124,14 @@ export interface SlotToSave {
 }
 
 export interface Availability {
+  id: string;
   day: string;
   slots: Slot[];
 }
+export type TimeOption = {
+  value: number;
+  label: string;
+};
 
 export interface MentorInfo {
   id: string;

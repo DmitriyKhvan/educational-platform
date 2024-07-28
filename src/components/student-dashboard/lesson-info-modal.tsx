@@ -12,6 +12,7 @@ import { PlaygroundRecordingModal } from "../playground-recording-modal";
 import LabelBox from "@/components/student-dashboard/label-box";
 import LessonControls from "@/components/student-dashboard/lesson-controls";
 import StatusIndicator from "@/components/student-dashboard/status-indicator";
+import type { CalendarEvent } from "@/types";
 
 const LessonInfoModal = ({
 	date,
@@ -23,8 +24,11 @@ const LessonInfoModal = ({
 	userTimezone,
 }: {
 	date: Date;
-	data: any;
-	playground?: any;
+	data: CalendarEvent;
+	playground?: {
+		recordingUrl: string;
+	
+	}
 	refetch: () => void;
 	duration: number;
 	setCanceledLessons?: any;

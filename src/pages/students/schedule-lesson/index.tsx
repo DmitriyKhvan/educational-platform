@@ -15,34 +15,39 @@ import { COMBINED_TIMESHEETS } from "@/shared/apollo/queries/combined-timesheets
 import { COMBINED_TIMESHEETS_TRIAL } from "@/shared/apollo/queries/trial/combined-time-sheets-for-trials";
 import { useAuth } from "@/app/providers/auth-provider";
 import ScheduleSuccess from "@/pages/students/schedule-lesson/schedule-success";
-import type { Mentor } from "@/types/types.generated";
+import type {  Lesson, Mentor, PackageSubscription, Query } from "@/types/types.generated";
 
 const ScheduleLesson = () => {
 	const { currentStudent } = useAuth();
 	const { id = null } = useParams();
 	const location = useLocation();
 
-	const { data, loading } = useQuery(LESSON_QUERY, {
+	const { data, loading } = useQuery<Query>(LESSON_QUERY, {
 		variables: { id },
 		skip: !id,
 	});
 
 	const urlParams = new URLSearchParams(window.location.search);
-	const [repeat, setRepeat] = useState<string>(
-		JSON.parse(urlParams.get("repeatLessons") ?? "") ?? null,
-	);
+	const repeatLessons = urlParams.get("repeatLessons");
+  
+	const [repeat, setRepeat] = useState<number | null>(() => {
+	  if (repeatLessons && !isNaN(Number(repeatLessons))) {
+		return Number(repeatLessons);
+	  }
+	  return null;
+	});
 
 	const [clicked, setClicked] = useState(null);
-	const [selectedPlan, setSelectedPlan] = useState({});
+	const [selectedPlan, setSelectedPlan] = useState<PackageSubscription>();
 	const [schedule, setSchedule] = useState<string>("");
 	const [tabIndex, setTabIndex] = useState(id ? 1 : 0);
 	const [selectMentor, setSelectMentor] = useState<Mentor>();
-	const [createdLessons, setCreatedLessons] = useState(null);
+	const [createdLessons, setCreatedLessons] = useState<Lesson[]>();
 
 	const scheduledLesson = data?.lesson || null;
 
 	useEffect(() => {
-		if (data?.lesson) {
+		if (data?.lesson?.packageSubscription) {
 			setSelectedPlan(data?.lesson?.packageSubscription);
 		}
 	}, [data?.lesson]);
@@ -72,9 +77,10 @@ const ScheduleLesson = () => {
 					setSchedule={setSchedule}
 					selectedMentor={location?.state?.mentor}
 					setSelectMentor={  currentStudent?.isTrial ? setSelectMentor: undefined}
-					duration={selectedPlan?.package?.sessionTime}
+					duration={selectedPlan?.package?.sessionTime ?? undefined}
 				>
-					{tabIndex === 1 && <ScheduleSelector lesson={scheduledLesson} />}
+
+					{tabIndex === 1 && scheduledLesson && <ScheduleSelector lesson={scheduledLesson} />}
 
 					{tabIndex === 2 && <AvailableTimes />}
 				</ScheduleProvider>
@@ -87,7 +93,6 @@ const ScheduleLesson = () => {
 						tabIndex={tabIndex}
 						setTabIndex={setTabIndex}
 						setSelectMentor={setSelectMentor}
-						lesson={scheduledLesson}
 						schedule={schedule}
 						step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
 					/>
@@ -102,18 +107,16 @@ const ScheduleLesson = () => {
 					mentor={selectMentor || location?.state?.mentor}
 					isMentorScheduled={!!location?.state?.mentor}
 					setTabIndex={setTabIndex}
-					lesson={scheduledLesson}
 					lessonId={id}
 					setCreatedLessons={setCreatedLessons}
 					setRepeat={setRepeat}
-					repeat={repeat}
+					repeat={Number(repeat)}
 				/>
 			)}
 
-			{tabIndex === 5 && (
+			{tabIndex === 5 && createdLessons && (
 				<ScheduleSuccess
-					repeat={repeat}
-					setTabIndex={setTabIndex}
+				
 					lessons={createdLessons}
 				/>
 			)}

@@ -4,23 +4,32 @@ import { CREATE_REVIEW } from "@/shared/apollo/mutations/review/create-review";
 import { REVIEW_TAGS_BY_TYPE } from "@/shared/apollo/queries/review/review-tags-by-type";
 import { getTranslatedTitle } from "@/shared/utils/get-translated-title";
 import notify from "@/shared/utils/notify";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { Query } from "@/types/types.generated";
+import {  useLazyQuery, useMutation } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useMediaQuery } from "react-responsive";
 import StarRatings from "react-star-ratings";
 
 const ratingTypes = [null, "bad", "bad", "neutral", "neutral", "good"];
+type RatingType = "bad" | "neutral" | "good";
 
-export const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
+export const StudentReviewModal = ({ studentId, lessonId, closeModal }: {
+	  studentId: string;
+  lessonId: string;
+  closeModal: () => void;
+}) => {
 	const [t, i18n] = useTranslation(["feedback", "common"]);
 	const [rating, setRating] = useState(0);
-	const [ratingType, setRatingType] = useState(null);
-	const [tagsIds, setTagsIds] = useState([]);
+	const [ratingType, setRatingType] = useState<RatingType | null
+	>(null);
+	const [tagsIds, setTagsIds] = useState<
+		string[]
+	>([]);
 	const isMobile = useMediaQuery({ maxWidth: 420 });
 	const [loading, setLoading] = useState(false);
 
-	const [getTags, { data }] = useLazyQuery(REVIEW_TAGS_BY_TYPE);
+	const [getTags, { data }] = useLazyQuery<Query>(REVIEW_TAGS_BY_TYPE);
 	const [createReview] = useMutation(CREATE_REVIEW);
 
 	useEffect(() => {
@@ -72,7 +81,7 @@ export const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
 				<StarRatings
 					changeRating={(rating) => {
 						setRating(rating);
-						setRatingType(ratingTypes[rating]);
+						setRatingType(ratingTypes[rating] as RatingType);
 					}}
 					rating={rating}
 					starHoverColor="#862EE7"
@@ -91,9 +100,12 @@ export const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
 						{tagsLabel}
 					</p>
 					<div className="flex gap-2 flex-wrap">
-						{data?.studentReviewTagsByType?.map((tag) => (
+						{data?.studentReviewTagsByType?.map((tag) =>{ 
+							
+							if (!tag) return
+							return (
 							<TagField
-								key={tag.id}
+								key={tag?.id}
 								type="checkbox"
 								name="reviewTag"
 								label={getTranslatedTitle(tag, i18n.language)}
@@ -105,7 +117,7 @@ export const StudentReviewModal = ({ studentId, lessonId, closeModal }) => {
 									)
 								}
 							/>
-						))}
+						)})}
 					</div>
 				</section>
 			)}

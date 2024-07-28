@@ -21,7 +21,7 @@ const RescheduleAndCancelModal = ({
 	fetchAppointments: () => void;
 	tabIndex: number;
 	type: ModalType;
-	setCanceledLessons: (arg0: any) => void;
+	setCanceledLessons?: (arg0: any) => void;
 	duration: number;
 }) => {
 	const [repeatLessons, setRepeatLessons] = useState(false);

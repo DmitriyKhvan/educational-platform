@@ -55,7 +55,7 @@
 		"start": "vite",
 		"dev": "vite",
 		"serve": "vite preview",
-		"build": "tsc && vite build",
+		"build": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json && vite build",
 		"analyze": "vite build --mode analyze",
 		"knip": "knip",
 		"lint": "biome lint --error-on-warnings",

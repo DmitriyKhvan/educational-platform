@@ -2,7 +2,7 @@ import cls from "@/components/form/button/button.module.css";
 import { type ButtonHTMLAttributes, forwardRef } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-	theme?: "purple" | "blue" | "green" | "red" | "gray" | "outline" | "clear" | "destructive";
+	theme?: "purple" | "blue" | "green" | "red" | "gray" | "outline" | "clear" | "destructive" | "dark_purple"
 	className?: string;
 }
 

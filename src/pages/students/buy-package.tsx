@@ -43,8 +43,8 @@ export default function BuyPackage() {
 
 	const [changeCourse, setChangeCourse] = useState<Course | null>(null);
 
-	const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
-	const [promoPackage, setPromoPackage] = useState<Package | null>(null);
+	const [selectedPackage, setSelectedPackage] = useState<Package>();
+	const [promoPackage, setPromoPackage] = useState<Package>();
 
 	const discount = useMemo(() => {
 		if (user?.personalPromotionCodes?.length) {
@@ -148,7 +148,7 @@ export default function BuyPackage() {
 					)?.price,
 				}));
 
-			setSelectedPackage(null);
+			setSelectedPackage(undefined);
 			return packages;
 		}
 	}, [
@@ -214,14 +214,13 @@ export default function BuyPackage() {
 							selectedSessionTime={selectedSessionTime}
 						/>
 
-						{filteredPackage && (
 							<Packages
-								filteredPackage={filteredPackage}
+								filteredPackage={filteredPackage as Package[]}
 								setSelectedPackage={setSelectedPackage}
 								selectedPackage={selectedPackage}
 								setPromoPackage={setPromoPackage}
 							/>
-						)}
+					
 					</div>
 				</div>
 

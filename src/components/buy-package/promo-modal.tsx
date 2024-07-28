@@ -12,7 +12,7 @@ import type { Mutation, Package } from "@/types/types.generated";
 
 export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen } : {
 	selectedPackage: Package,
-	setPromoPackage: (promoPackage: Package | null) => void,
+	setPromoPackage: (promoPackage: Package) => void,
 	setIsOpen: (isOpen: boolean) => void,
 }) => {
 	const [t] = useTranslation("purchase");
@@ -31,7 +31,7 @@ export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen } : {
 		},
 	});
 
-	const onSubmitHandler = ({ promo }: {promo: string}) => {
+	const onSubmitHandler = ({ promo }: {promo?: string}) => {
 		applyDiscount({
 			variables: {
 				code: promo,
@@ -61,13 +61,13 @@ export const PromoModal = ({ selectedPackage, setPromoPackage, setIsOpen } : {
 					DiscountType.PERCENT
 				) {
 					promoPackage.discount =
-						selectedPackage.discount  +
+						selectedPackage?.discount ?? 0  +
 						data.applyPromotionCodeForPackage.promotionCode.value;
 				} else {
 					promoPackage.promotionCode = {
 						discountType:
 							data.applyPromotionCodeForPackage.promotionCode.discountType,
-						discount: data.applyPromotionCodeForPackage.promotionCode.value,
+						// discount: data.applyPromotionCodeForPackage.promotionCode?.value,
 					};
 				}
 				setPromoPackage(promoPackage);

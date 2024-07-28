@@ -1,178 +1,153 @@
 import React, { useEffect, useState, useRef } from "react";
 import Select from "react-select";
-
 import { FaXmark } from "react-icons/fa6";
 import { formatTime } from "@/pages/mentors/availability/lib/format-time";
 import { formatTimeToSeconds } from "@/pages/mentors/availability/lib/format-time-to-seconds";
 import { selectStyle } from "@/pages/mentors/availability/lib/select-style";
 import { timeGroup } from "@/pages/mentors/availability/lib/time-group";
-import { timeOptions } from "@/pages/mentors/availability/lib/time-options";
+import { timeOptions,} from "@/pages/mentors/availability/lib/time-options";
+import type { Availability, TimeOption } from "@/types";
 
-const AvailabilityPicker = ({
-	day,
-	id,
-	frmTime,
-	tTime,
-	useSetGatherAvailabilities,
-	gatherAvailabilities,
-	timeOptionsSort,
-	timeGroupsSort,
+interface AvailabilityPickerProps {
+  day: string;
+  id: string;
+  frmTime: string;
+  tTime: string;
+  useSetGatherAvailabilities: (data: Availability[]) => void;
+  gatherAvailabilities: Availability[];
+  timeOptionsSort: TimeOption[];
+  timeGroupsSort: TimeOption[][];
+}
+
+const AvailabilityPicker: React.FC<AvailabilityPickerProps> = ({
+  day,
+  id,
+  frmTime,
+  tTime,
+  useSetGatherAvailabilities,
+  gatherAvailabilities,
+  timeOptionsSort,
+  timeGroupsSort,
 }) => {
-	const [timeGroupSort, setTimeGroupSort] = useState(
-		timeGroup(timeGroupsSort, formatTimeToSeconds(frmTime)),
-	);
+  const [timeGroupSort, setTimeGroupSort] = useState<TimeOption[]>(
+    timeGroup(timeGroupsSort, formatTimeToSeconds(frmTime))
+  );
 
-	const [fromTimeOptions] = useState(timeOptionsSort.slice(0, -1));
-	const [toTimeOptions, setToTimeOptions] = useState(timeGroupSort.slice(1));
+  const [fromTimeOptions] = useState<TimeOption[]>(timeOptionsSort.slice(0, -1));
+  const [toTimeOptions, setToTimeOptions] = useState<TimeOption[]>(timeGroupSort.slice(1));
 
-	const [fromTime, setFromTime] = useState(
-		timeOptions.find((time) => time.value === formatTimeToSeconds(frmTime)),
-	);
+  const [fromTime, setFromTime] = useState<TimeOption | undefined>(
+    timeOptions.find((time) => time.value === formatTimeToSeconds(frmTime))
+  );
 
-	const [toTime, setToTime] = useState(
-		timeOptions.find((time) => time.value === formatTimeToSeconds(tTime)),
-	);
+  const [toTime, setToTime] = useState<TimeOption | undefined>(
+    timeOptions.find((time) => time.value === formatTimeToSeconds(tTime))
+  );
 
-	const prevTimeGroupSortRef = useRef();
+  const prevTimeGroupSortRef = useRef<TimeOption[]>();
 
-	// Remember the previous value every time the state is updated
-	useEffect(() => {
-		prevTimeGroupSortRef.current = timeGroupSort;
-	}, [timeGroupSort]);
+  useEffect(() => {
+    prevTimeGroupSortRef.current = timeGroupSort;
+  }, [timeGroupSort]);
 
-	const onChangeTime = (time, timeType) => {
-		const t = Number.parseInt(time);
+  const onChangeTime = (time: number, timeType: "from" | "to") => {
+    const t = Number.parseInt(String(time));
 
-		const timeGroupSort = timeGroup(timeGroupsSort, t);
+    const newTimeGroupSort = timeGroup(timeGroupsSort, t);
+    setTimeGroupSort(newTimeGroupSort);
+    setToTimeOptions(newTimeGroupSort.slice(1));
 
-		setTimeGroupSort(timeGroupSort);
-		setToTimeOptions(timeGroupSort.slice(1));
+    const idxTime = newTimeGroupSort.findIndex((item) => item.value === t);
 
-		const idxTime = timeGroupSort.findIndex((item) => item.value === t);
+    if (timeType === "from") {
+      setFromTime(newTimeGroupSort[idxTime]);
 
-		if (timeType === "from") {
-			setFromTime(timeGroupSort[idxTime]);
+      if (newTimeGroupSort[idxTime]?.value >= (toTime?.value || 0)) {
+        setToTime(newTimeGroupSort[idxTime + 1]);
+        updateAvailability(
+          formatTime(t),
+          formatTime(newTimeGroupSort[idxTime + 1]?.value),
+          id,
+          day
+        );
+      } else {
+        let updatedToTime = tTime;
+        if (
+          JSON.stringify(prevTimeGroupSortRef.current) !==
+          JSON.stringify(newTimeGroupSort)
+        ) {
+          updatedToTime = formatTime(newTimeGroupSort[idxTime + 1]?.value);
+          setToTime(newTimeGroupSort[idxTime + 1]);
+        }
+        updateAvailability(formatTime(t), updatedToTime, id, day);
+      }
+    } else {
+      setToTime(newTimeGroupSort[idxTime]);
 
-			//if fromTime >= toTime
-			if (timeGroupSort[idxTime]?.value >= toTime.value) {
-				setToTime(timeGroupSort[idxTime + 1]);
+      if (newTimeGroupSort[idxTime].value <= (fromTime?.value || 0)) {
+        setFromTime(newTimeGroupSort[idxTime - 1]);
+        updateAvailability(
+          formatTime(newTimeGroupSort[idxTime - 1].value),
+          formatTime(t),
+          id,
+          day
+        );
+      } else {
+        updateAvailability(frmTime, formatTime(t), id, day);
+      }
+    }
+  };
 
-				updateAvailability(
-					formatTime(t), // fromTime
-					formatTime(timeGroupSort[idxTime + 1]?.value), // toTime
-					String(id),
-					day,
-				);
-			} else {
-				let toTime = tTime;
+  const updateAvailability = (fromTime: string, toTime: string, id: string, day: string) => {
+    const avail = { id, day, slots: [{ from: fromTime, to: toTime }] };
 
-				if (
-					JSON.stringify(prevTimeGroupSortRef.current) !==
-					JSON.stringify(timeGroupSort)
-				) {
-					toTime = formatTime(timeGroupSort[idxTime + 1]?.value);
-					setToTime(timeGroupSort[idxTime + 1]);
-				}
+    const idx = gatherAvailabilities.findIndex((a) => a?.id === id);
 
-				updateAvailability(formatTime(t), toTime, String(id), day);
-			}
-		} else {
-			setToTime(timeGroupSort[idxTime]);
+    if (idx !== -1) {
+      const data = [
+        ...gatherAvailabilities.slice(0, idx),
+        avail,
+        ...gatherAvailabilities.slice(idx + 1),
+      ];
+      useSetGatherAvailabilities(data);
+    }
+  };
 
-			//if toTime <= fromTime
-			if (timeGroupSort[idxTime].value <= fromTime.value) {
-				setFromTime(timeGroupSort[idxTime - 1]);
-				updateAvailability(
-					formatTime(timeGroupSort[idxTime - 1].value), //fromTime
-					formatTime(t), //toTime
-					String(id),
-					day,
-				);
-			} else {
-				updateAvailability(frmTime, formatTime(t), String(id), day);
-			}
-		}
-	};
+  return (
+    <div className="flex items-center gap-2">
+      <Select
+        menuPlacement="auto"
+        styles={selectStyle}
+        value={fromTime}
+        options={fromTimeOptions}
+        onChange={(e) => {
+          onChangeTime(e?.value || 0, "from");
+        }}
+      />
 
-	const updateAvailability = (fromTime, toTime, id, day) => {
-		const avail = { id, day, slots: [{ from: fromTime, to: toTime }] };
+      <span>-</span>
 
-		const idx = gatherAvailabilities.findIndex((avail) => avail.id === id);
+      <Select
+        menuPlacement="auto"
+        styles={selectStyle}
+        value={toTime}
+        options={toTimeOptions}
+        onChange={(e) => {
+          onChangeTime(e?.value || 0, "to");
+        }}
+      />
 
-		if (idx !== -1) {
-			const data = gatherAvailabilities.toSpliced(idx, 1, avail);
-			useSetGatherAvailabilities(data);
-		}
-	};
-
-	return (
-		<div className="flex items-center gap-2">
-			<Select
-				menuPlacement="auto"
-				styles={selectStyle}
-				value={fromTime}
-				options={fromTimeOptions}
-				onChange={(e) => {
-					onChangeTime(e.value, "from");
-				}}
-			/>
-
-			<span className="">-</span>
-
-			<Select
-				menuPlacement="auto"
-				styles={selectStyle}
-				value={toTime}
-				options={toTimeOptions}
-				onChange={(e) => {
-					onChangeTime(e.value, "to");
-				}}
-			/>
-
-			<button
-				onClick={() =>
-					useSetGatherAvailabilities(
-						gatherAvailabilities.filter((q) => q.id !== id),
-					)
-				}
-			>
-				<FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
-			</button>
-
-			{/* <AdaptiveDialog
-        button={
-          <button>
-            <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
-          </button>
+      <button
+        onClick={() =>
+          useSetGatherAvailabilities(
+            gatherAvailabilities.filter((q) => q.id !== id)
+          )
         }
       >
-        <ModalConfirm
-          title="Delete date availability slot"
-          text="Are you sure you want to delete this date availability slot?"
-          btns={
-            <div className="flex gap-3">
-              <Button
-                theme="destructive"
-                className="basis-1/2"
-                onClick={() =>
-                  useSetGatherAvailabilities(
-                    gatherAvailabilities.filter((q) => q.id !== id),
-                  )
-                }
-              >
-                Yes, delete
-              </Button>
-
-              <Dialog.Close asChild>
-                <Button theme="gray" className="basis-1/2">
-                  Cancel
-                </Button>
-              </Dialog.Close>
-            </div>
-          }
-        />
-      </AdaptiveDialog> */}
-		</div>
-	);
+        <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
+      </button>
+    </div>
+  );
 };
+
 export default AvailabilityPicker;

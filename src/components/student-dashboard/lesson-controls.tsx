@@ -21,19 +21,21 @@ import LessonInfoModal from "@/components/student-dashboard/lesson-info-modal";
 import PlaygroundWarningModal from "@/components/student-dashboard/playground-warning-modal";
 import RescheduleAndCancelModal from "@/components/student-dashboard/reschedule-and-cancel-modal-rebranding";
 import type { CalendarEvent } from "@/types";
+import type { EventInput } from "@fullcalendar/core";
 
 const LessonControls = ({
 	date,
 	data,
 	refetch,
+	setCanceledLessons,
 	duration,
 	pattern = "card", // card, table, info
 }: {
 	date: Date;
-	data: CalendarEvent;
+	data: EventInput;
 	refetch: () => void;
+	setCanceledLessons?: (arg0: Date) => void;
 	duration: number;
-
 	pattern?: string;
 }) => {
 	const dateLesson = new Date(date);
@@ -46,7 +48,7 @@ const LessonControls = ({
 	const [modalType, setModalType] = useState<ModalType| null>(null);
 	const [isOpen, setIsOpen] = useState(false);
 	const [tabIndex, setTabIndex] = useState(0);
-	const [controls, setControls] = useState<number[]>([]);
+	const [controls, setControls] = useState<number>();
 
 	const [mentorReviewOpen, setMentorReviewOpen] = useState(false);
 	const [openStudentReview, setOpenStudentReview] = useState(false);
@@ -118,7 +120,10 @@ const LessonControls = ({
 	});
 
 	const rescheduleAndCancelModal = (
-		<RescheduleAndCancelModal
+
+		modalType && (
+
+			<RescheduleAndCancelModal
 			data={data}
 			setTabIndex={setTabIndex}
 			setIsOpen={setIsOpen}
@@ -127,13 +132,13 @@ const LessonControls = ({
 			type={modalType}
 			setCanceledLessons={setCanceledLessons}
 			duration={duration}
-		/>
+			/>
+		)
 	);
 
 	const cancelTrialLessonModal = (
 		<CancelTrialLessonModal
 			data={data}
-			isOpen={isOpen}
 			setIsOpen={setIsOpen}
 			fetchAppointments={refetch}
 		/>
@@ -217,7 +222,7 @@ const LessonControls = ({
 				{!isAfterLesson &&
 					!isWithin24Hours &&
 					!data.isTrial &&
-					user.role !== Roles.MENTOR && (
+					user?.role !== Roles.MENTOR && (
 						<AdaptiveDialog
 							open={openReschedule}
 							setOpen={setOpenReschedule}
@@ -235,7 +240,7 @@ const LessonControls = ({
 						</AdaptiveDialog>
 					)}
 				{isAfterLesson &&
-					user.role === Roles.STUDENT &&
+					user?.role === Roles.STUDENT &&
 					process.env.REACT_APP_PRODUCTION === "false" && (
 						<>
 							<Button
@@ -277,18 +282,21 @@ const LessonControls = ({
 								open={openStudentReview}
 								setOpen={setOpenStudentReview}
 							>
-								<StudentReviewModal
+								{data?.id && (
+
+									<StudentReviewModal
 									studentId={data?.student?.id}
 									lessonId={data?.id}
 									closeModal={() => {
 										setOpenStudentReview(false);
 										refetch();
 									}}
-								/>
+									/>
+								)}
 							</AdaptiveDialog>
 						</>
 					)}
-				{!isAfterLesson && !(user.role === Roles.MENTOR && data.isTrial) && (
+				{!isAfterLesson && !(user?.role === Roles.MENTOR && data.isTrial) && (
 					<AdaptiveDialog
 						open={openCancel}
 						setOpen={setOpenCancel}
@@ -306,7 +314,7 @@ const LessonControls = ({
 					</AdaptiveDialog>
 				)}
 				{isAfterLesson &&
-					user.role === Roles.MENTOR &&
+					user?.role === Roles.MENTOR &&
 					process.env.REACT_APP_PRODUCTION === "false" && (
 						<AdaptiveDialog
 							open={mentorReviewOpen}
@@ -368,7 +376,7 @@ const LessonControls = ({
 				<PlaygroundWarningModal
 					isWarningOpen={isWarningOpen}
 					closeModal={closeModal}
-					setIsWarningOpen={setIsWarningOpen}
+				
 				/>
 			)}
 		</>

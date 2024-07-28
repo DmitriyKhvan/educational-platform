@@ -20,16 +20,13 @@ import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
 
 import { BsPlus } from "react-icons/bs";
 import { FiMinus } from "react-icons/fi";
+import type { Package } from "@/types/types.generated";
 
-interface Package {
-	id: string;
-	period: number;
-}
 
 interface OrderSummaryProps {
-	selectedPackage: Package;
-	setPromoPackage: (promoPackage: Package | null) => void;
-	promoPackage: Package | null;
+	selectedPackage?: Package;
+	setPromoPackage: (promoPackage?: Package ) => void;
+	promoPackage?: Package | null;
 }
 
 export const OrderSummary: React.FC<OrderSummaryProps> = memo(
@@ -117,7 +114,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = memo(
 						<button
 							type="button"
 							className="flex items-center gap-2 w-full"
-							onClick={() => setPromoPackage(null)}
+							onClick={() => setPromoPackage()}
 						>
 							<span className="flex items-center justify-center w-5 h-5 rounded-full bg-color-red/10">
 								<FiMinus className="text-xs text-color-red" />
@@ -134,17 +131,17 @@ export const OrderSummary: React.FC<OrderSummaryProps> = memo(
 								<div className="flex items-center justify-between text-sm">
 									<span>
 										{`${selectedPackage.period} ${t("months", {
-											count: selectedPackage.period,
+											count: selectedPackage.period as number ?? 0,
 										})}`}
 									</span>
 									<span className="font-semibold">
-										{currencyFormat({
+										{/* {currencyFormat({
 											currency: curCurrency?.value,
 											locales: curCurrency?.locales,
 											number:
-												(selectedPackage) /
-												selectedPackage.period,
-										})}
+												(selectedPackage as number) /               some kind of selectedPackage's field????
+												(selectedPackage?.period ?? 0),
+										})} */}
 										/mo.
 									</span>
 								</div>
@@ -156,7 +153,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = memo(
 											{`- ${currencyFormat({
 												currency: curCurrency?.value,
 												locales: curCurrency?.locales,
-												number: discount / selectedPackage.period,
+												number: discount / (selectedPackage?.period?? 0),
 											})}`}
 											/mo.
 										</span>
@@ -174,7 +171,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = memo(
 											number:
 												calculatePriceWithDiscount(
 													promoPackage ? promoPackage : selectedPackage,
-												) / selectedPackage.period,
+												) / (selectedPackage.period ?? 0),
 										})}
 										/mo.
 									</span>

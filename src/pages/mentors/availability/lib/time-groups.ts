@@ -1,6 +1,6 @@
 import { formatTimeToSeconds } from '@/pages/mentors/availability/lib/format-time-to-seconds';
-import { type TimeOption, timeOptions } from '@/pages/mentors/availability/lib/time-options';
-import type { Availability } from '@/types';
+import { timeOptions } from '@/pages/mentors/availability/lib/time-options';
+import type { Availability, TimeOption } from '@/types';
 type TimeSlot = {
   from: number;
   to: number;

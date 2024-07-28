@@ -1,6 +1,6 @@
 import { AVAILABLE_MENTORS } from "@/shared/apollo/queries/mentors/available-medntors";
 import { useQuery } from "@apollo/client";
-import React, { useEffect } from "react";
+import  { useEffect, type Dispatch, type SetStateAction } from "react";
 
 import { format, toZonedTime } from "date-fns-tz";
 import { useTranslation } from "react-i18next";
@@ -9,8 +9,9 @@ import Loader from "@/components/loader/loader";
 import { IoArrowBack } from "react-icons/io5";
 import { getItemToLocalStorage } from "@/shared/constants/global";
 import { MentorsView } from "@/pages/students/mentors-list/mentors-view";
+import type {  Mentor } from "@/types/types.generated";
 
-const useAvailableMentors = (isoTime, duration, studentId) => {
+const useAvailableMentors = (isoTime: string, duration: number, studentId: string) => {
 	const {
 		data: { availableMentors } = {},
 		loading,
@@ -29,10 +30,17 @@ const useAvailableMentors = (isoTime, duration, studentId) => {
 };
 
 const SelectMentorCards = ({
+	tabIndex,
 	setTabIndex,
 	setSelectMentor,
 	schedule,
 	step,
+}: {
+	tabIndex: number;
+	setTabIndex: (index: number) => void;
+	setSelectMentor: Dispatch<SetStateAction<Mentor | undefined>>
+	schedule: string;
+	step: number;
 }) => {
 	const [t] = useTranslation(["lessons", "common"]);
 
@@ -48,7 +56,7 @@ const SelectMentorCards = ({
 		window.scrollTo(0, 0);
 	}, [availableMentors]);
 
-	const onClick = (mentor) => {
+	const onClick = (mentor: Mentor) => {
 		setSelectMentor(mentor);
 		setTabIndex(4);
 	};

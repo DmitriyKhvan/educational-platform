@@ -16,35 +16,29 @@ import Indicator from "@/components/indicator";
 import LabelBox from "@/components/student-dashboard/label-box";
 import LessonControls from "@/components/student-dashboard/lesson-controls";
 import StatusIndicator from "@/components/student-dashboard/status-indicator";
-import type { Mentor, Student } from "@/types/types.generated";
+import type { Mentor, PackageSubscription, Student } from "@/types/types.generated";
 import type { CalendarEvent } from "@/types";
 
 const ScheduleCard = ({
-	index,
-	lesson,
-	playground,
 	date, //utc +0
 	student,
 	mentor,
 	data,
 	fetchAppointments,
-	// cancelled,
 	setCanceledLessons,
 	duration,
 	subscription,
 	repeat,
 } : {
-	index: number;
-	lesson: string;
-	playground: string;
+
 	date: string;
 	student?: Student;
 	mentor?: Mentor;
 	data: CalendarEvent;
 	fetchAppointments: () => void;
-	setCanceledLessons?: (arg0: any) => void;
-	duration: number;
-	subscription: any;
+	setCanceledLessons?: (arg0: Date) => void;
+	duration?: number;
+	subscription?: PackageSubscription | null;
 	repeat?: number | null;
 }) => {
 	const [t, i18n] = useTranslation(["lessons", "common"]);
@@ -72,7 +66,7 @@ const ScheduleCard = ({
 		const end = format(
 			addMinutes(
 				toZonedTime(dateLesson, userTimezone),
-				subscription?.package?.sessionTime || duration,
+				(subscription?.package?.sessionTime ?? 0) ?? duration,
 			),
 			"hh:mm a",
 			{ timeZone: userTimezone, locale: localeDic[i18n.language as keyof typeof localeDic] },
@@ -162,10 +156,10 @@ const ScheduleCard = ({
 				</div>
 			</div>
 			<LessonControls
-				date={date}
+				date={new Date(date)}
 				data={data}
 				refetch={fetchAppointments}
-				duration={subscription?.duration || duration}
+				duration={duration ?? 0}
 				setCanceledLessons={setCanceledLessons}
 				pattern="info"
 			/>

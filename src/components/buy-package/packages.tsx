@@ -14,10 +14,10 @@ export const Packages = memo(function Packages({
 	selectedPackage,
 	setPromoPackage,
 }: {
-	filteredPackage: Package[];
+	filteredPackage?: Package[];
 	setSelectedPackage: (pkg: Package) => void;
-	selectedPackage: Package | null;
-	setPromoPackage: (pkg: Package | null) => void;
+	selectedPackage?: Package;
+	setPromoPackage: (pkg?: Package) => void;
 }) {
 	const { curCurrency } = useCurrency();
 	const [t] = useTranslation(["purchase", "common", "translations"]);
@@ -43,7 +43,7 @@ export const Packages = memo(function Packages({
 									checked={selectedPackage === pkg}
 									onChange={() => {
 										setSelectedPackage(pkg);
-										setPromoPackage(null);
+										setPromoPackage();
 									}}
 								/>
 								<div className="grow flex flex-col gap-2">

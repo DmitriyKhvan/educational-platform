@@ -9,6 +9,7 @@ import { setItemToLocalStorage } from "@/shared/constants/global";
 import Button from "@/components/form/button";
 import CheckboxField from "@/components/form/checkbox-field";
 import Loader from "@/components/loader/loader";
+import { useMemo } from "react";
 
 export const MarketingChannelForm = () => {
 	const [t] = useTranslation("onboarding");
@@ -38,7 +39,7 @@ export const MarketingChannelForm = () => {
 		formState: { isValid },
 	} = useForm();
 
-	const submitHandler = ({ marketingChannel }) => {
+	const submitHandler = ({ marketingChannel } :  {marketingChannel?: string}) => {
 		updateUser({
 			variables: {
 				id: user?.id,
@@ -49,7 +50,7 @@ export const MarketingChannelForm = () => {
 			onCompleted: () => {
 				setItemToLocalStorage(
 					"studentId",
-					currentStudent?.id ?? user.students[0].id,
+					currentStudent?.id ?? user?.students?.[0]?.id,
 				);
 				navigate("/student/manage-lessons");
 			},
@@ -83,7 +84,6 @@ export const MarketingChannelForm = () => {
 								<CheckboxField
 									type="radio"
 									value={marketingChannel.value}
-									name="marketingChannel"
 									{...register("marketingChannel", {
 										required: true,
 									})}

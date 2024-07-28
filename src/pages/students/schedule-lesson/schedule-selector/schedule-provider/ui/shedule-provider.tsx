@@ -25,7 +25,7 @@ interface ScheduleProviderProps {
   selectedMentor: any;
   setSelectMentor?: Dispatch<SetStateAction<Mentor | undefined>>
   timeZone?: string;
-  duration: number;
+  duration?: number;
   children: ReactNode;
 }
 

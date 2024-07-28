@@ -17,7 +17,7 @@ export interface ScheduleContextType {
   setTabIndex: Dispatch<SetStateAction<number>>;
   setSchedule: Dispatch<SetStateAction<string>>;
   selectedMentor: { id: string } | null;
-  duration: number;
+  duration?: number;
   setDay: Dispatch<SetStateAction<Date>>;
   day: Date;
   setTimesOfDay: Dispatch<SetStateAction<string[]>>;

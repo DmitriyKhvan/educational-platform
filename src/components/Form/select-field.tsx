@@ -7,7 +7,7 @@ interface OptionType {
 }
 
 interface SelectFieldProps extends Omit<SelectProps<OptionType, false>, 'value' | 'onChange'> {
-  value: string;
+  value?: string;
   options: OptionType[];
   onChange: (value: string) => void;
   isDisabled?: boolean;

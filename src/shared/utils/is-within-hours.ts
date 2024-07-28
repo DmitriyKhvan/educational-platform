@@ -1,9 +1,20 @@
 import { toZonedTime } from 'date-fns-tz';
 
-export const isWithinHours = ({ dateEnd, dateStart, hours, userTimezone }) => {
-  const isWithinHours =
-    toZonedTime(dateEnd, userTimezone) - toZonedTime(dateStart, userTimezone) <=
-    hours * 60 * 60 * 1000;
+interface IsWithinHoursParams {
+  dateEnd: Date | number;
+  dateStart: Date | number;
+  hours: number;
+  userTimezone: string;
+}
 
-  return isWithinHours;
+export const isWithinHours = ({
+  dateEnd,
+  dateStart,
+  hours,
+  userTimezone,
+}: IsWithinHoursParams): boolean => {
+  const endZonedTime = toZonedTime(dateEnd, userTimezone).getTime();
+  const startZonedTime = toZonedTime(dateStart, userTimezone).getTime();
+
+  return endZonedTime - startZonedTime <= hours * 60 * 60 * 1000;
 };
