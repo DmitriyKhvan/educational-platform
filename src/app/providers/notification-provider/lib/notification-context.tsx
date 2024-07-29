@@ -1,25 +1,23 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 export interface Notification {
-	id: string;
-	createdAt: string;
-	meta?: {
-		lesson?: {
-			type: string;
-		};
-		bonusLessonsCount?: number;
-		dashboard?: string
-	};
-	body?: string;
+  id: string;
+  createdAt: string;
+  meta?: {
+    lesson?: {
+      type: string;
+    };
+    bonusLessonsCount?: number;
+    dashboard?: string;
+  };
+  body?: string;
 }
 
 export interface NotificationContextType {
-	notifications: Notification[];
-	getCountNotification: (type: string) => number;
-	removeNotifications: (type?: string) => void;
-	getAllNotifications: () => void;
+  notifications: Notification[];
+  getCountNotification: (type: string) => number;
+  removeNotifications: (type?: string) => void;
+  getAllNotifications: () => void;
 }
 
-export const NotificationContext = createContext<
-	NotificationContextType | undefined
->(undefined);
+export const NotificationContext = createContext<NotificationContextType | undefined>(undefined);

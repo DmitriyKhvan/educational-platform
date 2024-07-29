@@ -1,7 +1,7 @@
 {
-	"mentor_list": "導師名單",
-	"mentor_list_desc": "尋找新導師，或是聯絡喜歡的導師。",
-	"student_list": "學生名單",
-	"student_list_desc": "學找新學生，或是聯絡喜歡的學生。",
-	"cannot_find_mentors": "找不到導師！"
+  "mentor_list": "導師名單",
+  "mentor_list_desc": "尋找新導師，或是聯絡喜歡的導師。",
+  "student_list": "學生名單",
+  "student_list_desc": "學找新學生，或是聯絡喜歡的學生。",
+  "cannot_find_mentors": "找不到導師！"
 }

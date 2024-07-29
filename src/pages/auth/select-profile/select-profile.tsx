@@ -1,6 +1,5 @@
-
-import   SelectProfileComponent  from "@/components/select-profile";
+import SelectProfileComponent from '@/components/select-profile';
 
 export const SelectProfile = () => {
-	return <SelectProfileComponent />;
+  return <SelectProfileComponent />;
 };

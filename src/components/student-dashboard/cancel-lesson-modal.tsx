@@ -1,14 +1,15 @@
-import { useAuth } from "@/app/providers/auth-provider";
-import Button from "@/components/form/button";
-import CheckboxField from "@/components/form/checkbox-field";
-import Loader from "@/components/loader/loader";
-import { CANCEL_APPOINTMENT } from "@/shared/apollo/graphql";
-import { Roles, cancellationArr } from "@/shared/constants/global";
-import notify from "@/shared/utils/notify";
-import { useMutation } from "@apollo/client";
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { FaChevronLeft } from "react-icons/fa6";
+import { useAuth } from '@/app/providers/auth-provider';
+import Button from '@/components/form/button';
+import CheckboxField from '@/components/form/checkbox-field';
+import Loader from '@/components/loader/loader';
+import { CANCEL_APPOINTMENT } from '@/shared/apollo/graphql';
+import { Roles, cancellationArr } from '@/shared/constants/global';
+import notify from '@/shared/utils/notify';
+import { useMutation } from '@apollo/client';
+import type React from 'react';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { FaChevronLeft } from 'react-icons/fa6';
 
 interface CancelLessonModalProps {
   setTabIndex: (index: number) => void;
@@ -27,8 +28,8 @@ const CancelLessonModal: React.FC<CancelLessonModalProps> = ({
   setCanceledLessons,
   repeatLessons,
 }) => {
-  const [t] = useTranslation(["common", "lessons"]);
-  const [cancel, setCancel] = useState<{ value: string } | null>({ value: "" });
+  const [t] = useTranslation(['common', 'lessons']);
+  const [cancel, setCancel] = useState<{ value: string } | null>({ value: '' });
   const [isChecked, setIsChecked] = useState(false);
   const [cancelReasons, setCancelReasons] = useState<string[]>([]);
 
@@ -36,10 +37,7 @@ const CancelLessonModal: React.FC<CancelLessonModalProps> = ({
 
   useEffect(() => {
     if (user && user.role === Roles.MENTOR) {
-      const cancellationArrMentor = [
-        ...cancellationArr.slice(0, 5),
-        ...cancellationArr.slice(7),
-      ];
+      const cancellationArrMentor = [...cancellationArr.slice(0, 5), ...cancellationArr.slice(7)];
       setCancelReasons(cancellationArrMentor);
     } else {
       setCancelReasons(cancellationArr);
@@ -49,7 +47,7 @@ const CancelLessonModal: React.FC<CancelLessonModalProps> = ({
   const checkboxEvent = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = target;
     if (value === cancel?.value) {
-      setCancel({ value: "" });
+      setCancel({ value: '' });
       setIsChecked(false);
     } else {
       setCancel({ value });
@@ -73,10 +71,10 @@ const CancelLessonModal: React.FC<CancelLessonModalProps> = ({
         } else {
           fetchAppointments();
         }
-        notify("Your lesson has been cancelled successfully");
+        notify('Your lesson has been cancelled successfully');
       },
       onError: (error) => {
-        notify(error.message, "error");
+        notify(error.message, 'error');
       },
     });
   };
@@ -96,7 +94,7 @@ const CancelLessonModal: React.FC<CancelLessonModalProps> = ({
         Lesson cancellation
       </h2>
       <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px]">
-        {t("reason_subtitle", { ns: "lessons" })}
+        {t('reason_subtitle', { ns: 'lessons' })}
       </p>
       <div className="flex flex-col gap-y-3">
         {cancelReasons.map((reason) => (
@@ -105,12 +103,12 @@ const CancelLessonModal: React.FC<CancelLessonModalProps> = ({
             className="hover:cursor-pointer border px-4 py-5 pb-4 rounded-lg has-[:checked]:border-color-purple/50 has-[:checked]:bg-color-purple has-[:checked]:bg-opacity-10"
           >
             <CheckboxField
-              label={t(reason, { ns: "lessons" })}
-              value={t(reason, { ns: "lessons" })}
+              label={t(reason, { ns: 'lessons' })}
+              value={t(reason, { ns: 'lessons' })}
               name="reason"
               type="radio"
               onChange={checkboxEvent}
-              checked={t(reason, { ns: "lessons" }) === cancel?.value}
+              checked={t(reason, { ns: 'lessons' }) === cancel?.value}
               dot
             />
           </label>
@@ -123,7 +121,7 @@ const CancelLessonModal: React.FC<CancelLessonModalProps> = ({
           disabled={!isChecked || isLoading}
           onClick={onCancelLesson}
         >
-          {t("confirm")}
+          {t('confirm')}
         </Button>
       </div>
     </div>

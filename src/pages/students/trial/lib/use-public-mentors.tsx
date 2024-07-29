@@ -1,28 +1,35 @@
-import { PUBLIC_MENTOR_LIST } from "@/shared/apollo/queries/mentors/public-mentor-list";
-import { useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
+import { PUBLIC_MENTOR_LIST } from '@/shared/apollo/queries/mentors/public-mentor-list';
+import type { Query } from '@/types/types.generated';
+import { useQuery } from '@apollo/client';
+import { useEffect, useState } from 'react';
 
 export const usePublicMentors = () => {
-	const {
-		data: { publicMentorList: trialMentors } = [],
-	} = useQuery(PUBLIC_MENTOR_LIST, {
-		fetchPolicy: "network-only",
-	});
+  const { data } = useQuery<Query>(PUBLIC_MENTOR_LIST, {
+    fetchPolicy: 'network-only',
+  });
 
-	const [trialMentorsDic, setTrialMentorsDic] = useState([]);
+  const { publicMentorList: trialMentors } = data || {};
 
-	useEffect(() => {
-		if (trialMentors) {
-			const trialMentorsDic = trialMentors.map((mentor) => {
-				return {
-					value: mentor.id,
-					label: `${mentor.firstName} ${mentor.lastName}`,
-				};
-			});
+  const [trialMentorsDic, setTrialMentorsDic] = useState<
+    | {
+        value: string | undefined;
+        label: string;
+      }[]
+    | undefined
+  >([]);
 
-			setTrialMentorsDic(trialMentorsDic);
-		}
-	}, [trialMentors]);
+  useEffect(() => {
+    if (trialMentors) {
+      const trialMentorsDic = trialMentors.map((mentor) => {
+        return {
+          value: mentor?.id,
+          label: `${mentor?.firstName} ${mentor?.lastName}`,
+        };
+      });
 
-	return trialMentorsDic;
+      setTrialMentorsDic(trialMentorsDic);
+    }
+  }, [trialMentors]);
+
+  return trialMentorsDic;
 };

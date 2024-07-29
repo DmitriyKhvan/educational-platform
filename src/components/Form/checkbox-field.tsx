@@ -1,35 +1,27 @@
-import { cn } from "@/shared/utils/functions";
-import type React from "react";
-import { forwardRef } from "react";
+import { cn } from '@/shared/utils/functions';
+import type React from 'react';
+import { type ReactNode, forwardRef } from 'react';
 
 interface CheckboxFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
+  label?: string | ReactNode;
   square?: boolean;
   dot?: boolean;
 }
 
 const CheckboxField = forwardRef<HTMLInputElement, CheckboxFieldProps>(
   (
-    {
-      label = "",
-      type = "checkbox",
-      name = "",
-      className,
-      square = false,
-      dot = false,
-      ...props
-    },
+    { label = '', type = 'checkbox', name = '', className, square = false, dot = false, ...props },
     ref,
   ) => {
     return (
-      <label className={cn("relative inline-flex items-center cursor-pointer", className)}>
+      <label className={cn('relative inline-flex items-center cursor-pointer', className)}>
         <input
           className={cn(
-            "appearance-none peer relative h-6 w-6 bg-[#F5F5F5] text-transparent cursor-pointer focus:ring-transparent focus:shadow-[0_0_0_0.35rem_rgba(13,110,253,0.25)] checked:bg-none",
-            square ? "rounded-[4px]" : "rounded-full",
+            'appearance-none peer relative h-6 w-6 bg-[#F5F5F5] text-transparent cursor-pointer focus:ring-transparent focus:shadow-[0_0_0_0.35rem_rgba(13,110,253,0.25)] checked:bg-none',
+            square ? 'rounded-[4px]' : 'rounded-full',
             dot
-              ? "checked:bg-transparent border-0 checked:border-2 border-color-purple"
-              : "checked:bg-color-purple border-none",
+              ? 'checked:bg-transparent border-0 checked:border-2 border-color-purple'
+              : 'checked:bg-color-purple border-none',
           )}
           type={type}
           name={name}
@@ -60,6 +52,6 @@ const CheckboxField = forwardRef<HTMLInputElement, CheckboxFieldProps>(
   },
 );
 
-CheckboxField.displayName = "CheckboxField";
+CheckboxField.displayName = 'CheckboxField';
 
 export default CheckboxField;

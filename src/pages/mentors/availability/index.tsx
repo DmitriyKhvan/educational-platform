@@ -1,3 +1,3 @@
-import Availability from "@/pages/mentors/availability/availability";
+import Availability from '@/pages/mentors/availability/availability';
 
 export default Availability;

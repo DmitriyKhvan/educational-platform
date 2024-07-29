@@ -548,11 +548,13 @@ type OverviewField = {
   label: OverviewGradeType;
 };
 
+export type MentorOverviewFieldValue = keyof Omit<
+  MentorReview,
+  '__typename' | 'id' | 'lesson' | 'mentor' | 'student' | 'vocabularies' | 'homeworks'
+>;
+
 export const overviewFieldsDic: {
-  value: keyof Omit<
-    MentorReview,
-    '__typename' | 'id' | 'lesson' | 'mentor' | 'student' | 'vocabularies' | 'homeworks'
-  >;
+  value: MentorOverviewFieldValue;
   label: string;
 }[] = [
   { value: 'fluency', label: 'fluency' },

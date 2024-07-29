@@ -1,5 +1,4 @@
-import React, { useEffect, useState, createContext, ReactNode, type Dispatch, type SetStateAction } from "react";
-import { useLazyQuery, type DocumentNode } from "@apollo/client";
+import { type DocumentNode, useLazyQuery } from '@apollo/client';
 import {
   addHours,
   addMonths,
@@ -7,23 +6,25 @@ import {
   isSameDay,
   isWithinInterval,
   parse,
-} from "date-fns";
-import { toZonedTime, format } from "date-fns-tz";
+} from 'date-fns';
+import { format, toZonedTime } from 'date-fns-tz';
+import type React from 'react';
+import { type Dispatch, type ReactNode, type SetStateAction, useEffect, useState } from 'react';
 
-import notify from "@/shared/utils/notify";
-import { scrollToElement } from "@/shared/utils/scroll-to-element";
-import { useDebounce } from "@/shared/utils/use-debounce";
-import { useAuth } from "@/app/providers/auth-provider";
-import { getItemToLocalStorage } from "@/shared/constants/global";
-import { ScheduleContext } from "@/pages/students/schedule-lesson/schedule-selector/schedule-provider/lib/schedule-context";
-import type { Mentor, Query } from "@/types/types.generated";
+import { useAuth } from '@/app/providers/auth-provider';
+import { ScheduleContext } from '@/pages/students/schedule-lesson/schedule-selector/schedule-provider/lib/schedule-context';
+import { getItemToLocalStorage } from '@/shared/constants/global';
+import notify from '@/shared/utils/notify';
+import { scrollToElement } from '@/shared/utils/scroll-to-element';
+import { useDebounce } from '@/shared/utils/use-debounce';
+import type { Mentor } from '@/types/types.generated';
 
 interface ScheduleProviderProps {
-  query: DocumentNode
+  query: DocumentNode;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
   setSchedule: React.Dispatch<React.SetStateAction<string>>;
   selectedMentor: any;
-  setSelectMentor?: Dispatch<SetStateAction<Mentor | undefined>>
+  setSelectMentor?: Dispatch<SetStateAction<Mentor | undefined>>;
   timeZone?: string;
   duration?: number;
   children: ReactNode;
@@ -50,23 +51,30 @@ export const ScheduleProvider: React.FC<ScheduleProviderProps> = ({
   duration,
   children,
 }) => {
-  const [getTimesheetsData, { loading: timesheetsLoading, data: timesheetsData }] = useLazyQuery(query, {
-    fetchPolicy: "no-cache",
-    onError: (error) => {
-      notify(error.message, "error");
-      resetAll();
+  const [getTimesheetsData, { loading: timesheetsLoading, data: timesheetsData }] = useLazyQuery(
+    query,
+    {
+      fetchPolicy: 'no-cache',
+      onError: (error) => {
+        notify(error.message, 'error');
+        resetAll();
+      },
     },
-  });
+  );
 
-  const hourPrior = process.env.REACT_APP_PRODUCTION === "true" ? 48 : 0;
+  const hourPrior = process.env.REACT_APP_PRODUCTION === 'true' ? 48 : 0;
   const { user } = useAuth();
-  const userTimezone = user?.timeZone?.split(" ")[0] || timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const userTimezone =
+    user?.timeZone?.split(' ')[0] || timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
   const todayUserTimezone = toZonedTime(new Date(), userTimezone);
 
   const [day, setDay] = useState<Date>(todayUserTimezone);
   const [timesOfDay, setTimesOfDay] = useState<string[]>([]);
   const [availableTimes, setAvailableTimes] = useState<AvailableTime[]>([]);
-  const [timeOfDayInterval, setTimeOfDayInterval] = useState<TimeOfDayInterval>({ start: "", end: "" });
+  const [timeOfDayInterval, setTimeOfDayInterval] = useState<TimeOfDayInterval>({
+    start: '',
+    end: '',
+  });
 
   const [dayClicked, setDayClicked] = useState<number | null>(null);
   const [timeClicked, setTimeClicked] = useState<string | null>(null);
@@ -75,16 +83,16 @@ export const ScheduleProvider: React.FC<ScheduleProviderProps> = ({
   const isToday = isSameDay(new Date(day), todayUserTimezone);
 
   const morningInterval = {
-    start: parse("00:00", "HH:mm", new Date(day)),
-    end: parse("11:59", "HH:mm", new Date(day)),
+    start: parse('00:00', 'HH:mm', new Date(day)),
+    end: parse('11:59', 'HH:mm', new Date(day)),
   };
   const afternoonInterval = {
-    start: parse("12:00", "HH:mm", new Date(day)),
-    end: parse("17:59", "HH:mm", new Date(day)),
+    start: parse('12:00', 'HH:mm', new Date(day)),
+    end: parse('17:59', 'HH:mm', new Date(day)),
   };
   const eveningInterval = {
-    start: parse("18:00", "HH:mm", new Date(day)),
-    end: parse("23:59", "HH:mm", new Date(day)),
+    start: parse('18:00', 'HH:mm', new Date(day)),
+    end: parse('23:59', 'HH:mm', new Date(day)),
   };
 
   const resetAll = () => {
@@ -102,18 +110,18 @@ export const ScheduleProvider: React.FC<ScheduleProviderProps> = ({
       getTimesheetsData({
         variables: {
           tz: userTimezone,
-          date: format(new Date(debouncedTimesheetsData), "yyyy-MM-dd", {
+          date: format(new Date(debouncedTimesheetsData), 'yyyy-MM-dd', {
             timeZone: userTimezone,
           }),
           duration: duration && String(duration).toString(),
           ...(selectedMentor && {
             mentorId: selectedMentor.id,
           }),
-          studentId: getItemToLocalStorage("studentId", ""),
+          studentId: getItemToLocalStorage('studentId', ''),
         },
       });
     }
-  }, [debouncedTimesheetsData]);
+  }, [debouncedTimesheetsData, dayClicked, duration]);
 
   const setDayInterval = ({ currentTime, lastTime }: { currentTime?: Date; lastTime?: Date }) => {
     let morning = false;
@@ -177,28 +185,31 @@ export const ScheduleProvider: React.FC<ScheduleProviderProps> = ({
       }
     }
 
-    (timesheetsData?.combinedTimesheets || timesheetsData?.combinedTimesheetsForTrials || []).sort(
-      (a: { from: string }, b: { from: string }) =>
-        parse(a.from, "HH:mm", new Date(day)).getTime() - parse(b.from, "HH:mm", new Date(day)).getTime()
-    ).forEach((timesheet: { from: string }) => {
-      const tempTime = parse(timesheet.from, "HH:mm", new Date(day));
+    (timesheetsData?.combinedTimesheets || timesheetsData?.combinedTimesheetsForTrials || [])
+      .sort(
+        (a: { from: string }, b: { from: string }) =>
+          parse(a.from, 'HH:mm', new Date(day)).getTime() -
+          parse(b.from, 'HH:mm', new Date(day)).getTime(),
+      )
+      .forEach((timesheet: { from: string }) => {
+        const tempTime = parse(timesheet.from, 'HH:mm', new Date(day));
 
-      if (isWithinInterval(tempTime, currentMorningInterval) && !morning) {
-        timeArr.push("Morning");
-        morning = true;
-        return;
-      }
-      if (isWithinInterval(tempTime, currentAfternoonInterval) && !afternoon) {
-        timeArr.push("Afternoon");
-        afternoon = true;
-        return;
-      }
-      if (isWithinInterval(tempTime, currentEveningInterval) && !evening) {
-        timeArr.push("Evening");
-        evening = true;
-        return;
-      }
-    });
+        if (isWithinInterval(tempTime, currentMorningInterval) && !morning) {
+          timeArr.push('Morning');
+          morning = true;
+          return;
+        }
+        if (isWithinInterval(tempTime, currentAfternoonInterval) && !afternoon) {
+          timeArr.push('Afternoon');
+          afternoon = true;
+          return;
+        }
+        if (isWithinInterval(tempTime, currentEveningInterval) && !evening) {
+          timeArr.push('Evening');
+          evening = true;
+          return;
+        }
+      });
 
     setTimesOfDay(timeArr);
   };
@@ -214,7 +225,7 @@ export const ScheduleProvider: React.FC<ScheduleProviderProps> = ({
       } else {
         setDayInterval({ currentTime: undefined });
       }
-      setTimeout(() => scrollToElement("timeOfDay"), 100);
+      setTimeout(() => scrollToElement('timeOfDay'), 100);
     }
   }, [timesheetsData]);
 
@@ -222,59 +233,61 @@ export const ScheduleProvider: React.FC<ScheduleProviderProps> = ({
     if (timeOfDayInterval.start && timeOfDayInterval.end) {
       const availableSlots: AvailableTime[] = [];
 
-      (timesheetsData?.combinedTimesheets || timesheetsData?.combinedTimesheetsForTrials || []).forEach(
-        (timesheet: { from: string; reserved: boolean; mentors: { id: string }[] }) => {
-          const tempTime = parse(timesheet.from, "HH:mm", new Date(day));
+      (
+        timesheetsData?.combinedTimesheets ||
+        timesheetsData?.combinedTimesheetsForTrials ||
+        []
+      ).forEach((timesheet: { from: string; reserved: boolean; mentors: { id: string }[] }) => {
+        const tempTime = parse(timesheet.from, 'HH:mm', new Date(day));
 
-          if (isWithinInterval(tempTime, timeOfDayInterval) && !timesheet.reserved) {
-            availableSlots.push({
-              time: timesheet.from,
-              reserved: timesheet.reserved,
-              mentorId: timesheet.mentors && timesheet.mentors[0].id,
-            });
-          }
+        if (isWithinInterval(tempTime, timeOfDayInterval) && !timesheet.reserved) {
+          availableSlots.push({
+            time: timesheet.from,
+            reserved: timesheet.reserved,
+            mentorId: timesheet.mentors && timesheet.mentors[0].id,
+          });
         }
-      );
+      });
 
       setAvailableTimes(availableSlots);
     }
   }, [timeOfDayInterval.start]);
 
-	return (
-		<ScheduleContext.Provider
-			value={{
-				userTimezone,
-				setTabIndex,
-				setSchedule,
-				selectedMentor,
-				duration,
-				setDay,
-				day,
-				setTimesOfDay,
-				timesOfDay,
-				setTimeOfDayInterval,
-				timeOfDayInterval,
-				setAvailableTimes,
-				availableTimes,
-				getTimesheetsData,
-				timesheetsLoading,
-				timesheetsData,
-				dayClicked,
-				setDayClicked,
-				setTimeClicked,
-				timeClicked,
-				todayUserTimezone,
-				morningInterval,
-				afternoonInterval,
-				eveningInterval,
-				endMonth,
-				isToday,
-				resetAll,
-				setSelectMentor,
-				hourPrior,
-			}}
-		>
-			{children}
-		</ScheduleContext.Provider>
-	);
+  return (
+    <ScheduleContext.Provider
+      value={{
+        userTimezone,
+        setTabIndex,
+        setSchedule,
+        selectedMentor,
+        duration,
+        setDay,
+        day,
+        setTimesOfDay,
+        timesOfDay,
+        setTimeOfDayInterval,
+        timeOfDayInterval,
+        setAvailableTimes,
+        availableTimes,
+        getTimesheetsData,
+        timesheetsLoading,
+        timesheetsData,
+        dayClicked,
+        setDayClicked,
+        setTimeClicked,
+        timeClicked,
+        todayUserTimezone,
+        morningInterval,
+        afternoonInterval,
+        eveningInterval,
+        endMonth,
+        isToday,
+        resetAll,
+        setSelectMentor,
+        hourPrior,
+      }}
+    >
+      {children}
+    </ScheduleContext.Provider>
+  );
 };

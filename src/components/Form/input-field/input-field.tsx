@@ -1,5 +1,5 @@
-import { forwardRef, InputHTMLAttributes, ReactNode } from "react";
-import cls from "@/components/form/input-field/input-field.module.css";
+import cls from '@/components/form/input-field/input-field.module.css';
+import { type InputHTMLAttributes, type ReactNode, forwardRef } from 'react';
 
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -8,46 +8,40 @@ interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   classNameLabel?: string;
   icon?: ReactNode;
   iconHandler?: () => void;
-  positionIcon?: "left" | "right";
+  positionIcon?: 'left' | 'right';
 }
 
 const InputField = forwardRef<HTMLInputElement, InputFieldProps>(function InputField(
   {
-    label = "",
-    type = "text",
-    placeholder = "",
-    autoComplete = "off",
+    label = '',
+    type = 'text',
+    placeholder = '',
+    autoComplete = 'off',
     className,
     classNameIcon,
     classNameLabel,
     icon,
     iconHandler,
-    positionIcon = "right",
+    positionIcon = 'right',
     ...props
   },
-  ref
+  ref,
 ) {
   return (
     <label className="grow">
-      {label && (
-        <div className={`${cls.labelStyle} ${classNameLabel}`}>{label}</div>
-      )}
-      <div
-        className={`flex items-center ${
-          positionIcon === "left" ? "flex-row-reverse" : ""
-        }`}
-      >
+      {label && <div className={`${cls.labelStyle} ${classNameLabel}`}>{label}</div>}
+      <div className={`flex items-center ${positionIcon === 'left' ? 'flex-row-reverse' : ''}`}>
         <input
           className={`
           peer
           ${cls.inputStyle}
           ${className}
           ${
-            icon && positionIcon === "right"
-              ? " rounded-l-md border-l border-y border-r-0 [clip-path:inset(-3px_1px_-3px_-3px)]"
-              : icon && positionIcon === "left"
-                ? "rounded-r-md border-r border-y border-l-0 [clip-path:inset(-3px_-3px_-3px_1px)]"
-                : "rounded-md border"
+            icon && positionIcon === 'right'
+              ? ' rounded-l-md border-l border-y border-r-0 [clip-path:inset(-3px_1px_-3px_-3px)]'
+              : icon && positionIcon === 'left'
+                ? 'rounded-r-md border-r border-y border-l-0 [clip-path:inset(-3px_-3px_-3px_1px)]'
+                : 'rounded-md border'
           }
         `}
           type={type}
@@ -69,9 +63,9 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(function InputF
             peer-disabled:text-[#AAA8A8]
             ${classNameIcon}
             ${
-              positionIcon === "right"
-                ? "border-r rounded-r-md [clip-path:inset(-3px_-3px_-3px_1px)] ml-[-2px]"
-                : "border-l rounded-l-md [clip-path:inset(-3px_1px_-3px_-3px)] mr-[-2px]"
+              positionIcon === 'right'
+                ? 'border-r rounded-r-md [clip-path:inset(-3px_-3px_-3px_1px)] ml-[-2px]'
+                : 'border-l rounded-l-md [clip-path:inset(-3px_1px_-3px_-3px)] mr-[-2px]'
             }
             `}
             onClick={iconHandler}

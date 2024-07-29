@@ -1,34 +1,32 @@
-import MyDropdownMenu from "@/components/dropdown-menu";
-import Button from "@/components/form/button";
-import CheckboxField from "@/components/form/checkbox-field";
-import Indicator from "@/components/indicator";
-import { selectStyle } from "@/pages/mentors/availability/lib/select-style"; 
-import { GET_LESSON_SECTIONS } from "@/shared/apollo/queries/lessons/lesson-sections";
-import { GET_TOPICS } from "@/shared/apollo/queries/topics/topics";
-import { cn } from "@/shared/utils/functions";
-import {
-  getTranslatedDescription,
-  getTranslatedTitle,
-} from "@/shared/utils/get-translated-title";
-import { useQuery } from "@apollo/client";
-import { format, toZonedTime } from "date-fns-tz";
-import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { FaAngleDown } from "react-icons/fa6";
-import Select from "react-select";
-import { useAuth } from "@/app/providers/auth-provider";
-import { localeDic } from "@/shared/constants/global";
-import { Avatar } from "@/widgets/avatar/avatar";
-import type { FeedbackLessonData, Section } from "@/types/feedback";
-import type { Topic } from "@/types/types.generated";
+import { useAuth } from '@/app/providers/auth-provider';
+import MyDropdownMenu from '@/components/dropdown-menu';
+import Button from '@/components/form/button';
+import CheckboxField from '@/components/form/checkbox-field';
+import Indicator from '@/components/indicator';
+import { selectStyle } from '@/pages/mentors/availability/lib/select-style';
+import { GET_LESSON_SECTIONS } from '@/shared/apollo/queries/lessons/lesson-sections';
+import { GET_TOPICS } from '@/shared/apollo/queries/topics/topics';
+import { localeDic } from '@/shared/constants/global';
+import { cn } from '@/shared/utils/functions';
+import { getTranslatedDescription, getTranslatedTitle } from '@/shared/utils/get-translated-title';
+import type { Section } from '@/types/feedback';
+import type { Topic } from '@/types/types.generated';
+import { Avatar } from '@/widgets/avatar/avatar';
+import { useQuery } from '@apollo/client';
+import type { EventInput } from '@fullcalendar/core';
+import { format, toZonedTime } from 'date-fns-tz';
+import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { FaAngleDown } from 'react-icons/fa6';
+import Select from 'react-select';
 
 interface FeedbackLessonInfoProps {
-  data: FeedbackLessonData;
+  data: EventInput;
   setStep: (step: number) => void;
   choosenTopic: Topic | null;
   setChoosenTopic: (topic: Topic | null) => void;
-  choosenSection: Section | null;
-  setChoosenSection: (section: Section | null) => void;
+  choosenSection?: Section;
+  setChoosenSection: (section?: Section) => void;
 }
 
 const FeedbackLessonInfo: React.FC<FeedbackLessonInfoProps> = ({
@@ -39,7 +37,7 @@ const FeedbackLessonInfo: React.FC<FeedbackLessonInfoProps> = ({
   choosenSection,
   setChoosenSection,
 }) => {
-  const [t, i18n] = useTranslation(["common", "feedback"]);
+  const [t, i18n] = useTranslation(['common', 'feedback']);
   const { user } = useAuth();
 
   const [completedLesson, setCompletedLesson] = useState(!choosenSection);
@@ -53,7 +51,7 @@ const FeedbackLessonInfo: React.FC<FeedbackLessonInfoProps> = ({
 
   const topics = useMemo(() => {
     if (topicsData) {
-      return topicsData.topics.map((topic: any) => ({
+      return topicsData.topics.map((topic: Topic) => ({
         ...topic,
         title: getTranslatedTitle(topic, i18n.language),
         description: getTranslatedDescription(topic, i18n.language),
@@ -63,15 +61,14 @@ const FeedbackLessonInfo: React.FC<FeedbackLessonInfoProps> = ({
     }
 
     return [];
-  }, [topicsData, t, i18n.language]);
+  }, [topicsData, i18n.language]);
 
   const sections: Section[] = sectionsData?.lessonSections?.map((section: Section) => ({
     label: getTranslatedTitle(section, i18n.language),
     value: section.id,
   }));
 
-  const userTimezone =
-    user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const userTimezone = user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   return (
     <div className="text-color-dark-violet space-y-8">
@@ -100,29 +97,25 @@ const FeedbackLessonInfo: React.FC<FeedbackLessonInfoProps> = ({
         </div>
         <div className="grid grid-cols-3 gap-2">
           <Indicator className="truncate bg-color-purple text-color-purple rounded-md py-[6px]">
-            {format(
-              toZonedTime(new Date(data.startAt), userTimezone),
-              "eee, MMM do",
-              { timeZone: userTimezone, locale: localeDic[i18n.language as keyof typeof localeDic] },
-            )}
+            {format(toZonedTime(new Date(data.startAt), userTimezone), 'eee, MMM do', {
+              timeZone: userTimezone,
+              locale: localeDic[i18n.language as keyof typeof localeDic],
+            })}
           </Indicator>
 
           <Indicator className="truncate bg-color-purple text-color-purple rounded-md py-[6px]">
-            {data?.duration} {t("minutes_full")}
+            {Number(data?.duration)} {t('minutes_full')}
           </Indicator>
 
           <Indicator className="truncate bg-color-purple text-color-purple rounded-md py-[6px]">
-            {getTranslatedTitle(
-              data?.packageSubscription?.package?.course,
-              i18n.language,
-            )}
+            {getTranslatedTitle(data?.packageSubscription?.package?.course, i18n.language)}
           </Indicator>
         </div>
       </section>
 
       <section>
         <h3 className="mb-4 text-color-light-grey text-sm">
-          {t("topic_lesson", { ns: "feedback" })}
+          {t('topic_lesson', { ns: 'feedback' })}
         </h3>
 
         <Select
@@ -135,16 +128,14 @@ const FeedbackLessonInfo: React.FC<FeedbackLessonInfoProps> = ({
       </section>
 
       <section>
-        <h3 className="mb-4 text-color-light-grey text-sm">
-          Did you complete the lesson?
-        </h3>
+        <h3 className="mb-4 text-color-light-grey text-sm">Did you complete the lesson?</h3>
         <div className="grid grid-cols-2 gap-4 mb-6">
           <CheckboxField
             label="Yes"
             name="completeLesson"
             onChange={() => {
               setCompletedLesson(true);
-              setChoosenSection(null);
+              setChoosenSection(undefined);
             }}
             checked={completedLesson}
             dot
@@ -164,9 +155,7 @@ const FeedbackLessonInfo: React.FC<FeedbackLessonInfoProps> = ({
 
         {!completedLesson && !!sections?.length && (
           <>
-            <h3 className="mb-4 text-color-light-grey text-sm">
-              Last section completed
-            </h3>
+            <h3 className="mb-4 text-color-light-grey text-sm">Last section completed</h3>
             <MyDropdownMenu
               align="end"
               open={openSections}
@@ -174,26 +163,20 @@ const FeedbackLessonInfo: React.FC<FeedbackLessonInfoProps> = ({
               button={
                 <Button
                   theme="outline"
-                  className={cn(
-                    "flex justify-between items-center gap-3 w-full h-[56px]",
-                  )}
+                  className={cn('flex justify-between items-center gap-3 w-full h-[56px]')}
                 >
                   <span className="grow text-left">
-                    {choosenSection?.label
-                      ? choosenSection?.label
-                      : "Choose lesson section..."}
+                    {choosenSection?.label ? choosenSection?.label : 'Choose lesson section...'}
                   </span>
                   <FaAngleDown />
                 </Button>
               }
             >
-              <ul className={cn("w-[400px] max-h-[400px] overflow-y-auto")}>
+              <ul className={cn('w-[400px] max-h-[400px] overflow-y-auto')}>
                 {sections.map((section) => (
                   <li
                     key={section.value}
-                    className={cn(
-                      "border-b border-color-border-grey last:border-b-0",
-                    )}
+                    className={cn('border-b border-color-border-grey last:border-b-0')}
                   >
                     <label className="flex items-center gap-3 p-4 cursor-pointer hover:bg-color-purple text-color-dark-purple hover:text-white has-[:checked]:text-white has-[:checked]:bg-color-purple">
                       <input
@@ -204,9 +187,7 @@ const FeedbackLessonInfo: React.FC<FeedbackLessonInfoProps> = ({
                         checked={section.value === choosenSection?.value}
                         onClick={() => setOpenSections(false)}
                       />
-                      <span className={cn("text-sm font-medium")}>
-                        {section.label}
-                      </span>
+                      <span className={cn('text-sm font-medium')}>{section.label}</span>
                     </label>
                   </li>
                 ))}

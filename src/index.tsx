@@ -1,33 +1,33 @@
-import { ApolloProvider } from "@apollo/client";
-import { createRoot } from "react-dom/client";
-import { I18nextProvider } from "react-i18next";
-import App from "@/app/app"
+import App from '@/app/app';
+import { ApolloProvider } from '@apollo/client';
+import { createRoot } from 'react-dom/client';
+import { I18nextProvider } from 'react-i18next';
 
-import { BrowserRouter } from "react-router-dom";
-import { AuthProvider } from "@/app/providers/auth-provider";
-import client from "@/shared/config/apollo/client";
-import i18next from "@/shared/config/i18n/i18n";
-import { ErrorBoundary } from "@/app/providers/error-boundary";
-import { NotificationProvider } from "@/app/providers/notification-provider";
+import { AuthProvider } from '@/app/providers/auth-provider';
+import { ErrorBoundary } from '@/app/providers/error-boundary';
+import { NotificationProvider } from '@/app/providers/notification-provider';
+import client from '@/shared/config/apollo/client';
+import i18next from '@/shared/config/i18n/i18n';
+import { BrowserRouter } from 'react-router-dom';
 
-import "@/app/styles/global.scss";
-import { CurrencyProvider } from "@/app/providers/currency-provider";
+import '@/app/styles/global.scss';
+import { CurrencyProvider } from '@/app/providers/currency-provider';
 
-const root = createRoot(document.getElementById("root") as HTMLElement);
+const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-	<ApolloProvider client={client}>
-		<I18nextProvider i18n={i18next}>
-			<CurrencyProvider>
-				<NotificationProvider>
-					<AuthProvider>
-						<BrowserRouter>
-							<ErrorBoundary>
-								<App />
-							</ErrorBoundary>
-						</BrowserRouter>
-					</AuthProvider>
-				</NotificationProvider>
-			</CurrencyProvider>
-		</I18nextProvider>
-	</ApolloProvider>,
+  <ApolloProvider client={client}>
+    <I18nextProvider i18n={i18next}>
+      <CurrencyProvider>
+        <NotificationProvider>
+          <AuthProvider>
+            <BrowserRouter>
+              <ErrorBoundary>
+                <App />
+              </ErrorBoundary>
+            </BrowserRouter>
+          </AuthProvider>
+        </NotificationProvider>
+      </CurrencyProvider>
+    </I18nextProvider>
+  </ApolloProvider>,
 );

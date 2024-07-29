@@ -1,16 +1,17 @@
-import React, { useState, useEffect, useMemo } from "react";
-import AvailabilityPicker from "@/pages/mentors/availability/availability-picker";
-import { formatTime } from "@/pages/mentors/availability/lib/format-time";
-import { formatTimeToSeconds } from "@/pages/mentors/availability/lib/format-time-to-seconds";
-import { timeGroup } from "@/pages/mentors/availability/lib/time-group";
-import { timeGroups } from "@/pages/mentors/availability/lib/time-groups";
-import { timesOfDay } from "@/pages/mentors/availability/lib/times-of-day";
-import { useTranslation } from "react-i18next";
-import { MentorAvailabilityType } from "@/shared/constants/global";
-import { v4 as uuid } from "uuid";
-import { LuPlus } from "react-icons/lu";
-import Button from "@/components/form/button";
-import CheckboxField from "@/components/form/checkbox-field";
+import Button from '@/components/form/button';
+import CheckboxField from '@/components/form/checkbox-field';
+import AvailabilityPicker from '@/pages/mentors/availability/availability-picker';
+import { formatTime } from '@/pages/mentors/availability/lib/format-time';
+import { formatTimeToSeconds } from '@/pages/mentors/availability/lib/format-time-to-seconds';
+import { timeGroup } from '@/pages/mentors/availability/lib/time-group';
+import { timeGroups } from '@/pages/mentors/availability/lib/time-groups';
+import { timesOfDay } from '@/pages/mentors/availability/lib/times-of-day';
+import { MentorAvailabilityType } from '@/shared/constants/global';
+import type React from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { LuPlus } from 'react-icons/lu';
+import { v4 as uuid } from 'uuid';
 
 type TimeSlot = {
   from: string;
@@ -45,7 +46,7 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
 }) => {
   const [toggle, setToggle] = useState(false);
   const [timeGroupsSort, setTimeGroupsSort] = useState<TimeOption[][]>([]);
-  const [t] = useTranslation("common");
+  const [t] = useTranslation('common');
 
   useEffect(() => {
     const days = gatherAvailabilities.map((data) => data.day);
@@ -98,7 +99,7 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
 
   const isTimeEndReached = useMemo(() => {
     const currentData = gatherAvailabilities.filter((el) => el.day === day);
-    return currentData[currentData.length - 1]?.slots[0]?.to >= "23:30";
+    return currentData[currentData.length - 1]?.slots[0]?.to >= '23:30';
   }, [gatherAvailabilities, day]);
 
   const addAvailRowUpFn = () => {
@@ -106,7 +107,7 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
     const lastSlotToTime = daySlots[daySlots.length - 1].slots[0].to;
 
     const fromTime = timeOptionsSort.find(
-      (time) => time.value > formatTimeToSeconds(lastSlotToTime)
+      (time) => time.value > formatTimeToSeconds(lastSlotToTime),
     );
 
     if (!fromTime) return;
@@ -130,7 +131,6 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
     useSetGatherAvailabilities(newAvailabilities);
   };
 
-
   return (
     <div className="flex items-start min-h-14 space-x-6">
       <div className="flex items-center w-[72px] h-14">
@@ -138,8 +138,8 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
           type="checkbox"
           name={day}
           checked={toggle}
-          onChange={timeOptionsSort[0]?.label === "11:30 PM" ? undefined : onToggleDay}
-          disabled={timeOptionsSort[0]?.label === "11:30 PM"}
+          onChange={timeOptionsSort[0]?.label === '11:30 PM' ? undefined : onToggleDay}
+          disabled={timeOptionsSort[0]?.label === '11:30 PM'}
           square
         />
         <span className="text-[15px] text-color-dark-purple font-bold uppercase ml-3">
@@ -163,7 +163,7 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
                   timeOptionsSort={timeOptionsSort}
                   timeGroupsSort={timeGroupsSort}
                 />
-              ) : null
+              ) : null,
             )}
           </div>
 

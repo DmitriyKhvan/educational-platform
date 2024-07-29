@@ -1,3 +1,5 @@
+import type { Course } from './types.generated';
+
 export interface Topic {
   id: string;
   title: string;
@@ -27,7 +29,7 @@ export interface FeedbackLessonData {
   duration: number;
   packageSubscription: {
     package: {
-      course: string;
+      course: Course;
     };
   };
   languageLevel?: {

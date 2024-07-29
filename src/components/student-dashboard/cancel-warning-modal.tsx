@@ -1,17 +1,13 @@
-import { isWithinHours } from "@/shared/utils/is-within-hours";
-import { format, toZonedTime } from "date-fns-tz";
-import { useState, useEffect } from "react";
-import { Trans, useTranslation } from "react-i18next";
-import { FaXmark } from "react-icons/fa6";
-import { useAuth } from "@/app/providers/auth-provider";
-import {
-  MAX_MODIFY_COUNT,
-  ModalType,
-  Roles,
-} from "@/shared/constants/global";
-import Button from "@/components/form/button/button";
-import CheckboxField from "../form/checkbox-field";
-import type { CalendarEvent } from "@/types";
+import { useAuth } from '@/app/providers/auth-provider';
+import Button from '@/components/form/button/button';
+import { MAX_MODIFY_COUNT, ModalType, Roles } from '@/shared/constants/global';
+import { isWithinHours } from '@/shared/utils/is-within-hours';
+import type { CalendarEvent } from '@/types';
+import { format, toZonedTime } from 'date-fns-tz';
+import { useEffect, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { FaXmark } from 'react-icons/fa6';
+import CheckboxField from '../form/checkbox-field';
 
 interface CancelWarningModalProps {
   data: CalendarEvent;
@@ -30,11 +26,10 @@ const CancelWarningModal: React.FC<CancelWarningModalProps> = ({
   setRepeatLessons,
   repeatLessons,
 }) => {
-  const [t] = useTranslation("modals");
+  const [t] = useTranslation('modals');
   const { user } = useAuth();
 
-  const userTimezone =
-    user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const userTimezone = user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const [cancellationDots, setCancellationDots] = useState<JSX.Element[]>([]);
   const [cancellationCount, setCancellationCount] = useState(MAX_MODIFY_COUNT);
@@ -74,24 +69,23 @@ const CancelWarningModal: React.FC<CancelWarningModalProps> = ({
   }, [modifyCredits]);
 
   const onClick = () => {
-    if (type === "reschedule") {
+    if (type === 'reschedule') {
       window.location.replace(
         `/student/schedule-lesson/select/${data.id}/?repeatLessons=${repeatLessons}`,
       );
     }
 
-    if (type === "cancel") {
+    if (type === 'cancel') {
       setTabIndex(1);
     }
   };
 
-  const disableCancelLesson =
-    user?.role === Roles.MENTOR || modifyCredits !== 0 ? false : true;
+  const disableCancelLesson = user?.role === Roles.MENTOR || modifyCredits !== 0 ? false : true;
 
   return (
     <div className="w-[336px] mx-auto">
       <div className="mb-5 text-2xl font-bold text-center">
-        {type === ModalType.CANCEL ? t("cancel_lesson") : t("reschedule_lesson")}
+        {type === ModalType.CANCEL ? t('cancel_lesson') : t('reschedule_lesson')}
       </div>
       <p className="text-base text-center mb-4">
         <Trans
@@ -99,12 +93,12 @@ const CancelWarningModal: React.FC<CancelWarningModalProps> = ({
           i18nKey="are_you_sure_reschedule_cancel"
           values={{
             cancelReschedule:
-              type === "cancel"
-                ? t("swal_cancel_Button_Text").toLowerCase()
-                : t("reschedule").toLowerCase(),
+              type === 'cancel'
+                ? t('swal_cancel_Button_Text').toLowerCase()
+                : t('reschedule').toLowerCase(),
             date: format(
               toZonedTime(new Date(data?.startAt ?? new Date()), userTimezone),
-              "eee, MMM do",
+              'eee, MMM do',
               { timeZone: userTimezone },
             ),
           }}
@@ -121,17 +115,17 @@ const CancelWarningModal: React.FC<CancelWarningModalProps> = ({
                 !
               </span>
               <div className="max-w-[300px] space-y-3 font-medium text-color-dark-purple leading-5">
-                {type === "cancel" ? (
+                {type === 'cancel' ? (
                   isLate ? (
                     <>
-                      <p>{t("cancel_modal_desc3")}</p>
-                      <p>{t("cancel_modal_desc2")}</p>
+                      <p>{t('cancel_modal_desc3')}</p>
+                      <p>{t('cancel_modal_desc2')}</p>
                     </>
                   ) : (
-                    <p>{t("cancel_modal_desc4")}</p>
+                    <p>{t('cancel_modal_desc4')}</p>
                   )
                 ) : (
-                  <p>{t("cannot_reschedule_within_24_hours")}</p>
+                  <p>{t('cannot_reschedule_within_24_hours')}</p>
                 )}
               </div>
             </div>
@@ -144,9 +138,7 @@ const CancelWarningModal: React.FC<CancelWarningModalProps> = ({
                 i18nKey="n_cancelations_left"
                 values={{ count: cancellationCount }}
                 components={{
-                  primary: (
-                    <p className="font-semibold text-[15px] text-color-purple" />
-                  ),
+                  primary: <p className="font-semibold text-[15px] text-color-purple" />,
                   secondary: <span className="text-[14px] text-color-purple" />,
                 }}
               />
@@ -160,19 +152,17 @@ const CancelWarningModal: React.FC<CancelWarningModalProps> = ({
         className="h-[56px] px-[10px] w-full mt-6"
         theme="purple"
         onClick={
-          disableCancelLesson || (isLate && type === ModalType.RESCHEDULE)
-            ? undefined
-            : onClick
+          disableCancelLesson || (isLate && type === ModalType.RESCHEDULE) ? undefined : onClick
         }
         disabled={disableCancelLesson || (isLate && type === ModalType.RESCHEDULE)}
       >
-        {t("continue_cancel")}
+        {t('continue_cancel')}
       </Button>
 
       {user?.role === Roles.STUDENT && (
         <div className="mt-6 flex justify-center">
           <CheckboxField
-            label={type === ModalType.CANCEL ? t("cancel_lessons") : t("reschedule_lessons")}
+            label={type === ModalType.CANCEL ? t('cancel_lessons') : t('reschedule_lessons')}
             id="cancel"
             value="cancel"
             onChange={() => setRepeatLessons(!repeatLessons)}
@@ -190,7 +180,7 @@ const CancelWarningModal: React.FC<CancelWarningModalProps> = ({
             className="h-[38px] px-[10px] text-color-purple text-sm hover:underline"
             onClick={() => setTabIndex(10)}
           >
-            {t("review_cancellation_policy")}
+            {t('review_cancellation_policy')}
           </button>
         )}
       </div>

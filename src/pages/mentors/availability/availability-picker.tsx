@@ -1,12 +1,13 @@
-import React, { useEffect, useState, useRef } from "react";
-import Select from "react-select";
-import { FaXmark } from "react-icons/fa6";
-import { formatTime } from "@/pages/mentors/availability/lib/format-time";
-import { formatTimeToSeconds } from "@/pages/mentors/availability/lib/format-time-to-seconds";
-import { selectStyle } from "@/pages/mentors/availability/lib/select-style";
-import { timeGroup } from "@/pages/mentors/availability/lib/time-group";
-import { timeOptions,} from "@/pages/mentors/availability/lib/time-options";
-import type { Availability, TimeOption } from "@/types";
+import { formatTime } from '@/pages/mentors/availability/lib/format-time';
+import { formatTimeToSeconds } from '@/pages/mentors/availability/lib/format-time-to-seconds';
+import { selectStyle } from '@/pages/mentors/availability/lib/select-style';
+import { timeGroup } from '@/pages/mentors/availability/lib/time-group';
+import { timeOptions } from '@/pages/mentors/availability/lib/time-options';
+import type { Availability, TimeOption } from '@/types';
+import type React from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { FaXmark } from 'react-icons/fa6';
+import Select from 'react-select';
 
 interface AvailabilityPickerProps {
   day: string;
@@ -30,18 +31,18 @@ const AvailabilityPicker: React.FC<AvailabilityPickerProps> = ({
   timeGroupsSort,
 }) => {
   const [timeGroupSort, setTimeGroupSort] = useState<TimeOption[]>(
-    timeGroup(timeGroupsSort, formatTimeToSeconds(frmTime))
+    timeGroup(timeGroupsSort, formatTimeToSeconds(frmTime)),
   );
 
   const [fromTimeOptions] = useState<TimeOption[]>(timeOptionsSort.slice(0, -1));
   const [toTimeOptions, setToTimeOptions] = useState<TimeOption[]>(timeGroupSort.slice(1));
 
   const [fromTime, setFromTime] = useState<TimeOption | undefined>(
-    timeOptions.find((time) => time.value === formatTimeToSeconds(frmTime))
+    timeOptions.find((time) => time.value === formatTimeToSeconds(frmTime)),
   );
 
   const [toTime, setToTime] = useState<TimeOption | undefined>(
-    timeOptions.find((time) => time.value === formatTimeToSeconds(tTime))
+    timeOptions.find((time) => time.value === formatTimeToSeconds(tTime)),
   );
 
   const prevTimeGroupSortRef = useRef<TimeOption[]>();
@@ -50,7 +51,7 @@ const AvailabilityPicker: React.FC<AvailabilityPickerProps> = ({
     prevTimeGroupSortRef.current = timeGroupSort;
   }, [timeGroupSort]);
 
-  const onChangeTime = (time: number, timeType: "from" | "to") => {
+  const onChangeTime = (time: number, timeType: 'from' | 'to') => {
     const t = Number.parseInt(String(time));
 
     const newTimeGroupSort = timeGroup(timeGroupsSort, t);
@@ -59,7 +60,7 @@ const AvailabilityPicker: React.FC<AvailabilityPickerProps> = ({
 
     const idxTime = newTimeGroupSort.findIndex((item) => item.value === t);
 
-    if (timeType === "from") {
+    if (timeType === 'from') {
       setFromTime(newTimeGroupSort[idxTime]);
 
       if (newTimeGroupSort[idxTime]?.value >= (toTime?.value || 0)) {
@@ -68,14 +69,11 @@ const AvailabilityPicker: React.FC<AvailabilityPickerProps> = ({
           formatTime(t),
           formatTime(newTimeGroupSort[idxTime + 1]?.value),
           id,
-          day
+          day,
         );
       } else {
         let updatedToTime = tTime;
-        if (
-          JSON.stringify(prevTimeGroupSortRef.current) !==
-          JSON.stringify(newTimeGroupSort)
-        ) {
+        if (JSON.stringify(prevTimeGroupSortRef.current) !== JSON.stringify(newTimeGroupSort)) {
           updatedToTime = formatTime(newTimeGroupSort[idxTime + 1]?.value);
           setToTime(newTimeGroupSort[idxTime + 1]);
         }
@@ -86,12 +84,7 @@ const AvailabilityPicker: React.FC<AvailabilityPickerProps> = ({
 
       if (newTimeGroupSort[idxTime].value <= (fromTime?.value || 0)) {
         setFromTime(newTimeGroupSort[idxTime - 1]);
-        updateAvailability(
-          formatTime(newTimeGroupSort[idxTime - 1].value),
-          formatTime(t),
-          id,
-          day
-        );
+        updateAvailability(formatTime(newTimeGroupSort[idxTime - 1].value), formatTime(t), id, day);
       } else {
         updateAvailability(frmTime, formatTime(t), id, day);
       }
@@ -121,7 +114,7 @@ const AvailabilityPicker: React.FC<AvailabilityPickerProps> = ({
         value={fromTime}
         options={fromTimeOptions}
         onChange={(e) => {
-          onChangeTime(e?.value || 0, "from");
+          onChangeTime(e?.value || 0, 'from');
         }}
       />
 
@@ -133,16 +126,12 @@ const AvailabilityPicker: React.FC<AvailabilityPickerProps> = ({
         value={toTime}
         options={toTimeOptions}
         onChange={(e) => {
-          onChangeTime(e?.value || 0, "to");
+          onChangeTime(e?.value || 0, 'to');
         }}
       />
 
       <button
-        onClick={() =>
-          useSetGatherAvailabilities(
-            gatherAvailabilities.filter((q) => q.id !== id)
-          )
-        }
+        onClick={() => useSetGatherAvailabilities(gatherAvailabilities.filter((q) => q.id !== id))}
       >
         <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
       </button>

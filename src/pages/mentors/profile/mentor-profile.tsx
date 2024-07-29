@@ -1,184 +1,180 @@
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import femaleAvatar from "@/shared/assets/images/avatars/img_avatar_female.png";
-import maleAvatar from "@/shared/assets/images/avatars/img_avatar_male.png";
+import femaleAvatar from '@/shared/assets/images/avatars/img_avatar_female.png';
+import maleAvatar from '@/shared/assets/images/avatars/img_avatar_male.png';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
-import { useAuth } from "@/app/providers/auth-provider";
-import cls from "@/pages/mentors/profile/mentor-profile.module.scss";
+import { useAuth } from '@/app/providers/auth-provider';
+import cls from '@/pages/mentors/profile/mentor-profile.module.scss';
 
 const MentorProfile = () => {
-	const [t] = useTranslation(["profile", "common"]);
-	const [profileImage, setProfileImage] = useState("");
-	const [videoLink, setVideoLink] = React.useState("");
+  const [t] = useTranslation(['profile', 'common']);
+  const [profileImage, setProfileImage] = useState('');
+  const [videoLink, setVideoLink] = React.useState('');
 
-	const [, setAbout] = React.useState("");
+  const [, setAbout] = React.useState('');
 
-	const actions = useAuth();
+  const actions = useAuth();
 
-	const user = actions?.user;
+  const user = actions?.user;
 
-	useEffect(() => {
-		if (user?.mentor?.avatar?.url) {
-			setProfileImage(user?.mentor?.avatar?.url);
-		} else if (user.gender === "female") {
-			setProfileImage(femaleAvatar);
-		} else if (user.gender === "male") {
-			setProfileImage(maleAvatar);
-		} else {
-			setProfileImage(maleAvatar);
-		}
-	}, [user]);
+  useEffect(() => {
+    if (user?.mentor?.avatar?.url) {
+      setProfileImage(user?.mentor?.avatar?.url);
+    } else if (user.gender === 'female') {
+      setProfileImage(femaleAvatar);
+    } else if (user.gender === 'male') {
+      setProfileImage(maleAvatar);
+    } else {
+      setProfileImage(maleAvatar);
+    }
+  }, [user]);
 
-	const videoUrl = actions.user?.mentor?.videoUrl;
+  const videoUrl = actions.user?.mentor?.videoUrl;
 
-	function renderAbout() {
-		var text = actions.user?.mentor?.introduction;
-		var textLength = actions.user?.mentor?.introduction?.length;
-		var news = "";
-		if (textLength) {
-			for (var i = 0; i < textLength; i++) {
-				if (i === 50) {
-					news += "\n";
-				} else if (i === 100) {
-					news += "\n";
-				} else if (i === 150) {
-					news += "\n";
-				} else if (i === 200) {
-					news += "\n";
-				} else if (i === 250) {
-					news += "\n";
-				} else if (i === 300) {
-					news += "\n";
-				} else if (i === 350) {
-					news += "\n";
-				} else {
-					news += text[i];
-				}
-			}
-		}
+  function renderAbout() {
+    var text = actions.user?.mentor?.introduction;
+    var textLength = actions.user?.mentor?.introduction?.length;
+    var news = '';
+    if (textLength) {
+      for (var i = 0; i < textLength; i++) {
+        if (i === 50) {
+          news += '\n';
+        } else if (i === 100) {
+          news += '\n';
+        } else if (i === 150) {
+          news += '\n';
+        } else if (i === 200) {
+          news += '\n';
+        } else if (i === 250) {
+          news += '\n';
+        } else if (i === 300) {
+          news += '\n';
+        } else if (i === 350) {
+          news += '\n';
+        } else {
+          news += text[i];
+        }
+      }
+    }
 
-		if (news) {
-			setAbout(news);
-		}
-	}
+    if (news) {
+      setAbout(news);
+    }
+  }
 
-	React.useEffect(() => {
-		renderAbout();
-		setVideoLink(videoUrl || "");
-	}, [user]);
+  React.useEffect(() => {
+    renderAbout();
+    setVideoLink(videoUrl || '');
+  }, [user]);
 
-	return (
-		<div className={cls.profile_page}>
-			<header className={cls.profile_header}>
-				<div className={cls.profile_header_row}>
-					<img className="avatar_preview" src={profileImage} alt="" />
+  return (
+    <div className={cls.profile_page}>
+      <header className={cls.profile_header}>
+        <div className={cls.profile_header_row}>
+          <img className="avatar_preview" src={profileImage} alt="" />
 
-					<div className={cls.tutor_name}>
-						<h1>
-							{/* {actions?.user?.fullName ? actions?.user.fullName : 'Nickname'} */}
-							{actions?.user?.firstName} {actions?.user?.lastName}
-						</h1>
-						<h2 className={cls.text_primary}>
-							{actions?.user?.mentor?.degree &&
-							actions?.user?.mentor?.university
-								? `
+          <div className={cls.tutor_name}>
+            <h1>
+              {/* {actions?.user?.fullName ? actions?.user.fullName : 'Nickname'} */}
+              {actions?.user?.firstName} {actions?.user?.lastName}
+            </h1>
+            <h2 className={cls.text_primary}>
+              {actions?.user?.mentor?.degree && actions?.user?.mentor?.university
+                ? `
                           ${actions?.user?.mentor?.degree},
                           ${actions?.user?.mentor?.university}
                         `
-								: ""}
-						</h2>
-					</div>
-				</div>
-			</header>
-			<main className={cls.profile_content}>
-				<Link to={"/mentor/profile/edit"}>{t("edit_profile")}</Link>
-				<div className={cls.profile_content_row}>
-					<div className={cls.profile_content_row_left}>
-						<h2>{t("summary")}</h2>
+                : ''}
+            </h2>
+          </div>
+        </div>
+      </header>
+      <main className={cls.profile_content}>
+        <Link to={'/mentor/profile/edit'}>{t('edit_profile')}</Link>
+        <div className={cls.profile_content_row}>
+          <div className={cls.profile_content_row_left}>
+            <h2>{t('summary')}</h2>
 
-						<p>
-							{actions.user?.mentor?.introduction &&
-								actions.user?.mentor?.introduction}
-						</p>
-					</div>
+            <p>{actions.user?.mentor?.introduction && actions.user?.mentor?.introduction}</p>
+          </div>
 
-					<div className={cls.profile_content_row_right}>
-						<section>
-							<div className="">
-								{actions.user?.country && (
-									<>
-										<h1>{t("country", { ns: "common" })}</h1>
-										<h2>{actions.user?.country}</h2>
-									</>
-								)}
-							</div>
-							<div className="">
-								{actions.user?.timezone && (
-									<>
-										<h1>{t("timezone", { ns: "common" })}</h1>
-										<h2>{actions.user?.timezone}</h2>
-									</>
-								)}
-							</div>
-							<div className="">
-								{actions.user?.email && (
-									<>
-										<h1>{t("email")}</h1>
-										<h2>{actions.user?.email}</h2>
-									</>
-								)}
-							</div>
-						</section>
-						<section>
-							<div className="">
-								{actions.user?.phoneNumber && (
-									<>
-										<h1>{t("phone_number", { ns: "common" })}</h1>
-										<h2>{actions.user?.phoneNumber}</h2>
-									</>
-								)}
-							</div>
+          <div className={cls.profile_content_row_right}>
+            <section>
+              <div className="">
+                {actions.user?.country && (
+                  <>
+                    <h1>{t('country', { ns: 'common' })}</h1>
+                    <h2>{actions.user?.country}</h2>
+                  </>
+                )}
+              </div>
+              <div className="">
+                {actions.user?.timezone && (
+                  <>
+                    <h1>{t('timezone', { ns: 'common' })}</h1>
+                    <h2>{actions.user?.timezone}</h2>
+                  </>
+                )}
+              </div>
+              <div className="">
+                {actions.user?.email && (
+                  <>
+                    <h1>{t('email')}</h1>
+                    <h2>{actions.user?.email}</h2>
+                  </>
+                )}
+              </div>
+            </section>
+            <section>
+              <div className="">
+                {actions.user?.phoneNumber && (
+                  <>
+                    <h1>{t('phone_number', { ns: 'common' })}</h1>
+                    <h2>{actions.user?.phoneNumber}</h2>
+                  </>
+                )}
+              </div>
 
-							<div className="">
-								{actions.user?.mentor?.university && (
-									<>
-										<h1>{t("university")}</h1>
-										<h2>{actions.user?.mentor?.university}</h2>
-									</>
-								)}
-							</div>
-						</section>
-					</div>
-				</div>
-			</main>
-			<footer className={cls.profile_footer}>
-				<section className={cls.profile_footer_left}>
-					<div>
-						<h2>{t("intro_video")}</h2>
-					</div>
+              <div className="">
+                {actions.user?.mentor?.university && (
+                  <>
+                    <h1>{t('university')}</h1>
+                    <h2>{actions.user?.mentor?.university}</h2>
+                  </>
+                )}
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+      <footer className={cls.profile_footer}>
+        <section className={cls.profile_footer_left}>
+          <div>
+            <h2>{t('intro_video')}</h2>
+          </div>
 
-					{videoLink?.length === 0 && (
-						<div className={cls.no_video}>
-							<h2>No video!</h2>
-						</div>
-					)}
+          {videoLink?.length === 0 && (
+            <div className={cls.no_video}>
+              <h2>No video!</h2>
+            </div>
+          )}
 
-					{videoLink?.length !== 0 && (
-						<div className={cls.video}>
-							<iframe
-								width="560"
-								height="315"
-								src={videoLink}
-								title="YouTube video player"
-								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-								allowFullScreen
-								style={{ border: 0 }}
-							></iframe>
-						</div>
-					)}
-				</section>
-				{/* <section className={cls.profile_footer_right}>
+          {videoLink?.length !== 0 && (
+            <div className={cls.video}>
+              <iframe
+                width="560"
+                height="315"
+                src={videoLink}
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                style={{ border: 0 }}
+              ></iframe>
+            </div>
+          )}
+        </section>
+        {/* <section className={cls.profile_footer_right}>
           <div className={cls.profile_footer_right_topics}>
             <h2>{t('topics')}</h2>
             <div className={cls.approved_row}>
@@ -223,9 +219,9 @@ const MentorProfile = () => {
             </div>
           </div>
         </section> */}
-			</footer>
-		</div>
-	);
+      </footer>
+    </div>
+  );
 };
 
 export default MentorProfile;

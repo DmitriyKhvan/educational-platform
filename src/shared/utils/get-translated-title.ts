@@ -1,22 +1,18 @@
-interface Translation {
-  language: string;
-  title?: string;
-  description?: string;
+import type { Course, LanguageLevel, Topic } from '@/types/types.generated';
+
+export function getTranslatedTitle(
+  entity?: Course | LanguageLevel | Topic,
+  language?: string,
+): string {
+  return entity?.translations?.find((t) => t?.language === language)?.title ?? entity?.title ?? '';
 }
 
-interface Entity {
-  title?: string;
-  description?: string;
-  translations?: Translation[];
-}
-
-export function getTranslatedTitle(entity: Entity, language: string): string {
-  return entity?.translations?.find((t) => t.language === language)?.title ?? entity?.title ?? '';
-}
-
-export function getTranslatedDescription(entity: Entity, language: string): string {
+export function getTranslatedDescription(
+  entity: Course | LanguageLevel | Topic,
+  language: string,
+): string {
   return (
-    entity?.translations?.find((t) => t.language === language)?.description ??
+    entity?.translations?.find((t) => t?.language === language)?.description ??
     entity?.description ??
     ''
   );

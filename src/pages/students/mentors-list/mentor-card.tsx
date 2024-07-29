@@ -1,138 +1,134 @@
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-
-import Button from "@/components/form/button";
+import Button from '@/components/form/button';
 import {
-	Tooltip,
-	TooltipContent,
-	TooltipPortal,
-	TooltipProvider,
-	TooltipTrigger,
-} from "@/components/tooltip";
-import FavIcon from "@/shared/assets/images/Favorite.png";
-import { Avatar } from "@/widgets/avatar/avatar";
+  Tooltip,
+  TooltipContent,
+  TooltipPortal,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/tooltip';
+import { Avatar } from '@/widgets/avatar/avatar';
 
-import { HiMiniChevronRight } from "react-icons/hi2";
+import { HiMiniChevronRight } from 'react-icons/hi2';
 
-import MentorsModal from "@/pages/students/mentors-list/mentors-modal";
+import MentorsModal from '@/pages/students/mentors-list/mentors-modal';
 
-import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
-import type { Mentor } from "@/types/types.generated";
+import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
+import type { Mentor } from '@/types/types.generated';
 
-export const MentorCard = ({ mentor, handleSelectMentor }: {
-	mentor: Mentor,
-	handleSelectMentor: (mentor: Mentor) => void;
+export const MentorCard = ({
+  mentor,
+  handleSelectMentor,
+}: {
+  mentor: Mentor;
+  handleSelectMentor: (mentor: Mentor) => void;
 }) => {
-	const [t] = useTranslation(["studentMentor", "common", "lessons"]);
+  const [t] = useTranslation(['studentMentor', 'common', 'lessons']);
 
-	// const resizerUsername = (name) => {
-	//   return name && name.length > 9 ? name.slice(0, 9 - 1) + '...' : name;
-	// };
+  // const resizerUsername = (name) => {
+  //   return name && name.length > 9 ? name.slice(0, 9 - 1) + '...' : name;
+  // };
 
-	return (
-		// <div className="w-full sm:w-[45%] xl:w-[30%] 2xl:w-[300px]">
-		<div className="flex flex-col w-[calc(50%-0.75rem)] sm:w-[256px]">
-			<div className="relative w-full h-[176px] sm:h-[240px] overflow-hidden rounded-lg">
-				<Avatar avatarUrl={mentor.avatar?.url ?? undefined} />
-			
+  return (
+    // <div className="w-full sm:w-[45%] xl:w-[30%] 2xl:w-[300px]">
+    <div className="flex flex-col w-[calc(50%-0.75rem)] sm:w-[256px]">
+      <div className="relative w-full h-[176px] sm:h-[240px] overflow-hidden rounded-lg">
+        <Avatar avatarUrl={mentor.avatar?.url ?? undefined} />
+      </div>
 
-		
-			</div>
+      <div className="flex flex-col justify-content-between grow mt-4 overflow-hidden">
+        <div className="mb-4">
+          <h2 className="text-base sm:text-lg text-color-dark-purple font-bold tracking-[-0.6px] mb-2">
+            {mentor?.firstName}
+          </h2>
 
-			<div className="flex flex-col justify-content-between grow mt-4 overflow-hidden">
-				<div className="mb-4">
-					<h2 className="text-base sm:text-lg text-color-dark-purple font-bold tracking-[-0.6px] mb-2">
-						{mentor?.firstName}
-					</h2>
+          <h4 className="text-[13px] sm:text-sm text-color-dark-purple leading-[18px] tracking-[-0.2px] mb-3">
+            {mentor.university}
+          </h4>
 
-					<h4 className="text-[13px] sm:text-sm text-color-dark-purple leading-[18px] tracking-[-0.2px] mb-3">
-						{mentor.university}
-					</h4>
+          <TooltipProvider>
+            <Tooltip delayDuration={200}>
+              <TooltipTrigger asChild>
+                <div className="text-xs sm:text-sm text-gray-400 leading-[18px] tracking-[-0.2px] truncate">
+                  {mentor.degree} {mentor.major ? '/ ' + mentor.major : null}
+                </div>
+              </TooltipTrigger>
 
-					<TooltipProvider>
-						<Tooltip delayDuration={200}>
-							<TooltipTrigger asChild>
-								<div className="text-xs sm:text-sm text-gray-400 leading-[18px] tracking-[-0.2px] truncate">
-									{mentor.degree} {mentor.major ? "/ " + mentor.major : null}
-								</div>
-							</TooltipTrigger>
+              <TooltipPortal>
+                <TooltipContent>
+                  <p className="text-color-dark-purple text-sm font-semibold max-w-[16rem]">
+                    {mentor.degree} {mentor.major ? '/ ' + mentor.major : null}
+                  </p>
+                </TooltipContent>
+              </TooltipPortal>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
 
-							<TooltipPortal>
-								<TooltipContent>
-									<p className="text-color-dark-purple text-sm font-semibold max-w-[16rem]">
-										{mentor.degree} {mentor.major ? "/ " + mentor.major : null}
-									</p>
-								</TooltipContent>
-							</TooltipPortal>
-						</Tooltip>
-					</TooltipProvider>
-				</div>
+        <div className="flex flex-col gap-2 w-full">
+          {mentor?.availabilities ? (
+            <TooltipProvider>
+              <Tooltip delayDuration={200}>
+                <TooltipTrigger asChild>
+                  <Link
+                    className="m-1"
+                    to={
+                      mentor?.availabilities?.regular?.length > 0
+                        ? `/student/schedule-lesson/select`
+                        : '#'
+                    }
+                    state={{
+                      mentor: {
+                        ...mentor,
+                      },
+                    }}
+                  >
+                    <Button
+                      theme="purple"
+                      className="w-full h-[57px]"
+                      disabled={mentor?.availabilities?.regular?.length === 0}
+                    >
+                      {t('schedule', { ns: 'common' })}
+                    </Button>
+                  </Link>
+                </TooltipTrigger>
 
-				<div className="flex flex-col gap-2 w-full">
-					{mentor?.availabilities ? (
-						<TooltipProvider>
-							<Tooltip delayDuration={200}>
-								<TooltipTrigger asChild>
-									<Link
-										className="m-1"
-										to={
-											mentor?.availabilities?.regular?.length > 0
-												? `/student/schedule-lesson/select`
-												: "#"
-										}
-										state={{
-											mentor: {
-												...mentor,
-											},
-										}}
-									>
-										<Button
-											theme="purple"
-											className="w-full h-[57px]"
-											disabled={mentor?.availabilities?.regular?.length === 0}
-										>
-											{t("schedule", { ns: "common" })}
-										</Button>
-									</Link>
-								</TooltipTrigger>
+                {mentor?.availabilities?.regular?.length === 0 && (
+                  <TooltipPortal>
+                    <TooltipContent>
+                      <p className="text-center text-color-dark-purple text-sm font-semibold max-w-[16rem]">
+                        We apologize, but this mentor has no availability
+                      </p>
+                    </TooltipContent>
+                  </TooltipPortal>
+                )}
+              </Tooltip>
+            </TooltipProvider>
+          ) : (
+            <Button
+              theme="purple"
+              className="p-2 m-1 h-[57px]"
+              onClick={() => handleSelectMentor(mentor)}
+            >
+              {t('select_mentor', { ns: 'lessons' })}
+            </Button>
+          )}
 
-								{mentor?.availabilities?.regular?.length === 0 && (
-									<TooltipPortal>
-										<TooltipContent>
-											<p className="text-center text-color-dark-purple text-sm font-semibold max-w-[16rem]">
-												We apologize, but this mentor has no availability
-											</p>
-										</TooltipContent>
-									</TooltipPortal>
-								)}
-							</Tooltip>
-						</TooltipProvider>
-					) : (
-						<Button
-							theme="purple"
-							className="p-2 m-1 h-[57px]"
-							onClick={() => handleSelectMentor(mentor)}
-						>
-							{t("select_mentor", { ns: "lessons" })}
-						</Button>
-					)}
-
-					<AdaptiveDialog
-						button={
-							<Button theme="gray" className="m-1 grow h-[57px]">
-								<span className="whitespace-nowrap">
-									{t("learn_more", { ns: "common" })}
-								</span>
-								<HiMiniChevronRight className="text-sm" />
-							</Button>
-						}
-						classNameDrawer="h-[80%]"
-					>
-						<MentorsModal mentor={mentor} />
-					</AdaptiveDialog>
-				</div>
-			</div>
-		</div>
-	);
+          <AdaptiveDialog
+            button={
+              <Button theme="gray" className="m-1 grow h-[57px]">
+                <span className="whitespace-nowrap">{t('learn_more', { ns: 'common' })}</span>
+                <HiMiniChevronRight className="text-sm" />
+              </Button>
+            }
+            classNameDrawer="h-[80%]"
+          >
+            <MentorsModal mentor={mentor} />
+          </AdaptiveDialog>
+        </div>
+      </div>
+    </div>
+  );
 };

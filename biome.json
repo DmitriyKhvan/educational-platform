@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "include": ["src/**/*.ts"],
+    "include": ["src/**/*"],
     "ignore": ["src/**/*.generated.ts", "src/types/json.d.ts"]
   },
   "organizeImports": {
@@ -51,10 +51,5 @@
     "formatter": {
       "trailingCommas": "none"
     }
-  },
-  "vcs": {
-    "enabled": true,
-    "clientKind": "git",
-    "useIgnoreFile": true
   }
 }

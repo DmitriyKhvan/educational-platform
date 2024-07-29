@@ -1,13 +1,13 @@
 {
-	"dashboard": "資訊儀表板",
-	"navigation": "導覽",
-	"lessons": "課程",
-	"games": "遊戲",
-	"class_material": "課堂教材",
-	"mentors": "導師",
-	"students": "學生",
-	"free_classes": "Free classes",
-	"manage_appointments": "管理課程",
-	"my_availability": "我的可上課時間",
-	"purchase": "購買課程"
+  "dashboard": "資訊儀表板",
+  "navigation": "導覽",
+  "lessons": "課程",
+  "games": "遊戲",
+  "class_material": "課堂教材",
+  "mentors": "導師",
+  "students": "學生",
+  "free_classes": "Free classes",
+  "manage_appointments": "管理課程",
+  "my_availability": "我的可上課時間",
+  "purchase": "購買課程"
 }

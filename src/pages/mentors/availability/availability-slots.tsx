@@ -1,40 +1,22 @@
-import { useAuth } from "@/app/providers/auth-provider";
-import ReactLoader from "@/components/common/loader";
-import Button from "@/components/form/button";
-import { SelectField } from "@/components/form/select-field";
-import { ModalConfirm } from "@/entities/modal-confirm/ui/modal-confirm";
-import AvailabilityDayRow from "@/pages/mentors/availability/availability-day-row";
-import { parseErrorMessage } from "@/pages/mentors/availability/lib/parse-error-message";
-import { selectStyle } from "@/pages/mentors/availability/lib/select-style";
-import { UPSERT_TIMESHEETS } from "@/shared/apollo/mutations/upsert-timesheets";
-import {
-  DAY,
-  MentorAvailabilityType,
-  timezoneWithTimeOptions,
-} from "@/shared/constants/global";
-import { AdaptiveDialog } from "@/shared/ui/adaptive-dialog";
-import notify from "@/shared/utils/notify";
-import type {
-  AvailabilitySlot,
-  ErrorExceptionalDates,
-  Slot,
-} from "@/types";
-import type { Mentor, Query } from "@/types/types.generated";
-import {
-  useMutation,
-  type ApolloQueryResult,
-  type OperationVariables,
-} from "@apollo/client";
-import {
-  useEffect,
-  useMemo,
-  useState,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
-import { useTranslation } from "react-i18next";
-import { IoIosWarning } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { useAuth } from '@/app/providers/auth-provider';
+import ReactLoader from '@/components/common/loader';
+import Button from '@/components/form/button';
+import { SelectField } from '@/components/form/select-field';
+import { ModalConfirm } from '@/entities/modal-confirm/ui/modal-confirm';
+import AvailabilityDayRow from '@/pages/mentors/availability/availability-day-row';
+import { parseErrorMessage } from '@/pages/mentors/availability/lib/parse-error-message';
+import { selectStyle } from '@/pages/mentors/availability/lib/select-style';
+import { UPSERT_TIMESHEETS } from '@/shared/apollo/mutations/upsert-timesheets';
+import { DAY, MentorAvailabilityType, timezoneWithTimeOptions } from '@/shared/constants/global';
+import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
+import notify from '@/shared/utils/notify';
+import type { AvailabilitySlot, ErrorExceptionalDates, Slot } from '@/types';
+import type { Mentor, Query } from '@/types/types.generated';
+import { type ApolloQueryResult, type OperationVariables, useMutation } from '@apollo/client';
+import { type Dispatch, type SetStateAction, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { IoIosWarning } from 'react-icons/io';
+import { Link } from 'react-router-dom';
 
 interface AvailabilitySlotProps {
   mentorInfo: Mentor;
@@ -42,18 +24,16 @@ interface AvailabilitySlotProps {
   mentorAvailabilityType?: MentorAvailabilityType;
   useSetGatherAvailabilities: (data: AvailabilitySlot[]) => void;
   refetchMentor: (
-    variables?: Partial<OperationVariables> | undefined
+    variables?: Partial<OperationVariables> | undefined,
   ) => Promise<ApolloQueryResult<Query>>;
   setError: Dispatch<SetStateAction<Error | null>>;
 }
-
 
 interface SlotToSave {
   day: string;
   slots: { from: string; to: string }[];
   trialTimesheet: boolean;
 }
-
 
 type GatherAvailabilities = {
   [key in MentorAvailabilityType]: AvailabilitySlot[];
@@ -66,10 +46,12 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotProps> = ({
   refetchMentor,
   setError,
 }) => {
-  const [errorExceptionalDates, setErrorExceptionalDates] = useState<null | ErrorExceptionalDates>(null);
+  const [errorExceptionalDates, setErrorExceptionalDates] = useState<null | ErrorExceptionalDates>(
+    null,
+  );
   const { user } = useAuth();
 
-  const [t] = useTranslation(["common", "availability"]);
+  const [t] = useTranslation(['common', 'availability']);
 
   const [disableSave, handleDisableSave] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -84,16 +66,15 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotProps> = ({
   const [upsertTimesheets] = useMutation(UPSERT_TIMESHEETS);
 
   const parseAndSaveAvailabilities = (
-    mentorAvailabilityType: MentorAvailabilityType
+    mentorAvailabilityType: MentorAvailabilityType,
   ): SlotToSave[] => {
-    const days = gatherAvailabilities[mentorAvailabilityType as keyof typeof gatherAvailabilities].reduce(
-      (acc: Record<string, Slot[]>, curr: AvailabilitySlot) => {
-        if (acc[curr.day] === undefined) acc[curr.day] = [...curr.slots];
-        else acc[curr.day] = [...acc[curr.day], ...curr.slots];
-        return acc;
-      },
-      {}
-    );
+    const days = gatherAvailabilities[
+      mentorAvailabilityType as keyof typeof gatherAvailabilities
+    ].reduce((acc: Record<string, Slot[]>, curr: AvailabilitySlot) => {
+      if (acc[curr.day] === undefined) acc[curr.day] = [...curr.slots];
+      else acc[curr.day] = [...acc[curr.day], ...curr.slots];
+      return acc;
+    }, {});
 
     const parseSlots: SlotToSave[] = [];
 
@@ -102,9 +83,7 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotProps> = ({
         day,
         slots: days[day].map((slot) => ({ from: slot.from, to: slot.to })),
         trialTimesheet:
-          mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR
-            ? false
-            : true,
+          mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR ? false : true,
       });
     }
 
@@ -129,7 +108,7 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotProps> = ({
       });
     } else {
       slotsToSave = parseAndSaveAvailabilities(
-        mentorInfo.mentorAvailability as MentorAvailabilityType
+        mentorInfo.mentorAvailability as MentorAvailabilityType,
       );
     }
 
@@ -150,7 +129,7 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotProps> = ({
       if (error instanceof Error) {
         setError(error);
       } else {
-        setError(new Error("An unexpected error occurred"));
+        setError(new Error('An unexpected error occurred'));
       }
       setTimeZone(prevTimeZone);
       await refetchMentor();
@@ -159,7 +138,7 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotProps> = ({
       if (parseError) {
         setErrorExceptionalDates(parseError);
       } else {
-        notify((error as Error).message, "error");
+        notify((error as Error).message, 'error');
       }
     } finally {
       setIsLoading(false);
@@ -173,10 +152,10 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotProps> = ({
         <div className="flex justify-between items-center gap-6">
           <div className="space-y-2">
             <h1 className="text-xl text-color-dark-purple font-bold">
-              {t("weekly_hours", { ns: "availability" })}
+              {t('weekly_hours', { ns: 'availability' })}
             </h1>
             <h3 className="text-sm text-gray-400">
-              {t("edit_your_shedule_below", { ns: "availability" })}
+              {t('edit_your_shedule_below', { ns: 'availability' })}
             </h3>
           </div>
 
@@ -190,12 +169,7 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotProps> = ({
           )}
 
           <div className="flex">
-            <Button
-              type="submit"
-              onClick={onSubmit}
-              disabled={disableSave}
-              className=""
-            >
+            <Button type="submit" onClick={onSubmit} disabled={disableSave} className="">
               Save changes
             </Button>
           </div>
@@ -235,16 +209,13 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotProps> = ({
               <div>
                 {!!errorExceptionalDates.regularLessons && (
                   <p>
-                    You have{" "}
-                    <b>{errorExceptionalDates.regularLessons} regular lesson(s)</b>{" "}
+                    You have <b>{errorExceptionalDates.regularLessons} regular lesson(s)</b>{' '}
                     scheduled
                   </p>
                 )}
                 {!!errorExceptionalDates.trialLessons && (
                   <p>
-                    You have{" "}
-                    <b>{errorExceptionalDates.trialLessons} trial lesson(s)</b>{" "}
-                    scheduled
+                    You have <b>{errorExceptionalDates.trialLessons} trial lesson(s)</b> scheduled
                   </p>
                 )}
               </div>
@@ -252,10 +223,7 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotProps> = ({
             btns={
               <div className="flex gap-3">
                 <Link className="basis-1/2" to="/mentor/lesson-calendar">
-                  <Button
-                    className="w-full"
-                    onClick={() => setErrorExceptionalDates(null)}
-                  >
+                  <Button className="w-full" onClick={() => setErrorExceptionalDates(null)}>
                     Go to Lessons
                   </Button>
                 </Link>

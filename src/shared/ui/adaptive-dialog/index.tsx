@@ -1,8 +1,8 @@
-import { useMediaQuery } from "react-responsive";
-import { MyDrawer } from "@/components/drawer";
-import { MyDialog } from "@/components/my-dialog";
-import type { Dispatch, SetStateAction } from "react";
-import type { ReactNode } from "react";
+import { MyDrawer } from '@/components/drawer';
+import { MyDialog } from '@/components/my-dialog';
+import type { Dispatch, SetStateAction } from 'react';
+import type { ReactNode } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 interface AdaptiveDialogProps {
   open?: boolean;
@@ -36,12 +36,7 @@ export const AdaptiveDialog = ({
       {children}
     </MyDrawer>
   ) : (
-    <MyDialog
-      open={open}
-      setOpen={setOpen}
-      button={button}
-      hideCloseBtn={hideCloseBtn}
-    >
+    <MyDialog open={open} setOpen={setOpen} button={button} hideCloseBtn={hideCloseBtn}>
       {children}
     </MyDialog>
   );
