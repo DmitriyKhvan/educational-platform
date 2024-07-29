@@ -49,7 +49,9 @@ export const FilterMatching = ({
     availabilities: avails,
   } = user.matchingProfile || {};
 
-  const [availabilities, setAvailabilities] = useState(avails || []);
+  const [availabilities, setAvailabilities] = useState(
+    avails.map((item) => item.id) || [],
+  );
 
   const timesSet = new Set();
   const daysSet = new Set();
@@ -77,9 +79,6 @@ export const FilterMatching = ({
     return data?.map((item) => item.id);
   };
 
-  const [time, setTime] = useState([]);
-  const [days, setDays] = useState([]);
-
   const {
     register,
     setValue,
@@ -104,17 +103,11 @@ export const FilterMatching = ({
   });
 
   useEffect(() => {
-    const subscription = watch(async (value) => {
-      let newAvailabilities = availabilities;
-      const newTime = value.availabilities.time;
-      const newDays = value.availabilities.days;
-
-      if (
-        time.toString() !== newTime.toString() ||
-        days.toString() !== newDays.toString()
-      ) {
-        setTime(newTime);
-        setDays(newDays);
+    let newAvailabilities;
+    const subscription = watch(async (value, { name }) => {
+      if (name === 'availabilities.time' || name === 'availabilities.days') {
+        const newTime = value.availabilities.time;
+        const newDays = value.availabilities.days;
 
         newAvailabilities = dictionaries?.matchingProfile?.availabilities
           .filter((avail) => {
@@ -129,7 +122,6 @@ export const FilterMatching = ({
             }
           })
           .map((avail) => avail.id);
-
         setAvailabilities(newAvailabilities);
       }
 
