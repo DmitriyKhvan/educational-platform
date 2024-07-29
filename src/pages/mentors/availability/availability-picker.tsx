@@ -4,23 +4,11 @@ import { selectStyle } from '@/pages/mentors/availability/lib/select-style';
 import { timeGroup } from '@/pages/mentors/availability/lib/time-group';
 import { timeOptions } from '@/pages/mentors/availability/lib/time-options';
 import type { Availability, TimeOption } from '@/types';
-import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { FaXmark } from 'react-icons/fa6';
 import Select from 'react-select';
 
-interface AvailabilityPickerProps {
-  day: string;
-  id: string;
-  frmTime: string;
-  tTime: string;
-  useSetGatherAvailabilities: (data: Availability[]) => void;
-  gatherAvailabilities: Availability[];
-  timeOptionsSort: TimeOption[];
-  timeGroupsSort: TimeOption[][];
-}
-
-const AvailabilityPicker: React.FC<AvailabilityPickerProps> = ({
+const AvailabilityPicker = ({
   day,
   id,
   frmTime,
@@ -29,6 +17,15 @@ const AvailabilityPicker: React.FC<AvailabilityPickerProps> = ({
   gatherAvailabilities,
   timeOptionsSort,
   timeGroupsSort,
+}: {
+  day: string;
+  id: string;
+  frmTime: string;
+  tTime: string;
+  useSetGatherAvailabilities: (data: Availability[]) => void;
+  gatherAvailabilities: Availability[];
+  timeOptionsSort: TimeOption[];
+  timeGroupsSort: TimeOption[][];
 }) => {
   const [timeGroupSort, setTimeGroupSort] = useState<TimeOption[]>(
     timeGroup(timeGroupsSort, formatTimeToSeconds(frmTime)),

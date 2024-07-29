@@ -77,7 +77,7 @@ export const AvailabilityList = () => {
         MentorAvailabilityType.ONLY_TRIAL,
       );
     }
-  }, [mentorInfo, error]);
+  }, [mentorInfo]);
 
   const useSetGatherAvailabilities = (data: AvailabilitySlot[]) => {
     setGatherAvailabilities((prevGatherAvailabilities) => ({

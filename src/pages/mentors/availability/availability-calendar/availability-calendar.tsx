@@ -33,7 +33,7 @@ export const AvailabilityCalendar = () => {
   const { data: appointments, loading: loadingAppointments } = useQuery(APPOINTMENTS_QUERY, {
     variables: {
       mentorId: user?.mentor?.id,
-      status: `approved,scheduled,rescheduled`,
+      status: 'approved,scheduled,rescheduled',
     },
     fetchPolicy: 'no-cache',
   });
@@ -68,7 +68,7 @@ export const AvailabilityCalendar = () => {
 
       setCalendarEvents([...monthlyViewEvents, ...exceptionsMonthlyEvents]);
     }
-  }, [mentorInfo, appointments, loadingMentor]);
+  }, [mentorInfo, appointments, loadingMentor, loadingAppointments]);
 
   const renderEventContent = (eventInfo: any) => {
     const data = eventInfo.event.extendedProps;

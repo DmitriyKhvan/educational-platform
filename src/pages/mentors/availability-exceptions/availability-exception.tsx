@@ -3,6 +3,7 @@ import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import Button from '@/components/form/button';
 import { ModalConfirm } from '@/entities/modal-confirm';
 import { AvailabilityExceptionModal } from '@/pages/mentors/availability-exceptions/availability-exception-modal';
+import type { AvailabilitySlot } from '@/types';
 import * as Dialog from '@radix-ui/react-dialog';
 import { FaXmark } from 'react-icons/fa6';
 
@@ -11,6 +12,11 @@ export const AvailabilityException = ({
   disabledDates,
   onSubmit,
   availabilityExceptions,
+}: {
+  exception: AvailabilitySlot;
+  disabledDates: Date[];
+  onSubmit: (exception: AvailabilitySlot[]) => void;
+  availabilityExceptions: AvailabilitySlot[];
 }) => {
   const removeAvailabilityExceptionSlot = (exception, slot) => {
     const newSlots = exception.slots.filter((sl) => sl.id !== slot.id);
@@ -23,7 +29,7 @@ export const AvailabilityException = ({
     onSubmit(newAvailabilityExceptions);
   };
 
-  const removeAvailabilityException = (exception) => {
+  const removeAvailabilityException = (exception: AvailabilitySlot) => {
     const newAvailabilityExceptions = availabilityExceptions.filter(
       (aval) => aval.id !== exception.id,
     );

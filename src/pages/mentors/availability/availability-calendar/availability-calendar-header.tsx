@@ -17,14 +17,12 @@ import { FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
 import type FullCalendar from '@fullcalendar/react';
 
-interface AvailabilityCalendarHeaderProps {
-  calendarRef: MutableRefObject<FullCalendar>;
-  updateEvents: (view: CalendarViewType) => void;
-}
-
-const AvailabilityCalendarHeader: React.FC<AvailabilityCalendarHeaderProps> = ({
+const AvailabilityCalendarHeader = ({
   calendarRef,
   updateEvents,
+}: {
+  calendarRef: MutableRefObject<FullCalendar>;
+  updateEvents: (view: CalendarViewType) => void;
 }) => {
   const [open, setOpen] = useState(false);
   const [t, i18n] = useTranslation(['lessons', 'common']);

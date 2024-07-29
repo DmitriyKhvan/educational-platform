@@ -3,6 +3,8 @@ import Button from '@/components/form/button/button';
 import InputField from '@/components/form/input-field';
 import InputWithError from '@/components/form/input-with-error';
 import notify from '@/shared/utils/notify';
+import { type LoginSchema, loginSchema } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -29,17 +31,19 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm({
+  } = useForm<LoginSchema>({
     mode: 'onChange',
     defaultValues: {
       email: '',
       password: '',
     },
+    resolver: zodResolver(loginSchema),
   });
 
   const { login, loading, error, data } = useLogin();
 
-  const handleLogin = ({ email, password }) => {
+  const handleLogin = (data: LoginSchema) => {
+    const { email, password } = data;
     login(email, password);
   };
 

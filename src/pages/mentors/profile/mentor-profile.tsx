@@ -21,9 +21,9 @@ const MentorProfile = () => {
   useEffect(() => {
     if (user?.mentor?.avatar?.url) {
       setProfileImage(user?.mentor?.avatar?.url);
-    } else if (user.gender === 'female') {
+    } else if (user?.gender === 'female') {
       setProfileImage(femaleAvatar);
-    } else if (user.gender === 'male') {
+    } else if (user?.gender === 'male') {
       setProfileImage(maleAvatar);
     } else {
       setProfileImage(maleAvatar);
@@ -63,10 +63,10 @@ const MentorProfile = () => {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     renderAbout();
     setVideoLink(videoUrl || '');
-  }, [user]);
+  }, [videoUrl]);
 
   return (
     <div className={cls.profile_page}>
@@ -110,10 +110,10 @@ const MentorProfile = () => {
                 )}
               </div>
               <div className="">
-                {actions.user?.timezone && (
+                {actions.user?.timeZone && (
                   <>
                     <h1>{t('timezone', { ns: 'common' })}</h1>
-                    <h2>{actions.user?.timezone}</h2>
+                    <h2>{actions.user?.timeZone}</h2>
                   </>
                 )}
               </div>
@@ -170,7 +170,7 @@ const MentorProfile = () => {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
                 style={{ border: 0 }}
-              ></iframe>
+              />
             </div>
           )}
         </section>

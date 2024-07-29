@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import '@/app/styles/dashboard.scss';
 import LevelAfterTrialModal from '@/pages/mentors/level-after-trial-modal';
+import type { Lesson } from '@/types/types.generated';
 import {
   addMinutes,
   endOfDay,
@@ -23,21 +24,18 @@ const MentorDashboard = () => {
   const [t] = useTranslation('dashboard');
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
-  const [upcomingLessons, setUpcomingLessons] = useState([]);
+  const [upcomingLessons, setUpcomingLessons] = useState<Lesson[]>();
 
   const {
     data: { lessons: appointments } = {},
     refetch,
-  } = useQuery(
-    APPOINTMENTS_QUERY,
-    {
-      variables: {
-        mentorId: user?.mentor?.id,
-        status: 'scheduled,paid,completed,in_progress,approved',
-      },
+  } = useQuery(APPOINTMENTS_QUERY, {
+    variables: {
+      mentorId: user?.mentor?.id,
+      status: 'scheduled,paid,completed,in_progress,approved',
     },
-    { fetchPolicy: 'network-only' },
-  );
+    fetchPolicy: 'network-only',
+  });
 
   const fetchAppointments = async () => {
     refetch();
@@ -124,8 +122,8 @@ const MentorDashboard = () => {
             <h4 className="weekly-schedule mt-4">{t('daily_schedule')}</h4>
             <h4 className="text-purple weekly-schedule-subtitle">{t('upcoming_lessons')}</h4>
             {t('mentor_dashboard_total_lessons', {
-              total_lessons: upcomingLessons.length,
-              t: upcomingLessons.length > 1 ? 's' : '',
+              total_lessons: upcomingLessons?.length,
+              t: upcomingLessons?.length ?? 0 > 1 ? 's' : '',
             })}
             <Link to="/mentor/lesson-calendar" className="enter-btn ms-0 p-3">
               {t('student_dashboard_view_all_lessons')}

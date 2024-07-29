@@ -17,7 +17,7 @@ const StudentsModal = ({
 
   const renderSelectedTutor = studentList?.find((item) => item.id === (studentId ? studentId : id));
 
-  const avatar = renderSelectedTutor?.avatar && renderSelectedTutor?.avatar.url;
+  const avatar = renderSelectedTutor?.avatar?.url;
 
   return (
     <div className="student_alfa">

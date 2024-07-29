@@ -2,6 +2,7 @@ import { AvailabilityExceptionPicker } from '@/pages/mentors/availability-except
 import { formatTime } from '@/pages/mentors/availability/lib/format-time';
 import { formatTimeToSeconds } from '@/pages/mentors/availability/lib/format-time-to-seconds';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
+import type { Exception, Slot } from '@/types';
 import { parse } from 'date-fns';
 import { format } from 'date-fns-tz';
 
@@ -11,6 +12,12 @@ export const AvailabilityExceptionModal = ({
   slot,
   onSubmit,
   disabledDates,
+}: {
+  availabilityExceptions: Exception[];
+  exception: Exception;
+  slot: Slot;
+  onSubmit: (exception: Exception) => void;
+  disabledDates: Date[];
 }) => {
   return (
     <AdaptiveDialog

@@ -11,11 +11,13 @@ import InputWithError from '@/components/form/input-with-error';
 
 import { useNewPassword } from '@/app/providers/auth-provider';
 import notify from '@/shared/utils/notify';
+import { type NewPasswordSchema, newPasswordSchema } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const ResetPassword = () => {
   const navigate = useNavigate();
   const [t] = useTranslation('common');
-  const [token, setToken] = useState();
+  const [token, setToken] = useState<string | null>();
 
   const { newPassword, loading, error, data } = useNewPassword();
 
@@ -24,40 +26,43 @@ const ResetPassword = () => {
     handleSubmit,
     getValues,
     formState: { errors, isValid },
-  } = useForm({
+  } = useForm<NewPasswordSchema>({
     mode: 'all',
     defaultValues: {
       password: '',
       confirmPassword: '',
     },
+    resolver: zodResolver(newPasswordSchema),
   });
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     setToken(urlParams.get('token'));
-  }, [token]);
+  }, []);
 
   useEffect(() => {
     if (data) {
       notify(t('reset_password'), 'success');
       navigate('/');
     }
-  }, [data]);
+  }, [data, navigate, t]);
 
   useEffect(() => {
     if (error) {
       notify(t('invalid_expired_token'), 'error');
     }
-  }, [error]);
+  }, [error, t]);
+
+  const onSubmit = (data: NewPasswordSchema) => {
+    if (!token) return;
+    newPassword(token, data.password);
+  };
 
   return (
     <AuthLayout>
       <div className="auth-login">
         <p className="title text-center mb-3">{t('reset_password')}</p>
-        <form
-          onSubmit={handleSubmit(({ password }) => newPassword(token, password))}
-          className="form-section"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="form-section">
           <div className="mb-7">
             <InputWithError errorsField={errors?.password}>
               <InputField

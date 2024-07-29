@@ -12,7 +12,7 @@ export const AcceptingStudents = () => {
   const submit = (accept) => {
     acceptNewStudents({
       variables: {
-        mentorId: user.mentor.id,
+        mentorId: user?.mentor?.id,
         accept,
       },
       onCompleted: () => {
@@ -38,7 +38,7 @@ export const AcceptingStudents = () => {
             className="w-[40px] h-[24px] bg-gray-100 shadow-[0_0_0_1px_rgba(0,_0,_0,_0.05)] rounded-full relative outline-none cursor-pointer focus:border-[hsla(210,_96%,_45%,_50%)] focus:shadow-[0_0_0_0.25rem_rgba(13,110,253,0.25)] data-[state=checked]:bg-color-purple/10"
             id="airplane-mode"
             // style={{ '-webkit-tap-highlight-color': 'rgba(0, 0, 0, 0)' }}
-            defaultChecked={user.mentor.acceptingStudents}
+            defaultChecked={user?.mentor?.acceptingStudents ?? false}
             onCheckedChange={submit}
           >
             <Switch.Thumb className="block w-[16px] h-[16px] bg-gray-400 rounded-full transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-[20px] data-[state=checked]:bg-color-purple" />

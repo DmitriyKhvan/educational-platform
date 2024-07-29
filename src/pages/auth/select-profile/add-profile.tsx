@@ -5,6 +5,7 @@ import InputWithError from '@/components/form/input-with-error';
 import Loader from '@/components/loader/loader';
 import { ATTACH_STUDENT_TO_USER } from '@/shared/apollo/graphql';
 import notify from '@/shared/utils/notify';
+import { type AddStudentSchema, addStudentSchema } from '@/types';
 import { useMutation } from '@apollo/client';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
@@ -12,29 +13,39 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import type { Mutation } from '@/types/types.generated';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 const AddStudentProfile = () => {
   const [t] = useTranslation(['onboarding', 'common', 'translations']);
   const [parent] = useAutoAnimate();
 
   const { user } = useAuth();
 
-  const [attachStudentToUser, { loading, error, data }] = useMutation(ATTACH_STUDENT_TO_USER);
+  const [attachStudentToUser, { loading, error, data }] =
+    useMutation<Mutation>(ATTACH_STUDENT_TO_USER);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<AddStudentSchema>({
+    defaultValues: {
+      userId: user?.id,
+      firstName: '',
+      lastName: '',
+    },
+    values: {
+      userId: user?.id ?? '',
+      firstName: '',
+      lastName: '',
+    },
+    resolver: zodResolver(addStudentSchema),
+  });
 
-  const onSubmit = (data) => {
-    const { firstName, lastName } = data;
-
+  const onSubmit = (data: AddStudentSchema) => {
     attachStudentToUser({
-      variables: {
-        userId: user.id,
-        firstName,
-        lastName,
-      },
+      variables: data,
     });
   };
 
@@ -71,7 +82,6 @@ const AddStudentProfile = () => {
               autoFocus
               {...register('firstName', {
                 required: t('required_first_name', { ns: 'translations' }),
-                focus: true,
               })}
             />
           </InputWithError>

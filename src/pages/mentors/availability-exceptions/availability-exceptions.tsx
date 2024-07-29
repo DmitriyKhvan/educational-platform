@@ -17,12 +17,19 @@ import { formatTimeToSeconds } from '@/pages/mentors/availability/lib/format-tim
 import { parseErrorMessage } from '@/pages/mentors/availability/lib/parse-error-message';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import notify from '@/shared/utils/notify';
+import type { Mentor } from '@/types/types.generated';
 import { format } from 'date-fns-tz';
 import { IoIosWarning } from 'react-icons/io';
 // import Swal from 'sweetalert2';
 import { LuPlus } from 'react-icons/lu';
 
-export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
+export const AvailabilityExceptions = ({
+  mentor,
+  refetchMentor,
+}: {
+  mentor: Mentor;
+  refetchMentor: () => void;
+}) => {
   const [errorExceptionalDates, setErrorExceptionalDates] = useState();
 
   const [availabilityExceptions, setAvailabilityExceptions] = useState([]);
@@ -117,7 +124,7 @@ export const AvailabilityExceptions = ({ mentor, refetchMentor }) => {
       setAvailabilityExceptions(filterDates);
       setDisabledDates(disabledDates);
     }
-  }, [mentor, updateExceptionDate]);
+  }, [mentor]);
 
   return (
     <>

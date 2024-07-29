@@ -1,13 +1,15 @@
+import type { IconType } from 'react-icons';
+
 export const ModalConfirm = ({
   icon,
   title,
   text,
   btns,
 }: {
-  icon: any;
+  icon: IconType;
   title: string;
-  text: any;
-  btns: any;
+  text: string;
+  btns: JSX.Element;
 }) => {
   return (
     <div className="w-[336px] m-auto">

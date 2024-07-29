@@ -15,8 +15,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-scroll';
 
+import { cn } from '@/shared/utils/functions';
 import { FaTrashAlt } from 'react-icons/fa';
-import { cn } from '../../../shared/utils/functions';
 
 const EditMentorProfile = () => {
   const [t] = useTranslation(['profile', 'common']);
@@ -80,7 +80,7 @@ const EditMentorProfile = () => {
 
           <div className="flex items-center gap-[30px] mt-[30px]">
             <div className="w-[150px] h-[150px] rounded-[10px] overflow-hidden">
-              <Avatar avatarUrl={user?.mentor?.avatar?.url} />
+              <Avatar avatarUrl={user?.mentor?.avatar?.url ?? undefined} />
             </div>
 
             <div className="flex flex-col gap-[10pxs]">

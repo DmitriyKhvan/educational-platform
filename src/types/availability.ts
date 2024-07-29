@@ -133,6 +133,23 @@ export type TimeOption = {
   label: string;
 };
 
+export type GatherAvailabilities = {
+  [key in MentorAvailabilityType]: AvailabilitySlot[];
+};
+
+export type AvailabilityDayRowProps = {
+  day: string;
+  useSetGatherAvailabilities: (availabilities: Availability[]) => void;
+  allGatherAvailabilities: Record<string, Availability[]>; // trial/regular availabilities
+  gatherAvailabilities: Availability[];
+  mentorAvailabilityType: MentorAvailabilityType;
+};
+
+export interface SlotToSave {
+  day: string;
+  slots: { from: string; to: string }[];
+  trialTimesheet: boolean;
+}
 export interface MentorInfo {
   id: string;
   mentorAvailability: MentorAvailabilityType;
@@ -157,10 +174,6 @@ export type AvailabilitySlot = {
   id: string;
   day: string;
   slots: Slot[];
-};
-
-export type GatherAvailabilities = {
-  [key in MentorAvailabilityType]: AvailabilitySlot[];
 };
 
 export interface ErrorExceptionalDates {

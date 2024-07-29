@@ -10,7 +10,13 @@ import { UPSERT_TIMESHEETS } from '@/shared/apollo/mutations/upsert-timesheets';
 import { DAY, MentorAvailabilityType, timezoneWithTimeOptions } from '@/shared/constants/global';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import notify from '@/shared/utils/notify';
-import type { AvailabilitySlot, ErrorExceptionalDates, Slot } from '@/types';
+import type {
+  AvailabilitySlot,
+  ErrorExceptionalDates,
+  GatherAvailabilities,
+  Slot,
+  SlotToSave,
+} from '@/types';
 import type { Mentor, Query } from '@/types/types.generated';
 import { type ApolloQueryResult, type OperationVariables, useMutation } from '@apollo/client';
 import { type Dispatch, type SetStateAction, useEffect, useMemo, useState } from 'react';
@@ -18,7 +24,14 @@ import { useTranslation } from 'react-i18next';
 import { IoIosWarning } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
-interface AvailabilitySlotProps {
+export const AvailabilitySlots = ({
+  mentorInfo,
+  gatherAvailabilities,
+  mentorAvailabilityType = MentorAvailabilityType.ONLY_REGULAR,
+  useSetGatherAvailabilities,
+  refetchMentor,
+  setError,
+}: {
   mentorInfo: Mentor;
   gatherAvailabilities: GatherAvailabilities;
   mentorAvailabilityType?: MentorAvailabilityType;
@@ -27,24 +40,6 @@ interface AvailabilitySlotProps {
     variables?: Partial<OperationVariables> | undefined,
   ) => Promise<ApolloQueryResult<Query>>;
   setError: Dispatch<SetStateAction<Error | null>>;
-}
-
-interface SlotToSave {
-  day: string;
-  slots: { from: string; to: string }[];
-  trialTimesheet: boolean;
-}
-
-type GatherAvailabilities = {
-  [key in MentorAvailabilityType]: AvailabilitySlot[];
-};
-export const AvailabilitySlots: React.FC<AvailabilitySlotProps> = ({
-  mentorInfo,
-  gatherAvailabilities,
-  mentorAvailabilityType = MentorAvailabilityType.ONLY_REGULAR,
-  useSetGatherAvailabilities,
-  refetchMentor,
-  setError,
 }) => {
   const [errorExceptionalDates, setErrorExceptionalDates] = useState<null | ErrorExceptionalDates>(
     null,

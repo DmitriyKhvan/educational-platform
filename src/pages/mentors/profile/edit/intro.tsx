@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAuth } from '@/app/providers/auth-provider';
@@ -9,15 +9,15 @@ import { HiOutlineVideoCamera } from 'react-icons/hi2';
 
 const Intro = () => {
   const [t] = useTranslation('profile');
-  const [videoLink, setVideoLink] = React.useState('');
+  const [videoLink, setVideoLink] = useState('');
 
   const actions = useAuth();
 
   const videoUrl = actions.user?.mentor?.videoUrl;
 
-  React.useEffect(() => {
+  useEffect(() => {
     setVideoLink(videoUrl || '');
-  }, [actions]);
+  }, [videoUrl]);
 
   return (
     <div className="px-[66px] py-[50px]" id={'intro'}>
@@ -41,7 +41,7 @@ const Intro = () => {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
               style={{ border: 0 }}
-            ></iframe>
+            />
           )}
         </div>
 

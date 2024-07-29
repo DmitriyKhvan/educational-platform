@@ -36,13 +36,13 @@ const ForgotPassword = () => {
       notify(t('reset_password_message'), 'success');
       navigate('/');
     }
-  }, [data]);
+  }, [data, navigate, t]);
 
   useEffect(() => {
     if (error) {
       notify(t('login_failed'), 'error');
     }
-  }, [error]);
+  }, [error, t]);
 
   return (
     <form

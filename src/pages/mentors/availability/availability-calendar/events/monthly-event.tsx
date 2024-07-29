@@ -1,6 +1,7 @@
+import type { MentorAvailability } from '@/types/types.generated';
 import { format } from 'date-fns';
 
-const MonthlyEvent = ({ data }) => {
+const MonthlyEvent = ({ data }: { data: MentorAvailability }) => {
   const reformatTime = (time) =>
     format(new Date(`01/01/2011 ${time}:00`), `h${time.match(/\d*:30/) ? ':mm' : ''} aa`);
 
@@ -8,13 +9,13 @@ const MonthlyEvent = ({ data }) => {
     <div className="mx-auto py-2 min-h-[41px] h-full 2xl:mx-2 bg-white text-black border rounded-lg overflow-hidden truncate shadow-[0px_0px_8px_0px_#00000014]">
       <div className="text-center mb-1 text-[10px] xl:text-xs">
         {data?.regular?.map((v) => (
-          <p key={v.from} className="text-color-purple font-medium">
-            {reformatTime(v.from)} - {reformatTime(v.to)}
+          <p key={v?.from} className="text-color-purple font-medium">
+            {reformatTime(v?.from)} - {reformatTime(v?.to)}
           </p>
         ))}
         {data?.trial?.map((v) => (
-          <p key={v.from} className="text-[#FF9335] font-medium">
-            {reformatTime(v.from)} - {reformatTime(v.to)}
+          <p key={v?.from} className="text-[#FF9335] font-medium">
+            {reformatTime(v?.from)} - {reformatTime(v?.to)}
           </p>
         ))}
 

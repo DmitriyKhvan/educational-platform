@@ -31,8 +31,10 @@ const SubmitVideo = () => {
     mode: 'onBlur',
   });
 
-  const handleEditVideo = async (area) => {
-    if (area.videoUrl) {
+  const handleEditVideo = async (area: {
+    videoUrl: string;
+  }) => {
+    if (area.videoUrl && user?.mentor?.id) {
       await updateMentor({
         variables: {
           id: Number.parseInt(user?.mentor?.id),

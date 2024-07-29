@@ -42,7 +42,7 @@ const BasicForm = () => {
       // timeZone: user?.timeZone,
       address: user?.address,
       convertAvailabilityTime: true,
-      googleCalendarSync: user.googleCalendarSync,
+      googleCalendarSync: user?.googleCalendarSync,
     },
   });
 

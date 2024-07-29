@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 
 import { useAuth } from '@/app/providers/auth-provider';
 import { MUTATION_UPDATE_MENTOR } from '@/shared/apollo/graphql';
@@ -14,17 +14,21 @@ import { Avatar } from '@/widgets/avatar/avatar';
 
 import { HiOutlineUpload } from 'react-icons/hi';
 
-const EditAvatarModal = ({ closeModal }) => {
+const EditAvatarModal = ({
+  closeModal,
+}: {
+  closeModal: () => void;
+}) => {
   const [t] = useTranslation('common');
   const { user, refetchUser } = useAuth();
   const [updateMentor, { loading }] = useMutation(MUTATION_UPDATE_MENTOR);
   const navigate = useNavigate();
-  const [file, setFile] = React.useState(null);
+  const [file, setFile] = useState<File | null>(null);
 
   const { handleSubmit } = useForm();
 
   const updateAvatar = async () => {
-    if (file) {
+    if (file && user?.mentor?.id) {
       await updateMentor({
         variables: {
           id: Number.parseInt(user?.mentor?.id),
@@ -50,7 +54,10 @@ const EditAvatarModal = ({ closeModal }) => {
       >
         {!file ? (
           <div className="h-[250px] px-[30px] overflow-hidden">
-            <Avatar className="object-contain " avatarUrl={user?.mentor?.avatar?.url} />
+            <Avatar
+              className="object-contain "
+              avatarUrl={user?.mentor?.avatar?.url ?? undefined}
+            />
           </div>
         ) : (
           <img
@@ -76,7 +83,7 @@ const EditAvatarModal = ({ closeModal }) => {
                 multiple
                 accept="image/*"
                 type={'file'}
-                onChange={(e) => setFile(e.target.files[0])}
+                onChange={(e) => setFile(e.target.files?.[0] ?? null)}
               />
 
               <HiOutlineUpload className="text-xl" />

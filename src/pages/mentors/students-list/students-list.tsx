@@ -43,37 +43,36 @@ export default function StudentsList() {
 
           {!students && <Loader height={'50vh'} />}
 
-          {students &&
-            students.map((item) => (
-              <div key={item?.id} className="tutors_card">
-                <div
-                  className="tutors_card-img"
-                  style={{
-                    background: `url("${
-                      item?.avatar
-                        ? item.avatar?.url
-                        : item?.gender === 'male'
-                          ? maleAvatar
-                          : femaleAvatar
-                    }") center / cover`,
-                  }}
-                >
-                  {/* {item.isFavourite && <img src={FavIcon} alt="" />} */}
-                </div>
-                <div className="tutors_card-body">
-                  <div className="tutors_info">
-                    {/* <h2>{item?.userName}</h2>
+          {students?.map((item) => (
+            <div key={item?.id} className="tutors_card">
+              <div
+                className="tutors_card-img"
+                style={{
+                  background: `url("${
+                    item?.avatar
+                      ? item.avatar?.url
+                      : item?.gender === 'male'
+                        ? maleAvatar
+                        : femaleAvatar
+                  }") center / cover`,
+                }}
+              >
+                {/* {item.isFavourite && <img src={FavIcon} alt="" />} */}
+              </div>
+              <div className="tutors_card-body">
+                <div className="tutors_info">
+                  {/* <h2>{item?.userName}</h2>
 										<p>{item?.user.university}</p>
 										<span>{item.language}</span> */}
-                  </div>
-                  <div className="tutors_control-buttons">
-                    <button onClick={() => handleMoreTutor(item?.id)}>
-                      {t('learn_more', { ns: 'common' })}
-                    </button>
-                  </div>
+                </div>
+                <div className="tutors_control-buttons">
+                  <button onClick={() => handleMoreTutor(item?.id)}>
+                    {t('learn_more', { ns: 'common' })}
+                  </button>
                 </div>
               </div>
-            ))}
+            </div>
+          ))}
         </div>
       </div>
 

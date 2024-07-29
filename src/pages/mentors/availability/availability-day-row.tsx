@@ -7,35 +7,12 @@ import { timeGroup } from '@/pages/mentors/availability/lib/time-group';
 import { timeGroups } from '@/pages/mentors/availability/lib/time-groups';
 import { timesOfDay } from '@/pages/mentors/availability/lib/times-of-day';
 import { MentorAvailabilityType } from '@/shared/constants/global';
+import type { AvailabilityDayRowProps, TimeOption } from '@/types';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LuPlus } from 'react-icons/lu';
 import { v4 as uuid } from 'uuid';
-
-type TimeSlot = {
-  from: string;
-  to: string;
-};
-
-type Availability = {
-  id: string;
-  day: string;
-  slots: TimeSlot[];
-};
-
-type TimeOption = {
-  label: string;
-  value: number;
-};
-
-type AvailabilityDayRowProps = {
-  day: string;
-  useSetGatherAvailabilities: (availabilities: Availability[]) => void;
-  allGatherAvailabilities: Record<string, Availability[]>; // trial/regular availabilities
-  gatherAvailabilities: Availability[];
-  mentorAvailabilityType: MentorAvailabilityType;
-};
 
 const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
   day,
