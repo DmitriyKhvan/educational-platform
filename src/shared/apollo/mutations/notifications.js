@@ -13,7 +13,7 @@ export const MARK_MESSAGE_AS_READ = gql`
         address
         timeZone
         country
-        referalCode
+        #referalCode
         referalId
         # students
         # mentor

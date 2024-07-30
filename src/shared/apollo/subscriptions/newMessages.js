@@ -20,7 +20,7 @@ export const NEW_MESSAGES = gql`
         timeZone
         country
         #avatar
-        referalCode
+        #referalCode
         referalId
         isActive
         role

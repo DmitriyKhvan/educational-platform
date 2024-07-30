@@ -27,7 +27,7 @@ export const SIGN_UP = gql`
       address
       timeZone
       country
-      referalCode
+      #referalCode
       referalId
       students {
         id
@@ -254,7 +254,7 @@ export const GET_MENTOR = gql`
         address
         timeZone
         country
-        referalCode
+        #referalCode
         referalId
         isActive
         role
