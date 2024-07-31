@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const MARK_MESSAGE_AS_READ = gql`
   mutation markMessageAsRead($id: [ID!]!) {
@@ -13,8 +13,6 @@ export const MARK_MESSAGE_AS_READ = gql`
         address
         timeZone
         country
-        #referalCode
-        referalId
         # students
         # mentor
         # packageSubscriptions

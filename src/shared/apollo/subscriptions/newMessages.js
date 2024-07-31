@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const NEW_MESSAGES = gql`
   subscription newMessages {
@@ -20,8 +20,6 @@ export const NEW_MESSAGES = gql`
         timeZone
         country
         #avatar
-        #referalCode
-        referalId
         isActive
         role
         createdAt
