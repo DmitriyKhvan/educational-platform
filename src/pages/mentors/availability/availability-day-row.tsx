@@ -62,8 +62,8 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
           day,
           slots: [
             {
-              from: firstTimeGroup[0].label,
-              to: firstTimeGroup[firstTimeGroup.length - 1].label,
+              from: formatTime(firstTimeGroup[0].value),
+              to: formatTime(firstTimeGroup[firstTimeGroup.length - 1].value),
             },
           ],
         },
