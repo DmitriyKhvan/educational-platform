@@ -124,7 +124,7 @@ function Feedback({
         <p className="text-sm text-color-light-grey mb-4">{t('vocabulary')}</p>
 
         <InputWithError errorsField={errors?.vocabularyIds}>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {vocabData?.vocabulary?.length ? (
               vocabData?.vocabulary?.map((vocab) => (
                 <TagField
@@ -326,8 +326,9 @@ function Feedback({
         />
         {errors?.improvement?.type === 'minLength' ? (
           <p className="text-[#df1b41] mt-1">
-            {280 - watch('improvement').length} characters remaining. Please
-            write detailed feedback to make your student happy! :)
+            {/* {280 - watch('improvement').length} characters remaining. Please
+            write detailed feedback to make your student happy! :) */}
+            You have more characters remaining.  Please provide detailed feedback to make your student happy!
           </p>
         ) : (
           <p className="text-[#df1b41] mt-1">{errors?.improvement?.message}</p>
@@ -351,8 +352,9 @@ function Feedback({
 
         {errors?.mastered?.type === 'minLength' ? (
           <p className="text-[#df1b41] mt-1">
-            {280 - watch('mastered').length} characters remaining. Please write
-            detailed feedback to make your student happy! :)
+            {/* {280 - watch('mastered').length} characters remaining. Please write
+            detailed feedback to make your student happy! :) */}
+            You have more characters remaining.  Please provide detailed feedback to make your student happy!
           </p>
         ) : (
           <p className="text-[#df1b41] mt-1">{errors?.mastered?.message}</p>
