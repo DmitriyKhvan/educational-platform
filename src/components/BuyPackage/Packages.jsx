@@ -73,8 +73,9 @@ export const Packages = memo(function Packages({
                         {currencyFormat({
                           currency: curCurrency.value,
                           locales: curCurrency.locales,
-                          number: pkg.price,
+                          number: pkg.price / pkg.period,
                         })}
+                        /mo.
                       </span>
                     )}
                   </p>
