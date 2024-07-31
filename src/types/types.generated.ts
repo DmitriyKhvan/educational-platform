@@ -3,24 +3,20 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = {
-  [_ in K]?: never;
-};
-export type Incremental<T> =
-  | T
-  | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
-  BigInt: { input: any; output: any };
-  Date: { input: any; output: any };
-  DateTime: { input: any; output: any };
-  JSON: { input: any; output: any };
-  Upload: { input: any; output: any };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  BigInt: { input: any; output: any; }
+  Date: { input: any; output: any; }
+  DateTime: { input: any; output: any; }
+  JSON: { input: any; output: any; }
+  Upload: { input: any; output: any; }
 };
 
 export type AppConfig = {
@@ -168,7 +164,7 @@ export type ConversationInput = {
 
 export enum ConversationType {
   Private = 'private',
-  Public = 'public',
+  Public = 'public'
 }
 
 export type Course = {
@@ -213,13 +209,13 @@ export type CourseTranslationInput = {
 export enum CourseTranslationsLanguage {
   Cn = 'cn',
   En = 'en',
-  Kr = 'kr',
+  Kr = 'kr'
 }
 
 export enum Currency {
   Krw = 'krw',
   Twd = 'twd',
-  Usd = 'usd',
+  Usd = 'usd'
 }
 
 export type DeleteResult = {
@@ -229,7 +225,7 @@ export type DeleteResult = {
 
 export enum DiscountType {
   Fixed = 'fixed',
-  Percent = 'percent',
+  Percent = 'percent'
 }
 
 export type ExceptionDate = {
@@ -301,13 +297,13 @@ export type FlatJoinedPaymentOjbect = {
 export enum GenderType {
   Female = 'female',
   Male = 'male',
-  Nonbinary = 'nonbinary',
+  Nonbinary = 'nonbinary'
 }
 
 export enum GeneralTrialFilterType {
   All = 'all',
   OnlyRegular = 'only_regular',
-  OnlyTrial = 'only_trial',
+  OnlyTrial = 'only_trial'
 }
 
 export type GoogleAuthObject = {
@@ -395,7 +391,7 @@ export enum LanguageSkillType {
   Fair = 'fair',
   Good = 'good',
   Great = 'great',
-  Insufficient = 'insufficient',
+  Insufficient = 'insufficient'
 }
 
 export type Lesson = {
@@ -424,7 +420,7 @@ export type Lesson = {
 
 export enum LessonCancelActionType {
   AssignNewMentor = 'assign_new_mentor',
-  Refund = 'refund',
+  Refund = 'refund'
 }
 
 export type LessonSection = {
@@ -443,7 +439,7 @@ export enum LessonStatusType {
   InProgress = 'in_progress',
   Paid = 'paid',
   Rescheduled = 'rescheduled',
-  Scheduled = 'scheduled',
+  Scheduled = 'scheduled'
 }
 
 export type LessonsWithPagination = {
@@ -456,7 +452,7 @@ export type Mentor = {
   __typename?: 'Mentor';
   about?: Maybe<Scalars['String']['output']>;
   acceptingStudents?: Maybe<Scalars['Boolean']['output']>;
-  availabilities?: Maybe<MentorAvailability>;
+  availabilities: Array<Maybe<Timesheet>>;
   avatar?: Maybe<File>;
   avatarId?: Maybe<Scalars['ID']['output']>;
   degree?: Maybe<Scalars['String']['output']>;
@@ -487,16 +483,10 @@ export type Mentor = {
   visibilityStatus?: Maybe<VisibilityStatus>;
 };
 
-export type MentorAvailability = {
-  __typename?: 'MentorAvailability';
-  regular: Array<Maybe<Timesheet>>;
-  trial: Array<Maybe<Timesheet>>;
-};
-
 export enum MentorAvailabilityType {
   OnlyRegular = 'only_regular',
   OnlyTrial = 'only_trial',
-  RegularAndTrial = 'regular_and_trial',
+  RegularAndTrial = 'regular_and_trial'
 }
 
 export type MentorReview = {
@@ -548,7 +538,7 @@ export enum MentorTrialFilterType {
   All = 'all',
   OnlyRegular = 'only_regular',
   OnlyTrial = 'only_trial',
-  RegularAndTrial = 'regular_and_trial',
+  RegularAndTrial = 'regular_and_trial'
 }
 
 export type MentorUpdateInput = {
@@ -631,6 +621,7 @@ export type Mutation = {
   createStudent: Student;
   createStudentReview: StudentReview;
   createStudentReviewTag: StudentReviewTag;
+  createTimesheets: Array<Maybe<Timesheet>>;
   createUser: User;
   createVocabularyWord: Vocabulary;
   deactivateCourse: Course;
@@ -669,6 +660,7 @@ export type Mutation = {
   updatePromotionCode: PromotionCode;
   updateStudent: Student;
   updateStudentReviewTag: StudentReviewTag;
+  updateTimesheets: Array<Maybe<Timesheet>>;
   updateUser: User;
   updateVocabularyWord: Vocabulary;
   upsertExceptionDates: Array<Maybe<ExceptionDate>>;
@@ -676,10 +668,12 @@ export type Mutation = {
   upsertTrialLessonSlotLimit: Array<Maybe<TrialLessonSlotLimit>>;
 };
 
+
 export type MutationAcceptNewStudentsArgs = {
   accept: Scalars['Boolean']['input'];
   mentorId: Scalars['ID']['input'];
 };
+
 
 export type MutationApplyPromotionCodeForPackageArgs = {
   code: Scalars['String']['input'];
@@ -687,10 +681,12 @@ export type MutationApplyPromotionCodeForPackageArgs = {
   packageId: Scalars['ID']['input'];
 };
 
+
 export type MutationApproveLessonArgs = {
   id: Scalars['ID']['input'];
   mentorId: Scalars['ID']['input'];
 };
+
 
 export type MutationAttachPlaygroundToMentorResolverArgs = {
   firstName: Scalars['String']['input'];
@@ -698,15 +694,18 @@ export type MutationAttachPlaygroundToMentorResolverArgs = {
   mentorId: Scalars['ID']['input'];
 };
 
+
 export type MutationAttachStudentToUserArgs = {
   firstName: Scalars['String']['input'];
   lastName: Scalars['String']['input'];
   userId: Scalars['ID']['input'];
 };
 
+
 export type MutationAttachTrialStudentToUserResolverArgs = {
   data: AttachTrialStudentInput;
 };
+
 
 export type MutationCancelLessonsArgs = {
   cancelReason?: InputMaybe<Scalars['String']['input']>;
@@ -715,18 +714,22 @@ export type MutationCancelLessonsArgs = {
   repeat?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+
 export type MutationChangeStudentLanguageLevelArgs = {
   languageLevelId: Scalars['Int']['input'];
   studentId: Scalars['ID']['input'];
 };
 
+
 export type MutationCreateConversationArgs = {
   data: ConversationInput;
 };
 
+
 export type MutationCreateCourseArgs = {
   data: CourseInput;
 };
+
 
 export type MutationCreateHomeworkArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
@@ -734,11 +737,13 @@ export type MutationCreateHomeworkArgs = {
   topicIds: Array<Scalars['ID']['input']>;
 };
 
+
 export type MutationCreateLessonSectionArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
   title: Scalars['String']['input'];
   topicIds: Array<Scalars['ID']['input']>;
 };
+
 
 export type MutationCreateLessonsArgs = {
   duration: Scalars['Int']['input'];
@@ -749,18 +754,22 @@ export type MutationCreateLessonsArgs = {
   studentId: Scalars['ID']['input'];
 };
 
+
 export type MutationCreateMentorArgs = {
   data: MentorUpdateInput;
   user: SignUpInput;
 };
 
+
 export type MutationCreateMentorReviewArgs = {
   data: MentorReviewInput;
 };
 
+
 export type MutationCreatePackageArgs = {
   data: PackageCreationInput;
 };
+
 
 export type MutationCreatePaymentArgs = {
   metadata?: InputMaybe<Scalars['String']['input']>;
@@ -769,25 +778,30 @@ export type MutationCreatePaymentArgs = {
   studentId: Scalars['ID']['input'];
 };
 
+
 export type MutationCreatePaymentIntentArgs = {
   applyPersonalDiscountCode?: InputMaybe<Scalars['Boolean']['input']>;
   currency?: InputMaybe<Currency>;
   packageId: Scalars['Int']['input'];
 };
 
+
 export type MutationCreatePayoutArgs = {
   data: PayoutsInput;
   isTrial?: InputMaybe<Scalars['Boolean']['input']>;
 };
+
 
 export type MutationCreatePlaygroundLinkArgs = {
   lessonId: Scalars['ID']['input'];
   mentorId: Scalars['ID']['input'];
 };
 
+
 export type MutationCreatePromotionCodeArgs = {
   data: PromotionCodeInput;
 };
+
 
 export type MutationCreateStudentArgs = {
   about?: InputMaybe<Scalars['String']['input']>;
@@ -797,6 +811,7 @@ export type MutationCreateStudentArgs = {
   userId: Scalars['Int']['input'];
 };
 
+
 export type MutationCreateStudentReviewArgs = {
   lessonId: Scalars['ID']['input'];
   rating: Scalars['Int']['input'];
@@ -804,86 +819,111 @@ export type MutationCreateStudentReviewArgs = {
   tags?: InputMaybe<Array<Scalars['ID']['input']>>;
 };
 
+
 export type MutationCreateStudentReviewTagArgs = {
   title: Scalars['String']['input'];
   translations?: InputMaybe<Array<StudentReviewTagTranslationInput>>;
   type: StudentReviewTagType;
 };
 
+
+export type MutationCreateTimesheetsArgs = {
+  data: TimesheetInput;
+};
+
+
 export type MutationCreateUserArgs = {
   data: UserCreateInput;
 };
+
 
 export type MutationCreateVocabularyWordArgs = {
   topicIds: Array<Scalars['ID']['input']>;
   word: Scalars['String']['input'];
 };
 
+
 export type MutationDeactivateCourseArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type MutationDeactivateStudentArgs = {
   id: Scalars['ID']['input'];
 };
 
+
 export type MutationDeleteConversationArgs = {
   id: Scalars['ID']['input'];
 };
+
 
 export type MutationDeleteHomeworkArgs = {
   homeworkId: Scalars['ID']['input'];
 };
 
+
 export type MutationDeleteLessonSectionArgs = {
   lessonSectionId: Scalars['ID']['input'];
 };
+
 
 export type MutationDeletePackageArgs = {
   id: Scalars['ID']['input'];
 };
 
+
 export type MutationDeletePaymentArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type MutationDeleteRecordingArgs = {
   id: Scalars['ID']['input'];
 };
 
+
 export type MutationDeleteStudentReviewTagArgs = {
   id: Scalars['ID']['input'];
 };
+
 
 export type MutationDeleteVocabularyWordArgs = {
   vocabularyId: Scalars['ID']['input'];
 };
 
+
 export type MutationGenerateReferralLinkArgs = {
   studentId: Scalars['ID']['input'];
 };
+
 
 export type MutationMarkMessageAsReadArgs = {
   id: Array<Scalars['ID']['input']>;
 };
 
+
 export type MutationPersistLanguageLevelArgs = {
   data: LanguageLevelInput;
 };
 
+
 export type MutationPersistTopicArgs = {
   data: TopicInput;
 };
+
 
 export type MutationRedeemUserPasswordResetTokenArgs = {
   password: Scalars['String']['input'];
   token: Scalars['String']['input'];
 };
 
+
 export type MutationRemoveParticipantFromConversationResolverArgs = {
   conversationId: Scalars['Int']['input'];
   participantIds: Array<Scalars['Int']['input']>;
 };
+
 
 export type MutationRescheduleLessonsArgs = {
   id: Scalars['ID']['input'];
@@ -892,23 +932,28 @@ export type MutationRescheduleLessonsArgs = {
   startAt: Scalars['DateTime']['input'];
 };
 
+
 export type MutationSavedefaultgooglecalendarArgs = {
   calendarId: Scalars['String']['input'];
   id: Scalars['ID']['input'];
 };
 
+
 export type MutationSendMessageArgs = {
   data: MessageInput;
 };
+
 
 export type MutationSendSystemMessageArgs = {
   data: MessageInput;
 };
 
+
 export type MutationSendUserPasswordResetLinkArgs = {
   email: Scalars['String']['input'];
   locale: Scalars['String']['input'];
 };
+
 
 export type MutationSetLessonDetailsArgs = {
   goal?: InputMaybe<Scalars['String']['input']>;
@@ -918,28 +963,34 @@ export type MutationSetLessonDetailsArgs = {
   studentId: Scalars['ID']['input'];
 };
 
+
 export type MutationSignInArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };
 
+
 export type MutationSignUpArgs = {
   data: SignUpInput;
 };
+
 
 export type MutationSortMentorsArgs = {
   mentorIds: Array<Scalars['Int']['input']>;
   startOrderIndex?: InputMaybe<Scalars['Int']['input']>;
 };
 
+
 export type MutationTrialSignUpArgs = {
   data: TrialSignUpInput;
 };
+
 
 export type MutationUpdateCourseArgs = {
   data?: InputMaybe<CourseInput>;
   id: Scalars['ID']['input'];
 };
+
 
 export type MutationUpdateHomeworkArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
@@ -948,6 +999,7 @@ export type MutationUpdateHomeworkArgs = {
   topicIds?: InputMaybe<Array<Scalars['ID']['input']>>;
 };
 
+
 export type MutationUpdateLessonSectionArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
   lessonSectionId: Scalars['ID']['input'];
@@ -955,19 +1007,23 @@ export type MutationUpdateLessonSectionArgs = {
   topicIds?: InputMaybe<Array<Scalars['ID']['input']>>;
 };
 
+
 export type MutationUpdateMentorArgs = {
   data: MentorUpdateInput;
   id: Scalars['ID']['input'];
 };
 
+
 export type MutationUpdatePackageArgs = {
   data: PackageUpdateInput;
 };
+
 
 export type MutationUpdatePackageSubscriptionArgs = {
   data: PackageSubscriptionInput;
   id: Scalars['ID']['input'];
 };
+
 
 export type MutationUpdatePaymentArgs = {
   adminNote?: InputMaybe<Scalars['String']['input']>;
@@ -976,15 +1032,18 @@ export type MutationUpdatePaymentArgs = {
   status?: InputMaybe<PaymentStatusType>;
 };
 
+
 export type MutationUpdatePromotionCodeArgs = {
   data: PromotionCodeInput;
   id: Scalars['ID']['input'];
 };
 
+
 export type MutationUpdateStudentArgs = {
   data: StudentUpdateInput;
   id: Scalars['ID']['input'];
 };
+
 
 export type MutationUpdateStudentReviewTagArgs = {
   id: Scalars['ID']['input'];
@@ -993,10 +1052,18 @@ export type MutationUpdateStudentReviewTagArgs = {
   type: StudentReviewTagType;
 };
 
+
+export type MutationUpdateTimesheetsArgs = {
+  data?: InputMaybe<Array<UpdateTimesheetSlotInput>>;
+  mentorId: Scalars['ID']['input'];
+};
+
+
 export type MutationUpdateUserArgs = {
   data: UserUpdateInput;
   id: Scalars['ID']['input'];
 };
+
 
 export type MutationUpdateVocabularyWordArgs = {
   topicIds?: InputMaybe<Array<Scalars['ID']['input']>>;
@@ -1004,13 +1071,16 @@ export type MutationUpdateVocabularyWordArgs = {
   word?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type MutationUpsertExceptionDatesArgs = {
   data: ExceptionDateInput;
 };
 
+
 export type MutationUpsertTimesheetsArgs = {
   data: TimesheetInput;
 };
+
 
 export type MutationUpsertTrialLessonSlotLimitArgs = {
   data?: InputMaybe<Array<TrialLessonSlotLimitInput>>;
@@ -1140,7 +1210,7 @@ export type Payment = {
 
 export enum PaymentProviderType {
   Migrated = 'migrated',
-  Stripe = 'stripe',
+  Stripe = 'stripe'
 }
 
 export type PaymentResult = {
@@ -1154,7 +1224,7 @@ export enum PaymentStatusType {
   Paid = 'paid',
   Pending = 'pending',
   Refunded = 'refunded',
-  Scheduled = 'scheduled',
+  Scheduled = 'scheduled'
 }
 
 export type PaymentsWithPagination = {
@@ -1310,17 +1380,21 @@ export type Query = {
   vocabulary: Array<Maybe<Vocabulary>>;
 };
 
+
 export type QueryActivePackageSubscriptionsArgs = {
   studentId: Scalars['ID']['input'];
 };
+
 
 export type QueryAppConfigArgs = {
   id: Scalars['Int']['input'];
 };
 
+
 export type QueryAuthenticatedUserArgs = {
   studentId?: InputMaybe<Scalars['ID']['input']>;
 };
+
 
 export type QueryAvailableMentorsArgs = {
   duration: Scalars['Int']['input'];
@@ -1328,14 +1402,17 @@ export type QueryAvailableMentorsArgs = {
   time: Scalars['String']['input'];
 };
 
+
 export type QueryAvailableMentorsFroTrialArgs = {
   duration: Scalars['Int']['input'];
   time: Scalars['String']['input'];
 };
 
+
 export type QueryCheckStripePaymentStatusArgs = {
   paymentIntentId: Scalars['String']['input'];
 };
+
 
 export type QueryCombinedTimesheetsArgs = {
   date: Scalars['String']['input'];
@@ -1346,19 +1423,23 @@ export type QueryCombinedTimesheetsArgs = {
   tz: Scalars['String']['input'];
 };
 
+
 export type QueryCombinedTimesheetsForTrialsArgs = {
   date: Scalars['String']['input'];
   mentorId?: InputMaybe<Scalars['ID']['input']>;
   tz: Scalars['String']['input'];
 };
 
+
 export type QueryConversationArgs = {
   id: Scalars['ID']['input'];
 };
 
+
 export type QueryCourseArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type QueryCoursesArgs = {
   applyPersonalDiscountCode?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1366,25 +1447,31 @@ export type QueryCoursesArgs = {
   trialFilter?: InputMaybe<GeneralTrialFilterType>;
 };
 
+
 export type QueryCreateAppConfigArgs = {
   data: AppConfigInput;
 };
+
 
 export type QueryCreditsCountArgs = {
   id: Scalars['ID']['input'];
 };
 
+
 export type QueryGetReferralCodeArgs = {
   studentId: Scalars['ID']['input'];
 };
+
 
 export type QueryHomeworkArgs = {
   topicId?: InputMaybe<Scalars['ID']['input']>;
 };
 
+
 export type QueryLanguageLevelArgs = {
   id: Scalars['ID']['input'];
 };
+
 
 export type QueryLanguageLevelsWithPaginationArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -1392,19 +1479,23 @@ export type QueryLanguageLevelsWithPaginationArgs = {
   search?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type QueryLessonArgs = {
   id: Scalars['ID']['input'];
 };
 
+
 export type QueryLessonSectionsArgs = {
   topicId?: InputMaybe<Scalars['ID']['input']>;
 };
+
 
 export type QueryLessonsArgs = {
   mentorId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   studentId?: InputMaybe<Scalars['ID']['input']>;
 };
+
 
 export type QueryLessonsWithPaginationArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -1417,9 +1508,11 @@ export type QueryLessonsWithPaginationArgs = {
   trialFilter?: InputMaybe<GeneralTrialFilterType>;
 };
 
+
 export type QueryMentorArgs = {
   id: Scalars['ID']['input'];
 };
+
 
 export type QueryMentorReviewsWithPaginationArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -1428,10 +1521,12 @@ export type QueryMentorReviewsWithPaginationArgs = {
   search?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type QueryMentorsArgs = {
   studentId?: InputMaybe<Scalars['ID']['input']>;
   visibilityStatus?: InputMaybe<VisibilityStatus>;
 };
+
 
 export type QueryMentorsWithPaginationArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -1442,17 +1537,21 @@ export type QueryMentorsWithPaginationArgs = {
   trialFilter?: InputMaybe<MentorTrialFilterType>;
 };
 
+
 export type QueryPackageArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type QueryPackageSubscriptionArgs = {
   id: Scalars['ID']['input'];
 };
 
+
 export type QueryPackageSubscriptionsArgs = {
   userId: Scalars['ID']['input'];
 };
+
 
 export type QueryPackagesWithPaginationArgs = {
   course?: InputMaybe<Scalars['Int']['input']>;
@@ -1465,9 +1564,11 @@ export type QueryPackagesWithPaginationArgs = {
   trialFilter?: InputMaybe<GeneralTrialFilterType>;
 };
 
+
 export type QueryPaymentArgs = {
   id: Scalars['Int']['input'];
 };
+
 
 export type QueryPaymentsWithPaginationArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -1479,11 +1580,13 @@ export type QueryPaymentsWithPaginationArgs = {
   status?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type QueryPayoutsHistoryWithPaginationArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<RowsOrdering>;
   page?: InputMaybe<Scalars['Int']['input']>;
 };
+
 
 export type QueryPayoutsWithPaginationArgs = {
   endDate: Scalars['String']['input'];
@@ -1495,13 +1598,16 @@ export type QueryPayoutsWithPaginationArgs = {
   trialFilter?: InputMaybe<GeneralTrialFilterType>;
 };
 
+
 export type QueryPlaygroundLessonArgs = {
   playgroundId: Scalars['String']['input'];
 };
 
+
 export type QueryPromotionCodeArgs = {
   id: Scalars['ID']['input'];
 };
+
 
 export type QueryPromotionCodesWithPaginationArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -1510,13 +1616,16 @@ export type QueryPromotionCodesWithPaginationArgs = {
   search?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type QueryStudentArgs = {
   id: Scalars['ID']['input'];
 };
 
+
 export type QueryStudentReferralArgs = {
   id: Scalars['ID']['input'];
 };
+
 
 export type QueryStudentReferralWithPaginationArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -1525,13 +1634,16 @@ export type QueryStudentReferralWithPaginationArgs = {
   search?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type QueryStudentReviewTagByIdArgs = {
   id: Scalars['ID']['input'];
 };
 
+
 export type QueryStudentReviewTagsByTypeArgs = {
   type?: InputMaybe<StudentReviewTagType>;
 };
+
 
 export type QueryStudentReviewsWithPaginationArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -1539,6 +1651,7 @@ export type QueryStudentReviewsWithPaginationArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
 };
+
 
 export type QueryStudentsWithPaginationArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -1548,9 +1661,11 @@ export type QueryStudentsWithPaginationArgs = {
   trialFilter?: InputMaybe<StudentTrialFilterType>;
 };
 
+
 export type QueryTopicArgs = {
   id: Scalars['ID']['input'];
 };
+
 
 export type QueryTopicsWithPaginationArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -1558,19 +1673,23 @@ export type QueryTopicsWithPaginationArgs = {
   search?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type QueryTrialLessonSlotLimitWithPaginationArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
 };
 
+
 export type QueryUpdateAppConfigArgs = {
   data: UpdateAppConfigInput;
 };
 
+
 export type QueryValidateReferralCodeArgs = {
   referralCode: Scalars['String']['input'];
 };
+
 
 export type QueryVocabularyArgs = {
   topicId?: InputMaybe<Scalars['ID']['input']>;
@@ -1592,7 +1711,7 @@ export enum ReferralCodeStatus {
   FirstPackagePurchased = 'first_package_purchased',
   RegularSignUp = 'regular_sign_up',
   TrialLessonCompleted = 'trial_lesson_completed',
-  TrialSignUp = 'trial_sign_up',
+  TrialSignUp = 'trial_sign_up'
 }
 
 export type ReferralCodeUsage = {
@@ -1608,7 +1727,7 @@ export type ReferralCodeUsage = {
 
 export enum RowsOrdering {
   Asc = 'asc',
-  Desc = 'desc',
+  Desc = 'desc'
 }
 
 export type SelectReferralBonusLessonResult = {
@@ -1714,7 +1833,7 @@ export type StudentReviewTagTranslationInput = {
 export enum StudentReviewTagType {
   Bad = 'bad',
   Good = 'good',
-  Neutral = 'neutral',
+  Neutral = 'neutral'
 }
 
 export type StudentReviewsWithPagination = {
@@ -1728,7 +1847,7 @@ export enum StudentTrialFilterType {
   OnlyRegular = 'only_regular',
   OnlyTrial = 'only_trial',
   TrialActive = 'trial_active',
-  TrialInactive = 'trial_inactive',
+  TrialInactive = 'trial_inactive'
 }
 
 export type StudentUpdateInput = {
@@ -1750,6 +1869,7 @@ export type Subscription = {
   newMessages?: Maybe<Message>;
 };
 
+
 export type SubscriptionNewMessagesArgs = {
   conversationId?: InputMaybe<Scalars['ID']['input']>;
 };
@@ -1759,6 +1879,7 @@ export type Timesheet = {
   day?: Maybe<Scalars['String']['output']>;
   from?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
+  isTrial?: Maybe<Scalars['Boolean']['output']>;
   mentor?: Maybe<Mentor>;
   to?: Maybe<Scalars['String']['output']>;
 };
@@ -1880,6 +2001,13 @@ export type UpdateAppConfigInput = {
   id: Scalars['Int']['input'];
 };
 
+export type UpdateTimesheetSlotInput = {
+  day: Scalars['String']['input'];
+  from: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
+  to: Scalars['String']['input'];
+};
+
 export type User = {
   __typename?: 'User';
   activeSubscriptions?: Maybe<Array<Maybe<PackageSubscription>>>;
@@ -1922,7 +2050,7 @@ export enum UserRoleType {
   Admin = 'admin',
   Mentor = 'mentor',
   Student = 'student',
-  User = 'user',
+  User = 'user'
 }
 
 export type UserUpdateInput = {
@@ -1947,7 +2075,7 @@ export type ValidationReferralCodeResult = {
 
 export enum VisibilityStatus {
   Private = 'private',
-  Public = 'public',
+  Public = 'public'
 }
 
 export type Vocabulary = {

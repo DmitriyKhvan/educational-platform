@@ -63,7 +63,8 @@
 		"lint": "biome lint --error-on-warnings",
 		"format": "biome format --write",
 		"check": "biome check --write",
-		"prepare": "husky"
+		"prepare": "husky",
+    "generate": "graphql-codegen --config codegen.yml"
 	},
 	"browserslist": {
 		"production": [
@@ -79,6 +80,11 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3",
+		"@graphql-codegen/cli": "^5.0.2",
+		"@graphql-codegen/near-operation-file-preset": "^3.0.0",
+		"@graphql-codegen/typescript": "^4.0.9",
+		"@graphql-codegen/typescript-operations": "^4.2.3",
+		"@graphql-codegen/typescript-react-apollo": "^4.3.0",
 		"@tailwindcss/forms": "^0.5.7",
 		"@types/node": "^20.12.11",
 		"@types/react": "^18.3.3",

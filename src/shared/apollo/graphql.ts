@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const SIGN_UP = gql`
   mutation SignUp(
@@ -221,85 +221,6 @@ export const ATTACH_STUDENT_TO_USER = gql`
       lastName: $lastName
     ) {
       id
-    }
-  }
-`;
-
-export const GET_MENTOR = gql`
-  query GET_MENTOR($id: ID!) {
-    mentor(id: $id) {
-      id
-      firstName
-      lastName
-      gender
-      major
-      language
-      university
-      graduatingYear
-      degree
-      introduction
-      about
-      experience
-      relevantExperience
-      isActive
-      hourlyRate
-      facts
-      uniqueFacts
-      fullName
-      userId
-      user {
-        id
-        email
-        phoneNumber
-        address
-        timeZone
-        country
-        referalCode
-        referalId
-        isActive
-        role
-        cardLast4
-        createdAt
-        updatedAt
-      }
-      lessons {
-        id
-        startAt
-        duration
-        status
-        cancelAction
-        cancelReason
-        canceledBy
-      }
-      videoUrl
-      avatarId
-      visibilityStatus
-      avatar {
-        id
-        url
-      }
-      availabilities {
-        regular {
-          id
-          day
-          from
-          to
-        }
-        trial {
-          id
-          day
-          from
-          to
-        }
-      }
-      exceptionDates {
-        id
-        date
-        from
-        to
-      }
-      playgroundId
-      mentorAvailability
     }
   }
 `;
