@@ -15,7 +15,7 @@ import LessonInfoModal from './LessonInfoModal';
 import { addMinutes, isAfter } from 'date-fns';
 import { isWithinHours } from 'src/shared/utils/isWithinHours';
 import { CancelTrialLessonModal } from './CancelTrialLessonModal';
-import { FaCheck, FaPlay, FaRegClock, FaStar } from 'react-icons/fa6';
+import { FaCheck, FaRegClock, FaStar } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { cn } from 'src/shared/utils/functions';
 import { StudentReviewModal } from 'src/entities/StudentReviewModal';
@@ -55,7 +55,7 @@ const LessonControls = ({
   );
 
   const gridStyle = {
-    gridTemplateColumns: `repeat(${pattern === 'table' && user.role === Roles.STUDENT && isAfterLesson && process.env.REACT_APP_PRODUCTION === 'false' ? 3 : controls}, minmax(0, 1fr))`,
+    gridTemplateColumns: `repeat(${pattern === 'table' && user.role === Roles.STUDENT && isAfterLesson ? 3 : controls}, minmax(0, 1fr))`,
     // gridTemplateColumns: `repeat(${controls}, minmax(0, 1fr))`,
   };
 
@@ -159,8 +159,7 @@ const LessonControls = ({
     }
     if (
       isAfterLesson &&
-      user.role === Roles.STUDENT &&
-      process.env.REACT_APP_PRODUCTION === 'false'
+      user.role === Roles.STUDENT 
     ) {
       controls += 2;
     }
@@ -228,8 +227,7 @@ const LessonControls = ({
             </AdaptiveDialog>
           )}
         {isAfterLesson &&
-          user.role === Roles.STUDENT &&
-          process.env.REACT_APP_PRODUCTION === 'false' && (
+          user.role === Roles.STUDENT  && (
             <>
               <Button
                 disabled={!data?.mentorReview}
@@ -299,8 +297,7 @@ const LessonControls = ({
           </AdaptiveDialog>
         )}
         {isAfterLesson &&
-          user.role === Roles.MENTOR &&
-          process.env.REACT_APP_PRODUCTION === 'false' && (
+          user.role === Roles.MENTOR  && (
             <AdaptiveDialog
               open={mentorReviewOpen}
               setOpen={setMentorReviewOpen}
@@ -329,32 +326,6 @@ const LessonControls = ({
             </AdaptiveDialog>
           )}
 
-        {/* Удалить process.env.REACT_APP_PRODUCTION после активации feedback */}
-
-        {/* Удалить кнопку watching после активации feedback */}
-        {isAfterLesson && process.env.REACT_APP_PRODUCTION === 'true' && (
-          <AdaptiveDialog
-            button={
-              <Button
-                disabled={!data?.playground?.recordingUrl}
-                className="grow gap-1 sm:gap-2 text-xs sm:text-sm px-2"
-              >
-                <FaPlay />
-                {t('watch_recording')}
-              </Button>
-            }
-          >
-            <LessonInfoModal
-              date={date}
-              data={data}
-              playground={data?.playground}
-              refetch={refetch}
-              duration={duration}
-              setCanceledLessons={setCanceledLessons}
-              userTimezone={userTimezone}
-            />
-          </AdaptiveDialog>
-        )}
       </div>
 
       {isWarningOpen && (
