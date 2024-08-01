@@ -122,6 +122,13 @@ export type AuthenticatedUser = {
   timeZone: Scalars['String']['output'];
 };
 
+export type AvailabilitySlot = {
+  __typename?: 'AvailabilitySlot';
+  date: Scalars['String']['output'];
+  from: Scalars['String']['output'];
+  to: Scalars['String']['output'];
+};
+
 export type AvailableMentorsFilterSlot = {
   __typename?: 'AvailableMentorsFilterSlot';
   day?: Maybe<Scalars['String']['output']>;
@@ -607,6 +614,7 @@ export type Mutation = {
   changeStudentLanguageLevel: Student;
   createConversation?: Maybe<Conversation>;
   createCourse: Course;
+  createExceptionDates: Array<Maybe<ExceptionDate>>;
   createHomework: Homework;
   createLessonSection: LessonSection;
   createLessons: Array<Maybe<Lesson>>;
@@ -621,7 +629,6 @@ export type Mutation = {
   createStudent: Student;
   createStudentReview: StudentReview;
   createStudentReviewTag: StudentReviewTag;
-  createTimesheets: Array<Maybe<Timesheet>>;
   createUser: User;
   createVocabularyWord: Vocabulary;
   deactivateCourse: Course;
@@ -651,6 +658,7 @@ export type Mutation = {
   sortMentors?: Maybe<Array<Maybe<Mentor>>>;
   trialSignUp: User;
   updateCourse: Course;
+  updateExceptionDates: Array<Maybe<ExceptionDate>>;
   updateHomework: Homework;
   updateLessonSection: LessonSection;
   updateMentor: Mentor;
@@ -728,6 +736,11 @@ export type MutationCreateConversationArgs = {
 
 export type MutationCreateCourseArgs = {
   data: CourseInput;
+};
+
+
+export type MutationCreateExceptionDatesArgs = {
+  data: ExceptionDateInput;
 };
 
 
@@ -824,11 +837,6 @@ export type MutationCreateStudentReviewTagArgs = {
   title: Scalars['String']['input'];
   translations?: InputMaybe<Array<StudentReviewTagTranslationInput>>;
   type: StudentReviewTagType;
-};
-
-
-export type MutationCreateTimesheetsArgs = {
-  data: TimesheetInput;
 };
 
 
@@ -992,6 +1000,12 @@ export type MutationUpdateCourseArgs = {
 };
 
 
+export type MutationUpdateExceptionDatesArgs = {
+  data?: InputMaybe<Array<UpdateExceptionDateInput>>;
+  mentorId: Scalars['ID']['input'];
+};
+
+
 export type MutationUpdateHomeworkArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
   homeworkId: Scalars['ID']['input'];
@@ -1078,7 +1092,9 @@ export type MutationUpsertExceptionDatesArgs = {
 
 
 export type MutationUpsertTimesheetsArgs = {
-  data: TimesheetInput;
+  mentorId: Scalars['ID']['input'];
+  timesheets: Array<TimesheetSlot>;
+  timezone?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -1323,6 +1339,7 @@ export type Query = {
   appConfig?: Maybe<AppConfig>;
   appConfigs?: Maybe<Array<AppConfig>>;
   authenticatedUser?: Maybe<AuthenticatedUser>;
+  availabilitySlots: Array<Maybe<AvailabilitySlot>>;
   availableMentors: AvailableMentorsResult;
   availableMentorsFroTrial: AvailableMentorsResult;
   checkStripePaymentStatus: Scalars['Boolean']['output'];
@@ -1393,6 +1410,15 @@ export type QueryAppConfigArgs = {
 
 export type QueryAuthenticatedUserArgs = {
   studentId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type QueryAvailabilitySlotsArgs = {
+  duration: Scalars['Int']['input'];
+  mentorId: Scalars['ID']['input'];
+  rangeEnd: Scalars['String']['input'];
+  rangeStart: Scalars['String']['input'];
+  timezone: Scalars['String']['input'];
 };
 
 
@@ -1897,7 +1923,10 @@ export type TimesheetInput = {
 };
 
 export type TimesheetSlot = {
+  day: Scalars['String']['input'];
   from: Scalars['String']['input'];
+  id?: InputMaybe<Scalars['ID']['input']>;
+  isTrial?: InputMaybe<Scalars['Boolean']['input']>;
   to: Scalars['String']['input'];
 };
 
@@ -1999,6 +2028,13 @@ export type UpdateAppConfigInput = {
   configValue: Scalars['String']['input'];
   description?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['Int']['input'];
+};
+
+export type UpdateExceptionDateInput = {
+  date: Scalars['String']['input'];
+  from: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
+  to: Scalars['String']['input'];
 };
 
 export type UpdateTimesheetSlotInput = {

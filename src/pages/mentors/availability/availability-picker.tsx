@@ -3,13 +3,13 @@ import { formatTimeToSeconds } from '@/pages/mentors/availability/lib/format-tim
 import { selectStyle } from '@/pages/mentors/availability/lib/select-style';
 import { timeGroup } from '@/pages/mentors/availability/lib/time-group';
 import { timeOptions } from '@/pages/mentors/availability/lib/time-options';
-import type { Availability, TimeOption } from '@/types';
+import type { TimeOption } from '@/types';
+import type { InputMaybe, TimesheetSlot } from '@/types/types.generated';
 import { useEffect, useRef, useState } from 'react';
 import { FaXmark } from 'react-icons/fa6';
 import Select from 'react-select';
 
 const AvailabilityPicker = ({
-  day,
   id,
   frmTime,
   tTime,
@@ -18,12 +18,11 @@ const AvailabilityPicker = ({
   timeOptionsSort,
   timeGroupsSort,
 }: {
-  day: string;
-  id: string;
+  id: InputMaybe<string> | undefined;
   frmTime: string;
   tTime: string;
-  useSetGatherAvailabilities: (data: Availability[]) => void;
-  gatherAvailabilities: Availability[];
+  useSetGatherAvailabilities: (data: TimesheetSlot[]) => void;
+  gatherAvailabilities: TimesheetSlot[];
   timeOptionsSort: TimeOption[];
   timeGroupsSort: TimeOption[][];
 }) => {
@@ -62,43 +61,71 @@ const AvailabilityPicker = ({
 
       if (newTimeGroupSort[idxTime]?.value >= (toTime?.value || 0)) {
         setToTime(newTimeGroupSort[idxTime + 1]);
-        updateAvailability(
-          formatTime(t),
-          formatTime(newTimeGroupSort[idxTime + 1]?.value),
-          id,
-          day,
-        );
+        updateAvailability(formatTime(t), formatTime(newTimeGroupSort[idxTime + 1]?.value), id);
       } else {
         let updatedToTime = tTime;
         if (JSON.stringify(prevTimeGroupSortRef.current) !== JSON.stringify(newTimeGroupSort)) {
           updatedToTime = formatTime(newTimeGroupSort[idxTime + 1]?.value);
           setToTime(newTimeGroupSort[idxTime + 1]);
         }
-        updateAvailability(formatTime(t), updatedToTime, id, day);
+        updateAvailability(formatTime(t), updatedToTime, id);
       }
     } else {
       setToTime(newTimeGroupSort[idxTime]);
 
       if (newTimeGroupSort[idxTime].value <= (fromTime?.value || 0)) {
         setFromTime(newTimeGroupSort[idxTime - 1]);
-        updateAvailability(formatTime(newTimeGroupSort[idxTime - 1].value), formatTime(t), id, day);
+        updateAvailability(formatTime(newTimeGroupSort[idxTime - 1].value), formatTime(t), id);
       } else {
-        updateAvailability(frmTime, formatTime(t), id, day);
+        updateAvailability(frmTime, formatTime(t), id);
       }
     }
   };
 
-  const updateAvailability = (fromTime: string, toTime: string, id: string, day: string) => {
-    const avail = { id, day, slots: [{ from: fromTime, to: toTime }] };
-
+  const updateAvailability = (
+    fromTime: string,
+    toTime: string,
+    id: InputMaybe<string> | undefined,
+  ) => {
     const idx = gatherAvailabilities.findIndex((a) => a?.id === id);
+
+    const updateAvail = {
+      ...gatherAvailabilities[idx],
+      from: fromTime,
+      to: toTime,
+    };
 
     if (idx !== -1) {
       const data = [
         ...gatherAvailabilities.slice(0, idx),
-        avail,
+        updateAvail,
         ...gatherAvailabilities.slice(idx + 1),
       ];
+      useSetGatherAvailabilities(data);
+    }
+  };
+
+  const removeAvailability = (id: InputMaybe<string> | undefined) => {
+    const idx = gatherAvailabilities.findIndex((avail: TimesheetSlot) => avail?.id === id);
+
+    if (idx !== -1) {
+      let data = gatherAvailabilities.filter((avail) => avail.id !== id);
+
+      if (!Number.isNaN(Number(id))) {
+        //If id from Database
+        const removeAvail = {
+          ...gatherAvailabilities[idx],
+          from: '',
+          to: '',
+        };
+
+        data = [
+          ...gatherAvailabilities.slice(0, idx),
+          removeAvail,
+          ...gatherAvailabilities.slice(idx + 1),
+        ];
+      }
+
       useSetGatherAvailabilities(data);
     }
   };
@@ -128,7 +155,9 @@ const AvailabilityPicker = ({
       />
 
       <button
-        onClick={() => useSetGatherAvailabilities(gatherAvailabilities.filter((q) => q.id !== id))}
+        type="button"
+        // onClick={() => useSetGatherAvailabilities(gatherAvailabilities.filter((q) => q.id !== id))}
+        onClick={() => removeAvailability(id)}
       >
         <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
       </button>

@@ -42,6 +42,7 @@ export const AvailabilityExceptionModal = ({
           return date.toString() !== parse(exception.date, 'yyyy-MM-dd', new Date()).toString();
         })}
         availabilityExceptions={availabilityExceptions}
+        disableSave={undefined}
       />
     </AdaptiveDialog>
   );

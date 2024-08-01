@@ -468,7 +468,7 @@ export const CalendarView = {
   MONTH_VIEW: 'dayGridMonth',
 } as const;
 
-export type MentorAvailabilityType = 'only_regular' | 'only_trial' | 'regular_and_trial';
+export type MentorAvailabilityType = 'only_regular' | 'only_trial';
 
 export const MentorAvailabilityType = {
   ONLY_REGULAR: 'only_regular',

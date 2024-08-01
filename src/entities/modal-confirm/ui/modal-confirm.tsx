@@ -1,14 +1,12 @@
-import type { IconType } from 'react-icons';
-
 export const ModalConfirm = ({
   icon,
   title,
   text,
   btns,
 }: {
-  icon: IconType;
+  icon: JSX.Element;
   title: string;
-  text: string;
+  text: JSX.Element;
   btns: JSX.Element;
 }) => {
   return (

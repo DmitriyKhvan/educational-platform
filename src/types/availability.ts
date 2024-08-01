@@ -1,6 +1,6 @@
 import type { MentorAvailabilityType } from '@/shared/constants/global';
 import type { Duration } from 'date-fns';
-import type { PackageSubscription } from './types.generated';
+import type { PackageSubscription, TimesheetSlot } from './types.generated';
 
 export const EventType = {
   REGULAR: 'regular',
@@ -134,14 +134,14 @@ export type TimeOption = {
 };
 
 export type GatherAvailabilities = {
-  [key in MentorAvailabilityType]: AvailabilitySlot[];
+  [key in MentorAvailabilityType]: TimesheetSlot[];
 };
 
 export type AvailabilityDayRowProps = {
   day: string;
-  useSetGatherAvailabilities: (availabilities: Availability[]) => void;
-  allGatherAvailabilities: Record<string, Availability[]>; // trial/regular availabilities
-  gatherAvailabilities: Availability[];
+  useSetGatherAvailabilities: (availabilities: TimesheetSlot[]) => void;
+  allGatherAvailabilities: Record<string, TimesheetSlot[]>; // trial/regular availabilities
+  gatherAvailabilities: TimesheetSlot[];
   mentorAvailabilityType: MentorAvailabilityType;
 };
 

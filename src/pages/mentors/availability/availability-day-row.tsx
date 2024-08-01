@@ -25,10 +25,14 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
   const [timeGroupsSort, setTimeGroupsSort] = useState<TimeOption[][]>([]);
   const [t] = useTranslation('common');
 
+  const filterAvailabilities = useMemo(() => {
+    return gatherAvailabilities.filter((avail) => avail.from !== '' && avail.to !== '');
+  }, [gatherAvailabilities]);
+
   useEffect(() => {
-    const days = gatherAvailabilities.map((data) => data.day);
+    const days = filterAvailabilities.map((data) => data.day);
     setToggle(days.includes(day));
-  }, [gatherAvailabilities, day]);
+  }, [filterAvailabilities, day]);
 
   const timeOptionsSort = useMemo(() => {
     if (allGatherAvailabilities) {
@@ -60,28 +64,34 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
         {
           id: uuid(),
           day,
-          slots: [
-            {
-              from: formatTime(firstTimeGroup[0].value),
-              to: formatTime(firstTimeGroup[firstTimeGroup.length - 1].value),
-            },
-          ],
+          from: formatTime(firstTimeGroup[0].value),
+          to: formatTime(firstTimeGroup[firstTimeGroup.length - 1].value),
+          isTrial: mentorAvailabilityType === MentorAvailabilityType.ONLY_TRIAL,
         },
       ];
       useSetGatherAvailabilities(newAvailabilities);
     } else {
-      useSetGatherAvailabilities(gatherAvailabilities.filter((q) => q.day !== day));
+      const removeAvailabilitiesDay = gatherAvailabilities
+        .filter((avail) => !Number.isNaN(Number(avail.id)))
+        .map((avail) => {
+          if (avail.day === day) {
+            return { ...avail, from: '', to: '' };
+          }
+          return avail;
+        });
+
+      useSetGatherAvailabilities(removeAvailabilitiesDay);
     }
   };
 
   const isTimeEndReached = useMemo(() => {
     const currentData = gatherAvailabilities.filter((el) => el.day === day);
-    return currentData[currentData.length - 1]?.slots[0]?.to >= '23:30';
+    return currentData[currentData.length - 1]?.to >= '23:30';
   }, [gatherAvailabilities, day]);
 
   const addAvailRowUpFn = () => {
     const daySlots = gatherAvailabilities.filter((aval) => aval.day === day);
-    const lastSlotToTime = daySlots[daySlots.length - 1].slots[0].to;
+    const lastSlotToTime = daySlots[daySlots.length - 1].to;
 
     const fromTime = timeOptionsSort.find(
       (time) => time.value > formatTimeToSeconds(lastSlotToTime),
@@ -97,12 +107,9 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
       {
         id: uuid(),
         day,
-        slots: [
-          {
-            from: formatTime(fromTime.value),
-            to: formatTime(toTime.value),
-          },
-        ],
+        from: formatTime(fromTime.value),
+        to: formatTime(toTime.value),
+        isTrial: mentorAvailabilityType === MentorAvailabilityType.ONLY_TRIAL,
       },
     ];
     useSetGatherAvailabilities(newAvailabilities);
@@ -127,14 +134,13 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
       {toggle && (
         <>
           <div className="space-y-8">
-            {gatherAvailabilities.map((k) =>
+            {filterAvailabilities.map((k) =>
               k.day === day ? (
                 <AvailabilityPicker
                   key={k.id}
-                  day={day}
                   id={k.id}
-                  frmTime={k.slots[0].from}
-                  tTime={k.slots[0].to}
+                  frmTime={k.from}
+                  tTime={k.to}
                   useSetGatherAvailabilities={useSetGatherAvailabilities}
                   gatherAvailabilities={gatherAvailabilities}
                   timeOptionsSort={timeOptionsSort}

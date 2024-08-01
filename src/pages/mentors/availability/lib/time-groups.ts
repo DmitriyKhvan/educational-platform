@@ -1,17 +1,18 @@
 import { formatTimeToSeconds } from '@/pages/mentors/availability/lib/format-time-to-seconds';
 import { timeOptions } from '@/pages/mentors/availability/lib/time-options';
-import type { Availability, TimeOption } from '@/types';
+import type { TimeOption } from '@/types';
+import type { TimesheetSlot } from '@/types/types.generated';
 type TimeSlot = {
   from: number;
   to: number;
 };
 
-export const timeGroups = (availabilities: Availability[], day: string): TimeOption[][] => {
+export const timeGroups = (availabilities: TimesheetSlot[], day: string): TimeOption[][] => {
   const timeOfDayInterval = availabilities
     .filter((el) => el.day === day)
     .map((slot) => ({
-      from: formatTimeToSeconds(slot.slots[0].from),
-      to: formatTimeToSeconds(slot.slots[0].to),
+      from: formatTimeToSeconds(slot.from),
+      to: formatTimeToSeconds(slot.to),
     }));
 
   const timeOfDayIntervalInverse: TimeSlot[] =
