@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CancellationPolicyModal from './CancellationPolicyModal';
 import CancelLessonModal from './CancelLessonModal';
-import CancelWarningModal from '../../entities/CancelWarningModal/ui/CancelWarningModal';
+import CancelWarningModal from '../../entities/CancelWarningModal/ui/student-cancel-warning-modal';
 
 import ModalWrapper from '../ModalWrapper/ModalWrapper';
 

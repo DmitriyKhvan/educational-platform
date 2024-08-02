@@ -1,3 +1,3 @@
-import { MyDialog } from './Dialog';
+import { MyDialog } from "./Dialog";
 
 export { MyDialog };

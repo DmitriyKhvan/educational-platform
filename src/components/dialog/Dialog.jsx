@@ -2,7 +2,7 @@ import React, { forwardRef, useState } from 'react';
 import Modal from 'react-modal';
 import { FaXmark } from 'react-icons/fa6';
 
-import './Dialog.css';
+import './dialog.css';
 
 Modal.setAppElement('#root');
 

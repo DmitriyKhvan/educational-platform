@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import CancellationPolicyModal from './CancellationPolicyModal';
 import CancelLessonModal from './CancelLessonModal';
-import { CancelWarningModal } from 'src/entities/CancelWarningModal';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { Roles } from 'src/shared/constants/global';
+import {
+  MentorCancelWarningModal,
+  StudentCancelWarningModal,
+} from 'src/entities/CancelWarningModal';
 
 // import ModalWrapper from '../ModalWrapper/ModalWrapper';
 
@@ -18,21 +23,29 @@ const RescheduleAndCancelModal = ({
   setCanceledLessons,
   duration,
 }) => {
+  const { user } = useAuth();
   const [repeatLessons, setRepeatLessons] = useState(false);
 
   return (
     <>
       {tabIndex === 0 ? (
-        <CancelWarningModal
-          data={data}
-          setTabIndex={setTabIndex}
-          setIsOpen={setIsOpen}
-          duration={duration}
-          type={type}
-          modifyCredits={data?.packageSubscription?.modifyCredits}
-          setRepeatLessons={setRepeatLessons}
-          repeatLessons={repeatLessons}
-        />
+        user?.role === Roles.MENTOR ? (
+          <MentorCancelWarningModal
+            data={data}
+            setTabIndex={setTabIndex}
+          />
+        ) : (
+          <StudentCancelWarningModal
+            data={data}
+            setTabIndex={setTabIndex}
+            setIsOpen={setIsOpen}
+            duration={duration}
+            type={type}
+            modifyCredits={data?.packageSubscription?.modifyCredits}
+            setRepeatLessons={setRepeatLessons}
+            repeatLessons={repeatLessons}
+          />
+        )
       ) : tabIndex === 1 ? (
         <CancelLessonModal
           setTabIndex={setTabIndex}
