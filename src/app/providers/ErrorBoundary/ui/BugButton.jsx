@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Button from 'src/components/Form/Button';
+import Button from 'src/components/Form/Button/Button';
 
 // Component for testing ErrorBoundary
 export const BugButton = () => {
