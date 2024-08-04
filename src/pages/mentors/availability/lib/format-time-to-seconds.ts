@@ -1,5 +1,9 @@
 //converting time to seconds
 export const formatTimeToSeconds = (time: string) => {
-  const [hours, minutes] = time.split(':');
-  return Number.parseInt(hours) * 60 * 60 + Number.parseInt(minutes) * 60;
+  if (time) {
+    const [hours, minutes] = time.split(':');
+    return Number(hours) * 60 * 60 + Number(minutes) * 60;
+  }
+
+  return 0;
 };

@@ -28,6 +28,7 @@ export const timeGroups = (availabilities: TimesheetSlot[], day: string): TimeOp
   }
 
   const timeGroups: TimeOption[][] = [];
+  // debugger;
 
   for (let i = 0; i < timeOfDayIntervalInverse.length; i++) {
     const tempArr = timeOptions.filter(

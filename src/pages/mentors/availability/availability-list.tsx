@@ -36,15 +36,18 @@ export const AvailabilityList = () => {
 
   const parseAvailabilities = (avail: Timesheet) => {
     const { id, day, from, to, isTrial } = avail;
+    const utcDateFrom = `${format(toZonedTime(new Date(), 'UTC'), 'yyyy-MM-dd')}T${from}:00Z`;
+    const utcDateTo = `${format(toZonedTime(new Date(), 'UTC'), 'yyyy-MM-dd')}T${to}:00Z`;
+
     return {
       id,
       day,
       // from,
       // to,
-      from: format(toZonedTime(new Date(`1970-01-01T${from}:00Z`), userTimezone), 'HH:mm', {
+      from: format(toZonedTime(new Date(utcDateFrom), userTimezone), 'HH:mm', {
         timeZone: userTimezone,
       }),
-      to: format(toZonedTime(new Date(`1970-01-01T${to}:00Z`), userTimezone), 'HH:mm', {
+      to: format(toZonedTime(new Date(utcDateTo), userTimezone), 'HH:mm', {
         timeZone: userTimezone,
       }),
       isTrial,

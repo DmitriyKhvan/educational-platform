@@ -45,6 +45,10 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
 
       // divide into arrays of continuous time intervals
       const tGroups = timeGroups(allGatherAvailabilities[availType], day);
+      console.log('day', day);
+      console.log('tGroups', tGroups);
+      // debugger
+
       setTimeGroupsSort(tGroups);
 
       return timeOptionsSort;
@@ -69,6 +73,7 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
           isTrial: mentorAvailabilityType === MentorAvailabilityType.ONLY_TRIAL,
         },
       ];
+
       useSetGatherAvailabilities(newAvailabilities);
     } else {
       const removeAvailabilitiesDay = gatherAvailabilities
