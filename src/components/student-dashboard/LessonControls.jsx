@@ -15,10 +15,10 @@ import LessonInfoModal from './LessonInfoModal';
 import { addMinutes, isAfter } from 'date-fns';
 import { isWithinHours } from 'src/shared/utils/isWithinHours';
 import { CancelTrialLessonModal } from './CancelTrialLessonModal';
-import { FaCheck, FaPlay, FaRegClock, FaStar } from 'react-icons/fa6';
+import { FaPlay, FaStar } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { cn } from 'src/shared/utils/functions';
-import { StudentReviewModal } from 'src/entities/StudentReviewModal';
+// import { StudentReviewModal } from 'src/entities/StudentReviewModal';
 import { MentorFeedbackModal } from 'src/entities/MentorFeedbackModal';
 
 const LessonControls = ({
@@ -42,7 +42,7 @@ const LessonControls = ({
   const [controls, setControls] = useState([]);
 
   const [mentorReviewOpen, setMentorReviewOpen] = useState(false);
-  const [openStudentReview, setOpenStudentReview] = useState(false);
+  // const [openStudentReview, setOpenStudentReview] = useState(false);
   const [openCancel, setOpenCancel] = useState(false);
   const [openReschedule, setOpenReschedule] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
@@ -55,7 +55,7 @@ const LessonControls = ({
   );
 
   const gridStyle = {
-    gridTemplateColumns: `repeat(${pattern === 'table' && user.role === Roles.STUDENT && isAfterLesson && process.env.REACT_APP_PRODUCTION === 'false' ? 3 : controls}, minmax(0, 1fr))`,
+    gridTemplateColumns: `repeat(${pattern === 'table' && user.role === Roles.STUDENT && isAfterLesson ? 3 : controls}, minmax(0, 1fr))`,
     // gridTemplateColumns: `repeat(${controls}, minmax(0, 1fr))`,
   };
 
@@ -157,11 +157,7 @@ const LessonControls = ({
     if (isAfterLesson && user.role === Roles.MENTOR) {
       controls++;
     }
-    if (
-      isAfterLesson &&
-      user.role === Roles.STUDENT &&
-      process.env.REACT_APP_PRODUCTION === 'false'
-    ) {
+    if (isAfterLesson && user.role === Roles.STUDENT) {
       controls += 2;
     }
     if (!isAfterLesson && !(user.role === Roles.MENTOR && data.isTrial)) {
@@ -227,60 +223,48 @@ const LessonControls = ({
               {rescheduleAndCancelModal}
             </AdaptiveDialog>
           )}
-        {isAfterLesson &&
-          user.role === Roles.STUDENT &&
-          process.env.REACT_APP_PRODUCTION === 'false' && (
-            <>
-              <Button
-                disabled={!data?.mentorReview}
-                className={cn(
-                  'grow text-xs sm:text-sm px-2 gap-2',
-                  pattern === 'table' && 'col-span-2',
-                )}
-                theme="dark_purple"
-                onClick={() =>
-                  navigate(`/student/lesson-calendar/feedback/${data.id}`)
-                }
-              >
-                {data?.mentorReview ? (
-                  t('lesson_feedback', { ns: 'feedback' })
-                ) : (
-                  <>
-                    <FaRegClock /> {t('feedback_pending', { ns: 'feedback' })}
-                  </>
-                )}
-              </Button>
-              <AdaptiveDialog
-                button={
-                  <Button
-                    // disabled={true}
-                    disabled={data?.studentReview}
-                    className={cn(
-                      'grow text-xs sm:text-sm px-2 gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#0EC541]',
-                      pattern === 'table' && 'col-span-1',
-                    )}
-                  >
-                    {data?.studentReview ? <FaCheck /> : <FaStar />}{' '}
-                    {pattern !== 'table' &&
-                      (data?.studentReview
-                        ? t('review_submitted', { ns: 'feedback' })
-                        : t('submit_review', { ns: 'feedback' }))}
-                  </Button>
-                }
-                open={openStudentReview}
-                setOpen={setOpenStudentReview}
-              >
-                <StudentReviewModal
-                  studentId={data?.student?.id}
-                  lessonId={data?.id}
-                  closeModal={() => {
-                    setOpenStudentReview(false);
-                    refetch();
-                  }}
-                />
-              </AdaptiveDialog>
-            </>
-          )}
+        {isAfterLesson && user.role === Roles.STUDENT && (
+          <>
+            <AdaptiveDialog
+              button={
+                <Button
+                  disabled={!data?.playground?.recordingUrl}
+                  className="grow gap-1 sm:gap-2 text-xs sm:text-sm px-2"
+                >
+                  <FaPlay />
+                  {pattern !== 'table' && t('watch_recording')}
+                </Button>
+              }
+            >
+              <LessonInfoModal
+                date={date}
+                data={data}
+                playground={data?.playground}
+                refetch={refetch}
+                duration={duration}
+                setCanceledLessons={setCanceledLessons}
+                userTimezone={userTimezone}
+              />
+            </AdaptiveDialog>
+
+            <Button
+              disabled={!data?.mentorReview}
+              className={cn(
+                'grow text-xs sm:text-sm px-2 gap-2',
+                pattern === 'table' && 'col-span-2',
+              )}
+              theme="purple"
+              onClick={() =>
+                navigate(`/student/lesson-calendar/feedback/${data.id}`)
+              }
+            >
+              <FaStar className="min-w-5 min-h-5" />{' '}
+              <span className="text-[13px] truncate">
+                {t('feedback', { ns: 'feedback' })}
+              </span>
+            </Button>
+          </>
+        )}
         {!isAfterLesson && !(user.role === Roles.MENTOR && data.isTrial) && (
           <AdaptiveDialog
             open={openCancel}
@@ -298,60 +282,29 @@ const LessonControls = ({
             {data.isTrial ? cancelTrialLessonModal : rescheduleAndCancelModal}
           </AdaptiveDialog>
         )}
-        {isAfterLesson &&
-          user.role === Roles.MENTOR &&
-          process.env.REACT_APP_PRODUCTION === 'false' && (
-            <AdaptiveDialog
-              open={mentorReviewOpen}
-              setOpen={setMentorReviewOpen}
-              classNameDrawer="h-[95%]"
-              button={
-                <Button
-                  disabled={data?.mentorReview}
-                  className={cn(
-                    'grow text-xs sm:text-sm px-2 gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#0EC541]',
-                  )}
-                >
-                  {!data?.mentorReview && <FaStar />}{' '}
-                  {data?.mentorReview
-                    ? 'Feedback submitted'
-                    : 'Submit feedback'}
-                </Button>
-              }
-            >
-              <MentorFeedbackModal
-                data={data}
-                closeModal={() => {
-                  setMentorReviewOpen(false);
-                  refetch();
-                }}
-              />
-            </AdaptiveDialog>
-          )}
-
-        {/* Удалить process.env.REACT_APP_PRODUCTION после активации feedback */}
-
-        {/* Удалить кнопку watching после активации feedback */}
-        {isAfterLesson && process.env.REACT_APP_PRODUCTION === 'true' && (
+        {isAfterLesson && user.role === Roles.MENTOR && (
           <AdaptiveDialog
+            open={mentorReviewOpen}
+            setOpen={setMentorReviewOpen}
+            classNameDrawer="h-[95%]"
             button={
               <Button
-                disabled={!data?.playground?.recordingUrl}
-                className="grow gap-1 sm:gap-2 text-xs sm:text-sm px-2"
+                disabled={data?.mentorReview}
+                className={cn(
+                  'grow text-xs sm:text-sm px-2 gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#0EC541]',
+                )}
               >
-                <FaPlay />
-                {t('watch_recording')}
+                {!data?.mentorReview && <FaStar />}{' '}
+                {data?.mentorReview ? 'Feedback submitted' : 'Submit feedback'}
               </Button>
             }
           >
-            <LessonInfoModal
-              date={date}
+            <MentorFeedbackModal
               data={data}
-              playground={data?.playground}
-              refetch={refetch}
-              duration={duration}
-              setCanceledLessons={setCanceledLessons}
-              userTimezone={userTimezone}
+              closeModal={() => {
+                setMentorReviewOpen(false);
+                refetch();
+              }}
             />
           </AdaptiveDialog>
         )}
