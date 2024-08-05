@@ -1,24 +1,15 @@
 import React from 'react';
-import ModalWrapper from '../ModalWrapper/ModalWrapper';
 import { useTranslation } from 'react-i18next';
 
-const PlaygroundWarningModal = ({ isWarningOpen, closeModal }) => {
+const PlaygroundWarningModal = () => {
   const [t] = useTranslation('modals');
   return (
-    <ModalWrapper isOpen={isWarningOpen} closeModal={closeModal}>
-      <div>
-        <div className="flex items-center justify-between mb-5">
-          <div>
-            <h2 className="text-2xl font-semibold">
-              {t('playground_modal_title')}
-            </h2>
-          </div>
-        </div>
-        <div className="w-full text-center text-lg">
-          {t('playground_modal_desc')}
-        </div>
-      </div>
-    </ModalWrapper>
+    <div className="text-center space-y-3">
+      <h2 className="text-2xl font-semibold ">
+        {t('playground_modal_title')}
+      </h2>
+      <p className="text-lg">{t('playground_modal_desc')}</p>
+    </div>
   );
 };
 
