@@ -328,7 +328,8 @@ function Feedback({
           <p className="text-[#df1b41] mt-1">
             {/* {280 - watch('improvement').length} characters remaining. Please
             write detailed feedback to make your student happy! :) */}
-            You have more characters remaining.  Please provide detailed feedback to make your student happy!
+            You have more characters remaining. Please provide detailed feedback
+            to make your student happy!
           </p>
         ) : (
           <p className="text-[#df1b41] mt-1">{errors?.improvement?.message}</p>
@@ -354,7 +355,8 @@ function Feedback({
           <p className="text-[#df1b41] mt-1">
             {/* {280 - watch('mastered').length} characters remaining. Please write
             detailed feedback to make your student happy! :) */}
-            You have more characters remaining.  Please provide detailed feedback to make your student happy!
+            You have more characters remaining. Please provide detailed feedback
+            to make your student happy!
           </p>
         ) : (
           <p className="text-[#df1b41] mt-1">{errors?.mastered?.message}</p>
