@@ -13,16 +13,17 @@ export const MenuItem = ({ menu }) => {
   const [t] = useTranslation('sidebar');
   const { notifications } = useNotifications();
 
-  const getCountNotification = (type) => {
+  const getCountNotification = (type="") => {
     const count = notifications.filter(
       (notification) => notification?.meta?.dashboard === type,
     );
     return count.length;
   };
+
   return (
     <li className="relative list-none">
-      {getCountNotification(menu.label) > 0 && (
-        <Badge count={getCountNotification(menu.label)} />
+      {getCountNotification(menu.notificationType) > 0 && (
+        <Badge count={getCountNotification(menu.notificationType)} />
       )}
       {menu.type === 'external' ? (
         <a

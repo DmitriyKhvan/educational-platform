@@ -274,7 +274,7 @@ const LessonControls = ({
     }
 
     setControls(controls);
-  }, [tabIndex, mentorReviewOpen, isOpen, t]);
+  }, [data, tabIndex, mentorReviewOpen, isOpen, t]);
 
   return (
     <>

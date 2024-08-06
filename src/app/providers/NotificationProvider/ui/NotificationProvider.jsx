@@ -46,7 +46,7 @@ export const NotificationProvider = ({ children }) => {
     }
   }, [allNotifications, updateNotifications]);
 
-  const removeNotifications = (type) => {
+  const removeNotifications = (type, type2 = '') => {
     if (!notifications.length) return;
 
     let notificationIds = [];
@@ -56,6 +56,7 @@ export const NotificationProvider = ({ children }) => {
         .filter(
           (notification) =>
             notification?.meta?.lesson?.type === type ||
+            notification?.meta?.lesson?.type === type2 ||
             notification?.body === type,
         )
         .map((notification) => {
@@ -78,9 +79,11 @@ export const NotificationProvider = ({ children }) => {
     }
   };
 
-  const getCountNotification = (type) => {
+  const getCountNotification = (type, type2 = '') => {
     const count = notifications.filter(
-      (notification) => notification?.meta?.lesson?.type === type,
+      (notification) =>
+        notification?.meta?.lesson?.type === type ||
+        notification?.meta?.lesson?.type === type2,
     );
     return count.length;
   };

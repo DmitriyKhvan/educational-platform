@@ -3978,6 +3978,7 @@ a > span {
 
     .child-cell {
       padding: 0 13px 0 24px;
+      border-left: 0.5px solid #e1e1e1;
 
       p {
         font-family: Source Sans Pro;
@@ -3991,7 +3992,7 @@ a > span {
         overflow: hidden;
         text-transform: capitalize;
       }
-      border-left: 0.5px solid #e1e1e1;
+      
       &.actions,
       &:first-child {
         border: none;
@@ -4017,6 +4018,7 @@ a > span {
         height: 100%;
         display: flex;
         align-items: center;
+        border-left: 0.5px solid #e1e1e1;
 
         .lesson-type {
           text-transform: capitalize;
@@ -4108,7 +4110,7 @@ a > span {
           }
         }
 
-        border-left: 0.5px solid #e1e1e1;
+        
         &.actions,
         &:first-child {
           border: none;
