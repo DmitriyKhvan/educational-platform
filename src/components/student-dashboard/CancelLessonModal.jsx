@@ -15,10 +15,8 @@ import { ClipLoader } from 'react-spinners';
 
 const CancelLessonModal = ({
   setTabIndex,
-  setIsOpen,
   id,
   fetchAppointments,
-  setCanceledLessons,
   repeatLessons,
 }) => {
   const [t] = useTranslation(['common', 'lessons']);
@@ -54,22 +52,12 @@ const CancelLessonModal = ({
     }
   };
 
-  const [cancelLesson] =
-    useMutation(CANCEL_APPOINTMENT);
-  const [mentorCancelLesson] = useMutation(
-    MENTOR_CANCEL_APPOINTMENT,
-  );
+  const [cancelLesson] = useMutation(CANCEL_APPOINTMENT);
+  const [mentorCancelLesson] = useMutation(MENTOR_CANCEL_APPOINTMENT);
 
-  const onCancelCompleted = (data) => {
-    setIsOpen(false);
-
-    if (setCanceledLessons) {
-      // To update lessons in confirm lessons if you cancel lessons from the confirm lessons page
-      setCanceledLessons(data.cancelLessons);
-    } else {
-      // To update lessons in the calendar if you cancel lessons from the calendar
-      fetchAppointments();
-    }
+  const onCancelCompleted = async () => {
+    // To update lessons in the calendar if you cancel lessons from the calendar
+    await fetchAppointments();
     notify('Your lesson has been cancelled successfully');
   };
 
@@ -77,31 +65,33 @@ const CancelLessonModal = ({
     setLoading(true);
     try {
       if (user?.role === Roles.STUDENT) {
-      const response = await cancelLesson({
-        variables: {
-          id: id,
-          cancelReason: cancel.value,
-          repeat: repeatLessons,
-        }});
-      
-      if (response) {
-        onCancelCompleted(response.data)
-      }
-    } else {
-      const response = await mentorCancelLesson({
-        variables: {
-          id: id,
-          studentMessage: messageForStudent,
-          cancelReason:
-            cancel.value === t('reason_7', { ns: 'lessons' })
-              ? reasonOther
-              : cancel.value,
-        }});
+        const response = await cancelLesson({
+          variables: {
+            id: id,
+            cancelReason: cancel.value,
+            repeat: repeatLessons,
+          },
+        });
 
-      if (response) {
-        onCancelCompleted(response.data)
+        if (response) {
+          await onCancelCompleted();
+        }
+      } else {
+        const response = await mentorCancelLesson({
+          variables: {
+            id: id,
+            studentMessage: messageForStudent,
+            cancelReason:
+              cancel.value === t('reason_7', { ns: 'lessons' })
+                ? reasonOther
+                : cancel.value,
+          },
+        });
+
+        if (response) {
+          await onCancelCompleted();
+        }
       }
-    }
     } catch (error) {
       notify(error.message, 'error');
     } finally {
@@ -190,11 +180,7 @@ const CancelLessonModal = ({
             onClick={onCancelLesson}
           >
             {loading ? (
-              <ClipLoader
-                loading={loading}
-                size={20}
-                color="white"
-              />
+              <ClipLoader loading={loading} size={20} color="white" />
             ) : (
               t('confirm')
             )}

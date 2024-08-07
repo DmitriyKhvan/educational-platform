@@ -25,7 +25,6 @@ const LessonControls = ({
   data,
   refetch,
   duration,
-  setCanceledLessons,
   pattern = 'card', // card, table, info
 }) => {
   const dateLesson = new Date(date);
@@ -35,7 +34,6 @@ const LessonControls = ({
 
   const [t] = useTranslation(['modals', 'common', 'feedback']);
   const [isWarningOpen, setIsWarningOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [controls, setControls] = useState([]);
 
@@ -56,11 +54,6 @@ const LessonControls = ({
 
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <effect must be triggered on isOpen change>
-  useEffect(() => {
-    setTabIndex(0);
-  }, [isOpen]);
 
   const joinLesson = () => {
     //Time period when you can go to the lesson
@@ -93,11 +86,9 @@ const LessonControls = ({
     <RescheduleAndCancelModal
       data={data}
       setTabIndex={setTabIndex}
-      setIsOpen={setIsOpen}
       fetchAppointments={refetch}
       tabIndex={tabIndex}
       type={modalType}
-      setCanceledLessons={setCanceledLessons}
       duration={duration}
     />
   );
@@ -105,7 +96,6 @@ const LessonControls = ({
   const cancelTrialLessonModal = (
     <CancelTrialLessonModal
       data={data}
-      setIsOpen={setIsOpen}
       fetchAppointments={refetch}
     />
   );
@@ -142,7 +132,6 @@ const LessonControls = ({
             data={data}
             refetch={refetch}
             duration={duration}
-            setCanceledLessons={setCanceledLessons}
             userTimezone={userTimezone}
           />
         </AdaptiveDialog>,
@@ -189,7 +178,6 @@ const LessonControls = ({
             playground={data?.playground}
             refetch={refetch}
             duration={duration}
-            setCanceledLessons={setCanceledLessons}
             userTimezone={userTimezone}
           />
         </AdaptiveDialog>,
@@ -267,14 +255,14 @@ const LessonControls = ({
           }
         >
           {data.isTrial
-            ? cancelTrialLessonModal(ModalType.CANCEL)
+            ? cancelTrialLessonModal
             : rescheduleAndCancelModal(ModalType.CANCEL)}
         </AdaptiveDialog>,
       );
     }
 
     setControls(controls);
-  }, [data, tabIndex, mentorReviewOpen, isOpen, t]);
+  }, [data, tabIndex, mentorReviewOpen, t]);
 
   return (
     <>

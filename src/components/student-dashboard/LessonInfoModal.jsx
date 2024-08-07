@@ -19,7 +19,6 @@ const LessonInfoModal = ({
   playground,
   refetch,
   duration,
-  setCanceledLessons,
   userTimezone,
 }) => {
   const [t, i18n] = useTranslation(['lessons', 'common', 'trial']);
@@ -71,7 +70,6 @@ const LessonInfoModal = ({
           data={data}
           refetch={refetch}
           duration={duration}
-          setCanceledLessons={setCanceledLessons}
         />
       )}
 

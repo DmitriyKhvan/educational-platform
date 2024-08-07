@@ -30,9 +30,9 @@ export default function StudentRoutes() {
       <Route
         path="schedule-lesson/select/:id?"
         element={
-          <TrialRoute>
+          // <TrialRoute>
             <ScheduleLesson />
-          </TrialRoute>
+          // </TrialRoute>
         }
       />
 

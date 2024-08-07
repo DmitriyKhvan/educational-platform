@@ -15,12 +15,10 @@ const RescheduleAndCancelModal = ({
   // isOpen,
   // closeModal,
   setTabIndex,
-  setIsOpen,
   fetchAppointments,
   tabIndex,
   type,
   // cancelled,
-  setCanceledLessons,
   duration,
 }) => {
   const { user } = useAuth();
@@ -38,7 +36,6 @@ const RescheduleAndCancelModal = ({
           <StudentCancelWarningModal
             data={data}
             setTabIndex={setTabIndex}
-            setIsOpen={setIsOpen}
             duration={duration}
             type={type}
             modifyCredits={data?.packageSubscription?.modifyCredits}
@@ -49,18 +46,15 @@ const RescheduleAndCancelModal = ({
       ) : tabIndex === 1 ? (
         <CancelLessonModal
           setTabIndex={setTabIndex}
-          setIsOpen={setIsOpen}
           id={data.id}
           fetchAppointments={fetchAppointments}
           // cancelled={cancelled}
-          setCanceledLessons={setCanceledLessons}
           repeatLessons={repeatLessons}
         />
       ) : (
         tabIndex === 10 && (
           <CancellationPolicyModal
             setTabIndex={setTabIndex}
-            setIsOpen={setIsOpen}
           />
         )
       )}
