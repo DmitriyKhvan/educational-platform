@@ -1,5 +1,4 @@
 import React from 'react';
-import { Roles } from 'src/shared/constants/global';
 import { WarningMessage } from './WarningMessage';
 import { format } from 'date-fns-tz';
 import { FaXmark } from 'react-icons/fa6';
@@ -20,6 +19,12 @@ export const StrikeMentor = ({ data, contractData }) => {
     hours: 24,
     userTimezone,
   });
+
+  const fine = data.duration === 25 ? "5$" : "10$"
+
+  const warningMessage = isWithin24Hours
+    ? `You will be fined ${fine} for this ${data.duration} min lesson`
+    : 'After 6 cancellations, you will be fined for each additional cancellation.';
 
   // const isWithinTwoWeeks = isWithinHours({
   //   dateEnd: new Date(data?.startAt ?? new Date()),
@@ -45,7 +50,7 @@ export const StrikeMentor = ({ data, contractData }) => {
           1 day of classes equals 1 strike
         </p>
 
-        <WarningMessage role={Roles.MENTOR} isWithin24Hours={isWithin24Hours} />
+        <WarningMessage warningMessage={warningMessage} />
 
         <div className="w-full p-4 mt-5 rounded-lg bg-color-purple/20">
           <>

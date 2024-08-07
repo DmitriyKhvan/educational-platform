@@ -7,10 +7,11 @@ import { Roles, cancellationArr } from '../../shared/constants/global';
 import notify from '../../shared/utils/notify';
 import Button from '../Form/Button';
 import CheckboxField from '../Form/CheckboxField';
-import Loader from '../Loader/Loader';
 import { FaChevronLeft } from 'react-icons/fa6';
 import { TextareaField } from '../Form/TextareaField';
 import { MENTOR_CANCEL_APPOINTMENT } from 'src/shared/apollo/mutations/lessons/mentorCancelLessons';
+
+import { ClipLoader } from 'react-spinners';
 
 const CancelLessonModal = ({
   setTabIndex,
@@ -26,6 +27,7 @@ const CancelLessonModal = ({
   const [cancelReasons, setCancelReasons] = useState([]);
   const [reasonOther, setReasonOther] = useState('');
   const [messageForStudent, setMessageForStudent] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const { user } = useAuth();
 
@@ -52,9 +54,9 @@ const CancelLessonModal = ({
     }
   };
 
-  const [cancelLesson, { loading: isLoading }] =
+  const [cancelLesson] =
     useMutation(CANCEL_APPOINTMENT);
-  const [mentorCancelLesson, { loading: isLoadingMentor }] = useMutation(
+  const [mentorCancelLesson] = useMutation(
     MENTOR_CANCEL_APPOINTMENT,
   );
 
@@ -71,21 +73,22 @@ const CancelLessonModal = ({
     notify('Your lesson has been cancelled successfully');
   };
 
-  const onCancelLesson = () => {
-    if (user?.role === Roles.STUDENT) {
-      cancelLesson({
+  const onCancelLesson = async () => {
+    setLoading(true);
+    try {
+      if (user?.role === Roles.STUDENT) {
+      const response = await cancelLesson({
         variables: {
           id: id,
           cancelReason: cancel.value,
           repeat: repeatLessons,
-        },
-        onCompleted: onCancelCompleted,
-        onError: (error) => {
-          notify(error.message, 'error');
-        },
-      });
+        }});
+      
+      if (response) {
+        onCancelCompleted(response.data)
+      }
     } else {
-      mentorCancelLesson({
+      const response = await mentorCancelLesson({
         variables: {
           id: id,
           studentMessage: messageForStudent,
@@ -93,22 +96,26 @@ const CancelLessonModal = ({
             cancel.value === t('reason_7', { ns: 'lessons' })
               ? reasonOther
               : cancel.value,
-        },
-        onCompleted: onCancelCompleted,
-        onError: (error) => {
-          notify(error.message, 'error');
-        },
-      });
+        }});
+
+      if (response) {
+        onCancelCompleted(response.data)
+      }
+    }
+    } catch (error) {
+      notify(error.message, 'error');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
-      {(isLoading || isLoadingMentor) && (
+      {/* {(isLoading || isLoadingMentor) && (
         <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
           <Loader />
         </div>
-      )}
+      )} */}
       <div className="max-w-[416px] w-full sm:w-[416px] mx-auto">
         <h2 className="text-[22px] font-bold justify-center relative flex items-center">
           <button
@@ -177,12 +184,20 @@ const CancelLessonModal = ({
             theme="destructive"
             disabled={
               !isChecked ||
-              isLoading ||
+              loading ||
               (user?.role === Roles.MENTOR && !messageForStudent)
             }
             onClick={onCancelLesson}
           >
-            {t('confirm')}
+            {loading ? (
+              <ClipLoader
+                loading={loading}
+                size={20}
+                color="white"
+              />
+            ) : (
+              t('confirm')
+            )}
           </Button>
         </div>
       </div>
