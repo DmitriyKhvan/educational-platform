@@ -2060,8 +2060,6 @@ export type User = {
   packageSubscriptions?: Maybe<Array<Maybe<PackageSubscription>>>;
   paymentCurrency?: Maybe<Currency>;
   phoneNumber?: Maybe<Scalars['String']['output']>;
-  referalCode?: Maybe<Scalars['String']['output']>;
-  referalId?: Maybe<Scalars['Int']['output']>;
   role?: Maybe<UserRoleType>;
   students?: Maybe<Array<Maybe<Student>>>;
   timeZone?: Maybe<Scalars['String']['output']>;
