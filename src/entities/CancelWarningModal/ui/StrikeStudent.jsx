@@ -7,7 +7,6 @@ import { format, toZonedTime } from 'date-fns-tz';
 import {
   MAX_MODIFY_COUNT,
   ModalType,
-  Roles,
 } from 'src/shared/constants/global';
 import { FaXmark } from 'react-icons/fa6';
 
@@ -24,6 +23,18 @@ export const StrikeStudent = ({ data, type, modifyCredits }) => {
     hours: 24,
     userTimezone,
   });
+
+  const warningMessage =
+    type === ModalType.CANCEL && isWithin24Hours ? (
+      <>
+        {t('cancel_modal_desc3')}
+        {t('cancel_modal_desc2')}
+      </>
+    ) : type === ModalType.CANCEL && !isWithin24Hours ? (
+      t('cancel_modal_desc4')
+    ) : type === ModalType.RESCHEDULE && isWithin24Hours ? (
+      <>You cannot reschedule within 24 hours.</>
+    ) : null;
 
   return (
     <>
@@ -49,11 +60,7 @@ export const StrikeStudent = ({ data, type, modifyCredits }) => {
       </p>
       <div className="space-y-3">
         {(type === ModalType.CANCEL || isWithin24Hours) && (
-          <WarningMessage
-            role={Roles.STUDENT}
-            isWithin24Hours={isWithin24Hours}
-            type={type}
-          />
+          <WarningMessage warningMessage={warningMessage} />
         )}
 
         <div className="w-full p-4 flex items-center justify-between mt-5 rounded-lg bg-color-purple bg-opacity-20">
@@ -62,7 +69,7 @@ export const StrikeStudent = ({ data, type, modifyCredits }) => {
               t={t}
               i18nKey="n_cancelations_left"
               values={{
-                count: modifyCredits,
+                count: MAX_MODIFY_COUNT - modifyCredits,
               }}
               components={{
                 primary: (

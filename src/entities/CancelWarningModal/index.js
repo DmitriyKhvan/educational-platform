@@ -1,3 +1,4 @@
-import CancelWarningModal from './ui/CancelWarningModal';
+import StudentCancelWarningModal from './ui/student-cancel-warning-modal';
+import MentorCancelWarningModal from './ui/mentor-cancel-warning-modal';
 
-export { CancelWarningModal };
+export { StudentCancelWarningModal, MentorCancelWarningModal };

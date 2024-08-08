@@ -1,19 +1,11 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
-import { MENTOR_CONTRACT } from 'src/shared/apollo/queries/contract/mentorContract';
-import { HOURS_IN_WEEK, Roles } from 'src/shared/constants/global';
 import { WarningMessage } from './WarningMessage';
 import { format } from 'date-fns-tz';
 import { FaXmark } from 'react-icons/fa6';
 import { isWithinHours } from 'src/shared/utils/isWithinHours';
 import { useAuth } from 'src/app/providers/AuthProvider';
 
-export const StrikeMentor = ({ data }) => {
-  const { data: contractData } = useQuery(MENTOR_CONTRACT, {
-    fetchPolicy: 'network-only',
-    // skip: user?.role !== Roles.MENTOR,
-  });
-
+export const StrikeMentor = ({ data, contractData }) => {
   const { user } = useAuth();
 
   const userTimezone =
@@ -28,33 +20,40 @@ export const StrikeMentor = ({ data }) => {
     userTimezone,
   });
 
-  const isWithinTwoWeeks = isWithinHours({
-    dateEnd: new Date(data?.startAt ?? new Date()),
-    dateStart: new Date(),
-    hours: HOURS_IN_WEEK * 2,
-  });
+  const fine = data.duration === 25 ? "5$" : "10$"
+
+  const warningMessage = isWithin24Hours
+    ? `You will be fined ${fine} for this ${data.duration} min lesson`
+    : 'After 6 cancellations, you will be fined for each additional cancellation.';
+
+  // const isWithinTwoWeeks = isWithinHours({
+  //   dateEnd: new Date(data?.startAt ?? new Date()),
+  //   dateStart: new Date(),
+  //   hours: HOURS_IN_WEEK * 2,
+  // });
 
   return (
     <>
       <p className="text-[#464752] text-[15px] text-center mb-4">
-        {isWithinTwoWeeks
+        {/* {isWithinTwoWeeks
           ? isWithin24Hours
             ? 'Warning you are cancelling a lesson within 24 hours.'
             : 'Warning you are cancelling a lesson outside of 24 hours but within 2 weeks.'
-          : 'Are you sure you want to cancel this lesson more than two weeks in advance?'}
+          : 'Are you sure you want to cancel this lesson more than two weeks in advance?'} */}
+        {isWithin24Hours
+          ? 'Warning you are cancelling a lesson within 24 hours.'
+          : 'Warning you are cancelling a lesson outside of 24 hours.'}
       </p>
-      {isWithinTwoWeeks && (
-        <>
-          <p className="text-[#464752] text-[15px] text-center font-semibold mb-4">
-            1 day of classes equals 1 strike
-          </p>
+      {/* {isWithinTwoWeeks && ( */}
+      <>
+        <p className="text-[#464752] text-[15px] text-center font-semibold mb-4">
+          1 day of classes equals 1 strike
+        </p>
 
-          <WarningMessage
-            role={Roles.MENTOR}
-            isWithin24Hours={isWithin24Hours}
-          />
+        <WarningMessage warningMessage={warningMessage} />
 
-          <div className="w-full p-4 mt-5 rounded-lg bg-color-purple/20">
+        <div className="w-full p-4 mt-5 rounded-lg bg-color-purple/20">
+          <>
             <p className="text-[15px] font-semibold text-color-purple">
               {penaltiesCount}/6 cancellations
             </p>
@@ -89,9 +88,10 @@ export const StrikeMentor = ({ data }) => {
                   ),
                 )}
             </div>
-          </div>
-        </>
-      )}
+          </>
+        </div>
+      </>
+      {/* )} */}
     </>
   );
 };

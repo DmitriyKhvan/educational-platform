@@ -778,16 +778,16 @@ select {
   margin-top: 30px;
 }
 .page-card_schedule {
+  border-radius: 16px;
+  padding: 20px 22px !important;
+  display: flex;
+  flex-direction: column;
   &.purple {
     color: white;
     a {
       color: #7048e8 !important;
     }
   }
-  border-radius: 16px;
-  padding: 20px 22px !important;
-  display: flex;
-  flex-direction: column;
 }
 .font_schedule_text {
   font-size: 17px !important;

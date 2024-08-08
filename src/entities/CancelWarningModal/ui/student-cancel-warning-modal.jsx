@@ -1,15 +1,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from 'src/app/providers/AuthProvider';
-import { ModalType, Roles } from '../../../shared/constants/global';
+import { ModalType } from '../../../shared/constants/global';
 import CheckboxField from '../../../components/Form/CheckboxField';
 import Button from '../../../components/Form/Button/Button';
 import { isWithinHours } from 'src/shared/utils/isWithinHours';
 
-import { StrikeMentor } from './StrikeMentor';
 import { StrikeStudent } from './StrikeStudent';
 
-const CancelWarningModal = ({
+const StudentCancelWarningModal = ({
   data,
   setTabIndex,
   type,
@@ -17,8 +16,6 @@ const CancelWarningModal = ({
   setRepeatLessons,
   repeatLessons,
 }) => {
-  console.log('modifyCredits', modifyCredits);
-
   const [t] = useTranslation('modals');
   const { user } = useAuth();
 
@@ -45,9 +42,6 @@ const CancelWarningModal = ({
     }
   };
 
-  const disableCancelLesson =
-    user.role === Roles.MENTOR || modifyCredits !== 0 ? false : true;
-
   return (
     <div className="w-full max-w-[416px] mx-auto">
       <div className="mb-5 text-2xl font-bold text-center">
@@ -56,50 +50,44 @@ const CancelWarningModal = ({
           : t('reschedule_lesson')}
       </div>
 
-      {user.role === Roles.MENTOR && <StrikeMentor data={data} />}
-
-      {user.role === Roles.STUDENT && (
-        <StrikeStudent data={data} type={type} modifyCredits={modifyCredits} />
-      )}
+      <StrikeStudent data={data} type={type} modifyCredits={modifyCredits} />
 
       <Button
         className="h-[56px] px-[10px] w-full mt-6"
         theme="purple"
         onClick={
-          disableCancelLesson ||
+          modifyCredits === 0 ||
           (isWithin24Hours && type === ModalType.RESCHEDULE)
             ? undefined
             : onClick
         }
         disabled={
-          disableCancelLesson ||
+          modifyCredits === 0 ||
           (isWithin24Hours && type === ModalType.RESCHEDULE)
         }
       >
         {t('continue_cancel')}
       </Button>
 
-      {user.role === Roles.STUDENT && (
-        <div className="mt-6 flex justify-center">
-          <CheckboxField
-            label={
-              type === ModalType.CANCEL
-                ? t('cancel_lessons')
-                : t('reschedule_lessons')
-            }
-            id="cancel"
-            value="cancel"
-            onChange={() => setRepeatLessons((v) => !v)}
-            checked={repeatLessons}
-            disabled={disableCancelLesson}
-            name="lesson"
-            square
-          />
-        </div>
-      )}
+      <div className="mt-6 flex justify-center">
+        <CheckboxField
+          label={
+            type === ModalType.CANCEL
+              ? t('cancel_lessons')
+              : t('reschedule_lessons')
+          }
+          id="cancel"
+          value="cancel"
+          onChange={() => setRepeatLessons((v) => !v)}
+          checked={repeatLessons}
+          disabled={modifyCredits === 0}
+          name="lesson"
+          square
+        />
+      </div>
 
       <div className="flex items-center justify-center gap-x-8 mt-4">
-        {type !== ModalType.RESCHEDULE && (
+        {type === ModalType.CANCEL && (
           <button
             className="h-[38px] px-[10px] text-color-purple text-sm hover:underline"
             onClick={() => setTabIndex(10)}
@@ -112,4 +100,4 @@ const CancelWarningModal = ({
   );
 };
 
-export default CancelWarningModal;
+export default StudentCancelWarningModal;
