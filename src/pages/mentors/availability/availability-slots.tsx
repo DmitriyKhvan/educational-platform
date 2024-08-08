@@ -47,7 +47,7 @@ export const AvailabilitySlots = ({
   const [errorExceptionalDates, setErrorExceptionalDates] = useState<null | ErrorExceptionalDates>(
     null,
   );
-  const { user } = useAuth();
+  const { user, refetchUser } = useAuth();
 
   const [t] = useTranslation(['common', 'availability']);
 
@@ -126,7 +126,6 @@ export const AvailabilitySlots = ({
       setError(error as Error);
 
       setTimeZone(prevTimeZone);
-      await refetchMentor();
 
       const parseError = parseErrorMessage(error as Error);
       if (parseError) {
@@ -135,6 +134,8 @@ export const AvailabilitySlots = ({
         notify((error as Error).message, 'error');
       }
     } finally {
+      await refetchMentor();
+      await refetchUser();
       setIsLoading(false);
     }
   };
