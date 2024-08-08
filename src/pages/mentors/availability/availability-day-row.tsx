@@ -76,11 +76,12 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
 
       useSetGatherAvailabilities(newAvailabilities);
     } else {
+      // debugger;
       const removeAvailabilitiesDay = gatherAvailabilities
-        .filter((avail) => !Number.isNaN(Number(avail.id)))
+        .filter((avail) => !(avail.day === day && Number.isNaN(Number(avail.id))))
         .map((avail) => {
           if (avail.day === day) {
-            return { ...avail, from: '', to: '' };
+            return { ...avail, from: '', to: '', day: '' };
           }
           return avail;
         });

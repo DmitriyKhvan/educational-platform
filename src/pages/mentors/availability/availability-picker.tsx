@@ -117,6 +117,7 @@ const AvailabilityPicker = ({
           ...gatherAvailabilities[idx],
           from: '',
           to: '',
+          day: '',
         };
 
         data = [
