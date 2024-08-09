@@ -31,6 +31,5 @@
   "accept_pay": "Accept and Pay",
   "promo_code": "Promo code",
   "add": "Add",
-  "terms_link": "Please read our <a href='https://www.naonow.com/terms-and-conditions' target='_blank' rel='noreferrer' class='text-color-purple underline underline-offset-2'>Terms and Conditions</a> before proceeding",
-  "mo": "mo."
+  "terms_link": "Please read our <a href='https://www.naonow.com/terms-and-conditions' target='_blank' rel='noreferrer' class='text-color-purple underline underline-offset-2'>Terms and Conditions</a> before proceeding"
 }
