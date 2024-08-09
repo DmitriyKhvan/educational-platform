@@ -105,7 +105,6 @@ const LessonControls = ({
   const cancelTrialLessonModal = (
     <CancelTrialLessonModal
       data={data}
-      setIsOpen={setIsOpen}
       fetchAppointments={refetch}
     />
   );
@@ -267,14 +266,14 @@ const LessonControls = ({
           }
         >
           {data.isTrial
-            ? cancelTrialLessonModal(ModalType.CANCEL)
+            ? cancelTrialLessonModal
             : rescheduleAndCancelModal(ModalType.CANCEL)}
         </AdaptiveDialog>,
       );
     }
 
     setControls(controls);
-  }, [tabIndex, mentorReviewOpen, isOpen, t]);
+  }, [data, tabIndex, mentorReviewOpen, isOpen, t]);
 
   return (
     <>

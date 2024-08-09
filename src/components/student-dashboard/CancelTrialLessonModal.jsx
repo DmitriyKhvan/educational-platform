@@ -5,12 +5,9 @@ import { CANCEL_APPOINTMENT } from 'src/shared/apollo/graphql';
 import { useMutation } from '@apollo/client';
 import notify from 'src/shared/utils/notify';
 import Loader from '../Loader/Loader';
+import * as Dialog from '@radix-ui/react-dialog';
 
-export const CancelTrialLessonModal = ({
-  data,
-  setIsOpen,
-  fetchAppointments,
-}) => {
+export const CancelTrialLessonModal = ({ data, fetchAppointments }) => {
   const [t] = useTranslation(['modals', 'common']);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +25,6 @@ export const CancelTrialLessonModal = ({
       });
 
       await fetchAppointments();
-      setIsOpen(false);
       notify('Your lesson has been cancelled successfully');
     } catch (error) {
       notify(error.message, 'error');
@@ -55,13 +51,11 @@ export const CancelTrialLessonModal = ({
         </p>
 
         <div className="flex gap-3">
-          <Button
-            theme="gray"
-            className="w-1/2 h-14"
-            onClick={() => setIsOpen(false)}
-          >
-            {t('back', { ns: 'common' })}
-          </Button>
+          <Dialog.Close asChild>
+            <Button theme="gray" className="w-1/2 h-14">
+              {t('back', { ns: 'common' })}
+            </Button>
+          </Dialog.Close>
           <Button
             theme="destructive"
             className="w-1/2 h-14"
