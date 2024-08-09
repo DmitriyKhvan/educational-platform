@@ -57,7 +57,7 @@ export const Packages = memo(function Packages({
                             number:
                               calculatePriceWithDiscount(pkg) / pkg.period,
                           })}
-                          /{t('mo', { ns: 'purchase' })}
+                          /mo.
                         </span>
                         <span className="text-[13px] ml-[6px] text-color-red line-through">
                           {currencyFormat({
@@ -65,7 +65,7 @@ export const Packages = memo(function Packages({
                             locales: curCurrency.locales,
                             number: pkg.price / pkg.period,
                           })}
-                          /{t('mo', { ns: 'purchase' })}
+                          /mo.
                         </span>
                       </>
                     ) : (
@@ -75,7 +75,7 @@ export const Packages = memo(function Packages({
                           locales: curCurrency.locales,
                           number: pkg.price / pkg.period,
                         })}
-                        /{t('mo', { ns: 'purchase' })}
+                        /mo.
                       </span>
                     )}
                   </p>

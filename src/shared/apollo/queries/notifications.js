@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const GET_USER_NOTIFICATIONS = gql`
   query getUserNotifications {
@@ -13,6 +13,8 @@ export const GET_USER_NOTIFICATIONS = gql`
         address
         timeZone
         country
+        referalCode
+        referalId
         # students
         # mentor
         # packageSubscriptions
