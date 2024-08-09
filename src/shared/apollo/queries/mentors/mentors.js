@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const MENTORS = gql`
   query mentors($studentId: ID) {
@@ -35,8 +35,6 @@ export const MENTORS = gql`
         timeZone
         country
         role
-        referalCode
-        referalId
         isActive
         createdAt
         updatedAt

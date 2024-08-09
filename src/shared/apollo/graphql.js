@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const SIGN_UP = gql`
   mutation SignUp(
@@ -27,8 +27,6 @@ export const SIGN_UP = gql`
       address
       timeZone
       country
-      referalCode
-      referalId
       students {
         id
         firstName
@@ -254,8 +252,6 @@ export const GET_MENTOR = gql`
         address
         timeZone
         country
-        referalCode
-        referalId
         isActive
         role
         cardLast4
@@ -415,8 +411,6 @@ export const STUDENTS_QUERY = gql`
         emailVerificationToken
         resetPasswordExpires
         resetPasswordToken
-        referalId
-        referalConfirmed
         fullName
         role
         email
