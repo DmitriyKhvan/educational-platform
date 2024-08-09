@@ -133,7 +133,7 @@ export const OrderSummary = memo(function OrderSummary({
                       calculatePriceWithDiscount(selectedPackage) /
                       selectedPackage.period,
                   })}
-                  /mo.
+                  /{t('mo', { ns: 'purchase' })}
                 </span>
               </div>
 
@@ -146,7 +146,7 @@ export const OrderSummary = memo(function OrderSummary({
                       locales: curCurrency.locales,
                       number: discount / selectedPackage.period,
                     })}`}
-                    /mo.
+                    /{t('mo', { ns: 'purchase' })}
                   </span>
                 </div>
               )}
@@ -164,7 +164,7 @@ export const OrderSummary = memo(function OrderSummary({
                         promoPackage ? promoPackage : selectedPackage,
                       ) / selectedPackage.period,
                   })}
-                  /mo.
+                  /{t('mo', { ns: 'purchase' })}
                 </span>
               </div>
             </div>
