@@ -9,6 +9,8 @@ export const TRIAL_SIGN_UP = gql`
       address
       timeZone
       country
+      referalCode
+      referalId
       students {
         id
         firstName

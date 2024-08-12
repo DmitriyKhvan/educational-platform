@@ -8,10 +8,10 @@ import notify from '../../shared/utils/notify';
 import Button from '../Form/Button';
 import CheckboxField from '../Form/CheckboxField';
 import { FaChevronLeft } from 'react-icons/fa6';
-import { TextareaField } from '../Form/TextareaField';
-import { MENTOR_CANCEL_APPOINTMENT } from 'src/shared/apollo/mutations/lessons/mentorCancelLessons';
 
 import { ClipLoader } from 'react-spinners';
+import { TextareaField } from 'src/components/Form/TextareaField';
+import { MENTOR_CANCEL_APPOINTMENT } from 'src/shared/apollo/mutations/lessons/mentorCancelLessons';
 
 const CancelLessonModal = ({
   setTabIndex,
@@ -33,7 +33,7 @@ const CancelLessonModal = ({
     if (user && user.role === Roles.MENTOR) {
       const cancellationArrMentor = [
         ...cancellationArr.slice(0, 5),
-        ...cancellationArr.slice(6),
+        ...cancellationArr.slice(7),
       ];
       setCancelReasons(cancellationArrMentor);
     } else {

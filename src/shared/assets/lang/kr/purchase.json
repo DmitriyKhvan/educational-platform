@@ -29,5 +29,6 @@
   "accept_pay": "수락하고 결제하기",
   "promo_code": "할인 코드",
   "add": "추가",
-  "terms_link": "<a href='https://www.naonow.com/terms-and-conditions' target='_blank' rel='noreferrer' class='text-color-purple underline underline-offset-2'>이용약관</a> 을 철저히 읽고 진행해주세요"
+  "terms_link": "<a href='https://www.naonow.com/terms-and-conditions' target='_blank' rel='noreferrer' class='text-color-purple underline underline-offset-2'>이용약관</a> 을 철저히 읽고 진행해주세요",
+  "mo": "월"
 }

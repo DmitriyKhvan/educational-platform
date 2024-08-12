@@ -681,7 +681,6 @@ export const classMaterialURL = process.env.REACT_APP_CLASS_MATERIAL_URL;
 export const NOTIFICATION_LIMIT = 5;
 export const WEEKS_IN_MONTH = 4;
 export const MAX_MODIFY_COUNT = 3;
-export const HOURS_IN_WEEK = 168;
 
 export const cancellationArr = [
   'reason_1',

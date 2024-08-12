@@ -21,6 +21,8 @@ export const ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER = gql`
         address
         timeZone
         country
+        referalCode
+        referalId
         # students
         # mentor
         # packageSubscriptions
