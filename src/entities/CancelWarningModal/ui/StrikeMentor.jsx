@@ -1,9 +1,8 @@
-import React from 'react';
-import { WarningMessage } from './WarningMessage';
 import { format } from 'date-fns-tz';
 import { FaXmark } from 'react-icons/fa6';
-import { isWithinHours } from 'src/shared/utils/isWithinHours';
 import { useAuth } from 'src/app/providers/AuthProvider';
+import { isWithinHours } from 'src/shared/utils/isWithinHours';
+import { WarningMessage } from './WarningMessage';
 
 export const StrikeMentor = ({ data, contractData }) => {
   const { user } = useAuth();
@@ -69,13 +68,13 @@ export const StrikeMentor = ({ data, contractData }) => {
             </p>
 
             <div className="flex gap-3 justify-between">
-              {contractData?.mentorContract?.penalties?.slice(0, 6).map((p) => (
+              {contractData?.mentorContract?.strikesWithLessons?.slice(0, 6).map((p) => (
                 <div
                   key={p.id}
                   className="w-[50px] h-[50px] text-xs bg-[#F14E1C] rounded-[4px] text-white flex flex-col justify-center items-center gap-1"
                 >
                   <FaXmark />
-                  <p>{format(p?.createdAt ?? new Date(), 'MMM dd')}</p>
+                  <p>{format(p?.lesson.startAt ?? new Date(), 'MMM dd')}</p>
                 </div>
               ))}
               {contractData?.mentorContract?.penalties &&
