@@ -22,7 +22,7 @@ export const StrikeMentor = ({ data, contractData }) => {
   const fine = data.duration === 25 ? "5$" : "10$"
 
   const warningMessage = isWithin24Hours
-    ? `You will be fined ${fine} for this ${data.duration} min lesson`
+    ? `You will be fined ${fine} for this ${data.duration}-minute lesson`
     : 'After 6 cancellations, you will be fined for each additional cancellation.';
 
   // const isWithinTwoWeeks = isWithinHours({
