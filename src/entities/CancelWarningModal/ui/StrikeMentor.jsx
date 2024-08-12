@@ -10,7 +10,7 @@ export const StrikeMentor = ({ data, contractData }) => {
   const userTimezone =
     user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const penaltiesCount = contractData?.mentorContract?.penalties?.length ?? 0;
+  const strikes = contractData?.mentorContract?.strikes ?? 0;
 
   const isWithin24Hours = isWithinHours({
     dateEnd: new Date(data?.startAt ?? new Date()),
@@ -54,7 +54,7 @@ export const StrikeMentor = ({ data, contractData }) => {
         <div className="w-full p-4 mt-5 rounded-lg bg-color-purple/20">
           <>
             <p className="text-[15px] font-semibold text-color-purple">
-              {penaltiesCount}/6 cancellations
+              {strikes}/6 cancellations
             </p>
 
             <p className="text-sm text-color-purple mb-4">
@@ -67,8 +67,8 @@ export const StrikeMentor = ({ data, contractData }) => {
               )} (6 month contract)`}
             </p>
 
-            <div className="flex gap-3 justify-between">
-              {contractData?.mentorContract?.strikesWithLessons?.slice(0, 6).map((p) => (
+            <div className="flex flex-wrap gap-3">
+              {contractData?.mentorContract?.strikesWithLessons?.map((p) => (
                 <div
                   key={p.id}
                   className="w-[50px] h-[50px] text-xs bg-[#F14E1C] rounded-[4px] text-white flex flex-col justify-center items-center gap-1"
@@ -77,8 +77,8 @@ export const StrikeMentor = ({ data, contractData }) => {
                   <p>{format(p?.lesson.startAt ?? new Date(), 'MMM dd')}</p>
                 </div>
               ))}
-              {contractData?.mentorContract?.penalties &&
-                [...Array(penaltiesCount > 6 ? 0 : 6 - penaltiesCount)].map(
+              {contractData?.mentorContract?.strikes &&
+                [...Array(strikes > 6 ? 0 : 6 - strikes)].map(
                   (_, idx) => (
                     <div
                       key={idx}

@@ -47,6 +47,19 @@ export const NotificationItem = ({ notification }) => {
               },
             )})`}
         </span>
+        {notification?.meta?.cancelReason && (
+          <div className="flex gap-1 text-sm">
+            <strong>Reason:</strong>
+            <p>{notification?.meta?.cancelReason}</p>
+          </div>
+        )}
+
+        {notification?.meta?.studentMessage && (
+          <div className="flex gap-1 text-sm">
+            <strong>Message:</strong>
+            <p>{notification?.meta?.studentMessage}</p>
+          </div>
+        )}
       </div>
       <div>
         {notification?.createdAt && (
