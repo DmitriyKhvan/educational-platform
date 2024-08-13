@@ -19,7 +19,7 @@ export const StrikeMentor = ({ data, contractData }) => {
     userTimezone,
   });
 
-  const fine = data.duration === 25 ? "5$" : "10$"
+  const fine = data.duration === 25 ? '5$' : '10$';
 
   const warningMessage = isWithin24Hours
     ? `You will be fined ${fine} for this ${data.duration}-minute lesson`
@@ -77,15 +77,12 @@ export const StrikeMentor = ({ data, contractData }) => {
                   <p>{format(p?.lesson.startAt ?? new Date(), 'MMM dd')}</p>
                 </div>
               ))}
-              {contractData?.mentorContract?.strikes &&
-                [...Array(strikes > 6 ? 0 : 6 - strikes)].map(
-                  (_, idx) => (
-                    <div
-                      key={idx}
-                      className="w-[50px] h-[50px] bg-color-purple bg-opacity-30 rounded-[4px]"
-                    ></div>
-                  ),
-                )}
+              {[...Array(strikes > 6 ? 0 : 6 - strikes)].map((_, idx) => (
+                <div
+                  key={idx}
+                  className="w-[50px] h-[50px] bg-color-purple bg-opacity-30 rounded-[4px]"
+                ></div>
+              ))}
             </div>
           </>
         </div>
