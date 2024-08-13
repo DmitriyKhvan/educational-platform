@@ -15,6 +15,17 @@ export const MENTOR_CONTRACT = gql`
         reason
         createdAt
       }
+      strikesWithLessons {
+        id
+        amount
+        noShow
+        reason
+        createdAt
+        lesson {
+          id
+          startAt
+        }
+      }
     }
   }
 `;

@@ -8,7 +8,7 @@ export const isBetween = ({ dateStart, userTimezone, /*duration*/ }) => {
 
   const tenMinuteBeforeStart = subMinutes(dateLesson, 10);
   // const beforeEndLesson = addMinutes(dateLesson, duration);
-  const beforeEndLesson = addMinutes(dateLesson, 4);
+  const beforeEndLesson = addMinutes(dateLesson, 5);
 
   const isBetween = isWithinInterval(today, {
     start: tenMinuteBeforeStart,
