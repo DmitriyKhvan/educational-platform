@@ -68,7 +68,7 @@ const CheckboxField = forwardRef(
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
         )}
-        {label && <p className="ml-3 leading-6 text-gray-900">{label}</p>}
+        {label && <div className="ml-3 leading-6 text-gray-900">{label}</div>}
       </label>
     );
   },

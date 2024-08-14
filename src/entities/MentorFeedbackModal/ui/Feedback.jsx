@@ -171,14 +171,15 @@ function Feedback({
                   })}
                   value={hw.id}
                   label={
-                    <span className="block">
-                      <span className="block font-semibold text-base mb-3">
+                    <div className='space-y-3'>
+                      <h4 className="font-semibold text-base">
                         {hw.title}
-                      </span>
-                      <span className="bg-color-purple text-[13px] bg-opacity-10 rounded-md px-3 py-[6px] text-color-purple">
+                      </h4>
+                      <p className="text-color-light-grey text-sm">{hw.description}</p>
+                      <span className="inline-block bg-color-purple/10 text-[13px] rounded-md px-3 py-[6px] text-color-purple">
                         {t('homework')} {idx + 1}
                       </span>
-                    </span>
+                    </div>
                   }
                 />
               ))

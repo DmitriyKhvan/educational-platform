@@ -27,7 +27,7 @@ function FeedbackInfo({ data }) {
 
       <section className="mb-4">
         <p className="text-color-light-grey text-sm mb-2">{t('vocabulary')}</p>
-        <ul className="list-disc list-inside">
+        <ul className="list-disc pl-6">
           {data?.mentorReview?.vocabularies?.map((w) => (
             <li key={w.id}>{w?.word}</li>
           ))}
