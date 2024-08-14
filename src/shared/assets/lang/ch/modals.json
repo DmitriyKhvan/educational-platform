@@ -1,6 +1,7 @@
 {
-  "zoom_modal_title": "準備好上課了嗎？",
-  "zoom_modal_desc": "您的 Zoom 連結會在課程開始前 10 分鐘啟用。",
+  "playground_modal_title": "準備好上課了嗎？",
+  "playground_modal_desc": "您的 Zoom 連結會在課程開始前 10 分鐘啟用。",
+  "playground_modal_desc_no_show": "The link will be available from 10 minutes before the lesson starts until 4 minutes after it begins.",
   "warning": "請注意",
   "cancel_modal_desc": "套裝課程中，您還可以重新安排或取消的剩餘堂數：",
   "cancel_modal_desc2": "如果因病無法參加課程，請聯絡我們的客服團隊並提供醫生證明。我們才能夠將課程點數退還給您。",
