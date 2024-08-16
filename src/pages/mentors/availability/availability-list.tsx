@@ -79,9 +79,9 @@ export const AvailabilityList = () => {
           startAvailabilities.push(parseAvail);
 
           if (avail?.isTrial) {
-            regularAvailabilities.push(parseAvail);
-          } else {
             trialAvailabilities.push(parseAvail);
+          } else {
+            regularAvailabilities.push(parseAvail);
           }
         }
       }
