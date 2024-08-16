@@ -6,7 +6,7 @@ import { DayPickerCustom } from '@/components/day-picker-custom';
 import Button from '@/components/form/button';
 import * as Dialog from '@radix-ui/react-dialog';
 import { LuPlus } from 'react-icons/lu';
-import { v4 as uuid } from 'uuid';
+import { nanoid } from 'nanoid';
 
 export const AvailabilityExceptionPicker = ({
   oldException,
@@ -24,9 +24,9 @@ export const AvailabilityExceptionPicker = ({
   const onChangeDate = (date) => {
     if (date) {
       const exception = {
-        id: uuid(),
+        id: nanoid(),
 
-        // slots: [{ id: uuid(), from: '00:00', to: '23:30' }],
+        // slots: [{ id: nanoid(), from: '00:00', to: '23:30' }],
         slots: [],
         ...oldException,
         date: format(date, 'yyyy-MM-dd'),
@@ -37,7 +37,7 @@ export const AvailabilityExceptionPicker = ({
   };
 
   const addAvailabilityExceptionSlot = () => {
-    let newTime = { id: uuid(), from: '00:00', to: '23:30' };
+    let newTime = { id: nanoid(), from: '00:00', to: '23:30' };
 
     if (exception.slots.length) {
       const from = exception.slots[exception.slots.length - 1].to;

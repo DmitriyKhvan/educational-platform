@@ -12,7 +12,7 @@ import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LuPlus } from 'react-icons/lu';
-import { v4 as uuid } from 'uuid';
+import { nanoid } from 'nanoid';
 
 const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
   day,
@@ -66,7 +66,7 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
       const newAvailabilities = [
         ...gatherAvailabilities,
         {
-          id: uuid(),
+          id: nanoid(),
           day,
           from: formatTime(firstTimeGroup[0].value),
           to: formatTime(firstTimeGroup[firstTimeGroup.length - 1].value),
@@ -111,7 +111,7 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
     const newAvailabilities = [
       ...gatherAvailabilities,
       {
-        id: uuid(),
+        id: nanoid(),
         day,
         from: formatTime(fromTime.value),
         to: formatTime(toTime.value),

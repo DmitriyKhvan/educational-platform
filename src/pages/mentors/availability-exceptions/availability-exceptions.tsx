@@ -5,7 +5,7 @@ import { useAuth } from '@/app/providers/auth-provider';
 import { UPSERT_EXCEPTION_DATES } from '@/shared/apollo/mutations/upsert-exception-dates';
 import { useMutation } from '@apollo/client';
 import { parse } from 'date-fns';
-import { v4 as uuid } from 'uuid';
+import { nanoid } from 'nanoid';
 
 import Button from '@/components/form/button';
 import Loader from '@/components/loader/loader';
@@ -94,15 +94,15 @@ export const AvailabilityExceptions = ({
         const existingSlot = dates.find((item) => item.date === slot.date);
         if (existingSlot) {
           existingSlot.slots.push({
-            id: uuid(),
+            id: nanoid(),
             from: slot.from,
             to: slot.to,
           });
         } else {
           dates.push({
-            id: uuid(),
+            id: nanoid(),
             date: slot.date,
-            slots: [{ id: uuid(), from: slot.from, to: slot.to }],
+            slots: [{ id: nanoid(), from: slot.from, to: slot.to }],
           });
 
           disabledDates.push(parse(slot.date, 'yyyy-MM-dd', new Date()));

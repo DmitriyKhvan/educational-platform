@@ -9,7 +9,6 @@ import { AvailabilitySlots } from '@/pages/mentors/availability/availability-slo
 import { Tab } from '@/pages/mentors/availability/tab';
 import type { GatherAvailabilities } from '@/types';
 import type { Timesheet, TimesheetSlot } from '@/types/types.generated';
-// import { v4 as uuid } from 'uuid';
 import { format, toZonedTime } from 'date-fns-tz';
 import { useMentorQuery } from '@/shared/apollo/queries/mentors/mentor.generated';
 
