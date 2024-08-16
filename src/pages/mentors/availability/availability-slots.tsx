@@ -22,6 +22,7 @@ import { Link } from 'react-router-dom';
 
 export const AvailabilitySlots = ({
   mentorInfo,
+  startAvailabilities,
   gatherAvailabilities,
   mentorAvailabilityType = MentorAvailabilityType.ONLY_REGULAR,
   useSetGatherAvailabilities,
@@ -29,6 +30,7 @@ export const AvailabilitySlots = ({
   setError,
 }: {
   mentorInfo: Mentor;
+  startAvailabilities: TimesheetSlot[];
   gatherAvailabilities: GatherAvailabilities;
   mentorAvailabilityType?: MentorAvailabilityType;
   useSetGatherAvailabilities: (data: TimesheetSlot[]) => void;
@@ -70,24 +72,29 @@ export const AvailabilitySlots = ({
 
   const onSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     // if (gatherAvailabilities) {
-    //   console.log(
-    //     'gatherAvailabilities',
-    //     [
-    //       ...gatherAvailabilities[MentorAvailabilityType.ONLY_REGULAR],
-    //       ...gatherAvailabilities[MentorAvailabilityType.ONLY_TRIAL],
-    //     ].map((avail) => {
-    //       if (!Number.isNaN(Number(avail.id))) {
-    //         return avail;
-    //       }
+    //   const updatedAvailabilities = [
+    //     ...gatherAvailabilities[MentorAvailabilityType.ONLY_REGULAR],
+    //     ...gatherAvailabilities[MentorAvailabilityType.ONLY_TRIAL],
+    //   ].map((avail: TimesheetSlot) => {
+    //     if (!Number.isNaN(Number(avail.id))) {
+    //       return avail;
+    //     }
 
-    //       // const { id, ...rest } = avail;
-    //       // return { ...rest };
-    //       return {
-    //         ...avail,
-    //         id: null,
-    //       };
-    //     }),
-    //   );
+    //     return {
+    //       ...avail,
+    //       id: null,
+    //     };
+    //   });
+
+    //   //difference between two object arrays
+    //   const changeAvailabilities = updatedAvailabilities.filter((updatedObj) => {
+    //     const originalObj = startAvailabilities.find(
+    //       (originalObj) => originalObj.id === updatedObj.id,
+    //     );
+    //     return !originalObj || !(JSON.stringify(originalObj) === JSON.stringify(updatedObj));
+    //   });
+
+    //   console.log('changeAvailabilities', changeAvailabilities);
 
     //   return;
     // }
@@ -95,7 +102,7 @@ export const AvailabilitySlots = ({
     setIsLoading(true);
     e.currentTarget.blur();
 
-    const timesheets = [
+    const updatedAvailabilities = [
       ...gatherAvailabilities[MentorAvailabilityType.ONLY_REGULAR],
       ...gatherAvailabilities[MentorAvailabilityType.ONLY_TRIAL],
     ].map((avail: TimesheetSlot) => {
@@ -103,19 +110,25 @@ export const AvailabilitySlots = ({
         return avail;
       }
 
-      // const { id, ...rest } = avail;
-      // return { ...rest };
       return {
         ...avail,
         id: null,
       };
     });
 
+    //difference between two object arrays
+    const changeAvailabilities = updatedAvailabilities.filter((updatedObj) => {
+      const originalObj = startAvailabilities.find(
+        (originalObj) => originalObj.id === updatedObj.id,
+      );
+      return !originalObj || !(JSON.stringify(originalObj) === JSON.stringify(updatedObj));
+    });
+
     try {
       await upsertTimesheets({
         variables: {
           mentorId: mentorInfo?.id,
-          timesheets,
+          timesheets: changeAvailabilities,
           ...(timeZone && { timeZone }),
         },
       });

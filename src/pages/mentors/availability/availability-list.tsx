@@ -29,6 +29,8 @@ export const AvailabilityList = () => {
     variables: { id: user?.mentor?.id ?? '' },
   });
 
+  const [startAvailabilities, setStartAvailabilities] = useState<TimesheetSlot[]>([]);
+
   const [gatherAvailabilities, setGatherAvailabilities] = useState<GatherAvailabilities>({
     [MentorAvailabilityType.ONLY_REGULAR]: [],
     [MentorAvailabilityType.ONLY_TRIAL]: [],
@@ -41,7 +43,7 @@ export const AvailabilityList = () => {
 
     return {
       id,
-      day,
+      day: day || '',
       // from,
       // to,
       from: format(toZonedTime(new Date(utcDateFrom), userTimezone), 'HH:mm', {
@@ -64,32 +66,47 @@ export const AvailabilityList = () => {
           : MentorAvailabilityType.ONLY_TRIAL;
 
       setMentorAvailabilityType(mentorType);
-    }
 
-    const regularAvailabilities = mentorInfo?.availabilities
-      ?.filter((avail) => avail?.isTrial === false)
-      ?.map((avail) => (avail ? parseAvailabilities(avail) : null));
+      console.log('mentorInfo.availabilities', mentorInfo?.availabilities);
+      const regularAvailabilities: TimesheetSlot[] = [];
+      const trialAvailabilities: TimesheetSlot[] = [];
+      const startAvailabilities: TimesheetSlot[] = [];
 
-    const trialAvailabilities = mentorInfo?.availabilities
-      ?.filter((avail) => avail?.isTrial === true)
-      ?.map((avail) => (avail ? parseAvailabilities(avail) : null));
+      for (const avail of mentorInfo?.availabilities || []) {
+        const parseAvail = avail && parseAvailabilities(avail);
 
-    if (regularAvailabilities?.length) {
-      setGatherAvailabilities((prevGatherAvailabilities) => {
-        return {
-          ...prevGatherAvailabilities,
-          [MentorAvailabilityType.ONLY_REGULAR]: regularAvailabilities as TimesheetSlot[],
-        };
-      });
-    }
+        if (parseAvail) {
+          startAvailabilities.push(parseAvail);
 
-    if (trialAvailabilities?.length) {
-      setGatherAvailabilities((prevGatherAvailabilities) => {
-        return {
-          ...prevGatherAvailabilities,
-          [MentorAvailabilityType.ONLY_TRIAL]: trialAvailabilities as TimesheetSlot[],
-        };
-      });
+          if (avail?.isTrial) {
+            regularAvailabilities.push(parseAvail);
+          } else {
+            trialAvailabilities.push(parseAvail);
+          }
+        }
+      }
+
+      if (startAvailabilities.length) {
+        setStartAvailabilities(startAvailabilities);
+      }
+
+      if (regularAvailabilities?.length) {
+        setGatherAvailabilities((prevGatherAvailabilities) => {
+          return {
+            ...prevGatherAvailabilities,
+            [MentorAvailabilityType.ONLY_REGULAR]: regularAvailabilities as TimesheetSlot[],
+          };
+        });
+      }
+
+      if (trialAvailabilities?.length) {
+        setGatherAvailabilities((prevGatherAvailabilities) => {
+          return {
+            ...prevGatherAvailabilities,
+            [MentorAvailabilityType.ONLY_TRIAL]: trialAvailabilities as TimesheetSlot[],
+          };
+        });
+      }
     }
   }, [mentorInfo, error]);
 
@@ -139,6 +156,7 @@ export const AvailabilityList = () => {
         {mentorInfo && (
           <AvailabilitySlots
             mentorInfo={mentorInfo}
+            startAvailabilities={startAvailabilities}
             gatherAvailabilities={gatherAvailabilities}
             mentorAvailabilityType={mentorAvailabilityType}
             useSetGatherAvailabilities={useSetGatherAvailabilities}
