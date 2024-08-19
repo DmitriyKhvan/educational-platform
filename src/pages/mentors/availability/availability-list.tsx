@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/app/providers/auth-provider';
 import Loader from '@/components/loader/loader';
 import { AcceptingStudents } from '@/pages/mentors/accepting-students';
-// import { AvailabilityExceptions } from '@/pages/mentors/availability-exceptions';
+import { AvailabilityExceptions } from '@/pages/mentors/availability-exceptions';
 import { AvailabilitySlots } from '@/pages/mentors/availability/availability-slots';
 import { Tab } from '@/pages/mentors/availability/tab';
 import type { GatherAvailabilities } from '@/types';
@@ -66,7 +66,6 @@ export const AvailabilityList = () => {
 
       setMentorAvailabilityType(mentorType);
 
-      console.log('mentorInfo.availabilities', mentorInfo?.availabilities);
       const regularAvailabilities: TimesheetSlot[] = [];
       const trialAvailabilities: TimesheetSlot[] = [];
       const startAvailabilities: TimesheetSlot[] = [];
@@ -163,7 +162,7 @@ export const AvailabilityList = () => {
             setError={setError}
           />
         )}
-        {/* <AvailabilityExceptions mentor={mentorInfo} refetchMentor={refetchMentor} /> */}
+        <AvailabilityExceptions mentor={mentorInfo} refetchMentor={refetchMentor} />
       </div>
     </>
   );

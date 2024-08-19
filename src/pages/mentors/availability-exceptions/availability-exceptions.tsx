@@ -45,23 +45,23 @@ export const AvailabilityExceptions = ({
 
   const onSubmit = (availabilityExceptions) => {
     if (availabilityExceptions) {
-      const exceptionDates = availabilityExceptions.map((aval) => {
-        return {
-          date: aval.date,
-          slots: aval.slots.map((item) => {
-            return {
-              from: item.from,
-              to: item.to,
-            };
-          }),
-        };
-      });
+      const exceptionDates = [];
+      console.log('availabilityExceptions', availabilityExceptions);
+      for (const avail of availabilityExceptions) {
+        for (const slot of avail.slots) {
+          exceptionDates.push({
+            id: null,
+            date: avail.date,
+            from: slot.from,
+            to: slot.to,
+          });
+        }
+      }
+
       upsertExceptionDates({
         variables: {
-          data: {
-            mentorId: user?.mentor?.id,
-            exceptionDates,
-          },
+          mentorId: user?.mentor?.id,
+          exceptionDates,
         },
         onCompleted: () => {
           refetchMentor();
@@ -89,7 +89,7 @@ export const AvailabilityExceptions = ({
       const dates = [];
       const disabledDates = [];
 
-      mentor.exceptionDates.forEach((slot) => {
+      for (const slot of mentor.exceptionDates) {
         // To combine slots for the same dates
         const existingSlot = dates.find((item) => item.date === slot.date);
         if (existingSlot) {
@@ -107,7 +107,7 @@ export const AvailabilityExceptions = ({
 
           disabledDates.push(parse(slot.date, 'yyyy-MM-dd', new Date()));
         }
-      });
+      }
 
       const filterDates = dates
         .map((date) => {

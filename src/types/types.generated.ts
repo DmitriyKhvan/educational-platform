@@ -244,14 +244,11 @@ export type ExceptionDate = {
   to?: Maybe<Scalars['String']['output']>;
 };
 
-export type ExceptionDateEntryResponse = {
+export type ExceptionDateSlot = {
   date: Scalars['String']['input'];
-  slots: Array<TimesheetSlot>;
-};
-
-export type ExceptionDateInput = {
-  exceptionDates: Array<ExceptionDateEntryResponse>;
-  mentorId: Scalars['ID']['input'];
+  from: Scalars['String']['input'];
+  id?: InputMaybe<Scalars['ID']['input']>;
+  to: Scalars['String']['input'];
 };
 
 export type File = {
@@ -614,7 +611,6 @@ export type Mutation = {
   changeStudentLanguageLevel: Student;
   createConversation?: Maybe<Conversation>;
   createCourse: Course;
-  createExceptionDates: Array<Maybe<ExceptionDate>>;
   createHomework: Homework;
   createLessonSection: LessonSection;
   createLessons: Array<Maybe<Lesson>>;
@@ -658,7 +654,6 @@ export type Mutation = {
   sortMentors?: Maybe<Array<Maybe<Mentor>>>;
   trialSignUp: User;
   updateCourse: Course;
-  updateExceptionDates: Array<Maybe<ExceptionDate>>;
   updateHomework: Homework;
   updateLessonSection: LessonSection;
   updateMentor: Mentor;
@@ -668,7 +663,6 @@ export type Mutation = {
   updatePromotionCode: PromotionCode;
   updateStudent: Student;
   updateStudentReviewTag: StudentReviewTag;
-  updateTimesheets: Array<Maybe<Timesheet>>;
   updateUser: User;
   updateVocabularyWord: Vocabulary;
   upsertExceptionDates: Array<Maybe<ExceptionDate>>;
@@ -736,11 +730,6 @@ export type MutationCreateConversationArgs = {
 
 export type MutationCreateCourseArgs = {
   data: CourseInput;
-};
-
-
-export type MutationCreateExceptionDatesArgs = {
-  data: ExceptionDateInput;
 };
 
 
@@ -1000,12 +989,6 @@ export type MutationUpdateCourseArgs = {
 };
 
 
-export type MutationUpdateExceptionDatesArgs = {
-  data?: InputMaybe<Array<UpdateExceptionDateInput>>;
-  mentorId: Scalars['ID']['input'];
-};
-
-
 export type MutationUpdateHomeworkArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
   homeworkId: Scalars['ID']['input'];
@@ -1067,12 +1050,6 @@ export type MutationUpdateStudentReviewTagArgs = {
 };
 
 
-export type MutationUpdateTimesheetsArgs = {
-  data?: InputMaybe<Array<UpdateTimesheetSlotInput>>;
-  mentorId: Scalars['ID']['input'];
-};
-
-
 export type MutationUpdateUserArgs = {
   data: UserUpdateInput;
   id: Scalars['ID']['input'];
@@ -1087,7 +1064,8 @@ export type MutationUpdateVocabularyWordArgs = {
 
 
 export type MutationUpsertExceptionDatesArgs = {
-  data: ExceptionDateInput;
+  exceptionDates: Array<ExceptionDateSlot>;
+  mentorId: Scalars['ID']['input'];
 };
 
 
@@ -2028,20 +2006,6 @@ export type UpdateAppConfigInput = {
   configValue: Scalars['String']['input'];
   description?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['Int']['input'];
-};
-
-export type UpdateExceptionDateInput = {
-  date: Scalars['String']['input'];
-  from: Scalars['String']['input'];
-  id: Scalars['ID']['input'];
-  to: Scalars['String']['input'];
-};
-
-export type UpdateTimesheetSlotInput = {
-  day: Scalars['String']['input'];
-  from: Scalars['String']['input'];
-  id: Scalars['ID']['input'];
-  to: Scalars['String']['input'];
 };
 
 export type User = {

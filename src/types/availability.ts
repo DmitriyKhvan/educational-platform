@@ -161,9 +161,9 @@ export interface MentorInfo {
 }
 
 export interface Exception {
+  id: string;
   date: string;
-  from?: string;
-  to?: string;
+  slots: Slot[];
 }
 
 export type Slot = {

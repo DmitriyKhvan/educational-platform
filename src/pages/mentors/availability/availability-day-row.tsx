@@ -45,9 +45,6 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
 
       // divide into arrays of continuous time intervals
       const tGroups = timeGroups(allGatherAvailabilities[availType], day);
-      console.log('day', day);
-      console.log('tGroups', tGroups);
-      // debugger
 
       setTimeGroupsSort(tGroups);
 
@@ -76,7 +73,6 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
 
       useSetGatherAvailabilities(newAvailabilities);
     } else {
-      // debugger;
       const removeAvailabilitiesDay = gatherAvailabilities
         .filter((avail) => !(avail.day === day && Number.isNaN(Number(avail.id))))
         .map((avail) => {

@@ -16,6 +16,7 @@ export const AvailabilityExceptionPicker = ({
   disableSave,
 }) => {
   const [exception, setException] = useState(oldException);
+  console.log('oldException', oldException);
 
   const disabledAddAvail = useMemo(() => {
     return !exception || exception?.slots[exception.slots.length - 1]?.to >= '23:00';

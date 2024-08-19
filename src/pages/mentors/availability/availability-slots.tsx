@@ -45,7 +45,6 @@ export const AvailabilitySlots = ({
   ) => Promise<ApolloQueryResult<MentorQuery>>;
   setError: Dispatch<SetStateAction<Error | null>>;
 }) => {
-  console.log('gatherAvailabilities', gatherAvailabilities);
   const [errorExceptionalDates, setErrorExceptionalDates] = useState<null | ErrorExceptionalDates>(
     null,
   );
@@ -71,34 +70,6 @@ export const AvailabilitySlots = ({
   }, [gatherAvailabilities, timeZone]);
 
   const onSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    // if (gatherAvailabilities) {
-    //   const updatedAvailabilities = [
-    //     ...gatherAvailabilities[MentorAvailabilityType.ONLY_REGULAR],
-    //     ...gatherAvailabilities[MentorAvailabilityType.ONLY_TRIAL],
-    //   ].map((avail: TimesheetSlot) => {
-    //     if (!Number.isNaN(Number(avail.id))) {
-    //       return avail;
-    //     }
-
-    //     return {
-    //       ...avail,
-    //       id: null,
-    //     };
-    //   });
-
-    //   //difference between two object arrays
-    //   const changeAvailabilities = updatedAvailabilities.filter((updatedObj) => {
-    //     const originalObj = startAvailabilities.find(
-    //       (originalObj) => originalObj.id === updatedObj.id,
-    //     );
-    //     return !originalObj || !(JSON.stringify(originalObj) === JSON.stringify(updatedObj));
-    //   });
-
-    //   console.log('changeAvailabilities', changeAvailabilities);
-
-    //   return;
-    // }
-
     setIsLoading(true);
     e.currentTarget.blur();
 
