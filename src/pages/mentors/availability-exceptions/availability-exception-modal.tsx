@@ -20,13 +20,7 @@ export const AvailabilityExceptionModal = ({
   onSubmit: (exception: Exception) => void;
   disabledDates: Date[];
 }) => {
-  const { user } = useAuth();
-  const userTimezone = user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
-  console.log('exception', exception);
-  console.log('new Date(exception?.date)', new Date(exception?.date));
-
-  const utcDateFrom = `${format(new Date(Number(exception?.date)), 'yyyy-MM-dd')}T${slot.from}:00Z`;
-  console.log('utcDateFrom', utcDateFrom);
+  console.log('disabledDates', disabledDates);
 
   return (
     <AdaptiveDialog
@@ -34,17 +28,11 @@ export const AvailabilityExceptionModal = ({
         <button type="button" className="flex w-[90%]">
           <span className="basis-[45%] text-left">
             {/* {format(parse(exception.date, 'yyyy-MM-dd', new Date()), 'dd MMM yyyy')} */}
-            {format(toZonedTime(new Date(Number(exception?.date)), 'UTC'), 'dd MMM yyyy')}
+            {exception?.date}
           </span>
           {slot && (
             <span className="basis-[55%] text-left">
-              <span>
-                {format(toZonedTime(new Date(utcDateFrom), userTimezone), 'HH:mm', {
-                  timeZone: userTimezone,
-                })}
-              </span>{' '}
-              {/* - <span>{formatTime(formatTimeToSeconds(slot.from), 'hh:mm a')}</span> -{' '}
-              <span>{formatTime(formatTimeToSeconds(slot.to), 'hh:mm a')}</span> */}
+              <span>{slot.from}</span> - <span>{slot.to}</span>
             </span>
           )}
         </button>

@@ -3,7 +3,6 @@ import { useState } from 'react';
 
 import { selectStyle } from '@/pages/mentors/availability/lib/select-style';
 import type { Exception, Slot } from '@/types';
-import type { ExceptionDateEntryResponse } from '@/types/types.generated';
 import { FaXmark } from 'react-icons/fa6';
 import Select from 'react-select';
 // import MySelect from '@/components/Form/MySelect';
@@ -13,10 +12,12 @@ export const AvailabilityExceptionSlot = ({
   slot,
   setException,
 }: {
-  exception: ExceptionDateEntryResponse;
+  exception: Exception;
   slot: Slot;
   setException: (exception: Exception) => void;
 }) => {
+  console.log('slot', slot);
+
   const timeOptions = Array.from({ length: 48 }, (_, i) => {
     const temp = addMinutes(startOfDay(new Date()), i * 30);
     return {

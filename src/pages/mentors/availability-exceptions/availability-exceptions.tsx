@@ -18,7 +18,7 @@ import { parseErrorMessage } from '@/pages/mentors/availability/lib/parse-error-
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import notify from '@/shared/utils/notify';
 import type { Mentor } from '@/types/types.generated';
-import { format } from 'date-fns-tz';
+import { format, toZonedTime } from 'date-fns-tz';
 import { IoIosWarning } from 'react-icons/io';
 // import Swal from 'sweetalert2';
 import { LuPlus } from 'react-icons/lu';
@@ -39,6 +39,7 @@ export const AvailabilityExceptions = ({
   const [updateExceptionDate, setUpdateExceptionDate] = useState(null);
 
   const { user } = useAuth();
+  const userTimezone = user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const [upsertExceptionDates, { loading: loadingExceptionDates }] =
     useMutation(UPSERT_EXCEPTION_DATES);
@@ -91,21 +92,41 @@ export const AvailabilityExceptions = ({
 
       for (const slot of mentor.exceptionDates) {
         // To combine slots for the same dates
-        const existingSlot = dates.find((item) => item.date === slot.date);
+        const utcDate = format(new Date(Number(slot?.date)), 'yyyy-MM-dd');
+        console.log('utcDate', utcDate);
+
+        const utcDateFrom = `${utcDate}T${slot?.from}:00Z`;
+        const utcDateTo = `${utcDate}T${slot?.to}:00Z`;
+
+        // const date = format(toZonedTime(new Date(utcDate), userTimezone), 'yyyy-MM-dd', {
+        //   timeZone: userTimezone,
+        // });
+
+        console.log('utcDate', utcDate);
+
+        const from = format(toZonedTime(new Date(utcDateFrom), userTimezone), 'HH:mm', {
+          timeZone: userTimezone,
+        });
+
+        const to = format(toZonedTime(new Date(utcDateTo), userTimezone), 'HH:mm', {
+          timeZone: userTimezone,
+        });
+
+        const existingSlot = dates.find((item) => item.date === utcDate);
         if (existingSlot) {
           existingSlot.slots.push({
             id: nanoid(),
-            from: slot.from,
-            to: slot.to,
+            from,
+            to,
           });
         } else {
           dates.push({
             id: nanoid(),
-            date: slot.date,
-            slots: [{ id: nanoid(), from: slot.from, to: slot.to }],
+            date: utcDate,
+            slots: [{ id: nanoid(), from, to }],
           });
 
-          disabledDates.push(parse(slot.date, 'yyyy-MM-dd', new Date()));
+          disabledDates.push(parse(utcDate, 'yyyy-MM-dd', new Date()));
         }
       }
 
