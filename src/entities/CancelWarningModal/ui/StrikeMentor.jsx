@@ -69,13 +69,13 @@ export const StrikeMentor = ({ data, contractData }) => {
             </p>
 
             <div className="flex flex-wrap gap-3">
-              {contractData?.mentorContract?.strikesWithLessons?.map((p) => (
+              {contractData?.mentorContract?.strikeDates?.map((date) => (
                 <div
-                  key={p.id}
+                  key={date}
                   className="w-[50px] h-[50px] text-xs bg-[#F14E1C] rounded-[4px] text-white flex flex-col justify-center items-center gap-1"
                 >
                   <FaXmark />
-                  <p>{format(p?.lesson.startAt ?? new Date(), 'MMM dd')}</p>
+                  <p>{format(date ?? new Date(), 'MMM dd')}</p>
                 </div>
               ))}
               {[...Array(strikes > 6 ? 0 : 6 - strikes)].map((_, idx) => (
