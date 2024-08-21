@@ -7,10 +7,7 @@ import { MENTOR_CONTRACT } from 'src/shared/apollo/queries/contract/mentorContra
 import { useQuery } from '@apollo/client';
 import ReactLoader from 'src/components/common/Loader';
 
-const MentorCancelWarningModal = ({
-  data,
-  setTabIndex,
-}) => {
+const MentorCancelWarningModal = ({ data, setTabIndex }) => {
   const [t] = useTranslation('modals');
 
   const {
@@ -44,12 +41,13 @@ const MentorCancelWarningModal = ({
           </Button>
 
           <div className="flex items-center justify-center gap-x-8 mt-4">
-              <button
-                className="h-[38px] px-[10px] text-color-purple text-sm hover:underline"
-                onClick={() => setTabIndex(10)}
-              >
-                {t('review_cancellation_policy')}
-              </button>
+            <button
+              type="button"
+              className="h-[38px] px-[10px] text-color-purple text-sm hover:underline"
+              onClick={() => setTabIndex(10)}
+            >
+              {t('review_cancellation_policy')}
+            </button>
           </div>
         </>
       )}
