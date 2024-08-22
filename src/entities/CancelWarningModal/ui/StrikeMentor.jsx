@@ -3,6 +3,7 @@ import { FaXmark } from 'react-icons/fa6';
 import { useAuth } from 'src/app/providers/AuthProvider';
 import { isWithinHours } from 'src/shared/utils/isWithinHours';
 import { WarningMessage } from './WarningMessage';
+import { HOURS_IN_WEEK } from 'src/shared/constants/global';
 
 export const StrikeMentor = ({ data, contractData }) => {
   const { user } = useAuth();
@@ -25,25 +26,25 @@ export const StrikeMentor = ({ data, contractData }) => {
     ? `You will be fined ${fine} for this ${data.duration}-minute lesson`
     : 'After 6 cancellations, you will be fined for each additional cancellation.';
 
-  // const isWithinTwoWeeks = isWithinHours({
-  //   dateEnd: new Date(data?.startAt ?? new Date()),
-  //   dateStart: new Date(),
-  //   hours: HOURS_IN_WEEK * 2,
-  // });
+  const isWithinTwoWeeks = isWithinHours({
+    dateEnd: new Date(data?.startAt ?? new Date()),
+    dateStart: new Date(),
+    hours: HOURS_IN_WEEK * 2,
+  });
 
   return (
     <>
       <p className="text-[#464752] text-[15px] text-center mb-4">
-        {/* {isWithinTwoWeeks
+        {isWithinTwoWeeks
           ? isWithin24Hours
             ? 'Warning you are cancelling a lesson within 24 hours.'
             : 'Warning you are cancelling a lesson outside of 24 hours but within 2 weeks.'
-          : 'Are you sure you want to cancel this lesson more than two weeks in advance?'} */}
-        {isWithin24Hours
+          : 'Are you sure you want to cancel this lesson more than two weeks in advance?'}
+        {/* {isWithin24Hours
           ? 'Warning you are cancelling a lesson within 24 hours.'
-          : 'Warning you are cancelling a lesson outside of 24 hours.'}
+          : 'Warning you are cancelling a lesson outside of 24 hours.'} */}
       </p>
-      {/* {isWithinTwoWeeks && ( */}
+      {isWithinTwoWeeks && (
       <>
         <p className="text-[#464752] text-[15px] text-center font-semibold mb-4">
           1 day of classes equals 1 strike
@@ -68,13 +69,13 @@ export const StrikeMentor = ({ data, contractData }) => {
             </p>
 
             <div className="flex flex-wrap gap-3">
-              {contractData?.mentorContract?.strikesWithLessons?.map((p) => (
+              {contractData?.mentorContract?.strikeDates?.map((date) => (
                 <div
-                  key={p.id}
+                  key={date}
                   className="w-[50px] h-[50px] text-xs bg-[#F14E1C] rounded-[4px] text-white flex flex-col justify-center items-center gap-1"
                 >
                   <FaXmark />
-                  <p>{format(p?.lesson.startAt ?? new Date(), 'MMM dd')}</p>
+                  <p>{format(date ?? new Date(), 'MMM dd')}</p>
                 </div>
               ))}
               {[...Array(strikes > 6 ? 0 : 6 - strikes)].map((_, idx) => (
@@ -87,7 +88,7 @@ export const StrikeMentor = ({ data, contractData }) => {
           </>
         </div>
       </>
-      {/* )} */}
+      )}
     </>
   );
 };
