@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 export const NotificationDialog = memo(function NotificationDialog() {
   const isMobile = useMediaQuery({ maxWidth: 639 });
+
   const { notifications, removeNotifications } = useNotifications();
 
   const bonus = useMemo(() => {
@@ -45,7 +46,13 @@ export const NotificationDialog = memo(function NotificationDialog() {
         text="Your friend used your referral link, and you have earned a gift!"
         btns={
           <Link to="/student/schedule-lesson/select">
-            <Button onClick={confirmBonus} className="w-full h-[56px]">
+            <Button
+              type="button"
+              onClick={
+                isMobile ? confirmBonus : () => removeNotifications(bonus?.body)
+              }
+              className="w-full h-[56px]"
+            >
               Book FREE classes
             </Button>
           </Link>
