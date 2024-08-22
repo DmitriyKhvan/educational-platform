@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Button from 'src/components/Form/Button';
 import { FaCopy } from 'react-icons/fa';
 import {
@@ -9,12 +9,49 @@ import {
 import { InfoItem } from './InfoItem';
 import notify from 'src/shared/utils/notify';
 import { GENERATE_REFERRAL_LINK } from 'src/shared/apollo/mutations/referralCodes';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { getItemToLocalStorage } from 'src/shared/constants/global';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
+import { APP_CONFIG } from 'src/shared/apollo/queries/appConfig';
+import ReactLoader from 'src/components/common/Loader';
 
 export const Info = () => {
   const { t } = useTranslation(['refer']);
+  const { loading, error, data } = useQuery(APP_CONFIG, {
+    fetchPolicy: 'no-cache',
+  });
+
+  const findValue = (key) => {
+    return data?.appConfigs.find((config) => config.configName === key)
+      ?.configValue;
+  };
+
+  const classesCount = useMemo(() => {
+    if (data) {
+      return findValue('referralLinkFreeClassesCount');
+    }
+  }, [data]);
+
+  const discount = useMemo(() => {
+    if (data) {
+      return findValue('referralLinkDiscountPercentage');
+    }
+  }, [data]);
+
+  const translate = (key, value) => {
+    return (
+      <Trans
+        t={t}
+        i18nKey={key}
+        values={{
+          value: value,
+        }}
+        // components={{
+        //   strong: <span className="font-semibold" />,
+        // }}
+      />
+    );
+  };
 
   const info = [
     {
@@ -24,14 +61,14 @@ export const Info = () => {
       color: '255,147,53',
     },
     {
-      title: t('share_how_2_title'),
-      text: t('share_how_2_subtitle'),
+      title: translate('share_how_2_title', classesCount),
+      text: translate('share_how_2_subtitle', classesCount),
       icon: <IoEllipseSharp className="text-[rgba(0,217,134,1)]" />,
       color: '0,217,134',
     },
     {
-      title: t('share_how_3_title'),
-      text: t('share_how_3_subtitle'),
+      title: translate('share_how_3_title', discount),
+      text: translate('share_how_3_subtitle', discount),
       icon: <IoTriangleSharp className="text-[rgba(25,187,254,1)]" />,
       color: '25,187,254',
     },
@@ -57,16 +94,29 @@ export const Info = () => {
     }
   };
 
+  if (error) {
+    notify(error.message, 'error');
+    return <div className="w-full min-h-[calc(100svh*0.5)] sm:w-[436px]"></div>;
+  }
+
+  if (loading) {
+    return (
+      <div className="w-full min-h-[calc(100svh*0.5)] sm:w-[436px]">
+        <ReactLoader />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full sm:w-[436px]">
       <h2 className="text-[28px] font-bold text-color-dark-purple text-center">
         {t('share_title')}{' '}
       </h2>
       <h5 className="text-gray-400 leading-6 text-center mt-4">
-        {t('share_subtitle')}
+        {translate('share_subtitle', classesCount)}
       </h5>
       <h5 className="text-gray-400 leading-6 text-center">
-        {t('share_subtitle_2')}
+        {translate('share_subtitle_2', discount)}
       </h5>
 
       <div className="space-y-3 mt-6">
