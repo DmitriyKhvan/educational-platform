@@ -16,6 +16,7 @@ jobs:
       REACT_APP_PORTONE_MID: ${{ secrets.REACT_APP_PORTONE_MID }}
       REACT_APP_PRODUCTION: ${{ secrets.REACT_APP_PRODUCTION }}
       REACT_APP_SERVER_WS_URL: ${{ secrets.REACT_APP_SERVER_WS_URL }}
+      REACT_APP_KAKAO_APP_KEY: ${{ secrets.REACT_APP_KAKAO_APP_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4

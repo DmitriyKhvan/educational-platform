@@ -27,8 +27,6 @@ export const SIGN_UP = gql`
       address
       timeZone
       country
-      referalCode
-      referalId
       students {
         id
         firstName
@@ -254,8 +252,6 @@ export const GET_MENTOR = gql`
         address
         timeZone
         country
-        referalCode
-        referalId
         isActive
         role
         cardLast4
@@ -706,6 +702,14 @@ export const CREATE_APPOINTMENT = gql`
         # payment
         # lessons
       }
+      playground {
+        id
+        meetingId
+        startUrl
+        joinUrl
+        recordingUrl
+        recordingReady
+      }
     }
   }
 `;
@@ -839,7 +843,12 @@ export const LESSON_QUERY = gql`
         }
       }
       playground {
+        id
+        meetingId
+        startUrl
+        joinUrl
         recordingUrl
+        recordingReady
       }
       studentReview {
         id

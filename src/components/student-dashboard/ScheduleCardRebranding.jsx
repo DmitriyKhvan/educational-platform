@@ -25,7 +25,6 @@ const ScheduleCard = ({
   mentor,
   data,
   fetchAppointments,
-  setCanceledLessons,
   duration,
   subscription,
   repeat = null,
@@ -149,7 +148,6 @@ const ScheduleCard = ({
         data={data}
         refetch={fetchAppointments}
         duration={subscription?.duration || duration}
-        setCanceledLessons={setCanceledLessons}
         pattern="info"
       />
     </div>

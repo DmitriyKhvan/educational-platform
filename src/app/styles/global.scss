@@ -4018,6 +4018,7 @@ a > span {
         height: 100%;
         display: flex;
         align-items: center;
+        border-left: 0.5px solid #e1e1e1;
 
         .lesson-type {
           text-transform: capitalize;
@@ -4111,6 +4112,7 @@ a > span {
           }
         }
 
+        
         &.actions,
         &:first-child {
           border: none;

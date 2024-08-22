@@ -23,6 +23,7 @@ const mentorNavLinks = [
   {
     label: 'lessons',
     link: '/mentor/lesson-calendar',
+    notificationType: 'check_requests', //for notifications filter
     icon: FaRegCalendarAlt,
   },
   {

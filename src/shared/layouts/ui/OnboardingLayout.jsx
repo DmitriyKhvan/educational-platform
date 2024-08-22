@@ -5,19 +5,22 @@ import Logo from 'src/shared/assets/images/logo_purple.svg';
 import Loader from 'src/components/Loader/Loader';
 import { LangCurrencySwitcher } from 'src/widgets/LangCurrencySwitcher';
 import { LangSwitcher, useCurrentLang } from 'src/entities/LangSwitcher';
+import { useAuth } from 'src/app/providers/AuthProvider';
 
 export const OnboardingLayout = () => {
+  const {user} = useAuth();
+
   const currentLang = useCurrentLang();
-  const urls = ['/', '/trial', '/onboarding'];
   const switcher = useMemo(() => {
-    return urls.includes(window.location.pathname) ? (
+    return user ? (
+      <LangCurrencySwitcher align="end" />
+    ) : (
+      
       <div className="w-[150px]">
         <LangSwitcher currentLang={currentLang} />
       </div>
-    ) : (
-      <LangCurrencySwitcher align="end" />
     );
-  }, [window.location.pathname]);
+  }, [user]);
 
   return (
     <div className="flex flex-col relative items-center overflow-hidden">

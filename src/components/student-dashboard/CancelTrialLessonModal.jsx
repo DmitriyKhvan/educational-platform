@@ -7,7 +7,10 @@ import notify from 'src/shared/utils/notify';
 import Loader from '../Loader/Loader';
 import * as Dialog from '@radix-ui/react-dialog';
 
-export const CancelTrialLessonModal = ({ data, fetchAppointments }) => {
+export const CancelTrialLessonModal = ({
+  data,
+  fetchAppointments,
+}) => {
   const [t] = useTranslation(['modals', 'common']);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -52,10 +55,15 @@ export const CancelTrialLessonModal = ({ data, fetchAppointments }) => {
 
         <div className="flex gap-3">
           <Dialog.Close asChild>
-            <Button theme="gray" className="w-1/2 h-14">
+            <Button
+              theme="gray"
+              className="w-1/2 h-14"
+              // onClick={() => setIsOpen(false)}
+            >
               {t('back', { ns: 'common' })}
             </Button>
           </Dialog.Close>
+
           <Button
             theme="destructive"
             className="w-1/2 h-14"
