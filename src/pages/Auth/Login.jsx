@@ -9,7 +9,7 @@ import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useLogin } from "src/app/providers/AuthProvider";
-import KakaoLoginButton from "./kakao-login-button";
+// import KakaoLoginButton from "./kakao-login-button";
 // import { useAuth } from 'src/app/providers/AuthProvider';
 
 const Login = () => {
@@ -142,7 +142,7 @@ const Login = () => {
 				)}
 			</Button>
 			{/* </div> */}
-			<KakaoLoginButton />
+			{/* <KakaoLoginButton /> */}
 
 			<p className="mt-16 text-[15px] text-color-light-grey font-semibold">
 				{t("not_registered")}{" "}
