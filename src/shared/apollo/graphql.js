@@ -411,7 +411,6 @@ export const STUDENTS_QUERY = gql`
         emailVerificationToken
         resetPasswordExpires
         resetPasswordToken
-        referalConfirmed
         fullName
         role
         email
