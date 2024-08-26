@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { FaArrowLeft, FaPencil } from 'react-icons/fa6';
@@ -18,6 +18,20 @@ import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 import notify from 'src/shared/utils/notify';
 
 const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
+  
+
+  const utm = useMemo(() => {
+    const urlParams = new URL(window.location.href).searchParams
+
+    return JSON.stringify({
+      utm_source: urlParams.get('utm_source') || '',
+      utm_medium: urlParams.get('utm_medium') || '',
+      utm_campaign: urlParams.get('utm_campaign') || '',
+      utm_term: urlParams.get('utm_term') || '',
+      utm_content: urlParams.get('utm_content') || '', 
+    }) 
+  }, [window.location.href])
+
   const navigate = useNavigate();
   const { user: currentUser, refetchUser } = useAuth();
   const { languageLevel, lessonTopic, packageSubscription } = selectedPlan;
@@ -94,6 +108,7 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
                 mentorId,
                 startAt: new Date(schedule),
               },
+              utm,
             },
           },
         });

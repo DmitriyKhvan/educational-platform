@@ -12,7 +12,7 @@ const LevelModal = forwardRef(function LevelModal(
         Select a Level
       </h2>
       <div className="grid grid-cols-2 gap-3">
-        {levels?.map((level) => {
+        {levels?.sort((a, b) => a.sortOrder - b.sortOrder).map((level) => {
           return (
             <label
               key={level.id}
