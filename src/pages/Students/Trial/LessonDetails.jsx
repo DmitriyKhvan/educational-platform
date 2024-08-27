@@ -183,7 +183,7 @@ const LessonDetails = ({
                 </Button>
               }
             >
-              <ul className="overflow-auto sm:w-[440px]">
+              <ul className="overflow-auto sm:w-[440px] max-h-[calc(100svh/2)]">
                 {packagesData?.trialPackages?.map((pkg) => {
                   return (
                     <li
@@ -264,7 +264,7 @@ const LessonDetails = ({
                 </Button>
               }
             >
-              <ul className="overflow-auto min-w-[280px] sm:w-[440px]">
+              <ul className="overflow-auto min-w-[280px] sm:w-[440px] max-h-[calc(100svh/2)]">
                 {currentLevel?.topics?.map((topic) => {
                   return (
                     <li

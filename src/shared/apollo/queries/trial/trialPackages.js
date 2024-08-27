@@ -26,6 +26,7 @@ export const TRIAL_PACKAGES = gql`
           id
           title
           description
+          sortOrder
           translations {
             id
             title
