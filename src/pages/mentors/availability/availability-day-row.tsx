@@ -8,11 +8,11 @@ import { timeGroups } from '@/pages/mentors/availability/lib/time-groups';
 import { timesOfDay } from '@/pages/mentors/availability/lib/times-of-day';
 import { MentorAvailabilityType } from '@/shared/constants/global';
 import type { AvailabilityDayRowProps, TimeOption } from '@/types';
+import { nanoid } from 'nanoid';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LuPlus } from 'react-icons/lu';
-import { nanoid } from 'nanoid';
 
 const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
   day,

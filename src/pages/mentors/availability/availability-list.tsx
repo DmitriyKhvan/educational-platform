@@ -7,10 +7,10 @@ import { AcceptingStudents } from '@/pages/mentors/accepting-students';
 import { AvailabilityExceptions } from '@/pages/mentors/availability-exceptions';
 import { AvailabilitySlots } from '@/pages/mentors/availability/availability-slots';
 import { Tab } from '@/pages/mentors/availability/tab';
+import { useMentorQuery } from '@/shared/apollo/queries/mentors/mentor.generated';
 import type { GatherAvailabilities } from '@/types';
 import type { Timesheet, TimesheetSlot } from '@/types/types.generated';
 import { format, toZonedTime } from 'date-fns-tz';
-import { useMentorQuery } from '@/shared/apollo/queries/mentors/mentor.generated';
 
 export const AvailabilityList = () => {
   const { user } = useAuth();

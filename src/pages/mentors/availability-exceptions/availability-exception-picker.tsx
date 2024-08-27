@@ -5,8 +5,8 @@ import { useMemo, useState } from 'react';
 import { DayPickerCustom } from '@/components/day-picker-custom';
 import Button from '@/components/form/button';
 import * as Dialog from '@radix-ui/react-dialog';
-import { LuPlus } from 'react-icons/lu';
 import { nanoid } from 'nanoid';
+import { LuPlus } from 'react-icons/lu';
 
 export const AvailabilityExceptionPicker = ({
   oldException,

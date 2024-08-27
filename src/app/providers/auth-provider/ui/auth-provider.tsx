@@ -1,14 +1,11 @@
-import { AuthContext } from "@/app/providers/auth-provider/lib/auth-context";
-import { useNotifications } from "@/app/providers/notification-provider";
-import {
-  INVITE_SET_PASSWORD_MUTATION,
-  ME_QUERY,
-} from "@/shared/apollo/graphql";
-import { Roles, getItemToLocalStorage } from "@/shared/constants/global";
+import { AuthContext } from '@/app/providers/auth-provider/lib/auth-context';
+import { useNotifications } from '@/app/providers/notification-provider';
+import { INVITE_SET_PASSWORD_MUTATION, ME_QUERY } from '@/shared/apollo/graphql';
+import { Roles } from '@/shared/constants/global';
 // import useLocalStorage from '@/shared/utils/use-local-storage';
-import type { AuthStudent, AuthenticatedUser } from "@/types/types.generated";
-import { useMutation, useQuery } from "@apollo/client";
-import { type ReactNode, useState } from "react";
+import type { AuthStudent, AuthenticatedUser } from '@/types/types.generated';
+import { useMutation, useQuery } from '@apollo/client';
+import { type ReactNode, useState } from 'react';
 
 interface MeQueryData {
   authenticatedUser: AuthenticatedUser;
@@ -26,9 +23,7 @@ interface InviteSetPasswordMutationVars {
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { getAllNotifications } = useNotifications();
-  const [currentStudent, setCurrentStudent] = useState<AuthStudent | null>(
-    null
-  );
+  const [currentStudent, setCurrentStudent] = useState<AuthStudent | null>(null);
   // const [studentId, setStudentId] = useLocalStorage('studentId', null);
 
   const {
@@ -37,28 +32,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     refetch: refetchUser,
   } = useQuery<MeQueryData>(ME_QUERY, {
     variables: {
-      studentId: localStorage.getItem("studentId") || "",
+      studentId: localStorage.getItem('studentId') || '',
     },
     onCompleted: (data) => {
       const student = data?.authenticatedUser?.students?.find(
-        (student) => student?.id === localStorage.getItem("studentId") || ""
+        (student) => student?.id === localStorage.getItem('studentId') || '',
       );
 
       setCurrentStudent(student || null);
 
-      if (
-        localStorage.getItem("studentId") ||
-        data.authenticatedUser.role === Roles.MENTOR
-      ) {
+      if (localStorage.getItem('studentId') || data.authenticatedUser.role === Roles.MENTOR) {
         getAllNotifications();
       }
     },
   });
 
   if (user) {
-    window.Intercom("boot", {
-      api_base: "https://api-iam.intercom.io",
-      app_id: "ohhixtgv",
+    window.Intercom('boot', {
+      api_base: 'https://api-iam.intercom.io',
+      app_id: 'ohhixtgv',
       name: `${user?.authenticatedUser?.firstName} ${user?.authenticatedUser?.lastName}`,
       email: user?.authenticatedUser?.email,
     });
@@ -72,7 +64,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const inviteSetPassword = async (
     email: string,
     token: string,
-    password: string
+    password: string,
   ): Promise<{ data: InviteSetPasswordMutationData | null | undefined }> => {
     const { data } = await redeemInvitePasswordSetToken({
       variables: { email, token, password },
@@ -82,8 +74,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = async () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("studentId");
+    localStorage.removeItem('token');
+    localStorage.removeItem('studentId');
   };
 
   return (

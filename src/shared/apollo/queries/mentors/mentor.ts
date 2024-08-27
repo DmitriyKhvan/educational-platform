@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const MENTOR = gql`
   query MENTOR($id: ID!) {
