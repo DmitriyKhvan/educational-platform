@@ -13,6 +13,7 @@ const Mentors = () => {
 
   const [t] = useTranslation(['studentMentor', 'common']);
   const { data, loading } = useQuery(MENTORS, {
+    fetchPolicy: 'no-cache',
     variables: { studentId },
     errorPolicy: 'ignore',
   });
