@@ -77,7 +77,7 @@ function ReferalFooter() {
         <div className="text-sm space-y-5">
           <img src={whiteLogo} alt="NAONOW" className="h-5 md:h-6" />
           <div className="space-y-[10px]">
-            <p>Nao Now Today.</p>
+            <p>NAONOW Today.</p>
             <p>Opportunities Tomorrow.</p>
           </div>
           {contactInfo.map((elem) => (

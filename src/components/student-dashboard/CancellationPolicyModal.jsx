@@ -93,7 +93,7 @@ const CancellationPolicyModal = ({ setTabIndex }) => {
                 for the lesson.
               </li>
               <li>
-                Nao Now will provide a free lesson for the student in such
+                NAONOW will provide a free lesson for the student in such
                 cases.
               </li>
             </ul>
