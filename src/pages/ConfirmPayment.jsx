@@ -108,7 +108,7 @@ export default function ConfirmPayment() {
     }
   }, [clientSecret, data]);
 
-  if (!message) return <Loader height="100vh" />;
+  if (!message) return <Loader height="100%" />;
 
   return (
     <>
