@@ -17,11 +17,12 @@ import { formatTimeToSeconds } from '@/pages/mentors/availability/lib/format-tim
 import { parseErrorMessage } from '@/pages/mentors/availability/lib/parse-error-message';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import notify from '@/shared/utils/notify';
-import type { Mentor } from '@/types/types.generated';
+import type { ExceptionDateSlot, Maybe, Mentor } from '@/types/types.generated';
 import { format, toZonedTime } from 'date-fns-tz';
 import { IoIosWarning } from 'react-icons/io';
 // import Swal from 'sweetalert2';
 import { LuPlus } from 'react-icons/lu';
+import { changeSlots } from '../availability/lib/change-slots';
 
 export const AvailabilityExceptions = ({
   mentor,
@@ -33,10 +34,15 @@ export const AvailabilityExceptions = ({
   const [errorExceptionalDates, setErrorExceptionalDates] = useState();
 
   const [availabilityExceptions, setAvailabilityExceptions] = useState([]);
-  const [disableSave, setDisableSave] = useState(true);
-  const [disabledDates, setDisabledDates] = useState([]);
 
-  const [updateExceptionDate, setUpdateExceptionDate] = useState(null);
+  console.log('availabilityExceptions', availabilityExceptions);
+
+  const [startAvailabilityExceptions, setStartAvailabilityExceptions] = useState<
+    Maybe<ExceptionDateSlot>[]
+  >([]);
+
+  const [disableSave, setDisableSave] = useState(true);
+  const [disabledDates, setDisabledDates] = useState<Date[]>([]);
 
   const { user } = useAuth();
   const userTimezone = user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -51,7 +57,7 @@ export const AvailabilityExceptions = ({
       for (const avail of availabilityExceptions) {
         for (const slot of avail.slots) {
           exceptionDates.push({
-            id: null,
+            id: !Number.isNaN(Number(slot.id)) ? slot.id : null,
             date: avail.date,
             from: slot.from,
             to: slot.to,
@@ -59,17 +65,22 @@ export const AvailabilityExceptions = ({
         }
       }
 
+      const changeAvailabilityExceptions = changeSlots(startAvailabilityExceptions, exceptionDates);
+
+      console.log('startAvailabilityExceptions', startAvailabilityExceptions);
+      console.log('exceptionDates', exceptionDates);
+      console.log('changeAvailabilityExceptions', changeAvailabilityExceptions);
+
+      // return;
+
       upsertExceptionDates({
         variables: {
           mentorId: user?.mentor?.id,
-          exceptionDates,
+          exceptionDates: changeAvailabilityExceptions,
         },
         onCompleted: () => {
           refetchMentor();
-
           notify('Date override is saved');
-
-          setUpdateExceptionDate(Date.now());
         },
         onError: (error) => {
           const parseError = parseErrorMessage(error);
@@ -89,6 +100,7 @@ export const AvailabilityExceptions = ({
     if (mentor) {
       const dates = [];
       const disabledDates = [];
+      const startExceptionDates = [];
 
       for (const slot of mentor.exceptionDates) {
         // To combine slots for the same dates
@@ -98,11 +110,9 @@ export const AvailabilityExceptions = ({
         const utcDateFrom = `${utcDate}T${slot?.from}:00Z`;
         const utcDateTo = `${utcDate}T${slot?.to}:00Z`;
 
-        // const date = format(toZonedTime(new Date(utcDate), userTimezone), 'yyyy-MM-dd', {
-        //   timeZone: userTimezone,
-        // });
-
-        console.log('utcDate', utcDate);
+        const date = format(toZonedTime(new Date(utcDate), userTimezone), 'yyyy-MM-dd', {
+          timeZone: userTimezone,
+        });
 
         const from = format(toZonedTime(new Date(utcDateFrom), userTimezone), 'HH:mm', {
           timeZone: userTimezone,
@@ -112,21 +122,28 @@ export const AvailabilityExceptions = ({
           timeZone: userTimezone,
         });
 
-        const existingSlot = dates.find((item) => item.date === utcDate);
+        startExceptionDates.push({
+          id: slot?.id,
+          date,
+          from,
+          to,
+        });
+
+        const existingSlot = dates.find((item) => item.date === date);
         if (existingSlot) {
           existingSlot.slots.push({
-            id: nanoid(),
+            id: slot?.id,
             from,
             to,
           });
         } else {
           dates.push({
             id: nanoid(),
-            date: utcDate,
-            slots: [{ id: nanoid(), from, to }],
+            date,
+            slots: [{ id: slot?.id, from, to }],
           });
 
-          disabledDates.push(parse(utcDate, 'yyyy-MM-dd', new Date()));
+          disabledDates.push(parse(date, 'yyyy-MM-dd', new Date()));
         }
       }
 
@@ -140,10 +157,11 @@ export const AvailabilityExceptions = ({
           }
           return date;
         })
-        .sort((a, b) => new Date(a.date) - new Date(b.date));
+        .sort((a, b) => a.date.localeCompare(b.date));
 
       setAvailabilityExceptions(filterDates);
       setDisabledDates(disabledDates);
+      setStartAvailabilityExceptions(startExceptionDates);
     }
   }, [mentor]);
 

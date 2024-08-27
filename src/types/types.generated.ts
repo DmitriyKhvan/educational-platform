@@ -459,6 +459,7 @@ export type Mentor = {
   availabilities: Array<Maybe<Timesheet>>;
   avatar?: Maybe<File>;
   avatarId?: Maybe<Scalars['ID']['output']>;
+  contract?: Maybe<Array<Maybe<MentorContract>>>;
   degree?: Maybe<Scalars['String']['output']>;
   exceptionDates: Array<Maybe<ExceptionDate>>;
   experience?: Maybe<Scalars['String']['output']>;
@@ -476,6 +477,7 @@ export type Mentor = {
   lessons?: Maybe<Lesson>;
   major?: Maybe<Scalars['String']['output']>;
   mentorAvailability?: Maybe<MentorAvailabilityType>;
+  penalties?: Maybe<Array<Maybe<MentorPenalty>>>;
   playgroundId?: Maybe<Scalars['String']['output']>;
   relevantExperience?: Maybe<Scalars['String']['output']>;
   sortOrder?: Maybe<Scalars['Int']['output']>;
@@ -487,11 +489,47 @@ export type Mentor = {
   visibilityStatus?: Maybe<VisibilityStatus>;
 };
 
+export type MentorAvailability = {
+  __typename?: 'MentorAvailability';
+  regular: Array<Maybe<Timesheet>>;
+  trial: Array<Maybe<Timesheet>>;
+};
+
 export enum MentorAvailabilityType {
   OnlyRegular = 'only_regular',
   OnlyTrial = 'only_trial',
   RegularAndTrial = 'regular_and_trial'
 }
+
+export type MentorContract = {
+  __typename?: 'MentorContract';
+  endDate?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  isActive?: Maybe<Scalars['Boolean']['output']>;
+  mentor?: Maybe<Mentor>;
+  penalties?: Maybe<Array<Maybe<MentorPenalty>>>;
+  startDate?: Maybe<Scalars['DateTime']['output']>;
+  strikeDates?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  strikes?: Maybe<Scalars['Int']['output']>;
+};
+
+export type MentorContractWithPagination = {
+  __typename?: 'MentorContractWithPagination';
+  count?: Maybe<Scalars['Int']['output']>;
+  mentorContracts: Array<Maybe<MentorContract>>;
+};
+
+export type MentorPenalty = {
+  __typename?: 'MentorPenalty';
+  amount?: Maybe<Scalars['Float']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  noShow?: Maybe<Scalars['Boolean']['output']>;
+  penaltyType?: Maybe<PenaltyType>;
+  reason?: Maybe<Scalars['String']['output']>;
+  studentUser?: Maybe<User>;
+  type?: Maybe<Scalars['String']['output']>;
+};
 
 export type MentorReview = {
   __typename?: 'MentorReview';
@@ -639,6 +677,7 @@ export type Mutation = {
   deleteVocabularyWord: Vocabulary;
   generateReferralLink: ReferralCode;
   markMessageAsRead?: Maybe<Array<Maybe<Message>>>;
+  mentorCancelLessons: Array<Maybe<Lesson>>;
   persistLanguageLevel: LanguageLevel;
   persistTopic: Topic;
   redeemUserPasswordResetToken: Scalars['Boolean']['output'];
@@ -897,6 +936,15 @@ export type MutationGenerateReferralLinkArgs = {
 
 export type MutationMarkMessageAsReadArgs = {
   id: Array<Scalars['ID']['input']>;
+};
+
+
+export type MutationMentorCancelLessonsArgs = {
+  cancelReason?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  isTrial?: InputMaybe<Scalars['Boolean']['input']>;
+  repeat?: InputMaybe<Scalars['Boolean']['input']>;
+  studentMessage?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -1237,9 +1285,13 @@ export type Payout = {
   id?: Maybe<Scalars['ID']['output']>;
   isTrial?: Maybe<Scalars['Boolean']['output']>;
   lessonIds?: Maybe<Array<Maybe<Scalars['Int']['output']>>>;
+  lessonsCancellationFines?: Maybe<Scalars['Float']['output']>;
   lessonsCount?: Maybe<Scalars['Int']['output']>;
+  lessonsReviewFines?: Maybe<Scalars['Float']['output']>;
   mentor?: Maybe<Mentor>;
+  mentorNoShowFines?: Maybe<Scalars['Float']['output']>;
   minutesTaught?: Maybe<Scalars['Float']['output']>;
+  totalFines?: Maybe<Scalars['Float']['output']>;
 };
 
 export type PayoutsInput = {
@@ -1253,6 +1305,15 @@ export type PayoutsInput = {
   mentorId: Scalars['ID']['input'];
   minutesTaught: Scalars['Float']['input'];
 };
+
+export enum PenaltyType {
+  CancelledLessonsExceedsLimit = 'cancelled_lessons_exceeds_limit',
+  LessonCancellationOutside_24 = 'lesson_cancellation_outside_24',
+  LessonCancellationWithin_24 = 'lesson_cancellation_within_24',
+  LessonReview_24 = 'lesson_review_24',
+  LessonReviewMissing = 'lesson_review_missing',
+  MentorNoShow = 'mentor_no_show'
+}
 
 export type Playground = {
   __typename?: 'Playground';
@@ -1341,6 +1402,9 @@ export type Query = {
   lessons: Array<Maybe<Lesson>>;
   lessonsWithPagination: LessonsWithPagination;
   mentor?: Maybe<Mentor>;
+  mentorContract?: Maybe<MentorContract>;
+  mentorContractById?: Maybe<MentorContract>;
+  mentorContractsWithPagination?: Maybe<MentorContractWithPagination>;
   mentorReviewsWithPagination: MentorReviewsWithPagination;
   mentors: Array<Maybe<Mentor>>;
   mentorsWithPagination?: Maybe<MentorsWithPagination>;
@@ -1515,6 +1579,19 @@ export type QueryLessonsWithPaginationArgs = {
 
 export type QueryMentorArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryMentorContractByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type QueryMentorContractsWithPaginationArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<RowsOrdering>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -1914,6 +1991,7 @@ export type Topic = {
   description?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
   isActive?: Maybe<Scalars['Boolean']['output']>;
+  isTrial?: Maybe<Scalars['Boolean']['output']>;
   languageLevels?: Maybe<Array<Maybe<LanguageLevel>>>;
   sortOrder?: Maybe<Scalars['Int']['output']>;
   title?: Maybe<Scalars['String']['output']>;
@@ -1925,6 +2003,7 @@ export type TopicInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
   isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  isTrial?: InputMaybe<Scalars['Boolean']['input']>;
   languageLevelIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   sortOrder?: InputMaybe<Scalars['Int']['input']>;
   title: Scalars['String']['input'];
@@ -1999,6 +2078,7 @@ export type TrialSignUpInput = {
   lessonTopicId: Scalars['Int']['input'];
   packageId: Scalars['Int']['input'];
   user: SignUpInput;
+  utm?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateAppConfigInput = {

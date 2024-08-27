@@ -29,8 +29,6 @@ export const MENTOR = gql`
         address
         timeZone
         country
-        referalCode
-        referalId
         isActive
         role
         cardLast4

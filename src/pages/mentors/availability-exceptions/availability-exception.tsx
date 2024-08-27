@@ -3,9 +3,10 @@ import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import Button from '@/components/form/button';
 import { ModalConfirm } from '@/entities/modal-confirm';
 import { AvailabilityExceptionModal } from '@/pages/mentors/availability-exceptions/availability-exception-modal';
-import type { AvailabilitySlot } from '@/types';
+import type { AvailabilitySlot, Slot } from '@/types';
 import * as Dialog from '@radix-ui/react-dialog';
 import { FaXmark } from 'react-icons/fa6';
+import type { ExceptionDateSlot } from '@/types/types.generated';
 
 export const AvailabilityException = ({
   exception,
@@ -18,8 +19,19 @@ export const AvailabilityException = ({
   onSubmit: (exception: AvailabilitySlot[]) => void;
   availabilityExceptions: AvailabilitySlot[];
 }) => {
-  const removeAvailabilityExceptionSlot = (exception, slot) => {
-    const newSlots = exception.slots.filter((sl) => sl.id !== slot.id);
+  const removeAvailabilityExceptionSlot = (
+    exception: AvailabilitySlot,
+    slot: ExceptionDateSlot,
+  ) => {
+    // const newSlots = exception.slots.filter((sl) => sl.id !== slot.id);
+    const removeSlot = {
+      ...slot,
+      from: '',
+      to: '',
+    };
+
+    const newSlots = exception.slots.map((sl: Slot) => (sl.id === slot.id ? removeSlot : sl));
+
     const newException = { ...exception, slots: newSlots };
 
     const newAvailabilityExceptions = availabilityExceptions.map((aval) =>
@@ -30,8 +42,20 @@ export const AvailabilityException = ({
   };
 
   const removeAvailabilityException = (exception: AvailabilitySlot) => {
-    const newAvailabilityExceptions = availabilityExceptions.filter(
-      (aval) => aval.id !== exception.id,
+    // const newAvailabilityExceptions = availabilityExceptions.filter(
+    //   (aval) => aval.id !== exception.id,
+    // );
+
+    const newSlots = exception.slots.map((slot: Slot) => ({
+      ...slot,
+      from: '',
+      to: '',
+    }));
+
+    const newException = { ...exception, slots: newSlots };
+
+    const newAvailabilityExceptions = availabilityExceptions.map((aval) =>
+      aval.id === newException.id ? newException : aval,
     );
 
     onSubmit(newAvailabilityExceptions);

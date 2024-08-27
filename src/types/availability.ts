@@ -167,6 +167,7 @@ export interface Exception {
 }
 
 export type Slot = {
+  id?: string;
   from: string;
   to: string;
 };
