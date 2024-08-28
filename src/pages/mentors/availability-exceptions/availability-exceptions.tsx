@@ -103,27 +103,30 @@ export const AvailabilityExceptions = ({
       const startExceptionDates = [];
 
       for (const slot of mentor.exceptionDates) {
+        const { id, date: unixDate, from, to } = slot ?? {};
+
+        const date = new Date(Number(unixDate)).toISOString().split('T')[0];
+
         // To combine slots for the same dates
-        const utcDate = format(new Date(Number(slot?.date)), 'yyyy-MM-dd');
-        console.log('utcDate', utcDate);
+        // const utcDate = format(new Date(Number(slot?.date)), 'yyyy-MM-dd');
 
-        const utcDateFrom = `${utcDate}T${slot?.from}:00Z`;
-        const utcDateTo = `${utcDate}T${slot?.to}:00Z`;
+        // const utcDateFrom = `${utcDate}T${slot?.from}:00Z`;
+        // const utcDateTo = `${utcDate}T${slot?.to}:00Z`;
 
-        const date = format(toZonedTime(new Date(utcDate), userTimezone), 'yyyy-MM-dd', {
-          timeZone: userTimezone,
-        });
+        // const date = format(toZonedTime(new Date(utcDateTo), userTimezone), 'yyyy-MM-dd', {
+        //   timeZone: userTimezone,
+        // });
 
-        const from = format(toZonedTime(new Date(utcDateFrom), userTimezone), 'HH:mm', {
-          timeZone: userTimezone,
-        });
+        // const from = format(toZonedTime(new Date(utcDateFrom), userTimezone), 'HH:mm', {
+        //   timeZone: userTimezone,
+        // });
 
-        const to = format(toZonedTime(new Date(utcDateTo), userTimezone), 'HH:mm', {
-          timeZone: userTimezone,
-        });
+        // const to = format(toZonedTime(new Date(utcDateTo), userTimezone), 'HH:mm', {
+        //   timeZone: userTimezone,
+        // });
 
         startExceptionDates.push({
-          id: slot?.id,
+          id,
           date,
           from,
           to,
@@ -132,7 +135,7 @@ export const AvailabilityExceptions = ({
         const existingSlot = dates.find((item) => item.date === date);
         if (existingSlot) {
           existingSlot.slots.push({
-            id: slot?.id,
+            id,
             from,
             to,
           });
@@ -140,7 +143,7 @@ export const AvailabilityExceptions = ({
           dates.push({
             id: nanoid(),
             date,
-            slots: [{ id: slot?.id, from, to }],
+            slots: [{ id, from, to }],
           });
 
           disabledDates.push(parse(date, 'yyyy-MM-dd', new Date()));
