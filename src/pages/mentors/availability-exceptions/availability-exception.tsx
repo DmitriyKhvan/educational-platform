@@ -3,7 +3,7 @@ import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import Button from '@/components/form/button';
 import { ModalConfirm } from '@/entities/modal-confirm';
 import { AvailabilityExceptionModal } from '@/pages/mentors/availability-exceptions/availability-exception-modal';
-import type { AvailabilitySlot, Slot } from '@/types';
+import type { Exception } from '@/types';
 import * as Dialog from '@radix-ui/react-dialog';
 import { FaXmark } from 'react-icons/fa6';
 import type { ExceptionDateSlot } from '@/types/types.generated';
@@ -14,25 +14,25 @@ export const AvailabilityException = ({
   onSubmit,
   availabilityExceptions,
 }: {
-  exception: AvailabilitySlot;
+  exception: Exception;
   disabledDates: Date[];
-  onSubmit: (exception: AvailabilitySlot[]) => void;
-  availabilityExceptions: AvailabilitySlot[];
+  onSubmit: (exception: Exception[]) => void;
+  availabilityExceptions: Exception[];
 }) => {
-  const removeAvailabilityExceptionSlot = (
-    exception: AvailabilitySlot,
-    slot: ExceptionDateSlot,
-  ) => {
+  const removeAvailabilityExceptionSlot = (exception: Exception, slot: ExceptionDateSlot) => {
     // const newSlots = exception.slots.filter((sl) => sl.id !== slot.id);
     const removeSlot = {
       ...slot,
+      date: '',
       from: '',
       to: '',
     };
 
-    const newSlots = exception.slots.map((sl: Slot) => (sl.id === slot.id ? removeSlot : sl));
+    const newSlots = exception.slots.map((sl: ExceptionDateSlot) =>
+      sl.id === slot.id ? removeSlot : sl,
+    );
 
-    const newException = { ...exception, date: '', slots: newSlots };
+    const newException = { ...exception, slots: newSlots };
 
     const newAvailabilityExceptions = availabilityExceptions.map((aval) =>
       aval.id === newException.id ? newException : aval,
@@ -41,18 +41,19 @@ export const AvailabilityException = ({
     onSubmit(newAvailabilityExceptions);
   };
 
-  const removeAvailabilityException = (exception: AvailabilitySlot) => {
+  const removeAvailabilityException = (exception: Exception) => {
     // const newAvailabilityExceptions = availabilityExceptions.filter(
     //   (aval) => aval.id !== exception.id,
     // );
 
-    const newSlots = exception.slots.map((slot: Slot) => ({
+    const newSlots = exception.slots.map((slot: ExceptionDateSlot) => ({
       ...slot,
+      date: '',
       from: '',
       to: '',
     }));
 
-    const newException = { ...exception, date: '', slots: newSlots };
+    const newException = { ...exception, slots: newSlots };
 
     const newAvailabilityExceptions = availabilityExceptions.map((aval) =>
       aval.id === newException.id ? newException : aval,
@@ -74,7 +75,7 @@ export const AvailabilityException = ({
 
           <AdaptiveDialog
             button={
-              <button>
+              <button type="button">
                 <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
               </button>
             }
@@ -118,7 +119,7 @@ export const AvailabilityException = ({
 
               <AdaptiveDialog
                 button={
-                  <button>
+                  <button type="button">
                     <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
                   </button>
                 }

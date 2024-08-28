@@ -4,9 +4,9 @@ export const ModalConfirm = ({
   text,
   btns,
 }: {
-  icon: JSX.Element;
+  icon?: JSX.Element;
   title: string;
-  text: JSX.Element;
+  text: JSX.Element | string;
   btns: JSX.Element;
 }) => {
   return (

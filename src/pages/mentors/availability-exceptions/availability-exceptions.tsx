@@ -23,6 +23,7 @@ import { IoIosWarning } from 'react-icons/io';
 // import Swal from 'sweetalert2';
 import { LuPlus } from 'react-icons/lu';
 import { changeSlots } from '../availability/lib/change-slots';
+import type { Exception } from '@/types';
 
 export const AvailabilityExceptions = ({
   mentor,
@@ -50,17 +51,18 @@ export const AvailabilityExceptions = ({
   const [upsertExceptionDates, { loading: loadingExceptionDates }] =
     useMutation(UPSERT_EXCEPTION_DATES);
 
-  const onSubmit = (availabilityExceptions) => {
+  const onSubmit = (availabilityExceptions: Exception[]) => {
     if (availabilityExceptions) {
       const exceptionDates = [];
       console.log('availabilityExceptions', availabilityExceptions);
       for (const avail of availabilityExceptions) {
         for (const slot of avail.slots) {
+          const { id, date, from, to } = slot ?? {};
           exceptionDates.push({
-            id: !Number.isNaN(Number(slot.id)) ? slot.id : null,
-            date: avail.date,
-            from: slot.from,
-            to: slot.to,
+            id: !Number.isNaN(Number(id)) ? id : null,
+            date,
+            from,
+            to,
           });
         }
       }
@@ -136,6 +138,7 @@ export const AvailabilityExceptions = ({
         if (existingSlot) {
           existingSlot.slots.push({
             id,
+            date,
             from,
             to,
           });
@@ -143,7 +146,7 @@ export const AvailabilityExceptions = ({
           dates.push({
             id: nanoid(),
             date,
-            slots: [{ id, from, to }],
+            slots: [{ id, date, from, to }],
           });
 
           disabledDates.push(parse(date, 'yyyy-MM-dd', new Date()));

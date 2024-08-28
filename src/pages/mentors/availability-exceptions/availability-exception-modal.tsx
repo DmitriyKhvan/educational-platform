@@ -1,6 +1,7 @@
 import { AvailabilityExceptionPicker } from '@/pages/mentors/availability-exceptions/availability-exception-picker';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
-import type { Exception, Slot } from '@/types';
+import type { Exception } from '@/types';
+import type { ExceptionDateSlot } from '@/types/types.generated';
 import { parse } from 'date-fns';
 
 export const AvailabilityExceptionModal = ({
@@ -12,8 +13,8 @@ export const AvailabilityExceptionModal = ({
 }: {
   availabilityExceptions: Exception[];
   exception: Exception;
-  slot: Slot;
-  onSubmit: (exception: Exception) => void;
+  slot?: ExceptionDateSlot;
+  onSubmit: (exception: Exception[]) => void;
   disabledDates: Date[];
 }) => {
   console.log('disabledDates', disabledDates);

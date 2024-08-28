@@ -2,9 +2,10 @@ import { addMinutes, format, startOfDay } from 'date-fns';
 import { useState } from 'react';
 
 import { selectStyle } from '@/pages/mentors/availability/lib/select-style';
-import type { Exception, Slot } from '@/types';
+import type { Exception } from '@/types';
 import { FaXmark } from 'react-icons/fa6';
 import Select from 'react-select';
+import type { ExceptionDateSlot } from '@/types/types.generated';
 // import MySelect from '@/components/Form/MySelect';
 
 export const AvailabilityExceptionSlot = ({
@@ -13,10 +14,11 @@ export const AvailabilityExceptionSlot = ({
   setException,
 }: {
   exception: Exception;
-  slot: Slot;
+  slot: ExceptionDateSlot;
   setException: (exception: Exception) => void;
 }) => {
   console.log('slot', slot);
+  console.log('exception', exception);
 
   const timeOptions = Array.from({ length: 48 }, (_, i) => {
     const temp = addMinutes(startOfDay(new Date()), i * 30);
@@ -85,7 +87,17 @@ export const AvailabilityExceptionSlot = ({
   };
 
   const removeAvailabilityExceptionSlot = () => {
-    const newSlots = exception.slots.filter((sl) => sl.id !== slot.id);
+    // const newSlots = exception.slots.filter((sl) => sl.id !== slot.id);
+    const removeSlot = {
+      ...slot,
+      date: '',
+      from: '',
+      to: '',
+    };
+
+    const newSlots = exception.slots.map((sl: ExceptionDateSlot) =>
+      sl.id === slot.id ? removeSlot : sl,
+    );
 
     const newException = { ...exception, slots: newSlots };
 

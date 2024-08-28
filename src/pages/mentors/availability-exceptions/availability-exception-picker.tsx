@@ -1,5 +1,5 @@
 import { AvailabilityExceptionSlot } from '@/pages/mentors/availability-exceptions/availability-exception-slot';
-import { addMinutes, format, parse } from 'date-fns';
+import { addMinutes, parse } from 'date-fns';
 import { useMemo, useState } from 'react';
 
 import { DayPickerCustom } from '@/components/day-picker-custom';
@@ -7,6 +7,8 @@ import Button from '@/components/form/button';
 import * as Dialog from '@radix-ui/react-dialog';
 import { nanoid } from 'nanoid';
 import { LuPlus } from 'react-icons/lu';
+import { format } from 'date-fns-tz';
+import { ExceptionDateSlot } from '@/types/types.generated';
 
 export const AvailabilityExceptionPicker = ({
   oldException,
@@ -15,8 +17,10 @@ export const AvailabilityExceptionPicker = ({
   disabledDates,
   disableSave,
 }) => {
-  const [exception, setException] = useState(oldException);
   console.log('oldException', oldException);
+
+  const [exception, setException] = useState(oldException);
+  console.log('exception', exception);
 
   const disabledAddAvail = useMemo(() => {
     return !exception || exception?.slots[exception.slots.length - 1]?.to >= '23:00';
@@ -24,21 +28,25 @@ export const AvailabilityExceptionPicker = ({
 
   const onChangeDate = (date: Date) => {
     if (date) {
-      const exception = {
-        id: nanoid(),
+      const dateStr = format(date, 'yyyy-MM-dd');
+      const slots = oldException?.slots.map((slot: ExceptionDateSlot) => ({
+        ...slot,
+        date: dateStr,
+      }));
 
-        // slots: [{ id: nanoid(), from: '00:00', to: '23:30' }],
-        slots: [],
+      const newException = {
+        id: nanoid(),
         ...oldException,
-        date: format(date, 'yyyy-MM-dd'),
+        slots,
+        date: dateStr,
       };
 
-      setException(exception);
+      setException(newException);
     }
   };
 
   const addAvailabilityExceptionSlot = () => {
-    let newTime = { id: nanoid(), from: '00:00', to: '23:30' };
+    let newTime = { id: nanoid(), date: exception.date, from: '00:00', to: '23:30' };
 
     if (exception.slots.length) {
       const from = exception.slots[exception.slots.length - 1].to;
@@ -50,7 +58,7 @@ export const AvailabilityExceptionPicker = ({
         to = format(addMinutes(parse(from, 'HH:mm', new Date()), 60), 'HH:mm');
       }
 
-      newTime = { ...newTime, from, to };
+      newTime = { ...newTime, date: exception.date, from, to };
     }
 
     const newSlots = [...exception.slots, newTime];
@@ -112,16 +120,18 @@ export const AvailabilityExceptionPicker = ({
         {exception?.slots.length > 0 && (
           <div className="space-y-4">
             <h4 className="text-sm font-semibold">What hours are you unavailable?</h4>
-            {exception?.slots?.map((slot) => {
-              return (
-                <AvailabilityExceptionSlot
-                  key={slot.id}
-                  slot={slot}
-                  exception={exception}
-                  setException={setException}
-                />
-              );
-            })}
+            {exception?.slots
+              ?.filter((slot: ExceptionDateSlot) => slot.from !== '' && slot.to !== '')
+              .map((slot: ExceptionDateSlot) => {
+                return (
+                  <AvailabilityExceptionSlot
+                    key={slot.id}
+                    slot={slot}
+                    exception={exception}
+                    setException={setException}
+                  />
+                );
+              })}
           </div>
         )}
 

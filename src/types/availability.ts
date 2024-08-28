@@ -1,6 +1,6 @@
 import type { MentorAvailabilityType } from '@/shared/constants/global';
 import type { Duration } from 'date-fns';
-import type { PackageSubscription, TimesheetSlot } from './types.generated';
+import type { ExceptionDateSlot, PackageSubscription, TimesheetSlot } from './types.generated';
 
 export const EventType = {
   REGULAR: 'regular',
@@ -163,7 +163,7 @@ export interface MentorInfo {
 export interface Exception {
   id: string;
   date: string;
-  slots: Slot[];
+  slots: ExceptionDateSlot[];
 }
 
 export type Slot = {
