@@ -32,7 +32,7 @@ export const AvailabilityException = ({
 
     const newSlots = exception.slots.map((sl: Slot) => (sl.id === slot.id ? removeSlot : sl));
 
-    const newException = { ...exception, slots: newSlots };
+    const newException = { ...exception, date: '', slots: newSlots };
 
     const newAvailabilityExceptions = availabilityExceptions.map((aval) =>
       aval.id === newException.id ? newException : aval,
@@ -52,7 +52,7 @@ export const AvailabilityException = ({
       to: '',
     }));
 
-    const newException = { ...exception, slots: newSlots };
+    const newException = { ...exception, date: '', slots: newSlots };
 
     const newAvailabilityExceptions = availabilityExceptions.map((aval) =>
       aval.id === newException.id ? newException : aval,
