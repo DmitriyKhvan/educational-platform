@@ -8,7 +8,8 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { nanoid } from 'nanoid';
 import { LuPlus } from 'react-icons/lu';
 import { format } from 'date-fns-tz';
-import { ExceptionDateSlot } from '@/types/types.generated';
+import type { ExceptionDateSlot } from '@/types/types.generated';
+import type { Exception } from '@/types';
 
 export const AvailabilityExceptionPicker = ({
   oldException,
@@ -16,6 +17,12 @@ export const AvailabilityExceptionPicker = ({
   availabilityExceptions,
   disabledDates,
   disableSave,
+}: {
+  oldException?: Exception;
+  onSubmit: (exception: Exception[]) => void;
+  availabilityExceptions: Exception[];
+  disabledDates: Date[];
+  disableSave?: boolean;
 }) => {
   console.log('oldException', oldException);
 
@@ -23,16 +30,17 @@ export const AvailabilityExceptionPicker = ({
   console.log('exception', exception);
 
   const disabledAddAvail = useMemo(() => {
-    return !exception || exception?.slots[exception.slots.length - 1]?.to >= '23:00';
+    return !exception || exception?.slots[exception?.slots?.length - 1]?.to >= '23:00';
   }, [exception]);
 
   const onChangeDate = (date: Date) => {
     if (date) {
       const dateStr = format(date, 'yyyy-MM-dd');
-      const slots = oldException?.slots.map((slot: ExceptionDateSlot) => ({
-        ...slot,
-        date: dateStr,
-      }));
+      const slots =
+        oldException?.slots.map((slot: ExceptionDateSlot) => ({
+          ...slot,
+          date: dateStr,
+        })) || [];
 
       const newException = {
         id: nanoid(),

@@ -34,7 +34,7 @@ export const AvailabilityExceptions = ({
 }) => {
   const [errorExceptionalDates, setErrorExceptionalDates] = useState();
 
-  const [availabilityExceptions, setAvailabilityExceptions] = useState([]);
+  const [availabilityExceptions, setAvailabilityExceptions] = useState<Exception[]>([]);
 
   console.log('availabilityExceptions', availabilityExceptions);
 
@@ -100,7 +100,7 @@ export const AvailabilityExceptions = ({
 
   useEffect(() => {
     if (mentor) {
-      const dates = [];
+      const dates: Exception[] = [];
       const disabledDates = [];
       const startExceptionDates = [];
 
@@ -158,7 +158,14 @@ export const AvailabilityExceptions = ({
           if (date.slots.some((slot) => slot.from === null && slot.to === null)) {
             return {
               ...date,
-              slots: [],
+              slots: [
+                {
+                  id: null,
+                  date: '',
+                  from: '',
+                  to: '',
+                },
+              ],
             };
           }
           return date;
