@@ -14,23 +14,35 @@ import type { Exception } from '@/types';
 export const AvailabilityExceptionPicker = ({
   oldException,
   onSubmit,
-  availabilityExceptions,
   disabledDates,
   disableSave,
 }: {
   oldException?: Exception;
-  onSubmit: (exception: Exception[]) => void;
-  availabilityExceptions: Exception[];
+  onSubmit: (exception: Exception) => void;
   disabledDates: Date[];
   disableSave?: boolean;
 }) => {
   console.log('oldException', oldException);
 
-  const [exception, setException] = useState(oldException);
+  const [exception, setException] = useState<Exception>(
+    oldException || {
+      id: nanoid(),
+      date: '',
+      slots: [],
+    },
+  );
   console.log('exception', exception);
 
+  const exceptionSlotsFilter = useMemo(() => {
+    return exception?.slots?.filter(
+      (slot: ExceptionDateSlot) => slot.from !== '' && slot.to !== '',
+    );
+  }, [exception]);
+
+  console.log('exceptionSlotsFilter', exceptionSlotsFilter);
+
   const disabledAddAvail = useMemo(() => {
-    return !exception || exception?.slots[exception?.slots?.length - 1]?.to >= '23:00';
+    return !exception?.date || exception?.slots[exception?.slots?.length - 1]?.to >= '23:00';
   }, [exception]);
 
   const onChangeDate = (date: Date) => {
@@ -54,9 +66,12 @@ export const AvailabilityExceptionPicker = ({
   };
 
   const addAvailabilityExceptionSlot = () => {
-    let newTime = { id: nanoid(), date: exception.date, from: '00:00', to: '23:30' };
+    const id =
+      Number.isNaN(Number(exception?.id)) && exception.slots.length ? nanoid() : exception?.id;
 
-    if (exception.slots.length) {
+    let newTime = { id, date: exception?.date, from: '00:00', to: '23:30' };
+
+    if (exceptionSlotsFilter.length) {
       const from = exception.slots[exception.slots.length - 1].to;
       let to = '';
 
@@ -66,7 +81,7 @@ export const AvailabilityExceptionPicker = ({
         to = format(addMinutes(parse(from, 'HH:mm', new Date()), 60), 'HH:mm');
       }
 
-      newTime = { ...newTime, date: exception.date, from, to };
+      newTime = { ...newTime, from, to };
     }
 
     const newSlots = [...exception.slots, newTime];
@@ -74,8 +89,6 @@ export const AvailabilityExceptionPicker = ({
     const newException = { ...exception, slots: newSlots };
 
     setException(newException);
-
-    // availabilityExceptionSlots(newException);
   };
 
   const submitHandler = () => {
@@ -85,21 +98,7 @@ export const AvailabilityExceptionPicker = ({
       date: format(parse(exception.date, 'yyyy-MM-dd', new Date()), 'yyyy-MM-dd'),
     };
 
-    let newAvailabilityExceptions = [];
-
-    const idx = availabilityExceptions.findIndex((aval) => aval.id === newException.id);
-    if (idx !== -1) {
-      newAvailabilityExceptions = [
-        ...availabilityExceptions.slice(0, idx),
-        newException,
-        ...availabilityExceptions.slice(idx + 1),
-      ];
-    } else {
-      newAvailabilityExceptions = [...availabilityExceptions, newException];
-    }
-
-    // onSubmit(newAvailabilityExceptions);
-    onSubmit([newException]);
+    onSubmit(newException);
     setException(null);
   };
 
@@ -125,21 +124,20 @@ export const AvailabilityExceptionPicker = ({
       </div>
 
       <div className="space-y-4 py-6 border-y border-gray-200">
-        {exception?.slots.length > 0 && (
+        {exception?.slots?.length > 0 && (
           <div className="space-y-4">
             <h4 className="text-sm font-semibold">What hours are you unavailable?</h4>
-            {exception?.slots
-              ?.filter((slot: ExceptionDateSlot) => slot.from !== '' && slot.to !== '')
-              .map((slot: ExceptionDateSlot) => {
-                return (
-                  <AvailabilityExceptionSlot
-                    key={slot.id}
-                    slot={slot}
-                    exception={exception}
-                    setException={setException}
-                  />
-                );
-              })}
+            {exceptionSlotsFilter.map((slot: ExceptionDateSlot) => {
+              return (
+                <AvailabilityExceptionSlot
+                  key={slot.id}
+                  slot={slot}
+                  exception={exception}
+                  exceptionSlotsFilter={exceptionSlotsFilter}
+                  setException={setException}
+                />
+              );
+            })}
           </div>
         )}
 
@@ -162,9 +160,9 @@ export const AvailabilityExceptionPicker = ({
         </Dialog.Close>
 
         <Button
-          disabled={!exception && disableSave}
+          disabled={!exception?.date && disableSave}
           className="basis-1/2"
-          onClick={!exception ? undefined : submitHandler}
+          onClick={!exception?.date ? undefined : submitHandler}
         >
           Apply
         </Button>

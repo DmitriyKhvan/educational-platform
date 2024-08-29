@@ -10,10 +10,12 @@ import type { ExceptionDateSlot } from '@/types/types.generated';
 
 export const AvailabilityExceptionSlot = ({
   exception,
+  exceptionSlotsFilter,
   slot,
   setException,
 }: {
   exception: Exception;
+  exceptionSlotsFilter: ExceptionDateSlot[];
   slot: ExceptionDateSlot;
   setException: (exception: Exception) => void;
 }) => {
@@ -87,17 +89,23 @@ export const AvailabilityExceptionSlot = ({
   };
 
   const removeAvailabilityExceptionSlot = () => {
-    // const newSlots = exception.slots.filter((sl) => sl.id !== slot.id);
-    const removeSlot = {
-      ...slot,
-      date: '',
-      from: '',
-      to: '',
-    };
+    let newSlots = [];
+    if (Number.isNaN(Number(slot.id))) {
+      newSlots = exception.slots.filter((sl) => sl.id !== slot.id);
+    } else {
+      const date = exceptionSlotsFilter.length === 1 ? slot.date : '';
 
-    const newSlots = exception.slots.map((sl: ExceptionDateSlot) =>
-      sl.id === slot.id ? removeSlot : sl,
-    );
+      const removeSlot = {
+        ...slot,
+        date,
+        from: '',
+        to: '',
+      };
+
+      newSlots = exception.slots.map((sl: ExceptionDateSlot) =>
+        sl.id === slot.id ? removeSlot : sl,
+      );
+    }
 
     const newException = { ...exception, slots: newSlots };
 
@@ -112,7 +120,7 @@ export const AvailabilityExceptionSlot = ({
         value={fromTime}
         options={fromTimeOptions}
         onChange={(e) => {
-          onChangeTime(e.value, 'from');
+          onChangeTime(e?.value, 'from');
         }}
         menuPlacement="auto"
         // menuShouldScrollIntoView={false}
@@ -134,7 +142,7 @@ export const AvailabilityExceptionSlot = ({
         value={toTime}
         options={toTimeOptions}
         onChange={(e) => {
-          onChangeTime(e.value, 'to');
+          onChangeTime(e?.value, 'to');
         }}
         menuPlacement="auto"
       />

@@ -12,18 +12,16 @@ export const AvailabilityException = ({
   exception,
   disabledDates,
   onSubmit,
-  availabilityExceptions,
 }: {
   exception: Exception;
   disabledDates: Date[];
-  onSubmit: (exception: Exception[]) => void;
-  availabilityExceptions: Exception[];
+  onSubmit: (exception: Exception) => void;
 }) => {
   const removeAvailabilityExceptionSlot = (exception: Exception, slot: ExceptionDateSlot) => {
-    // const newSlots = exception.slots.filter((sl) => sl.id !== slot.id);
+    const date = exception.slots.length === 1 ? slot.date : '';
     const removeSlot = {
       ...slot,
-      date: '',
+      date,
       from: '',
       to: '',
     };
@@ -34,18 +32,10 @@ export const AvailabilityException = ({
 
     const newException = { ...exception, slots: newSlots };
 
-    const newAvailabilityExceptions = availabilityExceptions.map((aval) =>
-      aval.id === newException.id ? newException : aval,
-    );
-
-    onSubmit(newAvailabilityExceptions);
+    onSubmit(newException);
   };
 
   const removeAvailabilityException = (exception: Exception) => {
-    // const newAvailabilityExceptions = availabilityExceptions.filter(
-    //   (aval) => aval.id !== exception.id,
-    // );
-
     const newSlots = exception.slots.map((slot: ExceptionDateSlot) => ({
       ...slot,
       date: '',
@@ -53,64 +43,56 @@ export const AvailabilityException = ({
       to: '',
     }));
 
-    const newException = { ...exception, slots: newSlots };
+    const newException = { ...exception, date: '', slots: newSlots };
 
-    const newAvailabilityExceptions = availabilityExceptions.map((aval) =>
-      aval.id === newException.id ? newException : aval,
-    );
-
-    onSubmit(newAvailabilityExceptions);
+    onSubmit(newException);
   };
 
   return (
     <li key={exception.id} className="text-sm">
-      {(exception.slots.length === 0 || exception.slots.length > 1) && (
-        <div className="flex items-center justify-between p-2">
-          <AvailabilityExceptionModal
-            availabilityExceptions={availabilityExceptions}
-            exception={exception}
-            onSubmit={onSubmit}
-            disabledDates={disabledDates}
-          />
+      <div className="flex items-center justify-between p-2">
+        <AvailabilityExceptionModal
+          exception={exception}
+          onSubmit={onSubmit}
+          disabledDates={disabledDates}
+        />
 
-          <AdaptiveDialog
-            button={
-              <button type="button">
-                <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
-              </button>
-            }
-          >
-            <ModalConfirm
-              title="Delete date override"
-              text="Are you sure you want to delete this date override?"
-              btns={
-                <div className="flex gap-3">
-                  <Button
-                    theme="destructive"
-                    className="basis-1/2"
-                    onClick={() => removeAvailabilityException(exception)}
-                  >
-                    Yes, delete
+        <AdaptiveDialog
+          button={
+            <button type="button">
+              <FaXmark className="text-gray-300 hover:text-color-dark-purple ease-in-out delay-150" />
+            </button>
+          }
+        >
+          <ModalConfirm
+            title="Delete date override"
+            text="Are you sure you want to delete this date override?"
+            btns={
+              <div className="flex gap-3">
+                <Button
+                  theme="destructive"
+                  className="basis-1/2"
+                  onClick={() => removeAvailabilityException(exception)}
+                >
+                  Yes, delete
+                </Button>
+
+                <Dialog.Close asChild>
+                  <Button theme="gray" className="basis-1/2">
+                    Cancel
                   </Button>
-
-                  <Dialog.Close asChild>
-                    <Button theme="gray" className="basis-1/2">
-                      Cancel
-                    </Button>
-                  </Dialog.Close>
-                </div>
-              }
-            />
-          </AdaptiveDialog>
-        </div>
-      )}
+                </Dialog.Close>
+              </div>
+            }
+          />
+        </AdaptiveDialog>
+      </div>
 
       <ul>
         {exception.slots.map((slot) => {
           return (
             <li key={slot.id} className="flex items-center justify-between p-2">
               <AvailabilityExceptionModal
-                availabilityExceptions={availabilityExceptions}
                 exception={exception}
                 slot={slot}
                 onSubmit={onSubmit}
@@ -132,11 +114,12 @@ export const AvailabilityException = ({
                       <Button
                         theme="destructive"
                         className="basis-1/2"
-                        onClick={() =>
-                          exception.slots.length > 1
-                            ? removeAvailabilityExceptionSlot(exception, slot)
-                            : removeAvailabilityException(exception)
-                        }
+                        // onClick={() =>
+                        //   exception.slots.length > 1
+                        //     ? removeAvailabilityExceptionSlot(exception, slot)
+                        //     : removeAvailabilityException(exception)
+                        // }
+                        onClick={() => removeAvailabilityExceptionSlot(exception, slot)}
                       >
                         Yes, delete
                       </Button>

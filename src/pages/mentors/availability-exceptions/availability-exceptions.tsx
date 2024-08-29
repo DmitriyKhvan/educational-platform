@@ -18,7 +18,7 @@ import { parseErrorMessage } from '@/pages/mentors/availability/lib/parse-error-
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import notify from '@/shared/utils/notify';
 import type { ExceptionDateSlot, Maybe, Mentor } from '@/types/types.generated';
-import { format, toZonedTime } from 'date-fns-tz';
+import { format } from 'date-fns-tz';
 import { IoIosWarning } from 'react-icons/io';
 // import Swal from 'sweetalert2';
 import { LuPlus } from 'react-icons/lu';
@@ -32,11 +32,9 @@ export const AvailabilityExceptions = ({
   mentor: Mentor;
   refetchMentor: () => void;
 }) => {
-  const [errorExceptionalDates, setErrorExceptionalDates] = useState();
+  const [errorExceptionalDates, setErrorExceptionalDates] = useState<boolean | object>();
 
   const [availabilityExceptions, setAvailabilityExceptions] = useState<Exception[]>([]);
-
-  console.log('availabilityExceptions', availabilityExceptions);
 
   const [startAvailabilityExceptions, setStartAvailabilityExceptions] = useState<
     Maybe<ExceptionDateSlot>[]
@@ -46,17 +44,17 @@ export const AvailabilityExceptions = ({
   const [disabledDates, setDisabledDates] = useState<Date[]>([]);
 
   const { user } = useAuth();
-  const userTimezone = user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const [upsertExceptionDates, { loading: loadingExceptionDates }] =
     useMutation(UPSERT_EXCEPTION_DATES);
 
-  const onSubmit = (availabilityExceptions: Exception[]) => {
+  const onSubmit = (availabilityExceptions: Exception) => {
     if (availabilityExceptions) {
       const exceptionDates = [];
       console.log('availabilityExceptions', availabilityExceptions);
-      for (const avail of availabilityExceptions) {
-        for (const slot of avail.slots) {
+
+      if (availabilityExceptions.slots.length) {
+        for (const slot of availabilityExceptions.slots) {
           const { id, date, from, to } = slot ?? {};
           exceptionDates.push({
             id: !Number.isNaN(Number(id)) ? id : null,
@@ -65,6 +63,13 @@ export const AvailabilityExceptions = ({
             to,
           });
         }
+      } else {
+        exceptionDates.push({
+          id: !Number.isNaN(Number(availabilityExceptions.id)) ? availabilityExceptions.id : null,
+          date: availabilityExceptions.date,
+          from: '',
+          to: '',
+        });
       }
 
       const changeAvailabilityExceptions = changeSlots(startAvailabilityExceptions, exceptionDates);
@@ -104,34 +109,22 @@ export const AvailabilityExceptions = ({
       const disabledDates = [];
       const startExceptionDates = [];
 
-      for (const slot of mentor.exceptionDates) {
-        const { id, date: unixDate, from, to } = slot ?? {};
+      for (const exceptionDate of mentor.exceptionDates) {
+        const { id, date: unixDate, from, to } = exceptionDate ?? {};
+
+        const defaultFrom = from ? from : '';
+        const defaultTo = to ? to : '';
 
         const date = new Date(Number(unixDate)).toISOString().split('T')[0];
 
-        // To combine slots for the same dates
-        // const utcDate = format(new Date(Number(slot?.date)), 'yyyy-MM-dd');
-
-        // const utcDateFrom = `${utcDate}T${slot?.from}:00Z`;
-        // const utcDateTo = `${utcDate}T${slot?.to}:00Z`;
-
-        // const date = format(toZonedTime(new Date(utcDateTo), userTimezone), 'yyyy-MM-dd', {
-        //   timeZone: userTimezone,
-        // });
-
-        // const from = format(toZonedTime(new Date(utcDateFrom), userTimezone), 'HH:mm', {
-        //   timeZone: userTimezone,
-        // });
-
-        // const to = format(toZonedTime(new Date(utcDateTo), userTimezone), 'HH:mm', {
-        //   timeZone: userTimezone,
-        // });
+        const slots =
+          from !== '' && to !== '' ? [{ id, date, from: defaultFrom, to: defaultTo }] : [];
 
         startExceptionDates.push({
           id,
           date,
-          from,
-          to,
+          from: defaultFrom,
+          to: defaultTo,
         });
 
         const existingSlot = dates.find((item) => item.date === date);
@@ -139,14 +132,14 @@ export const AvailabilityExceptions = ({
           existingSlot.slots.push({
             id,
             date,
-            from,
-            to,
+            from: defaultFrom,
+            to: defaultTo,
           });
         } else {
           dates.push({
-            id: nanoid(),
+            id: id ? id : nanoid(),
             date,
-            slots: [{ id, date, from, to }],
+            slots,
           });
 
           disabledDates.push(parse(date, 'yyyy-MM-dd', new Date()));
@@ -154,22 +147,22 @@ export const AvailabilityExceptions = ({
       }
 
       const filterDates = dates
-        .map((date) => {
-          if (date.slots.some((slot) => slot.from === null && slot.to === null)) {
-            return {
-              ...date,
-              slots: [
-                {
-                  id: null,
-                  date: '',
-                  from: '',
-                  to: '',
-                },
-              ],
-            };
-          }
-          return date;
-        })
+        // .map((date) => {
+        //   if (date.slots.some((slot) => slot.from === null && slot.to === null)) {
+        //     return {
+        //       ...date,
+        //       slots: [
+        //         {
+        //           id: null,
+        //           date: '',
+        //           from: '',
+        //           to: '',
+        //         },
+        //       ],
+        //     };
+        //   }
+        //   return date;
+        // })
         .sort((a, b) => a.date.localeCompare(b.date));
 
       setAvailabilityExceptions(filterDates);
@@ -208,7 +201,6 @@ export const AvailabilityExceptions = ({
           <AvailabilityExceptionPicker
             onSubmit={onSubmit}
             disabledDates={disabledDates}
-            availabilityExceptions={availabilityExceptions}
             disableSave={disableSave}
           />
         </AdaptiveDialog>
@@ -221,7 +213,6 @@ export const AvailabilityExceptions = ({
                 exception={exception}
                 disabledDates={disabledDates}
                 onSubmit={onSubmit}
-                availabilityExceptions={availabilityExceptions}
               />
             );
           })}
@@ -244,9 +235,9 @@ export const AvailabilityExceptions = ({
                 You have {errorExceptionalDates.errorExceptionalDates.length}{' '}
                 <b>lesson(s) scheduled</b>:
                 <ul>
-                  {errorExceptionalDates.errorExceptionalDates.map((date, index) => {
+                  {errorExceptionalDates.errorExceptionalDates.map((date: ExceptionDateSlot) => {
                     return (
-                      <li key={index}>
+                      <li key={date.date}>
                         {format(parse(date.date, 'yyyy-MM-dd', new Date()), 'dd MMM yyyy')}{' '}
                         <b>{formatTime(formatTimeToSeconds(date.from), 'hh:mm a')}</b> -{' '}
                         <b>{formatTime(formatTimeToSeconds(date.to), 'hh:mm a')}</b>
