@@ -67,7 +67,7 @@ export const AvailabilityExceptionPicker = ({
 
   const addAvailabilityExceptionSlot = () => {
     const id =
-      Number.isNaN(Number(exception?.id)) && exception.slots.length ? nanoid() : exception?.id;
+      !Number.isNaN(Number(exception?.id)) && !exception.slots.length ? exception?.id : nanoid();
 
     let newTime = { id, date: exception?.date, from: '00:00', to: '23:30' };
 
