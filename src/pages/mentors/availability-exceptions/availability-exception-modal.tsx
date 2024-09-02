@@ -18,8 +18,6 @@ export const AvailabilityExceptionModal = ({
   onSubmit: (exception: Exception) => void;
   disabledDates: Date[];
 }) => {
-  console.log('disabledDates', disabledDates);
-
   return (
     <AdaptiveDialog
       button={

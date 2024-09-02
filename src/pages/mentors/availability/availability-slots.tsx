@@ -104,6 +104,8 @@ export const AvailabilitySlots = ({
         },
       });
 
+      await refetchMentor();
+      await refetchUser();
       setPrevTimeZone(timeZone);
       handleDisableSave(true);
     } catch (error) {
@@ -118,8 +120,6 @@ export const AvailabilitySlots = ({
         notify((error as Error).message, 'error');
       }
     } finally {
-      await refetchMentor();
-      await refetchUser();
       setIsLoading(false);
     }
   };

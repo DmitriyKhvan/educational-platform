@@ -22,24 +22,19 @@ export const AvailabilityExceptionPicker = ({
   disabledDates: Date[];
   disableSave?: boolean;
 }) => {
-  console.log('oldException', oldException);
+  const initialException = oldException || {
+    id: nanoid(),
+    date: '',
+    slots: [],
+  };
 
-  const [exception, setException] = useState<Exception>(
-    oldException || {
-      id: nanoid(),
-      date: '',
-      slots: [],
-    },
-  );
-  console.log('exception', exception);
+  const [exception, setException] = useState<Exception>(initialException);
 
   const exceptionSlotsFilter = useMemo(() => {
     return exception?.slots?.filter(
       (slot: ExceptionDateSlot) => slot.from !== '' && slot.to !== '',
     );
   }, [exception]);
-
-  console.log('exceptionSlotsFilter', exceptionSlotsFilter);
 
   const disabledAddAvail = useMemo(() => {
     return !exception?.date || exception?.slots[exception?.slots?.length - 1]?.to >= '23:00';
@@ -99,7 +94,6 @@ export const AvailabilityExceptionPicker = ({
     };
 
     onSubmit(newException);
-    setException(null);
   };
 
   return (
@@ -118,7 +112,7 @@ export const AvailabilityExceptionPicker = ({
           selected={exception?.date && parse(exception.date, 'yyyy-MM-dd', new Date())}
           onSelect={onChangeDate}
           formatters={{
-            formatWeekdayName: (date) => format(date, 'EEE'),
+            formatWeekdayName: (date: Date) => format(date, 'EEE'),
           }}
         />
       </div>

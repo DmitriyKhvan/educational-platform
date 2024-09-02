@@ -19,9 +19,6 @@ export const AvailabilityExceptionSlot = ({
   slot: ExceptionDateSlot;
   setException: (exception: Exception) => void;
 }) => {
-  console.log('slot', slot);
-  console.log('exception', exception);
-
   const timeOptions = Array.from({ length: 48 }, (_, i) => {
     const temp = addMinutes(startOfDay(new Date()), i * 30);
     return {
@@ -38,7 +35,7 @@ export const AvailabilityExceptionSlot = ({
 
   const [toTime, setToTime] = useState(timeOptions.find((time) => time.value === slot.to));
 
-  const onChangeTime = (time, timeType) => {
+  const onChangeTime = (time: string | undefined, timeType: string) => {
     const findTimeIdx = timeOptions.findIndex((t) => t.value === time);
 
     let newTime = { ...slot, [timeType]: time };
@@ -52,11 +49,11 @@ export const AvailabilityExceptionSlot = ({
       setFromTime(timeOptions[findTimeIdx]);
 
       // if fromTime >= toTime
-      if (timeOptions[findTimeIdx].value >= toTime?.value) {
+      if (toTime && timeOptions[findTimeIdx].value >= toTime?.value) {
         setToTime(timeOptions[findTimeIdx + 1]);
         newTime = {
           ...slot,
-          from: time,
+          from: time || '',
           to: timeOptions[findTimeIdx + 1].value,
         };
       }
@@ -67,12 +64,12 @@ export const AvailabilityExceptionSlot = ({
       setToTime(timeOptions[findTimeIdx]);
 
       // if toTime <= fromTime
-      if (timeOptions[findTimeIdx].value <= fromTime?.value) {
+      if (fromTime && timeOptions[findTimeIdx].value <= fromTime?.value) {
         setFromTime(timeOptions[findTimeIdx - 1]);
         newTime = {
           ...slot,
           from: timeOptions[findTimeIdx - 1].value,
-          to: time,
+          to: time || '',
         };
       }
     }

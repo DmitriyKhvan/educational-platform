@@ -9,12 +9,10 @@ import { AvailabilitySlots } from '@/pages/mentors/availability/availability-slo
 import { Tab } from '@/pages/mentors/availability/tab';
 import { useMentorQuery } from '@/shared/apollo/queries/mentors/mentor.generated';
 import type { GatherAvailabilities } from '@/types';
-import type { Timesheet, TimesheetSlot } from '@/types/types.generated';
-import { format, toZonedTime } from 'date-fns-tz';
+import type { Mentor, Timesheet, TimesheetSlot } from '@/types/types.generated';
 
 export const AvailabilityList = () => {
   const { user } = useAuth();
-  const userTimezone = user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const [mentorAvailabilityType, setMentorAvailabilityType] = useState<MentorAvailabilityType>();
   const [error, setError] = useState<Error | null>(null);
@@ -37,20 +35,12 @@ export const AvailabilityList = () => {
 
   const parseAvailabilities = (avail: Timesheet) => {
     const { id, day, from, to, isTrial } = avail;
-    const utcDateFrom = `${format(toZonedTime(new Date(), 'UTC'), 'yyyy-MM-dd')}T${from}:00Z`;
-    const utcDateTo = `${format(toZonedTime(new Date(), 'UTC'), 'yyyy-MM-dd')}T${to}:00Z`;
 
     return {
       id,
       day: day || '',
-      // from,
-      // to,
-      from: format(toZonedTime(new Date(utcDateFrom), userTimezone), 'HH:mm', {
-        timeZone: userTimezone,
-      }),
-      to: format(toZonedTime(new Date(utcDateTo), userTimezone), 'HH:mm', {
-        timeZone: userTimezone,
-      }),
+      from: from || '',
+      to: to || '',
       isTrial,
     };
   };
@@ -84,27 +74,21 @@ export const AvailabilityList = () => {
         }
       }
 
-      if (startAvailabilities.length) {
-        setStartAvailabilities(startAvailabilities);
-      }
+      setStartAvailabilities(startAvailabilities);
 
-      if (regularAvailabilities?.length) {
-        setGatherAvailabilities((prevGatherAvailabilities) => {
-          return {
-            ...prevGatherAvailabilities,
-            [MentorAvailabilityType.ONLY_REGULAR]: regularAvailabilities as TimesheetSlot[],
-          };
-        });
-      }
+      setGatherAvailabilities((prevGatherAvailabilities) => {
+        return {
+          ...prevGatherAvailabilities,
+          [MentorAvailabilityType.ONLY_REGULAR]: regularAvailabilities as TimesheetSlot[],
+        };
+      });
 
-      if (trialAvailabilities?.length) {
-        setGatherAvailabilities((prevGatherAvailabilities) => {
-          return {
-            ...prevGatherAvailabilities,
-            [MentorAvailabilityType.ONLY_TRIAL]: trialAvailabilities as TimesheetSlot[],
-          };
-        });
-      }
+      setGatherAvailabilities((prevGatherAvailabilities) => {
+        return {
+          ...prevGatherAvailabilities,
+          [MentorAvailabilityType.ONLY_TRIAL]: trialAvailabilities as TimesheetSlot[],
+        };
+      });
     }
   }, [mentorInfo, error]);
 
@@ -162,7 +146,7 @@ export const AvailabilityList = () => {
             setError={setError}
           />
         )}
-        <AvailabilityExceptions mentor={mentorInfo} refetchMentor={refetchMentor} />
+        <AvailabilityExceptions mentor={mentorInfo as Mentor} refetchMentor={refetchMentor} />
       </div>
     </>
   );

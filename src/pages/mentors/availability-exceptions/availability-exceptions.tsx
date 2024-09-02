@@ -32,7 +32,9 @@ export const AvailabilityExceptions = ({
   mentor: Mentor;
   refetchMentor: () => void;
 }) => {
-  const [errorExceptionalDates, setErrorExceptionalDates] = useState<boolean | object>();
+  const [errorExceptionalDates, setErrorExceptionalDates] = useState<
+    boolean | { errorExceptionalDates: ExceptionDateSlot[] }
+  >(false);
 
   const [availabilityExceptions, setAvailabilityExceptions] = useState<Exception[]>([]);
 
@@ -51,7 +53,6 @@ export const AvailabilityExceptions = ({
   const onSubmit = (availabilityExceptions: Exception) => {
     if (availabilityExceptions) {
       const exceptionDates = [];
-      console.log('availabilityExceptions', availabilityExceptions);
 
       if (availabilityExceptions.slots.length) {
         for (const slot of availabilityExceptions.slots) {
@@ -73,12 +74,6 @@ export const AvailabilityExceptions = ({
       }
 
       const changeAvailabilityExceptions = changeSlots(startAvailabilityExceptions, exceptionDates);
-
-      console.log('startAvailabilityExceptions', startAvailabilityExceptions);
-      console.log('exceptionDates', exceptionDates);
-      console.log('changeAvailabilityExceptions', changeAvailabilityExceptions);
-
-      // return;
 
       upsertExceptionDates({
         variables: {
@@ -219,8 +214,11 @@ export const AvailabilityExceptions = ({
         </ul>
       </div>
 
-      {errorExceptionalDates && (
-        <AdaptiveDialog open={!!errorExceptionalDates} setOpen={setErrorExceptionalDates}>
+      {errorExceptionalDates && typeof errorExceptionalDates !== 'boolean' && (
+        <AdaptiveDialog
+          open={!!errorExceptionalDates}
+          setOpen={(isOpen) => setErrorExceptionalDates(isOpen ? false : errorExceptionalDates)}
+        >
           <ModalConfirm
             icon={
               <div className="w-full flex justify-center mb-6">

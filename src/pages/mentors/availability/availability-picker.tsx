@@ -5,7 +5,7 @@ import { timeGroup } from '@/pages/mentors/availability/lib/time-group';
 import { timeOptions } from '@/pages/mentors/availability/lib/time-options';
 import type { TimeOption } from '@/types';
 import type { InputMaybe, TimesheetSlot } from '@/types/types.generated';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { FaXmark } from 'react-icons/fa6';
 import Select from 'react-select';
 
@@ -33,13 +33,13 @@ const AvailabilityPicker = ({
   const [fromTimeOptions] = useState<TimeOption[]>(timeOptionsSort.slice(0, -1));
   const [toTimeOptions, setToTimeOptions] = useState<TimeOption[]>(timeGroupSort.slice(1));
 
-  const [fromTime, setFromTime] = useState<TimeOption | undefined>(
-    timeOptions.find((time) => time.value === formatTimeToSeconds(frmTime)),
-  );
+  const fromTime = useMemo(() => {
+    return timeOptions.find((time) => time.value === formatTimeToSeconds(frmTime));
+  }, [frmTime]);
 
-  const [toTime, setToTime] = useState<TimeOption | undefined>(
-    timeOptions.find((time) => time.value === formatTimeToSeconds(tTime)),
-  );
+  const toTime = useMemo(() => {
+    return timeOptions.find((time) => time.value === formatTimeToSeconds(tTime));
+  }, [tTime]);
 
   const prevTimeGroupSortRef = useRef<TimeOption[]>();
 
@@ -57,24 +57,18 @@ const AvailabilityPicker = ({
     const idxTime = newTimeGroupSort.findIndex((item) => item.value === t);
 
     if (timeType === 'from') {
-      setFromTime(newTimeGroupSort[idxTime]);
-
       if (newTimeGroupSort[idxTime]?.value >= (toTime?.value || 0)) {
-        setToTime(newTimeGroupSort[idxTime + 1]);
+        // setToTime(newTimeGroupSort[idxTime + 1]);
         updateAvailability(formatTime(t), formatTime(newTimeGroupSort[idxTime + 1]?.value), id);
       } else {
         let updatedToTime = tTime;
         if (JSON.stringify(prevTimeGroupSortRef.current) !== JSON.stringify(newTimeGroupSort)) {
           updatedToTime = formatTime(newTimeGroupSort[idxTime + 1]?.value);
-          setToTime(newTimeGroupSort[idxTime + 1]);
         }
         updateAvailability(formatTime(t), updatedToTime, id);
       }
     } else {
-      setToTime(newTimeGroupSort[idxTime]);
-
       if (newTimeGroupSort[idxTime].value <= (fromTime?.value || 0)) {
-        setFromTime(newTimeGroupSort[idxTime - 1]);
         updateAvailability(formatTime(newTimeGroupSort[idxTime - 1].value), formatTime(t), id);
       } else {
         updateAvailability(frmTime, formatTime(t), id);
