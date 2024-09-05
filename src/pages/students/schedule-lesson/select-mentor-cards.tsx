@@ -30,13 +30,11 @@ const useAvailableMentors = (isoTime: string, duration: number, studentId: strin
 };
 
 const SelectMentorCards = ({
-  tabIndex,
   setTabIndex,
   setSelectMentor,
   schedule,
   step,
 }: {
-  tabIndex: number;
   setTabIndex: (index: number) => void;
   setSelectMentor: Dispatch<SetStateAction<Mentor | undefined>>;
   schedule: string;
@@ -66,6 +64,7 @@ const SelectMentorCards = ({
       <div className="flex flex-col md:items-center">
         <div className="flex items-center gap-3 mb-[10px]">
           <button
+            type="button"
             onClick={() => {
               setTabIndex(1);
             }}
