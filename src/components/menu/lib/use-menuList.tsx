@@ -14,6 +14,7 @@ import { MdEventNote, MdLibraryBooks, MdOutlineShoppingBag } from 'react-icons/m
 export interface MentorNavLink {
   label: string;
   link: string;
+  notificationType?: string;
   icon: IconType;
 }
 
@@ -34,6 +35,7 @@ const mentorNavLinks: MentorNavLink[] = [
   {
     label: 'lessons',
     link: '/mentor/lesson-calendar',
+    notificationType: 'check_requests', //for notifications filter
     icon: FaRegCalendarAlt,
   },
   {

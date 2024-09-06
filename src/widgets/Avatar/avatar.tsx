@@ -20,7 +20,7 @@ export const Avatar = ({
   ) : (
     <div
       className={cn(
-        `flex items-center justify-center bg-gray-50`,
+        'flex items-center justify-center bg-gray-50',
         className ? className : 'w-full h-full',
       )}
     >

@@ -16,7 +16,8 @@ import ScheduleSuccess from '@/pages/students/schedule-lesson/schedule-success';
 import { COMBINED_TIMESHEETS } from '@/shared/apollo/queries/combined-timesheets';
 import { COMBINED_TIMESHEETS_TRIAL } from '@/shared/apollo/queries/trial/combined-time-sheets-for-trials';
 import type { Lesson, Mentor, PackageSubscription, Query } from '@/types/types.generated';
-import SelectLesson from './select-lesson';
+import SelectLesson from '@/pages/students/schedule-lesson/ui/select-lesson';
+import Mentors from '@/pages/students/mentors-list/mentors';
 
 const ScheduleLesson = () => {
   const { currentStudent } = useAuth();
@@ -48,6 +49,13 @@ const ScheduleLesson = () => {
 
   console.log('selectedPlan', selectedPlan);
   console.log('tabIndex', tabIndex);
+  console.log('location', location);
+
+  useEffect(() => {
+    if (location?.state?.mentor) {
+      setTabIndex(1);
+    }
+  }, [location]);
 
   useEffect(() => {
     if (data?.lesson?.packageSubscription) {
@@ -59,17 +67,10 @@ const ScheduleLesson = () => {
 
   return (
     <React.Fragment>
-      {tabIndex === 0 && (
-        <SelectLesson setSelectedPlan={setSelectedPlan} setTabIndex={setTabIndex} />
-      )}
+      {tabIndex === 0 && <Mentors />}
 
       {tabIndex === 1 && (
-        <SelectMentorCards
-          setTabIndex={setTabIndex}
-          setSelectMentor={setSelectMentor}
-          schedule={schedule}
-          step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
-        />
+        <SelectLesson setSelectedPlan={setSelectedPlan} setTabIndex={setTabIndex} />
       )}
 
       {(tabIndex === 1 || tabIndex === 2) && (

@@ -4,6 +4,8 @@ import { MenuItem } from '@/components/menu/ui/menu-item';
 export const Menu = () => {
   const navLinks = useMenuList();
 
+  console.log('navLinks', navLinks);
+
   return (
     <ul className="flex flex-col gap-[10px] pt-10 pb-12">
       {navLinks?.map((menu) => {

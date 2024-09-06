@@ -59,18 +59,11 @@ export const MENTORS = gql`
         updatedAt
       }
       availabilities {
-        regular {
-          id
-          day
-          from
-          to
-        }
-        trial {
-          id
-          day
-          from
-          to
-        }
+        id
+        day
+        from
+        to
+        isTrial
       }
       sortOrder
     }

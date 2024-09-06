@@ -42,8 +42,8 @@ export const MentorsView: React.FC<MentorsViewProps> = ({ mentorList, handleSele
     <>
       <div className="flex items-center justify-between gap-4 my-10">
         <InputField
-          className="w-full max-w-[560px] h-[50px] sm:h-[58px] pl-5 placeholder:text-gray-300"
-          classNameIcon="h-[50px] sm:h-[58px] pr-5 text-xl"
+          className="w-full max-w-[560px] h-[48px] pl-4 placeholder:text-gray-300"
+          classNameIcon="h-[48px] pr-4 text-xl"
           placeholder="Search..."
           icon={<FiSearch />}
           onChange={(e) => searchMentors(e.target.value)}

@@ -1,6 +1,3 @@
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-
 import Button from '@/components/form/button';
 import {
   Tooltip,
@@ -9,14 +6,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/tooltip';
-import { Avatar } from '@/widgets/avatar/avatar';
-
-import { HiMiniChevronRight } from 'react-icons/hi2';
-
 import MentorsModal from '@/pages/students/mentors-list/mentors-modal';
-
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import type { Mentor } from '@/types/types.generated';
+import { Avatar } from '@/widgets/avatar/avatar';
+import { useTranslation } from 'react-i18next';
+import { HiMiniChevronRight } from 'react-icons/hi2';
+import { useMediaQuery } from 'react-responsive';
+import { Link } from 'react-router-dom';
 
 export const MentorCard = ({
   mentor,
@@ -25,59 +22,63 @@ export const MentorCard = ({
   mentor: Mentor;
   handleSelectMentor: (mentor: Mentor) => void;
 }) => {
+  const isMobile = useMediaQuery({ maxWidth: 639 });
+
   const [t] = useTranslation(['studentMentor', 'common', 'lessons']);
 
-  // const resizerUsername = (name) => {
-  //   return name && name.length > 9 ? name.slice(0, 9 - 1) + '...' : name;
-  // };
-
   return (
-    // <div className="w-full sm:w-[45%] xl:w-[30%] 2xl:w-[300px]">
-    <div className="flex flex-col w-[calc(50%-0.75rem)] sm:w-[256px]">
-      <div className="relative w-full h-[176px] sm:h-[240px] overflow-hidden rounded-lg">
+    <div className="flex w-full gap-4 sm:gap-6">
+      <div className="relative min-w-[64px] max-w-[64px] sm:min-w-[80px] sm:max-w-[80px] h-[80px] overflow-hidden rounded-lg">
         <Avatar avatarUrl={mentor.avatar?.url ?? undefined} />
+        {/* <div className="absolute left-0 right-0 bottom-0 py-[2px] rounded-b-lg bg-[#FF5F4B] text-white text-[10px] text-center font-semibold">
+          Top mentor
+        </div> */}
       </div>
 
-      <div className="flex flex-col justify-content-between grow mt-4 overflow-hidden">
-        <div className="mb-4">
-          <h2 className="text-base sm:text-lg text-color-dark-purple font-bold tracking-[-0.6px] mb-2">
+      <div className="flex flex-col sm:flex-row grow justify-between gap-x-6">
+        <div>
+          <h2 className="text-base sm:text-lg text-color-dark-purple font-bold leading-normal tracking-[-0.6px]">
             {mentor?.firstName}
           </h2>
 
-          <h4 className="text-[13px] sm:text-sm text-color-dark-purple leading-[18px] tracking-[-0.2px] mb-3">
-            {mentor.university}
-          </h4>
+          {isMobile ? (
+            <div>
+              {mentor.university && (
+                <p className="text-[13px] leading-normal tracking-[-0.2px] mt-2 mb-3">
+                  <span className="text-color-dark-purple">{mentor.university}</span>{' '}
+                  {(mentor.degree || mentor.major) && (
+                    <span className="text-gray-400">
+                      ({mentor.degree} {`${mentor.major}/ ${mentor.major}`})
+                    </span>
+                  )}
+                </p>
+              )}
+            </div>
+          ) : (
+            <div>
+              {mentor.university && (
+                <h4 className="text-[13px] text-color-dark-purple leading-normal tracking-[-0.2px] mt-2">
+                  {mentor.university}
+                </h4>
+              )}
 
-          <TooltipProvider>
-            <Tooltip delayDuration={200}>
-              <TooltipTrigger asChild>
-                <div className="text-xs sm:text-sm text-gray-400 leading-[18px] tracking-[-0.2px] truncate">
-                  {mentor.degree} {mentor.major ? '/ ' + mentor.major : null}
-                </div>
-              </TooltipTrigger>
-
-              <TooltipPortal>
-                <TooltipContent>
-                  <p className="text-color-dark-purple text-sm font-semibold max-w-[16rem]">
-                    {mentor.degree} {mentor.major ? '/ ' + mentor.major : null}
-                  </p>
-                </TooltipContent>
-              </TooltipPortal>
-            </Tooltip>
-          </TooltipProvider>
+              {(mentor.degree || mentor.major) && (
+                <h4 className="text-[13px] text-gray-400 leading-normal tracking-[-0.2px] mt-3">
+                  ({mentor.degree} {`${mentor.major}/ ${mentor.major}`})
+                </h4>
+              )}
+            </div>
+          )}
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex gap-2 mt-4">
           {mentor?.availabilities ? (
             <TooltipProvider>
               <Tooltip delayDuration={200}>
                 <TooltipTrigger asChild>
                   <Link
-                    className="m-1"
                     to={
-                      mentor?.availabilities?.regular?.length > 0
-                        ? `/student/schedule-lesson/select`
-                        : '#'
+                      mentor?.availabilities?.length > 0 ? '/student/schedule-lesson/select' : '#'
                     }
                     state={{
                       mentor: {
@@ -87,20 +88,22 @@ export const MentorCard = ({
                   >
                     <Button
                       theme="purple"
-                      className="w-full h-[57px]"
-                      disabled={mentor?.availabilities?.regular?.length === 0}
+                      className="w-full px-[18px] sm:px-6 h-[40px] text-xs sm:text-sm"
+                      disabled={mentor?.availabilities?.length === 0}
                     >
                       {t('schedule', { ns: 'common' })}
                     </Button>
                   </Link>
                 </TooltipTrigger>
 
-                {mentor?.availabilities?.regular?.length === 0 && (
+                {mentor?.availabilities?.length === 0 && (
                   <TooltipPortal>
                     <TooltipContent>
-                      <p className="text-center text-color-dark-purple text-sm font-semibold max-w-[16rem]">
-                        We apologize, but this mentor has no availability
-                      </p>
+                      <div className="text-center">
+                        <p className="text-color-dark-purple text-sm font-semibold max-w-[16rem]">
+                          We apologize, but this mentor has no availability
+                        </p>
+                      </div>
                     </TooltipContent>
                   </TooltipPortal>
                 )}
@@ -109,16 +112,18 @@ export const MentorCard = ({
           ) : (
             <Button
               theme="purple"
-              className="p-2 m-1 h-[57px]"
+              className="px-[18px] sm:px-6 h-[40px] text-xs sm:text-sm whitespace-nowrap"
               onClick={() => handleSelectMentor(mentor)}
             >
               {t('select_mentor', { ns: 'lessons' })}
             </Button>
           )}
-
           <AdaptiveDialog
             button={
-              <Button theme="gray" className="m-1 grow h-[57px]">
+              <Button
+                theme="gray"
+                className="flex items-center justify-center px-[18px] sm:px-6 h-[40px] text-xs sm:text-sm"
+              >
                 <span className="whitespace-nowrap">{t('learn_more', { ns: 'common' })}</span>
                 <HiMiniChevronRight className="text-sm" />
               </Button>
