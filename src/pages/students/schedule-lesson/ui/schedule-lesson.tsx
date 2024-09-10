@@ -17,7 +17,7 @@ import { COMBINED_TIMESHEETS } from '@/shared/apollo/queries/combined-timesheets
 import { COMBINED_TIMESHEETS_TRIAL } from '@/shared/apollo/queries/trial/combined-time-sheets-for-trials';
 import type { Lesson, Mentor, PackageSubscription, Query } from '@/types/types.generated';
 import SelectLesson from '@/pages/students/schedule-lesson/ui/select-lesson';
-import Mentors from '@/pages/students/mentors-list/mentors';
+import Mentors from '@/pages/students/mentors-list';
 
 const ScheduleLesson = () => {
   const { currentStudent } = useAuth();
@@ -73,7 +73,7 @@ const ScheduleLesson = () => {
         <SelectLesson setSelectedPlan={setSelectedPlan} setTabIndex={setTabIndex} />
       )}
 
-      {(tabIndex === 1 || tabIndex === 2) && (
+      {/* {(tabIndex === 1 || tabIndex === 2) && (
         <ScheduleProvider
           query={currentStudent?.isTrial ? COMBINED_TIMESHEETS_TRIAL : COMBINED_TIMESHEETS}
           setTabIndex={setTabIndex}
@@ -95,7 +95,7 @@ const ScheduleLesson = () => {
           schedule={schedule}
           step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
         />
-      )}
+      )} */}
 
       {(tabIndex === 4 ||
         (tabIndex === 3 && location?.state?.mentor) ||

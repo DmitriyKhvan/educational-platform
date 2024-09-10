@@ -6,7 +6,7 @@ import { format, toZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
 
 import Loader from '@/components/loader/loader';
-import { MentorsView } from '@/pages/students/mentors-list/mentors-view';
+import { MentorsView } from '@/pages/students/mentors-list/ui/mentor/mentors-view';
 import { getItemToLocalStorage } from '@/shared/constants/global';
 import type { Mentor } from '@/types/types.generated';
 import { IoArrowBack } from 'react-icons/io5';

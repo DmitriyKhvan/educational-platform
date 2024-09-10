@@ -100,7 +100,7 @@ export const AvailabilitySlots = ({
         variables: {
           mentorId: mentorInfo?.id,
           timesheets: changeAvailabilities,
-          ...(timeZone && { timeZone }),
+          ...(timeZone && { timezone: timeZone }),
         },
       });
 

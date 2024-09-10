@@ -6,7 +6,7 @@ import Loader from '@/components/loader/loader';
 
 import { getItemToLocalStorage } from '@/shared/constants/global';
 
-import { MentorsView } from '@/pages/students/mentors-list/mentors-view';
+import { MentorsView } from '@/pages/students/mentors-list/ui/mentor/mentors-view';
 
 const Mentors = () => {
   const studentId = getItemToLocalStorage('studentId', '');

@@ -6,7 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/tooltip';
-import MentorsModal from '@/pages/students/mentors-list/mentors-modal';
+import MentorsModal from '@/pages/students/mentors-list/ui/mentor/mentors-modal';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import type { Mentor } from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';

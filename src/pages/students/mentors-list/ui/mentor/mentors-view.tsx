@@ -1,6 +1,6 @@
 import InputField from '@/components/form/input-field';
-import { MentorCard } from '@/pages/students/mentors-list/mentor-card';
-import { MentorCard2 } from '@/pages/students/mentors-list/mentor-card-2';
+import { MentorCard } from '@/pages/students/mentors-list/ui/mentor/mentor-card';
+import { MentorCard2 } from '@/pages/students/mentors-list/ui/mentor/mentor-card-2';
 import type { Mentor } from '@/types/types.generated';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';

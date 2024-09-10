@@ -6,7 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/tooltip';
-import MentorsModal from '@/pages/students/mentors-list/mentors-modal';
+import MentorsModal from '@/pages/students/mentors-list/ui/mentor/mentors-modal';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import type { Mentor } from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';
@@ -15,7 +15,7 @@ import { useMediaQuery } from 'react-responsive';
 import { Link } from 'react-router-dom';
 
 import { MdPersonSearch } from 'react-icons/md';
-import { WeekSlots } from './ui/week-slots/week-slots';
+import { WeekSlots } from '../week-slots/week-slots';
 
 export const MentorCard2 = ({
   mentor,
@@ -27,7 +27,7 @@ export const MentorCard2 = ({
   const [t] = useTranslation(['studentMentor', 'common', 'lessons']);
 
   return (
-    <div className="space-y-6 p-4 border border-gray-100 rounded-xl shadow-[0px_0px_16px_0px_rgba(0,_0,_0,_0.04)]">
+    <div className="w-full sm:w-fit space-y-6 p-4 border border-gray-100 rounded-xl shadow-[0px_0px_16px_0px_rgba(0,_0,_0,_0.04)]">
       <div className="flex flex-col sm:flex-row sm:items-center w-full gap-y-4">
         <div className="flex items-center flex-grow gap-x-4 sm:gap-x-5">
           <div className="relative min-w-[64px] max-w-[64px] h-[64px] overflow-hidden rounded-lg">
@@ -56,7 +56,7 @@ export const MentorCard2 = ({
         <div className="flex gap-3">
           <AdaptiveDialog
             button={
-              <Button theme="gray" className="flex items-center justify-center gap-2 w-[150px]">
+              <Button theme="gray" className="flex items-center justify-center gap-2 w-[145px]">
                 <MdPersonSearch className="text-xl" />
                 <span className="whitespace-nowrap">{t('learn_more', { ns: 'common' })}</span>
               </Button>
@@ -79,7 +79,7 @@ export const MentorCard2 = ({
                 >
                   <Button
                     theme="purple"
-                    className="w-[150px]"
+                    className="w-[145px]"
                     disabled={mentor?.availabilities?.length === 0}
                   >
                     {t('schedule', { ns: 'common' })}
@@ -103,7 +103,7 @@ export const MentorCard2 = ({
         </div>
       </div>
 
-      <WeekSlots />
+      {!isMobile && <WeekSlots mentor={mentor} />}
     </div>
   );
 };

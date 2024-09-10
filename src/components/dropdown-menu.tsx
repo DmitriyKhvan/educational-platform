@@ -10,12 +10,12 @@ const MyDropdownMenu = ({
   contentClassName = '',
   align = 'start',
 }: {
-  setOpen: Dispatch<SetStateAction<boolean>>;
-  open: boolean;
+  setOpen?: Dispatch<SetStateAction<boolean>>;
+  open?: boolean;
   button: React.ReactNode;
   children: React.ReactNode;
   contentClassName?: string;
-  align?: 'start' | 'end';
+  align?: 'start' | 'center' | 'end';
 }) => {
   return (
     <DropdownMenu.Root open={open} onOpenChange={setOpen}>

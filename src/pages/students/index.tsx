@@ -6,7 +6,7 @@ import { Route, Routes } from 'react-router-dom';
 const StudentDashboard = lazy(() => import('@/pages/students/student-dashboard'));
 const ScheduleLesson = lazy(() => import('@/pages/students/schedule-lesson'));
 
-const Mentors = lazy(() => import('@/pages/students/mentors-list/mentors'));
+const Mentors = lazy(() => import('@/pages/students/mentors-list'));
 const Subscriptions = lazy(() => import('@/pages/students/subscriptions/subscriptions'));
 const Lessons = lazy(() => import('@/pages/students/lessons'));
 const Feedback = lazy(() => import('@/pages/students/feedback'));
