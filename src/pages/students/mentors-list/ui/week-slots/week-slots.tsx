@@ -46,22 +46,24 @@ export const WeekSlots = ({ mentor }: { mentor: Mentor }) => {
   }, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  const nextWeekSlots = useCallback((count: number) => {
+  const nextWeekSlots = useCallback(async (stepCarousel: number) => {
+    const WEEK_DAYS = 7;
     const datesArray: string[] = [];
-    const countDays = 7 * count;
-    const rangeStart = toZonedTime(new Date(), userTimezone);
-    const rangeEnd = add(rangeStart, { days: countDays });
+    const countDays = WEEK_DAYS * stepCarousel;
+    const rangeStart = toZonedTime(new Date(), userTimezone); // today
+    const rangeEnd = add(rangeStart, { days: countDays - 1 });
+    const startDay = add(rangeStart, { days: countDays - WEEK_DAYS }); // 7 days ago from the end date
 
-    fetchAvailabilitySlots(rangeStart, rangeEnd);
+    await fetchAvailabilitySlots(rangeStart, rangeEnd);
 
-    for (let i = 0; i < countDays; i++) {
-      const nextDate = format(add(rangeStart, { days: i }), 'yyyy-MM-dd', {
+    // generate dates for 7 days
+    for (let i = 0; i < WEEK_DAYS; i++) {
+      const nextDate = format(add(startDay, { days: i }), 'yyyy-MM-dd', {
         timeZone: userTimezone,
       });
-
       datesArray.push(nextDate);
     }
-    setSlides(datesArray);
+    setSlides((prev) => [...prev, ...datesArray]);
   }, []);
 
   return (
