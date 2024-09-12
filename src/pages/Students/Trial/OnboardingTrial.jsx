@@ -87,6 +87,7 @@ export default memo(function OnboardingTrial({
 	return (
 		<>
 			<Facebook />
+			<Hotjar />
 			<form onSubmit={handleSubmit(onSubmit)} className="max-w-[440px] m-auto">
 				<fieldset className="flex flex-col space-y-4">
 					<legend className="text-[32px] sm:text-4xl sm:text-center font-bold">
