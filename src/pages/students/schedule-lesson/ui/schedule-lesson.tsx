@@ -18,6 +18,7 @@ import { COMBINED_TIMESHEETS_TRIAL } from '@/shared/apollo/queries/trial/combine
 import type { Lesson, Mentor, PackageSubscription, Query } from '@/types/types.generated';
 import SelectLesson from '@/pages/students/schedule-lesson/ui/select-lesson';
 import Mentors from '@/pages/students/mentors-list';
+import { ScheduleDateTime } from './schedule-date-time/schedule-date-time';
 
 const ScheduleLesson = () => {
   const { currentStudent } = useAuth();
@@ -72,6 +73,8 @@ const ScheduleLesson = () => {
       {tabIndex === 1 && (
         <SelectLesson setSelectedPlan={setSelectedPlan} setTabIndex={setTabIndex} />
       )}
+
+      {tabIndex === 2 && <ScheduleDateTime />}
 
       {/* {(tabIndex === 1 || tabIndex === 2) && (
         <ScheduleProvider

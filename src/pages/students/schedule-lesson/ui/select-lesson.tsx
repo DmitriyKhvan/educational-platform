@@ -93,7 +93,7 @@ const SelectLesson = ({
 
   const selectPlan = (pkg: PackageSubscription) => {
     setSelectedPlan(pkg);
-    setTabIndex(1);
+    setTabIndex(2);
   };
 
   return (
