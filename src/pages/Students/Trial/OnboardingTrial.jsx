@@ -14,7 +14,7 @@ import { SelectField } from "src/components/Form/SelectField";
 import PhoneNumberField from "src/components/Form/PhoneNumberField";
 import { trimSpaces } from "src/shared/utils/trimSpaces";
 import { usePublicMentors } from "./lib/usePublicMentors";
-import { Facebook } from "src/widgets/tracking";
+import { Facebook, Hotjar } from "src/widgets/tracking";
 
 export default memo(function OnboardingTrial({
 	currentUser,
