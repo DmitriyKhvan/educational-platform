@@ -8,14 +8,13 @@ import { LangSwitcher, useCurrentLang } from 'src/entities/LangSwitcher';
 import { useAuth } from 'src/app/providers/AuthProvider';
 
 export const OnboardingLayout = () => {
-  const {user} = useAuth();
+  const { user } = useAuth();
 
   const currentLang = useCurrentLang();
   const switcher = useMemo(() => {
     return user ? (
       <LangCurrencySwitcher align="end" />
     ) : (
-      
       <div className="w-[150px]">
         <LangSwitcher currentLang={currentLang} />
       </div>

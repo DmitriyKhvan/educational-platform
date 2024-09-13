@@ -35,7 +35,10 @@ const LessonsList = ({
     getAppointments();
     if (searchParams.get('selectedTab') === 'upcomingLessons') {
       setTimeout(() => {
-        removeNotifications(LessonsStatusType.SCHEDULED, LessonsStatusType.RESCHEDULED);
+        removeNotifications(
+          LessonsStatusType.SCHEDULED,
+          LessonsStatusType.RESCHEDULED,
+        );
       }, 300);
     }
   }, [notifications]);
@@ -65,7 +68,10 @@ const LessonsList = ({
 
   const onClickUpcomingLessons = () => {
     navigate('?selectedTab=upcomingLessons');
-    removeNotifications(LessonsStatusType.SCHEDULED, LessonsStatusType.RESCHEDULED);
+    removeNotifications(
+      LessonsStatusType.SCHEDULED,
+      LessonsStatusType.RESCHEDULED,
+    );
   };
 
   const onCalendarClick = () => {
@@ -100,9 +106,15 @@ const LessonsList = ({
                     onClick={onClickUpcomingLessons}
                   >
                     <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
-                    {getCountNotification(LessonsStatusType.SCHEDULED, LessonsStatusType.RESCHEDULED) > 0 && (
+                    {getCountNotification(
+                      LessonsStatusType.SCHEDULED,
+                      LessonsStatusType.RESCHEDULED,
+                    ) > 0 && (
                       <Badge
-                        count={getCountNotification(LessonsStatusType.SCHEDULED, LessonsStatusType.RESCHEDULED)}
+                        count={getCountNotification(
+                          LessonsStatusType.SCHEDULED,
+                          LessonsStatusType.RESCHEDULED,
+                        )}
                       />
                     )}
                   </Button>
