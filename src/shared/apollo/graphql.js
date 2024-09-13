@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const SIGN_UP = gql`
   mutation SignUp(
@@ -489,6 +489,7 @@ export const APPOINTMENTS_QUERY = gql`
       status
       cancelAction
       cancelReason
+      noShow
       canceledBy
       canceledAt
       isTrial
