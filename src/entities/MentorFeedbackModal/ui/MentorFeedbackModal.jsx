@@ -155,7 +155,11 @@ export const MentorFeedbackModal = ({ data, closeModal }) => {
 							className="w-full mb-4 h-14"
 							onClick={markStudentAttendance}
 						>
-							{loading ? <FaSpinner className="animate-spin" /> : "No show"}
+							{loading ? (
+								<FaSpinner className="animate-spin" />
+							) : (
+								"Yes, student didn't show up"
+							)}
 						</Button>
 						<Button
 							theme="gray"
