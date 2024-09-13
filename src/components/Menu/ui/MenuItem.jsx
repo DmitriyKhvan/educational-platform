@@ -13,7 +13,7 @@ export const MenuItem = ({ menu }) => {
   const [t] = useTranslation('sidebar');
   const { notifications } = useNotifications();
 
-  const getCountNotification = (type="") => {
+  const getCountNotification = (type = '') => {
     const count = notifications.filter(
       (notification) => notification?.meta?.dashboard === type,
     );

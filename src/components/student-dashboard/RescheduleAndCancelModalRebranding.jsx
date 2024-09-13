@@ -28,10 +28,7 @@ const RescheduleAndCancelModal = ({
     <>
       {tabIndex === 0 ? (
         user?.role === Roles.MENTOR ? (
-          <MentorCancelWarningModal
-            data={data}
-            setTabIndex={setTabIndex}
-          />
+          <MentorCancelWarningModal data={data} setTabIndex={setTabIndex} />
         ) : (
           <StudentCancelWarningModal
             data={data}
@@ -52,11 +49,7 @@ const RescheduleAndCancelModal = ({
           repeatLessons={repeatLessons}
         />
       ) : (
-        tabIndex === 10 && (
-          <CancellationPolicyModal
-            setTabIndex={setTabIndex}
-          />
-        )
+        tabIndex === 10 && <CancellationPolicyModal setTabIndex={setTabIndex} />
       )}
     </>
   );

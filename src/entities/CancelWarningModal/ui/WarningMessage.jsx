@@ -7,9 +7,7 @@ export const WarningMessage = ({ warningMessage }) => {
         !
       </span>
       <div className="max-w-[300px] space-y-3 font-medium text-color-dark-purple leading-5">
-        <p>
-          {warningMessage}
-        </p>
+        <p>{warningMessage}</p>
       </div>
     </div>
   );

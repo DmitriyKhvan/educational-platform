@@ -7,10 +7,7 @@ import notify from 'src/shared/utils/notify';
 import Loader from '../Loader/Loader';
 import * as Dialog from '@radix-ui/react-dialog';
 
-export const CancelTrialLessonModal = ({
-  data,
-  fetchAppointments,
-}) => {
+export const CancelTrialLessonModal = ({ data, fetchAppointments }) => {
   const [t] = useTranslation(['modals', 'common']);
 
   const [isLoading, setIsLoading] = useState(false);

@@ -80,7 +80,10 @@ const CancellationPolicyModal = ({ setTabIndex }) => {
                 within a month results in forfeiture of the ability to take on
                 new students.
               </li>
-              <li>Incomplete lesson trackers within 12 hours will result in a $2 fine per lesson tracker.</li>
+              <li>
+                Incomplete lesson trackers within 12 hours will result in a $2
+                fine per lesson tracker.
+              </li>
             </ul>
           </div>
 
@@ -93,8 +96,7 @@ const CancellationPolicyModal = ({ setTabIndex }) => {
                 for the lesson.
               </li>
               <li>
-                NAONOW will provide a free lesson for the student in such
-                cases.
+                NAONOW will provide a free lesson for the student in such cases.
               </li>
             </ul>
           </div>
