@@ -1,19 +1,19 @@
+import { useMutation, useQuery } from '@apollo/client';
 import React, { useMemo } from 'react';
-import Button from 'src/components/Form/Button';
+import { Trans, useTranslation } from 'react-i18next';
 import { FaCopy } from 'react-icons/fa';
 import {
-  IoTriangleSharp,
-  IoSquareSharp,
   IoEllipseSharp,
+  IoSquareSharp,
+  IoTriangleSharp,
 } from 'react-icons/io5';
-import { InfoItem } from './InfoItem';
-import notify from 'src/shared/utils/notify';
-import { GENERATE_REFERRAL_LINK } from 'src/shared/apollo/mutations/referralCodes';
-import { useMutation, useQuery } from '@apollo/client';
-import { getItemToLocalStorage } from 'src/shared/constants/global';
-import { Trans, useTranslation } from 'react-i18next';
-import { APP_CONFIG } from 'src/shared/apollo/queries/appConfig';
+import Button from 'src/components/Form/Button';
 import ReactLoader from 'src/components/common/Loader';
+import { GENERATE_REFERRAL_LINK } from 'src/shared/apollo/mutations/referralCodes';
+import { APP_CONFIG } from 'src/shared/apollo/queries/appConfig';
+import { getItemToLocalStorage } from 'src/shared/constants/global';
+import notify from 'src/shared/utils/notify';
+import { InfoItem } from './InfoItem';
 
 export const Info = () => {
   const { t } = useTranslation(['refer']);
@@ -90,7 +90,7 @@ export const Info = () => {
       );
       notify('Referral link copied to clipboard');
     } catch (error) {
-      notify('Error in copying referral link: ', error, 'error');
+      notify('Error in copying referral link', 'error');
     }
   };
 
