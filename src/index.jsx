@@ -1,3 +1,4 @@
+import './shared/utils/sentry';
 import { ApolloProvider } from '@apollo/client';
 import { createRoot } from 'react-dom/client';
 import App from './app/App';
