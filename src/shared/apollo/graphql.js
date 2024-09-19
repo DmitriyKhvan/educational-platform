@@ -489,6 +489,7 @@ export const APPOINTMENTS_QUERY = gql`
       status
       cancelAction
       cancelReason
+      noShow
       canceledBy
       canceledAt
       isTrial

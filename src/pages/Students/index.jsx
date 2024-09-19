@@ -31,7 +31,7 @@ export default function StudentRoutes() {
         path="schedule-lesson/select/:id?"
         element={
           // <TrialRoute>
-            <ScheduleLesson />
+          <ScheduleLesson />
           // </TrialRoute>
         }
       />

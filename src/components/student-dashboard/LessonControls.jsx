@@ -1,24 +1,24 @@
+import { addMinutes, isAfter } from 'date-fns';
 import React, { useState, useEffect } from 'react';
-import Button from '../Form/Button';
-import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog';
+import { useTranslation } from 'react-i18next';
+import { FaCheck, FaPlay, FaStar } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from 'src/app/providers/AuthProvider';
+import { MentorFeedbackModal } from 'src/entities/MentorFeedbackModal';
 import {
   LessonsStatusType,
   ModalType,
   Roles,
 } from 'src/shared/constants/global';
-import { isBetween } from 'src/shared/utils/isBetween';
-import { useAuth } from 'src/app/providers/AuthProvider';
-import { useTranslation } from 'react-i18next';
-import RescheduleAndCancelModal from './RescheduleAndCancelModalRebranding';
-import PlaygroundWarningModal from './PlaygroundWarningModal';
-import LessonInfoModal from './LessonInfoModal';
-import { addMinutes, isAfter } from 'date-fns';
-import { isWithinHours } from 'src/shared/utils/isWithinHours';
-import { CancelTrialLessonModal } from './CancelTrialLessonModal';
-import { FaCheck, FaPlay, FaStar } from 'react-icons/fa6';
-import { useNavigate } from 'react-router-dom';
+import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog';
 import { cn } from 'src/shared/utils/functions';
-import { MentorFeedbackModal } from 'src/entities/MentorFeedbackModal';
+import { isBetween } from 'src/shared/utils/isBetween';
+import { isWithinHours } from 'src/shared/utils/isWithinHours';
+import Button from '../Form/Button';
+import { CancelTrialLessonModal } from './CancelTrialLessonModal';
+import LessonInfoModal from './LessonInfoModal';
+import PlaygroundWarningModal from './PlaygroundWarningModal';
+import RescheduleAndCancelModal from './RescheduleAndCancelModalRebranding';
 
 const LessonControls = ({
   date,
@@ -94,15 +94,12 @@ const LessonControls = ({
   );
 
   const cancelTrialLessonModal = (
-    <CancelTrialLessonModal
-      data={data}
-      fetchAppointments={refetch}
-    />
+    <CancelTrialLessonModal data={data} fetchAppointments={refetch} />
   );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    let controls = [];
+    const controls = [];
 
     if (
       !isAfterLesson &&
@@ -210,21 +207,31 @@ const LessonControls = ({
           classNameDrawer="h-[95%]"
           button={
             <Button
-              disabled={data?.mentorReview}
+              disabled={data?.mentorReview || data?.noShow}
+              // theme={data?.noShow ? "red" : "purple"}
               className={cn(
-                'grow text-xs sm:text-sm px-2 gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#0EC541]',
+                'grow text-xs min-w-[108px] sm:text-sm px-2 gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#0EC541]',
+                data?.noShow
+                  ? 'disabled:bg-color-red disabled:text-color-red'
+                  : 'disabled:bg-[#039855] disabled:text-[#0EC541]',
               )}
             >
-              {!data?.mentorReview && (
+              {!data?.noShow && !data?.mentorReview && (
                 <>
                   <FaStar className="min-w-5 min-h-5" />
                   <span className="truncate">Feedback</span>
                 </>
               )}
-              {data?.mentorReview && (
+              {!data?.noShow && data?.mentorReview && (
                 <>
                   <FaCheck className="" />
                   <span className="truncate">Submitted</span>
+                </>
+              )}
+              {data?.noShow && (
+                <>
+                  {/* <FaXmark className="" /> */}
+                  <span className="truncate">No Show</span>
                 </>
               )}
             </Button>
@@ -268,6 +275,7 @@ const LessonControls = ({
     <>
       <div style={gridStyle} className={cn('gap-2 xl:gap-3 h-[52px]')}>
         {controls.map((control, index) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
           <div key={index} className="flex">
             {control}
           </div>
@@ -282,4 +290,3 @@ const LessonControls = ({
 };
 
 export default LessonControls;
-``;

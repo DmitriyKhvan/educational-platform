@@ -36,8 +36,8 @@ const ScheduleCard = ({
 
   const userToDisplay =
     user.role === Roles.MENTOR
-      ? student ?? data?.student
-      : mentor ?? data?.mentor;
+      ? (student ?? data?.student)
+      : (mentor ?? data?.mentor);
 
   const dateLesson = new Date(date); //current time zone avtomaticaly
 

@@ -4,10 +4,7 @@ import { WarningMessage } from './WarningMessage';
 import { useAuth } from 'src/app/providers/AuthProvider';
 import { isWithinHours } from 'src/shared/utils/isWithinHours';
 import { format, toZonedTime } from 'date-fns-tz';
-import {
-  MAX_MODIFY_COUNT,
-  ModalType,
-} from 'src/shared/constants/global';
+import { MAX_MODIFY_COUNT, ModalType } from 'src/shared/constants/global';
 import { FaXmark } from 'react-icons/fa6';
 
 export const StrikeStudent = ({ data, type, modifyCredits }) => {
