@@ -1,11 +1,17 @@
-import React, { Suspense, lazy } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import Loader from 'src/components/Loader/Loader';
+import React, { Suspense, lazy, useEffect } from 'react';
+import { Route, Routes, useSearchParams } from 'react-router-dom';
 import { useAuth } from 'src/app/providers/AuthProvider';
+import Loader from 'src/components/Loader/Loader';
 
-import { MentorRoute, StudentRoute } from '..';
+import { useTranslation } from 'react-i18next';
+import { useCurrentLang } from 'src/entities/LangSwitcher';
 import NotFoundPage from 'src/pages/NotFoundPage';
+import {
+  languagesDic,
+  setItemToLocalStorage,
+} from 'src/shared/constants/global';
 import { Layout, OnboardingLayout } from 'src/shared/layouts';
+import { MentorRoute, StudentRoute } from '..';
 import { LoginRoute } from '../lib/LoginRoute';
 
 const Login = lazy(() => import('src/pages/Auth/Login'));
@@ -32,11 +38,28 @@ const MentorPages = lazy(() => import('src/pages/Mentors'));
 export const AppRouter = () => {
   const { isLoading } = useAuth();
 
+  // eslint-disable-next-line no-unused-vars
+  const [_, i18n] = useTranslation('common');
+  const currLang = useCurrentLang();
+  console.log('🚀 ~ AppRouter ~ currLang:', currLang);
+
+  const [searchParams] = useSearchParams();
+  console.log('🚀 ~ AppRouter ~ searchParams:', searchParams);
+  console.log('🚀 ~ AppRouter ~ searchParams:', searchParams.get('lang'));
+
   React.useEffect(() => {
     window.scrollTo({
       top: 0,
     });
   });
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <should trigger only on searchParam>
+  useEffect(() => {
+    if (languagesDic.find((ld) => searchParams.get('lang') === ld.value)) {
+      setItemToLocalStorage('language', searchParams.get('lang'));
+      i18n.changeLanguage(searchParams.get('lang'));
+    }
+  }, [searchParams]);
 
   if (isLoading) return <Loader height={'100vh'} />;
 
