@@ -1,19 +1,19 @@
+import { useQuery } from '@apollo/client';
 import { useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import MyDropdownMenu from 'src/components/DropdownMenu';
 import Button from 'src/components/Form/Button';
 import CheckboxField from 'src/components/Form/CheckboxField';
-import LevelModal from './LevelModal';
-import { useQuery } from '@apollo/client';
+import InputWithError from 'src/components/Form/InputWithError';
 import { TRIAL_PACKAGES } from 'src/shared/apollo/queries/trial/trialPackages';
 import { AdaptiveDialog } from 'src/shared/ui/AdaptiveDialog';
-import { useForm } from 'react-hook-form';
-import InputWithError from 'src/components/Form/InputWithError';
-import { useTranslation } from 'react-i18next';
 import {
   getTranslatedDescription,
   getTranslatedTitle,
 } from 'src/shared/utils/getTranslatedTitle';
+import LevelModal from './LevelModal';
 
 const LessonDetails = ({
   schedule,
@@ -37,6 +37,7 @@ const LessonDetails = ({
     register,
     watch,
     formState: { errors, isValid },
+    setValue,
   } = useForm({
     mode: 'onChange',
     // mode: 'all',
@@ -102,6 +103,9 @@ const LessonDetails = ({
       );
       setCurrentPackage(currentPackage);
 
+      setValue('languageLevelId', undefined);
+      setValue('lessonTopicId', undefined);
+
       return (
         currentPackage?.course?.title || (
           <span className="text-[#BBBBC4]">
@@ -124,6 +128,8 @@ const LessonDetails = ({
         (level) => level.id === watch('languageLevelId'),
       );
       setCurrentLevel(currentLevel);
+
+      setValue('lessonTopicId', undefined);
 
       return (
         currentLevel?.title || (
