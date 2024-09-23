@@ -9,15 +9,16 @@ interface OptionType {
 
 interface SelectFieldProps extends Omit<SelectProps<OptionType, false>, 'value' | 'onChange'> {
   value?: string;
-  options: OptionType[];
+  options?: OptionType[];
   onChange: (value: string) => void;
   isDisabled?: boolean;
   styles?: StylesConfig<OptionType, false>;
 }
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export const SelectField = forwardRef<any, SelectFieldProps>(
   ({ value, options, onChange, isDisabled, styles, ...props }, ref) => {
-    const defaultValue = options.find((item) => item.value === value) as SingleValue<OptionType>;
+    const defaultValue = options?.find((item) => item.value === value) as SingleValue<OptionType>;
 
     const selectStyle = useMemo(() => {
       return (
