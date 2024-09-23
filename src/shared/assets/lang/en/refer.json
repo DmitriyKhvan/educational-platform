@@ -29,7 +29,7 @@
   "only_for_new_studs": "Offer available for new students only.",
   "exclusive_deal": "Exclusive deal for friends of NAONOW",
   "to_get_started": "to get started",
-  "exclusive_deal_case_1": "FREE trial and 10% off first package",
+  "exclusive_deal_case_1": "FREE trial and 10% off the first package",
   "exclusive_deal_case_2": "Access to top native English speakers",
   "exclusive_deal_case_3": "Speaking-focused curriculum",
   "start_now_btn": "Start now with a FREE TRIAL",
@@ -58,5 +58,15 @@
   "mentors": "Mentors",
   "free_trial": "Free Trial",
   "blog": "Blog",
-  "become_a_mentor": "Become a Mentor"
+  "become_a_mentor": "Become a Mentor",
+  "speaking_course": "Speaking Course",
+  "writing_course": "Writing Course",
+  "faq": "FAQ",
+  "purchase": "Purchase",
+  "contact_us": "Contact Us",
+  "follow_us": "Follow Us",
+  "address": "02-3498-6970 325 N. Saint Paul Street, Suite 3100, Dallas, TX 75201",
+  "quick_links": "QUICK LINKS",
+  "naonow_today": "NAONOW Today.",
+  "oppotunity_tomorrow": "Opportunities Tomorrow."
 }

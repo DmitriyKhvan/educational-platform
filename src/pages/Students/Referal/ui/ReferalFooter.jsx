@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { FaInstagram, FaLinkedin, FaPhone } from 'react-icons/fa6';
 import { IoLogoFacebook, IoMdMail } from 'react-icons/io';
@@ -6,29 +7,30 @@ import { SiNaver } from 'react-icons/si';
 import whiteLogo from 'src/shared/assets/images/logo_white.svg';
 
 function ReferalFooter() {
+  const [t] = useTranslation('refer');
   const quickLinks = [
     {
-      title: 'Speaking Course',
+      title: t('speaking_course'),
       href: 'https://www.naonow.com/curriculum',
     },
     {
-      title: 'Writing Course',
+      title: t('writing_course'),
       href: 'https://www.naonow.com/writing',
     },
     {
-      title: 'Mentors',
+      title: t('mentors'),
       href: 'https://www.naonow.com/mentors',
     },
     {
-      title: 'FAQ',
+      title: t('faq'),
       href: 'https://www.naonow.com/faq',
     },
     {
-      title: 'Purchase',
+      title: t('purchase'),
       href: 'https://www.naonow.com/onboarding',
     },
     {
-      title: 'Contact Us',
+      title: t('contact_us'),
       href: 'https://www.naonow.com/contact-us',
     },
   ];
@@ -67,7 +69,7 @@ function ReferalFooter() {
     },
     {
       icon: <FaMapMarkerAlt className="text-xl" />,
-      text: '325 N. Saint Paul Street, Suite 3100, Dallas, TX 75201',
+      text: t('address'),
     },
   ];
 
@@ -77,8 +79,8 @@ function ReferalFooter() {
         <div className="text-sm space-y-5">
           <img src={whiteLogo} alt="NAONOW" className="h-5 md:h-6" />
           <div className="space-y-[10px]">
-            <p>NAONOW Today.</p>
-            <p>Opportunities Tomorrow.</p>
+            <p>{t('naonow_today')}</p>
+            <p>{t('oppotunity_tomorrow')}</p>
           </div>
           {contactInfo.map((elem) => (
             <p
@@ -91,7 +93,7 @@ function ReferalFooter() {
         </div>
         <div>
           <div className="hidden md:block mb-4">
-            <p className="font-bold text-lg mb-2">QUICK LINKS</p>
+            <p className="font-bold text-lg mb-2">{t('quick_links')}</p>
             <ul className="text-sm space-y-2">
               {quickLinks.map((link) => (
                 <li
@@ -105,7 +107,7 @@ function ReferalFooter() {
               ))}
             </ul>
           </div>
-          <p className="font-semibold text-lg mb-2">Follow us</p>
+          <p className="font-semibold text-lg mb-2">{t('follow_us')}</p>
           <div className="flex gap-4">
             {socialLinks.map((link) => (
               <a
