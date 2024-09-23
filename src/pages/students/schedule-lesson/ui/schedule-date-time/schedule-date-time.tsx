@@ -10,7 +10,7 @@ export interface WeekRanges {
 }
 
 export const ScheduleDateTime = () => {
-  const options: EmblaOptionsType = { containScroll: false };
+  const options: EmblaOptionsType = { containScroll: 'keepSnaps', slidesToScroll: 'auto' };
   const [weekRanges, setWeekRanges] = useState<WeekRanges[]>([]);
 
   console.log('weekRanges', weekRanges);

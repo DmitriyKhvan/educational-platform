@@ -52,7 +52,7 @@ export const PrevButton: React.FC<PropType> = (props) => {
 
   return (
     <button
-      className="absolute top-1/2 -translate-y-1/2 z-[1] text-color-dark-purple flex items-center justify-center cursor-pointer w-6 h-6 bg-white rounded-full shadow-xl group disabled:bg-[#f7f8fa] left-0 -ml-3"
+      className="text-color-dark-purple flex items-center justify-center cursor-pointer w-6 h-6 bg-gray-100 rounded-full shadow-xl group disabled:bg-[#f7f8fa]"
       type="button"
       {...restProps}
     >
@@ -73,7 +73,7 @@ export const NextButton: React.FC<PropType> = (props) => {
 
   return (
     <button
-      className="absolute top-1/2 -translate-y-1/2 z-[1] text-color-dark-purple flex items-center justify-center cursor-pointer w-6 h-6 bg-white rounded-full shadow-xl group disabled:bg-[#f7f8fa] right-0 -mr-3"
+      className="text-color-dark-purple flex items-center justify-center cursor-pointer w-6 h-6 bg-gray-100 rounded-full shadow-xl group disabled:bg-[#f7f8fa]"
       type="button"
       {...restProps}
     >
