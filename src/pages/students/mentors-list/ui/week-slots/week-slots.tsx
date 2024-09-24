@@ -1,4 +1,4 @@
-import type { AvailabilitySlot, Mentor } from '@/types/types.generated';
+import type { GroupedAvailabilitySlots, Mentor } from '@/types/types.generated';
 import { EmblaCarousel } from './embla-carousel';
 import type { EmblaOptionsType } from 'embla-carousel';
 import { useCallback, useEffect, useState } from 'react';
@@ -15,7 +15,7 @@ export const WeekSlots = ({ mentor }: { mentor: Mentor }) => {
   const [availabilitySlots] = useAvailabilitySlotsLazyQuery();
   const options: EmblaOptionsType = { slidesToScroll: 'auto' };
   const [slides, setSlides] = useState<string[]>([]);
-  const [slots, setSlots] = useState<AvailabilitySlot[]>([]);
+  const [slots, setSlots] = useState<GroupedAvailabilitySlots[]>([]);
 
   const fetchAvailabilitySlots = async (rangeStart: Date, rangeEnd: Date) => {
     try {
@@ -31,7 +31,9 @@ export const WeekSlots = ({ mentor }: { mentor: Mentor }) => {
 
       if (response.data) {
         setSlots(
-          response.data.availabilitySlots.filter((slot) => slot !== null) as AvailabilitySlot[],
+          response.data.availabilitySlots?.filter(
+            (slot) => slot !== null,
+          ) as GroupedAvailabilitySlots[],
         );
       }
     } catch (error) {

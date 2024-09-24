@@ -19,8 +19,10 @@ import type { Lesson, Mentor, PackageSubscription, Query } from '@/types/types.g
 import SelectLesson from '@/pages/students/schedule-lesson/ui/select-lesson';
 import Mentors from '@/pages/students/mentors-list';
 import { ScheduleDateTime } from './schedule-date-time/schedule-date-time';
+import { useMediaQuery } from 'react-responsive';
 
 const ScheduleLesson = () => {
+  const isMobile = useMediaQuery({ maxWidth: 639 });
   const { currentStudent } = useAuth();
   const { id = null } = useParams();
   const location = useLocation();
@@ -67,14 +69,15 @@ const ScheduleLesson = () => {
   if (loading) return null;
 
   return (
-    <React.Fragment>
+    <>
       {tabIndex === 0 && <Mentors />}
 
       {tabIndex === 1 && (
         <SelectLesson setSelectedPlan={setSelectedPlan} setTabIndex={setTabIndex} />
       )}
 
-      {tabIndex === 2 && <ScheduleDateTime />}
+      {tabIndex === 2 && isMobile && <ScheduleDateTime mentor={location?.state?.mentor} />}
+      {tabIndex === 2 && !isMobile && <h2>Календарь</h2>}
 
       {/* {(tabIndex === 1 || tabIndex === 2) && (
         <ScheduleProvider
@@ -117,7 +120,7 @@ const ScheduleLesson = () => {
       )}
 
       {tabIndex === 5 && createdLessons && <ScheduleSuccess lessons={createdLessons} />}
-    </React.Fragment>
+    </>
   );
 };
 

@@ -323,6 +323,12 @@ export type GoogleCalendarResponse = {
   userGoogleCalendars?: Maybe<Scalars['JSON']['output']>;
 };
 
+export type GroupedAvailabilitySlots = {
+  __typename?: 'GroupedAvailabilitySlots';
+  date: Scalars['String']['output'];
+  timeSlots: Array<AvailabilitySlot>;
+};
+
 export type Homework = {
   __typename?: 'Homework';
   description?: Maybe<Scalars['String']['output']>;
@@ -412,6 +418,7 @@ export type Lesson = {
   languageLevel?: Maybe<LanguageLevel>;
   mentor?: Maybe<Mentor>;
   mentorReview?: Maybe<MentorReview>;
+  noShow?: Maybe<LessonNoShowRoleType>;
   packageSubscription?: Maybe<PackageSubscription>;
   playground?: Maybe<Playground>;
   preTrialNote?: Maybe<Scalars['String']['output']>;
@@ -425,6 +432,11 @@ export type Lesson = {
 export enum LessonCancelActionType {
   AssignNewMentor = 'assign_new_mentor',
   Refund = 'refund'
+}
+
+export enum LessonNoShowRoleType {
+  Mentor = 'mentor',
+  Student = 'student'
 }
 
 export type LessonSection = {
@@ -534,6 +546,7 @@ export type MentorPenalty = {
 export type MentorReview = {
   __typename?: 'MentorReview';
   confidence?: Maybe<LanguageSkillType>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
   expressions?: Maybe<LanguageSkillType>;
   fluency?: Maybe<LanguageSkillType>;
   homeworks?: Maybe<Array<Maybe<Homework>>>;
@@ -675,7 +688,10 @@ export type Mutation = {
   deleteRecording: Playground;
   deleteStudentReviewTag: StudentReviewTag;
   deleteVocabularyWord: Vocabulary;
+  generateAdminLoginToken?: Maybe<Scalars['String']['output']>;
   generateReferralLink: ReferralCode;
+  loginByAdminToken?: Maybe<SignInResult>;
+  markLessonAttendance: Lesson;
   markMessageAsRead?: Maybe<Array<Maybe<Message>>>;
   mentorCancelLessons: Array<Maybe<Lesson>>;
   persistLanguageLevel: LanguageLevel;
@@ -929,8 +945,24 @@ export type MutationDeleteVocabularyWordArgs = {
 };
 
 
+export type MutationGenerateAdminLoginTokenArgs = {
+  email: Scalars['String']['input'];
+};
+
+
 export type MutationGenerateReferralLinkArgs = {
   studentId: Scalars['ID']['input'];
+};
+
+
+export type MutationLoginByAdminTokenArgs = {
+  id: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+};
+
+
+export type MutationMarkLessonAttendanceArgs = {
+  lessonId: Scalars['ID']['input'];
 };
 
 
@@ -1378,7 +1410,7 @@ export type Query = {
   appConfig?: Maybe<AppConfig>;
   appConfigs?: Maybe<Array<AppConfig>>;
   authenticatedUser?: Maybe<AuthenticatedUser>;
-  availabilitySlots: Array<Maybe<AvailabilitySlot>>;
+  availabilitySlots: Array<Maybe<GroupedAvailabilitySlots>>;
   availableMentors: AvailableMentorsResult;
   availableMentorsFroTrial: AvailableMentorsResult;
   checkStripePaymentStatus: Scalars['Boolean']['output'];
@@ -1559,7 +1591,11 @@ export type QueryLessonSectionsArgs = {
 
 
 export type QueryLessonsArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
   mentorId?: InputMaybe<Scalars['ID']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  startAtFrom?: InputMaybe<Scalars['DateTime']['input']>;
+  startAtTo?: InputMaybe<Scalars['DateTime']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   studentId?: InputMaybe<Scalars['ID']['input']>;
 };
@@ -1604,6 +1640,8 @@ export type QueryMentorReviewsWithPaginationArgs = {
 
 
 export type QueryMentorsArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
   studentId?: InputMaybe<Scalars['ID']['input']>;
   visibilityStatus?: InputMaybe<VisibilityStatus>;
 };
