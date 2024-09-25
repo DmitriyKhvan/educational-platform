@@ -2,11 +2,11 @@ import type { Mentor, Timesheet } from '@/types/types.generated';
 import { type Dispatch, type SetStateAction, createContext } from 'react';
 
 interface TimeOfDayInterval {
-  start: string;
-  end: string;
+  start: string | Date;
+  end: string | Date;
 }
 
-interface AvailableTime {
+export interface AvailableTime {
   time: string;
   reserved: boolean;
   mentorId: string;
@@ -17,7 +17,7 @@ export interface ScheduleContextType {
   setTabIndex: Dispatch<SetStateAction<number>>;
   setSchedule: Dispatch<SetStateAction<string>>;
   selectedMentor: { id: string } | null;
-  duration?: number;
+  duration?: number | undefined;
   setDay: Dispatch<SetStateAction<Date>>;
   day: Date;
   setTimesOfDay: Dispatch<SetStateAction<string[]>>;
@@ -31,8 +31,8 @@ export interface ScheduleContextType {
   timesheetsData: Timesheet;
   dayClicked: number | null;
   setDayClicked: Dispatch<SetStateAction<number | null>>;
-  timeClicked: string | null;
-  setTimeClicked: Dispatch<SetStateAction<string | null>>;
+  timeClicked: string | number | null;
+  setTimeClicked: Dispatch<SetStateAction<string | number | null>>;
   todayUserTimezone: Date;
   morningInterval: { start: Date; end: Date };
   afternoonInterval: { start: Date; end: Date };
@@ -40,7 +40,7 @@ export interface ScheduleContextType {
   endMonth: Date;
   isToday: boolean;
   resetAll: () => void;
-  setSelectMentor?: Dispatch<SetStateAction<Mentor | undefined>>;
+  setSelectMentor?: Dispatch<SetStateAction<Mentor | undefined | {id: string}>>;
   hourPrior: number;
 }
 

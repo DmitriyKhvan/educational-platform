@@ -3,6 +3,8 @@ import { ModalPurchase } from '@/components/modal-purchase';
 import ScheduleCard from '@/components/student-dashboard/schedule-card-rebranding';
 import DashboardCard from '@/pages/students/student-dashboard/dashboard-card';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
+import type { Lesson, Maybe, PackageSubscription } from '@/types/types.generated';
+import type { OperationVariables, ApolloQueryResult } from '@apollo/client';
 import {
   addMinutes,
   endOfISOWeek,
@@ -18,7 +20,7 @@ import { FaArrowRight } from 'react-icons/fa6';
 import { useMediaQuery } from 'react-responsive';
 import { Link } from 'react-router-dom';
 
-const MyLessons = ({ appointments, packageSubscriptions, fetchAppointments }) => {
+const MyLessons = ({ appointments, packageSubscriptions, fetchAppointments }: {appointments: Lesson[], packageSubscriptions: Maybe<PackageSubscription>[] | undefined, fetchAppointments: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<any>>}) => {
   const isDesktop = useMediaQuery({ minWidth: 1307 });
   const [t] = useTranslation(['dashboard', 'lessons']);
 
@@ -40,19 +42,19 @@ const MyLessons = ({ appointments, packageSubscriptions, fetchAppointments }) =>
           isBefore(new Date(), expiredDate)
         );
       })
-      ?.sort((a, b) => new Date(a.startAt) - new Date(b.startAt))
+      ?.sort((a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime())
       ?.map((x, i) => {
         const date = new Date(x?.startAt);
 
         return (
-          <div key={i}>
+          <div key={x.id}>
             <ScheduleCard
               duration={x.duration}
-              lesson={x?.packageSubscription?.package?.course?.title}
+              // lesson={x?.packageSubscription?.package?.course?.title}
               mentor={x.mentor}
               date={date}
               data={x}
-              index={i}
+              // index={i}
               fetchAppointments={fetchAppointments}
             />
           </div>
@@ -96,6 +98,7 @@ const MyLessons = ({ appointments, packageSubscriptions, fetchAppointments }) =>
           </div>
         ) : (
           <div className="mt-[30px] lg:overflow-y-auto">
+            {/* biome-ignore lint/complexity/useOptionalChain: <explanation> */}
             {scheduledAweekAppointments && scheduledAweekAppointments[0]}
           </div>
         )

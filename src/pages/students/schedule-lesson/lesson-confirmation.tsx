@@ -32,7 +32,7 @@ interface LessonConfirmationProps {
   isMentorScheduled?: boolean;
   setCreatedLessons: React.Dispatch<React.SetStateAction<Lesson[] | undefined>>;
   repeat: number;
-  setRepeat: React.Dispatch<React.SetStateAction<number>>;
+  setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const LessonConfirmation: React.FC<LessonConfirmationProps> = ({

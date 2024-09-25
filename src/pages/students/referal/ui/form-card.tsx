@@ -1,11 +1,12 @@
 import Button from '@/components/form/button';
 import InputField from '@/components/form/input-field';
+import type { LegacyRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 
-function FormCard({ inputRef, formRef }) {
+function FormCard({ inputRef, formRef }:{inputRef: HTMLInputElement | null, formRef: LegacyRef<HTMLElement> | undefined}) {
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'refer']);
   const {

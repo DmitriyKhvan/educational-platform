@@ -5,8 +5,9 @@ import { useTranslation } from 'react-i18next';
 
 import Button from '@/components/form/button';
 
-export const TimeOfDay = memo(function TimeOfDay({ timeOfDay, idx }) {
+export const TimeOfDay = memo(function TimeOfDay({ timeOfDay, idx }:{timeOfDay: string , idx: number}) {
   const {
+
     setTimeOfDayInterval,
     setTimeClicked,
     timeClicked,

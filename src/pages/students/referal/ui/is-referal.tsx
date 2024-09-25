@@ -6,7 +6,7 @@ import { IoIosWarning } from 'react-icons/io';
 import { useParams } from 'react-router-dom';
 
 const IsReferal = () => {
-  const { referralcode } = useParams();
+  const { referralcode  } = useParams();
 
   const { data, loading } = useQuery(VALIDATE_REFERRAL_CODE, {
     variables: { referralCode: referralcode },
@@ -16,9 +16,11 @@ const IsReferal = () => {
   if (loading) return <Loader height="100vh" />;
 
   if (data?.validateReferralCode?.isValid) {
-    localStorage.setItem('referralCode', referralcode);
+
+    localStorage.setItem('referralCode', referralcode ?? '');
     return <ReferalLanding student={data?.validateReferralCode?.student} />;
-  } else {
+
+  }
     return (
       <div className="flex w-full h-screen">
         <div className="max-w-[400px] m-auto flex flex-col items-center">
@@ -34,7 +36,6 @@ const IsReferal = () => {
         </div>
       </div>
     );
-  }
 };
 
 export default IsReferal;

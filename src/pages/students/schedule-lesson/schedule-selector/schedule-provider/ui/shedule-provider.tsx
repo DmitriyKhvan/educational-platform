@@ -23,6 +23,7 @@ interface ScheduleProviderProps {
   query: DocumentNode;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
   setSchedule: React.Dispatch<React.SetStateAction<string>>;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation> Jinho
   selectedMentor: any;
   setSelectMentor?: Dispatch<SetStateAction<Mentor | undefined>>;
   timeZone?: string;
@@ -77,7 +78,7 @@ export const ScheduleProvider: React.FC<ScheduleProviderProps> = ({
   });
 
   const [dayClicked, setDayClicked] = useState<number | null>(null);
-  const [timeClicked, setTimeClicked] = useState<string | null>(null);
+  const [timeClicked, setTimeClicked] = useState<string | number | null>(null);
 
   const endMonth = addMonths(todayUserTimezone, 1);
   const isToday = isSameDay(new Date(day), todayUserTimezone);

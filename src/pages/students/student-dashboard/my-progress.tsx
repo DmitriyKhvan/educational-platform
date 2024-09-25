@@ -1,10 +1,11 @@
 import ScheduleCard from '@/components/student-dashboard/schedule-card-rebranding';
 import DashboardCard from '@/pages/students/student-dashboard/dashboard-card';
 import { LessonsStatusType } from '@/shared/constants/global';
+import type { OperationVariables, ApolloQueryResult } from '@apollo/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const MyProgress = ({ appointments, fetchAppointments }) => {
+const MyProgress = ({ appointments, fetchAppointments }: {appointments: any, fetchAppointments: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<any>>}) => {
   const [t] = useTranslation(['dashboard', 'lessons']);
 
   const lastCompleted = useMemo(
