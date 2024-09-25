@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface UseCalendarControlsProps {
-  calendarRef: React.MutableRefObject<FullCalendar | null>;
+  calendarRef: React.MutableRefObject<FullCalendar | null | undefined>;
   initialView?: CalendarViewType;
 }
 

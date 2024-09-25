@@ -1,11 +1,11 @@
 import purpleLogo from '@/shared/assets/images/logo_purple.svg';
 
 import Button from '@/components/form/button';
+import { LangSwitcher, useCurrentLang } from '@/entities/lang-switcher';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LuMenu, LuX } from 'react-icons/lu';
 import { useMediaQuery } from 'react-responsive';
-import { LangSwitcher, useCurrentLang } from 'src/entities/lang-switcher';
 
 function ReferalHeader() {
   const currentLang = useCurrentLang();
