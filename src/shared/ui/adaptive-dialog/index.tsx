@@ -12,6 +12,8 @@ interface AdaptiveDialogProps {
   children: ReactNode;
   hideCloseBtn?: boolean;
   dismissible?: boolean;
+  className?: string;
+  overlayClassname?: string;
 }
 
 export const AdaptiveDialog = ({
@@ -22,6 +24,8 @@ export const AdaptiveDialog = ({
   children,
   hideCloseBtn,
   dismissible,
+  className,
+  overlayClassname,
 }: AdaptiveDialogProps) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });
 
@@ -30,13 +34,21 @@ export const AdaptiveDialog = ({
       open={open}
       setOpen={setOpen}
       button={button}
-      className={classNameDrawer}
+      className={`${className} ${classNameDrawer}`}
+      overlayClassname={overlayClassname}
       dismissible={dismissible}
     >
       {children}
     </MyDrawer>
   ) : (
-    <MyDialog open={open} setOpen={setOpen} button={button} hideCloseBtn={hideCloseBtn}>
+    <MyDialog
+      open={open}
+      setOpen={setOpen}
+      button={button}
+      hideCloseBtn={hideCloseBtn}
+      className={className}
+      overlayClassname={overlayClassname}
+    >
       {children}
     </MyDialog>
   );

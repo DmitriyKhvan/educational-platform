@@ -1,16 +1,21 @@
 import Button from '@/components/form/button';
-import { MyDialog } from '@/components/my-dialog';
+import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
+import type { Dispatch, SetStateAction } from 'react';
 import { BsFillExclamationTriangleFill } from 'react-icons/bs';
 // import Button from "src/components/Form/Button";
 // import { MyDialog } from "src/components/MyDialog";
 
-function CloseConfirmationModal({ open, setOpen, onCloseClick }) {
+interface CloseConfirmationModalProps {
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  onCloseClick: () => void;
+}
+
+function CloseConfirmationModal({ open, setOpen, onCloseClick }: CloseConfirmationModalProps) {
   return (
-    <MyDialog
+    <AdaptiveDialog
       open={open}
       setOpen={setOpen}
-      // button={button}
-      // hideCloseBtn={hideCloseBtn}
       overlayClassname="z-50"
       className="z-50 text-center"
     >
@@ -39,7 +44,7 @@ function CloseConfirmationModal({ open, setOpen, onCloseClick }) {
       >
         Close
       </Button>
-    </MyDialog>
+    </AdaptiveDialog>
   );
 }
 
