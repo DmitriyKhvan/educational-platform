@@ -5,23 +5,23 @@ import InputField from '@/components/form/input-field';
 import { PhoneCodeListModal } from '@/components/onboarding/phone-code-list-modal';
 import { type PhoneCode, phoneCodes } from '@/shared/constants/global';
 import { useEffect, useState } from 'react';
-import type { UseFormRegister, UseFormWatch } from 'react-hook-form';
+import type {
+  UseFormRegister,
+  UseFormResetField,
+  UseFormSetValue,
+  UseFormWatch,
+} from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import ReactInputMask from 'react-input-mask';
 import { useMediaQuery } from 'react-responsive';
+import type { PhoneNumberFieldForm } from './types';
 
 interface PhoneNumberFieldProps {
-  register: UseFormRegister<{
-    phoneNumber: string;
-    phoneNumberWithoutCode: string;
-  }>;
-  resetField: (name: string) => void;
-  setValue: (name: string, value: string) => void;
-  watch: UseFormWatch<{
-    phoneNumber: string;
-    phoneNumberWithoutCode: string;
-  }>;
+  register: UseFormRegister<PhoneNumberFieldForm>;
+  resetField: UseFormResetField<PhoneNumberFieldForm>;
+  setValue: UseFormSetValue<PhoneNumberFieldForm>;
+  watch: UseFormWatch<PhoneNumberFieldForm>;
 
   defaultNumber?: string;
   disabled?: boolean;

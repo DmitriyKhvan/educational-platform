@@ -1,3 +1,4 @@
+import { cn } from '@/shared/utils/functions';
 import { Drawer } from 'vaul';
 
 export function MyDrawer({
@@ -7,6 +8,7 @@ export function MyDrawer({
   className,
   children,
   dismissible,
+  overlayClassname,
 }: {
   open?: boolean;
   setOpen?: (open: boolean) => void;
@@ -14,12 +16,13 @@ export function MyDrawer({
   className?: string;
   children: React.ReactNode;
   dismissible?: boolean;
+  overlayClassname?: string;
 }) {
   return (
     <Drawer.Root open={open} onOpenChange={setOpen} dismissible={dismissible} shouldScaleBackground>
       <Drawer.Trigger asChild>{button}</Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Overlay className="fixed inset-0 bg-black/40 z-30" />
+        <Drawer.Overlay className={cn('fixed inset-0 bg-black/40 z-30', overlayClassname)} />
         <Drawer.Content className={`flex flex-col fixed bottom-0 left-0 right-0 z-30 ${className}`}>
           <div className="px-6 pb-6 bg-white rounded-t-[10px] flex-1 overflow-auto">
             <div className="sticky top-0 flex items-center justify-center w-full h-10 bg-white">
