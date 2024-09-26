@@ -4,10 +4,24 @@ import { AvailabilitySlots } from './availability-slots';
 import { useState } from 'react';
 import Button from '@/components/form/button';
 
-export const AvailabilityDates = ({ availDates }: { availDates: GroupedAvailabilitySlots[] }) => {
+interface AvailabilityDatesProps {
+  availDates: GroupedAvailabilitySlots[];
+  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
+  setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
+}
+
+export const AvailabilityDates: React.FC<AvailabilityDatesProps> = ({
+  availDates,
+  setTabIndex,
+  setSchedule,
+}) => {
   const [slot, setSlot] = useState<AvailabilitySlot>();
   const scheduleLesson = () => {
     console.log('slot', slot);
+    if (slot) {
+      setSchedule(slot);
+      setTabIndex(3);
+    }
   };
 
   return (

@@ -1,0 +1,66 @@
+
+  mutation createLessons(
+    $mentorId: ID!
+    $studentId: ID!
+    $packageSubscriptionId: ID!
+    $startAt: DateTime!
+    $duration: Int!
+    $repeat: Int
+  ) {
+    createLessons(
+      mentorId: $mentorId
+      studentId: $studentId
+      packageSubscriptionId: $packageSubscriptionId
+      startAt: $startAt
+      duration: $duration
+      repeat: $repeat
+    ) {
+      id
+      startAt
+      duration
+      status
+      cancelAction
+      cancelReason
+      mentor {
+        id
+        firstName
+        lastName
+        gender
+        avatar {
+          url
+        }
+      }
+      #student
+      isTrial
+      languageLevel {
+        id
+        title
+        translations {
+          id
+          title
+          language
+        }
+      }
+      packageSubscription {
+        id
+        periodStart
+        periodEnd
+        credits
+        packageId
+        modifyCredits
+        package {
+          course {
+            id
+            title
+            translations {
+              title
+              language
+            }
+          }
+        }
+        paymentId
+        # payment
+        # lessons
+      }
+    }
+  }

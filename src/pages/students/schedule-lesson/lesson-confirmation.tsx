@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '@/components/form/button';
-import CheckboxField from '@/components/form/checkbox-field';
+// import CheckboxField from '@/components/form/checkbox-field';
 import MentorImageRow from '@/pages/students/schedule-lesson/mentor-image-row';
 import NotEnoughCreditsModal from '@/pages/students/schedule-lesson/not-enough-credits-modal';
 import { getItemToLocalStorage, localeDic } from '@/shared/constants/global';
@@ -16,17 +16,25 @@ import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
 import { notEnoughCredits } from '@/shared/utils/not-enough-credits';
 import notify from '@/shared/utils/notify';
-import type { Lesson, Mentor, Mutation, PackageSubscription } from '@/types/types.generated';
-import { addMinutes } from 'date-fns';
+import type {
+  AvailabilitySlot,
+  Lesson,
+  Mentor,
+  Mutation,
+  PackageSubscription,
+} from '@/types/types.generated';
+
 import { format, toZonedTime } from 'date-fns-tz';
 import { AiOutlineInfo } from 'react-icons/ai';
 import { IoArrowBack } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
+import { useCreateLessonsMutation } from '@/shared/apollo/mutations/lessons/create-lessons.generated';
+import { parse } from 'date-fns';
 
 interface LessonConfirmationProps {
   plan?: PackageSubscription;
   mentor: Mentor;
-  time: string;
+  slot: AvailabilitySlot;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
   lessonId?: string | null;
   isMentorScheduled?: boolean;
@@ -38,35 +46,23 @@ interface LessonConfirmationProps {
 const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
   plan,
   mentor,
-  time,
+  slot,
   setTabIndex,
   lessonId,
   isMentorScheduled = false,
   setCreatedLessons,
   repeat,
-  setRepeat,
+  // setRepeat,
 }) => {
   const navigate = useNavigate();
   const [t, i18n] = useTranslation(['common', 'lessons', 'dashboard', 'translations']);
 
   const [openModal, setOpenModal] = useState(false);
-  const [credits, setCredits] = useState<number | undefined>(plan?.credits ?? 0);
-  const [cancelledLessons, setCancelledLessons] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { user, currentStudent } = useAuth();
-  const [newAppointment, setNewAppointment] = useState<any[]>([]);
 
-  const [createAppointment] = useMutation<
-    { createAppointment: { lesson: Lesson[] } },
-    {
-      mentorId: string;
-      studentId: string;
-      subscriptionId: string;
-      startAt: string;
-      duration: number;
-      repeat: number;
-    }
-  >(CREATE_APPOINTMENT);
+  const [createLessons] = useCreateLessonsMutation();
+
   const [updateAppointment] = useMutation<
     Mutation,
     { id: string; mentorId: string; startAt: string; repeat: number }
@@ -79,24 +75,30 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
   const userTimezone =
     user?.timeZone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const scheduleDate = format(toZonedTime(new Date(time), userTimezone), 'eeee, MMM dd', {
+  const scheduleDate = format(new Date(slot.date), 'eeee, MMM dd', {
     locale: localeDic[i18n.language as keyof typeof localeDic],
   });
-  const scheduleStartTime = format(toZonedTime(new Date(time), userTimezone), 'hh:mm a', {
+  const scheduleStartTime = format(new Date(`${slot.date}T${slot.from}:00`), 'hh:mm a', {
     locale: localeDic[i18n.language as keyof typeof localeDic],
   });
-  const scheduleEndTime = format(
-    addMinutes(toZonedTime(new Date(time), userTimezone), plan?.package?.sessionTime ?? 0),
-    'hh:mm a',
-    {
-      locale: localeDic[i18n.language as keyof typeof localeDic],
-    },
+  const scheduleEndTime = format(new Date(`${slot.date}T${slot.to}:00`), 'hh:mm a', {
+    locale: localeDic[i18n.language as keyof typeof localeDic],
+  });
+
+  const dateParse = parse(
+    `${slot.date} ${slot.from}`,
+    'yyyy-MM-dd HH:mm',
+    toZonedTime(new Date(), userTimezone),
   );
 
-  const utcIsoTimeString = new Date(time).toISOString();
+  const selectedSchedule = format(dateParse, 'EEE MMM dd yyyy HH:mm:ss XXX', {
+    timeZone: userTimezone,
+  });
+
+  const utcIsoTimeString = new Date(selectedSchedule).toISOString();
 
   const confirmLesson = async (confirmedNotEnough = false) => {
-    if (repeat && !confirmedNotEnough && notEnoughCredits(plan?.credits, repeat)) {
+    if (repeat && !confirmedNotEnough && notEnoughCredits(plan?.credits || 0, repeat)) {
       setOpenModal(true);
       return;
     }
@@ -115,38 +117,39 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
         notify(t('lesson_rescheduled', { ns: 'lessons' }));
         navigate('/student/lesson-calendar');
       } else {
-        const { data } = await createAppointment({
+        const { data } = await createLessons({
           variables: {
             mentorId: mentor.id,
             studentId: getItemToLocalStorage('studentId', ''),
-            subscriptionId: plan?.id ?? '',
+            packageSubscriptionId: plan?.id || '',
             startAt: utcIsoTimeString,
             duration: plan?.package?.sessionTime ?? 0,
             repeat,
           },
         });
+
         setTabIndex(5);
         setCreatedLessons(
-          data?.createAppointment.lesson.sort(
+          data?.createLessons.sort(
             (a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime(),
           ),
         );
       }
-    } catch (error: any) {
-      notify(error.message, 'error');
+    } catch (error) {
+      notify((error as Error).message, 'error');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const repeatLessonLabel = (monthCount: number) =>
-    t('repeat_lesson', {
-      ns: 'lessons',
-      weekDay: format(new Date(time), 'eeee', {
-        locale: localeDic[i18n.language as keyof typeof localeDic],
-      }),
-      count: monthCount,
-    });
+  // const repeatLessonLabel = (monthCount: number) =>
+  //   t('repeat_lesson', {
+  //     ns: 'lessons',
+  //     weekDay: format(new Date(time), 'eeee', {
+  //       locale: localeDic[i18n.language as keyof typeof localeDic],
+  //     }),
+  //     count: monthCount,
+  //   });
 
   return (
     <>
@@ -155,6 +158,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
         <div className="grow max-w-[488px] mx-auto">
           <div className="flex items-center gap-3">
             <button
+              type="button"
               onClick={() => {
                 setTabIndex(isMentorScheduled ? 2 : 3);
               }}
@@ -177,12 +181,12 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
             <div className="flex">
               <LessonCard
                 setTabIndex={setTabIndex}
-                lesson={getTranslatedTitle(plan?.package?.course, i18n.language)}
+                lesson={getTranslatedTitle(plan?.package?.course || {}, i18n.language)}
                 duration={`${plan?.package?.sessionTime} ${t('minutes', {
                   ns: 'common',
                 })}`}
-                remaining={credits}
-                total={plan?.package?.totalSessions}
+                remaining={plan?.credits || 0}
+                total={plan?.package?.totalSessions || 0}
               />
             </div>
           </div>
@@ -216,7 +220,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
             </div>
           )}
 
-          {!lessonId && !currentStudent?.isTrial && (
+          {/* {!lessonId && !currentStudent?.isTrial && (
             <div className="my-10">
               <CheckboxField
                 label={repeatLessonLabel(1)}
@@ -231,7 +235,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
                 checked={repeat === 3}
               />
             </div>
-          )}
+          )} */}
 
           {lessonId && !!repeat && (
             <div className="mt-10">

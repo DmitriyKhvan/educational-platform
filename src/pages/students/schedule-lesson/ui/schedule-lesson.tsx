@@ -15,7 +15,13 @@ import { useAuth } from '@/app/providers/auth-provider';
 import ScheduleSuccess from '@/pages/students/schedule-lesson/schedule-success';
 import { COMBINED_TIMESHEETS } from '@/shared/apollo/queries/combined-timesheets';
 import { COMBINED_TIMESHEETS_TRIAL } from '@/shared/apollo/queries/trial/combined-time-sheets-for-trials';
-import type { Lesson, Mentor, PackageSubscription, Query } from '@/types/types.generated';
+import type {
+  AvailabilitySlot,
+  Lesson,
+  Mentor,
+  PackageSubscription,
+  Query,
+} from '@/types/types.generated';
 import SelectLesson from '@/pages/students/schedule-lesson/ui/select-lesson';
 import Mentors from '@/pages/students/mentors-list';
 import { ScheduleDateTime } from './schedule-date-time/schedule-date-time';
@@ -43,8 +49,8 @@ const ScheduleLesson = () => {
   });
 
   const [selectedPlan, setSelectedPlan] = useState<PackageSubscription>();
-  const [schedule, setSchedule] = useState<string>('');
-  const [tabIndex, setTabIndex] = useState(id ? 1 : 0);
+  const [schedule, setSchedule] = useState<AvailabilitySlot>();
+  const [tabIndex, setTabIndex] = useState<number>(id ? 1 : 0);
   const [selectMentor, setSelectMentor] = useState<Mentor>();
   const [createdLessons, setCreatedLessons] = useState<Lesson[]>();
 
@@ -76,7 +82,13 @@ const ScheduleLesson = () => {
         <SelectLesson setSelectedPlan={setSelectedPlan} setTabIndex={setTabIndex} />
       )}
 
-      {tabIndex === 2 && isMobile && <ScheduleDateTime mentor={location?.state?.mentor} />}
+      {tabIndex === 2 && isMobile && (
+        <ScheduleDateTime
+          mentor={location?.state?.mentor}
+          setTabIndex={setTabIndex}
+          setSchedule={setSchedule}
+        />
+      )}
       {tabIndex === 2 && !isMobile && <h2>Календарь</h2>}
 
       {/* {(tabIndex === 1 || tabIndex === 2) && (
@@ -108,7 +120,7 @@ const ScheduleLesson = () => {
         (tabIndex === 3 && currentStudent?.isTrial)) && (
         <LessonConfirmation
           plan={selectedPlan}
-          time={schedule}
+          slot={schedule}
           mentor={selectMentor || location?.state?.mentor}
           isMentorScheduled={!!location?.state?.mentor}
           setTabIndex={setTabIndex}

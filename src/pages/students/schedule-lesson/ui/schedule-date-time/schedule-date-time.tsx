@@ -5,7 +5,7 @@ import { EmblaCarousel } from './embla-carousel';
 import type { EmblaOptionsType } from 'embla-carousel';
 import { AvailabilityDates } from './availability-dates';
 import { useAvailabilitySlotsLazyQuery } from '@/shared/apollo/queries/timesheets/availability-slots.generated';
-import type { GroupedAvailabilitySlots, Mentor } from '@/types/types.generated';
+import type { AvailabilitySlot, GroupedAvailabilitySlots, Mentor } from '@/types/types.generated';
 import { useAuth } from '@/app/providers/auth-provider';
 import notify from '@/shared/utils/notify';
 
@@ -14,7 +14,17 @@ export interface WeekRanges {
   rangeEnd: string;
 }
 
-export const ScheduleDateTime = ({ mentor }: { mentor: Mentor }) => {
+export interface ScheduleDateTimeProps {
+  mentor: Mentor;
+  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
+  setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
+}
+
+export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
+  mentor,
+  setTabIndex,
+  setSchedule,
+}) => {
   const options: EmblaOptionsType = { containScroll: 'keepSnaps', slidesToScroll: 'auto' };
   const [weekRanges, setWeekRanges] = useState<WeekRanges[]>([]);
   const [availabilitySlots] = useAvailabilitySlotsLazyQuery();
@@ -99,7 +109,11 @@ export const ScheduleDateTime = ({ mentor }: { mentor: Mentor }) => {
         fetchAvailabilitySlots={fetchAvailabilitySlots}
       />
 
-      <AvailabilityDates availDates={availDates} />
+      <AvailabilityDates
+        availDates={availDates}
+        setTabIndex={setTabIndex}
+        setSchedule={setSchedule}
+      />
     </div>
   );
 };
