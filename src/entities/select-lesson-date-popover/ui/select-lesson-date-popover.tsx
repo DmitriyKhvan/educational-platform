@@ -2,10 +2,10 @@ import MyDropdownMenu from '@/components/dropdown-menu';
 import Button from '@/components/form/button';
 import CheckboxField from '@/components/form/checkbox-field';
 import CloseConfirmationModal from '@/entities/select-lesson-date-popover/ui/close-confirmation-modal';
-import { Popover, PopoverAnchor, PopoverContent } from '@/shared/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { PopoverClose } from '@radix-ui/react-popover';
-import { format } from 'date-fns';
-import { type ReactNode, useState } from 'react';
+import { addDays, format } from 'date-fns';
+import { type Dispatch, type ReactNode, type SetStateAction, useEffect, useState } from 'react';
 import { FaAngleDown, FaXmark } from 'react-icons/fa6';
 import { useMediaQuery } from 'react-responsive';
 
@@ -17,15 +17,21 @@ interface AvailabilitySlotType {
 
 interface SelectLessonDatePopoverProps {
   slot?: AvailabilitySlotType;
-  setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
-  setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlotType | undefined>>;
+  popoverOpen?: boolean;
+  setPopoverOpen?: Dispatch<SetStateAction<boolean>>;
+  setRepeat: Dispatch<SetStateAction<number | null>>;
+  setSchedule: Dispatch<SetStateAction<AvailabilitySlotType | undefined>>;
+  setChosenDates: Dispatch<SetStateAction<AvailabilitySlotType[]>>;
   btn: ReactNode;
 }
 
 function SelectLessonDatePopover({
   slot,
+  popoverOpen,
+  setPopoverOpen,
   setSchedule,
   setRepeat,
+  setChosenDates,
   btn,
 }: SelectLessonDatePopoverProps) {
   const isMobile = useMediaQuery({ maxWidth: 639 });
@@ -42,7 +48,36 @@ function SelectLessonDatePopover({
     setRepeatPeriod(0);
     setIsChosen(false);
     setConfirmCloseModal(false);
+    setPopoverOpen?.(false);
   };
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    if (repeatPeriod && repeatWeekly) {
+      setChosenDates((v) => {
+        let dateToIncrement = v?.[0] && new Date(`${v[0].date}T${v[0].from}:00Z`);
+        const res = v?.[0]
+          ? [
+              v[0],
+              ...Array.from(Array(repeatPeriod * 4 - 1)).map(() => {
+                dateToIncrement = addDays(new Date(dateToIncrement), 7);
+
+                const res = {
+                  date: format(dateToIncrement, 'yyyy-MM-dd'),
+                  from: slot?.from ?? format(dateToIncrement, 'HH:mm'),
+                  to: slot?.to ?? format(dateToIncrement, 'HH:mm'),
+                };
+
+                return res;
+              }),
+            ]
+          : [];
+        return res;
+      });
+    } else if (!repeatWeekly && isChosen) {
+      setChosenDates((v) => (v?.[0] ? [v[0]] : []));
+    }
+  }, [repeatPeriod, repeatWeekly]);
 
   return (
     <>
@@ -52,12 +87,14 @@ function SelectLessonDatePopover({
           setOpen={setConfirmCloseModal}
           onCloseClick={() => {
             closeModal();
+            setChosenDates([]);
           }}
         />
       )}
       <Popover
         open={isChosen}
         onOpenChange={(open) => {
+          setPopoverOpen?.(open);
           if (open) {
             setRepeat(null);
           }
@@ -66,9 +103,17 @@ function SelectLessonDatePopover({
           }
         }}
       >
-        <PopoverAnchor onClick={() => setIsChosen(true)} className="w-full">
+        <PopoverTrigger
+          className="w-full"
+          disabled={popoverOpen}
+          onClick={() => {
+            setIsChosen(true);
+            console.log('test1');
+            setChosenDates(slot ? [slot] : []);
+          }}
+        >
           {btn}
-        </PopoverAnchor>
+        </PopoverTrigger>
         <PopoverContent
           className="w-[300px] bg-white"
           side={isMobile ? 'bottom' : 'left'}

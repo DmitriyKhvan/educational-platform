@@ -1,4 +1,4 @@
-import { addDays, format, lastDayOfMonth, startOfMonth, subDays } from 'date-fns';
+import { format, lastDayOfMonth, startOfMonth, subDays } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
@@ -31,7 +31,7 @@ function SelectMentorCalendar() {
   );
 
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  const [chosenDates, setChosenDates] = useState<any[]>([]);
+  const [chosenDates, setChosenDates] = useState<AvailabilitySlotType[]>([]);
   console.log('🚀 ~ SelectMentorCalendar ~ chosenDates:', chosenDates);
 
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -77,45 +77,46 @@ function SelectMentorCalendar() {
   }, [date]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    if (repeatPeriod && repeatWeekly) {
-      setChosenDates((v) => {
-        let dateToIncrement = v?.[0];
-        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-        const absDates = [] as any[];
-        const res = v?.[0]
-          ? [
-              v[0],
-              ...Array.from(Array(repeatPeriod * 4 - 1)).map(() => {
-                dateToIncrement = addDays(new Date(dateToIncrement), 7);
-                if (
-                  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-                  !data?.availabilitySlots?.some((s: any) => {
-                    return (
-                      s?.date &&
-                      s?.from &&
-                      new Date(`${s.date}T${s.from}:00`)?.toISOString() ===
-                        dateToIncrement.toISOString()
-                    );
-                  })
-                ) {
-                  absDates.push(dateToIncrement.toISOString());
-                }
-                return dateToIncrement.toISOString();
-              }),
-            ]
-          : [];
-        setAbsentDates(absDates);
-        // console.log("🚀 ~ useEffect ~ dateToIncrement:", dateToIncrement);
-        return res;
-      });
-    } else if (!repeatWeekly) {
-      setAbsentDates([]);
-      setChosenDates((v) => (v?.[0] ? [v[0]] : []));
-    }
-  }, [repeatPeriod, repeatWeekly]);
+  // useEffect(() => {
+  //   if (repeatPeriod && repeatWeekly) {
+  //     setChosenDates((v) => {
+  //       let dateToIncrement = v?.[0];
+  //       // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  //       const absDates = [] as any[];
+  //       const res = v?.[0]
+  //         ? [
+  //             v[0],
+  //             ...Array.from(Array(repeatPeriod * 4 - 1)).map(() => {
+  //               dateToIncrement = addDays(new Date(dateToIncrement), 7);
+  //               if (
+  //                 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  //                 !data?.availabilitySlots?.some((s: any) => {
+  //                   return (
+  //                     s?.date &&
+  //                     s?.from &&
+  //                     new Date(`${s.date}T${s.from}:00`)?.toISOString() ===
+  //                       dateToIncrement.toISOString()
+  //                   );
+  //                 })
+  //               ) {
+  //                 absDates.push(dateToIncrement.toISOString());
+  //               }
+  //               return dateToIncrement.toISOString();
+  //             }),
+  //           ]
+  //         : [];
+  //       setAbsentDates(absDates);
+  //       // console.log("🚀 ~ useEffect ~ dateToIncrement:", dateToIncrement);
+  //       return res;
+  //     });
+  //   } else if (!repeatWeekly) {
+  //     setAbsentDates([]);
+  //     setChosenDates((v) => (v?.[0] ? [v[0]] : []));
+  //   }
+  // }, [repeatPeriod, repeatWeekly]);
 
-  const [popoverOpen, setPopoverOpen] = useState(undefined);
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  console.log('🚀 ~ SelectMentorCalendar ~ popoverOpen:', popoverOpen);
   const [confirmCloseModal, setConfirmCloseModal] = useState(false);
 
   const [testDate, setTestDate] = useState<
@@ -126,19 +127,20 @@ function SelectMentorCalendar() {
   console.log('🚀 ~ SelectMentorCalendar ~ schedule:', schedule);
   const [repeat, setRepeat] = useState<number | null>(0);
 
-  useEffect(() => {
-    if (schedule?.date && schedule.from && repeat) {
-      setChosenDates(() => {
-        let dateToIncrement = new Date(`${schedule.date}T${schedule.from}:00Z`);
+  // useEffect(() => {
+  //   if (schedule?.date && schedule.from && repeat) {
+  //     setChosenDates(() => {
+  //       let dateToIncrement = new Date(`${schedule.date}T${schedule.from}:00Z`);
 
-        return Array.from(Array(repeat * 4 - 1)).map(() => {
-          const dateToRet = dateToIncrement.toISOString();
-          dateToIncrement = addDays(new Date(dateToIncrement), 7);
-          return dateToRet;
-        });
-      });
-    }
-  }, [schedule, repeat]);
+  //       return Array.from(Array(repeat * 4 - 1)).map(() => {
+  //         const dateToRet = dateToIncrement.toISOString();
+  //         dateToIncrement = addDays(new Date(dateToIncrement), 7);
+  //         // const res = {date: format(dateToIncrement, "yyyy-MM-dd"), from: format(dateToIncrement, "HH:mm")}
+  //         return dateToRet;
+  //       });
+  //     });
+  //   }
+  // }, [schedule, repeat]);
 
   if (!calendarRef) return null;
 
@@ -147,19 +149,26 @@ function SelectMentorCalendar() {
     return (
       <SelectLessonDatePopover
         // date={eventInfo.event.extendedProps.date as { date: string; from: string; to: string }}
-
+        setPopoverOpen={setPopoverOpen}
+        popoverOpen={popoverOpen}
         slot={eventInfo.event.extendedProps.slot}
         setRepeat={setRepeat}
         setSchedule={setSchedule}
+        setChosenDates={setChosenDates}
         btn={
           <button
             type="button"
             className={cn(
               'w-full focus:bg-opacity-100 focus:text-white bg-color-banner-green rounded bg-opacity-10 text-color-banner-green py-2',
               // schedule === eventInfo.event.extendedProps.slot && 'bg-opacity-100 text-white',
-              (schedule === eventInfo.event.extendedProps.slot ||
-                chosenDates.includes(eventInfo?.event?._instance?.range?.start?.toISOString())) &&
-                'bg-opacity-100 text-white',
+              // (schedule === eventInfo.event.extendedProps.slot ||
+              //   chosenDates.includes(eventInfo?.event?._instance?.range?.start?.toISOString())) &&
+              //   'bg-opacity-100 text-white',
+              chosenDates.find(
+                (cd) =>
+                  eventInfo?.event?.extendedProps?.slot?.date === cd.date &&
+                  eventInfo?.event?.extendedProps?.slot?.from === cd.from,
+              ) && 'bg-opacity-100 text-white',
             )}
           >
             {eventInfo?.event?.title}
