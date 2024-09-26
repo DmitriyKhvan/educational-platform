@@ -26,7 +26,6 @@ export const EmblaCarousel: React.FC<PropType> = (props) => {
 
     const currentSlideIdx = emblaApi.selectedScrollSnap();
     if (slides.length / 7 - currentSlideIdx === 1) {
-      // debugger;
       await nextWeekSlots(currentSlideIdx + 2);
     }
     setTimeout(() => {

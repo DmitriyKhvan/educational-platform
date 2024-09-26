@@ -2,13 +2,13 @@ import { useAuth } from '@/app/providers/auth-provider';
 import Loader from '@/components/common/loader';
 import LessonCard from '@/pages/students/schedule-lesson/lesson-card';
 import ScheduleCard from '@/pages/students/schedule-lesson/schedule-card';
-import { CREATE_APPOINTMENT, UPDATE_APPOINTMENT } from '@/shared/apollo/graphql';
+import { UPDATE_APPOINTMENT } from '@/shared/apollo/graphql';
 import { useMutation } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '@/components/form/button';
-// import CheckboxField from '@/components/form/checkbox-field';
+import CheckboxField from '@/components/form/checkbox-field';
 import MentorImageRow from '@/pages/students/schedule-lesson/mentor-image-row';
 import NotEnoughCreditsModal from '@/pages/students/schedule-lesson/not-enough-credits-modal';
 import { getItemToLocalStorage, localeDic } from '@/shared/constants/global';
@@ -52,8 +52,10 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
   isMentorScheduled = false,
   setCreatedLessons,
   repeat,
-  // setRepeat,
+  setRepeat,
 }) => {
+  console.log('repeat', repeat);
+
   const navigate = useNavigate();
   const [t, i18n] = useTranslation(['common', 'lessons', 'dashboard', 'translations']);
 
@@ -142,14 +144,14 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
     }
   };
 
-  // const repeatLessonLabel = (monthCount: number) =>
-  //   t('repeat_lesson', {
-  //     ns: 'lessons',
-  //     weekDay: format(new Date(time), 'eeee', {
-  //       locale: localeDic[i18n.language as keyof typeof localeDic],
-  //     }),
-  //     count: monthCount,
-  //   });
+  const repeatLessonLabel = (monthCount: number) =>
+    t('repeat_lesson', {
+      ns: 'lessons',
+      weekDay: format(new Date(selectedSchedule), 'eeee', {
+        locale: localeDic[i18n.language as keyof typeof localeDic],
+      }),
+      count: monthCount,
+    });
 
   return (
     <>
@@ -174,8 +176,23 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
             {t('confirmation_subtitle', { ns: 'lessons' })}
           </p>
 
+          {!currentStudent?.isTrial && (
+            <div>
+              <p className="mt-6 mb-3 sm:mb-4 text-sm text-color-light-grey">
+                {t('mentor', { ns: 'lessons' })}
+              </p>
+              <div className="flex">
+                <MentorImageRow
+                  setTabIndex={setTabIndex}
+                  mentor={mentor}
+                  isMentorScheduled={isMentorScheduled}
+                />
+              </div>
+            </div>
+          )}
+
           <div>
-            <p className="mt-10 mb-3 sm:mb-4 text-sm text-color-light-grey">
+            <p className="mt-6 mb-3 sm:mb-4 text-sm text-color-light-grey">
               {t('lesson_topic', { ns: 'lessons' })}
             </p>
             <div className="flex">
@@ -205,22 +222,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
             </div>
           </div>
 
-          {!currentStudent?.isTrial && (
-            <div>
-              <p className="mt-6 mb-3 sm:mb-4 text-sm text-color-light-grey">
-                {t('mentor', { ns: 'lessons' })}
-              </p>
-              <div className="flex">
-                <MentorImageRow
-                  setTabIndex={setTabIndex}
-                  mentor={mentor}
-                  isMentorScheduled={isMentorScheduled}
-                />
-              </div>
-            </div>
-          )}
-
-          {/* {!lessonId && !currentStudent?.isTrial && (
+          {!lessonId && !currentStudent?.isTrial && (
             <div className="my-10">
               <CheckboxField
                 label={repeatLessonLabel(1)}
@@ -235,7 +237,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
                 checked={repeat === 3}
               />
             </div>
-          )} */}
+          )}
 
           {lessonId && !!repeat && (
             <div className="mt-10">

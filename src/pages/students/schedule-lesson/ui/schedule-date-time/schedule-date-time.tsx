@@ -5,7 +5,12 @@ import { EmblaCarousel } from './embla-carousel';
 import type { EmblaOptionsType } from 'embla-carousel';
 import { AvailabilityDates } from './availability-dates';
 import { useAvailabilitySlotsLazyQuery } from '@/shared/apollo/queries/timesheets/availability-slots.generated';
-import type { AvailabilitySlot, GroupedAvailabilitySlots, Mentor } from '@/types/types.generated';
+import type {
+  AvailabilitySlot,
+  GroupedAvailabilitySlots,
+  Mentor,
+  PackageSubscription,
+} from '@/types/types.generated';
 import { useAuth } from '@/app/providers/auth-provider';
 import notify from '@/shared/utils/notify';
 
@@ -18,12 +23,18 @@ export interface ScheduleDateTimeProps {
   mentor: Mentor;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
+  setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
+  schedule: AvailabilitySlot | undefined;
+  plan: PackageSubscription | undefined;
 }
 
 export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
   mentor,
   setTabIndex,
   setSchedule,
+  schedule,
+  setRepeat,
+  plan,
 }) => {
   const options: EmblaOptionsType = { containScroll: 'keepSnaps', slidesToScroll: 'auto' };
   const [weekRanges, setWeekRanges] = useState<WeekRanges[]>([]);
@@ -40,7 +51,7 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
           timezone: userTimezone,
           rangeStart,
           rangeEnd,
-          duration: 30,
+          duration: plan?.package?.sessionTime ?? 25,
         },
       });
 
@@ -113,6 +124,8 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
         availDates={availDates}
         setTabIndex={setTabIndex}
         setSchedule={setSchedule}
+        schedule={schedule}
+        setRepeat={setRepeat}
       />
     </div>
   );

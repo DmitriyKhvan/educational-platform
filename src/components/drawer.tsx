@@ -22,6 +22,8 @@ export function MyDrawer({
     <Drawer.Root open={open} onOpenChange={setOpen} dismissible={dismissible} shouldScaleBackground>
       <Drawer.Trigger asChild>{button}</Drawer.Trigger>
       <Drawer.Portal>
+        <Drawer.Title />
+        <Drawer.Description />
         <Drawer.Overlay className={cn('fixed inset-0 bg-black/40 z-30', overlayClassname)} />
         <Drawer.Content className={`flex flex-col fixed bottom-0 left-0 right-0 z-30 ${className}`}>
           <div className="px-6 pb-6 bg-white rounded-t-[10px] flex-1 overflow-auto">

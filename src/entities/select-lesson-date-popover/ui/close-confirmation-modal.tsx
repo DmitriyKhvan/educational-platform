@@ -23,7 +23,7 @@ function CloseConfirmationModal({ open, setOpen, onCloseClick }: CloseConfirmati
         <BsFillExclamationTriangleFill className="text-color-red text-xl" width={20} height={20} />
       </span>
       <h2 className="text-[22px] mb-4 font-bold">Changes won’t be applied</h2>
-      <p className="max-w-[336px] mb-6">
+      <p className="mb-6">
         If you will close a popup changes that you’ve made on booking won’t be applied.
       </p>
       {/* Are you sure to close? */}

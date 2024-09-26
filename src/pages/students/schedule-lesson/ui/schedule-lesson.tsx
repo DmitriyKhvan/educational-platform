@@ -54,6 +54,9 @@ const ScheduleLesson = () => {
   const [selectMentor, setSelectMentor] = useState<Mentor>();
   const [createdLessons, setCreatedLessons] = useState<Lesson[]>();
 
+  console.log('schedule', schedule);
+  console.log('repeat', repeat);
+
   const scheduledLesson = data?.lesson || null;
 
   console.log('selectedPlan', selectedPlan);
@@ -87,6 +90,9 @@ const ScheduleLesson = () => {
           mentor={location?.state?.mentor}
           setTabIndex={setTabIndex}
           setSchedule={setSchedule}
+          schedule={schedule}
+          setRepeat={setRepeat}
+          plan={selectedPlan}
         />
       )}
       {tabIndex === 2 && !isMobile && <h2>Календарь</h2>}

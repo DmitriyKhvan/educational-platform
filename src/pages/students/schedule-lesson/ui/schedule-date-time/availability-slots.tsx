@@ -5,17 +5,25 @@ import { format } from 'date-fns-tz';
 import { HiMiniChevronDown, HiMiniChevronUp } from 'react-icons/hi2';
 import { AvailabilitySlotComponent } from './availability-slot';
 
-export const AvailabilitySlots = ({
-  availDate,
-  setSlot,
-  slot,
-  last,
-}: {
+interface AvailabilitySlotsProps {
   availDate: GroupedAvailabilitySlots;
-  setSlot: (slot: AvailabilitySlot) => void;
-  slot?: AvailabilitySlot;
   last: boolean;
+  setChosenDates: React.Dispatch<React.SetStateAction<AvailabilitySlot[]>>;
+  chosenDates: AvailabilitySlot[];
+  setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
+  setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
+}
+
+export const AvailabilitySlots: React.FC<AvailabilitySlotsProps> = ({
+  availDate,
+  last,
+  setChosenDates,
+  chosenDates,
+  setSchedule,
+  setRepeat,
 }) => {
+  console.log('chosenDates', chosenDates);
+
   const cardSlots = availDate.timeSlots.slice(0, 9);
   const moreSlots = availDate.timeSlots.slice(9);
 
@@ -33,12 +41,28 @@ export const AvailabilitySlots = ({
 
       <div className="grid grid-cols-3 gap-3">
         {cardSlots.map((time) => (
-          <AvailabilitySlotComponent key={time.from} time={time} setSlot={setSlot} slot={slot} />
+          <AvailabilitySlotComponent
+            key={time.from}
+            time={time}
+            setChosenDates={setChosenDates}
+            setSchedule={setSchedule}
+            setRepeat={setRepeat}
+            active={chosenDates.some((slot) => slot.date === time.date && slot.from === time.from)}
+          />
         ))}
 
         {isMoreSlots &&
           moreSlots.map((time) => (
-            <AvailabilitySlotComponent key={time.from} time={time} setSlot={setSlot} slot={slot} />
+            <AvailabilitySlotComponent
+              key={time.from}
+              time={time}
+              setChosenDates={setChosenDates}
+              setSchedule={setSchedule}
+              setRepeat={setRepeat}
+              active={chosenDates.some(
+                (slot) => slot.date === time.date && slot.from === time.from,
+              )}
+            />
           ))}
       </div>
 
