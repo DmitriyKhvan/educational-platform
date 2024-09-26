@@ -3,11 +3,11 @@ import type { EmblaOptionsType } from 'embla-carousel';
 
 import { NextButton, PrevButton, usePrevNextButtons } from './embla-carousel-arrow-buttons';
 import { WeekSlot } from './week-slot';
-import type { AvailabilitySlot } from '@/types/types.generated';
+import type { GroupedAvailabilitySlots } from '@/types/types.generated';
 
 type PropType = {
   slides: string[];
-  slots: AvailabilitySlot[];
+  slots: GroupedAvailabilitySlots[];
   options?: EmblaOptionsType;
   nextWeekSlots: (count: number) => void;
 };
@@ -26,7 +26,6 @@ export const EmblaCarousel: React.FC<PropType> = (props) => {
 
     const currentSlideIdx = emblaApi.selectedScrollSnap();
     if (slides.length / 7 - currentSlideIdx === 1) {
-      // debugger;
       await nextWeekSlots(currentSlideIdx + 2);
     }
     setTimeout(() => {

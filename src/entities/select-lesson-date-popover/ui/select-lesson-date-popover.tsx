@@ -44,6 +44,7 @@ function SelectLessonDatePopover({
   const [confirmCloseModal, setConfirmCloseModal] = useState(false);
 
   const closeModal = () => {
+    setSchedule(undefined);
     setRepeatWeekly(false);
     setRepeatPeriod(0);
     setIsChosen(false);
@@ -104,6 +105,7 @@ function SelectLessonDatePopover({
         }}
       >
         <PopoverTrigger
+          asChild
           className="w-full"
           disabled={popoverOpen}
           onClick={() => {
@@ -215,7 +217,8 @@ function SelectLessonDatePopover({
                 onClick={() => {
                   setSchedule(slot);
                   if (repeatWeekly) setRepeat(repeatPeriod);
-                  closeModal();
+                  setIsChosen(false);
+                  // closeModal();
                 }}
               >
                 Apply

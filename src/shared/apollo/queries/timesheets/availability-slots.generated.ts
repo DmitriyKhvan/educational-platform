@@ -12,7 +12,7 @@ export type AvailabilitySlotsQueryVariables = Types.Exact<{
 }>;
 
 
-export type AvailabilitySlotsQuery = { __typename?: 'Query', availabilitySlots: Array<{ __typename?: 'AvailabilitySlot', date: string, from: string, to: string } | null> };
+export type AvailabilitySlotsQuery = { __typename?: 'Query', availabilitySlots: Array<{ __typename?: 'GroupedAvailabilitySlots', date: string, timeSlots: Array<{ __typename?: 'AvailabilitySlot', date: string, from: string, to: string }> } | null> };
 
 
 export const AvailabilitySlotsDocument = gql`
@@ -25,8 +25,11 @@ export const AvailabilitySlotsDocument = gql`
     duration: $duration
   ) {
     date
-    from
-    to
+    timeSlots {
+      date
+      from
+      to
+    }
   }
 }
     `;

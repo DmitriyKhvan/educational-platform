@@ -13,7 +13,10 @@ query availabilitySlots(
     duration: $duration
   ) {
     date
-    from
-    to
+    timeSlots {
+      date
+      from
+      to
+    }
   }
 }
