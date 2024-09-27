@@ -24,6 +24,7 @@ const Submited = () => {
         </div>
 
         <button
+          type="button"
           onClick={() => {
             navigate('/mentor/profile');
             notify('Introduction video is changed!');

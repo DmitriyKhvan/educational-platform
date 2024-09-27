@@ -51,6 +51,7 @@ const SampleModal = () => {
         <section className="flex p-[30px]">
           <div className="flex justify-between gap-y-[20px] flex-wrap w-[350px]">
             {Object.values(images).map((item, idx) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               <img className="w-[100px] h-[100px]" key={idx} src={item} alt="" />
             ))}
           </div>

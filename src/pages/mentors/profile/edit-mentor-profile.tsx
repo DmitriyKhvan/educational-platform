@@ -56,7 +56,7 @@ const EditMentorProfile = () => {
   const deleteAvatar = async () => {
     const { data } = await updateMentor({
       variables: {
-        id: Number.parseInt(user?.mentor?.id),
+        id: Number.parseInt(user?.mentor?.id ?? ''),
         data: { avatar: null },
       },
     });

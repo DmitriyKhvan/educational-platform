@@ -29,7 +29,12 @@ const Education = () => {
     },
   });
 
-  const handleEditEdu = async (area) => {
+  const handleEditEdu = async (area: {
+    university?: string | null;
+    graduatingYear?: number | null;
+    degree?: string | null;
+    major?: string | null;
+  }) => {
     // if (file) {
     //   const files = file.target?.files[0];
     //   updateMentor({
@@ -42,7 +47,8 @@ const Education = () => {
 
     const newData = {
       ...area,
-      graduatingYear: Number.parseInt(area.graduatingYear),
+      // graduatingYear: Number.parseInt(area.graduatingYear??''),
+      graduatingYear: area.graduatingYear as number,
     };
 
     await updateMentor({

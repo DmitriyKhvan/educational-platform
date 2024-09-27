@@ -33,11 +33,11 @@ const MentorProfile = () => {
   const videoUrl = actions.user?.mentor?.videoUrl;
 
   function renderAbout() {
-    var text = actions.user?.mentor?.introduction;
-    var textLength = actions.user?.mentor?.introduction?.length;
-    var news = '';
+    const text = actions.user?.mentor?.introduction;
+    const textLength = actions.user?.mentor?.introduction?.length;
+    let news = '';
     if (textLength) {
-      for (var i = 0; i < textLength; i++) {
+      for (let i = 0; i < textLength; i++) {
         if (i === 50) {
           news += '\n';
         } else if (i === 100) {
@@ -53,7 +53,7 @@ const MentorProfile = () => {
         } else if (i === 350) {
           news += '\n';
         } else {
-          news += text[i];
+          news += text?.[i];
         }
       }
     }

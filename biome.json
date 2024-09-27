@@ -13,7 +13,8 @@
       "recommended": true,
       "correctness": {
         "noUnusedImports": "error",
-        "noUnusedVariables": "error"
+        "noUnusedVariables": "error",
+        "useExhaustiveDependencies":"warn"
       },
       "nursery": {
         "noRestrictedImports": {
