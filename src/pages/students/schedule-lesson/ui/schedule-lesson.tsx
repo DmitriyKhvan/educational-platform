@@ -1,20 +1,15 @@
 import LessonConfirmation from '@/pages/students/schedule-lesson/lesson-confirmation';
-import { ScheduleSelector } from '@/pages/students/schedule-lesson/schedule-selector';
-
-import SelectMentorCards from '@/pages/students/schedule-lesson/select-mentor-cards';
 import { LESSON_QUERY } from '@/shared/apollo/graphql';
 import { useQuery } from '@apollo/client';
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 
 import '@/app/styles/tutor.scss';
-import { AvailableTimes } from '@/pages/students/schedule-lesson/schedule-selector/available-times';
-import { ScheduleProvider } from '@/pages/students/schedule-lesson/schedule-selector/schedule-provider';
 
 import { useAuth } from '@/app/providers/auth-provider';
+import Mentors from '@/pages/students/mentors-list';
 import ScheduleSuccess from '@/pages/students/schedule-lesson/schedule-success';
-import { COMBINED_TIMESHEETS } from '@/shared/apollo/queries/combined-timesheets';
-import { COMBINED_TIMESHEETS_TRIAL } from '@/shared/apollo/queries/trial/combined-time-sheets-for-trials';
+import SelectLesson from '@/pages/students/schedule-lesson/ui/select-lesson';
 import type {
   AvailabilitySlot,
   Lesson,
@@ -22,10 +17,9 @@ import type {
   PackageSubscription,
   Query,
 } from '@/types/types.generated';
-import SelectLesson from '@/pages/students/schedule-lesson/ui/select-lesson';
-import Mentors from '@/pages/students/mentors-list';
-import { ScheduleDateTime } from './schedule-date-time/schedule-date-time';
 import { useMediaQuery } from 'react-responsive';
+import { ScheduleCalendar } from './schedule-calendar/schedule-calendar';
+import { ScheduleDateTime } from './schedule-date-time/schedule-date-time';
 
 const ScheduleLesson = () => {
   const isMobile = useMediaQuery({ maxWidth: 639 });
@@ -54,14 +48,7 @@ const ScheduleLesson = () => {
   const [selectMentor, setSelectMentor] = useState<Mentor>();
   const [createdLessons, setCreatedLessons] = useState<Lesson[]>();
 
-  console.log('schedule', schedule);
-  console.log('repeat', repeat);
-
   const scheduledLesson = data?.lesson || null;
-
-  console.log('selectedPlan', selectedPlan);
-  console.log('tabIndex', tabIndex);
-  console.log('location', location);
 
   useEffect(() => {
     if (location?.state?.mentor) {
@@ -95,7 +82,16 @@ const ScheduleLesson = () => {
           plan={selectedPlan}
         />
       )}
-      {tabIndex === 2 && !isMobile && <h2>Календарь</h2>}
+      {tabIndex === 2 && !isMobile && (
+        <ScheduleCalendar
+          mentor={location?.state?.mentor}
+          setTabIndex={setTabIndex}
+          setSchedule={setSchedule}
+          schedule={schedule}
+          setRepeat={setRepeat}
+          // plan={selectedPlan}
+        />
+      )}
 
       {/* {(tabIndex === 1 || tabIndex === 2) && (
         <ScheduleProvider

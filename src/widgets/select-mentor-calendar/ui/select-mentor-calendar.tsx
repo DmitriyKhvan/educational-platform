@@ -1,46 +1,42 @@
 import { format, lastDayOfMonth, startOfMonth, subDays } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
-import './select-mentor-calendar.scss';
 import { Calendar } from '@/components/calendar';
-import MyDropdownMenu from '@/components/dropdown-menu';
 import Button from '@/components/form/button';
-import CheckboxField from '@/components/form/checkbox-field';
 import SelectLessonDatePopover from '@/entities/select-lesson-date-popover/ui/select-lesson-date-popover';
 import { AVAILABILITY_SLOTS } from '@/shared/apollo/queries/lessons/availability-slots';
 import { CalendarView, type LanguageType, localeDic } from '@/shared/constants/global';
 import {} from '@/shared/ui/popover';
 import { cn } from '@/shared/utils/functions';
 import { useCalendarControls } from '@/shared/utils/use-calendar-controls';
+import type { AvailabilitySlot, GroupedAvailabilitySlots } from '@/types/types.generated';
 import { useQuery } from '@apollo/client';
 import type FullCalendar from '@fullcalendar/react';
 import { BsExclamationLg } from 'react-icons/bs';
 
-interface AvailabilitySlotType {
-  date: string;
-  from: string;
-  to: string;
+import './select-mentor-calendar.scss';
+export interface ScheduleCalendarProps {
+  setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
+  setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-function SelectMentorCalendar() {
+function SelectMentorCalendar({ setSchedule, setRepeat }: ScheduleCalendarProps) {
   const [startDate, setStartDate] = useState(format(subDays(new Date(), 1), 'yyyy-MM-01'));
   const [endDate, setEndDate] = useState(
     format(subDays(lastDayOfMonth(new Date()), 1), 'yyyy-MM-dd'),
   );
 
-  const [chosenDates, setChosenDates] = useState<AvailabilitySlotType[]>([]);
+  const [chosenDates, setChosenDates] = useState<AvailabilitySlot[]>([]);
 
-  const [open, setOpen] = useState(false);
   const [t, i18n] = useTranslation(['lessons', 'common']);
   const calendarRef = useRef<FullCalendar>(null);
 
-  const { goNext, goPrev, goToday, setMonthView, setWeekView, date, view, viewDictionary } =
-    useCalendarControls({
-      calendarRef,
-      initialView: CalendarView.MONTH_VIEW,
-    });
+  const { goNext, goPrev, goToday, date } = useCalendarControls({
+    calendarRef,
+    initialView: CalendarView.MONTH_VIEW,
+  });
 
   const { data, loading } = useQuery(AVAILABILITY_SLOTS, {
     variables: {
@@ -63,7 +59,7 @@ function SelectMentorCalendar() {
     }
   }, [date]);
 
-  const [absDates, setAbsDates] = useState<AvailabilitySlotType[]>([]);
+  const [absDates, setAbsDates] = useState<AvailabilitySlot[]>([]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
@@ -73,8 +69,8 @@ function SelectMentorCalendar() {
       for (const chosenDate of chosenDates) {
         if (
           !data?.availabilitySlots
-            ?.find((avs: any) => avs.date === chosenDate.date)
-            ?.timeSlots?.find((avs: any) => avs.from === chosenDate.from) &&
+            ?.find((avs: GroupedAvailabilitySlots) => avs.date === chosenDate.date)
+            ?.timeSlots?.find((avs: AvailabilitySlot) => avs.from === chosenDate.from) &&
           chosenDate.date >= data?.availabilitySlots[0]?.date &&
           chosenDate.date <= data?.availabilitySlots[data?.availabilitySlots?.length - 1]?.date
         ) {
@@ -87,42 +83,29 @@ function SelectMentorCalendar() {
 
   const [popoverOpen, setPopoverOpen] = useState(false);
 
-  const [schedule, setSchedule] = useState<AvailabilitySlotType | undefined>();
-  // console.log('🚀 ~ SelectMentorCalendar ~ schedule:', schedule);
-  const [repeat, setRepeat] = useState<number | null>(0);
-
   if (!calendarRef) return null;
+
+  const eventMapFunc = (type: 'default' | 'abscent') => (s: AvailabilitySlot) => ({
+    id: `${s.date}${s.from}`,
+    title: `${s.from}-${s.to}`,
+    slot: s,
+    start: new Date(`${s.date}T${s.from}:00`),
+    type,
+    end: new Date(`${s.date}T${s.to}:00`),
+    duration: 25,
+  });
 
   const events = [
     ...(data?.availabilitySlots
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      .reduce((acc: any, curr: any) => {
-        // console.log(curr)
+      .reduce((acc: AvailabilitySlot[], curr: GroupedAvailabilitySlots) => {
         acc.push(...curr.timeSlots);
         return acc;
       }, [])
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-      ?.map((s: any) => ({
-        id: `${s.date}${s.from}`,
-        title: `${s.from}-${s.to}`,
-        slot: s,
-        start: new Date(`${s.date}T${s.from}:00`),
-        type: 'default',
-        end: new Date(`${s.date}T${s.to}:00`),
-        duration: 25,
-      })) ?? []),
-    ...absDates.map((s: any) => ({
-      id: `${s.date}${s.from}`,
-      title: `${s.from}-${s.to}`,
-      slot: s,
-      start: new Date(`${s.date}T${s.from}:00`),
-      type: 'abscent',
-      end: new Date(`${s.date}T${s.to}:00`),
-      duration: 25,
-    })),
+      ?.map(eventMapFunc('default')) ?? []),
+    ...absDates.map(eventMapFunc('abscent')),
   ];
-  console.log('🚀 ~ useEffect ~ events:', events);
 
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const renderEventContent = (eventInfo: any) => {
     if (eventInfo.event.extendedProps.type === 'abscent') {
       return (
@@ -180,39 +163,6 @@ function SelectMentorCalendar() {
             </h2>
           </div>
           <div className="flex space-x-3">
-            <MyDropdownMenu
-              open={open}
-              setOpen={setOpen}
-              button={
-                <Button theme="outline" className="gap-6 shadow h-10">
-                  {viewDictionary[view]} <FaChevronDown />
-                </Button>
-              }
-              contentClassName=" rounded-xl overflow-hidden border"
-            >
-              <div className="flex flex-col">
-                <CheckboxField
-                  checked={view === CalendarView.WEEK_VIEW}
-                  onChange={() => setWeekView()}
-                  type="radio"
-                  name="calendarView"
-                  label={viewDictionary[CalendarView.WEEK_VIEW]}
-                  className="flex-row-reverse justify-between h-[56px] border-b  pl-1 pr-4"
-                  onClick={() => setOpen(false)}
-                />
-
-                <CheckboxField
-                  checked={view === CalendarView.MONTH_VIEW}
-                  onChange={() => setMonthView()}
-                  type="radio"
-                  name="calendarView"
-                  label={viewDictionary[CalendarView.MONTH_VIEW]}
-                  className="flex-row-reverse justify-between h-[56px] border-b  pl-1 pr-4"
-                  onClick={() => setOpen(false)}
-                />
-              </div>
-            </MyDropdownMenu>
-
             <Button theme="outline" onClick={goToday} className="h-10 shadow">
               {t('calendar_today')}
             </Button>
