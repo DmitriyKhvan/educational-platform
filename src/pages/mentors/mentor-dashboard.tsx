@@ -133,7 +133,7 @@ const MentorDashboard = () => {
               {upcomingLessons?.map((event, i) => (
                 <ScheduleCard
                   lesson={event?.packageSubscription?.package?.course?.title}
-                  duration={event?.duration}
+                  duration={event?.duration} 
                   playground={event?.playground}
                   date={event?.startAt}
                   data={event}

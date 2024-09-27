@@ -16,11 +16,11 @@ export default function StudentsList() {
   const { data } = useQuery<Query>(STUDENTS_QUERY, {
     errorPolicy: 'ignore',
   });
-  const students = data?.students?.filter((i) => i?.user?.isActive);
+  const students = data?.students?.filter((i) => i?.user?.isActive) ?? undefined;
 
   const [t] = useTranslation(['common', 'studentMentor']);
 
-  const handleStatusTutor = () => {};
+  // const handleStatusTutor = () => {};
 
   const handleMoreTutor = (id: string) => {
     if (id) {
@@ -66,7 +66,7 @@ export default function StudentsList() {
 										<span>{item.language}</span> */}
                 </div>
                 <div className="tutors_control-buttons">
-                  <button onClick={() => handleMoreTutor(item?.id)}>
+                  <button type='button' onClick={() => handleMoreTutor(item?.id??'')}>
                     {t('learn_more', { ns: 'common' })}
                   </button>
                 </div>
@@ -79,7 +79,7 @@ export default function StudentsList() {
       {showStudentModal && (
         <StudentsModal
           studentList={students}
-          handleStatusTutor={handleStatusTutor}
+          // handleStatusTutor={handleStatusTutor}
           setShowStudentModal={setShowStudentModal}
         />
       )}

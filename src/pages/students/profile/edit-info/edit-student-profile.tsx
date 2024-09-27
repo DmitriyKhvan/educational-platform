@@ -26,6 +26,10 @@ import { Avatar } from '@/widgets/avatar/avatar';
 import { useTranslation } from 'react-i18next';
 import { FaChevronLeft } from 'react-icons/fa6';
 import { Link, useNavigate } from 'react-router-dom';
+import type { PhoneNumberFieldForm } from '@/components/form/types';
+
+
+
 
 const EditProfileStudent = () => {
   const navigate = useNavigate();
@@ -45,7 +49,7 @@ const EditProfileStudent = () => {
     watch,
     setValue,
     formState: { errors },
-  } = useForm({
+  } = useForm<PhoneNumberFieldForm>({
     defaultValues: {
       koreanEquivalent: user?.koreanEquivalent,
       gender: user?.gender,
@@ -54,10 +58,11 @@ const EditProfileStudent = () => {
       phoneNumber: '',
       phoneNumberWithoutCode: '',
       address: user?.address,
+      timeZone: ''
     },
   });
 
-  const onSubmit = async (area) => {
+  const onSubmit = async (area: PhoneNumberFieldForm) => {
     const {
       firstName,
       lastName,
@@ -67,7 +72,7 @@ const EditProfileStudent = () => {
       address,
       phoneNumber,
       timeZone,
-    } = trimSpaces(area);
+    } = trimSpaces(area as unknown as Record<string, unknown>);
 
     await updateStudent({
       variables: {
@@ -136,7 +141,8 @@ const EditProfileStudent = () => {
                   alt="Thumb"
                   className="w-[150px] h-[150px] cursor-pointer rounded-full object-cover"
                 />
-                <button
+                <button 
+                  type='button'
                   className="absolute top-0 right-0 text-2xl cursor-pointer text-red-500"
                   onClick={removePreviewImage}
                 >
@@ -178,7 +184,7 @@ const EditProfileStudent = () => {
                 defaultValue={user?.gender}
                 name="gender"
                 render={({ field: { value, onChange } }) => (
-                  <SelectField value={value} options={genders} onChange={onChange} />
+                  <SelectField value={value ?? ''} options={genders} onChange={onChange} />
                 )}
               />
             </label>
@@ -207,7 +213,7 @@ const EditProfileStudent = () => {
                 defaultValue={user?.country}
                 name="country"
                 render={({ field: { value, onChange } }) => (
-                  <SelectField value={value} options={countries} onChange={onChange} />
+                  <SelectField value={value??''} options={countries} onChange={onChange} />
                 )}
               />
             </label>
@@ -235,7 +241,7 @@ const EditProfileStudent = () => {
 
           <section className="mt-4">
             <InputWithError errorsField={errors?.phoneNumberWithoutCode ?? errors?.phoneNumber}>
-              <PhoneNumberField
+              <PhoneNumberField 
                 register={register}
                 resetField={resetField}
                 defaultNumber={user?.phoneNumber ?? ''}

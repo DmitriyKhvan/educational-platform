@@ -1,19 +1,18 @@
 import Button from '@/components/form/button';
 import InputField from '@/components/form/input-field';
-import type { LegacyRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 
-function FormCard({ inputRef, formRef }:{inputRef: HTMLInputElement | null, formRef: LegacyRef<HTMLElement> | undefined}) {
+function FormCard({ inputRef, formRef }) {
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'refer']);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<{email: string}>({
     mode: 'onTouched',
   });
 
@@ -25,7 +24,7 @@ function FormCard({ inputRef, formRef }:{inputRef: HTMLInputElement | null, form
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data : {email: string} | undefined) => {
     localStorage.setItem('referralEmail', data?.email || '');
     navigate('/trial');
   };

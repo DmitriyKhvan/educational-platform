@@ -19,7 +19,19 @@ import { SelectField } from '@/components/form/select-field';
 import { timezoneOptions } from '@/shared/constants/global';
 import notify from '@/shared/utils/notify';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
+import type { PhoneNumberFieldForm } from '@/components/form/types';
 // import MySelect from '@/components/Form/MySelect';
+
+
+// interface LoginFormFields{
+//   firstName: string;
+//   lastName: string;
+//   email: string;
+//   password: string;
+//   phoneNumberWithoutCode: string;
+//   phoneNumber: string;
+//   timeZone: string;
+// }
 
 export default function Onboarding() {
   const [t] = useTranslation(['onboarding', 'common', 'translations']);
@@ -37,7 +49,7 @@ export default function Onboarding() {
     formState: { errors, isValid },
     setValue,
     watch,
-  } = useForm({
+  } = useForm<PhoneNumberFieldForm>({
     mode: 'onChange',
     defaultValues: { phoneNumber: '', phoneNumberWithoutCode: '' },
   });
@@ -45,7 +57,7 @@ export default function Onboarding() {
   const { login, data: loginData } = useLogin();
   const [signUp] = useMutation(SIGN_UP);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data:PhoneNumberFieldForm) => {
     setIsLoading(true);
 
     try {
@@ -56,7 +68,8 @@ export default function Onboarding() {
       });
 
       await login(data.email, data.password);
-    } catch (error) {
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    } catch (error:any) {
       notify(error.message, 'error');
     }
 
@@ -91,7 +104,7 @@ export default function Onboarding() {
               autoFocus
               {...register('firstName', {
                 required: t('required_first_name', { ns: 'translations' }),
-                focus: true,
+                // focus: true,
               })}
             />
           </InputWithError>

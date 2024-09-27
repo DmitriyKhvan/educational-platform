@@ -4,10 +4,11 @@ import ReferalHeader from '@/pages/students/referal/ui/referal-header';
 import ReferalIntro from '@/pages/students/referal/ui/referal-intro';
 import Reviews from '@/pages/students/referal/ui/reviews';
 import WhyNaoNow from '@/pages/students/referal/ui/why-naonow';
+import type { Student } from '@/types/types.generated';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const ReferalLanding = ({ student }) => {
+const ReferalLanding = ({ student}: {student: Student}) => {
   const inputRef = useRef();
   const formRef = useRef();
 

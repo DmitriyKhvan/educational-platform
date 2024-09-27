@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import { useMutation, useQuery } from '@apollo/client';
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe, type PaymentIntent, type PaymentIntentResult } from '@stripe/stripe-js';
 import { useTranslation } from 'react-i18next';
 
 import { PACKAGE_QUERY } from '@/shared/apollo/graphql';
@@ -17,7 +17,7 @@ import Loader from '@/components/loader/loader';
 import { MarketingChannelForm } from '@/components/onboarding/marketing-channel';
 import { getItemToLocalStorage } from '@/shared/constants/global';
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY ?? '');
 
 export default function ConfirmPayment() {
   const { user, currentStudent } = useAuth();
@@ -47,18 +47,22 @@ export default function ConfirmPayment() {
 
   const [t] = useTranslation(['purchase', 'onboarding']);
 
-  const [message, setMessage] = useState(null);
-  const [error, setError] = useState(null);
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<boolean | null>(null);
 
   const checkPayment = async () => {
     const { checkStripePaymentStatus: alreadyPaid } = data;
 
     try {
       const stripe = await stripePromise;
+      let paymentIntent: PaymentIntent | undefined
+      if (stripe) {
 
-      const { paymentIntent } = await stripe?.retrievePaymentIntent(clientSecret);
+        const res : PaymentIntentResult  = await stripe.retrievePaymentIntent(clientSecret ?? '');
+        paymentIntent = res.paymentIntent
+      }
 
-      switch (paymentIntent.status) {
+      switch (paymentIntent?.status) {
         case 'succeeded': {
           if (alreadyPaid) {
             setMessage('already_paid');
@@ -68,7 +72,7 @@ export default function ConfirmPayment() {
           await createPayment({
             variables: {
               studentId,
-              packageId: Number.parseInt(params.packageId),
+              packageId: Number.parseInt(params.packageId ?? '0'),
               provider: 'stripe',
               metadata: JSON.stringify(paymentIntent),
             },
@@ -92,7 +96,8 @@ export default function ConfirmPayment() {
           setError(true);
           break;
       }
-    } catch (error) {
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    } catch (error: any) {
       setMessage(error.message);
       setError(true);
     }
