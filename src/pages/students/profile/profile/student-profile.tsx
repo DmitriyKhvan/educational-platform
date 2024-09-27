@@ -70,7 +70,10 @@ const StudentProfile = () => {
 
                   <div>
                     <LevelBadge
-                      level={(currentStudent?.languageLevel?.title ?? currentStudent?.langLevel) as LangLevelType}
+                      level={
+                        (currentStudent?.languageLevel?.title ??
+                          currentStudent?.langLevel) as LangLevelType
+                      }
                     />
                   </div>
                 </div>
@@ -166,7 +169,9 @@ const StudentProfile = () => {
           <h2 className="mb-4 text-[20px] font-bold text-color-dark-purple tracking-[-0.6px] leading-6">
             {t('enrolled_courses')}
           </h2>
-          {uncompletedPackages?.map((item) => <PackageCard key={item?.id} item={item} />)}
+          {uncompletedPackages?.map((item) => (
+            <PackageCard key={item?.id} item={item} />
+          ))}
 
           {uncompletedPackages?.length === 0 && (
             <p className="mt-[30px]">{t('no_lessons', { ns: 'lessons' })}</p>
@@ -177,7 +182,9 @@ const StudentProfile = () => {
           <h2 className="mb-4 text-[20px] font-bold text-color-dark-purple tracking-[-0.6px] leading-6">
             {t('completed_courses')}
           </h2>
-          {completedPackages?.map((item) => <PackageCard key={item?.id} item={item} />)}
+          {completedPackages?.map((item) => (
+            <PackageCard key={item?.id} item={item} />
+          ))}
 
           {completedPackages?.length === 0 && (
             <p className="mt-[30px]">{t('no_lessons', { ns: 'lessons' })}</p>

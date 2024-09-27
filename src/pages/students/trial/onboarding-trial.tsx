@@ -35,7 +35,6 @@ const OnboardingTrial = memo(function OnboardingTrial({
 
   const [t] = useTranslation(['onboarding', 'common', 'translations', 'lessons']);
 
-
   const {
     handleSubmit,
     register,

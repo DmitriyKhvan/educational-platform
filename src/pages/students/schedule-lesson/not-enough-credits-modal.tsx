@@ -4,7 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { AiOutlineInfo } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 
-const NotEnoughCreditsModal = ({ confirmLesson, repeat }:{confirmLesson: (confirmedNotEnough?: boolean) => Promise<void>, repeat: number}) => {
+const NotEnoughCreditsModal = ({
+  confirmLesson,
+  repeat,
+}: { confirmLesson: (confirmedNotEnough?: boolean) => Promise<void>; repeat: number }) => {
   const navigate = useNavigate();
   const [t] = useTranslation('modals');
   return (

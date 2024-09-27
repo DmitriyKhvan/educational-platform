@@ -3,7 +3,7 @@ import type { Maybe, PackageSubscription } from '@/types/types.generated';
 
 import { useTranslation } from 'react-i18next';
 
-const PackageCard = ({ item }:{item : Maybe<PackageSubscription>}) => {
+const PackageCard = ({ item }: { item: Maybe<PackageSubscription> }) => {
   const [t] = useTranslation(['profile', 'common', 'lessons']);
   return (
     <div

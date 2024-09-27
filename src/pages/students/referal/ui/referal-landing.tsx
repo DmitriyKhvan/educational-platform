@@ -8,7 +8,7 @@ import type { Student } from '@/types/types.generated';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const ReferalLanding = ({ student}: {student: Student}) => {
+const ReferalLanding = ({ student }: { student: Student }) => {
   const inputRef = useRef();
   const formRef = useRef();
 

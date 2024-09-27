@@ -28,7 +28,7 @@ const StudentDashboard = () => {
     if ((user?.personalPromotionCodes?.length ?? 0) > 0) {
       return user?.personalPromotionCodes?.[0]?.discountType === DiscountType.PERCENT
         ? `${user.personalPromotionCodes[0].value}%`
-        : currencyFormat({ number: user?.personalPromotionCodes?.[0]?.value??0 });
+        : currencyFormat({ number: user?.personalPromotionCodes?.[0]?.value ?? 0 });
     }
   }, [user]);
 

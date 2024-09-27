@@ -6,7 +6,15 @@ import type { Dispatch, SetStateAction } from 'react';
 import { FaPencil } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 
-const MentorImageRow = ({ mentor, setTabIndex, isMentorScheduled }:{mentor: Mentor, setTabIndex: Dispatch<SetStateAction<number>>, isMentorScheduled: boolean}) => {
+const MentorImageRow = ({
+  mentor,
+  setTabIndex,
+  isMentorScheduled,
+}: {
+  mentor: Mentor;
+  setTabIndex: Dispatch<SetStateAction<number>>;
+  isMentorScheduled: boolean;
+}) => {
   const { avatar, firstName, lastName, university, degree } = mentor;
   const navigate = useNavigate();
   return (

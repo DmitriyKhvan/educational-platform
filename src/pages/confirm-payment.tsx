@@ -55,11 +55,10 @@ export default function ConfirmPayment() {
 
     try {
       const stripe = await stripePromise;
-      let paymentIntent: PaymentIntent | undefined
+      let paymentIntent: PaymentIntent | undefined;
       if (stripe) {
-
-        const res : PaymentIntentResult  = await stripe.retrievePaymentIntent(clientSecret ?? '');
-        paymentIntent = res.paymentIntent
+        const res: PaymentIntentResult = await stripe.retrievePaymentIntent(clientSecret ?? '');
+        paymentIntent = res.paymentIntent;
       }
 
       switch (paymentIntent?.status) {
@@ -96,7 +95,7 @@ export default function ConfirmPayment() {
           setError(true);
           break;
       }
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     } catch (error: any) {
       setMessage(error.message);
       setError(true);

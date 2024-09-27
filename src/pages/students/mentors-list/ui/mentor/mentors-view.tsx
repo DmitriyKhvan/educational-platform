@@ -77,13 +77,13 @@ export const MentorsView: React.FC<MentorsViewProps> = ({ mentorList, handleSele
                 />
               );
             }
-              return (
-                <MentorCard2
-                  key={mentor.id}
-                  mentor={mentor}
-                  // handleSelectMentor={handleSelectMentor}
-                />
-              );
+            return (
+              <MentorCard2
+                key={mentor.id}
+                mentor={mentor}
+                // handleSelectMentor={handleSelectMentor}
+              />
+            );
           })
         ) : (
           <p className="w-full text-center text-gray-500 uppercase">{t('cannot_find_mentors')}</p>

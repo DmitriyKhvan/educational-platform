@@ -22,7 +22,6 @@ import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import type { PhoneNumberFieldForm } from '@/components/form/types';
 // import MySelect from '@/components/Form/MySelect';
 
-
 // interface LoginFormFields{
 //   firstName: string;
 //   lastName: string;
@@ -57,7 +56,7 @@ export default function Onboarding() {
   const { login, data: loginData } = useLogin();
   const [signUp] = useMutation(SIGN_UP);
 
-  const onSubmit = async (data:PhoneNumberFieldForm) => {
+  const onSubmit = async (data: PhoneNumberFieldForm) => {
     setIsLoading(true);
 
     try {
@@ -68,8 +67,8 @@ export default function Onboarding() {
       });
 
       await login(data.email, data.password);
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    } catch (error:any) {
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    } catch (error: any) {
       notify(error.message, 'error');
     }
 

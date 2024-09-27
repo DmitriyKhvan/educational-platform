@@ -40,7 +40,7 @@ export interface ScheduleContextType {
   endMonth: Date;
   isToday: boolean;
   resetAll: () => void;
-  setSelectMentor?: Dispatch<SetStateAction<Mentor | undefined | {id: string}>>;
+  setSelectMentor?: Dispatch<SetStateAction<Mentor | undefined | { id: string }>>;
   hourPrior: number;
 }
 

@@ -5,7 +5,15 @@ import type { OperationVariables, ApolloQueryResult } from '@apollo/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const MyProgress = ({ appointments, fetchAppointments }: {appointments: any, fetchAppointments: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<any>>}) => {
+const MyProgress = ({
+  appointments,
+  fetchAppointments,
+}: {
+  appointments: any;
+  fetchAppointments: (
+    variables?: Partial<OperationVariables> | undefined,
+  ) => Promise<ApolloQueryResult<any>>;
+}) => {
   const [t] = useTranslation(['dashboard', 'lessons']);
 
   const lastCompleted = useMemo(

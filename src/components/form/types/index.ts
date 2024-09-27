@@ -5,7 +5,7 @@ export interface PhoneNumberFieldForm {
   firstName: string;
   phoneNumber: string;
   phoneNumberWithoutCode: string;
-  address?: string | null ;
+  address?: string | null;
   timeZone: string;
   country?: string | null;
   password: string;

@@ -11,17 +11,15 @@ import { useTranslation } from 'react-i18next';
 import type { AvailableTime } from '../schedule-provider/lib/schedule-context';
 import type { Dispatch, SetStateAction } from 'react';
 
-
-
-export const ScheduleCard = ({ 
-
-  startTime, 
-  setScheduleStartTime, 
-  scheduleStartTime }:
-  {startTime: AvailableTime, 
-  setScheduleStartTime: Dispatch<SetStateAction<AvailableTime | null | undefined>>, 
-  scheduleStartTime: AvailableTime | null | undefined}) => {
-
+export const ScheduleCard = ({
+  startTime,
+  setScheduleStartTime,
+  scheduleStartTime,
+}: {
+  startTime: AvailableTime;
+  setScheduleStartTime: Dispatch<SetStateAction<AvailableTime | null | undefined>>;
+  scheduleStartTime: AvailableTime | null | undefined;
+}) => {
   const { duration, day } = useSchedule();
 
   // eslint-disable-next-line no-unused-vars
@@ -37,9 +35,13 @@ export const ScheduleCard = ({
     locale: localeDic[i18n.language as LanguageType],
   });
 
-  const scheduleEndTimeFormat = format(addMinutes(scheduleStartTimeParse, duration ?? 0), 'hh:mm a', {
-    locale: localeDic[i18n.language as LanguageType],
-  });
+  const scheduleEndTimeFormat = format(
+    addMinutes(scheduleStartTimeParse, duration ?? 0),
+    'hh:mm a',
+    {
+      locale: localeDic[i18n.language as LanguageType],
+    },
+  );
 
   const selectAvailableTime = () => {
     setScheduleStartTime(startTime);
@@ -50,7 +52,7 @@ export const ScheduleCard = ({
     <label
       className={cn(
         'flex justify-between border border-color-border-grey rounded-lg bg-white p-5 shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.04)] cursor-pointer',
-        
+
         startTime.reserved && 'bg-gray-400/30 cursor-not-allowed',
         !startTime.reserved && 'hover:border-color-purple',
         startTime === scheduleStartTime && 'border-color-purple',

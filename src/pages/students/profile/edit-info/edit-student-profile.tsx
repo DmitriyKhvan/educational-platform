@@ -28,9 +28,6 @@ import { FaChevronLeft } from 'react-icons/fa6';
 import { Link, useNavigate } from 'react-router-dom';
 import type { PhoneNumberFieldForm } from '@/components/form/types';
 
-
-
-
 const EditProfileStudent = () => {
   const navigate = useNavigate();
   const [updateStudent] = useMutation<Mutation>(MUTATION_UPDATE_STUDENT);
@@ -58,7 +55,7 @@ const EditProfileStudent = () => {
       phoneNumber: '',
       phoneNumberWithoutCode: '',
       address: user?.address,
-      timeZone: ''
+      timeZone: '',
     },
   });
 
@@ -141,8 +138,8 @@ const EditProfileStudent = () => {
                   alt="Thumb"
                   className="w-[150px] h-[150px] cursor-pointer rounded-full object-cover"
                 />
-                <button 
-                  type='button'
+                <button
+                  type="button"
                   className="absolute top-0 right-0 text-2xl cursor-pointer text-red-500"
                   onClick={removePreviewImage}
                 >
@@ -213,7 +210,7 @@ const EditProfileStudent = () => {
                 defaultValue={user?.country}
                 name="country"
                 render={({ field: { value, onChange } }) => (
-                  <SelectField value={value??''} options={countries} onChange={onChange} />
+                  <SelectField value={value ?? ''} options={countries} onChange={onChange} />
                 )}
               />
             </label>
@@ -241,7 +238,7 @@ const EditProfileStudent = () => {
 
           <section className="mt-4">
             <InputWithError errorsField={errors?.phoneNumberWithoutCode ?? errors?.phoneNumber}>
-              <PhoneNumberField 
+              <PhoneNumberField
                 register={register}
                 resetField={resetField}
                 defaultNumber={user?.phoneNumber ?? ''}

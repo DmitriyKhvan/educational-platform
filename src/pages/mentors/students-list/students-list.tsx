@@ -66,7 +66,7 @@ export default function StudentsList() {
 										<span>{item.language}</span> */}
                 </div>
                 <div className="tutors_control-buttons">
-                  <button type='button' onClick={() => handleMoreTutor(item?.id??'')}>
+                  <button type="button" onClick={() => handleMoreTutor(item?.id ?? '')}>
                     {t('learn_more', { ns: 'common' })}
                   </button>
                 </div>

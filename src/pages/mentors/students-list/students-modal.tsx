@@ -15,7 +15,9 @@ const StudentsModal = ({
 }) => {
   const { id } = useParams();
 
-  const renderSelectedTutor = studentList?.find((item) => item?.id === (studentId ? studentId : id));
+  const renderSelectedTutor = studentList?.find(
+    (item) => item?.id === (studentId ? studentId : id),
+  );
 
   const avatar = renderSelectedTutor?.avatar?.url;
 

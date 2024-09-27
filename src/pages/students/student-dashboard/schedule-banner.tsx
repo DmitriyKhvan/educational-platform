@@ -10,7 +10,9 @@ import { ModalPurchase } from '@/components/modal-purchase';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import type { Maybe, PackageSubscription } from '@/types/types.generated';
 
-const ScheduleBanner = ({ activePackages }: {activePackages: Maybe<PackageSubscription>[] | undefined}) => {
+const ScheduleBanner = ({
+  activePackages,
+}: { activePackages: Maybe<PackageSubscription>[] | undefined }) => {
   const { currentStudent } = useAuth();
   const [t] = useTranslation('dashboard');
 

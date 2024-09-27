@@ -16,7 +16,7 @@ import StarRatings from 'react-star-ratings';
 import type { Mentor } from '@/types/types.generated';
 // import { EmblaCarousel } from '@/components/Carousel';
 
-const MentorsModal = ({ mentor }:{mentor: Mentor}) => {
+const MentorsModal = ({ mentor }: { mentor: Mentor }) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });
   const [t] = useTranslation(['common', 'profile']);
 

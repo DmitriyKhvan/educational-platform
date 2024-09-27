@@ -20,7 +20,17 @@ import { FaArrowRight } from 'react-icons/fa6';
 import { useMediaQuery } from 'react-responsive';
 import { Link } from 'react-router-dom';
 
-const MyLessons = ({ appointments, packageSubscriptions, fetchAppointments }: {appointments: Lesson[], packageSubscriptions: Maybe<PackageSubscription>[] | undefined, fetchAppointments: (variables?: Partial<OperationVariables> | undefined) => Promise<ApolloQueryResult<any>>}) => {
+const MyLessons = ({
+  appointments,
+  packageSubscriptions,
+  fetchAppointments,
+}: {
+  appointments: Lesson[];
+  packageSubscriptions: Maybe<PackageSubscription>[] | undefined;
+  fetchAppointments: (
+    variables?: Partial<OperationVariables> | undefined,
+  ) => Promise<ApolloQueryResult<any>>;
+}) => {
   const isDesktop = useMediaQuery({ minWidth: 1307 });
   const [t] = useTranslation(['dashboard', 'lessons']);
 

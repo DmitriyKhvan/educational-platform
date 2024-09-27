@@ -20,7 +20,9 @@ const CheckoutForm = () => {
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = async (event:FormEvent):Promise<FormEventHandler<HTMLFormElement> | undefined> => {
+  const handleSubmit = async (
+    event: FormEvent,
+  ): Promise<FormEventHandler<HTMLFormElement> | undefined> => {
     event.preventDefault();
 
     setLoading(true);
@@ -29,7 +31,7 @@ const CheckoutForm = () => {
       return;
     }
 
-    const { error }:{error: StripeError} = await stripe.confirmPayment({
+    const { error }: { error: StripeError } = await stripe.confirmPayment({
       elements,
       redirect: 'always',
       confirmParams: {

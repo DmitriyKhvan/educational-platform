@@ -10,7 +10,7 @@ const levelDict = {
   [LangLevelType.LEVEL_5]: 'bg-[#862EE7] text-[#862EE7] border border-[#862EE7]',
 };
 
-const LevelBadge = ({ level } : {level: LangLevelType}) => {
+const LevelBadge = ({ level }: { level: LangLevelType }) => {
   const color = levelDict[level];
 
   return <Indicator className={color}>{level}</Indicator>;

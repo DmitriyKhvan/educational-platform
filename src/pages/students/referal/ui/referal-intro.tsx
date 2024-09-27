@@ -11,7 +11,7 @@ import { Trans, useTranslation } from 'react-i18next';
 
 const imgs = [topLeft, topMid, topRight, botLeft, botMid, botRight];
 
-function ReferalIntro({ student }:{student: Student}) {
+function ReferalIntro({ student }: { student: Student }) {
   const [t] = useTranslation('refer');
 
   const [emblaRef] = useEmblaCarousel({ loop: true }, [
