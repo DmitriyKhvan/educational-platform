@@ -25,7 +25,7 @@ export const WeekSlots = ({ mentor }: { mentor: Mentor }) => {
           timezone: userTimezone,
           rangeStart: format(rangeStart, 'yyyy-MM-dd', { timeZone: userTimezone }),
           rangeEnd: format(rangeEnd, 'yyyy-MM-dd', { timeZone: userTimezone }),
-          duration: 30,
+          duration: 25,
         },
       });
 

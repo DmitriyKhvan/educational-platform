@@ -34,12 +34,12 @@ export const EmblaCarousel: React.FC<PropType> = (props) => {
   };
 
   return (
-    <div className="relative w-[1048px] px-[50px]">
+    <div className="relative w-full max-w-[1048px] px-[50px]">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex touch-pan-y -ml-2">
           {slides.map((date) => (
             <div
-              className="relative min-w-0 grow-0 shrink-0 basis-full sm:basis-[14.2857143%] pl-2"
+              className="relative min-w-0 grow-0 shrink-0 basis-full sm:basis-[calc(100%/7)] pl-2"
               key={date}
             >
               <WeekSlot date={date} slots={slots} />
