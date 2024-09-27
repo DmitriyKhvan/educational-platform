@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const SIGN_UP = gql`
   mutation SignUp(
@@ -9,6 +9,7 @@ export const SIGN_UP = gql`
     $phoneNumber: String
     $timeZone: String
     $referralCode: String
+    $lang: String
   ) {
     signUp(
       data: {
@@ -19,6 +20,7 @@ export const SIGN_UP = gql`
         phoneNumber: $phoneNumber
         timeZone: $timeZone
         referralCode: $referralCode
+        lang: $lang
       }
     ) {
       id
