@@ -110,7 +110,6 @@ function SelectLessonDatePopover({
           disabled={popoverOpen}
           onClick={() => {
             setIsChosen(true);
-            console.log('test1');
             setChosenDates(slot ? [slot] : []);
           }}
         >
@@ -217,7 +216,6 @@ function SelectLessonDatePopover({
                   setSchedule(slot);
                   if (repeatWeekly) setRepeat(repeatPeriod);
                   setIsChosen(false);
-                  // closeModal();
                 }}
               >
                 Apply
