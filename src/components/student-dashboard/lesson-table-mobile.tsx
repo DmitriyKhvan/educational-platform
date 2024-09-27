@@ -16,12 +16,12 @@ export const LessonTableMobile = ({
           <li key={data?.resource?.id ?? idx}>
             <ScheduleCard
               duration={duration}
-              lesson={data?.resource?.packageSubscription?.package?.course?.title}
+              // lesson={data?.resource?.packageSubscription?.package?.course?.title}
               mentor={data?.resource?.mentor}
-              playground={data?.resource?.playground}
+              // playground={data?.resource?.playground}
               date={data?.resource?.startAt}
               data={data?.resource}
-              index={idx}
+              // index={idx}
               fetchAppointments={getAppointments}
               subscription={data?.resource?.packageSubscription}
             />

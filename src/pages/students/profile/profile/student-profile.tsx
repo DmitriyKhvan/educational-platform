@@ -3,7 +3,7 @@ import Button from '@/components/form/button';
 import LevelBadge from '@/pages/students/profile/profile/level-badge';
 import PackageCard from '@/pages/students/profile/profile/package-card';
 import { PACKAGE_QUERY } from '@/shared/apollo/graphql';
-import { getItemToLocalStorage } from '@/shared/constants/global';
+import { getItemToLocalStorage, type LangLevelType } from '@/shared/constants/global';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import type { Query } from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';
@@ -57,7 +57,7 @@ const StudentProfile = () => {
                 <div className="flex justify-between w-full">
                   <div>
                     <h2 className="text-[20px] sm:text-[24px] font-bold leading-6 tracking-[-1px] text-color-dark-purple">
-                      {user?.firstName + ' '}
+                      {`${user?.firstName} `}
                       {user?.lastName}
                     </h2>
                     <Link
@@ -70,7 +70,10 @@ const StudentProfile = () => {
 
                   <div>
                     <LevelBadge
-                      level={currentStudent?.languageLevel?.title ?? currentStudent?.langLevel}
+                      level={
+                        (currentStudent?.languageLevel?.title ??
+                          currentStudent?.langLevel) as LangLevelType
+                      }
                     />
                   </div>
                 </div>
@@ -166,8 +169,9 @@ const StudentProfile = () => {
           <h2 className="mb-4 text-[20px] font-bold text-color-dark-purple tracking-[-0.6px] leading-6">
             {t('enrolled_courses')}
           </h2>
-          {uncompletedPackages &&
-            uncompletedPackages.map((item) => <PackageCard key={item?.id} item={item} />)}
+          {uncompletedPackages?.map((item) => (
+            <PackageCard key={item?.id} item={item} />
+          ))}
 
           {uncompletedPackages?.length === 0 && (
             <p className="mt-[30px]">{t('no_lessons', { ns: 'lessons' })}</p>
@@ -178,8 +182,9 @@ const StudentProfile = () => {
           <h2 className="mb-4 text-[20px] font-bold text-color-dark-purple tracking-[-0.6px] leading-6">
             {t('completed_courses')}
           </h2>
-          {completedPackages &&
-            completedPackages.map((item) => <PackageCard key={item?.id} item={item} />)}
+          {completedPackages?.map((item) => (
+            <PackageCard key={item?.id} item={item} />
+          ))}
 
           {completedPackages?.length === 0 && (
             <p className="mt-[30px]">{t('no_lessons', { ns: 'lessons' })}</p>

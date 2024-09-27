@@ -1,5 +1,6 @@
 import Button from '@/components/form/button';
 import { ucFirst } from '@/shared/utils/uc-first';
+import type { Maybe } from '@/types/types.generated';
 
 import { useTranslation } from 'react-i18next';
 import { FaPencil } from 'react-icons/fa6';
@@ -13,8 +14,8 @@ const LessonCard = ({
 }: {
   lesson: string;
   duration: string;
-  remaining: number;
-  total: number;
+  remaining: number | undefined;
+  total: Maybe<number> | undefined;
   setTabIndex: (index: number) => void;
 }) => {
   const [t] = useTranslation(['profile', 'lessons']);

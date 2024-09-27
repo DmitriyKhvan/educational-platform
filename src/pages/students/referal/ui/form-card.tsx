@@ -12,7 +12,7 @@ function FormCard({ inputRef, formRef }) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<{ email: string }>({
     mode: 'onTouched',
   });
 
@@ -24,7 +24,7 @@ function FormCard({ inputRef, formRef }) {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: { email: string } | undefined) => {
     localStorage.setItem('referralEmail', data?.email || '');
     navigate('/trial');
   };

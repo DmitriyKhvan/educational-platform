@@ -111,7 +111,7 @@ const SelectLesson = ({ setSelectedPlan, selectedPlan, setTabIndex, clicked, set
     <div className="h-full max-w-[488px] mx-auto">
       {isLoading ? (
         <Loader height="100%" />
-      ) : activePackages?.length > 0 ? (
+      ) : (activePackages?.length ?? 0) > 0 ? (
         <>
           <div className="flex flex-col gap-2.5 mb-[27px]">
             <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold leading-normal tracking-tight">

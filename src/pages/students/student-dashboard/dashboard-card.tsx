@@ -1,8 +1,14 @@
+import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaChevronRight } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 
-const DashboardCard = ({ title, subtitle, children, hrefTo }) => {
+const DashboardCard = ({
+  title,
+  subtitle,
+  children,
+  hrefTo,
+}: { title?: string; subtitle?: string; children?: ReactNode; hrefTo?: string }) => {
   const [t] = useTranslation('dashboard');
   return (
     <section className="bg-white w-full shadow-sm p-5 sm:p-6 sm:rounded-xl mx-auto sm:max-w-[524px]">

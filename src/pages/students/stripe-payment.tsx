@@ -2,12 +2,12 @@ import { useAuth } from '@/app/providers/auth-provider';
 import Button from '@/components/form/button';
 import Loader from '@/components/loader/loader';
 import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-import { useState } from 'react';
+import { loadStripe, type StripeError } from '@stripe/stripe-js';
+import { type FormEvent, type FormEventHandler, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY ?? '');
 
 const CheckoutForm = () => {
   const { user } = useAuth();
@@ -18,9 +18,11 @@ const CheckoutForm = () => {
 
   const [t] = useTranslation('purchase');
 
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (
+    event: FormEvent,
+  ): Promise<FormEventHandler<HTMLFormElement> | undefined> => {
     event.preventDefault();
 
     setLoading(true);
@@ -29,22 +31,22 @@ const CheckoutForm = () => {
       return;
     }
 
-    const { error } = await stripe.confirmPayment({
+    const { error }: { error: StripeError } = await stripe.confirmPayment({
       elements,
       redirect: 'always',
       confirmParams: {
         payment_method_data: {
           billing_details: {
-            name: `${user.firstName} ${user.lastName}`,
-            email: user.email,
-            phone: user.phone ?? '',
+            name: `${user?.firstName} ${user?.lastName}`,
+            email: user?.email,
+            phone: user?.phoneNumber ?? '',
           },
         },
         return_url: `${window.location.origin}/purchase/${params.packageId}/complete`,
       },
     });
     if (error) {
-      setErrorMessage(error.message);
+      setErrorMessage(error?.message ?? '');
     }
 
     setLoading(false);

@@ -1,8 +1,19 @@
 import Button from '@/components/form/button';
+import type { Dispatch, SetStateAction } from 'react';
 
 import { FaPencil } from 'react-icons/fa6';
 
-const ScheduleCard = ({ startTime, endTime, date, setTabIndex }) => {
+const ScheduleCard = ({
+  startTime,
+  endTime,
+  date,
+  setTabIndex,
+}: {
+  startTime: string;
+  endTime: string;
+  date: string;
+  setTabIndex: Dispatch<SetStateAction<number>>;
+}) => {
   return (
     <div className="flex justify-between items-center border border-color-border-grey rounded-lg bg-white p-5 shadow-[0px_0px_8px_0px_rgba(0,_0,_0,_0.04)] w-full">
       <div className="space-y-4">

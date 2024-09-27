@@ -2,7 +2,7 @@ import FavIcon from '@/shared/assets/images/Favorite.png';
 import { useParams } from 'react-router-dom';
 
 import '@/pages/mentors/students-list/students-modal.scss';
-import type { Student } from '@/types/types.generated';
+import type { Maybe, Student } from '@/types/types.generated';
 
 const StudentsModal = ({
   setShowStudentModal,
@@ -11,11 +11,13 @@ const StudentsModal = ({
 }: {
   setShowStudentModal: (value: boolean) => void;
   studentId?: string;
-  studentList: Student[];
+  studentList?: Maybe<Student>[];
 }) => {
   const { id } = useParams();
 
-  const renderSelectedTutor = studentList?.find((item) => item.id === (studentId ? studentId : id));
+  const renderSelectedTutor = studentList?.find(
+    (item) => item?.id === (studentId ? studentId : id),
+  );
 
   const avatar = renderSelectedTutor?.avatar?.url;
 
@@ -43,10 +45,10 @@ const StudentsModal = ({
           {renderSelectedTutor?.isFavourite && (
             <img src={FavIcon} alt="" className="favTutorIcon" />
           )}
-          <h1>{`${renderSelectedTutor?.user.firstName} ${
-            renderSelectedTutor?.user.lastName && renderSelectedTutor?.user.lastName
-          }`}</h1>
 
+          <h1>{`${renderSelectedTutor?.user?.firstName} ${
+            renderSelectedTutor?.user?.lastName && renderSelectedTutor?.user.lastName
+          }`}</h1>
           <div className="bottom_content">
             <div className="bottom_content-status">
               {renderSelectedTutor?.user?.address && (

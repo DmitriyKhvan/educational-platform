@@ -9,7 +9,7 @@ export const AcceptingStudents = () => {
   const { user, refetchUser } = useAuth();
   const [acceptNewStudents, { loading }] = useMutation(ACCEPT_NEW_STUDENTS);
 
-  const submit = (accept) => {
+  const submit = (accept: boolean) => {
     acceptNewStudents({
       variables: {
         mentorId: user?.mentor?.id,

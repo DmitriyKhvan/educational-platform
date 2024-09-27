@@ -108,7 +108,7 @@ function Feedback() {
                   setOpen={setOpenReview}
                 >
                   <StudentReviewModal
-                    studentId={lesson?.student?.id}
+                    studentId={lesson?.student?.id ?? ''}
                     lessonId={lesson?.id}
                     closeModal={() => {
                       refetch();

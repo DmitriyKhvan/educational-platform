@@ -1,4 +1,4 @@
-import { type Dispatch, type SetStateAction, memo, useEffect, useState } from 'react';
+import { type Dispatch, type SetStateAction, memo, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,7 @@ import { usePublicMentors } from '@/pages/students/trial/lib/use-public-mentors'
 import { timezoneOptions } from '@/shared/constants/global';
 import { trimSpaces } from '@/shared/utils/trim-spaces';
 import type { AuthenticatedUser, TrialPackage } from '@/types/types.generated';
+import type { PhoneNumberFieldForm } from '@/components/form/types';
 
 interface OnboardingTrialProps {
   currentUser: AuthenticatedUser;
@@ -34,8 +35,6 @@ const OnboardingTrial = memo(function OnboardingTrial({
 
   const [t] = useTranslation(['onboarding', 'common', 'translations', 'lessons']);
 
-  const [isShowPassword, setIsShowPassword] = useState(false);
-
   const {
     handleSubmit,
     register,
@@ -45,7 +44,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
     setValue,
     watch,
     formState: { errors, isValid },
-  } = useForm({
+  } = useForm<PhoneNumberFieldForm>({
     mode: 'onChange',
     defaultValues: {
       firstName,

@@ -3,17 +3,20 @@ import { FaUserLarge } from 'react-icons/fa6';
 
 import { cn } from '@/shared/utils/functions';
 import cls from '@/widgets/avatar/avatar.module.css';
+import type { Maybe } from '@/types/types.generated';
 
 export const Avatar = ({
   avatarUrl,
   className = '',
   fallback = 'user',
   iconClassName = '',
+  // gender = ''
 }: {
-  avatarUrl?: string;
+  avatarUrl?: Maybe<string> | undefined;
   className?: string;
   fallback?: 'user' | 'duck';
   iconClassName?: string;
+  // gender?: Maybe<GenderType>
 }) => {
   return avatarUrl ?? fallback === 'duck' ? (
     <img className={`${cls.img} ${className}`} src={avatarUrl ?? duckAvatar} alt="avatar" />

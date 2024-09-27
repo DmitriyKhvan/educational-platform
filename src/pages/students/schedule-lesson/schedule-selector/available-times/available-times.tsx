@@ -7,6 +7,7 @@ import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IoArrowBack } from 'react-icons/io5';
 import Swal from 'sweetalert2';
+import type { AvailableTime } from '../schedule-provider/lib/schedule-context';
 
 export const AvailableTimes = memo(function AvailableTimes() {
   const {
@@ -21,7 +22,7 @@ export const AvailableTimes = memo(function AvailableTimes() {
   } = useSchedule();
   const [t] = useTranslation(['lessons', 'common', 'modals']);
 
-  const [scheduleStartTime, setScheduleStartTime] = useState(null);
+  const [scheduleStartTime, setScheduleStartTime] = useState<AvailableTime | null | undefined>();
 
   const handleConfirmLesson = () => {
     if (!scheduleStartTime || scheduleStartTime.reserved) {

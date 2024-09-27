@@ -165,7 +165,7 @@ const PhoneNumberField: React.FC<PhoneNumberFieldProps> = ({
                       ns: 'onboarding',
                     }),
                   }
-                : false,
+                : undefined,
             })}
           >
             {(inputProps) => <InputField {...inputProps} disabled={disabled} />}

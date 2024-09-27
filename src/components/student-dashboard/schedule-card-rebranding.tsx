@@ -7,7 +7,7 @@ import { LessonsStatusType, Roles, localeDic } from '@/shared/constants/global';
 import { cn } from '@/shared/utils/functions';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
 import type { CalendarEvent } from '@/types';
-import type { Mentor, PackageSubscription, Student } from '@/types/types.generated';
+import type { Maybe, Mentor, PackageSubscription, Student } from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';
 import { addMinutes } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
@@ -26,13 +26,13 @@ const ScheduleCard = ({
   subscription,
   repeat,
 }: {
-  date: string;
+  date: string | Date;
   student?: Student;
-  mentor?: Mentor;
+  mentor?: Maybe<Mentor> | undefined;
   data: CalendarEvent;
   fetchAppointments: () => void;
   setCanceledLessons?: (arg0: Date) => void;
-  duration?: number;
+  duration?: Maybe<number> | undefined;
   subscription?: PackageSubscription | null;
   repeat?: number | null;
 }) => {

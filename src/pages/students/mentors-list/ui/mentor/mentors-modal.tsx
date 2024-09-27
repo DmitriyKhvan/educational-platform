@@ -13,9 +13,10 @@ import {
 import { Avatar } from '@/widgets/avatar/avatar';
 import { useMediaQuery } from 'react-responsive';
 import StarRatings from 'react-star-ratings';
+import type { Mentor } from '@/types/types.generated';
 // import { EmblaCarousel } from '@/components/Carousel';
 
-const MentorsModal = ({ mentor }) => {
+const MentorsModal = ({ mentor }: { mentor: Mentor }) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });
   const [t] = useTranslation(['common', 'profile']);
 
@@ -27,7 +28,7 @@ const MentorsModal = ({ mentor }) => {
       <div className="flex flex-col-reverse sm:flex-row bg-white gap-10">
         <div className="w-full sm:w-7/12 lg:w-2/3 break-word hyphens-auto">
           <h1 className="mb-3 text-[22px] md:text-[28px] leading-[34px] tracking-[-1px] text-color-dark-purple font-bold">{`${
-            mentor?.fullName || mentor?.user?.fullName
+            mentor?.fullName || ''
           }`}</h1>
 
           <div className="flex items-end gap-3">
@@ -97,7 +98,7 @@ const MentorsModal = ({ mentor }) => {
                   {t('university_major', { ns: 'profile' })}
                 </h3>
                 <p className="mt-2 font-medium text-color-dark-purple text-[15px] leading-[24px] tracking-[-0.2px]">
-                  {mentor?.degree} {mentor?.major ? '/ ' + mentor?.major : null}
+                  {mentor?.degree} {mentor?.major ? `/ ${mentor?.major}` : null}
                 </p>
               </div>
             </div>
@@ -111,11 +112,11 @@ const MentorsModal = ({ mentor }) => {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
             style={{ border: 0 }}
-          ></iframe>
+          />
         ) : (
           <Avatar
             avatarUrl={mentor?.avatar?.url}
-            gender={mentor?.gender}
+            // gender={mentor?.gender}
             className="w-full sm:w-5/12 lg:w-1/3 h-[185px] sm:h-auto max-h-[220px] rounded-lg"
           />
         )}

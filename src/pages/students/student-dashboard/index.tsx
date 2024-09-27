@@ -25,10 +25,10 @@ const StudentDashboard = () => {
   const { user } = useAuth();
 
   const discount = useMemo(() => {
-    if (user?.personalPromotionCodes?.length > 0) {
-      return user.personalPromotionCodes[0]?.discountType === DiscountType.PERCENT
+    if ((user?.personalPromotionCodes?.length ?? 0) > 0) {
+      return user?.personalPromotionCodes?.[0]?.discountType === DiscountType.PERCENT
         ? `${user.personalPromotionCodes[0].value}%`
-        : currencyFormat({ number: user.personalPromotionCodes[0].value });
+        : currencyFormat({ number: user?.personalPromotionCodes?.[0]?.value ?? 0 });
     }
   }, [user]);
 
@@ -57,7 +57,7 @@ const StudentDashboard = () => {
             <DashboardCard
               title={t('student_dashboard_welcome', {
                 ns: 'dashboard',
-                name: user.firstName,
+                name: user?.firstName,
               })}
               subtitle={t('student_dashboard_subtitle', { ns: 'dashboard' })}
             >
@@ -72,7 +72,7 @@ const StudentDashboard = () => {
                   packageSubscriptions={activePackages}
                 />
 
-                {user.personalPromotionCodes.length > 0 && (
+                {(user?.personalPromotionCodes?.length ?? 0) > 0 && (
                   <Link className="block" to="/purchase">
                     <PromoBanner
                       icon={<span className="text-xl">🎁</span>}
@@ -95,7 +95,7 @@ const StudentDashboard = () => {
                 packageSubscriptions={activePackages}
               />
 
-              {user.personalPromotionCodes.length > 0 && (
+              {(user?.personalPromotionCodes?.length ?? 0) > 0 && (
                 <Link className="block" to="/purchase">
                   <PromoBanner
                     icon={<span className="text-xl">🎁</span>}

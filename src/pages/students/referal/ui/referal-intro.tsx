@@ -4,13 +4,14 @@ import botRight from '@/shared/assets/images/samples/bot-right.jpg';
 import topLeft from '@/shared/assets/images/samples/top-left.jpg';
 import topMid from '@/shared/assets/images/samples/top-mid.jpg';
 import topRight from '@/shared/assets/images/samples/top-right.jpg';
+import type { Student } from '@/types/types.generated';
 import AutoScroll from 'embla-carousel-auto-scroll';
 import useEmblaCarousel from 'embla-carousel-react';
 import { Trans, useTranslation } from 'react-i18next';
 
 const imgs = [topLeft, topMid, topRight, botLeft, botMid, botRight];
 
-function ReferalIntro({ student }) {
+function ReferalIntro({ student }: { student: Student }) {
   const [t] = useTranslation('refer');
 
   const [emblaRef] = useEmblaCarousel({ loop: true }, [
