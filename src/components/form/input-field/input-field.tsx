@@ -1,4 +1,5 @@
 import cls from '@/components/form/input-field/input-field.module.css';
+import { buttonizeA11Y } from '@/shared/utils/buttonizeA11Y';
 import { type InputHTMLAttributes, type ReactNode, forwardRef } from 'react';
 
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -53,6 +54,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(function InputF
 
         {icon && (
           <div
+            {...buttonizeA11Y(iconHandler)}
             className={`
             ${cls.iconStyle}
             peer-focus:border-[hsla(210,_96%,_45%,_50%)] 
@@ -68,7 +70,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(function InputF
                 : 'border-l rounded-l-md [clip-path:inset(-3px_1px_-3px_-3px)] mr-[-2px]'
             }
             `}
-            onClick={iconHandler}
+            // onClick={iconHandler}
           >
             {icon}
           </div>

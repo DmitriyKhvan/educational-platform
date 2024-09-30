@@ -34,7 +34,7 @@ import { parse } from 'date-fns';
 interface LessonConfirmationProps {
   plan?: PackageSubscription;
   mentor: Mentor;
-  slot: AvailabilitySlot;
+  slot?: AvailabilitySlot;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
   lessonId?: string | null;
   isMentorScheduled?: boolean;
@@ -77,18 +77,18 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
   const userTimezone =
     user?.timeZone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const scheduleDate = format(new Date(slot.date), 'eeee, MMM dd', {
+  const scheduleDate = format(new Date(slot?.date ?? new Date()), 'eeee, MMM dd', {
     locale: localeDic[i18n.language as keyof typeof localeDic],
   });
-  const scheduleStartTime = format(new Date(`${slot.date}T${slot.from}:00`), 'hh:mm a', {
+  const scheduleStartTime = format(new Date(`${slot?.date}T${slot?.from}:00`), 'hh:mm a', {
     locale: localeDic[i18n.language as keyof typeof localeDic],
   });
-  const scheduleEndTime = format(new Date(`${slot.date}T${slot.to}:00`), 'hh:mm a', {
+  const scheduleEndTime = format(new Date(`${slot?.date}T${slot?.to}:00`), 'hh:mm a', {
     locale: localeDic[i18n.language as keyof typeof localeDic],
   });
 
   const dateParse = parse(
-    `${slot.date} ${slot.from}`,
+    `${slot?.date} ${slot?.from}`,
     'yyyy-MM-dd HH:mm',
     toZonedTime(new Date(), userTimezone),
   );
@@ -131,10 +131,15 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
         });
 
         setTabIndex(5);
+        // setCreatedLessons(
+        //   data?.createLessons?.filter((cl): cl is Lesson=> cl!== null).sort(
+        //     (a, b) => new Date(a?.startAt).getTime() - new Date(b.startAt).getTime(),
+        //   ),
+        // );
         setCreatedLessons(
-          data?.createLessons.sort(
-            (a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime(),
-          ),
+          data?.createLessons
+            ?.filter((cl): cl is Lesson => cl !== null && cl?.id !== undefined)
+            .sort((a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime()),
         );
       }
     } catch (error) {

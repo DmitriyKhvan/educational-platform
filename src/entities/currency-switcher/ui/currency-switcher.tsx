@@ -4,7 +4,7 @@ import MyDropdownMenu from '@/components/dropdown-menu';
 import Button from '@/components/form/button';
 import CheckboxField from '@/components/form/checkbox-field';
 import { UPDATE_USER } from '@/shared/apollo/mutations/user/update-user';
-import { currenciesDic } from '@/shared/constants/global';
+import { currenciesDic, type CurrencyDictionary } from '@/shared/constants/global';
 import notify from '@/shared/utils/notify';
 import { useMutation } from '@apollo/client';
 import { useState } from 'react';
@@ -16,25 +16,25 @@ export const CurrencySwitcher = () => {
   const [open, setOpen] = useState(false);
   const [updateUser] = useMutation(UPDATE_USER);
 
-  const onChangeCurrency = async (currency) => {
-    setLoadingCurrency(true);
+  const onChangeCurrency = async (currency: CurrencyDictionary) => {
+    setLoadingCurrency?.(true);
     await updateUser({
       variables: {
-        id: Number.parseInt(user?.id),
+        id: Number.parseInt(user?.id ?? ''),
         data: {
           paymentCurrency: currency.value.toLowerCase(),
         },
       },
       onCompleted: () => {
         setOpen(false);
-        setCurCurrency(currency);
+        setCurCurrency?.(currency);
         localStorage.setItem('currency', currency.value);
       },
       onError: (error) => {
         notify(error.message, 'error');
       },
     });
-    setLoadingCurrency(false);
+    setLoadingCurrency?.(false);
   };
 
   return (
@@ -68,7 +68,7 @@ export const CurrencySwitcher = () => {
                     onChange={() => onChangeCurrency(currency)}
                     type="radio"
                     name="currency"
-                    checked={currency.value === curCurrency.value}
+                    checked={currency.value === curCurrency?.value}
                   />
                 </label>
               </li>

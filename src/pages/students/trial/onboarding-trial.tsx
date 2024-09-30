@@ -73,7 +73,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
     lastName: string;
     phoneNumber: string;
     phoneNumberWithoutCode: string;
-    email: string;
+    email?: string;
     timeZone: string;
   }) => {
     // delete data.phoneNumberWithoutCode;
@@ -143,7 +143,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
               validate: {
                 isEmail: (value) => {
                   const emailRegex = /^[a-z0-9_\-.]+@([a-z0-9_-]+\.)+[a-z0-9_-]{2,4}$/;
-                  return emailRegex.test(value) || t('invalid_email', { ns: 'onboarding' });
+                  return emailRegex.test(value ?? '') || t('invalid_email', { ns: 'onboarding' });
                 },
               },
             })}

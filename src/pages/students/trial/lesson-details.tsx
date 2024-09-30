@@ -6,7 +6,15 @@ import LevelModal from '@/pages/students/trial/level-modal';
 import { TRIAL_PACKAGES } from '@/shared/apollo/queries/trial/trial-packages';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import { getTranslatedDescription, getTranslatedTitle } from '@/shared/utils/get-translated-title';
-import type { Course, LanguageLevel, Lesson, Package, Query, Topic } from '@/types/types.generated';
+import type {
+  Course,
+  LanguageLevel,
+  Lesson,
+  Package,
+  PackageSubscription,
+  Query,
+  Topic,
+} from '@/types/types.generated';
 import { useQuery } from '@apollo/client';
 import { type Dispatch, type SetStateAction, useMemo, useState } from 'react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
@@ -97,7 +105,7 @@ const LessonDetails: React.FC<LessonDetailsProps> = ({
     }
   }, [data, i18n.language]);
 
-  const onSubmit: SubmitHandler<FormValues> = (formData) => {
+  const onSubmit: SubmitHandler<FormValues> = () => {
     if (!currentPackage || !currentLevel || !currentTopic) return;
     setSelectedPlan({
       packageSubscription: currentPackage,

@@ -15,14 +15,16 @@ const MyProfileModal = () => {
   const handleLogout = async () => {
     await logout();
     window.Intercom('shutdown');
-    window.location.reload(true);
+    window.location.reload();
   };
 
   return (
     <div>
       <Link
-        to={user.role === Roles.MENTOR ? '/mentor/profile' : '/student/profile'}
-        className={`flex items-center space-x-3 px-[16px] py-[18px] font-semibold text-[15px] border-b cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple`}
+        to={user?.role === Roles.MENTOR ? '/mentor/profile' : '/student/profile'}
+        className={
+          'flex items-center space-x-3 px-[16px] py-[18px] font-semibold text-[15px] border-b cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple'
+        }
       >
         <FaRegUser className="text-[20px] transition ease-in-out delay-150 group-hover:text-white" />
         <span className="w-3/4 truncate transition ease-in-out delay-150 group-hover:text-white text-sm">
@@ -30,12 +32,14 @@ const MyProfileModal = () => {
         </span>
       </Link>
 
-      {user.role === Roles.STUDENT && (
+      {user?.role === Roles.STUDENT && (
         <AdaptiveDialog
           classNameDrawer="max-h-[100dvh]"
           button={
             <button
-              className={`w-full flex items-center space-x-3 px-[16px] py-[18px] border-b font-semibold text-[15px] cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple`}
+              className={
+                'w-full flex items-center space-x-3 px-[16px] py-[18px] border-b font-semibold text-[15px] cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple'
+              }
               type="button"
             >
               <MdAddCircleOutline className="text-[20px] text-color-purple transition ease-in-out delay-150 group-hover:text-white" />{' '}
@@ -50,7 +54,9 @@ const MyProfileModal = () => {
       )}
 
       <button
-        className={`w-full flex items-center space-x-3 px-[16px] py-[18px] font-semibold text-[15px] cursor-pointer transition ease-in-out delay-150 group hover:bg-color-red`}
+        className={
+          'w-full flex items-center space-x-3 px-[16px] py-[18px] font-semibold text-[15px] cursor-pointer transition ease-in-out delay-150 group hover:bg-color-red'
+        }
         type="button"
         onClick={handleLogout}
       >

@@ -9,9 +9,14 @@ interface Level {
   description: string;
 }
 
+interface FormValues {
+  packageId: string;
+  languageLevelId: string;
+  lessonTopicId: string;
+}
 interface LevelModalProps {
   setOpen: (open: boolean) => void;
-  watch: UseFormWatch<any>;
+  watch: UseFormWatch<FormValues>;
   levels: Level[];
 }
 
@@ -29,9 +34,9 @@ const LevelModal = forwardRef<HTMLInputElement, LevelModalProps>(function LevelM
           return (
             <label
               key={level.id}
-              className={`border rounded-xl p-4 cursor-pointer transition ease-in-out delay-150 hover:border-color-purple ${
-                watch('level') === level.title && 'border-color-purple'
-              }`}
+              className={
+                'border rounded-xl p-4 cursor-pointer transition ease-in-out delay-150 hover:border-color-purple'
+              }
             >
               <CheckboxField ref={ref} type="radio" value={level.id} name="level" {...props} />
               <h3 className="font-bold mb-2">{level.title}</h3>

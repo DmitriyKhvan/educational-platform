@@ -5,35 +5,43 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/tooltip';
+import { buttonizeA11Y } from '@/shared/utils/buttonizeA11Y';
 import { cn } from '@/shared/utils/functions';
+import type { AuthStudent } from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';
 import { useTranslation } from 'react-i18next';
 import { MdLock } from 'react-icons/md';
 
-export const ProfileCard = ({ student, studentId, selectProfile }) => {
+interface ProfileCardProps {
+  student: AuthStudent | null;
+  studentId: string | null;
+  selectProfile: (student: AuthStudent) => void;
+}
+export const ProfileCard = ({ student, studentId, selectProfile }: ProfileCardProps) => {
   const [t] = useTranslation('profile');
   return (
     <TooltipProvider>
       <Tooltip delayDuration={200}>
         <TooltipTrigger asChild>
           <div
-            onClick={() => (student.isActive ? selectProfile(student) : undefined)}
+            {...buttonizeA11Y(() => (student?.isActive ? selectProfile(student) : undefined))}
+            // onClick={() => (student.isActive ? selectProfile(student) : undefined)}
             className="group flex flex-col items-center gap-y-4 cursor-pointer"
           >
             <div className="relative">
               <Avatar
-                avatarUrl={student.avatar?.url}
-                gender={student.gender}
+                avatarUrl={student?.avatar?.url}
+                // gender={student.gender}
                 fallback="duck"
                 className={cn(
                   'w-[150px] h-[150px] rounded-full  transition duration-300 ease-in-out cursor-pointer bg-color-purple',
-                  student.isActive &&
+                  student?.isActive &&
                     'group-hover:border-color-purple border-2 group-hover:shadow-[0_0_0_4px_#F0EBF7]',
-                  student.id === studentId &&
+                  student?.id === studentId &&
                     'border-color-purple border-2 shadow-[0_0_0_4px_#F0EBF7]',
                 )}
               />
-              {!student.isActive && (
+              {!student?.isActive && (
                 <span className="absolute right-0 bottom-0 rounded-full flex justify-center items-center w-10 h-10 bg-color-light-grey2">
                   <MdLock className="w-5 h-5 text-color-light-grey" />
                 </span>
@@ -43,13 +51,13 @@ export const ProfileCard = ({ student, studentId, selectProfile }) => {
               <span
                 className={cn(
                   'block mb-2 font-semibold text-[20px] leading-6 tracking-[-0.2px]',
-                  student.isActive ? 'text-color-dark-violet' : 'text-color-darker-grey',
+                  student?.isActive ? 'text-color-dark-violet' : 'text-color-darker-grey',
                 )}
               >
-                {student.firstName}
+                {student?.firstName}
               </span>
 
-              {!student.isActive && (
+              {!student?.isActive && (
                 <span className="block font-semibold text-[15px] text-color-darker-grey leading-4 tracking-[-0.2px]">
                   {t('deactivated')}
                 </span>
@@ -58,7 +66,7 @@ export const ProfileCard = ({ student, studentId, selectProfile }) => {
           </div>
         </TooltipTrigger>
 
-        {!student.isActive && (
+        {!student?.isActive && (
           <TooltipPortal>
             <TooltipContent>
               <div className="text-center">

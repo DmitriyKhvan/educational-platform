@@ -24,7 +24,7 @@ const Navbar = memo(() => {
     <label className="py-[14px] rounded-lg select-none cursor-pointer">
       <div className="flex flex-col items-center justify-between gap-2 sm:gap-0">
         <Avatar
-          fallback={user.role === Roles.STUDENT ? 'duck' : 'user'}
+          fallback={user?.role === Roles.STUDENT ? 'duck' : 'user'}
           avatarUrl={user?.avatar?.url}
           className="w-[32px] h-[32px] bg-color-purple rounded-full overflow-hidden"
           iconClassName="text-white w-[20px]"
@@ -43,7 +43,9 @@ const Navbar = memo(() => {
         {isTablet && (
           <Link
             to={
-              user.role === Roles.MENTOR ? '/mentor/manage-appointments' : '/student/manage-lessons'
+              user?.role === Roles.MENTOR
+                ? '/mentor/manage-appointments'
+                : '/student/manage-lessons'
             }
           >
             <img className="min-w-[161px]" src={Logo} alt="" />

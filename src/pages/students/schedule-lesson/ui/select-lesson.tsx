@@ -22,7 +22,7 @@ const SelectLesson = ({
   setSelectedPlan: (pkg: PackageSubscription) => void;
   setTabIndex: (index: number) => void;
 }) => {
-  const [t, i18n] = useTranslation(['lessons', 'common', 'modals']);
+  const [_, i18n] = useTranslation(['lessons', 'common', 'modals']);
   const navigate = useNavigate();
 
   const { activePackages, isLoading } = useActivePackages();

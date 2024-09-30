@@ -47,7 +47,7 @@ export const PromoModal = ({
           return;
         }
         const discount =
-          data.applyPromotionCodeForPackage.promotionCode.discountType == 'percent'
+          data.applyPromotionCodeForPackage.promotionCode.discountType === 'percent'
             ? `${data.applyPromotionCodeForPackage.promotionCode.value}%`
             : currencyFormat({
                 number: data.applyPromotionCodeForPackage.promotionCode.value,
@@ -62,6 +62,10 @@ export const PromoModal = ({
         } else {
           promoPackage.promotionCode = {
             discountType: data.applyPromotionCodeForPackage.promotionCode.discountType,
+            id: data.applyPromotionCodeForPackage.promotionCode.id,
+            code: data.applyPromotionCodeForPackage.promotionCode.code,
+            value: data.applyPromotionCodeForPackage.promotionCode.value,
+            isActive: data.applyPromotionCodeForPackage.promotionCode.isActive,
             // discount: data.applyPromotionCodeForPackage.promotionCode?.value,
           };
         }

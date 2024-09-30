@@ -1,3 +1,4 @@
+import type { Notification } from '@/app/providers/notification-provider/lib/notification-context';
 import Button from '@/components/form/button';
 import { NotificationItem } from '@/components/navbar/notification/notification-item';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
@@ -6,7 +7,10 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HiTrash } from 'react-icons/hi';
 
-const NotificationsModal = ({ notifications, removeNotifications }) => {
+const NotificationsModal = ({
+  notifications,
+  removeNotifications,
+}: { notifications: Notification[]; removeNotifications: (type?: string) => void }) => {
   const [t] = useTranslation(['notifications', 'common', 'translations']);
   const [openDialog, setOpenDialog] = useState(false);
 
