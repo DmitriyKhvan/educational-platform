@@ -6,6 +6,7 @@ import { CHANGE_STUDENT_LEVEL } from '@/shared/apollo/queries/levels/change-stud
 import { LANGUAGE_LEVELS_WITH_PAGINATION } from '@/shared/apollo/queries/levels/language-levels-with-pagination';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import notify from '@/shared/utils/notify';
+import type { Topic } from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { useEffect, useMemo, useState } from 'react';
@@ -48,7 +49,7 @@ const LevelAfterTrialModal = () => {
 
   const languageLevel = useMemo(() => {
     const currentLevel = levelsData?.languageLevelsWithPagination?.languageLevels?.find(
-      (topic) => topic.id === watch('languageLevelId'),
+      (topic: Topic) => topic.id === watch('languageLevelId'),
     );
 
     setCurrentLevel(currentLevel);
@@ -56,7 +57,7 @@ const LevelAfterTrialModal = () => {
     return currentLevel?.title || <span className="text-[#BBBBC4]">Select a level</span>;
   }, [watch('languageLevelId'), currentLevel]);
 
-  const onSubmit = ({ languageLevelId }) => {
+  const onSubmit = ({ languageLevelId }: { languageLevelId: string }) => {
     changeStudentLevel({
       variables: {
         studentId: lesson?.student?.id,

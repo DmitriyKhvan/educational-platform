@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import { LessonsStatusType, ModalType, Roles } from '@/shared/constants/global';
 import { isBetween } from '@/shared/utils/is-between';
-import type { Mentor, Student } from '@/types/types.generated';
+import type { Mentor, Playground, Student } from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';
 import { addMinutes } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
@@ -25,15 +25,15 @@ const ScheduleCard = ({
   subscription,
 }: {
   index: number;
-  lesson: string;
-  playground: { startUrl: string; joinUrl: string };
+  lesson?: string | null;
+  playground?: Playground | null;
   date: string;
-  student: Student;
-  mentor: Mentor;
+  student?: Student | null;
+  mentor?: Mentor | null;
   data: any;
   fetchAppointments: () => void;
-  setCanceledLessons: any;
-  duration: number;
+  setCanceledLessons: ((arg0: Date) => void) | undefined;
+  duration?: number | null;
   subscription: any;
 }) => {
   const [isOpen, setIsOpen] = useState(false);

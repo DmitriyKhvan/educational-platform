@@ -139,8 +139,11 @@ const MentorDashboard = () => {
                   data={event}
                   student={event.student}
                   index={i}
-                  key={i}
+                  key={event.id}
                   fetchAppointments={fetchAppointments}
+                  mentor={event.mentor}
+                  setCanceledLessons={undefined}
+                  subscription={undefined}
                 />
               ))}
             </div>
