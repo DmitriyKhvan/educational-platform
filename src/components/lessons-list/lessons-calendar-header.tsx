@@ -108,7 +108,7 @@ const LessonsCalendarHeader: React.FC<LessonsCalendarHeaderProps> = ({ calendarR
               'w-[10px] h-[10px] block rounded-[3px]',
               courseColorsDict[COURSE_COLORS.GREEN as CourseColorType]?.indicator,
             )}
-          ></span>
+          />
           <p>{t('trial', { ns: 'common' })}</p>
         </div>
       </div>

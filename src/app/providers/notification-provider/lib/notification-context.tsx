@@ -1,3 +1,4 @@
+import type { AuthenticatedUser } from '@/types/types.generated';
 import { createContext } from 'react';
 
 export interface Notification {
@@ -6,9 +7,11 @@ export interface Notification {
   meta?: {
     lesson?: {
       type: string;
+      date: Date;
     };
     bonusLessonsCount?: number;
     dashboard?: string;
+    user: Partial<AuthenticatedUser>;
   };
   body?: string;
 }
