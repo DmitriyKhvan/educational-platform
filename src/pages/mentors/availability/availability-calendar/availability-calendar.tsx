@@ -18,7 +18,7 @@ import { useEffect, useRef, useState } from 'react';
 
 export const AvailabilityCalendar = () => {
   const { user } = useAuth();
-  const calendarRef = useRef<CalendarCore | null>(null);
+  const calendarRef = useRef<FullCalendar | null>(null);
   const fullCalendarRef = useRef<FullCalendar | null>(null);
 
   const userTimezone = user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -71,12 +71,14 @@ export const AvailabilityCalendar = () => {
     }
   }, [mentorInfo, appointments, loadingMentor, loadingAppointments]);
 
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const renderEventContent = (eventInfo: any) => {
     const data = eventInfo.event.extendedProps;
 
     if (eventInfo.view.type !== CalendarView.WEEK_VIEW && data.view === CalendarView.WEEK_VIEW)
       return;
 
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     if (data?.exception?.find((e: any) => !e.from && !e.to)) {
       return (
         <div className="px-3 py-2 min-h-[41px] h-full 2xl:mx-2 bg-[#EDEEF0] text-[#C0C0C3] font-medium text-xs flex items-center justify-center rounded-lg overflow-hidden truncate shadow-[0px_0px_8px_0px_#00000014]">
@@ -98,7 +100,7 @@ export const AvailabilityCalendar = () => {
 
   return (
     <div className="border border-color-border-grey rounded-xl">
-      <AvailabilityCalendarHeader calendarRef={fullCalendarRef} updateEvents={updateEvents} />
+      <AvailabilityCalendarHeader calendarRef={calendarRef} updateEvents={updateEvents} />
       <Calendar ref={fullCalendarRef} events={calendarEvents} eventContent={renderEventContent} />
     </div>
   );

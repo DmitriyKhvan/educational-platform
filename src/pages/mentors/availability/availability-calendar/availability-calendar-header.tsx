@@ -21,7 +21,7 @@ const AvailabilityCalendarHeader = ({
   calendarRef,
   updateEvents,
 }: {
-  calendarRef: MutableRefObject<FullCalendar>;
+  calendarRef: MutableRefObject<FullCalendar | null>;
   updateEvents: (view: CalendarViewType) => void;
 }) => {
   const [open, setOpen] = useState(false);
