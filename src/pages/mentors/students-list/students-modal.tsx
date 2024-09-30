@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import '@/pages/mentors/students-list/students-modal.scss';
 import type { Maybe, Student } from '@/types/types.generated';
+import { buttonizeA11Y } from '@/shared/utils/buttonizeA11Y';
 
 const StudentsModal = ({
   setShowStudentModal,
@@ -24,7 +25,7 @@ const StudentsModal = ({
   return (
     <div className="student_alfa">
       <div className="tutor_modal">
-        <p className="close-sh p-2" onClick={() => setShowStudentModal(false)}>
+        <p {...buttonizeA11Y(() => setShowStudentModal(false))} className="close-sh p-2">
           &times;
         </p>
         {!avatar && (

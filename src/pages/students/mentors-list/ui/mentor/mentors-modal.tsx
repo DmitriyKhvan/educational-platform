@@ -50,7 +50,7 @@ const MentorsModal = ({ mentor }: { mentor: Mentor }) => {
                     <Link
                       to={
                         mentor?.availabilities?.regular?.length > 0
-                          ? `/student/schedule-lesson/select`
+                          ? '/student/schedule-lesson/select'
                           : '#'
                       }
                       state={{
@@ -176,7 +176,7 @@ const MentorsModal = ({ mentor }: { mentor: Mentor }) => {
                 <Link
                   to={
                     mentor?.availabilities?.regular?.length > 0
-                      ? `/student/schedule-lesson/select`
+                      ? '/student/schedule-lesson/select'
                       : '#'
                   }
                   state={{

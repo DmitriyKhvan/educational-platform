@@ -88,7 +88,7 @@ const LessonControls = ({
     if (
       isBetween({
         dateStart: dateLesson,
-        duration: data.duration,
+        duration: data.duration as number,
         userTimezone,
       })
     ) {

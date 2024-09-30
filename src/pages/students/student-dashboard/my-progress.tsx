@@ -1,6 +1,7 @@
 import ScheduleCard from '@/components/student-dashboard/schedule-card-rebranding';
 import DashboardCard from '@/pages/students/student-dashboard/dashboard-card';
 import { LessonsStatusType } from '@/shared/constants/global';
+import type { Lesson } from '@/types/types.generated';
 import type { OperationVariables, ApolloQueryResult } from '@apollo/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,10 +10,10 @@ const MyProgress = ({
   appointments,
   fetchAppointments,
 }: {
-  appointments: any;
+  appointments: Lesson[];
   fetchAppointments: (
     variables?: Partial<OperationVariables> | undefined,
-  ) => Promise<ApolloQueryResult<any>>;
+  ) => Promise<ApolloQueryResult<Lesson>>;
 }) => {
   const [t] = useTranslation(['dashboard', 'lessons']);
 
@@ -20,7 +21,7 @@ const MyProgress = ({
     () =>
       appointments
         ?.filter((a) => a.status === LessonsStatusType.COMPLETED)
-        ?.sort((a, b) => new Date(b.startAt) - new Date(a.startAt))[0],
+        ?.sort((a, b) => new Date(b.startAt).getTime() - new Date(a.startAt).getTime())[0],
     [appointments],
   );
 
@@ -33,9 +34,9 @@ const MyProgress = ({
       {lastCompleted ? (
         <ScheduleCard
           duration={lastCompleted.duration}
-          lesson={lastCompleted?.packageSubscription?.package?.course?.title}
+          // lesson={lastCompleted?.packageSubscription?.package?.course?.title}
           mentor={lastCompleted.mentor}
-          playground={lastCompleted?.playground}
+          // playground={lastCompleted?.playground}
           date={new Date(lastCompleted.startAt)}
           data={lastCompleted}
           fetchAppointments={fetchAppointments}

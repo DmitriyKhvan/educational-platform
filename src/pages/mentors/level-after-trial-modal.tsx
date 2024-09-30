@@ -105,14 +105,14 @@ const LevelAfterTrialModal = () => {
             }
           >
             <ul className="overflow-y-scroll max-h-72 sm:w-[336px]">
-              {levelsData?.languageLevelsWithPagination?.languageLevels?.map((topic) => {
+              {levelsData?.languageLevelsWithPagination?.languageLevels?.map((topic: Topic) => {
                 return (
                   <li key={topic.id} className="border-b border-color-border-grey last:border-b-0">
                     <label className="flex items-center justify-between gap-3 py-4 px-6 cursor-pointer">
                       <p>{topic.title}</p>
                       <CheckboxField
                         type="radio"
-                        value={topic.id}
+                        value={topic.id ?? ''}
                         onClick={() => setIsOpenDropdown(false)}
                         {...register('languageLevelId', {
                           required: 'Language level is required',

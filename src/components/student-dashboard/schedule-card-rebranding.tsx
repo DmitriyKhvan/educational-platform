@@ -9,6 +9,7 @@ import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
 import type { CalendarEvent } from '@/types';
 import type { Maybe, Mentor, PackageSubscription, Student } from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';
+import type { EventInput } from '@fullcalendar/core';
 import { addMinutes } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +30,7 @@ const ScheduleCard = ({
   date: string | Date;
   student?: Student;
   mentor?: Maybe<Mentor> | undefined;
-  data: CalendarEvent;
+  data: CalendarEvent | EventInput;
   fetchAppointments: () => void;
   setCanceledLessons?: (arg0: Date) => void;
   duration?: Maybe<number> | undefined;
@@ -144,7 +145,7 @@ const ScheduleCard = ({
       </div>
       <LessonControls
         date={new Date(date)}
-        data={data}
+        data={data as EventInput}
         refetch={fetchAppointments}
         duration={duration ?? 0}
         setCanceledLessons={setCanceledLessons}

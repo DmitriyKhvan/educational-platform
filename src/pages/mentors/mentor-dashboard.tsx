@@ -49,15 +49,17 @@ const MentorDashboard = () => {
 
       setUpcomingLessons(
         appointments
-          ?.filter((apt) => {
-            const expiredDate = addMinutes(parseISO(apt?.startAt), apt?.duration);
+          ?.filter((apt: Lesson) => {
+            const expiredDate = addMinutes(parseISO(apt?.startAt), apt?.duration ?? 0);
             return (
               isBefore(parseISO(apt.startAt), dayEnd) &&
               isAfter(parseISO(apt.startAt), dayStart) &&
               isBefore(new Date(), expiredDate)
             );
           })
-          .sort((a, b) => new Date(a.startAt) - new Date(b.startAt)),
+          .sort(
+            (a: Lesson, b: Lesson) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime(),
+          ),
       );
     }
   }, [appointments]);
