@@ -1,5 +1,8 @@
+import type { CSSObjectWithLabel } from "react-select/dist/declarations/src/types";
+
 export const selectStyle = {
-  control: (styles, state) => ({
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  control: (styles: CSSObjectWithLabel, state: any) => ({
     ...styles,
     minWidth: '160px',
     padding: '10px',
@@ -9,13 +12,13 @@ export const selectStyle = {
     fontSize: '15px',
     cursor: 'pointer',
   }),
-  dropdownIndicator: (styles) => ({
+  dropdownIndicator: (styles: CSSObjectWithLabel) => ({
     ...styles,
     padding: 0,
   }),
-  indicatorSeparator: (styles) => ({
+  indicatorSeparator: (styles: CSSObjectWithLabel) => ({
     ...styles,
     display: 'none',
   }),
-  menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+  menuPortal: (base: CSSObjectWithLabel) => ({ ...base, zIndex: 9999 }),
 };

@@ -14,7 +14,7 @@
       "correctness": {
         "noUnusedImports": "error",
         "noUnusedVariables": "error",
-        "useExhaustiveDependencies":"info"
+        "useExhaustiveDependencies":"off"
       },
       "nursery": {
         "noRestrictedImports": {

@@ -53,6 +53,8 @@ export function renderRecurEvents(
           }),
           allDay: false,
           display: 'background',
+          start: new Date(`{weekDay.date}T${weekDay.from}:00`),
+          end: new Date(`{weekDay.date}T${weekDay.to}:00`)
         });
       }
     };

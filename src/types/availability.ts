@@ -166,6 +166,8 @@ export interface Exception {
   id: string;
   date: string;
   slots: ExceptionDateSlot[];
+  from: string;
+  to: string;
 }
 
 export type Slot = {

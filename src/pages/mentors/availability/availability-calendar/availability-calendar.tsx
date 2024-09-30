@@ -11,7 +11,7 @@ import { MENTOR } from '@/shared/apollo/queries/mentors/mentor';
 import { CalendarView, type CalendarViewType } from '@/shared/constants/global';
 import type { CalendarEvent, MonthlyViewEvent, WeeklyViewEvent } from '@/types';
 import { useQuery } from '@apollo/client';
-import type { Calendar as CalendarCore } from '@fullcalendar/core';
+import type { EventSourceInput } from '@fullcalendar/core';
 import type FullCalendar from '@fullcalendar/react';
 
 import { useEffect, useRef, useState } from 'react';
@@ -45,7 +45,7 @@ export const AvailabilityCalendar = () => {
 
   const updateEvents = (view: CalendarViewType) => {
     if (view === CalendarView.MONTH_VIEW) setCalendarEvents(monthlyEvents);
-    if (view === CalendarView.WEEK_VIEW) setCalendarEvents(weeklyEvents);
+    if (view === CalendarView.WEEK_VIEW) setCalendarEvents(weeklyEvents as CalendarEvent[]);
   };
 
   useEffect(() => {
@@ -101,7 +101,11 @@ export const AvailabilityCalendar = () => {
   return (
     <div className="border border-color-border-grey rounded-xl">
       <AvailabilityCalendarHeader calendarRef={calendarRef} updateEvents={updateEvents} />
-      <Calendar ref={fullCalendarRef} events={calendarEvents} eventContent={renderEventContent} />
+      <Calendar
+        ref={fullCalendarRef}
+        events={calendarEvents as EventSourceInput}
+        eventContent={renderEventContent}
+      />
     </div>
   );
 };

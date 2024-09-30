@@ -9,7 +9,7 @@ export interface Course {
 export type CalendarEvent = EventInput | Event;
 
 interface Event {
-  id: string;
+  id?: string | number;
   startAt: string;
   duration: number | null | undefined;
   playground: string;
