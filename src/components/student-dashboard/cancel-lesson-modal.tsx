@@ -1,43 +1,44 @@
 import { useAuth } from '@/app/providers/auth-provider';
 import Button from '@/components/form/button';
 import CheckboxField from '@/components/form/checkbox-field';
-import Loader from '@/components/loader/loader';
-import { CANCEL_APPOINTMENT } from '@/shared/apollo/graphql';
 import { Roles, cancellationArr } from '@/shared/constants/global';
 import notify from '@/shared/utils/notify';
 import { useMutation } from '@apollo/client';
-import type React from 'react';
+import { FaChevronLeft } from 'react-icons/fa6';
+import { TextareaField } from '@/components/form/textarea-field';
+import { MENTOR_CANCEL_APPOINTMENT } from '@/shared/apollo/mutations/lessons/mentor-cancel-lessons';
+
+import { ClipLoader } from 'react-spinners';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FaChevronLeft } from 'react-icons/fa6';
+import { CANCEL_APPOINTMENT } from '@/shared/apollo/mutations/lessons/cancelLessons';
 
 interface CancelLessonModalProps {
   setTabIndex: (index: number) => void;
-  setIsOpen: (isOpen: boolean) => void;
   id?: string;
   fetchAppointments: () => void;
-  setCanceledLessons?: (value: any) => void;
   repeatLessons: boolean;
 }
 
 const CancelLessonModal: React.FC<CancelLessonModalProps> = ({
   setTabIndex,
-  setIsOpen,
   id,
   fetchAppointments,
-  setCanceledLessons,
   repeatLessons,
 }) => {
   const [t] = useTranslation(['common', 'lessons']);
   const [cancel, setCancel] = useState<{ value: string } | null>({ value: '' });
   const [isChecked, setIsChecked] = useState(false);
   const [cancelReasons, setCancelReasons] = useState<string[]>([]);
+  const [reasonOther, setReasonOther] = useState('');
+  const [messageForStudent, setMessageForStudent] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const { user } = useAuth();
 
   useEffect(() => {
     if (user && user.role === Roles.MENTOR) {
-      const cancellationArrMentor = [...cancellationArr.slice(0, 5), ...cancellationArr.slice(7)];
+      const cancellationArrMentor = [...cancellationArr.slice(0, 5), ...cancellationArr.slice(6)];
       setCancelReasons(cancellationArrMentor);
     } else {
       setCancelReasons(cancellationArr);
@@ -55,76 +56,126 @@ const CancelLessonModal: React.FC<CancelLessonModalProps> = ({
     }
   };
 
-  const [cancelLesson, { loading: isLoading }] = useMutation(CANCEL_APPOINTMENT);
+  const [cancelLesson] = useMutation(CANCEL_APPOINTMENT);
+  const [mentorCancelLesson] = useMutation(MENTOR_CANCEL_APPOINTMENT);
 
-  const onCancelLesson = () => {
-    cancelLesson({
-      variables: {
-        id: id,
-        cancelReason: cancel?.value,
-        repeat: repeatLessons,
-      },
-      onCompleted: (data) => {
-        setIsOpen(false);
-        if (setCanceledLessons) {
-          setCanceledLessons(data.cancelLessons);
-        } else {
-          fetchAppointments();
+  const onCancelCompleted = async () => {
+    // To update lessons in the calendar if you cancel lessons from the calendar
+    await fetchAppointments();
+    notify('Your lesson has been cancelled successfully');
+  };
+
+  const onCancelLesson = async () => {
+    setLoading(true);
+    try {
+      if (user?.role === Roles.STUDENT) {
+        const response = await cancelLesson({
+          variables: {
+            id: id,
+            cancelReason: cancel?.value,
+            repeat: repeatLessons,
+          },
+        });
+
+        if (response) {
+          await onCancelCompleted();
         }
-        notify('Your lesson has been cancelled successfully');
-      },
-      onError: (error) => {
+      } else {
+        const response = await mentorCancelLesson({
+          variables: {
+            id: id,
+            studentMessage: messageForStudent,
+            cancelReason:
+              cancel?.value === t('reason_7', { ns: 'lessons' }) ? reasonOther : cancel?.value,
+          },
+        });
+
+        if (response) {
+          await onCancelCompleted();
+        }
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
         notify(error.message, 'error');
-      },
-    });
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="max-w-[336px] mx-auto">
-      {isLoading && (
+    <>
+      {/* {(isLoading || isLoadingMentor) && (
         <div className="fixed top-0 left-0 bottom-0 right-0 z-[10000] flex items-center justify-center bg-black/20">
           <Loader />
         </div>
-      )}
-
-      <h2 className="text-[22px] font-bold justify-center relative flex items-center">
-        <button className="absolute left-0 ms-0" onClick={() => setTabIndex(0)}>
-          <FaChevronLeft className="text-xl" />
-        </button>
-        Lesson cancellation
-      </h2>
-      <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px]">
-        {t('reason_subtitle', { ns: 'lessons' })}
-      </p>
-      <div className="flex flex-col gap-y-3">
-        {cancelReasons.map((reason) => (
-          <label
-            key={reason}
-            className="hover:cursor-pointer border px-4 py-5 pb-4 rounded-lg has-[:checked]:border-color-purple/50 has-[:checked]:bg-color-purple has-[:checked]:bg-opacity-10"
-          >
-            <CheckboxField
-              label={t(reason, { ns: 'lessons' })}
-              value={t(reason, { ns: 'lessons' })}
-              name="reason"
-              type="radio"
-              onChange={checkboxEvent}
-              checked={t(reason, { ns: 'lessons' }) === cancel?.value}
-              dot
+      )} */}
+      <div className="max-w-[416px] w-full sm:w-[416px] mx-auto">
+        <h2 className="text-[22px] font-bold justify-center relative flex items-center">
+          <button type="button" className="absolute left-0 ms-0" onClick={() => setTabIndex(0)}>
+            <FaChevronLeft className="text-xl" />
+          </button>
+          Lesson cancellation
+        </h2>
+        <p className="welcome-subtitle mt-[15px] mb-[10px] xl:mt-[30px] xl:mb-[20px]">
+          {t('reason_subtitle', { ns: 'lessons' })}
+        </p>
+        <div className="flex flex-col gap-y-3 mb-8">
+          {cancelReasons.map((reason) => (
+            <label
+              key={reason}
+              className="hover:cursor-pointer border px-4 py-5 pb-4 rounded-lg has-[:checked]:border-color-purple/50 has-[:checked]:bg-color-purple has-[:checked]:bg-opacity-10"
+            >
+              <CheckboxField
+                label={t(reason, { ns: 'lessons' })}
+                value={t(reason, { ns: 'lessons' })}
+                name="reason"
+                type="radio"
+                onChange={checkboxEvent}
+                checked={t(reason, { ns: 'lessons' }) === cancel?.value}
+                dot
+              />
+            </label>
+          ))}
+        </div>
+        {user?.role === Roles.MENTOR && t('reason_7', { ns: 'lessons' }) === cancel?.value && (
+          <div>
+            <p className="text-color-light-grey text-sm">Reason for cancellation</p>
+            <TextareaField
+              value={reasonOther}
+              onChange={(e) => setReasonOther(e.target.value)}
+              placeholder="Please provide a reason"
+              className="w-full text-sm min-h-[144px] font-inter"
             />
-          </label>
-        ))}
+          </div>
+        )}
+
+        {user?.role === Roles.MENTOR && (
+          <div>
+            <p className="text-color-light-grey text-sm">Message for student</p>
+            <p className="text-sm text-[#F14E1C]">
+              This message will be sent directly to your student.
+            </p>
+            <TextareaField
+              value={messageForStudent}
+              onChange={(e) => setMessageForStudent(e.target.value)}
+              placeholder="Please write a message for your student. "
+              className="w-full text-sm min-h-[144px] font-inter"
+            />
+          </div>
+        )}
+        <div className="flex gap-x-8 pt-4 mb-[15px]">
+          <Button
+            className="h-[56px] w-full"
+            theme="destructive"
+            disabled={!isChecked || loading || (user?.role === Roles.MENTOR && !messageForStudent)}
+            onClick={onCancelLesson}
+          >
+            {loading ? <ClipLoader loading={loading} size={20} color="white" /> : t('confirm')}
+          </Button>
+        </div>
       </div>
-      <div className="flex gap-x-8 pt-4 mb-[15px]">
-        <Button
-          className="h-[56px] w-full"
-          theme="destructive"
-          disabled={!isChecked || isLoading}
-          onClick={onCancelLesson}
-        >
-          {t('confirm')}
-        </Button>
-      </div>
-    </div>
+    </>
   );
 };
 

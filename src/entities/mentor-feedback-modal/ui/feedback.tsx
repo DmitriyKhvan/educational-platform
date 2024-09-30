@@ -127,7 +127,7 @@ function Feedback({
         <p className="text-sm text-color-light-grey mb-4">{t('vocabulary')}</p>
 
         <InputWithError errorsField={errors?.vocabularyIds}>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {vocabData?.vocabulary?.length ? (
               vocabData?.vocabulary?.map((vocab) => (
                 <TagField
@@ -174,12 +174,13 @@ function Feedback({
                   })}
                   value={hw?.id}
                   label={
-                    <span className="block">
-                      <span className="block font-semibold text-base mb-3">{hw?.title}</span>
-                      <span className="bg-color-purple text-[13px] bg-opacity-10 rounded-md px-3 py-[6px] text-color-purple">
+                    <div className="space-y-3">
+                      <h4 className="font-semibold text-base">{hw?.title}</h4>
+                      <p className="text-color-light-grey text-sm">{hw?.description}</p>
+                      <span className="inline-block bg-color-purple/10 text-[13px] rounded-md px-3 py-[6px] text-color-purple">
                         {t('homework')} {idx + 1}
                       </span>
-                    </span>
+                    </div>
                   }
                 />
               ))
@@ -315,8 +316,10 @@ function Feedback({
         />
         {errors?.improvement?.type === 'minLength' ? (
           <p className="text-[#df1b41] mt-1">
-            {280 - watch('improvement').length} characters remaining. Please write detailed feedback
-            to make your student happy! :)
+            {/* {280 - watch('improvement').length} characters remaining. Please
+            write detailed feedback to make your student happy! :) */}
+            You have more characters remaining. Please provide detailed feedback to make your
+            student happy!
           </p>
         ) : (
           <p className="text-[#df1b41] mt-1">{errors?.improvement?.message}</p>
@@ -340,21 +343,29 @@ function Feedback({
 
         {errors?.mastered?.type === 'minLength' ? (
           <p className="text-[#df1b41] mt-1">
-            {280 - watch('mastered').length} characters remaining. Please write detailed feedback to
-            make your student happy! :)
+            {/* {280 - watch('mastered').length} characters remaining. Please write
+            detailed feedback to make your student happy! :) */}
+            You have more characters remaining. Please provide detailed feedback to make your
+            student happy!
           </p>
         ) : (
           <p className="text-[#df1b41] mt-1">{errors?.mastered?.message}</p>
         )}
       </section>
 
-      <section className="flex gap-3">
-        <Button className="basis-1/2" theme="dark_purple" onClick={() => setStep(1)}>
-          {t('back', { ns: 'common' })}
-        </Button>
-        <Button className="basis-1/2" type="submit" disabled={loading}>
-          {t('submit', { ns: 'common' })}
-        </Button>
+      <section>
+        <div className="flex gap-3">
+          <Button className="basis-1/2" theme="dark_purple" onClick={() => setStep(1)}>
+            {t('back', { ns: 'common' })}
+          </Button>
+          <Button className="basis-1/2" type="submit" disabled={loading}>
+            {t('submit', { ns: 'common' })}
+          </Button>
+        </div>
+
+        {Object.keys(errors).length > 0 && (
+          <p className="text-[#df1b41] mt-1">Please fill in all the required fields.</p>
+        )}
       </section>
     </form>
   );

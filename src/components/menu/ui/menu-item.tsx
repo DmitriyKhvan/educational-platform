@@ -60,8 +60,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({ menu }) => {
         <NavLink
           to={menu.link}
           className={({ isActive }) =>
-            'flex items-center gap-4 p-4 rounded-[15px] cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple' +
-            (isActive ? ' bg-color-purple active' : '')
+            `flex items-center gap-4 p-4 rounded-[15px] cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple${isActive ? ' bg-color-purple active' : ''}`
           }
         >
           <menu.icon className="text-[22px] text-color-dark-purple transition ease-in-out delay-150 group-hover:text-white group-[.active]:text-white" />

@@ -16,6 +16,8 @@ import { useMediaQuery } from 'react-responsive';
 
 import { currencyFormat } from '@/shared/utils/currency-format';
 import { Link } from 'react-router-dom';
+import { MyTrialLessons } from './my-trial-lessons';
+import type { Lesson } from '@/types/types.generated';
 
 const StudentDashboard = () => {
   const isDesktop = useMediaQuery({ minWidth: 1400 });
@@ -47,6 +49,10 @@ const StudentDashboard = () => {
     },
   });
 
+  const trialLessons = useMemo(() => {
+    return appointments?.filter((lesson: Lesson) => lesson?.isTrial);
+  }, [appointments]);
+
   return (
     <>
       {lessonLoading || isLoading ? (
@@ -66,11 +72,9 @@ const StudentDashboard = () => {
 
             {!isDesktop && (
               <div className="space-y-1 sm:space-y-8">
-                <MyLessons
-                  fetchAppointments={refetch}
-                  appointments={appointments}
-                  packageSubscriptions={activePackages}
-                />
+                {trialLessons.length > 0 && (
+                  <MyTrialLessons fetchAppointments={refetch} lessons={trialLessons} />
+                )}
 
                 {(user?.personalPromotionCodes?.length ?? 0) > 0 && (
                   <Link className="block" to="/purchase">
@@ -82,20 +86,23 @@ const StudentDashboard = () => {
                     />
                   </Link>
                 )}
+                <MyLessons
+                  fetchAppointments={refetch}
+                  appointments={appointments}
+                  packageSubscriptions={activePackages}
+                />
               </div>
             )}
+
             <MyProgress fetchAppointments={refetch} appointments={appointments} />
           </div>
 
           {isDesktop && (
             <div className="w-full mx-auto sm:max-w-[524px] sm:mt-10 mt-1 space-y-1 sm:space-y-8">
-              <MyLessons
-                fetchAppointments={refetch}
-                appointments={appointments}
-                packageSubscriptions={activePackages}
-              />
-
-              {(user?.personalPromotionCodes?.length ?? 0) > 0 && (
+              {trialLessons.length > 0 && (
+                <MyTrialLessons fetchAppointments={refetch} lessons={trialLessons} />
+              )}
+              {user?.personalPromotionCodes && user.personalPromotionCodes.length > 0 && (
                 <Link className="block" to="/purchase">
                   <PromoBanner
                     icon={<span className="text-xl">🎁</span>}
@@ -105,6 +112,11 @@ const StudentDashboard = () => {
                   />
                 </Link>
               )}
+              <MyLessons
+                fetchAppointments={refetch}
+                appointments={appointments}
+                packageSubscriptions={activePackages}
+              />
             </div>
           )}
         </div>

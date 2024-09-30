@@ -26,9 +26,7 @@ export const LangCurrencySwitcher = ({
       align={align}
       button={
         <Button theme="gray" className="flex w-full justify-between items-center gap-2">
-          {currentLang?.label && (
-            <span className="grow text-left">{`${t(currentLang?.label, { ns: 'common' })}, ${curCurrency?.label}`}</span>
-          )}
+          <span className="grow text-left">{`${t(currentLang?.label, { ns: 'common' })}, ${curCurrency?.label}`}</span>
           {open ? <FaAngleUp /> : <FaAngleDown />}
         </Button>
       }

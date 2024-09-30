@@ -6,8 +6,7 @@ import StatusIndicator from '@/components/student-dashboard/status-indicator';
 import { LessonsStatusType, Roles, localeDic } from '@/shared/constants/global';
 import { cn } from '@/shared/utils/functions';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
-import type { CalendarEvent } from '@/types';
-import type { Maybe, Mentor, PackageSubscription, Student } from '@/types/types.generated';
+import type { Lesson, Maybe, Mentor, PackageSubscription, Student } from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';
 import { addMinutes } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
@@ -21,7 +20,6 @@ const ScheduleCard = ({
   mentor,
   data,
   fetchAppointments,
-  setCanceledLessons,
   duration,
   subscription,
   repeat,
@@ -29,7 +27,7 @@ const ScheduleCard = ({
   date: string | Date;
   student?: Student;
   mentor?: Maybe<Mentor> | undefined;
-  data: CalendarEvent;
+  data: Lesson;
   fetchAppointments: () => void;
   setCanceledLessons?: (arg0: Date) => void;
   duration?: Maybe<number> | undefined;
@@ -128,7 +126,7 @@ const ScheduleCard = ({
                   content={
                     <>
                       {userToDisplay?.firstName}{' '}
-                      {userToDisplay?.lastName[0] ? `${userToDisplay?.lastName[0]}.` : ''}
+                      {userToDisplay?.lastName?.[0] ? `${userToDisplay?.lastName[0]}.` : ''}
                     </>
                   }
                 />
@@ -147,7 +145,6 @@ const ScheduleCard = ({
         data={data}
         refetch={fetchAppointments}
         duration={duration ?? 0}
-        setCanceledLessons={setCanceledLessons}
         pattern="info"
       />
     </div>

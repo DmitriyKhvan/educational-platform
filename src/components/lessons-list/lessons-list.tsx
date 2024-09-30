@@ -45,7 +45,7 @@ const LessonsList: React.FC<LessonsListProps> = ({
     getAppointments();
     if (searchParams.get('selectedTab') === 'upcomingLessons') {
       setTimeout(() => {
-        removeNotifications(LessonsStatusType.APPROVED);
+        removeNotifications(LessonsStatusType.SCHEDULED, LessonsStatusType.RESCHEDULED);
       }, 300);
     }
   }, [notifications]);
@@ -75,7 +75,7 @@ const LessonsList: React.FC<LessonsListProps> = ({
 
   const onClickUpcomingLessons = () => {
     navigate('?selectedTab=upcomingLessons');
-    removeNotifications(LessonsStatusType.APPROVED);
+    removeNotifications(LessonsStatusType.SCHEDULED, LessonsStatusType.RESCHEDULED);
   };
 
   const onCalendarClick = () => {
@@ -108,8 +108,16 @@ const LessonsList: React.FC<LessonsListProps> = ({
                     onClick={onClickUpcomingLessons}
                   >
                     <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
-                    {getCountNotification(LessonsStatusType.APPROVED) > 0 && (
-                      <Badge count={getCountNotification(LessonsStatusType.APPROVED)} />
+                    {getCountNotification(
+                      LessonsStatusType.SCHEDULED,
+                      LessonsStatusType.RESCHEDULED,
+                    ) > 0 && (
+                      <Badge
+                        count={getCountNotification(
+                          LessonsStatusType.SCHEDULED,
+                          LessonsStatusType.RESCHEDULED,
+                        )}
+                      />
                     )}
                   </Button>
                   <Button

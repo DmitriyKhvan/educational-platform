@@ -9,16 +9,27 @@ import { COMBINED_TIMESHEETS_TRIAL } from '@/shared/apollo/queries/trial/combine
 import { useEffect, useState } from 'react';
 
 import { useAuth } from '@/app/providers/auth-provider';
-import type { AuthenticatedUser, TrialPackage } from '@/types/types.generated';
+import type {
+  AuthenticatedUser,
+  LanguageLevel,
+  Topic,
+  TrialPackage,
+} from '@/types/types.generated';
+
+export interface SelectedPlanProps {
+  packageSubscription: TrialPackage;
+  languageLevel: LanguageLevel;
+  lessonTopic: Topic;
+}
 
 const Trial = () => {
   const { user: currentUser } = useAuth();
 
   const [step, setStep] = useState(-1);
   const [user, setUser] = useState<Partial<AuthenticatedUser>>();
-  const [selectedPlan, setSelectedPlan] = useState<TrialPackage>();
+  const [selectedPlan, setSelectedPlan] = useState<SelectedPlanProps>();
   const [schedule, setSchedule] = useState('');
-  const [selectMentor, setSelectMentor] = useState<{ mentorId: string }>();
+  const [selectMentor, setSelectMentor] = useState<{ id: string }>();
   useEffect(() => {
     if (currentUser) {
       setUser(currentUser);

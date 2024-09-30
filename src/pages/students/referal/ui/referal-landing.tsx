@@ -7,10 +7,14 @@ import WhyNaoNow from '@/pages/students/referal/ui/why-naonow';
 import type { Student } from '@/types/types.generated';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+// import { APP_CONFIG } from "src/shared/apollo/queries/appConfig";
+// import { useQuery } from "@apollo/client";
+// import ReactLoader from "src/components/common/Loader";
+// import notify from "src/shared/utils/notify";
 
 const ReferalLanding = ({ student }: { student: Student }) => {
-  const inputRef = useRef();
-  const formRef = useRef();
+  const inputRef = useRef<HTMLElement>(null);
+  const formRef = useRef<HTMLElement>(null);
 
   const [t] = useTranslation(['refer', 'common']);
 
@@ -19,12 +23,44 @@ const ReferalLanding = ({ student }: { student: Student }) => {
     inputRef.current?.focus();
   };
 
+  // const { loading, error, data } = useQuery(APP_CONFIG, {
+  // 	fetchPolicy: "no-cache",
+  // });
+
+  // const discount = useMemo(() => {
+  // 	if (data) {
+  // 		return data?.appConfigs.find(
+  // 			(config) => config.configName === "referralLinkDiscountPercentage",
+  // 		)?.configValue;
+  // 	}
+  // }, [data]);
+
+  // console.log("discount", discount);
+
+  // if (error) {
+  // 	notify(error.message, "error");
+  // 	return <div className="w-full h-full" />;
+  // }
+
+  // if (loading) {
+  // 	return (
+  // 		<div className="w-full h-full">
+  // 			<ReactLoader />
+  // 		</div>
+  // 	);
+  // }
+
   return (
     <section className="break-keep">
       <ReferalHeader />
 
       <div
         onClick={onBannerClick}
+        onKeyUp={(e) => {
+          if (e.key === 'Enter') {
+            onBannerClick();
+          }
+        }}
         className="mb-10 flex gap-3 items-center bg-[#00D986] hover:bg-opacity-80 hover:cursor-pointer transition-colors min-h-16 p-3 rounded-none mx-0 xl:mb-16"
       >
         <div className="flex items-center w-full justify-between sm:justify-center sm:gap-3">

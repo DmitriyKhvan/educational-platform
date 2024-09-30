@@ -4,6 +4,9 @@ import { createContext, useContext } from 'react';
 interface CurrencyContextType {
   loadingCurrency: boolean;
   curCurrency?: CurrencyDictionary;
+  setCurCurrency: React.Dispatch<React.SetStateAction<CurrencyDictionary | undefined>>;
+  setLoadingCurrency: React.Dispatch<React.SetStateAction<boolean>>;
+  findCurrency: (value: CurrencyDictionary) => CurrencyDictionary | undefined;
 }
 
 const defaultCurrencyContext: CurrencyContextType = {
@@ -14,6 +17,9 @@ const defaultCurrencyContext: CurrencyContextType = {
     locales: 'ko-KR',
     active: true,
   },
+  setCurCurrency: () => {},
+  setLoadingCurrency: () => {},
+  findCurrency: () => undefined,
 };
 
 export const CurrencyContext = createContext<CurrencyContextType>(defaultCurrencyContext);

@@ -11,6 +11,7 @@ import { cn } from '@/shared/utils/functions';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
 import type { CalendarEvent, CalendarEventsSorted } from '@/types';
 import { Avatar } from '@/widgets/avatar/avatar';
+import { Lesson } from '@/types/types.generated';
 
 interface LessonTableProps {
   displayTableData: CalendarEventsSorted[];
@@ -70,7 +71,7 @@ const LessonTable: React.FC<LessonTableProps> = ({
             </tr>
           )}
           {displayTableData.map((event) => {
-            const data = event.resource as CalendarEvent;
+            const data = event.resource as Lesson;
             const date = new Date(data.startAt ?? new Date());
 
             const userToDisplay = user?.role === Roles.MENTOR ? data.student : data.mentor;

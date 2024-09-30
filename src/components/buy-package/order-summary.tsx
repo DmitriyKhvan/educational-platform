@@ -125,14 +125,13 @@ export const OrderSummary: React.FC<OrderSummaryProps> = memo(function OrderSumm
                   })}`}
                 </span>
                 <span className="font-semibold">
-                  {/* {currencyFormat({
-											currency: curCurrency?.value,
-											locales: curCurrency?.locales,
-											number:
-												(selectedPackage as number) /               some kind of selectedPackage's field????
-												(selectedPackage?.period ?? 0),
-										})} */}
-                  /mo.
+                  {currencyFormat({
+                    currency: curCurrency?.value,
+                    locales: curCurrency?.locales,
+                    number:
+                      calculatePriceWithDiscount(selectedPackage) / (selectedPackage.period ?? 0),
+                  })}
+                  /{t('mo', { ns: 'purchase' })}
                 </span>
               </div>
 
@@ -145,7 +144,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = memo(function OrderSumm
                       locales: curCurrency?.locales,
                       number: discount / (selectedPackage?.period ?? 0),
                     })}`}
-                    /mo.
+                    /{t('mo', { ns: 'purchase' })}
                   </span>
                 </div>
               )}
@@ -162,7 +161,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = memo(function OrderSumm
                       calculatePriceWithDiscount(promoPackage ? promoPackage : selectedPackage) /
                       (selectedPackage.period ?? 0),
                   })}
-                  /mo.
+                  /{t('mo', { ns: 'purchase' })}
                 </span>
               </div>
             </div>

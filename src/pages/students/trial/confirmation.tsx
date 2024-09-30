@@ -1,7 +1,7 @@
+import { useMemo, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { addMinutes } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaArrowLeft, FaPencil } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +19,9 @@ import type { AuthenticatedUser } from '@/types/types.generated';
 
 interface ConfirmationProps {
   setStep: React.Dispatch<React.SetStateAction<number>>;
-  user: AuthenticatedUser;
+  user: AuthenticatedUser & {
+    password: string;
+  };
 
   selectedPlan: {
     languageLevel: {
@@ -47,6 +49,18 @@ const Confirmation: React.FC<ConfirmationProps> = ({
   schedule,
   mentorId,
 }) => {
+  const utm = useMemo(() => {
+    const urlParams = new URL(window.location.href).searchParams;
+
+    return JSON.stringify({
+      utm_source: urlParams.get('utm_source') || '',
+      utm_medium: urlParams.get('utm_medium') || '',
+      utm_campaign: urlParams.get('utm_campaign') || '',
+      utm_term: urlParams.get('utm_term') || '',
+      utm_content: urlParams.get('utm_content') || '',
+    });
+  }, [window.location.href]);
+
   const navigate = useNavigate();
   const { user: currentUser, refetchUser } = useAuth();
   const { languageLevel, lessonTopic, packageSubscription } = selectedPlan;
@@ -60,14 +74,16 @@ const Confirmation: React.FC<ConfirmationProps> = ({
 
   const dateParse = toZonedTime(new Date(schedule), user.timeZone);
 
+  const language = i18n.language as keyof typeof localeDic;
+
   const dayFormat = format(dateParse, 'EEEE, MMM dd', {
     timeZone: user.timeZone,
-    locale: localeDic[i18n.language as keyof typeof localeDic],
+    locale: localeDic[language],
   });
 
   const scheduleStartTimeFormat = format(dateParse, 'hh:mm a', {
     timeZone: user.timeZone,
-    locale: localeDic[i18n.language as keyof typeof localeDic],
+    locale: localeDic[language],
   });
 
   const scheduleEndTimeFormat = format(
@@ -75,7 +91,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
     'hh:mm a',
     {
       timeZone: user.timeZone,
-      locale: localeDic[i18n.language as keyof typeof localeDic],
+      locale: localeDic[language],
     },
   );
 
@@ -89,8 +105,8 @@ const Confirmation: React.FC<ConfirmationProps> = ({
             data: {
               user: {
                 userId: currentUser.id,
-                firstName: currentUser.firstName,
-                lastName: currentUser.lastName,
+                firstName: user.firstName,
+                lastName: user.lastName,
               },
               packageId: Number.parseInt(packageSubscription.id),
               languageLevelId: Number.parseInt(languageLevel.id),
@@ -123,6 +139,8 @@ const Confirmation: React.FC<ConfirmationProps> = ({
                 mentorId,
                 startAt: new Date(schedule),
               },
+              utm,
+              lang: i18n.language,
             },
           },
         });
@@ -130,22 +148,22 @@ const Confirmation: React.FC<ConfirmationProps> = ({
         localStorage.removeItem('referralCode');
         localStorage.removeItem('referralEmail');
 
-        // const { data: loginData } = await loginMutation({
-        //   variables: { email: user.email, password: user.password },   // password is not defined in the user
-        // });
+        const { data: loginData } = await loginMutation({
+          variables: { email: user.email, password: user.password },
+        });
 
-        // if (loginData) {
-        //   const studentId = loginData.authResult.user.students[0].id;
+        if (loginData) {
+          const studentId = loginData.authResult.user.students[0].id;
 
-        //   setItemToLocalStorage("token", loginData.authResult.sessionToken);
-        //   setItemToLocalStorage("studentId", studentId);
+          setItemToLocalStorage('token', loginData.authResult.sessionToken);
+          setItemToLocalStorage('studentId', studentId);
 
-        //   refetchUser({ studentId });
-        //   navigate("/trial/thank-you");
-        // }
+          refetchUser({ varialbes: { studentId } });
+          navigate('/trial/thank-you');
+        }
       }
-    } catch (error: any) {
-      notify(error.message, 'error');
+    } catch (error: unknown) {
+      notify((error as Error)?.message, 'error');
     }
 
     setIsLoading(false);
@@ -191,6 +209,11 @@ const Confirmation: React.FC<ConfirmationProps> = ({
             </label>
           </div>
           <div
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                setStep(-1);
+              }
+            }}
             onClick={() => setStep(-1)}
             className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors"
           >
@@ -226,6 +249,11 @@ const Confirmation: React.FC<ConfirmationProps> = ({
             </div>
           </div>
           <div
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                setStep(0);
+              }
+            }}
             onClick={() => setStep(0)}
             className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors"
           >
@@ -242,6 +270,11 @@ const Confirmation: React.FC<ConfirmationProps> = ({
             <p>{dayFormat}</p>
           </div>
           <div
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                setStep(1);
+              }
+            }}
             onClick={() => setStep(1)}
             className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors"
           >

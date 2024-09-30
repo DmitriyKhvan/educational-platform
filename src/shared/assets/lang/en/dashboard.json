@@ -1,6 +1,6 @@
 {
   "student_dashboard_welcome": "Hey, {{name}} 👋",
-  "student_dashboard_subtitle": "Welcome to Nao Now! Let's learn together.",
+  "student_dashboard_subtitle": "Welcome to NAONOW! Let's learn together.",
   "lets_learn_together": "Let's learn together.",
   "schedule_card": "Schedule a lesson",
   "schedule_1_on_1_lesson": "Schedule a 1-on-1 Lesson →",
@@ -23,7 +23,7 @@
   "purchase_subscription_subtitle": "Skip the trial and purchase a subscription package right away.",
   "weekly_schedule": "Weekly Schedule",
   "student_dashboard_total_lessons": "You have {{total_lessons}} lesson(s) this week",
-  "mentor_welcome_back": "Welcome back to Nao Now. Have fun!",
+  "mentor_welcome_back": "Welcome back to NAONOW. Have fun!",
   "review_my_schedule": "Review My Schedule",
   "calendar": "Calendar →",
   "availability": "Availability →",

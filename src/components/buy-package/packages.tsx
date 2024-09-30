@@ -2,11 +2,15 @@ import { useCurrency } from '@/app/providers/currency-provider';
 import CheckboxField from '@/components/form/checkbox-field';
 import { calculatePriceWithDiscount } from '@/shared/utils/calculate-price-with-discount';
 import { currencyFormat } from '@/shared/utils/currency-format';
-import type { Package } from '@/types/types.generated';
+import type { Package, PackageCurrencyPrice } from '@/types/types.generated';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
+
+type UpdatedPackage = Omit<Package, 'prices'> & {
+  price: PackageCurrencyPrice;
+};
 
 export const Packages = memo(function Packages({
   filteredPackage,
@@ -14,7 +18,8 @@ export const Packages = memo(function Packages({
   selectedPackage,
   setPromoPackage,
 }: {
-  filteredPackage?: Package[];
+  // filteredPackage?: Package[];
+  filteredPackage?: UpdatedPackage[];
   setSelectedPackage: (pkg: Package) => void;
   selectedPackage?: Package;
   setPromoPackage: (pkg?: Package) => void;
@@ -28,7 +33,7 @@ export const Packages = memo(function Packages({
         4. {t('length', { ns: 'purchase' })}
       </h4>
       <div className="grid grid-cols-1 sm:flex sm:flex-wrap gap-3" ref={parent}>
-        {filteredPackage?.map((pkg) => {
+        {filteredPackage?.map((pkg: UpdatedPackage) => {
           return (
             <label
               key={pkg.id}
@@ -62,19 +67,15 @@ export const Packages = memo(function Packages({
                             locales: curCurrency?.locales,
                             number: pkg.period ? calculatePriceWithDiscount(pkg) / pkg.period : 0,
                           })}
-                          /mo.
+                          /{t('mo', { ns: 'purchase' })}
                         </span>
                         <span className="text-[13px] ml-[6px] text-color-red line-through">
                           {currencyFormat({
                             currency: curCurrency?.value,
                             locales: curCurrency?.locales,
-                            number:
-                              (pkg.prices?.[0]?.price &&
-                                pkg.period &&
-                                pkg.prices?.[0]?.price / pkg.period) ||
-                              0,
+                            number: pkg.price / pkg.period,
                           })}
-                          /mo.
+                          /{t('mo', { ns: 'purchase' })}
                         </span>
                       </>
                     ) : (
@@ -82,8 +83,9 @@ export const Packages = memo(function Packages({
                         {currencyFormat({
                           currency: curCurrency?.value,
                           locales: curCurrency?.locales,
-                          number: (pkg?.prices?.[0]?.price && pkg?.prices?.[0]?.price) || 0,
+                          number: pkg.price / pkg.period,
                         })}
+                        /{t('mo', { ns: 'purchase' })}
                       </span>
                     )}
                   </p>

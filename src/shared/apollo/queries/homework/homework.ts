@@ -5,6 +5,7 @@ export const GET_HOMEWORK = gql`
     homework(topicId: $topicId) {
       id
       title
+      description
     }
   }
 `;

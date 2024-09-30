@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import ClipLoader from 'react-spinners/ClipLoader';
+// import KakaoLoginButton from "./kakao-login-button";
 // import { useAuth } from 'src/app/providers/AuthProvider';
 
 const Login = () => {
@@ -134,6 +135,7 @@ const Login = () => {
         {loading ? <ClipLoader loading={loading} size={20} color="white" /> : t('sign_in')}
       </Button>
       {/* </div> */}
+      {/* <KakaoLoginButton /> */}
 
       <p className="mt-16 text-[15px] text-color-light-grey font-semibold">
         {t('not_registered')}{' '}

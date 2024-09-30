@@ -1,6 +1,6 @@
 {
   "student_dashboard_welcome": "{{name}}，您好呀 👋",
-  "student_dashboard_subtitle": "歡迎回到 Nao Now！讓我們一起學習吧。",
+  "student_dashboard_subtitle": "歡迎回到 NAONOW！讓我們一起學習吧。",
   "lets_learn_together": "開始學習吧!",
   "schedule_card": "安排一堂您喜愛導師的課。",
   "schedule_1_on_1_lesson": "安排一對一課程 →",
@@ -23,7 +23,7 @@
   "purchase_subscription_subtitle": "略過試聽，立即購買訂閱套裝課程。",
   "weekly_schedule": "一週時間表",
   "student_dashboard_total_lessons": "本週您有 {{total_lessons}} 堂課程",
-  "mentor_welcome_back": "歡迎回到 Nao Now，希望您玩得開心！",
+  "mentor_welcome_back": "歡迎回到 NAONOW，希望您玩得開心！",
   "review_my_schedule": "檢視我的時間表",
   "calendar": "行事曆 →",
   "availability": "可上課時間 →",
