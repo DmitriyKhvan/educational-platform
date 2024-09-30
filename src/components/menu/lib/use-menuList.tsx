@@ -16,6 +16,7 @@ export interface MentorNavLink {
   link: string;
   notificationType?: string;
   icon: IconType;
+  type: undefined;
 }
 
 export interface StudentNavLink {
@@ -24,6 +25,7 @@ export interface StudentNavLink {
   type?: 'trial' | 'modal' | 'external';
   modal?: JSX.Element;
   icon: IconType;
+  notificationType: undefined;
 }
 
 const mentorNavLinks: MentorNavLink[] = [
@@ -31,17 +33,20 @@ const mentorNavLinks: MentorNavLink[] = [
     label: 'manage_appointments',
     link: '/mentor/manage-appointments',
     icon: GoHomeFill,
+    type: undefined,
   },
   {
     label: 'lessons',
     link: '/mentor/lesson-calendar',
     notificationType: 'check_requests', //for notifications filter
     icon: FaRegCalendarAlt,
+    type: undefined,
   },
   {
     label: 'my_availability',
     link: '/mentor/availability',
     icon: FaRegCalendarAlt,
+    type: undefined,
   },
 ];
 
@@ -50,11 +55,13 @@ const studentNavLinks: StudentNavLink[] = [
     label: 'dashboard',
     link: '/student/manage-lessons',
     icon: GoHomeFill,
+    notificationType: undefined,
   },
   {
     label: 'lessons',
     link: '/student/lesson-calendar',
     icon: MdEventNote,
+    notificationType: undefined,
   },
   {
     label: 'mentors',
@@ -62,11 +69,13 @@ const studentNavLinks: StudentNavLink[] = [
     icon: FaGraduationCap,
     type: 'trial',
     modal: <ModalPurchase />,
+    notificationType: undefined,
   },
   {
     label: 'purchase',
     link: '/student/subscriptions',
     icon: MdOutlineShoppingBag,
+    notificationType: undefined,
   },
   {
     label: 'free_classes',
@@ -74,12 +83,14 @@ const studentNavLinks: StudentNavLink[] = [
     icon: IoGiftOutline,
     type: 'modal',
     modal: <Info />,
+    notificationType: undefined,
   },
   {
     label: 'class_material',
     link: classMaterialURL || 'https://naonow.instructure.com/',
     icon: MdLibraryBooks,
     type: 'external',
+    notificationType: undefined,
   },
 ];
 

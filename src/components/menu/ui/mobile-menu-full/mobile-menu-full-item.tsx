@@ -4,8 +4,10 @@ import { Badge } from '@/components/badge';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
+// biome-ignore lint/style/useImportType: <explanation>
+import { MentorNavLink, StudentNavLink } from '../../lib/use-menuList';
 
-export const MobileMenuFullItem = ({ menu }) => {
+export const MobileMenuFullItem = ({ menu }: { menu: MentorNavLink | StudentNavLink }) => {
   const { currentStudent } = useAuth();
   const [t] = useTranslation('sidebar');
   const { getCountNotification } = useNotifications();
@@ -15,9 +17,9 @@ export const MobileMenuFullItem = ({ menu }) => {
       {getCountNotification(menu.label) > 0 && <Badge count={getCountNotification(menu.label)} />}
 
       {menu.type === 'external' ? (
-        <a
-          className="group flex flex-col justify-center items-center gap-3 h-[84px] sm:h-[106px] rounded-lg transition ease-in-out delay-150 bg-[#F7F8FA]  hover:bg-color-purple cursor-pointer"
-          href="#"
+        <button
+          type="button"
+          className="w-full group flex flex-col justify-center items-center gap-3 h-[84px] sm:h-[106px] rounded-lg transition ease-in-out delay-150 bg-[#F7F8FA]  hover:bg-color-purple cursor-pointer"
           onClick={(e) => {
             e.preventDefault();
             window.open(menu.link);
@@ -27,7 +29,7 @@ export const MobileMenuFullItem = ({ menu }) => {
           <span className="text-[13px] transition ease-in-out delay-150 text-color-dark-purple font-medium group-hover:text-white group-[.active]:text-white">
             {t(menu.label)}
           </span>
-        </a>
+        </button>
       ) : menu.type === 'modal' || (menu.type === 'trial' && currentStudent?.isTrial) ? (
         <AdaptiveDialog
           button={
@@ -45,8 +47,7 @@ export const MobileMenuFullItem = ({ menu }) => {
         <NavLink
           to={menu.link}
           className={({ isActive }) =>
-            'group/item flex flex-col justify-center items-center gap-3 h-[84px] sm:h-[106px] rounded-lg transition ease-in-out delay-150 bg-[#F7F8FA] hover:bg-color-purple cursor-pointer' +
-            (isActive ? ' group/active active bg-color-purple' : '')
+            `group/item flex flex-col justify-center items-center gap-3 h-[84px] sm:h-[106px] rounded-lg transition ease-in-out delay-150 bg-[#F7F8FA] hover:bg-color-purple cursor-pointer${isActive ? ' group/active active bg-color-purple' : ''}`
           }
         >
           <menu.icon className="text-[28px] transition ease-in-out delay-150 text-color-dark-purple font-medium group-hover/item:text-white group-[.active]/active:text-white" />
