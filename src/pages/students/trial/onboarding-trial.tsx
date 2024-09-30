@@ -8,19 +8,20 @@ import InputField from '@/components/form/input-field';
 import InputWithError from '@/components/form/input-with-error';
 import PhoneNumberField from '@/components/form/phone-number-field';
 import { SelectField } from '@/components/form/select-field';
+import type { PhoneNumberFieldForm } from '@/components/form/types';
 import { usePublicMentors } from '@/pages/students/trial/lib/use-public-mentors';
 import { timezoneOptions } from '@/shared/constants/global';
 import { trimSpaces } from '@/shared/utils/trim-spaces';
-import type { AuthenticatedUser, TrialPackage } from '@/types/types.generated';
-import type { PhoneNumberFieldForm } from '@/components/form/types';
+import type { AuthenticatedUser, Mentor } from '@/types/types.generated';
+import type { SelectedPlan } from './types';
 
 interface OnboardingTrialProps {
   currentUser: AuthenticatedUser;
-  selectedPlan: TrialPackage;
+  selectedPlan: SelectedPlan;
   user: AuthenticatedUser;
-  setUser: Dispatch<SetStateAction<Partial<AuthenticatedUser | undefined>>>;
+  setUser: Dispatch<SetStateAction<AuthenticatedUser | undefined>>;
   setStep: Dispatch<SetStateAction<number>>;
-  setSelectMentor: ({ mentorId }: { mentorId: string }) => void;
+  setSelectMentor: Dispatch<SetStateAction<Mentor | undefined>>;
 }
 
 const OnboardingTrial = memo(function OnboardingTrial({
@@ -81,7 +82,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
       ...trimSpaces(data),
       phoneNumber: data.phoneNumber,
     };
-    setUser(updatedUser);
+    setUser(updatedUser as AuthenticatedUser);
     if (Object.keys(selectedPlan).length !== 0) {
       setStep(3);
     } else {
@@ -208,7 +209,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
               options={usePublicMentors()}
               isClearable
               onChange={(id) => {
-                setSelectMentor({ mentorId: id });
+                setSelectMentor({ mentorId: id } as unknown as Mentor);
               }}
             />
           </label>

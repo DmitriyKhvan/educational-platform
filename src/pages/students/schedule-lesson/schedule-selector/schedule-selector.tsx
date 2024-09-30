@@ -18,7 +18,7 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 export const ScheduleSelector = ({
   lesson,
 }: {
-  lesson: Lesson;
+  lesson?: Lesson;
 }) => {
   const { setTabIndex, resetAll, todayUserTimezone, userTimezone } = useSchedule();
 
@@ -57,6 +57,7 @@ export const ScheduleSelector = ({
           <div className="flex items-center gap-3">
             {!lesson && (
               <button
+                type="button"
                 onClick={() => {
                   setTabIndex(0);
                   resetAll();

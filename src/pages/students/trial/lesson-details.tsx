@@ -6,25 +6,18 @@ import LevelModal from '@/pages/students/trial/level-modal';
 import { TRIAL_PACKAGES } from '@/shared/apollo/queries/trial/trial-packages';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import { getTranslatedDescription, getTranslatedTitle } from '@/shared/utils/get-translated-title';
-import type {
-  Course,
-  LanguageLevel,
-  Lesson,
-  Package,
-  PackageSubscription,
-  Query,
-  Topic,
-} from '@/types/types.generated';
+import type { Course, LanguageLevel, Query, Topic, TrialPackage } from '@/types/types.generated';
 import { useQuery } from '@apollo/client';
 import { type Dispatch, type SetStateAction, useMemo, useState } from 'react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import type { SelectedPlan } from './types';
 
 interface LessonDetailsProps {
   schedule: string;
-  selectedPlan?: Lesson;
-  setSelectedPlan: (plan?: Partial<Package>) => void;
+  selectedPlan?: SelectedPlan;
+  setSelectedPlan: Dispatch<SetStateAction<SelectedPlan | undefined>>;
   setStep: Dispatch<SetStateAction<number>>;
 }
 
@@ -43,7 +36,7 @@ const LessonDetails: React.FC<LessonDetailsProps> = ({
   const { data } = useQuery<Query>(TRIAL_PACKAGES);
   const { t, i18n } = useTranslation(['common', 'trial']);
 
-  const [currentPackage, setCurrentPackage] = useState<Partial<Package> | undefined>();
+  const [currentPackage, setCurrentPackage] = useState<TrialPackage>();
   const [currentLevel, setCurrentLevel] = useState<LanguageLevel>();
   const [currentTopic, setCurrentTopic] = useState<Topic>();
 
@@ -108,9 +101,9 @@ const LessonDetails: React.FC<LessonDetailsProps> = ({
   const onSubmit: SubmitHandler<FormValues> = () => {
     if (!currentPackage || !currentLevel || !currentTopic) return;
     setSelectedPlan({
-      packageSubscription: currentPackage,
       languageLevel: currentLevel,
       lessonTopic: currentTopic,
+      packageSubscription: currentPackage,
     });
 
     if (schedule) {
@@ -126,7 +119,7 @@ const LessonDetails: React.FC<LessonDetailsProps> = ({
       const currentPackage = packagesData?.trialPackages?.find((pkg) => pkg.id === packageId);
 
       if (currentPackage) {
-        setCurrentPackage(currentPackage);
+        setCurrentPackage(currentPackage as TrialPackage);
       }
 
       return (
