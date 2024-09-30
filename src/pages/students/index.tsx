@@ -3,9 +3,6 @@ import NotFoundPage from '@/pages/not-found-page';
 import { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-// Не забыть удалить этот роут, нужен только для разработки
-import SelectMentorCalendarPage from './select-mentor-calendar-dev';
-
 const StudentDashboard = lazy(() => import('@/pages/students/student-dashboard'));
 const ScheduleLesson = lazy(() => import('@/pages/students/schedule-lesson'));
 
@@ -20,9 +17,6 @@ const EditProfileStudent = lazy(
 export default function StudentRoutes() {
   return (
     <Routes>
-      {/* Роут для разработки календаря по флоу выбора ментора */}
-      <Route path={'select-mentor-calendar'} element={<SelectMentorCalendarPage />} />
-
       <Route path={'manage-lessons'} element={<StudentDashboard />} />
       <Route
         path="schedule-lesson/select/:id?"

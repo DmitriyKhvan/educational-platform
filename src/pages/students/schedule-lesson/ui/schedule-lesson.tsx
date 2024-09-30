@@ -1,26 +1,28 @@
 import LessonConfirmation from '@/pages/students/schedule-lesson/lesson-confirmation';
-import { ScheduleSelector } from '@/pages/students/schedule-lesson/schedule-selector';
-
-import SelectMentorCards from '@/pages/students/schedule-lesson/select-mentor-cards';
 import { LESSON_QUERY } from '@/shared/apollo/graphql';
 import { useQuery } from '@apollo/client';
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 
 import '@/app/styles/tutor.scss';
-import { AvailableTimes } from '@/pages/students/schedule-lesson/schedule-selector/available-times';
-import { ScheduleProvider } from '@/pages/students/schedule-lesson/schedule-selector/schedule-provider';
 
 import { useAuth } from '@/app/providers/auth-provider';
-import ScheduleSuccess from '@/pages/students/schedule-lesson/schedule-success';
-import { COMBINED_TIMESHEETS } from '@/shared/apollo/queries/combined-timesheets';
-import { COMBINED_TIMESHEETS_TRIAL } from '@/shared/apollo/queries/trial/combined-time-sheets-for-trials';
-import type { Lesson, Mentor, PackageSubscription, Query } from '@/types/types.generated';
-import SelectLesson from '@/pages/students/schedule-lesson/ui/select-lesson';
 import Mentors from '@/pages/students/mentors-list';
+import ScheduleSuccess from '@/pages/students/schedule-lesson/schedule-success';
+import SelectLesson from '@/pages/students/schedule-lesson/ui/select-lesson';
+import type {
+  AvailabilitySlot,
+  Lesson,
+  Mentor,
+  PackageSubscription,
+  Query,
+} from '@/types/types.generated';
+import { useMediaQuery } from 'react-responsive';
+import { ScheduleCalendar } from './schedule-calendar/schedule-calendar';
 import { ScheduleDateTime } from './schedule-date-time/schedule-date-time';
 
 const ScheduleLesson = () => {
+  const isMobile = useMediaQuery({ maxWidth: 639 });
   const { currentStudent } = useAuth();
   const { id = null } = useParams();
   const location = useLocation();
@@ -41,16 +43,12 @@ const ScheduleLesson = () => {
   });
 
   const [selectedPlan, setSelectedPlan] = useState<PackageSubscription>();
-  const [schedule, setSchedule] = useState<string>('');
-  const [tabIndex, setTabIndex] = useState(id ? 1 : 0);
+  const [schedule, setSchedule] = useState<AvailabilitySlot>();
+  const [tabIndex, setTabIndex] = useState<number>(id ? 1 : 0);
   const [selectMentor, setSelectMentor] = useState<Mentor>();
   const [createdLessons, setCreatedLessons] = useState<Lesson[]>();
 
   const scheduledLesson = data?.lesson || null;
-
-  console.log('selectedPlan', selectedPlan);
-  console.log('tabIndex', tabIndex);
-  console.log('location', location);
 
   useEffect(() => {
     if (location?.state?.mentor) {
@@ -67,14 +65,33 @@ const ScheduleLesson = () => {
   if (loading) return null;
 
   return (
-    <React.Fragment>
+    <>
       {tabIndex === 0 && <Mentors />}
 
       {tabIndex === 1 && (
         <SelectLesson setSelectedPlan={setSelectedPlan} setTabIndex={setTabIndex} />
       )}
 
-      {tabIndex === 2 && <ScheduleDateTime />}
+      {tabIndex === 2 && isMobile && (
+        <ScheduleDateTime
+          mentor={location?.state?.mentor}
+          setTabIndex={setTabIndex}
+          setSchedule={setSchedule}
+          schedule={schedule}
+          setRepeat={setRepeat}
+          plan={selectedPlan}
+        />
+      )}
+      {tabIndex === 2 && !isMobile && (
+        <ScheduleCalendar
+          mentor={location?.state?.mentor}
+          setTabIndex={setTabIndex}
+          setSchedule={setSchedule}
+          schedule={schedule}
+          setRepeat={setRepeat}
+          // plan={selectedPlan}
+        />
+      )}
 
       {/* {(tabIndex === 1 || tabIndex === 2) && (
         <ScheduleProvider
@@ -105,7 +122,7 @@ const ScheduleLesson = () => {
         (tabIndex === 3 && currentStudent?.isTrial)) && (
         <LessonConfirmation
           plan={selectedPlan}
-          time={schedule}
+          slot={schedule}
           mentor={selectMentor || location?.state?.mentor}
           isMentorScheduled={!!location?.state?.mentor}
           setTabIndex={setTabIndex}
@@ -117,7 +134,7 @@ const ScheduleLesson = () => {
       )}
 
       {tabIndex === 5 && createdLessons && <ScheduleSuccess lessons={createdLessons} />}
-    </React.Fragment>
+    </>
   );
 };
 

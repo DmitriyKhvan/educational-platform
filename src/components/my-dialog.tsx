@@ -23,6 +23,7 @@ export const MyDialog = ({
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>{button}</Dialog.Trigger>
+
       <Dialog.Portal>
         <Dialog.Overlay
           className={cn(
@@ -30,6 +31,8 @@ export const MyDialog = ({
             overlayClassname,
           )}
         />
+        <Dialog.Title />
+        <Dialog.Description />
         <Dialog.Content
           className={cn(
             'data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] max-h-[calc(100vh-200px)] overflow-auto rounded-[6px] bg-white px-8 py-10 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-30',

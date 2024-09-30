@@ -1,16 +1,21 @@
 import Button from '@/components/form/button';
-import { MyDialog } from '@/components/my-dialog';
+import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
+import type { Dispatch, SetStateAction } from 'react';
 import { BsFillExclamationTriangleFill } from 'react-icons/bs';
 // import Button from "src/components/Form/Button";
 // import { MyDialog } from "src/components/MyDialog";
 
-function CloseConfirmationModal({ open, setOpen, onCloseClick }) {
+interface CloseConfirmationModalProps {
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  onCloseClick: () => void;
+}
+
+function CloseConfirmationModal({ open, setOpen, onCloseClick }: CloseConfirmationModalProps) {
   return (
-    <MyDialog
+    <AdaptiveDialog
       open={open}
       setOpen={setOpen}
-      // button={button}
-      // hideCloseBtn={hideCloseBtn}
       overlayClassname="z-50"
       className="z-50 text-center"
     >
@@ -18,7 +23,7 @@ function CloseConfirmationModal({ open, setOpen, onCloseClick }) {
         <BsFillExclamationTriangleFill className="text-color-red text-xl" width={20} height={20} />
       </span>
       <h2 className="text-[22px] mb-4 font-bold">Changes won’t be applied</h2>
-      <p className="max-w-[336px] mb-6">
+      <p className="mb-6">
         If you will close a popup changes that you’ve made on booking won’t be applied.
       </p>
       {/* Are you sure to close? */}
@@ -39,7 +44,7 @@ function CloseConfirmationModal({ open, setOpen, onCloseClick }) {
       >
         Close
       </Button>
-    </MyDialog>
+    </AdaptiveDialog>
   );
 }
 

@@ -27,7 +27,7 @@ const ScheduleCard = ({
       <div>
         <Button
           className="bg-opacity-10 text-color-purple hover:bg-opacity-100 hover:text-white aspect-square p-1 w-8 h-8"
-          onClick={() => setTabIndex(1)}
+          onClick={() => setTabIndex(2)}
         >
           <FaPencil className="w-4 h-4" />
         </Button>
