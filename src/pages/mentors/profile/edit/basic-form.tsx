@@ -46,7 +46,18 @@ const BasicForm = () => {
     },
   });
 
-  const handleEditBasicInfo = async (values) => {
+  const handleEditBasicInfo = async (values: {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    gender?: string | null;
+    phoneNumber?: string | null;
+    country?: string | null;
+    // timeZone: user?.timeZone,
+    address?: string | null;
+    convertAvailabilityTime?: boolean;
+    googleCalendarSync?: boolean | null;
+  }) => {
     const {
       firstName,
       lastName,
@@ -134,7 +145,7 @@ const BasicForm = () => {
               defaultValue={user?.gender}
               name="gender"
               render={({ field: { value, onChange } }) => (
-                <SelectField value={value} options={genders} onChange={onChange} />
+                <SelectField value={value ?? ''} options={genders} onChange={onChange} />
               )}
             />
           </label>
@@ -162,7 +173,7 @@ const BasicForm = () => {
               defaultValue={user?.country}
               name="country"
               render={({ field: { value, onChange } }) => (
-                <SelectField value={value} options={countries} onChange={onChange} />
+                <SelectField value={value ?? ''} options={countries} onChange={onChange} />
               )}
             />
           </label>
@@ -199,7 +210,7 @@ const BasicForm = () => {
             />
           </div>
 
-          {user.googleCalendarSync && (
+          {user?.googleCalendarSync && (
             <div>
               <CheckboxField
                 className="mb-6"
@@ -209,13 +220,13 @@ const BasicForm = () => {
             </div>
           )}
 
-          {!user.googleCalendarSync && (
-            <a href={user.googleAuth.url}>
+          {!user?.googleCalendarSync && (
+            <a href={user?.googleAuth?.url ?? ''}>
               <Button className="w-[420px] mb-6">Enable google calendar sync</Button>
             </a>
           )}
 
-          {user.googleCalendarSync && user.googleAuth.url && (
+          {user?.googleCalendarSync && user?.googleAuth?.url && (
             <a href={user.googleAuth.url}>
               <Button className="w-[420px] mb-6">Refresh Google token</Button>
             </a>

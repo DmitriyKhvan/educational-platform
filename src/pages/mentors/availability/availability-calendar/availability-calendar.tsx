@@ -77,7 +77,7 @@ export const AvailabilityCalendar = () => {
     if (eventInfo.view.type !== CalendarView.WEEK_VIEW && data.view === CalendarView.WEEK_VIEW)
       return;
 
-    if (data?.exception && data?.exception?.find((e: any) => !e.from && !e.to)) {
+    if (data?.exception?.find((e: any) => !e.from && !e.to)) {
       return (
         <div className="px-3 py-2 min-h-[41px] h-full 2xl:mx-2 bg-[#EDEEF0] text-[#C0C0C3] font-medium text-xs flex items-center justify-center rounded-lg overflow-hidden truncate shadow-[0px_0px_8px_0px_#00000014]">
           Date Override
@@ -98,7 +98,7 @@ export const AvailabilityCalendar = () => {
 
   return (
     <div className="border border-color-border-grey rounded-xl">
-      <AvailabilityCalendarHeader calendarRef={calendarRef} updateEvents={updateEvents} />
+      <AvailabilityCalendarHeader calendarRef={fullCalendarRef} updateEvents={updateEvents} />
       <Calendar ref={fullCalendarRef} events={calendarEvents} eventContent={renderEventContent} />
     </div>
   );
