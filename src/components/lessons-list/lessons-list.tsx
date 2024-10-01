@@ -35,6 +35,8 @@ const LessonsList: React.FC<LessonsListProps> = ({
     selectedTab: 'upcomingLessons',
   });
 
+  console.log('appointments', appointments);
+
   const isMobile = useMediaQuery({ maxWidth: 640 });
 
   const [t] = useTranslation(['lessons']);
@@ -52,6 +54,8 @@ const LessonsList: React.FC<LessonsListProps> = ({
 
   const [calendarAppointments, setCalendarAppointments] = useState<CalendarEventProcessed[]>([]);
   const [tableAppointments, setTableAppointments] = useState<CalendarEventsSorted[]>([]);
+
+  console.log('tableAppointments', tableAppointments);
 
   useEffect(() => {
     if (appointments?.lessons && user?.timeZone) {

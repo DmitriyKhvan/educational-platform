@@ -50,7 +50,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
         ),
       );
     }
-  }, [newNotifications, notifications]);
+  }, [newNotifications]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {

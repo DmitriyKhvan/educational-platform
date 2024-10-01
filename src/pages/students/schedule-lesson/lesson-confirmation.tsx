@@ -54,8 +54,6 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
   repeat,
   setRepeat,
 }) => {
-  console.log('repeat', repeat);
-
   const navigate = useNavigate();
   const [t, i18n] = useTranslation(['common', 'lessons', 'dashboard', 'translations']);
 

@@ -22,8 +22,6 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotsProps> = ({
   setSchedule,
   setRepeat,
 }) => {
-  console.log('chosenDates', chosenDates);
-
   const cardSlots = availDate.timeSlots.slice(0, 9);
   const moreSlots = availDate.timeSlots.slice(9);
 
