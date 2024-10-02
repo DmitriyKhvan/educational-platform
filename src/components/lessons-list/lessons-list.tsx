@@ -6,7 +6,7 @@ import { LessonsCalendar, LessonsTable } from '@/components/lessons-list';
 import Loader from '@/components/loader/loader';
 import { LessonsStatusType } from '@/shared/constants/global';
 import { sortCalendarEvents } from '@/shared/utils/sort-calendar-events';
-import type { CalendarEvent, CalendarEventProcessed, CalendarEventsSorted } from '@/types';
+import type { CalendarEventProcessed, CalendarEventsSorted } from '@/types';
 import type { Lesson, PackageSubscription } from '@/types/types.generated';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -55,12 +55,10 @@ const LessonsList: React.FC<LessonsListProps> = ({
   const [calendarAppointments, setCalendarAppointments] = useState<CalendarEventProcessed[]>([]);
   const [tableAppointments, setTableAppointments] = useState<CalendarEventsSorted[]>([]);
 
-  console.log('tableAppointments', tableAppointments);
-
   useEffect(() => {
     if (appointments?.lessons && user?.timeZone) {
-      const calendarEvents = appointments.lessons.map(mapLessonToCalendarEvent);
-      const sortedEvents = sortCalendarEvents(calendarEvents as CalendarEvent[], user?.timeZone);
+     
+      const sortedEvents = sortCalendarEvents(appointments.lessons, user?.timeZone);
 
       if (sortedEvents) {
         const { calendarEvents, tablularEventData } = sortedEvents;
@@ -177,19 +175,3 @@ const LessonsList: React.FC<LessonsListProps> = ({
 };
 
 export default LessonsList;
-
-const mapLessonToCalendarEvent = (lesson: Lesson): CalendarEvent => {
-  return {
-    startAt: lesson.startAt,
-    duration: lesson.duration ?? 0,
-    playground: lesson.playground,
-    type: 'LessonType', // You might need to adjust this if 'type' is specific
-    mentor: lesson.mentor,
-    student: lesson.student,
-    isTrial: lesson.isTrial,
-    status: lesson.status,
-    packageSubscription: lesson.packageSubscription,
-    topic: lesson.topic,
-    languageLevel: lesson.languageLevel,
-  };
-};

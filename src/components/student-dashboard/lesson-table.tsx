@@ -51,13 +51,13 @@ const LessonTable: React.FC<LessonTableProps> = ({
       <table className="border border-separate border-spacing-0 border-gray-100 drop-shadow-sm w-full rounded-2xl">
         <thead className="w-full">
           <tr className="">
-            {tableHead.map((x, ind) => (
+            {tableHead.map((title) => (
               <th
                 className="first:pl-5 last:pr-5 border-b group-last:border-b-0 h-[57px] text-gray-300 font-normal p-1 align-middle text-sm lg:text-[15px] whitespace-nowrap"
                 scope="col"
-                key={`row-${ind}`}
+                key={title}
               >
-                {x}
+                {title}
               </th>
             ))}
           </tr>
@@ -81,7 +81,7 @@ const LessonTable: React.FC<LessonTableProps> = ({
             const duration = Number(data.duration) ?? 0;
 
             return (
-              <tr className="group">
+              <tr key={data.id} className="group">
                 <td className="p-1 pl-5 border-b group-last:border-b-0 h-[80px] align-middle">
                   <StatusIndicator status={data.status} />
                 </td>
