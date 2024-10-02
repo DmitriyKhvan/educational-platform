@@ -52,7 +52,6 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [newNotifications]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (allNotifications?.getUserNotifications.length) {
       setNotification(
@@ -65,7 +64,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [allNotifications, updateNotifications]);
 
-  const removeNotifications = (type: string, type2 = '') => {
+  const removeNotifications = (type?: string, type2 = '') => {
     if (!notifications.length) return;
 
     let notificationIds = [];
@@ -98,7 +97,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const getCountNotification = (type: string, type2 = ''): number => {
+  const getCountNotification = (type?: string, type2 = ''): number => {
     const count = notifications.filter(
       (notification) =>
         notification?.meta?.lesson?.type === type || notification?.meta?.lesson?.type === type2,

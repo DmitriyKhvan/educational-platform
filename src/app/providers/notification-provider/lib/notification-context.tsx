@@ -10,14 +10,19 @@ export interface Notification {
     };
     bonusLessonsCount?: number;
     dashboard?: string;
+    user?: {
+      avatar: {
+        url: string;
+      };
+    };
   };
   body?: string;
 }
 
 export interface NotificationContextType {
   notifications: Message[];
-  getCountNotification: (type: string, type2?: string) => number;
-  removeNotifications: (type: string, type2?: string) => void;
+  getCountNotification: (type?: string, type2?: string) => number;
+  removeNotifications: (type?: string, type2?: string) => void;
   getAllNotifications: () => void;
 }
 

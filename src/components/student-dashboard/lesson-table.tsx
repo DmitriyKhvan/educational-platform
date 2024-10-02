@@ -12,6 +12,7 @@ import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
 import type { CalendarEventsSorted } from '@/types';
 import type { Lesson } from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';
+import { buttonizeA11Y } from '@/shared/utils/buttonizeA11Y';
 
 interface LessonTableProps {
   displayTableData: CalendarEventsSorted[];
@@ -66,7 +67,9 @@ const LessonTable: React.FC<LessonTableProps> = ({
           {displayTableData.length === 0 && (
             <tr>
               <td colSpan={tableHead.length} align="center">
-                <span onClick={handleOpenFeedbackModal}>{t('no_lessons', { ns: 'lessons' })}</span>
+                <span {...buttonizeA11Y(handleOpenFeedbackModal)}>
+                  {t('no_lessons', { ns: 'lessons' })}
+                </span>
               </td>
             </tr>
           )}
