@@ -3,10 +3,9 @@ import { useState } from 'react';
 
 import { selectStyle } from '@/pages/mentors/availability/lib/select-style';
 import type { Exception } from '@/types';
+import type { ExceptionDateSlot } from '@/types/types.generated';
 import { FaXmark } from 'react-icons/fa6';
 import Select from 'react-select';
-import type { ExceptionDateSlot } from '@/types/types.generated';
-// import MySelect from '@/components/Form/MySelect';
 
 export const AvailabilityExceptionSlot = ({
   exception,

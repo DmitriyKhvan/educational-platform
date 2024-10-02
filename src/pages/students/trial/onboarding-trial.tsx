@@ -8,22 +8,32 @@ import InputField from '@/components/form/input-field';
 import InputWithError from '@/components/form/input-with-error';
 import PhoneNumberField from '@/components/form/phone-number-field';
 import { SelectField } from '@/components/form/select-field';
+import type { PhoneNumberFieldForm } from '@/components/form/types';
 import { usePublicMentors } from '@/pages/students/trial/lib/use-public-mentors';
 import { timezoneOptions } from '@/shared/constants/global';
 import { trimSpaces } from '@/shared/utils/trim-spaces';
-import type { AuthenticatedUser, TrialPackage } from '@/types/types.generated';
-import type { PhoneNumberFieldForm } from '@/components/form/types';
+import type { AuthenticatedUser, Mentor } from '@/types/types.generated';
+// import type { AuthenticatedUser, TrialPackage } from '@/types/types.generated';
+// import type { PhoneNumberFieldForm } from '@/components/form/types';
 import { Facebook, Hotjar } from '@/widgets/tracking';
+import type { SelectedPlan } from './types';
 
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 
 interface OnboardingTrialProps {
   currentUser: AuthenticatedUser;
-  selectedPlan: TrialPackage;
+  selectedPlan: SelectedPlan;
   user: AuthenticatedUser;
-  setUser: Dispatch<SetStateAction<Partial<AuthenticatedUser | undefined>>>;
+  setUser: Dispatch<
+    SetStateAction<
+      | (AuthenticatedUser & {
+          password: string;
+        })
+      | undefined
+    >
+  >;
   setStep: Dispatch<SetStateAction<number>>;
-  setSelectMentor: ({ id }: { id: string }) => void;
+  setSelectMentor: Dispatch<SetStateAction<Mentor | undefined>>;
 }
 
 const OnboardingTrial = memo(function OnboardingTrial({
@@ -78,7 +88,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
     lastName: string;
     phoneNumber: string;
     phoneNumberWithoutCode: string;
-    email: string;
+    email?: string;
     timeZone: string;
   }) => {
     // delete data.phoneNumberWithoutCode;
@@ -86,7 +96,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
       ...trimSpaces(data),
       phoneNumber: data.phoneNumber,
     };
-    setUser(updatedUser);
+    setUser(updatedUser as AuthenticatedUser & { password: string });
     if (Object.keys(selectedPlan).length !== 0) {
       setStep(3);
     } else {
@@ -141,7 +151,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
 
           <InputWithError errorsField={errors?.email}>
             <InputField
-              disabled={currentUser && true}
+              disabled={!!currentUser}
               className="w-full"
               label={t('email', { ns: 'common' })}
               placeholder="student@example.com"
@@ -151,7 +161,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
                 validate: {
                   isEmail: (value) => {
                     const emailRegex = /^[a-z0-9_\-.]+@([a-z0-9_-]+\.)+[a-z0-9_-]{2,4}$/;
-                    return emailRegex.test(value) || t('invalid_email', { ns: 'onboarding' });
+                    return emailRegex.test(value ?? '') || t('invalid_email', { ns: 'onboarding' });
                   },
                 },
               })}
@@ -214,7 +224,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
                 options={usePublicMentors()}
                 isClearable
                 onChange={(id) => {
-                  setSelectMentor({ id });
+                  setSelectMentor({ mentorId: id } as unknown as Mentor);
                 }}
               />
             </label>

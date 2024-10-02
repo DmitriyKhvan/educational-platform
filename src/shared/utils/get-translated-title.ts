@@ -1,7 +1,7 @@
-import type { Course, LanguageLevel, Topic } from '@/types/types.generated';
+import type { Course, LanguageLevel, StudentReviewTag, Topic } from '@/types/types.generated';
 
 export function getTranslatedTitle(
-  entity?: Course | LanguageLevel | Topic | null,
+  entity?: Course | LanguageLevel | Topic | null | StudentReviewTag,
   language?: string,
 ): string {
   return entity?.translations?.find((t) => t?.language === language)?.title ?? entity?.title ?? '';

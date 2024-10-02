@@ -1,6 +1,7 @@
-import type { Lesson } from '@/types/types.generated';
-import DashboardCard from './dashboard-card';
+// import DashboardCard from './dashboard-card';
 import ScheduleCard from '@/components/student-dashboard/schedule-card-rebranding';
+import DashboardCard from '@/pages/students/student-dashboard/dashboard-card';
+import type { Lesson } from '@/types/types.generated';
 
 interface MyTrialLessonsProps {
   lessons: Lesson[];

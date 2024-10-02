@@ -1,13 +1,21 @@
-import { forwardRef, useState } from 'react';
+import { type Dispatch, forwardRef, type ReactNode, type SetStateAction, useState } from 'react';
 
-import Modal from 'react-modal';
+import Modal, { type Styles } from 'react-modal';
 
 import '@/components/dialog/dialog.css';
 import { FaXmark } from 'react-icons/fa6';
+import { buttonizeA11Y } from '@/shared/utils/buttonizeA11Y';
 
 Modal.setAppElement('#root');
+interface MyDialogProps {
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  button: ReactNode;
+  paddingContent: string;
+  children: ReactNode;
+}
 
-export const MyDialog = forwardRef(function MyDialog(
+export const MyDialog = forwardRef<ReactModal, MyDialogProps>(function MyDialog(
   { open, setOpen, button, paddingContent = '40px 32px', children },
   ref,
 ) {
@@ -56,18 +64,19 @@ export const MyDialog = forwardRef(function MyDialog(
 
   return (
     <>
-      <div className="flex" onClick={openModal}>
+      <div {...buttonizeA11Y(openModal)} className="flex">
         {button}
       </div>
       <Modal
         closeTimeoutMS={400}
         isOpen={open}
         contentLabel="modal"
-        style={customStyles}
+        style={customStyles as Styles}
         onRequestClose={closeModal}
         ref={ref}
       >
         <button
+          type="button"
           className="absolute right-4 top-4 z-50 flex items-center justify-center w-6 h-6 rounded-full bg-color-border-grey/20"
           onClick={closeModal}
         >

@@ -4,7 +4,7 @@ import Button from '@/components/form/button/button';
 import InputField from '@/components/form/input-field';
 import { PhoneCodeListModal } from '@/components/onboarding/phone-code-list-modal';
 import { type PhoneCode, phoneCodes } from '@/shared/constants/global';
-import { useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import type {
   UseFormRegister,
   UseFormResetField,
@@ -168,7 +168,12 @@ const PhoneNumberField: React.FC<PhoneNumberFieldProps> = ({
                 : undefined,
             })}
           >
-            {(inputProps) => <InputField {...inputProps} disabled={disabled} />}
+            {
+              // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+              ((inputProps: any) => (
+                <InputField {...inputProps} disabled={disabled} />
+              )) as unknown as ReactNode
+            }
           </ReactInputMask>
         )}
 

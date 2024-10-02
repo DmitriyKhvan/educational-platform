@@ -21,7 +21,7 @@ const AvailabilityCalendarHeader = ({
   calendarRef,
   updateEvents,
 }: {
-  calendarRef: MutableRefObject<FullCalendar>;
+  calendarRef: MutableRefObject<FullCalendar | null>;
   updateEvents: (view: CalendarViewType) => void;
 }) => {
   const [open, setOpen] = useState(false);
@@ -106,7 +106,7 @@ const AvailabilityCalendarHeader = ({
               'w-[10px] h-[10px] block rounded-[3px]',
               courseColorsDict[COURSE_COLORS.PURPLE]?.indicator,
             )}
-          ></span>
+          />
           <p>Regular students</p>
         </div>
 
@@ -116,7 +116,7 @@ const AvailabilityCalendarHeader = ({
               'w-[10px] h-[10px] block rounded-[3px]',
               courseColorsDict[COURSE_COLORS.ORANGE]?.indicator,
             )}
-          ></span>
+          />
           <p>Trial students</p>
         </div>
 
@@ -126,7 +126,7 @@ const AvailabilityCalendarHeader = ({
               'w-[10px] h-[10px] block rounded-[3px]',
               courseColorsDict[COURSE_COLORS.GRAY]?.indicator,
             )}
-          ></span>
+          />
           <p>Date overrides</p>
         </div>
       </div>

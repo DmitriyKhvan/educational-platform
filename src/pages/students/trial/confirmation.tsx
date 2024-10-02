@@ -1,10 +1,9 @@
-import { useMemo, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { addMinutes } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaArrowLeft, FaPencil } from 'react-icons/fa6';
-import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '@/app/providers/auth-provider';
 import Button from '@/components/form/button';
@@ -13,9 +12,12 @@ import { LOGIN_MUTATION } from '@/shared/apollo/graphql';
 import { ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER } from '@/shared/apollo/mutations/trial/attach-trial-student-to-user-resolver';
 import { TRIAL_SIGN_UP } from '@/shared/apollo/mutations/trial/trial-sign-up';
 import { localeDic, setItemToLocalStorage } from '@/shared/constants/global';
+import { buttonizeA11Y } from '@/shared/utils/buttonizeA11Y';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
 import notify from '@/shared/utils/notify';
 import type { AuthenticatedUser } from '@/types/types.generated';
+import { useNavigate } from 'react-router-dom';
+import type { SelectedPlan } from './types';
 
 interface ConfirmationProps {
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -23,23 +25,9 @@ interface ConfirmationProps {
     password: string;
   };
 
-  selectedPlan: {
-    languageLevel: {
-      id: string;
-    };
-    lessonTopic: {
-      id: string;
-    };
-    packageSubscription: {
-      id: string;
-      sessionTime: number;
-      course: {
-        title: string;
-      };
-    };
-  };
+  selectedPlan?: SelectedPlan;
   schedule: string;
-  mentorId: string;
+  mentorId?: string;
 }
 
 const Confirmation: React.FC<ConfirmationProps> = ({
@@ -63,7 +51,12 @@ const Confirmation: React.FC<ConfirmationProps> = ({
 
   const navigate = useNavigate();
   const { user: currentUser, refetchUser } = useAuth();
-  const { languageLevel, lessonTopic, packageSubscription } = selectedPlan;
+  // const { languageLevel, lessonTopic, packageSubscription } = selectedPlan;
+  // const { user: currentUser } = useAuth();
+
+  const languageLevel = selectedPlan?.languageLevel;
+  const lessonTopic = selectedPlan?.lessonTopic;
+  const packageSubscription = selectedPlan?.packageSubscription;
 
   const [t, i18n] = useTranslation(['trial', 'common']);
   const [signUp] = useMutation(TRIAL_SIGN_UP);
@@ -87,7 +80,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
   });
 
   const scheduleEndTimeFormat = format(
-    addMinutes(dateParse, packageSubscription.sessionTime),
+    addMinutes(dateParse, packageSubscription?.sessionTime ?? 0),
     'hh:mm a',
     {
       timeZone: user.timeZone,
@@ -108,9 +101,9 @@ const Confirmation: React.FC<ConfirmationProps> = ({
                 firstName: user.firstName,
                 lastName: user.lastName,
               },
-              packageId: Number.parseInt(packageSubscription.id),
-              languageLevelId: Number.parseInt(languageLevel.id),
-              lessonTopicId: Number.parseInt(lessonTopic.id),
+              packageId: Number.parseInt(packageSubscription?.id ?? ''),
+              languageLevelId: Number.parseInt(languageLevel?.id ?? ''),
+              lessonTopicId: Number.parseInt(lessonTopic?.id ?? ''),
               lessonBooking: {
                 mentorId,
                 startAt: new Date(schedule),
@@ -132,9 +125,9 @@ const Confirmation: React.FC<ConfirmationProps> = ({
                 ...user,
                 referralCode: localStorage.getItem('referralCode'),
               },
-              packageId: Number.parseInt(packageSubscription.id),
-              languageLevelId: Number.parseInt(languageLevel.id),
-              lessonTopicId: Number.parseInt(lessonTopic.id),
+              packageId: Number.parseInt(packageSubscription?.id ?? ''),
+              languageLevelId: Number.parseInt(languageLevel?.id ?? ''),
+              lessonTopicId: Number.parseInt(lessonTopic?.id ?? ''),
               lessonBooking: {
                 mentorId,
                 startAt: new Date(schedule),
@@ -158,7 +151,8 @@ const Confirmation: React.FC<ConfirmationProps> = ({
           setItemToLocalStorage('token', loginData.authResult.sessionToken);
           setItemToLocalStorage('studentId', studentId);
 
-          refetchUser({ varialbes: { studentId } });
+          refetchUser();
+          // refetchUser({ varialbes: { studentId } });
           navigate('/trial/thank-you');
         }
       }
@@ -209,12 +203,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
             </label>
           </div>
           <div
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                setStep(-1);
-              }
-            }}
-            onClick={() => setStep(-1)}
+            {...buttonizeA11Y(() => setStep(-1))}
             className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors"
           >
             <FaPencil className="text-color-purple w-3 h-3" />
@@ -227,7 +216,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
         <div className="w-full border rounded-lg p-5 flex justify-between items-center">
           <div>
             <h3 className="font-bold text-lg mb-5">
-              {getTranslatedTitle(packageSubscription.course, i18n.language)}
+              {getTranslatedTitle(packageSubscription?.course, i18n.language)}
               {/* {packageSubscription.course.title} */}
             </h3>
             <div className="flex gap-6">
@@ -249,12 +238,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
             </div>
           </div>
           <div
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                setStep(0);
-              }
-            }}
-            onClick={() => setStep(0)}
+            {...buttonizeA11Y(() => setStep(0))}
             className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors"
           >
             <FaPencil className="text-color-purple w-3 h-3" />
@@ -270,11 +254,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
             <p>{dayFormat}</p>
           </div>
           <div
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                setStep(1);
-              }
-            }}
+            {...buttonizeA11Y(() => setStep(1))}
             onClick={() => setStep(1)}
             className="bg-color-purple bg-opacity-10 w-7 h-7 rounded-lg flex justify-center items-center cursor-pointer hover:bg-opacity-20 transition-colors"
           >

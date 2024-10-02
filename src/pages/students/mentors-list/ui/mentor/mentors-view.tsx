@@ -10,7 +10,7 @@ import { FiSearch } from 'react-icons/fi';
 
 interface MentorsViewProps {
   mentorList: Mentor[];
-  handleSelectMentor: (mentor: Mentor) => void;
+  handleSelectMentor?: (mentor: Mentor) => void;
 }
 
 export const MentorsView: React.FC<MentorsViewProps> = ({ mentorList, handleSelectMentor }) => {

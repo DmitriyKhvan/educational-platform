@@ -10,6 +10,7 @@ import { LuPlus } from 'react-icons/lu';
 import { format } from 'date-fns-tz';
 import type { ExceptionDateSlot } from '@/types/types.generated';
 import type { Exception } from '@/types';
+import type { SelectSingleEventHandler } from 'react-day-picker';
 
 export const AvailabilityExceptionPicker = ({
   oldException,
@@ -25,6 +26,8 @@ export const AvailabilityExceptionPicker = ({
   const initialException = oldException || {
     id: nanoid(),
     date: '',
+    from: '', // Add missing required fields
+    to: '', // Add missing required fields
     slots: [],
   };
 
@@ -53,7 +56,9 @@ export const AvailabilityExceptionPicker = ({
         id: nanoid(),
         ...oldException,
         slots,
-        date: dateStr,
+        from: exception?.from || '', // Default to an empty string if undefined
+        to: exception?.to || '', // Default to an empty string if undefined
+        date: format(parse(exception.date, 'yyyy-MM-dd', new Date()), 'yyyy-MM-dd'),
       };
 
       setException(newException);
@@ -109,8 +114,10 @@ export const AvailabilityExceptionPicker = ({
           fromDate={new Date()}
           mode="single"
           disabled={disabledDates}
-          selected={exception?.date && parse(exception.date, 'yyyy-MM-dd', new Date())}
-          onSelect={onChangeDate}
+          selected={
+            (exception?.date && parse(exception.date, 'yyyy-MM-dd', new Date())) as Date | undefined
+          }
+          onSelect={onChangeDate as SelectSingleEventHandler}
           formatters={{
             formatWeekdayName: (date: Date) => format(date, 'EEE'),
           }}

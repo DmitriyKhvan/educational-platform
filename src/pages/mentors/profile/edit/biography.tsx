@@ -27,10 +27,14 @@ const Biography = () => {
     },
   });
 
-  const handleEditBigraphy = async (area) => {
+  const handleEditBigraphy = async (area: {
+    introduction?: string | null;
+    relevantExperience?: string | null;
+    uniqueFacts?: string | null;
+  }) => {
     await updateMentor({
       variables: {
-        id: Number.parseInt(user?.mentor?.id),
+        id: Number.parseInt(user?.mentor?.id ?? ''),
         data: area,
       },
       onCompleted: () => {

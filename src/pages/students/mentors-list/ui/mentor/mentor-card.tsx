@@ -20,7 +20,7 @@ export const MentorCard = ({
   handleSelectMentor,
 }: {
   mentor: Mentor;
-  handleSelectMentor: (mentor: Mentor) => void;
+  handleSelectMentor?: (mentor: Mentor) => void;
 }) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });
 
@@ -113,7 +113,7 @@ export const MentorCard = ({
             <Button
               theme="purple"
               className="px-[18px] sm:px-6 h-[40px] text-xs sm:text-sm whitespace-nowrap"
-              onClick={() => handleSelectMentor(mentor)}
+              onClick={() => handleSelectMentor?.(mentor)}
             >
               {t('select_mentor', { ns: 'lessons' })}
             </Button>

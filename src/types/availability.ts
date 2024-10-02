@@ -37,11 +37,13 @@ export interface RenderedEvent {
   resource?: CalendarAppointment;
 }
 export interface WeeklyViewEvent {
-  id?: string;
+  id?: string | number;
   title?: string;
   rrule?: RRuleCommon;
-  view: string;
-  type: EventType;
+  type?: EventType;
+  view?: string;
+  start: Date;
+  end: Date;
   duration?: Duration;
   allDay?: boolean;
   display?: string;
@@ -164,6 +166,8 @@ export interface Exception {
   id: string;
   date: string;
   slots: ExceptionDateSlot[];
+  from: string;
+  to: string;
 }
 
 export type Slot = {

@@ -32,8 +32,8 @@ interface ScheduleProviderProps {
 }
 
 interface TimeOfDayInterval {
-  start: string;
-  end: string;
+  start: string | Date;
+  end: string | Date;
 }
 
 interface AvailableTime {
@@ -186,6 +186,7 @@ export const ScheduleProvider: React.FC<ScheduleProviderProps> = ({
       }
     }
 
+    // biome-ignore lint/complexity/noForEach: <explanation>
     (timesheetsData?.combinedTimesheets || timesheetsData?.combinedTimesheetsForTrials || [])
       .sort(
         (a: { from: string }, b: { from: string }) =>
@@ -234,6 +235,7 @@ export const ScheduleProvider: React.FC<ScheduleProviderProps> = ({
     if (timeOfDayInterval.start && timeOfDayInterval.end) {
       const availableSlots: AvailableTime[] = [];
 
+      // biome-ignore lint/complexity/noForEach: <explanation>
       (
         timesheetsData?.combinedTimesheets ||
         timesheetsData?.combinedTimesheetsForTrials ||
@@ -245,7 +247,7 @@ export const ScheduleProvider: React.FC<ScheduleProviderProps> = ({
           availableSlots.push({
             time: timesheet.from,
             reserved: timesheet.reserved,
-            mentorId: timesheet.mentors && timesheet.mentors[0].id,
+            mentorId: timesheet.mentors?.[0].id,
           });
         }
       });

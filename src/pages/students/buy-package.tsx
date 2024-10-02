@@ -193,7 +193,11 @@ export default function BuyPackage() {
             />
 
             <Packages
-              filteredPackage={filteredPackage as Package[]}
+              filteredPackage={
+                filteredPackage as unknown as (Omit<Package, 'prices'> & {
+                  price: number;
+                })[]
+              }
               setSelectedPackage={setSelectedPackage}
               selectedPackage={selectedPackage}
               setPromoPackage={setPromoPackage}

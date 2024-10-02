@@ -39,7 +39,7 @@ function App() {
           : Currencies.USD;
 
     const onCompleted = () => {
-      setCurCurrency(currenciesDic.find((c) => c.value === currency) ?? currenciesDic[0]);
+      setCurCurrency?.(currenciesDic.find((c) => c.value === currency) ?? currenciesDic[0]);
       localStorage.setItem('currency', currency);
       setItemToLocalStorage('language', langParam);
       i18n.changeLanguage(langParam);
@@ -52,7 +52,7 @@ function App() {
         return;
       }
 
-      setLoadingCurrency(true);
+      setLoadingCurrency?.(true);
       updateUser({
         variables: {
           id: Number.parseInt(user?.id),
@@ -65,7 +65,7 @@ function App() {
           notify('Failed to set language', 'error');
         },
       });
-      setLoadingCurrency(false);
+      setLoadingCurrency?.(false);
     }
   }, [searchParams, user]);
 

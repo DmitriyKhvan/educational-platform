@@ -135,6 +135,8 @@ export const AvailabilityExceptions = ({
             id: id ? id : nanoid(),
             date,
             slots,
+            from: defaultFrom,
+            to: defaultTo,
           });
 
           disabledDates.push(parse(date, 'yyyy-MM-dd', new Date()));

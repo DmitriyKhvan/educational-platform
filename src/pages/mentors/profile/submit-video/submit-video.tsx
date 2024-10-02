@@ -27,7 +27,7 @@ const SubmitVideo = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm({
+  } = useForm<{ videoUrl: string }>({
     mode: 'onBlur',
   });
 
@@ -65,12 +65,11 @@ const SubmitVideo = () => {
           <p className="text-[15px] text-color-light-grey font-semibold leading-[18px] tracking-[-0.3px] mb-[15px]">
             Upload video via youtube share!
           </p>
-
           <div className="flex gap-5 mb-5">
             <Button
               onClick={() => setTypeVideo('vm')}
               theme="outline"
-              className={typeVideo === 'vm' && 'bg-color-purple text-white'}
+              className={typeVideo === 'vm' ? 'bg-color-purple text-white' : ''}
             >
               <span className="flex items-center justify-center gap-[10px]">
                 <span>Vimeo</span>
@@ -81,7 +80,7 @@ const SubmitVideo = () => {
             <Button
               onClick={() => setTypeVideo('yt')}
               theme="outline"
-              className={typeVideo === 'yt' && 'bg-color-purple text-white'}
+              className={typeVideo === 'yt' ? 'bg-color-purple text-white' : ''}
             >
               <span className="flex items-center justify-center gap-[10px]">
                 <span>Youtube</span>
@@ -89,7 +88,7 @@ const SubmitVideo = () => {
               </span>
             </Button>
           </div>
-
+          a && b a ?? b
           <InputWithError errorsField={errors?.videoUrl}>
             <InputField
               className="w-full"

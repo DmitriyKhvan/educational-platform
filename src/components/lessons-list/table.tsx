@@ -43,11 +43,12 @@ const Table: React.FC<TableProps> = ({
       const tempUpcomingLessons: CalendarEventsSorted[] = [];
       const tempPastLessons: CalendarEventsSorted[] = [];
 
+      // biome-ignore lint/complexity/noForEach: <explanation>
       tableAppointments.forEach((each) => {
         const duration = Number(each.resource.duration) ?? 0;
         const isWithin24hour = isWithinHours({
           dateEnd: new Date(each.resource.startAt),
-          dateStart: new Date(each.resource.cancelledAt),
+          dateStart: new Date(each.resource.canceledAt),
           hours: 24,
           userTimezone,
         });
@@ -56,7 +57,7 @@ const Table: React.FC<TableProps> = ({
 
         if (
           (isAfter(new Date(), endLesson) && each.resource.status !== LessonsStatusType.CANCELED) ||
-          (isWithin24hour && each.resource.cancelledBy === Roles.STUDENT)
+          (isWithin24hour && each.resource.canceledBy === Roles.STUDENT)
         ) {
           tempPastLessons.push(each);
         } else if (

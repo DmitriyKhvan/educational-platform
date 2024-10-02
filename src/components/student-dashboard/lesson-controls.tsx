@@ -1,21 +1,21 @@
-import { addMinutes, isAfter } from 'date-fns';
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { FaCheck, FaPlay, FaStar } from 'react-icons/fa6';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/app/providers/auth-provider';
+import Button from '@/components/form/button';
+import { CancelTrialLessonModal } from '@/components/student-dashboard/cancel-trial-lesson-modal';
+import LessonInfoModal from '@/components/student-dashboard/lesson-info-modal';
 import { MentorFeedbackModal } from '@/entities/mentor-feedback-modal';
 import { LessonsStatusType, ModalType } from '@/shared/constants/global';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import { cn } from '@/shared/utils/functions';
 import { isBetween } from '@/shared/utils/is-between';
 import { isWithinHours } from '@/shared/utils/is-within-hours';
-import Button from '@/components/form/button';
-import { CancelTrialLessonModal } from '@/components/student-dashboard/cancel-trial-lesson-modal';
-import LessonInfoModal from '@/components/student-dashboard/lesson-info-modal';
+import { type Lesson, UserRoleType } from '@/types/types.generated';
+import { addMinutes, isAfter } from 'date-fns';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { FaCheck, FaPlay, FaStar } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
 import PlaygroundWarningModal from './playground-warning-modal';
 import RescheduleAndCancelModal from './reschedule-and-cancel-modal-rebranding';
-import { type Lesson, UserRoleType } from '@/types/types.generated';
 
 const LessonControls = ({
   date,

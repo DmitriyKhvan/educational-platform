@@ -9,5 +9,5 @@ export interface PhoneNumberFieldForm {
   timeZone: string;
   country?: string | null;
   password: string;
-  email: string;
+  email?: string;
 }

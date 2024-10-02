@@ -1,22 +1,24 @@
 import { useCallback, useEffect, useState } from 'react';
+import type { EmblaCarouselType } from 'embla-carousel';
+import type { Button } from 'react-day-picker';
 
-export const useDotButton = (emblaApi) => {
+export const useDotButton = (emblaApi?: EmblaCarouselType) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [scrollSnaps, setScrollSnaps] = useState([]);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
   const onDotButtonClick = useCallback(
-    (index) => {
+    (index: number) => {
       if (!emblaApi) return;
       emblaApi.scrollTo(index);
     },
     [emblaApi],
   );
 
-  const onInit = useCallback((emblaApi) => {
+  const onInit = useCallback((emblaApi: EmblaCarouselType) => {
     setScrollSnaps(emblaApi.scrollSnapList());
   }, []);
 
-  const onSelect = useCallback((emblaApi) => {
+  const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
     setSelectedIndex(emblaApi.selectedScrollSnap());
   }, []);
 
@@ -37,7 +39,7 @@ export const useDotButton = (emblaApi) => {
   };
 };
 
-export const DotButton = (props) => {
+export const DotButton = (props: React.ComponentProps<typeof Button>) => {
   const { children, ...restProps } = props;
 
   return (

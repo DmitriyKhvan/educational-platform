@@ -21,6 +21,7 @@ export const TermsConditionsModal: React.FC<TermsConditionsModalProps> = ({
       <h3 className="text-[22px] font-bold">{t('terms', { ns: 'purchase' })}</h3>
       <p
         className="mt-4 text-[17px] leading-7 break-keep"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
         dangerouslySetInnerHTML={{
           __html: t('terms_link', { ns: 'purchase' }),
         }}

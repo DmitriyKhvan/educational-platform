@@ -10,10 +10,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/tooltip';
+import type { Mentor } from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';
 import { useMediaQuery } from 'react-responsive';
 import StarRatings from 'react-star-ratings';
-import type { Mentor } from '@/types/types.generated';
 // import { EmblaCarousel } from '@/components/Carousel';
 
 const MentorsModal = ({ mentor }: { mentor: Mentor }) => {
@@ -49,9 +49,8 @@ const MentorsModal = ({ mentor }: { mentor: Mentor }) => {
                   <TooltipTrigger asChild>
                     <Link
                       to={
-                        mentor?.availabilities?.regular?.length > 0
-                          ? `/student/schedule-lesson/select`
-                          : '#'
+                        // mentor?.availabilities?.regular?.length > 0
+                        mentor?.availabilities?.length > 0 ? '/student/schedule-lesson/select' : '#'
                       }
                       state={{
                         mentor: {
@@ -62,14 +61,16 @@ const MentorsModal = ({ mentor }: { mentor: Mentor }) => {
                       <Button
                         theme="purple"
                         className="px-[48px] h-[50px]"
-                        disabled={mentor?.availabilities?.regular?.length === 0}
+                        disabled={mentor?.availabilities?.length === 0}
+                        // disabled={mentor?.availabilities?.regular?.length === 0}
                       >
                         {t('schedule')}
                       </Button>
                     </Link>
                   </TooltipTrigger>
 
-                  {mentor?.availabilities?.regular?.length === 0 && (
+                  {/* {mentor?.availabilities?.regular?.length === 0 && ( */}
+                  {mentor?.availabilities?.length === 0 && (
                     <TooltipPortal>
                       <TooltipContent>
                         <p className="text-center text-color-dark-purple text-sm font-semibold max-w-[16rem]">
@@ -175,9 +176,8 @@ const MentorsModal = ({ mentor }: { mentor: Mentor }) => {
               <TooltipTrigger asChild>
                 <Link
                   to={
-                    mentor?.availabilities?.regular?.length > 0
-                      ? `/student/schedule-lesson/select`
-                      : '#'
+                    // mentor?.availabilities?.regular?.length > 0
+                    mentor?.availabilities?.length > 0 ? '/student/schedule-lesson/select' : '#'
                   }
                   state={{
                     mentor: {
@@ -188,14 +188,16 @@ const MentorsModal = ({ mentor }: { mentor: Mentor }) => {
                   <Button
                     theme="purple"
                     className="w-full px-[48px] h-[50px]"
-                    disabled={mentor?.availabilities?.regular?.length === 0}
+                    disabled={mentor?.availabilities?.length === 0}
+                    // disabled={mentor?.availabilities?.regular?.length === 0}
                   >
                     {t('schedule')}
                   </Button>
                 </Link>
               </TooltipTrigger>
 
-              {mentor?.availabilities?.regular?.length === 0 && (
+              {/* {mentor?.availabilities?.regular?.length === 0 && ( */}
+              {mentor?.availabilities?.length === 0 && (
                 <TooltipPortal>
                   <TooltipContent>
                     <p className="text-center text-color-dark-purple text-sm font-semibold max-w-[16rem]">

@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { IoArrowBack } from 'react-icons/io5';
 import Swal from 'sweetalert2';
 import type { AvailableTime } from '../schedule-provider/lib/schedule-context';
+import type { Mentor } from '@/types/types.generated';
 
 export const AvailableTimes = memo(function AvailableTimes() {
   const {
@@ -30,7 +31,7 @@ export const AvailableTimes = memo(function AvailableTimes() {
     }
 
     if (setSelectMentor) {
-      setSelectMentor({ id: scheduleStartTime?.mentorId });
+      setSelectMentor({ id: scheduleStartTime?.mentorId } as Mentor);
     }
 
     const formattedDay = format(new Date(day), 'yyyy-MM-dd');
@@ -87,6 +88,7 @@ export const AvailableTimes = memo(function AvailableTimes() {
           <div>
             <div className="flex items-center gap-3">
               <button
+                type="button"
                 onClick={() => {
                   setTabIndex(1);
                   resetAll();

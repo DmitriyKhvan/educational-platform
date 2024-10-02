@@ -6,7 +6,7 @@ export interface Course {
   id: string;
 }
 
-export type CalendarEvent = EventInput | Lesson;
+export type CalendarEvent = (EventInput | Lesson) & { type?: string };
 
 export interface CalendarEventProcessed extends EventInput {
   playground: string;

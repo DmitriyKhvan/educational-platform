@@ -1,9 +1,23 @@
 import { useCurrency } from '@/app/providers/currency-provider';
 import Indicator from '@/components/indicator';
 import { currencyFormat } from '@/shared/utils/currency-format';
+import type { Maybe } from '@/types/types.generated';
 /* eslint-disable no-unused-vars */
 import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa6';
+
+interface SubscriptionCardProps {
+  title: string;
+  sessionsPerWeek?: Maybe<number>;
+  price?: Maybe<number>;
+  totalSessions?: Maybe<number>;
+  currency?: Maybe<string>;
+  months?: Maybe<number>;
+  duration?: Maybe<number>;
+  credits?: Maybe<number>;
+  active?: Maybe<boolean>;
+  isReferral?: Maybe<boolean>;
+}
 
 export const SubscriptionCard = ({
   title,
@@ -16,14 +30,14 @@ export const SubscriptionCard = ({
   credits,
   active,
   isReferral = false,
-}) => {
+}: SubscriptionCardProps) => {
   const { findCurrency } = useCurrency();
 
-  const curCurrency = findCurrency(currency);
+  const curCurrency = findCurrency?.(currency ?? '');
 
   const [t] = useTranslation(['common', 'lessons']);
   return (
-    <div className={`w-full p-4 rounded-[10px] border border-solid select-none`}>
+    <div className={'w-full p-4 rounded-[10px] border border-solid select-none'}>
       <div className="text-lg font-bold capitalize mb-3">
         {isReferral && '🎁 '}
         {title}
@@ -34,13 +48,13 @@ export const SubscriptionCard = ({
           {/* {price} */}
           {curCurrency &&
             currencyFormat({
-              number: price,
+              number: price ?? 0,
               currency: curCurrency.value,
               locales: curCurrency.locales,
             })}
         </div>
       )}
-      {active && credits > 0 && (
+      {active && (credits ?? 0) > 0 && (
         <Indicator className="bg-[#02C97E] text-[#02C97E] mb-4 bg-opacity-10">
           <FaCheck /> {t('active_subscription')}
         </Indicator>

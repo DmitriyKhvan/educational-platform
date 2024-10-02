@@ -1,8 +1,19 @@
 import CheckboxField from '@/components/form/checkbox-field';
-import { phoneCodes } from '@/shared/constants/global';
+import { type PhoneCode, phoneCodes } from '@/shared/constants/global';
+import type { Dispatch, SetStateAction } from 'react';
+import type { UseFormResetField } from 'react-hook-form';
+import type { PhoneNumberFieldForm } from '../form/types';
 
-export const PhoneCodeListModal = ({ setCountry, currentCountry, resetField }) => {
-  const setCountryHandler = (country) => {
+export const PhoneCodeListModal = ({
+  setCountry,
+  currentCountry,
+  resetField,
+}: {
+  setCountry: Dispatch<SetStateAction<PhoneCode>>;
+  currentCountry: PhoneCode;
+  resetField: UseFormResetField<PhoneNumberFieldForm>;
+}) => {
+  const setCountryHandler = (country: PhoneCode) => {
     resetField('phoneNumberWithoutCode');
     resetField('phoneNumber');
     setCountry(country);
@@ -23,7 +34,7 @@ export const PhoneCodeListModal = ({ setCountry, currentCountry, resetField }) =
                 checked={currentCountry.iso === country.iso}
               />
             </label>
-            {index !== phoneCodes.length - 1 && <div className="divider"></div>}
+            {index !== phoneCodes.length - 1 && <div className="divider" />}
           </li>
         );
       })}

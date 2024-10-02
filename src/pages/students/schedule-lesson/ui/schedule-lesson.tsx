@@ -45,10 +45,10 @@ const ScheduleLesson = () => {
   const [selectedPlan, setSelectedPlan] = useState<PackageSubscription>();
   const [schedule, setSchedule] = useState<AvailabilitySlot>();
   const [tabIndex, setTabIndex] = useState<number>(id ? 1 : 0);
-  const [selectMentor, setSelectMentor] = useState<Mentor>();
+  const [selectMentor /*setSelectMentor*/] = useState<Mentor>();
   const [createdLessons, setCreatedLessons] = useState<Lesson[]>();
 
-  const scheduledLesson = data?.lesson || null;
+  // const scheduledLesson = data?.lesson || null;
 
   useEffect(() => {
     if (location?.state?.mentor) {

@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from '@/components/form/button';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
+import type { PackageSubscription } from '@/types/types.generated';
 import { FaPlus } from 'react-icons/fa6';
 
 const Subscriptions = () => {
@@ -31,14 +32,14 @@ const Subscriptions = () => {
     navigate('/purchase');
   };
 
-  const [selectedPackages, setSelectedPackages] = useState([]);
+  const [selectedPackages, setSelectedPackages] = useState<PackageSubscription[]>([]);
 
   useEffect(() => {
     if (planStatus?.length) {
       setSelectedPackages(
         selectedTab === 'current'
-          ? planStatus.filter((x) => x.active && x.credits)
-          : planStatus.filter((x) => !x.active || !x.credits),
+          ? planStatus.filter((x: PackageSubscription) => x.active && x.credits)
+          : planStatus.filter((x: PackageSubscription) => !x.active || !x.credits),
       );
     }
   }, [selectedTab, planStatus]);
@@ -74,9 +75,9 @@ const Subscriptions = () => {
           ) : selectedPackages.length > 0 ? (
             <div className="rounded-[10px] mt-[30px] w-full">
               <div className="flex flex-col gap-3 items-start rounded w-full">
-                {selectedPackages.map((x, i) => (
+                {selectedPackages.map((x) => (
                   <SubscriptionCard
-                    key={i}
+                    key={x.id}
                     price={x.payment?.buyPrice}
                     currency={x.payment?.currency}
                     months={x.package?.period}
@@ -84,10 +85,9 @@ const Subscriptions = () => {
                     title={getTranslatedTitle(x.package?.course, i18n.language)}
                     totalSessions={x.package?.totalSessions}
                     sessionsPerWeek={x.package?.sessionsPerWeek}
-                    costPerClass={x.package?.price / x.package?.totalSessions}
                     credits={x.credits}
                     active={x.active}
-                    isReferral={x.package?.isReferral}
+                    isReferral={x.package?.isReferral ?? false}
                   />
                 ))}
               </div>

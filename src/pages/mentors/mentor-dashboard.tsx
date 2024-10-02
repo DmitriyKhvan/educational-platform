@@ -10,6 +10,7 @@ import '@/app/styles/dashboard.scss';
 import LevelAfterTrialModal from '@/pages/mentors/level-after-trial-modal';
 import type { Lesson } from '@/types/types.generated';
 import '@/app/styles/dashboard.scss';
+import ScheduleCard from '@/components/student-dashboard/schedule-card-rebranding';
 import {
   addMinutes,
   endOfDay,
@@ -19,7 +20,6 @@ import {
   startOfDay,
   subMinutes,
 } from 'date-fns';
-import ScheduleCard from '@/components/student-dashboard/schedule-card-rebranding';
 
 const MentorDashboard = () => {
   const [t] = useTranslation('dashboard');
@@ -50,15 +50,17 @@ const MentorDashboard = () => {
 
       setUpcomingLessons(
         appointments
-          ?.filter((apt) => {
-            const expiredDate = addMinutes(parseISO(apt?.startAt), apt?.duration);
+          ?.filter((apt: Lesson) => {
+            const expiredDate = addMinutes(parseISO(apt?.startAt), apt?.duration ?? 0);
             return (
               isBefore(parseISO(apt.startAt), dayEnd) &&
               isAfter(parseISO(apt.startAt), dayStart) &&
               isBefore(new Date(), expiredDate)
             );
           })
-          .sort((a, b) => new Date(a.startAt) - new Date(b.startAt)),
+          .sort(
+            (a: Lesson, b: Lesson) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime(),
+          ),
       );
     }
   }, [appointments]);
@@ -131,17 +133,20 @@ const MentorDashboard = () => {
             </Link>
             <div className="weekly-schedule-scroll">
               {/* {displayDailySchedule(upcomingLessons)} */}
-              {upcomingLessons?.map((event, i) => (
+              {upcomingLessons?.map((event) => (
                 <ScheduleCard
-                  lesson={event?.packageSubscription?.package?.course?.title}
+                  // lesson={event?.packageSubscription?.package?.course?.title}
                   duration={event?.duration}
-                  playground={event?.playground}
+                  // playground={event?.playground}
                   date={event?.startAt}
                   data={event}
-                  student={event.student}
-                  index={i}
-                  key={i}
+                  student={event.student ?? undefined}
+                  // index={i}
+                  key={event.id}
                   fetchAppointments={fetchAppointments}
+                  mentor={event.mentor}
+                  setCanceledLessons={undefined}
+                  subscription={undefined}
                 />
               ))}
             </div>

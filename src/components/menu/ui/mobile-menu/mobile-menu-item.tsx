@@ -6,8 +6,9 @@ import { Badge } from '@/components/badge';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
+import type { MentorNavLink, StudentNavLink } from '../../lib/use-menuList';
 
-export const MobileMenuItem = ({ menu }) => {
+export const MobileMenuItem = ({ menu }: { menu: MentorNavLink | StudentNavLink }) => {
   const { currentStudent } = useAuth();
   const [t] = useTranslation('sidebar');
   const { getCountNotification } = useNotifications();
@@ -17,9 +18,10 @@ export const MobileMenuItem = ({ menu }) => {
       {getCountNotification(menu.label) > 0 && <Badge count={getCountNotification(menu.label)} />}
 
       {menu.type === 'external' ? (
-        <a
+        <button
+          type="button"
           className="group flex flex-col items-center gap-[5px] sm:w-[118px] cursor-pointer"
-          href="#"
+          // href="#"
           onClick={(e) => {
             e.preventDefault();
             window.open(menu.link);
@@ -29,7 +31,7 @@ export const MobileMenuItem = ({ menu }) => {
           <span className="text-[13px] transition ease-in-out delay-150 text-[#C0C0C3] font-medium group-hover:text-color-purple group-[.active]:text-color-purple">
             {t(menu.label)}
           </span>
-        </a>
+        </button>
       ) : menu.type === 'modal' || (menu.type === 'trial' && currentStudent?.isTrial) ? (
         <AdaptiveDialog
           button={
@@ -50,8 +52,7 @@ export const MobileMenuItem = ({ menu }) => {
         <NavLink
           to={menu.link}
           className={({ isActive }) =>
-            'group flex flex-col items-center gap-[5px] sm:w-[118px] cursor-pointer' +
-            (isActive ? ' active' : '')
+            `group flex flex-col items-center gap-[5px] sm:w-[118px] cursor-pointer${isActive ? ' active' : ''}`
           }
         >
           <menu.icon className="text-[22px] transition ease-in-out delay-150 text-[#C0C0C3] font-medium group-hover:text-color-purple group-[.active]:text-color-purple" />

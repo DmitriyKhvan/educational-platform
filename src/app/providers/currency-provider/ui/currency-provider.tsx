@@ -1,5 +1,5 @@
 import { CurrencyContext } from '@/app/providers/currency-provider/lib/use-currency';
-import { Currencies, type CurrencyDictionary, currenciesDic } from '@/shared/constants/global';
+import { Currencies, currenciesDic } from '@/shared/constants/global';
 import { type ReactNode, useMemo, useState } from 'react';
 
 export const CurrencyProvider = ({ children }: { children: ReactNode }) => {
@@ -19,7 +19,7 @@ export const CurrencyProvider = ({ children }: { children: ReactNode }) => {
 
   const [loadingCurrency, setLoadingCurrency] = useState(false);
 
-  const findCurrency = (value: CurrencyDictionary) => {
+  const findCurrency = (value: string) => {
     return currenciesDic.find((currency) => currency.value === value?.toString()?.toUpperCase());
   };
 

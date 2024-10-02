@@ -67,7 +67,7 @@ export default function Onboarding() {
         },
       });
 
-      await login(data.email, data.password);
+      await login(data.email ?? '', data.password);
       // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     } catch (error: any) {
       notify(error.message, 'error');
@@ -139,7 +139,7 @@ export default function Onboarding() {
                 validate: {
                   isEmail: (value) => {
                     const emailRegex = /^[a-z0-9_\-.]+@([a-z0-9_-]+\.)+[a-z0-9_-]{2,4}$/;
-                    return emailRegex.test(value) || t('invalid_email', { ns: 'onboarding' });
+                    return emailRegex.test(value ?? '') || t('invalid_email', { ns: 'onboarding' });
                   },
                 },
               })}

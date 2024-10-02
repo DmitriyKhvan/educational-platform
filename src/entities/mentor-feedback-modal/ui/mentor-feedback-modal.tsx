@@ -1,16 +1,16 @@
-import Feedback from '@/entities/mentor-feedback-modal/ui/feedback';
-import FeedbackLessonInfo from '@/entities/mentor-feedback-modal/ui/feedback-lesson-info';
-import { cn } from '@/shared/utils/functions';
-import type { Section } from '@/types';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useMutation } from '@apollo/client';
-import { BsExclamationTriangleFill } from 'react-icons/bs';
-import { FaArrowLeft, FaSpinner } from 'react-icons/fa6';
 import Button from '@/components/form/button';
 import CheckboxField from '@/components/form/checkbox-field';
+import Feedback from '@/entities/mentor-feedback-modal/ui/feedback';
+import FeedbackLessonInfo from '@/entities/mentor-feedback-modal/ui/feedback-lesson-info';
 import { MARK_LESSON_ATTENDANCE } from '@/shared/apollo/mutations/lessons/mark-lesson-attendance';
-import type { Lesson } from '@/types/types.generated';
+import { cn } from '@/shared/utils/functions';
+import type { Section } from '@/types';
+import type { Lesson, Maybe, Topic } from '@/types/types.generated';
+import { useMutation } from '@apollo/client';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { BsExclamationTriangleFill } from 'react-icons/bs';
+import { FaArrowLeft, FaSpinner } from 'react-icons/fa6';
 
 export const MentorFeedbackModal = ({
   data,
@@ -24,7 +24,7 @@ export const MentorFeedbackModal = ({
 
   const [markLessonAttendance, { loading }] = useMutation(MARK_LESSON_ATTENDANCE);
 
-  const [choosenTopic, setChoosenTopic] = useState(data?.topic?.id);
+  const [choosenTopic, setChoosenTopic] = useState<Maybe<Topic> | undefined>(data?.topic);
   const [choosenSection, setChoosenSection] = useState<Section | undefined>();
 
   const [studentShowUp, setStudentShowUp] = useState(true);
@@ -125,7 +125,7 @@ export const MentorFeedbackModal = ({
           <FeedbackLessonInfo
             data={data}
             setStep={setStep}
-            choosenTopic={choosenTopic}
+            choosenTopic={choosenTopic ?? null}
             setChoosenTopic={setChoosenTopic}
             choosenSection={choosenSection}
             setChoosenSection={setChoosenSection}
@@ -134,8 +134,8 @@ export const MentorFeedbackModal = ({
 
         {step === 2 && (
           <Feedback
-            choosenTopic={choosenTopic}
-            choosenSection={choosenSection}
+            chosenTopic={choosenTopic ?? null}
+            chosenSection={choosenSection ?? null}
             setStep={setStep}
             closeModal={closeModal}
             lessonId={data?.id}

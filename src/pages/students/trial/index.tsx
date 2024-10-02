@@ -9,30 +9,22 @@ import { COMBINED_TIMESHEETS_TRIAL } from '@/shared/apollo/queries/trial/combine
 import { useEffect, useState } from 'react';
 
 import { useAuth } from '@/app/providers/auth-provider';
-import type {
-  AuthenticatedUser,
-  LanguageLevel,
-  Topic,
-  TrialPackage,
-} from '@/types/types.generated';
+import type { AuthenticatedUser, Mentor } from '@/types/types.generated';
+import type { SelectedPlan } from './types';
 
-export interface SelectedPlanProps {
-  packageSubscription: TrialPackage;
-  languageLevel: LanguageLevel;
-  lessonTopic: Topic;
-}
+type AuthedUserWithPassword = AuthenticatedUser & { password: string };
 
 const Trial = () => {
   const { user: currentUser } = useAuth();
 
   const [step, setStep] = useState(-1);
-  const [user, setUser] = useState<Partial<AuthenticatedUser>>();
-  const [selectedPlan, setSelectedPlan] = useState<SelectedPlanProps>();
+  const [user, setUser] = useState<AuthenticatedUser & { password: string }>();
+  const [selectedPlan, setSelectedPlan] = useState<SelectedPlan>();
   const [schedule, setSchedule] = useState('');
-  const [selectMentor, setSelectMentor] = useState<{ id: string }>();
+  const [selectMentor, setSelectMentor] = useState<Mentor>();
   useEffect(() => {
     if (currentUser) {
-      setUser(currentUser);
+      setUser(currentUser as AuthedUserWithPassword);
     }
   }, [currentUser]);
 
@@ -62,7 +54,7 @@ const Trial = () => {
         query={COMBINED_TIMESHEETS_TRIAL}
         setTabIndex={setStep}
         setSchedule={setSchedule}
-        duration={selectedPlan?.packageSubscription?.sessionTime}
+        duration={selectedPlan?.packageSubscription?.sessionTime ?? 0}
         selectedMentor={selectMentor}
         setSelectMentor={setSelectMentor}
         timeZone={user?.timeZone}
@@ -78,7 +70,7 @@ const Trial = () => {
           user={user}
           selectedPlan={selectedPlan}
           schedule={schedule}
-          mentorId={selectMentor.id}
+          mentorId={selectMentor?.id}
         />
       )}
     </div>
