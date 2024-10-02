@@ -161,16 +161,16 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
       {isLoading && <Loader />}
       <div className="flex flex-wrap lg:flex-nowrap min-h-full">
         <div className="grow max-w-[488px] mx-auto">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => {
                 setTabIndex(isMentorScheduled ? 2 : 3);
               }}
             >
-              <IoArrowBack className="text-2xl" />
+              <IoArrowBack className="text-base sm:text-2xl" />
             </button>
-            <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold">
+            <h1 className="text-base sm:text-4xl text-color-dark-purple font-bold">
               {t('confirmation', { ns: 'lessons' })}
             </h1>
           </div>

@@ -34,9 +34,6 @@ const LessonsList: React.FC<LessonsListProps> = ({
   const [searchParams] = useSearchParams({
     selectedTab: 'upcomingLessons',
   });
-
-  console.log('appointments', appointments);
-
   const isMobile = useMediaQuery({ maxWidth: 640 });
 
   const [t] = useTranslation(['lessons']);
@@ -57,7 +54,6 @@ const LessonsList: React.FC<LessonsListProps> = ({
 
   useEffect(() => {
     if (appointments?.lessons && user?.timeZone) {
-     
       const sortedEvents = sortCalendarEvents(appointments.lessons, user?.timeZone);
 
       if (sortedEvents) {

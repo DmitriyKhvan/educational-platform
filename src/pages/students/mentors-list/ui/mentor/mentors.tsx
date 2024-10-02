@@ -20,14 +20,15 @@ const Mentors = () => {
 
   return (
     <div className="h-full">
-      <div className="flex flex-col">
-        <h1 className="text-3xl sm:text-4xl md:text-[40px] font-bold tracking-[-1px] text-color-dark-purple mb-[10px]">
+      <div className="flex items-center gap-2 mb-2">
+        <h1 className="text-base sm:text-4xl text-color-dark-purple font-bold leading-normal tracking-tight">
           {t('mentor_list', { ns: 'studentMentor' })}
         </h1>
-        <p className="text-base leading-6 tracking-[-0.6px] text-color-light-grey">
-          {t('mentor_list_desc', { ns: 'studentMentor' })}
-        </p>
       </div>
+
+      <p className="text-base leading-6 tracking-[-0.6px] text-color-light-grey">
+        {t('mentor_list_desc', { ns: 'studentMentor' })}
+      </p>
 
       {loading ? (
         <Loader height={'50vh'} />

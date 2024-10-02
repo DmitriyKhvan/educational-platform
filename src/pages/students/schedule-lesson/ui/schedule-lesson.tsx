@@ -22,7 +22,7 @@ import { ScheduleCalendar } from './schedule-calendar/schedule-calendar';
 import { ScheduleDateTime } from './schedule-date-time/schedule-date-time';
 
 const ScheduleLesson = () => {
-  const isMobile = useMediaQuery({ maxWidth: 639 });
+  const isTablet = useMediaQuery({ maxWidth: 840 });
   const { currentStudent } = useAuth();
   const { id = null } = useParams();
   const location = useLocation();
@@ -72,7 +72,7 @@ const ScheduleLesson = () => {
         <SelectLesson setSelectedPlan={setSelectedPlan} setTabIndex={setTabIndex} />
       )}
 
-      {tabIndex === 2 && isMobile && (
+      {tabIndex === 2 && isTablet && (
         <ScheduleDateTime
           mentor={location?.state?.mentor}
           setTabIndex={setTabIndex}
@@ -82,7 +82,7 @@ const ScheduleLesson = () => {
           plan={selectedPlan}
         />
       )}
-      {tabIndex === 2 && !isMobile && (
+      {tabIndex === 2 && !isTablet && (
         <ScheduleCalendar
           mentor={location?.state?.mentor}
           setTabIndex={setTabIndex}

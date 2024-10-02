@@ -13,6 +13,7 @@ import type {
 } from '@/types/types.generated';
 import { useAuth } from '@/app/providers/auth-provider';
 import notify from '@/shared/utils/notify';
+import { IoArrowBack } from 'react-icons/io5';
 
 export interface WeekRanges {
   rangeStart: string;
@@ -111,6 +112,15 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
 
   return (
     <div>
+      <div className="flex items-center gap-2 mb-[27px]">
+        <button type="button" onClick={() => setTabIndex(1)}>
+          <IoArrowBack className="text-base sm:text-2xl" />
+        </button>
+        <h1 className="text-base sm:text-4xl text-color-dark-purple font-bold leading-normal tracking-tight">
+          Select date and time
+        </h1>
+      </div>
+
       <EmblaCarousel
         slides={weekRanges}
         options={options}

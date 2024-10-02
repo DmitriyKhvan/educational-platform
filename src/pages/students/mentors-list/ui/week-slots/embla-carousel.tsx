@@ -10,10 +10,11 @@ type PropType = {
   slots: GroupedAvailabilitySlots[];
   options?: EmblaOptionsType;
   nextWeekSlots: (count: number) => void;
+  weekDays: number;
 };
 
 export const EmblaCarousel: React.FC<PropType> = (props) => {
-  const { slides, slots, options, nextWeekSlots } = props;
+  const { slides, slots, options, nextWeekSlots, weekDays } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
   const { prevBtnDisabled, /*nextBtnDisabled,*/ onPrevButtonClick, onNextButtonClick } =
@@ -23,7 +24,7 @@ export const EmblaCarousel: React.FC<PropType> = (props) => {
     if (!emblaApi) return;
 
     const currentSlideIdx = emblaApi.selectedScrollSnap();
-    if (slides.length / 7 - currentSlideIdx === 1) {
+    if (slides.length / weekDays - currentSlideIdx === 1) {
       await nextWeekSlots(currentSlideIdx + 2);
     }
     setTimeout(() => {
@@ -32,12 +33,14 @@ export const EmblaCarousel: React.FC<PropType> = (props) => {
   };
 
   return (
-    <div className="relative w-full max-w-[1048px] px-[50px]">
+    <div
+      className={`relative  ${weekDays === 4 ? 'max-w-[632px]' : weekDays === 6 ? 'w-[902px]' : 'max-w-[1048px]'}  px-[50px]`}
+    >
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex touch-pan-y -ml-2">
           {slides.map((date) => (
             <div
-              className="relative min-w-0 grow-0 shrink-0 basis-full sm:basis-[calc(100%/7)] pl-2"
+              className={`relative min-w-0 grow-0 shrink-0  sm:basis-[calc(100%/${weekDays})] pl-2`}
               key={date}
             >
               <WeekSlot date={date} slots={slots} />

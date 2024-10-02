@@ -102,12 +102,11 @@ const SelectLesson = ({
         <Loader height="100%" />
       ) : activePackages && activePackages?.length > 0 ? (
         <>
-          <div className="flex items-center gap-2.5 mb-[27px]">
-            <IoArrowBack
-              onClick={() => navigate('/student/manage-lessons')}
-              className="text-2xl cursor-pointer"
-            />
-            <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold leading-normal tracking-tight">
+          <div className="flex items-center gap-2 mb-[27px]">
+            <button type="button" onClick={() => navigate('/student/mentors-list')}>
+              <IoArrowBack className="text-base sm:text-2xl" />
+            </button>
+            <h1 className="text-base sm:text-4xl text-color-dark-purple font-bold leading-normal tracking-tight">
               Select package
             </h1>
           </div>

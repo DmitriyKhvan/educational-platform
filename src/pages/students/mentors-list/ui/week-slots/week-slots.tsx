@@ -7,8 +7,13 @@ import { useAvailabilitySlotsLazyQuery } from '@/shared/apollo/queries/timesheet
 import { useAuth } from '@/app/providers/auth-provider';
 import { format, toZonedTime } from 'date-fns-tz';
 import notify from '@/shared/utils/notify';
+import { useMediaQuery } from 'react-responsive';
 
 export const WeekSlots = ({ mentor }: { mentor: Mentor }) => {
+  const isTablet = useMediaQuery({ maxWidth: 1024 });
+  const isDesktop = useMediaQuery({ minWidth: 1025, maxWidth: 1280 });
+  const WEEK_DAYS = isTablet ? 4 : isDesktop ? 6 : 7;
+
   const { user } = useAuth();
   const userTimezone = user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -49,16 +54,15 @@ export const WeekSlots = ({ mentor }: { mentor: Mentor }) => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const nextWeekSlots = useCallback(async (stepCarousel: number) => {
-    const WEEK_DAYS = 7;
     const datesArray: string[] = [];
     const countDays = WEEK_DAYS * stepCarousel;
     const rangeStart = toZonedTime(new Date(), userTimezone); // today
     const rangeEnd = add(rangeStart, { days: countDays - 1 });
-    const startDay = add(rangeStart, { days: countDays - WEEK_DAYS }); // 7 days ago from the end date
+    const startDay = add(rangeStart, { days: countDays - WEEK_DAYS }); // 5 or 7 days ago from the end date
 
     await fetchAvailabilitySlots(rangeStart, rangeEnd);
 
-    // generate dates for 7 days
+    // generate dates for 5 or7 days
     for (let i = 0; i < WEEK_DAYS; i++) {
       const nextDate = format(add(startDay, { days: i }), 'yyyy-MM-dd', {
         timeZone: userTimezone,
@@ -69,6 +73,12 @@ export const WeekSlots = ({ mentor }: { mentor: Mentor }) => {
   }, []);
 
   return (
-    <EmblaCarousel slides={slides} slots={slots} options={options} nextWeekSlots={nextWeekSlots} />
+    <EmblaCarousel
+      slides={slides}
+      slots={slots}
+      options={options}
+      nextWeekSlots={nextWeekSlots}
+      weekDays={WEEK_DAYS}
+    />
   );
 };

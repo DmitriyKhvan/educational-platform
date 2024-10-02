@@ -22,7 +22,7 @@ export const MentorCard2 = ({
 }: {
   mentor: Mentor;
 }) => {
-  const isMobile = useMediaQuery({ maxWidth: 639 });
+  const isMobile = useMediaQuery({ maxWidth: 640 });
 
   const [t] = useTranslation(['studentMentor', 'common', 'lessons']);
 

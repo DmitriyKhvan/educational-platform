@@ -24,8 +24,6 @@ export const Packages = memo(function Packages({
   selectedPackage?: Package;
   setPromoPackage: (pkg?: Package) => void;
 }) {
-  console.log('🚀 ~ filteredPackage:', filteredPackage);
-
   const { curCurrency } = useCurrency();
   const [t] = useTranslation(['purchase', 'common', 'translations']);
   const [parent] = useAutoAnimate();
@@ -36,7 +34,6 @@ export const Packages = memo(function Packages({
       </h4>
       <div className="grid grid-cols-1 sm:flex sm:flex-wrap gap-3" ref={parent}>
         {filteredPackage?.map((pkg: UpdatedPackage) => {
-          console.log('🚀 ~ {filteredPackage?.map ~ pkg:', pkg);
           return (
             <label
               key={pkg.id}
