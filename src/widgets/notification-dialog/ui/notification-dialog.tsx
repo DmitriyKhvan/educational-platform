@@ -22,7 +22,7 @@ export const NotificationDialog = memo(function NotificationDialog() {
 
   const confirmBonus = () => {
     if (countOpenNotifications > 1) {
-      removeNotifications(bonus?.body);
+      removeNotifications(bonus?.body ?? '');
     }
     countOpenNotifications++;
   };
@@ -30,7 +30,7 @@ export const NotificationDialog = memo(function NotificationDialog() {
   return (
     <AdaptiveDialog
       open={!!bonus}
-      setOpen={isMobile ? confirmBonus : () => removeNotifications(bonus?.body)}
+      setOpen={isMobile ? confirmBonus : () => removeNotifications(bonus?.body ?? '')}
     >
       <ModalConfirm
         icon={
@@ -46,9 +46,7 @@ export const NotificationDialog = memo(function NotificationDialog() {
           <Link to="/student/schedule-lesson/select">
             <Button
               type="button"
-              onClick={
-                isMobile ? confirmBonus : () => removeNotifications(bonus?.body)
-              }
+              onClick={isMobile ? confirmBonus : () => removeNotifications(bonus?.body ?? '')}
               className="w-full h-[56px]"
             >
               Book FREE classes

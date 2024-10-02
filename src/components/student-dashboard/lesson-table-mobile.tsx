@@ -1,5 +1,6 @@
 import ScheduleCard from '@/components/student-dashboard/schedule-card-rebranding';
 import type { CalendarEventsSorted } from '@/types';
+import type { Lesson } from '@/types/types.generated';
 
 export const LessonTableMobile = ({
   displayTableData,
@@ -20,7 +21,7 @@ export const LessonTableMobile = ({
               mentor={data?.resource?.mentor}
               // playground={data?.resource?.playground}
               date={data?.resource?.startAt}
-              data={data?.resource}
+              data={data?.resource as Lesson}
               // index={idx}
               fetchAppointments={getAppointments}
               subscription={data?.resource?.packageSubscription}

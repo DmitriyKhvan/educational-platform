@@ -24,7 +24,14 @@ interface OnboardingTrialProps {
   currentUser: AuthenticatedUser;
   selectedPlan: SelectedPlan;
   user: AuthenticatedUser;
-  setUser: Dispatch<SetStateAction<AuthenticatedUser | undefined>>;
+  setUser: Dispatch<
+    SetStateAction<
+      | (AuthenticatedUser & {
+          password: string;
+        })
+      | undefined
+    >
+  >;
   setStep: Dispatch<SetStateAction<number>>;
   setSelectMentor: Dispatch<SetStateAction<Mentor | undefined>>;
 }
@@ -89,7 +96,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
       ...trimSpaces(data),
       phoneNumber: data.phoneNumber,
     };
-    setUser(updatedUser as AuthenticatedUser);
+    setUser(updatedUser as AuthenticatedUser & { password: string });
     if (Object.keys(selectedPlan).length !== 0) {
       setStep(3);
     } else {

@@ -151,7 +151,8 @@ const Confirmation: React.FC<ConfirmationProps> = ({
           setItemToLocalStorage('token', loginData.authResult.sessionToken);
           setItemToLocalStorage('studentId', studentId);
 
-          refetchUser({ varialbes: { studentId } });
+          refetchUser();
+          // refetchUser({ varialbes: { studentId } });
           navigate('/trial/thank-you');
         }
       }

@@ -8,7 +8,11 @@ import { TextareaField } from '@/components/form/textarea-field';
 import { CREATE_MENTOR_REVIEW } from '@/shared/apollo/mutations/review/create-mentor-review';
 import { GET_HOMEWORK } from '@/shared/apollo/queries/homework/homework';
 import { GET_VOCABULARY } from '@/shared/apollo/queries/vocabulary/vocabulary';
-import { overviewFieldsDic, overviewGradeDic } from '@/shared/constants/global';
+import {
+  type MentorOverviewFieldValue,
+  overviewFieldsDic,
+  overviewGradeDic,
+} from '@/shared/constants/global';
 import { cn } from '@/shared/utils/functions';
 import notify from '@/shared/utils/notify';
 import type { Section } from '@/types';
@@ -28,8 +32,8 @@ function Feedback({
   closeModal,
   lessonId,
 }: {
-  chosenTopic: Topic;
-  chosenSection: Section;
+  chosenTopic: Topic | null;
+  chosenSection: Section | null;
   setStep: (step: number) => void;
   closeModal: () => void;
   lessonId: string;
@@ -38,8 +42,12 @@ function Feedback({
   const { user } = useAuth();
   const isMobile = useMediaQuery({ maxWidth: 420 });
 
-  const [overviews, setOverviews] = useState(
-    overviewFieldsDic.reduce((ac, a) => ({ ...ac, [a.key]: false }), {}),
+  const [overviews, setOverviews] = useState<{ [key in MentorOverviewFieldValue]: boolean }>(
+    overviewFieldsDic.reduce(
+      // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
+      (ac, a) => ({ ...ac, [a.value]: false }),
+      {} as { [key in MentorOverviewFieldValue]: boolean },
+    ),
   );
 
   const [loading, setLoading] = useState(false);
@@ -79,13 +87,15 @@ function Feedback({
       improvement: '',
       mastered: '',
       rating: 0,
+      createdAt: '',
     },
     values: {
       vocabularyIds: vocabData?.vocabulary?.map((vocab) => vocab?.id),
     },
   });
 
-  const onSubmit = (data) => {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  const onSubmit = (data: any) => {
     setLoading(true);
     createReview({
       variables: {
@@ -95,6 +105,7 @@ function Feedback({
           lessonSectionId: chosenSection?.value,
           mentorId: user?.mentor?.id,
           lessonId,
+          createdAt: undefined,
         },
       },
       onCompleted: () => {
@@ -205,7 +216,7 @@ function Feedback({
               <div className="flex gap-2 justify-between">
                 <p className="text-color-dark-violet font-semibold">{t(field.label)}</p>
                 <MyDropdownMenu
-                  open={overviews[field.value] as boolean}
+                  open={overviews[field.value as MentorOverviewFieldValue] as boolean}
                   setOpen={(val) => {
                     setOverviews((ov) => ({
                       ...ov,
@@ -229,7 +240,7 @@ function Feedback({
                           <span className="text-color-purple font-medium">
                             {t(
                               overviewGradeDic?.find((item) => item?.value === watch(field?.value))
-                                .label,
+                                ?.label ?? '',
                             )}
                           </span>
                         ) : (

@@ -39,7 +39,7 @@ export const sortCalendarEvents = (
         courseId: eventDate?.packageSubscription?.package?.course?.id ?? '',
         startAt: toZonedTime(new Date(eventDate.startAt), timeZone ?? 'Ne'),
         end_at: addMinutes(toZonedTime(new Date(eventDate.startAt), timeZone), duration),
-        type: eventDate.type,
+        type: eventDate.type ?? '',
         mentor: eventDate.mentor,
         student: eventDate.student,
         isTrial: eventDate.isTrial,

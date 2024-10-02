@@ -10,6 +10,7 @@ import '@/app/styles/dashboard.scss';
 import LevelAfterTrialModal from '@/pages/mentors/level-after-trial-modal';
 import type { Lesson } from '@/types/types.generated';
 import '@/app/styles/dashboard.scss';
+import ScheduleCard from '@/components/student-dashboard/schedule-card-rebranding';
 import {
   addMinutes,
   endOfDay,
@@ -19,7 +20,6 @@ import {
   startOfDay,
   subMinutes,
 } from 'date-fns';
-import ScheduleCard from '@/components/student-dashboard/schedule-card-rebranding';
 
 const MentorDashboard = () => {
   const [t] = useTranslation('dashboard');
@@ -133,15 +133,15 @@ const MentorDashboard = () => {
             </Link>
             <div className="weekly-schedule-scroll">
               {/* {displayDailySchedule(upcomingLessons)} */}
-              {upcomingLessons?.map((event, i) => (
+              {upcomingLessons?.map((event) => (
                 <ScheduleCard
-                  lesson={event?.packageSubscription?.package?.course?.title}
+                  // lesson={event?.packageSubscription?.package?.course?.title}
                   duration={event?.duration}
-                  playground={event?.playground}
+                  // playground={event?.playground}
                   date={event?.startAt}
                   data={event}
-                  student={event.student}
-                  index={i}
+                  student={event.student ?? undefined}
+                  // index={i}
                   key={event.id}
                   fetchAppointments={fetchAppointments}
                   mentor={event.mentor}

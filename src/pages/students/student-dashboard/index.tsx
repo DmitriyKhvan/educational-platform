@@ -14,10 +14,11 @@ import ScheduleBanner from '@/pages/students/student-dashboard/schedule-banner';
 import { useActivePackages } from '@/shared/utils/use-active-packages';
 import { useMediaQuery } from 'react-responsive';
 
+import { MyTrialLessons } from '@/pages/Students/student-dashboard/my-trial-lessons';
 import { currencyFormat } from '@/shared/utils/currency-format';
-import { Link } from 'react-router-dom';
-import { MyTrialLessons } from './my-trial-lessons';
+// import { MyTrialLessons } from './my-trial-lessons';
 import type { Lesson } from '@/types/types.generated';
+import { Link } from 'react-router-dom';
 
 const StudentDashboard = () => {
   const isDesktop = useMediaQuery({ minWidth: 1400 });

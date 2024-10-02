@@ -9,9 +9,9 @@ import StatusIndicator from '@/components/student-dashboard/status-indicator';
 import { Roles } from '@/shared/constants/global';
 import { cn } from '@/shared/utils/functions';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
-import type { CalendarEvent, CalendarEventsSorted } from '@/types';
+import type { CalendarEventsSorted } from '@/types';
+import type { Lesson } from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';
-import { Lesson } from '@/types/types.generated';
 
 interface LessonTableProps {
   displayTableData: CalendarEventsSorted[];
@@ -117,8 +117,8 @@ const LessonTable: React.FC<LessonTableProps> = ({
                     )}
                   />
                   <p className="text-sm lg:text-[15px] max-w-32 font-medium text-color-dark-purple tracking-tight text-[15px] leading-normal truncate">
-                    {userToDisplay.firstName}
-                    {userToDisplay.lastName ? ` ${userToDisplay.lastName[0]}.` : ''}
+                    {userToDisplay?.firstName}
+                    {userToDisplay?.lastName ? ` ${userToDisplay?.lastName[0]}.` : ''}
                   </p>
                 </td>
                 <td className="border-b group-last:border-b-0 h-[80px] p-1 align-middle">
