@@ -3,28 +3,28 @@ import { Trans, useTranslation } from 'react-i18next';
 
 import { type LanguageType, localeDic } from '@/shared/constants/global';
 import { Avatar } from '@/widgets/avatar/avatar';
-import type { Notification } from '@/app/providers/notification-provider/lib/notification-context';
+import type { Message } from '@/types/types.generated';
 
-export const NotificationItem = ({ notification }: { notification: Notification }) => {
+export const NotificationItem = ({ notification }: { notification: Message }) => {
   const [_, i18n] = useTranslation();
 
   return (
     <div className={'p-4 font-semibold group border border-color-border-grey rounded-lg'}>
       <div className="flex items-center gap-3 mb-4">
         <Avatar
-          avatarUrl={notification?.meta?.user.avatar?.url}
+          avatarUrl={notification?.meta?.user?.avatar?.url}
           className="w-10 h-10 rounded-full overflow-hidden"
         />
 
         <span className="truncate text-base font-semibold">
-          {notification?.meta?.user.firstName}{' '}
+          {notification?.meta?.user?.firstName}{' '}
           {notification?.meta?.user.lastName && `${notification.meta.user.lastName[0]}.`}
         </span>
       </div>
       <div className="mb-4">
         <span className="font-medium text-sm">
           <Trans
-            i18nKey={notification.body}
+            i18nKey={notification.body ?? ''}
             ns="lessons"
             values={{
               count: 2,
