@@ -1,4 +1,4 @@
-import { addWeeks, endOfWeek, isBefore, startOfWeek } from 'date-fns';
+import { addMonths, addWeeks, endOfWeek, isBefore, startOfWeek } from 'date-fns';
 import { format } from 'date-fns-tz';
 import { useCallback, useEffect, useState } from 'react';
 import { EmblaCarousel } from './embla-carousel';
@@ -84,6 +84,8 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
           ? addWeeks(new Date(weekRanges[weekRanges.length - 1].rangeStart), 1)
           : new Date();
 
+      const limitRangeEnd = addMonths(new Date(), 1);
+
       for (let i = 0; i < weeksCount; i++) {
         // Определяем понедельник и воскресенье для текущей недели
         let rangeStart = startOfWeek(currentDate, { weekStartsOn: 1 }); // Понедельник
@@ -92,7 +94,10 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
         // Если текущая дата позже начала диапазона (неделя прошла), обновляем начальный день
         if (isBefore(rangeStart, new Date())) {
           rangeStart = currentDate; // Стартуем с текущей даты
-          rangeEnd = endOfWeek(currentDate, { weekStartsOn: 1 });
+        }
+
+        if (isBefore(limitRangeEnd, rangeEnd)) {
+          rangeEnd = limitRangeEnd; // Ограничиваем дату окончания диапазона на 1 месяц вперед
         }
 
         // Форматируем даты в 'yyyy-MM-dd'

@@ -27,14 +27,14 @@ export const EmblaCarousel: React.FC<PropType> = (props) => {
   );
   const [activeRangeDate, setActiveRangeDate] = useState<WeekRanges>();
 
-  const { prevBtnDisabled, /*nextBtnDisabled,*/ onPrevButtonClick, onNextButtonClick } =
+  const { prevBtnDisabled, nextBtnDisabled, onPrevButtonClick, onNextButtonClick } =
     usePrevNextButtons(emblaApi);
 
   const handleNextButtonClick = () => {
     if (!emblaApi) return;
 
     if (slides.length / 4 - emblaApi.selectedScrollSnap() === 1) {
-      generateWeekRanges(4);
+      generateWeekRanges(1);
     }
 
     setCurMonth(slides[(emblaApi.selectedScrollSnap() + 1) * 3].rangeStart);
@@ -62,7 +62,7 @@ export const EmblaCarousel: React.FC<PropType> = (props) => {
 
         <div className="flex items-center gap-3">
           <PrevButton onClick={handlePrevButtonClick} disabled={prevBtnDisabled} />
-          <NextButton onClick={handleNextButtonClick} /*disabled={nextBtnDisabled}*/ />
+          <NextButton onClick={handleNextButtonClick} disabled={nextBtnDisabled} />
         </div>
       </div>
       <div className="overflow-hidden" ref={emblaRef}>
