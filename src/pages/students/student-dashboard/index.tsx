@@ -20,6 +20,7 @@ import { currencyFormat } from '@/shared/utils/currency-format';
 import type { Lesson } from '@/types/types.generated';
 import { Link } from 'react-router-dom';
 import { MyTrialLessons } from './my-trial-lessons';
+// import { MyTrialLessons } from './my-trial-lessons';
 
 const StudentDashboard = () => {
   const isDesktop = useMediaQuery({ minWidth: 1400 });
