@@ -1,14 +1,15 @@
-import { useMemo } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-import { useMutation, useQuery } from '@apollo/client';
-import { FaCopy } from 'react-icons/fa';
-import { IoEllipseSharp, IoSquareSharp, IoTriangleSharp } from 'react-icons/io5';
-import Button from '@/components/form/button';
 import ReactLoader from '@/components/common/loader';
+import Button from '@/components/form/button';
 import { GENERATE_REFERRAL_LINK } from '@/shared/apollo/mutations/referral-codes';
 import { APP_CONFIG } from '@/shared/apollo/queries/app-config';
 import { getItemToLocalStorage } from '@/shared/constants/global';
 import notify from '@/shared/utils/notify';
+import type { AppConfig } from '@/types/types.generated';
+import { useMutation, useQuery } from '@apollo/client';
+import { useMemo } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { FaCopy } from 'react-icons/fa';
+import { IoEllipseSharp, IoSquareSharp, IoTriangleSharp } from 'react-icons/io5';
 import { InfoItem } from './info-item';
 
 export const Info = () => {
@@ -18,7 +19,7 @@ export const Info = () => {
   });
 
   const findValue = (key: string) => {
-    return data?.appConfigs.find((config) => config.configName === key)?.configValue;
+    return data?.appConfigs.find((config: AppConfig) => config.configName === key)?.configValue;
   };
 
   const classesCount = useMemo(() => {

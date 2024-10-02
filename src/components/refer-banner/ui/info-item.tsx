@@ -1,7 +1,7 @@
 interface InfoItemProps {
   info: {
-    title: string;
-    text: string;
+    title: string | JSX.Element;
+    text: string | JSX.Element;
     icon: JSX.Element;
     color: string;
   };
