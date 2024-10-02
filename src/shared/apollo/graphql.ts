@@ -783,8 +783,8 @@ export const LESSON_QUERY = gql`
 `;
 
 export const APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER = gql`
-  mutation ApplyPromotionCodeForPackage($code: String!, $packageId: ID!) {
-    applyPromotionCodeForPackage(code: $code, packageId: $packageId) {
+  mutation ApplyPromotionCodeForPackage($code: String!, $packageId: ID!, $currency: Currency) {
+    applyPromotionCodeForPackage(code: $code, packageId: $packageId, currency: $currency) {
       selectedPackage {
         id
         totalSessions
