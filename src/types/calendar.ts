@@ -1,29 +1,12 @@
 import type { EventInput } from '@fullcalendar/core';
-import type { Mentor, PackageSubscription, Student } from './types.generated';
+import type { Lesson, Mentor, PackageSubscription, Student } from './types.generated';
 
 export interface Course {
   title: string;
   id: string;
 }
 
-export type CalendarEvent = EventInput | Event;
-
-interface Event {
-  id?: string | number;
-  startAt: string;
-  duration: number | null | undefined;
-  playground: string;
-  type: string;
-  mentor?: Mentor;
-  student: Student;
-  isTrial: boolean;
-  status: string;
-  packageSubscription: PackageSubscription;
-  topic: string;
-  languageLevel: string;
-  cancelledAt?: string;
-  cancelledBy?: string;
-}
+export type CalendarEvent = EventInput | Lesson;
 
 export interface CalendarEventProcessed extends EventInput {
   playground: string;

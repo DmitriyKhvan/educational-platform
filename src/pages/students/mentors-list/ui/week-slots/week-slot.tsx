@@ -13,10 +13,6 @@ export const WeekSlot: React.FC<PropType> = ({ date, slots }) => {
   const cardSlots = findSlots?.timeSlots.slice(0, 3);
   const moreSlots = findSlots?.timeSlots.slice(3);
 
-  // console.log('slots', slots);
-  // console.log('date', date);
-  // console.log('findSlots', findSlots);
-
   return (
     <div className="min-w-[127px] max-w-[127px] space-y-2">
       <h4 className="text-sm text-center text-gray-300 font-normal">

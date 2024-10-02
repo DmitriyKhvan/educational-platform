@@ -9,6 +9,7 @@ export const SIGN_UP = gql`
     $phoneNumber: String
     $timeZone: String
     $referralCode: String
+    $lang: String
   ) {
     signUp(
       data: {
@@ -19,6 +20,7 @@ export const SIGN_UP = gql`
         phoneNumber: $phoneNumber
         timeZone: $timeZone
         referralCode: $referralCode
+        lang: $lang
       }
     ) {
       id
@@ -334,8 +336,6 @@ export const STUDENTS_QUERY = gql`
         emailVerificationToken
         resetPasswordExpires
         resetPasswordToken
-        referalId
-        referalConfirmed
         fullName
         role
         email
@@ -414,6 +414,7 @@ export const APPOINTMENTS_QUERY = gql`
       status
       cancelAction
       cancelReason
+      noShow
       canceledBy
       canceledAt
       isTrial
@@ -539,28 +540,6 @@ export const APPROVE_APPOINTMENT = gql`
   }
 `;
 
-export const CANCEL_APPOINTMENT = gql`
-  mutation CANCEL_LESSON(
-    $id: ID!
-    $cancelReason: String
-    $repeat: Boolean
-    $isTrial: Boolean
-  ) {
-    cancelLessons(
-      id: $id
-      cancelReason: $cancelReason
-      repeat: $repeat
-      isTrial: $isTrial
-    ) {
-      id
-      startAt
-      duration
-      status
-      cancelAction
-    }
-  }
-`;
-
 export const CREATE_APPOINTMENT = gql`
   mutation CREATE_LESSON(
     $mentorId: ID!
@@ -624,6 +603,14 @@ export const CREATE_APPOINTMENT = gql`
         paymentId
         # payment
         # lessons
+      }
+      playground {
+        id
+        meetingId
+        startUrl
+        joinUrl
+        recordingUrl
+        recordingReady
       }
     }
   }
@@ -758,7 +745,12 @@ export const LESSON_QUERY = gql`
         }
       }
       playground {
+        id
+        meetingId
+        startUrl
+        joinUrl
         recordingUrl
+        recordingReady
       }
       studentReview {
         id

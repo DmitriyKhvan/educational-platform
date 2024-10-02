@@ -1,13 +1,14 @@
 import { useMutation } from '@apollo/client';
 import { addMinutes } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaArrowLeft, FaPencil } from 'react-icons/fa6';
 
 import { useAuth } from '@/app/providers/auth-provider';
 import Button from '@/components/form/button';
 import Loader from '@/components/loader/loader';
+import { LOGIN_MUTATION } from '@/shared/apollo/graphql';
 import { ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER } from '@/shared/apollo/mutations/trial/attach-trial-student-to-user-resolver';
 import { TRIAL_SIGN_UP } from '@/shared/apollo/mutations/trial/trial-sign-up';
 import { localeDic, setItemToLocalStorage } from '@/shared/constants/global';
@@ -15,11 +16,14 @@ import { buttonizeA11Y } from '@/shared/utils/buttonizeA11Y';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
 import notify from '@/shared/utils/notify';
 import type { AuthenticatedUser } from '@/types/types.generated';
+import { useNavigate } from 'react-router-dom';
 import type { SelectedPlan } from './types';
 
 interface ConfirmationProps {
   setStep: React.Dispatch<React.SetStateAction<number>>;
-  user: AuthenticatedUser;
+  user: AuthenticatedUser & {
+    password: string;
+  };
 
   selectedPlan?: SelectedPlan;
   schedule: string;
@@ -33,7 +37,22 @@ const Confirmation: React.FC<ConfirmationProps> = ({
   schedule,
   mentorId,
 }) => {
-  const { user: currentUser } = useAuth();
+  const utm = useMemo(() => {
+    const urlParams = new URL(window.location.href).searchParams;
+
+    return JSON.stringify({
+      utm_source: urlParams.get('utm_source') || '',
+      utm_medium: urlParams.get('utm_medium') || '',
+      utm_campaign: urlParams.get('utm_campaign') || '',
+      utm_term: urlParams.get('utm_term') || '',
+      utm_content: urlParams.get('utm_content') || '',
+    });
+  }, [window.location.href]);
+
+  const navigate = useNavigate();
+  const { user: currentUser, refetchUser } = useAuth();
+  // const { languageLevel, lessonTopic, packageSubscription } = selectedPlan;
+  // const { user: currentUser } = useAuth();
 
   const languageLevel = selectedPlan?.languageLevel;
   const lessonTopic = selectedPlan?.lessonTopic;
@@ -42,20 +61,22 @@ const Confirmation: React.FC<ConfirmationProps> = ({
   const [t, i18n] = useTranslation(['trial', 'common']);
   const [signUp] = useMutation(TRIAL_SIGN_UP);
   const [addTrialUser] = useMutation(ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER);
-  // const [loginMutation] = useMutation(LOGIN_MUTATION);
+  const [loginMutation] = useMutation(LOGIN_MUTATION);
 
   const [isLoading, setIsLoading] = useState(false);
 
   const dateParse = toZonedTime(new Date(schedule), user.timeZone);
 
+  const language = i18n.language as keyof typeof localeDic;
+
   const dayFormat = format(dateParse, 'EEEE, MMM dd', {
     timeZone: user.timeZone,
-    locale: localeDic[i18n.language as keyof typeof localeDic],
+    locale: localeDic[language],
   });
 
   const scheduleStartTimeFormat = format(dateParse, 'hh:mm a', {
     timeZone: user.timeZone,
-    locale: localeDic[i18n.language as keyof typeof localeDic],
+    locale: localeDic[language],
   });
 
   const scheduleEndTimeFormat = format(
@@ -63,7 +84,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
     'hh:mm a',
     {
       timeZone: user.timeZone,
-      locale: localeDic[i18n.language as keyof typeof localeDic],
+      locale: localeDic[language],
     },
   );
 
@@ -77,8 +98,8 @@ const Confirmation: React.FC<ConfirmationProps> = ({
             data: {
               user: {
                 userId: currentUser.id,
-                firstName: currentUser.firstName,
-                lastName: currentUser.lastName,
+                firstName: user.firstName,
+                lastName: user.lastName,
               },
               packageId: Number.parseInt(packageSubscription?.id ?? ''),
               languageLevelId: Number.parseInt(languageLevel?.id ?? ''),
@@ -111,6 +132,8 @@ const Confirmation: React.FC<ConfirmationProps> = ({
                 mentorId,
                 startAt: new Date(schedule),
               },
+              utm,
+              lang: i18n.language,
             },
           },
         });
@@ -118,23 +141,22 @@ const Confirmation: React.FC<ConfirmationProps> = ({
         localStorage.removeItem('referralCode');
         localStorage.removeItem('referralEmail');
 
-        // const { data: loginData } = await loginMutation({
-        //   variables: { email: user.email, password: user.password },   // password is not defined in the user
-        // });
+        const { data: loginData } = await loginMutation({
+          variables: { email: user.email, password: user.password },
+        });
 
-        // if (loginData) {
-        //   const studentId = loginData.authResult.user.students[0].id;
+        if (loginData) {
+          const studentId = loginData.authResult.user.students[0].id;
 
-        //   setItemToLocalStorage("token", loginData.authResult.sessionToken);
-        //   setItemToLocalStorage("studentId", studentId);
+          setItemToLocalStorage('token', loginData.authResult.sessionToken);
+          setItemToLocalStorage('studentId', studentId);
 
-        //   refetchUser({ studentId });
-        //   navigate("/trial/thank-you");
-        // }
+          refetchUser({ varialbes: { studentId } });
+          navigate('/trial/thank-you');
+        }
       }
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    } catch (error: any) {
-      notify(error.message, 'error');
+    } catch (error: unknown) {
+      notify((error as Error)?.message, 'error');
     }
 
     setIsLoading(false);

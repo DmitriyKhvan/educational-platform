@@ -51,7 +51,7 @@ const FeedbackLessonInfo: React.FC<FeedbackLessonInfoProps> = ({
 
   const topics = useMemo(() => {
     if (topicsData) {
-      return topicsData.topics.map((topic: Topic) => ({
+      return topicsData?.topics.map((topic: Topic) => ({
         ...topic,
         title: getTranslatedTitle(topic, i18n.language),
         description: getTranslatedDescription(topic, i18n.language),

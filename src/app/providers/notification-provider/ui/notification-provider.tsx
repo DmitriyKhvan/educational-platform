@@ -1,20 +1,20 @@
 import {
-  type Notification,
   NotificationContext,
   type NotificationContextType,
 } from '@/app/providers/notification-provider/lib/notification-context';
 import { MARK_MESSAGE_AS_READ } from '@/shared/apollo/mutations/notifications';
 import { GET_USER_NOTIFICATIONS } from '@/shared/apollo/queries/notifications';
 import { NEW_MESSAGES } from '@/shared/apollo/subscriptions/new-messages';
+import type { Message } from '@/types/types.generated';
 import { useLazyQuery, useMutation, useSubscription } from '@apollo/client';
 import { type ReactNode, useEffect, useState } from 'react';
 
 interface NewMessagesData {
-  newMessages: Notification;
+  newMessages: Message;
 }
 
 interface GetUserNotificationsData {
-  getUserNotifications: Notification[];
+  getUserNotifications: Message[];
 }
 
 interface MarkMessageAsReadData {
@@ -26,7 +26,7 @@ interface MarkMessageAsReadVars {
 }
 
 export const NotificationProvider = ({ children }: { children: ReactNode }) => {
-  const [notifications, setNotification] = useState<Notification[]>([]);
+  const [notifications, setNotification] = useState<Message[]>([]);
   const [updateNotifications, setUpdateNotifications] = useState<string>('');
 
   const { data: newNotifications } = useSubscription<NewMessagesData>(NEW_MESSAGES, {
@@ -50,8 +50,9 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
         ),
       );
     }
-  }, [newNotifications, notifications]);
+  }, [newNotifications]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (allNotifications?.getUserNotifications.length) {
       setNotification(
@@ -62,20 +63,24 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     } else {
       setNotification([]);
     }
-  }, [allNotifications]);
+  }, [allNotifications, updateNotifications]);
 
-  const removeNotifications = (type?: string) => {
+  const removeNotifications = (type: string, type2 = '') => {
     if (!notifications.length) return;
 
-    let notificationIds: string[] = [];
+    let notificationIds = [];
 
     if (type) {
       notificationIds = notifications
         .filter(
           (notification) =>
-            notification?.meta?.lesson?.type === type || notification?.body === type,
+            notification?.meta?.lesson?.type === type ||
+            notification?.meta?.lesson?.type === type2 ||
+            notification?.body === type,
         )
-        .map((notification) => notification.id);
+        .map((notification) => {
+          return notification.id;
+        });
     } else {
       notificationIds = notifications.map((notification) => notification.id);
     }
@@ -87,14 +92,17 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
         },
         onCompleted: () => {
           refetchNotifications();
-          setUpdateNotifications(Date.now().toString());
+          setUpdateNotifications(Date.now().toString()); //to update the list of notifications
         },
       });
     }
   };
 
-  const getCountNotification = (type: string): number => {
-    const count = notifications.filter((notification) => notification?.meta?.lesson?.type === type);
+  const getCountNotification = (type: string, type2 = ''): number => {
+    const count = notifications.filter(
+      (notification) =>
+        notification?.meta?.lesson?.type === type || notification?.meta?.lesson?.type === type2,
+    );
     return count.length;
   };
 

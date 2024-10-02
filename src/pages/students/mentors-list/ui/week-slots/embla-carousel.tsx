@@ -19,8 +19,6 @@ export const EmblaCarousel: React.FC<PropType> = (props) => {
   const { prevBtnDisabled, /*nextBtnDisabled,*/ onPrevButtonClick, onNextButtonClick } =
     usePrevNextButtons(emblaApi);
 
-  console.log('emblaApi', emblaApi?.selectedScrollSnap());
-
   const handleNextButtonClick = async () => {
     if (!emblaApi) return;
 

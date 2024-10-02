@@ -22,10 +22,10 @@ export function MyDrawer({
     <Drawer.Root open={open} onOpenChange={setOpen} dismissible={dismissible} shouldScaleBackground>
       <Drawer.Trigger asChild>{button}</Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Title />
-        <Drawer.Description />
         <Drawer.Overlay className={cn('fixed inset-0 bg-black/40 z-30', overlayClassname)} />
         <Drawer.Content className={`flex flex-col fixed bottom-0 left-0 right-0 z-30 ${className}`}>
+          <Drawer.Title />
+          <Drawer.Description />
           <div className="px-6 pb-6 bg-white rounded-t-[10px] flex-1 overflow-auto">
             <div className="sticky top-0 flex items-center justify-center w-full h-10 bg-white">
               <div className="w-12 h-1.5 flex-shrink-0 rounded-full bg-zinc-300" />

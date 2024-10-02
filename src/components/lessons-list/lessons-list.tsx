@@ -35,6 +35,8 @@ const LessonsList: React.FC<LessonsListProps> = ({
     selectedTab: 'upcomingLessons',
   });
 
+  console.log('appointments', appointments);
+
   const isMobile = useMediaQuery({ maxWidth: 640 });
 
   const [t] = useTranslation(['lessons']);
@@ -45,13 +47,15 @@ const LessonsList: React.FC<LessonsListProps> = ({
     getAppointments();
     if (searchParams.get('selectedTab') === 'upcomingLessons') {
       setTimeout(() => {
-        removeNotifications(LessonsStatusType.APPROVED);
+        removeNotifications(LessonsStatusType.SCHEDULED, LessonsStatusType.RESCHEDULED);
       }, 300);
     }
   }, [notifications]);
 
   const [calendarAppointments, setCalendarAppointments] = useState<CalendarEventProcessed[]>([]);
   const [tableAppointments, setTableAppointments] = useState<CalendarEventsSorted[]>([]);
+
+  console.log('tableAppointments', tableAppointments);
 
   useEffect(() => {
     if (appointments?.lessons && user?.timeZone) {
@@ -75,7 +79,7 @@ const LessonsList: React.FC<LessonsListProps> = ({
 
   const onClickUpcomingLessons = () => {
     navigate('?selectedTab=upcomingLessons');
-    removeNotifications(LessonsStatusType.APPROVED);
+    removeNotifications(LessonsStatusType.SCHEDULED, LessonsStatusType.RESCHEDULED);
   };
 
   const onCalendarClick = () => {
@@ -108,8 +112,16 @@ const LessonsList: React.FC<LessonsListProps> = ({
                     onClick={onClickUpcomingLessons}
                   >
                     <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
-                    {getCountNotification(LessonsStatusType.APPROVED) > 0 && (
-                      <Badge count={getCountNotification(LessonsStatusType.APPROVED)} />
+                    {getCountNotification(
+                      LessonsStatusType.SCHEDULED,
+                      LessonsStatusType.RESCHEDULED,
+                    ) > 0 && (
+                      <Badge
+                        count={getCountNotification(
+                          LessonsStatusType.SCHEDULED,
+                          LessonsStatusType.RESCHEDULED,
+                        )}
+                      />
                     )}
                   </Button>
                   <Button

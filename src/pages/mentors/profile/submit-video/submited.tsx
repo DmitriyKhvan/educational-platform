@@ -17,9 +17,10 @@ const Submited = () => {
           <h3>We’ll review and approve your video.</h3>
           <p>Thank you for making your teaching intro video!</p>
           <p>
-            <b>Nao Now</b> will review your video and ensure no changes need to be made before
+            <b>NAONOW</b> will review your video and ensure no changes need to be made before
             students are able to book lessons with you.
           </p>
+          <p>You will receive an email notification when the video review is completed.</p>
           <p>You will receive an email notification when the video review is completed.</p>
         </div>
 

@@ -27,12 +27,8 @@ export const EmblaCarousel: React.FC<PropType> = (props) => {
   );
   const [activeRangeDate, setActiveRangeDate] = useState<WeekRanges>();
 
-  console.log('slides', slides);
-
   const { prevBtnDisabled, /*nextBtnDisabled,*/ onPrevButtonClick, onNextButtonClick } =
     usePrevNextButtons(emblaApi);
-
-  console.log('emblaApi', emblaApi?.selectedScrollSnap());
 
   const handleNextButtonClick = () => {
     if (!emblaApi) return;

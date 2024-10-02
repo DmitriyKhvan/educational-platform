@@ -12,17 +12,19 @@ import { useAuth } from '@/app/providers/auth-provider';
 import type { AuthenticatedUser, Mentor } from '@/types/types.generated';
 import type { SelectedPlan } from './types';
 
+type AuthedUserWithPassword = AuthenticatedUser & { password: string };
+
 const Trial = () => {
   const { user: currentUser } = useAuth();
 
   const [step, setStep] = useState(-1);
-  const [user, setUser] = useState<AuthenticatedUser>();
+  const [user, setUser] = useState<AuthenticatedUser & { password: string }>();
   const [selectedPlan, setSelectedPlan] = useState<SelectedPlan>();
   const [schedule, setSchedule] = useState('');
   const [selectMentor, setSelectMentor] = useState<Mentor>();
   useEffect(() => {
     if (currentUser) {
-      setUser(currentUser);
+      setUser(currentUser as AuthedUserWithPassword);
     }
   }, [currentUser]);
 

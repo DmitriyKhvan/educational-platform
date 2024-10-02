@@ -1,6 +1,5 @@
 import { useAuth } from '@/app/providers/auth-provider';
 import Loader from '@/components/common/loader';
-import ScheduleCard from '@/components/student-dashboard/schedule-card';
 import { APPOINTMENTS_QUERY } from '@/shared/apollo/graphql';
 import ImgCalendar from '@/shared/assets/images/calendar_icon.svg';
 import { useQuery } from '@apollo/client';
@@ -10,6 +9,7 @@ import { Link } from 'react-router-dom';
 import '@/app/styles/dashboard.scss';
 import LevelAfterTrialModal from '@/pages/mentors/level-after-trial-modal';
 import type { Lesson } from '@/types/types.generated';
+import '@/app/styles/dashboard.scss';
 import {
   addMinutes,
   endOfDay,
@@ -19,6 +19,7 @@ import {
   startOfDay,
   subMinutes,
 } from 'date-fns';
+import ScheduleCard from '@/components/student-dashboard/schedule-card-rebranding';
 
 const MentorDashboard = () => {
   const [t] = useTranslation('dashboard');

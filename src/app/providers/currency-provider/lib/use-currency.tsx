@@ -17,9 +17,9 @@ const defaultCurrencyContext: CurrencyContextType = {
     locales: 'ko-KR',
     active: true,
   },
-  // findCurrency: (value)=>{return},
-  // setCurCurrency:,
-  // setLoadingCurrency:,
+  setCurCurrency: () => {},
+  setLoadingCurrency: () => {},
+  findCurrency: () => undefined,
 };
 
 export const CurrencyContext = createContext<CurrencyContextType>(defaultCurrencyContext);

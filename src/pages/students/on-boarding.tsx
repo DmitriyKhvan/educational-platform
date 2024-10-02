@@ -33,7 +33,7 @@ import type { PhoneNumberFieldForm } from '@/components/form/types';
 // }
 
 export default function Onboarding() {
-  const [t] = useTranslation(['onboarding', 'common', 'translations']);
+  const [t, i18n] = useTranslation(['onboarding', 'common', 'translations']);
 
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -63,6 +63,7 @@ export default function Onboarding() {
       await signUp({
         variables: {
           ...data,
+          lang: i18n.language,
         },
       });
 
@@ -103,7 +104,6 @@ export default function Onboarding() {
               autoFocus
               {...register('firstName', {
                 required: t('required_first_name', { ns: 'translations' }),
-                // focus: true,
               })}
             />
           </InputWithError>

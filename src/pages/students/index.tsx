@@ -21,9 +21,9 @@ export default function StudentRoutes() {
       <Route
         path="schedule-lesson/select/:id?"
         element={
-          <TrialRoute>
-            <ScheduleLesson />
-          </TrialRoute>
+          // <TrialRoute>
+          <ScheduleLesson />
+          // </TrialRoute>
         }
       />
       <Route path={'lesson-calendar'} element={<Lessons />} />

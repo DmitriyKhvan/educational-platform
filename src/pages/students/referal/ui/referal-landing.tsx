@@ -8,6 +8,10 @@ import { buttonizeA11Y } from '@/shared/utils/buttonizeA11Y';
 import type { Student } from '@/types/types.generated';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+// import { APP_CONFIG } from "src/shared/apollo/queries/appConfig";
+// import { useQuery } from "@apollo/client";
+// import ReactLoader from "src/components/common/Loader";
+// import notify from "src/shared/utils/notify";
 
 const ReferalLanding = ({ student }: { student: Student }) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -19,6 +23,33 @@ const ReferalLanding = ({ student }: { student: Student }) => {
     formRef.current?.scrollIntoView({ behavior: 'smooth' });
     inputRef.current?.focus();
   };
+
+  // const { loading, error, data } = useQuery(APP_CONFIG, {
+  // 	fetchPolicy: "no-cache",
+  // });
+
+  // const discount = useMemo(() => {
+  // 	if (data) {
+  // 		return data?.appConfigs.find(
+  // 			(config) => config.configName === "referralLinkDiscountPercentage",
+  // 		)?.configValue;
+  // 	}
+  // }, [data]);
+
+  // console.log("discount", discount);
+
+  // if (error) {
+  // 	notify(error.message, "error");
+  // 	return <div className="w-full h-full" />;
+  // }
+
+  // if (loading) {
+  // 	return (
+  // 		<div className="w-full h-full">
+  // 			<ReactLoader />
+  // 		</div>
+  // 	);
+  // }
 
   return (
     <section className="break-keep">

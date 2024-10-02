@@ -1,20 +1,21 @@
 import Button from '@/components/form/button';
 import Loader from '@/components/loader/loader';
-import { CANCEL_APPOINTMENT } from '@/shared/apollo/graphql';
 import notify from '@/shared/utils/notify';
 import type { CalendarEvent } from '@/types';
 import { useMutation } from '@apollo/client';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import * as Dialog from '@radix-ui/react-dialog';
+import { CANCEL_APPOINTMENT } from '@/shared/apollo/mutations/lessons/cancelLessons';
 
-export const CancelTrialLessonModal = ({
-  data,
-  setIsOpen,
-  fetchAppointments,
-}: {
+interface CancelTrialLessonModalProps {
   data: CalendarEvent;
-  setIsOpen: (isOpen: boolean) => void;
   fetchAppointments: () => void;
+}
+
+export const CancelTrialLessonModal: React.FC<CancelTrialLessonModalProps> = ({
+  data,
+  fetchAppointments,
 }) => {
   const [t] = useTranslation(['modals', 'common']);
 
@@ -33,7 +34,6 @@ export const CancelTrialLessonModal = ({
       });
 
       await fetchAppointments();
-      setIsOpen(false);
       notify('Your lesson has been cancelled successfully');
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -64,9 +64,16 @@ export const CancelTrialLessonModal = ({
         </p>
 
         <div className="flex gap-3">
-          <Button theme="gray" className="w-1/2 h-14" onClick={() => setIsOpen(false)}>
-            {t('back', { ns: 'common' })}
-          </Button>
+          <Dialog.Close asChild>
+            <Button
+              theme="gray"
+              className="w-1/2 h-14"
+              // onClick={() => setIsOpen(false)}
+            >
+              {t('back', { ns: 'common' })}
+            </Button>
+          </Dialog.Close>
+
           <Button theme="destructive" className="w-1/2 h-14" onClick={onCancelLesson}>
             {t('confirm', { ns: 'common' })}
           </Button>

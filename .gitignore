@@ -32,3 +32,6 @@ bun.lockb
 stats.html
 
 yarn.lock
+
+# Sentry Config File
+.env.sentry-build-plugin

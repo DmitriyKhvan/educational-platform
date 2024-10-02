@@ -69,8 +69,6 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
     }
   };
 
-  console.log('weekRanges', weekRanges);
-
   useEffect(() => {
     generateWeekRanges(4);
   }, []);

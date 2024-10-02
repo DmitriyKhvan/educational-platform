@@ -3,16 +3,16 @@ import Indicator from '@/components/indicator';
 import LabelBox from '@/components/student-dashboard/label-box';
 import LessonControls from '@/components/student-dashboard/lesson-controls';
 import StatusIndicator from '@/components/student-dashboard/status-indicator';
-import { Roles, localeDic } from '@/shared/constants/global';
+import { localeDic } from '@/shared/constants/global';
 import { cn } from '@/shared/utils/functions';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
-import type { CalendarEvent } from '@/types';
 import { Avatar } from '@/widgets/avatar/avatar';
 import { addMinutes } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
 import { PiStarFourFill } from 'react-icons/pi';
 import { PlaygroundRecordingModal } from '../playground-recording-modal';
+import { type Playground, UserRoleType, type Lesson } from '@/types/types.generated';
 
 const LessonInfoModal = ({
   date,
@@ -20,23 +20,19 @@ const LessonInfoModal = ({
   playground,
   refetch,
   duration,
-  setCanceledLessons,
   userTimezone,
 }: {
   date: Date;
-  data: CalendarEvent;
-  playground?: {
-    recordingUrl: string;
-  };
+  data: Lesson;
+  playground?: Playground;
   refetch: () => void;
   duration: number;
-  setCanceledLessons?: any;
   userTimezone: string;
 }) => {
   const [t, i18n] = useTranslation(['lessons', 'common', 'trial']);
   const { user, currentStudent } = useAuth();
 
-  const userToDisplay = user?.role === Roles.MENTOR ? data?.student : data?.mentor;
+  const userToDisplay = user?.role === UserRoleType.Mentor ? data?.student : data?.mentor;
 
   return (
     <div className="sm:min-w-[400px] max-w-[520px] w-full bg-white">
@@ -73,15 +69,9 @@ const LessonInfoModal = ({
       </header>
 
       {playground ? (
-        <PlaygroundRecordingModal urlRecording={playground?.recordingUrl} />
+        <PlaygroundRecordingModal urlRecording={playground?.recordingUrl || ''} />
       ) : (
-        <LessonControls
-          date={date}
-          data={data}
-          refetch={refetch}
-          duration={duration}
-          setCanceledLessons={setCanceledLessons}
-        />
+        <LessonControls date={date} data={data} refetch={refetch} duration={duration} />
       )}
 
       <div className="grid grid-cols-2 gap-3 mt-6 pt-6 border-t">
@@ -94,18 +84,18 @@ const LessonInfoModal = ({
           preElement={
             <Avatar
               avatarUrl={userToDisplay?.avatar?.url}
-              fallback={user?.role === Roles.MENTOR ? 'duck' : 'user'}
+              fallback={user?.role === UserRoleType.Mentor ? 'duck' : 'user'}
               className={cn(
                 'w-9 h-9 rounded-full overflow-hidden mr-3 min-h-9 min-w-9',
-                user?.role === Roles.MENTOR && 'bg-color-purple',
+                user?.role === UserRoleType.Mentor && 'bg-color-purple',
               )}
             />
           }
-          label={user?.role === Roles.MENTOR ? t('student') : t('mentor')}
+          label={user?.role === UserRoleType.Mentor ? t('student') : t('mentor')}
           content={
             <>
               {userToDisplay?.firstName}{' '}
-              {userToDisplay?.lastName[0] ? `${userToDisplay?.lastName[0]}.` : ''}
+              {userToDisplay?.lastName?.[0] ? `${userToDisplay?.lastName[0]}.` : ''}
             </>
           }
         />
@@ -130,10 +120,10 @@ const LessonInfoModal = ({
           />
         )}
 
-        {user?.role === Roles.MENTOR && (
+        {user?.role === UserRoleType.Mentor && (
           <LabelBox
             label={t('student_email', { ns: 'lessons' })}
-            content={userToDisplay?.user?.email}
+            content={userToDisplay?.user?.email || ''}
           />
         )}
       </div>

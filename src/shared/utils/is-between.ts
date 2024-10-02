@@ -13,6 +13,7 @@ export const isBetween = ({ dateStart, duration, userTimezone }: IsBetweenParams
 
   const tenMinutesBeforeStart = subMinutes(dateLesson, 10);
   const beforeEndLesson = addMinutes(dateLesson, duration);
+  // const beforeEndLesson = addMinutes(dateLesson, 5);
 
   const isBetween = isWithinInterval(today, {
     start: tenMinutesBeforeStart,

@@ -14,6 +14,7 @@ export const TRIAL_PACKAGES = gql`
         title
         description
         sequence
+        isTrial
         active
         # packages
         translations {
@@ -26,6 +27,8 @@ export const TRIAL_PACKAGES = gql`
           id
           title
           description
+          isActive
+          sortOrder
           translations {
             id
             title
@@ -36,6 +39,9 @@ export const TRIAL_PACKAGES = gql`
             id
             title
             description
+            isTrial
+            isActive
+            sortOrder
             createdAt
             updatedAt
             translations {
