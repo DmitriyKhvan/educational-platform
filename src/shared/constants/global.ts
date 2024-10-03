@@ -5,7 +5,7 @@ import { format, toZonedTime } from 'date-fns-tz';
 import { enUS, ko, zhTW } from 'date-fns/locale';
 import { useTranslation } from 'react-i18next';
 
-export interface Gender {
+interface Gender {
   label: string;
   value: 'male' | 'female' | 'nonbinary';
 }
@@ -123,7 +123,7 @@ export const phoneCodes: PhoneCode[] = [
   },
 ];
 
-export interface TimezoneOption {
+interface TimezoneOption {
   label: string;
   value: string;
 }
@@ -277,7 +277,7 @@ export const timezoneWithTimeOptions: TimezoneOption[] = timezoneOptions.map((ti
   };
 });
 
-export interface Country {
+interface Country {
   label: string;
   value: string;
 }
@@ -342,7 +342,6 @@ export const Roles = {
   STUDENT: 'student',
 } as const;
 
-export type RoleType = (typeof Roles)[keyof typeof Roles];
 
 export const LessonsStatusType = {
   SCHEDULED: 'scheduled',
@@ -382,8 +381,6 @@ export const Host = {
   VIMEO: 'vimeo.com',
 } as const;
 
-export type HostType = (typeof Host)[keyof typeof Host];
-
 export const DiscountType = {
   FIXED: 'fixed',
   PERCENT: 'percent',
@@ -405,7 +402,7 @@ export const Currencies = {
   TWD: 'TWD',
 } as const;
 
-export type CurrencyType = (typeof Currencies)[keyof typeof Currencies];
+type CurrencyType = (typeof Currencies)[keyof typeof Currencies];
 
 export interface LanguageDictionary {
   label: string;
@@ -576,7 +573,7 @@ export const OverviewGrade = {
   EXCELLENT: 'excellent',
 } as const;
 
-export type OverviewGradeType = (typeof OverviewGrade)[keyof typeof OverviewGrade];
+type OverviewGradeType = (typeof OverviewGrade)[keyof typeof OverviewGrade];
 
 export const overviewGradeDic: OverviewField[] = [
   { label: OverviewGrade.INSUFFICIENT, value: OverviewGrade.INSUFFICIENT },
