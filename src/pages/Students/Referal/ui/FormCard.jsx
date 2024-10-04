@@ -67,7 +67,7 @@ function FormCard({ inputRef, formRef }) {
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <InputField
           className="w-full focus:ring-2 focus:shadow-none placeholder:text-[#BBBBC4]"
-          placeholder={t("email", {ns: "common"})}
+          placeholder={t('email', { ns: 'common' })}
           {...rest}
           name="email"
           ref={(e) => {

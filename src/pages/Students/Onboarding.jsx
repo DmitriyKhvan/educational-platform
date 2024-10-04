@@ -1,24 +1,24 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
+import { useMutation } from '@apollo/client';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { useMutation } from '@apollo/client';
 import { SIGN_UP } from '../../shared/apollo/graphql';
 
-import Loader from '../../components/Loader/Loader';
 import Button from 'src/components/Form/Button';
+import Loader from '../../components/Loader/Loader';
 
-import InputWithError from 'src/components/Form/InputWithError';
-import InputField from 'src/components/Form/InputField';
-import notify from 'src/shared/utils/notify';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
+import { useLogin } from 'src/app/providers/AuthProvider';
+import InputField from 'src/components/Form/InputField';
+import InputWithError from 'src/components/Form/InputWithError';
 import PhoneNumberField from 'src/components/Form/PhoneNumberField';
 import { SelectField } from 'src/components/Form/SelectField';
 import { timezoneOptions } from 'src/shared/constants/global';
-import { useLogin } from 'src/app/providers/AuthProvider';
+import notify from 'src/shared/utils/notify';
 // import MySelect from 'src/components/Form/MySelect';
 
 export default function Onboarding() {
@@ -52,6 +52,7 @@ export default function Onboarding() {
       await signUp({
         variables: {
           ...data,
+          lang: i18n.language,
         },
       });
 
