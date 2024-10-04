@@ -52,7 +52,6 @@ function SelectLessonDatePopover({
     setPopoverOpen?.(false);
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (repeatPeriod && repeatWeekly) {
       setChosenDates((v) => {
@@ -216,6 +215,7 @@ function SelectLessonDatePopover({
                   setSchedule(slot);
                   if (repeatWeekly) setRepeat(repeatPeriod);
                   setIsChosen(false);
+                  setPopoverOpen?.(false);
                 }}
               >
                 Apply

@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import CancellationPolicyModal from './cancellation-policy-modal';
-import CancelLessonModal from './cancel-lesson-modal';
 import { useAuth } from '@/app/providers/auth-provider';
-import { type ModalType, Roles } from '@/shared/constants/global';
 import {
   MentorCancelWarningModal,
   StudentCancelWarningModal,
 } from '@/entities/cancel-warning-modal';
+import { type ModalType, Roles } from '@/shared/constants/global';
 import type { Lesson } from '@/types/types.generated';
+import { useState } from 'react';
+import CancelLessonModal from './cancel-lesson-modal';
+import CancellationPolicyModal from './cancellation-policy-modal';
 
 interface RescheduleAndCancelModalProps {
   data: Lesson;
