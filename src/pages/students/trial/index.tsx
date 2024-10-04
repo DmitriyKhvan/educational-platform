@@ -18,18 +18,16 @@ const Trial = () => {
   const { user: currentUser } = useAuth();
 
   const [step, setStep] = useState(-1);
-  console.log('🚀 ~ Trial ~ step:', step);
   const [user, setUser] = useState<AuthenticatedUser & { password: string }>();
   const [selectedPlan, setSelectedPlan] = useState<SelectedPlan>();
-  console.log('🚀 ~ Trial ~ selectedPlan:', selectedPlan);
   const [schedule, setSchedule] = useState('');
   const [selectMentor, setSelectMentor] = useState<Mentor>();
+
   useEffect(() => {
     if (currentUser) {
       setUser(currentUser as AuthedUserWithPassword);
     }
   }, [currentUser]);
-  console.log('🚀 ~ Trial ~ currentUser:', currentUser);
 
   return (
     <div className="max-w-[440px] mx-auto">
