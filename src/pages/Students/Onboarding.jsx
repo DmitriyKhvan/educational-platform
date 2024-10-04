@@ -22,7 +22,7 @@ import notify from 'src/shared/utils/notify';
 // import MySelect from 'src/components/Form/MySelect';
 
 export default function Onboarding() {
-  const [t] = useTranslation(['onboarding', 'common', 'translations']);
+  const [t, i18n] = useTranslation(['onboarding', 'common', 'translations']);
 
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
