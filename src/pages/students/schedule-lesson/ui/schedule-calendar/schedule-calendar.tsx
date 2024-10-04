@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 import type { AvailabilitySlot, Mentor, PackageSubscription } from '@/types/types.generated';
 
-export interface ScheduleCalendarProps {
+interface ScheduleCalendarProps {
   mentor: Mentor;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;

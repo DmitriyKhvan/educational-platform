@@ -17,7 +17,7 @@ import type FullCalendar from '@fullcalendar/react';
 import { BsExclamationLg } from 'react-icons/bs';
 
 import './select-mentor-calendar.scss';
-export interface ScheduleCalendarProps {
+interface ScheduleCalendarProps {
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
   setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
 }
@@ -61,7 +61,6 @@ function SelectMentorCalendar({ setSchedule, setRepeat }: ScheduleCalendarProps)
 
   const [absDates, setAbsDates] = useState<AvailabilitySlot[]>([]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (data?.availabilitySlots && !loading) {
       const abscent = [];

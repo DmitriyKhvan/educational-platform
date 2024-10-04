@@ -1,10 +1,10 @@
 import type { EventInput } from '@fullcalendar/core';
 import type { Lesson, Mentor, PackageSubscription, Student } from './types.generated';
 
-export interface Course {
-  title: string;
-  id: string;
-}
+// export interface Course {
+//   title: string;
+//   id: string;
+// }
 
 export type CalendarEvent = (EventInput | Lesson) & { type?: string };
 

@@ -1,24 +1,6 @@
 import type { Message } from '@/types/types.generated';
 import { createContext } from 'react';
 
-export interface Notification {
-  id: string;
-  createdAt: string;
-  meta?: {
-    lesson?: {
-      type: string;
-    };
-    bonusLessonsCount?: number;
-    dashboard?: string;
-    user?: {
-      avatar: {
-        url: string;
-      };
-    };
-  };
-  body?: string;
-}
-
 export interface NotificationContextType {
   notifications: Message[];
   getCountNotification: (type?: string, type2?: string) => number;

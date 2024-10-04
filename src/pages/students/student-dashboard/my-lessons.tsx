@@ -29,6 +29,7 @@ const MyLessons = ({
   packageSubscriptions: Maybe<PackageSubscription>[] | undefined;
   fetchAppointments: (
     variables?: Partial<OperationVariables> | undefined,
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   ) => Promise<ApolloQueryResult<any>>;
 }) => {
   const isDesktop = useMediaQuery({ minWidth: 1307 });
@@ -53,7 +54,7 @@ const MyLessons = ({
         );
       })
       ?.sort((a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime())
-      ?.map((x, i) => {
+      ?.map((x) => {
         const date = new Date(x?.startAt);
 
         return (
