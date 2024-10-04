@@ -4,7 +4,7 @@ import { createContext } from 'react';
 
 export interface AuthContextType {
   user: AuthenticatedUser | null;
-  refetchUser: () => void;
+  refetchUser: (student?: { studentId?: number }) => void;
   logout: () => void;
   inviteSetPassword: (
     email: string,

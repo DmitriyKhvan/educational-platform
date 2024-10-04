@@ -314,8 +314,12 @@ export const getItemToLocalStorage = <T>(key: string, defaultValue: T): T => {
   }
 };
 
-export const setItemToLocalStorage = (key: string, value: unknown): void => {
-  localStorage.setItem(key, JSON.stringify(value));
+export const setItemToLocalStorage = (
+  key: string,
+  value: string | number | undefined | null,
+): void => {
+  const parsedValue = value ? value.toString() : '';
+  localStorage.setItem(key, parsedValue);
 };
 
 export const feedbackURL = process.env.REACT_APP_FEEDBACK_URL || '';
@@ -341,7 +345,6 @@ export const Roles = {
   MENTOR: 'mentor',
   STUDENT: 'student',
 } as const;
-
 
 export const LessonsStatusType = {
   SCHEDULED: 'scheduled',

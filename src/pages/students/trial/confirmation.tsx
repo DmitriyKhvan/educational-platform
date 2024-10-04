@@ -52,7 +52,6 @@ const Confirmation: React.FC<ConfirmationProps> = ({
   const navigate = useNavigate();
   const { user: currentUser, refetchUser } = useAuth();
   // const { languageLevel, lessonTopic, packageSubscription } = selectedPlan;
-  // const { user: currentUser } = useAuth();
 
   const languageLevel = selectedPlan?.languageLevel;
   const lessonTopic = selectedPlan?.lessonTopic;
@@ -151,8 +150,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({
           setItemToLocalStorage('token', loginData.authResult.sessionToken);
           setItemToLocalStorage('studentId', studentId);
 
-          refetchUser();
-          // refetchUser({ varialbes: { studentId } });
+          refetchUser({ studentId });
           navigate('/trial/thank-you');
         }
       }

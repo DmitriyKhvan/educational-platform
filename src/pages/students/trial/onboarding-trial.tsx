@@ -87,15 +87,16 @@ const OnboardingTrial = memo(function OnboardingTrial({
     firstName: string;
     lastName: string;
     phoneNumber: string;
-    phoneNumberWithoutCode: string;
+    phoneNumberWithoutCode?: string;
     email?: string;
     timeZone: string;
+    password: string;
   }) => {
-    // delete data.phoneNumberWithoutCode;
+    const { firstName, lastName, phoneNumber, email, timeZone, password } = data;
     const updatedUser: Partial<AuthenticatedUser> = {
-      ...trimSpaces(data),
-      phoneNumber: data.phoneNumber,
+      ...trimSpaces({ firstName, lastName, phoneNumber, email, timeZone, password }),
     };
+
     setUser(updatedUser as AuthenticatedUser & { password: string });
     if (Object.keys(selectedPlan ?? {}).length !== 0) {
       setStep(3);
