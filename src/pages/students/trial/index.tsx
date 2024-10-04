@@ -18,8 +18,10 @@ const Trial = () => {
   const { user: currentUser } = useAuth();
 
   const [step, setStep] = useState(-1);
+  console.log('🚀 ~ Trial ~ step:', step);
   const [user, setUser] = useState<AuthenticatedUser & { password: string }>();
   const [selectedPlan, setSelectedPlan] = useState<SelectedPlan>();
+  console.log('🚀 ~ Trial ~ selectedPlan:', selectedPlan);
   const [schedule, setSchedule] = useState('');
   const [selectMentor, setSelectMentor] = useState<Mentor>();
   useEffect(() => {
@@ -27,11 +29,12 @@ const Trial = () => {
       setUser(currentUser as AuthedUserWithPassword);
     }
   }, [currentUser]);
+  console.log('🚀 ~ Trial ~ currentUser:', currentUser);
 
   return (
     <div className="max-w-[440px] mx-auto">
       {step > -1 && step < 4 && <StepIndicator step={step} />}
-      {step === -1 && currentUser && selectedPlan && (
+      {step === -1 && (
         <OnboardingTrial
           currentUser={currentUser}
           user={currentUser}
