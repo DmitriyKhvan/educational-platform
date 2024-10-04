@@ -8,12 +8,12 @@ import { useMutation } from '@apollo/client';
 import { addMinutes } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
-import Loader from 'src/components/Loader/Loader';
-import { localeDic, setItemToLocalStorage } from 'src/shared/constants/global';
 import { useAuth } from 'src/app/providers/AuthProvider';
+import Loader from 'src/components/Loader/Loader';
 import { LOGIN_MUTATION } from 'src/shared/apollo/graphql';
 import { ATTACH_TRIAL_STUDENT_TO_USER_RESOLVER } from 'src/shared/apollo/mutations/trial/attachTrialStudentToUserResolver';
 import { TRIAL_SIGN_UP } from 'src/shared/apollo/mutations/trial/trialSignUp';
+import { localeDic, setItemToLocalStorage } from 'src/shared/constants/global';
 import { getTranslatedTitle } from 'src/shared/utils/getTranslatedTitle';
 import notify from 'src/shared/utils/notify';
 
@@ -75,9 +75,9 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
                 firstName: user.firstName,
                 lastName: user.lastName,
               },
-              packageId: parseInt(packageSubscription.id),
-              languageLevelId: parseInt(languageLevel.id),
-              lessonTopicId: parseInt(lessonTopic.id),
+              packageId: Number.parseInt(packageSubscription.id),
+              languageLevelId: Number.parseInt(languageLevel.id),
+              lessonTopicId: Number.parseInt(lessonTopic.id),
               lessonBooking: {
                 mentorId,
                 startAt: new Date(schedule),
@@ -99,14 +99,15 @@ const Confirmation = ({ setStep, user, selectedPlan, schedule, mentorId }) => {
                 ...user,
                 referralCode: localStorage.getItem('referralCode'),
               },
-              packageId: parseInt(packageSubscription.id),
-              languageLevelId: parseInt(languageLevel.id),
-              lessonTopicId: parseInt(lessonTopic.id),
+              packageId: Number.parseInt(packageSubscription.id),
+              languageLevelId: Number.parseInt(languageLevel.id),
+              lessonTopicId: Number.parseInt(lessonTopic.id),
               lessonBooking: {
                 mentorId,
                 startAt: new Date(schedule),
               },
               utm,
+              lang: i18n.language,
             },
           },
         });
