@@ -15,9 +15,9 @@ import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa6';
 
 import { useCurrency } from '@/app/providers/currency-provider';
-import { Currencies, DiscountType } from '@/shared/constants/global';
+import { Currencies } from '@/shared/constants/global';
 import { currencyFormat } from '@/shared/utils/currency-format';
-import type { Course, Package, Query } from '@/types/types.generated';
+import { DiscountType, type Course, type Package, type Query } from '@/types/types.generated';
 import { useMediaQuery } from 'react-responsive';
 
 export default function BuyPackage() {
@@ -40,7 +40,7 @@ export default function BuyPackage() {
 
   const discount = useMemo(() => {
     if (user?.personalPromotionCodes?.length) {
-      return user.personalPromotionCodes[0]?.discountType === DiscountType.PERCENT
+      return user.personalPromotionCodes[0]?.discountType === DiscountType.Percent
         ? `${user.personalPromotionCodes[0].value}%`
         : user?.personalPromotionCodes?.[0]?.value &&
             currencyFormat({

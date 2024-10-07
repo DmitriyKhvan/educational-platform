@@ -1,5 +1,10 @@
 import * as flags from '@/shared/assets/images/flags';
-import { CourseTranslationsLanguage, Currency, type LessonStatusType, type MentorReview } from '@/types/types.generated';
+import {
+  CourseTranslationsLanguage,
+  Currency,
+  type LessonStatusType,
+  type MentorReview,
+} from '@/types/types.generated';
 import { getData } from 'country-list';
 import { format, toZonedTime } from 'date-fns-tz';
 import { enUS, ko, zhTW } from 'date-fns/locale';
@@ -341,24 +346,6 @@ export const cancellationArr: string[] = [
   'reason_7',
 ];
 
-
-// UserRoleType
-// export const Roles = {
-//   MENTOR: 'mentor',
-//   STUDENT: 'student',
-// } as const;
-
-
-// export const LessonsStatusType = {
-//   SCHEDULED: 'scheduled',
-//   RESCHEDULED: 'rescheduled',
-//   APPROVED: 'approved',
-//   IN_PROGRESS: 'in_progress',
-//   CANCELED: 'canceled',
-//   COMPLETED: 'completed',
-//   PAID: 'paid',
-// } as const;
-
 export type LessonsStatusType = (typeof LessonStatusType)[keyof typeof LessonStatusType];
 
 export const LangLevelType = {
@@ -387,22 +374,8 @@ export const Host = {
   VIMEO: 'vimeo.com',
 } as const;
 
-export const DiscountType = {
-  FIXED: 'fixed',
-  PERCENT: 'percent',
-} as const;
-
-export type DiscountType = (typeof DiscountType)[keyof typeof DiscountType];
-
-//CourseTranslationsLanguage
-// export const Language = {
-//   EN: 'en',
-//   KR: 'kr',
-//   CH: 'cn',
-// } as const;
-
-export type LanguageType = (typeof CourseTranslationsLanguage)[keyof typeof CourseTranslationsLanguage];
-
+export type LanguageType =
+  (typeof CourseTranslationsLanguage)[keyof typeof CourseTranslationsLanguage];
 
 //Currency
 export const Currencies = {
@@ -475,13 +448,6 @@ export const CalendarView = {
   MONTH_VIEW: 'dayGridMonth',
 } as const;
 
-// export type MentorAvailabilityType = 'only_regular' | 'only_trial';
-
-// export const MentorAvailabilityType = {
-//   ONLY_REGULAR: 'only_regular',
-//   ONLY_TRIAL: 'only_trial',
-//   REGULAR_AND_TRIAL: 'regular_and_trial',
-// } as const;
 export type CourseColorType =
   | 'purple'
   | 'orange'
