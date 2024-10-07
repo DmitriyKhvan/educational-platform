@@ -24,7 +24,8 @@ interface ScheduleDateTimeProps {
   mentor: Mentor;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
-  setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
+  setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
+  repeat: number | boolean | null;
   schedule: AvailabilitySlot | undefined;
   plan: PackageSubscription | undefined;
 }
@@ -35,6 +36,7 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
   setSchedule,
   schedule,
   setRepeat,
+  repeat,
   plan,
 }) => {
   const options: EmblaOptionsType = { containScroll: 'keepSnaps', slidesToScroll: 'auto' };
@@ -139,6 +141,7 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
         setSchedule={setSchedule}
         schedule={schedule}
         setRepeat={setRepeat}
+        repeat={repeat}
       />
     </div>
   );
