@@ -22,6 +22,7 @@ const Trial = () => {
   const [selectedPlan, setSelectedPlan] = useState<SelectedPlan>();
   const [schedule, setSchedule] = useState('');
   const [selectMentor, setSelectMentor] = useState<Mentor>();
+
   useEffect(() => {
     if (currentUser) {
       setUser(currentUser as AuthedUserWithPassword);
@@ -31,7 +32,7 @@ const Trial = () => {
   return (
     <div className="max-w-[440px] mx-auto">
       {step > -1 && step < 4 && <StepIndicator step={step} />}
-      {step === -1 && currentUser && selectedPlan && (
+      {step === -1 && (
         <OnboardingTrial
           currentUser={currentUser}
           user={currentUser}

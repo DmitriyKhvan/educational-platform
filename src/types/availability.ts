@@ -76,7 +76,7 @@ interface EventDate {
   startAt: Date;
   duration: number;
 }
-export interface CalendarAppointment {
+interface CalendarAppointment {
   startAt: Date;
   end_at: Date;
   student: Student;
@@ -119,17 +119,7 @@ export interface RenderRecurEventsResult {
   weeklyViewEvents: WeeklyViewEvent[];
 }
 
-export interface SlotToSave {
-  day: string;
-  slots: { from: string; to: string }[];
-  trialTimesheet: boolean;
-}
 
-export interface Availability {
-  id: string;
-  day: string;
-  slots: Slot[];
-}
 export type TimeOption = {
   value: number;
   label: string;
@@ -147,20 +137,6 @@ export type AvailabilityDayRowProps = {
   mentorAvailabilityType: MentorAvailabilityType;
 };
 
-export interface SlotToSave {
-  day: string;
-  slots: { from: string; to: string }[];
-  trialTimesheet: boolean;
-}
-export interface MentorInfo {
-  id: string;
-  mentorAvailability: MentorAvailabilityType;
-  availabilities: {
-    regular: Availability[];
-    trial: Availability[];
-  };
-  exceptionDates: Exception[];
-}
 
 export interface Exception {
   id: string;
@@ -170,16 +146,6 @@ export interface Exception {
   to: string;
 }
 
-export type Slot = {
-  id?: string;
-  from: string;
-  to: string;
-};
-export type AvailabilitySlot = {
-  id: string;
-  day: string;
-  slots: Slot[];
-};
 
 export interface ErrorExceptionalDates {
   regularLessons?: number;

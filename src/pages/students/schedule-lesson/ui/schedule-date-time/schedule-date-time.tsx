@@ -20,7 +20,7 @@ export interface WeekRanges {
   rangeEnd: string;
 }
 
-export interface ScheduleDateTimeProps {
+interface ScheduleDateTimeProps {
   mentor: Mentor;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;

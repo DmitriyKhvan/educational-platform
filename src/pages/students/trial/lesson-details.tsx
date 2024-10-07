@@ -130,7 +130,7 @@ const LessonDetails: React.FC<LessonDetailsProps> = ({
     }
 
     return <span className="text-[#BBBBC4]">{t('select_course', { ns: 'trial' })}</span>;
-  }, [packagesData, t, watch]);
+  }, [packagesData, t, watch('packageId')]);
 
   const lessonTopic = useMemo(() => {
     const lessonTopicId = watch('lessonTopicId');
@@ -148,7 +148,7 @@ const LessonDetails: React.FC<LessonDetailsProps> = ({
     }
 
     return <span className="text-[#BBBBC4]">{t('first_select_level', { ns: 'trial' })}</span>;
-  }, [currentLevel, t, watch]);
+  }, [currentLevel, t, watch('lessonTopicId')]);
   return (
     <div className="w-full max-w-[440px] mx-auto">
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-[440px] m-auto">

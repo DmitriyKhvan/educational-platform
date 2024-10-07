@@ -39,7 +39,7 @@ interface TimeOfDayInterval {
 interface AvailableTime {
   time: string;
   reserved: boolean;
-  mentorId: string;
+  mentorId: number | string;
 }
 
 export const ScheduleProvider: React.FC<ScheduleProviderProps> = ({
@@ -122,7 +122,7 @@ export const ScheduleProvider: React.FC<ScheduleProviderProps> = ({
         },
       });
     }
-  }, [debouncedTimesheetsData, dayClicked, duration]);
+  }, [debouncedTimesheetsData]);
 
   const setDayInterval = ({ currentTime, lastTime }: { currentTime?: Date; lastTime?: Date }) => {
     let morning = false;
@@ -240,14 +240,14 @@ export const ScheduleProvider: React.FC<ScheduleProviderProps> = ({
         timesheetsData?.combinedTimesheets ||
         timesheetsData?.combinedTimesheetsForTrials ||
         []
-      ).forEach((timesheet: { from: string; reserved: boolean; mentors: { id: string }[] }) => {
+      ).forEach((timesheet: { from: string; reserved: boolean; mentors: number[] }) => {
         const tempTime = parse(timesheet.from, 'HH:mm', new Date(day));
 
         if (isWithinInterval(tempTime, timeOfDayInterval) && !timesheet.reserved) {
           availableSlots.push({
             time: timesheet.from,
             reserved: timesheet.reserved,
-            mentorId: timesheet.mentors?.[0].id,
+            mentorId: timesheet.mentors[0],
           });
         }
       });

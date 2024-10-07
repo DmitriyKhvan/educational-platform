@@ -21,9 +21,9 @@ import type { SelectedPlan } from './types';
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
 
 interface OnboardingTrialProps {
-  currentUser: AuthenticatedUser;
-  selectedPlan: SelectedPlan;
-  user: AuthenticatedUser;
+  currentUser?: AuthenticatedUser | null;
+  selectedPlan?: SelectedPlan | null;
+  user?: AuthenticatedUser | null;
   setUser: Dispatch<
     SetStateAction<
       | (AuthenticatedUser & {
@@ -44,7 +44,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
   setStep,
   setSelectMentor,
 }: OnboardingTrialProps) {
-  const { firstName, lastName, phoneNumber, email, timeZone } = user;
+  const { firstName, lastName, phoneNumber, email, timeZone } = user ?? {};
 
   const [t] = useTranslation(['onboarding', 'common', 'translations', 'lessons']);
 
@@ -87,17 +87,18 @@ const OnboardingTrial = memo(function OnboardingTrial({
     firstName: string;
     lastName: string;
     phoneNumber: string;
-    phoneNumberWithoutCode: string;
+    phoneNumberWithoutCode?: string;
     email?: string;
     timeZone: string;
+    password: string;
   }) => {
-    // delete data.phoneNumberWithoutCode;
+    const { firstName, lastName, phoneNumber, email, timeZone, password } = data;
     const updatedUser: Partial<AuthenticatedUser> = {
-      ...trimSpaces(data),
-      phoneNumber: data.phoneNumber,
+      ...trimSpaces({ firstName, lastName, phoneNumber, email, timeZone, password }),
     };
+
     setUser(updatedUser as AuthenticatedUser & { password: string });
-    if (Object.keys(selectedPlan).length !== 0) {
+    if (Object.keys(selectedPlan ?? {}).length !== 0) {
       setStep(3);
     } else {
       setStep((v) => v + 1);
@@ -140,7 +141,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
 
           <InputWithError errorsField={errors?.phoneNumberWithoutCode ?? errors?.phoneNumber}>
             <PhoneNumberField
-              disabled={currentUser && true}
+              disabled={!!currentUser}
               register={register}
               resetField={resetField}
               defaultNumber={phoneNumber ?? ''}
@@ -183,7 +184,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
                   <SelectField
                     value={value}
                     options={timezoneOptions}
-                    isDisabled={currentUser && true}
+                    isDisabled={!!currentUser}
                     onChange={onChange}
                   />
                 )}
@@ -193,7 +194,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
 
           <InputWithError errorsField={errors?.password}>
             <InputField
-              disabled={currentUser && true}
+              disabled={!!currentUser}
               className="w-full"
               label={t('password', { ns: 'common' })}
               placeholder="at least 8 characters"

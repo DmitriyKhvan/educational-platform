@@ -9,7 +9,7 @@ interface TimeOfDayInterval {
 export interface AvailableTime {
   time: string;
   reserved: boolean;
-  mentorId: string;
+  mentorId: number | string;
 }
 
 export interface ScheduleContextType {
