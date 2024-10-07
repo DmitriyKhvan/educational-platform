@@ -69,7 +69,7 @@ export const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
 
       <p className="mb-5 text-[15px] text-color-light-grey">Select date and time</p>
 
-      <SelectMentorCalendar setSchedule={setSchedule} setRepeat={setRepeat} />
+      <SelectMentorCalendar mentor={mentor} setSchedule={setSchedule} setRepeat={setRepeat} />
     </section>
   );
 };

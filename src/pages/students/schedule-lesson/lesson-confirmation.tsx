@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '@/components/form/button';
-import CheckboxField from '@/components/form/checkbox-field';
+// import CheckboxField from '@/components/form/checkbox-field';
 import MentorImageRow from '@/pages/students/schedule-lesson/mentor-image-row';
 import NotEnoughCreditsModal from '@/pages/students/schedule-lesson/not-enough-credits-modal';
 import { getItemToLocalStorage, localeDic } from '@/shared/constants/global';
@@ -24,12 +24,13 @@ import type {
   PackageSubscription,
 } from '@/types/types.generated';
 
-import { format, toZonedTime } from 'date-fns-tz';
-import { AiOutlineInfo } from 'react-icons/ai';
-import { IoArrowBack } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
 import { useCreateLessonsMutation } from '@/shared/apollo/mutations/lessons/create-lessons.generated';
 import { parse } from 'date-fns';
+import { format, toZonedTime } from 'date-fns-tz';
+import { AiOutlineInfo } from 'react-icons/ai';
+import { IoMdInformation } from 'react-icons/io';
+import { IoArrowBack } from 'react-icons/io5';
+import { useNavigate } from 'react-router-dom';
 
 interface LessonConfirmationProps {
   plan?: PackageSubscription;
@@ -52,7 +53,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
   isMentorScheduled = false,
   setCreatedLessons,
   repeat,
-  setRepeat,
+  // setRepeat,
 }) => {
   const navigate = useNavigate();
   const [t, i18n] = useTranslation(['common', 'lessons', 'dashboard', 'translations']);
@@ -147,14 +148,14 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
     }
   };
 
-  const repeatLessonLabel = (monthCount: number) =>
-    t('repeat_lesson', {
-      ns: 'lessons',
-      weekDay: format(new Date(selectedSchedule), 'eeee', {
-        locale: localeDic[i18n.language as keyof typeof localeDic],
-      }),
-      count: monthCount,
-    });
+  // const repeatLessonLabel = (monthCount: number) =>
+  //   t('repeat_lesson', {
+  //     ns: 'lessons',
+  //     weekDay: format(new Date(selectedSchedule), 'eeee', {
+  //       locale: localeDic[i18n.language as keyof typeof localeDic],
+  //     }),
+  //     count: monthCount,
+  //   });
 
   return (
     <>
@@ -225,7 +226,8 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
             </div>
           </div>
 
-          {!lessonId && !currentStudent?.isTrial && (
+          {/* Чекбоксы для выбора повтора бронирования на 1/3 месяца */}
+          {/* {!lessonId && !currentStudent?.isTrial && (
             <div className="my-10">
               <CheckboxField
                 label={repeatLessonLabel(1)}
@@ -239,6 +241,15 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
                 onChange={(e) => setRepeat(e.target.checked ? 3 : 0)}
                 checked={repeat === 3}
               />
+            </div>
+          )} */}
+
+          {!!repeat && (
+            <div className="flex bg-[#FF9335] bg-opacity-10 text-[#FF9335] rounded-lg p-4 items-center gap-3 mt-6">
+              <IoMdInformation className="w-5 h-5 bg-[#FF9335] rounded-full text-white" />
+              <p>
+                You are booking <span className="font-semibold">weekly repetitive lessons</span>
+              </p>
             </div>
           )}
 
