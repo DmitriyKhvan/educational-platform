@@ -2,7 +2,6 @@ import Button from '@/components/form/button';
 import InputField from '@/components/form/input-field';
 import Loader from '@/components/loader/loader';
 import { APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER } from '@/shared/apollo/graphql';
-// import { DiscountType } from '@/shared/constants/global';
 import { currencyFormat } from '@/shared/utils/currency-format';
 import notify from '@/shared/utils/notify';
 import { Currency, DiscountType, type Mutation, type Package } from '@/types/types.generated';
