@@ -11,18 +11,19 @@ import { CalendarView, type LanguageType, localeDic } from '@/shared/constants/g
 import {} from '@/shared/ui/popover';
 import { cn } from '@/shared/utils/functions';
 import { useCalendarControls } from '@/shared/utils/use-calendar-controls';
-import type { AvailabilitySlot, GroupedAvailabilitySlots } from '@/types/types.generated';
+import type { AvailabilitySlot, GroupedAvailabilitySlots, Mentor } from '@/types/types.generated';
 import { useQuery } from '@apollo/client';
 import type FullCalendar from '@fullcalendar/react';
 import { BsExclamationLg } from 'react-icons/bs';
 
 import './select-mentor-calendar.scss';
 export interface ScheduleCalendarProps {
+  mentor: Mentor;
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
   setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-function SelectMentorCalendar({ setSchedule, setRepeat }: ScheduleCalendarProps) {
+function SelectMentorCalendar({ mentor, setSchedule, setRepeat }: ScheduleCalendarProps) {
   const [startDate, setStartDate] = useState(format(subDays(new Date(), 1), 'yyyy-MM-01'));
   const [endDate, setEndDate] = useState(
     format(subDays(lastDayOfMonth(new Date()), 1), 'yyyy-MM-dd'),
@@ -40,7 +41,7 @@ function SelectMentorCalendar({ setSchedule, setRepeat }: ScheduleCalendarProps)
 
   const { data, loading } = useQuery(AVAILABILITY_SLOTS, {
     variables: {
-      mentorId: '1',
+      mentorId: mentor.id,
       timezone: 'Asia/Seoul',
       rangeStart: startDate,
       rangeEnd: endDate,

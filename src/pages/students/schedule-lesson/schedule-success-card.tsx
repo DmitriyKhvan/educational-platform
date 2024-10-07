@@ -1,9 +1,10 @@
 import { useAuth } from '@/app/providers/auth-provider';
-// import Button from '@/components/form/button';
+import Indicator from '@/components/indicator';
 import RescheduleAndCancelModal from '@/components/student-dashboard/reschedule-and-cancel-modal-rebranding';
 import { ModalType, localeDic } from '@/shared/constants/global';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
-import type { Lesson } from '@/types/types.generated';
+import { cn } from '@/shared/utils/functions';
+import type { Lesson, LessonStatusType, Maybe } from '@/types/types.generated';
 import { addMinutes } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
 import { useState } from 'react';
@@ -14,16 +15,16 @@ import { useNavigate } from 'react-router-dom';
 
 interface ScheduleSuccessCardProps {
   data?: Lesson;
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  date?: any;
+  date?: string | Date;
   duration?: number;
+  status?: Maybe<LessonStatusType>;
 }
 
-function ScheduleSuccessCard({ data, date, duration }: ScheduleSuccessCardProps) {
-  const [_, i18n] = useTranslation(['modals', 'common', 'feedback']);
+function ScheduleSuccessCard({ data, date, duration, status }: ScheduleSuccessCardProps) {
+  const [t, i18n] = useTranslation(['modals', 'common', 'feedback']);
   const { user } = useAuth();
   const navigate = useNavigate();
-  const dateLesson = new Date(date);
+  const dateLesson = new Date(date ?? new Date());
 
   const userTimezone = user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -72,39 +73,41 @@ function ScheduleSuccessCard({ data, date, duration }: ScheduleSuccessCardProps)
   );
 
   return (
-    <div className="w-full border rounded-lg flex justify-between items-center p-4 mb-5 shadow-[0px_0px_16px_0px_#0000000A]">
+    <div
+      className={cn(
+        'w-full border rounded-lg flex justify-between items-center p-4 mb-5 shadow-[0px_0px_16px_0px_#0000000A]',
+        !status && 'bg-color-grey3',
+      )}
+    >
       <div>{displayDate()}</div>
 
-      <div className="flex gap-3">
-        <AdaptiveDialog
-          button={
-            <span className="flex justify-center items-center bg-[#F7F8FA] w-10 h-10 rounded-md hover:cursor-pointer">
-              <MdOutlineEditCalendar className="w-6 h-6 text-color-dark-purple" />
-            </span>
-          }
-        >
-          {rescheduleAndCancelModal(ModalType.RESCHEDULE)}
-        </AdaptiveDialog>
+      {status ? (
+        <div className="flex gap-3">
+          <AdaptiveDialog
+            button={
+              <span className="flex justify-center items-center bg-[#F7F8FA] w-10 h-10 rounded-md hover:cursor-pointer">
+                <MdOutlineEditCalendar className="w-6 h-6 text-color-dark-purple" />
+              </span>
+            }
+          >
+            {rescheduleAndCancelModal(ModalType.RESCHEDULE)}
+          </AdaptiveDialog>
 
-        <AdaptiveDialog
-          button={
-            <span className="flex justify-center items-center bg-[#F7F8FA] w-10 h-10 rounded-md hover:cursor-pointer">
-              <HiTrash className="w-6 h-6 text-color-dark-purple" />
-            </span>
-          }
-        >
-          {rescheduleAndCancelModal(ModalType.CANCEL)}
-        </AdaptiveDialog>
-
-        {/* <span className="flex justify-center items-center bg-[#F7F8FA] w-10 h-10 rounded-md">
-          <MdOutlineEditCalendar className="w-6 h-6 text-color-dark-purple" />
-        </span> */}
-
-        {/* <span className="flex justify-center items-center bg-[#F7F8FA] w-10 h-10 rounded-md">
-          <HiTrash className="w-6 h-6 text-color-dark-purple" />
-        </span> */}
-        {/* <HiTrash /> */}
-      </div>
+          <AdaptiveDialog
+            button={
+              <span className="flex justify-center items-center bg-[#F7F8FA] w-10 h-10 rounded-md hover:cursor-pointer">
+                <HiTrash className="w-6 h-6 text-color-dark-purple" />
+              </span>
+            }
+          >
+            {rescheduleAndCancelModal(ModalType.CANCEL)}
+          </AdaptiveDialog>
+        </div>
+      ) : (
+        <Indicator className="bg-color-purple text-color-purple">
+          {t(data?.cancelReason ?? '', { ns: 'modals' })}
+        </Indicator>
+      )}
     </div>
   );
 }
