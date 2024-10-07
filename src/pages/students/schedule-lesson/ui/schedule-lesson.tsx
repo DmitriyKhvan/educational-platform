@@ -80,6 +80,7 @@ const ScheduleLesson = () => {
           repeat={repeat}
           setRepeat={setRepeat}
           plan={selectedPlan}
+          lessonId={id}
         />
       )}
       {tabIndex === 2 && !isTablet && (
