@@ -114,7 +114,6 @@ function SelectLessonDatePopover({
           onClick={() => {
             setIsChosen(true);
             setChosenDates(slot ? [slot] : []);
-            console.log(slot, ' SLOT');
           }}
         >
           {btn}
