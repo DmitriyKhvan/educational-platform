@@ -1,9 +1,8 @@
 import { AuthContext } from '@/app/providers/auth-provider/lib/auth-context';
 import { useNotifications } from '@/app/providers/notification-provider';
 import { INVITE_SET_PASSWORD_MUTATION, ME_QUERY } from '@/shared/apollo/graphql';
-import { Roles } from '@/shared/constants/global';
 // import useLocalStorage from '@/shared/utils/use-local-storage';
-import type { AuthStudent, AuthenticatedUser } from '@/types/types.generated';
+import { UserRoleType, type AuthStudent, type AuthenticatedUser } from '@/types/types.generated';
 import { useMutation, useQuery } from '@apollo/client';
 import { type ReactNode, useState } from 'react';
 
@@ -41,7 +40,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       setCurrentStudent(student || null);
 
-      if (localStorage.getItem('studentId') || data.authenticatedUser.role === Roles.MENTOR) {
+      if (
+        localStorage.getItem('studentId') ||
+        data.authenticatedUser.role === UserRoleType.Mentor
+      ) {
         getAllNotifications();
       }
     },

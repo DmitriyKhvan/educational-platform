@@ -1,5 +1,5 @@
 import * as flags from '@/shared/assets/images/flags';
-import type { MentorReview } from '@/types/types.generated';
+import { CourseTranslationsLanguage, Currency, type LessonStatusType, type MentorReview } from '@/types/types.generated';
 import { getData } from 'country-list';
 import { format, toZonedTime } from 'date-fns-tz';
 import { enUS, ko, zhTW } from 'date-fns/locale';
@@ -337,23 +337,25 @@ export const cancellationArr: string[] = [
   'reason_7',
 ];
 
-export const Roles = {
-  MENTOR: 'mentor',
-  STUDENT: 'student',
-} as const;
+
+// UserRoleType
+// export const Roles = {
+//   MENTOR: 'mentor',
+//   STUDENT: 'student',
+// } as const;
 
 
-export const LessonsStatusType = {
-  SCHEDULED: 'scheduled',
-  RESCHEDULED: 'rescheduled',
-  APPROVED: 'approved',
-  IN_PROGRESS: 'in_progress',
-  CANCELED: 'canceled',
-  COMPLETED: 'completed',
-  PAID: 'paid',
-} as const;
+// export const LessonsStatusType = {
+//   SCHEDULED: 'scheduled',
+//   RESCHEDULED: 'rescheduled',
+//   APPROVED: 'approved',
+//   IN_PROGRESS: 'in_progress',
+//   CANCELED: 'canceled',
+//   COMPLETED: 'completed',
+//   PAID: 'paid',
+// } as const;
 
-export type LessonsStatusType = (typeof LessonsStatusType)[keyof typeof LessonsStatusType];
+export type LessonsStatusType = (typeof LessonStatusType)[keyof typeof LessonStatusType];
 
 export const LangLevelType = {
   PRE_LEVEL: 'Pre-level 1',
@@ -388,14 +390,17 @@ export const DiscountType = {
 
 export type DiscountType = (typeof DiscountType)[keyof typeof DiscountType];
 
-export const Language = {
-  EN: 'en',
-  KR: 'kr',
-  CH: 'cn',
-} as const;
+//CourseTranslationsLanguage
+// export const Language = {
+//   EN: 'en',
+//   KR: 'kr',
+//   CH: 'cn',
+// } as const;
 
-export type LanguageType = (typeof Language)[keyof typeof Language];
+export type LanguageType = (typeof CourseTranslationsLanguage)[keyof typeof CourseTranslationsLanguage];
 
+
+//Currency
 export const Currencies = {
   USD: 'USD',
   KRW: 'KRW',
@@ -412,15 +417,15 @@ export interface LanguageDictionary {
 export const languagesDic: LanguageDictionary[] = [
   {
     label: 'english',
-    value: Language.EN,
+    value: CourseTranslationsLanguage.En,
   },
   {
     label: 'korean',
-    value: Language.KR,
+    value: CourseTranslationsLanguage.Kr,
   },
   {
     label: 'chinese',
-    value: Language.CH,
+    value: CourseTranslationsLanguage.Cn,
   },
 ];
 
@@ -433,19 +438,19 @@ export interface CurrencyDictionary {
 
 export const currenciesDic: CurrencyDictionary[] = [
   {
-    label: `${Currencies.USD} ($)`,
+    label: `${Currency.Usd} ($)`,
     value: Currencies.USD,
     locales: 'en-US',
     active: true,
   },
   {
-    label: `${Currencies.KRW} (₩)`,
+    label: `${Currency.Krw} (₩)`,
     value: Currencies.KRW,
     locales: 'ko-KR',
     active: true,
   },
   {
-    label: `${Currencies.TWD} ($)`,
+    label: `${Currency.Twd} ($)`,
     value: Currencies.TWD,
     locales: 'zh-TW',
     active: true,
@@ -453,9 +458,9 @@ export const currenciesDic: CurrencyDictionary[] = [
 ];
 
 export const localeDic = {
-  [Language.EN]: enUS,
-  [Language.KR]: ko,
-  [Language.CH]: zhTW,
+  [CourseTranslationsLanguage.En]: enUS,
+  [CourseTranslationsLanguage.Kr]: ko,
+  [CourseTranslationsLanguage.Cn]: zhTW,
 } as const;
 
 export type CalendarViewType = 'timeGridDay' | 'timeGridWeek' | 'dayGridMonth';
@@ -466,13 +471,13 @@ export const CalendarView = {
   MONTH_VIEW: 'dayGridMonth',
 } as const;
 
-export type MentorAvailabilityType = 'only_regular' | 'only_trial';
+// export type MentorAvailabilityType = 'only_regular' | 'only_trial';
 
-export const MentorAvailabilityType = {
-  ONLY_REGULAR: 'only_regular',
-  ONLY_TRIAL: 'only_trial',
-  REGULAR_AND_TRIAL: 'regular_and_trial',
-} as const;
+// export const MentorAvailabilityType = {
+//   ONLY_REGULAR: 'only_regular',
+//   ONLY_TRIAL: 'only_trial',
+//   REGULAR_AND_TRIAL: 'regular_and_trial',
+// } as const;
 export type CourseColorType =
   | 'purple'
   | 'orange'

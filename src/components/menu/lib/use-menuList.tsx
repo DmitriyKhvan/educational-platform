@@ -1,5 +1,5 @@
 import { useAuth } from '@/app/providers/auth-provider';
-import { Roles, classMaterialURL } from '@/shared/constants/global';
+import { classMaterialURL } from '@/shared/constants/global';
 import { useEffect, useState } from 'react';
 
 import { ModalPurchase } from '@/components/modal-purchase';
@@ -10,6 +10,7 @@ import { FaGraduationCap } from 'react-icons/fa6';
 import { GoHomeFill } from 'react-icons/go';
 import { IoGiftOutline } from 'react-icons/io5';
 import { MdEventNote, MdLibraryBooks, MdOutlineShoppingBag } from 'react-icons/md';
+import { UserRoleType } from '@/types/types.generated';
 
 export interface MentorNavLink {
   label: string;
@@ -99,9 +100,9 @@ export const useMenuList = () => {
   const [navLinks, setNavLinks] = useState<MentorNavLink[] | StudentNavLink[]>([]);
 
   useEffect(() => {
-    if (user?.role === Roles.MENTOR) {
+    if (user?.role === UserRoleType.Mentor) {
       setNavLinks(mentorNavLinks);
-    } else if (user?.role === Roles.STUDENT) {
+    } else if (user?.role === UserRoleType.Student) {
       setNavLinks(studentNavLinks);
     }
   }, [user]);

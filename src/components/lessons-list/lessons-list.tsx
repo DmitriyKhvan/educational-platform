@@ -4,10 +4,9 @@ import { Badge } from '@/components/badge';
 import Button from '@/components/form/button';
 import { LessonsCalendar, LessonsTable } from '@/components/lessons-list';
 import Loader from '@/components/loader/loader';
-import { LessonsStatusType } from '@/shared/constants/global';
 import { sortCalendarEvents } from '@/shared/utils/sort-calendar-events';
 import type { CalendarEventProcessed, CalendarEventsSorted } from '@/types';
-import type { Lesson, PackageSubscription } from '@/types/types.generated';
+import { LessonStatusType, type Lesson, type PackageSubscription } from '@/types/types.generated';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMediaQuery } from 'react-responsive';
@@ -44,7 +43,7 @@ const LessonsList: React.FC<LessonsListProps> = ({
     getAppointments();
     if (searchParams.get('selectedTab') === 'upcomingLessons') {
       setTimeout(() => {
-        removeNotifications(LessonsStatusType.SCHEDULED, LessonsStatusType.RESCHEDULED);
+        removeNotifications(LessonStatusType.Scheduled, LessonStatusType.Rescheduled);
       }, 300);
     }
   }, [notifications]);
@@ -60,7 +59,7 @@ const LessonsList: React.FC<LessonsListProps> = ({
         const { calendarEvents, tablularEventData } = sortedEvents;
 
         setCalendarAppointments(
-          calendarEvents.filter((event) => event.status !== LessonsStatusType.CANCELED),
+          calendarEvents.filter((event) => event.status !== LessonStatusType.Canceled),
         );
         setTableAppointments(tablularEventData);
       }
@@ -73,7 +72,7 @@ const LessonsList: React.FC<LessonsListProps> = ({
 
   const onClickUpcomingLessons = () => {
     navigate('?selectedTab=upcomingLessons');
-    removeNotifications(LessonsStatusType.SCHEDULED, LessonsStatusType.RESCHEDULED);
+    removeNotifications(LessonStatusType.Scheduled, LessonStatusType.Rescheduled);
   };
 
   const onCalendarClick = () => {
@@ -107,13 +106,13 @@ const LessonsList: React.FC<LessonsListProps> = ({
                   >
                     <span>{t('upcoming_lessons', { ns: 'lessons' })}</span>
                     {getCountNotification(
-                      LessonsStatusType.SCHEDULED,
-                      LessonsStatusType.RESCHEDULED,
+                      LessonStatusType.Scheduled,
+                      LessonStatusType.Rescheduled,
                     ) > 0 && (
                       <Badge
                         count={getCountNotification(
-                          LessonsStatusType.SCHEDULED,
-                          LessonsStatusType.RESCHEDULED,
+                          LessonStatusType.Scheduled,
+                          LessonStatusType.Rescheduled,
                         )}
                       />
                     )}

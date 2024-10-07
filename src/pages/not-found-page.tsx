@@ -1,5 +1,5 @@
 import { useAuth } from '@/app/providers/auth-provider';
-import { Roles } from '@/shared/constants/global';
+import { UserRoleType } from '@/types/types.generated';
 import { Link } from 'react-router-dom';
 
 export default function NotFoundPage() {
@@ -18,7 +18,7 @@ export default function NotFoundPage() {
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <Link
             to={
-              user?.role === Roles.MENTOR
+              user?.role === UserRoleType.Mentor
                 ? '/mentor/manage-appointments'
                 : '/student/manage-lessons'
             }

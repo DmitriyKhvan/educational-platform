@@ -2,10 +2,9 @@ import { useAuth } from '@/app/providers/auth-provider';
 import { NoLessonsMessage } from '@/components/lessons-list';
 import LessonTable from '@/components/student-dashboard/lesson-table';
 import { LessonTableMobile } from '@/components/student-dashboard/lesson-table-mobile';
-import { LessonsStatusType, Roles } from '@/shared/constants/global';
 import { isWithinHours } from '@/shared/utils/is-within-hours';
 import type { CalendarEventsSorted } from '@/types';
-import type { PackageSubscription } from '@/types/types.generated';
+import { LessonStatusType, UserRoleType, type PackageSubscription } from '@/types/types.generated';
 import { addMinutes, isAfter } from 'date-fns';
 import type React from 'react';
 import { useEffect, useState } from 'react';
@@ -56,14 +55,14 @@ const Table: React.FC<TableProps> = ({
         const endLesson = addMinutes(new Date(each.resource.startAt), duration ?? 0);
 
         if (
-          (isAfter(new Date(), endLesson) && each.resource.status !== LessonsStatusType.CANCELED) ||
-          (isWithin24hour && each.resource.canceledBy === Roles.STUDENT)
+          (isAfter(new Date(), endLesson) && each.resource.status !== LessonStatusType.Canceled) ||
+          (isWithin24hour && each.resource.canceledBy === UserRoleType.Student)
         ) {
           tempPastLessons.push(each);
         } else if (
-          each.resource.status === LessonsStatusType.APPROVED ||
-          each.resource.status === LessonsStatusType.SCHEDULED ||
-          each.resource.status === LessonsStatusType.RESCHEDULED
+          each.resource.status === LessonStatusType.Approved ||
+          each.resource.status === LessonStatusType.Scheduled ||
+          each.resource.status === LessonStatusType.Rescheduled
         ) {
           tempUpcomingLessons.push(each);
         }

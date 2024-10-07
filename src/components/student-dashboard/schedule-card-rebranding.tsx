@@ -3,10 +3,18 @@ import Indicator from '@/components/indicator';
 import LabelBox from '@/components/student-dashboard/label-box';
 import LessonControls from '@/components/student-dashboard/lesson-controls';
 import StatusIndicator from '@/components/student-dashboard/status-indicator';
-import { LessonsStatusType, Roles, localeDic } from '@/shared/constants/global';
+import { localeDic } from '@/shared/constants/global';
 import { cn } from '@/shared/utils/functions';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
-import type { Lesson, Maybe, Mentor, PackageSubscription, Student } from '@/types/types.generated';
+import {
+  LessonStatusType,
+  UserRoleType,
+  type Lesson,
+  type Maybe,
+  type Mentor,
+  type PackageSubscription,
+  type Student,
+} from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';
 import { addMinutes } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
@@ -39,7 +47,7 @@ const ScheduleCard = ({
   const userTimezone = user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const userToDisplay =
-    user?.role === Roles.MENTOR ? student ?? data?.student : mentor ?? data?.mentor;
+    user?.role === UserRoleType.Mentor ? student ?? data?.student : mentor ?? data?.mentor;
 
   const dateLesson = new Date(date); //current time zone avtomaticaly
 
@@ -74,7 +82,7 @@ const ScheduleCard = ({
   return (
     <div
       className={`mb-5 rounded-[10px] p-5 shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)] ${
-        !LessonsStatusType[data?.status?.toUpperCase() as keyof typeof LessonsStatusType]
+        !LessonStatusType[data?.status?.toUpperCase() as keyof typeof LessonStatusType]
           ? 'bg-color-light-grey2 opacity-60'
           : 'border border-color-border-grey bg-white'
       }`}
@@ -115,14 +123,14 @@ const ScheduleCard = ({
                   preElement={
                     <Avatar
                       avatarUrl={userToDisplay?.avatar?.url}
-                      fallback={user?.role === Roles.MENTOR ? 'duck' : 'user'}
+                      fallback={user?.role === UserRoleType.Mentor ? 'duck' : 'user'}
                       className={cn(
                         'w-9 h-9 rounded-full overflow-hidden mr-3 min-h-9 min-w-9',
-                        user?.role === Roles.MENTOR && 'bg-color-purple',
+                        user?.role === UserRoleType.Mentor && 'bg-color-purple',
                       )}
                     />
                   }
-                  label={user?.role === Roles.MENTOR ? t('student') : t('mentor')}
+                  label={user?.role === UserRoleType.Mentor ? t('student') : t('mentor')}
                   content={
                     <>
                       {userToDisplay?.firstName}{' '}

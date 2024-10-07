@@ -6,8 +6,8 @@ import { formatTimeToSeconds } from '@/pages/mentors/availability/lib/format-tim
 import { timeGroup } from '@/pages/mentors/availability/lib/time-group';
 import { timeGroups } from '@/pages/mentors/availability/lib/time-groups';
 import { timesOfDay } from '@/pages/mentors/availability/lib/times-of-day';
-import { MentorAvailabilityType } from '@/shared/constants/global';
 import type { AvailabilityDayRowProps, TimeOption } from '@/types';
+import { MentorAvailabilityType } from '@/types/types.generated';
 import { nanoid } from 'nanoid';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
@@ -37,9 +37,9 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
   const timeOptionsSort = useMemo(() => {
     if (allGatherAvailabilities) {
       const availType =
-        mentorAvailabilityType === MentorAvailabilityType.ONLY_REGULAR
-          ? MentorAvailabilityType.ONLY_TRIAL
-          : MentorAvailabilityType.ONLY_REGULAR;
+        mentorAvailabilityType === MentorAvailabilityType.OnlyRegular
+          ? MentorAvailabilityType.OnlyTrial
+          : MentorAvailabilityType.OnlyRegular;
 
       const timeOptionsSort = timesOfDay(allGatherAvailabilities[availType], day);
 
@@ -67,7 +67,7 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
           day,
           from: formatTime(firstTimeGroup[0].value),
           to: formatTime(firstTimeGroup[firstTimeGroup.length - 1].value),
-          isTrial: mentorAvailabilityType === MentorAvailabilityType.ONLY_TRIAL,
+          isTrial: mentorAvailabilityType === MentorAvailabilityType.OnlyTrial,
         },
       ];
 
@@ -111,7 +111,7 @@ const AvailabilityDayRow: React.FC<AvailabilityDayRowProps> = ({
         day,
         from: formatTime(fromTime.value),
         to: formatTime(toTime.value),
-        isTrial: mentorAvailabilityType === MentorAvailabilityType.ONLY_TRIAL,
+        isTrial: mentorAvailabilityType === MentorAvailabilityType.OnlyTrial,
       },
     ];
     useSetGatherAvailabilities(newAvailabilities);

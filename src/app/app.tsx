@@ -10,13 +10,13 @@ import { useSearchParams } from 'react-router-dom';
 import { UPDATE_USER } from '@/shared/apollo/mutations/user/update-user';
 import {
   Currencies,
-  Language,
   currenciesDic,
   languagesDic,
   setItemToLocalStorage,
 } from '@/shared/constants/global';
 import notify from '@/shared/utils/notify';
 import { useAuth } from '@/app/providers/auth-provider';
+import { CourseTranslationsLanguage } from '@/types/types.generated';
 
 function App() {
   const { loadingCurrency } = useCurrency();
@@ -29,12 +29,12 @@ function App() {
   const [updateUser] = useMutation(UPDATE_USER);
 
   useEffect(() => {
-    const langParam = searchParams.get('lang') ?? Language.EN;
+    const langParam = searchParams.get('lang') ?? CourseTranslationsLanguage.En;
 
     const currency =
-      langParam === Language.KR
+      langParam === CourseTranslationsLanguage.Kr
         ? Currencies.KRW
-        : langParam === Language.CH
+        : langParam === CourseTranslationsLanguage.Cn
           ? Currencies.TWD
           : Currencies.USD;
 

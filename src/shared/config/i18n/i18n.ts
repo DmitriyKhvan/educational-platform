@@ -51,15 +51,15 @@ import {
   translationsKr,
   trialKr,
 } from '@/shared/assets/lang/kr';
+import { CourseTranslationsLanguage } from '@/types/types.generated';
 
-import { Language } from '@/shared/constants/global';
 
 type SupportedLanguages = 'en' | 'kr' | 'cn';
-const supportedLanguages: SupportedLanguages[] = [Language.EN, Language.KR, Language.CH];
+const supportedLanguages: SupportedLanguages[] = [CourseTranslationsLanguage.En, CourseTranslationsLanguage.Kr, CourseTranslationsLanguage.Cn];
 
-let lng = localStorage.getItem('language') ?? Language.EN;
+let lng = localStorage.getItem('language') ?? CourseTranslationsLanguage.En;
 if (!supportedLanguages.includes(lng as SupportedLanguages)) {
-  lng = Language.EN;
+  lng = CourseTranslationsLanguage.En;
 }
 i18next.init({
   interpolation: { escapeValue: false },

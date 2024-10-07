@@ -1,6 +1,7 @@
 import { useAuth } from '@/app/providers/auth-provider';
 import type { AuthContextType } from '@/app/providers/auth-provider/lib/auth-context';
-import { Language, type LanguageDictionary, Roles, languagesDic } from '@/shared/constants/global';
+import { type LanguageDictionary, languagesDic } from '@/shared/constants/global';
+import { CourseTranslationsLanguage, UserRoleType } from '@/types/types.generated';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -14,16 +15,18 @@ export const useCurrentLang = (): LanguageDictionary => {
 
     if (storedLang) {
       currentLangValue = storedLang;
-    } else if (location.pathname === '/' || user?.role === Roles.MENTOR) {
-      currentLangValue = Language.EN;
+    } else if (location.pathname === '/' || user?.role === UserRoleType.Mentor) {
+      currentLangValue = CourseTranslationsLanguage.En;
     } else {
-      currentLangValue = Language.KR;
+      currentLangValue = CourseTranslationsLanguage.Kr;
     }
 
     let currentLang = languagesDic.find((lang) => lang.value === currentLangValue);
 
     if (!currentLang) {
-      currentLang = languagesDic.find((lang) => lang.value === Language.EN) || languagesDic[0];
+      currentLang =
+        languagesDic.find((lang) => lang.value === CourseTranslationsLanguage.En) ||
+        languagesDic[0];
     }
 
     if (!storedLang) {

@@ -6,11 +6,10 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/app/providers/auth-provider';
 import LessonControls from '@/components/student-dashboard/lesson-controls';
 import StatusIndicator from '@/components/student-dashboard/status-indicator';
-import { Roles } from '@/shared/constants/global';
 import { cn } from '@/shared/utils/functions';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
 import type { CalendarEventsSorted } from '@/types';
-import type { Lesson } from '@/types/types.generated';
+import { UserRoleType, type Lesson } from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';
 import { buttonizeA11Y } from '@/shared/utils/buttonizeA11Y';
 
@@ -40,7 +39,9 @@ const LessonTable: React.FC<LessonTableProps> = ({
     t('date', { ns: 'lessons' }),
     t('time', { ns: 'lessons' }),
     t('lesson_package', { ns: 'lessons' }),
-    user?.role === Roles.MENTOR ? t('student', { ns: 'lessons' }) : t('mentor', { ns: 'lessons' }),
+    user?.role === UserRoleType.Mentor
+      ? t('student', { ns: 'lessons' })
+      : t('mentor', { ns: 'lessons' }),
     t('duration', { ns: 'lessons' }),
     t('level', { ns: 'lessons' }),
     '',
@@ -77,7 +78,7 @@ const LessonTable: React.FC<LessonTableProps> = ({
             const data = event.resource as Lesson;
             const date = new Date(data.startAt ?? new Date());
 
-            const userToDisplay = user?.role === Roles.MENTOR ? data.student : data.mentor;
+            const userToDisplay = user?.role === UserRoleType.Mentor ? data.student : data.mentor;
             const duration = Number(data.duration) ?? 0;
 
             return (
@@ -113,10 +114,10 @@ const LessonTable: React.FC<LessonTableProps> = ({
                 <td className="border-b group-last:border-b-0 h-[80px] p-1 align-middle flex items-center">
                   <Avatar
                     avatarUrl={userToDisplay?.avatar?.url}
-                    fallback={user?.role === Roles.MENTOR ? 'duck' : 'user'}
+                    fallback={user?.role === UserRoleType.Mentor ? 'duck' : 'user'}
                     className={cn(
                       'w-9 h-9 rounded-full overflow-hidden mr-3 min-h-9 min-w-9',
-                      user?.role === Roles.MENTOR && 'bg-color-purple',
+                      user?.role === UserRoleType.Mentor && 'bg-color-purple',
                     )}
                   />
                   <p className="text-sm lg:text-[15px] max-w-32 font-medium text-color-dark-purple tracking-tight text-[15px] leading-normal truncate">

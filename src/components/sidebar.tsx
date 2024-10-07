@@ -7,8 +7,8 @@ import { Menu } from '@/components/menu';
 import { MobileMenu } from '@/components/menu/ui/mobile-menu';
 
 import Logo from '@/shared/assets/images/logo_purple.svg';
-import { Roles } from '@/shared/constants/global';
 import { LangCurrencySwitcher } from '@/widgets/lang-currency-switcher';
+import { UserRoleType } from '@/types/types.generated';
 // import { BugButton } from 'src/app/providers/ErrorBoundary';
 
 export const Sidebar = () => {
@@ -24,7 +24,7 @@ export const Sidebar = () => {
           <Link
             className="flex items-center h-[79px]"
             to={
-              user?.role === Roles.MENTOR
+              user?.role === UserRoleType.Mentor
                 ? '/mentor/manage-appointments'
                 : '/student/manage-lessons'
             }

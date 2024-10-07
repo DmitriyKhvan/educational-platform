@@ -1,7 +1,7 @@
 import KakaoLogin from 'react-kakao-login';
 import { cn } from '@/shared/utils/functions';
 
-const KakaoLoginButton = (className: string) => {
+const KakaoLoginButton = ({ className }: { className?: string }) => {
   const token = process.env.REACT_APP_KAKAO_APP_KEY;
   return (
     <>
