@@ -12,19 +12,29 @@ import type { Mentor } from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';
 import { useTranslation } from 'react-i18next';
 import { useMediaQuery } from 'react-responsive';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { MdPersonSearch } from 'react-icons/md';
 import { WeekSlots } from '../week-slots/week-slots';
+import { useMemo } from 'react';
 
 export const MentorCard2 = ({
   mentor,
 }: {
   mentor: Mentor;
 }) => {
+  const location = useLocation();
   const isMobile = useMediaQuery({ maxWidth: 640 });
 
   const [t] = useTranslation(['studentMentor', 'common', 'lessons']);
+
+  const url = useMemo(() => {
+    if (location.pathname === '/student/mentors-list') {
+      return '/student/schedule-lesson/select';
+    }
+
+    return `${location.pathname}${location.search}`;
+  }, [location]);
 
   return (
     <div className="w-full sm:w-fit space-y-6 p-4 border border-gray-100 rounded-xl shadow-[0px_0px_16px_0px_rgba(0,_0,_0,_0.04)]">
@@ -70,7 +80,7 @@ export const MentorCard2 = ({
             <Tooltip delayDuration={200}>
               <TooltipTrigger asChild>
                 <Link
-                  to={mentor?.availabilities?.length > 0 ? '/student/schedule-lesson/select' : '#'}
+                  to={mentor?.availabilities?.length > 0 ? url : '#'}
                   state={{
                     mentor: {
                       ...mentor,

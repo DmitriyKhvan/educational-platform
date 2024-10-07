@@ -9,7 +9,8 @@ interface AvailabilityDatesProps {
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
   schedule: AvailabilitySlot | undefined;
-  setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
+  setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
+  repeat: number | boolean | null;
 }
 
 export const AvailabilityDates: React.FC<AvailabilityDatesProps> = ({
@@ -17,6 +18,7 @@ export const AvailabilityDates: React.FC<AvailabilityDatesProps> = ({
   setTabIndex,
   setSchedule,
   setRepeat,
+  repeat,
   schedule,
 }) => {
   const [chosenDates, setChosenDates] = useState<AvailabilitySlot[]>([]);
@@ -39,6 +41,7 @@ export const AvailabilityDates: React.FC<AvailabilityDatesProps> = ({
           chosenDates={chosenDates}
           setSchedule={setSchedule}
           setRepeat={setRepeat}
+          repeat={repeat}
         />
       ))}
 

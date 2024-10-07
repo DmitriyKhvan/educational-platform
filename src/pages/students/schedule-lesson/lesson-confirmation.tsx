@@ -39,8 +39,8 @@ interface LessonConfirmationProps {
   lessonId?: string | null;
   isMentorScheduled?: boolean;
   setCreatedLessons: React.Dispatch<React.SetStateAction<Lesson[] | undefined>>;
-  repeat: number;
-  setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
+  repeat: number | boolean | null;
+  setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
 }
 
 const LessonConfirmation: React.FC<LessonConfirmationProps> = ({

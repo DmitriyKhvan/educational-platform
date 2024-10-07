@@ -12,7 +12,7 @@ interface ScheduleCalendarProps {
   mentor: Mentor;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
-  setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
+  setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
   schedule: AvailabilitySlot | undefined;
 }
 
