@@ -17,6 +17,7 @@ import type FullCalendar from '@fullcalendar/react';
 import { BsExclamationLg } from 'react-icons/bs';
 
 import './select-mentor-calendar.scss';
+import { useAuth } from '@/app/providers/auth-provider';
 interface ScheduleCalendarProps {
   mentor: Mentor;
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
@@ -39,10 +40,12 @@ function SelectMentorCalendar({ mentor, setSchedule, setRepeat }: ScheduleCalend
     initialView: CalendarView.MONTH_VIEW,
   });
 
+  const { user } = useAuth();
+
   const { data, loading } = useQuery(AVAILABILITY_SLOTS, {
     variables: {
       mentorId: mentor.id,
-      timezone: 'Asia/Seoul',
+      timezone: user?.timeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
       rangeStart: startDate,
       rangeEnd: endDate,
       duration: 30,
@@ -95,15 +98,17 @@ function SelectMentorCalendar({ mentor, setSchedule, setRepeat }: ScheduleCalend
     duration: 25,
   });
 
-  const events = [
-    ...(data?.availabilitySlots
-      .reduce((acc: AvailabilitySlot[], curr: GroupedAvailabilitySlots) => {
-        acc.push(...curr.timeSlots);
-        return acc;
-      }, [])
-      ?.map(eventMapFunc('default')) ?? []),
-    ...absDates.map(eventMapFunc('abscent')),
-  ];
+  const events = loading
+    ? []
+    : [
+        ...(data?.availabilitySlots
+          .reduce((acc: AvailabilitySlot[], curr: GroupedAvailabilitySlots) => {
+            acc.push(...curr.timeSlots);
+            return acc;
+          }, [])
+          ?.map(eventMapFunc('default')) ?? []),
+        ...absDates.map(eventMapFunc('abscent')),
+      ];
 
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const renderEventContent = (eventInfo: any) => {
@@ -173,8 +178,9 @@ function SelectMentorCalendar({ mentor, setSchedule, setRepeat }: ScheduleCalend
       <Calendar
         ref={calendarRef}
         events={events}
-        eventContent={renderEventContent}
+        eventContent={loading ? undefined : renderEventContent}
         contentHeight={1400}
+        // dayMaxEvents={3}
       />
     </div>
   );
