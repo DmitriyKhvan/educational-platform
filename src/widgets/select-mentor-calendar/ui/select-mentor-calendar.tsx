@@ -20,11 +20,12 @@ import './select-mentor-calendar.scss';
 import { useAuth } from '@/app/providers/auth-provider';
 interface ScheduleCalendarProps {
   mentor: Mentor;
+  repeat: number | boolean | null;
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
-  setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
+  setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
 }
 
-function SelectMentorCalendar({ mentor, setSchedule, setRepeat }: ScheduleCalendarProps) {
+function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: ScheduleCalendarProps) {
   const [startDate, setStartDate] = useState(format(subDays(new Date(), 1), 'yyyy-MM-01'));
   const [endDate, setEndDate] = useState(
     format(subDays(lastDayOfMonth(new Date()), 1), 'yyyy-MM-dd'),
@@ -123,6 +124,7 @@ function SelectMentorCalendar({ mentor, setSchedule, setRepeat }: ScheduleCalend
 
     return (
       <SelectLessonDatePopover
+        repeat={repeat}
         setPopoverOpen={setPopoverOpen}
         popoverOpen={popoverOpen}
         slot={eventInfo.event.extendedProps.slot}
