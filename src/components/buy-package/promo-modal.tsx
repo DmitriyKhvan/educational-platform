@@ -2,10 +2,10 @@ import Button from '@/components/form/button';
 import InputField from '@/components/form/input-field';
 import Loader from '@/components/loader/loader';
 import { APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER } from '@/shared/apollo/graphql';
-import { DiscountType } from '@/shared/constants/global';
+// import { DiscountType } from '@/shared/constants/global';
 import { currencyFormat } from '@/shared/utils/currency-format';
 import notify from '@/shared/utils/notify';
-import { Currency, type Mutation, type Package } from '@/types/types.generated';
+import { Currency, DiscountType, type Mutation, type Package } from '@/types/types.generated';
 import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -57,7 +57,7 @@ export const PromoModal = ({
 
         const promoPackage = structuredClone(selectedPackage);
 
-        if (data.applyPromotionCodeForPackage.promotionCode.discountType === DiscountType.PERCENT) {
+        if (data.applyPromotionCodeForPackage.promotionCode.discountType === DiscountType.Percent) {
           promoPackage.discount =
             selectedPackage?.discount ?? 0 + data.applyPromotionCodeForPackage.promotionCode.value;
         } else {
