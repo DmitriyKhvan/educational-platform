@@ -56,6 +56,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
   // setRepeat,
 }) => {
   const navigate = useNavigate();
+  const isRepeatBoolean = typeof repeat === 'boolean';
   const [t, i18n] = useTranslation(['common', 'lessons', 'dashboard', 'translations']);
 
   const [openModal, setOpenModal] = useState(false);
@@ -66,7 +67,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
 
   const [updateAppointment] = useMutation<
     Mutation,
-    { id: string; mentorId: string; startAt: string; repeat: number }
+    { id: string; mentorId: string; startAt: string; repeat: boolean }
   >(UPDATE_APPOINTMENT);
 
   useEffect(() => {
@@ -99,7 +100,11 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
   const utcIsoTimeString = new Date(selectedSchedule).toISOString();
 
   const confirmLesson = async (confirmedNotEnough = false) => {
-    if (repeat && !confirmedNotEnough && notEnoughCredits(plan?.credits || 0, repeat)) {
+    if (
+      repeat &&
+      !confirmedNotEnough &&
+      notEnoughCredits(plan?.credits || 0, typeof repeat === 'boolean' ? 1 : repeat)
+    ) {
       setOpenModal(true);
       return;
     }
@@ -112,7 +117,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
             id: lessonId,
             mentorId: mentor.id,
             startAt: utcIsoTimeString,
-            repeat,
+            repeat: Boolean(repeat),
           },
         });
         notify(t('lesson_rescheduled', { ns: 'lessons' }));
@@ -125,7 +130,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
             packageSubscriptionId: plan?.id || '',
             startAt: utcIsoTimeString,
             duration: plan?.package?.sessionTime ?? 0,
-            repeat,
+            repeat: typeof repeat === 'boolean' ? 0 : repeat,
           },
         });
 
@@ -244,7 +249,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
             </div>
           )} */}
 
-          {!!repeat && (
+          {!!repeat && !isRepeatBoolean && (
             <div className="flex bg-[#FF9335] bg-opacity-10 text-[#FF9335] rounded-lg p-4 items-center gap-3 mt-6">
               <IoMdInformation className="w-5 h-5 bg-[#FF9335] rounded-full text-white" />
               <p>
@@ -253,7 +258,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
             </div>
           )}
 
-          {lessonId && !!repeat && (
+          {lessonId && !!repeat && isRepeatBoolean && (
             <div className="mt-10">
               <div className="mx-auto mb-4 bg-color-purple bg-opacity-10 rounded-lg flex gap-4 items-center p-4">
                 <span className="w-5 h-5 bg-color-purple rounded-full flex justify-center items-center">
@@ -267,7 +272,10 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
           )}
 
           <AdaptiveDialog open={openModal} setOpen={setOpenModal}>
-            <NotEnoughCreditsModal confirmLesson={confirmLesson} repeat={repeat} />
+            <NotEnoughCreditsModal
+              confirmLesson={confirmLesson}
+              repeat={typeof repeat === 'boolean' ? 0 : repeat ?? 0}
+            />
           </AdaptiveDialog>
 
           <Button

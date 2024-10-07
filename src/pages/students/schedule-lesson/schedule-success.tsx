@@ -65,23 +65,25 @@ const ScheduleSuccess = ({
         )}
       </div>
 
-      {Object.entries(sortedByMonthsLessons).map((ls) => (
-        <div key={ls[0]} className="mt-10 border-b pb-6">
-          <div className="flex justify-between mb-6">
-            <p className="text-xl font-bold">{displayZonedRangeDate(ls[0], ls[1])}</p>
-            <p className="text-color-purple">{ls[1].filter((l) => l.status).length} lesson(s)</p>
+      <section>
+        {Object.entries(sortedByMonthsLessons).map((ls) => (
+          <div key={ls[0]} className="mt-10 border-b pb-6 last:border-b-0">
+            <div className="flex justify-between mb-6">
+              <p className="text-xl font-bold">{displayZonedRangeDate(ls[0], ls[1])}</p>
+              <p className="text-color-purple">{ls[1].filter((l) => l.status).length} lesson(s)</p>
+            </div>
+            {ls[1]?.map((l) => (
+              <ScheduleSuccessCard
+                key={l?.id}
+                status={l?.status}
+                data={l}
+                date={l.startAt}
+                duration={l.duration ?? 0}
+              />
+            ))}
           </div>
-          {ls[1]?.map((l) => (
-            <ScheduleSuccessCard
-              key={l?.id}
-              status={l?.status}
-              data={l}
-              date={l.startAt}
-              duration={l.duration ?? 0}
-            />
-          ))}
-        </div>
-      ))}
+        ))}
+      </section>
 
       <Button
         className="w-full h-[57px] mb-3 mt-5"

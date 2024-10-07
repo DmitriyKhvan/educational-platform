@@ -84,6 +84,7 @@ const ScheduleLesson = () => {
       )}
       {tabIndex === 2 && !isTablet && (
         <ScheduleCalendar
+          repeat={repeat}
           mentor={location?.state?.mentor}
           setTabIndex={setTabIndex}
           setSchedule={setSchedule}
