@@ -76,7 +76,7 @@ const StudentCancelWarningModal: React.FC<StudentCancelWarningModalProps> = ({
           label={type === ModalType.CANCEL ? t('cancel_lessons') : t('reschedule_lessons')}
           id="cancel"
           value="cancel"
-          onChange={(checked) => setRepeatLessons(!checked)}
+          onChange={(value) => setRepeatLessons(value.target.checked)}
           checked={repeatLessons}
           disabled={modifyCredits === 0}
           name="lesson"

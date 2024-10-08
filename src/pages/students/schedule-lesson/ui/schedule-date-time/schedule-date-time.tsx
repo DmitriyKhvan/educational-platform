@@ -24,9 +24,11 @@ interface ScheduleDateTimeProps {
   mentor: Mentor;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
-  setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
+  setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
+  repeat: number | boolean | null;
   schedule: AvailabilitySlot | undefined;
   plan: PackageSubscription | undefined;
+  lessonId?: string | undefined;
 }
 
 export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
@@ -35,7 +37,9 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
   setSchedule,
   schedule,
   setRepeat,
+  repeat,
   plan,
+  lessonId,
 }) => {
   const options: EmblaOptionsType = { containScroll: 'keepSnaps', slidesToScroll: 'auto' };
   const [weekRanges, setWeekRanges] = useState<WeekRanges[]>([]);
@@ -118,9 +122,12 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
   return (
     <div>
       <div className="flex items-center gap-2 mb-[27px]">
-        <button type="button" onClick={() => setTabIndex(1)}>
-          <IoArrowBack className="text-base sm:text-2xl" />
-        </button>
+        {!lessonId && (
+          <button type="button" onClick={() => setTabIndex(1)}>
+            <IoArrowBack className="text-base sm:text-2xl" />
+          </button>
+        )}
+
         <h1 className="text-base sm:text-4xl text-color-dark-purple font-bold leading-normal tracking-tight">
           Select date and time
         </h1>
@@ -139,6 +146,7 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
         setSchedule={setSchedule}
         schedule={schedule}
         setRepeat={setRepeat}
+        repeat={repeat}
       />
     </div>
   );

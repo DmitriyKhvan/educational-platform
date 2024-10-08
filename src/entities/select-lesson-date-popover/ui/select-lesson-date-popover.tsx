@@ -19,7 +19,8 @@ interface SelectLessonDatePopoverProps {
   slot?: AvailabilitySlotType;
   popoverOpen?: boolean;
   setPopoverOpen?: Dispatch<SetStateAction<boolean>>;
-  setRepeat: Dispatch<SetStateAction<number | null>>;
+  setRepeat: Dispatch<SetStateAction<number | boolean | null>>;
+  repeat: number | boolean | null;
   setSchedule: Dispatch<SetStateAction<AvailabilitySlotType | undefined>>;
   setChosenDates: Dispatch<SetStateAction<AvailabilitySlotType[]>>;
   btn: ReactNode;
@@ -31,9 +32,12 @@ function SelectLessonDatePopover({
   setPopoverOpen,
   setSchedule,
   setRepeat,
+  repeat,
   setChosenDates,
   btn,
 }: SelectLessonDatePopoverProps) {
+  const isBoolean = typeof repeat === 'boolean';
+
   const isMobile = useMediaQuery({ maxWidth: 639 });
 
   const [repeatWeekly, setRepeatWeekly] = useState(false);
@@ -52,7 +56,6 @@ function SelectLessonDatePopover({
     setPopoverOpen?.(false);
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (repeatPeriod && repeatWeekly) {
       setChosenDates((v) => {
@@ -95,9 +98,9 @@ function SelectLessonDatePopover({
       <Popover
         open={isChosen}
         onOpenChange={(open) => {
-          setPopoverOpen?.(open);
+          // setPopoverOpen?.(open);
           if (open) {
-            setRepeat(null);
+            setRepeat(isBoolean ? isBoolean : null);
           }
           if (!open) {
             setConfirmCloseModal(true);
@@ -136,91 +139,95 @@ function SelectLessonDatePopover({
                 <FaXmark />
               </PopoverClose>
             </div>
-            <div className="grid gap-2 mb-4">
-              <label className="flex items-center gap-3 mb-4">
-                <CheckboxField
-                  square
-                  checked={repeatWeekly}
-                  onChange={(e) => {
-                    setRepeatWeekly(e.target.checked);
-                    if (e.target.checked) setRepeatPeriod(1);
-                    else setRepeatPeriod(0);
-                  }}
-                />
-                Repeat weekly
-              </label>
+            {typeof repeat !== 'boolean' && (
+              <div className="grid gap-2 mb-4">
+                <label className="flex items-center gap-3 mb-4">
+                  <CheckboxField
+                    square
+                    checked={repeatWeekly}
+                    onChange={(e) => {
+                      setRepeatWeekly(e.target.checked);
+                      if (e.target.checked) setRepeatPeriod(1);
+                      else setRepeatPeriod(0);
+                    }}
+                  />
+                  Repeat weekly
+                </label>
 
-              {repeatWeekly && (
-                <MyDropdownMenu
-                  open={dropdownOpen}
-                  setOpen={setDropdownOpen}
-                  contentClassName="z-50 w-full"
-                  button={
-                    <Button
-                      theme="clear"
-                      className={
-                        'flex mb-4 justify-between items-center gap-3 w-full border border-gray-200'
-                      }
-                    >
-                      <span className="grow text-left">
-                        {repeatPeriod && `For ${repeatPeriod} month${repeatPeriod > 1 ? 's' : ''}`}
-                      </span>
-                      <FaAngleDown />
-                    </Button>
-                  }
-                >
-                  <ul className={'w-[252px] z-50'}>
-                    <li
-                      key={'1month'}
-                      className={'border-b border-color-border-grey last:border-b-0'}
-                    >
-                      <label className="flex items-center justify-between gap-3 p-4 cursor-pointer ">
-                        <span className={'text-sm font-medium text-color-dark-purple'}>
-                          For 1 month
+                {repeatWeekly && (
+                  <MyDropdownMenu
+                    open={dropdownOpen}
+                    setOpen={setDropdownOpen}
+                    contentClassName="z-50 w-full"
+                    button={
+                      <Button
+                        theme="clear"
+                        className={
+                          'flex mb-4 justify-between items-center gap-3 w-full border border-gray-200'
+                        }
+                      >
+                        <span className="grow text-left">
+                          {repeatPeriod &&
+                            `For ${repeatPeriod} month${repeatPeriod > 1 ? 's' : ''}`}
                         </span>
-                        <CheckboxField
-                          onChange={() => {
-                            setRepeatPeriod(1);
-                            setDropdownOpen(false);
-                          }}
-                          type="radio"
-                          name="period"
-                          checked={repeatPeriod === 1}
-                        />
-                      </label>
-                    </li>
-                    <li
-                      key={'3month'}
-                      className={'border-b border-color-border-grey last:border-b-0'}
-                    >
-                      <label className="flex items-center justify-between gap-3 p-4 cursor-pointer ">
-                        <span className={'text-sm font-medium text-color-dark-purple'}>
-                          For 3 months
-                        </span>
-                        <CheckboxField
-                          onChange={() => {
-                            setRepeatPeriod(3);
-                            setDropdownOpen(false);
-                          }}
-                          type="radio"
-                          name="period"
-                          checked={repeatPeriod === 3}
-                        />
-                      </label>
-                    </li>
-                  </ul>
-                </MyDropdownMenu>
-              )}
-              <Button
-                onClick={() => {
-                  setSchedule(slot);
-                  if (repeatWeekly) setRepeat(repeatPeriod);
-                  setIsChosen(false);
-                }}
-              >
-                Apply
-              </Button>
-            </div>
+                        <FaAngleDown />
+                      </Button>
+                    }
+                  >
+                    <ul className={'w-[252px] z-50'}>
+                      <li
+                        key={'1month'}
+                        className={'border-b border-color-border-grey last:border-b-0'}
+                      >
+                        <label className="flex items-center justify-between gap-3 p-4 cursor-pointer ">
+                          <span className={'text-sm font-medium text-color-dark-purple'}>
+                            For 1 month
+                          </span>
+                          <CheckboxField
+                            onChange={() => {
+                              setRepeatPeriod(1);
+                              setDropdownOpen(false);
+                            }}
+                            type="radio"
+                            name="period"
+                            checked={repeatPeriod === 1}
+                          />
+                        </label>
+                      </li>
+                      <li
+                        key={'3month'}
+                        className={'border-b border-color-border-grey last:border-b-0'}
+                      >
+                        <label className="flex items-center justify-between gap-3 p-4 cursor-pointer ">
+                          <span className={'text-sm font-medium text-color-dark-purple'}>
+                            For 3 months
+                          </span>
+                          <CheckboxField
+                            onChange={() => {
+                              setRepeatPeriod(3);
+                              setDropdownOpen(false);
+                            }}
+                            type="radio"
+                            name="period"
+                            checked={repeatPeriod === 3}
+                          />
+                        </label>
+                      </li>
+                    </ul>
+                  </MyDropdownMenu>
+                )}
+              </div>
+            )}
+            <Button
+              onClick={() => {
+                setSchedule(slot);
+                if (repeatWeekly) setRepeat(repeatPeriod);
+                setIsChosen(false);
+                setPopoverOpen?.(false);
+              }}
+            >
+              Apply
+            </Button>
           </div>
         </PopoverContent>
       </Popover>

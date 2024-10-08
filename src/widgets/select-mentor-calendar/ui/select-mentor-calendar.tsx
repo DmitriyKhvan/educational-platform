@@ -11,18 +11,21 @@ import { CalendarView, type LanguageType, localeDic } from '@/shared/constants/g
 import {} from '@/shared/ui/popover';
 import { cn } from '@/shared/utils/functions';
 import { useCalendarControls } from '@/shared/utils/use-calendar-controls';
-import type { AvailabilitySlot, GroupedAvailabilitySlots } from '@/types/types.generated';
+import type { AvailabilitySlot, GroupedAvailabilitySlots, Mentor } from '@/types/types.generated';
 import { useQuery } from '@apollo/client';
 import type FullCalendar from '@fullcalendar/react';
 import { BsExclamationLg } from 'react-icons/bs';
 
 import './select-mentor-calendar.scss';
+import { useAuth } from '@/app/providers/auth-provider';
 interface ScheduleCalendarProps {
+  mentor: Mentor;
+  repeat: number | boolean | null;
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
-  setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
+  setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
 }
 
-function SelectMentorCalendar({ setSchedule, setRepeat }: ScheduleCalendarProps) {
+function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: ScheduleCalendarProps) {
   const [startDate, setStartDate] = useState(format(subDays(new Date(), 1), 'yyyy-MM-01'));
   const [endDate, setEndDate] = useState(
     format(subDays(lastDayOfMonth(new Date()), 1), 'yyyy-MM-dd'),
@@ -38,10 +41,12 @@ function SelectMentorCalendar({ setSchedule, setRepeat }: ScheduleCalendarProps)
     initialView: CalendarView.MONTH_VIEW,
   });
 
+  const { user } = useAuth();
+
   const { data, loading } = useQuery(AVAILABILITY_SLOTS, {
     variables: {
-      mentorId: '1',
-      timezone: 'Asia/Seoul',
+      mentorId: mentor.id,
+      timezone: user?.timeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
       rangeStart: startDate,
       rangeEnd: endDate,
       duration: 30,
@@ -94,15 +99,17 @@ function SelectMentorCalendar({ setSchedule, setRepeat }: ScheduleCalendarProps)
     duration: 25,
   });
 
-  const events = [
-    ...(data?.availabilitySlots
-      .reduce((acc: AvailabilitySlot[], curr: GroupedAvailabilitySlots) => {
-        acc.push(...curr.timeSlots);
-        return acc;
-      }, [])
-      ?.map(eventMapFunc('default')) ?? []),
-    ...absDates.map(eventMapFunc('abscent')),
-  ];
+  const events = loading
+    ? []
+    : [
+        ...(data?.availabilitySlots
+          .reduce((acc: AvailabilitySlot[], curr: GroupedAvailabilitySlots) => {
+            acc.push(...curr.timeSlots);
+            return acc;
+          }, [])
+          ?.map(eventMapFunc('default')) ?? []),
+        ...absDates.map(eventMapFunc('abscent')),
+      ];
 
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const renderEventContent = (eventInfo: any) => {
@@ -117,6 +124,7 @@ function SelectMentorCalendar({ setSchedule, setRepeat }: ScheduleCalendarProps)
 
     return (
       <SelectLessonDatePopover
+        repeat={repeat}
         setPopoverOpen={setPopoverOpen}
         popoverOpen={popoverOpen}
         slot={eventInfo.event.extendedProps.slot}
@@ -172,8 +180,9 @@ function SelectMentorCalendar({ setSchedule, setRepeat }: ScheduleCalendarProps)
       <Calendar
         ref={calendarRef}
         events={events}
-        eventContent={renderEventContent}
+        eventContent={loading ? undefined : renderEventContent}
         contentHeight={1400}
+        // dayMaxEvents={3}
       />
     </div>
   );

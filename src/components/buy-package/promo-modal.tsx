@@ -4,7 +4,7 @@ import Loader from '@/components/loader/loader';
 import { APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER } from '@/shared/apollo/graphql';
 import { currencyFormat } from '@/shared/utils/currency-format';
 import notify from '@/shared/utils/notify';
-import { DiscountType, type Mutation, type Package } from '@/types/types.generated';
+import { Currency, DiscountType, type Mutation, type Package } from '@/types/types.generated';
 import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -39,6 +39,7 @@ export const PromoModal = ({
       variables: {
         code: promo,
         packageId: selectedPackage.id,
+        currency: (localStorage.getItem('currency') || Currency.Krw).toLowerCase(),
       },
       onCompleted: (data) => {
         if (!data.applyPromotionCodeForPackage.promotionCode) {

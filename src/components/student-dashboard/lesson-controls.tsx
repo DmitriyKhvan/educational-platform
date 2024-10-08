@@ -127,7 +127,11 @@ const LessonControls = ({
       controls.push(
         <AdaptiveDialog
           button={
-            <Button theme="dark_purple" className="grow text-xs sm:text-sm px-2">
+            <Button
+              onClick={() => setTabIndex(0)}
+              theme="dark_purple"
+              className="grow text-xs sm:text-sm px-2"
+            >
               {t('reschedule')}
             </Button>
           }
@@ -233,7 +237,11 @@ const LessonControls = ({
       controls.push(
         <AdaptiveDialog
           button={
-            <Button theme="red" className="grow text-xs sm:text-sm px-2">
+            <Button
+              onClick={() => setTabIndex(0)}
+              theme="red"
+              className="grow text-xs sm:text-sm px-2"
+            >
               {t('cancel', { ns: 'common' })}
             </Button>
           }

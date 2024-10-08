@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '@/components/form/button';
-import CheckboxField from '@/components/form/checkbox-field';
+// import CheckboxField from '@/components/form/checkbox-field';
 import MentorImageRow from '@/pages/students/schedule-lesson/mentor-image-row';
 import NotEnoughCreditsModal from '@/pages/students/schedule-lesson/not-enough-credits-modal';
 import { getItemToLocalStorage, localeDic } from '@/shared/constants/global';
@@ -24,12 +24,13 @@ import type {
   PackageSubscription,
 } from '@/types/types.generated';
 
-import { format, toZonedTime } from 'date-fns-tz';
-import { AiOutlineInfo } from 'react-icons/ai';
-import { IoArrowBack } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
 import { useCreateLessonsMutation } from '@/shared/apollo/mutations/lessons/create-lessons.generated';
 import { parse } from 'date-fns';
+import { format, toZonedTime } from 'date-fns-tz';
+import { AiOutlineInfo } from 'react-icons/ai';
+import { IoMdInformation } from 'react-icons/io';
+import { IoArrowBack } from 'react-icons/io5';
+import { useNavigate } from 'react-router-dom';
 
 interface LessonConfirmationProps {
   plan?: PackageSubscription;
@@ -39,8 +40,8 @@ interface LessonConfirmationProps {
   lessonId?: string | null;
   isMentorScheduled?: boolean;
   setCreatedLessons: React.Dispatch<React.SetStateAction<Lesson[] | undefined>>;
-  repeat: number;
-  setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
+  repeat: number | boolean | null;
+  setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
 }
 
 const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
@@ -52,9 +53,10 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
   isMentorScheduled = false,
   setCreatedLessons,
   repeat,
-  setRepeat,
+  // setRepeat,
 }) => {
   const navigate = useNavigate();
+  const isRepeatBoolean = typeof repeat === 'boolean';
   const [t, i18n] = useTranslation(['common', 'lessons', 'dashboard', 'translations']);
 
   const [openModal, setOpenModal] = useState(false);
@@ -65,7 +67,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
 
   const [updateAppointment] = useMutation<
     Mutation,
-    { id: string; mentorId: string; startAt: string; repeat: number }
+    { id: string; mentorId: string; startAt: string; repeat: boolean }
   >(UPDATE_APPOINTMENT);
 
   useEffect(() => {
@@ -98,7 +100,11 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
   const utcIsoTimeString = new Date(selectedSchedule).toISOString();
 
   const confirmLesson = async (confirmedNotEnough = false) => {
-    if (repeat && !confirmedNotEnough && notEnoughCredits(plan?.credits || 0, repeat)) {
+    if (
+      repeat &&
+      !confirmedNotEnough &&
+      notEnoughCredits(plan?.credits || 0, typeof repeat === 'boolean' ? 1 : repeat)
+    ) {
       setOpenModal(true);
       return;
     }
@@ -111,7 +117,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
             id: lessonId,
             mentorId: mentor.id,
             startAt: utcIsoTimeString,
-            repeat,
+            repeat: Boolean(repeat),
           },
         });
         notify(t('lesson_rescheduled', { ns: 'lessons' }));
@@ -124,7 +130,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
             packageSubscriptionId: plan?.id || '',
             startAt: utcIsoTimeString,
             duration: plan?.package?.sessionTime ?? 0,
-            repeat,
+            repeat: typeof repeat === 'boolean' ? 0 : repeat,
           },
         });
 
@@ -147,14 +153,14 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
     }
   };
 
-  const repeatLessonLabel = (monthCount: number) =>
-    t('repeat_lesson', {
-      ns: 'lessons',
-      weekDay: format(new Date(selectedSchedule), 'eeee', {
-        locale: localeDic[i18n.language as keyof typeof localeDic],
-      }),
-      count: monthCount,
-    });
+  // const repeatLessonLabel = (monthCount: number) =>
+  //   t('repeat_lesson', {
+  //     ns: 'lessons',
+  //     weekDay: format(new Date(selectedSchedule), 'eeee', {
+  //       locale: localeDic[i18n.language as keyof typeof localeDic],
+  //     }),
+  //     count: monthCount,
+  //   });
 
   return (
     <>
@@ -225,7 +231,8 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
             </div>
           </div>
 
-          {!lessonId && !currentStudent?.isTrial && (
+          {/* Чекбоксы для выбора повтора бронирования на 1/3 месяца */}
+          {/* {!lessonId && !currentStudent?.isTrial && (
             <div className="my-10">
               <CheckboxField
                 label={repeatLessonLabel(1)}
@@ -240,9 +247,18 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
                 checked={repeat === 3}
               />
             </div>
+          )} */}
+
+          {!!repeat && !isRepeatBoolean && (
+            <div className="flex bg-[#FF9335] bg-opacity-10 text-[#FF9335] rounded-lg p-4 items-center gap-3 mt-6">
+              <IoMdInformation className="w-5 h-5 bg-[#FF9335] rounded-full text-white" />
+              <p>
+                You are booking <span className="font-semibold">weekly repetitive lessons</span>
+              </p>
+            </div>
           )}
 
-          {lessonId && !!repeat && (
+          {lessonId && !!repeat && isRepeatBoolean && (
             <div className="mt-10">
               <div className="mx-auto mb-4 bg-color-purple bg-opacity-10 rounded-lg flex gap-4 items-center p-4">
                 <span className="w-5 h-5 bg-color-purple rounded-full flex justify-center items-center">
@@ -256,7 +272,10 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
           )}
 
           <AdaptiveDialog open={openModal} setOpen={setOpenModal}>
-            <NotEnoughCreditsModal confirmLesson={confirmLesson} repeat={repeat} />
+            <NotEnoughCreditsModal
+              confirmLesson={confirmLesson}
+              repeat={typeof repeat === 'boolean' ? 0 : repeat ?? 0}
+            />
           </AdaptiveDialog>
 
           <Button

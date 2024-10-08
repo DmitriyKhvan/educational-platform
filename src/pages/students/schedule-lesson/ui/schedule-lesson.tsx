@@ -35,24 +35,23 @@ const ScheduleLesson = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const repeatLessons = urlParams.get('repeatLessons');
 
-  const [repeat, setRepeat] = useState<number | null>(() => {
-    if (repeatLessons && !Number.isNaN(Number(repeatLessons))) {
-      return Number(repeatLessons);
-    }
-    return null;
-  });
+  const [repeat, setRepeat] = useState<number | boolean | null>(
+    repeatLessons ? JSON.parse(repeatLessons) : null,
+  );
 
   const [selectedPlan, setSelectedPlan] = useState<PackageSubscription>();
   const [schedule, setSchedule] = useState<AvailabilitySlot>();
-  const [tabIndex, setTabIndex] = useState<number>(id ? 1 : 0);
+  const [tabIndex, setTabIndex] = useState<number>(0);
   const [selectMentor /*setSelectMentor*/] = useState<Mentor>();
   const [createdLessons, setCreatedLessons] = useState<Lesson[]>();
 
   // const scheduledLesson = data?.lesson || null;
 
   useEffect(() => {
-    if (location?.state?.mentor) {
+    if (location?.state?.mentor && !id) {
       setTabIndex(1);
+    } else if (location?.state?.mentor && id) {
+      setTabIndex(2);
     }
   }, [location]);
 
@@ -78,12 +77,15 @@ const ScheduleLesson = () => {
           setTabIndex={setTabIndex}
           setSchedule={setSchedule}
           schedule={schedule}
+          repeat={repeat}
           setRepeat={setRepeat}
           plan={selectedPlan}
+          lessonId={id}
         />
       )}
       {tabIndex === 2 && !isTablet && (
         <ScheduleCalendar
+          repeat={repeat}
           mentor={location?.state?.mentor}
           setTabIndex={setTabIndex}
           setSchedule={setSchedule}
@@ -129,7 +131,7 @@ const ScheduleLesson = () => {
           lessonId={id}
           setCreatedLessons={setCreatedLessons}
           setRepeat={setRepeat}
-          repeat={Number(repeat)}
+          repeat={repeat}
         />
       )}
 

@@ -1,15 +1,14 @@
 import { useAuth } from '@/app/providers/auth-provider';
 import Button from '@/components/form/button';
-import Indicator from '@/components/indicator';
-import ScheduleCard from '@/components/student-dashboard/schedule-card-rebranding';
 import { localeDic } from '@/shared/constants/global';
-import type { Lesson, Mentor } from '@/types/types.generated';
+import type { Lesson } from '@/types/types.generated';
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
 import { FaCheckCircle } from 'react-icons/fa';
 import { FaCircleXmark } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
+import ScheduleSuccessCard from './schedule-success-card';
 
 const ScheduleSuccess = ({
   lessons,
@@ -22,6 +21,29 @@ const ScheduleSuccess = ({
 
   const userTimezone =
     user?.timeZone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const sortedByMonthsLessons = lessons.reduce(
+    (acc, cur) => {
+      const startAt = format(new Date(cur.startAt), 'MMMM');
+
+      if (acc[startAt]) {
+        acc[startAt].push(cur);
+      } else {
+        acc[startAt] = [cur];
+      }
+      return acc;
+    },
+    {} as { [key: string]: Lesson[] },
+  );
+
+  const displayZonedRangeDate = (month: string, lessons: Lesson[]) => {
+    const formatAndZoneDate = (startAt: string) => {
+      return format(toZonedTime(new Date(startAt), userTimezone), 'dd.MM', {
+        locale: localeDic[i18n.language as keyof typeof localeDic],
+      });
+    };
+    return `${month} ${formatAndZoneDate(lessons[0].startAt)} - ${formatAndZoneDate(lessons[lessons.length - 1].startAt)}`;
+  };
 
   return (
     <div className="max-w-[488px] mx-auto">
@@ -42,36 +64,26 @@ const ScheduleSuccess = ({
           </>
         )}
       </div>
-      {lessons?.map((l) => {
-        const { id, duration, mentor, packageSubscription, startAt } = l;
-        return l?.status ? (
-          <ScheduleCard
-            key={id}
-            duration={duration ?? 0}
-            mentor={mentor as Mentor}
-            date={startAt}
-            data={l}
-            subscription={packageSubscription}
-            fetchAppointments={() => navigate('/student/manage-lessons')}
-          />
-        ) : (
-          <div
-            key={l.id}
-            className="flex mb-5 justify-between items-center text-color-dark-violet font-bold text-[15px] shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)] border border-color-border-grey p-4 rounded-[10px]"
-          >
-            <h3>
-              {format(toZonedTime(new Date(l.startAt), userTimezone), 'MMMM do', {
-                locale: localeDic[i18n.language as keyof typeof localeDic],
-              })}
-            </h3>
-            {l.cancelReason && (
-              <Indicator className="bg-color-purple text-color-purple">
-                {t(l?.cancelReason, { ns: 'modals' })}
-              </Indicator>
-            )}
+
+      <section>
+        {Object.entries(sortedByMonthsLessons).map((ls) => (
+          <div key={ls[0]} className="mt-10 border-b pb-6 last:border-b-0">
+            <div className="flex justify-between mb-6">
+              <p className="text-xl font-bold">{displayZonedRangeDate(ls[0], ls[1])}</p>
+              <p className="text-color-purple">{ls[1].filter((l) => l.status).length} lesson(s)</p>
+            </div>
+            {ls[1]?.map((l) => (
+              <ScheduleSuccessCard
+                key={l?.id}
+                status={l?.status}
+                data={l}
+                date={l.startAt}
+                duration={l.duration ?? 0}
+              />
+            ))}
           </div>
-        );
-      })}
+        ))}
+      </section>
 
       <Button
         className="w-full h-[57px] mb-3 mt-5"

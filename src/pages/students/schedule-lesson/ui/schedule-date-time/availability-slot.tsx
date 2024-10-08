@@ -6,7 +6,8 @@ interface AvailabilitySlotProps {
   time: AvailabilitySlot;
   setChosenDates: React.Dispatch<React.SetStateAction<AvailabilitySlot[]>>;
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
-  setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
+  setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
+  repeat: number | boolean | null;
   active?: boolean;
 }
 
@@ -15,6 +16,7 @@ export const AvailabilitySlotComponent: React.FC<AvailabilitySlotProps> = ({
   setChosenDates,
   setSchedule,
   setRepeat,
+  repeat,
   active,
 }) => {
   return (
@@ -22,6 +24,7 @@ export const AvailabilitySlotComponent: React.FC<AvailabilitySlotProps> = ({
       slot={time}
       setSchedule={setSchedule}
       setRepeat={setRepeat}
+      repeat={repeat}
       setChosenDates={setChosenDates}
       btn={
         <button

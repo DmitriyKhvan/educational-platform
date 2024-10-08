@@ -11,7 +11,8 @@ interface AvailabilitySlotsProps {
   setChosenDates: React.Dispatch<React.SetStateAction<AvailabilitySlot[]>>;
   chosenDates: AvailabilitySlot[];
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
-  setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
+  setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
+  repeat: number | boolean | null;
 }
 
 export const AvailabilitySlots: React.FC<AvailabilitySlotsProps> = ({
@@ -21,6 +22,7 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotsProps> = ({
   chosenDates,
   setSchedule,
   setRepeat,
+  repeat,
 }) => {
   const cardSlots = availDate.timeSlots.slice(0, 9);
   const moreSlots = availDate.timeSlots.slice(9);
@@ -45,6 +47,7 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotsProps> = ({
             setChosenDates={setChosenDates}
             setSchedule={setSchedule}
             setRepeat={setRepeat}
+            repeat={repeat}
             active={chosenDates.some((slot) => slot.date === time.date && slot.from === time.from)}
           />
         ))}
@@ -57,6 +60,7 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotsProps> = ({
               setChosenDates={setChosenDates}
               setSchedule={setSchedule}
               setRepeat={setRepeat}
+              repeat={repeat}
               active={chosenDates.some(
                 (slot) => slot.date === time.date && slot.from === time.from,
               )}

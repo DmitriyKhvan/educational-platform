@@ -52,6 +52,8 @@ const Calendar = forwardRef<FullCalendar, CalendarProps>((props, ref) => {
       eventBackgroundColor="transparent"
       eventBorderColor="transparent"
       dayPopoverFormat={{ month: 'long', day: 'numeric' }}
+      nextDayThreshold="01:00:00"
+      displayEventEnd={false}
       slotDuration="01:00:00"
       scrollTime={format(toZonedTime(new Date(), userTimezone), 'HH:00:00')}
       {...props}

@@ -10,14 +10,16 @@ import type { AvailabilitySlot, Mentor, PackageSubscription } from '@/types/type
 
 interface ScheduleCalendarProps {
   mentor: Mentor;
+  repeat: number | boolean | null;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
-  setRepeat: React.Dispatch<React.SetStateAction<number | null>>;
+  setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
   schedule: AvailabilitySlot | undefined;
 }
 
 export const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
   mentor,
+  repeat,
   setTabIndex,
   setSchedule,
   schedule,
@@ -69,7 +71,12 @@ export const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
 
       <p className="mb-5 text-[15px] text-color-light-grey">Select date and time</p>
 
-      <SelectMentorCalendar setSchedule={setSchedule} setRepeat={setRepeat} />
+      <SelectMentorCalendar
+        repeat={repeat}
+        mentor={mentor}
+        setSchedule={setSchedule}
+        setRepeat={setRepeat}
+      />
     </section>
   );
 };
