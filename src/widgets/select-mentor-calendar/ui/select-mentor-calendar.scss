@@ -1,0 +1,55 @@
+td.fc-day-today {
+  background-color: white !important;
+}
+
+.fc-daygrid-day-top {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.fc-daygrid-day-top a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  width: 24px;
+  height: 24px;
+}
+
+td.fc-day-today .fc-daygrid-day-top a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  width: 24px;
+  height: 24px;
+  background-color: #862EE71A;
+  color: #862EE7;
+}
+
+td.fc-daygrid-day {
+  min-height: 220px;
+  background-color: white !important;
+}
+
+.fc-daygrid-more-link {
+  background-color: #0EC5411A !important;
+  border: none !important;
+  
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #00D986 !important;
+  height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  &:hover {
+    
+  background-color: #0EC5411A !important;
+  border-color: #0EC5411A !important;
+  }
+}
+
+
+// .fc-basic-view .fc-body .fc-row { min-height: 520px; }

@@ -1,0 +1,35 @@
+mutation rescheduleLessons(
+    $id: ID!
+    $startAt: DateTime!
+    $mentorId: ID!
+    $repeat: Boolean
+  ) {
+    rescheduleLessons(
+      id: $id
+      startAt: $startAt
+      mentorId: $mentorId
+      repeat: $repeat
+    ) {
+      id
+      startAt
+      duration
+      status
+      cancelAction
+      cancelReason
+      packageSubscription {
+        id
+        periodStart
+        periodEnd
+        credits
+        packageId
+        modifyCredits
+        package {
+          course {
+            id
+            title
+          }
+        }
+        paymentId
+      }
+    }
+  }

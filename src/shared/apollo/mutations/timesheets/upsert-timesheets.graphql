@@ -1,0 +1,18 @@
+
+  mutation upsertTimesheets(
+    $mentorId: ID!, 
+    $timesheets: [TimesheetSlot!]!, 
+    $timezone: String 
+  ) {
+    upsertTimesheets(
+      mentorId: $mentorId
+      timesheets: $timesheets
+      timezone: $timezone
+    ) {
+      id
+      day
+      from
+      to
+      isTrial
+    }
+  }
