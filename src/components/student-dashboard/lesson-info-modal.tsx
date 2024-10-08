@@ -29,7 +29,6 @@ const LessonInfoModal = ({
   duration: number;
   userTimezone: string;
 }) => {
-  console.log('🚀 ~ data:', data);
   const [t, i18n] = useTranslation(['lessons', 'common', 'trial']);
   const { user, currentStudent } = useAuth();
 
