@@ -36,6 +36,10 @@ function SelectLessonDatePopover({
   setChosenDates,
   btn,
 }: SelectLessonDatePopoverProps) {
+  console.log('repeat', repeat);
+
+  console.log('type repeat', typeof repeat);
+
   const isBoolean = typeof repeat === 'boolean';
 
   const isMobile = useMediaQuery({ maxWidth: 639 });
@@ -98,7 +102,7 @@ function SelectLessonDatePopover({
       <Popover
         open={isChosen}
         onOpenChange={(open) => {
-          // setPopoverOpen?.(open);
+          setPopoverOpen?.(open);
           if (open) {
             setRepeat(isBoolean ? isBoolean : null);
           }
@@ -223,7 +227,6 @@ function SelectLessonDatePopover({
                 setSchedule(slot);
                 if (repeatWeekly) setRepeat(repeatPeriod);
                 setIsChosen(false);
-                setPopoverOpen?.(false);
               }}
             >
               Apply

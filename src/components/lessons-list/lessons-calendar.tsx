@@ -13,9 +13,9 @@ import Loader from '@/components/loader/loader';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
 import { useCourseColors } from '@/shared/utils/use-course-colors';
 import type { CalendarEventProcessed } from '@/types';
+import { UserRoleType } from '@/types/types.generated';
 import type { EventClickArg, EventContentArg, EventInput } from '@fullcalendar/core';
 import type FullCalendar from '@fullcalendar/react';
-import { UserRoleType } from '@/types/types.generated';
 
 interface LessonsCalendarProps {
   calendarAppointments: CalendarEventProcessed[];
@@ -31,7 +31,7 @@ const LessonsCalendar: React.FC<LessonsCalendarProps> = ({
   const { getColorByCourseId, colorsReady } = useCourseColors();
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const [calendarEvent, setCalendarEvent] = useState<{ id?: number }>({});
+  const [calendarEvent, setCalendarEvent] = useState<{ id?: number | string }>({});
   const [calendarEvents, setCalendarEvents] = useState<EventInput[]>([]);
 
   const closeModal = () => {
@@ -48,6 +48,7 @@ const LessonsCalendar: React.FC<LessonsCalendarProps> = ({
         start: ap.startAt,
         end: ap.end_at,
         resource: ap,
+        id: `${ap.startAt.toISOString()}${ap.lesson}`,
       }));
       setCalendarEvents(tempEvents);
     }
@@ -77,6 +78,7 @@ const LessonsCalendar: React.FC<LessonsCalendarProps> = ({
     return (
       <div className="container">
         <Modal
+          appElement={document.body}
           isOpen={isOpen}
           onRequestClose={closeModal}
           style={customStyles}
@@ -85,7 +87,7 @@ const LessonsCalendar: React.FC<LessonsCalendarProps> = ({
           <div className="p-8 z-20 bg-white rounded-2xl">
             <LessonInfoModal
               date={selectedEvent?.resource?.eventDate?.startAt ?? new Date()}
-              data={selectedEvent?.resource?.eventDate}
+              data={selectedEvent?.resource}
               refetch={() => {
                 getAppointments();
                 closeModal();
@@ -100,7 +102,7 @@ const LessonsCalendar: React.FC<LessonsCalendarProps> = ({
   };
 
   const onSelectEvent = (e: EventClickArg) => {
-    setCalendarEvent({ id: Number(e.event.id) });
+    setCalendarEvent({ id: e.event.id });
     setIsOpen(true);
   };
 
@@ -141,7 +143,7 @@ const LessonsCalendar: React.FC<LessonsCalendarProps> = ({
       <div
         className={cn(
           'flex items-center px-2 min-h-[28px] h-full w-full text-gray-800 bg-gray-800 bg-opacity-15 hover:bg-opacity-100 transition-all duration-150 ease-in-out hover:text-white rounded-[4px] border-l-4 border-l-gray-800 overflow-hidden truncate',
-          data.isTrial
+          data?.isTrial
             ? courseColorsDict[COURSE_COLORS.GREEN]?.event
             : getColorByCourseId(data.courseId)?.event,
         )}

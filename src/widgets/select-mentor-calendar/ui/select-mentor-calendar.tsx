@@ -44,6 +44,7 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
   const { user } = useAuth();
 
   const { data, loading } = useQuery(AVAILABILITY_SLOTS, {
+    notifyOnNetworkStatusChange: true,
     variables: {
       mentorId: mentor.id,
       timezone: user?.timeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -188,6 +189,7 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
       <Calendar
         ref={calendarRef}
         events={events}
+        isLoading={loading}
         eventContent={loading ? undefined : renderEventContent}
         contentHeight={1400}
         // dayMaxEvents={3}

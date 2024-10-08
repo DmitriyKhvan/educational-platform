@@ -4,7 +4,7 @@ import LessonTable from '@/components/student-dashboard/lesson-table';
 import { LessonTableMobile } from '@/components/student-dashboard/lesson-table-mobile';
 import { isWithinHours } from '@/shared/utils/is-within-hours';
 import type { CalendarEventsSorted } from '@/types';
-import { LessonStatusType, UserRoleType, type PackageSubscription } from '@/types/types.generated';
+import { LessonStatusType, type PackageSubscription, UserRoleType } from '@/types/types.generated';
 import { addMinutes, isAfter } from 'date-fns';
 import type React from 'react';
 import { useEffect, useState } from 'react';
@@ -14,7 +14,7 @@ interface TableProps {
   tableAppointments: CalendarEventsSorted[];
   getAppointments: () => void;
   selectedTab?: string;
-  planStatus: PackageSubscription;
+  planStatus: PackageSubscription[];
   handleOpenFeedbackModal?: () => void;
   handleFeedback?: () => void;
 }
@@ -27,6 +27,7 @@ const Table: React.FC<TableProps> = ({
   handleOpenFeedbackModal,
   handleFeedback,
 }) => {
+  console.log('🚀 ~ planStatus:', planStatus);
   const [displayTableData, setDisplayTableData] = useState<CalendarEventsSorted[]>([]);
   const isDesktop = useMediaQuery({ minWidth: 1307 });
 
@@ -105,7 +106,12 @@ const Table: React.FC<TableProps> = ({
     <NoLessonsMessage
       selectedTab={selectedTab}
       //   availableCredits={planStatus?.reduce((prev, curr) => prev + (curr.credits || 0), 0)} // wasn't used properly in the first place
-      availableCredits={planStatus?.credits ?? 0}
+      availableCredits={
+        planStatus?.reduce(
+          (acc: number, curr: PackageSubscription) => acc + (curr?.credits ?? 0),
+          0,
+        ) ?? 0
+      }
     />
   );
 };
