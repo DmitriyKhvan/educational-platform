@@ -3,12 +3,12 @@ import Button from '@/components/form/button';
 import { CancelTrialLessonModal } from '@/components/student-dashboard/cancel-trial-lesson-modal';
 import LessonInfoModal from '@/components/student-dashboard/lesson-info-modal';
 import { MentorFeedbackModal } from '@/entities/mentor-feedback-modal';
-import { LessonsStatusType, ModalType } from '@/shared/constants/global';
+import { ModalType } from '@/shared/constants/global';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import { cn } from '@/shared/utils/functions';
 import { isBetween } from '@/shared/utils/is-between';
 import { isWithinHours } from '@/shared/utils/is-within-hours';
-import { type Lesson, UserRoleType } from '@/types/types.generated';
+import { type Lesson, LessonStatusType, UserRoleType } from '@/types/types.generated';
 import { addMinutes, isAfter } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -94,11 +94,10 @@ const LessonControls = ({
 
   const cancelTrialLessonModal = <CancelTrialLessonModal data={data} fetchAppointments={refetch} />;
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const controls = [];
 
-    if (!isAfterLesson && isWithin24Hours && data.status === LessonsStatusType.APPROVED) {
+    if (!isAfterLesson && isWithin24Hours && data.status === LessonStatusType.Approved) {
       controls.push(
         <Button className="w-full text-xs sm:text-sm px-2" onClick={joinLesson}>
           {t('join_lesson')}
@@ -231,8 +230,8 @@ const LessonControls = ({
     }
 
     if (
-      data.status !== LessonsStatusType.CANCELED &&
-      data.status !== LessonsStatusType.COMPLETED &&
+      data.status !== LessonStatusType.Canceled &&
+      data.status !== LessonStatusType.Completed &&
       !(user?.role === UserRoleType.Mentor && data.isTrial)
     ) {
       controls.push(

@@ -9,11 +9,16 @@ import { selectStyle } from '@/pages/mentors/availability/lib/select-style';
 import { useUpsertTimesheetsMutation } from '@/shared/apollo/mutations/timesheets/upsert-timesheets.generated';
 import type { MentorQuery } from '@/shared/apollo/queries/mentors/mentor.generated';
 
-import { DAY, MentorAvailabilityType, timezoneWithTimeOptions } from '@/shared/constants/global';
+import { DAY, timezoneWithTimeOptions } from '@/shared/constants/global';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import notify from '@/shared/utils/notify';
 import type { ErrorExceptionalDates, GatherAvailabilities } from '@/types';
-import type { Exact, Mentor, TimesheetSlot } from '@/types/types.generated';
+import {
+  MentorAvailabilityType,
+  type Exact,
+  type Mentor,
+  type TimesheetSlot,
+} from '@/types/types.generated';
 import type { ApolloQueryResult } from '@apollo/client';
 import { type Dispatch, type SetStateAction, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +29,7 @@ export const AvailabilitySlots = ({
   mentorInfo,
   startAvailabilities,
   gatherAvailabilities,
-  mentorAvailabilityType = MentorAvailabilityType.ONLY_REGULAR,
+  mentorAvailabilityType = MentorAvailabilityType.OnlyRegular,
   useSetGatherAvailabilities,
   refetchMentor,
   setError,
@@ -64,7 +69,6 @@ export const AvailabilitySlots = ({
 
   const [upsertTimesheets] = useUpsertTimesheetsMutation();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     handleDisableSave(false);
   }, [gatherAvailabilities, timeZone]);
@@ -74,8 +78,8 @@ export const AvailabilitySlots = ({
     e.currentTarget.blur();
 
     const updatedAvailabilities = [
-      ...gatherAvailabilities[MentorAvailabilityType.ONLY_REGULAR],
-      ...gatherAvailabilities[MentorAvailabilityType.ONLY_TRIAL],
+      ...gatherAvailabilities[MentorAvailabilityType.OnlyRegular],
+      ...gatherAvailabilities[MentorAvailabilityType.OnlyTrial],
     ].map((avail: TimesheetSlot) => {
       if (!Number.isNaN(Number(avail.id))) {
         return avail;

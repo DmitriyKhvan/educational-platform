@@ -1,7 +1,7 @@
 import { useAuth } from '@/app/providers/auth-provider';
 import Button from '@/components/form/button';
 import CheckboxField from '@/components/form/checkbox-field';
-import { Roles, cancellationArr } from '@/shared/constants/global';
+import { cancellationArr } from '@/shared/constants/global';
 import notify from '@/shared/utils/notify';
 import { useMutation } from '@apollo/client';
 import { FaChevronLeft } from 'react-icons/fa6';
@@ -12,6 +12,7 @@ import { ClipLoader } from 'react-spinners';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CANCEL_APPOINTMENT } from '@/shared/apollo/mutations/lessons/cancelLessons';
+import { UserRoleType } from '@/types/types.generated';
 
 interface CancelLessonModalProps {
   setTabIndex: (index: number) => void;
@@ -37,7 +38,7 @@ const CancelLessonModal: React.FC<CancelLessonModalProps> = ({
   const { user } = useAuth();
 
   useEffect(() => {
-    if (user && user.role === Roles.MENTOR) {
+    if (user && user.role === UserRoleType.Mentor) {
       const cancellationArrMentor = [...cancellationArr.slice(0, 5), ...cancellationArr.slice(6)];
       setCancelReasons(cancellationArrMentor);
     } else {
@@ -68,7 +69,7 @@ const CancelLessonModal: React.FC<CancelLessonModalProps> = ({
   const onCancelLesson = async () => {
     setLoading(true);
     try {
-      if (user?.role === Roles.STUDENT) {
+      if (user?.role === UserRoleType.Student) {
         const response = await cancelLesson({
           variables: {
             id: id,
@@ -138,19 +139,20 @@ const CancelLessonModal: React.FC<CancelLessonModalProps> = ({
             </label>
           ))}
         </div>
-        {user?.role === Roles.MENTOR && t('reason_7', { ns: 'lessons' }) === cancel?.value && (
-          <div>
-            <p className="text-color-light-grey text-sm">Reason for cancellation</p>
-            <TextareaField
-              value={reasonOther}
-              onChange={(e) => setReasonOther(e.target.value)}
-              placeholder="Please provide a reason"
-              className="w-full text-sm min-h-[144px] font-inter"
-            />
-          </div>
-        )}
+        {user?.role === UserRoleType.Mentor &&
+          t('reason_7', { ns: 'lessons' }) === cancel?.value && (
+            <div>
+              <p className="text-color-light-grey text-sm">Reason for cancellation</p>
+              <TextareaField
+                value={reasonOther}
+                onChange={(e) => setReasonOther(e.target.value)}
+                placeholder="Please provide a reason"
+                className="w-full text-sm min-h-[144px] font-inter"
+              />
+            </div>
+          )}
 
-        {user?.role === Roles.MENTOR && (
+        {user?.role === UserRoleType.Mentor && (
           <div>
             <p className="text-color-light-grey text-sm">Message for student</p>
             <p className="text-sm text-[#F14E1C]">
@@ -168,7 +170,9 @@ const CancelLessonModal: React.FC<CancelLessonModalProps> = ({
           <Button
             className="h-[56px] w-full"
             theme="destructive"
-            disabled={!isChecked || loading || (user?.role === Roles.MENTOR && !messageForStudent)}
+            disabled={
+              !isChecked || loading || (user?.role === UserRoleType.Mentor && !messageForStudent)
+            }
             onClick={onCancelLesson}
           >
             {loading ? <ClipLoader loading={loading} size={20} color="white" /> : t('confirm')}

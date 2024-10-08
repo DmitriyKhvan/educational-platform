@@ -1,6 +1,6 @@
-import type { MentorAvailabilityType } from '@/shared/constants/global';
+// import type { MentorAvailabilityType } from '@/shared/constants/global';
 import type { Duration } from 'date-fns';
-import type { ExceptionDateSlot, PackageSubscription, TimesheetSlot } from './types.generated';
+import type { ExceptionDateSlot, MentorAvailabilityType, PackageSubscription, TimesheetSlot } from './types.generated';
 
 export const EventType = {
   REGULAR: 'regular',

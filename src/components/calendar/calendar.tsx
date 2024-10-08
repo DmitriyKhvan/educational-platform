@@ -1,5 +1,5 @@
 import { useAuth } from '@/app/providers/auth-provider';
-import { Language } from '@/shared/constants/global';
+import {} from '@/shared/constants/global';
 import enLocale from '@fullcalendar/core/locales/en-gb';
 import koLocale from '@fullcalendar/core/locales/ko';
 import chLocale from '@fullcalendar/core/locales/zh-tw';
@@ -13,6 +13,7 @@ import '@/app/styles/calendar.scss';
 import type { CalendarOptions } from '@fullcalendar/core';
 import FullCalendar from '@fullcalendar/react';
 import { format, toZonedTime } from 'date-fns-tz';
+import { CourseTranslationsLanguage } from '@/types/types.generated';
 
 interface CalendarProps extends CalendarOptions {}
 
@@ -37,9 +38,9 @@ const Calendar = forwardRef<FullCalendar, CalendarProps>((props, ref) => {
       }}
       locales={[enLocale, koLocale, chLocale]}
       locale={
-        i18n.language === Language.KR
+        i18n.language === CourseTranslationsLanguage.Kr
           ? koLocale
-          : i18n.language === Language.CH
+          : i18n.language === CourseTranslationsLanguage.Cn
             ? chLocale
             : enLocale
       }

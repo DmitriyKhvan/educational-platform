@@ -1,6 +1,6 @@
 import { useAuth } from '@/app/providers/auth-provider';
 import { APPOINTMENTS_QUERY } from '@/shared/apollo/graphql';
-import { DiscountType, getItemToLocalStorage } from '@/shared/constants/global';
+import { getItemToLocalStorage } from '@/shared/constants/global';
 import { useQuery } from '@apollo/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +17,7 @@ import { useMediaQuery } from 'react-responsive';
 // import { MyTrialLessons } from '@/pages/Students/student-dashboard/my-trial-lessons';
 import { currencyFormat } from '@/shared/utils/currency-format';
 // import { MyTrialLessons } from './my-trial-lessons';
-import type { Lesson } from '@/types/types.generated';
+import { DiscountType, type Lesson } from '@/types/types.generated';
 import { Link } from 'react-router-dom';
 import { MyTrialLessons } from './my-trial-lessons';
 // import { MyTrialLessons } from './my-trial-lessons';
@@ -31,7 +31,7 @@ const StudentDashboard = () => {
 
   const discount = useMemo(() => {
     if ((user?.personalPromotionCodes?.length ?? 0) > 0) {
-      return user?.personalPromotionCodes?.[0]?.discountType === DiscountType.PERCENT
+      return user?.personalPromotionCodes?.[0]?.discountType === DiscountType.Percent
         ? `${user?.personalPromotionCodes?.[0].value}%`
         : currencyFormat({ number: user?.personalPromotionCodes?.[0]?.value ?? 0 });
     }

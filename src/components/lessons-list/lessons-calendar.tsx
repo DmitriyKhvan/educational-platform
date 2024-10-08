@@ -1,7 +1,7 @@
 import { useAuth } from '@/app/providers/auth-provider';
 import { LessonsCalendarHeader } from '@/components/lessons-list';
 import LessonInfoModal from '@/components/student-dashboard/lesson-info-modal';
-import { COURSE_COLORS, CalendarView, Roles, courseColorsDict } from '@/shared/constants/global';
+import { COURSE_COLORS, CalendarView, courseColorsDict } from '@/shared/constants/global';
 import { cn } from '@/shared/utils/functions';
 import { format } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
@@ -15,6 +15,7 @@ import { useCourseColors } from '@/shared/utils/use-course-colors';
 import type { CalendarEventProcessed } from '@/types';
 import type { EventClickArg, EventContentArg, EventInput } from '@fullcalendar/core';
 import type FullCalendar from '@fullcalendar/react';
+import { UserRoleType } from '@/types/types.generated';
 
 interface LessonsCalendarProps {
   calendarAppointments: CalendarEventProcessed[];
@@ -108,13 +109,16 @@ const LessonsCalendar: React.FC<LessonsCalendarProps> = ({
 
     let content = <></>;
 
-    if (user?.role === Roles.STUDENT) {
+    if (user?.role === UserRoleType.Student) {
       content = (
         <p className="font-medium truncate">
           {getTranslatedTitle(data?.packageSubscription?.package?.course, i18n.language)}
         </p>
       );
-    } else if (eventInfo.view.type === CalendarView.MONTH_VIEW && user?.role === Roles.MENTOR) {
+    } else if (
+      eventInfo.view.type === CalendarView.MONTH_VIEW &&
+      user?.role === UserRoleType.Mentor
+    ) {
       content = (
         <p className="font-medium truncate">
           {data?.startAt && format(data.startAt, 'hha')} {data?.student?.firstName}{' '}

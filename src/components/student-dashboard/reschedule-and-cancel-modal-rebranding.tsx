@@ -1,10 +1,10 @@
 import { useAuth } from '@/app/providers/auth-provider';
+import type { ModalType } from '@/shared/constants/global';
 import {
   MentorCancelWarningModal,
   StudentCancelWarningModal,
 } from '@/entities/cancel-warning-modal';
-import { type ModalType, Roles } from '@/shared/constants/global';
-import type { Lesson } from '@/types/types.generated';
+import { UserRoleType, type Lesson } from '@/types/types.generated';
 import { useState } from 'react';
 import CancelLessonModal from './cancel-lesson-modal';
 import CancellationPolicyModal from './cancellation-policy-modal';
@@ -32,7 +32,7 @@ const RescheduleAndCancelModal: React.FC<RescheduleAndCancelModalProps> = ({
   return (
     <>
       {tabIndex === 0 ? (
-        user?.role === Roles.MENTOR ? (
+        user?.role === UserRoleType.Mentor ? (
           <MentorCancelWarningModal data={data} setTabIndex={setTabIndex} />
         ) : (
           <StudentCancelWarningModal

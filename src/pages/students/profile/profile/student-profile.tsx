@@ -1,5 +1,6 @@
 import { useAuth } from '@/app/providers/auth-provider';
 import Button from '@/components/form/button';
+// import KakaoLoginButton from '@/pages/auth/kakao-login-button';
 import LevelBadge from '@/pages/students/profile/profile/level-badge';
 import PackageCard from '@/pages/students/profile/profile/package-card';
 import { PACKAGE_QUERY } from '@/shared/apollo/graphql';
@@ -52,6 +53,10 @@ const StudentProfile = () => {
                 className="w-full h-full min-w-16 sm:min-w-20 rounded-full border"
               />
             </div>
+            {/* <div>
+              <h1>Login with Kakao</h1>
+              <KakaoLoginButton className="class" />
+            </div> */}
             <div className="w-full h-auto py-2">
               <div className="flex justify-between ml-auto w-full">
                 <div className="flex justify-between w-full">

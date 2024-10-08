@@ -1,7 +1,6 @@
 import ScheduleCard from '@/components/student-dashboard/schedule-card-rebranding';
 import DashboardCard from '@/pages/students/student-dashboard/dashboard-card';
-import { LessonsStatusType } from '@/shared/constants/global';
-import type { Lesson } from '@/types/types.generated';
+import { LessonStatusType, type Lesson } from '@/types/types.generated';
 import type { OperationVariables, ApolloQueryResult } from '@apollo/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +19,7 @@ const MyProgress = ({
   const lastCompleted = useMemo(
     () =>
       appointments
-        ?.filter((a) => a.status === LessonsStatusType.COMPLETED)
+        ?.filter((a) => a.status === LessonStatusType.Completed)
         ?.sort((a, b) => new Date(b.startAt).getTime() - new Date(a.startAt).getTime())[0],
     [appointments],
   );

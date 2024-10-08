@@ -47,7 +47,7 @@ export const PromoModal = ({
           return;
         }
         const discount =
-          data.applyPromotionCodeForPackage.promotionCode.discountType === 'percent'
+          data.applyPromotionCodeForPackage.promotionCode.discountType === DiscountType.Percent
             ? `${data.applyPromotionCodeForPackage.promotionCode.value}%`
             : currencyFormat({
                 number: data.applyPromotionCodeForPackage.promotionCode.value,

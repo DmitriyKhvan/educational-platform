@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAuth } from '@/app/providers/auth-provider';
-import { Roles } from '@/shared/constants/global';
+import {} from '@/shared/constants/global';
 
 import { MyDrawer } from '@/components/drawer';
 import MyDropdownMenu from '@/components/dropdown-menu';
@@ -13,6 +13,7 @@ import { Avatar } from '@/widgets/avatar/avatar';
 import { useTranslation } from 'react-i18next';
 import { FaAngleDown } from 'react-icons/fa6';
 import { useMediaQuery } from 'react-responsive';
+import { UserRoleType } from '@/types/types.generated';
 
 const Navbar = memo(() => {
   const [t] = useTranslation('common');
@@ -24,7 +25,7 @@ const Navbar = memo(() => {
     <label className="py-[14px] rounded-lg select-none cursor-pointer">
       <div className="flex flex-col items-center justify-between gap-2 sm:gap-0">
         <Avatar
-          fallback={user?.role === Roles.STUDENT ? 'duck' : 'user'}
+          fallback={user?.role === UserRoleType.Student ? 'duck' : 'user'}
           avatarUrl={user?.avatar?.url}
           className="w-[32px] h-[32px] bg-color-purple rounded-full overflow-hidden"
           iconClassName="text-white w-[20px]"
@@ -43,7 +44,7 @@ const Navbar = memo(() => {
         {isTablet && (
           <Link
             to={
-              user?.role === Roles.MENTOR
+              user?.role === UserRoleType.Mentor
                 ? '/mentor/manage-appointments'
                 : '/student/manage-lessons'
             }

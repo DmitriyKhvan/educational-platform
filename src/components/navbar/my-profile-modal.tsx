@@ -1,7 +1,7 @@
 import { useAuth } from '@/app/providers/auth-provider';
 import SelectProfile from '@/components/select-profile/select-profile';
-import { Roles } from '@/shared/constants/global';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
+import { UserRoleType } from '@/types/types.generated';
 import { useTranslation } from 'react-i18next';
 import { FaRegUser } from 'react-icons/fa6';
 import { FiLogOut } from 'react-icons/fi';
@@ -21,7 +21,7 @@ const MyProfileModal = () => {
   return (
     <div>
       <Link
-        to={user?.role === Roles.MENTOR ? '/mentor/profile' : '/student/profile'}
+        to={user?.role === UserRoleType.Mentor ? '/mentor/profile' : '/student/profile'}
         className={
           'flex items-center space-x-3 px-[16px] py-[18px] font-semibold text-[15px] border-b cursor-pointer transition ease-in-out delay-150 group hover:bg-color-purple'
         }
@@ -32,7 +32,7 @@ const MyProfileModal = () => {
         </span>
       </Link>
 
-      {user?.role === Roles.STUDENT && (
+      {user?.role === UserRoleType.Student && (
         <AdaptiveDialog
           classNameDrawer="max-h-[100dvh]"
           button={

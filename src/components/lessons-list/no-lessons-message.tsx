@@ -1,5 +1,6 @@
 import { useAuth } from '@/app/providers/auth-provider';
-import { Roles } from '@/shared/constants/global';
+import {} from '@/shared/constants/global';
+import { UserRoleType } from '@/types/types.generated';
 import { Trans, useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
@@ -13,7 +14,7 @@ const NoLessonsMessage = ({
   const [t] = useTranslation(['lessons']);
   const { user } = useAuth();
 
-  if (user?.role === Roles.MENTOR) {
+  if (user?.role === UserRoleType.Mentor) {
     return (
       <div className="w-full bg-gray-50 rounded-lg mt-8 py-[47px]">
         <p className="text-color-dark-purple text-sm text-center mb-6">
