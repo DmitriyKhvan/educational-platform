@@ -27,7 +27,6 @@ const Table: React.FC<TableProps> = ({
   handleOpenFeedbackModal,
   handleFeedback,
 }) => {
-  console.log('🚀 ~ planStatus:', planStatus);
   const [displayTableData, setDisplayTableData] = useState<CalendarEventsSorted[]>([]);
   const isDesktop = useMediaQuery({ minWidth: 1307 });
 

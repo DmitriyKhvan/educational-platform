@@ -40,7 +40,6 @@ const Calendar = forwardRef<FullCalendar, CalendarProps>((props, ref) => {
       )}
       <FullCalendar
         ref={ref}
-        loading={(isLoading) => console.log(isLoading, '!!!LOADING!!!')}
         headerToolbar={false}
         scrollTimeReset={false}
         nowIndicator={true}
