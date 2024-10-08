@@ -1,19 +1,19 @@
-import { addMonths, addWeeks, endOfWeek, isBefore, startOfWeek } from 'date-fns';
-import { format } from 'date-fns-tz';
-import { useCallback, useEffect, useState } from 'react';
-import { EmblaCarousel } from './embla-carousel';
-import type { EmblaOptionsType } from 'embla-carousel';
-import { AvailabilityDates } from './availability-dates';
+import { useAuth } from '@/app/providers/auth-provider';
 import { useAvailabilitySlotsLazyQuery } from '@/shared/apollo/queries/timesheets/availability-slots.generated';
+import notify from '@/shared/utils/notify';
 import type {
   AvailabilitySlot,
   GroupedAvailabilitySlots,
   Mentor,
   PackageSubscription,
 } from '@/types/types.generated';
-import { useAuth } from '@/app/providers/auth-provider';
-import notify from '@/shared/utils/notify';
+import { addMonths, addWeeks, endOfWeek, isBefore, startOfWeek } from 'date-fns';
+import { format } from 'date-fns-tz';
+import type { EmblaOptionsType } from 'embla-carousel';
+import { useCallback, useEffect, useState } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
+import { AvailabilityDates } from './availability-dates';
+import { EmblaCarousel } from './embla-carousel';
 
 export interface WeekRanges {
   rangeStart: string;
@@ -28,7 +28,7 @@ interface ScheduleDateTimeProps {
   repeat: number | boolean | null;
   schedule: AvailabilitySlot | undefined;
   plan: PackageSubscription | undefined;
-  lessonId?: string | undefined;
+  lessonId?: string | null;
 }
 
 export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({

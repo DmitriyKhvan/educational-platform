@@ -15,6 +15,7 @@ interface ScheduleCalendarProps {
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
   setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
   schedule: AvailabilitySlot | undefined;
+  lessonId?: string | null;
 }
 
 export const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
@@ -24,6 +25,7 @@ export const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
   setSchedule,
   schedule,
   setRepeat,
+  lessonId,
 }) => {
   const navigate = useNavigate();
 
@@ -40,14 +42,16 @@ export const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
     <section>
       <header className="flex justify-between items-center mb-10">
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => {
-              navigate(-1);
-            }}
-          >
-            <IoArrowBack className="text-2xl" />
-          </button>
+          {!lessonId && (
+            <button
+              type="button"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              <IoArrowBack className="text-2xl" />
+            </button>
+          )}
           <h2 className="font-bold text-3xl">
             Book a lesson with {mentor?.firstName ?? ''} {mentor?.lastName?.[0] ?? ''}.
           </h2>
