@@ -1,4 +1,4 @@
-import { format, lastDayOfMonth, startOfMonth, subDays } from 'date-fns';
+import { addMonths, format, isAfter, lastDayOfMonth, startOfMonth, subDays } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
@@ -8,7 +8,7 @@ import Button from '@/components/form/button';
 import SelectLessonDatePopover from '@/entities/select-lesson-date-popover/ui/select-lesson-date-popover';
 import { AVAILABILITY_SLOTS } from '@/shared/apollo/queries/lessons/availability-slots';
 import { CalendarView, type LanguageType, localeDic } from '@/shared/constants/global';
-import {} from '@/shared/ui/popover';
+
 import { cn } from '@/shared/utils/functions';
 import { useCalendarControls } from '@/shared/utils/use-calendar-controls';
 import type { AvailabilitySlot, GroupedAvailabilitySlots, Mentor } from '@/types/types.generated';
@@ -111,6 +111,8 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
         ...absDates.map(eventMapFunc('abscent')),
       ];
 
+  const nowPlus30Days = addMonths(new Date(), 1);
+
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const renderEventContent = (eventInfo: any) => {
     if (eventInfo.event.extendedProps.type === 'abscent') {
@@ -125,8 +127,12 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
     return (
       <SelectLessonDatePopover
         repeat={repeat}
-        setPopoverOpen={setPopoverOpen}
-        popoverOpen={popoverOpen}
+        setPopoverOpen={
+          isAfter(eventInfo.event._instance.range.start, nowPlus30Days) ? undefined : setPopoverOpen
+        }
+        popoverOpen={
+          isAfter(eventInfo.event._instance.range.start, nowPlus30Days) ? true : popoverOpen
+        }
         slot={eventInfo.event.extendedProps.slot}
         setRepeat={setRepeat}
         setSchedule={setSchedule}
@@ -136,6 +142,8 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
             type="button"
             className={cn(
               'w-full font-medium focus:bg-opacity-100 focus:text-white bg-color-banner-green rounded bg-opacity-10 text-color-banner-green py-2',
+              isAfter(eventInfo.event._instance.range.start, nowPlus30Days) &&
+                'bg-opacity-5 text-opacity-30',
               chosenDates.find(
                 (cd) =>
                   eventInfo?.event?.extendedProps?.slot?.date === cd.date &&
