@@ -28,7 +28,7 @@ interface ScheduleDateTimeProps {
   repeat: number | boolean | null;
   schedule: AvailabilitySlot | undefined;
   plan: PackageSubscription | undefined;
-  lessonId?: string | undefined;
+  lessonId?: string | null;
 }
 
 export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
