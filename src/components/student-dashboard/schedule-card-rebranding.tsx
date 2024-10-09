@@ -6,14 +6,15 @@ import StatusIndicator from '@/components/student-dashboard/status-indicator';
 import { localeDic } from '@/shared/constants/global';
 import { cn } from '@/shared/utils/functions';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
+import { ucFirst } from '@/shared/utils/uc-first';
 import {
-  LessonStatusType,
-  UserRoleType,
   type Lesson,
+  LessonStatusType,
   type Maybe,
   type Mentor,
   type PackageSubscription,
   type Student,
+  UserRoleType,
 } from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';
 import { addMinutes } from 'date-fns';
@@ -82,7 +83,7 @@ const ScheduleCard = ({
   return (
     <div
       className={`mb-5 rounded-[10px] p-5 shadow-[0_4px_10px_0px_rgba(0,0,0,0.07)] ${
-        !LessonStatusType[data?.status?.toUpperCase() as keyof typeof LessonStatusType]
+        !LessonStatusType[ucFirst(data?.status ?? '') as keyof typeof LessonStatusType]
           ? 'bg-color-light-grey2 opacity-60'
           : 'border border-color-border-grey bg-white'
       }`}

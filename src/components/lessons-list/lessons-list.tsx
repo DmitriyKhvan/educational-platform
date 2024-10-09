@@ -6,7 +6,7 @@ import { LessonsCalendar, LessonsTable } from '@/components/lessons-list';
 import Loader from '@/components/loader/loader';
 import { sortCalendarEvents } from '@/shared/utils/sort-calendar-events';
 import type { CalendarEventProcessed, CalendarEventsSorted } from '@/types';
-import { LessonStatusType, type Lesson, type PackageSubscription } from '@/types/types.generated';
+import { type Lesson, LessonStatusType, type PackageSubscription } from '@/types/types.generated';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMediaQuery } from 'react-responsive';
@@ -20,7 +20,7 @@ interface LessonsListProps {
       }
     | undefined;
   loadingAppointments: boolean;
-  planStatus: PackageSubscription;
+  planStatus: PackageSubscription[];
 }
 
 const LessonsList: React.FC<LessonsListProps> = ({
