@@ -11,10 +11,11 @@ type PropType = {
   options?: EmblaOptionsType;
   nextWeekSlots: (count: number) => void;
   weekDays: number;
+  disableMentor: boolean;
 };
 
 export const EmblaCarousel: React.FC<PropType> = (props) => {
-  const { slides, slots, options, nextWeekSlots, weekDays } = props;
+  const { slides, slots, options, nextWeekSlots, weekDays, disableMentor } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
   const { prevBtnDisabled, /*nextBtnDisabled,*/ onPrevButtonClick, onNextButtonClick } =
@@ -50,7 +51,7 @@ export const EmblaCarousel: React.FC<PropType> = (props) => {
       </div>
 
       <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
-      <NextButton onClick={handleNextButtonClick} /*disabled={nextBtnDisabled}*/ />
+      <NextButton onClick={handleNextButtonClick} disabled={disableMentor} />
     </div>
   );
 };
