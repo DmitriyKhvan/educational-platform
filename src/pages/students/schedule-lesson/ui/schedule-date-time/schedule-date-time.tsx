@@ -41,8 +41,6 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
   plan,
   lessonId,
 }) => {
-  //remove jin
-  console.log('ScheduleDateTime', repeat);
   const options: EmblaOptionsType = { containScroll: 'keepSnaps', slidesToScroll: 'auto' };
   const [weekRanges, setWeekRanges] = useState<WeekRanges[]>([]);
   const [availabilitySlots] = useAvailabilitySlotsLazyQuery();

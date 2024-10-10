@@ -39,13 +39,6 @@ const ScheduleLesson = () => {
     repeatLessons ? JSON.parse(repeatLessons) : null,
   );
 
-  console.log(
-    'repeatLessons',
-    repeatLessons,
-    '\nJSON.parse(repeatLessons)',
-    JSON.parse(repeatLessons ?? ''),
-  );
-
   const [selectedPlan, setSelectedPlan] = useState<PackageSubscription>();
   const [schedule, setSchedule] = useState<AvailabilitySlot>();
   const [tabIndex, setTabIndex] = useState<number>(0);
