@@ -100,7 +100,7 @@ function SelectLessonDatePopover({
         onOpenChange={(open) => {
           // setPopoverOpen?.(open);
           if (open) {
-            setRepeat(isBoolean ? isBoolean : null);
+            setRepeat(isBoolean ? repeat : null);
           }
           if (!open) {
             setConfirmCloseModal(true);

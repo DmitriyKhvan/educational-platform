@@ -58,7 +58,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
   const navigate = useNavigate();
   const isRepeatBoolean = typeof repeat === 'boolean';
   const [t, i18n] = useTranslation(['common', 'lessons', 'dashboard', 'translations']);
-
+  console.log(repeat);
   const [openModal, setOpenModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { user, currentStudent } = useAuth();
@@ -283,7 +283,9 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
             theme="purple"
             onClick={() => confirmLesson()}
           >
-            {t('booking_lesson', { ns: 'lessons' })}
+            {repeat
+              ? t('booking_lessons', { ns: 'lessons' })
+              : t('booking_lesson', { ns: 'lessons' })}
           </Button>
         </div>
       </div>
