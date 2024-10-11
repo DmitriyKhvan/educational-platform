@@ -89,7 +89,7 @@
   "lesson_created": "Lesson created",
   "lesson_rescheduled": "Lesson rescheduled",
   "lesson_approved": "Lesson approved",
-  "lessons_approved": "Lessons approved",
+  "lesson_approved_plural": "Lessons approved",
   "completed": "Completed",
   "approved": "Approved",
   "scheduled": "Scheduled",

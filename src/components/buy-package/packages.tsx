@@ -59,7 +59,6 @@ export const Packages = memo(function Packages({
                   </p>
 
                   <p className="text-[15px]">
-                    {/* biome-ignore lint/complexity/noExtraBooleanCast: <explanation> */}
                     {pkg?.discount ? (
                       <>
                         <span>
