@@ -9,7 +9,10 @@ import { format, toZonedTime } from 'date-fns-tz';
 import notify from '@/shared/utils/notify';
 import { useMediaQuery } from 'react-responsive';
 
-export const WeekSlots = ({ mentor }: { mentor: Mentor }) => {
+export const WeekSlots = ({
+  mentor,
+  disableMentor,
+}: { mentor: Mentor; disableMentor: boolean }) => {
   const isTablet = useMediaQuery({ maxWidth: 1024 });
   const isDesktop = useMediaQuery({ minWidth: 1025, maxWidth: 1280 });
   const WEEK_DAYS = isTablet ? 4 : isDesktop ? 6 : 7;
@@ -60,7 +63,7 @@ export const WeekSlots = ({ mentor }: { mentor: Mentor }) => {
     const rangeEnd = add(rangeStart, { days: countDays - 1 });
     const startDay = add(rangeStart, { days: countDays - WEEK_DAYS }); // 5 or 7 days ago from the end date
 
-    await fetchAvailabilitySlots(rangeStart, rangeEnd);
+    if (!disableMentor) await fetchAvailabilitySlots(rangeStart, rangeEnd);
 
     // generate dates for 5 or7 days
     for (let i = 0; i < WEEK_DAYS; i++) {
@@ -79,6 +82,7 @@ export const WeekSlots = ({ mentor }: { mentor: Mentor }) => {
       options={options}
       nextWeekSlots={nextWeekSlots}
       weekDays={WEEK_DAYS}
+      disableMentor={disableMentor}
     />
   );
 };

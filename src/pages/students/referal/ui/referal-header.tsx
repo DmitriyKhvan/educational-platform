@@ -1,14 +1,13 @@
 import purpleLogo from '@/shared/assets/images/logo_purple.svg';
 
 import Button from '@/components/form/button';
-import { LangSwitcher, useCurrentLang } from '@/entities/lang-switcher';
+import { LangSwitcher } from '@/entities/lang-switcher';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LuMenu, LuX } from 'react-icons/lu';
 import { useMediaQuery } from 'react-responsive';
 
 function ReferalHeader() {
-  const currentLang = useCurrentLang();
   const [t] = useTranslation(['refer', 'common']);
 
   const isTablet = useMediaQuery({ maxWidth: 1280 });
@@ -50,7 +49,7 @@ function ReferalHeader() {
         </nav>
         <div className="flex gap-1 sm:gap-4">
           <div>
-            <LangSwitcher currentLang={currentLang} theme="purple" />
+            <LangSwitcher theme="purple" />
           </div>
           {isTablet ? (
             <Button

@@ -18,17 +18,17 @@ const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <ApolloProvider client={client}>
     <I18nextProvider i18n={i18next}>
-      <CurrencyProvider>
-        <NotificationProvider>
-          <AuthProvider>
+      <NotificationProvider>
+        <AuthProvider>
+          <CurrencyProvider>
             <BrowserRouter>
               <ErrorBoundary>
                 <App />
               </ErrorBoundary>
             </BrowserRouter>
-          </AuthProvider>
-        </NotificationProvider>
-      </CurrencyProvider>
+          </CurrencyProvider>
+        </AuthProvider>
+      </NotificationProvider>
     </I18nextProvider>
   </ApolloProvider>,
 );

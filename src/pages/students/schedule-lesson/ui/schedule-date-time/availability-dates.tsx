@@ -22,13 +22,6 @@ export const AvailabilityDates: React.FC<AvailabilityDatesProps> = ({
   schedule,
 }) => {
   const [chosenDates, setChosenDates] = useState<AvailabilitySlot[]>([]);
-  // const scheduleLesson = () => {
-  //   console.log('slot', slot);
-  //   if (slot) {
-  //     setSchedule(slot);
-  //     setTabIndex(3);
-  //   }
-  // };
 
   return (
     <div className="mt-5 space-y-4">

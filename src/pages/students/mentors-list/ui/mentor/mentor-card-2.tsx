@@ -36,9 +36,17 @@ export const MentorCard2 = ({
     return `${location.pathname}${location.search}`;
   }, [location]);
 
+  const disableMentor = useMemo(() => {
+    const regularAvailabilities = mentor.availabilities.filter(
+      (availability) => !availability?.isTrial,
+    );
+
+    return regularAvailabilities.length === 0;
+  }, [mentor.availabilities]);
+
   return (
     <div className="w-full sm:w-fit space-y-6 p-4 border border-gray-100 rounded-xl shadow-[0px_0px_16px_0px_rgba(0,_0,_0,_0.04)]">
-      <div className="flex flex-col sm:flex-row sm:items-center w-full gap-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center w-full gap-4 sm:gap-5">
         <div className="flex items-center flex-grow gap-x-4 sm:gap-x-5">
           <div className="relative min-w-[64px] max-w-[64px] h-[64px] overflow-hidden rounded-lg">
             <Avatar avatarUrl={mentor.avatar?.url ?? undefined} />
@@ -80,24 +88,20 @@ export const MentorCard2 = ({
             <Tooltip delayDuration={200}>
               <TooltipTrigger asChild>
                 <Link
-                  to={mentor?.availabilities?.length > 0 ? url : '#'}
+                  to={!disableMentor ? url : '#'}
                   state={{
                     mentor: {
                       ...mentor,
                     },
                   }}
                 >
-                  <Button
-                    theme="purple"
-                    className="w-[145px]"
-                    disabled={mentor?.availabilities?.length === 0}
-                  >
+                  <Button theme="purple" className="w-[145px]" disabled={disableMentor}>
                     {t('schedule', { ns: 'common' })}
                   </Button>
                 </Link>
               </TooltipTrigger>
 
-              {mentor?.availabilities?.length === 0 && (
+              {disableMentor && (
                 <TooltipPortal>
                   <TooltipContent>
                     <div className="text-center">
@@ -113,7 +117,7 @@ export const MentorCard2 = ({
         </div>
       </div>
 
-      {!isMobile && <WeekSlots mentor={mentor} />}
+      {!isMobile && <WeekSlots mentor={mentor} disableMentor={disableMentor} />}
     </div>
   );
 };

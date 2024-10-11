@@ -1,23 +1,23 @@
-import { Currencies, type CurrencyDictionary } from '@/shared/constants/global';
+import { Currency } from '@/types/types.generated';
 
 export const currencyFormat = ({
   locales = 'ko-KR',
   style = 'currency',
-  currency = Currencies.KRW,
+  currency = Currency.Krw,
   number,
 }: {
   locales?: string;
   style?: 'decimal' | 'currency' | 'percent' | 'unit';
-  currency?: CurrencyDictionary['value'];
+  currency?: Currency;
   number: number;
 }) => {
   let formatNumber = number;
 
   switch (currency) {
-    case Currencies.USD:
+    case Currency.Usd:
       formatNumber = number / 100;
       break;
-    case Currencies.TWD:
+    case Currency.Twd:
       formatNumber = Math.ceil(number / 100);
       break;
     default:
@@ -27,6 +27,6 @@ export const currencyFormat = ({
   return new Intl.NumberFormat(locales, {
     style,
     currency,
-    ...(currency === Currencies.TWD && { minimumFractionDigits: 0 }),
+    ...(currency === Currency.Twd && { minimumFractionDigits: 0 }),
   }).format(formatNumber);
 };
