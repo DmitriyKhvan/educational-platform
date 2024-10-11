@@ -57,7 +57,7 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
       timezone: user?.timeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
       rangeStart: startDate,
       rangeEnd: endDate,
-      duration: 30,
+      duration: 25,
     },
   });
 
@@ -157,6 +157,8 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
   const eventRectRef = useRef<{ top: number; left: number; height: number } | null>(null);
 
   const handleEventClick = (clickInfo: EventClickArg) => {
+    if (clickInfo.event.extendedProps.type === 'abscent') return;
+
     const eventElement = clickInfo.el.getBoundingClientRect();
 
     if (isAfter(clickInfo?.event?._instance?.range.start ?? new Date(), nowPlus30Days)) return;
@@ -168,6 +170,8 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
 
     const isLeftSide = window.innerWidth / 2 > eventElement.x;
 
+    const isBottom = eventElement.y > window.innerHeight - 223;
+
     eventRectRef.current = {
       top: eventElement.top,
       height: eventElement.height,
@@ -178,7 +182,7 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
     };
 
     setPopoverPosition({
-      top: eventElement.top,
+      top: eventElement.top + (isBottom ? -150 : 0),
       left:
         eventElement.left +
         window.scrollX +
