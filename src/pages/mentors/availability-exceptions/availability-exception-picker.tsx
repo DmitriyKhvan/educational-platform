@@ -15,11 +15,13 @@ import type { SelectSingleEventHandler } from 'react-day-picker';
 export const AvailabilityExceptionPicker = ({
   oldException,
   onSubmit,
+  setOpenCalendar,
   disabledDates,
   disableSave,
 }: {
   oldException?: Exception;
-  onSubmit: (exception: Exception) => void;
+  onSubmit: (exception: Exception, setOpenCalendar: (value: boolean) => void) => void;
+  setOpenCalendar: (value: boolean) => void;
   disabledDates: Date[];
   disableSave?: boolean;
 }) => {
@@ -56,9 +58,9 @@ export const AvailabilityExceptionPicker = ({
         id: nanoid(),
         ...oldException,
         slots,
+        date: dateStr,
         from: exception?.from || '', // Default to an empty string if undefined
         to: exception?.to || '', // Default to an empty string if undefined
-        date: format(parse(exception.date, 'yyyy-MM-dd', new Date()), 'yyyy-MM-dd'),
       };
 
       setException(newException);
@@ -98,7 +100,7 @@ export const AvailabilityExceptionPicker = ({
       date: format(parse(exception.date, 'yyyy-MM-dd', new Date()), 'yyyy-MM-dd'),
     };
 
-    onSubmit(newException);
+    onSubmit(newException, setOpenCalendar);
   };
 
   return (

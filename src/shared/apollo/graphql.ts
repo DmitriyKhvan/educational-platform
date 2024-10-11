@@ -505,6 +505,7 @@ export const APPOINTMENTS_QUERY = gql`
               language
             }
           }
+          sessionTime
         }
         paymentId
       }
