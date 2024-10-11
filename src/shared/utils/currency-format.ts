@@ -8,7 +8,7 @@ export const currencyFormat = ({
 }: {
   locales?: string;
   style?: 'decimal' | 'currency' | 'percent' | 'unit';
-  currency?: Currency;
+  currency?: Currency | string;
   number: number;
 }) => {
   let formatNumber = number;
