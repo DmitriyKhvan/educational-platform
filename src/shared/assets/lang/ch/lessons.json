@@ -35,6 +35,7 @@
   "no_available_slots": "無可用名額",
   "confirm_lesson": "確認課程",
   "booking_lesson": "預約課程",
+  "booking_lessons": "預約課程",
   "lessons_remaining": "還有 {{count}} 堂課",
   "lessons_remaining_plural": "還有 {{count}} 堂課",
   "lessons_completed": "上完了 {{count}} 堂課，共 {{total}} 堂",
@@ -97,5 +98,10 @@
   "months": "月",
   "no_completed_lessons": "尚未完成課程",
   "you_have_n_available_lessons": "還有 <purple>{{count}}</purple> 堂課程",
+  "purchase_package": "Purchase a package",
+  "purchase_lessons_here": "Purchase lessons here!",
+  "purchase_lessons_here_text": "Start your journey with NaoNow by selecting the package that best suits your needs",
+  "select_package": "Select a package",
+  "view_my_lessons": "View my lessons",
   "referral_package_purchased": "Congratulations! Your friend purchased classes using your referral link. You get <purple>{{count}} free classes</purple>!"
 }

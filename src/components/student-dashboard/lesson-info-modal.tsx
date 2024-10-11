@@ -6,13 +6,13 @@ import StatusIndicator from '@/components/student-dashboard/status-indicator';
 import { localeDic } from '@/shared/constants/global';
 import { cn } from '@/shared/utils/functions';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
+import { type Lesson, type Playground, UserRoleType } from '@/types/types.generated';
 import { Avatar } from '@/widgets/avatar/avatar';
 import { addMinutes } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
 import { useTranslation } from 'react-i18next';
 import { PiStarFourFill } from 'react-icons/pi';
 import { PlaygroundRecordingModal } from '../playground-recording-modal';
-import { type Playground, UserRoleType, type Lesson } from '@/types/types.generated';
 
 const LessonInfoModal = ({
   date,

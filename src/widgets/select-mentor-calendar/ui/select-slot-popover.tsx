@@ -2,31 +2,25 @@ import MyDropdownMenu from '@/components/dropdown-menu';
 import Button from '@/components/form/button';
 import CheckboxField from '@/components/form/checkbox-field';
 import CloseConfirmationModal from '@/entities/select-lesson-date-popover/ui/close-confirmation-modal';
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
+import { Popover, PopoverContent } from '@/shared/ui/popover';
+import type { AvailabilitySlot } from '@/types/types.generated';
 import { PopoverClose } from '@radix-ui/react-popover';
 import { addDays, format } from 'date-fns';
-import { type Dispatch, type ReactNode, type SetStateAction, useEffect, useState } from 'react';
+import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
 import { FaAngleDown, FaXmark } from 'react-icons/fa6';
-import { useMediaQuery } from 'react-responsive';
 
-interface AvailabilitySlotType {
-  date: string;
-  from: string;
-  to: string;
-}
-
-interface SelectLessonDatePopoverProps {
-  slot?: AvailabilitySlotType;
+interface SelectSlotPopoverProps {
+  slot?: AvailabilitySlot;
   popoverOpen?: boolean;
   setPopoverOpen?: Dispatch<SetStateAction<boolean>>;
   setRepeat: Dispatch<SetStateAction<number | boolean | null>>;
   repeat: number | boolean | null;
-  setSchedule: Dispatch<SetStateAction<AvailabilitySlotType | undefined>>;
-  setChosenDates: Dispatch<SetStateAction<AvailabilitySlotType[]>>;
-  btn: ReactNode;
+  setSchedule: Dispatch<SetStateAction<AvailabilitySlot | undefined>>;
+  setChosenDates: Dispatch<SetStateAction<AvailabilitySlot[]>>;
+  popoverPosition: { top: number; left: number };
 }
 
-function SelectLessonDatePopover({
+function SelectSlotPopover({
   slot,
   popoverOpen,
   setPopoverOpen,
@@ -34,27 +28,15 @@ function SelectLessonDatePopover({
   setRepeat,
   repeat,
   setChosenDates,
-  btn,
-}: SelectLessonDatePopoverProps) {
+  popoverPosition,
+}: SelectSlotPopoverProps) {
   const isBoolean = typeof repeat === 'boolean';
-
-  const isMobile = useMediaQuery({ maxWidth: 639 });
 
   const [repeatWeekly, setRepeatWeekly] = useState(false);
   const [repeatPeriod, setRepeatPeriod] = useState(0);
-  const [isChosen, setIsChosen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const [confirmCloseModal, setConfirmCloseModal] = useState(false);
-
-  const closeModal = () => {
-    setSchedule(undefined);
-    setRepeatWeekly(false);
-    setRepeatPeriod(0);
-    setIsChosen(false);
-    setConfirmCloseModal(false);
-    setPopoverOpen?.(false);
-  };
 
   useEffect(() => {
     if (repeatPeriod && repeatWeekly) {
@@ -78,27 +60,35 @@ function SelectLessonDatePopover({
           : [];
         return res;
       });
-    } else if (!repeatWeekly && isChosen) {
+    } else if (!repeatWeekly) {
       setChosenDates((v) => (v?.[0] ? [v[0]] : []));
     }
   }, [repeatPeriod, repeatWeekly]);
 
+  useEffect(() => {
+    if (!popoverOpen) return;
+    setRepeatWeekly(false);
+    setRepeatPeriod(0);
+    setConfirmCloseModal(false);
+  }, [popoverOpen]);
+
   return (
     <>
-      {isChosen && (
-        <CloseConfirmationModal
-          open={confirmCloseModal}
-          setOpen={setConfirmCloseModal}
-          onCloseClick={() => {
-            closeModal();
-            setChosenDates([]);
-          }}
-        />
-      )}
+      <CloseConfirmationModal
+        open={confirmCloseModal}
+        setOpen={setConfirmCloseModal}
+        onCloseClick={() => {
+          setSchedule(undefined);
+          setRepeatWeekly(false);
+          setRepeatPeriod(0);
+          setConfirmCloseModal(false);
+          setPopoverOpen?.(false);
+          setChosenDates([]);
+        }}
+      />
       <Popover
-        open={isChosen}
+        open={popoverOpen}
         onOpenChange={(open) => {
-          // setPopoverOpen?.(open);
           if (open) {
             setRepeat(isBoolean ? repeat : null);
           }
@@ -107,28 +97,23 @@ function SelectLessonDatePopover({
           }
         }}
       >
-        <PopoverTrigger
-          asChild
-          className="w-full"
-          disabled={popoverOpen}
-          onClick={() => {
-            setIsChosen(true);
-            setChosenDates(slot ? [slot] : []);
-          }}
-        >
-          {btn}
-        </PopoverTrigger>
         <PopoverContent
-          className="w-[300px] bg-white"
-          side={isMobile ? 'bottom' : 'left'}
-          sideOffset={10}
-          avoidCollisions={true}
+          style={{
+            position: 'absolute',
+            top: `${popoverPosition.top}px`,
+            left: `${popoverPosition.left}px`,
+            zIndex: 9999,
+            padding: '10px',
+            backgroundColor: 'white',
+            // transition: 'top 0.2s ease, left 0.2s ease',
+          }}
+          side="left"
         >
           <div className="grid gap-4">
             <div className="flex justify-between items-start">
               <div className="space-y-3 mb-1">
                 <h4 className="font-semibold leading-none">
-                  {format(new Date(slot?.date ?? ''), 'eeee, MMMM do')}
+                  {format(new Date(slot?.date ?? new Date()), 'eeee, MMMM do')}
                 </h4>
                 <p className="text-sm text-muted-foreground">
                   {slot && format(new Date(`${slot.date}T${slot.from}:00`), 'HH:mmaa')} -{' '}
@@ -222,7 +207,6 @@ function SelectLessonDatePopover({
               onClick={() => {
                 setSchedule(slot);
                 if (repeatWeekly) setRepeat(repeatPeriod);
-                setIsChosen(false);
                 setPopoverOpen?.(false);
               }}
             >
@@ -235,4 +219,4 @@ function SelectLessonDatePopover({
   );
 }
 
-export default SelectLessonDatePopover;
+export default SelectSlotPopover;

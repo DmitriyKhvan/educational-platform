@@ -52,7 +52,7 @@ const ScheduleSuccess = ({
           <>
             <FaCheckCircle className="w-6 h-6 sm:w-9 sm:h-9 text-[#039855]" />
             <h1 className="text-[32px] sm:text-4xl text-color-dark-purple font-bold">
-              {t('lesson_approved')}
+              {t('lesson_approved', { count: lessons.length })}
             </h1>
           </>
         ) : (

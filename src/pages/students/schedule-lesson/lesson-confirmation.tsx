@@ -283,7 +283,9 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
             theme="purple"
             onClick={() => confirmLesson()}
           >
-            {t('booking_lesson', { ns: 'lessons' })}
+            {repeat
+              ? t('booking_lessons', { ns: 'lessons' })
+              : t('booking_lesson', { ns: 'lessons' })}
           </Button>
         </div>
       </div>

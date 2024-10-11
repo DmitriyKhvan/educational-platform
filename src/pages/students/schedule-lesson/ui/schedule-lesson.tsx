@@ -83,6 +83,7 @@ const ScheduleLesson = () => {
           lessonId={id}
         />
       )}
+
       {tabIndex === 2 && !isTablet && (
         <ScheduleCalendar
           repeat={repeat}
