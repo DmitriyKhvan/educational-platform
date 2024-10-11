@@ -6,6 +6,7 @@ import { parse } from 'date-fns';
 import { format } from 'date-fns-tz';
 import { formatTime } from '../availability/lib/format-time';
 import { formatTimeToSeconds } from '../availability/lib/format-time-to-seconds';
+import { useState } from 'react';
 
 export const AvailabilityExceptionModal = ({
   exception,
@@ -18,8 +19,12 @@ export const AvailabilityExceptionModal = ({
   onSubmit: (exception: Exception) => void;
   disabledDates: Date[];
 }) => {
+  const [openCalendar, setOpenCalendar] = useState<boolean>(false);
+
   return (
     <AdaptiveDialog
+      open={openCalendar}
+      setOpen={setOpenCalendar}
       button={
         <button type="button" className="flex w-[90%]">
           <span className="basis-[45%] text-left">
@@ -39,6 +44,7 @@ export const AvailabilityExceptionModal = ({
       <AvailabilityExceptionPicker
         oldException={exception}
         onSubmit={onSubmit}
+        setOpenCalendar={setOpenCalendar}
         disabledDates={disabledDates.filter((date) => {
           return date.toString() !== parse(exception.date, 'yyyy-MM-dd', new Date()).toString();
         })}

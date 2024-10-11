@@ -45,12 +45,17 @@ export const AvailabilityExceptions = ({
   const [disableSave, setDisableSave] = useState(true);
   const [disabledDates, setDisabledDates] = useState<Date[]>([]);
 
+  const [openCalendar, setOpenCalendar] = useState<boolean>(false);
+
   const { user } = useAuth();
 
   const [upsertExceptionDates, { loading: loadingExceptionDates }] =
     useMutation(UPSERT_EXCEPTION_DATES);
 
-  const onSubmit = (availabilityExceptions: Exception) => {
+  const onSubmit = (
+    availabilityExceptions: Exception,
+    closeCalendar?: (value: boolean) => void,
+  ) => {
     if (availabilityExceptions) {
       const exceptionDates = [];
 
@@ -83,6 +88,9 @@ export const AvailabilityExceptions = ({
         onCompleted: () => {
           refetchMentor();
           notify('Date override is saved');
+          if (closeCalendar) {
+            closeCalendar(false);
+          }
         },
         onError: (error) => {
           const parseError = parseErrorMessage(error);
@@ -185,6 +193,8 @@ export const AvailabilityExceptions = ({
         </div>
 
         <AdaptiveDialog
+          open={openCalendar}
+          setOpen={setOpenCalendar}
           button={
             <Button
               theme="outline"
@@ -197,6 +207,7 @@ export const AvailabilityExceptions = ({
         >
           <AvailabilityExceptionPicker
             onSubmit={onSubmit}
+            setOpenCalendar={setOpenCalendar}
             disabledDates={disabledDates}
             disableSave={disableSave}
           />

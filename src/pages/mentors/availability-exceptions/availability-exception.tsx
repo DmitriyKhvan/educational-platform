@@ -15,7 +15,7 @@ export const AvailabilityException = ({
 }: {
   exception: Exception;
   disabledDates: Date[];
-  onSubmit: (exception: Exception) => void;
+  onSubmit: (exception: Exception, setOpenCalendar?: (value: boolean) => void) => void;
 }) => {
   const removeAvailabilityExceptionSlot = (exception: Exception, slot: ExceptionDateSlot) => {
     const date = exception.slots.length === 1 ? slot.date : '';

@@ -65,7 +65,7 @@ const ScheduleCard = ({
     const end = format(
       addMinutes(
         toZonedTime(dateLesson, userTimezone),
-        subscription?.package?.sessionTime ?? 0 ?? duration,
+        subscription?.package?.sessionTime ?? duration ?? 0,
       ),
       'hh:mm a',
       { timeZone: userTimezone, locale: localeDic[i18n.language as keyof typeof localeDic] },
