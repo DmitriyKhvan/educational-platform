@@ -5,19 +5,20 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
 import { Calendar } from '@/components/calendar';
 import Button from '@/components/form/button';
-import SelectLessonDatePopover from '@/entities/select-lesson-date-popover/ui/select-lesson-date-popover';
 import { AVAILABILITY_SLOTS } from '@/shared/apollo/queries/lessons/availability-slots';
 import { CalendarView, type LanguageType, localeDic } from '@/shared/constants/global';
 
-import { cn } from '@/shared/utils/functions';
 import { useCalendarControls } from '@/shared/utils/use-calendar-controls';
 import type { AvailabilitySlot, GroupedAvailabilitySlots, Mentor } from '@/types/types.generated';
 import { useQuery } from '@apollo/client';
 import type FullCalendar from '@fullcalendar/react';
-import { BsExclamationLg } from 'react-icons/bs';
 
 import './select-mentor-calendar.scss';
 import { useAuth } from '@/app/providers/auth-provider';
+import { cn } from '@/shared/utils/functions';
+import type { EventClickArg } from '@fullcalendar/core';
+import { BsExclamationLg } from 'react-icons/bs';
+import SelectSlotPopover from './select-slot-popover';
 interface ScheduleCalendarProps {
   mentor: Mentor;
   repeat: number | boolean | null;
@@ -25,11 +26,17 @@ interface ScheduleCalendarProps {
   setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
 }
 
+interface AvailabilitySlotType {
+  date: string;
+  from: string;
+  to: string;
+}
+
 function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: ScheduleCalendarProps) {
   const [startDate, setStartDate] = useState(format(subDays(new Date(), 1), 'yyyy-MM-01'));
-  const [endDate, setEndDate] = useState(
-    format(subDays(lastDayOfMonth(new Date()), 1), 'yyyy-MM-dd'),
-  );
+  const [endDate, setEndDate] = useState(format(lastDayOfMonth(new Date()), 'yyyy-MM-dd'));
+
+  const [slot, setSlot] = useState<AvailabilitySlotType | undefined>();
 
   const [chosenDates, setChosenDates] = useState<AvailabilitySlot[]>([]);
 
@@ -61,7 +68,7 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
       } else {
         setStartDate(format(subDays(startOfMonth(date), 1), 'yyyy-MM-dd'));
       }
-      setEndDate(format(subDays(lastDayOfMonth(date), 1), 'yyyy-MM-dd'));
+      setEndDate(format(lastDayOfMonth(date), 'yyyy-MM-dd'));
     }
   }, [date]);
 
@@ -113,7 +120,6 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
       ];
 
   const nowPlus30Days = addMonths(new Date(), 1);
-
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const renderEventContent = (eventInfo: any) => {
     if (eventInfo.event.extendedProps.type === 'abscent') {
@@ -126,38 +132,89 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
     }
 
     return (
-      <SelectLessonDatePopover
-        repeat={repeat}
-        setPopoverOpen={
-          isAfter(eventInfo.event._instance.range.start, nowPlus30Days) ? undefined : setPopoverOpen
-        }
-        popoverOpen={
-          isAfter(eventInfo.event._instance.range.start, nowPlus30Days) ? true : popoverOpen
-        }
-        slot={eventInfo.event.extendedProps.slot}
-        setRepeat={setRepeat}
-        setSchedule={setSchedule}
-        setChosenDates={setChosenDates}
-        btn={
-          <button
-            type="button"
-            className={cn(
-              'w-full font-medium focus:bg-opacity-100 focus:text-white bg-color-banner-green rounded bg-opacity-10 text-color-banner-green py-2',
-              isAfter(eventInfo.event._instance.range.start, nowPlus30Days) &&
-                'bg-opacity-5 text-opacity-30',
-              chosenDates.find(
-                (cd) =>
-                  eventInfo?.event?.extendedProps?.slot?.date === cd.date &&
-                  eventInfo?.event?.extendedProps?.slot?.from === cd.from,
-              ) && 'bg-opacity-100 text-white',
-            )}
-          >
-            {eventInfo?.event?.title}
-          </button>
-        }
-      />
+      <div
+        className={cn(
+          'w-full font-medium text-center focus:bg-opacity-100 focus:text-white bg-color-banner-green rounded bg-opacity-10 text-color-banner-green py-2',
+          isAfter(eventInfo.event._instance.range.start, nowPlus30Days) &&
+            'bg-opacity-5 text-opacity-30',
+          chosenDates.find(
+            (cd) =>
+              eventInfo?.event?.extendedProps?.slot?.date === cd.date &&
+              eventInfo?.event?.extendedProps?.slot?.from === cd.from,
+          ) && 'bg-opacity-100 text-white text-opacity-100',
+        )}
+      >
+        {eventInfo?.event?.title}
+      </div>
     );
   };
+
+  const [popoverPosition, setPopoverPosition] = useState<{ top: number; left: number }>({
+    top: 0,
+    left: 0,
+  });
+
+  const eventRectRef = useRef<{ top: number; left: number; height: number } | null>(null);
+
+  const handleEventClick = (clickInfo: EventClickArg) => {
+    const eventElement = clickInfo.el.getBoundingClientRect();
+
+    if (isAfter(clickInfo?.event?._instance?.range.start ?? new Date(), nowPlus30Days)) return;
+    setSlot(clickInfo.event.extendedProps.slot);
+
+    setChosenDates(clickInfo.event.extendedProps.slot ? [clickInfo.event.extendedProps.slot] : []);
+
+    setSchedule(undefined);
+
+    const isLeftSide = window.innerWidth / 2 > eventElement.x;
+
+    eventRectRef.current = {
+      top: eventElement.top,
+      height: eventElement.height,
+      left:
+        eventElement.left +
+        window.scrollX +
+        (isLeftSide ? eventElement.width + 5 : -(eventElement.width * 1.45)),
+    };
+
+    setPopoverPosition({
+      top: eventElement.top,
+      left:
+        eventElement.left +
+        window.scrollX +
+        (isLeftSide ? eventElement.width + 5 : -(eventElement.width * 1.45)),
+    });
+
+    setPopoverOpen(true);
+
+    clickInfo.jsEvent.stopPropagation();
+  };
+
+  // Фукнции для динамического изменения позиции поповера
+  // const updatePopoverPosition = () => {
+  //   console.log('🚀 ~ updatePopoverPosition ~ popoverPosition:', popoverPosition);
+  //   const scrollableParent = document.querySelector('.scrollable-parent');
+
+  //   if (eventRectRef.current) {
+  //     const { top, left } = eventRectRef.current;
+  //     // console.log('🚀 ~ updatePopoverPosition ~ top, left, height:', top, left, height);
+  //     // Update popover position relative to the scrolled position
+  //     setPopoverPosition({
+  //       top: top - (scrollableParent?.scrollTop ?? 0), // Account for scrolling
+  //       left: left,
+  //     });
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   const scrollableParent = document.querySelector('.scrollable-parent');
+
+  //   scrollableParent?.addEventListener('scroll', updatePopoverPosition);
+
+  //   return () => {
+  //     scrollableParent?.removeEventListener('scroll', updatePopoverPosition);
+  //   };
+  // }, []);
 
   return (
     <div className="bg-white border rounded-xl">
@@ -186,13 +243,24 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
         </div>
       </header>
 
+      <SelectSlotPopover
+        slot={slot}
+        popoverOpen={popoverOpen}
+        setPopoverOpen={setPopoverOpen}
+        setSchedule={setSchedule}
+        setRepeat={setRepeat}
+        repeat={repeat}
+        setChosenDates={setChosenDates}
+        popoverPosition={popoverPosition}
+      />
+
       <Calendar
         ref={calendarRef}
         events={events}
         isLoading={loading}
         eventContent={loading ? undefined : renderEventContent}
+        eventClick={handleEventClick}
         contentHeight={1400}
-        // dayMaxEvents={3}
       />
     </div>
   );
