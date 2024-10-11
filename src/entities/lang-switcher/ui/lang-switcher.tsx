@@ -11,24 +11,28 @@ import { cn } from '@/shared/utils/functions';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
+import { useSearchParams } from 'react-router-dom';
 // import { VscGlobe } from 'react-icons/vsc';
 
 export const LangSwitcher = ({
-  currentLang,
   theme = 'default',
 }: {
-  currentLang?: { label: string; value: string };
   theme?: 'default' | 'purple';
 }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const newSearchParams = new URLSearchParams(searchParams);
+
+  const currentLang = useCurrentLang();
+
   const [open, setOpen] = useState(false);
   const [t, i18n] = useTranslation('common');
 
-  const [language, setLanguage] = useState(currentLang || useCurrentLang());
-
   const onChangeLanguage = (currentLang: LanguageDictionary) => {
+    newSearchParams.delete('lang');
+    setSearchParams(newSearchParams);
+
     setOpen(false);
     setItemToLocalStorage('language', currentLang.value);
-    setLanguage(currentLang);
     i18n.changeLanguage(currentLang.value);
   };
 
@@ -45,7 +49,7 @@ export const LangSwitcher = ({
           )}
         >
           {/* <VscGlobe className="text-2xl" /> */}
-          {language?.label && <span className="grow text-left">{t(language?.label)}</span>}
+          {currentLang?.label && <span className="grow text-left">{t(currentLang?.label)}</span>}
           {open ? <FaAngleUp /> : <FaAngleDown />}
         </Button>
       }
@@ -71,7 +75,7 @@ export const LangSwitcher = ({
                   onChange={() => onChangeLanguage(lang)}
                   type="radio"
                   name="lang"
-                  checked={lang.value === language?.value}
+                  checked={lang.value === currentLang?.value}
                 />
               </label>
             </li>

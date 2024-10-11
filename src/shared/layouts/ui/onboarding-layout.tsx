@@ -4,19 +4,18 @@ import { Link, Outlet } from 'react-router-dom';
 import Logo from '@/shared/assets/images/logo_purple.svg';
 import Loader from '@/components/loader/loader';
 import { LangCurrencySwitcher } from '@/widgets/lang-currency-switcher';
-import { LangSwitcher, useCurrentLang } from '@/entities/lang-switcher';
+import { LangSwitcher } from '@/entities/lang-switcher';
 import { useAuth } from '@/app/providers/auth-provider';
 
 export const OnboardingLayout = () => {
   const { user } = useAuth();
 
-  const currentLang = useCurrentLang();
   const switcher = useMemo(() => {
     return user ? (
       <LangCurrencySwitcher align="end" />
     ) : (
       <div className="w-[150px]">
-        <LangSwitcher currentLang={currentLang} />
+        <LangSwitcher />
       </div>
     );
   }, [user]);

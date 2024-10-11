@@ -15,13 +15,19 @@ import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa6';
 
 import { useCurrency } from '@/app/providers/currency-provider';
-import { Currencies } from '@/shared/constants/global';
 import { currencyFormat } from '@/shared/utils/currency-format';
-import { DiscountType, type Course, type Package, type Query } from '@/types/types.generated';
+import {
+  Currency,
+  DiscountType,
+  type Course,
+  type Package,
+  type Query,
+} from '@/types/types.generated';
 import { useMediaQuery } from 'react-responsive';
 
 export default function BuyPackage() {
   const isTablet = useMediaQuery({ minWidth: 1280 });
+
   const { user } = useAuth();
   const { curCurrency } = useCurrency();
   const [t, i18n] = useTranslation('purchase');
@@ -96,8 +102,8 @@ export default function BuyPackage() {
         ),
       ].sort((a, b) => (a ?? 0) - (b ?? 0));
 
-      setUniqueSessionsTime(uniqueSessionsTime);
-      setUniqueSessionsPerWeek(uniqueSessionsPerWeek);
+      setUniqueSessionsTime(uniqueSessionsTime as number[]);
+      setUniqueSessionsPerWeek(uniqueSessionsPerWeek as number[]);
 
       setSelectedSessionTime(uniqueSessionsTime[0] ?? null);
       setSelectedSessionsPerWeek(uniqueSessionsPerWeek[0] ?? null);
@@ -149,23 +155,23 @@ export default function BuyPackage() {
         <div className="grow">
           {!isTablet && (
             <>
-              {user?.personalPromotionCodes?.length && !promoPackage && (
+              {user?.personalPromotionCodes?.length && !promoPackage ? (
                 <PromoBanner
                   icon={<span className="text-xl">🎁</span>}
                   title={`You received a ${discount} discount`}
                   text="Purchase a package to use it now!"
                   className="flex bg-[#F14E1C]"
                 />
-              )}
+              ) : null}
 
-              {promoPackage && discount && (
+              {promoPackage && discount ? (
                 <PromoBanner
                   icon={<FaCheck />}
                   title={`${discount} discount is activated`}
                   text="Please complete purchase the form below"
                   className="flex bg-[#00D986]"
                 />
-              )}
+              ) : null}
             </>
           )}
 
@@ -209,23 +215,23 @@ export default function BuyPackage() {
         <div className="w-full md:min-w-[414px] md:max-w-[414px]">
           {isTablet && (
             <>
-              {user?.personalPromotionCodes?.length && !promoPackage && (
+              {user?.personalPromotionCodes?.length && !promoPackage ? (
                 <PromoBanner
                   icon={<span className="text-xl">🎁</span>}
                   title={`You received a ${discount} discount`}
                   text="Purchase a package to use it now!"
                   className="flex bg-[#F14E1C]"
                 />
-              )}
+              ) : null}
 
-              {promoPackage && discount && (
+              {promoPackage && discount ? (
                 <PromoBanner
                   icon={<FaCheck />}
                   title={`${discount} discount is activated`}
                   text="Please complete purchase the form below"
                   className="flex bg-[#00D986]"
                 />
-              )}
+              ) : null}
             </>
           )}
           <OrderSummary
@@ -236,7 +242,7 @@ export default function BuyPackage() {
         </div>
       </div>
 
-      {curCurrency?.value === Currencies.TWD && (
+      {curCurrency?.value === Currency.Twd && (
         <div className="mt-10">
           <p className="text-sm">
             請注意：結帳時的最終費用可能略有不同。不用擔心，只需繼續付款即可，結帳時看到的金額將是最終費用。

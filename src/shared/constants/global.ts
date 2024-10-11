@@ -377,15 +377,6 @@ export const Host = {
 export type LanguageType =
   (typeof CourseTranslationsLanguage)[keyof typeof CourseTranslationsLanguage];
 
-//Currency
-export const Currencies = {
-  USD: 'USD',
-  KRW: 'KRW',
-  TWD: 'TWD',
-} as const;
-
-type CurrencyType = (typeof Currencies)[keyof typeof Currencies];
-
 export interface LanguageDictionary {
   label: string;
   value: LanguageType;
@@ -408,27 +399,27 @@ export const languagesDic: LanguageDictionary[] = [
 
 export interface CurrencyDictionary {
   label: string;
-  value: CurrencyType;
+  value: string;
   locales: string;
   active: boolean;
 }
 
 export const currenciesDic: CurrencyDictionary[] = [
   {
-    label: `${Currency.Usd} ($)`,
-    value: Currencies.USD,
+    label: `${Currency.Usd.toUpperCase()} ($)`,
+    value: Currency.Usd,
     locales: 'en-US',
     active: true,
   },
   {
-    label: `${Currency.Krw} (₩)`,
-    value: Currencies.KRW,
+    label: `${Currency.Krw.toUpperCase()} (₩)`,
+    value: Currency.Krw,
     locales: 'ko-KR',
     active: true,
   },
   {
-    label: `${Currency.Twd} ($)`,
-    value: Currencies.TWD,
+    label: `${Currency.Twd.toUpperCase()} ($)`,
+    value: Currency.Twd,
     locales: 'zh-TW',
     active: true,
   },

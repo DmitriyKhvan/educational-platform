@@ -1,19 +1,40 @@
 import { useAuth } from '@/app/providers/auth-provider';
 import type { AuthContextType } from '@/app/providers/auth-provider/lib/auth-context';
-import { type LanguageDictionary, languagesDic } from '@/shared/constants/global';
+import {
+  type LanguageDictionary,
+  languagesDic,
+  setItemToLocalStorage,
+} from '@/shared/constants/global';
 import { CourseTranslationsLanguage, UserRoleType } from '@/types/types.generated';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 
 export const useCurrentLang = (): LanguageDictionary => {
   const { user } = useAuth() as AuthContextType;
   const { i18n } = useTranslation();
+  const [searchParams] = useSearchParams();
 
   const currentLang = useMemo((): LanguageDictionary => {
     const storedLang = localStorage.getItem('language');
+    const langParam = searchParams.get('lang') as CourseTranslationsLanguage;
+
+    if (langParam) {
+      localStorage.removeItem('language');
+      localStorage.removeItem('currency');
+    }
+
     let currentLangValue: string;
 
-    if (storedLang) {
+    if (
+      [
+        CourseTranslationsLanguage.Kr,
+        CourseTranslationsLanguage.Cn,
+        CourseTranslationsLanguage.En,
+      ].includes(langParam)
+    ) {
+      currentLangValue = langParam;
+    } else if (storedLang) {
       currentLangValue = storedLang;
     } else if (location.pathname === '/' || user?.role === UserRoleType.Mentor) {
       currentLangValue = CourseTranslationsLanguage.En;
@@ -29,7 +50,9 @@ export const useCurrentLang = (): LanguageDictionary => {
         languagesDic[0];
     }
 
-    if (!storedLang) {
+    setItemToLocalStorage('language', currentLang.value);
+
+    if (langParam || !storedLang) {
       i18n.changeLanguage(currentLang.value);
     }
 

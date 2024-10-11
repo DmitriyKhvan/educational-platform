@@ -9,8 +9,12 @@ import notify from '@/shared/utils/notify';
 import { useMutation } from '@apollo/client';
 import { useState } from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
+import { useSearchParams } from 'react-router-dom';
 
 export const CurrencySwitcher = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const newSearchParams = new URLSearchParams(searchParams);
+
   const { user } = useAuth();
   const { curCurrency, setCurCurrency, setLoadingCurrency } = useCurrency();
   const [open, setOpen] = useState(false);
@@ -26,6 +30,9 @@ export const CurrencySwitcher = () => {
         },
       },
       onCompleted: () => {
+        newSearchParams.delete('lang');
+        setSearchParams(newSearchParams);
+
         setOpen(false);
         setCurCurrency?.(currency);
         localStorage.setItem('currency', currency.value);

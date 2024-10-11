@@ -1,27 +1,71 @@
 import { CurrencyContext } from '@/app/providers/currency-provider/lib/use-currency';
-import { Currencies, currenciesDic } from '@/shared/constants/global';
-import { type ReactNode, useMemo, useState } from 'react';
+import { UPDATE_USER } from '@/shared/apollo/mutations/user/update-user';
+import { type CurrencyDictionary, currenciesDic } from '@/shared/constants/global';
+import { CourseTranslationsLanguage, Currency } from '@/types/types.generated';
+import { useMutation } from '@apollo/client';
+import { type ReactNode, useState, useEffect } from 'react';
+import { useAuth } from '../../auth-provider';
+import notify from '@/shared/utils/notify';
+import { useTranslation } from 'react-i18next';
+
+const defaultCurrenciesDic = {
+  [CourseTranslationsLanguage.En]: Currency.Usd,
+  [CourseTranslationsLanguage.Kr]: Currency.Krw,
+  [CourseTranslationsLanguage.Cn]: Currency.Twd,
+} as const;
 
 export const CurrencyProvider = ({ children }: { children: ReactNode }) => {
-  const defaultCurrency = useMemo(() => {
-    const curCurrency = currenciesDic
-      .filter((currency) => currency.active)
-      .find((currency) => currency.value === (localStorage.getItem('currency') || Currencies.KRW));
-
-    if (!curCurrency) {
-      return currenciesDic.find((currency) => currency.value === Currencies.KRW);
-    }
-
-    return curCurrency;
-  }, []);
-
-  const [curCurrency, setCurCurrency] = useState(defaultCurrency);
+  const { i18n } = useTranslation();
+  const { user } = useAuth();
 
   const [loadingCurrency, setLoadingCurrency] = useState(false);
+  const [curCurrency, setCurCurrency] = useState<CurrencyDictionary>();
 
   const findCurrency = (value: string) => {
     return currenciesDic.find((currency) => currency.value === value?.toString()?.toUpperCase());
   };
+
+  const [updateUser] = useMutation(UPDATE_USER);
+
+  const onChangeCurrency = async (currency: CurrencyDictionary) => {
+    setLoadingCurrency?.(true);
+    await updateUser({
+      variables: {
+        id: Number.parseInt(user?.id ?? ''),
+        data: {
+          paymentCurrency: currency.value.toLowerCase(),
+        },
+      },
+      onCompleted: () => {
+        setCurCurrency(currency);
+        localStorage.setItem('currency', currency.value);
+      },
+      onError: (error) => {
+        notify(error.message, 'error');
+      },
+    });
+    setLoadingCurrency?.(false);
+  };
+
+  useEffect(() => {
+    if (user) {
+      const curCurrency = currenciesDic
+        .filter((currency) => currency.active)
+        .find(
+          (currency) =>
+            currency.value ===
+            (localStorage.getItem('currency') ||
+              defaultCurrenciesDic[i18n.language as CourseTranslationsLanguage] ||
+              Currency.Krw),
+        );
+
+      if (!localStorage.getItem('currency')) {
+        onChangeCurrency(curCurrency as CurrencyDictionary);
+      } else {
+        setCurCurrency(curCurrency as CurrencyDictionary);
+      }
+    }
+  }, [user]);
 
   return (
     <CurrencyContext.Provider

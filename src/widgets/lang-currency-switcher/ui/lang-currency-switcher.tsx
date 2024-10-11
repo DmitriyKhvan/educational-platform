@@ -34,7 +34,7 @@ export const LangCurrencySwitcher = ({
       <div className="space-y-5 w-[240px] p-5">
         <div className="space-y-3">
           <h5 className="text-sm font-bold">{t('language')}</h5>
-          <LangSwitcher currentLang={currentLang} />
+          <LangSwitcher />
         </div>
         <div className="space-y-3">
           <h5 className="text-sm font-bold">{t('currency')}</h5>
