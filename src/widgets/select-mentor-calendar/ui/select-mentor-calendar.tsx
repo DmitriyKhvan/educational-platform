@@ -24,6 +24,8 @@ interface ScheduleCalendarProps {
   repeat: number | boolean | null;
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
   setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
+  schedule: AvailabilitySlot | undefined;
+  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 interface AvailabilitySlotType {
@@ -32,11 +34,18 @@ interface AvailabilitySlotType {
   to: string;
 }
 
-function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: ScheduleCalendarProps) {
+function SelectMentorCalendar({
+  mentor,
+  repeat,
+  setSchedule,
+  setRepeat,
+  schedule,
+  setTabIndex,
+}: ScheduleCalendarProps) {
   const [startDate, setStartDate] = useState(format(subDays(new Date(), 1), 'yyyy-MM-01'));
   const [endDate, setEndDate] = useState(format(lastDayOfMonth(new Date()), 'yyyy-MM-dd'));
 
-  const [slot, setSlot] = useState<AvailabilitySlotType | undefined>();
+  const [slot, setSlot] = useState<AvailabilitySlotType | undefined>(schedule);
 
   const [chosenDates, setChosenDates] = useState<AvailabilitySlot[]>([]);
 
@@ -156,6 +165,10 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
 
   const eventRectRef = useRef<{ top: number; left: number; height: number } | null>(null);
 
+  useEffect(() => {
+    setChosenDates(slot ? [slot] : []);
+  }, [slot]);
+
   const handleEventClick = (clickInfo: EventClickArg) => {
     if (clickInfo.event.extendedProps.type === 'abscent') return;
 
@@ -164,7 +177,7 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
     if (isAfter(clickInfo?.event?._instance?.range.start ?? new Date(), nowPlus30Days)) return;
     setSlot(clickInfo.event.extendedProps.slot);
 
-    setChosenDates(clickInfo.event.extendedProps.slot ? [clickInfo.event.extendedProps.slot] : []);
+    // setChosenDates(clickInfo.event.extendedProps.slot ? [clickInfo.event.extendedProps.slot] : []);
 
     setSchedule(undefined);
 
@@ -256,6 +269,7 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
         repeat={repeat}
         setChosenDates={setChosenDates}
         popoverPosition={popoverPosition}
+        setTabIndex={setTabIndex}
       />
 
       <Calendar
