@@ -1,4 +1,12 @@
-import { addMonths, format, isAfter, lastDayOfMonth, startOfMonth, subDays } from 'date-fns';
+import {
+  addDays,
+  addMonths,
+  format,
+  isAfter,
+  lastDayOfMonth,
+  startOfMonth,
+  subDays,
+} from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
@@ -166,8 +174,32 @@ function SelectMentorCalendar({
   const eventRectRef = useRef<{ top: number; left: number; height: number } | null>(null);
 
   useEffect(() => {
-    setChosenDates(slot ? [slot] : []);
-  }, [slot]);
+    if (repeat) {
+      setChosenDates((v) => {
+        let dateToIncrement = v?.[0] && new Date(`${v[0].date}T${v[0].from}:00Z`);
+        const res = v?.[0]
+          ? [
+              v[0],
+              ...Array.from(Array(typeof repeat === 'boolean' ? 1 : repeat * 4 - 1)).map(() => {
+                dateToIncrement = addDays(new Date(dateToIncrement), 7);
+
+                const res = {
+                  date: format(dateToIncrement, 'yyyy-MM-dd'),
+                  from: slot?.from ?? format(dateToIncrement, 'HH:mm'),
+                  to: slot?.to ?? format(dateToIncrement, 'HH:mm'),
+                };
+
+                return res;
+              }),
+            ]
+          : [];
+        return res;
+      });
+    } else if (!repeat) {
+      setChosenDates((v) => (v?.[0] ? [v[0]] : []));
+    }
+    // setChosenDates(slot ? [slot] : []);
+  }, []);
 
   const handleEventClick = (clickInfo: EventClickArg) => {
     if (clickInfo.event.extendedProps.type === 'abscent') return;
@@ -177,7 +209,7 @@ function SelectMentorCalendar({
     if (isAfter(clickInfo?.event?._instance?.range.start ?? new Date(), nowPlus30Days)) return;
     setSlot(clickInfo.event.extendedProps.slot);
 
-    // setChosenDates(clickInfo.event.extendedProps.slot ? [clickInfo.event.extendedProps.slot] : []);
+    setChosenDates(clickInfo.event.extendedProps.slot ? [clickInfo.event.extendedProps.slot] : []);
 
     setSchedule(undefined);
 
