@@ -112,8 +112,6 @@ function SelectMentorCalendar({
 
   const [popoverOpen, setPopoverOpen] = useState(false);
 
-  if (!calendarRef) return null;
-
   const eventMapFunc = (type: 'default' | 'abscent') => (s: AvailabilitySlot) => ({
     id: `${s.date}${s.from}`,
     title: `${s.from}-${s.to}`,
@@ -202,7 +200,7 @@ function SelectMentorCalendar({
   }, []);
 
   const handleEventClick = (clickInfo: EventClickArg) => {
-    if (clickInfo.event.extendedProps.type === 'abscent') return;
+    if (clickInfo.event.extendedProps.type === 'abscent' || popoverOpen) return;
 
     const eventElement = clickInfo.el.getBoundingClientRect();
 
@@ -239,31 +237,7 @@ function SelectMentorCalendar({
     clickInfo.jsEvent.stopPropagation();
   };
 
-  // Фукнции для динамического изменения позиции поповера
-  // const updatePopoverPosition = () => {
-  //   console.log('🚀 ~ updatePopoverPosition ~ popoverPosition:', popoverPosition);
-  //   const scrollableParent = document.querySelector('.scrollable-parent');
-
-  //   if (eventRectRef.current) {
-  //     const { top, left } = eventRectRef.current;
-  //     // console.log('🚀 ~ updatePopoverPosition ~ top, left, height:', top, left, height);
-  //     // Update popover position relative to the scrolled position
-  //     setPopoverPosition({
-  //       top: top - (scrollableParent?.scrollTop ?? 0), // Account for scrolling
-  //       left: left,
-  //     });
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const scrollableParent = document.querySelector('.scrollable-parent');
-
-  //   scrollableParent?.addEventListener('scroll', updatePopoverPosition);
-
-  //   return () => {
-  //     scrollableParent?.removeEventListener('scroll', updatePopoverPosition);
-  //   };
-  // }, []);
+  if (!calendarRef) return null;
 
   return (
     <div className="bg-white border rounded-xl">

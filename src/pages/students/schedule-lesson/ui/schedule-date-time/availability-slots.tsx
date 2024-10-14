@@ -30,6 +30,7 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotsProps> = ({
   const moreSlots = availDate.timeSlots.slice(9);
 
   const [isMoreSlots, setIsMoreSlots] = useState<boolean>(false);
+  const [popoverOpen, setPopoverOpen] = useState(false);
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -52,6 +53,8 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotsProps> = ({
             repeat={repeat}
             active={chosenDates.some((slot) => slot.date === time.date && slot.from === time.from)}
             setTabIndex={setTabIndex}
+            popoverOpen={popoverOpen}
+            setPopoverOpen={setPopoverOpen}
           />
         ))}
 
@@ -68,6 +71,8 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotsProps> = ({
                 (slot) => slot.date === time.date && slot.from === time.from,
               )}
               setTabIndex={setTabIndex}
+              popoverOpen={popoverOpen}
+              setPopoverOpen={setPopoverOpen}
             />
           ))}
       </div>

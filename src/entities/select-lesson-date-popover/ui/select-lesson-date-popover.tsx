@@ -114,6 +114,7 @@ function SelectLessonDatePopover({
           className="w-full"
           disabled={popoverOpen}
           onClick={() => {
+            setPopoverOpen?.(true);
             setIsChosen(true);
             setChosenDates(slot ? [slot] : []);
           }}
