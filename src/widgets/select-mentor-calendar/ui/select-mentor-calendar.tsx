@@ -55,7 +55,7 @@ function SelectMentorCalendar({
 
   const [slot, setSlot] = useState<AvailabilitySlotType | undefined>(schedule);
 
-  const [chosenDates, setChosenDates] = useState<AvailabilitySlot[]>([]);
+  const [chosenDates, setChosenDates] = useState<AvailabilitySlot[]>(schedule ? [schedule] : []);
 
   const [t, i18n] = useTranslation(['lessons', 'common']);
   const calendarRef = useRef<FullCalendar>(null);
@@ -69,6 +69,7 @@ function SelectMentorCalendar({
 
   const { data, loading } = useQuery(AVAILABILITY_SLOTS, {
     notifyOnNetworkStatusChange: true,
+    fetchPolicy: 'network-only',
     variables: {
       mentorId: mentor.id,
       timezone: user?.timeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
