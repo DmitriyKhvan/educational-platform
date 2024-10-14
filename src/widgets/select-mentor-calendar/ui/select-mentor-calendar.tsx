@@ -1,4 +1,12 @@
-import { addMonths, format, isAfter, lastDayOfMonth, startOfMonth, subDays } from 'date-fns';
+import {
+  addDays,
+  addMonths,
+  format,
+  isAfter,
+  lastDayOfMonth,
+  startOfMonth,
+  subDays,
+} from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
@@ -24,6 +32,8 @@ interface ScheduleCalendarProps {
   repeat: number | boolean | null;
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
   setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
+  schedule: AvailabilitySlot | undefined;
+  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 interface AvailabilitySlotType {
@@ -32,11 +42,18 @@ interface AvailabilitySlotType {
   to: string;
 }
 
-function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: ScheduleCalendarProps) {
+function SelectMentorCalendar({
+  mentor,
+  repeat,
+  setSchedule,
+  setRepeat,
+  schedule,
+  setTabIndex,
+}: ScheduleCalendarProps) {
   const [startDate, setStartDate] = useState(format(subDays(new Date(), 1), 'yyyy-MM-01'));
   const [endDate, setEndDate] = useState(format(lastDayOfMonth(new Date()), 'yyyy-MM-dd'));
 
-  const [slot, setSlot] = useState<AvailabilitySlotType | undefined>();
+  const [slot, setSlot] = useState<AvailabilitySlotType | undefined>(schedule);
 
   const [chosenDates, setChosenDates] = useState<AvailabilitySlot[]>([]);
 
@@ -94,8 +111,6 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
   }, [chosenDates, data]);
 
   const [popoverOpen, setPopoverOpen] = useState(false);
-
-  if (!calendarRef) return null;
 
   const eventMapFunc = (type: 'default' | 'abscent') => (s: AvailabilitySlot) => ({
     id: `${s.date}${s.from}`,
@@ -156,8 +171,36 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
 
   const eventRectRef = useRef<{ top: number; left: number; height: number } | null>(null);
 
+  useEffect(() => {
+    if (repeat) {
+      setChosenDates((v) => {
+        let dateToIncrement = v?.[0] && new Date(`${v[0].date}T${v[0].from}:00Z`);
+        const res = v?.[0]
+          ? [
+              v[0],
+              ...Array.from(Array(typeof repeat === 'boolean' ? 1 : repeat * 4 - 1)).map(() => {
+                dateToIncrement = addDays(new Date(dateToIncrement), 7);
+
+                const res = {
+                  date: format(dateToIncrement, 'yyyy-MM-dd'),
+                  from: slot?.from ?? format(dateToIncrement, 'HH:mm'),
+                  to: slot?.to ?? format(dateToIncrement, 'HH:mm'),
+                };
+
+                return res;
+              }),
+            ]
+          : [];
+        return res;
+      });
+    } else if (!repeat) {
+      setChosenDates((v) => (v?.[0] ? [v[0]] : []));
+    }
+    // setChosenDates(slot ? [slot] : []);
+  }, []);
+
   const handleEventClick = (clickInfo: EventClickArg) => {
-    if (clickInfo.event.extendedProps.type === 'abscent') return;
+    if (clickInfo.event.extendedProps.type === 'abscent' || popoverOpen) return;
 
     const eventElement = clickInfo.el.getBoundingClientRect();
 
@@ -194,31 +237,7 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
     clickInfo.jsEvent.stopPropagation();
   };
 
-  // Фукнции для динамического изменения позиции поповера
-  // const updatePopoverPosition = () => {
-  //   console.log('🚀 ~ updatePopoverPosition ~ popoverPosition:', popoverPosition);
-  //   const scrollableParent = document.querySelector('.scrollable-parent');
-
-  //   if (eventRectRef.current) {
-  //     const { top, left } = eventRectRef.current;
-  //     // console.log('🚀 ~ updatePopoverPosition ~ top, left, height:', top, left, height);
-  //     // Update popover position relative to the scrolled position
-  //     setPopoverPosition({
-  //       top: top - (scrollableParent?.scrollTop ?? 0), // Account for scrolling
-  //       left: left,
-  //     });
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const scrollableParent = document.querySelector('.scrollable-parent');
-
-  //   scrollableParent?.addEventListener('scroll', updatePopoverPosition);
-
-  //   return () => {
-  //     scrollableParent?.removeEventListener('scroll', updatePopoverPosition);
-  //   };
-  // }, []);
+  if (!calendarRef) return null;
 
   return (
     <div className="bg-white border rounded-xl">
@@ -256,6 +275,7 @@ function SelectMentorCalendar({ mentor, repeat, setSchedule, setRepeat }: Schedu
         repeat={repeat}
         setChosenDates={setChosenDates}
         popoverPosition={popoverPosition}
+        setTabIndex={setTabIndex}
       />
 
       <Calendar

@@ -18,6 +18,7 @@ interface SelectSlotPopoverProps {
   setSchedule: Dispatch<SetStateAction<AvailabilitySlot | undefined>>;
   setChosenDates: Dispatch<SetStateAction<AvailabilitySlot[]>>;
   popoverPosition: { top: number; left: number };
+  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function SelectSlotPopover({
@@ -29,6 +30,7 @@ function SelectSlotPopover({
   repeat,
   setChosenDates,
   popoverPosition,
+  setTabIndex,
 }: SelectSlotPopoverProps) {
   const isBoolean = typeof repeat === 'boolean';
 
@@ -208,9 +210,10 @@ function SelectSlotPopover({
                 setSchedule(slot);
                 if (repeatWeekly) setRepeat(repeatPeriod);
                 setPopoverOpen?.(false);
+                setTabIndex(3);
               }}
             >
-              Apply
+              Book
             </Button>
           </div>
         </PopoverContent>

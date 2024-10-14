@@ -24,6 +24,7 @@ interface SelectLessonDatePopoverProps {
   setSchedule: Dispatch<SetStateAction<AvailabilitySlotType | undefined>>;
   setChosenDates: Dispatch<SetStateAction<AvailabilitySlotType[]>>;
   btn: ReactNode;
+  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function SelectLessonDatePopover({
@@ -35,6 +36,7 @@ function SelectLessonDatePopover({
   repeat,
   setChosenDates,
   btn,
+  setTabIndex,
 }: SelectLessonDatePopoverProps) {
   const isBoolean = typeof repeat === 'boolean';
 
@@ -112,6 +114,7 @@ function SelectLessonDatePopover({
           className="w-full"
           disabled={popoverOpen}
           onClick={() => {
+            setPopoverOpen?.(true);
             setIsChosen(true);
             setChosenDates(slot ? [slot] : []);
           }}
@@ -224,9 +227,10 @@ function SelectLessonDatePopover({
                 if (repeatWeekly) setRepeat(repeatPeriod);
                 setIsChosen(false);
                 setPopoverOpen?.(false);
+                setTabIndex(3);
               }}
             >
-              Apply
+              Book
             </Button>
           </div>
         </PopoverContent>

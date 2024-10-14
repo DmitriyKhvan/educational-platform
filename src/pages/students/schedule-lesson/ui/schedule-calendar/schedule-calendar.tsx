@@ -80,6 +80,8 @@ export const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
         mentor={mentor}
         setSchedule={setSchedule}
         setRepeat={setRepeat}
+        schedule={schedule}
+        setTabIndex={setTabIndex}
       />
     </section>
   );

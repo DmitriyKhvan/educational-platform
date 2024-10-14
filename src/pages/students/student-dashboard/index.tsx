@@ -70,7 +70,7 @@ const StudentDashboard = () => {
               })}
               subtitle={t('student_dashboard_subtitle', { ns: 'dashboard' })}
             >
-              <ScheduleBanner activePackages={activePackages} />
+              <ScheduleBanner /*activePackages={activePackages}*/ />
             </DashboardCard>
 
             {!isDesktop && (

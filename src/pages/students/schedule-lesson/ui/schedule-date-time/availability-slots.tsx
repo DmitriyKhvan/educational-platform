@@ -1,7 +1,7 @@
 import Button from '@/components/form/button';
-import { useState } from 'react';
 import type { AvailabilitySlot, GroupedAvailabilitySlots } from '@/types/types.generated';
 import { format } from 'date-fns-tz';
+import { useState } from 'react';
 import { HiMiniChevronDown, HiMiniChevronUp } from 'react-icons/hi2';
 import { AvailabilitySlotComponent } from './availability-slot';
 
@@ -13,6 +13,7 @@ interface AvailabilitySlotsProps {
   setSchedule: React.Dispatch<React.SetStateAction<AvailabilitySlot | undefined>>;
   setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
   repeat: number | boolean | null;
+  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const AvailabilitySlots: React.FC<AvailabilitySlotsProps> = ({
@@ -23,11 +24,13 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotsProps> = ({
   setSchedule,
   setRepeat,
   repeat,
+  setTabIndex,
 }) => {
   const cardSlots = availDate.timeSlots.slice(0, 9);
   const moreSlots = availDate.timeSlots.slice(9);
 
   const [isMoreSlots, setIsMoreSlots] = useState<boolean>(false);
+  const [popoverOpen, setPopoverOpen] = useState(false);
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -49,6 +52,9 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotsProps> = ({
             setRepeat={setRepeat}
             repeat={repeat}
             active={chosenDates.some((slot) => slot.date === time.date && slot.from === time.from)}
+            setTabIndex={setTabIndex}
+            popoverOpen={popoverOpen}
+            setPopoverOpen={setPopoverOpen}
           />
         ))}
 
@@ -64,6 +70,9 @@ export const AvailabilitySlots: React.FC<AvailabilitySlotsProps> = ({
               active={chosenDates.some(
                 (slot) => slot.date === time.date && slot.from === time.from,
               )}
+              setTabIndex={setTabIndex}
+              popoverOpen={popoverOpen}
+              setPopoverOpen={setPopoverOpen}
             />
           ))}
       </div>

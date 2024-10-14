@@ -1,8 +1,8 @@
 import type { AvailabilitySlot, GroupedAvailabilitySlots } from '@/types/types.generated';
 
-import { AvailabilitySlots } from './availability-slots';
-import { useState } from 'react';
 import Button from '@/components/form/button';
+import { useState } from 'react';
+import { AvailabilitySlots } from './availability-slots';
 
 interface AvailabilityDatesProps {
   availDates: GroupedAvailabilitySlots[];
@@ -35,6 +35,7 @@ export const AvailabilityDates: React.FC<AvailabilityDatesProps> = ({
           setSchedule={setSchedule}
           setRepeat={setRepeat}
           repeat={repeat}
+          setTabIndex={setTabIndex}
         />
       ))}
 

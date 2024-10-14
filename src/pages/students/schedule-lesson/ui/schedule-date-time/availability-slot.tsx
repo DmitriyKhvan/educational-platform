@@ -9,6 +9,9 @@ interface AvailabilitySlotProps {
   setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
   repeat: number | boolean | null;
   active?: boolean;
+  setTabIndex: React.Dispatch<React.SetStateAction<number>>;
+  popoverOpen?: boolean;
+  setPopoverOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AvailabilitySlotComponent: React.FC<AvailabilitySlotProps> = ({
@@ -18,6 +21,9 @@ export const AvailabilitySlotComponent: React.FC<AvailabilitySlotProps> = ({
   setRepeat,
   repeat,
   active,
+  setTabIndex,
+  popoverOpen,
+  setPopoverOpen,
 }) => {
   return (
     <SelectLessonDatePopover
@@ -26,6 +32,9 @@ export const AvailabilitySlotComponent: React.FC<AvailabilitySlotProps> = ({
       setRepeat={setRepeat}
       repeat={repeat}
       setChosenDates={setChosenDates}
+      popoverOpen={popoverOpen}
+      setPopoverOpen={setPopoverOpen}
+      // onOpenChange={open => setPopoverOpen(open)}
       btn={
         <button
           onClick={() => setChosenDates([time])}
@@ -38,6 +47,7 @@ export const AvailabilitySlotComponent: React.FC<AvailabilitySlotProps> = ({
           {time.from}
         </button>
       }
+      setTabIndex={setTabIndex}
     />
   );
 };
