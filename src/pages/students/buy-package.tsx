@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from '@/app/providers/auth-provider';
 import { Courses } from '@/components/buy-package/courses';
 import { OrderSummary } from '@/components/buy-package/order-summary';
-import { Packages } from '@/components/buy-package/packages';
+import { Packages, type UpdatedPackage } from '@/components/buy-package/packages';
 import { PromoBanner } from '@/components/buy-package/promo-banner';
 import { SessionsPerWeek } from '@/components/buy-package/sessions-per-week';
 import { SessionsTime } from '@/components/buy-package/sessions-time';
@@ -199,11 +199,7 @@ export default function BuyPackage() {
             />
 
             <Packages
-              filteredPackage={
-                filteredPackage as unknown as (Omit<Package, 'prices'> & {
-                  price: number;
-                })[]
-              }
+              filteredPackage={filteredPackage as unknown as UpdatedPackage[]}
               setSelectedPackage={setSelectedPackage}
               selectedPackage={selectedPackage}
               setPromoPackage={setPromoPackage}

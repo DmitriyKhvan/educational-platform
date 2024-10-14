@@ -2,7 +2,7 @@ import MyDropdownMenu from '@/components/dropdown-menu';
 import Button from '@/components/form/button';
 import CheckboxField from '@/components/form/checkbox-field';
 import InputWithError from '@/components/form/input-with-error';
-import LevelModal from '@/pages/students/trial/level-modal';
+import LevelModal, { type Level } from '@/pages/students/trial/level-modal';
 import { TRIAL_PACKAGES } from '@/shared/apollo/queries/trial/trial-packages';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import { getTranslatedDescription, getTranslatedTitle } from '@/shared/utils/get-translated-title';
@@ -23,8 +23,8 @@ interface LessonDetailsProps {
 
 interface FormValues {
   packageId: string;
-  languageLevelId: string;
-  lessonTopicId: string;
+  languageLevelId: string | undefined;
+  lessonTopicId: string | undefined;
 }
 
 const LessonDetails: React.FC<LessonDetailsProps> = ({
@@ -49,50 +49,68 @@ const LessonDetails: React.FC<LessonDetailsProps> = ({
     register,
     watch,
     formState: { errors, isValid },
+    setValue,
   } = useForm<FormValues>({
     mode: 'onChange',
     defaultValues: {
-      packageId: selectedPlan?.packageSubscription?.id || '',
-      languageLevelId: '',
-      lessonTopicId: '',
+      packageId: selectedPlan?.packageSubscription?.id,
+      languageLevelId: selectedPlan?.languageLevel?.id || '',
+      lessonTopicId: selectedPlan?.lessonTopic?.id || '',
     },
   });
 
-  const languageLevel = useMemo(() => {
-    if (currentPackage) {
-      const level = currentPackage?.course?.languageLevels?.find(
-        (level) => level?.id === watch('languageLevelId'),
-      );
+  // const packagesData = useMemo(() => {
+  //   if (data) {
+  //     const translatePackages = data.trialPackages?.map((pkg) => ({
+  //       ...pkg,
+  //       course: {
+  //         ...pkg?.course,
+  //         title: getTranslatedTitle(pkg?.course as Course, i18n.language),
+  //         languageLevels: pkg?.course?.languageLevels?.map((level) => ({
+  //           ...level,
+  //           description: getTranslatedDescription(level as LanguageLevel, i18n.language),
+  //           title: getTranslatedTitle(level as LanguageLevel, i18n.language),
+  //           topics: level?.topics?.map((topic) => ({
+  //             ...topic,
+  //             title: getTranslatedTitle(topic as Topic, i18n.language),
+  //           })),
+  //         })),
+  //       },
+  //     }));
 
-      // Ensure the type aligns with the state setter
-      setCurrentLevel(level as LanguageLevel | undefined);
-
-      return (
-        level?.title || <span className="text-[#BBBBC4]">{t('select_level', { ns: 'trial' })}</span>
-      );
-    }
-
-    return <span className="text-[#BBBBC4]">{t('first_select_course', { ns: 'trial' })}</span>;
-  }, [watch('languageLevelId'), currentPackage, t, watch]);
+  //     return { trialPackages: translatePackages };
+  //   }
+  // }, [data, i18n.language]);
 
   const packagesData = useMemo(() => {
     if (data) {
-      const translatePackages = data.trialPackages?.map((pkg) => ({
-        ...pkg,
-        course: {
-          ...pkg?.course,
-          title: getTranslatedTitle(pkg?.course as Course, i18n.language),
-          languageLevels: pkg?.course?.languageLevels?.map((level) => ({
-            ...level,
-            description: getTranslatedDescription(level as LanguageLevel, i18n.language),
-            title: getTranslatedTitle(level as LanguageLevel, i18n.language),
-            topics: level?.topics?.map((topic) => ({
-              ...topic,
-              title: getTranslatedTitle(topic as Topic, i18n.language),
-            })),
-          })),
-        },
-      }));
+      const translatePackages = data.trialPackages
+        ?.slice()
+        ?.sort((a, b) => (a?.course?.sequence ?? 0) - (b?.course?.sequence ?? 0))
+        ?.map((pkg) => {
+          return {
+            ...pkg,
+            course: {
+              ...pkg?.course,
+              title: getTranslatedTitle(pkg?.course as Course, i18n.language),
+              languageLevels: pkg?.course?.languageLevels
+                ?.slice()
+                ?.sort((a, b) => (a?.sortOrder ?? 0) - (b?.sortOrder ?? 0))
+                ?.map((level) => ({
+                  ...level,
+                  description: getTranslatedDescription(level as LanguageLevel, i18n.language),
+                  title: getTranslatedTitle(level as LanguageLevel, i18n.language),
+                  topics: level?.topics
+                    ?.slice()
+                    ?.sort((a, b) => (a?.sortOrder ?? 0) - (b?.sortOrder ?? 0))
+                    ?.map((topic) => ({
+                      ...topic,
+                      title: getTranslatedTitle(topic, i18n.language),
+                    })),
+                })),
+            },
+          };
+        });
 
       return { trialPackages: translatePackages };
     }
@@ -120,6 +138,9 @@ const LessonDetails: React.FC<LessonDetailsProps> = ({
 
       if (currentPackage) {
         setCurrentPackage(currentPackage as TrialPackage);
+
+        setValue('languageLevelId', undefined);
+        setValue('lessonTopicId', undefined);
       }
 
       return (
@@ -130,7 +151,26 @@ const LessonDetails: React.FC<LessonDetailsProps> = ({
     }
 
     return <span className="text-[#BBBBC4]">{t('select_course', { ns: 'trial' })}</span>;
-  }, [packagesData, t, watch('packageId')]);
+  }, [t, watch('packageId')]);
+
+  const languageLevel = useMemo(() => {
+    if (currentPackage) {
+      const level = currentPackage?.course?.languageLevels?.find(
+        (level) => level?.id === watch('languageLevelId'),
+      );
+
+      // Ensure the type aligns with the state setter
+      setCurrentLevel(level as LanguageLevel | undefined);
+
+      setValue('lessonTopicId', undefined);
+
+      return (
+        level?.title || <span className="text-[#BBBBC4]">{t('select_level', { ns: 'trial' })}</span>
+      );
+    }
+
+    return <span className="text-[#BBBBC4]">{t('first_select_course', { ns: 'trial' })}</span>;
+  }, [watch('languageLevelId'), currentPackage, t]);
 
   const lessonTopic = useMemo(() => {
     const lessonTopicId = watch('lessonTopicId');
@@ -149,6 +189,7 @@ const LessonDetails: React.FC<LessonDetailsProps> = ({
 
     return <span className="text-[#BBBBC4]">{t('first_select_level', { ns: 'trial' })}</span>;
   }, [currentLevel, t, watch('lessonTopicId')]);
+
   return (
     <div className="w-full max-w-[440px] mx-auto">
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-[440px] m-auto">
@@ -172,7 +213,7 @@ const LessonDetails: React.FC<LessonDetailsProps> = ({
                 </Button>
               }
             >
-              <ul className="overflow-auto sm:w-[440px]">
+              <ul className="overflow-auto sm:w-[440px] max-h-[calc(100svh/2)]">
                 {packagesData?.trialPackages?.map((pkg) => {
                   return (
                     <li key={pkg.id} className="border-b border-color-border-grey last:border-b-0">
@@ -181,6 +222,7 @@ const LessonDetails: React.FC<LessonDetailsProps> = ({
                         <CheckboxField
                           type="radio"
                           value={pkg.id}
+                          // name="package"
                           onClick={() => {
                             setIsOpenCourse(false);
                           }}
@@ -216,25 +258,14 @@ const LessonDetails: React.FC<LessonDetailsProps> = ({
                 </Button>
               }
             >
-              {currentPackage?.course?.languageLevels && (
-                <LevelModal
-                  setOpen={setIsOpenLevel}
-                  watch={watch}
-                  levels={currentPackage.course.languageLevels
-                    .filter(
-                      (level): level is LanguageLevel =>
-                        level !== null && level !== undefined && level.id !== undefined,
-                    )
-                    .map((level) => ({
-                      id: level.id as string, // Ensure id is not undefined
-                      title: level.title as string, // Ensure title is not undefined
-                      description: level.description as string, // Ensure description is not undefined
-                    }))}
-                  {...register('languageLevelId', {
-                    required: 'Level is required',
-                  })}
-                />
-              )}
+              <LevelModal
+                setOpen={setIsOpenLevel}
+                watch={watch}
+                levels={currentPackage?.course?.languageLevels as Level[]}
+                {...register('languageLevelId', {
+                  required: 'Level is required',
+                })}
+              />
             </AdaptiveDialog>
           </InputWithError>
         </div>
@@ -242,46 +273,44 @@ const LessonDetails: React.FC<LessonDetailsProps> = ({
         <div className="mb-8">
           <InputWithError errorsField={errors?.lessonTopicId}>
             <label className="font-semibold block mb-3">{t('lesson_topic', { ns: 'trial' })}</label>
-
-            {currentLevel && (
-              <MyDropdownMenu
-                open={isOpenTopic}
-                setOpen={setIsOpenTopic}
-                button={
-                  <Button
-                    disabled={!currentLevel}
-                    theme="clear"
-                    className="flex items-center justify-between py-[14px] pl-3 pr-2 rounded-lg w-full border border-color-border-grey select-none"
-                  >
-                    <p className="text-sm font-medium">{lessonTopic}</p>
-                    <MdOutlineKeyboardArrowDown className="w-4" />
-                  </Button>
-                }
-              >
-                <ul className="overflow-auto min-w-[280px] sm:w-[440px]">
-                  {currentLevel?.topics?.map((topic) => {
-                    return (
-                      <li
-                        key={topic?.id}
-                        className="border-b border-color-border-grey last:border-b-0"
-                      >
-                        <label className="flex items-center justify-between gap-3 py-4 px-6 cursor-pointer">
-                          <p>{topic?.title}</p>
-                          <CheckboxField
-                            type="radio"
-                            value={topic?.id ?? ''}
-                            onClick={() => setIsOpenTopic(false)}
-                            {...register('lessonTopicId', {
-                              required: 'Topic is required',
-                            })}
-                          />
-                        </label>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </MyDropdownMenu>
-            )}
+            <MyDropdownMenu
+              open={isOpenTopic}
+              setOpen={currentLevel && setIsOpenTopic}
+              button={
+                <Button
+                  disabled={!currentLevel}
+                  theme="clear"
+                  className="flex items-center justify-between py-[14px] pl-3 pr-2 rounded-lg w-full border border-color-border-grey select-none"
+                >
+                  <p className="text-sm font-medium">{lessonTopic}</p>
+                  <MdOutlineKeyboardArrowDown className="w-4" />
+                </Button>
+              }
+            >
+              <ul className="overflow-auto min-w-[280px] sm:w-[440px] max-h-[calc(100svh/2)]">
+                {currentLevel?.topics?.map((topic) => {
+                  return (
+                    <li
+                      key={topic?.id}
+                      className="border-b border-color-border-grey last:border-b-0"
+                    >
+                      <label className="flex items-center justify-between gap-3 py-4 px-6 cursor-pointer">
+                        <p>{topic?.title}</p>
+                        <CheckboxField
+                          type="radio"
+                          // name="topic"
+                          value={topic?.id || ''}
+                          onClick={() => setIsOpenTopic(false)}
+                          {...register('lessonTopicId', {
+                            required: 'Topic is required',
+                          })}
+                        />
+                      </label>
+                    </li>
+                  );
+                })}
+              </ul>
+            </MyDropdownMenu>
           </InputWithError>
         </div>
 
