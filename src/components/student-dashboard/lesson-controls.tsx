@@ -188,7 +188,7 @@ const LessonControls = ({
           classNameDrawer="h-[95%]"
           button={
             <Button
-              disabled={data?.mentorReview !== undefined || data?.noShow !== undefined}
+              disabled={!!data?.mentorReview || !!data?.noShow}
               // theme={data?.noShow ? "red" : "purple"}
               className={cn(
                 'grow text-xs min-w-[108px] sm:text-sm px-2 gap-2 disabled:bg-[#039855] disabled:bg-opacity-10 disabled:text-[#0EC541]',

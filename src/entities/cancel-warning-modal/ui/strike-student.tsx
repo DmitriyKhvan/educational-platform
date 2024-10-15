@@ -1,11 +1,11 @@
-import { Trans, useTranslation } from 'react-i18next';
-import { WarningMessage } from './warning-message';
 import { useAuth } from '@/app/providers/auth-provider';
-import { isWithinHours } from '@/shared/utils/is-within-hours';
-import { format, toZonedTime } from 'date-fns-tz';
 import { MAX_MODIFY_COUNT, ModalType } from '@/shared/constants/global';
-import { FaXmark } from 'react-icons/fa6';
+import { isWithinHours } from '@/shared/utils/is-within-hours';
 import type { Lesson } from '@/types/types.generated';
+import { format, toZonedTime } from 'date-fns-tz';
+import { Trans, useTranslation } from 'react-i18next';
+import { FaXmark } from 'react-icons/fa6';
+import { WarningMessage } from './warning-message';
 
 interface CancelWarningModalProps {
   data: Lesson;
@@ -71,7 +71,7 @@ export const StrikeStudent: React.FC<CancelWarningModalProps> = ({ data, type, m
               t={t}
               i18nKey="n_cancelations_left"
               values={{
-                count: MAX_MODIFY_COUNT - modifyCredits,
+                count: modifyCredits,
               }}
               components={{
                 primary: <p className="font-semibold text-[15px] text-color-purple" />,
