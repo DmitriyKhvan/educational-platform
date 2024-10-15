@@ -32,9 +32,9 @@ export const AvailabilityExceptions = ({
   mentor: Mentor;
   refetchMentor: () => void;
 }) => {
-  const [errorExceptionalDates, setErrorExceptionalDates] = useState<
-    boolean | { errorExceptionalDates: ExceptionDateSlot[] }
-  >(false);
+  const [errorExceptionalDates, setErrorExceptionalDates] = useState<boolean | ExceptionDateSlot[]>(
+    false,
+  );
 
   const [availabilityExceptions, setAvailabilityExceptions] = useState<Exception[]>([]);
 
@@ -243,12 +243,11 @@ export const AvailabilityExceptions = ({
             title="Overlapping lesson(s)"
             text={
               <>
-                You have {errorExceptionalDates.errorExceptionalDates.length}{' '}
-                <b>lesson(s) scheduled</b>:
+                You have {errorExceptionalDates.length} <b>lesson(s) scheduled</b>:
                 <ul>
-                  {errorExceptionalDates.errorExceptionalDates.map((date: ExceptionDateSlot) => {
+                  {errorExceptionalDates.map((date: ExceptionDateSlot) => {
                     return (
-                      <li key={date.date}>
+                      <li key={date.from}>
                         {format(parse(date.date, 'yyyy-MM-dd', new Date()), 'dd MMM yyyy')}{' '}
                         <b>{formatTime(formatTimeToSeconds(date.from), 'hh:mm a')}</b> -{' '}
                         <b>{formatTime(formatTimeToSeconds(date.to), 'hh:mm a')}</b>
