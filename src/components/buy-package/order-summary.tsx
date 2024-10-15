@@ -18,14 +18,14 @@ import { useCurrency } from '@/app/providers/currency-provider';
 import { CREATE_PAYMENT_INTENT } from '@/shared/apollo/mutations/payment/create-payment-intent';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 
-import type { Package } from '@/types/types.generated';
 import { BsPlus } from 'react-icons/bs';
 import { FiMinus } from 'react-icons/fi';
+import type { UpdatedPackage } from './packages';
 
 interface OrderSummaryProps {
-  selectedPackage?: Package;
-  setPromoPackage: (promoPackage?: Package) => void;
-  promoPackage?: Package | null;
+  selectedPackage?: UpdatedPackage;
+  setPromoPackage: (promoPackage?: UpdatedPackage) => void;
+  promoPackage?: UpdatedPackage | null;
 }
 
 export const OrderSummary: React.FC<OrderSummaryProps> = memo(function OrderSummary({

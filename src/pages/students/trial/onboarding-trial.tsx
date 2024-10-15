@@ -19,11 +19,12 @@ import { Facebook, Hotjar } from '@/widgets/tracking';
 import type { SelectedPlan } from './types';
 
 import { BsEyeFill, BsEyeSlashFill } from 'react-icons/bs';
+import type { AuthedUserWithPassword } from '.';
 
 interface OnboardingTrialProps {
   currentUser?: AuthenticatedUser | null;
   selectedPlan?: SelectedPlan | null;
-  user?: AuthenticatedUser | null;
+  user?: AuthedUserWithPassword;
   setUser: Dispatch<
     SetStateAction<
       | (AuthenticatedUser & {
@@ -44,7 +45,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
   setStep,
   setSelectMentor,
 }: OnboardingTrialProps) {
-  const { firstName, lastName, phoneNumber, email, timeZone } = user ?? {};
+  const { firstName, lastName, phoneNumber, email, timeZone, password } = user ?? {};
 
   const [t] = useTranslation(['onboarding', 'common', 'translations', 'lessons']);
 
@@ -68,6 +69,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
       phoneNumberWithoutCode: '',
       email,
       timeZone,
+      password,
     },
   });
 
@@ -79,6 +81,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
         phoneNumber: phoneNumber || '',
         email: email || localStorage.getItem('referralEmail') || '',
         timeZone,
+        password,
       });
     }
   }, [user, reset, firstName, lastName, phoneNumber, email, timeZone]);

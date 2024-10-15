@@ -3,7 +3,7 @@ import CheckboxField from '@/components/form/checkbox-field';
 import { forwardRef } from 'react';
 import type { UseFormWatch } from 'react-hook-form';
 
-interface Level {
+export interface Level {
   id: string;
   title: string;
   description: string;
@@ -11,8 +11,8 @@ interface Level {
 
 interface FormValues {
   packageId: string;
-  languageLevelId: string;
-  lessonTopicId: string;
+  languageLevelId: string | undefined;
+  lessonTopicId: string | undefined;
 }
 interface LevelModalProps {
   setOpen: (open: boolean) => void;

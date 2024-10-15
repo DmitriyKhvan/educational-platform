@@ -8,7 +8,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-type UpdatedPackage = Omit<Package, 'prices'> & {
+export type UpdatedPackage = Package & {
   price: number;
 };
 

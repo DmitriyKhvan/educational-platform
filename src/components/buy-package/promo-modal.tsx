@@ -4,18 +4,19 @@ import Loader from '@/components/loader/loader';
 import { APPLY_PROMOTION_CODE_FOR_PACKAGE_RESOLVER } from '@/shared/apollo/graphql';
 import { currencyFormat } from '@/shared/utils/currency-format';
 import notify from '@/shared/utils/notify';
-import { Currency, DiscountType, type Mutation, type Package } from '@/types/types.generated';
+import { Currency, DiscountType, type Mutation } from '@/types/types.generated';
 import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import type { UpdatedPackage } from './packages';
 
 export const PromoModal = ({
   selectedPackage,
   setPromoPackage,
   setIsOpen,
 }: {
-  selectedPackage: Package;
-  setPromoPackage: (promoPackage: Package) => void;
+  selectedPackage: UpdatedPackage;
+  setPromoPackage: (promoPackage: UpdatedPackage) => void;
   setIsOpen: (isOpen: boolean) => void;
 }) => {
   const [t] = useTranslation('purchase');
@@ -58,7 +59,8 @@ export const PromoModal = ({
 
         if (data.applyPromotionCodeForPackage.promotionCode.discountType === DiscountType.Percent) {
           promoPackage.discount =
-            selectedPackage?.discount ?? 0 + data.applyPromotionCodeForPackage.promotionCode.value;
+            (selectedPackage?.discount ?? 0) +
+            data.applyPromotionCodeForPackage.promotionCode.value;
         } else {
           promoPackage.promotionCode = {
             discountType: data.applyPromotionCodeForPackage.promotionCode.discountType,

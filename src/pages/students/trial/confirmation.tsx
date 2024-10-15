@@ -15,15 +15,13 @@ import { localeDic, setItemToLocalStorage } from '@/shared/constants/global';
 import { buttonizeA11Y } from '@/shared/utils/buttonizeA11Y';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
 import notify from '@/shared/utils/notify';
-import type { AuthenticatedUser } from '@/types/types.generated';
 import { useNavigate } from 'react-router-dom';
 import type { SelectedPlan } from './types';
+import type { AuthedUserWithPassword } from '.';
 
 interface ConfirmationProps {
   setStep: React.Dispatch<React.SetStateAction<number>>;
-  user: AuthenticatedUser & {
-    password: string;
-  };
+  user: AuthedUserWithPassword;
 
   selectedPlan?: SelectedPlan;
   schedule: string;
