@@ -16,13 +16,7 @@ import { FaCheck } from 'react-icons/fa6';
 
 import { useCurrency } from '@/app/providers/currency-provider';
 import { currencyFormat } from '@/shared/utils/currency-format';
-import {
-  Currency,
-  DiscountType,
-  type Course,
-  type Package,
-  type Query,
-} from '@/types/types.generated';
+import { type Course, Currency, DiscountType, type Query } from '@/types/types.generated';
 import { useMediaQuery } from 'react-responsive';
 
 export default function BuyPackage() {
@@ -41,8 +35,8 @@ export default function BuyPackage() {
   const [uniqueSessionsTime, setUniqueSessionsTime] = useState<number[]>([]);
   const [uniqueSessionsPerWeek, setUniqueSessionsPerWeek] = useState<number[]>([]);
 
-  const [selectedPackage, setSelectedPackage] = useState<Package>();
-  const [promoPackage, setPromoPackage] = useState<Package>();
+  const [selectedPackage, setSelectedPackage] = useState<UpdatedPackage>();
+  const [promoPackage, setPromoPackage] = useState<UpdatedPackage | null>();
 
   const discount = useMemo(() => {
     if (user?.personalPromotionCodes?.length) {

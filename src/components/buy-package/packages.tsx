@@ -5,7 +5,7 @@ import { currencyFormat } from '@/shared/utils/currency-format';
 import type { Package } from '@/types/types.generated';
 // eslint-disable-next-line import/no-unresolved
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { memo } from 'react';
+import { type Dispatch, type SetStateAction, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export type UpdatedPackage = Package & {
@@ -20,9 +20,9 @@ export const Packages = memo(function Packages({
 }: {
   // filteredPackage?: Package[];
   filteredPackage?: UpdatedPackage[];
-  setSelectedPackage: (pkg: Package) => void;
+  setSelectedPackage: Dispatch<SetStateAction<UpdatedPackage | undefined>>;
   selectedPackage?: Package;
-  setPromoPackage: (pkg?: Package) => void;
+  setPromoPackage: Dispatch<SetStateAction<UpdatedPackage | undefined | null>>;
 }) {
   const { curCurrency } = useCurrency();
   const [t] = useTranslation(['purchase', 'common', 'translations']);
@@ -48,7 +48,7 @@ export const Packages = memo(function Packages({
                   checked={selectedPackage === pkg}
                   onChange={() => {
                     setSelectedPackage(pkg);
-                    setPromoPackage();
+                    setPromoPackage(null);
                   }}
                 />
                 <div className="grow flex flex-col gap-2">
