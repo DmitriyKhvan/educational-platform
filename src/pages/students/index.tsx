@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 
 const StudentDashboard = lazy(() => import('@/pages/students/student-dashboard'));
 const ScheduleLesson = lazy(() => import('@/pages/students/schedule-lesson'));
+const ScheduleTrialLesson = lazy(() => import('@/pages/students/schedule-trial-lesson'));
 
 const Mentors = lazy(() => import('@/pages/students/mentors-list'));
 const Subscriptions = lazy(() => import('@/pages/students/subscriptions/subscriptions'));
@@ -26,6 +27,9 @@ export default function StudentRoutes() {
           // </TrialRoute>
         }
       />
+
+      <Route path="schedule-trial-lesson/select/:id?" element={<ScheduleTrialLesson />} />
+
       <Route path={'lesson-calendar'} element={<Lessons />} />
 
       <Route path={'lesson-calendar/feedback/:id'} element={<Feedback />} />

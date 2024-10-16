@@ -4,6 +4,7 @@ import type { EmblaOptionsType } from 'embla-carousel';
 import { NextButton, PrevButton, usePrevNextButtons } from './embla-carousel-arrow-buttons';
 import { WeekSlot } from './week-slot';
 import type { GroupedAvailabilitySlots } from '@/types/types.generated';
+import Loader from '@/components/loader/loader';
 
 type PropType = {
   slides: string[];
@@ -37,21 +38,29 @@ export const EmblaCarousel: React.FC<PropType> = (props) => {
     <div
       className={`relative  ${weekDays === 4 ? 'max-w-[632px]' : weekDays === 6 ? 'w-[902px]' : 'max-w-[1048px]'}  px-[50px]`}
     >
-      <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex touch-pan-y -ml-2">
-          {slides.map((date) => (
-            <div
-              className={`relative min-w-0 grow-0 shrink-0  sm:basis-[calc(100%/${weekDays})] pl-2`}
-              key={date}
-            >
-              <WeekSlot date={date} slots={slots} />
-            </div>
-          ))}
+      {slides.length === 0 ? (
+        <div className="w-[632px] h-[230px]">
+          <Loader height="100%" />
         </div>
-      </div>
+      ) : (
+        <>
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex touch-pan-y -ml-2">
+              {slides.map((date) => (
+                <div
+                  className={`relative min-w-0 grow-0 shrink-0  sm:basis-[calc(100%/${weekDays})] pl-2`}
+                  key={date}
+                >
+                  <WeekSlot date={date} slots={slots} />
+                </div>
+              ))}
+            </div>
+          </div>
 
-      <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
-      <NextButton onClick={handleNextButtonClick} disabled={disableMentor} />
+          <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
+          <NextButton onClick={handleNextButtonClick} disabled={disableMentor} />
+        </>
+      )}
     </div>
   );
 };

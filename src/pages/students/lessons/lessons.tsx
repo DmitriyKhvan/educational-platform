@@ -11,7 +11,7 @@ const Lessons = () => {
   } = useQuery(APPOINTMENTS_QUERY, {
     variables: {
       studentId: getItemToLocalStorage('studentId', ''),
-      status: `approved,scheduled,rescheduled,paid,completed,in_progress,canceled`,
+      status: 'approved,scheduled,rescheduled,paid,completed,in_progress,canceled',
     },
     fetchPolicy: 'no-cache',
   });

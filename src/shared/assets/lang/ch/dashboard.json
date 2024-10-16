@@ -32,6 +32,7 @@
   "mentor_dashboard_total_lessons": "今天您有 {{total_lessons}} 堂即將上課的課程。",
   "schedule_by_time": "按時間安排",
   "schedule_by_mentor": "按導師安排",
+  "book_lesson": "Book a lesson",
   "student_dashboard_no_package": "尚未購買套裝課程。",
   "student_dashboard_no_package_desc": "購買套裝課程 →",
   "view_all": "查看全部"
