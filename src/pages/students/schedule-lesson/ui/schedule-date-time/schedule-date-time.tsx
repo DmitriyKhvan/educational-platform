@@ -7,7 +7,7 @@ import type {
   Mentor,
   PackageSubscription,
 } from '@/types/types.generated';
-import { addMonths, addWeeks, endOfWeek, isBefore, startOfWeek } from 'date-fns';
+import { add, addMonths, addWeeks, endOfWeek, isBefore, startOfWeek } from 'date-fns';
 import { format } from 'date-fns-tz';
 import type { EmblaOptionsType } from 'embla-carousel';
 import { useCallback, useEffect, useState } from 'react';
@@ -82,11 +82,14 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
     (weeksCount: number) => {
       const curWeekRanges: WeekRanges[] = [];
 
+      const startDate =
+        process.env.REACT_APP_PRODUCTION === 'false' ? new Date() : add(new Date(), { days: 2 });
+
       // Начальная дата — текущая
       let currentDate =
         weekRanges.length > 0
           ? addWeeks(new Date(weekRanges[weekRanges.length - 1].rangeStart), 1)
-          : new Date();
+          : startDate;
 
       const limitRangeEnd = addMonths(new Date(), 1);
 
@@ -96,7 +99,7 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
         let rangeEnd = endOfWeek(currentDate, { weekStartsOn: 1 }); // Воскресенье
 
         // Если текущая дата позже начала диапазона (неделя прошла), обновляем начальный день
-        if (isBefore(rangeStart, new Date())) {
+        if (isBefore(rangeStart, startDate)) {
           rangeStart = currentDate; // Стартуем с текущей даты
         }
 
