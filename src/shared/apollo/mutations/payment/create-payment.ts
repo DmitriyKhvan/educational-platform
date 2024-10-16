@@ -6,12 +6,14 @@ export const CREATE_PAYMENT = gql`
     $packageId: ID!
     $provider: PaymentProviderType
     $metadata: String
+    $lang: String!
   ) {
     createPayment(
       studentId: $studentId
       packageId: $packageId
       provider: $provider
       metadata: $metadata
+      lang: $lang
     ) {
       id
       status
