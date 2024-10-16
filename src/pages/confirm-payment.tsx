@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import { useMutation, useQuery } from '@apollo/client';
-import { loadStripe, type PaymentIntent, type PaymentIntentResult } from '@stripe/stripe-js';
+import { type PaymentIntent, type PaymentIntentResult, loadStripe } from '@stripe/stripe-js';
 import { useTranslation } from 'react-i18next';
 
 import { PACKAGE_QUERY } from '@/shared/apollo/graphql';
@@ -45,7 +45,7 @@ export default function ConfirmPayment() {
     variables: { paymentIntentId: paymentIntentId },
   });
 
-  const [t] = useTranslation(['purchase', 'onboarding']);
+  const [t, i18n] = useTranslation(['purchase', 'onboarding']);
 
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<boolean | null>(null);
@@ -74,6 +74,7 @@ export default function ConfirmPayment() {
               packageId: Number.parseInt(params.packageId ?? '0'),
               provider: 'stripe',
               metadata: JSON.stringify(paymentIntent),
+              lang: i18n.language,
             },
           });
 
