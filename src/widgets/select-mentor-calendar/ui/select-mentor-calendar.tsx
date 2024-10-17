@@ -56,23 +56,24 @@ function SelectMentorCalendar({
 
   const today = toZonedTime(new Date(), userTimezone);
   const initialDate = useMemo(
-    () => (process.env.REACT_APP_PRODUCTION === 'false' ? today : addDays(today, 2)),
+    () =>
+      process.env.REACT_APP_PRODUCTION === 'false'
+        ? format(today, 'yyyy-MM-dd HH:mm:ss')
+        : format(addDays(today, 2), 'yyyy-MM-dd HH:mm:ss'),
     [],
   );
 
-  const startTime = format(initialDate, 'yyyy-MM-dd HH:mm:ss');
-  console.log('🚀 ~ startTime:', startTime);
-
-  // const [startDate, setStartDate] = useState(format(subDays(new Date(), 1), 'yyyy-MM-01'));
-  const [startDate, setStartDate] = useState(startTime);
-  console.log('🚀 ~ startDate:', startDate);
+  const [startDate, setStartDate] = useState(initialDate);
   const [endDate, setEndDate] = useState(
     format(
-      set(lastDayOfMonth(new Date()), { hours: 23, minutes: 59, seconds: 59 }),
+      set(lastDayOfMonth(toZonedTime(new Date(), userTimezone)), {
+        hours: 23,
+        minutes: 59,
+        seconds: 59,
+      }),
       'yyyy-MM-dd HH:mm:ss',
     ),
   );
-  console.log('🚀 ~ endDate:', endDate);
 
   const [slot, setSlot] = useState<AvailabilitySlotType | undefined>(schedule);
 
@@ -91,7 +92,7 @@ function SelectMentorCalendar({
     fetchPolicy: 'network-only',
     variables: {
       mentorId: mentor.id,
-      timezone: user?.timeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
+      timezone: userTimezone,
       rangeStart: startDate,
       rangeEnd: endDate,
       duration: 25,
@@ -100,9 +101,8 @@ function SelectMentorCalendar({
 
   useEffect(() => {
     if (date) {
-      if (startOfMonth(date) < new Date()) {
-        // setStartDate(format(new Date(), 'yyyy-MM-dd'));
-        setStartDate(startTime);
+      if (startOfMonth(date) < toZonedTime(new Date(), userTimezone)) {
+        setStartDate(initialDate);
       } else {
         setStartDate(format(startOfMonth(date), 'yyyy-MM-dd HH:mm:ss'));
       }
@@ -143,9 +143,9 @@ function SelectMentorCalendar({
     id: `${s.date}${s.from}`,
     title: `${s.from}-${s.to}`,
     slot: s,
-    start: new Date(`${s.date}T${s.from}:00`),
+    start: toZonedTime(new Date(`${s.date}T${s.from}:00`), userTimezone),
     type,
-    end: new Date(`${s.date}T${s.to}:00`),
+    end: toZonedTime(new Date(`${s.date}T${s.from}:00`), userTimezone),
     duration: 25,
   });
 
@@ -161,7 +161,7 @@ function SelectMentorCalendar({
         ...absDates.map(eventMapFunc('abscent')),
       ];
 
-  const nowPlus30Days = addMonths(new Date(), 1);
+  const nowPlus30Days = addMonths(toZonedTime(new Date(), userTimezone), 1);
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const renderEventContent = (eventInfo: any) => {
     if (eventInfo.event.extendedProps.type === 'abscent') {
@@ -201,12 +201,13 @@ function SelectMentorCalendar({
   useEffect(() => {
     if (repeat) {
       setChosenDates((v) => {
-        let dateToIncrement = v?.[0] && new Date(`${v[0].date}T${v[0].from}:00Z`);
+        let dateToIncrement =
+          v?.[0] && toZonedTime(new Date(`${v[0].date}T${v[0].from}:00Z`), userTimezone);
         const res = v?.[0]
           ? [
               v[0],
               ...Array.from(Array(typeof repeat === 'boolean' ? 1 : repeat * 4 - 1)).map(() => {
-                dateToIncrement = addDays(new Date(dateToIncrement), 7);
+                dateToIncrement = addDays(dateToIncrement, 7);
 
                 const res = {
                   date: format(dateToIncrement, 'yyyy-MM-dd'),
