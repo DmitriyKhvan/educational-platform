@@ -1,13 +1,13 @@
+import { useAuth } from '@/app/providers/auth-provider';
+import { useAvailabilitySlotsLazyQuery } from '@/shared/apollo/queries/timesheets/availability-slots.generated';
+import notify from '@/shared/utils/notify';
 import type { GroupedAvailabilitySlots, Mentor } from '@/types/types.generated';
-import { EmblaCarousel } from './embla-carousel';
+import { add } from 'date-fns';
+import { format, toZonedTime } from 'date-fns-tz';
 import type { EmblaOptionsType } from 'embla-carousel';
 import { useCallback, useEffect, useState } from 'react';
-import { add } from 'date-fns';
-import { useAvailabilitySlotsLazyQuery } from '@/shared/apollo/queries/timesheets/availability-slots.generated';
-import { useAuth } from '@/app/providers/auth-provider';
-import { format, toZonedTime } from 'date-fns-tz';
-import notify from '@/shared/utils/notify';
 import { useMediaQuery } from 'react-responsive';
+import { EmblaCarousel } from './embla-carousel';
 
 export const WeekSlots = ({
   mentor,
@@ -31,8 +31,8 @@ export const WeekSlots = ({
         variables: {
           mentorId: mentor.id,
           timezone: userTimezone,
-          rangeStart: format(rangeStart, 'yyyy-MM-dd', { timeZone: userTimezone }),
-          rangeEnd: format(rangeEnd, 'yyyy-MM-dd', { timeZone: userTimezone }),
+          rangeStart: format(rangeStart, 'yyyy-MM-dd HH:mm:ss', { timeZone: userTimezone }),
+          rangeEnd: format(rangeEnd, 'yyyy-MM-dd HH:mm:ss', { timeZone: userTimezone }),
           duration: 25,
         },
       });
