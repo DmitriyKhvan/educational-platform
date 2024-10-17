@@ -66,7 +66,7 @@ function SelectMentorCalendar({
   const [startDate, setStartDate] = useState(initialDate);
   const [endDate, setEndDate] = useState(
     format(
-      set(lastDayOfMonth(toZonedTime(new Date(), userTimezone)), {
+      set(lastDayOfMonth(today), {
         hours: 23,
         minutes: 59,
         seconds: 59,
@@ -101,7 +101,7 @@ function SelectMentorCalendar({
 
   useEffect(() => {
     if (date) {
-      if (startOfMonth(date) < toZonedTime(new Date(), userTimezone)) {
+      if (startOfMonth(date) < today) {
         setStartDate(initialDate);
       } else {
         setStartDate(format(startOfMonth(date), 'yyyy-MM-dd HH:mm:ss'));
@@ -161,7 +161,7 @@ function SelectMentorCalendar({
         ...absDates.map(eventMapFunc('abscent')),
       ];
 
-  const nowPlus30Days = addMonths(toZonedTime(new Date(), userTimezone), 1);
+  const nowPlus30Days = addMonths(today, 1);
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const renderEventContent = (eventInfo: any) => {
     if (eventInfo.event.extendedProps.type === 'abscent') {
