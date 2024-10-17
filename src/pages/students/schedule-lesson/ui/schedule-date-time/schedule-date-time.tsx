@@ -8,7 +8,7 @@ import type {
   PackageSubscription,
 } from '@/types/types.generated';
 import { add, addMonths, addWeeks, endOfWeek, isBefore, startOfWeek } from 'date-fns';
-import { format } from 'date-fns-tz';
+import { format, toZonedTime } from 'date-fns-tz';
 import type { EmblaOptionsType } from 'embla-carousel';
 import { useCallback, useEffect, useState } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
@@ -82,16 +82,21 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
     (weeksCount: number) => {
       const curWeekRanges: WeekRanges[] = [];
 
+      const today = toZonedTime(new Date(), userTimezone);
+
       const startDate =
-        process.env.REACT_APP_PRODUCTION === 'false' ? new Date() : add(new Date(), { days: 2 });
+        process.env.REACT_APP_PRODUCTION === 'false' ? today : add(today, { days: 2 });
 
       // Начальная дата — текущая
       let currentDate =
         weekRanges.length > 0
-          ? addWeeks(new Date(weekRanges[weekRanges.length - 1].rangeStart), 1)
+          ? addWeeks(
+              toZonedTime(new Date(weekRanges[weekRanges.length - 1].rangeStart), userTimezone),
+              1,
+            )
           : startDate;
 
-      const limitRangeEnd = addMonths(new Date(), 1);
+      const limitRangeEnd = addMonths(toZonedTime(new Date(), userTimezone), 1);
 
       for (let i = 0; i < weeksCount; i++) {
         // Определяем понедельник и воскресенье для текущей недели
@@ -109,8 +114,8 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
 
         // Форматируем даты в 'yyyy-MM-dd'
         curWeekRanges.push({
-          rangeStart: format(rangeStart, 'yyyy-MM-dd'),
-          rangeEnd: format(rangeEnd, 'yyyy-MM-dd'),
+          rangeStart: format(rangeStart, 'yyyy-MM-dd HH:mm:ss'),
+          rangeEnd: format(rangeEnd, 'yyyy-MM-dd HH:mm:ss'),
         });
 
         // Переходим к следующей неделе

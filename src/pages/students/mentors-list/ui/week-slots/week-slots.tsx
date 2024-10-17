@@ -2,7 +2,7 @@ import { useAuth } from '@/app/providers/auth-provider';
 import { useAvailabilitySlotsLazyQuery } from '@/shared/apollo/queries/timesheets/availability-slots.generated';
 import notify from '@/shared/utils/notify';
 import type { GroupedAvailabilitySlots, Mentor } from '@/types/types.generated';
-import { add } from 'date-fns';
+import { add, set } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
 import type { EmblaOptionsType } from 'embla-carousel';
 import { useCallback, useEffect, useState } from 'react';
@@ -26,13 +26,20 @@ export const WeekSlots = ({
   const [slots, setSlots] = useState<GroupedAvailabilitySlots[]>([]);
 
   const fetchAvailabilitySlots = async (rangeStart: Date, rangeEnd: Date) => {
+    const startTime = format(rangeStart, 'yyyy-MM-dd HH:mm:ss', { timeZone: userTimezone });
+    const endTime = format(
+      set(rangeEnd, { hours: 23, minutes: 59, seconds: 59 }),
+      'yyyy-MM-dd HH:mm:ss',
+      { timeZone: userTimezone },
+    );
+
     try {
       const response = await availabilitySlots({
         variables: {
           mentorId: mentor.id,
           timezone: userTimezone,
-          rangeStart: format(rangeStart, 'yyyy-MM-dd HH:mm:ss', { timeZone: userTimezone }),
-          rangeEnd: format(rangeEnd, 'yyyy-MM-dd HH:mm:ss', { timeZone: userTimezone }),
+          rangeStart: startTime,
+          rangeEnd: endTime,
           duration: 25,
         },
       });
@@ -59,7 +66,12 @@ export const WeekSlots = ({
   const nextWeekSlots = useCallback(async (stepCarousel: number) => {
     const datesArray: string[] = [];
     const countDays = WEEK_DAYS * stepCarousel;
-    const rangeStart = toZonedTime(new Date(), userTimezone); // today
+
+    const today = toZonedTime(new Date(), userTimezone);
+    const rangeStart =
+      process.env.REACT_APP_PRODUCTION === 'false' ? today : add(today, { days: 2 });
+
+    // const rangeStart = toZonedTime(new Date(), userTimezone); // today
     const rangeEnd = add(rangeStart, { days: countDays - 1 });
     const startDay = add(rangeStart, { days: countDays - WEEK_DAYS }); // 5 or 7 days ago from the end date
 
