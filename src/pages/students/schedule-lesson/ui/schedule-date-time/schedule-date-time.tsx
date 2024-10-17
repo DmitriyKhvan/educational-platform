@@ -96,7 +96,7 @@ export const ScheduleDateTime: React.FC<ScheduleDateTimeProps> = ({
             )
           : startDate;
 
-      const limitRangeEnd = addMonths(toZonedTime(new Date(), userTimezone), 1);
+      const limitRangeEnd = addMonths(today, 1);
 
       for (let i = 0; i < weeksCount; i++) {
         // Определяем понедельник и воскресенье для текущей недели
