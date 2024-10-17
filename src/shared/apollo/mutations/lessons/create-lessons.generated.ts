@@ -10,6 +10,7 @@ export type CreateLessonsMutationVariables = Types.Exact<{
   startAt: Types.Scalars['DateTime']['input'];
   duration: Types.Scalars['Int']['input'];
   repeat?: Types.InputMaybe<Types.Scalars['Int']['input']>;
+  lang?: Types.InputMaybe<Types.Scalars['String']['input']>;
 }>;
 
 
@@ -17,7 +18,7 @@ export type CreateLessonsMutation = { __typename?: 'Mutation', createLessons: Ar
 
 
 export const CreateLessonsDocument = gql`
-    mutation createLessons($mentorId: ID!, $studentId: ID!, $packageSubscriptionId: ID!, $startAt: DateTime!, $duration: Int!, $repeat: Int) {
+    mutation createLessons($mentorId: ID!, $studentId: ID!, $packageSubscriptionId: ID!, $startAt: DateTime!, $duration: Int!, $repeat: Int, $lang: String) {
   createLessons(
     mentorId: $mentorId
     studentId: $studentId
@@ -25,6 +26,7 @@ export const CreateLessonsDocument = gql`
     startAt: $startAt
     duration: $duration
     repeat: $repeat
+    lang: $lang
   ) {
     id
     startAt
@@ -94,6 +96,7 @@ export type CreateLessonsMutationFn = Apollo.MutationFunction<CreateLessonsMutat
  *      startAt: // value for 'startAt'
  *      duration: // value for 'duration'
  *      repeat: // value for 'repeat'
+ *      lang: // value for 'lang'
  *   },
  * });
  */

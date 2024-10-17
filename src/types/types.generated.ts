@@ -6,7 +6,6 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
-
 export type Scalars = {
   ID: { input: string; output: string; }
   String: { input: string; output: string; }
@@ -48,6 +47,7 @@ export type AppliedPromotionCode = {
   country?: Maybe<Scalars['String']['output']>;
   courseId?: Maybe<Scalars['Int']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  currency?: Maybe<Currency>;
   discountType?: Maybe<DiscountType>;
   id: Scalars['ID']['output'];
   isActive: Scalars['Boolean']['output'];
@@ -805,6 +805,7 @@ export type MutationCreateLessonSectionArgs = {
 
 export type MutationCreateLessonsArgs = {
   duration: Scalars['Int']['input'];
+  lang?: InputMaybe<Scalars['String']['input']>;
   mentorId: Scalars['ID']['input'];
   packageSubscriptionId: Scalars['ID']['input'];
   repeat?: InputMaybe<Scalars['Int']['input']>;
@@ -830,6 +831,7 @@ export type MutationCreatePackageArgs = {
 
 
 export type MutationCreatePaymentArgs = {
+  lang?: InputMaybe<Scalars['String']['input']>;
   metadata?: InputMaybe<Scalars['String']['input']>;
   packageId: Scalars['ID']['input'];
   provider?: InputMaybe<PaymentProviderType>;
@@ -1163,6 +1165,7 @@ export type MutationUpsertTrialLessonSlotLimitArgs = {
 
 export type Package = {
   __typename?: 'Package';
+  allowPromoCode?: Maybe<Scalars['Boolean']['output']>;
   course?: Maybe<Course>;
   courseId?: Maybe<Scalars['ID']['output']>;
   discount?: Maybe<Scalars['Int']['output']>;
@@ -1181,6 +1184,7 @@ export type Package = {
 };
 
 export type PackageCreationInput = {
+  allowPromoCode?: InputMaybe<Scalars['Boolean']['input']>;
   courseId: Scalars['Int']['input'];
   discount?: InputMaybe<Scalars['Int']['input']>;
   period?: InputMaybe<Scalars['Int']['input']>;
@@ -1252,6 +1256,7 @@ export type PackageSubscriptionPromotionCode = {
 };
 
 export type PackageUpdateInput = {
+  allowPromoCode?: InputMaybe<Scalars['Boolean']['input']>;
   courseId?: InputMaybe<Scalars['Int']['input']>;
   discount?: InputMaybe<Scalars['Int']['input']>;
   id: Scalars['Int']['input'];
@@ -1364,6 +1369,7 @@ export type PromotionCode = {
   country?: Maybe<Scalars['String']['output']>;
   courseId?: Maybe<Scalars['Int']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  currency?: Maybe<Currency>;
   discountType?: Maybe<DiscountType>;
   id: Scalars['ID']['output'];
   isActive: Scalars['Boolean']['output'];
@@ -1380,6 +1386,7 @@ export type PromotionCodeInput = {
   code: Scalars['String']['input'];
   country?: InputMaybe<Scalars['String']['input']>;
   courseId?: InputMaybe<Scalars['Int']['input']>;
+  currency?: InputMaybe<Currency>;
   discountType?: InputMaybe<DiscountType>;
   isActive: Scalars['Boolean']['input'];
   period?: InputMaybe<Scalars['Int']['input']>;
@@ -1865,6 +1872,7 @@ export type SignUpInput = {
   email: Scalars['String']['input'];
   firstName: Scalars['String']['input'];
   isTrial?: InputMaybe<Scalars['Boolean']['input']>;
+  lang?: InputMaybe<Scalars['String']['input']>;
   languageLevelId?: InputMaybe<Scalars['Int']['input']>;
   lastName: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -2112,6 +2120,7 @@ export type TrialPackage = {
 };
 
 export type TrialSignUpInput = {
+  lang?: InputMaybe<Scalars['String']['input']>;
   languageLevelId: Scalars['Int']['input'];
   lessonBooking: TrialLessonsBookingInput;
   lessonTopicId: Scalars['Int']['input'];
