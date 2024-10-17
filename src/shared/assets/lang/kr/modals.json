@@ -65,6 +65,7 @@
   "invalid_status": "잘못된 상태입니다",
   "lesson_not_updated": "레슨이 업데이트 되지 않았습니다",
   "invalid_date": "선택하신 일정은 예약 불가능",
+  "daylight_savings": "Daylight Savings",
   "same_date": "동일한 날짜입니다",
   "lesson_not_created": "레슨이 생성되지 않았습니다",
   "logging_out": "Logging out",

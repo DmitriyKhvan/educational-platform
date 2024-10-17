@@ -65,6 +65,7 @@
   "invalid_status": "Invalid status",
   "lesson_not_updated": "Lesson not updated",
   "invalid_date": "Mentor Not Available",
+  "daylight_savings": "Daylight Savings",
   "same_date": "Same date",
   "lesson_not_created": "Lesson not created",
   "logging_out": "Logging out",
