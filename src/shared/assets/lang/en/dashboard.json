@@ -32,6 +32,7 @@
   "mentor_dashboard_total_lessons": "You have {{total_lessons}} upcoming lesson(s) today.",
   "schedule_by_time": "Book by Time",
   "schedule_by_mentor": "Book by Mentor",
+  "book_lesson": "Book a lesson",
   "student_dashboard_no_package": "No purchased packages yet.",
   "student_dashboard_no_package_desc": "Purchase a package →",
   "view_all": "View All"

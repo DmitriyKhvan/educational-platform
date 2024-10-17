@@ -16,16 +16,10 @@ import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
 import { notEnoughCredits } from '@/shared/utils/not-enough-credits';
 import notify from '@/shared/utils/notify';
-import type {
-  AvailabilitySlot,
-  Lesson,
-  Mentor,
-  Mutation,
-  PackageSubscription,
-} from '@/types/types.generated';
+import type { Lesson, Mentor, Mutation, PackageSubscription } from '@/types/types.generated';
 
 import { useCreateLessonsMutation } from '@/shared/apollo/mutations/lessons/create-lessons.generated';
-import { parse } from 'date-fns';
+import { addMinutes } from 'date-fns';
 import { format, toZonedTime } from 'date-fns-tz';
 import { AiOutlineInfo } from 'react-icons/ai';
 import { IoMdInformation } from 'react-icons/io';
@@ -35,7 +29,7 @@ import { useNavigate } from 'react-router-dom';
 interface LessonConfirmationProps {
   plan?: PackageSubscription;
   mentor: Mentor;
-  slot?: AvailabilitySlot;
+  time: string;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
   lessonId?: string | null;
   isMentorScheduled?: boolean;
@@ -44,10 +38,10 @@ interface LessonConfirmationProps {
   setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
 }
 
-const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
+const TrialLessonConfirmation: React.FC<LessonConfirmationProps> = ({
   plan,
   mentor,
-  slot,
+  time,
   setTabIndex,
   lessonId,
   isMentorScheduled = false,
@@ -77,27 +71,21 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
   const userTimezone =
     user?.timeZone?.split(' ')[0] || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  const scheduleDate = format(new Date(slot?.date ?? new Date()), 'eeee, MMM dd', {
+  const scheduleDate = format(toZonedTime(new Date(time), userTimezone), 'eeee, MMM dd', {
     locale: localeDic[i18n.language as keyof typeof localeDic],
   });
-  const scheduleStartTime = format(new Date(`${slot?.date}T${slot?.from}:00`), 'hh:mm a', {
+  const scheduleStartTime = format(toZonedTime(new Date(time), userTimezone), 'hh:mm a', {
     locale: localeDic[i18n.language as keyof typeof localeDic],
   });
-  const scheduleEndTime = format(new Date(`${slot?.date}T${slot?.to}:00`), 'hh:mm a', {
-    locale: localeDic[i18n.language as keyof typeof localeDic],
-  });
-
-  const dateParse = parse(
-    `${slot?.date} ${slot?.from}`,
-    'yyyy-MM-dd HH:mm',
-    toZonedTime(new Date(), userTimezone),
+  const scheduleEndTime = format(
+    addMinutes(toZonedTime(new Date(time), userTimezone), plan?.package?.sessionTime ?? 0),
+    'hh:mm a',
+    {
+      locale: localeDic[i18n.language as keyof typeof localeDic],
+    },
   );
 
-  const selectedSchedule = format(dateParse, 'EEE MMM dd yyyy HH:mm:ss XXX', {
-    timeZone: userTimezone,
-  });
-
-  const utcIsoTimeString = new Date(selectedSchedule).toISOString();
+  const utcIsoTimeString = new Date(time).toISOString();
 
   const confirmLesson = async (confirmedNotEnough = false) => {
     if (
@@ -293,4 +281,4 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
   );
 };
 
-export default LessonConfirmation;
+export default TrialLessonConfirmation;

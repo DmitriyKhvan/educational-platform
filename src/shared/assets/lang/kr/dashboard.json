@@ -32,5 +32,6 @@
   "mentor_dashboard_total_lessons": "오늘 {{total_lessons}}개의 레슨이 있습니다.",
   "schedule_by_time": "시간별 예약하기",
   "schedule_by_mentor": "멘토별 예약하기",
+  "book_lesson": "Book a lesson",
   "view_all": "모두 보기"
 }

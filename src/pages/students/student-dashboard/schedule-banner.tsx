@@ -8,11 +8,11 @@ import { useAuth } from '@/app/providers/auth-provider';
 import Button from '@/components/form/button';
 import { ModalPurchase } from '@/components/modal-purchase';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
-// import type { Maybe, PackageSubscription } from '@/types/types.generated';
+import type { Maybe, PackageSubscription } from '@/types/types.generated';
 
-const ScheduleBanner = (
-  /*{activePackages}: { activePackages: Maybe<PackageSubscription>[] | undefined }*/
-) => {
+const ScheduleBanner = ({
+  activePackages,
+}: { activePackages: Maybe<PackageSubscription>[] | undefined }) => {
   const { currentStudent } = useAuth();
   const [t] = useTranslation('dashboard');
 
@@ -30,34 +30,20 @@ const ScheduleBanner = (
           </p>
         </div>
         <div className="flex justify-start gap-3 md:w-11/12 z-[3]">
-          {/* {!activePackages?.length ? (
+          {activePackages?.length === 0 ? (
             <AdaptiveDialog
-              button={
-                <Button theme="dark_purple">{t('schedule_by_time', { ns: 'dashboard' })}</Button>
-              }
+              button={<Button theme="dark_purple">{t('book_lesson', { ns: 'dashboard' })}</Button>}
             >
               <ModalPurchase />
             </AdaptiveDialog>
-          ) : (
-            <Link to="/student/schedule-lesson/select">
-              <Button theme="dark_purple">{t('schedule_by_time', { ns: 'dashboard' })}</Button>
+          ) : currentStudent?.isTrial ? (
+            <Link to="/student/schedule-trial-lesson/select">
+              <Button theme="dark_purple">{t('book_lesson', { ns: 'dashboard' })}</Button>
             </Link>
-          )} */}
-
-          {currentStudent?.isTrial ? (
-            <AdaptiveDialog
-              button={
-                <Button theme="dark_purple" className="w-[148px] h-[48px]">
-                  {t('schedule_by_mentor', { ns: 'dashboard' })}
-                </Button>
-              }
-            >
-              <ModalPurchase />
-            </AdaptiveDialog>
           ) : (
             <Link to="/student/mentors-list">
               <Button theme="dark_purple" className="w-[148px] h-[48px]">
-                {t('schedule_by_mentor', { ns: 'dashboard' })}
+                {t('book_lesson', { ns: 'dashboard' })}
               </Button>
             </Link>
           )}

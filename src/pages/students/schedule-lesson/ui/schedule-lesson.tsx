@@ -4,9 +4,8 @@ import { useQuery } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 
-import '@/app/styles/tutor.scss';
+// import '@/app/styles/tutor.scss';
 
-import { useAuth } from '@/app/providers/auth-provider';
 import Mentors from '@/pages/students/mentors-list';
 import ScheduleSuccess from '@/pages/students/schedule-lesson/schedule-success';
 import SelectLesson from '@/pages/students/schedule-lesson/ui/select-lesson';
@@ -23,7 +22,6 @@ import { ScheduleDateTime } from './schedule-date-time/schedule-date-time';
 
 const ScheduleLesson = () => {
   const isTablet = useMediaQuery({ maxWidth: 840 });
-  const { currentStudent } = useAuth();
   const { id = null } = useParams();
   const location = useLocation();
 
@@ -97,33 +95,7 @@ const ScheduleLesson = () => {
         />
       )}
 
-      {/* {(tabIndex === 1 || tabIndex === 2) && (
-        <ScheduleProvider
-          query={currentStudent?.isTrial ? COMBINED_TIMESHEETS_TRIAL : COMBINED_TIMESHEETS}
-          setTabIndex={setTabIndex}
-          setSchedule={setSchedule}
-          selectedMentor={location?.state?.mentor}
-          setSelectMentor={currentStudent?.isTrial ? setSelectMentor : undefined}
-          duration={selectedPlan?.package?.sessionTime ?? undefined}
-        >
-          {tabIndex === 1 && scheduledLesson && <ScheduleSelector lesson={scheduledLesson} />}
-
-          {tabIndex === 2 && <AvailableTimes />}
-        </ScheduleProvider>
-      )}
-
-      {tabIndex === 3 && !location?.state?.mentor && !currentStudent?.isTrial && (
-        <SelectMentorCards
-          setTabIndex={setTabIndex}
-          setSelectMentor={setSelectMentor}
-          schedule={schedule}
-          step={selectedPlan?.package?.sessionTime === 25 ? 30 : 60}
-        />
-      )} */}
-
-      {(tabIndex === 4 ||
-        (tabIndex === 3 && location?.state?.mentor) ||
-        (tabIndex === 3 && currentStudent?.isTrial)) && (
+      {tabIndex === 3 && (
         <LessonConfirmation
           plan={selectedPlan}
           slot={schedule}
@@ -137,7 +109,7 @@ const ScheduleLesson = () => {
         />
       )}
 
-      {tabIndex === 5 && createdLessons && <ScheduleSuccess lessons={createdLessons} />}
+      {tabIndex === 4 && createdLessons && <ScheduleSuccess lessons={createdLessons} />}
     </>
   );
 };

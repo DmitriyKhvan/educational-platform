@@ -20,6 +20,7 @@ import { currencyFormat } from '@/shared/utils/currency-format';
 import { DiscountType, type Lesson } from '@/types/types.generated';
 import { Link } from 'react-router-dom';
 import { MyTrialLessons } from './my-trial-lessons';
+import { addMinutes, isBefore } from 'date-fns';
 // import { MyTrialLessons } from './my-trial-lessons';
 
 const StudentDashboard = () => {
@@ -53,7 +54,11 @@ const StudentDashboard = () => {
   });
 
   const trialLessons = useMemo(() => {
-    return appointments?.filter((lesson: Lesson) => lesson?.isTrial);
+    return appointments?.filter((lesson: Lesson) => {
+      const expiredDate = addMinutes(new Date(lesson?.startAt), lesson?.duration || 0);
+
+      return isBefore(new Date(), expiredDate) && lesson?.isTrial;
+    });
   }, [appointments]);
 
   return (
@@ -70,7 +75,7 @@ const StudentDashboard = () => {
               })}
               subtitle={t('student_dashboard_subtitle', { ns: 'dashboard' })}
             >
-              <ScheduleBanner /*activePackages={activePackages}*/ />
+              <ScheduleBanner activePackages={activePackages} />
             </DashboardCard>
 
             {!isDesktop && (

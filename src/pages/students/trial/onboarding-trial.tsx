@@ -74,16 +74,14 @@ const OnboardingTrial = memo(function OnboardingTrial({
   });
 
   useEffect(() => {
-    if (user) {
-      reset({
-        firstName,
-        lastName,
-        phoneNumber: phoneNumber || '',
-        email: email || localStorage.getItem('referralEmail') || '',
-        timeZone,
-        password,
-      });
-    }
+    reset({
+      firstName,
+      lastName,
+      phoneNumber: phoneNumber || '',
+      email: email || localStorage.getItem('referralEmail') || '',
+      timeZone,
+      password,
+    });
   }, [user, reset, firstName, lastName, phoneNumber, email, timeZone]);
 
   const onSubmit = async (data: {
@@ -228,7 +226,7 @@ const OnboardingTrial = memo(function OnboardingTrial({
                 options={usePublicMentors()}
                 isClearable
                 onChange={(id) => {
-                  setSelectMentor({ mentorId: id } as unknown as Mentor);
+                  setSelectMentor({ id } as unknown as Mentor);
                 }}
               />
             </label>
