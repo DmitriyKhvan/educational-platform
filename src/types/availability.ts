@@ -1,6 +1,11 @@
 // import type { MentorAvailabilityType } from '@/shared/constants/global';
 import type { Duration } from 'date-fns';
-import type { ExceptionDateSlot, MentorAvailabilityType, PackageSubscription, TimesheetSlot } from './types.generated';
+import type {
+  ExceptionDateSlot,
+  MentorAvailabilityType,
+  PackageSubscription,
+  TimesheetSlot,
+} from './types.generated';
 
 export const EventType = {
   REGULAR: 'regular',
@@ -13,6 +18,7 @@ export type EventType = (typeof EventType)[keyof typeof EventType];
 
 export interface RecurringEvent {
   day: string;
+  date: string;
   from: string;
   to: string;
 }
@@ -20,7 +26,7 @@ export interface RecurringEvent {
 export interface RRuleCommon {
   freq: string;
   byweekday: string[];
-  dtstart: string;
+  dtstart: string | Date;
 }
 
 export interface RenderedEvent {
@@ -42,8 +48,8 @@ export interface WeeklyViewEvent {
   rrule?: RRuleCommon;
   type?: EventType;
   view?: string;
-  start: Date;
-  end: Date;
+  start?: Date;
+  end?: Date;
   duration?: Duration;
   allDay?: boolean;
   display?: string;
@@ -119,7 +125,6 @@ export interface RenderRecurEventsResult {
   weeklyViewEvents: WeeklyViewEvent[];
 }
 
-
 export type TimeOption = {
   value: number;
   label: string;
@@ -137,7 +142,6 @@ export type AvailabilityDayRowProps = {
   mentorAvailabilityType: MentorAvailabilityType;
 };
 
-
 export interface Exception {
   id: string;
   date: string;
@@ -145,7 +149,6 @@ export interface Exception {
   from: string;
   to: string;
 }
-
 
 export interface ErrorExceptionalDates {
   regularLessons?: number;
