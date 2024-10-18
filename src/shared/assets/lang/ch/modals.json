@@ -63,6 +63,7 @@
   "invalid_status": "狀態無效",
   "lesson_not_updated": "課程未更新",
   "invalid_date": "導師無法上課",
+  "daylight_savings": "Daylight Savings",
   "same_date": "同一天",
   "lesson_not_created": "尚未建立課程",
   "info": "更多資訊",

@@ -1,30 +1,30 @@
 import {
   addDays,
   addMonths,
-  format,
+  // format,
   isAfter,
   lastDayOfMonth,
+  set,
   startOfMonth,
-  subDays,
 } from 'date-fns';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
 import { Calendar } from '@/components/calendar';
 import Button from '@/components/form/button';
-import { AVAILABILITY_SLOTS } from '@/shared/apollo/queries/lessons/availability-slots';
 import { CalendarView, type LanguageType, localeDic } from '@/shared/constants/global';
 
 import { useCalendarControls } from '@/shared/utils/use-calendar-controls';
-import type { AvailabilitySlot, GroupedAvailabilitySlots, Mentor } from '@/types/types.generated';
-import { useQuery } from '@apollo/client';
+import type { AvailabilitySlot, Mentor } from '@/types/types.generated';
 import type FullCalendar from '@fullcalendar/react';
 
 import './select-mentor-calendar.scss';
 import { useAuth } from '@/app/providers/auth-provider';
+import { useAvailabilitySlotsQuery } from '@/shared/apollo/queries/timesheets/availability-slots.generated';
 import { cn } from '@/shared/utils/functions';
 import type { EventClickArg } from '@fullcalendar/core';
+import { format, toZonedTime } from 'date-fns-tz';
 import { BsExclamationLg } from 'react-icons/bs';
 import SelectSlotPopover from './select-slot-popover';
 interface ScheduleCalendarProps {
@@ -50,8 +50,30 @@ function SelectMentorCalendar({
   schedule,
   setTabIndex,
 }: ScheduleCalendarProps) {
-  const [startDate, setStartDate] = useState(format(subDays(new Date(), 1), 'yyyy-MM-01'));
-  const [endDate, setEndDate] = useState(format(lastDayOfMonth(new Date()), 'yyyy-MM-dd'));
+  const { user } = useAuth();
+
+  const userTimezone = user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const today = toZonedTime(new Date(), userTimezone);
+  const initialDate = useMemo(
+    () =>
+      process.env.REACT_APP_PRODUCTION === 'false'
+        ? format(today, 'yyyy-MM-dd HH:mm:ss')
+        : format(addDays(today, 2), 'yyyy-MM-dd HH:mm:ss'),
+    [],
+  );
+
+  const [startDate, setStartDate] = useState(initialDate);
+  const [endDate, setEndDate] = useState(
+    format(
+      set(lastDayOfMonth(today), {
+        hours: 23,
+        minutes: 59,
+        seconds: 59,
+      }),
+      'yyyy-MM-dd HH:mm:ss',
+    ),
+  );
 
   const [slot, setSlot] = useState<AvailabilitySlotType | undefined>(schedule);
 
@@ -65,14 +87,12 @@ function SelectMentorCalendar({
     initialView: CalendarView.MONTH_VIEW,
   });
 
-  const { user } = useAuth();
-
-  const { data, loading } = useQuery(AVAILABILITY_SLOTS, {
+  const { data, loading } = useAvailabilitySlotsQuery({
     notifyOnNetworkStatusChange: true,
     fetchPolicy: 'network-only',
     variables: {
       mentorId: mentor.id,
-      timezone: user?.timeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
+      timezone: userTimezone,
       rangeStart: startDate,
       rangeEnd: endDate,
       duration: 25,
@@ -81,12 +101,17 @@ function SelectMentorCalendar({
 
   useEffect(() => {
     if (date) {
-      if (startOfMonth(date) < new Date()) {
-        setStartDate(format(new Date(), 'yyyy-MM-dd'));
+      if (startOfMonth(date) < today) {
+        setStartDate(initialDate);
       } else {
-        setStartDate(format(subDays(startOfMonth(date), 1), 'yyyy-MM-dd'));
+        setStartDate(format(startOfMonth(date), 'yyyy-MM-dd HH:mm:ss'));
       }
-      setEndDate(format(lastDayOfMonth(date), 'yyyy-MM-dd'));
+      setEndDate(
+        format(
+          set(lastDayOfMonth(date), { hours: 23, minutes: 59, seconds: 59 }),
+          'yyyy-MM-dd HH:mm:ss',
+        ),
+      );
     }
   }, [date]);
 
@@ -99,10 +124,11 @@ function SelectMentorCalendar({
       for (const chosenDate of chosenDates) {
         if (
           !data?.availabilitySlots
-            ?.find((avs: GroupedAvailabilitySlots) => avs.date === chosenDate.date)
+            ?.find((avs) => avs?.date === chosenDate.date)
             ?.timeSlots?.find((avs: AvailabilitySlot) => avs.from === chosenDate.from) &&
-          chosenDate.date >= data?.availabilitySlots[0]?.date &&
-          chosenDate.date <= data?.availabilitySlots[data?.availabilitySlots?.length - 1]?.date
+          chosenDate.date >= (data?.availabilitySlots[0]?.date ?? new Date()) &&
+          chosenDate.date <=
+            (data?.availabilitySlots[data?.availabilitySlots?.length - 1]?.date ?? new Date())
         ) {
           abscent.push(chosenDate);
         }
@@ -117,9 +143,9 @@ function SelectMentorCalendar({
     id: `${s.date}${s.from}`,
     title: `${s.from}-${s.to}`,
     slot: s,
-    start: new Date(`${s.date}T${s.from}:00`),
+    start: toZonedTime(new Date(`${s.date}T${s.from}:00`), userTimezone),
     type,
-    end: new Date(`${s.date}T${s.to}:00`),
+    end: toZonedTime(new Date(`${s.date}T${s.from}:00`), userTimezone),
     duration: 25,
   });
 
@@ -127,15 +153,15 @@ function SelectMentorCalendar({
     ? []
     : [
         ...(data?.availabilitySlots
-          .reduce((acc: AvailabilitySlot[], curr: GroupedAvailabilitySlots) => {
-            acc.push(...curr.timeSlots);
+          .reduce((acc, curr) => {
+            if (curr?.timeSlots) acc.push(...(curr?.timeSlots ?? []));
             return acc;
-          }, [])
+          }, [] as AvailabilitySlot[])
           ?.map(eventMapFunc('default')) ?? []),
         ...absDates.map(eventMapFunc('abscent')),
       ];
 
-  const nowPlus30Days = addMonths(new Date(), 1);
+  const nowPlus30Days = addMonths(today, 1);
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const renderEventContent = (eventInfo: any) => {
     if (eventInfo.event.extendedProps.type === 'abscent') {
@@ -175,12 +201,13 @@ function SelectMentorCalendar({
   useEffect(() => {
     if (repeat) {
       setChosenDates((v) => {
-        let dateToIncrement = v?.[0] && new Date(`${v[0].date}T${v[0].from}:00Z`);
+        let dateToIncrement =
+          v?.[0] && toZonedTime(new Date(`${v[0].date}T${v[0].from}:00Z`), userTimezone);
         const res = v?.[0]
           ? [
               v[0],
               ...Array.from(Array(typeof repeat === 'boolean' ? 1 : repeat * 4 - 1)).map(() => {
-                dateToIncrement = addDays(new Date(dateToIncrement), 7);
+                dateToIncrement = addDays(dateToIncrement, 7);
 
                 const res = {
                   date: format(dateToIncrement, 'yyyy-MM-dd'),
