@@ -19,7 +19,6 @@ import { useEffect, useRef, useState } from 'react';
 export const AvailabilityCalendar = () => {
   const { user } = useAuth();
   const calendarRef = useRef<FullCalendar | null>(null);
-  const fullCalendarRef = useRef<FullCalendar | null>(null);
 
   const userTimezone = user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -102,7 +101,7 @@ export const AvailabilityCalendar = () => {
     <div className="border border-color-border-grey rounded-xl">
       <AvailabilityCalendarHeader calendarRef={calendarRef} updateEvents={updateEvents} />
       <Calendar
-        ref={fullCalendarRef}
+        ref={calendarRef}
         events={calendarEvents as EventSourceInput}
         eventContent={renderEventContent}
       />

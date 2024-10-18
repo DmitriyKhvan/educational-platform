@@ -143,9 +143,10 @@ function SelectMentorCalendar({
     id: `${s.date}${s.from}`,
     title: `${s.from}-${s.to}`,
     slot: s,
-    start: toZonedTime(new Date(`${s.date}T${s.from}:00`), userTimezone),
+    start: new Date(`${s.date}T${s.from}:00`),
     type,
-    end: toZonedTime(new Date(`${s.date}T${s.from}:00`), userTimezone),
+    end: new Date(`${s.date}T${s.from}:00`),
+    userTimezone,
     duration: 25,
   });
 
