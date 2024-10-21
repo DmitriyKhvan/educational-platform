@@ -16,6 +16,7 @@ interface ScheduleCalendarProps {
   setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
   schedule: AvailabilitySlot | undefined;
   lessonId?: string | null;
+  plan: PackageSubscription | undefined;
 }
 
 export const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
@@ -26,6 +27,7 @@ export const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
   schedule,
   setRepeat,
   lessonId,
+  plan,
 }) => {
   const navigate = useNavigate();
 
@@ -82,6 +84,7 @@ export const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
         setRepeat={setRepeat}
         schedule={schedule}
         setTabIndex={setTabIndex}
+        plan={plan}
       />
     </section>
   );
