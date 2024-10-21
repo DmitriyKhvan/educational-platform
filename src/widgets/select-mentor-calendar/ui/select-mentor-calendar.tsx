@@ -16,7 +16,7 @@ import Button from '@/components/form/button';
 import { CalendarView, type LanguageType, localeDic } from '@/shared/constants/global';
 
 import { useCalendarControls } from '@/shared/utils/use-calendar-controls';
-import type { AvailabilitySlot, Mentor } from '@/types/types.generated';
+import type { AvailabilitySlot, Mentor, PackageSubscription } from '@/types/types.generated';
 import type FullCalendar from '@fullcalendar/react';
 
 import './select-mentor-calendar.scss';
@@ -34,6 +34,7 @@ interface ScheduleCalendarProps {
   setRepeat: React.Dispatch<React.SetStateAction<number | boolean | null>>;
   schedule: AvailabilitySlot | undefined;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
+  plan: PackageSubscription | undefined;
 }
 
 interface AvailabilitySlotType {
@@ -49,6 +50,7 @@ function SelectMentorCalendar({
   setRepeat,
   schedule,
   setTabIndex,
+  plan,
 }: ScheduleCalendarProps) {
   const { user } = useAuth();
 
@@ -95,7 +97,7 @@ function SelectMentorCalendar({
       timezone: userTimezone,
       rangeStart: startDate,
       rangeEnd: endDate,
-      duration: 25,
+      duration: plan?.package?.sessionTime ?? 25,
     },
   });
 
