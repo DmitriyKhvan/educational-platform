@@ -16,8 +16,8 @@ export const useCurrentLang = (): LanguageDictionary => {
   const [searchParams] = useSearchParams();
 
   const currentLang = useMemo((): LanguageDictionary => {
-    const storedLang = localStorage.getItem('language');
-    const langParam = searchParams.get('lang') as CourseTranslationsLanguage;
+    const storedLang = localStorage.getItem('language')?.toLowerCase();
+    const langParam = searchParams.get('lang')?.toLowerCase() as CourseTranslationsLanguage;
 
     if (langParam) {
       localStorage.removeItem('language');
