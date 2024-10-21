@@ -18,9 +18,9 @@ import { useMediaQuery } from 'react-responsive';
 import { currencyFormat } from '@/shared/utils/currency-format';
 // import { MyTrialLessons } from './my-trial-lessons';
 import { DiscountType, type Lesson } from '@/types/types.generated';
+import { addMinutes, isBefore } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { MyTrialLessons } from './my-trial-lessons';
-import { addMinutes, isBefore } from 'date-fns';
 // import { MyTrialLessons } from './my-trial-lessons';
 
 const StudentDashboard = () => {
@@ -80,7 +80,7 @@ const StudentDashboard = () => {
 
             {!isDesktop && (
               <div className="space-y-1 sm:space-y-8">
-                {trialLessons.length > 0 && (
+                {trialLessons?.length > 0 && (
                   <MyTrialLessons fetchAppointments={refetch} lessons={trialLessons} />
                 )}
 
@@ -107,7 +107,7 @@ const StudentDashboard = () => {
 
           {isDesktop && (
             <div className="w-full mx-auto sm:max-w-[524px] sm:mt-10 mt-1 space-y-1 sm:space-y-8">
-              {trialLessons.length > 0 && (
+              {trialLessons?.length > 0 && (
                 <MyTrialLessons fetchAppointments={refetch} lessons={trialLessons} />
               )}
               {user?.personalPromotionCodes && user.personalPromotionCodes.length > 0 && (
