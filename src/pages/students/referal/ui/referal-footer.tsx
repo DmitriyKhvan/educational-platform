@@ -4,8 +4,11 @@ import { FaInstagram, FaLinkedin, FaPhone } from 'react-icons/fa6';
 import { IoLogoFacebook, IoMdMail } from 'react-icons/io';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { SiNaver } from 'react-icons/si';
+import { useTermsPrivacyPolicyLinks } from '../lib/use-terms-privacy-policy-links';
 
 function ReferalFooter() {
+  const { termsAndConditionUrl, privacyPolicyUrl } = useTermsPrivacyPolicyLinks();
+
   const [t] = useTranslation('refer');
   const quickLinks = [
     {
@@ -129,18 +132,13 @@ function ReferalFooter() {
           <a
             target="_blank"
             rel="noreferrer"
-            href="https://www.naonow.com/terms-and-conditions"
+            href={termsAndConditionUrl}
             className="whitespace-nowrap"
           >
             Terms & Conditions
           </a>{' '}
           |{' '}
-          <a
-            href="https://www.naonow.com/privacy-policy"
-            target="_blank"
-            rel="noreferrer"
-            className="whitespace-nowrap"
-          >
+          <a href={privacyPolicyUrl} target="_blank" rel="noreferrer" className="whitespace-nowrap">
             Privacy Policy
           </a>
           .

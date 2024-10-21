@@ -5,11 +5,14 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { FaCheck } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
+import { useTermsPrivacyPolicyLinks } from '../lib/use-terms-privacy-policy-links';
 
 function FormCard({
   inputRef,
   formRef,
 }: { inputRef: MutableRefObject<HTMLInputElement | null>; formRef: RefObject<HTMLFormElement> }) {
+  const { termsAndConditionUrl, privacyPolicyUrl } = useTermsPrivacyPolicyLinks();
+
   const navigate = useNavigate();
   const { t } = useTranslation(['common', 'refer']);
   const {
@@ -71,7 +74,7 @@ function FormCard({
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <InputField
           className="w-full focus:ring-2 focus:shadow-none placeholder:text-[#BBBBC4]"
-          placeholder={t("email", {ns: "common"})}
+          placeholder={t('email', { ns: 'common' })}
           {...rest}
           name="email"
           ref={(e) => {
@@ -91,14 +94,14 @@ function FormCard({
           <a
             target="_blank"
             rel="noreferrer"
-            href="https://www.naonow.com/terms-and-conditions"
+            href={termsAndConditionUrl}
             className="border-b border-color-purple text-color-purple whitespace-nowrap font-medium"
           >
             {t('terms_of_use', { ns: 'refer' })}
           </a>{' '}
           {t('terms_policy_and', { ns: 'refer' })}{' '}
           <a
-            href="https://www.naonow.com/privacy-policy"
+            href={privacyPolicyUrl}
             target="_blank"
             rel="noreferrer"
             className="border-b border-color-purple text-color-purple whitespace-nowrap font-medium"
