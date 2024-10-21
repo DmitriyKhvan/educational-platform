@@ -49,8 +49,10 @@ export const AvailabilityCalendar = () => {
 
   useEffect(() => {
     if (mentorInfo?.availabilities && !loadingAppointments && appointments) {
-      const regular = mentorInfo?.availabilities?.regular;
-      const trial = mentorInfo?.availabilities?.trial;
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      const regular = mentorInfo?.availabilities?.filter((a: any) => !a.isTrial);
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      const trial = mentorInfo?.availabilities?.filter((a: any) => a.isTrial);
       const exceptions = mentorInfo?.exceptionDates;
 
       const { monthlyViewEvents, weeklyViewEvents } = renderRecurEvents(regular, trial, exceptions);

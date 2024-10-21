@@ -21,6 +21,7 @@ export interface RecurringEvent {
   date: string;
   from: string;
   to: string;
+  isTrial: boolean;
 }
 
 export interface RRuleCommon {
