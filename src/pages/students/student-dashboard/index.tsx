@@ -80,7 +80,7 @@ const StudentDashboard = () => {
 
             {!isDesktop && (
               <div className="space-y-1 sm:space-y-8">
-                {trialLessons.length > 0 && (
+                {trialLessons?.length > 0 && (
                   <MyTrialLessons fetchAppointments={refetch} lessons={trialLessons} />
                 )}
 

@@ -1,4 +1,5 @@
 import InputField from '@/components/form/input-field';
+import Loader from '@/components/loader/loader';
 import { MentorCard } from '@/pages/students/mentors-list/ui/mentor/mentor-card';
 import { MentorCard2 } from '@/pages/students/mentors-list/ui/mentor/mentor-card-2';
 import type { Mentor } from '@/types/types.generated';
@@ -10,15 +11,23 @@ import { FiSearch } from 'react-icons/fi';
 
 interface MentorsViewProps {
   mentorList: Mentor[];
+  setMentors: (mentors: Mentor[]) => void;
+  loading: boolean;
   handleSelectMentor?: (mentor: Mentor) => void;
 }
 
-export const MentorsView: React.FC<MentorsViewProps> = ({ mentorList, handleSelectMentor }) => {
+export const MentorsView: React.FC<MentorsViewProps> = ({
+  mentorList,
+  loading,
+  handleSelectMentor,
+}) => {
   const [t] = useTranslation(['studentMentor', 'common']);
 
   const [mentors, setMentors] = useState<Mentor[]>(
     [...mentorList].sort((a, b) => (a?.sortOrder ?? 0) - (b?.sortOrder ?? 0)),
   );
+
+  console.log('mentors', mentors);
 
   const [viewMentorList, setViewMentorList] = useState<'list' | 'grid'>('list');
 
@@ -66,8 +75,8 @@ export const MentorsView: React.FC<MentorsViewProps> = ({ mentorList, handleSele
       </div>
 
       <div className="flex flex-wrap mt-10 gap-6 select-none">
-        {mentors.length !== 0 ? (
-          mentors.map((mentor) => {
+        {mentorList.length > 0 &&
+          mentorList.map((mentor) => {
             if (viewMentorList === 'grid') {
               return (
                 <MentorCard
@@ -84,11 +93,16 @@ export const MentorsView: React.FC<MentorsViewProps> = ({ mentorList, handleSele
                 // handleSelectMentor={handleSelectMentor}
               />
             );
-          })
-        ) : (
-          <p className="w-full text-center text-gray-500 uppercase">{t('cannot_find_mentors')}</p>
-        )}
+          })}
       </div>
+
+      {loading ? (
+        <Loader />
+      ) : (
+        !mentorList.length && (
+          <p className="w-full text-center text-gray-500 uppercase">{t('cannot_find_mentors')}</p>
+        )
+      )}
     </>
   );
 };
