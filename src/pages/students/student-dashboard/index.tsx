@@ -107,7 +107,7 @@ const StudentDashboard = () => {
 
           {isDesktop && (
             <div className="w-full mx-auto sm:max-w-[524px] sm:mt-10 mt-1 space-y-1 sm:space-y-8">
-              {trialLessons.length > 0 && (
+              {trialLessons?.length > 0 && (
                 <MyTrialLessons fetchAppointments={refetch} lessons={trialLessons} />
               )}
               {user?.personalPromotionCodes && user.personalPromotionCodes.length > 0 && (
