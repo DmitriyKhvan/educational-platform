@@ -83,12 +83,22 @@ function FormCard({
           }}
         />
         {errors?.email && <p className="text-red-400 font-bold mt-1">{errors?.email.message}</p>}
-        <Button
+        {/* <Button
           type="submit"
           className="w-full h-[64px] my-4 focus:ring-2 focus:shadow-none focus:ring-white"
         >
           {t('start_now_btn', { ns: 'refer' })}
-        </Button>
+        </Button> */}
+
+        <a href=" https://calendly.com/d/cpxs-8vj-hgc/nao-now?utm_source=dashboard&utm_medium=referral&utm_campaign=refer_a_friend">
+          <Button
+            type="button"
+            className="w-full h-[64px] my-4 focus:ring-2 focus:shadow-none focus:ring-white"
+          >
+            {t('start_now_btn', { ns: 'refer' })}
+          </Button>
+        </a>
+
         <span className="text-center block text-sm">
           {t('terms_policy_start', { ns: 'refer' })} <br />
           <a
