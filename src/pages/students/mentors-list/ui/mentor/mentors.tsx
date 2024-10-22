@@ -15,7 +15,7 @@ const Mentors = () => {
   const [search, setSearch] = useState<string | null>(null);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [fetching, setFetching] = useState(true);
+  const [fetching, setFetching] = useState(false);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
@@ -31,7 +31,7 @@ const Mentors = () => {
     try {
       const response = await mentorsQuery({
         fetchPolicy: 'no-cache',
-        variables: { studentId, page: currentPage, limit: 2, ...(search && { search }) },
+        variables: { studentId, page: currentPage, limit: 5, ...(search && { search }) },
       });
 
       if (response.data) {
@@ -55,6 +55,10 @@ const Mentors = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    mentorsFetch();
+  }, []);
 
   useEffect(() => {
     if (fetching) {

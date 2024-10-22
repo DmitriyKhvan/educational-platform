@@ -29,8 +29,6 @@ export const MentorsView: React.FC<MentorsViewProps> = ({
   loading,
   handleSelectMentor,
 }) => {
-  console.log('loading', loading);
-
   const [t] = useTranslation(['studentMentor', 'common']);
 
   const [viewMentorList, setViewMentorList] = useState<'list' | 'grid'>('list');
