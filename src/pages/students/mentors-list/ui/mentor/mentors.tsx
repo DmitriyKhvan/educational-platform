@@ -12,28 +12,37 @@ import debounce from 'debounce';
 
 const Mentors = () => {
   const [mentors, setMentors] = useState<Mentor[]>([]);
+  const [search, setSearch] = useState<string | null>(null);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [fetching, setFetching] = useState(true);
   const [totalCount, setTotalCount] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
 
   const studentId = getItemToLocalStorage('studentId', '');
 
   const [t] = useTranslation(['studentMentor', 'common']);
-  const [mentorsQuery, { loading }] = useMentorsLazyQuery({
-    fetchPolicy: 'no-cache',
-    variables: { studentId },
-    errorPolicy: 'ignore',
-  });
 
-  const mentorsFetch = async () => {
+  const element = document.getElementById('mentors') as HTMLElement;
+
+  const [mentorsQuery] = useMentorsLazyQuery();
+
+  const mentorsFetch = async (scroll = false) => {
     try {
       const response = await mentorsQuery({
-        variables: { page: currentPage, limit: 2 },
+        fetchPolicy: 'no-cache',
+        variables: { studentId, page: currentPage, limit: 2, ...(search && { search }) },
       });
 
       if (response.data) {
-        // setMentors([...mentors, ...(response.data.mentors?.mentors as Mentor[])]);
-        setMentors((prevState) => [...prevState, ...(response.data?.mentors?.mentors as Mentor[])]);
+        if (scroll) {
+          setMentors((prevState) => [
+            ...prevState,
+            ...(response.data?.mentors?.mentors as Mentor[]),
+          ]);
+        } else {
+          setMentors(response.data?.mentors?.mentors as Mentor[]);
+        }
         setCurrentPage((prevState) => prevState + 1);
         setTotalCount(response?.data?.mentors?.count ?? 0);
       }
@@ -43,22 +52,31 @@ const Mentors = () => {
       }
     } finally {
       setFetching(false);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     if (fetching) {
-      mentorsFetch();
+      element.scroll({
+        top: element.scrollHeight,
+        behavior: 'smooth',
+      });
+      mentorsFetch(true);
     }
   }, [fetching]);
 
   useEffect(() => {
-    const el = document.getElementById('mentors') as HTMLElement;
+    if (search !== null) {
+      mentorsFetch();
+    }
+  }, [search]);
 
-    el?.addEventListener('scroll', scrollHandler);
+  useEffect(() => {
+    element?.addEventListener('scroll', scrollHandler);
 
     return () => {
-      el?.removeEventListener('scroll', scrollHandler);
+      element?.removeEventListener('scroll', scrollHandler);
     };
   }, [mentors]);
 
@@ -69,6 +87,7 @@ const Mentors = () => {
       element.scrollTop + element.clientHeight >= element.scrollHeight &&
       mentors.length < totalCount
     ) {
+      setLoading(true);
       setFetching(true);
     }
   }, 500);
@@ -93,7 +112,14 @@ const Mentors = () => {
         <p className="w-full text-center text-gray-500 uppercase">{t('no_mentors_available')}</p>
       )} */}
 
-      <MentorsView mentorList={mentors} setMentors={setMentors} loading={loading} />
+      <MentorsView
+        setMentors={setMentors}
+        mentorList={mentors}
+        setSearch={setSearch}
+        setCurrentPage={setCurrentPage}
+        setLoading={setLoading}
+        loading={loading}
+      />
     </div>
   );
 };

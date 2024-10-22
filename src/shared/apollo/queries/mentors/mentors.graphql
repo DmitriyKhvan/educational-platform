@@ -1,7 +1,7 @@
-query mentors($studentId: ID, $page: Int, $limit: Int) {
-    mentors(visibilityStatus: public, studentId: $studentId, page: $page, limit: $limit) {
+query mentors($studentId: ID, $page: Int, $limit: Int, $search: String) {
+    mentors(visibilityStatus: public, studentId: $studentId, page: $page, limit: $limit, search: $search) {
       mentors {
-id
+      id
       firstName
       lastName
       fullName

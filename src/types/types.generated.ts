@@ -1650,6 +1650,7 @@ export type QueryMentorReviewsWithPaginationArgs = {
 export type QueryMentorsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
   studentId?: InputMaybe<Scalars['ID']['input']>;
   visibilityStatus?: InputMaybe<VisibilityStatus>;
 };

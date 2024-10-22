@@ -7,6 +7,7 @@ export type MentorsQueryVariables = Types.Exact<{
   studentId?: Types.InputMaybe<Types.Scalars['ID']['input']>;
   page?: Types.InputMaybe<Types.Scalars['Int']['input']>;
   limit?: Types.InputMaybe<Types.Scalars['Int']['input']>;
+  search?: Types.InputMaybe<Types.Scalars['String']['input']>;
 }>;
 
 
@@ -14,12 +15,13 @@ export type MentorsQuery = { __typename?: 'Query', mentors?: { __typename?: 'men
 
 
 export const MentorsDocument = gql`
-    query mentors($studentId: ID, $page: Int, $limit: Int) {
+    query mentors($studentId: ID, $page: Int, $limit: Int, $search: String) {
   mentors(
     visibilityStatus: public
     studentId: $studentId
     page: $page
     limit: $limit
+    search: $search
   ) {
     mentors {
       id
@@ -106,6 +108,7 @@ export const MentorsDocument = gql`
  *      studentId: // value for 'studentId'
  *      page: // value for 'page'
  *      limit: // value for 'limit'
+ *      search: // value for 'search'
  *   },
  * });
  */
