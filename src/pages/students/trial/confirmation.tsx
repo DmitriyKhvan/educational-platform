@@ -15,7 +15,7 @@ import { localeDic, setItemToLocalStorage } from '@/shared/constants/global';
 import { buttonizeA11Y } from '@/shared/utils/buttonizeA11Y';
 import { getTranslatedTitle } from '@/shared/utils/get-translated-title';
 import notify from '@/shared/utils/notify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import type { SelectedPlan } from './types';
 import type { AuthedUserWithPassword } from '.';
 
@@ -35,17 +35,18 @@ const Confirmation: React.FC<ConfirmationProps> = ({
   schedule,
   mentorId,
 }) => {
-  const utm = useMemo(() => {
-    const urlParams = new URL(window.location.href).searchParams;
+  const [searchParams] = useSearchParams();
 
+  const utm = useMemo(() => {
     return JSON.stringify({
-      utm_source: urlParams.get('utm_source') || '',
-      utm_medium: urlParams.get('utm_medium') || '',
-      utm_campaign: urlParams.get('utm_campaign') || '',
-      utm_term: urlParams.get('utm_term') || '',
-      utm_content: urlParams.get('utm_content') || '',
+      utm_source: searchParams.get('utm_source') || '',
+      utm_medium: searchParams.get('utm_medium') || '',
+      utm_campaign: searchParams.get('utm_campaign') || '',
+      utm_term: searchParams.get('utm_term') || '',
+      utm_content: searchParams.get('utm_content') || '',
+      a2: searchParams.get('a2') || '',
     });
-  }, [window.location.href]);
+  }, []);
 
   const navigate = useNavigate();
   const { user: currentUser, refetchUser } = useAuth();
