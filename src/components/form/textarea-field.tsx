@@ -14,7 +14,7 @@ export const TextareaField = forwardRef(
       placeholder = '',
       label = '',
       text = '',
-      className = 'w-[570px] h-[300px]',
+      className = 'w-[570px]',
       ...props
     }: TextareaFieldProps,
     ref: Ref<HTMLTextAreaElement>,
@@ -34,6 +34,7 @@ export const TextareaField = forwardRef(
         <textarea
           className={cn(
             `bg-white 
+            h-[300px]
             border
             border-solid
             border-color-border-grey
@@ -50,7 +51,7 @@ export const TextareaField = forwardRef(
           placeholder={placeholder}
           ref={ref}
           {...props}
-        ></textarea>
+        />
       </div>
     );
   },

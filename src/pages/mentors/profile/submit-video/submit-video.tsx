@@ -65,6 +65,7 @@ const SubmitVideo = () => {
           <p className="text-[15px] text-color-light-grey font-semibold leading-[18px] tracking-[-0.3px] mb-[15px]">
             Upload video via youtube share!
           </p>
+
           <div className="flex gap-5 mb-5">
             <Button
               onClick={() => setTypeVideo('vm')}
@@ -88,7 +89,7 @@ const SubmitVideo = () => {
               </span>
             </Button>
           </div>
-          a && b a ?? b
+
           <InputWithError errorsField={errors?.videoUrl}>
             <InputField
               className="w-full"

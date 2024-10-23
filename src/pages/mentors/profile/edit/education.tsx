@@ -71,24 +71,20 @@ const Education = () => {
   return (
     <>
       {loading && <ReactLoader />}
-      <form
-        onSubmit={handleSubmit(handleEditEdu)}
-        className="py-[50px] pl-[66px] border-b border-solid border-color-border-grey"
-        id="edu"
-      >
-        <h2 className="mb-5 text-[27px] font-medium leading-[33px] tracking-[-1px] text-color-dark-purple">
+      <form onSubmit={handleSubmit(handleEditEdu)} id="edu">
+        <h2 className="mb-5 text-[20px] font-bold text-color-dark-purple tracking-[-0.6px] leading-6">
           {t('bio_education')}
         </h2>
 
         <InputField
-          className="w-[420px] mb-6"
+          className="w-full mb-6"
           label={t('university')}
           placeholder={t('university_placeholder')}
           {...register('university')}
         />
 
         <InputField
-          className="w-[420px] mb-6"
+          className="w-full mb-6"
           type="number"
           label={t('grad_year')}
           placeholder="2018"
@@ -96,14 +92,14 @@ const Education = () => {
         />
 
         <InputField
-          className="w-[420px] mb-6"
+          className="w-full mb-6"
           label={t('university_degree')}
           placeholder="A.B English"
           {...register('degree')}
         />
 
         <InputField
-          className="w-[420px] mb-6"
+          className="w-full mb-6"
           label={t('university_major')}
           placeholder="Major"
           {...register('major')}
@@ -153,7 +149,7 @@ const Education = () => {
           </div>
         </div> */}
 
-        <Button className="w-[420px]" type="submit">
+        <Button className="w-full" type="submit">
           {t('save', { ns: 'common' })}
         </Button>
       </form>

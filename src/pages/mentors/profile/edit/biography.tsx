@@ -52,43 +52,35 @@ const Biography = () => {
   return (
     <>
       {loading && <ReactLoader />}
-      <form
-        onSubmit={handleSubmit(handleEditBigraphy)}
-        className="py-[50px] pl-[66px] border-b border-solid border-color-border-grey"
-        id="bio"
-      >
-        <h2 className="mb-5 text-[27px] font-medium leading-[33px] tracking-[-1px] text-color-dark-purple">
+      <form onSubmit={handleSubmit(handleEditBigraphy)} id="bio">
+        <h2 className="mb-5 text-[20px] font-bold text-color-dark-purple tracking-[-0.6px] leading-6">
           {t('biography')}
         </h2>
 
-        <div className="w-[570px]">
-          <TextareaField
-            placeholder={t('bio_intro')}
-            label=""
-            text={t('bio_intro')}
-            {...register('introduction')}
-          />
-        </div>
+        <TextareaField
+          className="w-full"
+          placeholder={t('bio_intro')}
+          label={t('summary')}
+          text={t('bio_intro')}
+          {...register('introduction')}
+        />
 
-        <div className="w-[570px]">
-          <TextareaField
-            placeholder={t('bio_experience')}
-            label={t('bio_experience_label')}
-            text={t('bio_experience')}
-            {...register('relevantExperience')}
-          />
-        </div>
+        <TextareaField
+          className="w-full"
+          placeholder={t('bio_experience')}
+          label={t('bio_experience_label')}
+          text={t('bio_experience')}
+          {...register('relevantExperience')}
+        />
 
-        <div className="w-[570px]">
-          <TextareaField
-            placeholder={t('bio_facts')}
-            label={t('bio_facts_label')}
-            text={t('bio_facts')}
-            {...register('uniqueFacts')}
-          />
-        </div>
-
-        <Button className="w-[420px]" type="submit">
+        <TextareaField
+          className="w-full"
+          placeholder={t('bio_facts')}
+          label={t('bio_facts_label')}
+          text={t('bio_facts')}
+          {...register('uniqueFacts')}
+        />
+        <Button className="w-full" type="submit">
           {t('save', { ns: 'common' })}
         </Button>
       </form>

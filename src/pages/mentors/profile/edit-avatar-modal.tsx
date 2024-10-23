@@ -48,34 +48,27 @@ const EditAvatarModal = ({
   return (
     <>
       {loading && <ReactLoader />}
-      <form
-        onSubmit={handleSubmit(updateAvatar)}
-        className="w-[500px] h-auto bg-white rounded-[10px] pt-[30px] pb-[20px] shadow-[0px_2px_15px_rgba(0,_0,_0,_0.06)]"
-      >
+      <form onSubmit={handleSubmit(updateAvatar)} className="w-[400px] h-auto">
         {!file ? (
-          <div className="h-[250px] px-[30px] overflow-hidden">
-            <Avatar
-              className="object-contain "
-              avatarUrl={user?.mentor?.avatar?.url ?? undefined}
-            />
-          </div>
+          <Avatar className="h-[250px]" avatarUrl={user?.mentor?.avatar?.url} />
         ) : (
           <img
             src={URL.createObjectURL(file)}
             alt="Thumb"
-            className="w-full object-contain h-[250px] px-[30px]"
+            className="w-full object-contain h-[250px]"
           />
         )}
 
-        <div className="px-[30px] pb-[10px] border-b border-solid border-color-border-grey">
+        <div className=" border-b border-solid border-color-border-grey">
           {file ? (
-            <label
+            <button
+              type="button"
               onClick={() => setFile(null)}
               className="flex items-center justify-center gap-[10px] w-full my-[10px] py-[15px] bg-white  font-semibold text-[15px] text-color-dark-purple leading-[18px] tracking-[-0.2px] border border-solid border-color-border-grey rounded-[10px] cursor-pointer"
             >
               <span>&times;</span>
               {t('choose_other')}
-            </label>
+            </button>
           ) : (
             <label className="flex items-center justify-center gap-[10px] w-full my-[10px] py-[15px] bg-white  font-semibold text-[15px] text-color-dark-purple leading-[18px] tracking-[-0.2px] border border-solid border-color-border-grey rounded-[10px] cursor-pointer">
               <input
@@ -104,7 +97,7 @@ const EditAvatarModal = ({
           </button> */}
         </div>
 
-        <div className="flex gap-[10px] mt-4 px-[30px]">
+        <div className="flex gap-[10px] mt-4">
           <Button theme="outline" className="w-full" onClick={closeModal}>
             {t('cancel')}
           </Button>
