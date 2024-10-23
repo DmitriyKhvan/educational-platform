@@ -91,7 +91,7 @@ const ScheduleLesson = () => {
           schedule={schedule}
           setRepeat={setRepeat}
           lessonId={id}
-          // plan={selectedPlan}
+          plan={selectedPlan}
         />
       )}
 

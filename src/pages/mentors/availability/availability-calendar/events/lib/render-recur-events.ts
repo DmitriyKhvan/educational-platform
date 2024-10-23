@@ -38,7 +38,8 @@ export function renderRecurEvents(
       regular: regularWeekDays?.length ? regularWeekDays : undefined,
       trial: trialWeekDays?.length ? trialWeekDays : undefined,
       rrule: rruleCommon(new Date().toISOString().substring(0, 10)),
-      exdate: exceptions?.map((ex) => ex.date),
+      exdate: exceptions?.map((ex) => new Date(Number(ex.date)).toISOString().substring(0, 10)),
+      // allDay: false,
     });
 
     const pushWeeklyEvents = (weekDays: RecurringEvent[], type: keyof typeof EventType) => {
@@ -53,8 +54,6 @@ export function renderRecurEvents(
           }),
           allDay: false,
           display: 'background',
-          start: new Date(`{weekDay.date}T${weekDay.from}:00`),
-          end: new Date(`{weekDay.date}T${weekDay.to}:00`)
         });
       }
     };
