@@ -1439,14 +1439,14 @@ export type Query = {
   languageLevelsWithPagination: LanguageLevelWithPagination;
   lesson?: Maybe<Lesson>;
   lessonSections: Array<Maybe<LessonSection>>;
-  lessons: Array<Maybe<Lesson>>;
+  lessons?: Maybe<LessonsWithPagination>;
   lessonsWithPagination: LessonsWithPagination;
   mentor?: Maybe<Mentor>;
   mentorContract?: Maybe<MentorContract>;
   mentorContractById?: Maybe<MentorContract>;
   mentorContractsWithPagination?: Maybe<MentorContractWithPagination>;
   mentorReviewsWithPagination: MentorReviewsWithPagination;
-  mentors: Array<Maybe<Mentor>>;
+  mentors?: Maybe<MentorsWithPagination>;
   mentorsWithPagination?: Maybe<MentorsWithPagination>;
   package?: Maybe<Package>;
   packageSubscription?: Maybe<PackageSubscription>;
@@ -1650,6 +1650,7 @@ export type QueryMentorReviewsWithPaginationArgs = {
 export type QueryMentorsArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
   studentId?: InputMaybe<Scalars['ID']['input']>;
   visibilityStatus?: InputMaybe<VisibilityStatus>;
 };
