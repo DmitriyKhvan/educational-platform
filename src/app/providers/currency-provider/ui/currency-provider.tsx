@@ -1,12 +1,12 @@
 import { CurrencyContext } from '@/app/providers/currency-provider/lib/use-currency';
 import { UPDATE_USER } from '@/shared/apollo/mutations/user/update-user';
 import { type CurrencyDictionary, currenciesDic } from '@/shared/constants/global';
+import notify from '@/shared/utils/notify';
 import { CourseTranslationsLanguage, Currency } from '@/types/types.generated';
 import { useMutation } from '@apollo/client';
-import { type ReactNode, useState, useEffect } from 'react';
-import { useAuth } from '../../auth-provider';
-import notify from '@/shared/utils/notify';
+import { type ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../auth-provider';
 
 const defaultCurrenciesDic = {
   [CourseTranslationsLanguage.En]: Currency.Usd,
@@ -54,7 +54,7 @@ export const CurrencyProvider = ({ children }: { children: ReactNode }) => {
         .find(
           (currency) =>
             currency.value ===
-            (localStorage.getItem('currency') ||
+            (localStorage.getItem('currency')?.toLowerCase() ||
               defaultCurrenciesDic[i18n.language as CourseTranslationsLanguage] ||
               Currency.Krw),
         );

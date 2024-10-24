@@ -19,7 +19,7 @@ export function renderSingleEvents({
   const exceptionsWeeklyEvents: RenderedEvent[] = [];
 
   for (const ex of exceptions) {
-    const exDate = new Date(ex.date);
+    const exDate = new Date(Number(ex.date));
 
     if (exDate < new Date()) continue;
 
@@ -36,7 +36,7 @@ export function renderSingleEvents({
       exceptionsMonthlyEvents.push({
         ...mve,
         rrule: undefined,
-        date: ex.date,
+        date: new Date(Number(ex.date)).toISOString().substring(0, 10),
         exception: [{ from: ex.from ?? '00:00', to: ex.to ?? '24:00' }],
         allDay: true,
         start: exDate,

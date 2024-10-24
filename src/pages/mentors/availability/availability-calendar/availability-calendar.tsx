@@ -19,7 +19,6 @@ import { useEffect, useRef, useState } from 'react';
 export const AvailabilityCalendar = () => {
   const { user } = useAuth();
   const calendarRef = useRef<FullCalendar | null>(null);
-  const fullCalendarRef = useRef<FullCalendar | null>(null);
 
   const userTimezone = user?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -50,8 +49,10 @@ export const AvailabilityCalendar = () => {
 
   useEffect(() => {
     if (mentorInfo?.availabilities && !loadingAppointments && appointments) {
-      const regular = mentorInfo?.availabilities?.regular;
-      const trial = mentorInfo?.availabilities?.trial;
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      const regular = mentorInfo?.availabilities?.filter((a: any) => !a.isTrial);
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      const trial = mentorInfo?.availabilities?.filter((a: any) => a.isTrial);
       const exceptions = mentorInfo?.exceptionDates;
 
       const { monthlyViewEvents, weeklyViewEvents } = renderRecurEvents(regular, trial, exceptions);
@@ -102,7 +103,7 @@ export const AvailabilityCalendar = () => {
     <div className="border border-color-border-grey rounded-xl">
       <AvailabilityCalendarHeader calendarRef={calendarRef} updateEvents={updateEvents} />
       <Calendar
-        ref={fullCalendarRef}
+        ref={calendarRef}
         events={calendarEvents as EventSourceInput}
         eventContent={renderEventContent}
       />

@@ -18,9 +18,9 @@ import { useMediaQuery } from 'react-responsive';
 import { currencyFormat } from '@/shared/utils/currency-format';
 // import { MyTrialLessons } from './my-trial-lessons';
 import { DiscountType, type Lesson } from '@/types/types.generated';
+import { addMinutes, isBefore } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { MyTrialLessons } from './my-trial-lessons';
-import { addMinutes, isBefore } from 'date-fns';
 // import { MyTrialLessons } from './my-trial-lessons';
 
 const StudentDashboard = () => {

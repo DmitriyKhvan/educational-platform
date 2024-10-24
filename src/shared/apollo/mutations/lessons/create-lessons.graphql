@@ -6,6 +6,7 @@
     $startAt: DateTime!
     $duration: Int!
     $repeat: Int
+    $lang: String
   ) {
     createLessons(
       mentorId: $mentorId
@@ -14,6 +15,7 @@
       startAt: $startAt
       duration: $duration
       repeat: $repeat
+      lang: $lang
     ) {
       id
       startAt

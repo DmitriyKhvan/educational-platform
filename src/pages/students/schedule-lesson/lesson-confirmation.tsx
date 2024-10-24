@@ -131,6 +131,7 @@ const LessonConfirmation: React.FC<LessonConfirmationProps> = ({
             startAt: utcIsoTimeString,
             duration: plan?.package?.sessionTime ?? 0,
             repeat: typeof repeat === 'boolean' ? 0 : repeat,
+            lang: i18n.language,
           },
         });
 
