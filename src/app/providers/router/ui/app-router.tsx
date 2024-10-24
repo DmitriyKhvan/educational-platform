@@ -23,6 +23,9 @@ const BuyPackage = lazy(() => import('@/pages/students/buy-package'));
 const ConfirmPayment = lazy(() => import('@/pages/confirm-payment'));
 const StripePayment = lazy(() => import('@/pages/students/stripe-payment'));
 const SelectProfile = lazy(() => import('@/components/select-profile'));
+const Questionnaire = lazy(() => import('@/pages/students/questionnaire'));
+const MentorMatchesList = lazy(() => import('@/pages/students/mentor-matches-list'));
+
 const StudentPages = lazy(() => import('@/pages/students'));
 const MentorPages = lazy(() => import('@/pages/mentors'));
 
@@ -89,6 +92,9 @@ export const AppRouter = () => {
         <Route path="/purchase/:packageId/payment/:clientSecret" element={<StripePayment />} />
 
         <Route path="/select-profile" element={<SelectProfile />} />
+
+        <Route path={'/questionnaire'} element={<Questionnaire />} />
+        <Route path={'/mentor-matches-list'} element={<MentorMatchesList />} />
       </Route>
 
       <Route

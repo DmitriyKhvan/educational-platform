@@ -75,9 +75,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return { data };
   };
 
-  const logout = async () => {
+  const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('studentId');
+    localStorage.removeItem('questionnaire');
+    window.Intercom('shutdown');
+    window.location.reload();
   };
 
   return (

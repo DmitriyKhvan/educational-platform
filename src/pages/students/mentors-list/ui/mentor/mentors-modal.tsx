@@ -20,9 +20,6 @@ const MentorsModal = ({ mentor }: { mentor: Mentor }) => {
   const isMobile = useMediaQuery({ maxWidth: 639 });
   const [t] = useTranslation(['common', 'profile']);
 
-  // const SLIDE_COUNT = 5;
-  // const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
-
   return (
     <div className="flex flex-col gap-8 w-full sm:w-[calc(100vw-120px)] max-w-[880px] sm:h-full sm:min-h-[415px]">
       <div className="flex flex-col-reverse sm:flex-row bg-white gap-10">
@@ -59,7 +56,6 @@ const MentorsModal = ({ mentor }: { mentor: Mentor }) => {
                       }}
                     >
                       <Button
-                        theme="purple"
                         className="px-[48px] h-[50px]"
                         disabled={mentor?.availabilities?.length === 0}
                         // disabled={mentor?.availabilities?.regular?.length === 0}
@@ -162,7 +158,25 @@ const MentorsModal = ({ mentor }: { mentor: Mentor }) => {
             Reviews
           </h3>
           <EmblaCarousel
-            slides={SLIDES}
+            slides={
+              <>
+                <div className="relative min-w-0 grow-0 shrink-0 basis-full sm:basis-1/2 pl-4">
+                  <Review />
+                </div>
+                <div className="relative min-w-0 grow-0 shrink-0 basis-full sm:basis-1/2 pl-4">
+                  <Review />
+                </div>
+                <div className="relative min-w-0 grow-0 shrink-0 basis-full sm:basis-1/2 pl-4">
+                  <Review />
+                </div>
+                <div className="relative min-w-0 grow-0 shrink-0 basis-full sm:basis-1/2 pl-4">
+                  <Review />
+                </div>
+                <div className="relative min-w-0 grow-0 shrink-0 basis-full sm:basis-1/2 pl-4">
+                  <Review />
+                </div>
+              </>
+            }
             // options={{ align: 'start', loop: true }}
             options={{ align: 'start' }}
           />
@@ -186,7 +200,6 @@ const MentorsModal = ({ mentor }: { mentor: Mentor }) => {
                   }}
                 >
                   <Button
-                    theme="purple"
                     className="w-full px-[48px] h-[50px]"
                     disabled={mentor?.availabilities?.length === 0}
                     // disabled={mentor?.availabilities?.regular?.length === 0}

@@ -2074,16 +2074,6 @@ textarea.form-control.is-invalid {
   background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity));
 }
 
-.bg-black {
-  --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-black-rgb), var(--bs-bg-opacity));
-}
-
-.bg-white {
-  --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-white-rgb), var(--bs-bg-opacity));
-}
-
 .bg-body {
   --bs-bg-opacity: 1;
   background-color: rgba(
@@ -4693,21 +4683,6 @@ div[class$='ValueContainer'] {
   div[class$='placeholder'] {
     font-size: 12px;
   }
-}
-
-textarea {
-  border-right: none;
-  border-left: none;
-  border-top: none;
-  border-bottom: 1px solid #c4c4c4;
-  outline: none;
-  font-family: Source Sans Pro;
-  font-weight: 600;
-  font-size: 16px;
-  color: #42413d;
-  width: 100%;
-  border-radius: 0;
-  line-height: 45px;
 }
 
 .checkbox {

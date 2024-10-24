@@ -15,7 +15,7 @@ export const Layout = () => {
           <Sidebar />
         </div>
 
-        <div className="grow">
+        <div className="grow overflow-hidden">
           <Navbar />
           <div
             id="mentors"

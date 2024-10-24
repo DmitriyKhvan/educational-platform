@@ -21,7 +21,7 @@ import { trimSpaces } from '@/shared/utils/trim-spaces';
 import InputWithError from '@/components/form/input-with-error';
 
 const BasicForm = () => {
-  const [t] = useTranslation(['common', 'profile']);
+  const [t] = useTranslation(['common', 'profile', 'translations']);
   const [updateUser] = useMutation(UPDATE_USER);
   const [updateMentor, { loading }] = useMutation(MUTATION_UPDATE_MENTOR);
 

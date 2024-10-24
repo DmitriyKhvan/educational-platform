@@ -23,9 +23,7 @@ const StudentProfile = () => {
   const { user, currentStudent, logout } = useAuth();
 
   const handleLogout = async () => {
-    void logout();
-    window.Intercom('shutdown');
-    window.location.reload();
+    await logout();
   };
 
   const {

@@ -52,17 +52,13 @@ export const SIGN_UP = gql`
         lastName
         gender
         major
-        language
         university
-        graduatingYear
         degree
         introduction
         about
-        experience
         relevantExperience
         isActive
         hourlyRate
-        facts
         uniqueFacts
         fullName
         userId
@@ -158,17 +154,13 @@ export const ME_QUERY = gql`
         lastName
         gender
         major
-        language
         university
-        graduatingYear
         degree
         introduction
         about
-        experience
         relevantExperience
         isActive
         hourlyRate
-        facts
         uniqueFacts
         fullName
         userId
@@ -204,6 +196,47 @@ export const ME_QUERY = gql`
         code
         value
         discountType
+      }
+      paymentCurrency
+      matchingProfile {
+        id
+        interests {
+          id
+          interest
+          icon
+          translations {
+            id
+            title
+            language
+          }
+        }
+        teachingStyles {
+          id
+          teachingStyle
+          translations {
+            id
+            title
+            language
+          }
+        }
+        availabilities {
+          id
+          day
+          from
+          to
+        }
+        certifications {
+          id
+          certification
+          shareLink
+          issuedAt
+        }
+        specializations {
+          id
+          title
+        }
+        energy
+        gender
       }
     }
   }
@@ -438,17 +471,13 @@ export const APPOINTMENTS_QUERY = gql`
         lastName
         gender
         major
-        language
         university
-        graduatingYear
         degree
         introduction
         about
-        experience
         relevantExperience
         isActive
         hourlyRate
-        facts
         uniqueFacts
         fullName
         userId
