@@ -1,10 +1,4 @@
-<<<<<<<< HEAD:src/components/carousel/carousel-card.tsx
 export const CarouselCard = () => {
-========
-import React from 'react';
-
-export const Review = () => {
->>>>>>>> origin/mentor-profile:src/entities/Review/ui/Review.jsx
   return (
     <div className="shadow rounded-md p-4 w-full mx-auto bg-slate-50">
       <div className="animate-pulse">

@@ -16,6 +16,7 @@ import { FaTrashAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { FaChevronLeft } from 'react-icons/fa6';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
+import { MatchingInfo } from './edit/matching-info';
 
 const EditMentorProfile = () => {
   const [t] = useTranslation(['profile', 'common']);
@@ -91,7 +92,7 @@ const EditMentorProfile = () => {
 
       <BasicForm />
 
-      {/* <MatchingInfo /> */}
+      <MatchingInfo />
 
       <Biography />
 

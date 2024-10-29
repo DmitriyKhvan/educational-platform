@@ -113,6 +113,7 @@ export type AuthenticatedUser = {
   isActive?: Maybe<Scalars['Boolean']['output']>;
   koreanEquivalent?: Maybe<Scalars['String']['output']>;
   lastName: Scalars['String']['output'];
+  matchingProfile?: Maybe<MatchingProfile>;
   mentor?: Maybe<Mentor>;
   newToken?: Maybe<Scalars['String']['output']>;
   paymentCurrency?: Maybe<Currency>;
@@ -465,6 +466,57 @@ export type LessonsWithPagination = {
   lessons: Array<Maybe<Lesson>>;
 };
 
+export type MatchingProfile = {
+  __typename?: 'MatchingProfile';
+  availabilities?: Maybe<Array<Maybe<MatchingProfileAvailability>>>;
+  certifications?: Maybe<Array<Maybe<MentorCertification>>>;
+  energy?: Maybe<MentorEnergy>;
+  gender?: Maybe<GenderType>;
+  id: Scalars['ID']['output'];
+  interests?: Maybe<Array<Maybe<MatchingProfileInterest>>>;
+  specializations?: Maybe<Array<Maybe<LanguageLevel>>>;
+  teachingStyles?: Maybe<Array<Maybe<MatchingProfileTeachingStyle>>>;
+};
+
+export type MatchingProfileAvailability = {
+  __typename?: 'MatchingProfileAvailability';
+  day?: Maybe<Scalars['String']['output']>;
+  from?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  to?: Maybe<Scalars['String']['output']>;
+};
+
+export type MatchingProfileInterest = {
+  __typename?: 'MatchingProfileInterest';
+  icon?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  interest?: Maybe<Scalars['String']['output']>;
+  translations?: Maybe<Array<Maybe<MatchingProfileInterestTranslation>>>;
+};
+
+export type MatchingProfileInterestTranslation = {
+  __typename?: 'MatchingProfileInterestTranslation';
+  id: Scalars['ID']['output'];
+  interest?: Maybe<MatchingProfileInterest>;
+  language?: Maybe<TranslationsLanguage>;
+  title?: Maybe<Scalars['String']['output']>;
+};
+
+export type MatchingProfileTeachingStyle = {
+  __typename?: 'MatchingProfileTeachingStyle';
+  id: Scalars['ID']['output'];
+  teachingStyle?: Maybe<Scalars['String']['output']>;
+  translations?: Maybe<Array<Maybe<MatchingProfileTeachingStyleTranslation>>>;
+};
+
+export type MatchingProfileTeachingStyleTranslation = {
+  __typename?: 'MatchingProfileTeachingStyleTranslation';
+  id: Scalars['ID']['output'];
+  language?: Maybe<TranslationsLanguage>;
+  teachingStyle?: Maybe<MatchingProfileTeachingStyle>;
+  title?: Maybe<Scalars['String']['output']>;
+};
+
 export type Mentor = {
   __typename?: 'Mentor';
   about?: Maybe<Scalars['String']['output']>;
@@ -472,25 +524,19 @@ export type Mentor = {
   availabilities: Array<Maybe<Timesheet>>;
   avatar?: Maybe<File>;
   avatarId?: Maybe<Scalars['ID']['output']>;
-  contract?: Maybe<Array<Maybe<MentorContract>>>;
   degree?: Maybe<Scalars['String']['output']>;
   exceptionDates: Array<Maybe<ExceptionDate>>;
-  experience?: Maybe<Scalars['String']['output']>;
-  facts?: Maybe<Scalars['String']['output']>;
   firstName?: Maybe<Scalars['String']['output']>;
   fullName?: Maybe<Scalars['String']['output']>;
   gender?: Maybe<GenderType>;
-  graduatingYear?: Maybe<Scalars['Int']['output']>;
   hourlyRate?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   introduction?: Maybe<Scalars['String']['output']>;
   isActive?: Maybe<Scalars['Boolean']['output']>;
-  language?: Maybe<Scalars['String']['output']>;
   lastName?: Maybe<Scalars['String']['output']>;
   lessons?: Maybe<Lesson>;
   major?: Maybe<Scalars['String']['output']>;
-  mentorAvailability?: Maybe<MentorAvailabilityType>;
-  penalties?: Maybe<Array<Maybe<MentorPenalty>>>;
+  matchingProfile?: Maybe<MatchingProfile>;
   playgroundId?: Maybe<Scalars['String']['output']>;
   relevantExperience?: Maybe<Scalars['String']['output']>;
   sortOrder?: Maybe<Scalars['Int']['output']>;
@@ -514,6 +560,14 @@ export enum MentorAvailabilityType {
   RegularAndTrial = 'regular_and_trial'
 }
 
+export type MentorCertification = {
+  __typename?: 'MentorCertification';
+  certification?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  issuedAt?: Maybe<Scalars['DateTime']['output']>;
+  shareLink?: Maybe<Scalars['String']['output']>;
+};
+
 export type MentorContract = {
   __typename?: 'MentorContract';
   endDate?: Maybe<Scalars['DateTime']['output']>;
@@ -531,6 +585,11 @@ export type MentorContractWithPagination = {
   count?: Maybe<Scalars['Int']['output']>;
   mentorContracts: Array<Maybe<MentorContract>>;
 };
+
+export enum MentorEnergy {
+  Calm = 'calm',
+  High = 'high'
+}
 
 export type MentorPenalty = {
   __typename?: 'MentorPenalty';
@@ -600,6 +659,7 @@ export enum MentorTrialFilterType {
 export type MentorUpdateInput = {
   about?: InputMaybe<Scalars['String']['input']>;
   avatar?: InputMaybe<Scalars['Upload']['input']>;
+  certificationIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   degree?: InputMaybe<Scalars['String']['input']>;
   experience?: InputMaybe<Scalars['String']['input']>;
   facts?: InputMaybe<Scalars['String']['input']>;
@@ -666,6 +726,8 @@ export type Mutation = {
   createHomework: Homework;
   createLessonSection: LessonSection;
   createLessons: Array<Maybe<Lesson>>;
+  createMatchingProfileForMentor: MatchingProfile;
+  createMatchingProfileForStudent: MatchingProfile;
   createMentor: Mentor;
   createMentorReview: MentorReview;
   createPackage: Package;
@@ -712,6 +774,7 @@ export type Mutation = {
   updateCourse: Course;
   updateHomework: Homework;
   updateLessonSection: LessonSection;
+  updateMatchingProfile: MatchingProfile;
   updateMentor: Mentor;
   updatePackage: Package;
   updatePackageSubscription: PackageSubscription;
@@ -811,6 +874,26 @@ export type MutationCreateLessonsArgs = {
   repeat?: InputMaybe<Scalars['Int']['input']>;
   startAt: Scalars['DateTime']['input'];
   studentId: Scalars['ID']['input'];
+};
+
+
+export type MutationCreateMatchingProfileForMentorArgs = {
+  certifications: Array<Scalars['ID']['input']>;
+  energy: MentorEnergy;
+  interests: Array<Scalars['ID']['input']>;
+  mentorId: Scalars['ID']['input'];
+  specializations: Array<Scalars['ID']['input']>;
+  teachingStyles: Array<Scalars['ID']['input']>;
+};
+
+
+export type MutationCreateMatchingProfileForStudentArgs = {
+  availabilities: Array<Scalars['ID']['input']>;
+  energy: MentorEnergy;
+  gender: GenderType;
+  interests: Array<Scalars['ID']['input']>;
+  studentId: Scalars['ID']['input'];
+  teachingStyles: Array<Scalars['ID']['input']>;
 };
 
 
@@ -1088,6 +1171,17 @@ export type MutationUpdateLessonSectionArgs = {
 };
 
 
+export type MutationUpdateMatchingProfileArgs = {
+  availabilities?: InputMaybe<Array<Scalars['ID']['input']>>;
+  certifications?: InputMaybe<Array<Scalars['ID']['input']>>;
+  energy?: InputMaybe<MentorEnergy>;
+  id: Scalars['ID']['input'];
+  interests?: InputMaybe<Array<Scalars['ID']['input']>>;
+  specializations?: InputMaybe<Array<Scalars['ID']['input']>>;
+  teachingStyles?: InputMaybe<Array<Scalars['ID']['input']>>;
+};
+
+
 export type MutationUpdateMentorArgs = {
   data: MentorUpdateInput;
   id: Scalars['ID']['input'];
@@ -1326,9 +1420,11 @@ export type Payout = {
   lessonsCancellationFines?: Maybe<Scalars['Float']['output']>;
   lessonsCount?: Maybe<Scalars['Int']['output']>;
   lessonsReviewFines?: Maybe<Scalars['Float']['output']>;
+  lessonsReviewMissing?: Maybe<Scalars['Int']['output']>;
   mentor?: Maybe<Mentor>;
   mentorNoShowFines?: Maybe<Scalars['Float']['output']>;
   minutesTaught?: Maybe<Scalars['Float']['output']>;
+  studentNoShow?: Maybe<Scalars['Int']['output']>;
   totalFines?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -1431,6 +1527,7 @@ export type Query = {
   createAppConfig?: Maybe<AppConfig>;
   creditsCount: Scalars['Int']['output'];
   currencies?: Maybe<Array<Maybe<Currency>>>;
+  findMatches?: Maybe<Array<Maybe<Mentor>>>;
   getReferralCode: ReferralCode;
   getUserNotifications: Array<Maybe<Message>>;
   googlecalendarresponse?: Maybe<GoogleCalendarResponse>;
@@ -1441,6 +1538,10 @@ export type Query = {
   lessonSections: Array<Maybe<LessonSection>>;
   lessons?: Maybe<LessonsWithPagination>;
   lessonsWithPagination: LessonsWithPagination;
+  matchingProfile: MatchingProfile;
+  matchingProfileInterest: MatchingProfileInterest;
+  matchingProfileInterests: Array<Maybe<MatchingProfileInterest>>;
+  matchingProfiles: Array<Maybe<MatchingProfile>>;
   mentor?: Maybe<Mentor>;
   mentorContract?: Maybe<MentorContract>;
   mentorContractById?: Maybe<MentorContract>;
@@ -1566,6 +1667,11 @@ export type QueryCreditsCountArgs = {
 };
 
 
+export type QueryFindMatchesArgs = {
+  matchingProfileId: Scalars['ID']['input'];
+};
+
+
 export type QueryGetReferralCodeArgs = {
   studentId: Scalars['ID']['input'];
 };
@@ -1618,6 +1724,11 @@ export type QueryLessonsWithPaginationArgs = {
   startAtTo?: InputMaybe<Scalars['DateTime']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   trialFilter?: InputMaybe<GeneralTrialFilterType>;
+};
+
+
+export type QueryMatchingProfileInterestArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -2079,6 +2190,12 @@ export type TopicWithPagination = {
   count: Scalars['Int']['output'];
   topics: Array<Maybe<Topic>>;
 };
+
+export enum TranslationsLanguage {
+  Cn = 'cn',
+  En = 'en',
+  Kr = 'kr'
+}
 
 export type TrialLessonSlotLimit = {
   __typename?: 'TrialLessonSlotLimit';

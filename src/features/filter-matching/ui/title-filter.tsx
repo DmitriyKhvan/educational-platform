@@ -1,6 +1,11 @@
-import React from 'react';
+import type { FC } from 'react';
 
-export const TitleFilter = ({ count, title }) => {
+export interface TitleFilterProps {
+  count: number;
+  title: string;
+}
+
+export const TitleFilter: FC<TitleFilterProps> = ({ count, title }) => {
   return (
     <span className="space-x-2">
       <span>{title}</span>

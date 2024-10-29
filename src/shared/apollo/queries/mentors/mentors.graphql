@@ -12,17 +12,17 @@ query mentors($studentId: ID, $page: Int, $limit: Int, $search: String) {
         url
       }
       major
-      language
+      # language
       university
-      graduatingYear
+      # graduatingYear
       degree
       introduction
       about
-      experience
+      # experience
       relevantExperience
       isActive
       hourlyRate
-      facts
+      # facts
       uniqueFacts
       videoUrl
       user {

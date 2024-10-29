@@ -1,6 +1,6 @@
 import { StepIndicator } from './ui/step-indicator';
 import { StepWrap } from './ui/step-wrap';
-import { EnergyLevel } from './ui/energyLevel';
+import { EnergyLevel } from './ui/energy-level';
 import { Interests } from './ui/interests';
 import { Gender } from './ui/gender';
 import { TeachingPersonality } from './ui/teaching-personality';

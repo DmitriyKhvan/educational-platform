@@ -1,8 +1,17 @@
-import { forwardRef } from 'react';
-import { cn } from 'src/shared/utils/functions';
+import { type ForwardedRef, forwardRef, type HTMLAttributes, type FC } from 'react';
+import { cn } from '@/shared/utils/functions';
 import { FiSun } from 'react-icons/fi';
+import type { UseFormWatch } from 'react-hook-form';
+import type { Questionnaire } from '@/pages/students/questionnaire/ui/steps';
 
-export const Time = forwardRef(function Time({ watch, ...props }, ref) {
+interface TimeProps extends HTMLAttributes<HTMLInputElement> {
+  watch: UseFormWatch<Questionnaire>;
+}
+
+export const Time: FC<TimeProps> = forwardRef(function Time(
+  { watch, ...props },
+  ref: ForwardedRef<HTMLLabelElement>,
+) {
   const times = [
     {
       timeOfDay: 'DayTime',

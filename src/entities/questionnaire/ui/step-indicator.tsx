@@ -1,8 +1,13 @@
-import React from 'react';
+import Button from '@/components/form/button';
+import type { FC } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
-import Button from 'src/components/Form/Button';
 
-export const StepIndicator = ({ step, setStep }) => {
+interface StepIndicatorProps {
+  step: number;
+  setStep: (step: number) => void;
+}
+
+export const StepIndicator: FC<StepIndicatorProps> = ({ step, setStep }) => {
   return (
     <div className="w-full mb-8 sm:mb-10">
       <div className="flex justify-between items-center">
@@ -16,7 +21,7 @@ export const StepIndicator = ({ step, setStep }) => {
             <span className="font-medium">Back</span>
           </Button>
         ) : (
-          <div className="h-12"></div>
+          <div className="h-12" />
         )}
 
         <div className="text-sm text-color-purple space-x-1">
@@ -29,7 +34,7 @@ export const StepIndicator = ({ step, setStep }) => {
         <div
           style={{ width: `${(step / 5) * 100}%` }}
           className="h-full bg-color-purple transition-all duration-500"
-        ></div>
+        />
       </div>
     </div>
   );

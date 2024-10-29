@@ -1,11 +1,19 @@
-import React, { forwardRef } from 'react';
+import {
+  type ForwardedRef,
+  forwardRef,
+  type ElementRef,
+  type ComponentPropsWithoutRef,
+} from 'react';
 import { FaAngleUp } from 'react-icons/fa6';
-import { cn } from 'src/shared/utils/functions';
+import { cn } from '@/shared/utils/functions';
 import * as Accordion from '@radix-ui/react-accordion';
 
-export const AccordionItem = forwardRef(function AccordionItem(
+export const AccordionItem = forwardRef<
+  ElementRef<typeof Accordion.Item>,
+  ComponentPropsWithoutRef<typeof Accordion.Item>
+>(function AccordionItem(
   { children, className, ...props },
-  forwardedRef,
+  forwardedRef: ForwardedRef<HTMLDivElement>,
 ) {
   return (
     <Accordion.Item
@@ -21,10 +29,10 @@ export const AccordionItem = forwardRef(function AccordionItem(
   );
 });
 
-export const AccordionTrigger = forwardRef(function AccordionTrigger(
-  { children, className, ...props },
-  forwardedRef,
-) {
+export const AccordionTrigger = forwardRef<
+  ElementRef<typeof Accordion.Trigger>,
+  ComponentPropsWithoutRef<typeof Accordion.Trigger>
+>(function AccordionTrigger({ children, className, ...props }, forwardedRef) {
   return (
     <Accordion.Header className="flex">
       <Accordion.Trigger
@@ -45,10 +53,10 @@ export const AccordionTrigger = forwardRef(function AccordionTrigger(
   );
 });
 
-export const AccordionContent = forwardRef(function AccordionContent(
-  { children, className, ...props },
-  forwardedRef,
-) {
+export const AccordionContent = forwardRef<
+  ElementRef<typeof Accordion.Content>,
+  ComponentPropsWithoutRef<typeof Accordion.Content>
+>(function AccordionContent({ children, className, ...props }, forwardedRef) {
   return (
     <Accordion.Content
       className={cn(
@@ -63,10 +71,10 @@ export const AccordionContent = forwardRef(function AccordionContent(
   );
 });
 
-export const AccordionRoot = forwardRef(function AccordionRoot(
-  { children, className, ...props },
-  forwardedRef,
-) {
+export const AccordionRoot = forwardRef<
+  ElementRef<typeof Accordion.Root>,
+  ComponentPropsWithoutRef<typeof Accordion.Root>
+>(function AccordionRoot({ children, className, ...props }, forwardedRef) {
   return (
     <Accordion.Root
       className={cn('w-full', className)}

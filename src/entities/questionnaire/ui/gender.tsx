@@ -1,11 +1,18 @@
-import React, { forwardRef } from 'react';
-import CheckboxField from 'src/components/Form/CheckboxField';
-import { useGenderDic } from 'src/shared/constants/global';
-import { cn } from 'src/shared/utils/functions';
+import CheckboxField from '@/components/form/checkbox-field';
+import type { Questionnaire } from '@/pages/students/questionnaire/ui/steps';
+import { type FC, type ForwardedRef, type HTMLAttributes, forwardRef } from 'react';
+import type { UseFormWatch } from 'react-hook-form';
+import { useGenderDic } from '@/shared/constants/global';
+import { cn } from '@/shared/utils/functions';
 
-export const Gender = forwardRef(function Gender(
+interface GenderProps extends HTMLAttributes<HTMLInputElement> {
+  watch: UseFormWatch<Questionnaire>;
+  className?: string;
+}
+
+export const Gender: FC<GenderProps> = forwardRef(function Gender(
   { watch, className, ...props },
-  ref,
+  ref: ForwardedRef<HTMLLabelElement>,
 ) {
   const gender = useGenderDic();
 

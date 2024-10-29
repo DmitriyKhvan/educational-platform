@@ -1,14 +1,4 @@
 import useEmblaCarousel from 'embla-carousel-react';
-<<<<<<<< HEAD:src/components/carousel/carousel.tsx
-========
-import { DotButton, useDotButton } from './EmblaCarouselDotButton';
-import {
-  PrevButton,
-  NextButton,
-  usePrevNextButtons,
-} from './EmblaCarouselArrowButtons';
-import AutoScroll from 'embla-carousel-auto-scroll';
->>>>>>>> origin/mentor-profile:src/shared/ui/Carousel/ui/Carousel.jsx
 
 import { CarouselCard } from '@/components/carousel/carousel-card';
 import {
@@ -25,9 +15,7 @@ export const EmblaCarousel = (props: {
   options: Partial<OptionsType>;
 }) => {
   const { slides, options } = props;
-  const [emblaRef, emblaApi] = useEmblaCarousel(options, [
-    AutoScroll({ playOnInit: false }),
-  ]);
+  const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
   const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi);
 
@@ -36,7 +24,6 @@ export const EmblaCarousel = (props: {
 
   return (
     <div className="relative">
-<<<<<<<< HEAD:src/components/carousel/carousel.tsx
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex touch-pan-y -ml-4">
           {slides.map((index) => (
@@ -48,10 +35,6 @@ export const EmblaCarousel = (props: {
             </div>
           ))}
         </div>
-========
-      <div className="w-full overflow-hidden" ref={emblaRef}>
-        <div className="flex touch-pan-y -ml-4">{slides}</div>
->>>>>>>> origin/mentor-profile:src/shared/ui/Carousel/ui/Carousel.jsx
       </div>
 
       <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />

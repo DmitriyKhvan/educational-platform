@@ -1,10 +1,16 @@
-import React, { forwardRef } from 'react';
-import CheckboxField from 'src/components/Form/CheckboxField';
-import { cn } from 'src/shared/utils/functions';
+import { type FC, type HTMLAttributes, forwardRef, type ForwardedRef } from 'react';
+import CheckboxField from '@/components/form/checkbox-field';
+import { cn } from '@/shared/utils/functions';
+import type { Questionnaire } from '@/pages/students/questionnaire/ui/steps';
+import type { UseFormWatch } from 'react-hook-form';
 
-export const EnergyLevel = forwardRef(function EnergyLevel(
+interface EnergyLevelProps extends HTMLAttributes<HTMLInputElement> {
+  watch: UseFormWatch<Questionnaire>;
+}
+
+export const EnergyLevel: FC<EnergyLevelProps> = forwardRef(function EnergyLevel(
   { watch, ...props },
-  ref,
+  ref: ForwardedRef<HTMLLabelElement>,
 ) {
   return (
     <div className="flex gap-x-4">
@@ -17,12 +23,7 @@ export const EnergyLevel = forwardRef(function EnergyLevel(
         )}
         ref={ref}
       >
-        <CheckboxField
-          className="absolute right-2 top-2"
-          type="radio"
-          value="calm"
-          {...props}
-        />
+        <CheckboxField className="absolute right-2 top-2" type="radio" value="calm" {...props} />
 
         <span>🧘</span>
         <span>Calm energy</span>
@@ -37,12 +38,7 @@ export const EnergyLevel = forwardRef(function EnergyLevel(
         )}
         ref={ref}
       >
-        <CheckboxField
-          className="absolute right-2 top-2"
-          type="radio"
-          value="high"
-          {...props}
-        />
+        <CheckboxField className="absolute right-2 top-2" type="radio" value="high" {...props} />
 
         <span>🏃‍♂️</span>
         <span>High energy</span>

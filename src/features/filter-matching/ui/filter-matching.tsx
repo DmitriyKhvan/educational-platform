@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { type Dispatch, type FC, type SetStateAction, useEffect, useState } from 'react';
 import { BsFillGridFill } from 'react-icons/bs';
 import { FaList } from 'react-icons/fa6';
 import { IoFilter } from 'react-icons/io5';
-import MyDropdownMenu from 'src/components/DropdownMenu';
-import Button from 'src/components/Form/Button';
 
 import {
   Days,
@@ -13,24 +11,38 @@ import {
   Specializations,
   TeachingPersonality,
   Time,
-} from 'src/entities/Questionnaire';
+} from '@/entities/questionnaire';
 import { useForm } from 'react-hook-form';
 import { Certificate } from '@/entities/questionnaire/ui/certificate';
-import { useMutation, useQuery } from '@apollo/client';
-import { MATCHING_PROFILE } from 'src/shared/apollo/queries/matching/matchingProfile';
-import { TitleFilter } from './TitleFilter';
-import { UPDATE_MATCHING_PROFILE } from 'src/shared/apollo/mutations/matching/updateMatchingProfile';
-import { useAuth } from 'src/app/providers/AuthProvider';
+import { TitleFilter } from './title-filter';
+
 import {
   AccordionContent,
   AccordionItem,
   AccordionRoot,
   AccordionTrigger,
-} from 'src/shared/ui/Accordion';
+} from '@/shared/ui/accordion';
 import { useNavigate } from 'react-router-dom';
-import notify from 'src/shared/utils/notify';
+import notify from '@/shared/utils/notify';
+import MyDropdownMenu from '@/components/dropdown-menu';
+import Button from '@/components/form/button';
+import { useAuth } from '@/app/providers/auth-provider';
+import { useMatchingProfileQuery } from '@/shared/apollo/queries/matching/matchingProfile.generated';
+import { useUpdateMatchingProfileMutation } from '@/shared/apollo/mutations/matching/updateMatchingProfile.generated';
+import type { MatchingProfile } from '@/types/types.generated';
+import { Questionnaire } from '@/pages/students/questionnaire/ui/steps';
 
-export const FilterMatching = ({ findMatches, setViewMentorList, viewMentorList }) => {
+interface FilterMatchingProps {
+  findMatches: () => void;
+  setViewMentorList: Dispatch<SetStateAction<'list' | 'grid'>>;
+  viewMentorList: string;
+}
+
+export const FilterMatching: FC<FilterMatchingProps> = ({
+  findMatches,
+  setViewMentorList,
+  viewMentorList,
+}) => {
   const navigate = useNavigate();
 
   const { user } = useAuth();
@@ -43,9 +55,9 @@ export const FilterMatching = ({ findMatches, setViewMentorList, viewMentorList 
     specializations,
     gender,
     availabilities: avails,
-  } = user.matchingProfile || {};
+  } = user?.matchingProfile || {};
 
-  const [availabilities, setAvailabilities] = useState(avails.map((item) => item.id) || []);
+  const [availabilities, setAvailabilities] = useState(avails?.map((item) => item?.id) || []);
 
   const timesSet = new Set();
   const daysSet = new Set();
@@ -60,12 +72,12 @@ export const FilterMatching = ({ findMatches, setViewMentorList, viewMentorList 
     days: Array.from(daysSet),
   };
 
-  const { data: dictionaries } = useQuery(MATCHING_PROFILE, {
+  const { data: dictionaries } = useMatchingProfileQuery({
     // fetchPolicy: 'network-only',
     fetchPolicy: 'no-cache',
   });
 
-  const [updateMatchingProfile] = useMutation(UPDATE_MATCHING_PROFILE, {
+  const [updateMatchingProfile] = useUpdateMatchingProfileMutation({
     fetchPolicy: 'network-only',
   });
 
@@ -79,7 +91,7 @@ export const FilterMatching = ({ findMatches, setViewMentorList, viewMentorList 
     // handleSubmit,
     watch,
     // formState: { isValid },
-  } = useForm({
+  } = useForm<Questionnaire>({
     mode: 'all',
     values: {
       energy,
@@ -100,20 +112,20 @@ export const FilterMatching = ({ findMatches, setViewMentorList, viewMentorList 
     let newAvailabilities;
     const subscription = watch(async (value, { name }) => {
       if (name === 'availabilities.time' || name === 'availabilities.days') {
-        const newTime = value.availabilities.time;
-        const newDays = value.availabilities.days;
+        const newTime = value.availabilities?.time;
+        const newDays = value.availabilities?.days;
 
         newAvailabilities = dictionaries?.matchingProfile?.availabilities
           .filter((avail) => {
-            if (newTime.length && newDays.length) {
-              return newTime.includes(avail.from) && newDays.includes(avail.day);
-            } else if (newTime.length) {
-              return newTime.includes(avail.from);
+            if (newTime?.length && newDays?.length) {
+              return newTime.includes(avail?.from) && newDays.includes(avail?.day);
+            } else if (newTime?.length) {
+              return newTime?.includes(avail?.from);
             } else {
-              return newDays.includes(avail.day);
+              return newDays?.includes(avail?.day);
             }
           })
-          .map((avail) => avail.id);
+          .map((avail) => avail?.id);
         setAvailabilities(newAvailabilities);
       }
 
@@ -167,7 +179,7 @@ export const FilterMatching = ({ findMatches, setViewMentorList, viewMentorList 
               </div>
             </div>
 
-            <AccordionRoot>
+            <AccordionRoot type="single">
               <AccordionItem value="item-1">
                 <AccordionTrigger className="text-[15px] font-bold">
                   <TitleFilter count={availabilities?.length} title="Preferable time and days" />
@@ -196,7 +208,7 @@ export const FilterMatching = ({ findMatches, setViewMentorList, viewMentorList 
                 </AccordionTrigger>
                 <AccordionContent>
                   <Certificate
-                    dictionaries={dictionaries}
+                    dictionaries={dictionaries as unknown as { matchingProfile: MatchingProfile }}
                     watch={watch}
                     setValue={setValue}
                     {...register('certifications')}
@@ -216,7 +228,11 @@ export const FilterMatching = ({ findMatches, setViewMentorList, viewMentorList 
                   <TitleFilter count={watch('interests')?.length} title="Interests" />
                 </AccordionTrigger>
                 <AccordionContent>
-                  <Interests dictionaries={dictionaries} watch={watch} {...register('interests')} />
+                  <Interests
+                    dictionaries={dictionaries as unknown as { matchingProfile: MatchingProfile }}
+                    watch={watch}
+                    {...register('interests')}
+                  />
                 </AccordionContent>
               </AccordionItem>
 
@@ -237,7 +253,7 @@ export const FilterMatching = ({ findMatches, setViewMentorList, viewMentorList 
                 </AccordionTrigger>
                 <AccordionContent>
                   <TeachingPersonality
-                    dictionaries={dictionaries}
+                    dictionaries={dictionaries as unknown as { matchingProfile: MatchingProfile }}
                     {...register('teachingStyles')}
                     watch={watch}
                   />

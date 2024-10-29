@@ -1,0 +1,20 @@
+
+mutation createMatchingProfileForStudent(
+  $studentId: ID!
+  $interests: [ID!]!
+  $teachingStyles: [ID!]!
+  $availabilities: [ID!]!
+  $energy: MentorEnergy!
+  $gender: GenderType!
+) {
+  createMatchingProfileForStudent(
+    studentId: $studentId
+    interests: $interests
+    teachingStyles: $teachingStyles
+    availabilities: $availabilities
+    energy: $energy
+    gender: $gender
+  ) {
+    id
+  }
+}

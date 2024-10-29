@@ -1,13 +1,16 @@
+import { useAuth } from '@/app/providers/auth-provider';
 import InputField from '@/components/form/input-field';
 import Loader from '@/components/loader/loader';
+import { TopMentorCard } from '@/entities/top-mentor-card';
+import { FilterMatching } from '@/features/filter-matching';
 import { MentorCard } from '@/pages/students/mentors-list/ui/mentor/mentor-card';
 import { MentorCard2 } from '@/pages/students/mentors-list/ui/mentor/mentor-card-2';
+import { useFindMatchesQuery } from '@/shared/apollo/mutations/matching/findMatches.generated';
+import { EmblaCarousel } from '@/shared/ui/carousel';
 import type { Mentor } from '@/types/types.generated';
 import debounce from 'debounce';
-import { type Dispatch, type SetStateAction, useState } from 'react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BsFillGridFill } from 'react-icons/bs';
-import { FaList } from 'react-icons/fa6';
 import { FiSearch } from 'react-icons/fi';
 
 interface MentorsViewProps {
@@ -29,13 +32,24 @@ export const MentorsView: React.FC<MentorsViewProps> = ({
   loading,
   handleSelectMentor,
 }) => {
+  const { user } = useAuth();
+
+  const { id: matchingId } = user?.matchingProfile || {};
+
   const [t] = useTranslation(['studentMentor', 'common']);
+
+  const { data: findMatchesData, refetch } = useFindMatchesQuery({
+    fetchPolicy: 'network-only',
+    variables: {
+      matchingProfileId: matchingId ?? '',
+    },
+  });
 
   const [viewMentorList, setViewMentorList] = useState<'list' | 'grid'>('list');
 
-  const toggleView = (view: 'list' | 'grid') => {
-    setViewMentorList(view);
-  };
+  // const toggleView = (view: 'list' | 'grid') => {
+  //   setViewMentorList(view);
+  // };
 
   const searchMentors = debounce((search: string) => {
     setMentors([]);
@@ -55,7 +69,13 @@ export const MentorsView: React.FC<MentorsViewProps> = ({
           onChange={(e) => searchMentors(e.target.value)}
         />
 
-        <div className="flex gap-4">
+        <FilterMatching
+          findMatches={refetch}
+          setViewMentorList={setViewMentorList}
+          viewMentorList={viewMentorList}
+        />
+
+        {/* <div className="flex gap-4">
           <FaList
             onClick={() => toggleView('list')}
             className={`text-2xl cursor-pointer ${
@@ -68,8 +88,23 @@ export const MentorsView: React.FC<MentorsViewProps> = ({
               viewMentorList === 'grid' ? 'text-color-purple' : 'text-gray-300'
             }`}
           />
-        </div>
+        </div> */}
       </div>
+
+      {findMatchesData?.findMatches && findMatchesData?.findMatches?.length > 0 && (
+        <div className="w-full mt-10">
+          <EmblaCarousel
+            options={{ align: 'start' }}
+            slides={findMatchesData?.findMatches?.map((mentor) => {
+              return (
+                <div key={mentor?.id} className="pl-4">
+                  <TopMentorCard mentor={mentor as Mentor} />
+                </div>
+              );
+            })}
+          />
+        </div>
+      )}
 
       <div className="flex flex-col py-10 gap-6 select-none">
         {mentorList.length > 0 &&

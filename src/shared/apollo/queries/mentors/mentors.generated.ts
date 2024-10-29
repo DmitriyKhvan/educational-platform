@@ -11,7 +11,7 @@ export type MentorsQueryVariables = Types.Exact<{
 }>;
 
 
-export type MentorsQuery = { __typename?: 'Query', mentors?: { __typename?: 'mentorsWithPagination', count?: number | null, mentors: Array<{ __typename?: 'Mentor', id: string, firstName?: string | null, lastName?: string | null, fullName?: string | null, acceptingStudents?: boolean | null, gender?: Types.GenderType | null, major?: string | null, language?: string | null, university?: string | null, graduatingYear?: number | null, degree?: string | null, introduction?: string | null, about?: string | null, experience?: string | null, relevantExperience?: string | null, isActive?: boolean | null, hourlyRate?: number | null, facts?: string | null, uniqueFacts?: string | null, videoUrl?: string | null, avatarId?: string | null, sortOrder?: number | null, avatar?: { __typename?: 'File', id: string, url?: string | null, name?: string | null, mimetype?: string | null, path?: string | null, width?: number | null, height?: number | null, createdAt?: any | null, updatedAt?: any | null } | null, user?: { __typename?: 'User', id: string, email?: string | null, phoneNumber?: string | null, address?: string | null, timeZone?: string | null, country?: string | null, role?: Types.UserRoleType | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null } | null, lessons?: { __typename?: 'Lesson', id: string, startAt?: any | null, duration?: number | null, status?: Types.LessonStatusType | null, cancelAction?: Types.LessonCancelActionType | null } | null, availabilities: Array<{ __typename?: 'Timesheet', id: string, day?: string | null, from?: string | null, to?: string | null, isTrial?: boolean | null } | null> } | null> } | null };
+export type MentorsQuery = { __typename?: 'Query', mentors?: { __typename?: 'mentorsWithPagination', count?: number | null, mentors: Array<{ __typename?: 'Mentor', id: string, firstName?: string | null, lastName?: string | null, fullName?: string | null, acceptingStudents?: boolean | null, gender?: Types.GenderType | null, major?: string | null, university?: string | null, degree?: string | null, introduction?: string | null, about?: string | null, relevantExperience?: string | null, isActive?: boolean | null, hourlyRate?: number | null, uniqueFacts?: string | null, videoUrl?: string | null, avatarId?: string | null, sortOrder?: number | null, avatar?: { __typename?: 'File', id: string, url?: string | null, name?: string | null, mimetype?: string | null, path?: string | null, width?: number | null, height?: number | null, createdAt?: any | null, updatedAt?: any | null } | null, user?: { __typename?: 'User', id: string, email?: string | null, phoneNumber?: string | null, address?: string | null, timeZone?: string | null, country?: string | null, role?: Types.UserRoleType | null, isActive?: boolean | null, createdAt?: any | null, updatedAt?: any | null } | null, lessons?: { __typename?: 'Lesson', id: string, startAt?: any | null, duration?: number | null, status?: Types.LessonStatusType | null, cancelAction?: Types.LessonCancelActionType | null } | null, availabilities: Array<{ __typename?: 'Timesheet', id: string, day?: string | null, from?: string | null, to?: string | null, isTrial?: boolean | null } | null> } | null> } | null };
 
 
 export const MentorsDocument = gql`
@@ -35,17 +35,13 @@ export const MentorsDocument = gql`
         url
       }
       major
-      language
       university
-      graduatingYear
       degree
       introduction
       about
-      experience
       relevantExperience
       isActive
       hourlyRate
-      facts
       uniqueFacts
       videoUrl
       user {

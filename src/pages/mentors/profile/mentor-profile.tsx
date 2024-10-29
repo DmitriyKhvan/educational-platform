@@ -11,8 +11,8 @@ import { BsPlayFill } from 'react-icons/bs';
 import { AdaptiveDialog } from '@/shared/ui/adaptive-dialog';
 import Button from '@/components/form/button';
 import { Avatar } from '@/widgets/avatar/avatar';
-// import { Tag } from 'src/entities/Questionnaire/ui/Tag';
-// import { PiSealCheckFill } from 'react-icons/pi';
+import { Tag } from '@/entities/questionnaire/ui/tag';
+import { PiSealCheckFill } from 'react-icons/pi';
 
 // const specialization = ['Pre-level 1', 'Writing', 'Speaking competitions'];
 
@@ -25,8 +25,8 @@ const MentorProfile = () => {
 
   const videoUrl = user?.mentor?.videoUrl;
 
-  // const { energy, interests, teachingStyles, specializations, certifications } =
-  //   user.matchingProfile || {};
+  const { energy, interests, teachingStyles, specializations, certifications } =
+    user?.matchingProfile || {};
 
   return (
     <div className="max-w-[400px] mx-auto space-y-[30px]">
@@ -166,7 +166,7 @@ const MentorProfile = () => {
         )}
       </div>
 
-      {/* <div className="full space-y-6">
+      <div className="full space-y-6">
         <h2 className="mb-5 text-[20px] font-bold text-color-dark-purple tracking-[-0.6px] leading-6">
           Information for student matching
         </h2>
@@ -178,7 +178,7 @@ const MentorProfile = () => {
             <Tag
               icon={energy === 'high' ? '🏃' : energy === 'calm' ? '🧘' : null}
               className="border-none bg-gray-50 cursor-context-menu"
-              label={energy}
+              label={energy ?? ''}
             />
           </div>
         </div>
@@ -188,13 +188,13 @@ const MentorProfile = () => {
 
           <div className="flex flex-wrap gap-x-3 gap-y-4">
             {interests?.map((item) => {
-              const { id, interest, icon } = item;
+              const { id, interest, icon } = item ?? {};
               return (
                 <Tag
                   key={id}
                   icon={icon}
                   className="border-none bg-gray-50 cursor-context-menu"
-                  label={interest}
+                  label={interest ?? ''}
                 />
               );
             })}
@@ -206,13 +206,13 @@ const MentorProfile = () => {
 
           <div className="flex flex-wrap gap-x-3 gap-y-4">
             {teachingStyles?.map((item) => {
-              const { id, teachingStyle } = item;
+              const { id, teachingStyle } = item ?? {};
               return (
                 <Tag
                   key={id}
                   icon={<span className="text-base text-color-purple">✦</span>}
                   className="border-none bg-gray-50 cursor-context-menu"
-                  label={teachingStyle}
+                  label={teachingStyle ?? ''}
                 />
               );
             })}
@@ -224,12 +224,12 @@ const MentorProfile = () => {
 
           <div className="flex flex-wrap gap-x-3 gap-y-4">
             {specializations?.map((special) => {
-              const { id, title } = special;
+              const { id, title } = special ?? {};
               return (
                 <Tag
                   key={id}
                   className="border-none bg-gray-50 cursor-context-menu"
-                  label={title}
+                  label={title ?? ''}
                 />
               );
             })}
@@ -241,19 +241,19 @@ const MentorProfile = () => {
 
           <div className="flex flex-wrap gap-x-3 gap-y-4">
             {certifications?.map((item) => {
-              const { id, certification } = item;
+              const { id, certification } = item ?? {};
               return (
                 <Tag
                   key={id}
                   icon={<PiSealCheckFill className="text-[rgba(0,_217,_134,_1)]" />}
                   className="border-none bg-gray-50 cursor-context-menu"
-                  label={certification}
+                  label={certification ?? ''}
                 />
               );
             })}
           </div>
         </div>
-      </div> */}
+      </div>
 
       <AdaptiveDialog
         button={

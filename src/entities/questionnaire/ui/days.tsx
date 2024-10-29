@@ -1,11 +1,12 @@
 import { type ForwardedRef, forwardRef, type HTMLAttributes, type FC } from 'react';
 import { Tag } from './tag';
-import { DAY } from 'src/shared/constants/global';
+import { DAY } from '@/shared/constants/global';
 import { useTranslation } from 'react-i18next';
 import type { UseFormWatch } from 'react-hook-form';
+import type { Questionnaire } from '@/pages/students/questionnaire/ui/steps';
 
-interface DaysProps extends HTMLAttributes<HTMLLabelElement> {
-  watch: UseFormWatch<T>;
+interface DaysProps extends HTMLAttributes<HTMLInputElement> {
+  watch: UseFormWatch<Questionnaire>;
 }
 
 export const Days: FC<DaysProps> = forwardRef(function Days(
@@ -22,7 +23,7 @@ export const Days: FC<DaysProps> = forwardRef(function Days(
         {DAY.map((day) => {
           return (
             <Tag
-              ref={ref}
+              reff={ref}
               key={day}
               active={watch('availabilities.days').includes(day)}
               label={t(day.slice(0, 3).toLowerCase())}

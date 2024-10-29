@@ -8,7 +8,7 @@ export const MENTOR = gql`
       lastName
       gender
       major
-      language
+      # language
       university
       graduatingYear
       degree

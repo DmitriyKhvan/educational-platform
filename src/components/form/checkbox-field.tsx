@@ -17,7 +17,19 @@ const CheckboxField = forwardRef<HTMLInputElement, CheckboxFieldProps>(
       <label className={cn('relative inline-flex items-center cursor-pointer', className)}>
         <input
           className={cn(
-            'appearance-none peer relative h-6 w-6 bg-[#F5F5F5] text-transparent cursor-pointer focus:ring-transparent focus:shadow-[0_0_0_0.35rem_rgba(13,110,253,0.25)] checked:bg-none',
+            `appearance-none 
+            peer 
+            relative 
+            h-6 
+            w-6 
+            bg-[#F5F5F5] 
+            text-transparent 
+            cursor-pointer 
+            focus:ring-transparent 
+            focus:shadow-[0_0_0_0.35rem_rgba(13,110,253,0.25)] 
+            checked:bg-none 
+            checked:focus:bg-color-purple 
+            checked:hover:bg-color-purple`,
             square ? 'rounded-[4px]' : 'rounded-full',
             dot
               ? 'checked:bg-transparent border-0 checked:border-2 border-color-purple'
