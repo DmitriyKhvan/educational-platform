@@ -1,6 +1,6 @@
-import { type Dispatch, type FC, type SetStateAction, useEffect, useState } from 'react';
-import { BsFillGridFill } from 'react-icons/bs';
-import { FaList } from 'react-icons/fa6';
+import { type FC, useEffect, useState } from 'react';
+// import { BsFillGridFill } from 'react-icons/bs';
+// import { FaList } from 'react-icons/fa6';
 import { IoFilter } from 'react-icons/io5';
 
 import {
@@ -31,17 +31,18 @@ import { useMatchingProfileQuery } from '@/shared/apollo/queries/matching/matchi
 import { useUpdateMatchingProfileMutation } from '@/shared/apollo/mutations/matching/updateMatchingProfile.generated';
 import { GenderType, MentorEnergy, type MatchingProfile } from '@/types/types.generated';
 import type { Questionnaire } from '@/pages/students/questionnaire/ui/steps';
+import { Badge } from '@/components/badge';
 
 interface FilterMatchingProps {
   findMatches: () => void;
-  setViewMentorList: Dispatch<SetStateAction<'list' | 'grid'>>;
-  viewMentorList: string;
+  // setViewMentorList: Dispatch<SetStateAction<'list' | 'grid'>>;
+  // viewMentorList: string;
 }
 
 export const FilterMatching: FC<FilterMatchingProps> = ({
   findMatches,
-  setViewMentorList,
-  viewMentorList,
+  // setViewMentorList,
+  // viewMentorList,
 }) => {
   const navigate = useNavigate();
 
@@ -57,6 +58,7 @@ export const FilterMatching: FC<FilterMatchingProps> = ({
     availabilities: avails,
   } = user?.matchingProfile || {};
 
+  const [countFilter, setCountFilter] = useState(0);
   const [availabilities, setAvailabilities] = useState(avails?.map((item) => item?.id) || []);
 
   const timesSet = new Set();
@@ -72,8 +74,6 @@ export const FilterMatching: FC<FilterMatchingProps> = ({
     days: Array.from(daysSet) as string[],
   };
 
-  console.log('parseAvails', parseAvails);
-
   const { data: dictionaries } = useMatchingProfileQuery({
     // fetchPolicy: 'network-only',
     fetchPolicy: 'no-cache',
@@ -82,10 +82,6 @@ export const FilterMatching: FC<FilterMatchingProps> = ({
   const [updateMatchingProfile] = useUpdateMatchingProfileMutation({
     fetchPolicy: 'network-only',
   });
-
-  // const parseData = <T extends { id?: string }>(data: T[]): string[] => {
-  //   return data?.map((item) => item.id ?? '') || [];
-  // };
 
   const {
     register,
@@ -111,10 +107,20 @@ export const FilterMatching: FC<FilterMatchingProps> = ({
   });
 
   useEffect(() => {
+    let count = 0;
+    if (interests && interests.length > 0) count++;
+    if (teachingStyles && teachingStyles.length > 0) count++;
+    if (certifications && certifications.length > 0) count++;
+    if (specializations && specializations.length > 0) count++;
+    if (avails && avails.length > 0) count++;
+    // if (energy && energy.length > 0) count++;
+    // if (gender) count++;
+    setCountFilter(count);
+  }, []);
+
+  useEffect(() => {
     let newAvailabilities: string[] = [];
     const subscription = watch(async (value, { name }) => {
-      console.log('value', value);
-
       if (name === 'availabilities.time' || name === 'availabilities.days') {
         const newTime = value.availabilities?.time;
         const newDays = value.availabilities?.days;
@@ -157,6 +163,16 @@ export const FilterMatching: FC<FilterMatchingProps> = ({
           notify(error.message, 'error');
         }
       }
+
+      let count = 0;
+      if (value.interests && value.interests.length > 0) count++;
+      if (value.teachingStyles && value.teachingStyles.length > 0) count++;
+      if (value.certifications && value.certifications.length > 0) count++;
+      if (value.specializations && value.specializations.length > 0) count++;
+      if (newAvailabilities && newAvailabilities.length > 0) count++;
+      // if (energy && energy.length > 0) count++;
+      // if (gender) count++;
+      setCountFilter(count);
     });
 
     return () => subscription.unsubscribe();
@@ -168,13 +184,17 @@ export const FilterMatching: FC<FilterMatchingProps> = ({
         <MyDropdownMenu
           align="end"
           button={
-            <Button theme="clear" className="h-12 w-12 p-0 rounded-lg border border-gray-200">
+            <Button
+              theme="clear"
+              className="relative h-12 w-12 p-0 rounded-lg border border-gray-200"
+            >
               <IoFilter className="text-xl" />
+              <Badge count={countFilter} className="bg-color-purple" />
             </Button>
           }
         >
           <div className="w-[320px] max-h-[600px] overflow-auto rounded-lg border border-gray-100 shadow-[0px_0px_16px_0px_rgba(0,_0,_0,_0.12)">
-            <div className="flex items-center justify-between p-4 border-b">
+            {/* <div className="flex items-center justify-between p-4 border-b">
               <span className="text-[15px] font-bold">Page view</span>
               <div className="flex gap-5">
                 <FaList
@@ -190,7 +210,7 @@ export const FilterMatching: FC<FilterMatchingProps> = ({
                   }`}
                 />
               </div>
-            </div>
+            </div> */}
 
             <AccordionRoot type="single">
               <AccordionItem value="item-1">

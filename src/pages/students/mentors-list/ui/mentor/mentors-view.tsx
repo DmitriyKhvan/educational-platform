@@ -45,7 +45,7 @@ export const MentorsView: React.FC<MentorsViewProps> = ({
     },
   });
 
-  const [viewMentorList, setViewMentorList] = useState<'list' | 'grid'>('list');
+  const [viewMentorList] = useState<'list' | 'grid'>('list');
 
   // const toggleView = (view: 'list' | 'grid') => {
   //   setViewMentorList(view);
@@ -71,8 +71,8 @@ export const MentorsView: React.FC<MentorsViewProps> = ({
 
         <FilterMatching
           findMatches={refetch}
-          setViewMentorList={setViewMentorList}
-          viewMentorList={viewMentorList}
+          // setViewMentorList={setViewMentorList}
+          // viewMentorList={viewMentorList}
         />
 
         {/* <div className="flex gap-4">

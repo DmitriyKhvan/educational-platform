@@ -13,6 +13,7 @@ import Button from '@/components/form/button';
 import { Avatar } from '@/widgets/avatar/avatar';
 import { Tag } from '@/entities/questionnaire/ui/tag';
 import { PiSealCheckFill } from 'react-icons/pi';
+import { ucFirst } from '@/shared/utils/uc-first';
 
 // const specialization = ['Pre-level 1', 'Writing', 'Speaking competitions'];
 
@@ -178,7 +179,7 @@ const MentorProfile = () => {
               <Tag
                 icon={energy === 'high' ? '🏃' : energy === 'calm' ? '🧘' : null}
                 className="border-none bg-gray-50 cursor-context-menu"
-                label={energy ?? ''}
+                label={ucFirst(energy ?? '')}
               />
             )}
           </div>

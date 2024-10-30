@@ -3,6 +3,7 @@ import CheckboxField from '@/components/form/checkbox-field';
 import { cn } from '@/shared/utils/functions';
 import type { Questionnaire } from '@/pages/students/questionnaire/ui/steps';
 import type { UseFormWatch } from 'react-hook-form';
+import { MentorEnergy } from '@/types/types.generated';
 
 interface EnergyLevelProps extends HTMLAttributes<HTMLInputElement> {
   watch: UseFormWatch<Questionnaire>;
@@ -23,7 +24,12 @@ export const EnergyLevel: FC<EnergyLevelProps> = forwardRef(function EnergyLevel
         )}
         ref={ref}
       >
-        <CheckboxField className="absolute right-2 top-2" type="radio" value="calm" {...props} />
+        <CheckboxField
+          className="absolute right-2 top-2"
+          type="radio"
+          value={MentorEnergy.Calm}
+          {...props}
+        />
 
         <span>🧘</span>
         <span>Calm energy</span>
@@ -38,7 +44,12 @@ export const EnergyLevel: FC<EnergyLevelProps> = forwardRef(function EnergyLevel
         )}
         ref={ref}
       >
-        <CheckboxField className="absolute right-2 top-2" type="radio" value="high" {...props} />
+        <CheckboxField
+          className="absolute right-2 top-2"
+          type="radio"
+          value={MentorEnergy.High}
+          {...props}
+        />
 
         <span>🏃‍♂️</span>
         <span>High energy</span>
