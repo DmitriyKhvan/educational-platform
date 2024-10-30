@@ -29,8 +29,8 @@ import Button from '@/components/form/button';
 import { useAuth } from '@/app/providers/auth-provider';
 import { useMatchingProfileQuery } from '@/shared/apollo/queries/matching/matchingProfile.generated';
 import { useUpdateMatchingProfileMutation } from '@/shared/apollo/mutations/matching/updateMatchingProfile.generated';
-import type { MatchingProfile } from '@/types/types.generated';
-import { Questionnaire } from '@/pages/students/questionnaire/ui/steps';
+import { GenderType, MentorEnergy, type MatchingProfile } from '@/types/types.generated';
+import type { Questionnaire } from '@/pages/students/questionnaire/ui/steps';
 
 interface FilterMatchingProps {
   findMatches: () => void;
@@ -62,15 +62,17 @@ export const FilterMatching: FC<FilterMatchingProps> = ({
   const timesSet = new Set();
   const daysSet = new Set();
 
-  avails?.forEach((avail) => {
-    timesSet.add(avail.from);
-    daysSet.add(avail.day);
-  });
+  for (const avail of avails ?? []) {
+    timesSet.add(avail?.from);
+    daysSet.add(avail?.day);
+  }
 
-  const parseAvails = {
-    time: Array.from(timesSet),
-    days: Array.from(daysSet),
+  const parseAvails: Questionnaire['availabilities'] = {
+    time: Array.from(timesSet) as string[],
+    days: Array.from(daysSet) as string[],
   };
+
+  console.log('parseAvails', parseAvails);
 
   const { data: dictionaries } = useMatchingProfileQuery({
     // fetchPolicy: 'network-only',
@@ -81,9 +83,9 @@ export const FilterMatching: FC<FilterMatchingProps> = ({
     fetchPolicy: 'network-only',
   });
 
-  const parseData = (data) => {
-    return data?.map((item) => item.id);
-  };
+  // const parseData = <T extends { id?: string }>(data: T[]): string[] => {
+  //   return data?.map((item) => item.id ?? '') || [];
+  // };
 
   const {
     register,
@@ -94,55 +96,66 @@ export const FilterMatching: FC<FilterMatchingProps> = ({
   } = useForm<Questionnaire>({
     mode: 'all',
     values: {
-      energy,
-      interests: parseData(interests),
-      gender,
-      teachingStyles: parseData(teachingStyles),
+      energy: energy ?? MentorEnergy.Calm,
+      interests: interests?.map((int) => int?.id ?? '') || [],
+      gender: gender ?? GenderType.Male,
+      teachingStyles: teachingStyles?.map((tech) => tech?.id ?? '') || [],
       // availabilities: {
       //   time: [],
       //   days: [],
       // },
       availabilities: parseAvails,
-      certifications: parseData(certifications) || [],
-      specializations: parseData(specializations) || [],
+      certifications: certifications?.map((cert) => cert?.id ?? '') || [],
+      specializations: specializations?.map((spec) => spec?.id ?? '') || [],
     },
   });
 
   useEffect(() => {
-    let newAvailabilities;
+    let newAvailabilities: string[] = [];
     const subscription = watch(async (value, { name }) => {
+      console.log('value', value);
+
       if (name === 'availabilities.time' || name === 'availabilities.days') {
         const newTime = value.availabilities?.time;
         const newDays = value.availabilities?.days;
 
-        newAvailabilities = dictionaries?.matchingProfile?.availabilities
-          .filter((avail) => {
-            if (newTime?.length && newDays?.length) {
-              return newTime.includes(avail?.from) && newDays.includes(avail?.day);
-            } else if (newTime?.length) {
-              return newTime?.includes(avail?.from);
-            } else {
-              return newDays?.includes(avail?.day);
-            }
-          })
-          .map((avail) => avail?.id);
+        if (dictionaries?.matchingProfile?.availabilities) {
+          newAvailabilities = dictionaries?.matchingProfile?.availabilities
+            .filter((avail) => {
+              if (newTime?.length && newDays?.length) {
+                return newTime.includes(avail?.from ?? '') && newDays.includes(avail?.day ?? '');
+              }
+
+              if (newTime?.length) {
+                return newTime?.includes(avail?.from ?? '');
+              }
+
+              return newDays?.includes(avail?.day ?? '');
+            })
+            .map((avail) => avail?.id ?? '');
+        }
+
         setAvailabilities(newAvailabilities);
       }
 
       try {
-        const response = await updateMatchingProfile({
-          variables: {
-            id: matchingId,
-            ...value,
-            availabilities: newAvailabilities,
-          },
-        });
+        if (matchingId) {
+          const response = await updateMatchingProfile({
+            variables: {
+              id: matchingId,
+              ...(value as Questionnaire),
+              availabilities: newAvailabilities,
+            },
+          });
 
-        if (response) {
-          await findMatches();
+          if (response) {
+            await findMatches();
+          }
         }
       } catch (error) {
-        notify(error.message, 'error');
+        if (error instanceof Error) {
+          notify(error.message, 'error');
+        }
       }
     });
 

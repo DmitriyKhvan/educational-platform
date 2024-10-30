@@ -47,8 +47,7 @@ const Education = () => {
 
     const newData = {
       ...area,
-      // graduatingYear: Number.parseInt(area.graduatingYear??''),
-      graduatingYear: area.graduatingYear as number,
+      graduatingYear: Number.parseInt(area.graduatingYear?.toString() ?? ''),
     };
 
     await updateMentor({

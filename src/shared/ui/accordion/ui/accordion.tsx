@@ -74,14 +74,14 @@ export const AccordionContent = forwardRef<
 export const AccordionRoot = forwardRef<
   ElementRef<typeof Accordion.Root>,
   ComponentPropsWithoutRef<typeof Accordion.Root>
->(function AccordionRoot({ children, className, ...props }, forwardedRef) {
+>(function AccordionRoot({ children, className /*...props*/ }, forwardedRef) {
   return (
     <Accordion.Root
       className={cn('w-full', className)}
       type="single"
       defaultValue="item-1"
       collapsible
-      {...props}
+      // {...props}
       ref={forwardedRef}
     >
       {children}

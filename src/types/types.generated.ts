@@ -524,11 +524,14 @@ export type Mentor = {
   availabilities: Array<Maybe<Timesheet>>;
   avatar?: Maybe<File>;
   avatarId?: Maybe<Scalars['ID']['output']>;
+  certifications?: Maybe<Array<Maybe<MentorCertification>>>;
+  contract?: Maybe<Array<Maybe<MentorContract>>>;
   degree?: Maybe<Scalars['String']['output']>;
   exceptionDates: Array<Maybe<ExceptionDate>>;
   firstName?: Maybe<Scalars['String']['output']>;
   fullName?: Maybe<Scalars['String']['output']>;
   gender?: Maybe<GenderType>;
+  graduatingYear?: Maybe<Scalars['Int']['output']>;
   hourlyRate?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   introduction?: Maybe<Scalars['String']['output']>;
@@ -537,6 +540,8 @@ export type Mentor = {
   lessons?: Maybe<Lesson>;
   major?: Maybe<Scalars['String']['output']>;
   matchingProfile?: Maybe<MatchingProfile>;
+  mentorAvailability?: Maybe<MentorAvailabilityType>;
+  penalties?: Maybe<Array<Maybe<MentorPenalty>>>;
   playgroundId?: Maybe<Scalars['String']['output']>;
   relevantExperience?: Maybe<Scalars['String']['output']>;
   sortOrder?: Maybe<Scalars['Int']['output']>;

@@ -8,7 +8,7 @@ export type MentorQueryVariables = Types.Exact<{
 }>;
 
 
-export type MentorQuery = { __typename?: 'Query', mentor?: { __typename?: 'Mentor', id: string, firstName?: string | null, lastName?: string | null, gender?: Types.GenderType | null, major?: string | null, university?: string | null, degree?: string | null, introduction?: string | null, about?: string | null, relevantExperience?: string | null, isActive?: boolean | null, hourlyRate?: number | null, uniqueFacts?: string | null, fullName?: string | null, userId?: string | null, videoUrl?: string | null, avatarId?: string | null, visibilityStatus?: Types.VisibilityStatus | null, playgroundId?: string | null, user?: { __typename?: 'User', id: string, email?: string | null, phoneNumber?: string | null, address?: string | null, timeZone?: string | null, country?: string | null, isActive?: boolean | null, role?: Types.UserRoleType | null, cardLast4?: string | null, createdAt?: any | null, updatedAt?: any | null } | null, lessons?: { __typename?: 'Lesson', id: string, startAt?: any | null, duration?: number | null, status?: Types.LessonStatusType | null, cancelAction?: Types.LessonCancelActionType | null, cancelReason?: string | null, canceledBy?: Types.UserRoleType | null } | null, avatar?: { __typename?: 'File', id: string, url?: string | null } | null, availabilities: Array<{ __typename?: 'Timesheet', id: string, day?: string | null, from?: string | null, to?: string | null, isTrial?: boolean | null } | null>, exceptionDates: Array<{ __typename?: 'ExceptionDate', id: string, date?: string | null, from?: string | null, to?: string | null } | null> } | null };
+export type MentorQuery = { __typename?: 'Query', mentor?: { __typename?: 'Mentor', id: string, firstName?: string | null, lastName?: string | null, gender?: Types.GenderType | null, major?: string | null, university?: string | null, graduatingYear?: number | null, degree?: string | null, introduction?: string | null, about?: string | null, relevantExperience?: string | null, isActive?: boolean | null, hourlyRate?: number | null, uniqueFacts?: string | null, fullName?: string | null, userId?: string | null, videoUrl?: string | null, avatarId?: string | null, visibilityStatus?: Types.VisibilityStatus | null, playgroundId?: string | null, mentorAvailability?: Types.MentorAvailabilityType | null, user?: { __typename?: 'User', id: string, email?: string | null, phoneNumber?: string | null, address?: string | null, timeZone?: string | null, country?: string | null, isActive?: boolean | null, role?: Types.UserRoleType | null, cardLast4?: string | null, createdAt?: any | null, updatedAt?: any | null } | null, lessons?: { __typename?: 'Lesson', id: string, startAt?: any | null, duration?: number | null, status?: Types.LessonStatusType | null, cancelAction?: Types.LessonCancelActionType | null, cancelReason?: string | null, canceledBy?: Types.UserRoleType | null } | null, avatar?: { __typename?: 'File', id: string, url?: string | null } | null, availabilities: Array<{ __typename?: 'Timesheet', id: string, day?: string | null, from?: string | null, to?: string | null, isTrial?: boolean | null } | null>, exceptionDates: Array<{ __typename?: 'ExceptionDate', id: string, date?: string | null, from?: string | null, to?: string | null } | null> } | null };
 
 
 export const MentorDocument = gql`
@@ -20,6 +20,7 @@ export const MentorDocument = gql`
     gender
     major
     university
+    graduatingYear
     degree
     introduction
     about
@@ -72,6 +73,7 @@ export const MentorDocument = gql`
       to
     }
     playgroundId
+    mentorAvailability
   }
 }
     `;

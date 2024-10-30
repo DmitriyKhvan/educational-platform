@@ -7,7 +7,7 @@ query mentor($id: ID!) {
       major
       # language
       university
-      # graduatingYear
+      graduatingYear
       degree
       introduction
       about
@@ -62,6 +62,6 @@ query mentor($id: ID!) {
         to
       }
       playgroundId
-      # mentorAvailability
+      mentorAvailability
     }
   }

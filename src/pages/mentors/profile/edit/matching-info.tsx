@@ -61,36 +61,32 @@ export const MatchingInfo = () => {
   });
 
   const handleEditMatchingInfo = async (data: Omit<Questionnaire, 'gender'>) => {
-    if (matchingId) {
-      await updateMatchingProfile({
-        variables: {
-          id: matchingId,
-          ...data,
-          availabilities: undefined,
-        },
-        onCompleted: () => {
-          notify('Matching information is changed!');
-        },
-        onError: (error) => {
-          notify(error.message, 'error');
-        },
-      });
-    } else {
-      await createMatchingProfileForMentor({
-        variables: {
-          mentorId: user?.mentor?.id ?? '',
-          ...data,
-        },
-        onCompleted: () => {
-          notify('Matching information is changed!');
-        },
-        onError: (error) => {
-          notify(error.message, 'error');
-        },
-      });
-    }
+    try {
+      if (matchingId) {
+        await updateMatchingProfile({
+          variables: {
+            id: matchingId,
+            ...data,
+            availabilities: undefined,
+          },
+        });
+      } else {
+        await createMatchingProfileForMentor({
+          variables: {
+            mentorId: user?.mentor?.id ?? '',
+            ...data,
+          },
+        });
+      }
 
-    await refetchUser();
+      notify('Matching information is changed!');
+
+      await refetchUser();
+    } catch (error) {
+      if (error instanceof Error) {
+        notify(error.message, 'error');
+      }
+    }
   };
 
   if (matchingProfileLoading) {

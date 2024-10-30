@@ -173,13 +173,14 @@ const MentorProfile = () => {
 
         <div className="space-y-4">
           <h4 className="text-sm font-normal text-gray-400">Energy level</h4>
-
           <div className="flex flex-wrap gap-x-3 gap-y-4">
-            <Tag
-              icon={energy === 'high' ? '🏃' : energy === 'calm' ? '🧘' : null}
-              className="border-none bg-gray-50 cursor-context-menu"
-              label={energy ?? ''}
-            />
+            {energy && (
+              <Tag
+                icon={energy === 'high' ? '🏃' : energy === 'calm' ? '🧘' : null}
+                className="border-none bg-gray-50 cursor-context-menu"
+                label={energy ?? ''}
+              />
+            )}
           </div>
         </div>
 
