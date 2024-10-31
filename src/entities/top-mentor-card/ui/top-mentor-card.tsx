@@ -57,9 +57,8 @@ export const TopMentorCard = ({ mentor }: { mentor: Mentor }) => {
                   alt="certificate"
                 />
 
-                <span className="text-[13px]">
-                  {matchingProfile?.certifications?.map((item) => item?.certification).join(', ')}{' '}
-                  certified
+                <span className="text-xs">
+                  {`${matchingProfile?.certifications?.map((item) => item?.certification).join(', ')} certified`}
                 </span>
               </>
             )}
